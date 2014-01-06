@@ -161,8 +161,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-         <welcome-file>egovDevIndex.jsp</welcome-file>
+        <welcome-file>index.do</welcome-file>
     </welcome-file-list>
     <login-config>
         <auth-method>BASIC</auth-method>
@@ -174,11 +173,11 @@
 
     <error-page>
       <error-code>404</error-code>
-      <location>/code404.jsp</location>
+      <location>/code404.do</location>
     </error-page>
     <error-page>
       <error-code>500</error-code>
-      <location>/code500.jsp</location>
+      <location>/code500.do</location>
     </error-page>
 <!-- 
 	<filter>

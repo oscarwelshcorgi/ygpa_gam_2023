@@ -30,11 +30,6 @@
 <link rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/com.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/button.css'/>" type="text/css">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/egovframework/com/common.css'/>" >
-<script type="text/javaScript" language="javascript" src="<c:url value='/js/egovframework/com/uat/uia/EgovGpkiVariables.js'/>"></script>
-<script type="text/javaScript" language="javascript" src="<c:url value='/js/egovframework/com/uat/uia/EgovGpkiInstall.js'/>"></script>
-<script type="text/javaScript" language="javascript" src="<c:url value='/js/egovframework/com/uat/uia/EgovGpkiFunction.js'/>"></script>
-<OBJECT ID="GPKISecureWeb" CLASSID = "CLSID:C8223F3A-1420-4245-88F2-D874FC081572">
-</OBJECT>
 <title>MOPAS 로그인</title>
 <script type="text/javaScript" language="javascript">
 
@@ -72,11 +67,6 @@ function actionLogin() {
         //document.loginForm.action="<c:url value='/j_spring_security_check'/>";
         document.loginForm.submit();
     }
-}
-
-function actionCrtfctLogin() {
-    document.defaultForm.action="<c:url value='/uat/uia/actionCrtfctLogin.do'/>";
-    document.defaultForm.submit();
 }
 
 function goFindId() {

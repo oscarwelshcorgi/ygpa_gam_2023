@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
-import egovframework.com.ygpa.cmm.miplatform.YGMiPlatformData;
 import egovframework.com.ygpa.sym.mpm.service.YGMenuManageService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
@@ -53,31 +52,31 @@ public class YGMenuManageController {
         
         
         ModelAndView mav = new ModelAndView("miplatformView");
-        YGMiPlatformData iSMiPlatformData = new YGMiPlatformData();
-        
-        try
-        {
-            MenuManageVO menuManageVO = new MenuManageVO();
-            LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-            menuManageVO.setTmpUniqId(user.getUniqId());
-            
-            List list_mainmenuhead = ygMenuManageService.selectMainMenuHead(menuManageVO);
-            if (logger.isDebugEnabled()) {
-                logger.debug("selectMenuManageList() - list_mainmenuhead.size()="  + list_mainmenuhead.size()); 
-            }        
-            iSMiPlatformData.addDataset("ds_output", list_mainmenuhead);
-            iSMiPlatformData.setMiResultMessage("0", "success");
-
-            iSMiPlatformData.addDataset("ds_user", user);
-        } catch ( Exception e ) {
-            logger.error("selectSampleList4Mi(SampleDefaultVO)", e);
-            iSMiPlatformData.setMiResultMessage("-1", e.toString());               
-        }
-        
-        mav.addObject("miplatformData", iSMiPlatformData);
-        if (logger.isDebugEnabled()) {
-            logger.debug("selectMiplatformList(HttpServletRequest, HttpServletResponse, ModelMap) - end"); 
-        }
+//        YGMiPlatformData iSMiPlatformData = new YGMiPlatformData();
+//        
+//        try
+//        {
+//            MenuManageVO menuManageVO = new MenuManageVO();
+//            LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+//            menuManageVO.setTmpUniqId(user.getUniqId());
+//            
+//            List list_mainmenuhead = ygMenuManageService.selectMainMenuHead(menuManageVO);
+//            if (logger.isDebugEnabled()) {
+//                logger.debug("selectMenuManageList() - list_mainmenuhead.size()="  + list_mainmenuhead.size()); 
+//            }        
+//            iSMiPlatformData.addDataset("ds_output", list_mainmenuhead);
+//            iSMiPlatformData.setMiResultMessage("0", "success");
+//
+//            iSMiPlatformData.addDataset("ds_user", user);
+//        } catch ( Exception e ) {
+//            logger.error("selectSampleList4Mi(SampleDefaultVO)", e);
+//            iSMiPlatformData.setMiResultMessage("-1", e.toString());               
+//        }
+//        
+//        mav.addObject("miplatformData", iSMiPlatformData);
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("selectMiplatformList(HttpServletRequest, HttpServletResponse, ModelMap) - end"); 
+//        }
         return mav;
     }
 }
