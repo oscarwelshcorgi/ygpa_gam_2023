@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="300" Id="ISDeptTreeSearch" OnLoadCompleted="ISDeptTreeSearch_OnLoadCompleted" PidAttrib="7" Title="부서&#32;찾기" Ver="1.0" Width="400" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_output" OnColumnChanged="ds_output_OnColumnChanged">
+				<Contents>
+					<colinfo id="level" size="22" summ="default" type="DECIMAL"/>
+					<colinfo id="menuNm" size="23" summ="default" type="STRING"/>
+					<colinfo id="IMG" size="1" summ="default" type="STRING"/>
+					<colinfo id="chkYeoBu" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnSearch" ImageID="btn_02_2" Left="330" OnClick="btnSearch_OnClick" Style="C_Button" TabOrder="1" Text="조회" Top="65" Width="48"></Button>
+		<Image Align="Left" Height="50" Id="Image2" ImageID="pop_title_bg" TabOrder="2" Width="400"></Image>
+		<Image Height="15" Id="Image3" ImageID="bu02" Left="15" TabOrder="3" Top="18" Width="8"></Image>
+		<Static Color="user6" Height="16" Id="Static6" Left="27" Style="C_lblTitle" TabOrder="4" Text="부서&#32;찾기" Top="20" Width="200"></Static>
+		<Image Height="11" Id="ImgClose" ImageID="btn_close" Left="341" OnClick="ImgClose_OnClick" Static="FALSE" TabOrder="5" Top="19" Width="44"></Image>
+		<TreeView BindDataset="ds_output" Border="Flat" BorderColor="user5" Height="225" Id="TreeView0" Left="16" LevelColumn="level" OnDblClick="TreeView0_OnDblClick" TabOrder="6" TEXTColumn="deptNm" Top="60" Width="370"></TreeView>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+
+	if(svcid == "getList"){
+		//alert("Success");
+			
+	}
+
+}
+
+function btnSearch_OnClick(obj)
+{
+	
+	
+	gfn_showProg(this,"조회중입니다.");
+	
+	var strSvcid = "getList";
+	var strController = "/ipa/cmm/sec/ram/ISDeptTreeSearchList.do";
+
+	var arrayInputDs = [];
+					   	
+	var strOutputDs = "ds_output=ds_output";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);	
+}
+
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+function TreeView0_OnDblClick(obj,nRow)
+{
+	parent.txtDeptCd.Text = ds_output.GetColumn(nRow,"deptCode");
+	parent.txtDeptNm.Text = ds_output.GetColumn(nRow,"deptNm");
+	
+	ImgClose_OnClick();
+}
+
+function ISDeptTreeSearch_OnLoadCompleted(obj)
+{
+	btnSearch_OnClick();
+}
+]]></Script>
+</Window>

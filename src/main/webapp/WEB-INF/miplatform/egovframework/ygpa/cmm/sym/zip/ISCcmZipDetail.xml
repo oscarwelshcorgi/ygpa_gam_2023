@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="300" Id="ISCcmZipDetail" Left="8" OnLoadCompleted="ISCcmZipDetail_OnLoadCompleted" PidAttrib="7" Title="우편번호&#32;상세&#32;조회" Top="8" Ver="1.0" Width="400" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_output">
+				<Contents>
+					<colinfo id="menuDc" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnUpdate" ImageID="btn_02_2" Left="280" OnClick="btnUpdate_OnClick" Style="C_Button" TabOrder="1" Text="수정" Top="64" Width="48"></Button>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnDelete" ImageID="btn_02_2" Left="336" OnClick="btnDelete_OnClick" Style="C_Button" TabOrder="2" Text="삭제" Top="64" Width="48"></Button>
+		<Image Align="Left" Height="50" Id="Image0" ImageID="pop_title_bg" TabOrder="3" Width="400"></Image>
+		<Image Height="15" Id="Image2" ImageID="bu02" Left="15" TabOrder="4" Top="18" Width="8"></Image>
+		<Static Color="user6" Height="16" Id="Static14" Left="27" Style="C_lblTitle" TabOrder="5" Text="우편번호&#32;상세&#32;조회" Top="20" Width="153"></Static>
+		<Image Height="11" Id="imgClose" ImageID="btn_close" Left="341" OnClick="imgClose_OnClick" Static="FALSE" TabOrder="6" Top="19" Width="44"></Image>
+		<Edit BindDataset="ds_output" Border="Flat" CheckLength="Byte" Column="zip" DisableBKColor="white" DisableColor="black" Height="18" Id="txtZip" ImeMode="none" Left="104" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="7" Top="91" Width="280"></Edit>
+		<Edit BindDataset="ds_output" Border="Flat" CheckLength="Byte" Column="ctprvnNm" DisableBKColor="white" DisableColor="black" Height="18" Id="txtCtprvnNm" ImeMode="none" Left="104" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="8" Top="115" Width="280"></Edit>
+		<Edit BindDataset="ds_output" Border="Flat" CheckLength="Byte" Column="signguNm" DisableBKColor="white" DisableColor="black" Height="18" Id="txtSignguNm" ImeMode="none" Left="104" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="9" Top="139" Width="280"></Edit>
+		<Edit BindDataset="ds_output" Border="Flat" CheckLength="Byte" Column="emdNm" DisableBKColor="white" DisableColor="black" Height="18" Id="txtEmdNm" ImeMode="none" Left="104" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="10" Top="163" Width="280"></Edit>
+		<Edit BindDataset="ds_output" Border="Flat" CheckLength="Byte" Column="liBuldNm" DisableBKColor="white" DisableColor="black" Height="18" Id="txtLiBuldNm" ImeMode="none" Left="104" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="11" Top="184" Width="280"></Edit>
+		<Edit BindDataset="ds_output" Border="Flat" CheckLength="Byte" Column="lnbrDongHo" DisableBKColor="white" DisableColor="black" Height="18" Id="txtLnbrDongHo" ImeMode="none" Left="104" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="12" Top="211" Width="280"></Edit>
+		<Static Align="Right" Height="14" Id="Static19" Left="17" Style="C_Static" TabOrder="13" Text="우편번호" Top="94" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static13" Left="17" Style="C_Static" TabOrder="14" Text="시도명" Top="118" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static15" Left="17" Style="C_Static" TabOrder="15" Text="시군구명" Top="142" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static16" Left="17" Style="C_Static" TabOrder="16" Text="읍면동명" Top="168" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static17" Left="17" Style="C_Static" TabOrder="17" Text="리건물명" Top="190" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static18" Left="17" Style="C_Static" TabOrder="18" Text="번지동호" Top="214" Width="80"></Static>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+var searchKeyword;
+var searchCondition;
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "get"){
+		//alert(ds_output.SaveXML());
+		//alert("Success");
+	}
+	if(svcid == "update"){
+		//alert("Success");
+	}
+	if(svcid == "delete"){
+		alert(errMsg);	
+		parent.btnSearch_OnClick();
+		imgClose_OnClick();
+	}	
+}
+
+function ISCcmZipDetail_OnLoadCompleted(obj)
+{
+	gfn_showProg(this,"조회중입니다.");
+	searchKeyword  	= gdsPARAM.GetColumn(0,"PARAM_VALUE");
+	searchCondition = gdsPARAM.GetColumn(1,"PARAM_VALUE");
+	var strSvcid = "get";
+	var strController = "/ipa/sym/cmm/zip/ISCcmZipDetail.do?req_zip="+gdsPARAM.GetColumn(2,"PARAM_VALUE")+"&req_sn="+gdsPARAM.GetColumn(3,"PARAM_VALUE");
+	var arrayInputDs = [];
+	var strOutputDs = "ds_output=ds_output";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+function btnList_OnClick(obj)
+{
+	gdsPARAM.ClearData();
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(0,"PARAM_NAME","searchKeyword");
+	gdsPARAM.SetColumn(0,"PARAM_VALUE",searchKeyword);
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(1,"PARAM_NAME","searchCondition");
+	gdsPARAM.SetColumn(1,"PARAM_VALUE",searchCondition);
+	Go(G_Server + "/ipa/sym/cmm/zip/ISCcmZipListView.do");
+	
+}
+
+function btnDelete_OnClick(obj)
+{
+	if ( !confirm(txtZip.Text + "(을)를 삭제 하시겠습니까?") ) return;
+	
+	gfn_showProg(this,"삭제중입니다.");
+		
+		
+	var strSvcid = "delete";
+	var strController = "/ipa/sym/cmm/zip/ISCcmZipRemove.do";
+		
+	var arrayInputDs = [["ds_output","ds_output","egovframework.com.sym.ccm.zip.service.Zip"]];
+							
+	var strOutputDs = "";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+	
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+
+
+function btnUpdate_OnClick(obj)
+{
+	//Go(G_Server + "/ipa/sym/cmm/zip/ISCcmZipModifyView.do");
+	
+	var url=G_Server+"/ipa/sym/cmm/zip/ISCcmZipModifyView.do";
+
+	var iXPos = ClientToScreenX(this, 0);
+	var iyPos = ClientToScreenY(this, 30);
+
+	Dialog(url,"",400,300,"",iXPos,iyPos);	
+	close();
+}
+
+function imgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+]]></Script>
+</Window>

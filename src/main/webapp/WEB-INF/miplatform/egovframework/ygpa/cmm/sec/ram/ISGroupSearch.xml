@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="300" Id="ISGroupSearch" Left="8" PidAttrib="7" Title="그룹&#32;찾기" Top="8" Ver="1.0" Width="400" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_list">
+				<Contents>
+					<colinfo id="menuDc" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents>
+					<colinfo id="searchCondition" size="256" summ="default" type="STRING"/>
+					<colinfo id="searchKeyword" size="256" summ="default" type="STRING"/>
+					<record>
+						<searchCondition></searchCondition>
+						<searchKeyword></searchKeyword>
+					</record>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Shape BKColor="user13" Bottom="98" Height="40" Id="Shape0" Left="16" LineColor="user14" LineKind="Vertical" Right="386" TabOrder="8" Top="58" Type="Rectangle" Width="370"></Shape>
+		<Edit Border="Flat" CheckLength="Byte" DisableBKColor="white" DisableColor="black" Height="18" Id="txtSearchKeyword" ImeMode="none" Left="79" LeftMargin="1" MaxLength="20" OnKeyDown="txtSearchKeyword_OnKeyDown" Style="C_Edit" TabOrder="1" Top="69" Width="154"></Edit>
+		<Static Align="Right" Height="14" Id="Static19" Left="29" Style="C_Static" TabOrder="2" Text="그룹명" Top="69" Width="40"></Static>
+		<Image Align="Left" Height="50" Id="Image2" ImageID="pop_title_bg" TabOrder="3" Width="400"></Image>
+		<Image Height="15" Id="Image3" ImageID="bu02" Left="15" TabOrder="4" Top="18" Width="8"></Image>
+		<Static Color="user6" Height="16" Id="Static6" Left="27" Style="C_lblTitle" TabOrder="5" Text="그룹&#32;찾기" Top="20" Width="200"></Static>
+		<Image Height="11" Id="ImgClose" ImageID="btn_close" Left="341" OnClick="ImgClose_OnClick" Static="FALSE" TabOrder="6" Top="19" Width="44"></Image>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnSearch" ImageID="btn_02_2" Left="321" OnClick="btnSearch_OnClick" Style="C_Button" TabOrder="7" Text="조회" Top="69" Width="48"></Button>
+		<Grid AutoFit="TRUE" BindDataset="ds_list" BkColor2="default" BkSelColor="user17" BoldHead="true" Border="Flat" BorderColor="user5" Bottom="280" Color="user0" ColSizing="TRUE" Editable="TRUE" Enable="true" EndLineColor="default" HeadHeight="19" Height="176" Id="grdList" InputPanel="FALSE" Left="16" LineColor="default" MinWidth="100" OnCellDBLClick="grdList_OnCellDblClick" OnHeadClick="grdList_OnHeadClick" Right="386" SelColor="user20" TabOrder="9" TabStop="true" Top="104" UseDBuff="true" UsePopupMenu="true" UseSelColor="true" Visible="true" VLineColor="default" WheelScrollRow="1" Width="370">
+			<contents>
+				<format id="Default">
+					<columns>
+						<col width="137"/>
+						<col width="80"/>
+					</columns>
+					<head>
+						<cell bkcolor="user10" col="0" color="user12" display="text" text="그룹ID"/>
+						<cell bkcolor="user10" col="1" color="user12" display="text" text="그룹명"/>
+					</head>
+					<body>
+						<cell bkcolor="user6" bkcolor2="user4" col="0" colid="groupId" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="1" colid="groupNm" display="text"/>
+					</body>
+				</format>
+			</contents>
+		</Grid>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "getList"){
+		//alert("Success");
+			
+	}
+	if(svcid == "delete"){
+		//alert("Success");
+		btnSearch_OnClick();
+	}
+}
+
+function btnSearch_OnClick(obj)
+{
+	
+	if ( ds_list.GetCount() > 0 ) gfn_GridSort(grdList, -1);
+	gfn_showProg(this,"조회중입니다.");
+	ds_input.ClearData();
+	ds_input.AddRow();
+	ds_input.SetColumn(0,"searchCondition",1);
+	ds_input.SetColumn(0,"searchKeyword",txtSearchKeyword.Text);
+	
+	var strSvcid = "getList";
+	var strController = "/ipa/cmm/sec/ram/ISGroupSearchList.do";
+
+	var arrayInputDs = [
+						["ds_input","ds_input","egovframework.com.sec.ram.service.GroupManageVO"]
+					   ];
+					   	
+	var strOutputDs = "ds_list=ds_output";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);	
+}
+function grdList_OnCellDblClick(obj,nRow,nCell,nX,nY,nPivotIndex)
+{
+	parent.txtSearchKeyword.Text = ds_list.GetColumn(nRow,"groupId");
+	//this.ClosePopup();
+	close();
+	
+	
+}
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+function txtSearchKeyword_OnKeyDown(obj,nChar,bShift,bCtrl, bAlt,LLParam,HLParam)
+{
+	if (nChar==13) btnSearch_OnClick();
+}
+
+function grdList_OnHeadClick(obj,nCell,nX,nY,nPivotIndex)
+{
+	gfn_GridSort(obj, nCell);
+}
+]]></Script>
+</Window>

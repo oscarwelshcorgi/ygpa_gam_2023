@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="700" Id="ISPopUpViewerManage" Left="8" OnLoadCompleted="ISPopUpViewerManage_OnLoadCompleted" OnTimer="ISPopUpViewerManage_OnTimer" PidAttrib="7" Title="인천항만공사" Top="8" Ver="1.0" Width="1250" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents></Contents>
+			</Dataset>
+		</Datasets>
+		<WebBrowser Height="700" Id="WebBrowser0" NavigateComplete="WebBrowser0_OnNavigateComplete" TabOrder="1" Width="1250"></WebBrowser>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+var param;
+
+function ISPopUpViewerManage_OnLoadCompleted(obj)
+{
+	var url=G_Server+"/ISPopUpPage.do";
+	WebBrowser0.PageUrl = url;
+
+	var jspparam = "param="+param;
+
+	WebBrowser0.PostData = jspparam;
+	WebBrowser0.run();
+}
+
+function WebBrowser0_OnNavigateComplete(obj,strUrl)
+{
+	
+	//SetTimer(1,2000);
+}
+
+function ISPopUpViewerManage_OnTimer(obj,nEventID)
+{
+	//KillTimer(1); //Timer설정을 Kill시킨다.
+	//close();
+}
+]]></Script>
+</Window>

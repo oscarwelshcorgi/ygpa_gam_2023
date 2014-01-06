@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="700" Id="ISCcmCmmnCodeList" Left="8" OnLoadCompleted="ISCcmCmmnCodeList_OnLoadCompleted" PidAttrib="7" Title="공통코드&#32;목록" Top="8" Ver="1.0" Width="1190" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents>
+					<colinfo id="searchCondition" size="256" summ="default" type="STRING"/>
+					<colinfo id="searchKeyword" size="256" summ="default" type="STRING"/>
+					<colinfo id="pageIndex" size="256" summ="default" type="INT"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_list">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_searchcondition">
+				<Contents>
+					<colinfo id="code" size="256" summ="default" type="STRING"/>
+					<colinfo id="value" size="256" summ="default" type="STRING"/>
+					<record>
+						<code>0</code>
+						<value>전체</value>
+					</record>
+					<record>
+						<code>1</code>
+						<value>코드ID</value>
+					</record>
+					<record>
+						<code>2</code>
+						<value>코드ID명</value>
+					</record>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_page">
+				<Contents>
+					<colinfo id="code" size="256" summ="default" type="STRING"/>
+					<colinfo id="value" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_outputpage">
+				<Contents></Contents>
+			</Dataset>
+		</Datasets>
+		<Shape BKColor="user13" Bottom="87" Height="50" Id="Shape0" Left="15" LineColor="user14" LineKind="Vertical" Right="1175" TabOrder="10" Top="37" Type="Rectangle" Width="1160"></Shape>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnSearch" ImageID="btn_02_2" Left="1056" OnClick="btnSearch_OnClick" Style="C_Button" TabOrder="1" Text="조회" Top="56" Width="48"></Button>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnInsert" ImageID="btn_02_2" Left="1112" OnClick="btnInsert_OnClick" TabOrder="2" Text="등록" Top="56" Width="48"></Button>
+		<Edit Border="Flat" CheckLength="Byte" DisableBKColor="white" DisableColor="black" Height="18" Id="txtSearchKeyword" ImeMode="none" Left="138" LeftMargin="1" MaxLength="20" OnKeyDown="txtSearchKeyword_OnKeyDown" Style="C_Edit" TabOrder="3" Top="56" Width="170"></Edit>
+		<Combo Border="Flat" BorderColor="user5" CodeColumn="code" DataColumn="value" Height="18" Id="cmbSearchCondition" InnerDataset="ds_searchcondition" Left="24" ResetIndex="FIRST" TabOrder="4" Text="Name" Top="55" Value="--선택하세요--" Width="100"></Combo>
+		<Combo BindDataset="ds_outputpage" Border="Flat" BorderColor="user5" CodeColumn="code" Column="currentPageNo" DataColumn="value" Height="18" Id="cmbpage" InnerDataset="ds_page" Left="1020" OnChanged="cmbSearchCondition_OnChanged" ResetIndex="FIRST" TabOrder="5" Top="95" Width="100"></Combo>
+		<Button Height="11" Id="btnFirst" ImageID="btn_prev" Left="981" OnClick="btnFirst_OnClick" TabOrder="7" Text="btnFirst" Top="99" Width="16"></Button>
+		<Button Height="11" Id="btnLast" ImageID="btn_next" Left="1140" OnClick="btnLast_OnClick" TabOrder="6" Text="btnLast" Top="98" Width="16"></Button>
+		<Button Height="11" Id="btnPrev" ImageID="btn_left" Left="1001" OnClick="btnPrev_OnClick" TabOrder="8" Text="btnPrev" Top="99" Width="12"></Button>
+		<Button Height="11" Id="btnNext" ImageID="btn_right" Left="1124" OnClick="btnNext_OnClick" TabOrder="9" Text="btnNext" Top="98" Width="12"></Button>
+		<Image Height="11" Id="imgBullet" ImageID="bullet_b" Left="15" TabOrder="11" Top="15" Width="11"></Image>
+		<Static Height="16" Id="lblTitle" Left="29" Style="C_lblTitle" TabOrder="12" Text="공통코드&#32;목록" Top="15" Width="153"></Static>
+		<Grid AutoFit="TRUE" BindDataset="ds_list" BkColor2="default" BkSelColor="user17" BoldHead="true" Border="Flat" BorderColor="user5" Bottom="680" Color="user0" ColSizing="TRUE" Enable="true" EndLineColor="default" HeadHeight="19" Height="560" Id="grdList" InputPanel="FALSE" Left="16" LineColor="default" MinWidth="100" OnCellDBLClick="grdList_OnCellDblClick" OnHeadClick="grdList_OnHeadClick" Right="1176" SelColor="user20" TabOrder="13" TabStop="true" Top="120" UseDBuff="true" UsePopupMenu="true" UseSelColor="true" Visible="true" VLineColor="default" WheelScrollRow="1" Width="1160">
+			<contents>
+				<format id="Default">
+					<columns>
+						<col width="40"/>
+						<col width="80"/>
+						<col width="80"/>
+						<col width="80"/>
+						<col width="80"/>
+					</columns>
+					<head>
+						<cell bkcolor="user10" col="0" color="user12" display="text" text="No."/>
+						<cell bkcolor="user10" col="1" color="user12" display="text" text="분류명"/>
+						<cell bkcolor="user10" col="2" color="user12" display="text" text="코드ID"/>
+						<cell bkcolor="user10" col="3" color="user12" display="text" text="코드ID명"/>
+						<cell bkcolor="user10" col="4" color="user12" display="text" text="사용여부"/>
+					</head>
+					<body>
+						<cell bkcolor="user6" bkcolor2="user4" col="0" colid="rnum" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="1" colid="clCodeNm" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="2" colid="codeId" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="3" colid="codeIdNm" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="4" colid="useAt" display="text"/>
+					</body>
+				</format>
+			</contents>
+		</Grid>
+		<Div Height="27" Id="div_tot" Left="15" TabOrder="14" Text="Div0" Top="93" Width="168">
+			<Contents>
+				<Image Height="15" Id="Image7" ImageID="bullet_m" TabOrder="1" Top="7" Width="11"></Image>
+				<Static Color="user0" Height="15" Id="Static7" Left="12" Style="C_title_s" TabOrder="2" Text="조회내역" Top="7" Width="55"></Static>
+				<Static Color="user0" Font="돋움,9,Bold" Height="15" Id="lbl_tot_cnt" Left="68" Style="C_title_s" TabOrder="3" Top="7" Width="100"></Static>
+			</Contents>
+		</Div>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "getList"){
+		//alert(ds_list.SaveXML());
+		div_tot.lbl_tot_cnt.Text = "("+ds_list.GetCount()+")건";
+		fnPageInfo();
+	}
+	if(svcid == "insert"){
+		//alert("Success");
+		
+	}	
+
+}
+
+function btnSearch_OnClick(obj)
+{
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, 1);
+}
+
+function btnInsert_OnClick(obj)
+{
+	//Go(G_Server + "/ipa/sym/ccm/cca/IPCcmCmmnCodeRegistView.do");
+
+	var url=G_Server+"/ipa/sym/ccm/cca/ISCcmCmmnCodeRegistView.do";
+	//Create("Div","detailDiv",'width="600" height="800" top="50" left="50" url="'+url+'"'); 
+	var iXPos = ClientToScreenX(this, 0);
+	var iyPos = ClientToScreenY(this, 30);
+
+	Dialog(url,"",400,300,"",iXPos,iyPos);
+}
+
+function fnSearch(condition, keyword, pageindex)
+{
+	if ( ds_list.GetCount() > 0 ) gfn_GridSort(grdList, -1);
+
+	gfn_showProg(this,"조회중입니다.");
+	
+	ds_input.ClearData();
+	ds_input.AddRow();
+	ds_input.SetColumn(0,"searchCondition",condition);
+	ds_input.SetColumn(0,"searchKeyword",keyword);
+	ds_input.SetColumn(0,"pageIndex",pageindex);
+	
+	var strSvcid = "getList";
+	var strController = "/ipa/sym/ccm/cca/ISCcmCmmnCodeList.do";
+
+	var arrayInputDs = [
+						["ds_input","ds_input","egovframework.com.sym.ccm.cca.service.CmmnCodeVO"]
+					   ];
+					   	
+	var strOutputDs = "ds_list=ds_output ds_outputpage=ds_outputpage";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);	
+}
+
+ /*===========================================================================
+ = 기능 : Page DataSet 의 total page count을 이용하여 페이지 ComBo Box Setting
+ ===========================================================================*/
+function fnPageInfo()
+{
+	ds_page.FireEvent = false;
+	ds_page.ClearData();
+	for(var i=0; i<ds_outputpage.GetColumn(0, "totalPageCount"); i++){
+			ds_page.AddRow();
+			ds_page.SetColumn(i, "code", i+1);
+			ds_page.SetColumn(i, "value", i+1 + "/" +  ds_outputpage.GetColumn(0, "totalPageCount"));
+	}
+	ds_page.FireEvent = true;
+}
+
+ /*===========================================================================
+ = 기능 : ComBo Box 을 이용하여 페이지를 바로 이동
+ ===========================================================================*/
+function cmbSearchCondition_OnChanged(obj,strCode,strText,nOldIndex,nNewIndex)
+{
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, strCode);
+		
+}
+
+ /*===========================================================================
+ = 기능 :  현재 페이지 이동
+ ===========================================================================*/
+function btnCurrent_OnClick(obj)
+{
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, cmbpage.text);
+}
+
+ /*===========================================================================
+ = 기능 :  다음 페이지 이동
+ ===========================================================================*/
+function btnNext_OnClick(obj)
+{
+	
+	var pageindex = 0;
+	if( ToInteger(ds_page.GetColumn(ds_page.GetLastRow(), "code")) > ToInteger(cmbpage.value +1) ) pageindex = cmbpage.value+1;
+	else pageindex = ds_page.GetColumn(ds_page.GetLastRow(), "code");
+
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, pageindex);
+}
+
+ /*===========================================================================
+ = 기능 :  이전 페이지 이동
+ ===========================================================================*/
+function btnPrev_OnClick(obj)
+{
+	var pageindex = 0;
+	if( ToInteger(ds_page.GetColumn(ds_page.GetFirstrow(), "code")) < ToInteger(cmbpage.value) ) pageindex = cmbpage.value-1;
+	else pageindex = 1;
+	
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, pageindex);
+}
+
+ /*===========================================================================
+ = 기능 :  마지막 페이지 이동
+ ===========================================================================*/
+function btnLast_OnClick(obj)
+{
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, ds_page.GetColumn(ds_page.GetLastRow(), "code"));
+}
+
+ /*===========================================================================
+ = 기능 :  첫 페이지 이동
+ ===========================================================================*/
+function btnFirst_OnClick(obj)
+{
+	fnSearch(cmbSearchCondition.Value, txtSearchKeyword.Text, ds_page.GetColumn(ds_page.GetFirstrow(), "code"));
+}
+
+function ISCcmCmmnCodeList_OnLoadCompleted(obj)
+{
+	gfn_showProg(this,"조회중입니다.");
+	
+	btnSearch_OnClick();
+}
+
+function grdList_OnCellDblClick(obj,nRow,nCell,nX,nY,nPivotIndex)
+{
+	
+	var url=G_Server+"/ipa/sym/ccm/cca/ISCcmCmmnCodeDetailView.do";
+	//Create("Div","detailDiv",'width="600" height="800" top="50" left="50" url="'+url+'"'); 
+	var iXPos = ClientToScreenX(this, 0);
+	var iyPos = ClientToScreenY(this, 30);
+
+	Dialog(url,"",400,300,"",iXPos,iyPos);
+}
+
+
+
+function txtSearchKeyword_OnKeyDown(obj,nChar,bShift,bCtrl, bAlt,LLParam,HLParam)
+{
+	if (nChar==13) btnSearch_OnClick();
+}
+
+function grdList_OnHeadClick(obj,nCell,nX,nY,nPivotIndex)
+{
+	gfn_GridSort(obj, nCell);
+}
+]]></Script>
+</Window>

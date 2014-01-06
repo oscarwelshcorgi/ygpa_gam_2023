@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="346" Id="IPLoginUsr" Left="8" OnKeyDown="IPLoginUsr_OnKeyDown" OnLoadCompleted="IPLoginUsr_OnLoadCompleted" OnUnloadCompleted="IPLoginUsr_OnUnloadCompleted" PidAttrib="7" scroll="false" Title="로그인" Top="8" Ver="1.0" Width="595" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="dsGubun">
+				<Contents>
+					<colinfo id="code" size="256" summ="default" type="STRING"/>
+					<colinfo id="value" size="256" summ="default" type="STRING"/>
+					<record>
+						<code>GNR</code>
+						<value>일반</value>
+					</record>
+					<record>
+						<code>UNT</code>
+						<value>기업</value>
+					</record>
+					<record>
+						<code>USR</code>
+						<value>업무</value>
+					</record>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_login">
+				<Contents>
+					<colinfo id="id" size="256" summ="default" type="STRING"/>
+					<colinfo id="password" size="256" summ="default" type="STRING"/>
+					<colinfo id="userSe" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_result"></Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_voInfo">
+				<Contents>
+					<colinfo id="voClass" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Image Height="341" Id="Image0" ImageID="login" Left="-1" TabOrder="4" Top="-1" Width="594"></Image>
+		<Edit Border="None" Height="14" Id="edt_id" Left="370" OnKeyDown="edt_id_OnKeyDown" TabOrder="1" Top="205" Width="112"></Edit>
+		<Edit Border="None" Height="14" Id="edt_pwd" Left="370" OnKeyDown="edt_pwd_OnKeyDown" TabOrder="2" Top="226" Width="112"></Edit>
+		<Image Cursor="HAND" Height="40" Id="img_login" ImageID="btn_login" Left="494" OnClick="img_login_OnClick" OnKeyDown="img_login_OnKeyDown" Static="FALSE" TabOrder="3" Top="203" Width="52"></Image>
+		<Image Cursor="HAND" FillType="STRETCH" Height="20" Id="img_exit" ImageID="btn_login" Left="506" OnClick="img_exit_OnClick" Static="FALSE" TabOrder="5" Text="종료" Top="310" Width="68"></Image>
+		<Radio CodeColumn="code" Column="code" ColumnCount="3" DataColumn="value" Height="22" Id="rdoUsrse" INDEX="-1" InnerDataset="dsGubun" Left="419" TabOrder="6" Top="167" Value="USR" Width="142"></Radio>
+		<Image Cursor="HAND" FillType="STRETCH" Height="20" Id="img_join" ImageID="btn_login" Left="294" Static="FALSE" TabOrder="7" Text="회원가입" Top="310" Width="58"></Image>
+		<Image Cursor="HAND" FillType="STRETCH" Height="20" Id="img_find" ImageID="btn_login" Left="358" OnClick="img_find_OnClick" Static="FALSE" TabOrder="8" Text="아이디/비번&#32;찾기" Top="310" Width="104"></Image>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function img_login_OnClick(obj,nX,nY)
+{
+	if(length(trim(edt_id.Text)) == 0){
+		alert("아이디를 입력하세요.");
+		edt_id.SetFocus();
+		return false;
+	}
+	if(length(trim(edt_pwd.Text)) == 0){
+		alert("암호를 입력하세요.");
+		edt_pwd.SetFocus();
+		return false;
+	}
+	
+	ds_login.ClearData();
+	ds_login.AddRow();
+	ds_login.SetColumn(0,"id",edt_id.Text);
+	ds_login.SetColumn(0,"password",edt_pwd.Text);
+	ds_login.SetColumn(0,"userSe",rdoUsrse.Value);
+
+	var strSvcid = "login";
+	var strController = "/ipa/iplom/uat/uia/actionLogin.do";
+	var strVoClass = "egovframework.com.uat.uia.service.LoginVO";
+	var strInputDs = "ds_login=ds_login";
+	var strOutputDs = "ds_result=ds_output";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+	
+	fnCmTr(this, strSvcid, strController, strVoClass, strInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+function img_exit_OnClick(obj,nX,nY)
+{
+	var ret = confirm("로그인을 중단하고 화면을 닫으시겠습니까?");
+	if(!ret)	return;
+	CloseSession();
+	Exit();
+}
+
+function edt_id_OnKeyDown(obj,nChar,bShift,bCtrl, bAlt,LLParam,HLParam)
+{
+	if(nChar == 13)	edt_pwd.SetFocus();
+}
+
+function edt_pwd_OnKeyDown(obj,nChar,bShift,bCtrl, bAlt,LLParam,HLParam)
+{
+	if(nChar == 13)	img_login.SetFocus();	
+}
+
+function img_login_OnKeyDown(obj,nChar,bShift,bCtrl,bAlt,nLLParam,nHLParam)
+{
+	img_login_OnClick();
+}
+
+function img_join_OnClick(obj,nX,nY)
+{
+	InitSession(true);	
+	Open("MAIN::BoardList.xml","");	
+}
+
+function img_find_OnClick(obj,nX,nY)
+{
+	InitSession(true);	
+	Open("MAIN::IPPassword.xml","");	
+}
+
+function IPLoginUsr_OnKeyDown(obj,objSenderObj,nChar,bShift,bControl,bAlt,nLLParam,nHLParam)
+{
+	if(nChar == 27)	img_exit_OnClick();
+}
+
+function IPLoginUsr_OnLoadCompleted(obj)
+{
+	G_IsLogin = false;
+}
+
+function IPLoginUsr_OnUnloadCompleted(obj)
+{
+	if(!G_IsLogin){
+		CloseSession();
+		Exit();
+	}
+}
+function fnCallback(svcid, errcd, errmsg)
+{
+	if(errCd < 0){
+		alert(errMsg);
+		return;
+	}
+	if(svcid == "login"){
+		allert(errMsg);
+		G_IsLogin = true;
+//		InitSession(true);	
+		//Close();
+	}
+}
+]]></Script>
+</Window>

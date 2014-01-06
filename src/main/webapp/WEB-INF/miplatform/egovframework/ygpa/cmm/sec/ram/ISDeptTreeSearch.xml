@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="700" Id="ISDeptTreeSearch" Left="8" OnLoadCompleted="ISDeptTreeSearch_OnLoadCompleted" PidAttrib="7" Title="부서&#32;찾기" Top="8" Ver="1.0" Width="1190" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_output" OnColumnChanged="ds_output_OnColumnChanged">
+				<Contents>
+					<colinfo id="level" size="22" summ="default" type="DECIMAL"/>
+					<colinfo id="menuNm" size="23" summ="default" type="STRING"/>
+					<colinfo id="IMG" size="1" summ="default" type="STRING"/>
+					<colinfo id="chkYeoBu" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Shape BKColor="user13" Bottom="87" Height="50" Id="Shape0" Left="15" LineColor="user14" LineKind="Vertical" Right="1175" TabOrder="6" Top="37" Type="Rectangle" Width="1160"></Shape>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnSearch" ImageID="btn_02_2" Left="1112" OnClick="btnSearch_OnClick" Style="C_Button" TabOrder="1" Text="조회" Top="53" Width="48"></Button>
+		<TreeView BindDataset="ds_output" Border="Flat" BorderColor="user5" Height="560" Id="TreeView0" Left="16" LevelColumn="level" TabOrder="2" TEXTColumn="deptNm" Top="121" Width="1160"></TreeView>
+		<Static Color="user6" Height="16" Id="Static6" Left="27" Style="C_lblTitle" TabOrder="3" Text="부서&#32;찾기" Top="20" Width="200"></Static>
+		<Image Height="11" Id="imgBullet" ImageID="bullet_b" Left="15" TabOrder="4" Top="15" Width="11"></Image>
+		<Static Height="16" Id="lblTitle" Left="29" Style="C_lblTitle" TabOrder="5" Text="조직도" Top="15" Width="153"></Static>
+		<Div Height="27" Id="div_tot" Left="15" TabOrder="7" Text="Div0" Top="93" Width="168">
+			<Contents>
+				<Image Height="15" Id="Image7" ImageID="bullet_m" TabOrder="1" Top="7" Width="11"></Image>
+				<Static Color="user0" Height="15" Id="Static7" Left="12" Style="C_title_s" TabOrder="2" Text="조회내역" Top="7" Width="55"></Static>
+				<Static Color="user0" Font="돋움,9,Bold" Height="15" Id="lbl_tot_cnt" Left="68" Style="C_title_s" TabOrder="3" Top="7" Width="100"></Static>
+			</Contents>
+		</Div>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+
+	if(svcid == "getList"){
+		//alert("Success");
+		div_tot.lbl_tot_cnt.Text = "("+ds_output.GetCount()+")건";
+	}
+
+}
+
+function btnSearch_OnClick(obj)
+{
+	
+	
+	gfn_showProg(this,"조회중입니다.");
+	
+	var strSvcid = "getList";
+	var strController = "/ipa/cmm/sec/ram/ISDeptTreeSearchList.do";
+
+	var arrayInputDs = [];
+					   	
+	var strOutputDs = "ds_output=ds_output";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);	
+}
+
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+function TreeView0_OnDblClick(obj,nRow)
+{
+	parent.txtDeptCd.Text = ds_output.GetColumn(nRow,"deptCode");
+	parent.txtDeptNm.Text = ds_output.GetColumn(nRow,"deptNm");
+	
+	ImgClose_OnClick();
+}
+
+function ISDeptTreeSearch_OnLoadCompleted(obj)
+{
+	btnSearch_OnClick();
+}
+]]></Script>
+</Window>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="420" Id="Debug" Left="8" OnLoadCompleted="Debug_OnLoadCompleted" PidAttrib="7" Title="Data&#32;Preview" Top="8" Ver="1.0" Width="710" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_tmp"></Dataset>
+		</Datasets>
+		<Image FillType="STRETCH" Height="30" Id="Image0" ImageID="pop_titbg" OnClick="Image0_OnClick" TabOrder="1" Width="710"></Image>
+		<Static Align="Center" Height="18" Id="lbl_dsname" Left="231" Style="popup_Tit01" TabOrder="2" Top="6" Width="188"></Static>
+		<Button ButtonStyle="TRUE" Color="white" Font="굴림,9,Bold" Height="19" Id="btn_close" ImageID="btn_type4_txt2" Left="657" OnClick="btn_close_OnClick" TabOrder="3" Text="닫기" Top="5" Width="45"></Button>
+		<Static Font="굴림,9,Bold" Height="10" Id="lbl_count" Left="11" Style="popup_Tit01" TabOrder="4" Top="12" VAlign="Middle" Width="143"></Static>
+		<Grid AutoEnter="TRUE" AutoScrollBar="Vert" BkColor2="user10" BoldHead="true" Border="Flat" BorderColor="user6" Bottom="414" Color="user4" ColSizing="TRUE" Enable="true" EndLineColor="default" FillArea="TRUE" Font="돋움,9" HeadBorder="Flat" HeadHeight="20" Height="381" Id="grd_data" InputPanel="FALSE" Left="3" LineColor="user11" LineType="ExVERT" Right="705" TabOrder="5" TabStop="true" Top="33" UseDBuff="true" UsePopupMenu="true" UseSelColor="true" Visible="true" VLineColor="default" WheelScrollRow="1" Width="702">
+			<contents>
+				<format id="Default"></format>
+			</contents>
+		</Grid>
+	</Form>
+	<Script><![CDATA[
+function Debug_OnLoadCompleted(obj)
+{
+	var lv_cts = "";
+	var lv_col = 0;
+	var lv_colid;
+	
+	var dsObj = object(DS_NAME);
+
+	lv_cts += "<contents>\n";
+	lv_cts += "	<format id='Default'>\n";
+	lv_cts += "		<columns>\n";
+	for(var i=0; i<dsObj.colcount; i++)
+		lv_cts += "			<col width='80'/>\n";
+	lv_cts += "		</columns>\n";
+	lv_cts += "		<head>\n";
+	for(var i=0; i<dsObj.colcount; i++)
+	{
+		lv_colid = dsObj.GetColID(dsObj.GetColIDXbyorder(i));
+		lv_cts += "		<cell bkcolor='user9' col='" + lv_col + "' color='user8' display='text' text='" + lv_colid + "'/>\n";
+		lv_col++;
+	}
+	lv_cts += "		</head>\n";
+	lv_cts += "		<body>\n";
+	lv_col = 0;
+	for(var i=0; i<dsObj.colcount; i++)
+	{
+		lv_colid = dsObj.GetColID(dsObj.GetColIDXbyorder(i));
+		lv_cts += "			<cell col='" + lv_col + "' colID='" + lv_colid + "' color='user8'  display='text'/>\n";
+		lv_col++;
+	}
+	lv_cts += "		</body>\n";
+	lv_cts += "	</format>\n";
+	lv_cts += "</contents>";
+	
+	if(dsObj.colcount>8)	grd_data.AutoFit = false;
+	else					grd_data.AutoFit = true;
+	lbl_count.Text = "(데이터 갯수 : " + dsObj.rowcount + " 건)";
+	lbl_dsname.Text = DS_NAME;
+	grd_data.Contents = lv_cts;
+	grd_data.BindDataset = DS_NAME;
+}
+
+function btn_close_OnClick(obj)
+{
+	Close();
+}
+]]></Script>
+</Window>

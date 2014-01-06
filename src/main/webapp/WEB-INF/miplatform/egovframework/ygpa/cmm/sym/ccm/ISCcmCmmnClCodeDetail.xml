@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="300" Id="ISCcmCmmnClCodeDetail" Left="8" OnLoadCompleted="ISCcmCmmnClCodeDetail_OnLoadCompleted" PidAttrib="7" Title="공통분류코드&#32;상세조회" Top="8" Ver="1.0" Width="400" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents>
+					<colinfo id="clCode" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Static Align="Right" Height="14" Id="Static19" Left="18" Style="C_Static" TabOrder="1" Text="분류코드" Top="95" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static0" Left="18" Style="C_Static" TabOrder="2" Text="분류코드명" Top="123" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static3" Left="18" Style="C_Static" TabOrder="3" Text="분류코드설명" Top="147" Width="80"></Static>
+		<Static Align="Right" Height="14" Id="Static4" Left="18" Style="C_Static" TabOrder="4" Text="사용여부" Top="267" Width="80"></Static>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnUpdate" ImageID="btn_02_2" Left="335" OnClick="btnUpdate_OnClick" Style="C_Button" TabOrder="5" Text="수정" Top="64" Width="48"></Button>
+		<Edit BindDataset="ds_input" Border="Flat" CheckLength="Byte" Column="clCode" DisableBKColor="white" DisableColor="black" Enable="FALSE" Height="18" Id="txtEntrprsmberId" ImeMode="none" Left="105" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="6" Top="95" Width="200"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" CheckLength="Byte" Column="clCodeNm" DisableBKColor="white" DisableColor="black" Enable="FALSE" Height="18" Id="Edit0" ImeMode="none" Left="105" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="7" Top="120" Width="200"></Edit>
+		<TextArea BindDataset="ds_input" Column="clCodeDc" Enable="FALSE" Height="112" Id="TextArea0" Left="105" Readonly="TRUE" TabOrder="8" Top="144" Width="280"></TextArea>
+		<Edit BindDataset="ds_input" Border="Flat" CheckLength="Byte" Column="useAt" DisableBKColor="white" DisableColor="black" Enable="FALSE" Height="18" Id="Edit2" ImeMode="none" Left="105" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="9" Top="264" Width="118"></Edit>
+		<Image Align="Left" Height="50" Id="Image2" ImageID="pop_title_bg" OnClick="Image2_OnClick" TabOrder="10" Width="400"></Image>
+		<Image Height="15" Id="Image3" ImageID="bu02" Left="15" TabOrder="11" Top="18" Width="8"></Image>
+		<Static Color="user6" Height="16" Id="Static6" Left="27" Style="C_lblTitle" TabOrder="12" Text="공통분류코드&#32;상세조회" Top="20" Width="200"></Static>
+		<Image Height="11" Id="ImgClose" ImageID="btn_close" Left="341" OnClick="ImgClose_OnClick" Static="FALSE" TabOrder="13" Top="19" Width="44"></Image>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "get"){
+		//alert(ds_list.SaveXML());
+		
+	}
+
+}
+function btnUpdate_OnClick(obj)
+{
+	Go(G_Server + "/ipa/sym/ccm/ccc/ISCcmCmmnClCodeModifyView.do");
+	
+	//var url=G_Server+"/ipa/sym/ccm/ccc/ISCcmCmmnClCodeModifyView.do";
+	//var iXPos = ClientToScreenX(this, 0);
+	//var iyPos = ClientToScreenY(this, 30);
+	//Dialog(url,"",400,300,"",iXPos,iyPos);
+}
+
+function btnClose_OnClick(obj)
+{
+	close();
+}
+
+
+function ISCcmCmmnClCodeDetail_OnLoadCompleted(obj)
+{
+	gfn_showProg(this,"조회중입니다.");
+	
+	ds_input.ClearData();
+	ds_input.AddRow();
+	ds_input.SetColumn(0,"clCode",parent.ds_list.GetColumn(parent.grdList.CurrentRow,"clCode"));
+	
+	var strSvcid = "get";
+	var strController = "/ipa/sym/ccm/ccc/ISCcmCmmnClCodeDetail.do";
+
+	var arrayInputDs = [
+						["ds_input","ds_input","egovframework.com.sym.ccm.ccc.service.CmmnClCode"]
+					   ];
+					   	
+	var strOutputDs = "ds_input=ds_output";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+]]></Script>
+</Window>

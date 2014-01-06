@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="700" Id="ISUserManage" Left="8" OnLoadCompleted="ISUserManage_OnLoadCompleted" PidAttrib="7" Title="업무사용자관리" Top="8" Ver="1.0" Width="1190" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_list">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents>
+					<colinfo id="sbscrbSttus" size="256" summ="default" type="STRING"/>
+					<colinfo id="searchCondition" size="256" summ="default" type="STRING"/>
+					<colinfo id="searchKeyword" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_sbscrbsttus">
+				<Contents>
+					<colinfo id="code" size="256" summ="default" type="STRING"/>
+					<colinfo id="value" size="256" summ="default" type="STRING"/>
+					<record>
+						<code>0</code>
+						<value>상태(전체)</value>
+					</record>
+					<record>
+						<code>A</code>
+						<value>가입신청</value>
+					</record>
+					<record>
+						<code>D</code>
+						<value>삭제</value>
+					</record>
+					<record>
+						<code>P</code>
+						<value>승인</value>
+					</record>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_usersttus">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_searchcondition">
+				<Contents>
+					<colinfo id="code" size="256" summ="default" type="STRING"/>
+					<colinfo id="value" size="256" summ="default" type="STRING"/>
+					<record>
+						<code>0</code>
+						<value>ID</value>
+					</record>
+					<record>
+						<code>1</code>
+						<value>Name</value>
+					</record>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Shape BKColor="user13" Bottom="87" Height="50" Id="Shape0" Left="15" LineColor="user14" LineKind="Vertical" Right="1175" TabOrder="6" Top="37" Type="Rectangle" Width="1160"></Shape>
+		<Grid AutoFit="TRUE" BindDataset="ds_list" BkColor2="default" BkSelColor="user17" BoldHead="true" Border="Flat" BorderColor="user5" Bottom="680" Color="user0" ColSizing="TRUE" Editable="TRUE" Enable="true" EndLineColor="default" HeadHeight="19" Height="560" Id="grdList" InputPanel="FALSE" Left="15" LineColor="default" MinWidth="100" OnCellDBLClick="grdList_OnCellDblClick" OnHeadClick="grdList_OnHeadClick" Right="1175" SelColor="user20" TabOrder="7" TabStop="true" Top="120" UseDBuff="true" UsePopupMenu="true" UseSelColor="true" Visible="true" VLineColor="default" WheelScrollRow="1" Width="1160">
+			<contents>
+				<format id="Default">
+					<columns>
+						<col width="57"/>
+						<col width="64"/>
+						<col width="80"/>
+						<col width="87"/>
+						<col width="80"/>
+						<col width="145"/>
+						<col width="130"/>
+						<col width="80"/>
+						<col width="80"/>
+						<col width="80"/>
+					</columns>
+					<head>
+						<cell bkcolor="user10" col="0" color="user12" display="text" text="No."/>
+						<cell bkcolor="user10" col="1" color="user12" display="text" text="UNIQ"/>
+						<cell bkcolor="user10" col="2" color="user12" display="text" text="아이디"/>
+						<cell bkcolor="user10" col="3" color="user12" display="text" text="사용자이름"/>
+						<cell bkcolor="user10" col="4" color="user12" display="text" text="우편번호"/>
+						<cell bkcolor="user10" col="5" color="user12" display="text" text="사용자주소"/>
+						<cell bkcolor="user10" col="6" color="user12" display="text" text="사용자이메일"/>
+						<cell bkcolor="user10" col="7" color="user12" display="text" text="그룹아이디"/>
+						<cell bkcolor="user10" col="8" color="user12" display="text" text="사용자유형"/>
+						<cell bkcolor="user10" col="9" color="user12" display="text" text="조직아이디"/>
+					</head>
+					<body>
+						<cell bkcolor="user6" bkcolor2="user4" col="0" colid="roleCode" display="text" expr="rowidx+1"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="1" colid="uniqId" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="2" colid="userId" display="text"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="3" colid="userNm" display="text" expandsize="0"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="4" colid="userZip" display="text" expandsize="0"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="5" colid="userAdres" display="text" expandsize="0"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="6" colid="userEmail" display="text" expandsize="0"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="7" colid="groupId" display="text" expandsize="0"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="8" colid="userSe" display="text" expandsize="0"/>
+						<cell bkcolor="user6" bkcolor2="user4" col="9" colid="orgnztId" display="text" expandsize="0"/>
+					</body>
+				</format>
+			</contents>
+		</Grid>
+		<Combo Border="Flat" BorderColor="user5" CodeColumn="code" DataColumn="value" Height="18" Id="cmbSearchCondition" InnerDataset="ds_searchcondition" Left="426" OnChanged="cmbSearchCondition_OnChanged" ResetIndex="FIRST" TabOrder="1" Text="Name" Top="52" Width="100"></Combo>
+		<Edit Border="Flat" CheckLength="Byte" DisableBKColor="white" DisableColor="black" Height="18" Id="txtSearchKeyword" ImeMode="none" Left="540" LeftMargin="1" MaxLength="20" OnKeyDown="txtSearchKeyword_OnKeyDown" Style="C_Edit" TabOrder="2" Top="51" Width="170"></Edit>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnSearch" ImageID="btn_02_2" Left="1112" OnClick="btnSearch_OnClick" Style="C_Button" TabOrder="3" Text="조회" Top="53" Width="48"></Button>
+		<Image Height="11" Id="imgBullet" ImageID="bullet_b" Left="15" TabOrder="4" Top="15" Width="11"></Image>
+		<Static Height="16" Id="lblTitle" Left="29" Style="C_lblTitle" TabOrder="5" Text="사용자관리" Top="15" Width="153"></Static>
+		<Checkbox Height="21" Id="ChkEntrprs" Left="30" TabOrder="8" Text="기업회원" Top="52" Value="FALSE" Width="85"></Checkbox>
+		<Checkbox Height="21" Id="ChkUser" Left="210" TabOrder="9" Text="업무사용자" Top="52" Width="85"></Checkbox>
+		<Checkbox Height="21" Id="ChkMber" Left="120" TabOrder="10" Text="일반회원" Top="52" Width="85"></Checkbox>
+		<Div Height="27" Id="div_tot" Left="15" TabOrder="11" Text="Div0" Top="93" Width="168">
+			<Contents>
+				<Image Height="15" Id="Image7" ImageID="bullet_m" TabOrder="1" Top="7" Width="11"></Image>
+				<Static Color="user0" Height="15" Id="Static7" Left="12" Style="C_title_s" TabOrder="2" Text="조회내역" Top="7" Width="55"></Static>
+				<Static Color="user0" Font="돋움,9,Bold" Height="15" Id="lbl_tot_cnt" Left="68" Style="C_title_s" TabOrder="3" Top="7" Width="100"></Static>
+			</Contents>
+		</Div>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "getList"){
+		div_tot.lbl_tot_cnt.Text = "("+ds_list.GetCount()+")건";
+	}
+	if(svcid == "getcode"){
+		//alert("Success");
+	}
+
+}
+
+
+function btnSearch_OnClick(obj)
+{
+	if ( ds_list.GetCount() > 0 ) gfn_GridSort(grdList, -1);
+	gfn_showProg(this,"조회중입니다.");
+
+	var strSvcid = "getList";
+	var strController = "/ipa/uss/umt/user/ISAllUserManage.do";
+	//var strVoClass = "egovframework.com.cmm.ComDefaultVO";
+	//var strInputDs = "ds_input=ds_input";
+
+	//alert(ChkEntrprs.Value +":"+ ChkMber.Value +":"+ ChkUser.Value);
+	var searchUserSe = "";
+	if (ChkEntrprs.Value == 1) searchUserSe += "ENT,";
+	if (ChkMber.Value == 1) searchUserSe += "GNR,";
+	if (ChkUser.Value == 1) searchUserSe += "USR,";
+	
+	var arrayInputDs = [];
+					   	
+	var strOutputDs = "ds_list=ds_output";
+	var strParam = "searchCondition="+cmbSearchCondition.Value+" searchKeyword="+txtSearchKeyword.Text+" searchUserSe="+searchUserSe;
+	//alert(strParam);
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+
+
+
+
+
+
+
+function ISUserManage_OnLoadCompleted(obj)
+{
+	gfn_showProg(this,"조회중입니다.");
+	var strSvcid = "getcode";
+	var strController = "/ipa/uss/umt/user/ISUserCmmCode.do";
+	var arrayInputDs = [];
+					   //클라이언트, 서버
+	var strOutputDs = "ds_usersttus=ds_usersttus";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+	
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+	
+	btnSearch_OnClick();
+}
+
+function txtSearchKeyword_OnKeyDown(obj,nChar,bShift,bCtrl, bAlt,LLParam,HLParam)
+{
+	if (nChar==13) btnSearch_OnClick();
+}
+
+function grdList_OnHeadClick(obj,nCell,nX,nY,nPivotIndex)
+{
+	gfn_GridSort(obj, nCell);
+}
+]]></Script>
+</Window>

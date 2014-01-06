@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="700" Id="ISCcmZip" Left="8" OnLoadCompleted="ISCcmZip_OnLoadCompleted" PidAttrib="7" Title="우편번호&#32;목록" Top="8" Ver="1.0" Width="1190" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents>
+					<colinfo id="searchCondition" size="256" summ="default" type="STRING"/>
+					<colinfo id="searchKeyword" size="256" summ="default" type="STRING"/>
+					<record>
+						<searchCondition></searchCondition>
+						<searchKeyword></searchKeyword>
+					</record>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_output">
+				<Contents>
+					<colinfo id="menuDc" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="sc_list">
+				<Contents>
+					<colinfo id="sc_code" size="256" summ="default" type="STRING"/>
+					<colinfo id="sc_value" size="256" summ="default" type="STRING"/>
+					<record>
+						<sc_code>1</sc_code>
+						<sc_value>우편번호</sc_value>
+					</record>
+					<record>
+						<sc_code>2</sc_code>
+						<sc_value>시도명</sc_value>
+					</record>
+					<record>
+						<sc_code>3</sc_code>
+						<sc_value>시군구명</sc_value>
+					</record>
+					<record>
+						<sc_code>4</sc_code>
+						<sc_value>읍면동명</sc_value>
+					</record>
+					<record>
+						<sc_code>5</sc_code>
+						<sc_value>리건물명</sc_value>
+					</record>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<Shape BKColor="user13" Bottom="87" Height="50" Id="Shape0" Left="15" LineColor="user14" LineKind="Vertical" Right="1175" TabOrder="5" Top="37" Type="Rectangle" Width="1160"></Shape>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnSearch" ImageID="btn_02_2" Left="1056" OnClick="btnSearch_OnClick" Style="C_Button" TabOrder="1" Text="조회" Top="52" Width="48"></Button>
+		<Button ButtonStyle="TRUE" Height="18" Id="btnAdd" ImageID="btn_02_2" Left="1112" OnClick="btnAdd_OnClick" Style="C_Button" TabOrder="2" Text="등록" Top="52" Width="48"></Button>
+		<Combo Border="Flat" BorderColor="user5" CodeColumn="sc_code" DataColumn="sc_value" Height="18" Id="ComboSearchCondition" ImeMode="none" INDEX="3" InnerDataset="sc_list" Left="22" TabOrder="3" Top="52" Width="100"></Combo>
+		<Edit Border="Flat" CheckLength="Byte" DisableBKColor="white" DisableColor="black" Height="18" Id="txtSearchKeyword" ImeMode="none" Left="136" LeftMargin="1" MaxLength="20" OnKeyDown="txtSearchKeyword_OnKeyDown" Style="C_Edit" TabOrder="4" Top="52" Width="170"></Edit>
+		<Image Height="11" Id="imgBullet" ImageID="bullet_b" Left="15" TabOrder="6" Top="15" Width="11"></Image>
+		<Static Height="16" Id="lblTitle" Left="29" Style="C_lblTitle" TabOrder="7" Text="우편번호&#32;목록" Top="15" Width="153"></Static>
+		<Grid AutoFit="TRUE" BindDataset="ds_output" BkColor2="default" BkSelColor="user17" BoldHead="true" Border="Flat" BorderColor="user5" Bottom="680" Color="user0" ColSizing="TRUE" Enable="true" EndLineColor="default" HeadHeight="19" Height="560" Id="Grid0" InputPanel="FALSE" Left="15" LineColor="default" MinWidth="100" OnCellDBLClick="grdList_OnCellDblClick" Right="1175" SelColor="user20" TabOrder="8" TabStop="true" Top="120" UseDBuff="true" UsePopupMenu="true" UseSelColor="true" Visible="true" VLineColor="default" WheelScrollRow="1" Width="1160">
+			<contents>
+				<format id="Default">
+					<columns>
+						<col width="105"/>
+						<col width="571"/>
+					</columns>
+					<head>
+						<cell bkcolor="user10" col="0" color="user12" display="text" text="우편번호"/>
+						<cell bkcolor="user10" col="1" color="user12" display="text" text="주소"/>
+					</head>
+					<body>
+						<cell bkcolor="user6" bkcolor2="user4" col="0" colid="logId" display="text" expr='SubStr(zip,&#32;0,&#32;3)&#32;+&#32;&quot;-&quot;&#32;+SubStr(zip,&#32;3,&#32;3)'/>
+						<cell bkcolor="user6" bkcolor2="user4" col="1" colid="creatDt" display="text" expr='trim(ctprvnNm)+&quot;&#32;&quot;&#32;+trim(signguNm)+&quot;&#32;&quot;&#32;+trim(emdNm)+&quot;&#32;&quot;&#32;+trim(liBuldNm)+&quot;&#32;&quot;&#32;+trim(lnbrDongHo)'/>
+					</body>
+				</format>
+			</contents>
+		</Grid>
+		<Div Height="27" Id="div_tot" Left="15" TabOrder="9" Text="Div0" Top="93" Width="168">
+			<Contents>
+				<Image Height="15" Id="Image7" ImageID="bullet_m" TabOrder="1" Top="7" Width="11"></Image>
+				<Static Color="user0" Height="15" Id="Static7" Left="12" Style="C_title_s" TabOrder="2" Text="조회내역" Top="7" Width="55"></Static>
+				<Static Color="user0" Font="돋움,9,Bold" Height="15" Id="lbl_tot_cnt" Left="68" Style="C_title_s" TabOrder="3" Top="7" Width="100"></Static>
+			</Contents>
+		</Div>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "getList"){
+		div_tot.lbl_tot_cnt.Text = "("+ds_output.GetCount()+")건";
+		//alert("Success");
+	}
+
+}
+
+function ISCcmZip_OnLoadCompleted(obj) {
+	var searchKeyword;
+	var searchCondition;
+	if(gdsPARAM.GetColumn(0,"PARAM_VALUE") == null) {
+		searchKeyword = "";
+	} else {
+		searchKeyword = Trimg(gdsPARAM.GetColumn(0,"PARAM_VALUE"));
+	}
+	
+	if(gdsPARAM.GetColumn(1,"PARAM_VALUE") == null) {
+		searchCondition = "";
+	} else {
+		searchCondition = Trimg(gdsPARAM.GetColumn(1,"PARAM_VALUE"));
+	}
+	
+	if(searchKeyword != "" && searchCondition != "") {
+		txtSearchKeyword.Text			= gdsPARAM.GetColumn(0,"PARAM_VALUE");
+		ComboSearchCondition.Value		= gdsPARAM.GetColumn(1,"PARAM_VALUE");
+		gdsPARAM.ClearData();
+		btnSearch_OnClick(obj);
+	}
+}
+
+function btnSearch_OnClick(obj)
+{
+	if (Trim(ComboSearchCondition.Text) == null){
+		Alert("조건을 선택하세요");
+		ComboSearchCondition.SetFocus();
+	} else if(Trim(txtSearchKeyword.Text) == null) {
+		Alert("검색어를 입력하세요");
+		txtSearchKeyword.SetFocus();
+	} else{
+		//if ( ds_output.GetCount() > 0 ) gfn_GridSort(Grid0, -1);
+		gfn_showProg(this,"조회중입니다.");
+		
+		ds_input.ClearData();
+		ds_input.AddRow();
+		ds_input.SetColumn(0,"searchKeyword",Trim(txtSearchKeyword.Text));
+		ds_input.SetColumn(0,"searchCondition",Trim(ComboSearchCondition.Value));
+		
+		
+		if ( ds_output.GetCount() > 0 ) gfn_GridSort(Grid0, -1);
+		
+		var strSvcid = "getList";
+		var strController = "/ipa/sym/cmm/zip/ISCcmZipList.do";
+		
+		var arrayInputDs = [
+							["ds_input","ds_input","egovframework.com.sym.ccm.zip.service.ZipVO"]
+						   ];
+							
+		var strOutputDs = "ds_output=ds_output";
+		var strParam = "";
+		var strFnCallback = "fnCallback";
+	
+		fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+	}
+}
+
+function grdList_OnCellDblClick(obj,nRow,nCell,nX,nY,nPivotIndex)
+{
+	
+	gdsPARAM.ClearData();
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(0,"PARAM_NAME","searchKeyword");
+	gdsPARAM.SetColumn(0,"PARAM_VALUE",Trim(txtSearchKeyword.Text));
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(1,"PARAM_NAME","searchCondition");
+	gdsPARAM.SetColumn(1,"PARAM_VALUE",Trim(ComboSearchCondition.Value));
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(2,"PARAM_NAME","req_zip");
+	gdsPARAM.SetColumn(2,"PARAM_VALUE",ds_output.GetColumn(nRow,"zip"));
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(3,"PARAM_NAME","req_sn");
+	gdsPARAM.SetColumn(3,"PARAM_VALUE",ds_output.GetColumn(nRow,"sn"));
+	
+	//Go(G_Server + "/ipa/sym/cmm/zip/ISCcmZipDetailView.do");
+	
+	var url=G_Server+"/ipa/sym/cmm/zip/ISCcmZipDetailView.do";
+
+	var iXPos = ClientToScreenX(this, 0);
+	var iyPos = ClientToScreenY(this, 30);
+
+	Dialog(url,"",400,300,"",iXPos,iyPos);		
+}
+
+
+
+
+function btnAdd_OnClick(obj)
+{
+	gdsPARAM.ClearData();
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(0,"PARAM_NAME","searchKeyword");
+	gdsPARAM.SetColumn(0,"PARAM_VALUE",Trim(txtSearchKeyword.Text));
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(1,"PARAM_NAME","searchCondition");
+	gdsPARAM.SetColumn(1,"PARAM_VALUE",Trim(ComboSearchCondition.Value));
+	
+	var url=G_Server+"/ipa/sym/cmm/zip/ISCcmZipRegistView.do";
+
+	var iXPos = ClientToScreenX(this, 0);
+	var iyPos = ClientToScreenY(this, 30);
+
+	Dialog(url,"",400,300,"",iXPos,iyPos);		
+}
+
+
+
+function txtSearchKeyword_OnKeyDown(obj,nChar,bShift,bCtrl, bAlt,LLParam,HLParam)
+{
+	if (nChar==13) btnSearch_OnClick();
+}
+
+function Grid0_OnHeadClick(obj,nCell,nX,nY,nPivotIndex)
+{
+	gfn_GridSort(obj, nCell);
+}
+]]></Script>
+</Window>

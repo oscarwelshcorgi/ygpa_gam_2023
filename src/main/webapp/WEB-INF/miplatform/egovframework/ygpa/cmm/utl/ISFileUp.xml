@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="300" Id="ISFileUp" Left="8" PidAttrib="7" Top="8" Ver="1.0" Width="400" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="Dataset1">
+				<Contents>
+					<colinfo id="chk" size="256" summ="default" type="STRING"/>
+					<colinfo id="fullname" size="256" summ="default" type="STRING"/>
+					<colinfo id="filename" size="256" summ="default" type="STRING"/>
+					<colinfo id="prog_bar" size="256" summ="default" type="STRING"/>
+					<colinfo id="filesize" size="256" summ="default" type="INT"/>
+					<colinfo id="progsize" size="256" summ="default" type="STRING"/>
+					<colinfo id="uploadfilename" size="256" summ="default" type="STRING"/>
+					<colinfo id="filepath" size="256" summ="default" type="STRING"/>
+					<colinfo id="filesizebyte" size="256" summ="default" type="INT"/>
+					<colinfo id="fileextension" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<CyHttpFile Height="24" Id="CyHttpFile0" Left="79" Top="247" Width="24"></CyHttpFile>
+		<FileDialog Bottom="274" Height="24" Id="FileDlg" Left="55" MultiSelect="TRUE" Right="79" TabOrder="6" Top="250" Width="24"></FileDialog>
+		<Image Align="Left" Height="50" Id="Image2" ImageID="pop_title_bg" TabOrder="1" Width="400"></Image>
+		<Static Color="user6" Height="16" Id="Static6" Left="27" Style="C_lblTitle" TabOrder="3" Text="파일업로드" Top="20" Width="200"></Static>
+		<Image Height="15" Id="Image3" ImageID="bu02" Left="15" TabOrder="2" Top="18" Width="8"></Image>
+		<Grid AutoFit="TRUE" BindDataset="Dataset1" BkColor2="default" BoldHead="true" Border="Flat" BorderColor="user5" Bottom="285" Color="user0" ColSizing="TRUE" Editable="TRUE" Enable="true" EndLineColor="default" HeadHeight="19" Height="200" Id="grdList" InputPanel="FALSE" Left="15" LineColor="default" MinWidth="100" Right="385" TabOrder="4" TabStop="true" Top="85" UseDBuff="true" UsePopupMenu="true" UseSelColor="FALSE" Visible="true" VLineColor="default" WheelScrollRow="1" Width="370">
+			<contents>
+				<format id="Default">
+					<columns>
+						<col width="140"/>
+						<col width="157"/>
+						<col width="69"/>
+					</columns>
+					<head>
+						<cell bkcolor="user10" col="0" color="user12" display="text" text="File&#32;Name"/>
+						<cell bkcolor="user10" col="1" color="user12" display="text" text="Progress"/>
+						<cell bkcolor="user10" col="2" color="user12" display="text" text="Size"/>
+					</head>
+					<body>
+						<cell align="left" bkcolor="user6" bkcolor2="user4" col="0" colid="filename" display="text"/>
+						<cell align="left" col="1" colid="prog_bar" color="red" display="bar"/>
+						<cell align="left" bkcolor="user6" bkcolor2="user4" col="2" colid="filesize" display="text" expr='progsize+&quot;/&quot;&#32;+&#32;filesize'/>
+					</body>
+				</format>
+			</contents>
+		</Grid>
+		<Button ButtonStyle="TRUE" Color="user0" Font="돋움,9" Height="18" Id="btnSave" ImageID="btn_02_4" Left="315" OnClick="btnSave_OnClick" TabOrder="5" Text="파일저장" Top="60" Width="72"></Button>
+		<Button ButtonStyle="TRUE" Color="user0" Font="돋움,9" Height="18" Id="btnSearch" ImageID="btn_02_4" Left="235" OnClick="btnSearch_OnClick" TabOrder="6" Text="파일선택" Top="60" Width="72"></Button>
+		<Image Height="11" Id="ImgClose" ImageID="btn_close" Left="341" OnClick="ImgClose_OnClick" Static="FALSE" TabOrder="7" Top="19" Width="44"></Image>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+
+function btnSearch_OnClick(obj)
+{
+	if(!FileDlg.Open()) return;
+	array = FileDlg.FileNameList;
+
+	for( i=0; i<array.length; i++ ){
+		Dataset1.addRow();		
+		Dataset1.SetColumn(Dataset1.row,"fullname",FileDlg.FilePath + "\\" + array[i]);
+		Dataset1.SetColumn(Dataset1.row,"filename",array[i]);
+
+		
+	}	
+}
+
+
+
+function btnSave_OnClick(obj)
+{
+	fnUpload();
+}
+
+
+function fnUpload()
+{
+	var ret;
+	
+	for ( var i = 0 ; i < Dataset1.rowcount ; i++ )
+	{
+		var str_param = Dataset1.getColumn(i,"filename");
+		ret = gfn_FileWrite(CyHttpFile0,Dataset1.getColumn(i,"fullname"), str_param, i, "prog_bar", grdList, 4096000, G_Server + "/ISFileUp.do", "file.upload.path");
+		if ( ret[0] == "FAIL" )
+		{
+			alert(ret[1]);
+			break;
+		}else if ( ret[0] == "SUCC" ) {
+		
+			
+			var arr = split(ret[1],"^");
+			Dataset1.SetColumn(i,"filepath", arr[0]);
+			Dataset1.SetColumn(i,"uploadfilename", arr[1]);
+			Dataset1.SetColumn(i,"fileextension", arr[2]);
+		}		
+	}
+	//trace(Dataset1.SaveXML());
+	fnTrans();
+}
+
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+
+function fnTrans()
+{
+	if(isValidObject(parent.txtFileResult)) {
+
+		var text = "";
+		for(var i=0; i<Dataset1.RowCount(); i++)
+		{			
+			text += Dataset1.GetColumn(i, "filepath") + "^";
+			text += Dataset1.GetColumn(i, "filesizebyte") + "^";
+			text += Dataset1.GetColumn(i, "filename") + "^";
+			text += Dataset1.GetColumn(i, "uploadfilename") + "^";
+			text += Dataset1.GetColumn(i, "fileextension") + "*";
+			
+		}
+	
+		parent.txtFileResult.Text = text;
+	
+	}
+	if(isValidObject(parent.ds_file)) {
+
+
+		for(var i=0; i<Dataset1.RowCount(); i++)
+		{
+		
+
+
+			parent.ds_file.addrow();
+			parent.ds_file.setcolumn(ds_file.row, "filePath", Dataset1.GetColumn(i, "filepath"));
+			parent.ds_file.setcolumn(ds_file.row, "fileSize", Dataset1.GetColumn(i, "filesizebyte"));
+			parent.ds_file.setcolumn(ds_file.row, "originalFileName", Dataset1.GetColumn(i, "filename"));
+			parent.ds_file.setcolumn(ds_file.row, "uploadFileName", Dataset1.GetColumn(i, "uploadfilename"));
+			parent.ds_file.setcolumn(ds_file.row, "fileExtension", Dataset1.GetColumn(i, "fileextension"));
+
+					
+			
+		}
+				
+
+	}
+	
+	ImgClose_OnClick();	
+}]]></Script>
+</Window>

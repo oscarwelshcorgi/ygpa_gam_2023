@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="500" Id="ISUserSelectUpdt" Left="8" OnLoadCompleted="ISUserSelectUpdt_OnLoadCompleted" PidAttrib="7" Title="업무사용자&#32;상세조회(수정)" Top="8" Ver="1.0" Width="600" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="ds_emplyrSttusCode">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_insttCode">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_groupId">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_orgnztId">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_input">
+				<Contents>
+					<colinfo id="uniqId" size="256" summ="default" type="STRING"/>
+					<colinfo id="userTy" size="256" summ="default" type="STRING"/>
+					<colinfo id="emplyrId" size="256" summ="default" type="STRING"/>
+					<colinfo id="emplyrNm" size="256" summ="default" type="STRING"/>
+					<colinfo id="password" size="256" summ="default" type="STRING"/>
+					<colinfo id="passwordHint" size="256" summ="default" type="STRING"/>
+					<colinfo id="passwordCnsr" size="256" summ="default" type="STRING"/>
+					<colinfo id="emplNo" size="256" summ="default" type="STRING"/>
+					<colinfo id="ihidnum" size="256" summ="default" type="STRING"/>
+					<colinfo id="sexdstnCode" size="256" summ="default" type="STRING"/>
+					<colinfo id="brth" size="256" summ="default" type="STRING"/>
+					<colinfo id="areaNo" size="256" summ="default" type="STRING"/>
+					<colinfo id="homemiddleTelno" size="256" summ="default" type="STRING"/>
+					<colinfo id="homeendTelno" size="256" summ="default" type="STRING"/>
+					<colinfo id="fxnum" size="256" summ="default" type="STRING"/>
+					<colinfo id="homeadres" size="256" summ="default" type="STRING"/>
+					<colinfo id="detailAdres" size="256" summ="default" type="STRING"/>
+					<colinfo id="zip" size="256" summ="default" type="STRING"/>
+					<colinfo id="offmTelno" size="256" summ="default" type="STRING"/>
+					<colinfo id="moblphonNo" size="256" summ="default" type="STRING"/>
+					<colinfo id="emailAdres" size="256" summ="default" type="STRING"/>
+					<colinfo id="ofcpsNm" size="256" summ="default" type="STRING"/>
+					<colinfo id="groupId" size="256" summ="default" type="STRING"/>
+					<colinfo id="orgnztId" size="256" summ="default" type="STRING"/>
+					<colinfo id="insttCode" size="256" summ="default" type="STRING"/>
+					<colinfo id="emplyrSttusCode" size="256" summ="default" type="STRING"/>
+					<colinfo id="sbscrbDe" size="256" summ="default" type="STRING"/>
+					<colinfo id="subDn" size="256" summ="default" type="STRING"/>
+				</Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_passwordHint">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_sexdstnCode">
+				<Contents></Contents>
+			</Dataset>
+			<Dataset DataSetType="Dataset" Id="ds_author">
+				<Contents></Contents>
+			</Dataset>
+		</Datasets>
+		<Static Align="Right" Height="14" Id="Static19" Left="18" Style="C_Static" TabOrder="1" Text="사용자아이디" Top="102" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static1" Left="18" Style="C_Static" TabOrder="2" Text="사용자이름" Top="122" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static6" Left="18" Style="C_Static" TabOrder="3" Text="비밀번호힌트" Top="142" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static7" Left="18" Style="C_Static" TabOrder="4" Text="비밀번호정답" Top="162" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static9" Left="18" Style="C_Static" TabOrder="5" Text="집전화번호" Top="264" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static12" Left="258" Style="C_Static" TabOrder="6" Text="팩스번호" Top="285" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static13" Left="18" Style="C_Static" TabOrder="7" Text="휴대폰번호" Top="305" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static14" Left="18" Style="C_Static" TabOrder="8" Text="이메일주소" Top="325" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static15" Left="18" Style="C_Static" TabOrder="9" Text="우편번호" Top="345" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static17" Left="18" Style="C_Static" TabOrder="10" Text="주소" Top="365" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static18" Left="18" Style="C_Static" TabOrder="11" Text="상세주소" Top="385" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static20" Left="18" Style="C_Static" TabOrder="12" Text="그룹아이디" Top="405" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static21" Left="257" Style="C_Static" TabOrder="13" Text="사용자상태코드" Top="406" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static22" Left="258" Style="C_Static" TabOrder="14" Text="조직아이디" Top="183" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static23" Left="18" Style="C_Static" TabOrder="15" Text="직위명" Top="203" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static24" Left="258" Style="C_Static" TabOrder="16" Text="사번" Top="203" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static25" Left="18" Style="C_Static" TabOrder="17" Text="성별구분코드" Top="224" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static26" Left="18" Style="C_Static" TabOrder="18" Text="생일" Top="244" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static8" Left="18" Style="C_Static" TabOrder="19" Text="사무실전화번호" Top="284" Width="100"></Static>
+		<Static Align="Right" Height="14" Id="Static0" Left="18" Style="C_Static" TabOrder="20" Text="소속기관코드" Top="182" Width="100"></Static>
+		<Static Height="14" Id="Static16" Left="248" Style="C_Static" TabOrder="21" Text="(우편번호&#32;검색)" Top="343" Width="137"></Static>
+		<Image Height="15" Id="imgZip" ImageID="btn_07" Left="226" OnClick="imgZip_OnClick" Static="FALSE" TabOrder="22" Top="342" Width="18"></Image>
+		<Edit BindDataset="ds_input" Border="Flat" Column="emplyrId" DisableColor="black" Enable="FALSE" Height="18" Id="Edit18" ImeMode="none" Left="122" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="23" Top="100" UseIME="FALSE" Width="118"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="emplyrNm" DisableBKColor="white" DisableColor="black" Height="18" Id="txtCmpnyNm" ImeMode="none" Left="122" LeftMargin="1" MaxLength="20" Style="C_Edit" TabOrder="24" Top="120" Width="118"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="passwordCnsr" DisableBKColor="white" DisableColor="black" Height="18" Id="txtEntrprsMberPasswordCnsr" ImeMode="none" Left="122" LeftMargin="1" MaxLength="33" Style="C_Edit" TabOrder="25" Top="160" Width="300"></Edit>
+		<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="code" Column="passwordHint" DataColumn="codeNM" Height="18" Id="passwordHint" INDEX="1" InnerDataset="ds_passwordHint" Left="122" TabOrder="26" Text="---선택하세요---" Top="139" Width="300"></Combo>
+		<Edit BindDataset="ds_input" Border="Flat" Column="areaNo" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit19" ImeMode="none" Left="122" LeftMargin="1" MaxLength="5" Number="TRUE" Style="C_Edit" TabOrder="27" Top="261" Width="48"></Edit>
+		<Static Align="Center" Font="Tahoma,10,Bold" Height="14" Id="Static29" Left="172" Style="C_Static" TabOrder="28" Text="-" Top="262" Width="9"></Static>
+		<Edit BindDataset="ds_input" Border="Flat" Column="homemiddleTelno" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit20" ImeMode="none" Left="183" LeftMargin="1" MaxLength="5" Number="TRUE" Style="C_Edit" TabOrder="29" Top="261" Width="48"></Edit>
+		<Static Align="Center" Font="Tahoma,10,Bold" Height="14" Id="Static30" Left="233" Style="C_Static" TabOrder="30" Text="-" Top="262" Width="9"></Static>
+		<Edit BindDataset="ds_input" Border="Flat" Column="homeendTelno" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit21" ImeMode="none" Left="244" LeftMargin="1" MaxLength="5" Number="TRUE" Style="C_Edit" TabOrder="31" Top="261" Width="48"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="offmTelno" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit22" ImeMode="none" Left="122" LeftMargin="1" MaxLength="15" Style="C_Edit" TabOrder="32" Top="281" UseIME="FALSE" Width="108"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="zip" DisableColor="black" Enable="FALSE" Height="18" Id="txtZip" ImeMode="none" Left="122" LeftMargin="1" MaxLength="6" Number="TRUE" Readonly="TRUE" Style="C_Edit" TabOrder="33" Top="342" Width="96"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="homeadres" DisableColor="black" Enable="FALSE" Height="18" Id="txtAdres" ImeMode="none" Left="122" LeftMargin="1" MaxLength="33" Readonly="TRUE" Style="C_Edit" TabOrder="34" Top="362" Width="300"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="detailAdres" DisableBKColor="white" DisableColor="black" Height="18" Id="txtDetailAdres" ImeMode="none" Left="122" LeftMargin="1" MaxLength="33" Style="C_Edit" TabOrder="35" Top="382" Width="300"></Edit>
+		<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="code" Column="groupId" DataColumn="codeNm" Height="18" Id="Combo6" InnerDataset="ds_groupId" Left="122" TabOrder="36" Text="---선택하세요---" Top="402" Width="110"></Combo>
+		<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="code" Column="emplyrSttusCode" DataColumn="codeNm" Height="18" Id="Combo7" InnerDataset="ds_emplyrSttusCode" Left="360" TabOrder="37" Text="---선택하세요---" Top="403" Width="110"></Combo>
+		<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="code" Column="sexdstnCode" DataColumn="codeNm" Height="18" Id="Combo8" InnerDataset="ds_sexdstnCode" Left="122" TabOrder="38" Text="---선택하세요---" Top="220" Width="110"></Combo>
+		<Edit BindDataset="ds_input" Border="Flat" Column="emailAdres" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit23" ImeMode="none" Left="122" LeftMargin="1" MaxLength="50" Style="C_Edit" TabOrder="39" Top="321" UseIME="FALSE" Width="200"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="moblphonNo" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit24" ImeMode="none" Left="122" LeftMargin="1" MaxLength="15" Style="C_Edit" TabOrder="40" Top="301" UseIME="FALSE" Width="200"></Edit>
+		<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="code" Column="insttCode" DataColumn="codeNm" Height="18" Id="Combo9" InnerDataset="ds_insttCode" Left="121" TabOrder="41" Text="---선택하세요---" Top="180" Width="110"></Combo>
+		<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="code" Column="orgnztId" DataColumn="codeNm" Height="18" Id="Combo10" InnerDataset="ds_orgnztId" Left="360" TabOrder="42" Text="---선택하세요---" Top="180" Width="110"></Combo>
+		<Edit BindDataset="ds_input" Border="Flat" Column="ofcpsNm" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit25" ImeMode="none" Left="121" LeftMargin="1" MaxLength="18" Style="C_Edit" TabOrder="43" Top="201" Width="118"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="emplNo" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit26" ImeMode="none" Left="360" LeftMargin="1" MaxLength="20" Style="C_Edit" TabOrder="44" Top="201" UseIME="FALSE" Width="118"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="brth" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit27" ImeMode="none" Left="123" LeftMargin="1" MaxLength="8" Number="TRUE" Style="C_Edit" TabOrder="45" Top="241" Width="108"></Edit>
+		<Edit BindDataset="ds_input" Border="Flat" Column="fxnum" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit28" ImeMode="none" Left="360" LeftMargin="1" MaxLength="15" Style="C_Edit" TabOrder="46" Top="281" UseIME="FALSE" Width="108"></Edit>
+		<Button ButtonStyle="TRUE" Enable="FALSE" Height="18" Id="btnPasswordUpdate" ImageID="btn_02_4" Left="451" OnClick="btnPasswordUpdate_OnClick" Style="C_Button" TabOrder="47" Text="암호변경" Top="66" Visible="FALSE" Width="72"></Button>
+		<Button ButtonStyle="TRUE" Enable="FALSE" Height="18" Id="btnClear" ImageID="btn_02_2" Left="533" OnClick="btnClear_OnClick" Style="C_Button" TabOrder="48" Text="취소" Top="66" Visible="FALSE" Width="48"></Button>
+		<Button ButtonStyle="TRUE" Enable="FALSE" Height="18" Id="btnUpdate" ImageID="btn_02_2" Left="335" OnClick="btnUpdate_OnClick" Style="C_Button" TabOrder="49" Text="수정" Top="66" Visible="FALSE" Width="48"></Button>
+		<Button ButtonStyle="TRUE" Enable="FALSE" Height="18" Id="btnDelete" ImageID="btn_02_2" Left="393" OnClick="btnDelete_OnClick" Style="C_Button" TabOrder="50" Text="삭제" Top="66" Visible="FALSE" Width="48"></Button>
+		<Image Align="Left" Height="50" Id="Image0" ImageID="pop_title_bg" TabOrder="51" Width="600"></Image>
+		<Image Height="15" Id="Image2" ImageID="bu02" Left="15" TabOrder="52" Top="18" Width="8"></Image>
+		<Static Color="user6" Height="16" Id="Static10" Left="27" Style="C_lblTitle" TabOrder="53" Text="업무사용자&#32;상세조회" Top="20" Width="160"></Static>
+		<Image Height="11" Id="ImgClose" ImageID="btn_close" Left="541" OnClick="ImgClose_OnClick" Static="FALSE" TabOrder="54" Top="19" Width="44"></Image>
+		<Static Align="Right" Height="14" Id="Static2" Left="88" Style="C_Static" TabOrder="55" Text="권한" Top="436" Width="30"></Static>
+		<Div Border="SunkenEdge" Height="37" Id="Div0" Left="122" TabOrder="56" Text="Div0" Top="427" Width="435">
+			<Contents>
+				<Checkbox BindDataset="ds_input" Column="useYn" FalseValue="N" Height="21" Id="Checkbox0" Left="5" OnClick="Div0_Checkbox0_OnClick" TabOrder="1" Text="권한적용여부" Top="2" TrueValue="Y" Width="97"></Checkbox>
+				<Combo BindDataset="ds_input" Border="Flat" BorderColor="user5" CodeColumn="authorCode" Column="authorCode" DataColumn="authorNm" Enable="FALSE" Height="18" Id="Combo0" InnerDataset="ds_author" Left="115" TabOrder="2" Text="---선택하세요---" Top="2" Width="110"></Combo>
+				<Static Align="Right" Height="14" Id="Static3" Left="245" Style="C_Static" TabOrder="3" Text="등록여부" Top="7" Width="50"></Static>
+				<Edit BindDataset="ds_input" Border="Flat" Column="regYn" DisableBKColor="white" DisableColor="black" Height="18" Id="Edit0" ImeMode="none" Left="300" LeftMargin="1" MaxLength="20" Readonly="TRUE" Style="C_Edit" TabOrder="4" Top="2" Width="50"></Edit>
+			</Contents>
+		</Div>
+		<Image Height="4" Id="Image1" ImageID="icon_06" Left="37" TabOrder="57" Top="107" Width="5"></Image>
+		<Image Height="4" Id="Image3" ImageID="icon_06" Left="49" TabOrder="58" Top="127" Width="5"></Image>
+		<Image Height="4" Id="Image4" ImageID="icon_06" Left="37" TabOrder="59" Top="146" Width="5"></Image>
+		<Image Height="4" Id="Image5" ImageID="icon_06" Left="36" TabOrder="60" Top="166" Width="5"></Image>
+		<Image Height="4" Id="Image8" ImageID="icon_06" Left="85" TabOrder="61" Top="370" Width="5"></Image>
+		<Image Height="4" Id="Image9" ImageID="icon_06" Left="50" TabOrder="62" Top="409" Width="5"></Image>
+		<Image Height="4" Id="Image10" ImageID="icon_06" Left="61" TabOrder="63" Top="349" Width="5"></Image>
+		<Image Height="4" Id="Image6" ImageID="icon_06" Left="49" TabOrder="64" Top="269" Width="5"></Image>
+		<Image Height="4" Id="Image7" ImageID="icon_06" Left="49" TabOrder="65" Top="329" Width="5"></Image>
+		<Image Height="4" Id="Image11" ImageID="icon_06" Left="265" TabOrder="66" Top="410" Width="5"></Image>
+		<Image Height="4" Id="Image12" ImageID="icon_06" Left="325" TabOrder="67" Top="208" Width="5"></Image>
+		<Image Height="4" Id="Image13" ImageID="icon_06" Left="49" TabOrder="68" Top="309" Width="5"></Image>
+		<Image Height="4" Id="Image14" ImageID="icon_06" Left="290" TabOrder="69" Top="188" Width="5"></Image>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+function fnCallback(svcid, errcd, errmsg)
+{
+	gfn_hideProg(this);
+	if(errCd < 0){
+		gfn_Message(errCd,errMsg);
+		return;
+	}
+	if(svcid == "get"){
+		//alert(ds_input.SaveXML());
+		//alert(ds_author.SaveXML());
+		//alert(ds_inputauth.SaveXML());
+	}		
+	if(svcid == "getcode"){
+		//alert(ds_passwordHint.saveXml());
+		//alert(ds_sexdstnCode.saveXml());
+		//alert(ds_entrprsMberSttus.saveXml());
+		//alert(ds_entrprsSeCode.saveXml());
+		//alert(ds_indutyCode.saveXml());
+	}
+	if(svcid == "update"){
+		alert(errMsg);	
+		parent.btnSearch_OnClick();
+		imgClose_OnClick();
+			
+	}
+	if(svcid == "delete"){
+		alert(errMsg);	
+		parent.btnSearch_OnClick();
+		imgClose_OnClick();
+			
+	}	
+	
+}
+function btnList_OnClick(obj)
+{
+	Go(G_Server + "/ipa/uss/umt/user/ISUserManageView.do");
+}
+
+function btnUpdate_OnClick(obj)
+{
+	if ( !gfn_CheckField("txtEmplyrId|txtCmpnyNm|passwordHint|txtEntrprsMberPasswordCnsr|Combo10|Edit26|Edit19|Edit20|Edit21|Edit24|Edit23|txtZip|txtAdres|Combo6|Combo7", "사용자아이디|사용자이름|비밀번호힌트|비밀번호정답|조직아이디|사번|집전화번호|집전화번호|집전화번호|휴대폰번호|이메일주소|우편번호|주소|그룹아이디|사용자상태코드") ) return false;
+	
+	if ( !gfn_CheckEmail(Edit23.Text) ) {
+			alert("이메일 주소 형식이 아닙니다.");
+			Edit23.setFocus();
+			return false;
+	}		
+	
+	gfn_showProg(this,"수정중입니다.");
+	var strSvcid = "update";
+	var strController = "/ipa/uss/umt/user/ISUserSelectUpdt.do";
+	var arrayInputDs = [
+						["ds_input","ds_input","egovframework.com.ipa.uss.umt.service.ISUserManageVO"]
+					   ];
+	var strOutputDs = "";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);	
+}
+
+function btnDelete_OnClick(obj)
+{
+	if ( !confirm(Edit18.Text + "(을)를 삭제 하시겠습니까?") ) return;
+	
+	gfn_showProg(this,"삭제중입니다.");
+	var checkedIdForDel = ds_input.GetColumn(0,"userTy") +":"+ds_input.GetColumn(0,"uniqId");
+
+ 	var param = "checkedIdForDel=" + checkedIdForDel;
+	var strSvcid = "delete";
+	var strController = "/ipa/uss/umt/user/ISUserDelete.do?"+param;
+	var arrayInputDs = [];
+	var strOutputDs = "";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+
+function btnPasswordUpdate_OnClick(obj)
+{
+	gdsPARAM.ClearData();
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(0,"PARAM_NAME","uniqId");
+	gdsPARAM.SetColumn(0,"PARAM_VALUE",ds_input.GetColumn(0,"uniqId"));
+	gdsPARAM.AddRow();
+	gdsPARAM.SetColumn(1,"PARAM_NAME","emplyrId");
+	gdsPARAM.SetColumn(1,"PARAM_VALUE",ds_input.GetColumn(0,"emplyrId"));
+
+	//Go(G_Server + "/ipa/uss/umt/user/ISUserPasswordUpdtView.do");
+
+	var url=G_Server+"/ipa/uss/umt/user/ISUserPasswordUpdtView.do";
+
+	var iXPos = ClientToScreenX(this, 0);
+	var iyPos = ClientToScreenY(this, 30);
+
+	Dialog(url,"",400,300,"",iXPos,iyPos);		
+}
+
+function btnClear_OnClick(obj)
+{
+	ds_input.Reset();
+}
+
+function ISUserSelectUpdt_OnLoadCompleted(obj)
+{
+	gfn_showProg(this,"조회중입니다.");
+	
+	selectCmmCode();
+	
+	var strSvcid = "get";
+	
+	var strController = "/ipa/uss/umt/user/ISUserSelect.do?selectedId="+gdsPARAM.GetColumn(0,"PARAM_VALUE");
+						
+	gdsPARAM.ClearData();
+	var arrayInputDs = [];
+					   
+					   //클라이언트, 서버
+	var strOutputDs = "ds_input=ds_output ds_author=ds_outputmanage";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+	
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);
+}
+
+function selectCmmCode()
+{
+	gfn_showProg(this,"조회중입니다.");
+	
+
+	var strSvcid = "getcode";
+	var strController = "/ipa/uss/umt/user/ISUserInsertCmmCode.do";
+	var arrayInputDs = [];
+					   //클라이언트, 서버
+	var strOutputDs = "ds_passwordHint=ds_passwordHint"
+					 +" ds_sexdstnCode=ds_sexdstnCode"
+					 +" ds_emplyrSttusCode=ds_emplyrSttusCode"
+					 +" ds_insttCode=ds_insttCode"
+					 +" ds_orgnztId=ds_orgnztId"
+					 +" ds_groupId=ds_groupId";
+	var strParam = "";
+	var strFnCallback = "fnCallback";
+	
+	fnCmTr(this, strSvcid, strController, arrayInputDs, strOutputDs, strParam, strFnCallback);	
+}
+
+function imgZip_OnClick(obj,nX,nY)
+{
+	var iXPos = ClientToScreenX(obj, 0);
+	var iyPos = ClientToScreenY(obj, obj.height);
+
+	var url=G_Server+"/ipa/sym/cmm/zip/ISCcmZipSearchPopupView.do";
+	var divleft = -1;
+	var divtop = -1;
+	var objname = "zipDiv";
+	if(!isValidObject(object(objname))){
+		Create("PopupDiv", objname ,'width="400" height="300" border="Flat" url="'+url+'"'); 
+		object(objname).TrackPopup(iXPos, iyPos);		
+	}else{
+		object(objname).TrackPopup(iXPos, iyPos);		
+	}
+}
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+function Div0_Checkbox0_OnClick(obj,strValue)
+{
+	if (strValue == 'Y' ){
+		Div0.Combo0.Enable = true;
+	}else{
+		Div0.Combo0.Enable = false;
+	}
+}
+]]></Script>
+</Window>

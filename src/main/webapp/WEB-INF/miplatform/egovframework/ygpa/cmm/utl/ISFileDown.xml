@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Form Height="200" Id="ISFileDown" Left="8" OnLoadCompleted="ISFileDown_OnLoadCompleted" OnTimer="ISFileDown_OnTimer" PidAttrib="7" TooltipFont=",0" Top="8" Ver="1.0" Width="400" WorkArea="true">
+		<Datasets>
+			<Dataset DataSetType="Dataset" Id="Dataset1">
+				<Contents>
+					<colinfo id="chk" size="256" summ="default" type="STRING"/>
+					<colinfo id="fullname" size="256" summ="default" type="STRING"/>
+					<colinfo id="filename" size="256" summ="default" type="STRING"/>
+					<colinfo id="prog_bar" size="256" summ="default" type="STRING"/>
+					<colinfo id="filesize" size="256" summ="default" type="INT"/>
+					<colinfo id="progsize" size="256" summ="default" type="STRING"/>
+					<colinfo id="uploadfilename" size="256" summ="default" type="STRING"/>
+					<colinfo id="filepath" size="256" summ="default" type="STRING"/>
+					<colinfo id="filesizebyte" size="256" summ="default" type="INT"/>
+					<colinfo id="fileextension" size="256" summ="default" type="STRING"/>
+					<record>
+						<chk></chk>
+						<fileextension></fileextension>
+						<filename></filename>
+						<filepath></filepath>
+						<filesize/>
+						<filesizebyte/>
+						<fullname></fullname>
+						<prog_bar></prog_bar>
+						<progsize></progsize>
+						<uploadfilename></uploadfilename>
+					</record>
+				</Contents>
+			</Dataset>
+		</Datasets>
+		<CyHttpFile Height="24" Id="CyHttpFile0" Left="10" Top="60" Width="24"></CyHttpFile>
+		<Image Align="Left" Height="50" Id="Image2" ImageID="pop_title_bg" TabOrder="1" Width="400"></Image>
+		<Static Color="user6" Height="16" Id="Static6" Left="27" Style="C_lblTitle" TabOrder="3" Text="파일다운로드" Top="20" Width="200"></Static>
+		<Image Height="15" Id="Image3" ImageID="bu02" Left="15" TabOrder="2" Top="18" Width="8"></Image>
+		<Grid AutoFit="TRUE" BindDataset="Dataset1" BkColor2="default" BoldHead="true" Border="Flat" BorderColor="user5" Bottom="175" Color="user0" ColSizing="TRUE" Editable="TRUE" Enable="true" EndLineColor="default" HeadHeight="19" Height="40" Id="grdList" InputPanel="FALSE" Left="15" LineColor="default" MinWidth="100" Right="385" TabOrder="4" TabStop="true" Top="135" UseDBuff="true" UsePopupMenu="true" UseSelColor="FALSE" Visible="true" VLineColor="default" WheelScrollRow="1" Width="370">
+			<contents>
+				<format id="Default">
+					<columns>
+						<col width="329"/>
+					</columns>
+					<head>
+						<cell bkcolor="user10" col="0" color="user12" display="text" text="Progress"/>
+					</head>
+					<body>
+						<cell align="left" col="0" colid="prog_bar" color="red" display="bar"/>
+					</body>
+				</format>
+			</contents>
+		</Grid>
+		<Button ButtonStyle="TRUE" Color="user0" Font="돋움,9" Height="18" Id="btnDown" ImageID="btn_02_4" Left="315" OnClick="btnDown_OnClick" TabOrder="5" Text="파일저장" Top="60" Width="72"></Button>
+		<Image Height="11" Id="ImgClose" ImageID="btn_close" Left="341" OnClick="ImgClose_OnClick" Static="FALSE" TabOrder="5" Top="19" Width="44"></Image>
+		<Edit Border="Flat" DisableBKColor="white" DisableColor="black" Height="18" Id="txtUploadFileName" ImeMode="none" Left="109" LeftMargin="1" MaxLength="6" Readonly="TRUE" Style="C_Edit" TabOrder="7" Top="56" Visible="FALSE" Width="200"></Edit>
+		<Static Align="Right" Height="14" Id="Static1" Left="22" Style="C_Static" TabOrder="9" Text="다운파일이름" Top="89" Width="80"></Static>
+		<Edit Border="Flat" DisableBKColor="white" DisableColor="black" Height="18" Id="txtRealFileName" ImeMode="none" Left="109" LeftMargin="1" MaxLength="6" Readonly="TRUE" Style="C_Edit" TabOrder="8" Top="86" Width="200"></Edit>
+		<Static Align="Right" Height="14" Id="Static2" Left="22" Style="C_Static" TabOrder="11" Text="파일사이즈" Top="109" Width="80"></Static>
+		<Edit Border="Flat" DisableBKColor="white" DisableColor="black" Height="18" Id="txtFileSize" ImeMode="none" Left="110" LeftMargin="1" MaxLength="6" Readonly="TRUE" Style="C_Edit" TabOrder="10" Top="105" Width="200"></Edit>
+		<Button ButtonStyle="TRUE" Color="user0" Font="돋움,9" Height="19" Id="btnDir" ImageID="btn_02_4" Left="315" OnClick="btnDir_OnClick" TabOrder="12" Text="위치변경" Top="85" Width="72"></Button>
+		<FileDialog Bottom="84" Height="24" Id="FileDlg" Left="40" MultiSelect="TRUE" Right="64" TabOrder="13" Top="60" Type="Dir" Width="24"></FileDialog>
+	</Form>
+	<Script><![CDATA[#include "lib::common.js";
+
+var fileDir = "c:\\Temp\\";
+var streFileNm;
+var orignlFileNm;
+var fileSize;
+function btnDown_OnClick(obj)
+{
+	
+
+	
+	SetTimer(1,1000);
+
+}
+
+function fnDownload()
+{
+	var upfilename = txtUploadFileName.Text;
+	var dwfilename = txtRealFileName.Text;
+	var filesize = txtFileSize.Text;
+	
+	
+	
+	//var upfilename = "d:\\util\\WinXP_Sata통합.iso";
+	//var dwfilename = "c:\\Temp\\WinXP_Sata통합_copy.iso";
+	//var filesize = 714997760;
+		
+	var ret = gfn_FileRead(CyHttpFile0, dwfilename, upfilename, filesize, 0, "prog_bar", grdList, 1048576, G_Server + "/ISFileDown.do");
+	if ( ret[0] == "FAIL" )
+	{
+		alert(ret[1]);
+	}else if ( ret[0] == "SUCC" )
+	{
+		//alert(ret[1] + " 저장이 완료 되었습니다.");
+		alert(dwfilename + " 저장이 완료 되었습니다.");
+	}	
+}
+
+function ImgClose_OnClick(obj,nX,nY)
+{
+	close();
+}
+
+
+
+function ISFileDown_OnTimer(obj,nEventID)
+{
+	KillTimer(1); //Timer설정을 Kill시킨다.
+	
+	fnDownload();
+}
+
+function btnDir_OnClick(obj)
+{
+//alert(FileDlg.FileNameList);
+	if(!FileDlg.Open()) return;
+	array = FileDlg.FileNameList;
+	
+	fileDir = FileDlg.FilePath;
+	//alert(fileDir);
+	txtRealFileName.Text = fileDir + "\\" + UrlDecode(orignlFileNm);
+}
+
+function ISFileDown_OnLoadCompleted(obj)
+{
+	txtUploadFileName.Text = UrlDecode(streFileNm);
+	txtRealFileName.Text = fileDir + UrlDecode(orignlFileNm);
+	txtFileSize.Text = UrlDecode(fileSize);
+}
+]]></Script>
+</Window>
