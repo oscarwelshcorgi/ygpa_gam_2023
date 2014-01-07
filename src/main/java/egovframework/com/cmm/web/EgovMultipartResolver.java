@@ -74,6 +74,7 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
     //스프링 3.0변경으로 수정한 부분
     MultiValueMap<String, MultipartFile> multipartFiles = new LinkedMultiValueMap<String, MultipartFile>();
 	Map<String, String[]> multipartParameters = new HashMap<String, String[]>();
+	Map<String, String> multipartParamContentTypes = new HashMap<String, String>();;
 
 	// Extract multipart files and multipart parameters.
 	for (Iterator it = fileItems.iterator(); it.hasNext();) {
@@ -115,7 +116,7 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 		    List<MultipartFile> fileList = new ArrayList<MultipartFile>();
 		    fileList.add(file);
 		    
-		    
+		    multipartParamContentTypes.put(fileItem.getName(), fileItem.getContentType());
 		    if (multipartFiles.put(fileItem.getName(), fileList) != null) { // CHANGED!!
 			throw new MultipartException("Multiple files for field name [" + file.getName()
 				+ "] found - not supported by MultipartResolver");
@@ -129,6 +130,6 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 	    }
 	}
 	
-	return new MultipartParsingResult(multipartFiles, multipartParameters);
+	return new MultipartParsingResult(multipartFiles, multipartParameters, multipartParamContentTypes);
     }	
 }

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpCmmnCd">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="erpCmmnCdSerarchVO" type="egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO"/>
+	
+	<resultMap id="erpCmmnCd" class="egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO">
+		<result property="smClsName" column="SM_CLS_NAME" columnIndex="1"/>
+		<result property="refCd" column="REF_CD" columnIndex="2"/>
+		<result property="remark" column="REMARK" columnIndex="3"/>
+		<result property="outputOrder" column="OUTPUT_ORDER" columnIndex="4"/>
+		<result property="useCls" column="USE_CLS" columnIndex="5"/>
+		<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="6"/>
+		<result property="inputDate" column="INPUT_DATE" columnIndex="7"/>
+		<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="8"/>
+		<result property="updateDate" column="UPDATE_DATE" columnIndex="9"/>
+		<result property="smCls" column="SM_CLS" columnIndex="10"/>
+		<result property="bigClsCd" column="BIG_CLS_CD" columnIndex="11"/>
+	</resultMap>
+	
+	<insert id="erpCmmnCdDAO.insertErpCmmnCd_S">
+		<![CDATA[
+			INSERT INTO ERP_CMMN_CD 
+				( SM_CLS_NAME
+				  , REF_CD
+				  , REMARK
+				  , OUTPUT_ORDER
+				  , USE_CLS
+				  , INPUT_EMP_NO
+				  , INPUT_DATE
+				  , UPDATE_EMP_NO
+				  , UPDATE_DATE
+				  , SM_CLS
+				  , BIG_CLS_CD )
+			VALUES ( #smClsName#
+				  , #refCd#
+				  , #remark#
+				  , #outputOrder#
+				  , #useCls#
+				  , #inputEmpNo#
+				  , #inputDate#
+				  , #updateEmpNo#
+				  , #updateDate#
+				  , #smCls#
+				  , #bigClsCd# )
+		]]>
+	</insert>
+	
+	<update id="erpCmmnCdDAO.updateErpCmmnCd_S">
+		<![CDATA[
+			UPDATE ERP_CMMN_CD
+			SET SM_CLS_NAME=#smClsName#
+				, REF_CD=#refCd#
+				, REMARK=#remark#
+				, OUTPUT_ORDER=#outputOrder#
+				, USE_CLS=#useCls#
+				, INPUT_EMP_NO=#inputEmpNo#
+				, INPUT_DATE=#inputDate#
+				, UPDATE_EMP_NO=#updateEmpNo#
+				, UPDATE_DATE=#updateDate#
+				, SM_CLS=#smCls#
+				, BIG_CLS_CD=#bigClsCd#
+						WHERE SM_CLS=#smCls#
+								AND BIG_CLS_CD=#bigClsCd#
+				]]>
+	</update>
+	
+	<delete id="erpCmmnCdDAO.deleteErpCmmnCd_S">
+		<![CDATA[
+			DELETE FROM ERP_CMMN_CD 
+						WHERE SM_CLS=#smCls#
+								AND BIG_CLS_CD=#bigClsCd#
+				]]>
+	</delete>
+	
+	<select id="erpCmmnCdDAO.selectErpCmmnCd_S" resultMap="erpCmmnCd">
+		<![CDATA[
+			SELECT
+				SM_CLS_NAME
+				, REF_CD
+				, REMARK
+				, OUTPUT_ORDER
+				, USE_CLS
+				, INPUT_EMP_NO
+				, INPUT_DATE
+				, UPDATE_EMP_NO
+				, UPDATE_DATE
+				, SM_CLS
+				, BIG_CLS_CD
+			FROM ERP_CMMN_CD
+						WHERE SM_CLS=#smCls#
+								AND BIG_CLS_CD=#bigClsCd#
+				]]>
+	</select>
+	
+	<select id="erpCmmnCdDAO.selectErpCmmnCdList_D" parameterClass="erpCmmnCdSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								SM_CLS_NAME
+								, REF_CD
+								, REMARK
+								, OUTPUT_ORDER
+								, USE_CLS
+								, INPUT_EMP_NO
+								, INPUT_DATE
+								, UPDATE_EMP_NO
+								, UPDATE_DATE
+								, SM_CLS
+								, BIG_CLS_CD
+						FROM ERP_CMMN_CD
+				WHERE 1=1
+				<isNotNull prepend="AND" property="bigClsCd">
+					BIG_CLS_CD = #bigClsCd#
+				</isNotNull>
+				<isEqual prepend="AND" property="searchCondition" compareValue="0">
+					SM_CLS_NAME = #searchKeyword#
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					REF_CD LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+					ORDER BY
+						BIG_CLS_CD DESC 
+						, SM_CLS DESC
+		
+		<![CDATA[					
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>	
+	<select id="erpCmmnCdDAO.selectErpCmmnCdListTotCnt_S" parameterClass="erpCmmnCdSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM ERP_CMMN_CD
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				SM_CLS_NAME = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				REF_CD LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpAssetCate">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="erpAssetCateSerarchVO" type="egovframework.rte.ygpa.erp.code.service.ErpAssetCateDefaultVO"/>
+	
+	<resultMap id="erpAssetCate" class="egovframework.rte.ygpa.erp.code.service.ErpAssetCateVO">
+		<result property="assetCateCls" column="ASSET_CATE_CLS" columnIndex="1"/>
+		<result property="assetCateCd" column="ASSET_CATE_CD" columnIndex="2"/>
+		<result property="name" column="NAME" columnIndex="3"/>
+		<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="4"/>
+		<result property="inputDate" column="INPUT_DATE" columnIndex="5"/>
+		<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="6"/>
+		<result property="updateDate" column="UPDATE_DATE" columnIndex="7"/>
+	</resultMap>
+	
+	<insert id="erpAssetCateDAO.insertErpAssetCate_S">
+		<![CDATA[
+			INSERT INTO ERP_ASSET_CATE 
+				( ASSET_CATE_CLS
+				  , ASSET_CATE_CD
+				  , NAME
+				  , INPUT_EMP_NO
+				  , INPUT_DATE
+				  , UPDATE_EMP_NO
+				  , UPDATE_DATE )
+			VALUES ( #assetCateCls#
+				  , #assetCateCd#
+				  , #name#
+				  , #inputEmpNo#
+				  , #inputDate#
+				  , #updateEmpNo#
+				  , #updateDate# )
+		]]>
+	</insert>
+	
+	<update id="erpAssetCateDAO.updateErpAssetCate_S">
+		<![CDATA[
+			UPDATE ERP_ASSET_CATE
+			SET ASSET_CATE_CLS=#assetCateCls#
+				, ASSET_CATE_CD=#assetCateCd#
+				, NAME=#name#
+				, INPUT_EMP_NO=#inputEmpNo#
+				, INPUT_DATE=#inputDate#
+				, UPDATE_EMP_NO=#updateEmpNo#
+				, UPDATE_DATE=#updateDate#
+						WHERE ASSET_CATE_CLS=#assetCateCls#
+								AND ASSET_CATE_CD=#assetCateCd#
+				]]>
+	</update>
+	
+	<delete id="erpAssetCateDAO.deleteErpAssetCate_S">
+		<![CDATA[
+			DELETE FROM ERP_ASSET_CATE 
+						WHERE ASSET_CATE_CLS=#assetCateCls#
+								AND ASSET_CATE_CD=#assetCateCd#
+				]]>
+	</delete>
+	
+	<select id="erpAssetCateDAO.selectErpAssetCate_S" resultMap="erpAssetCate">
+		<![CDATA[
+			SELECT
+				ASSET_CATE_CLS
+				, ASSET_CATE_CD
+				, NAME
+				, INPUT_EMP_NO
+				, INPUT_DATE
+				, UPDATE_EMP_NO
+				, UPDATE_DATE
+			FROM ERP_ASSET_CATE
+						WHERE ASSET_CATE_CLS=#assetCateCls#
+								AND ASSET_CATE_CD=#assetCateCd#
+				]]>
+	</select>
+	
+	<select id="erpAssetCateDAO.selectErpAssetCateList_D" parameterClass="erpAssetCateSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								ASSET_CATE_CLS
+								, ASSET_CATE_CD
+								, NAME
+								, INPUT_EMP_NO
+								, INPUT_DATE
+								, UPDATE_EMP_NO
+								, UPDATE_DATE
+						FROM ERP_ASSET_CATE
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="0">
+					ASSET_CATE_CLS = #searchKeyword#
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ASSET_CATE_CD LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+					ORDER BY 
+						ASSET_CATE_CLS DESC
+							, ASSET_CATE_CD DESC
+		
+		<![CDATA[					
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>	
+	<select id="erpAssetCateDAO.selectErpAssetCateListTotCnt_S" parameterClass="erpAssetCateSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM ERP_ASSET_CATE
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				ASSET_CATE_CLS = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				ASSET_CATE_CD LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+</sqlMap>

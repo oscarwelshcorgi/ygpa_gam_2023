@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpAssetDeprctn">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="erpAssetDeprctnSerarchVO" type="egovframework.rte.ygpa.erp.code.service.ErpAssetDeprctnDefaultVO"/>
+	
+	<resultMap id="erpAssetDeprctn" class="egovframework.rte.ygpa.erp.code.service.ErpAssetDeprctnVO">
+		<result property="revalYear" column="REVAL_YEAR" columnIndex="1"/>
+		<result property="thisEndBaseValueEvalAmt" column="THIS_END_BASE_VALUE_EVAL_AMT" columnIndex="2"/>
+		<result property="thisTermIncreYearMon" column="THIS_TERM_INCRE_YEAR_MON" columnIndex="3"/>
+		<result property="thisTermIncreAmt" column="THIS_TERM_INCRE_AMT" columnIndex="4"/>
+		<result property="bsThisCurAmt" column="BS_THIS_CUR_AMT" columnIndex="5"/>
+		<result property="bsPreDeprctnSum" column="BS_PRE_DEPRCTN_SUM" columnIndex="6"/>
+		<result property="bsNoDeprctnBal" column="BS_NO_DEPRCTN_BAL" columnIndex="7"/>
+		<result property="preEndAssetBuySum" column="PRE_END_ASSET_BUY_SUM" columnIndex="8"/>
+		<result property="assetBuyAmt" column="ASSET_BUY_AMT" columnIndex="9"/>
+		<result property="thisEndAssetBuySum" column="THIS_END_ASSET_BUY_SUM" columnIndex="10"/>
+		<result property="gnrlDeprctnRate" column="GNRL_DEPRCTN_RATE" columnIndex="11"/>
+		<result property="thisTermDeprctnAmt" column="THIS_TERM_DEPRCTN_AMT" columnIndex="12"/>
+		<result property="preEndCurBuyAmt" column="PRE_END_CUR_BUY_AMT" columnIndex="13"/>
+		<result property="curAmt" column="CUR_AMT" columnIndex="14"/>
+		<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="15"/>
+		<result property="inputDate" column="INPUT_DATE" columnIndex="16"/>
+		<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="17"/>
+		<result property="updateDate" column="UPDATE_DATE" columnIndex="18"/>
+		<result property="deprctnYear" column="DEPRCTN_YEAR" columnIndex="19"/>
+		<result property="assetCls" column="ASSET_CLS" columnIndex="20"/>
+		<result property="assetNo" column="ASSET_NO" columnIndex="21"/>
+		<result property="assetNoSeq" column="ASSET_NO_SEQ" columnIndex="22"/>
+	</resultMap>
+	
+	<insert id="erpAssetDeprctnDAO.insertErpAssetDeprctn_S">
+		<![CDATA[
+			INSERT INTO ERP_ASSET_DEPRCTN 
+				( REVAL_YEAR
+				  , THIS_END_BASE_VALUE_EVAL_AMT
+				  , THIS_TERM_INCRE_YEAR_MON
+				  , THIS_TERM_INCRE_AMT
+				  , BS_THIS_CUR_AMT
+				  , BS_PRE_DEPRCTN_SUM
+				  , BS_NO_DEPRCTN_BAL
+				  , PRE_END_ASSET_BUY_SUM
+				  , ASSET_BUY_AMT
+				  , THIS_END_ASSET_BUY_SUM
+				  , GNRL_DEPRCTN_RATE
+				  , THIS_TERM_DEPRCTN_AMT
+				  , PRE_END_CUR_BUY_AMT
+				  , CUR_AMT
+				  , INPUT_EMP_NO
+				  , INPUT_DATE
+				  , UPDATE_EMP_NO
+				  , UPDATE_DATE
+				  , DEPRCTN_YEAR
+				  , ASSET_CLS
+				  , ASSET_NO
+				  , ASSET_NO_SEQ )
+			VALUES ( #revalYear#
+				  , #thisEndBaseValueEvalAmt#
+				  , #thisTermIncreYearMon#
+				  , #thisTermIncreAmt#
+				  , #bsThisCurAmt#
+				  , #bsPreDeprctnSum#
+				  , #bsNoDeprctnBal#
+				  , #preEndAssetBuySum#
+				  , #assetBuyAmt#
+				  , #thisEndAssetBuySum#
+				  , #gnrlDeprctnRate#
+				  , #thisTermDeprctnAmt#
+				  , #preEndCurBuyAmt#
+				  , #curAmt#
+				  , #inputEmpNo#
+				  , #inputDate#
+				  , #updateEmpNo#
+				  , #updateDate#
+				  , #deprctnYear#
+				  , #assetCls#
+				  , #assetNo#
+				  , #assetNoSeq# )
+		]]>
+	</insert>
+	
+	<update id="erpAssetDeprctnDAO.updateErpAssetDeprctn_S">
+		<![CDATA[
+			UPDATE ERP_ASSET_DEPRCTN
+			SET REVAL_YEAR=#revalYear#
+				, THIS_END_BASE_VALUE_EVAL_AMT=#thisEndBaseValueEvalAmt#
+				, THIS_TERM_INCRE_YEAR_MON=#thisTermIncreYearMon#
+				, THIS_TERM_INCRE_AMT=#thisTermIncreAmt#
+				, BS_THIS_CUR_AMT=#bsThisCurAmt#
+				, BS_PRE_DEPRCTN_SUM=#bsPreDeprctnSum#
+				, BS_NO_DEPRCTN_BAL=#bsNoDeprctnBal#
+				, PRE_END_ASSET_BUY_SUM=#preEndAssetBuySum#
+				, ASSET_BUY_AMT=#assetBuyAmt#
+				, THIS_END_ASSET_BUY_SUM=#thisEndAssetBuySum#
+				, GNRL_DEPRCTN_RATE=#gnrlDeprctnRate#
+				, THIS_TERM_DEPRCTN_AMT=#thisTermDeprctnAmt#
+				, PRE_END_CUR_BUY_AMT=#preEndCurBuyAmt#
+				, CUR_AMT=#curAmt#
+				, INPUT_EMP_NO=#inputEmpNo#
+				, INPUT_DATE=#inputDate#
+				, UPDATE_EMP_NO=#updateEmpNo#
+				, UPDATE_DATE=#updateDate#
+				, DEPRCTN_YEAR=#deprctnYear#
+				, ASSET_CLS=#assetCls#
+				, ASSET_NO=#assetNo#
+				, ASSET_NO_SEQ=#assetNoSeq#
+						WHERE DEPRCTN_YEAR=#deprctnYear#
+								AND ASSET_CLS=#assetCls#
+								AND ASSET_NO=#assetNo#
+								AND ASSET_NO_SEQ=#assetNoSeq#
+				]]>
+	</update>
+	
+	<delete id="erpAssetDeprctnDAO.deleteErpAssetDeprctn_S">
+		<![CDATA[
+			DELETE FROM ERP_ASSET_DEPRCTN 
+						WHERE DEPRCTN_YEAR=#deprctnYear#
+								AND ASSET_CLS=#assetCls#
+								AND ASSET_NO=#assetNo#
+								AND ASSET_NO_SEQ=#assetNoSeq#
+				]]>
+	</delete>
+	
+	<select id="erpAssetDeprctnDAO.selectErpAssetDeprctn_S" resultMap="erpAssetDeprctn">
+		<![CDATA[
+			SELECT
+				REVAL_YEAR
+				, THIS_END_BASE_VALUE_EVAL_AMT
+				, THIS_TERM_INCRE_YEAR_MON
+				, THIS_TERM_INCRE_AMT
+				, BS_THIS_CUR_AMT
+				, BS_PRE_DEPRCTN_SUM
+				, BS_NO_DEPRCTN_BAL
+				, PRE_END_ASSET_BUY_SUM
+				, ASSET_BUY_AMT
+				, THIS_END_ASSET_BUY_SUM
+				, GNRL_DEPRCTN_RATE
+				, THIS_TERM_DEPRCTN_AMT
+				, PRE_END_CUR_BUY_AMT
+				, CUR_AMT
+				, INPUT_EMP_NO
+				, INPUT_DATE
+				, UPDATE_EMP_NO
+				, UPDATE_DATE
+				, DEPRCTN_YEAR
+				, ASSET_CLS
+				, ASSET_NO
+				, ASSET_NO_SEQ
+			FROM ERP_ASSET_DEPRCTN
+						WHERE DEPRCTN_YEAR=#deprctnYear#
+								AND ASSET_CLS=#assetCls#
+								AND ASSET_NO=#assetNo#
+								AND ASSET_NO_SEQ=#assetNoSeq#
+				]]>
+	</select>
+	
+	<select id="erpAssetDeprctnDAO.selectErpAssetDeprctnList_D" parameterClass="erpAssetDeprctnSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								REVAL_YEAR
+								, THIS_END_BASE_VALUE_EVAL_AMT
+								, THIS_TERM_INCRE_YEAR_MON
+								, THIS_TERM_INCRE_AMT
+								, BS_THIS_CUR_AMT
+								, BS_PRE_DEPRCTN_SUM
+								, BS_NO_DEPRCTN_BAL
+								, PRE_END_ASSET_BUY_SUM
+								, ASSET_BUY_AMT
+								, THIS_END_ASSET_BUY_SUM
+								, GNRL_DEPRCTN_RATE
+								, THIS_TERM_DEPRCTN_AMT
+								, PRE_END_CUR_BUY_AMT
+								, CUR_AMT
+								, INPUT_EMP_NO
+								, INPUT_DATE
+								, UPDATE_EMP_NO
+								, UPDATE_DATE
+								, DEPRCTN_YEAR
+								, ASSET_CLS
+								, ASSET_NO
+								, ASSET_NO_SEQ
+						FROM ERP_ASSET_DEPRCTN
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="0">
+					REVAL_YEAR = #searchKeyword#
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					THIS_END_BASE_VALUE_EVAL_AMT LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+					ORDER BY 
+						DEPRCTN_YEAR DESC
+							, ASSET_CLS DESC
+							, ASSET_NO DESC
+							, ASSET_NO_SEQ DESC
+		
+		<![CDATA[					
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>	
+	<select id="erpAssetDeprctnDAO.selectErpAssetDeprctnListTotCnt_S" parameterClass="erpAssetDeprctnSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM ERP_ASSET_DEPRCTN
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				REVAL_YEAR = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				THIS_END_BASE_VALUE_EVAL_AMT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+</sqlMap>

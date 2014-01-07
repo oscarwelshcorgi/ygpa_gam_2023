@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpAssetHist">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="erpAssetHistSerarchVO" type="egovframework.rte.ygpa.erp.code.service.ErpAssetHistDefaultVO"/>
+	
+	<resultMap id="erpAssetHist" class="egovframework.rte.ygpa.erp.code.service.ErpAssetHistVO">
+		<result property="accUnitCls" column="ACC_UNIT_CLS" columnIndex="1"/>
+		<result property="projectCd" column="PROJECT_CD" columnIndex="2"/>
+		<result property="deptCd" column="DEPT_CD" columnIndex="3"/>
+		<result property="empNo" column="EMP_NO" columnIndex="4"/>
+		<result property="placeCd" column="PLACE_CD" columnIndex="5"/>
+		<result property="changeCls" column="CHANGE_CLS" columnIndex="6"/>
+		<result property="expCls" column="EXP_CLS" columnIndex="7"/>
+		<result property="qty" column="QTY" columnIndex="8"/>
+		<result property="remark" column="REMARK" columnIndex="9"/>
+		<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="10"/>
+		<result property="inputDate" column="INPUT_DATE" columnIndex="11"/>
+		<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="12"/>
+		<result property="updateDate" column="UPDATE_DATE" columnIndex="13"/>
+		<result property="changeDate" column="CHANGE_DATE" columnIndex="14"/>
+		<result property="indexNo" column="INDEX_NO" columnIndex="15"/>
+		<result property="assetCls" column="ASSET_CLS" columnIndex="16"/>
+		<result property="assetNo" column="ASSET_NO" columnIndex="17"/>
+		<result property="assetNoSeq" column="ASSET_NO_SEQ" columnIndex="18"/>
+	</resultMap>
+	
+	<insert id="erpAssetHistDAO.insertErpAssetHist_S">
+		<![CDATA[
+			INSERT INTO ERP_ASSET_HIST 
+				( ACC_UNIT_CLS
+				  , PROJECT_CD
+				  , DEPT_CD
+				  , EMP_NO
+				  , PLACE_CD
+				  , CHANGE_CLS
+				  , EXP_CLS
+				  , QTY
+				  , REMARK
+				  , INPUT_EMP_NO
+				  , INPUT_DATE
+				  , UPDATE_EMP_NO
+				  , UPDATE_DATE
+				  , CHANGE_DATE
+				  , INDEX_NO
+				  , ASSET_CLS
+				  , ASSET_NO
+				  , ASSET_NO_SEQ )
+			VALUES ( #accUnitCls#
+				  , #projectCd#
+				  , #deptCd#
+				  , #empNo#
+				  , #placeCd#
+				  , #changeCls#
+				  , #expCls#
+				  , #qty#
+				  , #remark#
+				  , #inputEmpNo#
+				  , #inputDate#
+				  , #updateEmpNo#
+				  , #updateDate#
+				  , #changeDate#
+				  , #indexNo#
+				  , #assetCls#
+				  , #assetNo#
+				  , #assetNoSeq# )
+		]]>
+	</insert>
+	
+	<update id="erpAssetHistDAO.updateErpAssetHist_S">
+		<![CDATA[
+			UPDATE ERP_ASSET_HIST
+			SET ACC_UNIT_CLS=#accUnitCls#
+				, PROJECT_CD=#projectCd#
+				, DEPT_CD=#deptCd#
+				, EMP_NO=#empNo#
+				, PLACE_CD=#placeCd#
+				, CHANGE_CLS=#changeCls#
+				, EXP_CLS=#expCls#
+				, QTY=#qty#
+				, REMARK=#remark#
+				, INPUT_EMP_NO=#inputEmpNo#
+				, INPUT_DATE=#inputDate#
+				, UPDATE_EMP_NO=#updateEmpNo#
+				, UPDATE_DATE=#updateDate#
+				, CHANGE_DATE=#changeDate#
+				, INDEX_NO=#indexNo#
+				, ASSET_CLS=#assetCls#
+				, ASSET_NO=#assetNo#
+				, ASSET_NO_SEQ=#assetNoSeq#
+						WHERE CHANGE_DATE=#changeDate#
+								AND INDEX_NO=#indexNo#
+								AND ASSET_CLS=#assetCls#
+								AND ASSET_NO=#assetNo#
+								AND ASSET_NO_SEQ=#assetNoSeq#
+				]]>
+	</update>
+	
+	<delete id="erpAssetHistDAO.deleteErpAssetHist_S">
+		<![CDATA[
+			DELETE FROM ERP_ASSET_HIST 
+						WHERE CHANGE_DATE=#changeDate#
+								AND INDEX_NO=#indexNo#
+								AND ASSET_CLS=#assetCls#
+								AND ASSET_NO=#assetNo#
+								AND ASSET_NO_SEQ=#assetNoSeq#
+				]]>
+	</delete>
+	
+	<select id="erpAssetHistDAO.selectErpAssetHist_S" resultMap="erpAssetHist">
+		<![CDATA[
+			SELECT
+				ACC_UNIT_CLS
+				, PROJECT_CD
+				, DEPT_CD
+				, EMP_NO
+				, PLACE_CD
+				, CHANGE_CLS
+				, EXP_CLS
+				, QTY
+				, REMARK
+				, INPUT_EMP_NO
+				, INPUT_DATE
+				, UPDATE_EMP_NO
+				, UPDATE_DATE
+				, CHANGE_DATE
+				, INDEX_NO
+				, ASSET_CLS
+				, ASSET_NO
+				, ASSET_NO_SEQ
+			FROM ERP_ASSET_HIST
+						WHERE CHANGE_DATE=#changeDate#
+								AND INDEX_NO=#indexNo#
+								AND ASSET_CLS=#assetCls#
+								AND ASSET_NO=#assetNo#
+								AND ASSET_NO_SEQ=#assetNoSeq#
+				]]>
+	</select>
+	
+	<select id="erpAssetHistDAO.selectErpAssetHistList_D" parameterClass="erpAssetHistSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								ACC_UNIT_CLS
+								, PROJECT_CD
+								, DEPT_CD
+								, EMP_NO
+								, PLACE_CD
+								, CHANGE_CLS
+								, EXP_CLS
+								, QTY
+								, REMARK
+								, INPUT_EMP_NO
+								, INPUT_DATE
+								, UPDATE_EMP_NO
+								, UPDATE_DATE
+								, CHANGE_DATE
+								, INDEX_NO
+								, ASSET_CLS
+								, ASSET_NO
+								, ASSET_NO_SEQ
+						FROM ERP_ASSET_HIST
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="0">
+					ACC_UNIT_CLS = #searchKeyword#
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					PROJECT_CD LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+					ORDER BY 
+						CHANGE_DATE DESC
+							, INDEX_NO DESC
+							, ASSET_CLS DESC
+							, ASSET_NO DESC
+							, ASSET_NO_SEQ DESC
+		
+		<![CDATA[					
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>	
+	<select id="erpAssetHistDAO.selectErpAssetHistListTotCnt_S" parameterClass="erpAssetHistSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM ERP_ASSET_HIST
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				ACC_UNIT_CLS = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				PROJECT_CD LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/cmmn/ErpCmmnCd_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/cmmn/ErpCmmnCdCl_SQL.xml"/>
+
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetCate_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetCd_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetDeprctn_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetHist_SQL.xml"/>
+</sqlMapConfig>

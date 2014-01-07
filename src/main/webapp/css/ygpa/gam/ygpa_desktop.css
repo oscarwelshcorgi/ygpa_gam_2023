@@ -1,0 +1,70 @@
+/*----------------------------------------------------------------------------------------------------
+`YGPA CSS define
+----------------------------------------------------------------------------------------------------*/
+table .searchPanel {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.emdPanel {
+  width: 100%;
+	padding: 4px;
+}
+
+.emdTabPage {
+	overflow: scroll;
+}
+
+.emdControlPanel {
+	padding: 4px;
+	bottom: 4px;
+	width:100%;
+	text-align: right;
+}
+
+.viewStack {
+	
+}
+
+.viewPanel {
+	width: 100%;
+	height: 100%;
+}
+
+.viewStack > .viewPanel {
+	padding: 0px;
+	background: blue;
+}
+
+.searchPanel th {
+  background: #ddd /* url(../images/gui/bar_top.png) */ repeat-x left bottom;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+  text-shadow: #fff 0 1px 1px;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.searchPanel td {
+	background: #fff
+}
+
+
+.searchPanel th:first-child {
+  border-left: 0;
+}
+
+.searchPanel tr:nth-child(even) {
+  background: #def;
+}
+
+.searchPanel tr.active {
+  background: #06c /* url(../images/gui/bar_top_link.png) */ repeat-x;
+  color: #fff;
+}
+
+.searchPanel th.shrink {
+  width: 1%;
+}
+

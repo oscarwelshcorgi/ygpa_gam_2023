@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpCmmnCdCl">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="erpCmmnCdClSerarchVO" type="egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdClDefaultVO"/>
+	
+	<resultMap id="erpCmmnCdCl" class="egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdClVO">
+		<result property="bigClsCd" column="BIG_CLS_CD" columnIndex="1"/>
+		<result property="cdCmmnt" column="CD_CMMNT" columnIndex="2"/>
+		<result property="systemName" column="SYSTEM_NAME" columnIndex="3"/>
+		<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="4"/>
+		<result property="inputDate" column="INPUT_DATE" columnIndex="5"/>
+		<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="6"/>
+		<result property="updateDate" column="UPDATE_DATE" columnIndex="7"/>
+	</resultMap>
+	
+	<insert id="erpCmmnCdClDAO.insertErpCmmnCdCl_S">
+		<![CDATA[
+			INSERT INTO ERP_CMMN_CD_CL 
+				( BIG_CLS_CD
+				  , CD_CMMNT
+				  , SYSTEM_NAME
+				  , INPUT_EMP_NO
+				  , INPUT_DATE
+				  , UPDATE_EMP_NO
+				  , UPDATE_DATE )
+			VALUES ( #bigClsCd#
+				  , #cdCmmnt#
+				  , #systemName#
+				  , #inputEmpNo#
+				  , #inputDate#
+				  , #updateEmpNo#
+				  , #updateDate# )
+		]]>
+	</insert>
+	
+	<update id="erpCmmnCdClDAO.updateErpCmmnCdCl_S">
+		<![CDATA[
+			UPDATE ERP_CMMN_CD_CL
+			SET BIG_CLS_CD=#bigClsCd#
+				, CD_CMMNT=#cdCmmnt#
+				, SYSTEM_NAME=#systemName#
+				, INPUT_EMP_NO=#inputEmpNo#
+				, INPUT_DATE=#inputDate#
+				, UPDATE_EMP_NO=#updateEmpNo#
+				, UPDATE_DATE=#updateDate#
+						WHERE BIG_CLS_CD=#bigClsCd#
+				]]>
+	</update>
+	
+	<delete id="erpCmmnCdClDAO.deleteErpCmmnCdCl_S">
+		<![CDATA[
+			DELETE FROM ERP_CMMN_CD_CL 
+						WHERE BIG_CLS_CD=#bigClsCd#
+				]]>
+	</delete>
+	
+	<select id="erpCmmnCdClDAO.selectErpCmmnCdCl_S" resultMap="erpCmmnCdCl">
+		<![CDATA[
+			SELECT
+				BIG_CLS_CD
+				, CD_CMMNT
+				, SYSTEM_NAME
+				, INPUT_EMP_NO
+				, INPUT_DATE
+				, UPDATE_EMP_NO
+				, UPDATE_DATE
+			FROM ERP_CMMN_CD_CL
+						WHERE BIG_CLS_CD=#bigClsCd#
+				]]>
+	</select>
+	
+	<select id="erpCmmnCdClDAO.selectErpCmmnCdClList_D" parameterClass="erpCmmnCdClSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								BIG_CLS_CD
+								, CD_CMMNT
+								, SYSTEM_NAME
+								, INPUT_EMP_NO
+								, INPUT_DATE
+								, UPDATE_EMP_NO
+								, UPDATE_DATE
+						FROM ERP_CMMN_CD_CL
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="0">
+					BIG_CLS_CD = #searchKeyword#
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					CD_CMMNT LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+					ORDER BY 
+						BIG_CLS_CD DESC
+		
+		<![CDATA[					
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>	
+	<select id="erpCmmnCdClDAO.selectErpCmmnCdClListTotCnt_S" parameterClass="erpCmmnCdClSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM ERP_CMMN_CD_CL
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				BIG_CLS_CD = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				CD_CMMNT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+</sqlMap>

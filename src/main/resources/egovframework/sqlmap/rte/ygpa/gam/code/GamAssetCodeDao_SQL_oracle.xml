@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="gamAssetCodeDao.insertAssetCode_S">
+		<![CDATA[
+			INSERT INTO GIS_ASSETS_CD 
+				( ASSETS_CD,
+				GIS_ASSETS_SUB_CD,
+				GIS_ASSETS_CD,
+				ASSETS_NM,
+				ASSETS_SE_CD,
+				MNG_DEPT_CD,
+				OPER_DEPT_CD,
+				LOCPLC,
+				LNM,
+				LNM_SUB,
+				PRT_AT_CODE,
+				PRPRTY_CD,
+				LOC_CD,
+				QUAY_CD,
+				AR,
+				USE_YN,
+				INVSTMNT_MTHD,
+				DRW_CREAT_YEAR,
+				DRW_LST_SEQ,
+				ACQAMT,
+				STNDRD,
+				BLDDATE,
+				BLD_DT,
+				RM,
+				GISCD
+				 )
+			VALUES ( #assetsCd#,
+					#gisAssetsSubCd#,
+					#gisAssetsCd#,
+					#assetsNm#,
+					#assetsSeCd#,
+					#mngDeptCd#,
+					#operDeptCd#,
+					#locplc#,
+					#lnm#,
+					#lnmSub#,
+					#prtAtCode#,
+					#prprtyCd#,
+					#locCd#,
+					#quayCd#,
+					#ar#,
+					#useYn#,
+					#invstmntMthd#,
+					#drwCreatYear#,
+					#drwLstSeq#,
+					#acqamt#,
+					#stndrd#,
+					#blddate#,
+					#bldDt#,
+					#rm#,
+					#giscd#
+ )
+		]]>
+	</insert>
+	
+	<update id="gamAssetCodeDao.updateAssetCode_S">
+		<![CDATA[
+			UPDATE GIS_ASSETS_CD 
+			SET ID=#id#
+				, NAME=#name#
+				, DESCRIPTION=#description#
+				, USE_YN=#useYn#
+			WHERE 
+				PRT_AT_CODE=#prtAtCode#
+				AND GIS_ASSETS_CD=#gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+		]]>
+	</update>
+	
+	<delete id="gamAssetCodeDao.deleteAssetCode_S">
+		<![CDATA[
+			DELETE FROM GIS_ASSETS_CD 
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND GIS_ASSETS_CD=#gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+
+		]]>
+	</delete>
+	
+	<select id="gamAssetDao.selectAssetCode_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				ASSETS_CD,
+				GIS_ASSETS_SUB_CD,
+				GIS_ASSETS_CD,
+				ASSETS_NM,
+				ASSETS_SE_CD,
+				MNG_DEPT_CD,
+				OPER_DEPT_CD,
+				LOCPLC,
+				LNM,
+				LNM_SUB,
+				PRT_AT_CODE,
+				PRPRTY_CD,
+				LOC_CD,
+				QUAY_CD,
+				AR,
+				USE_YN,
+				INVSTMNT_MTHD,
+				DRW_CREAT_YEAR,
+				DRW_LST_SEQ,
+				ACQAMT,
+				STNDRD,
+				BLDDATE,
+				BLD_DT,
+				RM,
+				GISCD
+			FROM GIS_ASSETS_CD 
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND GIS_ASSETS_CD=#gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+
+		]]>
+	</select>
+	
+	<select id="gamAssetCodeDao.selectAssetCodeList_D" parameterClass="hashMap" resultClass="egovMap">
+	       SELECT A.*
+	       FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						ASSETS_CD,
+				GIS_ASSETS_SUB_CD,
+				GIS_ASSETS_CD,
+				ASSETS_NM,
+				ASSETS_SE_CD,
+				MNG_DEPT_CD,
+				OPER_DEPT_CD,
+				LOCPLC,
+				LNM,
+				LNM_SUB,
+				PRT_AT_CODE,
+				PRPRTY_CD,
+				LOC_CD,
+				QUAY_CD,
+				AR,
+				USE_YN,
+				INVSTMNT_MTHD,
+				DRW_CREAT_YEAR,
+				DRW_LST_SEQ,
+				ACQAMT,
+				STNDRD,
+				BLDDATE,
+				BLD_DT,
+				RM,
+				GISCD
+					FROM GIS_ASSETS_CD
+					WHERE 1=1
+				<isNotNull prepend="AND" property="prtAtCode">
+					PRT_AT_CODE=#prtAtCode#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsCd">
+					GIS_ASSETS_CD=#gisAssetsCd#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsSubCd">
+					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+				</isNotNull>
+				ORDER BY PRT_AT_CODE, GIS_ASSETS_CD, GIS_ASSETS_SUB_CD
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamAssetCodeDao.selectAssetCodeListTotCnt_S" parameterClass="hashMap" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM GIS_ASSETS_CD
+				WHERE 1=1
+				<isNotNull prepend="AND" property="prtAtCode">
+					PRT_AT_CODE=#prtAtCode#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsCd">
+					GIS_ASSETS_CD=#gisAssetsCd#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsSubCd">
+					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+				</isNotNull>
+	</select>
+
+</sqlMap>

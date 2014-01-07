@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="gamAssetDao.insertSample_S">
+		<![CDATA[
+			INSERT INTO SAMPLE 
+				( ID
+				  , NAME
+				  , DESCRIPTION
+				  , USE_YN
+				  , REG_USER )
+			VALUES ( #id#
+				  , #name#
+				  , #description#
+				  , #useYn#
+				  , #regUser# )
+		]]>
+	</insert>
+	
+	<update id="gamAssetDao.updateSample_S">
+		<![CDATA[
+			UPDATE SAMPLE 
+			SET ID=#id#
+				, NAME=#name#
+				, DESCRIPTION=#description#
+				, USE_YN=#useYn#
+			WHERE ID=#id#
+		]]>
+	</update>
+	
+	<delete id="gamAssetDao.deleteSample_S">
+		<![CDATA[
+			DELETE FROM SAMPLE 
+			WHERE ID=#id#
+		]]>
+	</delete>
+	
+	<select id="gamAssetDao.selectSample_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				ID, NAME, DESCRIPTION, USE_YN, REG_USER
+			FROM SAMPLE 
+			WHERE ID=#id#
+		]]>
+	</select>
+	
+	<select id="gamAssetDao.selectGamAssetUseList_D" parameterClass="hashMap" resultClass="egovMap">
+	       SELECT A.*
+	       FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						PRT_AT_CODE, 
+						MNG_YEAR||'-'||MNG_NO||'-'||MNG_CNT MNG_CODE,
+						REQST_ENTRPS_CD,
+						REQST_DT,
+						REQST_SE_CD,
+						GR_AR,
+						GR_RNTFEE,
+						NTIC_MTH,
+						FRST_PRMISN_DT,
+						PRMISN_DT,
+						PRMISN_YN,
+						BLDDATE,
+						GR_USGPD_FROM,
+						GR_USGPD_TO,
+						DOC_NO,
+						RM,
+						CMT,
+						ETC,
+						REG_USR,
+						REGIST_DT,
+						UPD_USR,
+						UPDT_DT,
+						GR_RDCXPT_RNTFEE,
+						GISCD,
+						DEPT_SE_CD
+					FROM ASSETS_RENT
+					WHERE 1=1
+					<isNotNull prepend="AND" property="prtAtCode">
+						PRT_AT_CODE = #prtAtCode#
+					</isNotNull>
+					<isNotNull prepend="AND" property="reqstEntrpsCd">
+						REQST_ENTRPS_CD = #reqstEntrpsCd#
+					</isNotNull>
+					ORDER BY REGIST_DT DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamAssetDao.selectGamAssetUseListTotCnt_S" parameterClass="hashMap" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM ASSETS_RENT
+				WHERE 1=1
+				<isNotNull prepend="AND" property="prtAtCode">
+					PRT_AT_CODE = #prtAtCode#
+				</isNotNull>
+				<isNotNull prepend="AND" property="reqstEntrpsCd">
+					REQST_ENTRPS_CD = #reqstEntrpsCd#
+				</isNotNull>
+	</select>
+
+</sqlMap>

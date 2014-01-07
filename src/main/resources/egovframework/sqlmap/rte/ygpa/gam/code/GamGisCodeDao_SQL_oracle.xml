@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="gamGisCodeDao.insertGisCode_S">
+		<![CDATA[
+			INSERT INTO GIS_CD 
+				( GISCD
+				,GIS_TY
+				,GIS_DATA
+				,HREF
+ 				)
+			VALUES ( #giscd#,
+					#gisTy#,
+					#gisData#,
+					#href#
+ 				)
+		]]>
+	</insert>
+	
+	<update id="gamGisCodeDao.updateGisCode_S">
+		<![CDATA[
+			UPDATE GIS_CD 
+			SET 
+					GIS_TY=#gisTy#,
+					GIS_DATA=#gisData#,
+					HREF=#href#
+			WHERE 
+				GISCD=#giscd#
+		]]>
+	</update>
+	
+	<delete id="gamGisCodeDao.deleteGisCode_S">
+		<![CDATA[
+			DELETE FROM GIS_CD 
+			WHERE 				
+				GISCD=#giscd#
+		]]>
+	</delete>
+	
+	<select id="gamGisCodeDao.selectGisCode_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				GISCD
+				,GIS_TY
+				,GIS_DATA
+				,HREF
+			FROM GIS_CD 
+			WHERE 
+				GISCD=#giscd#
+		]]>
+	</select>
+	
+	<select id="gamGisCodeDao.selectGisCodeList_D" parameterClass="hashMap" resultClass="egovMap">
+	       SELECT A.*
+	       FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						GISCD
+						,GIS_TY
+						,GIS_DATA
+						,HREF
+					FROM GIS_CD
+					WHERE 1=1
+					<isNotNull prepend="AND" property="GISCD">
+						PRT_AT_CODE=#giscd#
+					</isNotNull>
+					ORDER BY GISCD, GIS_TY
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamGisCodeDao.selectGisCodeListTotCnt_S" parameterClass="hashMap" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM GIS_CD
+					WHERE 1=1
+					<isNotNull prepend="AND" property="GISCD">
+						PRT_AT_CODE=#giscd#
+					</isNotNull>
+	</select>
+
+</sqlMap>

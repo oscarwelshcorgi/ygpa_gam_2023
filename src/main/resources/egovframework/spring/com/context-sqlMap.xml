@@ -30,7 +30,6 @@
 		<property name="configLocations">
 			<list>
 				<value>classpath:/egovframework/sqlmap/config/${Globals.DbType}/*.xml</value>
-				<value>classpath:/egovframework/sqlmap/config-ygpa/${Globals.DbType}/*.xml</value>
 			</list>
 		</property>
 
