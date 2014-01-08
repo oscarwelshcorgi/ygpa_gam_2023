@@ -180,9 +180,28 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
 		break;
-	case 'addAssetCd':
+	case 'addAssetGisCd':	// gis 자산 추가
+		var row = this.$('#erpAssetCodeList').selectedRows();
+		this.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+		if(row.length>0) {
+			this.$('#searchGisErpAssetCls').val(row['assetCls']);
+			this.$('#searchGisErpAssetNo').val(row['assetNo']);
+			this.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
+			// 해당하는 자산 목록을 불러온다/
+			var searchOpt=this.makeFormArgs('#searchForm');
+			//this.showAlert(searchOpt);
+		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+		}
+		else {
+			this.$('#searchGisErpAssetCls').val('');
+			this.$('#searchGisErpAssetNo').val('');
+			this.$('#searchGisErpAssetNoSeq').val('');
+			alert('신규 자산을 등록 합니다.');
+		}
 		break;
-	case 'removeAssetCd':
+	case 'addAssetGisCdItem':
+		break;
+	case 'removeAssetCdItem':
 		break;
 	case 'editAssetCd':
 		break;
@@ -327,7 +346,7 @@ var module_instance = new GamAssetCodeModule();
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addAssetGisCd">추가</button><button id="removeAssetGisCd">삭제</button><button id="loadMap">지도보기</button></div>
+				<div class="emdControlPanel"><button id="addAssetGisCdItem">추가</button><button id="removeAssetGisCd">삭제</button><button id="loadMap">지도보기</button></div>
 				<table>
 					<tr>
 						<th><span class="label">청코드</span></th>
