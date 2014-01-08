@@ -33,57 +33,74 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	
 	// 테이블 설정
 	this.$("#erpAssetCodeList").flexigrid({
+		module: this,
 		url: '<c:url value="/asset/selectErpAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
-					{display:'등록', name:'regYn', width:44, sortable:true, align:'left'},
-					{display:'자산구분', name:'assetCls', width:66, sortable:true, align:'left'},
-					{display:'자산번호', name:'assetNo', width:62, sortable:true, align:'right'},
-					{display:'자산번호순번', name:'assetNoSeq', width:128, sortable:true, align:'left'},
-					{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'right'},
-					{display:'품목', name:'itemCls', width:32, sortable:true, align:'center'},
-					{display:'품명', name:'itemName', width:200, sortable:true, align:'center'},
-					{display:'취득일자', name:'buyDate', width:64, sortable:true, align:'center'},
-					{display:'현재수량', name:'curQty', width:128, sortable:true, align:'right', displayFormat: 'number'},
-					{display:'취득금액', name:'deprctnAmt', width:128, sortable:true, align:'right', displayFormat: 'number'},
-					{display:'취득구분', name:'buyCls', width:40, sortable:true, align:'center'},
-					{display:'구매구분', name:'purCls', width:40, sortable:true, align:'center'},
-					{display:'구매용도', name:'purPurpose', width:200, sortable:true, align:'center'},
-					{display:'구입처', name:'purCust', width:200, sortable:true, align:'center'},
-					{display:'회계단위구분', name:'accUnitCls', width:16, sortable:true, align:'center'},
-					{display:'프로젝트코드', name:'projectCd', width:64, sortable:true, align:'center'},
-					{display:'장소코드', name:'placeCd', width:32, sortable:true, align:'center'},
-					{display:'부서코드', name:'deptCd', width:64, sortable:true, align:'center'},
-					{display:'사원번호', name:'empNo', width:80, sortable:true, align:'center'},
-					{display:'모델명', name:'modelName', width:240, sortable:true, align:'center'},
-					{display:'자산규격', name:'assetSize', width:200, sortable:true, align:'center'},
-					{display:'제품일련번호', name:'productSeqNo', width:200, sortable:true, align:'center'},
-					{display:'제조업체명', name:'makerName', width:200, sortable:true, align:'center'},
-					{display:'계정코드', name:'accntCd', width:64, sortable:true, align:'center'},
-					{display:'상각구분', name:'deprctnCls', width:8, sortable:true, align:'center'},
-					{display:'자산내용년수', name:'assetFixTerm', width:128, sortable:true, align:'center'},
-					{display:'변동구분', name:'changeCls', width:8, sortable:true, align:'center'},
-					{display:'변동일자', name:'changeDate', width:64, sortable:true, align:'center'},
-					{display:'변동금액', name:'changeAmt', width:128, sortable:true, align:'center'},
-					{display:'사진이미지', name:'picImage', width:0, sortable:true, align:'center'},
-					{display:'입력자코드', name:'inputEmpNo', width:80, sortable:true, align:'center'},
-					{display:'입력일자', name:'inputDate', width:128, sortable:true, align:'center'},
-					{display:'수정자코드', name:'updateEmpNo', width:80, sortable:true, align:'center'},
-					{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
+			{display:'등록', name:'regYn', width:44, sortable:true, align:'left'},
+			{display:'자산구분', name:'assetCls', width:66, sortable:true, align:'left'},
+			{display:'자산번호', name:'assetNo', width:62, sortable:true, align:'right'},
+			{display:'자산번호순번', name:'assetNoSeq', width:128, sortable:true, align:'left'},
+			{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'right'},
+			{display:'품목', name:'itemCls', width:32, sortable:true, align:'center'},
+			{display:'품명', name:'itemName', width:200, sortable:true, align:'center'},
+			{display:'취득일자', name:'buyDate', width:64, sortable:true, align:'center'},
+			{display:'현재수량', name:'curQty', width:128, sortable:true, align:'right', displayFormat: 'number'},
+			{display:'취득금액', name:'deprctnAmt', width:128, sortable:true, align:'right', displayFormat: 'number'},
+			{display:'취득구분', name:'buyCls', width:40, sortable:true, align:'center'},
+			{display:'구매구분', name:'purCls', width:40, sortable:true, align:'center'},
+			{display:'구매용도', name:'purPurpose', width:200, sortable:true, align:'center'},
+			{display:'구입처', name:'purCust', width:200, sortable:true, align:'center'},
+			{display:'회계단위구분', name:'accUnitCls', width:16, sortable:true, align:'center'},
+			{display:'프로젝트코드', name:'projectCd', width:64, sortable:true, align:'center'},
+			{display:'장소코드', name:'placeCd', width:32, sortable:true, align:'center'},
+			{display:'부서코드', name:'deptCd', width:64, sortable:true, align:'center'},
+			{display:'사원번호', name:'empNo', width:80, sortable:true, align:'center'},
+			{display:'모델명', name:'modelName', width:240, sortable:true, align:'center'},
+			{display:'자산규격', name:'assetSize', width:200, sortable:true, align:'center'},
+			{display:'제품일련번호', name:'productSeqNo', width:200, sortable:true, align:'center'},
+			{display:'제조업체명', name:'makerName', width:200, sortable:true, align:'center'},
+			{display:'계정코드', name:'accntCd', width:64, sortable:true, align:'center'},
+			{display:'상각구분', name:'deprctnCls', width:8, sortable:true, align:'center'},
+			{display:'자산내용년수', name:'assetFixTerm', width:128, sortable:true, align:'center'},
+			{display:'변동구분', name:'changeCls', width:8, sortable:true, align:'center'},
+			{display:'변동일자', name:'changeDate', width:64, sortable:true, align:'center'},
+			{display:'변동금액', name:'changeAmt', width:128, sortable:true, align:'center'},
+			{display:'사진이미지', name:'picImage', width:0, sortable:true, align:'center'},
+			{display:'입력자코드', name:'inputEmpNo', width:80, sortable:true, align:'center'},
+			{display:'입력일자', name:'inputDate', width:128, sortable:true, align:'center'},
+			{display:'수정자코드', name:'updateEmpNo', width:80, sortable:true, align:'center'},
+			{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
 			],
 		usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300',
-		onDoubleClick: function (row, grid, param) {		// row : 선택행, grid : 그리드 객체, param : 그리드 옵션 
-			sel = grid.selectedRows();
-			throw 0;
-		}
+		height: '300'
+	});
+	
+	this.$("#erpAssetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+		module.$('#searchGisErpAssetCls').val(row['assetCls']);
+		module.$('#searchGisErpAssetNo').val(row['assetNo']);
+		module.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
+		// 해당하는 자산 목록을 불러온다/
+		var searchOpt=module.makeFormArgs('#searchForm');
+		//this.showAlert(searchOpt);
+	 	module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	});
+	
+	this.$("#erpAssetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
+		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+	});
+	
+	this.$("#erpAssetCodeList").on('onItemUnSelected', function(event, module, row, grid, param) {
+		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is unselected');
 	});
 	
 	this.$("#assetCodeList").flexigrid({
-		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
+		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
 			{display:'항코드', name:'GIS_ASSETS_PRT_AT_CODE', width:24, sortable:true, align:'center'},
@@ -110,7 +127,6 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'구분 코드', name:'GIS_ASSETS_SE_CD', width:80, sortable:true, align:'center'},
 			{display:'재산 구분 코드', name:'GIS_ASSETS_PRPRTY_SE_CD', width:80, sortable:true, align:'center'},
 			{display:'출자 방식', name:'GIS_ASSETS_INVSTMNT_MTHD', width:80, sortable:true, align:'center'},
-			{display:'GIS 코드', name:'GIS_ASSETS_GIS_CD', width:192, sortable:true, align:'center'},
 			{display:'실제 임대 면적', name:'GIS_ASSETS_REAL_RENT_AR', width:64, sortable:true, align:'center'},
 			{display:'도면 목록 등록 년도', name:'DRW_LST_REGIST_YEAR', width:32, sortable:true, align:'center'},
 			{display:'도면 목록 순번', name:'DRW_LST_SEQ', width:32, sortable:true, align:'center'},
@@ -149,6 +165,8 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 // 사용자 설정 함수 추가
 // 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
 GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
+	//this.getSelect(msg);	
+	this.$('#prtCode').val(msg);
 };
 
 GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
@@ -162,9 +180,6 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
 		break;
-	case 'addAssetGisCd': 
-		alert('선택한 코드를 바탕으로 자산코드를 등록합니다.');
-		break;
 	case 'addAssetCd':
 		break;
 	case 'removeAssetCd':
@@ -172,7 +187,6 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'editAssetCd':
 		break;
 	}
-	throw 0;
 };
 
 GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -189,8 +203,13 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	}
 };
 
+GamAssetCodeModule.prototype.onSubmit = function() {
+	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
+	this.loadData();
+};
+
 GamAssetCodeModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#searchForm');
+	var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	//this.showAlert(searchOpt);
  	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
 //	this.$('#assetList').flexOptions(searchOpt).flexReload();
@@ -262,10 +281,8 @@ var module_instance = new GamAssetCodeModule();
 							<tr>
 								<th>청코드</th>
 								<td><input id="prtAtCode" type="text" size="3"></td>
-								<th>취득일자</th>
-								<td><input id="acqDateFrom" type="text" class="emdcal"
-									size="8"> ~ <input id="acqDateTo" type="text"
-									class="emdcal" size="8"></td>
+								<th>ERP 자산코드</th>
+								<td><input id="searchGisErpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" type="text" size="2"></td>
 								<th>자산코드</th>
 								<td><input id="gisAssetCode" type="text" size="6">-<input
 									id="gisAssetSubCode" type="text" size="6"><button id="popupFcltyCd" class="popupButton">시설조회</button></td>
@@ -296,7 +313,7 @@ var module_instance = new GamAssetCodeModule();
 	</div>
 
 	<div class="emdPanel">
-		<div class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
+		<div id="assetManageTab" class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">ERP자산정보</a></li>
 				<li><a href="#tabs2" class="emdTab">GIS자산목록</a></li>
