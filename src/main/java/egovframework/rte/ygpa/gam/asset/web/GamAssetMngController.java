@@ -121,12 +121,11 @@ public class GamAssetMngController {
     	totalCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
     	
     	List gamAssetList = erpAssetCdService.selectErpAssetCdList(searchVO);
-
+    	
     	map.put("resultCode", 0);	// return ok
-    	map.put("firstIndex", searchVO.getFirstIndex());
-    	map.put("lastIndex", searchVO.getLastIndex());
+    	map.put("totalCount", totalCnt);
     	map.put("resultList", gamAssetList);
-    	map.put("searchVO", searchVO);
+    	map.put("searchOption", searchVO);
 
     	return map;
     }
