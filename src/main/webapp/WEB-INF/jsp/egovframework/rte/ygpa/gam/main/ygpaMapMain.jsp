@@ -8,14 +8,14 @@
   * @Class Name : ygpaMapMain.jsp
   * @Description : 맵 조회 화면 (Prototype)
   * @Modification Information
-  * 
+  *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2013.10.24            최초 생성
   *
   * author 장은성
   * since 2013.10.24
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -25,7 +25,7 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (Prototype)</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    
+
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/emd_desktop.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_desktop.css'/>" />
@@ -36,7 +36,7 @@
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
-    
+
     <style>
 /*       html, body, #map-canvas {
         height: 100%;
@@ -45,7 +45,7 @@
       }
  */    </style>
     <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ko"></script>
-    
+
 	<script src="<c:url value='/js/OpenLayers.js'/>"></script>
 	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
 	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
@@ -180,8 +180,8 @@
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
 							data-url="<c:url value='/prt_fclty/gamMarineCenterRentCmpyStsReport.do'/>">배후단지납부현황관리</a>
 							</li>
-							
-							</ul> 
+
+							</ul>
 						</li>
 						<li><a href="#"><b>공컨장치장</b></a>
 							<ul class="submenu">
@@ -198,8 +198,8 @@
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
 							data-url="<c:url value='/prt_fclty/gamCmmnCntRentNticMngt.do'/>">공컨장치장납부현황관리</a>
 							</li>
-							
-							</ul> 
+
+							</ul>
 						</li>
 						<li><a href="#"><b>사옥관리</b></a>
 							<ul class="submenu">
@@ -216,15 +216,15 @@
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
 							data-url="<c:url value='/prt_fclty/gamMarineCenteRentNticMngt.do'/>">배후단지마린센터납부현황관리납부현황관리</a>
 							</li>
-							
+
 							<li>
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
 							data-url="<c:url value='/prt_fclty/gamMarineCenterMonthStsReport.do'/>">마린센터월별사용료현황조회</a>
 							</li>
-							
-							</ul> 
+
+							</ul>
 						</li>
-					</ul>	
+					</ul>
 					</li>
 				<li>
         <a class="menu_trigger" href="#">포트미스 연계</a>
@@ -324,8 +324,8 @@
 							</li>
         </ul>
       </li>
-      
-      
+
+
 		<!-- 공통기능 메뉴 -->
 		<li>
 			<a class="menu_trigger" href="#">공통기능</a>
@@ -350,15 +350,22 @@
 			</ul>
 		</li>
 
-
-    </ul>
+				<li><a class="menu_trigger" href="#">샘플</a>
+					<ul class="menu">
+						<li><a href="#"><b>자산정보 관리</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule"
+									data-prgid="PRG_0001"
+									data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
+							</ul></li>
+					</ul>
   </div>
 	<div class="abs" id="bar_bottom">
 	    <a class="float_left" href="#" id="show_desktop" title="Show Desktop">
 	    	지도
 	      <!-- img src="<c:url value='/assets/images/icons/icon_22_desktop.png'/>"/-->
 	    </a>
-	  
+
         <ul id="dock">
         </ul>
     </div>
