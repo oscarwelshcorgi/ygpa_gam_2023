@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,7 +111,7 @@ public class GamProgListMngController {
      */
     @RequestMapping(value="/cmmn/gamInsertProgramListRegist.do")
     public @ResponseBody Map insertProgrmList(
-    		Map commandMap,
+    		@RequestParam("cmd") String cmd,
     		@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,
 			BindingResult bindingResult)
             throws Exception {
@@ -124,8 +125,7 @@ public class GamProgListMngController {
         	return map;
     	}
 
-        String sCmd = commandMap.get("cmd") == null ? "" : (String)commandMap.get("cmd");
-        if(sCmd.equals("insert")) {
+        if("insert".equals(cmd)) {
 	        beanValidator.validate(progrmManageVO, bindingResult);
 			if (bindingResult.hasErrors()){
 				map.put("resultCode", 1);			// return error
