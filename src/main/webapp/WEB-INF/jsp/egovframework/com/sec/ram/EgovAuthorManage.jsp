@@ -198,7 +198,7 @@ function press() {
   </th>
  </tr>
 </table>
-<table width="100%" cellpadding="8" class="table-line" summary="권한관리에  관한 테이블입니다.권한ID,권한 명,설명, 등록일자, 롤 정보의 내용을 담고 있습니다.">
+<table width="100%" cellpadding="8" class="table-line" summary="권한관리에 관한 테이블입니다.권한ID,권한 명,설명, 등록일자 정보의 내용을 담고 있습니다.">
  <thead>
   <tr>
     <th class="title" width="3%" nowrap="nowrap"><input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="전체선택체크박스"></th>
