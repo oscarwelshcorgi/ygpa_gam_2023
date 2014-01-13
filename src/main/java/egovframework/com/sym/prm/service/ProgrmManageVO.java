@@ -1,6 +1,6 @@
 package egovframework.com.sym.prm.service;
 
-/** 
+/**
  * 프로그램목록 처리를 위한 VO 클래스르를 정의한다
  * @author 개발환경 개발팀 이용
  * @since 2009.06.01
@@ -9,7 +9,7 @@ package egovframework.com.sym.prm.service;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.03.20  이  용          최초 생성
@@ -27,7 +27,7 @@ public class ProgrmManageVO{
 	private String progrmKoreanNm;
 	/** URL */
 	private String url;
-	/** 프로그램설명	 */	
+	/** 프로그램설명	 */
 	private String progrmDc;
 
 	/**
@@ -100,5 +100,5 @@ public class ProgrmManageVO{
 	public void setProgrmDc(String progrmDc) {
 		this.progrmDc = progrmDc;
 	}
-  
+
 }

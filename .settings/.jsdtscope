@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="target/m2e-wtp/web-resources"/>
 	<classpathentry excluding="**" kind="src" path="src/main/webapp/miplatform"/>
-	<classpathentry excluding="miplatform/" kind="src" path="src/main/webapp"/>
+	<classpathentry excluding="js/|miplatform/" kind="src" path="src/main/webapp"/>
 	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.WebProject">
 		<attributes>
