@@ -324,19 +324,33 @@
 							</li>
         </ul>
       </li>
-      <li>
-        <a class="menu_trigger" href="#">공통기능</a>
-        <ul class="menu">
-          <li>
-            <a href="#"><b>자료 연계</b></a>
-            <ul class="submenu">
-            	<li>
-		            <a href="#" data-role="LoadModule" data-prgid="PRG_0019" data-url="<c:url value='/cmmn/itgrn/gamNticPayList.do'/>">납부현황목록조회</a>
-            	</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
+      
+      
+		<!-- 공통기능 메뉴 -->
+		<li>
+			<a class="menu_trigger" href="#">공통기능</a>
+			<ul class="menu">
+				<li>
+					<a href="#"><b>자료 연계</b></a>
+					<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-prgid="PRG_0019" data-url="<c:url value='/cmmn/itgrn/gamNticPayList.do'/>">납부현황목록조회</a></li>
+					</ul>
+				</li>
+				<li><a href="#"><b>권한 관리</b></a>
+					<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamUserMng.do'/>">사용자관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamProgListMng.do'/>">프로그램 목록 관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamMenuMng.do'/>">메뉴 관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamMenuMngCreat.do'/>">메뉴 생성 관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorMng.do'/>">권한 관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+
+
     </ul>
   </div>
 	<div class="abs" id="bar_bottom">
@@ -352,7 +366,6 @@
     	<a class="button" href="#" data-role="popup-searchAddr">주소 검색</a>
     </div>
 	</div>	<!-- div wrapper -->
-
   </body>
 </html>
 
