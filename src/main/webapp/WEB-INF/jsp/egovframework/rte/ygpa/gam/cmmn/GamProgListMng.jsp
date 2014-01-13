@@ -84,6 +84,10 @@ GamProgListMngModule.prototype.loadComplete = function() {
 			this.$("#programListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 			break;
 
+		case 'canclProgram':
+			this.$(":input").val('');
+			this.$("#cmd").val('insert');
+			break;
 		case 'removeItem':
 			throw 0;
 			var rows = this.$('#progListMngList').selectedRows();
@@ -103,14 +107,26 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		// 저장
 		case 'btnSaveItem':
 			var inputVO=this.makeFormArgs('#progrmManageVO');
-		 	this.doAction('<c:url value="/cmmn/gamProgramListDetailSelectUpdt.do" />', inputVO, function(result) {
-		 		if(result.resultCode=='0') {
-		 			alert('저장되었습니다.');
-		 		}
-		 		else {
-		 			alert(result.resultMsg);
-		 		}
-		 	});
+			if(this.$("#cmd").val()=='insert') {
+			 	this.doAction('<c:url value="/cmmn/gamInsertProgramListRegist.do" />', inputVO, function(result) {
+			 		if(result.resultCode=='0') {
+			 			alert('저장되었습니다.');
+			 		}
+			 		else {
+			 			alert(result.resultMsg);
+			 		}
+			 	});
+			}
+			else {
+			 	this.doAction('<c:url value="/cmmn/gamProgramListDetailSelectUpdt.do" />', inputVO, function(result) {
+			 		if(result.resultCode=='0') {
+			 			alert('저장되었습니다.');
+			 		}
+			 		else {
+			 			alert(result.resultMsg);
+			 		}
+			 	});
+			}
 			break;
 	}
 };
