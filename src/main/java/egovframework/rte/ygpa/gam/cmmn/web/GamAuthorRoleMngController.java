@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.sec.ram.service.AuthorRoleManage;
 import egovframework.com.sec.ram.service.AuthorRoleManageVO;
 import egovframework.com.sec.ram.service.EgovAuthorRoleManageService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -69,4 +71,41 @@ public class GamAuthorRoleMngController {
 
     	return map;
 	}
+	
+	
+	/**
+	 * 권한정보에 롤을 할당하여 데이터베이스에 등록
+	 * @param authorCode String
+	 * @param roleCodes String
+	 * @param regYns String
+	 * @param authorRoleManage AuthorRoleManage
+	 * @return String
+	 * @exception Exception
+	 */
+	/*
+	@RequestMapping(value="/sec/ram/EgovAuthorRoleInsert.do")
+	public String insertAuthorRole(@RequestParam("authorCode") String authorCode,@RequestParam("roleCodes") String roleCodes,
+			                       @RequestParam("regYns") String regYns,@ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage,
+			                         SessionStatus status) throws Exception {
+
+    	String [] strRoleCodes = roleCodes.split(";");
+    	String [] strRegYns = regYns.split(";");
+    	
+    	authorRoleManage.setRoleCode(authorCode);
+    	
+    	for(int i=0; i<strRoleCodes.length;i++) {
+    		authorRoleManage.setRoleCode(strRoleCodes[i]);
+    		authorRoleManage.setRegYn(strRegYns[i]);
+    		if(strRegYns[i].equals("Y")){
+    			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);//2011.09.07
+    			egovAuthorRoleManageService.insertAuthorRole(authorRoleManage);
+    		}else {
+    			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);
+    		}
+    	}
+
+        status.setComplete();
+        model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));		
+		return "forward:/sec/ram/EgovAuthorRoleList.do";
+	}*/
 }

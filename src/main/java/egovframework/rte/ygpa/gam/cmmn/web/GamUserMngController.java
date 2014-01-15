@@ -52,17 +52,15 @@ public class GamUserMngController {
 	
 	
 	/**
-     * 사용자목록을 조회한다. (pageing)
-     * @param userSearchVO 검색조건정보
-     * @param map 화면모델
-     * @return /cmmn/selectUserMngList
-     * @throws Exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	 * 사용자목록을 조회한다. (pageing)
+	 * @param userSearchVO
+	 * @return map
+	 * @throws Exception
+	 */
     @RequestMapping(value="/cmmn/gamUserManage.do")
-    @ResponseBody Map selectUserMngList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO) throws Exception {
+    @ResponseBody Map<String, Object> selectUserMngList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO) throws Exception {
         
-    	Map map = new HashMap();
+    	Map<String, Object> map = new HashMap<String, Object>();
     	
     	/** EgovPropertyService */
         userSearchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -79,7 +77,7 @@ public class GamUserMngController {
         userSearchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
         /** List Data */
-        List userList = userManageService.selectUserList(userSearchVO);
+        List<UserDefaultVO> userList = userManageService.selectUserList(userSearchVO);
         int totCnt = userManageService.selectUserListTotCnt(userSearchVO);
         paginationInfo.setTotalRecordCount(totCnt);
 
@@ -123,9 +121,9 @@ public class GamUserMngController {
      * @throws Exception
      */
     @RequestMapping("/cmmn/gamUserInsert.do")
-    @ResponseBody Map insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
+    @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
 
-    	Map map = new HashMap();
+    	Map<String, Object> map = new HashMap<String, Object>();
     			
         //beanValidator.validate(userManageVO, bindingResult);
     	if (bindingResult.hasErrors()){
