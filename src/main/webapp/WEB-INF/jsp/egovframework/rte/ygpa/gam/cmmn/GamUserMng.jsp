@@ -8,14 +8,14 @@
   * @Class Name : GamUserMng.jsp
   * @Description : 사용자관리
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.09  권옥경          최초 생성
   *
   * author 권옥경
   * since 2014.01.09
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,10 +29,10 @@ GamUserMngListModule.prototype = new EmdModule();
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamUserMngListModule.prototype.loadComplete = function() {
-	
+
 	// 테이블 설정
 	this.$("#userMngList").flexigrid({
-		
+		module: this,
 		url: '<c:url value="/cmmn/gamUserManage.do" />',
 		dataType: 'json',
 		colModel : [
@@ -51,15 +51,39 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: '300'
 	});
+	
+	this.$("#userMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
+
+		if(row!=null) {
+			module.$('#cmd').val('modify');	 							// 더블클릭한 아이템을 수정한다
+			/*module.$('#menuNo').val(row['menuNo']);					// 메뉴No
+			module.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
+			module.$('#menuNm').val(row['menuNm']);						// 메뉴명
+			module.$('#upperMenuId').val(row['upperMenuId']);			// 상위메뉴No					
+			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명				
+			module.$('#relateImageNm').val(row['relateImageNm']);		// 관련이미지명
+			module.$('#relateImagePath').val(row['relateImagePath']);	// 관련이미지경로
+			module.$('#menuDc').val(row['menuDc']);						// 메뉴설명
+			*/
+			
+			module.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
+		 		alert(result);
+		 		console.log("result : "+result);
+				/*if(result.resultCode == 0){
+		 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
+		 			this.$("#menuManageVO :input").val("");
+		 		}
+		 		alert(result.resultMsg);
+		 		*/
+		 	});
+			
+			throw 0;
+		}
+	});
 };
-/*
-// 사용자 설정 함수 추가
-// 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
-GamUserMngListModule.prototype.showModuleAlert = function(msg) {
-	//this.getSelect(msg);	
-	this.$('#prtCode').val(msg);
-}
-*/
+
 
 /**
  * 정의 된 버튼 클릭 시
@@ -86,19 +110,45 @@ GamUserMngListModule.prototype.showModuleAlert = function(msg) {
 			break;
 	}
 };
-/*
-GamUserMngListModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-}
 
-GamUserMngListModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#searchForm');
-	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-//	this.$('#assetList').flexOptions(searchOpt).flexReload();
-}
-*/
+
+/**
+ * 탭 변경시 실행 이벤트
+ */
+ GamUserMngListModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	switch(newTabId) {
+	case 'tabs1':
+		break;
+	case 'tabs2':
+		var row = this.$('#userMngList').selectedRows();
+		if(row.length == 0){
+			this.$('#cmd').val('insert');
+		}else{
+			this.$('#cmd').val('modify');
+			
+			this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
+		 		alert(result);
+		 		console.log("result : "+result);
+				/*if(result.resultCode == 0){
+		 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
+		 			this.$("#menuManageVO :input").val("");
+		 		}
+		 		alert(result.resultMsg);
+		 		*/
+		 	});
+			/*this.$('#menuNo').val(row['menuNo']);						// 메뉴No
+			this.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
+			this.$('#menuNm').val(row['menuNm']);						// 메뉴명
+			this.$('#upperMenuId').val(row['upperMenuId']);				// 상위메뉴No					
+			this.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명				
+			this.$('#relateImageNm').val(row['relateImageNm']);			// 관련이미지명
+			this.$('#relateImagePath').val(row['relateImagePath']);		// 관련이미지경로
+			this.$('#menuDc').val(row['menuDc']);						// 메뉴설명
+			*/
+		}
+		break;
+	}
+};
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamUserMngListModule();
 </script>
@@ -145,9 +195,57 @@ var module_instance = new GamUserMngListModule();
 	</div>
 
 	<div class="emdPanel">
-		<div class="emdTabPanel">
+		<div id="userMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+		<ul>
+			<li><a href="#tabs1" class="emdTab">사용자목록</a></li>
+			<li><a href="#tabs2" class="emdTab">사용자상세</a></li>
+		</ul>
 			<div id="tabs1" class="emdTabPage">
 				<table id="userMngList" style="display:none"></table>
+			</div>
+			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+				<form id="userManageVO">
+					<input type="hidden" id="cmd"/>
+					<table class="tableForm">
+						<colgroup>
+							<col width="30%" />
+							<col />
+							<col width="30%" />
+							<col />
+						</colgroup>
+						<tr>
+							<th><span class="label">메뉴No</span></th>
+							<td><input type="text" size="25" id="menuNo"/></td>
+							<th><span class="label">메뉴순서</span></th>
+							<td><input type="text" size="25" id="menuOrdr"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">메뉴명</span></th>
+							<td><input type="text" size="25" id="menuNm"/></td>
+							<th><span class="label">상위메뉴No</span></th>
+							<td><input type="text" size="25" id="upperMenuId"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">파일명</span></th>
+							<td colspan="3"><input type="text" size="75" id="progrmFileNm"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">관련이미지명</span></th>
+							<td><input type="text" size="25" id="relateImageNm"/></td>
+							<th><span class="label">관련이미지경로</span></th>
+							<td><input type="text" size="25" id="relateImagePath"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">메뉴설명</span></th>
+							<td colspan="3"><textarea cols="76" rows="10" id="menuDc"></textarea></td>
+						</tr>
+					</table>
+				</form>
+				<div class="emdControlPanel">
+					<button id="listBtn">목록</button>
+					<button id="saveBtn">저장</button>
+					<button id="deleteBtn">삭제</button>
+				</div>
 			</div>
 		</div>
 	</div>

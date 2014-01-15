@@ -32,6 +32,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 
 	// 테이블 설정
 	this.$("#authorMngList").flexigrid({
+		module: this,
 		url: '<c:url value="/cmmn/gamAuthorList.do" />',
 		dataType: 'json',
 		colModel : [
@@ -46,6 +47,20 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		rp: 24,
 		showTableToggleBtn: false,
 		height: '300'
+	});
+	
+	this.$("#authorMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#authorMngListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+
+		if(row!=null) {
+			module.$('#cmd').val("modify");	 								// 더블클릭한 아이템을 수정한다
+			module.$('#authorCode').val(row['authorCode']);					// 권한 ID
+			module.$('#authorNm').val(row['authorNm']);						// 권한명
+			module.$('#authorDc').val(row['authorDc']);						// 설명
+			module.$('#authorCreatDe').val(row['authorCreatDe']);			// 등록일자
+			throw 0;
+		}
 	});
 };
 		
@@ -68,33 +83,79 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'searchBtn':
 			var searchOpt=this.makeFormArgs('#authorForm');
 		 	this.$('#authorMngList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		break;
 		
-		// 신규저장
-		case 'insertBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+			// 목록
+		case "listBtn":
+			this.$("#authorMngListTab").tabs("option", {active: 0}); 
+		break;
+		
+		// 추가
+		case "addBtn":
+			this.$("#authorMngListTab").tabs("option", {active: 1});
+			this.$("#authorManageVO :input").val("");
+			this.$("#cmd").val("insert");
+		break;
+			
+		// 저장
+		case "saveBtn":
+		 	var inputVO=this.makeFormArgs("#authorManageVO");
+			if(this.$("#cmd").val() == "insert") {
+			 	this.doAction('<c:url value="/cmmn/gamAuthorInsert.do" />', inputVO, function(result) {
+			 		if(result.resultCode == 0){
+			 			this.$("#authorMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#authorManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+			else {
+			 	this.doAction('<c:url value="/cmmn/gamAuthorUpdate.do" />', inputVO, function(result) {
+			 		if(result.resultCode == 0){
+			 			this.$("#authorMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#authorManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+		break;
 		
 		// 삭제
-		case 'deleteBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		case "deleteBtn":
+			if(confirm("삭제하시겠습니까?")){
+				var inputVO=this.makeFormArgs("#authorManageVO");
+			 	this.doAction('<c:url value="/cmmn/gamAuthorDelete.do" />', inputVO, function(result) {
+			 		if(result.resultCode == 0){
+			 			this.$("#authorMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#authorManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+		break;
 	}
 };
 
-GamAuthorMngModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-}
 
-GamAuthorMngModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#authorForm');
-	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-//	this.$('#assetList').flexOptions(searchOpt).flexReload();
-}
+GamAuthorMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	switch(newTabId) {
+	case 'tabs1':
+		break;
+	case 'tabs2':
+		var row = this.$('#authorMngList').selectedRows();
+		if(row.length==0) {
+			this.$('#cmd').val('insert');
+		}
+		else {
+			this.$('#cmd').val('modify');
+			this.$('#authorCode').val(row['authorCode']);					// 권한 ID
+			this.$('#authorNm').val(row['authorNm']);						// 권한명
+			this.$('#authorDc').val(row['authorDc']);						// 설명
+			this.$('#authorCreatDe').val(row['authorCreatDe']);				// 등록일자
+		}
+		break;
+	}
+};
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAuthorMngModule();
@@ -110,15 +171,14 @@ var module_instance = new GamAuthorMngModule();
 					<tbody>
 						<tr>
 							<th>권한 명</th>
-							<td><input id="authorText" type="text" size="3"></td>
+							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="${searchVO.searchKeyword }"  maxlength="60" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="emdTabPage">
 					<div class="emdControlPanel">
 						<button id="searchBtn">조회</button>
-						<button id="insertBtn">등록</button>
-						<button id="deleteBtn">삭제</button>
+						<button id="addBtn">추가</button>
 					</div>
 				</div>
 			</form>
@@ -126,9 +186,43 @@ var module_instance = new GamAuthorMngModule();
 	</div>
 
 	<div class="emdPanel">
-		<div class="emdTabPanel">
-			<div class="emdTabPage">
-				<table id="authorMngList" style="display:none"></table>
+		<div id="authorMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+			<ul>
+				<li><a href="#tabs1" class="emdTab">권한목록</a></li>
+				<li><a href="#tabs2" class="emdTab">권한상세</a></li>
+			</ul>
+			<div id="tabs1" class="emdTabPage">
+				<div class="emdTabPage">
+					<table id="authorMngList" style="display:none"></table>
+				</div>
+			</div>
+			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+				<form id="authorManageVO">
+					<input type="hidden" id="cmd"/>
+					<table class="tableForm">
+						<tr>
+							<th><span class="label">권한코드</span></th>
+							<td><input type="text" size="80" id="authorCode"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">권한명</span></th>
+							<td><input type="text" size="80" id="authorNm"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">설명</span></th>
+							<td><input type="text" size="80" id="authorDc"/></td>
+						</tr>
+						<tr>
+							<th><span class="label">등록일자</span></th>
+							<td><input type="text" size="80" id="authorCreatDe"/></td>
+						</tr>
+					</table>
+				</form>
+				<div class="emdControlPanel">
+					<button id="listBtn">목록</button>
+					<button id="saveBtn">저장</button>
+					<button id="deleteBtn">삭제</button>
+				</div>
 			</div>
 		</div>
 	</div>
