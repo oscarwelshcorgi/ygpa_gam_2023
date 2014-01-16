@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.assetRent">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamAssetRentVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO"/>
+	<typeAlias alias="gamAssetRentDetailVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO"/>
+	
+	<resultMap id="gamAssetRentSumMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
+        <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
+    </resultMap>
+    
+    <resultMap id="gamAssetRentMaxMngMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
+        <result property="maxMngNo" column="MAX_MNG_NO" columnIndex="1"/>
+    </resultMap>
+    
+	
+	<select id="gamAssetRentDao.selectAssetRentList_D" parameterClass="gamAssetRentVO" resultClass="egovMap">
+	       SELECT A.*
+	       FROM (
+			       SELECT  ROWNUM RNUM, S.*
+				     FROM (
+						   SELECT 
+							        A.PRT_AT_CODE
+							      , A.MNG_YEAR
+							      , A.MNG_NO
+							      , A.MNG_CNT
+							      , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
+							      , A.ENTRPSCD
+							      , A.DT
+							      , A.REQST_SE_CD
+							      , A.GR_AR
+							      , A.GR_FEE
+							      , A.NTIC_MTH
+							      , A.FRST_PRMISN_DT
+							      , A.PRMISN_DT
+							      , A.PRMISN_YN
+							      , A.GR_USAGE_PD_FROM
+							      , A.GR_USAGE_PD_TO
+							      , A.DOC_NO
+							      , A.RM
+							      , A.CMT
+							      , A.ETC
+							      , A.REG_USR
+							      , A.REGIST_DT
+							      , A.UPD_USR
+							      , A.UPDT_DT
+							      , A.GR_RDCXPT_FEE
+							      , A.GIS_CD
+							      , A.DEPTCD
+							 FROM ASSETS_RENT_F A
+							WHERE 1=1 
+							
+						     <isNotEmpty property="sPrtAtCode">
+							     AND A.PRT_AT_CODE = #sPrtAtCode#  
+							 </isNotEmpty>
+							 
+							 <isNotEmpty property="sReqstSeCd">
+                                 AND A.REQST_SE_CD = #sReqstSeCd#  
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sEntrpscd">
+                                 AND A.ENTRPSCD = #sEntrpscd#  
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sMngNo">
+                                 AND A.MNG_NO = #sMngNo#  
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sGrUsagePdFrom"> 
+                                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sGrUsagePdTo">
+                                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sGrAr">
+                                 AND A.GR_AR = #sGrAr#
+                             </isNotEmpty>
+							 
+							 ORDER BY REGIST_DT DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamAssetRentDao.selectAssetRentListTotCnt_S" parameterClass="gamAssetRentVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			  FROM ASSETS_RENT_F A
+			 WHERE 1=1
+			  
+			 <isNotEmpty property="sPrtAtCode">
+                 AND A.PRT_AT_CODE = #sPrtAtCode#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sReqstSeCd">
+                 AND A.REQST_SE_CD = #sReqstSeCd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sEntrpscd">
+                 AND A.ENTRPSCD = #sEntrpscd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngNo">
+                 AND A.MNG_NO = #sMngNo#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdFrom"> 
+                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdTo">
+                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrAr">
+                 AND A.GR_AR = #sGrAr#
+             </isNotEmpty>
+	</select>
+	
+	<select id="gamAssetRentDao.selectAssetRentSum_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentSumMap">
+	     SELECT 
+		         NVL(COUNT(*),0) SUM_CNT
+		       , NVL(SUM(GR_AR),0) SUM_GR_AR
+		       , NVL(SUM(GR_FEE),0) SUM_GR_FEE
+		  FROM ASSETS_RENT_F
+    	 WHERE 1=1
+              
+         <isNotEmpty property="sPrtAtCode">
+             AND A.PRT_AT_CODE = #sPrtAtCode#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sReqstSeCd">
+             AND A.REQST_SE_CD = #sReqstSeCd#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sEntrpscd">
+             AND A.ENTRPSCD = #sEntrpscd#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngNo">
+             AND A.MNG_NO = #sMngNo#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrUsagePdFrom"> 
+             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrUsagePdTo">
+             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrAr">
+             AND A.GR_AR = #sGrAr#
+         </isNotEmpty>
+	</select>
+	
+	<select id="gamAssetRentDao.selectAssetRentDetail_S" parameterClass="gamAssetRentVO" resultClass="egovMap">
+	      SELECT 
+                  A.PRT_AT_CODE
+                , A.MNG_YEAR
+                , A.MNG_NO
+                , A.MNG_CNT
+                , A.ENTRPSCD
+                , A.DT
+                , A.REQST_SE_CD
+                , A.GR_AR
+                , A.GR_FEE
+                , A.NTIC_MTH
+                , A.FRST_PRMISN_DT
+                , A.PRMISN_DT
+                , A.PRMISN_YN
+                , A.GR_USAGE_PD_FROM
+                , A.GR_USAGE_PD_TO
+                , A.DOC_NO
+                , A.RM
+                , A.CMT
+                , A.ETC
+                , A.REG_USR
+                , A.REGIST_DT
+                , A.UPD_USR
+                , A.UPDT_DT
+                , A.GR_RDCXPT_FEE
+                , A.GIS_CD
+                , A.DEPTCD
+           FROM ASSETS_RENT_F A
+          WHERE A.PRT_AT_CODE = #prtAtCode# 
+            AND A.MNG_YEAR    = #mngYear#    
+            AND A.MNG_NO      = #mngNo#   
+            AND A.MNG_CNT     = #mngCnt#  
+	</select>      
+	
+	<select id="gamAssetRentDao.selectAssetRentMaxNo_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentMaxMngMap">
+          SELECT 
+                  MAX(MNG_NO) MAX_MNG_NO
+           FROM ASSETS_RENT_F A
+          WHERE A.PRT_AT_CODE = #rPrtAtCode# 
+            AND A.MNG_YEAR    = #rMngYear#    
+            <!-- AND A.MNG_NO      = #rMngNo#  -->   
+            AND A.MNG_CNT     = #rMngCnt#  
+    </select>       
+	
+	<insert id="gamAssetRentDao.insertAssetRentFirst_S">     
+		INSERT INTO ASSETS_RENT_F (
+	                             PRT_AT_CODE
+	                           , MNG_YEAR
+	                           , MNG_NO
+	                           , MNG_CNT
+	                           )
+	                    VALUES (
+	                             #prtAtCode#
+	                           , #mngYear#
+	                           , #mngNo#
+	                           , #mngCnt#  
+	                           )
+    </insert>
+    
+    <insert id="gamAssetRentDao.insertAssetRentRenew_S">     
+        INSERT INTO ASSETS_RENT_F (
+									  PRT_AT_CODE
+									, MNG_YEAR
+									, MNG_NO
+									, MNG_CNT
+									, ENTRPSCD
+									, DT
+									, REQST_SE_CD
+									, GR_AR
+									, GR_FEE
+									, NTIC_MTH
+									, FRST_PRMISN_DT
+									, PRMISN_DT
+									, PRMISN_YN
+									, GR_USAGE_PD_FROM
+									, GR_USAGE_PD_TO
+									, DOC_NO
+									, RM
+									, CMT
+									, ETC
+									, REG_USR
+									, REGIST_DT
+									, UPD_USR
+									, UPDT_DT
+									, GR_RDCXPT_FEE
+									, GIS_CD
+									, DEPTCD
+                               )
+          SELECT   A.PRT_AT_CODE
+                 , TO_CHAR(SYSDATE,'YYYY')
+                 , MNG_NO
+                 , MNG_CNT + 1
+                 , ENTRPSCD
+                 , DT
+                 , REQST_SE_CD
+                 , GR_AR
+                 , GR_FEE
+                 , NTIC_MTH
+                 , FRST_PRMISN_DT
+                 , PRMISN_DT
+                 , PRMISN_YN
+                 , GR_USAGE_PD_FROM
+                 , GR_USAGE_PD_TO
+                 , DOC_NO
+                 , RM
+                 , CMT
+                 , ETC
+                 , REG_USR
+                 , REGIST_DT
+                 , UPD_USR
+                 , UPDT_DT
+                 , GR_RDCXPT_FEE
+                 , GIS_CD
+                 , DEPTCD
+            FROM ASSETS_RENT_F A
+           WHERE PRT_AT_CODE = #rPrtAtCode#
+             AND MNG_YEAR    = #rMngYear#
+             AND MNG_NO      = #rMngNo#
+             AND MNG_CNT     = #rMngCnt#
+    </insert>
+	
+	<select id="gamAssetRentDao.selectAssetRentDetailList_D" parameterClass="gamAssetRentDetailVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+						          A.ASSETS_USAGE_SEQ             
+						        , A.GIS_ASSETS_CD
+						        , A.GIS_ASSETS_SUB_CD
+						        , A.USAGE_AR
+						        , A.USAGE_PD_FROM
+						        , A.USAGE_PD_TO
+						        , A.USAGE_PURPS
+						        , A.USAGE_DTLS
+						        , A.USAGE_PRPOS_CD
+						        , A.EXEMPT_SE
+						        , A.EXEMPT_RSN_CD
+						        , A.EXEMPT_RSN
+						        , A.EXEMPT_PD_FROM
+						        , A.EXEMPT_PD_TO
+						        , A.COMPUT_DTLS
+						        , A.OLNLP
+						        , A.APPLC_TARIFF
+						        , A.APPLC_MTH
+						        , A.PACK_SE
+						        , A.ENTRPS_SE
+						        , A.FEE_CALC_SE
+						        , A.RDCXPT_FEE_CALC_SE
+						        , A.RDCXPT_FEE
+						        , A.FEE
+						        , A.TRMNAT_DT
+						        , A.TRMNAT_RSN
+						        , A.GIS_CD
+						        , A.REG_USR
+						        , A.REGIST_DT
+						        , A.UPD_USR
+						        , A.UPDT_DT
+						        , A.PRT_AT_CODE
+						        , A.GIS_ASSETS_PRT_AT_CODE
+						        , A.MNG_YEAR
+						        , A.MNG_NO
+						        , A.MNG_CNT
+						    FROM ASSETS_RENT_DETAIL_F A
+                             
+                             <dynamic prepend="WHERE">
+                                 <isNotNull prepend="AND" property="detailMngYear">
+                                    A.MNG_YEAR = #detailMngYear#  
+                                 </isNotNull>
+                             </dynamic>
+                             
+                             ORDER BY REGIST_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetRentDao.selectAssetRentDetailListTotCnt_S" parameterClass="gamAssetRentDetailVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_DETAIL_F A
+             
+             <dynamic prepend="WHERE">
+                 <isNotNull prepend="AND" property="detailMngYear">
+                    A.MNG_YEAR = #detailMngYear#  
+                 </isNotNull>
+             </dynamic>
+    </select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="gamAssetDao.insertSample_S">
+		<![CDATA[
+			INSERT INTO SAMPLE 
+				( ID
+				  , NAME
+				  , DESCRIPTION
+				  , USE_YN
+				  , REG_USER )
+			VALUES ( #id#
+				  , #name#
+				  , #description#
+				  , #useYn#
+				  , #regUser# )
+		]]>
+	</insert>
+	
+	<update id="gamAssetDao.updateSample_S">
+		<![CDATA[
+			UPDATE SAMPLE 
+			SET ID=#id#
+				, NAME=#name#
+				, DESCRIPTION=#description#
+				, USE_YN=#useYn#
+			WHERE ID=#id#
+		]]>
+	</update>
+	
+	<delete id="gamAssetDao.deleteSample_S">
+		<![CDATA[
+			DELETE FROM SAMPLE 
+			WHERE ID=#id#
+		]]>
+	</delete>
+	
+	<select id="gamAssetDao.selectSample_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				ID, NAME, DESCRIPTION, USE_YN, REG_USER
+			FROM SAMPLE 
+			WHERE ID=#id#
+		]]>
+	</select>
+	
+</sqlMap>
