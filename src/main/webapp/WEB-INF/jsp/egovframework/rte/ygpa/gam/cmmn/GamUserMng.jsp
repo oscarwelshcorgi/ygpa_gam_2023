@@ -51,7 +51,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: '300'
 	});
-	
+
 	this.$("#userMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
@@ -61,24 +61,26 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			/*module.$('#menuNo').val(row['menuNo']);					// 메뉴No
 			module.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
 			module.$('#menuNm').val(row['menuNm']);						// 메뉴명
-			module.$('#upperMenuId').val(row['upperMenuId']);			// 상위메뉴No					
-			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명				
+			module.$('#upperMenuId').val(row['upperMenuId']);			// 상위메뉴No
+			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명
 			module.$('#relateImageNm').val(row['relateImageNm']);		// 관련이미지명
 			module.$('#relateImagePath').val(row['relateImagePath']);	// 관련이미지경로
 			module.$('#menuDc').val(row['menuDc']);						// 메뉴설명
 			*/
-			
+			var inputVO = {
+					'userId': row['userId'];
+			};
 			module.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
 		 		alert(result);
 		 		console.log("result : "+result);
 				/*if(result.resultCode == 0){
-		 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
+		 			this.$("#menuMngListTab").tabs("option", {active: 0});
 		 			this.$("#menuManageVO :input").val("");
 		 		}
 		 		alert(result.resultMsg);
 		 		*/
 		 	});
-			
+
 			throw 0;
 		}
 	});
@@ -89,24 +91,24 @@ GamUserMngListModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
  GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case 'searchBtn':
 			var searchOpt=this.makeFormArgs('#userMngForm');
-		 	this.$('#userMngList').flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
 			break;
-		
+
 		// 신규저장
 		case 'insertBtn':
-			//location.href = "<c:url value='/cmmn/gamAuthorGrpMng.do'/>"; 
+			//location.href = "<c:url value='/cmmn/gamAuthorGrpMng.do'/>";
 			break;
-		
+
 		// 삭제
 		case 'deleteBtn':
 			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 			break;
 	}
 };
@@ -125,12 +127,12 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			this.$('#cmd').val('insert');
 		}else{
 			this.$('#cmd').val('modify');
-			
+
 			this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
 		 		alert(result);
 		 		console.log("result : "+result);
 				/*if(result.resultCode == 0){
-		 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
+		 			this.$("#menuMngListTab").tabs("option", {active: 0});
 		 			this.$("#menuManageVO :input").val("");
 		 		}
 		 		alert(result.resultMsg);
@@ -139,8 +141,8 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			/*this.$('#menuNo').val(row['menuNo']);						// 메뉴No
 			this.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
 			this.$('#menuNm').val(row['menuNm']);						// 메뉴명
-			this.$('#upperMenuId').val(row['upperMenuId']);				// 상위메뉴No					
-			this.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명				
+			this.$('#upperMenuId').val(row['upperMenuId']);				// 상위메뉴No
+			this.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명
 			this.$('#relateImageNm').val(row['relateImageNm']);			// 관련이미지명
 			this.$('#relateImagePath').val(row['relateImagePath']);		// 관련이미지경로
 			this.$('#menuDc').val(row['menuDc']);						// 메뉴설명

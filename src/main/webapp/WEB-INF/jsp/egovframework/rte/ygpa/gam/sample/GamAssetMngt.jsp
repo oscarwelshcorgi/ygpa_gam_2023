@@ -8,14 +8,14 @@
   * @Class Name : GamAssetMngt.jsp
   * @Description : 자산코드관리 테스트 (Prototype)
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2013.10.29  장은성          최초 생성
   *
   * author 장은성
   * since 2013.10.29
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -30,7 +30,7 @@ GamAssetCodeModule.prototype = new EmdModule(800, 600);
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetCodeModule.prototype.loadComplete = function() {
 	this.$('#prtAtCode').val('820');	// 기본 항코드 설정
-	
+
 	// 테이블 설정
 	this.$("#erpAssetCodeList").flexigrid({
 		module: this,
@@ -78,7 +78,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: '300'
 	});
-	
+
 	this.$("#erpAssetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
@@ -90,15 +90,15 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		//this.showAlert(searchOpt);
 	 	module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	});
-	
+
 	this.$("#erpAssetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
 		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
-	
+
 	this.$("#erpAssetCodeList").on('onItemUnSelected', function(event, module, row, grid, param) {
 		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is unselected');
 	});
-	
+
 	this.$("#assetCodeList").flexigrid({
 		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
 		dataType: 'json',
@@ -139,7 +139,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: '140'
 	});
-	
+
 	this.$("#assetCodePhotoList").flexigrid({
 		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
 		dataType: 'json',
@@ -161,11 +161,11 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		height: '120'
 	});
 };
-		
+
 // 사용자 설정 함수 추가
 // 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
 GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
-	//this.getSelect(msg);	
+	//this.getSelect(msg);
 	this.$('#prtCode').val(msg);
 };
 
@@ -173,12 +173,12 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'selectErpAssetCode':
 		var searchOpt=this.makeFormArgs('#searchErpAssetCode');
-	 	this.$('#erpAssetCodeList').flexOptions({params:searchOpt}).flexReload(); 
+	 	this.$('#erpAssetCodeList').flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 	case 'selectGisAssetCode':
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
+	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'addAssetGisCd':	// gis 자산 추가
 		var row = this.$('#erpAssetCodeList').selectedRows();
@@ -230,7 +230,7 @@ GamAssetCodeModule.prototype.onSubmit = function() {
 GamAssetCodeModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
+ 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 //	this.$('#assetList').flexOptions(searchOpt).flexReload();
 };
 

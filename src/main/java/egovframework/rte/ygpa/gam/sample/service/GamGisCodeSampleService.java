@@ -5,7 +5,7 @@ import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
-public interface GamGisCodeService {
+public interface GamGisCodeSampleService {
 
 	String insertGisCode(Map vo) throws Exception;
 

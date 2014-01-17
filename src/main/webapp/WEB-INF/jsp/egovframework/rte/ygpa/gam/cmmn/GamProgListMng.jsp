@@ -25,7 +25,7 @@
  */
 function GamProgListMngModule() {}
 
-GamProgListMngModule.prototype = new EmdModule();
+GamProgListMngModule.prototype = new EmdModule(810, 560);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamProgListMngModule.prototype.loadComplete = function() {
@@ -82,6 +82,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		// 신규저장
 		case 'addItem':
 			this.$("#programListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+			throw 0;
 			break;
 
 		case 'canclProgram':
@@ -89,13 +90,12 @@ GamProgListMngModule.prototype.loadComplete = function() {
 			this.$("#cmd").val('insert');
 			break;
 		case 'removeItem':
-			throw 0;
 			var rows = this.$('#progListMngList').selectedRows();
 			if(rows.length>=1) {
-				this.doAction('<c:url value="/cmmn/gamProgramListManageDelete.do" />', rows[0], function(result) {
+				this.doAction('<c:url value="/cmmn/gamProgramListManageDelete.do" />', rows[0], function(module, result) {
 			 		if(result.resultCode=='0') {
-						var searchOpt=this.makeFormArgs('#progListMngForm');
-					 	this.$('#progListMngList').flexOptions({params:searchOpt}).flexReload();
+						var searchOpt=module.makeFormArgs('#progListMngForm');
+						module.$('#progListMngList').flexOptions({params:searchOpt}).flexReload();
 			 			alert('삭제되었습니다.');
 			 		}
 			 		else {

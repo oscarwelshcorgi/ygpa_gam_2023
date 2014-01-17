@@ -27,14 +27,14 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdService;
-import egovframework.rte.ygpa.gam.sample.service.GamAssetService;
+import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
 /**
  * @author eunsungj
  *
  */
 @Controller
-public class GamAssetMngController {
+public class GamAssetMngSampleController {
 
     @Resource(name = "erpCmmnCdService")
     private ErpCmmnCdService erpCmmnCdService;
@@ -46,7 +46,7 @@ public class GamAssetMngController {
     private ErpAssetCdService erpAssetCdService;
 
     @Resource(name = "gamAssetService")
-    private GamAssetService gamAssetService;
+    private GamAssetSampleService gamAssetService;
 
     /** EgovPropertyService */
     @Resource(name = "propertiesService")

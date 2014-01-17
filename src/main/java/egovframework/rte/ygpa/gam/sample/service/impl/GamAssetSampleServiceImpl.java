@@ -7,13 +7,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import egovframework.rte.ygpa.gam.sample.service.GamAssetService;
+import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
 @Service("gamAssetService")
-public class GamAssetServiceImpl implements GamAssetService {
+public class GamAssetSampleServiceImpl implements GamAssetSampleService {
 	
     @Resource(name="gamAssetDao")
-    private GamAssetDao gamAssetDao;
+    private GamAssetSampleDao gamAssetDao;
 
 	@Override
 	public List selectGamAssetUseList(Map searchOpt) {

@@ -8,14 +8,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.sample.service.GamAssetCodeService;
-import egovframework.rte.ygpa.gam.sample.service.GamAssetService;
+import egovframework.rte.ygpa.gam.sample.service.GamAssetCodeSampleService;
+import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
 @Service("gamAssetCodeService")
-public class GamAssetCodeServiceImpl implements GamAssetCodeService {
+public class GamAssetCodeSampleServiceImpl implements GamAssetCodeSampleService {
 	
     @Resource(name="gamAssetCodeDao")
-    private GamAssetCodeDao gamAssetCodeDao;
+    private GamAssetCodeSampleDao gamAssetCodeDao;
 
 
 	@Override

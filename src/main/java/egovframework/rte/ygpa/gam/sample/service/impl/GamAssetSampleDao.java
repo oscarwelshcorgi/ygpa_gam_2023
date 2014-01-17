@@ -9,7 +9,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 @Repository("gamAssetDao")
-public class GamAssetDao extends EgovAbstractDAO {
+public class GamAssetSampleDao extends EgovAbstractDAO {
 	
 	public List selectGamAssetUseList(Map searchOpt) {
 		// TODO Auto-generated method stub

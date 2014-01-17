@@ -10,7 +10,7 @@ import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 @Repository("gamGisCodeDao")
-public class GamGisCodeDao extends EgovAbstractDAO {
+public class GamGisCodeSampleDao extends EgovAbstractDAO {
 	
     public String insertGisCode(Map vo) throws Exception {
         return (String)insert("gamGisCodeDAO.insertGisCode_S", vo);

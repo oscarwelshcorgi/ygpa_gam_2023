@@ -8,13 +8,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.sample.service.GamGisCodeService;
+import egovframework.rte.ygpa.gam.sample.service.GamGisCodeSampleService;
 
 @Service("gamGisCodeService")
-public class GamGisCodeServiceImpl implements GamGisCodeService {
+public class GamGisCodeSampleServiceImpl implements GamGisCodeSampleService {
 	
     @Resource(name="gamGisCodeDao")
-    private GamGisCodeDao gamGisCodeDao;
+    private GamGisCodeSampleDao gamGisCodeDao;
 
 
 	@Override

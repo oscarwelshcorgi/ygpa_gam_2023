@@ -186,9 +186,8 @@ public class GamProgListMngController {
      * @return 출력페이지정보 "forward:/sym/prm/EgovProgramListManageSelect.do"
      * @exception Exception
      */
-    @RequestMapping(value="/cmmn/gamProgramListManageDelete.do")
+    @RequestMapping(value="/cmmn/gamProgramListManageDelete.do", method=RequestMethod.POST)
     public @ResponseBody Map deleteProgrmList(
-    		@ModelAttribute("progrmManageVO")
     		ProgrmManageVO progrmManageVO)
             throws Exception {
     	Map map = new HashMap();

@@ -10,7 +10,7 @@ import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 @Repository("gamAssetCodeDao")
-public class GamAssetCodeDao extends EgovAbstractDAO {
+public class GamAssetCodeSampleDao extends EgovAbstractDAO {
 	
     public String insertAssetCode(Map vo) throws Exception {
         return (String)insert("gamAssetCodeDAO.insertAssetCode_S", vo);

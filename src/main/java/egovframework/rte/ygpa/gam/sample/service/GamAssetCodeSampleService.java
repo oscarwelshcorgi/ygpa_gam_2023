@@ -5,7 +5,7 @@ import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
-public interface GamAssetCodeService {
+public interface GamAssetCodeSampleService {
 
 	String insertAssetCode(Map vo) throws Exception;
 

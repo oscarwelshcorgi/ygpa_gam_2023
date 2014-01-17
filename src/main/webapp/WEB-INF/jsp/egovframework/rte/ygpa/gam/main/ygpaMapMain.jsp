@@ -357,7 +357,11 @@
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0001"
 									data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
-							</ul></li>
+								<li><a href="#" data-role="LoadModule"
+									data-prgid="PRG_0001"
+									data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
+							</ul>
+							</li>
 					</ul>
   </div>
 	<div class="abs" id="bar_bottom">
