@@ -357,6 +357,7 @@
 								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
 								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
 								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
 							</ul>
 							</li>
 					</ul>

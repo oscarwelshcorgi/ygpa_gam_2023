@@ -29,17 +29,26 @@ GamAuthorGrpMngModule.prototype = new EmdModule();
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorGrpMngModule.prototype.loadComplete = function() {
+	var dOption = [
+	               <c:forEach var="authorManage" items="${authorManageList}" varStatus="status">
+	               {
+	            	   value: '<c:out value="${authorManage.authorCode}"/>', name: '<c:out value="${authorManage.authorNm}"/>'
+	               } <c:if test="${!status.last}">,</c:if>
+	           </c:forEach>
+	               ];
+
 
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
+		module: this,
 		url: '<c:url value="/cmmn/gamAuthorGroupList.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'check', 		name:'check',		width:40, 	sortable:false,		align:'center'},
+					{display:'check', 		name:'check',		width:40, 	sortable:false,		align:'center', displayFormat:'checkbox'},
 					{display:'사용자 ID', 	name:'userId',		width:120, 	sortable:false,		align:'center'},
 					{display:'사용자 명', 	name:'userNm',		width:120, 	sortable:false,		align:'center'},
 					{display:'사용자 유형', 	name:'mberTyCode',	width:120, 	sortable:false,		align:'center'},
-					{display:'권한_select Box임', 		name:'authorCode',	width:100, 	sortable:false,		align:'center'},
+					{display:'권한', 		name:'authorCode',	width:200, 	sortable:false,		align:'center', displayFormat:'select', displayOption:dOption},
 					{display:'등록여부', 	name:'regYn',		width:80, 	sortable:false,		align:'center'}
 					],
 		usepager: true,
@@ -47,6 +56,16 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 		rp: 24,
 		showTableToggleBtn: false,
 		height: '300'
+	});
+
+	this.$("#authorGrpMngList").on("onCheckBoxChanged", function(event, module, row, grid, param) {
+//		var selectedValue = $(this).val();
+		throw 0;
+	});
+
+	this.$("#authorGrpMngList").on("onSelectChanged", function(event, module, row, grid, param) {
+		alert('row is clicked '+ row.authorCode);
+		throw 0;
 	});
 };
 
