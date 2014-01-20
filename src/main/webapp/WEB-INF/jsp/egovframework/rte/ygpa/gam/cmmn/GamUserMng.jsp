@@ -43,7 +43,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 					{display:'아이디', 		name:'userId',			width:100, 	sortable:false,		align:'center'},
 					{display:'사용자이름', 	name:'userNm',			width:80, 	sortable:false,		align:'center'},
 					{display:'사용자이메일', 	name:'emailAdres',		width:200, 	sortable:false,		align:'center'},
-					{display:'전화번호', 	name:'middleTelno',		width:100, 	sortable:false,		align:'center'},
+					{display:'전화번호', 	name:'allTelno',		width:100, 	sortable:false,		align:'center'},
 					{display:'등록일', 		name:'sbscrbDe',		width:80, 	sortable:false,		align:'center'},
 					{display:'가입상태',		name:'sttus',			width:120,	sortable:false,		align:'center'}
 					],
@@ -57,15 +57,39 @@ GamUserMngListModule.prototype.loadComplete = function() {
 	this.$("#userMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-
-		//module.$("#uniqId").val(row["uniqId"]);
-		//var inputVO = module.makeFormArgs("#seleteManageVO");
-		var inputVO = {uniqId: row["uniqId"]};
-		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', inputVO, function(module, result) {
-			module.$("#emplyrId").val(result.userManageVO.emplyrId);
-			module.$("#emplyrNm").val(result.userManageVO.emplyrNm);
-			//alert(result.userManageVO);
-			//alert(result.userManageVO);
+		
+		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', {uniqId: row["uniqId"]}, function(module, result) {
+		
+			module.$("#cmd").val("modify");
+			var zipSet = result.userManageVO.zip.substring(0,3) + "-" + result.userManageVO.zip.substring(3); 
+			
+			module.$("#uniqId").val(result.userManageVO.uniqId);													// 사용자 고유 ID
+			module.$("#emplyrId").val(result.userManageVO.emplyrId);												// 사용자 ID
+			module.$("#emplyrNm").val(result.userManageVO.emplyrNm);												// 사용자 이름
+			module.$("#password").val(result.userManageVO.password);												// 비밀번호
+			module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
+			module.$("#passwordHint").val(result.userManageVO.passwordHint).attr("selected","selected");			// 비밀번호 질문
+			module.$("#passwordCnsr").val(result.userManageVO.passwordCnsr);										// 비밀번호 답변
+			module.$("#emplNo").val(result.userManageVO.emplNo);													// 사번
+			module.$("#sexdstnCode").val(result.userManageVO.sexdstnCode).attr("selected","selected");				// 성별
+			module.$("#brth").val(result.userManageVO.brth);														// 생일
+			module.$("#areaNo").val(result.userManageVO.areaNo);													// 집전화 국번
+			module.$("#homemiddleTelno").val(result.userManageVO.homemiddleTelno);									// 집전화 중간번호
+			module.$("#homeendTelno").val(result.userManageVO.homeendTelno);										// 집전화 끝번호
+			module.$("#fxnum").val(result.userManageVO.fxnum);														// 팩스번호
+			module.$("#homeadres").val(result.userManageVO.homeadres);												// 자택주소
+			module.$("#detailAdres").val(result.userManageVO.detailAdres);											// 자택 상세주소
+			module.$("#zip_view").val(zipSet);																		// 자택 우편번호(display)
+			module.$("#zip").val(result.userManageVO.zip);															// 자택 우편번호(hidden)
+			module.$("#offmTelno").val(result.userManageVO.offmTelno);												// 사무실 전화번호
+			module.$("#moblphonNo").val(result.userManageVO.moblphonNo);											// 핸드폰 번호
+			module.$("#emailAdres").val(result.userManageVO.emailAdres);											// 이메일 주소
+			module.$("#ofcpsNm").val(result.userManageVO.ofcpsNm);													// 직위명
+			module.$("#groupId").val(result.userManageVO.groupId).attr("selected","selected");						// 그룹 ID
+			module.$("#orgnztId").val(result.userManageVO.orgnztId).attr("selected","selected");					// 조직 ID
+			module.$("#insttCode").val(result.userManageVO.insttCode).attr("selected","selected");					// 소속기관 코드
+			module.$("#emplyrSttusCode").val(result.userManageVO.emplyrSttusCode).attr("selected","selected");		// 사용자상태 코드
+			module.$("#subDn").val(result.userManageVO.subDn);														// 사용자 DN
 	 	});
 	});
 };
@@ -107,21 +131,22 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			var inputVO=this.makeFormArgs("#userManageVO");
+			this.$("#zip").val(this.$("#zip_view").val());
+			this.$("#zip").val(this.$("#zip_view").val().replace(/\-/g,""));
 			if(this.$("#cmd").val() == "insert") {
-				this.$("#zip").val(this.$("#zip_view").val());
-			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(result) {
+			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#userMngListTab").tabs("option", {active: 0});
-			 			this.$("#userManageVO :input").val("");
+			 			module.$("#userMngListTab").tabs("option", {active: 0});
+			 			module.$("#userManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
-			}
-			else {
-			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(result) {
+			}else{
+				alert("In");
+			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#userMngListTab").tabs("option", {active: 0});
-			 			this.$("#userManageVO :input").val("");
+			 			module.$("#userMngListTab").tabs("option", {active: 0});
+			 			module.$("#userManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -129,10 +154,16 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 		// 삭제
-		case 'deleteBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-			break;
+		case "deleteBtn":
+
+			this.doAction('<c:url value="/cmmn/gamUserDelete.do" />', {uniqId: this.$("#uniqId").val()}, function(module, result) {
+		 		if(result.resultCode == 0){
+		 			module.$("#userMngListTab").tabs("option", {active: 0});
+		 			module.$("#userManageVO :input").val("");
+		 		}
+		 		alert(result.resultMsg);
+		 	});
+		break;
 	}
 };
 
@@ -150,26 +181,6 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#cmd').val('insert');
 		}else{
 			this.$('#cmd').val('modify');
-
-			this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
-		 		alert(result);
-		 		console.log("result : "+result);
-				/*if(result.resultCode == 0){
-		 			this.$("#menuMngListTab").tabs("option", {active: 0});
-		 			this.$("#menuManageVO :input").val("");
-		 		}
-		 		alert(result.resultMsg);
-		 		*/
-		 	});
-			/*this.$('#menuNo').val(row['menuNo']);						// 메뉴No
-			this.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
-			this.$('#menuNm').val(row['menuNm']);						// 메뉴명
-			this.$('#upperMenuId').val(row['upperMenuId']);				// 상위메뉴No
-			this.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명
-			this.$('#relateImageNm').val(row['relateImageNm']);			// 관련이미지명
-			this.$('#relateImagePath').val(row['relateImagePath']);		// 관련이미지경로
-			this.$('#menuDc').val(row['menuDc']);						// 메뉴설명
-			*/
 		}
 		break;
 	}
@@ -179,9 +190,6 @@ var module_instance = new GamUserMngListModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
-<form id="seleteManageVO">
-<input type="hidden" id="uniqId" name="uniqId" />
-</form>
 <div class="window_main">
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
@@ -231,6 +239,7 @@ var module_instance = new GamUserMngListModule();
 				<form id="userManageVO">
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" name="zip" id="zip" />
+					<input type="hidden" name="uniqId" id="uniqId" />
 					<table class="searchPanel">
 			            <tr>
 			                <th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
@@ -429,8 +438,9 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 					</table>
 					<div class="emdControlPanel">
-						<button id="saveBtn">등록</button>
+						<button id="saveBtn">저장</button>
 						<button id="listBtn">목록</button>
+						<button id="deleteBtn">삭제</button>
 						<button id="cancelBtn">취소</button>
 					</div>
 				</form>
