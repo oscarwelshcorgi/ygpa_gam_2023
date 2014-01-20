@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
@@ -36,27 +37,37 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamUserManage.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'No', 			name:'rn',				width:40, 	sortable:false,		align:'center'},
-					{display:'항코드', 		name:'PRT_AT_CODE',		width:60, 	sortable:false,		align:'center'},
+					{display:'No', 			name:'rn',				width:30, 	sortable:false,		align:'center'},
+					{display:'사용자아이디',	name:'uniqId',			width:0, 	sortable:false,		align:'center'},
+					/*{display:'항코드', 		name:'PRT_AT_CODE',		width:60, 	sortable:false,		align:'center'},*/
 					{display:'아이디', 		name:'userId',			width:100, 	sortable:false,		align:'center'},
-					{display:'사용자이름', 	name:'userNm',			width:100, 	sortable:false,		align:'center'},
-					{display:'사용자이메일', 	name:'emailAdres',		width:160, 	sortable:false,		align:'center'},
-					{display:'전화번호', 	name:'middleTelno',		width:120, 	sortable:false,		align:'center'},
+					{display:'사용자이름', 	name:'userNm',			width:80, 	sortable:false,		align:'center'},
+					{display:'사용자이메일', 	name:'emailAdres',		width:200, 	sortable:false,		align:'center'},
+					{display:'전화번호', 	name:'middleTelno',		width:100, 	sortable:false,		align:'center'},
 					{display:'등록일', 		name:'sbscrbDe',		width:80, 	sortable:false,		align:'center'},
-					{display:'가입상태',		name:'sttus',			width:96,	sortable:false,		align:'center'}
+					{display:'가입상태',		name:'sttus',			width:120,	sortable:false,		align:'center'}
 					],
 		usepager: true,
 		useRp: true,
-		rp: 20,
+		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: '260'
 	});
 
 	this.$("#userMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
-		if(row!=null) {
+		var inputVO = module.makeFormArgs("#seleteManageVO");
+		module.$("#uniqId").val(row["uniqId"]);
+		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', inputVO, function(result) {
+
+			alert(result.userManageVO);
+			alert(result.userManageVO);
+	        
+	 	});
+	 	
+	 			if(row!=null) {
 			module.$('#cmd').val('modify');	 							// 더블클릭한 아이템을 수정한다
 			/*module.$('#menuNo').val(row['menuNo']);					// 메뉴No
 			module.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
@@ -90,7 +101,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
- GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
+GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
 
@@ -98,12 +109,51 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		case 'searchBtn':
 			var searchOpt=this.makeFormArgs('#userMngForm');
 		 	this.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
-			break;
+		break;
 
-		// 신규저장
-		case 'insertBtn':
-			//location.href = "<c:url value='/cmmn/gamAuthorGrpMng.do'/>";
-			break;
+		// 추가
+		case 'addBtn':
+			this.$("#userMngListTab").tabs("option", {active: 1});
+			this.$("#userManageVO :input").val("");
+			this.$("#cmd").val("insert");
+		break;
+
+		// 목록
+		case "listBtn":
+			this.$("#userMngListTab").tabs("option", {active: 0});
+			this.$("#userManageVO :input").val("");
+			this.$("#cmd").val("insert");
+		break;
+
+		// 취소
+		case "cancelBtn":
+			this.$("#userManageVO :input").val("");
+			this.$("#cmd").val("insert");
+		break;
+
+		// 저장
+		case "saveBtn":
+			var inputVO=this.makeFormArgs("#userManageVO");
+			if(this.$("#cmd").val() == "insert") {
+				this.$("#zip").val(this.$("#zip_view").val());
+			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(result) {
+			 		if(result.resultCode == 0){
+			 			this.$("#userMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#userManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+			else {
+			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(result) {
+			 		if(result.resultCode == 0){
+			 			this.$("#userMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#userManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+		break;
 
 		// 삭제
 		case 'deleteBtn':
@@ -156,6 +206,9 @@ var module_instance = new GamUserMngListModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
+<form id="seleteManageVO">
+<input type="hidden" id="uniqId" name="uniqId" />
+</form>
 <div class="window_main">
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
@@ -184,19 +237,15 @@ var module_instance = new GamUserMngListModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="searchBtn">검색</button>
-						<button id="deleteBtn">삭제</button>
-						<button id="listBtn">목록</button>
-						<a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamUserInsertView.do'/>"><button id="insertBtn">등록</button></a>
-					</div>
-				</div>
 			</form>
+			<div class="emdControlPanel">
+				<button id="searchBtn">검색</button>
+				<button id="addBtn">추가</button>
+			</div>
 		</div>
 	</div>
 
-	<div class="emdPanel">
+	<div class="emdPanel" style="overflow: auto;">
 		<div id="userMngListTab" class="emdTabPanel" data-onchange="onTabChange">
 		<ul>
 			<li><a href="#tabs1" class="emdTab">사용자목록</a></li>
@@ -205,49 +254,213 @@ var module_instance = new GamUserMngListModule();
 			<div id="tabs1" class="emdTabPage">
 				<table id="userMngList" style="display:none"></table>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+			<div id="tabs2" class="emdTabPage" style="height:330px; overflow: scroll;">
 				<form id="userManageVO">
 					<input type="hidden" id="cmd"/>
-					<table class="tableForm">
-						<colgroup>
-							<col width="30%" />
-							<col />
-							<col width="30%" />
-							<col />
-						</colgroup>
-						<tr>
-							<th><span class="label">메뉴No</span></th>
-							<td><input type="text" size="25" id="menuNo"/></td>
-							<th><span class="label">메뉴순서</span></th>
-							<td><input type="text" size="25" id="menuOrdr"/></td>
-						</tr>
-						<tr>
-							<th><span class="label">메뉴명</span></th>
-							<td><input type="text" size="25" id="menuNm"/></td>
-							<th><span class="label">상위메뉴No</span></th>
-							<td><input type="text" size="25" id="upperMenuId"/></td>
-						</tr>
-						<tr>
-							<th><span class="label">파일명</span></th>
-							<td colspan="3"><input type="text" size="75" id="progrmFileNm"/></td>
-						</tr>
-						<tr>
-							<th><span class="label">관련이미지명</span></th>
-							<td><input type="text" size="25" id="relateImageNm"/></td>
-							<th><span class="label">관련이미지경로</span></th>
-							<td><input type="text" size="25" id="relateImagePath"/></td>
-						</tr>
-						<tr>
-							<th><span class="label">메뉴설명</span></th>
-							<td colspan="3"><textarea cols="76" rows="10" id="menuDc"></textarea></td>
-						</tr>
+					<input type="hidden" name="zip" id="zip" />
+					<table class="searchPanel">
+			            <tr>
+			                <th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+			                <td width="80%" >
+			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />
+			                    <a href="#LINK" onclick="fnIdCheck();">
+			                        <img src="<c:url value='/images/egovframework/com/cmm/icon/search.gif' />" alt="중복아이디 검색" />(중복아이디 검색)
+			                    </a>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    사용자이름<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input name="emplyrNm" id="emplyrNm" title="사용자이름" type="text" size="20" value="" maxlength="60" />
+			                </td>
+			            </tr>
+			
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    비밀번호확인<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input name="password2" id="password2" title="비밀번호확인" type="password" size="20" maxlength="20" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    비밀번호힌트<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <select id="passwordHint" title="비밀번호힌트">
+			                    	<c:forEach varStatus="var" items="${passwordHint_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text" >
+			                    비밀번호정답<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input id="passwordCnsr" title="비밀번호정답"  size="50" maxlength="100" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >소속기관코드&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <select id="insttCode" title="소속기관코드">
+				                    <c:forEach varStatus="var" items="${insttCode_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >조직아이디&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <select id="orgnztId" name="orgnztId" title="조직아이디">
+			                   		<c:forEach varStatus="var" items="${orgnztId_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >직위명&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="ofcpsNm" title="직위명" size="20" maxlength="50" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >사번&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="emplNo" title="사번" size="20" maxlength="20" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >성별구분코드&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <select id="sexdstnCode" title="성별구분코드">
+			                       	<c:forEach varStatus="var" items="${sexdstnCode_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >생일&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="brth" title="생일" size="20" maxlength="8" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    집전화번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input id="areaNo" title="areaNo" size="4" maxlength="4" />
+			                    - <input title="homemiddleTelno" id="homemiddleTelno" size="4" maxlength="4" />
+			                    - <input title="homeendTelno" id="homeendTelno" size="4" maxlength="4" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >사무실전화번호&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="offmTelno" title="사무실전화번호" size="20" maxlength="15" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >팩스번호&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="fxnum" title="팩스번호" size="20" maxlength="15" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text">핸드폰번호&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="moblphonNo" title="핸드폰번호" size="20" maxlength="15" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text">
+			                    이메일주소<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%">
+			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text">
+			                    우편번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input name="zip_view" id="zip_view" type="text" title="우편번호" size="20" value="<c:out value='${userManageVO.zip}'/>"  maxlength="8" />
+		                        <a href="#LINK" onclick="javascript:fn_egov_ZipSearch(document.userManageVO, document.userManageVO.zip, document.userManageVO.zip_view, document.userManageVO.homeadres);">
+		                            <img src="<c:url value='/images/egovframework/com/cmm/icon/search.gif' />" alt="" />(우편번호 검색)
+		                        </a>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    주소<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <input id="homeadres" title="주소" size="40" maxlength="100" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >상세주소&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="detailAdres" title="상세주소" size="40" maxlength="50" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    그룹아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <select id="groupId" title="그룹아이디">
+			                        <c:forEach varStatus="var" items="${groupId_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >
+			                    사용자상태코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                </th>
+			                <td width="80%" >
+			                    <select id="emplyrSttusCode" title="사용자상태코드">
+			                        <c:forEach varStatus="var" items="${emplyrSttusCode_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="20%" height="23" class="required_text"  >사용자DN&nbsp;&nbsp;</th>
+			                <td width="80%" >
+			                    <input id="subDn" title="사용자DN" size="40" maxlength="100" />
+			                    &nbsp;<a href="#LINK" onclick="fn_egov_inqire_cert()" style="selector-dummy: expression(this.hideFocus=false);"><img src="<c:url value='/images/egovframework/com/cmm/icon/search.gif' />"
+				     			width="15" height="15" alt="search"/></a>
+			                </td>
+			            </tr>
 					</table>
+					<div class="emdControlPanel">
+						<button id="saveBtn">등록</button>
+						<button id="listBtn">목록</button>
+						<button id="cancelBtn">취소</button>
+					</div>
 				</form>
-				<div class="emdControlPanel">
-					<button id="listBtn">목록</button>
-					<button id="saveBtn">저장</button>
-					<button id="deleteBtn">삭제</button>
-				</div>
 			</div>
 		</div>
 	</div>
