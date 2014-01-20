@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -23,7 +26,11 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class GamUserMngController {
-
+	
+	/** Validator */
+	@Autowired
+	private DefaultBeanValidator beanValidator;
+	
     /** userManageService */
     @Resource(name = "userManageService")
     private EgovUserManageService userManageService;
@@ -44,9 +51,40 @@ public class GamUserMngController {
      * @return
      * @throws Exception
      */
+    @SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value="/cmmn/gamUserMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	model.addAttribute("windowId", windowId);
+    	
+    	ComDefaultCodeVO vo = new ComDefaultCodeVO();
+
+        //패스워드힌트목록을 코드정보로부터 조회
+        vo.setCodeId("COM022");
+        List passwordHint_result = cmmUseService.selectCmmCodeDetail(vo);
+        //성별구분코드를 코드정보로부터 조회
+        vo.setCodeId("COM014");
+        List sexdstnCode_result = cmmUseService.selectCmmCodeDetail(vo);
+        //사용자상태코드를 코드정보로부터 조회
+        vo.setCodeId("COM013");
+        List emplyrSttusCode_result = cmmUseService.selectCmmCodeDetail(vo);
+        //소속기관코드를 코드정보로부터 조회 - COM025
+        vo.setCodeId("COM025");
+        List insttCode_result = cmmUseService.selectCmmCodeDetail(vo);
+        //조직정보를 조회 - ORGNZT_ID정보
+        vo.setTableNm("COMTNORGNZTINFO");
+        List orgnztId_result = cmmUseService.selectOgrnztIdDetail(vo);
+        //그룹정보를 조회 - GROUP_ID정보
+        vo.setTableNm("COMTNORGNZTINFO");
+        List groupId_result = cmmUseService.selectGroupIdDetail(vo);
+
+        model.addAttribute("passwordHint_result", passwordHint_result);			// 패스워트힌트목록
+        model.addAttribute("sexdstnCode_result", sexdstnCode_result);			// 성별구분코드목록
+        model.addAttribute("emplyrSttusCode_result", emplyrSttusCode_result);	// 사용자상태코드목록
+        model.addAttribute("insttCode_result", insttCode_result);				// 소속기관코드목록
+        model.addAttribute("orgnztId_result", orgnztId_result);					// 조직정보 목록
+        model.addAttribute("groupId_result", groupId_result);					// 그룹정보 목록
+
+        model.addAttribute("windowId", windowId);
+        
     	return "/ygpa/gam/cmmn/GamUserMng";
     }
 	
@@ -57,6 +95,7 @@ public class GamUserMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "unchecked" })
     @RequestMapping(value="/cmmn/gamUserManage.do")
     @ResponseBody Map<String, Object> selectUserMngList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO) throws Exception {
         
@@ -81,15 +120,6 @@ public class GamUserMngController {
         int totCnt = userManageService.selectUserListTotCnt(userSearchVO);
         paginationInfo.setTotalRecordCount(totCnt);
 
-        //사용자상태코드를 코드정보로부터 조회
-        /*
-        ComDefaultCodeVO vo = new ComDefaultCodeVO();
-        vo.setCodeId("COM013");
-        
-        // 사용자상태코드목록
-        List emplyrSttusCode_result = cmmUseService.selectCmmCodeDetail(vo);
-        */
-        
         map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", userList);
@@ -114,32 +144,95 @@ public class GamUserMngController {
 	
 	
 	/**
-     * 사용자등록처리후 목록화면으로 이동한다.
-     * @param userManageVO 사용자등록정보
-     * @param bindingResult 입력값검증용 bindingResult
-     * @param model 화면모델
-     * @throws Exception
-     */
+	 * 사용자 등록을 처리한다
+	 * @param userManageVO
+	 * @param bindingResult
+	 * @param cmd
+	 * @return map
+	 * @throws Exception
+	 */
     @RequestMapping("/cmmn/gamUserInsert.do")
-    @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
+    @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    			
-        //beanValidator.validate(userManageVO, bindingResult);
-    	if (bindingResult.hasErrors()){
-    		return map;
-		}else{
+    	
+    	if("insert".equals(cmd)) {
+    		System.out.println("userManageVO.getZip() : "+userManageVO.getZip());
+	    	beanValidator.validate(userManageVO, bindingResult);
+			if (bindingResult.hasErrors()){
+		        map.put("resultCode", 1);
+				map.put("resultMsg", "입력 값에 오류가 있습니다.");
+				map.put("resultObject", bindingResult.getAllErrors());
+				return map;
+			}
+			
 			if(userManageVO.getOrgnztId().equals("")){
 				userManageVO.setOrgnztId(null);
 			}
 			if(userManageVO.getGroupId().equals("")){
 				userManageVO.setGroupId(null);
 			}
-			System.out.println("userManageVO : "+userManageVO.toString());
+
 			userManageService.insertUser(userManageVO);
-	        //Exception 없이 진행시 등록성공메시지
-	        //model.addAttribute("resultMsg", "success.common.insert");
-		}
+			map.put("resultMsg", "success.common.insert");
+    	}
     	return map;
+    }
+    
+    
+    /**
+     * 사용자정보를 수정한다.
+     * @param userManageVO 사용자수정정보
+     * @param bindingResult 입력값검증용 bindingResult
+     * @param model 화면모델
+     * @return forward:/uss/umt/EgovUserManage.do
+     * @throws Exception
+     */
+    @RequestMapping("/cmmn/gamUserSelectUpdt.do")
+    @ResponseBody Map<String, Object> updateUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+        beanValidator.validate(userManageVO, bindingResult);
+		if (bindingResult.hasErrors()){
+	        map.put("resultCode", 1);
+			map.put("resultMsg", "입력 값에 오류가 있습니다.");
+			map.put("resultObject", bindingResult.getAllErrors());
+			return map;
+		}
+		//업무사용자 수정시 히스토리 정보를 등록한다.
+        userManageService.insertUserHistory(userManageVO);
+        if(userManageVO.getOrgnztId().equals("")){
+			userManageVO.setOrgnztId(null);
+		}
+		if(userManageVO.getGroupId().equals("")){
+			userManageVO.setGroupId(null);
+		}
+        userManageService.updateUser(userManageVO);
+        map.put("resultMsg", "success.common.update");
+
+        return map;
+    }
+    
+    
+    /**
+     * 사용자정보 수정을 위해 사용자정보를 상세조회한다.
+     * @param uniqId
+     * @param userSearchVO
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping("/cmmn/gamUserSelectUpdtView.do")
+    @ResponseBody Map<String, Object> updateUserView(@RequestParam("uniqId") String uniqId, @ModelAttribute("searchVO") UserDefaultVO userSearchVO) throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+        
+        UserManageVO userManageVO = new UserManageVO();
+        userManageVO = userManageService.selectUser(uniqId);
+
+        map.put("userSearchVO", userSearchVO);
+        map.put("userManageVO", userManageVO);
+
+        return map;
     }
 }
