@@ -15,9 +15,12 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         EMPLYR_ID             as "userId",
         USER_NM             as "userNm",
         EMAIL_ADRES           as "emailAdres",
+        <!-- 
         AREA_NO               as "areaNo",
         HOUSE_MIDDLE_TELNO      as "middleTelno",
         HOUSE_END_TELNO         as "endTelno",
+        -->
+        AREA_NO||'-'||HOUSE_MIDDLE_TELNO||'-'||HOUSE_END_TELNO      as "allTelno",
         MBTLNUM           as "moblphonNo",
         GROUP_ID              as "groupId",
         <!-- EMPLYR_STTUS_CODE     as "sttus", -->
@@ -39,7 +42,7 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         <isEqual prepend="AND" property="searchCondition" compareValue="1">
             USER_NM LIKE '%' ||#searchKeyword#|| '%'
         </isEqual>
-        ORDER BY 12 DESC
+        ORDER BY 10 DESC
         ) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
     </select>
     
