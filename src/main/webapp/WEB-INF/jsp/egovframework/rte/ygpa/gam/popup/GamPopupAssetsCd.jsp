@@ -42,7 +42,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 			{display:'항코드', name:'gisAssetsPrtAtCode', width:60, sortable:true, align:'center'},
 			{display:'시설코드', name:'gisAssetsCode', width:70, sortable:true, align:'center'},
 			{display:'시설명', name:'gisAssetsNm', width:160, sortable:true, align:'center'},
-			{display:'소재지', name:'GIS_ASSETS_LOCPLCgisAssetsLocplc', width:160, sortable:true, align:'left'},
+			{display:'소재지', name:'gisAssetsLocplc', width:160, sortable:true, align:'left'},
 			{display:'지번', name:'gisAssetsLnm', width:40, sortable:true, align:'center'},
 			{display:'지번SUB', name:'gisAssetsLnmSub', width:40, sortable:true, align:'center'},
 			{display:'면적', name:'gisAssetsAr', width:64, sortable:true, align:'center'}

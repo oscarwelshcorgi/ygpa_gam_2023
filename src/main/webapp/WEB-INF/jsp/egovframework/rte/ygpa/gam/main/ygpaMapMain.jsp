@@ -354,12 +354,9 @@
 					<ul class="menu">
 						<li><a href="#"><b>자산정보 관리</b></a>
 							<ul class="submenu">
-								<li><a href="#" data-role="LoadModule"
-									data-prgid="PRG_0001"
-									data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
-								<li><a href="#" data-role="LoadModule"
-									data-prgid="PRG_0001"
-									data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
 							</ul>
 							</li>
 					</ul>

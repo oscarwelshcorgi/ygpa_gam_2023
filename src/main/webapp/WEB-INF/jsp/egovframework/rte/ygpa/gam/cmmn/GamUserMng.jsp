@@ -58,12 +58,14 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
-		var inputVO = module.makeFormArgs("#seleteManageVO");
-		module.$("#uniqId").val(row["uniqId"]);
-		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', inputVO, function(result) {
-
-			alert(result.userManageVO);
-			alert(result.userManageVO);
+		//module.$("#uniqId").val(row["uniqId"]);
+		//var inputVO = module.makeFormArgs("#seleteManageVO");
+		var inputVO = {uniqId: row["uniqId"]};
+		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', inputVO, function(module, result) {
+			module.$("#emplyrId").val(result.userManageVO.emplyrId);
+			module.$("#emplyrNm").val(result.userManageVO.emplyrNm);
+			//alert(result.userManageVO);
+			//alert(result.userManageVO);
 	 	});
 	});
 };
@@ -109,7 +111,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 				this.$("#zip").val(this.$("#zip_view").val());
 			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#userMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#userMngListTab").tabs("option", {active: 0});
 			 			this.$("#userManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -118,7 +120,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			else {
 			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#userMngListTab").tabs("option", {active: 0}); 
+			 			this.$("#userMngListTab").tabs("option", {active: 0});
 			 			this.$("#userManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -247,7 +249,7 @@ var module_instance = new GamUserMngListModule();
 			                    <input name="emplyrNm" id="emplyrNm" title="사용자이름" type="text" size="20" value="" maxlength="60" />
 			                </td>
 			            </tr>
-			
+
 			            <tr>
 			                <th width="20%" height="23" class="required_text"  >
 			                    비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
