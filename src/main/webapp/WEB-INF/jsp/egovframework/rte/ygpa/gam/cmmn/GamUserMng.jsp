@@ -64,36 +64,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 
 			alert(result.userManageVO);
 			alert(result.userManageVO);
-	        
 	 	});
-	 	
-	 			if(row!=null) {
-			module.$('#cmd').val('modify');	 							// 더블클릭한 아이템을 수정한다
-			/*module.$('#menuNo').val(row['menuNo']);					// 메뉴No
-			module.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
-			module.$('#menuNm').val(row['menuNm']);						// 메뉴명
-			module.$('#upperMenuId').val(row['upperMenuId']);			// 상위메뉴No
-			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명
-			module.$('#relateImageNm').val(row['relateImageNm']);		// 관련이미지명
-			module.$('#relateImagePath').val(row['relateImagePath']);	// 관련이미지경로
-			module.$('#menuDc').val(row['menuDc']);						// 메뉴설명
-			*/
-			var inputVO = {
-					'userId': row['userId'];
-			};
-			module.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
-		 		alert(result);
-		 		console.log("result : "+result);
-				/*if(result.resultCode == 0){
-		 			this.$("#menuMngListTab").tabs("option", {active: 0});
-		 			this.$("#menuManageVO :input").val("");
-		 		}
-		 		alert(result.resultMsg);
-		 		*/
-		 	});
-
-			throw 0;
-		}
 	});
 };
 

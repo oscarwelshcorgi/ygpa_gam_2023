@@ -36,7 +36,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamMenuManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'선택',				name:'UPDT_DT',			width:96,		sortable:false,		align:'center'},
+					//{display:'선택',				name:'UPDT_DT',			width:96,		sortable:false,		align:'center'},
 					{display:'메뉴ID', 			name:'menuNo',			width:80, 		sortable:false,		align:'center'},
 					{display:'메뉴한글명', 		name:'menuNm',			width:80, 		sortable:false,		align:'center'},
 					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'center'},
@@ -50,7 +50,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '250'
+		height: '260'
 	});
 
 	this.$("#menuMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -179,10 +179,9 @@ var module_instance = new GamMenuMngModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="searchBtn">조회</button>
-					</div>
+				<div class="emdControlPanel">
+					<button id="searchBtn">조회</button>
+					<button id="addBtn">추가</button>
 				</div>
 			</form>
 		</div>
@@ -194,9 +193,8 @@ var module_instance = new GamMenuMngModule();
 				<li><a href="#tabs1" class="emdTab">메뉴목록</a></li>
 				<li><a href="#tabs2" class="emdTab">메뉴상세</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
+			<div id="tabs1" class="emdTabPage" style="overflow: auto;">
 				<table id="menuMngList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addBtn">추가</button></div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 				<form id="menuManageVO">

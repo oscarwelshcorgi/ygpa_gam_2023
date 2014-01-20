@@ -46,7 +46,8 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: '260',
+		width: '160'
 	});
 	
 	this.$("#authorMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -69,7 +70,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 GamAuthorMngModule.prototype.showModuleAlert = function(msg) {
 	//this.getSelect(msg);	
 	this.$('#prtCode').val(msg);
-}
+};
 
 
 /**
@@ -175,11 +176,9 @@ var module_instance = new GamAuthorMngModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="searchBtn">조회</button>
-						<button id="addBtn">추가</button>
-					</div>
+				<div class="emdControlPanel">
+					<button id="searchBtn">조회</button>
+					<button id="addBtn">추가</button>
 				</div>
 			</form>
 		</div>
@@ -192,9 +191,7 @@ var module_instance = new GamAuthorMngModule();
 				<li><a href="#tabs2" class="emdTab">권한상세</a></li>
 			</ul>
 			<div id="tabs1" class="emdTabPage">
-				<div class="emdTabPage">
-					<table id="authorMngList" style="display:none"></table>
-				</div>
+				<table id="authorMngList" style="display:none"></table>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 				<form id="authorManageVO">
