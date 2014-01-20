@@ -22,7 +22,7 @@
               FROM  (
 
             SELECT
-                   AUTHOR_CODE, AUTHOR_NM, AUTHOR_DC, AUTHOR_CREAT_DE
+                   AUTHOR_CODE, AUTHOR_NM, AUTHOR_DC, TO_CHAR(TO_DATE(AUTHOR_CREAT_DE), 'yyyy-mm-dd') AS AUTHOR_CREAT_DE
               FROM COMTNAUTHORINFO
              WHERE 1=1
         ]]>              

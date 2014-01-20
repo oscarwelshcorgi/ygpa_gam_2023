@@ -20,8 +20,14 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         HOUSE_END_TELNO         as "endTelno",
         MBTLNUM           as "moblphonNo",
         GROUP_ID              as "groupId",
-        EMPLYR_STTUS_CODE     as "sttus",
-        SBSCRB_DE             as "sbscrbDe"
+        <!-- EMPLYR_STTUS_CODE     as "sttus", -->
+        (SELECT CODE_NM 
+	      FROM COMTCCMMNDETAILCODE 
+	     WHERE USE_AT = 'Y' 
+	           AND CODE_ID = 'COM013' 
+	           AND EMPLYR_STTUS_CODE = CODE 
+	    ) AS sttus,        
+        TO_CHAR(SBSCRB_DE, 'yyyy-mm-dd') AS "sbscrbDe"
     FROM    COMTNEMPLYRINFO
         WHERE 1=1
         <isNotEqual prepend="AND" property="sbscrbSttus" compareValue="0">
