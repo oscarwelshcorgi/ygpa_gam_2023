@@ -36,10 +36,9 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamProgramListManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'수정일자',			name:'updtDt',			width:96,		sortable:false,		align:'center'},
-					{display:'프로그램파일명', 	name:'progrmFileNm',	width:80, 		sortable:false,		align:'left'},
-					{display:'프로그램명', 		name:'progrmKoreanNm',	width:100, 		sortable:false,		align:'center'},
-					{display:'프로그램경로', 	name:'progrmStrePath',	width:60, 		sortable:false,		align:'left'},
+					{display:'프로그램파일명', 	name:'progrmFileNm',	width:120, 		sortable:false,		align:'left'},
+					{display:'프로그램명', 		name:'progrmKoreanNm',	width:120, 		sortable:false,		align:'center'},
+					{display:'프로그램경로', 		name:'progrmStrePath',	width:100, 		sortable:false,		align:'left'},
 					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'left'},
 					{display:'프로그램설명',		name:'progrmDc',		width:160,		sortable:false,		align:'center'}
 					],
@@ -47,7 +46,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: '260'
 	});
 
 	this.$("#progListMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -56,11 +55,11 @@ GamProgListMngModule.prototype.loadComplete = function() {
 
 		if(row!=null) {
 			module.$('#cmd').val('modify');	 // 더블클릭한 아이템을 수정한다
-			module.$('#progrmFileNm').val(row['progrmFileNm']);
-			module.$('#progrmStrePath').val(row['progrmStrePath']);
-			module.$('#progrmKoreanNm').val(row['progrmKoreanNm']);
-			module.$('#URL').val(row['url']);
-			module.$('#progrmDc').val(row['progrmDc']);
+			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 프로그램 파일명
+			module.$('#progrmStrePath').val(row['progrmStrePath']);		// 프로그램명
+			module.$('#progrmKoreanNm').val(row['progrmKoreanNm']);		// 프로그램 경로
+			module.$('#URL').val(row['url']);							// URL
+			module.$('#progrmDc').val(row['progrmDc']);					// 프로그램 설명
 			throw 0;
 		}
 	});
@@ -95,7 +94,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 				this.doAction('<c:url value="/cmmn/gamProgramListManageDelete.do" />', rows[0], function(module, result) {
 			 		if(result.resultCode=='0') {
 						var searchOpt=module.makeFormArgs('#progListMngForm');
-						module.$('#progListMngList').flexOptions({params:searchOpt}).flexReload();
+					 	module.$('#progListMngList').flexOptions({params:searchOpt}).flexReload();
 			 			alert('삭제되었습니다.');
 			 		}
 			 		else {
@@ -177,15 +176,11 @@ var module_instance = new GamProgListMngModule();
 					<tbody>
 						<tr>
 							<th>프로그램 명</th>
-							<td><input id="searchKeyword" name="searchKeyword" type="text" size="60"></td>
+							<td><input id="searchKeyword" name="searchKeyword" type="text" size="60" /></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="searchBtn">조회</button>
-					</div>
-				</div>
+				<div class="emdControlPanel"><button id="searchBtn">조회</button></div>
 			</form>
 		</div>
 	</div>
