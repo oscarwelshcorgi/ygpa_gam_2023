@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -42,7 +43,10 @@ public class GamUserMngController {
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-
+    
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
     
     /**
      * 화면 초기 로드
@@ -174,7 +178,8 @@ public class GamUserMngController {
 			}
 
 			userManageService.insertUser(userManageVO);
-			map.put("resultMsg", "success.common.insert");
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
     	}
     	return map;
     }
@@ -198,18 +203,21 @@ public class GamUserMngController {
 	        map.put("resultCode", 1);
 			map.put("resultMsg", "입력 값에 오류가 있습니다.");
 			map.put("resultObject", bindingResult.getAllErrors());
-			return map;
+
+		}else{
+			
+			//업무사용자 수정시 히스토리 정보를 등록한다.
+			userManageService.insertUserHistory(userManageVO);
+			if(userManageVO.getOrgnztId().equals("")){
+				userManageVO.setOrgnztId(null);
+			}
+			if(userManageVO.getGroupId().equals("")){
+				userManageVO.setGroupId(null);
+			}
+			userManageService.updateUser(userManageVO);
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		}
-		//업무사용자 수정시 히스토리 정보를 등록한다.
-        userManageService.insertUserHistory(userManageVO);
-        if(userManageVO.getOrgnztId().equals("")){
-			userManageVO.setOrgnztId(null);
-		}
-		if(userManageVO.getGroupId().equals("")){
-			userManageVO.setGroupId(null);
-		}
-        userManageService.updateUser(userManageVO);
-        map.put("resultMsg", "success.common.update");
 
         return map;
     }
@@ -226,13 +234,36 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> updateUserView(@RequestParam("uniqId") String uniqId, @ModelAttribute("searchVO") UserDefaultVO userSearchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-        
+
         UserManageVO userManageVO = new UserManageVO();
         userManageVO = userManageService.selectUser(uniqId);
-
+		
+        //userManageVO.
         map.put("userSearchVO", userSearchVO);
         map.put("userManageVO", userManageVO);
 
+        return map;
+    }
+    
+    
+    /**
+     * 사용자정보삭제후 목록조회 화면으로 이동한다.
+     * @param checkedId
+     * @param userSearchVO
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping("/cmmn/gamUserDelete.do")
+    @ResponseBody Map<String, Object> deleteUser(@RequestParam("uniqId") String uniqId)
+            throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 삭제타입 설정필요[USR03]
+        userManageService.deleteUser("USR03:"+uniqId);
+
+        map.put("resultCode", 0);
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
         return map;
     }
 }
