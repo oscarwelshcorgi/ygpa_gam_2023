@@ -110,14 +110,14 @@ public class GamProgListMngController {
      * @throws Exception
      */
     @RequestMapping(value="/cmmn/gamInsertProgramListRegist.do")
-    public @ResponseBody Map insertProgrmList(
+    public @ResponseBody Map<String, Object> insertProgrmList(
     		@RequestParam("cmd") String cmd,
     		@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,
 			BindingResult bindingResult)
             throws Exception {
-    	Map map = new HashMap();
+    	Map<String, Object> map = new HashMap<String, Object>();
         String resultMsg = "";
-        String sLocationUrl = null;
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -150,13 +150,12 @@ public class GamProgListMngController {
      */
     /*프로그램목록수정*/
     @RequestMapping(value="/cmmn/gamProgramListDetailSelectUpdt.do")
-    public @ResponseBody Map updateProgrmList(
-    		Map commandMap,
-    		@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,
-    		BindingResult bindingResult)
-            throws Exception {
-    	Map map = new HashMap();
-		String resultMsg = "";
+    public @ResponseBody Map<String, Object> updateProgrmList(Map<String, Object> commandMap,@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,BindingResult bindingResult)throws Exception {
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+		
+    	String resultMsg = "";
+    	
     	// 0. Spring Security 사용자권한 처리
    	    Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -187,11 +186,11 @@ public class GamProgListMngController {
      * @exception Exception
      */
     @RequestMapping(value="/cmmn/gamProgramListManageDelete.do", method=RequestMethod.POST)
-    public @ResponseBody Map deleteProgrmList(
-    		ProgrmManageVO progrmManageVO)
-            throws Exception {
-    	Map map = new HashMap();
+    public @ResponseBody Map<String, Object> deleteProgrmList(ProgrmManageVO progrmManageVO)throws Exception {
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
     	String resultMsg = "";
+    	
         // 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -205,6 +204,4 @@ public class GamProgListMngController {
         map.put("resultMsg", resultMsg);
         return map;
     }
-
-
 }
