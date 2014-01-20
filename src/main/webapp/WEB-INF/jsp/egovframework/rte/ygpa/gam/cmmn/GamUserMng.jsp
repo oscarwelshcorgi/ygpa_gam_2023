@@ -177,11 +177,8 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'tabs2':
 		var row = this.$('#userMngList').selectedRows();
-		if(row.length == 0){
-			this.$('#cmd').val('insert');
-		}else{
-			this.$('#cmd').val('modify');
-		}
+		if(row.length == 0) this.$('#cmd').val('insert');
+		else this.$('#cmd').val('modify');
 		break;
 	}
 };
