@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
@@ -30,35 +31,45 @@ GamAuthorRoleMngModule.prototype = new EmdModule();
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorRoleMngModule.prototype.loadComplete = function() {
 
+	var nyOption = [
+	               {value: 'N', name: 'N'},{value: 'Y', name: 'Y'}
+				   ];
+
 	// 테이블 설정
 	this.$("#authorRoleMngList").flexigrid({
+		module:this,
 		url: '<c:url value="/cmmn/gamAuthorRoleList.do" />',
-		dataType: 'json',
+		dataType: "json",
 		colModel : [
-					{display:'check', 		name:'check',		width:40, 	sortable:false,		align:'center'},
-					{display:'롤 ID', 		name:'roleCode',		width:100, 	sortable:false,		align:'center'},
-					{display:'롤 명', 		name:'roleNm',			width:120, 	sortable:false,		align:'center'},
-					{display:'롤 타입', 		name:'roleTyp',			width:80, 	sortable:false,		align:'center'},
-					{display:'롤 Sort', 		name:'roleSort',		width:40, 	sortable:false,		align:'center'},
-					{display:'롤 설명', 		name:'roleDc',			width:100, 	sortable:false,		align:'center'},
-					{display:'등록일자', 	name:'creatDt',			width:80, 	sortable:false,		align:'center'},
-					{display:'등록여부', 	name:'PRT_AT_CODE',		width:40, 	sortable:false,		align:'center'}
+                    {display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
+					{display:"롤 ID", 		name:"roleCode",	width:100, 	sortable:false,		align:"center"},
+					{display:"롤 명", 		name:"roleNm",		width:120, 	sortable:false,		align:"center"},
+					{display:"롤 타입", 		name:"roleTyp",		width:80, 	sortable:false,		align:"center"},
+					{display:"롤 Sort", 		name:"roleSort",	width:40, 	sortable:false,		align:"center"},
+					{display:"롤 설명", 		name:"roleDc",		width:100, 	sortable:false,		align:"center"},
+					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
+					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],
 		usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: "300"
+	});
+	
+	this.$("#authorRoleMngList").on("onSelectChanged", function(event, module, row, grid, param) {
+		
+		var inputVO = {roleCodes: row.roleCode, regYn:row.regYn, authorCode:module.$("#searchKeyword").val()};
+		module.doAction('<c:url value="/cmmn/gamAuthorRoleInsert.do" />', inputVO, function(module2, result) {
+	 		if(result.resultCode == 0){
+	 			var searchOpt = this.makeFormArgs("#authorRoleForm");
+	 			module2.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
 	});
 };
 		
-// 사용자 설정 함수 추가
-// 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
-GamAuthorRoleMngModule.prototype.showModuleAlert = function(msg) {
-	//this.getSelect(msg);	
-	this.$('#prtCode').val(msg);
-}
-
 
 /**
  * 정의 된 버튼 클릭 시
@@ -67,43 +78,26 @@ GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
 	
 	switch(buttonId) {
 	
-		// 목록
-		case 'listBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
-
 		// 조회
-		case 'searchBtn':
-			var searchOpt=this.makeFormArgs('#authorRoleForm');
-		 	this.$('#authorRoleMngList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		case "searchBtn":
+			var searchOpt = this.makeFormArgs("#authorRoleForm");
+		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload(); 
+		break;
 		
-		// 들고
-		case 'insertBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		// 저장
+		case "saveBtn":
+			var searchOpt = this.makeFormArgs("#authorRoleForm");
+		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
 	}
 };
 
-GamAuthorRoleMngModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-}
-
-GamAuthorRoleMngModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#authorRoleForm');
-	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-//	this.$('#assetList').flexOptions(searchOpt).flexReload();
-}
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAuthorRoleMngModule();
 </script>
 <!-- 아래는 고정 -->
-<input type="hidden" id="window_id" value='${windowId}' />
+<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
@@ -113,15 +107,14 @@ var module_instance = new GamAuthorRoleMngModule();
 					<tbody>
 						<tr>
 							<th>권한코드</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="30" value="<c:out value='${authorGroupVO.searchKeyword}'/>" title="검색"  /></td>
+							<td><input name="searchKeyword" id="searchKeyword" type="text" size="30" title="검색"  /></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="emdTabPage">
 					<div class="emdControlPanel">
-						<button id="listBtn">목록</button>
 						<button id="searchBtn">조회</button>
-						<button id="insertBtn">등록</button>
+						<button id="saveBtn">저장</button>
 					</div>
 				</div>
 			</form>

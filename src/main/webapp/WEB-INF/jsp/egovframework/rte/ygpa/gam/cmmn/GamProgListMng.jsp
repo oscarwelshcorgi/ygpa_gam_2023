@@ -46,20 +46,21 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '260'
+		height: '300'
 	});
 
-	this.$("#progListMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	this.$("#progListMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#programListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+		module.$("#programListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
-		if(row!=null) {
-			module.$('#cmd').val('modify');	 // 더블클릭한 아이템을 수정한다
-			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 프로그램 파일명
-			module.$('#progrmStrePath').val(row['progrmStrePath']);		// 프로그램명
-			module.$('#progrmKoreanNm').val(row['progrmKoreanNm']);		// 프로그램 경로
-			module.$('#URL').val(row['url']);							// URL
-			module.$('#progrmDc').val(row['progrmDc']);					// 프로그램 설명
+		if(row != null) {
+			module.$("#progrmFileNm").attr("disabled","disabled");
+			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
+			module.$("#progrmFileNm").val(row["progrmFileNm"]);			// 프로그램 파일명
+			module.$("#progrmStrePath").val(row["progrmStrePath"]);		// 프로그램명
+			module.$("#progrmKoreanNm").val(row["progrmKoreanNm"]);		// 프로그램 경로
+			module.$("#URL").val(row["url"]);							// URL
+			module.$("#progrmDc").val(row["progrmDc"]);					// 프로그램 설명
 			throw 0;
 		}
 	});
@@ -73,93 +74,81 @@ GamProgListMngModule.prototype.loadComplete = function() {
 	switch(buttonId) {
 
 		// 조회
-		case 'searchBtn':
-			var searchOpt=this.makeFormArgs('#progListMngForm');
-		 	this.$('#progListMngList').flexOptions({params:searchOpt}).flexReload();
-			break;
+		case "searchBtn":
+			var searchOpt = this.makeFormArgs("#progListMngForm");
+		 	this.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
 
-		// 신규저장
-		case 'addItem':
-			this.$("#programListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
-			throw 0;
-			break;
+		// 목록
+		case "listBtn":
+			this.$("#programListTab").tabs("option", {active: 0});
+			this.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
 
-		case 'canclProgram':
-			this.$(":input").val('');
-			this.$("#cmd").val('insert');
-			break;
-		case 'removeItem':
-			var rows = this.$('#progListMngList').selectedRows();
-			if(rows.length>=1) {
-				this.doAction('<c:url value="/cmmn/gamProgramListManageDelete.do" />', rows[0], function(module, result) {
-			 		if(result.resultCode=='0') {
-						var searchOpt=module.makeFormArgs('#progListMngForm');
-					 	module.$('#progListMngList').flexOptions({params:searchOpt}).flexReload();
-			 			alert('삭제되었습니다.');
+		// 추가
+		case "addBtn":
+			this.$("#progrmFileNm").removeAttr("disabled");
+			this.$("#programListTab").tabs("option", {active: 1});
+			this.$("#progrmManageVO :input").val("");
+			this.$("#cmd").val("insert");
+		break;
+
+		// 저장
+		case "saveBtn":
+			var inputVO = this.makeFormArgs("#progrmManageVO");
+			
+			// insert
+			if(this.$("#cmd").val() == "insert") {
+			 	this.doAction('<c:url value="/cmmn/gamInsertProgramListRegist.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0") {
+						var searchOpt = module.makeFormArgs("#progListMngForm");
+						module.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#programListTab").tabs("option", {active: 0});
+						module.$("#progrmManageVO :input").val("");
 			 		}
-			 		else {
-			 			alert(result.resultMsg);
+					alert(result.resultMsg);
+			 	});
+			// update
+			}else{
+			 	this.doAction('<c:url value="/cmmn/gamProgramListDetailSelectUpdt.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0") {
+						var searchOpt = module.makeFormArgs("#progListMngForm");
+					 	module.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#programListTab").tabs("option", {active: 0});
+						module.$("#progrmManageVO :input").val("");
 			 		}
+					alert(result.resultMsg);
+			 	});
+			}
+		break;
+		
+		// 삭제
+		case "deleteBtn":
+			if(confirm("삭제하시겠습니까?")){
+				var inputVO = this.makeFormArgs("#progrmManageVO");
+				this.doAction('<c:url value="/cmmn/gamProgramListManageDelete.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0") {
+						var searchOpt = module.makeFormArgs("#progListMngForm");
+						module.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#programListTab").tabs("option", {active: 0});
+						module.$("#progrmManageVO :input").val("");
+			 		}
+					alert(result.resultMsg);
 				});
 			}
-			break;
-		// 저장
-		case 'btnSaveItem':
-			var inputVO=this.makeFormArgs('#progrmManageVO');
-			if(this.$("#cmd").val()=='insert') {
-			 	this.doAction('<c:url value="/cmmn/gamInsertProgramListRegist.do" />', inputVO, function(result) {
-			 		if(result.resultCode=='0') {
-			 			alert('저장되었습니다.');
-			 		}
-			 		else {
-			 			alert(result.resultMsg);
-			 		}
-			 	});
-			}
-			else {
-			 	this.doAction('<c:url value="/cmmn/gamProgramListDetailSelectUpdt.do" />', inputVO, function(result) {
-			 		if(result.resultCode=='0') {
-			 			alert('저장되었습니다.');
-			 		}
-			 		else {
-			 			alert(result.resultMsg);
-			 		}
-			 	});
-			}
-			break;
+		break;
 	}
-};
-
-GamProgListMngModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-};
-
-GamProgListMngModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#progListMngForm');
-	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-//	this.$('#assetList').flexOptions(searchOpt).flexReload();
 };
 
 GamProgListMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
-	case 'tabs1':
-		break;
-	case 'tabs2':
-		var row = this.$('#progListMngList').selectedRows();
-		if(row.length==0) {
-			this.$('#cmd').val('insert');
-		}
-		else {
-			this.$('#cmd').val('modify');
-			/* this.$('#progrmFileNm').val(row[0]['progrmFileNm']);
-			this.$('#progrmStrePath').val(row[0]['progrmStrePath']);
-			this.$('#progrmKoreanNm').val(row[0]['progrmKoreanNm']);
-			this.$('#url').val(row[0]['url']);
-			this.$('#progrmDc').val(row[0]['progrmDc']); */
-		}
-		break;
+	case "tabs1":
+	break;
+	case "tabs2":
+		var row = this.$("#progListMngList").selectedRows();
+		if(row.length == 0) this.$("#cmd").val("insert");
+		else this.$("#cmd").val("modify");
+	break;
 	}
 };
 
@@ -167,7 +156,7 @@ GamProgListMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 var module_instance = new GamProgListMngModule();
 </script>
 <!-- 아래는 고정 -->
-<input type="hidden" id="window_id" value='${windowId}' />
+<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
 	<div class="emdPanel">
 		<div class="viewStack">
@@ -180,7 +169,10 @@ var module_instance = new GamProgListMngModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel"><button id="searchBtn">조회</button></div>
+				<div class="emdControlPanel">
+					<button id="searchBtn">조회</button>
+					<button id="addBtn">추가</button>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -193,10 +185,6 @@ var module_instance = new GamProgListMngModule();
 			</ul>
 			<div id="tabs1" class="emdTabPage">
 				<table id="progListMngList" style="display:none"></table>
-				<div class="emdControlPanel">
-					<button id="addItem">추가</button>
-					<button id="removeItem">삭제</button>
-				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 				<form id="progrmManageVO">
@@ -204,7 +192,7 @@ var module_instance = new GamProgListMngModule();
 					<table class="tableForm">
 						<tr>
 							<th><span class="label">프로그램파일명</span></th>
-							<td><input type="text" size="80" id="progrmFileNm"/></td>
+							<td><input type="text" size="80" id="progrmFileNm" /></td>
 						</tr>
 						<tr>
 							<th><span class="label">한글명</span></th>
@@ -212,7 +200,7 @@ var module_instance = new GamProgListMngModule();
 						</tr>
 						<tr>
 							<th><span class="label">프로그램경로</span></th>
-							<td><input type="text" size="80" id="progrmStrePath"/></td>
+							<td><input type="text" size="80" id="progrmStrePath" /></td>
 						</tr>
 						<tr>
 							<th><span class="label">URL</span></th>
@@ -224,7 +212,11 @@ var module_instance = new GamProgListMngModule();
 						</tr>
 					</table>
 				</form>
-				<div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="canclProgram">취소</button></div>
+				<div class="emdControlPanel">
+					<button id="saveBtn">저장</button>
+					<button id="listBtn">목록</button>
+					<button id="deleteBtn">삭제</button>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -29,79 +29,78 @@ GamAuthorGrpMngModule.prototype = new EmdModule();
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorGrpMngModule.prototype.loadComplete = function() {
+	var dOption = [
+	               <c:forEach var="authorManage" items="${authorManageList}" varStatus="status">
+	               		{value: '<c:out value="${authorManage.authorCode}"/>', name: '<c:out value="${authorManage.authorNm}"/>'} <c:if test="${!status.last}">,</c:if>
+	           	   </c:forEach>
+	               ];
+
 
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
+		module: this,
 		url: '<c:url value="/cmmn/gamAuthorGroupList.do" />',
-		dataType: 'json',
+		dataType: "json",
 		colModel : [
-					{display:'check', 		name:'check',		width:40, 	sortable:false,		align:'center'},
-					{display:'사용자 ID', 	name:'userId',		width:120, 	sortable:false,		align:'center'},
-					{display:'사용자 명', 	name:'userNm',		width:120, 	sortable:false,		align:'center'},
-					{display:'사용자 유형', 	name:'mberTyCode',	width:120, 	sortable:false,		align:'center'},
-					{display:'권한_select Box임', 		name:'authorCode',	width:100, 	sortable:false,		align:'center'},
-					{display:'등록여부', 	name:'regYn',		width:80, 	sortable:false,		align:'center'}
+					{display:"선택", 		name:"check",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
+					{display:"사용자 ID", 	name:"userId",		width:120, 	sortable:false,		align:"center"},
+					{display:"사용자 명", 	name:"userNm",		width:120, 	sortable:false,		align:"center"},
+					{display:"사용자 유형", 	name:"mberTyCode",	width:120, 	sortable:false,		align:"center"},
+					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
+					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: "300"
+	});
+
+	this.$("#authorGrpMngList").on("onCheckBoxChanged", function(event, module, row, grid, param) {
+//		var selectedValue = $(this).val();
+		throw 0;
+	});
+
+	this.$("#authorGrpMngList").on("onSelectChanged", function(event, module, row, grid, param) {
+		alert("row is clicked "+ row.authorCode);
+		throw 0;
 	});
 };
-
-// 사용자 설정 함수 추가
-// 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
-GamAuthorGrpMngModule.prototype.showModuleAlert = function(msg) {
-	//this.getSelect(msg);
-	this.$('#prtCode').val(msg);
-}
 
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
-
+	var searchOpt = this.makeFormArgs("#authorGrpMngForm");
 	switch(buttonId) {
 
 		// 조회
-		case 'searchBtn':
-			var searchOpt=this.makeFormArgs('#authorGrpMngForm');
-		 	this.$('#authorGrpMngList').flexOptions({params:searchOpt}).flexReload();
-			break;
+		case "searchBtn":
+		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
 
-		// 신규저장
-		case 'insertBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-			break;
+		// 등록
+		case "saveBtn":
+alert(this.$("#authorGrpMngForm :checkbox:checked").length);
+alert(this.$("input[name='check'] :checkbox:checked").length);
+return;
+		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
 
 		// 삭제
-		case 'deleteBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-			break;
+		case "deleteBtn":
+		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
 	}
 };
 
-GamAuthorGrpMngModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-}
-
-GamAuthorGrpMngModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#authorGrpMngForm');
-	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-//	this.$('#assetList').flexOptions(searchOpt).flexReload();
-}
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAuthorGrpMngModule();
 </script>
 <!-- 아래는 고정 -->
-<input type="hidden" id="window_id" value='${windowId}' />
+<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
@@ -125,7 +124,7 @@ var module_instance = new GamAuthorGrpMngModule();
 					<div class="emdControlPanel">
 						<button id="popupBtn">팝업</button>
 						<button id="searchBtn">조회</button>
-						<button id="insertBtn">등록</button>
+						<button id="saveBtn">등록</button>
 						<button id="deleteBtn">삭제</button>
 					</div>
 				</div>

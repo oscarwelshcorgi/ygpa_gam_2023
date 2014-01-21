@@ -36,7 +36,6 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamMenuManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					//{display:'선택',				name:'UPDT_DT',			width:96,		sortable:false,		align:'center'},
 					{display:'메뉴ID', 			name:'menuNo',			width:80, 		sortable:false,		align:'center'},
 					{display:'메뉴한글명', 		name:'menuNm',			width:80, 		sortable:false,		align:'center'},
 					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'center'},
@@ -50,23 +49,27 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '260'
+		height: '280'
 	});
 
 	this.$("#menuMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#menuMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
-		if(row!=null) {
-			module.$('#cmd').val('modify');	 							// 더블클릭한 아이템을 수정한다
-			module.$('#menuNo').val(row['menuNo']);						// 메뉴No
-			module.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
-			module.$('#menuNm').val(row['menuNm']);						// 메뉴명
-			module.$('#upperMenuId').val(row['upperMenuId']);			// 상위메뉴No					
-			module.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명				
-			module.$('#relateImageNm').val(row['relateImageNm']);		// 관련이미지명
-			module.$('#relateImagePath').val(row['relateImagePath']);	// 관련이미지경로
-			module.$('#menuDc').val(row['menuDc']);						// 메뉴설명
+		if(row != null) {
+			
+			module.$("#menuNo").attr("disabled","disabled");
+			module.$("#upperMenuId").attr("disabled","disabled");
+			
+			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
+			module.$("#menuNo").val(row["menuNo"]);						// 메뉴No
+			module.$("#menuOrdr").val(row["menuOrdr"]);					// 메뉴순서
+			module.$("#menuNm").val(row["menuNm"]);						// 메뉴명
+			module.$("#upperMenuId").val(row["upperMenuId"]);			// 상위메뉴No					
+			module.$("#progrmFileNm").val(row["progrmFileNm"]);			// 파일명				
+			module.$("#relateImageNm").val(row["relateImageNm"]);		// 관련이미지명
+			module.$("#relateImagePath").val(row["relateImagePath"]);	// 관련이미지경로
+			module.$("#menuDc").val(row["menuDc"]);						// 메뉴설명
 			throw 0;
 		}
 	});
@@ -81,8 +84,8 @@ GamMenuMngModule.prototype.loadComplete = function() {
 	
 		// 조회
 		case "searchBtn":
-			var searchOpt=this.makeFormArgs('#menuMngForm');
-		 	this.$('#menuMngList').flexOptions({params:searchOpt}).flexReload(); 
+			var searchOpt=this.makeFormArgs("#menuMngForm");
+		 	this.$("#menuMngList").flexOptions({params:searchOpt}).flexReload(); 
 		break;
 
 		// 목록
@@ -92,6 +95,8 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		
 		// 추가
 		case "addBtn":
+			this.$("#menuNo").removeAttr("disabled");
+			this.$("#upperMenuId").removeAttr("disabled");
 			this.$("#menuMngListTab").tabs("option", {active: 1});
 			this.$("#menuManageVO :input").val("");
 			this.$("#cmd").val("insert");
@@ -99,23 +104,27 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			
 		// 저장
 		case "saveBtn":
-		 	var inputVO=this.makeFormArgs("#menuManageVO");
+		 	var inputVO = this.makeFormArgs("#menuManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
-			 		if(result.resultCode == 0){
-			 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
-			 			this.$("#menuManageVO :input").val("");
+			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0") {
+						var searchOpt = module.makeFormArgs("#menuMngForm");
+						module.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#menuMngListTab").tabs("option", {active: 0});
+						module.$("#menuManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg);
+					alert(result.resultMsg);
 			 	});
 			}
 			else {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListUpdt.do" />', inputVO, function(result) {
-			 		if(result.resultCode == 0){
-			 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
-			 			this.$("#menuManageVO :input").val("");
+			 	this.doAction('<c:url value="/cmmn/gamMenuListUpdt.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0") {
+						var searchOpt = module.makeFormArgs("#menuMngForm");
+						module.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#menuMngListTab").tabs("option", {active: 0});
+						module.$("#menuManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg);
+					alert(result.resultMsg);
 			 	});
 			}
 		break;
@@ -123,13 +132,15 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		// 삭제
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
-				var inputVO=this.makeFormArgs("#menuManageVO");
-			 	this.doAction('<c:url value="/cmmn/gamMenuListDelete.do" />', inputVO, function(result) {
-			 		if(result.resultCode == 0){
-			 			this.$("#menuMngListTab").tabs("option", {active: 0}); 
-			 			this.$("#menuManageVO :input").val("");
+				var inputVO = this.makeFormArgs("#menuManageVO");
+			 	this.doAction('<c:url value="/cmmn/gamMenuListDelete.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0") {
+						var searchOpt = module.makeFormArgs("#menuMngForm");
+						module.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#menuMngListTab").tabs("option", {active: 0});
+						module.$("#menuManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg);
+					alert(result.resultMsg);
 			 	});
 			}
 		break;
@@ -142,23 +153,25 @@ GamMenuMngModule.prototype.loadComplete = function() {
  */
 GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
-	case 'tabs1':
-		break;
-	case 'tabs2':
-		var row = this.$('#menuMngList').selectedRows();
-		if(row.length == 0){
-			this.$('#cmd').val('insert');
-		}else{
-			this.$('#cmd').val('modify');
-			this.$('#menuNo').val(row['menuNo']);						// 메뉴No
-			this.$('#menuOrdr').val(row['menuOrdr']);					// 메뉴순서
-			this.$('#menuNm').val(row['menuNm']);						// 메뉴명
-			this.$('#upperMenuId').val(row['upperMenuId']);				// 상위메뉴No					
-			this.$('#progrmFileNm').val(row['progrmFileNm']);			// 파일명				
-			this.$('#relateImageNm').val(row['relateImageNm']);			// 관련이미지명
-			this.$('#relateImagePath').val(row['relateImagePath']);		// 관련이미지경로
-			this.$('#menuDc').val(row['menuDc']);						// 메뉴설명
-		}
+	
+		case "tabs1":
+			break;
+			
+		case "tabs2":
+			var row = this.$("#menuMngList").selectedRows();
+			if(row.length == 0){
+				this.$("#cmd").val("insert");
+			}else{
+				this.$("#cmd").val("modify");
+				this.$("#menuNo").val(row["menuNo"]);						// 메뉴No
+				this.$("#menuOrdr").val(row["menuOrdr"]);					// 메뉴순서
+				this.$("#menuNm").val(row["menuNm"]);						// 메뉴명
+				this.$("#upperMenuId").val(row["upperMenuId"]);				// 상위메뉴No					
+				this.$("#progrmFileNm").val(row["progrmFileNm"]);			// 파일명				
+				this.$("#relateImageNm").val(row["relateImageNm"]);			// 관련이미지명
+				this.$("#relateImagePath").val(row["relateImagePath"]);		// 관련이미지경로
+				this.$("#menuDc").val(row["menuDc"]);						// 메뉴설명
+			}
 		break;
 	}
 };
@@ -166,7 +179,7 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 var module_instance = new GamMenuMngModule();
 </script>
 <!-- 아래는 고정 -->
-<input type="hidden" id="window_id" value='${windowId}' />
+<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
 	<div class="emdPanel">
 		<div class="viewStack">
@@ -175,7 +188,7 @@ var module_instance = new GamMenuMngModule();
 					<tbody>
 						<tr>
 							<th>메뉴 명</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="${searchVO.searchKeyword }"  maxlength="60" title="검색조건" /></td>
+							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -208,7 +221,7 @@ var module_instance = new GamMenuMngModule();
 						</colgroup>
 						<tr>
 							<th><span class="label">메뉴No</span></th>
-							<td><input type="text" size="25" id="menuNo"/></td>
+							<td><input type="text" size="25" id="menuNo" /></td>
 							<th><span class="label">메뉴순서</span></th>
 							<td><input type="text" size="25" id="menuOrdr"/></td>
 						</tr>

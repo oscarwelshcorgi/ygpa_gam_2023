@@ -39,7 +39,6 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'No', 			name:'rn',				width:30, 	sortable:false,		align:'center'},
 					{display:'사용자아이디',	name:'uniqId',			width:0, 	sortable:false,		align:'center'},
-					/*{display:'항코드', 		name:'PRT_AT_CODE',		width:60, 	sortable:false,		align:'center'},*/
 					{display:'아이디', 		name:'userId',			width:100, 	sortable:false,		align:'center'},
 					{display:'사용자이름', 	name:'userNm',			width:80, 	sortable:false,		align:'center'},
 					{display:'사용자이메일', 	name:'emailAdres',		width:200, 	sortable:false,		align:'center'},
@@ -142,7 +141,6 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-				alert("In");
 			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});

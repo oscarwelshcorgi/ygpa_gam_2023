@@ -32,21 +32,21 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 
 	// 테이블 설정
 	this.$("#menuMngCreateList").flexigrid({
-		                          
+		module: this,
 		url: '<c:url value="/cmmn/gamMenuCreatManageSelect.do" />',
-		dataType: 'json',
+		dataType: "json",
 		colModel : [
 					{display:'권한코드',			name:'authorCode',		width:220,		sortable:false,		align:'left'},
 					{display:'권한명', 			name:'authorNm',		width:140, 		sortable:false,		align:'center'},
 					{display:'권한 설명', 		name:'authorDc',		width:80, 		sortable:false,		align:'center'},
-					{display:'메뉴생성여부', 		name:'chkYeoBu',		width:120, 		sortable:false,		align:'center'},
-					{display:'메뉴생성',			name:'menuDc',			width:80,		sortable:false,		align:'center'}
+					{display:'메뉴생성여부', 		name:'chkYeoBu',		width:100, 		sortable:false,		align:'center'},
+					{display:'메뉴생성', 		name:'regYn',			width:80, 		sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'메뉴생성', className:'selectRoleButton'}}
 					],
 		usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: "300"
 	});
 };
 		
@@ -58,40 +58,30 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 	switch(buttonId) {
 	
 		// 조회
-		case 'searchBtn':
-			var searchOpt=this.makeFormArgs('#menuMngCreateForm');
-		 	this.$('#menuMngCreateList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		case "searchBtn":
+			var searchOpt = this.makeFormArgs("#menuMngCreateForm");
+		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload(); 
+		break;
 		
 		// 신규저장
-		case 'insertBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		case "insertBtn":
+			var searchOpt = this.makeFormArgs("#searchGisAssetCode");
+		 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload(); 
+		break;
 		
 		// 삭제
-		case 'deleteBtn':
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
-			break;
+		case "deleteBtn":
+			var searchOpt = this.makeFormArgs("#searchGisAssetCode");
+		 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload(); 
+		break;
 	}
 };
-
-GamMenuMngCreateModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-}
-
-GamMenuMngCreateModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#menuMngCreateForm');
- 	this.$('#menuMngCreateList').flexOptions({params:searchOpt}).flexReload(); 
-}
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamMenuMngCreateModule();
 </script>
 <!-- 아래는 고정 -->
-<input type="hidden" id="window_id" value='${windowId}' />
+<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
 	<div class="emdPanel">
 		<div class="viewStack">
@@ -100,7 +90,7 @@ var module_instance = new GamMenuMngCreateModule();
 					<tbody>
 						<tr>
 							<th>보안설정대상ID</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="${searchVO.searchKeyword}"  maxlength="60" title="검색조건" /></td>
+							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>

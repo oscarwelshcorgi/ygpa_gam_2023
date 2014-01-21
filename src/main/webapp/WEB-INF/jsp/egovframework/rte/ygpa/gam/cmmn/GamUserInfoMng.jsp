@@ -32,6 +32,7 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
+		module:this,
 		url: '<c:url value="/cmmn/gamAuthorGroupList.do" />',
 		dataType: 'json',
 		colModel : [
@@ -50,14 +51,6 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	});
 };
 		
-// 사용자 설정 함수 추가
-// 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
-GamAuthorGrpMngModule.prototype.showModuleAlert = function(msg) {
-	//this.getSelect(msg);	
-	this.$('#prtCode').val(msg);
-}
-
-
 /**
  * 정의 된 버튼 클릭 시
  */
