@@ -7,7 +7,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Description : 자산임대 VO class
  * @Modification Information
  *
- * @author Dev
+ * @author 정윤후
  * @since 2014-01-10
  * @version 1.0
  * @see
@@ -129,7 +129,7 @@ public class GamAssetRentVO extends ComDefaultVO {
     private String sumGrFee;
     
     /** 관리번호(MAX) */
-    private String maxMngNo;
+    private String maxMngCnt; 
     
     /** 항코드(연장신청) */
     private String rPrtAtCode;
@@ -664,20 +664,6 @@ public class GamAssetRentVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the maxMngNo
-	 */
-	public String getMaxMngNo() {
-		return maxMngNo;
-	}
-
-	/**
-	 * @param maxMngNo the maxMngNo to set
-	 */
-	public void setMaxMngNo(String maxMngNo) {
-		this.maxMngNo = maxMngNo;
-	}
-
-	/**
 	 * @return the rPrtAtCode
 	 */
 	public String getrPrtAtCode() {
@@ -746,5 +732,21 @@ public class GamAssetRentVO extends ComDefaultVO {
 	public void setRentMngNo(String rentMngNo) {
 		this.rentMngNo = rentMngNo;
 	}
+
+	/**
+	 * @return the maxMngCnt
+	 */
+	public String getMaxMngCnt() {
+		return maxMngCnt;
+	}
+
+	/**
+	 * @param maxMngCnt the maxMngCnt to set
+	 */
+	public void setMaxMngCnt(String maxMngCnt) {
+		this.maxMngCnt = maxMngCnt;
+	}
+	
+	
 	
 }

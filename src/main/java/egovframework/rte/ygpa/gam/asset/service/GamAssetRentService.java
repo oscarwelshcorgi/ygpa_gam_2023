@@ -10,8 +10,8 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
  * @Description : 자산임대관리 Business class
  * @Modification Information
  *
- * @author Dev
- * @since 2013-12-20
+ * @author 정윤후
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
@@ -67,12 +67,19 @@ public interface GamAssetRentService {
 	void insertAssetRentRenew(GamAssetRentVO vo) throws Exception;
 	
 	/**
+	 * 자산임대정보를 수정한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void updateAssetRent(GamAssetRentVO vo) throws Exception;
+	
+	/**
 	 * 자산임대 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectAssetRentDetailList(GamAssetRentDetailVO vo) throws Exception;
+    List selectAssetRentDetailList(GamAssetRentVO vo) throws Exception;
 
     /**
 	 * 자산임대 상세 목록 총 갯수를 조회한다.
@@ -80,55 +87,49 @@ public interface GamAssetRentService {
 	 * @return cnt
 	 * @exception
 	 */
-    int selectAssetRentDetailListTotCnt(GamAssetRentDetailVO vo) throws Exception;
+    int selectAssetRentDetailListTotCnt(GamAssetRentVO vo) throws Exception;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    /**
+	 * 징수의뢰 해당 갯수를 조회한다.
+	 * @param VO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectAssetRentLevReqestCnt(GamAssetRentVO vo) throws Exception;
+    
+    /**
+	 * 자산임대 정보를 삭제한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	void deleteAssetRent(GamAssetRentVO vo) throws Exception;
 	
 	/**
-	 * ERP_ASSET_CD을 등록한다.
-	 * @param vo - 등록할 정보가 담긴 ErpAssetCdVO
-	 * @return 등록 결과
+	 * 자산임대 상세정보를 삭제한다.
+	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-    //String insertErpAssetCd(ErpAssetCdVO vo) throws Exception;
-    
-    /**
-	 * ERP_ASSET_CD을 수정한다.
-	 * @param vo - 수정할 정보가 담긴 ErpAssetCdVO
-	 * @return void형
+	void deleteAssetRentDetail(GamAssetRentVO vo) throws Exception;
+	
+	/**
+	 * 자산임대 상세를 등록한다.
+	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-    //void updateErpAssetCd(ErpAssetCdVO vo) throws Exception;
-    
-    /**
-	 * ERP_ASSET_CD을 삭제한다.
-	 * @param vo - 삭제할 정보가 담긴 ErpAssetCdVO
-	 * @return void형 
+	void insertAssetRentDetail(GamAssetRentDetailVO vo) throws Exception;
+	
+	/**
+	 * 자산임대 상세를 수정한다.
+	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-    //void deleteErpAssetCd(ErpAssetCdVO vo) throws Exception;
-    
-    /**
-	 * ERP_ASSET_CD을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 ErpAssetCdVO
-	 * @return 조회한 ERP_ASSET_CD
+	void updateAssetRentDetail(GamAssetRentDetailVO vo) throws Exception;
+	
+	/**
+	 * 자산임대 상세를 삭제한다.
+	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-    //ErpAssetCdVO selectErpAssetCd(ErpAssetCdVO vo) throws Exception;
+	void deleteAssetRentDetail2(GamAssetRentDetailVO vo) throws Exception;
     
 }

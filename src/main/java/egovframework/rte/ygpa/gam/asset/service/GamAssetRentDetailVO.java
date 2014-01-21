@@ -7,7 +7,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Description : 자산임대상세 VO class
  * @Modification Information
  *
- * @author Dev
+ * @author 정윤후
  * @since 2014-01-10
  * @version 1.0
  * @see
@@ -125,18 +125,35 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
     /**  관리 횟수  */
     private String mngCnt;
     
-    /**  관리 년도 (상세리스트)  */
+    /**  관리 년도 (상세)  */
     private String detailMngYear;
     
-    /**  관리 번호 (상세리스트)  */
+    /**  관리 번호 (상세)  */
     private String detailMngNo;
     
-    /**  관리 횟수 (상세리스트)  */
+    /**  관리 횟수 (상세)  */
     private String detailMngCnt;
     
-    /**  항코드 (상세리스트)  */
+    /**  항코드 (상세)  */
     private String detailPrtAtCode; 
+    
+    /**  GIS코드 (상세)  */
+    private String detailGisCd;
+    
+    /** 등록자 */
+    private String detailRegUsr;    
+                   
+    /** 등록일시 */
+    private String detailRegistDt;  
+                   
+    /** 수정자 */
+    private String detailUpdUsr;  
+                     
+    /** 수정일시 */
+    private String detailUpdtDt; 
 
+    /** 허가 여부 */
+    private String detailPrmisnYn;
     
 	/**
 	 * @return the assetsUsageSeq
@@ -696,7 +713,90 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	 */
 	public void setDetailPrtAtCode(String detailPrtAtCode) {
 		this.detailPrtAtCode = detailPrtAtCode;
-	} 
+	}
+
+	/**
+	 * @return the detailPrmisnYn
+	 */
+	public String getDetailPrmisnYn() {
+		return detailPrmisnYn;
+	}
+
+	/**
+	 * @param detailPrmisnYn the detailPrmisnYn to set
+	 */
+	public void setDetailPrmisnYn(String detailPrmisnYn) {
+		this.detailPrmisnYn = detailPrmisnYn;
+	}
+
+	/**
+	 * @return the detailGisCd
+	 */
+	public String getDetailGisCd() {
+		return detailGisCd;
+	}
+
+	/**
+	 * @param detailGisCd the detailGisCd to set
+	 */
+	public void setDetailGisCd(String detailGisCd) {
+		this.detailGisCd = detailGisCd;
+	}
+
+	/**
+	 * @return the detailRegUsr
+	 */
+	public String getDetailRegUsr() {
+		return detailRegUsr;
+	}
+
+	/**
+	 * @param detailRegUsr the detailRegUsr to set
+	 */
+	public void setDetailRegUsr(String detailRegUsr) {
+		this.detailRegUsr = detailRegUsr;
+	}
+
+	/**
+	 * @return the detailRegistDt
+	 */
+	public String getDetailRegistDt() {
+		return detailRegistDt;
+	}
+
+	/**
+	 * @param detailRegistDt the detailRegistDt to set
+	 */
+	public void setDetailRegistDt(String detailRegistDt) {
+		this.detailRegistDt = detailRegistDt;
+	}
+
+	/**
+	 * @return the detailUpdUsr
+	 */
+	public String getDetailUpdUsr() {
+		return detailUpdUsr;
+	}
+
+	/**
+	 * @param detailUpdUsr the detailUpdUsr to set
+	 */
+	public void setDetailUpdUsr(String detailUpdUsr) {
+		this.detailUpdUsr = detailUpdUsr;
+	}
+
+	/**
+	 * @return the detailUpdtDt
+	 */
+	public String getDetailUpdtDt() {
+		return detailUpdtDt;
+	}
+
+	/**
+	 * @param detailUpdtDt the detailUpdtDt to set
+	 */
+	public void setDetailUpdtDt(String detailUpdtDt) {
+		this.detailUpdtDt = detailUpdtDt;
+	}
 	
-    
 }

@@ -11,11 +11,11 @@ import egovframework.rte.ygpa.gam.asset.service.GamAssetRentService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 
 /**
- * @Class Name : ErpAssetCdServiceImpl.java
- * @Description : ErpAssetCd Business Implement class
+ * @Class Name : GamAssetRentServiceImpl.java
+ * @Description : 자산임대관리 Business Implement class
  * @Modification Information
  *
- * @author Dev
+ * @author 정윤후
  * @since 2014-01-10
  * @version 1.0
  * @see
@@ -88,12 +88,21 @@ public class GamAssetRentServiceImpl implements GamAssetRentService {
 	}
 	
 	/**
+	 * 자산임대정보를 수정한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void updateAssetRent(GamAssetRentVO vo) throws Exception {
+		gamAssetRentDao.updateAssetRent(vo);
+	}
+	
+	/**
 	 * 자산임대 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetRentDetailList(GamAssetRentDetailVO vo) throws Exception {
+    public List selectAssetRentDetailList(GamAssetRentVO vo) throws Exception {
         return gamAssetRentDao.selectAssetRentDetailList(vo);
     }
 
@@ -103,10 +112,68 @@ public class GamAssetRentServiceImpl implements GamAssetRentService {
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetRentDetailListTotCnt(GamAssetRentDetailVO vo) throws Exception {
+    public int selectAssetRentDetailListTotCnt(GamAssetRentVO vo) throws Exception {
 		return gamAssetRentDao.selectAssetRentDetailListTotCnt(vo);
 	}
 	
+    /**
+	 * 징수의뢰 해당 갯수를 조회한다.
+	 * @param VO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectAssetRentLevReqestCnt(GamAssetRentVO vo) throws Exception {
+		return gamAssetRentDao.selectAssetRentLevReqestCnt(vo);
+	}
+    
+    /**
+	 * 자산임대 정보를 삭제한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void deleteAssetRent(GamAssetRentVO vo) throws Exception {
+		
+		gamAssetRentDao.deleteAssetRentPhoto(vo); //자산임대 사진정보 삭제
+		
+		gamAssetRentDao.deleteAssetRentDetail(vo); //자산임대 상세정보 삭제
+		
+		gamAssetRentDao.deleteAssetRent(vo); // 자산임대정보 삭제
+	}
+    
+	/**
+	 * 자산임대 상세정보를 삭제한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void deleteAssetRentDetail(GamAssetRentVO vo) throws Exception {
+		gamAssetRentDao.deleteAssetRentDetail(vo);
+	}
 	
+	/**
+	 * 자산임대 상세를 등록한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentDetail(GamAssetRentDetailVO vo) throws Exception {
+		gamAssetRentDao.insertAssetRentDetail(vo);
+	}
+	
+	/**
+	 * 자산임대 상세를 수정한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentDetail(GamAssetRentDetailVO vo) throws Exception {
+		gamAssetRentDao.updateAssetRentDetail(vo);
+	}
+	
+	/**
+	 * 자산임대 상세를 삭제한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void deleteAssetRentDetail2(GamAssetRentDetailVO vo) throws Exception {
+		gamAssetRentDao.deleteAssetRentDetail2(vo);
+	}
 
 }
