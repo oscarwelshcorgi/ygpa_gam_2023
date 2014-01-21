@@ -9,14 +9,14 @@
   * @Class Name : GamAuthorRoleMng.jsp
   * @Description : 권한 롤 관리 리스트 화면
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2013.10.29  권옥경          최초 생성
   *
   * author 권옥경
   * since 2014.01.09
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -56,9 +56,9 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: "300"
 	});
-	
+
 	this.$("#authorRoleMngList").on("onSelectChanged", function(event, module, row, grid, param) {
-		
+
 		var inputVO = {roleCodes: row.roleCode, regYn:row.regYn, authorCode:module.$("#searchKeyword").val()};
 		module.doAction('<c:url value="/cmmn/gamAuthorRoleInsert.do" />', inputVO, function(module2, result) {
 	 		if(result.resultCode == 0){
@@ -69,25 +69,29 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 	 	});
 	});
 };
-		
+
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#authorRoleForm");
-		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
+		 	throw 0;
 		break;
-		
+
 		// 저장
 		case "saveBtn":
-			var searchOpt = this.makeFormArgs("#authorRoleForm");
-		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
+			var filter = [{ 'col': 'regYn', 'filter': 'Y'}];
+			var reglist = this.$("#authorRoleMngList").selectFilterData(filter);
+			alert('등록이 Y인 행을 '+ reglist.length+' 개 선택 했습니다.');
+//			var searchOpt = this.makeFormArgs("#authorRoleForm");
+//		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
 	}
 };

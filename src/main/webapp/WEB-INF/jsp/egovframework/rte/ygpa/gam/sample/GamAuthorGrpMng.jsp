@@ -37,6 +37,11 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	           </c:forEach>
 	               ];
 
+	var ynOption = [
+	                { value: 'Y', name: '예'},
+	                { value: 'N', name: '아니오'}
+	                ];
+
 
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
@@ -49,7 +54,7 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 					{display:'사용자 명', 	name:'userNm',		width:120, 	sortable:false,		align:'center'},
 					{display:'사용자 유형', 	name:'mberTyCode',	width:120, 	sortable:false,		align:'center'},
 					{display:'권한', 		name:'authorCode',	width:200, 	sortable:false,		align:'center', displayFormat:'select', displayOption:dOption},
-					{display:'등록여부', 	name:'regYn',		width:80, 	sortable:false,		align:'center'}
+					{display:'등록여부', 	name:'regYn',		width:80, 	sortable:false,		align:'center', displayFormat:'select', displayOption:ynOption}
 					],
 		usepager: true,
 		useRp: true,

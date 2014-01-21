@@ -1,11 +1,15 @@
-package egovframework.rte.ygpa.gam.cmmn.web;
+package egovframework.rte.ygpa.gam.sample.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,34 +30,36 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
-public class GamMenuMngController {
+public class GamMenuMngSampleController {
+
+	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMenuManageService */
 	@Resource(name = "meunManageService")
     private EgovMenuManageService menuManageService;
-	
+
 	/** EgovMenuManageService */
 	@Resource(name = "progrmManageService")
 	private EgovProgrmManageService progrmManageService;
-	
+
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
-	@RequestMapping(value="/cmmn/gamMenuMng.do")
+
+	@RequestMapping(value="/sample/gamMenuMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/cmmn/GamMenuMng";
+    	return "/ygpa/gam/sample/GamMenuMng";
     }
-	
+
 	/**
 	 * 메뉴목록 리스트조회한다.
 	 * @param searchVO
@@ -61,11 +67,11 @@ public class GamMenuMngController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/cmmn/gamMenuManageSelect.do")
+    @RequestMapping(value="/sample/gamMenuManageSelect.do")
 	@ResponseBody Map<String, Object> selectMenuManageList(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception {
 
 		Map map = new HashMap();
-		
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -93,7 +99,7 @@ public class GamMenuMngController {
         int totCnt = menuManageService.selectMenuManageListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
-		
+
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", list_menumanage);
@@ -101,8 +107,8 @@ public class GamMenuMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 메뉴리스트의 메뉴정보를 등록한다.
 	 * @param menuManageVO
@@ -111,13 +117,13 @@ public class GamMenuMngController {
 	 * @return Map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/cmmn/gamMenuListInsert.do")
+    @RequestMapping(value="/sample/gamMenuListInsert.do")
     @ResponseBody Map<String, Object> insertMenuList(@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)
             throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	String resultMsg    = "";
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -153,8 +159,8 @@ public class GamMenuMngController {
         map.put("resultMsg", resultMsg);
       	return map;
     }
-    
-    
+
+
     /**
      * 프로그램목록을 수정 한다.
      * @param menuManageVO
@@ -163,9 +169,9 @@ public class GamMenuMngController {
      * @return Map
      * @throws Exception
      */
-    @RequestMapping(value="/cmmn/gamMenuListUpdt.do")
+    @RequestMapping(value="/sample/gamMenuListUpdt.do")
     @ResponseBody Map<String, Object> updateMenuManage(@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,BindingResult bindingResult,ModelMap model) throws Exception {
-    	
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		String resultMsg = "";
     	// 0. Spring Security 사용자권한 처리
@@ -199,8 +205,8 @@ public class GamMenuMngController {
         map.put("resultMsg", resultMsg);
     	return map;
     }
-    
-    
+
+
     /**
      * 메뉴리스트의 메뉴정보를 삭제한다.
      * @param menuManageVO
@@ -208,11 +214,11 @@ public class GamMenuMngController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/cmmn/gamMenuListDelete.do")
+    @RequestMapping(value="/sample/gamMenuListDelete.do")
     @ResponseBody Map<String, Object> deleteMenuList(@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,BindingResult bindingResult)throws Exception {
-        
-    	Map<String, Object> map = new HashMap<String, Object>();
 
+    	Map<String, Object> map = new HashMap<String, Object>();
+		String resultMsg = "";
     	// 0. Spring Security 사용자권한 처리
    	    Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -230,29 +236,107 @@ public class GamMenuMngController {
 		}
 
 		menuManageService.deleteMenuManage(menuManageVO);
+		resultMsg = egovMessageSource.getMessage("success.common.delete");
 
 		map.put("resultCode", 0);
-      	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+      	map.put("resultMsg", resultMsg);
 		return map;
     }
-    
-    @RequestMapping(value="/cmmn/gamMenuListSelect.do")
-    public String selectMenuList(
+
+    @RequestMapping(value="/sample/mnu/gamMenuList.do")
+    public String viewMenuList(
+    		@RequestParam("window_id") String windowId,
     		@ModelAttribute("searchVO") ComDefaultVO searchVO,
     		ModelMap model)
             throws Exception {
-//    	String resultMsg    = "";
-    	// 0. Spring Security 사용자권한 처리
-//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-//    	if(!isAuthenticated) {
-//    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-//        	return "egovframework/com/uat/uia/EgovLoginUsr";
-//    	}
+    	String resultMsg    = "";
+//    	 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+        	return "ygpa/gam/cmmn/loginerror";
+    	}
+
+    	model.addAttribute("windowId", windowId);
 //    	List list_menulist = menuManageService.selectMenuList();
 //    	resultMsg = egovMessageSource.getMessage("success.common.select");
 //        model.addAttribute("list_menulist", list_menulist);
 //        model.addAttribute("resultMsg", resultMsg);
-    	return "/ygpa/gam/cmmn/GamMenuList";
+    	return "/ygpa/gam/sample/GamMenuList";
+   }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private List<Map> findKey(List list, String menuId) {
+    	List nextList;
+    	Map<String, Object> mnu;
+    	for(int i=0; i<list.size(); i++) {
+    		mnu = (Map<String, Object>)list.get(i);
+    		if(menuId.equals(mnu.get("data"))) {
+    			if(mnu.containsKey("children")) return (List)mnu.get("children");
+    			nextList = new ArrayList();
+    			mnu.put("children",  nextList);
+    			return nextList;
+    		}
+    		else if(mnu.containsKey("children")) {
+    			nextList = findKey((List)mnu.get("children"), menuId);
+    			if(nextList!=null) return nextList;
+    		}
+    	}
+    	return null;
+    }
+
+    @RequestMapping(value="/sample/mnu/selectMenuList.do")
+    @ResponseBody public Map selectMenuList(
+    		@ModelAttribute("searchVO") ComDefaultVO searchVO,
+    		ModelMap model)
+            throws Exception {
+    	Map map = new HashMap();
+    	String resultMsg    = "";
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+    		resultMsg = egovMessageSource.getMessage("fail.common.login");
+        	map.put("resultCode", 1);	// return error
+        	map.put("resultMsg", resultMsg);	// return error message
+        	return map;
+    	}
+    	List list_menulist = menuManageService.selectMenuList();
+    	resultMsg = egovMessageSource.getMessage("success.common.select");
+//    	List root = new ArrayList();
+//    	Map mnu;
+//    	Map menuItem;
+//    	Map attr;
+//    	for(int i=0; i<list_menulist.size(); i++) {	// 메뉴 트리 생성
+//    		mnu = (Map)list_menulist.get(i);
+//    		menuItem = new HashMap<String, Object>();
+//    		attr = new HashMap<String, Object>();
+//    		attr.put("menuNo", mnu.get("menuNo"));
+//    		attr.put("menuOrdr", mnu.get("menuOrdr"));
+//    		attr.put("upperMenuId", mnu.get("upperMenuId"));
+//    		attr.put("menuDc", mnu.get("menuDc"));
+//    		attr.put("relateImagePath", mnu.get("relateImagePath"));
+//    		attr.put("progrmFileNm", mnu.get("progrmFileNm"));
+//    		menuItem.put("data", mnu.get("menuNm"));
+//    		menuItem.put("attr", attr);
+//
+//    		if("0".equals(mnu.get("upperMenuId"))) {
+//    			root.add(mnu);
+//    		}
+//    		else {
+//    			List<Map> findkey=findKey(root, (String)mnu.get("upperMenuId"));
+//    			if(findkey!=null) {
+//    				findkey.add(mnu);
+//    			}
+//    			else {
+//					log.error("상위메뉴를 찾을 수없습니다. (menuNo="+(String)mnu.get("menuNo")+", menuNm="+(String)mnu.get("menuNm")+")");
+//    			}
+//    		}
+//    	}
+    	map.put("listMenulist", list_menulist);
+    	map.put("resultMsg", resultMsg);
+    	map.put("resultCode", 0);
+    	return map;
    }
 
 }

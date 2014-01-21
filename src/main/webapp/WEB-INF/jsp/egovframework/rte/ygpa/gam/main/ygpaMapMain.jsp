@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="<c:url value='/css/jquery.ui.tabs.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.sidr.light.css'/>">
+<link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
@@ -245,7 +246,7 @@
 							</li>
 							<li>
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamMarineCenteRentNticMngt.do'/>">배후단지마린센터납부현황관리납부현황관리</a>
+							data-url="<c:url value='/prt_fclty/gamMarineCenteRentNticMngt.do'/>">마린센터납부현황관리</a>
 							</li>
 
 							<li>
@@ -381,17 +382,32 @@
 			</ul>
 		</li>
 
+		<li>
+			<a class="menu_trigger" href="#">창관리</a>
+			<ul class="menu">
+				<li>
+					<a href="#" data-role="CloseAllWindow">모든창 닫기</a>
+				</li>
+				<li>
+					<a href="#" data-role="MinimizeAllWindow">모든창 최소화</a>
+				</li>
+			</ul>
+		</li>
+
 				<li><a class="menu_trigger" href="#">샘플</a>
 					<ul class="menu">
 						<li><a href="#"><b>자산정보 관리</b></a>
 							<ul class="submenu">
-								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
-								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
-								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
-								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리(샘플)</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리(샘플)</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리(샘플)</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리(샘플)</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/mnu/gamMenuList.do'/>">메뉴리스트(샘플)</a></li>
 							</ul>
 							</li>
 					</ul>
+				</li>
+		</ul>
   </div>
 	<div class="abs" id="bar_bottom">
 	    <a class="float_left" href="#" id="show_desktop" title="Show Desktop">

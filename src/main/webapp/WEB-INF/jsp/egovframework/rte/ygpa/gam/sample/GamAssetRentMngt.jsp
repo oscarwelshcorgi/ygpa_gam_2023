@@ -84,6 +84,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'submitButton':
 		throw 0;
 		break;
+	case 'clearForm1':
+		this.$('#editForm :input').val("");
+		break;
 	case 'popupFcltyCd':	// 팝업을 호출한다.
 		var opts = {
 			'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
@@ -194,6 +197,7 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 				<div class="emdControlPanel"><button id="addAssetCd">자산추가</button><button id="removeAssetCd">삭제</button><button id="editAssetCd">편집</button><button id="toExcel">엑셀(XLS)</button><button id="loadMap">지도보기</button></div>
 			</div>
 			<div id="tabs2" class="emdTabPage">
+				<form id="editForm">
 				<table>
 					<tr>
 						<th><span class="label">청코드</span></th>
@@ -226,9 +230,10 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 					</tr>
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<input type="reset" value="취소" class="input_1"> <input
-						type="submit" value="저장" class="input_1">
+					<button id="clearForm1" class="cancelButton">취소</button>
+					<button id="saveForm1" class="submit" >저장</button>
 				</div>
+				</form>
 			</div>
 			<div id="tabs3" class="emdTabPage">탭탭탭</div>
 

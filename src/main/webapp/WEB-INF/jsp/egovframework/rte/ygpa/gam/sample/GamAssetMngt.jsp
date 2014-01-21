@@ -184,9 +184,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		var row = this.$('#erpAssetCodeList').selectedRows();
 		this.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 		if(row.length>0) {
-			this.$('#searchGisErpAssetCls').val(row['assetCls']);
-			this.$('#searchGisErpAssetNo').val(row['assetNo']);
-			this.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
+			this.$('#searchGisErpAssetCls').val(row[0]['assetCls']);
+			this.$('#searchGisErpAssetNo').val(row[0]['assetNo']);
+			this.$('#searchGisErpAssetNoSeq').val(row[0]['assetNoSeq']);
 			// 해당하는 자산 목록을 불러온다/
 			var searchOpt=this.makeFormArgs('#searchForm');
 			//this.showAlert(searchOpt);
