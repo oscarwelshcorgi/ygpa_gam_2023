@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.sec.ram.service.AuthorRoleManage;
 import egovframework.com.sec.ram.service.AuthorRoleManageVO;
 import egovframework.com.sec.ram.service.EgovAuthorRoleManageService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -40,11 +41,10 @@ public class GamAuthorRoleMngController {
 	 * @return String
 	 * @exception Exception
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/cmmn/gamAuthorRoleList.do")
-    @ResponseBody Map selectAuthorRoleList(@ModelAttribute("authorRoleManageVO") AuthorRoleManageVO authorRoleManageVO) throws Exception {
+    @ResponseBody Map<String, Object> selectAuthorRoleList(@ModelAttribute("authorRoleManageVO") AuthorRoleManageVO authorRoleManageVO) throws Exception {
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
     	/** paging */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -57,7 +57,7 @@ public class GamAuthorRoleMngController {
 		authorRoleManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/** List Data */
-		List authorRoleList = egovAuthorRoleManageService.selectAuthorRoleList(authorRoleManageVO); 
+		List<AuthorRoleManageVO> authorRoleList = egovAuthorRoleManageService.selectAuthorRoleList(authorRoleManageVO); 
         int totCnt = egovAuthorRoleManageService.selectAuthorRoleListTotCnt(authorRoleManageVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
@@ -80,30 +80,35 @@ public class GamAuthorRoleMngController {
 	 * @return String
 	 * @exception Exception
 	 */
-	/*
-	@RequestMapping(value="/sec/ram/EgovAuthorRoleInsert.do")
-	public String insertAuthorRole(@RequestParam("authorCode") String authorCode,@RequestParam("roleCodes") String roleCodes,
-			                       @RequestParam("regYns") String regYns,@ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage,
-			                         SessionStatus status) throws Exception {
+	@RequestMapping(value="/cmmn/gamAuthorRoleInsert.do")
+	@ResponseBody Map<String, Object> insertAuthorRole(@RequestParam("authorCode") String authorCode,@RequestParam("roleCodes") String roleCodes,
+			                       @RequestParam("regYn") String regYns,@ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage) throws Exception {
 
-    	String [] strRoleCodes = roleCodes.split(";");
-    	String [] strRegYns = regYns.split(";");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+    	//String [] strRoleCodes = roleCodes.split(";");
+    	//String [] strRegYns = regYns.split(";");
     	
+		authorCode = "";
     	authorRoleManage.setRoleCode(authorCode);
     	
-    	for(int i=0; i<strRoleCodes.length;i++) {
-    		authorRoleManage.setRoleCode(strRoleCodes[i]);
-    		authorRoleManage.setRegYn(strRegYns[i]);
-    		if(strRegYns[i].equals("Y")){
+    	//for(int i=0; i<strRoleCodes.length;i++) {
+    		//authorRoleManage.setRoleCode(strRoleCodes[i]);
+    		//authorRoleManage.setRegYn(strRegYns[i]);
+    		authorRoleManage.setRoleCode(roleCodes);
+    		authorRoleManage.setRegYn(regYns);
+    		
+    		//if(strRegYns[i].equals("Y")){
+    		if(regYns.equals("Y")){
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);//2011.09.07
     			egovAuthorRoleManageService.insertAuthorRole(authorRoleManage);
     		}else {
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);
     		}
-    	}
+    	//}
 
-        status.setComplete();
-        model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));		
-		return "forward:/sec/ram/EgovAuthorRoleList.do";
-	}*/
+    	map.put("resultCode", "0");		
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));		
+		return map;
+	}
 }

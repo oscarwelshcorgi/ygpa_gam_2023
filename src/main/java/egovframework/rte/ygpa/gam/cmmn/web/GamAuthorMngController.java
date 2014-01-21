@@ -98,7 +98,7 @@ public class GamAuthorMngController {
 	 * @throws Exception
 	 */
     @RequestMapping(value="/cmmn/gamAuthorInsert.do")
-    @ResponseBody Map<String, Object> insertAuthor(@ModelAttribute("authorManage") AuthorManage authorManage,BindingResult bindingResult,SessionStatus status) throws Exception {
+    @ResponseBody Map<String, Object> insertAuthor(@ModelAttribute("authorManage") AuthorManage authorManage,BindingResult bindingResult) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
@@ -111,7 +111,6 @@ public class GamAuthorMngController {
 			
 		} else {
 	    	egovAuthorManageService.insertAuthor(authorManage);
-	        status.setComplete();
 
 	        map.put("resultCode", 0);	// return ok
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

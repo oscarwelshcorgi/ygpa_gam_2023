@@ -212,7 +212,7 @@ public class GamMenuMngController {
     @ResponseBody Map<String, Object> deleteMenuList(@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,BindingResult bindingResult)throws Exception {
         
     	Map<String, Object> map = new HashMap<String, Object>();
-		String resultMsg = "";
+
     	// 0. Spring Security 사용자권한 처리
    	    Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -230,10 +230,9 @@ public class GamMenuMngController {
 		}
 
 		menuManageService.deleteMenuManage(menuManageVO);
-		resultMsg = egovMessageSource.getMessage("success.common.delete");
 
 		map.put("resultCode", 0);
-      	map.put("resultMsg", resultMsg);
+      	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		return map;
     }
 }

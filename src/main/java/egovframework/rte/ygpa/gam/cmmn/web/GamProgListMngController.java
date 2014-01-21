@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +19,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
 import egovframework.com.sym.prm.service.ProgrmManageVO;
@@ -142,20 +140,20 @@ public class GamProgListMngController {
 		return map;
     }
 
-    /**
-     * 프로그램목록을 수정 한다.
-     * @param progrmManageVO ProgrmManageVO
-     * @return 출력페이지정보 "forward:/sym/prm/EgovProgramListManageSelect.do"
-     * @exception Exception
-     */
-    /*프로그램목록수정*/
+
+	/**
+	 * 프로그램목록을 수정 한다.
+	 * @param commandMap
+	 * @param progrmManageVO
+	 * @param bindingResult
+	 * @return map
+	 * @throws Exception
+	 */
     @RequestMapping(value="/cmmn/gamProgramListDetailSelectUpdt.do")
     public @ResponseBody Map<String, Object> updateProgrmList(Map<String, Object> commandMap,@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,BindingResult bindingResult)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
 		
-    	String resultMsg = "";
-    	
     	// 0. Spring Security 사용자권한 처리
    	    Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -173,23 +171,23 @@ public class GamProgListMngController {
 		}
 		if(progrmManageVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
 		progrmManageService.updateProgrm(progrmManageVO);
-		resultMsg = egovMessageSource.getMessage("success.common.update");
+
         map.put("resultCode", 0);			// return ok
-        map.put("resultMsg", resultMsg);
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		return map;
     }
 
+    
     /**
      * 프로그램목록을 삭제 한다.
-     * @param progrmManageVO ProgrmManageVO
-     * @return 출력페이지정보 "forward:/sym/prm/EgovProgramListManageSelect.do"
-     * @exception Exception
+     * @param progrmManageVO
+     * @return map
+     * @throws Exception
      */
     @RequestMapping(value="/cmmn/gamProgramListManageDelete.do", method=RequestMethod.POST)
     public @ResponseBody Map<String, Object> deleteProgrmList(ProgrmManageVO progrmManageVO)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
-    	String resultMsg = "";
     	
         // 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -198,10 +196,13 @@ public class GamProgListMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-        progrmManageService.deleteProgrm(progrmManageVO);
-        resultMsg = egovMessageSource.getMessage("success.common.delete");
-        map.put("resultCode", 0);			// return ok
-        map.put("resultMsg", resultMsg);
+        
+    	// DATA 삭제
+    	progrmManageService.deleteProgrm(progrmManageVO);
+        
+    	map.put("resultCode", 0);			// return ok
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+
         return map;
     }
 }

@@ -31,6 +31,10 @@ public class GamAuthorGrpMngController {
 	@RequestMapping(value="/cmmn/gamAuthorGrpMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
+    	
+    	List<AuthorManageVO> list = egovAuthorManageService.selectAuthorAllList(new AuthorManageVO());
+        model.addAttribute("authorManageList", list);
+
     	return "/ygpa/gam/cmmn/GamAuthorGrpMng";
     }
 	

@@ -161,7 +161,7 @@ public class GamUserMngController {
     	Map<String, Object> map = new HashMap<String, Object>();
     	
     	if("insert".equals(cmd)) {
-    		System.out.println("userManageVO.getZip() : "+userManageVO.getZip());
+
 	    	beanValidator.validate(userManageVO, bindingResult);
 			if (bindingResult.hasErrors()){
 		        map.put("resultCode", 1);
