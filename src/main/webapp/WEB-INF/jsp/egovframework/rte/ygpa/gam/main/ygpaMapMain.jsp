@@ -138,49 +138,80 @@
 							<ul class="submenu">
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0003"
-									data-url="<c:url value='/prt_fclty/gamPrtOperRentMngt.do'/>">항만시설사용목록관리</a>
+									data-url="<c:url value='/oper/gnrl/gamPrtFcltyUseSttusInqire.do'/>">항만시설사용현황조회</a>
 								</li>
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0003"
-									data-url="<c:url value='/prt_fclty/gamPrtOperRentFeeMngt.do'/>">항만시설사용료관리</a>
+									data-url="<c:url value='/oper/gnrl/gamPrtOperRentMngt.do'/>">항만시설사용목록관리</a>
 								</li>
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0003"
-									data-url="<c:url value='/prt_fclty/gamPrtOperRentNticMngt.do'/>">항만시설납부현황관리</a>
+									data-url="<c:url value='/oper/gnrl/gamPrtOperRentFeeMngt.do'/>">항만시설사용료관리</a>
+								</li>
+								<li><a href="#" data-role="LoadModule"
+									data-prgid="PRG_0003"
+									data-url="<c:url value=''/>">항만시설납부현황관리</a>
+								</li>
+								<li><a href="#" data-role="LoadModule"
+									data-prgid="PRG_0003"
+									data-url="<c:url value=''/>">항만시설월별사용료현황조회</a>
+								</li>
+								<li><a href="#" data-role="LoadModule"
+									data-prgid="PRG_0003"
+									data-url="<c:url value=''/>">항만시설업체별사용료현황조회</a>
+								</li>
+								<li><a href="#" data-role="LoadModule"
+									data-prgid="PRG_0003"
+									data-url="<c:url value=''/>">항만시설기간별사용료현황조회</a>
 								</li>
 							</ul></li>
 						<li><a href="#"><b>컨테이너 부두</b></a>
 							<ul class="submenu">
 								<li>
 									<a href="#" data-role="LoadModule"data-prgid="PRG_0005"
-									data-url="<c:url value='/prt_fclty/gamCntrRentMngt.do'/>">컨테이너부두임대목록관리</a>
+									data-url="<c:url value='/oper/cntnr/gamCntnrQuayRentSttusInqire.do'/>">컨테이너부두임대현황조회</a>
 									</li>
 									<li>
 									<a href="#" data-role="LoadModule" data-prgid="PRG_0005"
-									data-url="<c:url value='/prt_fclty/gamCntrRentFeeMngt.do'/>">컨테이너부두임대료관리</a>
+									data-url="<c:url value='/oper/cntnr/gamCntnrRentMngt.do'/>">컨테이너부두임대목록관리</a>
 									</li>
 									<li>
 									<a href="#" data-role="LoadModule" data-prgid="PRG_0005"
-									data-url="<c:url value='/prt_fclty/gamCntrRentNticMngt.do'/>">컨테이너부두납부현황관리</a>
+									data-url="<c:url value='/oper/cntnr/gamCntnrQuayRentfeeInqire.do'/>">컨테이너부두임대료조회</a>
 								</li>
 							</ul>
 							</li>
 						<li><a href="#"><b>배후단지</b></a>
 							<ul class="submenu">
+							<li>
+							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+							data-url="<c:url value='/oper/htld/gamHtldRentSttusInqire.do'/>">배후단지임대현황조회</a>
+							</li>
+							<li>
+							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+							data-url="<c:url value='/oper/htld/gamHtldRentMngt.do'/>">배후단지임대목록관리</a>
+							</li>
+							<li>
+							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+							data-url="<c:url value='/oper/htld/gamHtldRentfeeMngt.do'/>">배후단지임대료관리</a>
+							</li>
+							</ul>
+						</li>
+						<li><a href="#"><b>철송장</b></a>
+							<ul class="submenu">
 								<li>
 								<a href="#"
 							data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamHtldRentMngt.do'/>">배후단지임대목록관리</a>
+							data-url="<c:url value='/oper/train/gamTrainPortRentSttusInqire.do'/>">철송장임대현황조회</a>
 							</li>
 							<li>
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamMarineCenterRentArStsReport.do'/>">배후단지사용료관리</a>
+							data-url="<c:url value='/oper/train/gamTrainPortRentLstMngt.do'/>">철송장임대목록관리</a>
 							</li>
 							<li>
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamMarineCenterRentCmpyStsReport.do'/>">배후단지납부현황관리</a>
+							data-url="<c:url value='/oper/train/gamTrainPortRentfeeInqire.do'/>">철송장임대료조회</a>
 							</li>
-
 							</ul>
 						</li>
 						<li><a href="#"><b>공컨장치장</b></a>
@@ -188,15 +219,15 @@
 								<li>
 								<a href="#"
 							data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamCmmnCntrRentMngt.do'/>">공컨장치장임대목록관리</a>
+							data-url="<c:url value='/oper/shed/gamCmmnCntrShedRentSttusInqire.do'/>">공컨장치장임대현황조회</a>
 							</li>
 							<li>
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamCmmnCntrRentFeeMngt.do'/>">공컨장치장임대료조회</a>
+							data-url="<c:url value='/oper/shed/gamCmmnCntrRentMngt.do'/>">공컨장치장임대목록관리</a>
 							</li>
 							<li>
 							<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-							data-url="<c:url value='/prt_fclty/gamCmmnCntRentNticMngt.do'/>">공컨장치장납부현황관리</a>
+							data-url="<c:url value='/oper/shed/gamCmmnCntrRentFeeInqire.do'/>">공컨장치장임대료조회</a>
 							</li>
 
 							</ul>
