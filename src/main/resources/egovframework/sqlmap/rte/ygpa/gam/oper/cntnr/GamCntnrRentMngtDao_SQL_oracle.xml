@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.oper.gnrl">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="crmVo" type="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrRentMngtVO"/>
+	
+	<resultMap id="infoMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrRentMngtVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
+        <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
+    </resultMap>
+
+	<select id="gamCntnrRentMngtDao.selectGamCntnrRentMngtList_D" parameterClass="crmVo" resultClass="egovMap">
+	
+		SELECT A.* FROM (
+			SELECT ROWNUM RNUM, S.* FROM (
+				SELECT 
+					A.PRT_AT_CODE
+					, A.MNG_YEAR
+					, A.MNG_NO
+					, A.MNG_CNT
+					, A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
+					, A.ENTRPSCD
+					, TO_CHAR(A.DT,'YYYYMMDD') DT
+					, A.REQST_SE_CD
+					, A.GR_AR
+					, A.GR_FEE
+					, A.NTIC_MTH
+					, A.FRST_PRMISN_DT
+					, A.PRMISN_DT
+					, A.PRMISN_YN
+					, A.GR_USAGE_PD_FROM
+					, A.GR_USAGE_PD_TO
+					, A.DOC_NO
+					, A.RM
+					, A.CMT
+					, A.ETC
+					, A.REG_USR
+					, A.REGIST_DT
+					, A.UPD_USR
+					, A.UPDT_DT
+					, A.GR_RDCXPT_FEE
+					, A.GIS_CD
+					, A.DEPTCD
+			FROM ASSETS_RENT_F A
+			WHERE 1 = 1 
+			
+			<isNotEmpty property="sPrtAtCode">
+				AND A.PRT_AT_CODE = #sPrtAtCode#  
+			</isNotEmpty>
+			
+			<isNotEmpty property="sReqstSeCd">
+				AND A.REQST_SE_CD = #sReqstSeCd#  
+			</isNotEmpty>
+			
+			<isNotEmpty property="sEntrpscd">
+				AND A.ENTRPSCD = #sEntrpscd#  
+			</isNotEmpty>
+			
+			<isNotEmpty property="sMngNo">
+				AND A.MNG_NO = #sMngNo#  
+			</isNotEmpty>
+			
+			<isNotEmpty property="sGrUsagePdFrom"> 
+				AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+			</isNotEmpty>
+			
+			<isNotEmpty property="sGrUsagePdTo">
+				AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+			</isNotEmpty>
+			
+			<isNotEmpty property="sGrAr">
+				AND A.GR_AR = #sGrAr#
+			</isNotEmpty>
+			
+			ORDER BY REGIST_DT DESC
+			) S
+		) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# AND RNUM > #firstIndex# ]]>
+	
+	</select>
+	
+	<select id="gamCntnrRentMngtDao.selectGamCntnrRentMngtListTotCnt_S" parameterClass="crmVo" resultClass="int">
+
+		SELECT 
+			COUNT(1) TOTCNT
+		FROM ASSETS_RENT_F A
+		WHERE 1 = 1 
+		
+		<isNotEmpty property="sPrtAtCode">
+			AND A.PRT_AT_CODE = #sPrtAtCode#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sReqstSeCd">
+			AND A.REQST_SE_CD = #sReqstSeCd#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sEntrpscd">
+			AND A.ENTRPSCD = #sEntrpscd#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sMngNo">
+			AND A.MNG_NO = #sMngNo#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sGrUsagePdFrom"> 
+			AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sGrUsagePdTo">
+			AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+		</isNotEmpty>
+		
+		<isNotEmpty property="sGrAr">
+			AND A.GR_AR = #sGrAr#
+		</isNotEmpty>
+	
+	</select>
+	
+	<select id="gamCntnrRentMngtDao.selectGamCntnrRentMngtInfo_S" parameterClass="crmVo" resultMap="infoMap">
+		SELECT 
+			NVL(COUNT(*),0) SUM_CNT
+			, NVL(SUM(GR_AR),0) SUM_GR_AR
+			, NVL(SUM(GR_FEE),0) SUM_GR_FEE
+		FROM ASSETS_RENT_F
+		WHERE 1 = 1
+          
+		<isNotEmpty property="sPrtAtCode">
+		    AND A.PRT_AT_CODE = #sPrtAtCode#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sReqstSeCd">
+		    AND A.REQST_SE_CD = #sReqstSeCd#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sEntrpscd">
+		    AND A.ENTRPSCD = #sEntrpscd#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sMngNo">
+		    AND A.MNG_NO = #sMngNo#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sGrUsagePdFrom"> 
+		    AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+		</isNotEmpty>
+		
+		<isNotEmpty property="sGrUsagePdTo">
+		    AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+		</isNotEmpty>
+		
+		<isNotEmpty property="sGrAr">
+		    AND A.GR_AR = #sGrAr#
+		</isNotEmpty>
+		
+	</select>
+	
+
+</sqlMap>
