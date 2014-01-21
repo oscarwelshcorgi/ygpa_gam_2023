@@ -46,9 +46,9 @@
                                   , A.CMT
                                   , A.ETC
                                   , A.REG_USR
-                                  , A.REGIST_DT
+                                  , TO_CHAR(A.REGIST_DT, 'YYYYMMDD') REGIST_DT 
                                   , A.UPD_USR
-                                  , A.UPDT_DT
+                                  , TO_CHAR(A.UPDT_DT, 'YYYYMMDD') UPDT_DT 
                                   , A.GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
