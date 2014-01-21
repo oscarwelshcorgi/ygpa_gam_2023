@@ -629,8 +629,8 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
                                 <th><span class="label">수정일시</span></th>
                                 <td><input type="text" size="10" id="updtDt"/></td>
-                                <th><span class="label">xxx</span></th>
-                                <td><input type="text" size="10" id="xxxxx"/></td>
+                                <th><span class="label">부서코드</span></th>
+                                <td><input type="text" size="10" id="deptcd"/></td>
                             </tr>
                             
                         </table>
