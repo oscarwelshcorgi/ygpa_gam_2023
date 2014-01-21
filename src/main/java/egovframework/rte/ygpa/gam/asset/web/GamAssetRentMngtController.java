@@ -219,7 +219,7 @@ public class GamAssetRentMngtController {
 	    	gamAssetRentVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
 	    	gamAssetRentVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
 	    	gamAssetRentVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamAssetRentVO.setDeptcd("A001");   //부서코드 (세션?) 
+	    	//gamAssetRentVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
 	        gamAssetRentService.insertAssetRentFirst(gamAssetRentVO);
 	    	
@@ -297,7 +297,7 @@ public class GamAssetRentMngtController {
 	    	//확인후 변경혀라~~
 	    	gamAssetRentVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
 	    	gamAssetRentVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamAssetRentVO.setDeptcd("A001");   //부서코드 (세션?) 
+	    	//gamAssetRentVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
 	        gamAssetRentService.updateAssetRent(gamAssetRentVO);
 	    	
