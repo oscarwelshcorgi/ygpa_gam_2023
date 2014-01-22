@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.assetRent">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupEntrpsInfoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO"/>
+    
+
+    <select id="gamPopupEntrpsInfoDao.selectEntrpsInfoList_S" parameterClass="gamPopupEntrpsInfoVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+							        E.ENTRPSCD
+							      , E.ENTRPS_NM
+							      , E.ENTRPS_TY
+							      , E.BSNM_SE
+							      , E.RPRSNTV_NM
+							      , E.BIZRNO
+							      , E.CPRREGISTNO
+							      , E.INDUTY
+							      , E.BIZCND
+							      , E.TLPHON_NO
+							      , E.ZIP
+							      , E.ADRES
+							      , E.REG_USR
+							      , E.REGIST_DT
+							      , E.UPD_USR
+							      , E.UPDT_DT
+							      , E.FAX
+							  FROM ENTRPS_INFO_F E
+							 WHERE 1=1
+                            
+                             <isNotEmpty property="entrpscd">
+                                 AND E.ENTRPSCD = #entrpscd#  
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="entrpsNm">
+                                 AND E.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+                             </isNotEmpty>
+                             
+                             ORDER BY E.ENTRPS_NM
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupEntrpsInfoDao.selectEntrpsInfoListTotCnt_S" parameterClass="gamPopupEntrpsInfoVO" resultClass="int">
+        SELECT COUNT(*) totcnt
+          FROM ENTRPS_INFO_F E
+         WHERE 1=1
+          
+         <isNotEmpty property="entrpscd">
+             AND E.ENTRPSCD = #entrpscd#  
+         </isNotEmpty>
+         
+        <isNotEmpty property="entrpsNm">
+	        AND E.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+	    </isNotEmpty>
+    </select>
+    
+    
+</sqlMap>
