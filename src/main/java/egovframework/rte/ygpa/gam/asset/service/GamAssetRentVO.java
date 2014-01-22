@@ -32,6 +32,9 @@ public class GamAssetRentVO extends ComDefaultVO {
     /** 업체코드 */
     private String entrpscd;
     
+    /** 업체 명 */
+    private String entrpsNm;
+    
     /** 날짜 */
     private String dt;
     
@@ -105,9 +108,6 @@ public class GamAssetRentVO extends ComDefaultVO {
     private String sEntrpscd;
     
     /** 검색조건 */
-    private String sMngNo;
-    
-    /** 검색조건 */
     private String sPrmisnYn;
     
     /** 검색조건 */
@@ -118,6 +118,15 @@ public class GamAssetRentVO extends ComDefaultVO {
     
     /** 검색조건 */
     private String sGrAr;
+    
+    /** 검색조건 */
+    private String sMngYear;
+    
+    /** 검색조건 */
+    private String sMngNo;
+    
+    /** 검색조건 */
+    private String sMngCnt;
     
     /** 자료수 */
     private String sumCnt;
@@ -745,6 +754,48 @@ public class GamAssetRentVO extends ComDefaultVO {
 	 */
 	public void setMaxMngCnt(String maxMngCnt) {
 		this.maxMngCnt = maxMngCnt;
+	}
+
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
+	}
+
+	/**
+	 * @return the sMngYear
+	 */
+	public String getsMngYear() {
+		return sMngYear;
+	}
+
+	/**
+	 * @param sMngYear the sMngYear to set
+	 */
+	public void setsMngYear(String sMngYear) {
+		this.sMngYear = sMngYear;
+	}
+
+	/**
+	 * @return the sMngCnt
+	 */
+	public String getsMngCnt() {
+		return sMngCnt;
+	}
+
+	/**
+	 * @param sMngCnt the sMngCnt to set
+	 */
+	public void setsMngCnt(String sMngCnt) {
+		this.sMngCnt = sMngCnt;
 	}
 	
 	
