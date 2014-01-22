@@ -41,7 +41,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
                     {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},                                                
                     {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},                                              
-                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},                                           
+                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},  
+                    {display:'업체명', name:'entrpsNm',width:60, sortable:false,align:'center'},
                     {display:'날짜', name:'dt',width:60, sortable:false,align:'center'},                                                                     
                     {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},                                 
                     {display:'총 면적', name:'grAr',width:60, sortable:false,align:'center'},                                                           
@@ -139,6 +140,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             module.$('#mngNo').val(row['mngNo']);
             module.$('#mngCnt').val(row['mngCnt']);
             module.$('#entrpscd').val(row['entrpscd']);
+            module.$('#entrpsNm').val(row['entrpsNm']);
             module.$('#dt').val(row['dt']);
             module.$('#reqstSeCd').val(row['reqstSeCd']);
             module.$('#grAr').val(row['grAr']);
@@ -394,6 +396,26 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 });
             }
             break;
+        
+        case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
+            /*
+            var opts = {
+                'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+                'gisAssetsCd': this.$('#gisAssetsCd').val(),
+                'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()   
+            };
+            */
+            var opts;
+            
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            break;    
+        
+        case 'popupEntrpsInfoInput': // 팝업을 호출한다.(자산임대입력)
+            var opts;
+            
+            this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            break;    
+                 
             
     }
 };
@@ -435,6 +457,35 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     }
 };
 
+//팝업이 종료 될때 리턴 값이 오출 된다.
+//popupId : 팝업 대화상자 아이디
+//msg : 팝업에서 전송한 메시지 (취소는 cancel)
+//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
+	switch (popupId) {
+     case 'selectEntrpsInfoPopup':
+         if (msg != 'cancel') {
+             this.$('#sEntrpscd').val(value.entrpscd);
+             this.$('#sEntrpsNm').val(value.entrpsNm);
+         } else {
+             alert('취소 되었습니다');
+         }
+         break;
+     case 'insertEntrpsInfoPopup':
+         if (msg != 'cancel') {
+             this.$('#entrpscd').val(value.entrpscd);
+             this.$('#entrpsNm').val(value.entrpsNm);
+         } else {
+             alert('취소 되었습니다');
+         }
+         break;
+     default:
+         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+         throw 0;
+         break;
+     }
+};
+
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAssetRentMngtModule();
 </script>
@@ -452,10 +503,9 @@ var module_instance = new GamAssetRentMngtModule();
                             <td>
                                 <select id="sPrtAtCode">
                                     <option value="" selected="selected">선택</option>
-                                    <option value="P01">P01</option>
-                                    <option value="P02">P02</option>
-                                    <c:forEach  items="${erpAssetClsList}" var="clsItem">
-                                        <option value="${clsItem.smCls }">${clsItem.smClsName }</option>
+
+                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
                                     </c:forEach>
                                 </select>
                             </td>
@@ -463,13 +513,14 @@ var module_instance = new GamAssetRentMngtModule();
                             <td>
                                 <select id="sReqstSeCd">
                                     <option value="" selected="selected">선택</option>
-                                    <option value="A">최초</option>
-                                    <option value="L">연장</option>
+                                    <c:forEach  items="${reqstCdList}" var="reqstCdItem">
+                                        <option value="${reqstCdItem.code }">${reqstCdItem.codeNm }</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <th>신청업체</th>
                             <td>
-                                <input id="sEntrpscd" type="text" size="6">
+                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
                             <th>사용용도</th>
                             <td>
@@ -484,7 +535,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <tr>
                             <th>관리번호</th>
                             <td>
-                                <input id="sMngNo" type="text" size="4"> <input id="itemName" type="text" size="3"> <input id="itemName" type="text" size="2">
+                                <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
                             <th>승낙구분</th>
                             <td width="200px">
@@ -554,9 +605,24 @@ var module_instance = new GamAssetRentMngtModule();
                         <table>
                             <tr>
                                 <th><span class="label">항코드</span></th>
-                                <td><input type="text" size="10" id="prtAtCode" maxlength="3"/></td>
+                                <td>
+                                    <!-- 
+                                    <select id="prtAtCode">
+	                                    <option value="" selected="selected">선택</option>
+	
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
+	                                    </c:forEach>
+	                                </select>
+	                                 -->
+	                                <input type="text" size="5" id="prtAtCode" maxlength="10"/>
+                                </td>
                                 <th><span class="label">업체코드</span></th>
-                                <td><input type="text" size="10" id="entrpscd" maxlength="10"/></td>
+                                <td>
+                                    <input type="text" size="5" id="entrpscd" maxlength="10"/>
+                                    <input type="text" size="5" id="entrpsNm" readonly/>
+                                    <button id="popupEntrpsInfoInput">업체</button>
+                                </td>
                             </tr>
                             <tr>
                                 <th><span class="label">총 면적</span></th>
@@ -569,7 +635,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td>
                                     <select id="nticMth">
                                         <option value="">선택</option>
-                                        <c:forEach items="${nticMthCodeList}" var="nticMthItem">
+                                        <c:forEach items="${nticMthCdList}" var="nticMthItem">
                                             <option value="${nticMthItem.code }">${nticMthItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
@@ -581,7 +647,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">허가 일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td>
                                 <th><span class="label">허가 여부</span></th>
-                                <td><input type="text" size="10" id="prmisnYn"/></td>
+                                <td>
+                                    <select id="prmisnYn">
+                                        <option value="" selected="selected">선택</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
@@ -602,19 +674,27 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">총 감면 사용료</span></th>
                                 <td><input type="text" size="10" id="grRdcxptFee"/></td>
                                 <th><span class="label">GIS 코드</span></th>
-                                <td><input type="text" size="10" id="gisCd"/></td>
+                                <td>
+                                    <select id="gisCd">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${gisCdList}" var="gisCdItem">
+                                            <option value="${gisCdItem.code }">${gisCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="dt"/></td>
-                                <th><span class="label">총사용시작</span></th>
-                                <td><input type="text" size="10" id="grUsagePdFrom"/></td>
+                                <th><span class="label">총 사용 기간 FROM</span></th>
+                                <td><input type="text" class="emdcal" size="10" id="grUsagePdFrom"/></td>
                             </tr>
                             
                             <tr>
-                                <th><span class="label">총사용종료</span></th>
-                                <td><input type="text" size="10" id="grUsagePdTo"/></td>
+                                <th><span class="label">총 사용 기간 TO</span></th>
+                                <td><input type="text" class="emdcal" size="10" id="grUsagePdTo"/></td>
                                 <th><span class="label">등록자</span></th>
                                 <td><input type="text" size="10" id="regUsr"/></td>
                             </tr>
@@ -674,7 +754,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <table>
                             <tr>
                                 <th><span class="label">자산사용순번</span></th>
-                                <td><input type="text" size="10" id="assetsUsageSeq"/>
+                                <td><input type="text" size="10" id="assetsUsageSeq" readonly/>
                                 </td>
                                 <th><span class="label">GIS 자산 SUB 코드</span></th>
                                 <td><input type="text" size="10" id="gisAssetsSubCd"/></td>
@@ -684,12 +764,12 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">사용 면적</span></th>
                                 <td><input type="text" size="10" id="usageAr"/></td>
                                 <th><span class="label">사용 기간 FROM</span></th>
-                                <td><input type="text" size="10" id="usagePdFrom"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="usagePdFrom"/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">사용 기간 TO</span></th>
-                                <td><input type="text" size="10" id="usagePdTo"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="usagePdTo"/></td>
                                 <th><span class="label">사용 목적</span></th>
                                 <td><input type="text" size="10" id="usagePurps"/></td>
                             </tr>
@@ -698,26 +778,50 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">사용 내역</span></th>
                                 <td><input type="text" size="10" id="usageDtls"/></td>
                                 <th><span class="label">사용 용도 코드</span></th>
-                                <td><input type="text" size="10" id="usagePrposCd"/></td>
+                                <td>
+                                    <select id="usagePrposCd">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
+                                            <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">면제 구분</span></th>
-                                <td><input type="text" size="10" id="exemptSe"/></td>
+                                <td>
+                                    <select id="exemptSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${exemptSeCdList}" var="exemptSeCdItem">
+                                            <option value="${exemptSeCdItem.code }">${exemptSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                                 <th><span class="label">면제 사유 코드</span></th>
-                                <td><input type="text" size="10" id="exemptRsnCd"/></td>
+                                <td>
+                                    <select id="exemptRsnCd">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${exemptRsnCdList}" var="exemptRsnCdItem">
+                                            <option value="${exemptRsnCdItem.code }">${exemptRsnCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">면제 사유</span></th>
                                 <td><input type="text" size="10" id="exemptRsn"/></td>
                                 <th><span class="label">면제 기간 FROM</span></th>
-                                <td><input type="text" size="10" id="exemptPdFrom"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="exemptPdFrom"/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">면제 기간 TO</span></th>
-                                <td><input type="text" size="10" id="exemptPdTo"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="exemptPdTo"/></td>
                                 <th><span class="label">산출 내역</span></th>
                                 <td><input type="text" size="10" id="computDtls"/></td>
                             </tr>
@@ -733,19 +837,51 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">적용 방법</span></th>
                                 <td><input type="text" size="10" id="applcMth"/></td>
                                 <th><span class="label">포장 구분</span></th>
-                                <td><input type="text" size="10" id="packSe"/></td>
+                                <td>
+                                    <select id="packSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${packSeCdList}" var="packSeCdItem">
+                                            <option value="${packSeCdItem.code }">${packSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">업체 구분</span></th>
-                                <td><input type="text" size="10" id="entrpsSe"/></td>
+                                <td>
+                                    <select id="entrpsSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${entrpsSeCdList}" var="entrpsSeCdItem">
+                                            <option value="${entrpsSeCdItem.code }">${entrpsSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                                 <th><span class="label">사용료 계산 구분</span></th>
-                                <td><input type="text" size="10" id="feeCalcSe"/></td>
+                                <td>
+                                    <select id="feeCalcSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${feeCalcSeCdList}" var="feeCalcSeCdItem">
+                                            <option value="${feeCalcSeCdItem.code }">${feeCalcSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">감면 사용료 계산 구분</span></th>
-                                <td><input type="text" size="10" id="rdcxptFeeCalcSe"/></td>
+                                <td>
+                                    <select id="rdcxptFeeCalcSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${rdcxptFeeCalcSeCdList}" var="rdcxptFeeCalcSeCdItem">
+                                            <option value="${rdcxptFeeCalcSeCdItem.code }">${rdcxptFeeCalcSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                                 <th><span class="label">감면 사용료</span></th>
                                 <td><input type="text" size="10" id="rdcxptFee"/></td>
                             </tr>
@@ -754,7 +890,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">사용료</span></th>
                                 <td><input type="text" size="10" id="fee"/></td>
                                 <th><span class="label">해지 일자</span></th>
-                                <td><input type="text" size="10" id="trmnatDt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td>
                             </tr>
                             
                             <tr>
