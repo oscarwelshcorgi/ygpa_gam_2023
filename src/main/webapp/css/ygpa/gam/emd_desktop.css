@@ -281,8 +281,8 @@ div.ui-resizable-handle {
   font-size: 11px;
   padding: 10px 12px 10px 10px;
   width: 150px;
-  display: none; /* Disable #### */ 
-  
+  display: none; /* Disable #### */
+
 }
 
 .window_main {
@@ -518,7 +518,7 @@ ul.submenu li:hover ul {
   padding: 0 10px;
   height: 30px;
   background-color: #0E00C5;
-  
+
 }
 
 #bar_bottom a:hover {
@@ -579,7 +579,7 @@ ul.submenu li:hover ul {
 
 .hover1{
 	border-color: red;
-	
+
 }
 #tabs-1 th,
 #tabs-2 th{
@@ -593,7 +593,7 @@ ul.submenu li:hover ul {
 {
 	border-spacing: 2px;
 	border-collapse: separate;
-	
+
 }
 
 #tabs-1 .label,
@@ -616,10 +616,10 @@ ul.submenu li:hover ul {
 }
 
 #tabs-1-bottom,
-#tabs-2-bottom, 
+#tabs-2-bottom,
 #tabs-3-bottom{
 /* 	position: absolute !important;  */
-	position: absolute; 
+	position: absolute;
 	bottom: 1px;
 }
 
@@ -1123,7 +1123,7 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 .olControlEditingToolbar .olControlZoomBoxItemInactive  {
     background-position: -128px -1px;
 }
-.olControlNavToolbar .olControlZoomBoxItemActive,  
+.olControlNavToolbar .olControlZoomBoxItemActive,
 .olControlEditingToolbar .olControlZoomBoxItemActive  {
     background-position: -128px -24px;
 }
@@ -1257,7 +1257,7 @@ img.olTileImage {
 #coords {
 	display: block;
 	left: 20px;
-	top: 100px;	
+	top: 100px;
 }
 
 #cat_menu {
@@ -1312,3 +1312,7 @@ img.olTileImage {
 }
 
 .ui-effects-transfer { border: 2px dotted gray; }
+
+div.tree ul {
+	margin-left: 1.2em;
+}

@@ -51,10 +51,13 @@ GamMenuMngModule.prototype.loadMenu = function() {
 
  			var data_obj = {
  					"root" : result.listMenulist
- 			}
+ 			};
+
+ 			module.menuList = result.listMenulist;	// 메뉴를 저장한다.
 
  			tree.btechcotree({
                 containerid: tree.attr("id")
+                , module: module
                 , dataset: data_obj
                 , datatype: $treedatatype.Json
                 , dataformat: $treedataformat.Linear
@@ -63,93 +66,28 @@ GamMenuMngModule.prototype.loadMenu = function() {
                 , class_node_item: "ui-icon-clipboard"
                 , collapse_tree: true
                 , class_node_highlight: "ui-state-highlight"
-                , show_button_check: true
-                , onstart: function () {
-                    console.log("onstart");
-                }
-                , onend: function () {
-                    console.log("onend");
-                }
-                , onprocessingstart: function () {
-                    console.log("onprocessingstart");
-                }
-                , onprocessingcomplete: function () {
-                    console.log("onprocessingcomplete");
-                }
-                , onprocessingerror: function (xhr, ajaxOptions, thrownError) {
-                    console.log("Ajax Error");
-                    console.log(xhr);
-                    console.log(ajaxOptions);
-                    console.log(thrownError);
-                }
-                , onbeforedataconversion: function () {
-                    console.log("onbeforedataconversion");
-                }
-                , onafterdataconversion: function () {
-                    console.log("onafterdataconversion");
-                }
-                , onrenderstart: function () {
-                    console.log("onrenderstart");
-                }
-                , onrendercomplete: function () {
-                    console.log("onrendercomplete");
-                }
-                , onbeforenodeinsert: function (node) {
-                    console.log("onbeforenodeinsert");
-                    console.log(node);
-                }
-                , onafternodeinsert: function (node) {
-                    console.log("onafternodeinsert");
-                    console.log(node);
-                }
-                , onselectednode: function (id, node, sender) {
-                    console.log("onselectednode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onbeforeaddnode: function (id, node, sender) {
-                    console.log("onbeforeaddnode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onafteraddnode: function (id, node, sender) {
-                    console.log("onafteraddnode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onbeforeremovenode: function (id, node, sender) {
-                    console.log("onbeforeremovenode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onafterremovenode: function (id, node, sender) {
-                    console.log("onafterremovenode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onaddnode: function (id, node, sender) {
-                    console.log("onaddnode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onremovenode: function (id, node, sender) {
-                    console.log("onremovenode");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
-                , onnodecheckselected: function (id, node, sender) {
-                    console.log("onnodecheckselected");
-                    console.log(id);
-                    console.log(node);
-                    console.log(sender);
-                }
+                , show_button_check: false
+ 			});
+ 			tree.on("onNodeCheckSelected", function(event, module, id, node, sender ){
+ 				// 체크박스가 선택 됨
+
+ 			});
+ 			tree.on("onSelectedNode", function(event, module, id, node, sender ) {
+ 				$.each(module.menuList, function() {
+ 					if($(this).attr('menuNo')==id) {
+ 		 				module.$("#menuNo").val($(this).attr('menuNo'));
+ 		 				module.$('#menuNo').val($(this).attr('menuNo'));						// 메뉴No
+ 		 				module.$('#menuOrdr').val($(this).attr('menuOrdr'));					// 메뉴순서
+ 		 				module.$('#menuNm').val($(this).attr('menuNm'));						// 메뉴명
+ 		 				module.$('#upperMenuId').val($(this).attr('upperMenuId'));				// 상위메뉴No
+ 		 				module.$('#progrmFileNm').val($(this).attr('progrmFileNm'));			// 파일명
+ 		 				module.$('#relateImageNm').val($(this).attr('relateImageNm'));			// 관련이미지명
+ 		 				module.$('#relateImagePath').val($(this).attr('relateImagePath'));		// 관련이미지경로
+ 		 				module.$('#menuDc').val($(this).attr('menuDc'));						// 메뉴설명
+ 						return false;
+ 					}
+ 					return true;
+ 				});
  			});
  		}
  	});
