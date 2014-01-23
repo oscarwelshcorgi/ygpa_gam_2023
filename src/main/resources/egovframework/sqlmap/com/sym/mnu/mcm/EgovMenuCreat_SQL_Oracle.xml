@@ -6,13 +6,13 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias  alias="menuCreatVO" type="egovframework.com.sym.mnu.mcm.service.MenuCreatVO"/>
 	<typeAlias  alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
-	
+
 	<select id="menuManageDAO.selectMenuCreatManageList_D" parameterClass="comDefaultVO" resultClass="egovMap">
 		<![CDATA[
-                SELECT * 
-                FROM  
-                    (SELECT rownum rn, TB.* 
-                     FROM 
+                SELECT *
+                FROM
+                    (SELECT rownum rn, TB.*
+                     FROM
 			            (SELECT AUTHOR_CODE   AS "authorCode",
 								AUTHOR_NM     AS "authorNm",
 								AUTHOR_DC     AS "authorDc",
@@ -23,10 +23,10 @@
 						FROM    COMTNAUTHORINFO A
 						WHERE   A.AUTHOR_CODE like '%'||#searchKeyword#||'%') TB
 
-                    ) 
+                    )
                 WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
         ]]>
-	</select> 
+	</select>
 
 	<select id="menuManageDAO.selectMenuCreatManageTotCnt_S" parameterClass="comDefaultVO" resultClass="int">
 		<![CDATA[
@@ -43,15 +43,15 @@
 				, A.MENU_ORDR AS "menuOrdr"
 				, A.MENU_NM AS "menuNm"
 				, A.UPPER_MENU_NO AS "upperMenuId"
-			    , (SELECT count(B.MENU_NO) 
-			         FROM COMTNMENUCREATDTLS B   
-			        WHERE B.MENU_NO  = A.MENU_NO 
+			    , (SELECT count(B.MENU_NO)
+			         FROM COMTNMENUCREATDTLS B
+			        WHERE B.MENU_NO  = A.MENU_NO
 			          AND B.AUTHOR_CODE = #authorCode#) AS "chkYeoBu"
 			FROM COMTNMENUINFO A
 			WHERE A.MENU_NO > 0
-			ORDER BY A.MENU_ORDR
+			ORDER BY A.MENU_NO, A.MENU_ORDR
 		 ]]>
-	</select> 
+	</select>
 
 	<insert id="menuManageDAO.insertMenuCreat_S">
 		<![CDATA[
@@ -69,19 +69,19 @@
 	</select>
 
 	<delete id="menuManageDAO.updateMenuCreat_S">
-		<![CDATA[ 
-		    UPDATE COMTNMENUCREATDTLS  
-		       SET MAPNG_CREAT_ID=#mapCreatId# 
+		<![CDATA[
+		    UPDATE COMTNMENUCREATDTLS
+		       SET MAPNG_CREAT_ID=#mapCreatId#
 		     WHERE AUTHOR_CODE=#authorCode#
-		]]>                                
-	</delete> 
+		]]>
+	</delete>
 
 	<delete id="menuManageDAO.deleteMenuCreat_S">
-		<![CDATA[                          
-			DELETE FROM COMTNMENUCREATDTLS              
-			 WHERE AUTHOR_CODE=#authorCode#                
-		]]>                                
-	</delete> 
+		<![CDATA[
+			DELETE FROM COMTNMENUCREATDTLS
+			 WHERE AUTHOR_CODE=#authorCode#
+		]]>
+	</delete>
 
 	<select id="menuManageDAO.selectAuthorByUsr" parameterClass="comDefaultVO" resultClass="MenuCreatVO">
 		<![CDATA[
@@ -101,4 +101,4 @@
 		]]>
 	</select>
 
-</sqlMap>                            
+</sqlMap>

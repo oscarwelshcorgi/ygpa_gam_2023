@@ -8,14 +8,14 @@
   * @Class Name : GamMenuMngCreate.jsp
   * @Description : 메뉴 관리
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.09  권옥경          최초 생성
   *
   * author 권옥경
   * since 2014.01.09
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -25,7 +25,7 @@
  */
 function GamMenuMngCreateModule() {}
 
-GamMenuMngCreateModule.prototype = new EmdModule();
+GamMenuMngCreateModule.prototype = new EmdModule(680,482);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMenuMngCreateModule.prototype.loadComplete = function() {
@@ -46,33 +46,58 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "300"
+		height: "352"	// 테이블의 크기 pager를 사용하면 30픽셀 증가한다. (그만큰 감소 시킬것)
+	});
+
+	this.$("#menuMngCreateList").on("onButtonClicked", function(event, module, colId, row, grid, param) {
+		var opts = {
+			'authorCode': row['authorCode']
+		};
+		module.doExecuteDialog('selectMenuCreate', '메뉴 생성', '<c:url value="/cmmn/popup/showMenuCreat.do"/>', opts);
 	});
 };
-		
+
+GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg)
+{
+	switch (popupId) {
+	case 'selectMenuCreate':
+		if (msg != 'cancel') {
+			alert('메뉴가 생성 되었습니다.');
+		} else {
+			alert('취소 되었습니다');
+		}
+		break;
+	default:
+		alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+		throw 0;
+		break;
+	}
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
  GamMenuMngCreateModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#menuMngCreateForm");
-		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload();
+		 	throw 0;
 		break;
-		
+
 		// 신규저장
 		case "insertBtn":
 			var searchOpt = this.makeFormArgs("#searchGisAssetCode");
-		 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 		// 삭제
 		case "deleteBtn":
 			var searchOpt = this.makeFormArgs("#searchGisAssetCode");
-		 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
 		break;
 	}
 };
@@ -91,23 +116,23 @@ var module_instance = new GamMenuMngCreateModule();
 						<tr>
 							<th>보안설정대상ID</th>
 							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="searchBtn">조회</button>
-					</div>
-				</div>
 			</form>
 		</div>
 	</div>
 
 	<div class="emdPanel">
-		<div class="emdTabPanel">
+	<!--
+		<div class="emdTabPanel">	// 주: 탭이 아닌데 탭판넬을 사용함
 			<div class="emdTabPage">
+			 -->
 				<table id="menuMngCreateList" style="display:none"></table>
+				<!--
 			</div>
 		</div>
+		 -->
 	</div>
 </div>

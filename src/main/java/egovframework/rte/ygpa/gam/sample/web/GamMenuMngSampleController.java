@@ -303,36 +303,6 @@ public class GamMenuMngSampleController {
     	}
     	List list_menulist = menuManageService.selectMenuList();
     	resultMsg = egovMessageSource.getMessage("success.common.select");
-//    	List root = new ArrayList();
-//    	Map mnu;
-//    	Map menuItem;
-//    	Map attr;
-//    	for(int i=0; i<list_menulist.size(); i++) {	// 메뉴 트리 생성
-//    		mnu = (Map)list_menulist.get(i);
-//    		menuItem = new HashMap<String, Object>();
-//    		attr = new HashMap<String, Object>();
-//    		attr.put("menuNo", mnu.get("menuNo"));
-//    		attr.put("menuOrdr", mnu.get("menuOrdr"));
-//    		attr.put("upperMenuId", mnu.get("upperMenuId"));
-//    		attr.put("menuDc", mnu.get("menuDc"));
-//    		attr.put("relateImagePath", mnu.get("relateImagePath"));
-//    		attr.put("progrmFileNm", mnu.get("progrmFileNm"));
-//    		menuItem.put("data", mnu.get("menuNm"));
-//    		menuItem.put("attr", attr);
-//
-//    		if("0".equals(mnu.get("upperMenuId"))) {
-//    			root.add(mnu);
-//    		}
-//    		else {
-//    			List<Map> findkey=findKey(root, (String)mnu.get("upperMenuId"));
-//    			if(findkey!=null) {
-//    				findkey.add(mnu);
-//    			}
-//    			else {
-//					log.error("상위메뉴를 찾을 수없습니다. (menuNo="+(String)mnu.get("menuNo")+", menuNm="+(String)mnu.get("menuNm")+")");
-//    			}
-//    		}
-//    	}
     	map.put("listMenulist", list_menulist);
     	map.put("resultMsg", resultMsg);
     	map.put("resultCode", 0);

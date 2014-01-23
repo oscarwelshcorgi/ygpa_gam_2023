@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +21,7 @@ import egovframework.com.sym.mnu.mcm.service.EgovMenuCreateManageService;
 import egovframework.com.sym.mnu.mcm.service.MenuCreatVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 
 @Controller
 public class GamMenuMngCreatController {
@@ -27,22 +29,22 @@ public class GamMenuMngCreatController {
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
-	
+
 	/** EgovMenuManageService */
 	@Resource(name = "meunCreateManageService")
 	private EgovMenuCreateManageService menuCreateManageService;
-	
+
 	/** EgovMessageSource */
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
-	
+
 	@RequestMapping(value="/cmmn/gamMenuMngCreat.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/GamMenuMngCreat";
     }
-	
-	
+
+
 	/**
 	 * *메뉴생성목록을 조회한다.
 	 * @param searchVO ComDefaultVO
@@ -52,9 +54,9 @@ public class GamMenuMngCreatController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/cmmn/gamMenuCreatManageSelect.do")
 	@ResponseBody Map<String, Object> selectMenuCreatManagList(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		String resultMsg = "";
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -63,7 +65,7 @@ public class GamMenuMngCreatController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-		
+
 		// 내역 조회
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -78,7 +80,7 @@ public class GamMenuMngCreatController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		if (searchVO.getSearchKeyword() != null && !searchVO.getSearchKeyword().equals("")) {
 			int IDcnt = menuCreateManageService.selectUsrByPk(searchVO);
 			if (IDcnt == 0) {
@@ -96,7 +98,7 @@ public class GamMenuMngCreatController {
 		int totCnt = menuCreateManageService.selectMenuCreatManagTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
-		
+
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", list_menumanage);
@@ -105,4 +107,53 @@ public class GamMenuMngCreatController {
 
     	return map;
 	}
+
+    /**
+     * 메뉴생성 팝업을 호출합니다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/cmmn/popup/showMenuCreat.do", method=RequestMethod.POST)
+    String showMenuCreat(String authorCode, ModelMap model) throws Exception {
+
+    	model.addAttribute("authorCode", authorCode);
+
+    	return "/ygpa/gam/cmmn/popup/GamPopupMenuCreat";
+    }
+
+    /* 메뉴생성 세부조회 */
+	/**
+	 * 메뉴생성 세부화면을 조회한다.
+	 *
+	 * @param menuCreatVO
+	 *            MenuCreatVO
+	 * @return 출력페이지정보 "sym/mnu/mcm/EgovMenuCreat"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/cmmn/gamMenuCreatSelect.do")
+	@ResponseBody public Map selectMenuCreatList(
+			MenuCreatVO menuCreatVO,
+			ModelMap model) throws Exception {
+    	Map map = new HashMap();
+    	String resultMsg    = "";
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+    		resultMsg = egovMessageSource.getMessage("fail.common.login");
+        	map.put("resultCode", 1);	// return error
+        	map.put("resultMsg", resultMsg);	// return error message
+        	return map;
+    	}
+		List list_menulist = menuCreateManageService
+				.selectMenuCreatList(menuCreatVO);
+		resultMsg = egovMessageSource.getMessage("success.common.select");
+    	map.put("listMenulist", list_menulist);
+    	map.put("resultMsg", resultMsg);
+    	map.put("resultCode", 0);
+    	return map;
+	}
+
 }

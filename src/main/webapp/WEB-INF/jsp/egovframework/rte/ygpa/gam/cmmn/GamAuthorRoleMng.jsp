@@ -87,7 +87,7 @@ GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-			var filter = [{ 'col': 'regYn', 'filter': 'Y'}];
+			var filter = [{ 'col': 'chkRole', 'filter': true}];
 			var reglist = this.$("#authorRoleMngList").selectFilterData(filter);
 			alert('등록이 Y인 행을 '+ reglist.length+' 개 선택 했습니다.');
 //			var searchOpt = this.makeFormArgs("#authorRoleForm");

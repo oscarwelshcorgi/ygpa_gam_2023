@@ -371,7 +371,6 @@ th.shrink {
 }
 
 #bar_bottom {
-  background: #B8BCE1 url(../../../images/egovframework/ygpa/gam/gui/bar_bottom.png) repeat-x;
   border-top: 1px solid #fff;
   color: #fff;
   font-size: 13px;
@@ -1312,6 +1311,12 @@ img.olTileImage {
 }
 
 .ui-effects-transfer { border: 2px dotted gray; }
+
+div.tree {
+	display: block;
+	position: relative;
+	overflow: scroll;
+}
 
 div.tree ul {
 	margin-left: 1.2em;
