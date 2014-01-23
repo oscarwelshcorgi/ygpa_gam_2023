@@ -147,7 +147,7 @@ function addTreeNode(parentNode, recursedNodes) {
 			}
 			document.write("<a href=javascript:choiceNodes('" + i + "');>");
 			if (hasChildNode) {
-				document.write("<img id='icon" + nodeValues[0] + "' src='"+imgpath+"menu_folder")
+				document.write("<img id='icon" + nodeValues[0] + "' src='"+imgpath+"menu_folder");
 					if (isNodeOpen) document.write("open");
 				document.write(".gif' border='0' alt='Folder' >");
 			} else document.write("<img id='icon" + nodeValues[0] + "' src='"+imgpath+"menu_page.gif' border='0' align='absbottom' alt='Page'>");
