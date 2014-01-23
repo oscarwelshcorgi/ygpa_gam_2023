@@ -32,6 +32,9 @@ public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
     /** 업체코드 */
     private String entrpscd;
     
+    /** 업체 명 */
+    private String entrpsNm;
+    
     /** 날짜 */
     private String dt;
     
@@ -105,7 +108,13 @@ public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
     private String sEntrpscd;
     
     /** 검색조건 */
+    private String sMngYear;
+    
+    /** 검색조건 */
     private String sMngNo;
+    
+    /** 검색조건 */
+    private String sMngCnt;
     
     /** 검색조건 */
     private String sPrmisnYn;
@@ -746,6 +755,48 @@ public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setRentMngNo(String rentMngNo) {
 		this.rentMngNo = rentMngNo;
+	}
+
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
+	}
+
+	/**
+	 * @return the sMngYear
+	 */
+	public String getsMngYear() {
+		return sMngYear;
+	}
+
+	/**
+	 * @param sMngYear the sMngYear to set
+	 */
+	public void setsMngYear(String sMngYear) {
+		this.sMngYear = sMngYear;
+	}
+
+	/**
+	 * @return the sMngCnt
+	 */
+	public String getsMngCnt() {
+		return sMngCnt;
+	}
+
+	/**
+	 * @param sMngCnt the sMngCnt to set
+	 */
+	public void setsMngCnt(String sMngCnt) {
+		this.sMngCnt = sMngCnt;
 	}
 
 }
