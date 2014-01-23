@@ -73,11 +73,54 @@ public class GamPrtFcltyUseSttusInqireController {
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		codeVo.setCodeId("COM999"); //고지방법 코드
-        
-		List nticMthCodeList = cmmUseService.selectCmmCodeDetail(codeVo); 
-        
-		model.addAttribute("nticMthCodeList", nticMthCodeList);
+		codeVo.setCodeId("COM998"); //항코드 (코드확인요망!!)
+		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //신청구분코드 (코드확인요망!!)
+		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		//codeVo.setCodeId("COM998"); //사용용도 코드 (코드확인요망!!) 자산임대테이블에 사용용도 컬럼 없음!!
+		//List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM999"); //고지방법 코드 (코드확인요망!!)
+		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //GIS 코드   (코드확인요망!!)
+		List gisCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //사용 용도 코드 
+		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //면제 구분  
+		List exemptSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //면제 사유 코드
+		List exemptRsnCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //포장 구분 
+		List packSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //업체 구분
+		List entrpsSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //사용료 계산 구분
+		List feeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분
+		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		
+		model.addAttribute("prtAtCdList", prtAtCdList);
+		model.addAttribute("reqstCdList", reqstCdList);
+		model.addAttribute("nticMthCdList", nticMthCdList);
+		model.addAttribute("gisCdList", gisCdList);
+		model.addAttribute("usagePrposCdList", usagePrposCdList);
+		model.addAttribute("exemptSeCdList", exemptSeCdList);
+		model.addAttribute("exemptRsnCdList", exemptRsnCdList);
+		model.addAttribute("packSeCdList", packSeCdList);
+		model.addAttribute("entrpsSeCdList", entrpsSeCdList);
+		model.addAttribute("feeCalcSeCdList", feeCalcSeCdList);
+		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyUseSttusInqire";
