@@ -19,7 +19,6 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -37,33 +36,34 @@
          url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireList.do" />',
          dataType: 'json',
          colModel : [
-                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-                     {display:'관리 번호(조합)', name:'rentMngNo',width:100, sortable:false,align:'center'},
-                     {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                     {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},                                                
-                     {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},                                              
-                     {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},                                           
-                     {display:'날짜', name:'dt',width:80, sortable:false,align:'center'},                                                                     
-                     {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},                                 
-                     {display:'총 면적', name:'grAr',width:60, sortable:false,align:'center'},                                                           
-                     {display:'총 사용료', name:'grFee',width:60, sortable:false,align:'center'},                                                        
-                     {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},                                            
-                     {display:'최초 허가 일자', name:'frstPrmisnDt',width:60, sortable:false,align:'center'},                           
-                     {display:'허가 일자', name:'prmisnDt',width:60, sortable:false,align:'center'},                                          
-                     {display:'허가 여부', name:'prmisnYn',width:60, sortable:false,align:'center'},                                          
-                     {display:'총 사용 기간 FROM', name:'grUsagePdFrom',width:60, sortable:false,align:'center'},                     
-                     {display:'총 사용 기간 TO', name:'grUsagePdTo',width:60, sortable:false,align:'center'},                           
-                     {display:'문서 번호', name:'docNo',width:60, sortable:false,align:'center'},                                                
-                     {display:'비고', name:'rm',width:60, sortable:false,align:'center'},                                                         
-                     {display:'코멘트', name:'cmt',width:60, sortable:false,align:'center'},                                                          
-                     {display:'기타', name:'etc',width:60, sortable:false,align:'center'},                                                       
-                     {display:'등록자', name:'regUsr',width:60, sortable:false,align:'center'},                                                
-                     {display:'등록일시', name:'registDt',width:60, sortable:false,align:'center'},                                                       
-                     {display:'수정자', name:'updUsr',width:60, sortable:false,align:'center'},                                                
-                     {display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},                                                           
-                     {display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},                                         
-                     {display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},                                               
-                     {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'}
+                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'관리 번호(조합)', name:'rentMngNo',width:100, sortable:false,align:'center'},
+                    {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
+                    {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},                                                
+                    {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},                                              
+                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},  
+                    {display:'업체명', name:'entrpsNm',width:60, sortable:false,align:'center'},
+                    {display:'날짜', name:'dt',width:60, sortable:false,align:'center'},                                                                     
+                    {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},                                 
+                    {display:'총 면적', name:'grAr',width:60, sortable:false,align:'center'},                                                           
+                    {display:'총 사용료', name:'grFee',width:60, sortable:false,align:'center'},                                                        
+                    {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},                                            
+                    {display:'최초 허가 일자', name:'frstPrmisnDt',width:60, sortable:false,align:'center'},                           
+                    {display:'허가 일자', name:'prmisnDt',width:60, sortable:false,align:'center'},                                          
+                    {display:'허가 여부', name:'prmisnYn',width:60, sortable:false,align:'center'},                                          
+                    {display:'총 사용 기간 FROM', name:'grUsagePdFrom',width:60, sortable:false,align:'center'},                     
+                    {display:'총 사용 기간 TO', name:'grUsagePdTo',width:60, sortable:false,align:'center'},                           
+                    {display:'문서 번호', name:'docNo',width:60, sortable:false,align:'center'},                                                
+                    {display:'비고', name:'rm',width:60, sortable:false,align:'center'},                                                         
+                    {display:'코멘트', name:'cmt',width:60, sortable:false,align:'center'},                                                          
+                    {display:'기타', name:'etc',width:60, sortable:false,align:'center'},                                                       
+                    {display:'등록자', name:'regUsr',width:60, sortable:false,align:'center'},                                                
+                    {display:'등록일시', name:'registDt',width:60, sortable:false,align:'center'},                                                       
+                    {display:'수정자', name:'updUsr',width:60, sortable:false,align:'center'},                                                
+                    {display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},                                                           
+                    {display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},                                         
+                    {display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},                                               
+                    {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'}
                      ],
          usepager: true,
          useRp: true,
@@ -85,42 +85,42 @@
          url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireDetailList.do" />',  
          dataType: 'json',
          colModel : [
-                     {display:'자산 사용 순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},                          
-                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
-                     {display:'사용 면적', name:'usageAr',width:100, sortable:false,align:'center'},
-                     {display:'사용 기간 FROM', name:'usagePdFrom',width:100, sortable:false,align:'center'},
-                     {display:'사용 기간 TO', name:'usagePdTo',width:100, sortable:false,align:'center'},
-                     {display:'사용 목적', name:'usagePurps',width:100, sortable:false,align:'center'},
-                     {display:'사용 내역', name:'usageDtls',width:100, sortable:false,align:'center'},
-                     {display:'사용 용도 코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
-                     {display:'면제 구분', name:'exemptSe',width:100, sortable:false,align:'center'},
-                     {display:'면제 사유 코드', name:'exemptRsnCd',width:100, sortable:false,align:'center'},
-                     {display:'면제 사유', name:'exemptRsn',width:100, sortable:false,align:'center'},
-                     {display:'면제 기간 FROM', name:'exemptPdFrom',width:100, sortable:false,align:'center'},
-                     {display:'면제 기간 TO', name:'exemptPdTo',width:100, sortable:false,align:'center'},
-                     {display:'산출 내역', name:'computDtls',width:100, sortable:false,align:'center'},
-                     {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
-                     {display:'적용 요율', name:'applcTariff',width:100, sortable:false,align:'center'},
-                     {display:'적용 방법', name:'applcMth',width:100, sortable:false,align:'center'},
-                     {display:'포장 구분', name:'packSe',width:100, sortable:false,align:'center'},
-                     {display:'업체 구분', name:'entrpsSe',width:100, sortable:false,align:'center'},
-                     {display:'사용료 계산 구분', name:'feeCalcSe',width:100, sortable:false,align:'center'},
-                     {display:'감면 사용료 계산 구분', name:'rdcxptFeeCalcSe',width:100, sortable:false,align:'center'},
-                     {display:'감면 사용료', name:'rdcxptFee',width:100, sortable:false,align:'center'},
-                     {display:'사용료', name:'fee',width:100, sortable:false,align:'center'},
-                     {display:'해지 일자', name:'trmnatDt',width:100, sortable:false,align:'center'},
-                     {display:'해지 사유', name:'trmnatRsn',width:100, sortable:false,align:'center'},
-                     {display:'GIS 코드', name:'gisCd',width:100, sortable:false,align:'center'},
-                     {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
-                     {display:'등록일시', name:'registDt',width:100, sortable:false,align:'center'},
-                     {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
-                     {display:'수정일시', name:'updtDt',width:100, sortable:false,align:'center'},
-                     {display:'항코드', name:'prtAtCode',width:100, sortable:false,align:'center'},
-                     {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                     {display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                     {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
-                     {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'}
+                    {display:'자산 사용 순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},                          
+                    {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
+                    {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
+                    {display:'사용 면적', name:'usageAr',width:100, sortable:false,align:'center'},
+                    {display:'사용 기간 FROM', name:'usagePdFrom',width:100, sortable:false,align:'center'},
+                    {display:'사용 기간 TO', name:'usagePdTo',width:100, sortable:false,align:'center'},
+                    {display:'사용 목적', name:'usagePurps',width:100, sortable:false,align:'center'},
+                    {display:'사용 내역', name:'usageDtls',width:100, sortable:false,align:'center'},
+                    {display:'사용 용도 코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
+                    {display:'면제 구분', name:'exemptSe',width:100, sortable:false,align:'center'},
+                    {display:'면제 사유 코드', name:'exemptRsnCd',width:100, sortable:false,align:'center'},
+                    {display:'면제 사유', name:'exemptRsn',width:100, sortable:false,align:'center'},
+                    {display:'면제 기간 FROM', name:'exemptPdFrom',width:100, sortable:false,align:'center'},
+                    {display:'면제 기간 TO', name:'exemptPdTo',width:100, sortable:false,align:'center'},
+                    {display:'산출 내역', name:'computDtls',width:100, sortable:false,align:'center'},
+                    {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
+                    {display:'적용 요율', name:'applcTariff',width:100, sortable:false,align:'center'},
+                    {display:'적용 방법', name:'applcMth',width:100, sortable:false,align:'center'},
+                    {display:'포장 구분', name:'packSe',width:100, sortable:false,align:'center'},
+                    {display:'업체 구분', name:'entrpsSe',width:100, sortable:false,align:'center'},
+                    {display:'사용료 계산 구분', name:'feeCalcSe',width:100, sortable:false,align:'center'},
+                    {display:'감면 사용료 계산 구분', name:'rdcxptFeeCalcSe',width:100, sortable:false,align:'center'},
+                    {display:'감면 사용료', name:'rdcxptFee',width:100, sortable:false,align:'center'},
+                    {display:'사용료', name:'fee',width:100, sortable:false,align:'center'},
+                    {display:'해지 일자', name:'trmnatDt',width:100, sortable:false,align:'center'},
+                    {display:'해지 사유', name:'trmnatRsn',width:100, sortable:false,align:'center'},
+                    {display:'GIS 코드', name:'gisCd',width:100, sortable:false,align:'center'},
+                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
+                    {display:'등록일시', name:'registDt',width:100, sortable:false,align:'center'},
+                    {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
+                    {display:'수정일시', name:'updtDt',width:100, sortable:false,align:'center'},
+                    {display:'항코드', name:'prtAtCode',width:100, sortable:false,align:'center'},
+                    {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
+                    {display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
+                    {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
+                    {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'}
                      ],
          usepager: true,
          useRp: true,
@@ -140,6 +140,7 @@
              module.$('#mngNo').val(row['mngNo']);
              module.$('#mngCnt').val(row['mngCnt']);
              module.$('#entrpscd').val(row['entrpscd']);
+             module.$('#entrpsNm').val(row['entrpsNm']);
              module.$('#dt').val(row['dt']);
              module.$('#reqstSeCd').val(row['reqstSeCd']);
              module.$('#grAr').val(row['grAr']);
@@ -231,7 +232,25 @@
              this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
              
              break;
+         
+         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
+             /*
+             var opts = {
+                 'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+                 'gisAssetsCd': this.$('#gisAssetsCd').val(),
+                 'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()   
+             };
+             */
+             var opts;
              
+             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+             break;    
+         
+         case 'popupEntrpsInfoInput': // 팝업을 호출한다.(자산임대입력)
+             var opts;
+             
+             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+             break;     
      }
  };
 
@@ -272,6 +291,35 @@
          break;
      }
  };
+ 
+//팝업이 종료 될때 리턴 값이 오출 된다.
+//popupId : 팝업 대화상자 아이디
+//msg : 팝업에서 전송한 메시지 (취소는 cancel)
+//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value) {
+	switch (popupId) {
+    case 'selectEntrpsInfoPopup':
+        if (msg != 'cancel') {
+            this.$('#sEntrpscd').val(value.entrpscd);
+            this.$('#sEntrpsNm').val(value.entrpsNm);
+        } else {
+            alert('취소 되었습니다');
+        }
+        break;
+    case 'insertEntrpsInfoPopup':
+        if (msg != 'cancel') {
+            this.$('#entrpscd').val(value.entrpscd);
+            this.$('#entrpsNm').val(value.entrpsNm);
+        } else {
+            alert('취소 되었습니다');
+        }
+        break;
+    default:
+        alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+        throw 0;
+        break;
+    }
+}; 
 
  // 다음 변수는 고정 적으로 정의 해야 함
  var module_instance = new GamPrtFclltyUseSttusModule();
@@ -289,40 +337,40 @@
                              <th>항코드</th>   
                              <td>
                                  <select id="sPrtAtCode">
-                                     <option value="" selected="selected">선택</option>
-                                     <option value="P01">P01</option>
-                                     <option value="P02">P02</option>
-                                     <c:forEach  items="${erpAssetClsList}" var="clsItem">
-                                         <option value="${clsItem.smCls }">${clsItem.smClsName }</option>
-                                     </c:forEach>
-                                 </select>
+                                    <option value="" selected="selected">선택</option>
+
+                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
                              </td>
                              <th>신청구분</th>
                              <td>
                                  <select id="sReqstSeCd">
-                                     <option value="" selected="selected">선택</option>
-                                     <option value="A">최초</option>
-                                     <option value="L">연장</option>
-                                 </select>
+                                    <option value="" selected="selected">선택</option>
+                                    <c:forEach  items="${reqstCdList}" var="reqstCdItem">
+                                        <option value="${reqstCdItem.code }">${reqstCdItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
                              </td>
                              <th>신청업체</th>
                              <td>
-                                 <input id="sEntrpscd" type="text" size="6">
+                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                              </td>
                              <th>사용용도</th>
                              <td>
                                  <select id="assetCls">
-                                     <option value="" selected="selected">선택</option>
-                                     <option value="11">사용용도1</option>
-                                     <option value="22">사용용도2</option>
-                                 </select>
+                                    <option value="" selected="selected">선택</option>
+                                    <option value="11">사용용도1</option>
+                                    <option value="22">사용용도2</option>
+                                </select>
                              </td>
                              <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                          </tr>
                          <tr>
                              <th>관리번호</th>
                              <td>
-                                 <input id="sMngNo" type="text" size="4"> <input id="itemName" type="text" size="3"> <input id="itemName" type="text" size="2">
+                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                              </td>
                              <th>승낙구분</th>
                              <td width="200px">
@@ -395,11 +443,26 @@
                          <input type="hidden" id="mngCnt"/>
                          <table>
                              <tr>
-                                 <th><span class="label">항코드</span></th>
-                                 <td><input type="text" size="10" id="prtAtCode" maxlength="3"/></td>
-                                 <th><span class="label">업체코드</span></th>
-                                 <td><input type="text" size="10" id="entrpscd" maxlength="10"/></td>
-                             </tr>
+                                <th><span class="label">항코드</span></th>
+                                <td>
+                                    <!-- 
+                                    <select id="prtAtCode">
+	                                    <option value="" selected="selected">선택</option>
+	
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
+	                                    </c:forEach>
+	                                </select>
+	                                 -->
+	                                <input type="text" size="5" id="prtAtCode" maxlength="10"/>
+                                </td>
+                                <th><span class="label">업체코드</span></th>
+                                <td>
+                                    <input type="text" size="5" id="entrpscd" maxlength="10"/>
+                                    <input type="text" size="5" id="entrpsNm" readonly/>
+                                    <!-- <button id="popupEntrpsInfoInput">업체</button> -->
+                                </td>
+                            </tr>
                              <tr>
                                  <th><span class="label">총 면적</span></th>
                                  <td><input type="text" size="10" id="grAr"/></td>
@@ -407,24 +470,32 @@
                                  <td><input type="text" size="10" id="grFee"/></td>
                              </tr>
                              <tr>
-                                 <th><span class="label">고지 방법</span></th>
-                                 <td>
-                                     <select id="nticMth">
-                                         <option value="">선택</option>
-                                         <c:forEach items="${nticMthCodeList}" var="nticMthItem">
-                                             <option value="${nticMthItem.code }">${nticMthItem.codeNm }</option>
-                                         </c:forEach>
-                                     </select>
-                                 </td>
-                                 <th><span class="label">최초 허가 일자</span></th>
-                                 <td><input type="text" class="emdcal" size="10" id="frstPrmisnDt"/></td>
-                             </tr>
+                                <th><span class="label">고지 방법</span></th>
+                                <td>
+                                    <select id="nticMth">
+                                        <option value="">선택</option>
+                                        <c:forEach items="${nticMthCdList}" var="nticMthItem">
+                                            <option value="${nticMthItem.code }">${nticMthItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th><span class="label">최초 허가 일자</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="frstPrmisnDt"/></td> -->
+                                <td><input type="text" size="10" id="frstPrmisnDt"/></td>
+                            </tr>
                              <tr>
-                                 <th><span class="label">허가 일자</span></th>
-                                 <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td>
-                                 <th><span class="label">허가 여부</span></th>
-                                 <td><input type="text" size="10" id="prmisnYn"/></td>
-                             </tr>
+                                <th><span class="label">허가 일자</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td> -->
+                                <td><input type="text" size="10" id="prmisnDt"></td>
+                                <th><span class="label">허가 여부</span></th>
+                                <td>
+                                    <select id="prmisnYn">
+                                        <option value="" selected="selected">선택</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                            </tr>
                              
                              <tr>
                                  <th><span class="label">문서 번호</span></th>
@@ -441,25 +512,36 @@
                              </tr> 
                              
                              <tr>
-                                 <th><span class="label">총 감면 사용료</span></th>
-                                 <td><input type="text" size="10" id="grRdcxptFee"/></td>
-                                 <th><span class="label">GIS 코드</span></th>
-                                 <td><input type="text" size="10" id="gisCd"/></td>
-                             </tr>
+                                <th><span class="label">총 감면 사용료</span></th>
+                                <td><input type="text" size="10" id="grRdcxptFee"/></td>
+                                <th><span class="label">GIS 코드</span></th>
+                                <td>
+                                    <select id="gisCd">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${gisCdList}" var="gisCdItem">
+                                            <option value="${gisCdItem.code }">${gisCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
                              
                              <tr>
-                                 <th><span class="label">신청일자</span></th>
-                                 <td><input type="text" class="emdcal" size="10" id="dt"/></td>
-                                 <th><span class="label">총사용시작</span></th>
-                                 <td><input type="text" size="10" id="grUsagePdFrom"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">총사용종료</span></th>
-                                 <td><input type="text" size="10" id="grUsagePdTo"/></td>
-                                 <th><span class="label">등록자</span></th>
-                                 <td><input type="text" size="10" id="regUsr"/></td>
-                             </tr>
+                                <th><span class="label">신청일자</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="dt"/></td> -->
+                                <td><input type="text" size="10" id="dt"/></td>
+                                <th><span class="label">총 사용 기간 FROM</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="grUsagePdFrom"/></td> -->
+                                <td><input type="text" size="10" id="grUsagePdFrom"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">총 사용 기간 TO</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="grUsagePdTo"/></td> -->
+                                <td><input type="text" size="10" id="grUsagePdTo"/></td>
+                                <th><span class="label">등록자</span></th>
+                                <td><input type="text" size="10" id="regUsr"/></td>
+                            </tr>
                              
                              <tr>
                                  <th><span class="label">등록일시</span></th>
@@ -510,54 +592,82 @@
 
                          <table>
                              <tr>
-                                 <th><span class="label">자산사용순번</span></th>
-                                 <td><input type="text" size="10" id="assetsUsageSeq"/>
-                                 </td>
-                                 <th><span class="label">GIS 자산 SUB 코드</span></th>
-                                 <td><input type="text" size="10" id="gisAssetsSubCd"/></td>
-                             </tr>
+                                <th><span class="label">자산사용순번</span></th>
+                                <td><input type="text" size="10" id="assetsUsageSeq" readonly/>
+                                </td>
+                                <th><span class="label">GIS 자산 SUB 코드</span></th>
+                                <td><input type="text" size="10" id="gisAssetsSubCd"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">사용 면적</span></th>
+                                <td><input type="text" size="10" id="usageAr"/></td>
+                                <th><span class="label">사용 기간 FROM</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="usagePdFrom"/></td> -->
+                                <td><input type="text" size="10" id="usagePdFrom"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">사용 기간 TO</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="usagePdTo"/></td> -->
+                                <td><input type="text" size="10" id="usagePdTo"/></td>
+                                <th><span class="label">사용 목적</span></th>
+                                <td><input type="text" size="10" id="usagePurps"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">사용 내역</span></th>
+                                <td><input type="text" size="10" id="usageDtls"/></td>
+                                <th><span class="label">사용 용도 코드</span></th>
+                                <td>
+                                    <select id="usagePrposCd">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
+                                            <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
                              
                              <tr>
-                                 <th><span class="label">사용 면적</span></th>
-                                 <td><input type="text" size="10" id="usageAr"/></td>
-                                 <th><span class="label">사용 기간 FROM</span></th>
-                                 <td><input type="text" size="10" id="usagePdFrom"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">사용 기간 TO</span></th>
-                                 <td><input type="text" size="10" id="usagePdTo"/></td>
-                                 <th><span class="label">사용 목적</span></th>
-                                 <td><input type="text" size="10" id="usagePurps"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">사용 내역</span></th>
-                                 <td><input type="text" size="10" id="usageDtls"/></td>
-                                 <th><span class="label">사용 용도 코드</span></th>
-                                 <td><input type="text" size="10" id="usagePrposCd"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">면제 구분</span></th>
-                                 <td><input type="text" size="10" id="exemptSe"/></td>
-                                 <th><span class="label">면제 사유 코드</span></th>
-                                 <td><input type="text" size="10" id="exemptRsnCd"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">면제 사유</span></th>
-                                 <td><input type="text" size="10" id="exemptRsn"/></td>
-                                 <th><span class="label">면제 기간 FROM</span></th>
-                                 <td><input type="text" size="10" id="exemptPdFrom"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">면제 기간 TO</span></th>
-                                 <td><input type="text" size="10" id="exemptPdTo"/></td>
-                                 <th><span class="label">산출 내역</span></th>
-                                 <td><input type="text" size="10" id="computDtls"/></td>
-                             </tr>
+                                <th><span class="label">면제 구분</span></th>
+                                <td>
+                                    <select id="exemptSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${exemptSeCdList}" var="exemptSeCdItem">
+                                            <option value="${exemptSeCdItem.code }">${exemptSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th><span class="label">면제 사유 코드</span></th>
+                                <td>
+                                    <select id="exemptRsnCd">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${exemptRsnCdList}" var="exemptRsnCdItem">
+                                            <option value="${exemptRsnCdItem.code }">${exemptRsnCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">면제 사유</span></th>
+                                <td><input type="text" size="10" id="exemptRsn"/></td>
+                                <th><span class="label">면제 기간 FROM</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="exemptPdFrom"/></td> -->
+                                <td><input type="text" size="10" id="exemptPdFrom"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">면제 기간 TO</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="exemptPdTo"/></td> -->
+                                <td><input type="text" size="10" id="exemptPdTo"/></td>
+                                <th><span class="label">산출 내역</span></th>
+                                <td><input type="text" size="10" id="computDtls"/></td>
+                            </tr>
                              
                              <tr>
                                  <th><span class="label">공시지가</span></th>
@@ -567,32 +677,65 @@
                              </tr>
                              
                              <tr>
-                                 <th><span class="label">적용 방법</span></th>
-                                 <td><input type="text" size="10" id="applcMth"/></td>
-                                 <th><span class="label">포장 구분</span></th>
-                                 <td><input type="text" size="10" id="packSe"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">업체 구분</span></th>
-                                 <td><input type="text" size="10" id="entrpsSe"/></td>
-                                 <th><span class="label">사용료 계산 구분</span></th>
-                                 <td><input type="text" size="10" id="feeCalcSe"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">감면 사용료 계산 구분</span></th>
-                                 <td><input type="text" size="10" id="rdcxptFeeCalcSe"/></td>
-                                 <th><span class="label">감면 사용료</span></th>
-                                 <td><input type="text" size="10" id="rdcxptFee"/></td>
-                             </tr>
-                             
-                             <tr>
-                                 <th><span class="label">사용료</span></th>
-                                 <td><input type="text" size="10" id="fee"/></td>
-                                 <th><span class="label">해지 일자</span></th>
-                                 <td><input type="text" size="10" id="trmnatDt"/></td>
-                             </tr>
+                                <th><span class="label">적용 방법</span></th>
+                                <td><input type="text" size="10" id="applcMth"/></td>
+                                <th><span class="label">포장 구분</span></th>
+                                <td>
+                                    <select id="packSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${packSeCdList}" var="packSeCdItem">
+                                            <option value="${packSeCdItem.code }">${packSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">업체 구분</span></th>
+                                <td>
+                                    <select id="entrpsSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${entrpsSeCdList}" var="entrpsSeCdItem">
+                                            <option value="${entrpsSeCdItem.code }">${entrpsSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th><span class="label">사용료 계산 구분</span></th>
+                                <td>
+                                    <select id="feeCalcSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${feeCalcSeCdList}" var="feeCalcSeCdItem">
+                                            <option value="${feeCalcSeCdItem.code }">${feeCalcSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">감면 사용료 계산 구분</span></th>
+                                <td>
+                                    <select id="rdcxptFeeCalcSe">
+                                        <option value="" selected="selected">선택</option> 
+                                        
+                                        <c:forEach  items="${rdcxptFeeCalcSeCdList}" var="rdcxptFeeCalcSeCdItem">
+                                            <option value="${rdcxptFeeCalcSeCdItem.code }">${rdcxptFeeCalcSeCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th><span class="label">감면 사용료</span></th>
+                                <td><input type="text" size="10" id="rdcxptFee"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><span class="label">사용료</span></th>
+                                <td><input type="text" size="10" id="fee"/></td>
+                                <th><span class="label">해지 일자</span></th>
+                                <!-- <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td> -->
+                                <td><input type="text" size="10" id="trmnatDt"/></td>
+                            </tr>
                              
                              <tr>
                                  <th><span class="label">해지 사유</span></th>
