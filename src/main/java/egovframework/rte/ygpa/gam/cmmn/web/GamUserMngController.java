@@ -27,27 +27,27 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class GamUserMngController {
-	
+
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
     /** userManageService */
     @Resource(name = "userManageService")
     private EgovUserManageService userManageService;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /**
      * 화면 초기 로드
      * @param windowId
@@ -58,7 +58,7 @@ public class GamUserMngController {
     @SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value="/cmmn/gamUserMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
+
     	ComDefaultCodeVO vo = new ComDefaultCodeVO();
 
         //패스워드힌트목록을 코드정보로부터 조회
@@ -88,11 +88,11 @@ public class GamUserMngController {
         model.addAttribute("groupId_result", groupId_result);					// 그룹정보 목록
 
         model.addAttribute("windowId", windowId);
-        
+
     	return "/ygpa/gam/cmmn/GamUserMng";
     }
-	
-	
+
+
 	/**
 	 * 사용자목록을 조회한다. (pageing)
 	 * @param userSearchVO
@@ -102,9 +102,9 @@ public class GamUserMngController {
 	@SuppressWarnings({ "unchecked" })
     @RequestMapping(value="/cmmn/gamUserManage.do")
     @ResponseBody Map<String, Object> selectUserMngList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO) throws Exception {
-        
+
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
     	/** EgovPropertyService */
         userSearchVO.setPageUnit(propertiesService.getInt("pageUnit"));
         userSearchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -131,8 +131,8 @@ public class GamUserMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
      * 사용자관리 등록화면 로드
      * @param windowId
@@ -145,8 +145,8 @@ public class GamUserMngController {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/GamUserInsert";
     }
-	
-	
+
+
 	/**
 	 * 사용자 등록을 처리한다
 	 * @param userManageVO
@@ -159,17 +159,17 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
     	if("insert".equals(cmd)) {
 
 	    	beanValidator.validate(userManageVO, bindingResult);
 			if (bindingResult.hasErrors()){
 		        map.put("resultCode", 1);
-				map.put("resultMsg", "입력 값에 오류가 있습니다.");
-				map.put("resultObject", bindingResult.getAllErrors());
+				map.put("resultMsg", bindingResult.getAllErrors());
+//				map.put("resultObject", bindingResult.getAllErrors());
 				return map;
 			}
-			
+
 			if(userManageVO.getOrgnztId().equals("")){
 				userManageVO.setOrgnztId(null);
 			}
@@ -183,8 +183,8 @@ public class GamUserMngController {
     	}
     	return map;
     }
-    
-    
+
+
     /**
      * 사용자정보를 수정한다.
      * @param userManageVO 사용자수정정보
@@ -197,7 +197,7 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> updateUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
         beanValidator.validate(userManageVO, bindingResult);
 		if (bindingResult.hasErrors()){
 	        map.put("resultCode", 1);
@@ -205,7 +205,7 @@ public class GamUserMngController {
 			map.put("resultObject", bindingResult.getAllErrors());
 
 		}else{
-			
+
 			//업무사용자 수정시 히스토리 정보를 등록한다.
 			userManageService.insertUserHistory(userManageVO);
 			if(userManageVO.getOrgnztId().equals("")){
@@ -221,8 +221,8 @@ public class GamUserMngController {
 
         return map;
     }
-    
-    
+
+
     /**
      * 사용자정보 수정을 위해 사용자정보를 상세조회한다.
      * @param uniqId
@@ -237,15 +237,15 @@ public class GamUserMngController {
 
         UserManageVO userManageVO = new UserManageVO();
         userManageVO = userManageService.selectUser(uniqId);
-		
+
         //userManageVO.
         map.put("userSearchVO", userSearchVO);
         map.put("userManageVO", userManageVO);
 
         return map;
     }
-    
-    
+
+
     /**
      * 사용자정보삭제후 목록조회 화면으로 이동한다.
      * @param checkedId
@@ -258,7 +258,7 @@ public class GamUserMngController {
             throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
     	// 삭제타입 설정필요[USR03]
         userManageService.deleteUser("USR03:"+uniqId);
 

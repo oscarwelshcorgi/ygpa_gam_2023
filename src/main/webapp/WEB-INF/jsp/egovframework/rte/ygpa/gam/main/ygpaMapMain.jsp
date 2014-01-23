@@ -53,6 +53,8 @@
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 	<script src="<c:url value='/js/jquery.sidr.min.js'/>"></script>
 
+	<script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+
 	<script type="text/javascript">
 	   OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
 	</script>
@@ -343,9 +345,9 @@
           </li>
         </ul>
       </li>
-		
-		
-		
+
+
+
 		<!-- 공통코드 기능 관리 -->
 		<li>
 			<a class="menu_trigger" href="#">코드관리</a>

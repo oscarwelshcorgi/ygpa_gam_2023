@@ -19,10 +19,8 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<script type="text/javascript">
-var imgpath = "<c:url value='/images/egovframework/com/cmm/utl/'/>";
-</script>
-<script language="javascript1.2" type="text/javaScript" src="<c:url value='/js/egovframework/com/sym/mnu/mpm/EgovMenuList.js' />"></script>
+<script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -222,7 +220,7 @@ var module_instance = new GamMenuMngModule();
 						<input type="hidden" id="cmd"/>
 						<table class="tableForm">
 							<colgroup>
-								<col width="30%" />
+								<col width="30%"/>
 								<col />
 							</colgroup>
 							<tr>
