@@ -76,13 +76,13 @@ public class GamAssetRentSttusInqireController {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
-		codeVo.setCodeId("COM998"); //항코드 (코드확인요망!!)
+		codeVo.setCodeId("GAM019"); //항코드 (코드확인요망!!)
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //신청구분코드 (코드확인요망!!)
+		codeVo.setCodeId("GAM011"); //신청구분코드 (코드확인요망!!)
 		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		//codeVo.setCodeId("COM998"); //사용용도 코드 (코드확인요망!!) 자산임대테이블에 사용용도 컬럼 없음!!
+		//codeVo.setCodeId("GAM007"); //사용용도 코드 (코드확인요망!!) 자산임대테이블에 사용용도 컬럼 없음!!
 		//List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);

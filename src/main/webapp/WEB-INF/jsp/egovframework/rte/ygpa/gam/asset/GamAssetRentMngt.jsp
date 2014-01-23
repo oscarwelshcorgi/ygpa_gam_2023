@@ -675,6 +675,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="10" id="grRdcxptFee"/></td>
                                 <th><span class="label">GIS 코드</span></th>
                                 <td>
+                                    <!-- 
                                     <select id="gisCd">
                                         <option value="" selected="selected">선택</option> 
                                         
@@ -682,6 +683,9 @@ var module_instance = new GamAssetRentMngtModule();
                                             <option value="${gisCdItem.code }">${gisCdItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
+                                     -->
+                                     
+                                    <input type="text" size="10" id="gisCd"/>
                                 </td>
                             </tr>
                             
@@ -897,7 +901,9 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">해지 사유</span></th>
                                 <td><input type="text" size="10" id="trmnatRsn"/></td>
                                 <th><span class="label">GIS 코드</span></th>
-                                <td><input type="text" size="10" id="detailGisCd"/></td>
+                                <td>
+                                    <input type="text" size="10" id="detailGisCd"/>
+                                </td>
                             </tr>
                             
                             <tr>

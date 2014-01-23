@@ -79,40 +79,37 @@ public class GamAssetRentMngtController {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
-		codeVo.setCodeId("COM998"); //항코드 (코드확인요망!!)
+		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //신청구분코드 (코드확인요망!!)
+		codeVo.setCodeId("GAM011"); //신청구분코드 
 		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		//codeVo.setCodeId("COM998"); //사용용도 코드 (코드확인요망!!) 자산임대테이블에 사용용도 컬럼 없음!!
-		//List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("COM999"); //고지방법 코드 (코드확인요망!!)
+		codeVo.setCodeId("GAM008"); //고지방법 코드
 		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //GIS 코드   (코드확인요망!!)
+		codeVo.setCodeId("COM077"); //GIS 코드  
 		List gisCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //사용 용도 코드 
+		codeVo.setCodeId("GAM007"); //사용 용도 코드 
 		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //면제 구분  
+		codeVo.setCodeId("GAM009"); //면제 구분  
 		List exemptSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //면제 사유 코드
+		codeVo.setCodeId("GAM017"); //면제 사유 코드
 		List exemptRsnCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //포장 구분 
+		codeVo.setCodeId("GAM015"); //포장 구분 
 		List packSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //업체 구분
+		codeVo.setCodeId("GAM012"); //업체 구분
 		List entrpsSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //사용료 계산 구분
+		codeVo.setCodeId("GAM023"); //사용료 계산 구분
 		List feeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분
+		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분 (확인할것!!)
 		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
 		
