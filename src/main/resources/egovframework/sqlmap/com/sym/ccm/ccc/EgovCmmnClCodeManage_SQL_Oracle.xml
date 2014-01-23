@@ -20,7 +20,7 @@
 			/* 구현 Sql */
 			SELECT  CL_CODE
 			     ,  CL_CODE_NM
-			     ,  USE_AT
+			     ,	DECODE(USE_AT, 'Y', '사용', '미사용') AS USE_AT
 			  FROM  COMTCCMMNCLCODE
 			 WHERE  1 = 1
 		]]>

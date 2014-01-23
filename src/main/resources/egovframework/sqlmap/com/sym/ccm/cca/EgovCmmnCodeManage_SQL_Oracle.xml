@@ -21,7 +21,7 @@
 			SELECT  B.CL_CODE_NM
 			     ,  A.CODE_ID
 			     ,  A.CODE_ID_NM
-			     ,  A.USE_AT
+			     ,  DECODE(A.USE_AT, 'Y', '사용', '미사용') USE_AT
 			  FROM  COMTCCMMNCODE   A
 			     ,  COMTCCMMNCLCODE B
 			 WHERE  A.CL_CODE = B.CL_CODE
@@ -60,6 +60,9 @@
 			</isEqual>
 			<isEqual prepend="AND" property="searchCondition" compareValue="2">
 				<![CDATA[CODE_ID_NM LIKE '%' || #searchKeyword# || '%']]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="countCode">
+				<![CDATA[CODE_ID           = #codeId#]]>
 			</isEqual>
 	</select>
 
