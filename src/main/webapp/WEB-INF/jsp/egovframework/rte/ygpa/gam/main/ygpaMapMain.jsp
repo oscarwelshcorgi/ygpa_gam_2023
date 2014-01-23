@@ -343,19 +343,23 @@
           </li>
         </ul>
       </li>
-      <li>
-        <a class="menu_trigger" href="#">코드관리</a>
-        <ul class="menu">
-       	 <li>
-         	 <a href="#"><b>공통코드 관리</b></a>
-                           	<ul class="submenu">
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamCmmnCodeMngt.do'/>">공통코드 관리</a>
-							</li>
-							</ul>
-							</li>
-        </ul>
-      </li>
+		
+		
+		
+		<!-- 공통코드 기능 관리 -->
+		<li>
+			<a class="menu_trigger" href="#">코드관리</a>
+			<ul class="menu">
+				<li>
+					<a href="#"><b>공통코드 관리</b></a>
+						<ul class="submenu">
+							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeClMngt.do'/>">공통코드분류</a></li>
+							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeMngt.do'/>">공통코드관리</a></li>
+							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeDetailMngt.do'/>">공통코드상세 관리</a></li>
+						</ul>
+				</li>
+			</ul>
+		</li>
 
 
 		<!-- 공통기능 메뉴 -->
