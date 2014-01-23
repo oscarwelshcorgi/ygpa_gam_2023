@@ -128,6 +128,9 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
     /** 검색조건 */
     private String sMngCnt;
     
+    /** 검색조건(사용 용도 코드) */                                                   
+    private String sUsagePrposCd; 
+    
     /** 자료수 */
     private String sumCnt;
     
@@ -952,5 +955,20 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
 	public void setRdcxptFeeCalcSeNm(String rdcxptFeeCalcSeNm) {
 		this.rdcxptFeeCalcSeNm = rdcxptFeeCalcSeNm;
 	}
+
+	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
+	}
+	
 	
 }

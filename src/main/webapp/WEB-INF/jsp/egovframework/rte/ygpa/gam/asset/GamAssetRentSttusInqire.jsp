@@ -341,10 +341,11 @@ var module_instance = new GamAssetRentSttusInqireModule();
                             </td>
                             <th>사용용도</th>
                             <td>
-                                <select id="assetCls">
+                                <select id="sUsagePrposCd">
                                     <option value="" selected="selected">선택</option>
-                                    <option value="11">사용용도1</option>
-                                    <option value="22">사용용도2</option>
+                                    <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
+                                        <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>

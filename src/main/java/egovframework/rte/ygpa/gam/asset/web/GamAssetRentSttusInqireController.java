@@ -82,11 +82,12 @@ public class GamAssetRentSttusInqireController {
 		codeVo.setCodeId("GAM011"); //신청구분코드 (코드확인요망!!)
 		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		//codeVo.setCodeId("GAM007"); //사용용도 코드 (코드확인요망!!) 자산임대테이블에 사용용도 컬럼 없음!!
-		//List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		codeVo.setCodeId("GAM007"); //사용 용도 코드 
+		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("reqstCdList", reqstCdList);
+		model.addAttribute("usagePrposCdList", usagePrposCdList);
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/asset/GamAssetRentSttusInqire";

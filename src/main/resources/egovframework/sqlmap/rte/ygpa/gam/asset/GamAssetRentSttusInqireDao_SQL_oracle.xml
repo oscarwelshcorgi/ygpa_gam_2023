@@ -95,6 +95,18 @@
 					             AND A.PRMISN_YN = #sPrmisnYn#
 					         </isNotEmpty>
                              
+                             <isNotEmpty property="sUsagePrposCd">
+					             AND (
+					                   (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+					                                                                 SELECT  PRT_AT_CODE
+					                                                                       , MNG_YEAR
+					                                                                       , MNG_NO
+					                                                                       , MNG_CNT 
+					                                                                   FROM ASSETS_RENT_DETAIL_F
+					                                                                  WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+					                                                               )
+					                 ) 
+					         </isNotEmpty>
                              
                              ORDER BY REGIST_DT DESC
                 ) S
@@ -146,6 +158,19 @@
              <isNotEmpty property="sPrmisnYn">
                  AND A.PRMISN_YN = #sPrmisnYn#
              </isNotEmpty>
+             
+             <isNotEmpty property="sUsagePrposCd">
+                 AND (
+                       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                                                                     SELECT  PRT_AT_CODE
+                                                                           , MNG_YEAR
+                                                                           , MNG_NO
+                                                                           , MNG_CNT 
+                                                                       FROM ASSETS_RENT_DETAIL_F
+                                                                      WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                                   )
+                     ) 
+             </isNotEmpty>
     </select>
     
     <select id="gamAssetRentSttusInqireDao.selectAssetRentSum_S" parameterClass="gamAssetRentSttusInqireVO" resultMap="gamAssetRentSumMap">
@@ -194,6 +219,19 @@
          
          <isNotEmpty property="sPrmisnYn">
              AND A.PRMISN_YN = #sPrmisnYn#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sUsagePrposCd">
+             AND (
+                   (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                                                                 SELECT  PRT_AT_CODE
+                                                                       , MNG_YEAR
+                                                                       , MNG_NO
+                                                                       , MNG_CNT 
+                                                                   FROM ASSETS_RENT_DETAIL_F
+                                                                  WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                               )
+                 ) 
          </isNotEmpty>
     </select>
     

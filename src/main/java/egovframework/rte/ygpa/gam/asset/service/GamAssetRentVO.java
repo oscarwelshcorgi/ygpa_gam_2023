@@ -128,6 +128,9 @@ public class GamAssetRentVO extends ComDefaultVO {
     /** 검색조건 */
     private String sMngCnt;
     
+    /** 검색조건(사용 용도 코드) */                                                   
+    private String sUsagePrposCd; 
+    
     /** 자료수 */
     private String sumCnt;
     
@@ -154,6 +157,8 @@ public class GamAssetRentVO extends ComDefaultVO {
     
     /** 관리 번호(조합) */
     private String rentMngNo;
+    
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -797,7 +802,19 @@ public class GamAssetRentVO extends ComDefaultVO {
 	public void setsMngCnt(String sMngCnt) {
 		this.sMngCnt = sMngCnt;
 	}
-	
-	
-	
+
+	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
+	}
+
 }
