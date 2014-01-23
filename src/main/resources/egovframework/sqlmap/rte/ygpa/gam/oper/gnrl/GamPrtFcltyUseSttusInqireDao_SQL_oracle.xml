@@ -26,24 +26,25 @@
                                   , A.MNG_CNT
                                   , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
                                   , A.ENTRPSCD
-                                  , TO_CHAR(A.DT, 'YYYYMMDD') DT
+                                  , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
+                                  , TO_CHAR(A.DT, 'YYYY-MM-DD') DT
                                   , A.REQST_SE_CD
                                   , A.GR_AR
                                   , A.GR_FEE
                                   , A.NTIC_MTH
-                                  , A.FRST_PRMISN_DT
-                                  , A.PRMISN_DT
+                                  , TO_CHAR(TO_DATE(A.FRST_PRMISN_DT), 'YYYY-MM-DD') FRST_PRMISN_DT
+                                  , TO_CHAR(TO_DATE(A.PRMISN_DT), 'YYYY-MM-DD') PRMISN_DT
                                   , A.PRMISN_YN
-                                  , A.GR_USAGE_PD_FROM
-                                  , A.GR_USAGE_PD_TO
+                                  , TO_CHAR(TO_DATE(A.GR_USAGE_PD_FROM), 'YYYY-MM-DD') GR_USAGE_PD_FROM 
+                                  , TO_CHAR(TO_DATE(A.GR_USAGE_PD_TO), 'YYYY-MM-DD') GR_USAGE_PD_TO
                                   , A.DOC_NO
                                   , A.RM
                                   , A.CMT
                                   , A.ETC
                                   , A.REG_USR
-                                  , TO_CHAR(A.REGIST_DT, 'YYYYMMDD') REGIST_DT 
+                                  , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
                                   , A.UPD_USR
-                                  , TO_CHAR(A.UPDT_DT, 'YYYYMMDD') UPDT_DT 
+                                  , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
                                   , A.GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
@@ -51,32 +52,45 @@
                             WHERE 1=1 
                             
                              <isNotEmpty property="sPrtAtCode">
-                                 AND A.PRT_AT_CODE = #sPrtAtCode#  
-                             </isNotEmpty>
+					             AND A.PRT_AT_CODE = #sPrtAtCode#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sReqstSeCd">
+					             AND A.REQST_SE_CD = #sReqstSeCd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sEntrpscd">
+					             AND A.ENTRPSCD = #sEntrpscd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrUsagePdFrom"> 
+					             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrUsagePdTo">
+					             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrAr">
+					             AND A.GR_AR = #sGrAr#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngYear">
+					             AND A.MNG_YEAR = #sMngYear#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngNo">
+					             AND A.MNG_NO = #sMngNo#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngCnt">
+					             AND A.MNG_CNT = #sMngCnt#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sPrmisnYn">
+					             AND A.PRMISN_YN = #sPrmisnYn#
+					         </isNotEmpty>
                              
-                             <isNotEmpty property="sReqstSeCd">
-                                 AND A.REQST_SE_CD = #sReqstSeCd#  
-                             </isNotEmpty>
-                             
-                             <isNotEmpty property="sEntrpscd">
-                                 AND A.ENTRPSCD = #sEntrpscd#  
-                             </isNotEmpty>
-                             
-                             <isNotEmpty property="sMngNo">
-                                 AND A.MNG_NO = #sMngNo#  
-                             </isNotEmpty>
-                             
-                             <isNotEmpty property="sGrUsagePdFrom"> 
-                                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
-                             </isNotEmpty>
-                             
-                             <isNotEmpty property="sGrUsagePdTo">
-                                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
-                             </isNotEmpty>
-                             
-                             <isNotEmpty property="sGrAr">
-                                 AND A.GR_AR = #sGrAr#
-                             </isNotEmpty>
                              
                              ORDER BY REGIST_DT DESC
                 ) S
@@ -101,20 +115,32 @@
                  AND A.ENTRPSCD = #sEntrpscd#  
              </isNotEmpty>
              
-             <isNotEmpty property="sMngNo">
-                 AND A.MNG_NO = #sMngNo#  
-             </isNotEmpty>
-             
              <isNotEmpty property="sGrUsagePdFrom"> 
-                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
              </isNotEmpty>
              
              <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
              </isNotEmpty>
              
              <isNotEmpty property="sGrAr">
                  AND A.GR_AR = #sGrAr#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngYear">
+                 AND A.MNG_YEAR = #sMngYear#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngNo">
+                 AND A.MNG_NO = #sMngNo#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngCnt">
+                 AND A.MNG_CNT = #sMngCnt#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sPrmisnYn">
+                 AND A.PRMISN_YN = #sPrmisnYn#
              </isNotEmpty>
     </select>
     
@@ -138,20 +164,32 @@
              AND A.ENTRPSCD = #sEntrpscd#  
          </isNotEmpty>
          
-         <isNotEmpty property="sMngNo">
-             AND A.MNG_NO = #sMngNo#  
-         </isNotEmpty>
-         
          <isNotEmpty property="sGrUsagePdFrom"> 
-             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> #sGrUsagePdFrom#  
+             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
          </isNotEmpty>
          
          <isNotEmpty property="sGrUsagePdTo">
-             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> #sGrUsagePdTo#
+             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
          </isNotEmpty>
          
          <isNotEmpty property="sGrAr">
              AND A.GR_AR = #sGrAr#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngYear">
+             AND A.MNG_YEAR = #sMngYear#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngNo">
+             AND A.MNG_NO = #sMngNo#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngCnt">
+             AND A.MNG_CNT = #sMngCnt#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sPrmisnYn">
+             AND A.PRMISN_YN = #sPrmisnYn#
          </isNotEmpty>
     </select>
     
@@ -165,16 +203,16 @@
                                 , A.GIS_ASSETS_CD
                                 , A.GIS_ASSETS_SUB_CD
                                 , A.USAGE_AR
-                                , A.USAGE_PD_FROM
-                                , A.USAGE_PD_TO
+                                , TO_CHAR(TO_DATE(A.USAGE_PD_FROM), 'YYYY-MM-DD') USAGE_PD_FROM
+                                , TO_CHAR(TO_DATE(A.USAGE_PD_TO), 'YYYY-MM-DD') USAGE_PD_TO
                                 , A.USAGE_PURPS
                                 , A.USAGE_DTLS
                                 , A.USAGE_PRPOS_CD
                                 , A.EXEMPT_SE
                                 , A.EXEMPT_RSN_CD
                                 , A.EXEMPT_RSN
-                                , A.EXEMPT_PD_FROM
-                                , A.EXEMPT_PD_TO
+                                , TO_CHAR(TO_DATE(A.EXEMPT_PD_FROM), 'YYYY-MM-DD') EXEMPT_PD_FROM 
+                                , TO_CHAR(TO_DATE(A.EXEMPT_PD_TO), 'YYYY-MM-DD') EXEMPT_PD_TO 
                                 , A.COMPUT_DTLS
                                 , A.OLNLP
                                 , A.APPLC_TARIFF
@@ -185,13 +223,13 @@
                                 , A.RDCXPT_FEE_CALC_SE
                                 , A.RDCXPT_FEE
                                 , A.FEE
-                                , A.TRMNAT_DT
+                                , TO_CHAR(TO_DATE(A.TRMNAT_DT), 'YYYY-MM-DD') TRMNAT_DT
                                 , A.TRMNAT_RSN
                                 , A.GIS_CD
                                 , A.REG_USR
-                                , TO_CHAR(A.REGIST_DT,'YYYYMMDD') REGIST_DT
+                                , TO_CHAR(A.REGIST_DT,'YYYY-MM-DD') REGIST_DT
                                 , A.UPD_USR
-                                , TO_CHAR(A.UPDT_DT,'YYYYMMDD') UPDT_DT
+                                , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
                                 , A.PRT_AT_CODE
                                 , A.GIS_ASSETS_PRT_AT_CODE
                                 , A.MNG_YEAR
