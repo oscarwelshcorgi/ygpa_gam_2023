@@ -158,7 +158,7 @@ public class GamCmmnCodeClMngtController {
 
         beanValidator.validate(cmmnClCode, bindingResult);
 		if (bindingResult.hasErrors()){
-			map.put("resultCode", 1);			// return ok
+			map.put("resultCode", 1);
 			map.put("resultMsg", "입력값을 확인하세요.");
 			return map;
 		}
@@ -166,7 +166,7 @@ public class GamCmmnCodeClMngtController {
 		if(cmmnClCode.getClCode() != null){
 			CmmnClCode vo = cmmnClCodeManageService.selectCmmnClCodeDetail(cmmnClCode);
 			if(vo != null){
-				map.put("resultCode", 1);			// return ok
+				map.put("resultCode", 1);
 				map.put("resultMsg", "이미 등록된 분류코드가 존재합니다.");
 				return map;
 			}
