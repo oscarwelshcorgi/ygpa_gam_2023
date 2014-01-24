@@ -165,8 +165,15 @@ var module_instance = new GamCmmnCodeClMngtModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>권한 명</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
+							<th>공통분류코드 목록</th>
+							<td width="10%">  		
+								<select id="searchCondition" class="select">
+									<option selected="selected">--선택하세요--</option>
+									<option value="1">분류코드</option>
+									<option value="2">분류코드명</option>
+								</select>	   
+							</td>
+							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>

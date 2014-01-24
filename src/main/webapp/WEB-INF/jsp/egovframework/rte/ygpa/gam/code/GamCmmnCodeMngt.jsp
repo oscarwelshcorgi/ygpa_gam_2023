@@ -37,8 +37,8 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
-					{display:"코드ID", 		name:"clCodeNm",	width:200, 	sortable:false,		align:"center"},
-					{display:"코드", 		name:"codeId",		width:100, 	sortable:false,		align:"center"},
+					{display:"코드ID", 		name:"codeId",		width:200, 	sortable:false,		align:"center"},
+					{display:"코드", 		name:"clCode",		width:100, 	sortable:false,		align:"center"},
 					{display:"코드명", 		name:"codeIdNm",	width:250, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
 					],
@@ -170,8 +170,15 @@ var module_instance = new GamCmmnCodeMngtModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>권한 명</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
+							<th>공통코드 목록</th>
+							<td width="10%">
+								<select id="searchCondition" class="select">
+									<option selected="selected">--선택하세요--</option>
+									<option value="1">코드ID</option>
+									<option value="2">코드ID명</option>
+								</select>	   
+							</td>
+							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>
