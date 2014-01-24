@@ -28,6 +28,14 @@ public class GamAuthorRoleMngController {
 	@Resource(name = "egovAuthorRoleManageService")
     private EgovAuthorRoleManageService egovAuthorRoleManageService;
 	
+	
+	/**
+	 * 화면 호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/cmmn/gamAuthorRoleMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
@@ -73,41 +81,38 @@ public class GamAuthorRoleMngController {
 	
 	/**
 	 * 권한정보에 롤을 할당하여 데이터베이스에 등록
-	 * @param authorCode String
-	 * @param roleCodes String
-	 * @param regYns String
-	 * @param authorRoleManage AuthorRoleManage
-	 * @return String
-	 * @exception Exception
+	 * @param authorCode
+	 * @param roleCodes
+	 * @param regYns
+	 * @param authorRoleManage
+	 * @return map
+	 * @throws Exception
 	 */
 	@RequestMapping(value="/cmmn/gamAuthorRoleInsert.do")
 	@ResponseBody Map<String, Object> insertAuthorRole(@RequestParam("authorCode") String authorCode,@RequestParam("roleCodes") String roleCodes,
-			                       @RequestParam("regYn") String regYns,@ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage) throws Exception {
+			                       @RequestParam("regYns") String regYns,@ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-    	//String [] strRoleCodes = roleCodes.split(";");
-    	//String [] strRegYns = regYns.split(";");
+    	String [] strRoleCodes = roleCodes.split(";");
+    	String [] strRegYns = regYns.split(";");
     	
-		authorCode = "";
+    	
     	authorRoleManage.setRoleCode(authorCode);
     	
-    	//for(int i=0; i<strRoleCodes.length;i++) {
-    		//authorRoleManage.setRoleCode(strRoleCodes[i]);
-    		//authorRoleManage.setRegYn(strRegYns[i]);
-    		authorRoleManage.setRoleCode(roleCodes);
-    		authorRoleManage.setRegYn(regYns);
-    		
-    		//if(strRegYns[i].equals("Y")){
-    		if(regYns.equals("Y")){
+    	for(int i=0; i<strRoleCodes.length;i++) {
+    		authorRoleManage.setRoleCode(strRoleCodes[i]);
+    		authorRoleManage.setRegYn(strRegYns[i]);
+
+    		if(strRegYns[i].equals("Y")){
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);//2011.09.07
     			egovAuthorRoleManageService.insertAuthorRole(authorRoleManage);
     		}else {
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);
     		}
-    	//}
+    	}
 
-    	map.put("resultCode", "0");		
+    	map.put("resultCode", 0);		
         map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));		
 		return map;
 	}

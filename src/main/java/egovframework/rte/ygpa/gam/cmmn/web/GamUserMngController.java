@@ -187,10 +187,9 @@ public class GamUserMngController {
 
     /**
      * 사용자정보를 수정한다.
-     * @param userManageVO 사용자수정정보
-     * @param bindingResult 입력값검증용 bindingResult
-     * @param model 화면모델
-     * @return forward:/uss/umt/EgovUserManage.do
+     * @param userManageVO
+     * @param bindingResult
+     * @return String
      * @throws Exception
      */
     @RequestMapping("/cmmn/gamUserSelectUpdt.do")

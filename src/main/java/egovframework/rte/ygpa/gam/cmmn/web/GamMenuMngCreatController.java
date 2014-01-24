@@ -21,7 +21,7 @@ import egovframework.com.sym.mnu.mcm.service.EgovMenuCreateManageService;
 import egovframework.com.sym.mnu.mcm.service.MenuCreatVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
+
 
 @Controller
 public class GamMenuMngCreatController {
@@ -114,7 +114,6 @@ public class GamMenuMngCreatController {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/cmmn/popup/showMenuCreat.do", method=RequestMethod.POST)
     String showMenuCreat(String authorCode, ModelMap model) throws Exception {
 
