@@ -9,9 +9,9 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
-@Repository("gamAssetCodeDao")
+@Repository("gamAssetCodeSampleDao")
 public class GamAssetCodeSampleDao extends EgovAbstractDAO {
-	
+
     public String insertAssetCode(Map vo) throws Exception {
         return (String)insert("gamAssetCodeDAO.insertAssetCode_S", vo);
     }
@@ -32,7 +32,7 @@ public class GamAssetCodeSampleDao extends EgovAbstractDAO {
 		// TODO Auto-generated method stub
 		 return list("gamAssetCodeDao.selectAssetCodeList_D", searchOpt);
 	}
-	
+
 	public int selectGamAssetCodeListTotCnt(Map searchOpt) {
 		return  (Integer)getSqlMapClientTemplate().queryForObject("gamAssetCodeDao.selectAssetCodeListTotCnt_S", searchOpt);
 	}

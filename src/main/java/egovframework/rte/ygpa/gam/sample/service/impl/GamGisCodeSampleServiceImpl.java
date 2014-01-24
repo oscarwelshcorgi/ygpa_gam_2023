@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.sample.service.GamGisCodeSampleService;
 
-@Service("gamGisCodeService")
+@Service("gamGisCodeSampleService")
 public class GamGisCodeSampleServiceImpl implements GamGisCodeSampleService {
-	
-    @Resource(name="gamGisCodeDao")
+
+    @Resource(name="gamGisCodeSampleDao")
     private GamGisCodeSampleDao gamGisCodeDao;
 
 

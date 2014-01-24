@@ -45,7 +45,7 @@ public class GamAssetMngSampleController {
     @Resource(name = "erpAssetCdService")
     private ErpAssetCdService erpAssetCdService;
 
-    @Resource(name = "gamAssetService")
+    @Resource(name = "gamAssetSampleService")
     private GamAssetSampleService gamAssetService;
 
     /** EgovPropertyService */

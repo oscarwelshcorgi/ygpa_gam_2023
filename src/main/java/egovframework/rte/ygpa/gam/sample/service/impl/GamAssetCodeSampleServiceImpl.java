@@ -11,10 +11,10 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.sample.service.GamAssetCodeSampleService;
 import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
-@Service("gamAssetCodeService")
+@Service("gamAssetCodeSampleService")
 public class GamAssetCodeSampleServiceImpl implements GamAssetCodeSampleService {
-	
-    @Resource(name="gamAssetCodeDao")
+
+    @Resource(name="gamAssetCodeSampleDao")
     private GamAssetCodeSampleDao gamAssetCodeDao;
 
 

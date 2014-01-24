@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
-@Service("gamAssetService")
+@Service("gamAssetSampleService")
 public class GamAssetSampleServiceImpl implements GamAssetSampleService {
-	
-    @Resource(name="gamAssetDao")
+
+    @Resource(name="gamAssetSampleDao")
     private GamAssetSampleDao gamAssetDao;
 
 	@Override

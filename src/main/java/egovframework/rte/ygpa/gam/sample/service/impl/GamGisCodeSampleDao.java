@@ -9,9 +9,9 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
-@Repository("gamGisCodeDao")
+@Repository("gamGisCodeSampleDao")
 public class GamGisCodeSampleDao extends EgovAbstractDAO {
-	
+
     public String insertGisCode(Map vo) throws Exception {
         return (String)insert("gamGisCodeDAO.insertGisCode_S", vo);
     }
@@ -32,7 +32,7 @@ public class GamGisCodeSampleDao extends EgovAbstractDAO {
 		// TODO Auto-generated method stub
 		 return list("gamGisCodeDao.selectGisCodeList_D", searchOpt);
 	}
-	
+
 	public int selectGisCodeListTotCnt(Map searchOpt) {
 		return  (Integer)getSqlMapClientTemplate().queryForObject("gamAssetDao.selectGisCodeListTotCnt_S", searchOpt);
 	}

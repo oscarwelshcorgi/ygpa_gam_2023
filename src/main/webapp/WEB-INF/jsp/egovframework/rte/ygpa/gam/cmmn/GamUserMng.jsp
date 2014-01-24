@@ -56,16 +56,18 @@ GamUserMngListModule.prototype.loadComplete = function() {
 	this.$("#userMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-		
+
 		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', {uniqId: row["uniqId"]}, function(module, result) {
-		
+
 			module.$("#cmd").val("modify");
-			var zipSet = result.userManageVO.zip.substring(0,3) + "-" + result.userManageVO.zip.substring(3); 
-			
+			var zipSet = result.userManageVO.zip.substring(0,3) + "-" + result.userManageVO.zip.substring(3);
+
+			module.$(".notModify").remove();
+
 			module.$("#uniqId").val(result.userManageVO.uniqId);													// 사용자 고유 ID
 			module.$("#emplyrId").val(result.userManageVO.emplyrId);												// 사용자 ID
 			module.$("#emplyrNm").val(result.userManageVO.emplyrNm);												// 사용자 이름
-			module.$("#password").val(result.userManageVO.password);												// 비밀번호
+			//module.$("#password").val(result.userManageVO.password);												// 비밀번호
 			//module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
 			module.$("#passwordHint").val(result.userManageVO.passwordHint).attr("selected","selected");			// 비밀번호 질문
 			module.$("#passwordCnsr").val(result.userManageVO.passwordCnsr);										// 비밀번호 답변
@@ -105,6 +107,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		case 'searchBtn':
 			var searchOpt = this.makeFormArgs('#userMngForm');
 		 	this.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
+		 	throw 0;
 		break;
 
 		// 추가
@@ -163,7 +166,6 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-				
 				console.log("inputVO : "+inputVO);
 			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
@@ -263,6 +265,7 @@ var module_instance = new GamUserMngListModule();
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" name="zip" id="zip" />
 					<input type="hidden" name="uniqId" id="uniqId" />
+					<input class="isModify" type="hidden" name="password" id="password" value="dummy" />
 					<table class="searchPanel">
 			            <tr>
 			                <th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
@@ -279,7 +282,7 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 
-			            <tr>
+			            <tr class="notModify">
 			                <th width="20%" height="23" class="required_text">
 			                    비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
 			                </th>
@@ -287,7 +290,7 @@ var module_instance = new GamUserMngListModule();
 			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
 			                </td>
 			            </tr>
-			            <tr>
+			            <tr class="notModify">
 			                <th width="20%" height="23" class="required_text"  >
 			                    비밀번호확인<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
 			                </th>
