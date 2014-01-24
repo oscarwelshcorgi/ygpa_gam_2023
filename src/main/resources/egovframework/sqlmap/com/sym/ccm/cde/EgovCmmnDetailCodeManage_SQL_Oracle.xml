@@ -21,7 +21,7 @@
 			SELECT  A.CODE_ID
 			     ,  A.CODE
 			     ,  A.CODE_NM
-			     ,  A.USE_AT
+			     ,  DECODE(A.USE_AT, 'Y', '사용', '미사용') USE_AT
 			  FROM  COMTCCMMNDETAILCODE A
 			     ,  COMTCCMMNCODE       B
 			 WHERE 	B.USE_AT  = 'Y'

@@ -34,10 +34,10 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
     FROM    COMTNEMPLYRINFO
         WHERE 1=1
         <isNotEqual prepend="AND" property="sbscrbSttus" compareValue="0">
-            EMPLYR_STTUS_CODE LIKE  #sbscrbSttus#
+            EMPLYR_STTUS_CODE = #sbscrbSttus#
         </isNotEqual>
         <isEqual prepend="AND" property="searchCondition" compareValue="0">
-            EMPLYR_ID LIKE #searchKeyword#
+            EMPLYR_ID LIKE '%' ||#searchKeyword#|| '%'
         </isEqual>
         <isEqual prepend="AND" property="searchCondition" compareValue="1">
             USER_NM LIKE '%' ||#searchKeyword#|| '%'
@@ -54,7 +54,7 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                 EMPLYR_STTUS_CODE LIKE  #sbscrbSttus#
             </isNotEqual>
             <isEqual prepend="AND" property="searchCondition" compareValue="0">
-                EMPLYR_ID LIKE #searchKeyword#
+                EMPLYR_ID LIKE '%' ||#searchKeyword#|| '%'
             </isEqual>
             <isEqual prepend="AND" property="searchCondition" compareValue="1">
                 USER_NM LIKE '%' ||#searchKeyword#|| '%'
