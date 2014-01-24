@@ -25,7 +25,7 @@
  */
 function GamMenuMngModule() {}
 
-GamMenuMngModule.prototype = new EmdModule();
+GamMenuMngModule.prototype = new EmdModule(840, 540);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMenuMngModule.prototype.loadComplete = function() {

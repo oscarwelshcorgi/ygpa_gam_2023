@@ -26,7 +26,7 @@
  */
 function GamAuthorRoleMngModule() {}
 
-GamAuthorRoleMngModule.prototype = new EmdModule();
+GamAuthorRoleMngModule.prototype = new EmdModule(840, 475);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorRoleMngModule.prototype.loadComplete = function() {
@@ -44,9 +44,9 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
                     {display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
 					{display:"롤 ID", 		name:"roleCode",	width:100, 	sortable:false,		align:"center"},
 					{display:"롤 명", 		name:"roleNm",		width:120, 	sortable:false,		align:"center"},
-					{display:"롤 타입", 		name:"roleTyp",		width:80, 	sortable:false,		align:"center"},
-					{display:"롤 Sort", 		name:"roleSort",	width:40, 	sortable:false,		align:"center"},
-					{display:"롤 설명", 		name:"roleDc",		width:100, 	sortable:false,		align:"center"},
+					{display:"롤 타입", 		name:"roleTyp",		width:60, 	sortable:false,		align:"center"},
+					{display:"롤 Sort", 		name:"roleSort",	width:80, 	sortable:false,		align:"center"},
+					{display:"롤 설명", 		name:"roleDc",		width:200, 	sortable:false,		align:"center"},
 					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
 					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],
@@ -54,19 +54,12 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "300"
+		width: "830",
+		height: "315"
 	});
 
 	this.$("#authorRoleMngList").on("onSelectChanged", function(event, module, row, grid, param) {
-
-		var inputVO = {roleCodes: row.roleCode, regYn:row.regYn, authorCode:module.$("#searchKeyword").val()};
-		module.doAction('<c:url value="/cmmn/gamAuthorRoleInsert.do" />', inputVO, function(module2, result) {
-	 		if(result.resultCode == 0){
-	 			var searchOpt = this.makeFormArgs("#authorRoleForm");
-	 			module2.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
-	 		}
-	 		alert(result.resultMsg);
-	 	});
+		
 	});
 };
 
@@ -82,16 +75,46 @@ GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#authorRoleForm");
 		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
 		break;
 
 		// 저장
 		case "saveBtn":
 			var filter = [{ 'col': 'chkRole', 'filter': true}];
 			var reglist = this.$("#authorRoleMngList").selectFilterData(filter);
-			alert('등록이 Y인 행을 '+ reglist.length+' 개 선택 했습니다.');
-//			var searchOpt = this.makeFormArgs("#authorRoleForm");
-//		 	this.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
+
+			if(reglist.length > 0){
+
+				if(this.$("#searchKeyword").val() == ""){
+					alert("등록된 권한 코드가 없습니다.");
+					this.$("#searchKeyword").focus();
+					return;
+				}
+				
+				var roleCodes = "";
+				var regYns = "";
+				for(var i=0; i<reglist.length; i++){
+					if(reglist[i].chkRole == true){
+						if(i < (reglist.length-1)){
+							roleCodes += reglist[i].roleCode + ";";
+							regYns += reglist[i].regYn + ";";
+						}else{
+							roleCodes += reglist[i].roleCode;
+							regYns += reglist[i].regYn;	
+						}
+					}
+				}
+				
+				var inputVO = {roleCodes: roleCodes, regYns:regYns, authorCode:this.$("#searchKeyword").val()};
+				this.doAction('<c:url value="/cmmn/gamAuthorRoleInsert.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			var searchOpt = module.makeFormArgs("#authorRoleForm");
+			 			module.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
+			 		}
+			 		alert(result.resultMsg);			 		
+			 	});
+			}else{
+				alert("선택 된 값이 없습니다.");
+			}
 		break;
 	}
 };
@@ -111,25 +134,19 @@ var module_instance = new GamAuthorRoleMngModule();
 					<tbody>
 						<tr>
 							<th>권한코드</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="30" title="검색"  /></td>
+							<td><input id="searchKeyword" type="text" size="30" title="검색"  /></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="searchBtn">조회</button>
-						<button id="saveBtn">저장</button>
-					</div>
+				<div class="emdControlPanel">
+					<button id="searchBtn">조회</button>
+					<button id="saveBtn">저장</button>
 				</div>
 			</form>
 		</div>
 	</div>
 
 	<div class="emdPanel">
-		<div class="emdTabPanel">
-			<div class="emdTabPage">
-				<table id="authorRoleMngList" style="display:none"></table>
-			</div>
-		</div>
+		<table id="authorRoleMngList" style="display:none"></table>
 	</div>
 </div>

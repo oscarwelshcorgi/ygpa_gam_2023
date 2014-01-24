@@ -26,7 +26,7 @@
  */
 function GamUserMngListModule() {}
 
-GamUserMngListModule.prototype = new EmdModule();
+GamUserMngListModule.prototype = new EmdModule(900, 540);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamUserMngListModule.prototype.loadComplete = function() {
@@ -38,13 +38,13 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		dataType: 'json',
 		colModel : [
 					{display:'No', 			name:'rn',				width:30, 	sortable:false,		align:'center'},
-					{display:'사용자아이디',	name:'uniqId',			width:0, 	sortable:false,		align:'center'},
+					{display:'hidden',		name:'uniqId',			width:1, 	sortable:false,		align:'center'},
 					{display:'아이디', 		name:'userId',			width:100, 	sortable:false,		align:'center'},
 					{display:'사용자이름', 	name:'userNm',			width:80, 	sortable:false,		align:'center'},
 					{display:'사용자이메일', 	name:'emailAdres',		width:200, 	sortable:false,		align:'center'},
-					{display:'전화번호', 	name:'allTelno',		width:100, 	sortable:false,		align:'center'},
-					{display:'등록일', 		name:'sbscrbDe',		width:80, 	sortable:false,		align:'center'},
-					{display:'가입상태',		name:'sttus',			width:120,	sortable:false,		align:'center'}
+					{display:'전화번호', 	name:'allTelno',		width:120, 	sortable:false,		align:'center'},
+					{display:'등록일', 		name:'sbscrbDe',		width:100, 	sortable:false,		align:'center'},
+					{display:'가입상태',		name:'sttus',			width:140,	sortable:false,		align:'center'}
 					],
 		usepager: true,
 		useRp: true,
@@ -66,7 +66,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			module.$("#emplyrId").val(result.userManageVO.emplyrId);												// 사용자 ID
 			module.$("#emplyrNm").val(result.userManageVO.emplyrNm);												// 사용자 이름
 			module.$("#password").val(result.userManageVO.password);												// 비밀번호
-			module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
+			//module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
 			module.$("#passwordHint").val(result.userManageVO.passwordHint).attr("selected","selected");			// 비밀번호 질문
 			module.$("#passwordCnsr").val(result.userManageVO.passwordCnsr);										// 비밀번호 답변
 			module.$("#emplNo").val(result.userManageVO.emplNo);													// 사번
@@ -103,15 +103,30 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 조회
 		case 'searchBtn':
-			var searchOpt=this.makeFormArgs('#userMngForm');
+			var searchOpt = this.makeFormArgs('#userMngForm');
 		 	this.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
 		break;
 
 		// 추가
 		case 'addBtn':
 			this.$("#userMngListTab").tabs("option", {active: 1});
+			this.$("#password").removeAttr("disabled");
+			this.$("#password2").removeAttr("disabled");
 			this.$("#userManageVO :input").val("");
 			this.$("#cmd").val("insert");
+		break;
+
+		// 중복아이디 검색
+		case "checkUserId":
+			this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
+		 		if(result.resultCode == 0){
+		 			module.$("#userMngListTab").tabs("option", {active: 0});
+		 			module.$("#userManageVO :input").val("");
+		 			var searchOpt = this.makeFormArgs('#userMngForm');
+				 	module.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
+		 		}
+		 		alert(result.resultMsg);
+		 	});
 		break;
 
 		// 목록
@@ -119,6 +134,11 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#userMngListTab").tabs("option", {active: 0});
 			this.$("#userManageVO :input").val("");
 			this.$("#cmd").val("insert");
+		break;
+
+		// 암호변경 팝업
+		case "chgPwBtn":
+			this.doExecuteDialog('changePassWordPopup', '패스워드변경팝업', '<c:url value="/cmmn/popup/gamPopupChgPwView.do"/>', {});
 		break;
 
 		// 취소
@@ -129,22 +149,28 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-			var inputVO=this.makeFormArgs("#userManageVO");
-			this.$("#zip").val(this.$("#zip_view").val());
+			var inputVO = this.makeFormArgs("#userManageVO");
+
 			this.$("#zip").val(this.$("#zip_view").val().replace(/\-/g,""));
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
+			 			var searchOpt = this.makeFormArgs('#userMngForm');
+					 	module.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
+				
+				console.log("inputVO : "+inputVO);
 			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
+			 			var searchOpt = this.makeFormArgs('#userMngForm');
+					 	module.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -158,6 +184,8 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		 		if(result.resultCode == 0){
 		 			module.$("#userMngListTab").tabs("option", {active: 0});
 		 			module.$("#userManageVO :input").val("");
+		 			var searchOpt = this.makeFormArgs('#userMngForm');
+				 	module.$('#userMngList').flexOptions({params:searchOpt}).flexReload();
 		 		}
 		 		alert(result.resultMsg);
 		 	});
@@ -184,7 +212,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 var module_instance = new GamUserMngListModule();
 </script>
 <!-- 아래는 고정 -->
-<input type="hidden" id="window_id" value='${windowId}' />
+<input type="hidden" id="window_id" value='<c:out value="${windowId}" />' />
 <div class="window_main">
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
@@ -196,17 +224,17 @@ var module_instance = new GamUserMngListModule();
 							<td>
 				                <div>
 					                <label for="sbscrbSttus" >
-						                <select name="sbscrbSttus" id="sbscrbSttus" title="검색조건선택1">
-						                    <option value="0" <c:if test="${empty userSearchVO.sbscrbSttus || userSearchVO.sbscrbSttus == '0'}">selected="selected"</c:if> >상태(전체)</option>
-						                    <option value="A" <c:if test="${userSearchVO.sbscrbSttus == 'A'}">selected="selected"</c:if> >가입신청</option>
-						                    <option value="D" <c:if test="${userSearchVO.sbscrbSttus == 'D'}">selected="selected"</c:if> >삭제</option>
-						                    <option value="P" <c:if test="${userSearchVO.sbscrbSttus == 'P'}">selected="selected"</c:if> >승인</option>
+						                <select id="sbscrbSttus" title="검색조건선택1">
+						                    <option value="0" selected="selected">상태(전체)</option>
+						                    <option value="A">가입신청</option>
+						                    <option value="D">삭제</option>
+						                    <option value="P">승인</option>
 						                </select>
-						                <select name="searchCondition" id="searchCondition" title="검색조건선택2">
-						                    <option value="0" <c:if test="${userSearchVO.searchCondition == '0'}">selected="selected"</c:if> >ID</option>
-						                    <option value="1" <c:if test="${empty userSearchVO.searchCondition || userSearchVO.searchCondition == '1'}">selected="selected"</c:if> >Name</option>
+						                <select id="searchCondition" title="검색조건선택2">
+						                    <option value="0">ID</option>
+						                    <option value="1">Name</option>
 						                </select>
-						                <input name="searchKeyword" type="text" value="<c:out value="${userSearchVO.searchKeyword}"/>" title="검색단어입력" />
+						                <input id="searchKeyword" type="text" title="검색단어입력" />
 					                </label>
 				                </div>
 							</td>
@@ -239,10 +267,7 @@ var module_instance = new GamUserMngListModule();
 			            <tr>
 			                <th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 			                <td width="80%" >
-			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />
-			                    <a href="#LINK" onclick="fnIdCheck();">
-			                        <img src="<c:url value='/images/egovframework/com/cmm/icon/search.gif' />" alt="중복아이디 검색" />(중복아이디 검색)
-			                    </a>
+			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />&nbsp;&nbsp;<button id="checkUserId">중복아이디 검색</button>
 			                </td>
 			            </tr>
 			            <tr>
@@ -255,7 +280,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 
 			            <tr>
-			                <th width="20%" height="23" class="required_text"  >
+			                <th width="20%" height="23" class="required_text">
 			                    비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
 			                </th>
 			                <td width="80%" >
@@ -425,16 +450,13 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text"  >사용자DN&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <input id="subDn" title="사용자DN" size="40" maxlength="100" />
-			                    &nbsp;<a href="#LINK" onclick="fn_egov_inqire_cert()" style="selector-dummy: expression(this.hideFocus=false);"><img src="<c:url value='/images/egovframework/com/cmm/icon/search.gif' />"
-				     			width="15" height="15" alt="search"/></a>
-			                </td>
+			                <td width="80%" ><input id="subDn" title="사용자DN" size="40" maxlength="100" /></td>
 			            </tr>
 					</table>
 					<div class="emdControlPanel">
 						<button id="saveBtn">저장</button>
 						<button id="listBtn">목록</button>
+						<button id="chgPwBtn">암호변경</button>
 						<button id="deleteBtn">삭제</button>
 						<button id="cancelBtn">취소</button>
 					</div>

@@ -25,7 +25,7 @@
  */
 function GamAuthorGrpMngModule() {}
 
-GamAuthorGrpMngModule.prototype = new EmdModule();
+GamAuthorGrpMngModule.prototype = new EmdModule(840, 475);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorGrpMngModule.prototype.loadComplete = function() {
@@ -35,17 +35,18 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	           	   </c:forEach>
 	               ];
 
-
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
 		module: this,
 		url: '<c:url value="/cmmn/gamAuthorGroupList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"선택", 		name:"check",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
-					{display:"사용자 ID", 	name:"userId",		width:120, 	sortable:false,		align:"center"},
-					{display:"사용자 명", 	name:"userNm",		width:120, 	sortable:false,		align:"center"},
-					{display:"사용자 유형", 	name:"mberTyCode",	width:120, 	sortable:false,		align:"center"},
+					{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
+					{display:"사용자 ID", 	name:"userId",		width:100, 	sortable:false,		align:"center"},
+					{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"center"},
+					{display:"hidden", 		name:"mberTyCode",	width:1, 	sortable:false,		align:"center"},
+					{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"center"},
+					{display:"hidden", 		name:"uniqId",		width:1, 	sortable:false,		align:"center"},
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
 					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
 					],
@@ -53,17 +54,8 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "300"
-	});
-
-	this.$("#authorGrpMngList").on("onCheckBoxChanged", function(event, module, row, grid, param) {
-//		var selectedValue = $(this).val();
-		throw 0;
-	});
-
-	this.$("#authorGrpMngList").on("onSelectChanged", function(event, module, row, grid, param) {
-		alert("row is clicked "+ row.authorCode);
-		throw 0;
+		width: "730",
+		height: "315"
 	});
 };
 
@@ -72,25 +64,103 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
 GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
-	var searchOpt = this.makeFormArgs("#authorGrpMngForm");
+
 	switch(buttonId) {
+
+		// 그룹조회 팝업
+		case "popupBtn":
+			this.doExecuteDialog('selectPopDataList', '그룹조회', '<c:url value="/cmmn/popup/gamPopupGroupView.do"/>', {searchKeyword: this.$("#searchKeyword").val()});
+		break;
 
 		// 조회
 		case "searchBtn":
+			var searchOpt = this.makeFormArgs("#authorGrpMngForm");
 		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
 
 		// 등록
 		case "saveBtn":
-alert(this.$("#authorGrpMngForm :checkbox:checked").length);
-alert(this.$("input[name='check'] :checkbox:checked").length);
-return;
-		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+
+			var filter = [{ 'col': 'chkRole', 'filter': true}];
+			var reglist = this.$("#authorGrpMngList").selectFilterData(filter);
+
+			if(reglist.length > 0){
+
+				var esntlIds = "";
+				var authorCodes = "";
+				var regYns = "";
+				var mberTyCodes = "";
+				for(var i=0; i<reglist.length; i++){
+					if(reglist[i].chkRole == true){
+						if(i < (reglist.length-1)){
+							esntlIds += reglist[i].uniqId + ";";
+							authorCodes += reglist[i].authorCode + ";";
+							regYns += reglist[i].regYn + ";";
+							mberTyCodes += reglist[i].mberTyCode + ";";
+						}else{
+							esntlIds += reglist[i].uniqId;
+							authorCodes += reglist[i].authorCode;
+							regYns += reglist[i].regYn;
+							mberTyCodes += reglist[i].mberTyCode;	
+						}
+					}
+				}
+
+				var inputVO = {esntlIds: esntlIds, authorCodes:authorCodes, regYns:regYns, mberTyCodes:mberTyCodes};
+				this.doAction('<c:url value="/cmmn/gamAuthorGroupInsert.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
+			 			module.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+			 		}
+			 		alert(result.resultMsg);			 		
+			 	});
+			}else{
+				alert("선택 된 값이 없습니다.");
+			}
 		break;
 
 		// 삭제
 		case "deleteBtn":
+			
+			var filter = [{ 'col': 'chkRole', 'filter': true}];
+			var reglist = this.$("#authorGrpMngList").selectFilterData(filter);
+
+			if(reglist.length > 0){
+
+				var esntlIds = "";
+				for(var i=0; i<reglist.length; i++){
+					if(reglist[i].chkRole == true){
+						if(i < (reglist.length-1)) esntlIds += reglist[i].uniqId + ";";
+						else esntlIds += reglist[i].uniqId;
+					}
+				}
+				this.doAction('<c:url value="/cmmn/gamAuthorGroupDelete.do" />', {esntlIds: esntlIds}, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
+			 			module.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+			 		}
+			 		alert(result.resultMsg);			 		
+			 	});
+			}else{
+				alert("선택 된 값이 없습니다.");
+			}
+			var searchOpt = this.makeFormArgs("#authorGrpMngForm");
 		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+		break;
+	}
+};
+
+
+GamAuthorGrpMngModule.prototype.onClosePopup = function(popupId, msg, value){
+	
+	switch(popupId){
+		case "selectPopDataList":
+			this.$("#searchKeyword").val(value);
+		break;
+	
+		default:
+			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+			throw 0;
 		break;
 	}
 };
@@ -111,32 +181,25 @@ var module_instance = new GamAuthorGrpMngModule();
 						<tr>
 							<th>조회조건</th>
 							<td>
-								<select name="searchCondition" id="searchCondition" title="검색조건선택2">
-				                    <option value="0" <c:if test="${authorRoleManageVO.searchCondition == '0'}">selected="selected"</c:if> >사용자 ID</option>
-				                    <option value="1" <c:if test="${empty authorRoleManageVO.searchCondition || authorRoleManageVO.searchCondition == '1'}">selected="selected"</c:if> >Name</option>
+								<select id="searchCondition" title="검색조건선택">
+				                    <option value="1">사용자 ID</option>
+				                    <option value="2">사용자 명</option>
+				                    <option value="3">그룹</option>
 				                </select>
-								<input name="searchKeyword" id="searchKeyword" type="text" size="30" value="<c:out value='${authorRoleManageVO.searchKeyword}'/>" title="검색"  />
+								<input id="searchKeyword" type="text" size="30" title="검색" />&nbsp;&nbsp;<button id="popupBtn">그룹조회 팝업</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdTabPage">
-					<div class="emdControlPanel">
-						<button id="popupBtn">팝업</button>
-						<button id="searchBtn">조회</button>
-						<button id="saveBtn">등록</button>
-						<button id="deleteBtn">삭제</button>
-					</div>
+				<div class="emdControlPanel">
+					<button id="searchBtn">조회</button>
+					<button id="saveBtn">등록</button>
+					<button id="deleteBtn">삭제</button>
 				</div>
 			</form>
 		</div>
 	</div>
-
-	<div class="emdPanel">
-		<div class="emdTabPanel">
-			<div class="emdTabPage">
-				<table id="authorGrpMngList" style="display:none"></table>
-			</div>
-		</div>
+	<div class="emdTabPage">
+		<table id="authorGrpMngList" style="display:none"></table>
 	</div>
 </div>
