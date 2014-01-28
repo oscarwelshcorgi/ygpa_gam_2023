@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import egovframework.com.uss.umt.service.DeptManageVO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 
 /**
@@ -177,4 +176,33 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 		delete("gamAssetRentDao.deleteAssetRentDetail2_S", vo);
 	}
 
+	/**
+	 * 승낙할 자산임대 정보 조회.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대정보
+	 * @exception Exception
+	 */
+	public GamAssetRentVO selectAssetRentPrmisnInfo(GamAssetRentVO searchVO) throws Exception {
+		return (GamAssetRentVO) selectByPk("gamAssetRentDao.selectAssetRentPrmisnInfo_S", searchVO);
+	}
+	
+	/**
+	 * 자산임대 허가여부를 수정한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentPrmisn(GamAssetRentLevReqestVO vo){
+		update("gamAssetRentDao.updateAssetRentPrmisn_S", vo);
+	}
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamAssetRentLevReqestVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentLevReqest(GamAssetRentLevReqestVO vo){
+		insert("gamAssetRentDao.insertAssetRentLevReqest_S", vo);
+	}
+	
+	
 }

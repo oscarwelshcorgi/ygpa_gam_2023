@@ -131,5 +131,20 @@ public interface GamAssetRentService {
 	 * @exception Exception
 	 */
 	void deleteAssetRentDetail2(GamAssetRentDetailVO vo) throws Exception;
+	
+	/**
+	 * 승낙할 자산임대 정보 조회.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대정보
+	 * @exception Exception
+	 */
+    GamAssetRentVO selectAssetRentPrmisnInfo(GamAssetRentVO searchVO) throws Exception;
+
+    /**
+	 * 자산임대 허가여부를 수정 및 징수의뢰를 등록한다.
+	 * @param vo GamAssetRentLevReqestVO
+	 * @exception Exception
+	 */
+	void updateAssetRentPrmisn(GamAssetRentLevReqestVO vo) throws Exception;
     
 }

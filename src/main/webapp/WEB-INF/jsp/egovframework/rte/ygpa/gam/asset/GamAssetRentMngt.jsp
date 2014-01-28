@@ -416,7 +416,43 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
+        case 'btnPrmisn': // 승낙 (허가)   
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            
+            if(rows.length>=1) {
+            	var opts = {
+                    'prtAtCode': rows[0]['prtAtCode'],
+                    'mngYear': rows[0]['mngYear'],
+                    'mngNo': rows[0]['mngNo'],
+            	    'mngCnt': rows[0]['mngCnt']
+                };
 
+                this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/asset/popup/showAssetRentPrmisn.do"/>', opts);
+            	
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+        
+            break;
+        
+        case 'btnPrmisnCancel': // 승낙취소 (허가취소)
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            
+            if(rows.length>=1) {
+                this.doAction('<c:url value="/asset/gamDeleteAssetRentDetail.do" />', rows[0], function(module, result) {
+                    if(result.resultCode=='0') {
+                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                        module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
+                    }
+
+                    alert(result.resultMsg);
+                });
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+        
+            break;
+        
     }
 };
 
@@ -479,6 +515,17 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              alert('취소 되었습니다');
          }
          break;
+     case 'insertAssetRentPrmisnPopup':    
+    	 if (msg != 'cancel') {
+    		 if( value == "0" ) {
+    			 var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+                 this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();               	 
+             }
+         } else {
+             alert('취소 되었습니다');
+         }
+    	 break;
+         
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -589,6 +636,8 @@ var module_instance = new GamAssetRentMngtModule();
                             <td>
                                 <button id="addAssetRentRenew">연장신청</button>
                                 <button id="addAssetRentFirst">최초신청</button>
+                                <button id="btnPrmisn">승낙</button>
+                                <button id="btnPrmisnCancel">승낙취소</button>
                             </td>
                         </tr>
                     </table>
@@ -930,7 +979,7 @@ var module_instance = new GamAssetRentMngtModule();
 
                         </table>
                     </form>
-
+                    
                 <!--
                 <div style="vertical-align: bottom; text-align: right;">
                     <input type="reset" value="취소" class="input_1"> <input

@@ -158,6 +158,12 @@ public class GamAssetRentVO extends ComDefaultVO {
     /** 관리 번호(조합) */
     private String rentMngNo;
     
+    /** 요금 종류 */
+    private String chrgeKnd;	
+
+    /** 부가세 여부 */
+    private String vatYn;
+    
     
 	/**
 	 * @return the prtAtCode
@@ -817,4 +823,32 @@ public class GamAssetRentVO extends ComDefaultVO {
 		this.sUsagePrposCd = sUsagePrposCd;
 	}
 
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
+	}
+
+	/**
+	 * @return the vatYn
+	 */
+	public String getVatYn() {
+		return vatYn;
+	}
+
+	/**
+	 * @param vatYn the vatYn to set
+	 */
+	public void setVatYn(String vatYn) {
+		this.vatYn = vatYn;
+	}
+	
 }

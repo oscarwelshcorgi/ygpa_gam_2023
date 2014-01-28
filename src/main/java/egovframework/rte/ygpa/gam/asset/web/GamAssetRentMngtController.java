@@ -22,12 +22,14 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
 
 /**
  * @Class Name : GamAssetRentMngtController.java
@@ -584,6 +586,125 @@ public class GamAssetRentMngtController {
         resultCode = 0; // return ok
 		resultMsg  = egovMessageSource.getMessage("success.common.delete");
 		
+    	map.put("resultCode", resultCode);
+        map.put("resultMsg", resultMsg);
+        
+		return map;
+    }
+    
+    /**
+     * 승낙 팝업화면을 로딩한다. 
+     *
+     * @param gamAssetRentLevReqestVO
+     * @param model the model
+     * @return "/ygpa/gam/asset/GamPopupAssetRentPrmisn"
+     * @throws Exception the exception  
+     */
+	@RequestMapping(value="/asset/popup/showAssetRentPrmisn.do")
+    String showEntrpsInfo(GamAssetRentLevReqestVO gamAssetRentLevReqestVO, ModelMap model) throws Exception {
+    	
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		
+		codeVo.setCodeId("GAM024"); //요금종류
+		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		model.addAttribute("gamAssetRentInfo", gamAssetRentLevReqestVO);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+
+    	return "/ygpa/gam/asset/GamPopupAssetRentPrmisn";
+    }
+    
+    /**
+     * 자산임대 승낙(허가)을 한다.
+     * @param gamAssetRentVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/gamInsertAssetRentPrmisn.do") 
+    public @ResponseBody Map insertAssetRentLevReqest(
+    	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO, 
+    	   BindingResult bindingResult)
+           throws Exception {
+	
+    	Map map = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        
+        
+        //승낙할 임대정보조회
+        GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+        
+        //징수의뢰 테이블에 갯수 카운트 조회
+        int levReqestCnt = gamAssetRentService.selectAssetRentLevReqestCnt(gamAssetRentVO);
+        
+        if( "Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject2")); //이미 승낙된 상태입니다.
+            
+    		return map;
+        }
+        
+        if( levReqestCnt > 0 ) { 
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject3")); //징수의뢰에 정보가 존재하여 승낙을 진행할 수 없습니다.
+            
+    		return map;
+        }
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getNticMth()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject1")); //고지방법코드가 없습니다.
+            
+    		return map;
+        }
+        
+        if( !"1".equals(rentPrmisnInfo.getNticMth()) && !"2".equals(rentPrmisnInfo.getNticMth()) && !"3".equals(rentPrmisnInfo.getNticMth()) && !"4".equals(rentPrmisnInfo.getNticMth()) && !"5".equals(rentPrmisnInfo.getNticMth())) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject5")); // 고지방법코드가 올바르지 않습니다. ('1':일괄, '2':반기납, '3':3분납, '4':분기납, '5':월납)
+            
+    		return map;
+        }
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getGrUsagePdFrom()) || EgovStringUtil.isEmpty(rentPrmisnInfo.getGrUsagePdTo()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject4")); //총사용기간 일자가 없습니다.
+            
+    		return map;
+        }
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getGrFee()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject6")); //총사용료가 없습니다.
+            
+    		return map;
+        }
+        
+        GamAssetRentLevReqestVO levReqestInfo = new GamAssetRentLevReqestVO();
+        levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
+        levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
+        levReqestInfo.setMngNo( rentPrmisnInfo.getMngNo() );
+        levReqestInfo.setMngCnt( rentPrmisnInfo.getMngCnt() );
+        levReqestInfo.setEntrpscd( rentPrmisnInfo.getEntrpscd() );
+        levReqestInfo.setEntrpsNm( rentPrmisnInfo.getEntrpsNm() );
+        levReqestInfo.setRm( rentPrmisnInfo.getRm() );
+        levReqestInfo.setNticMth( rentPrmisnInfo.getNticMth() );
+        levReqestInfo.setGrFee( rentPrmisnInfo.getGrFee() );
+        levReqestInfo.setGrUsagePdFrom( rentPrmisnInfo.getGrUsagePdFrom() ); //총사용기간 FROM
+        levReqestInfo.setGrUsagePdTo( rentPrmisnInfo.getGrUsagePdTo() ); //총사용기간 TO
+		levReqestInfo.setChrgeKnd( gamAssetRentVO.getChrgeKnd() );
+		levReqestInfo.setVatYn( gamAssetRentVO.getVatYn() );
+        
+        levReqestInfo.setPrmisnYn("Y"); //허가여부
+        levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+        levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+        
+        //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
+        gamAssetRentService.updateAssetRentPrmisn(levReqestInfo);
+        
+        resultCode = 0; 
+		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 처리되었습니다.
+        
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
         

@@ -7,6 +7,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetRentVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO"/>
     <typeAlias alias="gamAssetRentDetailVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO"/>
+    <typeAlias alias="gamAssetRentLevReqestVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO"/>
     
     <resultMap id="gamAssetRentSumMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
@@ -17,6 +18,36 @@
     <resultMap id="gamAssetRentMaxMngMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
         <result property="maxMngCnt" column="MAX_MNG_CNT" columnIndex="1"/>
     </resultMap>
+    
+    <resultMap id="gamAssetRentInfoMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
+	    <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>         
+	    <result property="mngYear" column="MNG_YEAR" columnIndex="2"/>        
+	    <result property="mngNo" column="MNG_NO" columnIndex="3"/>          
+	    <result property="mngCnt" column="MNG_CNT" columnIndex="4"/>         
+	    <result property="entrpscd" column="ENTRPSCD" columnIndex="5"/>         
+	    <result property="entrpsNm" column="ENTRPS_NM" columnIndex="6"/>          
+	    <result property="dt" column="DT" columnIndex="7"/>              
+	    <result property="reqstSeCd" column="REQST_SE_CD" columnIndex="8"/>        
+	    <result property="grAr" column="GR_AR" columnIndex="9"/>           
+	    <result property="grFee" column="GR_FEE" columnIndex="10"/>          
+	    <result property="nticMth" column="NTIC_MTH" columnIndex="11"/>         
+	    <result property="frstPrmisnDt" column="FRST_PRMISN_DT" columnIndex="12"/>         
+	    <result property="prmisnDt" column="PRMISN_DT" columnIndex="13"/>          
+	    <result property="prmisnYn" column="PRMISN_YN" columnIndex="14"/>         
+	    <result property="grUsagePdFrom" column="GR_USAGE_PD_FROM" columnIndex="15"/>         
+	    <result property="grUsagePdTo" column="GR_USAGE_PD_TO" columnIndex="16"/>         
+	    <result property="docNo" column="DOC_NO" columnIndex="17"/>          
+	    <result property="rm" column="RM" columnIndex="18"/>              
+	    <result property="cmt" column="CMT" columnIndex="19"/>             
+	    <result property="etc" column="ETC" columnIndex="20"/>             
+	    <result property="regUsr" column="REG_USR" columnIndex="21"/>         
+	    <result property="registDt" column="REGIST_DT" columnIndex="22"/>         
+	    <result property="updUsr" column="UPD_USR" columnIndex="23"/>         
+	    <result property="updtDt" column="UPDT_DT" columnIndex="24"/>         
+	    <result property="grRdcxptFee" column="GR_RDCXPT_FEE" columnIndex="25"/>         
+	    <result property="gisCd" column="GIS_CD" columnIndex="26"/>          
+	    <result property="deptcd" column="DEPTCD" columnIndex="27"/>
+	</resultMap>
     
     
     <select id="gamAssetRentDao.selectAssetRentList_D" parameterClass="gamAssetRentVO" resultClass="egovMap">
@@ -380,8 +411,8 @@
 		       , GR_FEE           = #grFee#
 		       , NTIC_MTH         = #nticMth#
 		       , FRST_PRMISN_DT   = REPLACE(#frstPrmisnDt#,'-','')
-		       , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
-		       , PRMISN_YN        = #prmisnYn#
+		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
+		       , PRMISN_YN        = #prmisnYn# -->
 		       , GR_USAGE_PD_FROM = REPLACE(#grUsagePdFrom#,'-','') 
 		       , GR_USAGE_PD_TO   = REPLACE(#grUsagePdTo#,'-','') 
 		       , DOC_NO           = #docNo#
@@ -627,5 +658,124 @@
            AND MNG_CNT          = #mngCnt#
            AND PRT_AT_CODE      = #prtAtCode# 
     </delete>
+    
+    <select id="gamAssetRentDao.selectAssetRentPrmisnInfo_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentInfoMap">
+        SELECT   A.PRT_AT_CODE
+               , A.MNG_YEAR
+               , A.MNG_NO
+               , A.MNG_CNT
+               , A.ENTRPSCD
+               , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
+               , TO_CHAR(A.DT, 'YYYYMMDD') DT
+               , A.REQST_SE_CD
+               , A.GR_AR
+               , A.GR_FEE
+               , A.NTIC_MTH
+               , A.FRST_PRMISN_DT
+               , A.PRMISN_DT 
+               , A.PRMISN_YN
+               , A.GR_USAGE_PD_FROM
+               , A.GR_USAGE_PD_TO
+               , A.DOC_NO
+               , A.RM
+               , A.CMT
+               , A.ETC
+               , A.REG_USR
+               , A.REGIST_DT
+               , A.UPD_USR
+               , A.UPDT_DT
+               , A.GR_RDCXPT_FEE
+               , A.GIS_CD
+               , A.DEPTCD
+          FROM ASSETS_RENT_F A
+         WHERE 1=1 
+           AND A.MNG_YEAR         = #mngYear#
+           AND A.MNG_NO           = #mngNo#
+           AND A.MNG_CNT          = #mngCnt#
+           AND A.PRT_AT_CODE      = #prtAtCode# 
+    </select>
+    
+    <update id="gamAssetRentDao.updateAssetRentPrmisn_S">
+        UPDATE ASSETS_RENT_F SET
+               PRMISN_DT        = TO_CHAR(SYSDATE,'YYYYMMDD')
+             , PRMISN_YN        = #prmisnYn# 
+        WHERE  PRT_AT_CODE      = #prtAtCode#
+        AND    MNG_YEAR         = #mngYear#
+        AND    MNG_NO           = #mngNo#
+        AND    MNG_CNT          = #mngCnt#
+    </update>
+    
+    <insert id="gamAssetRentDao.insertAssetRentLevReqest_S">
+        INSERT INTO LEV_REQEST_F (
+                             NTIC_CNT
+                           , FCLTY_SE
+                           , CHRGE_KND
+                           , ENTRPSCD
+                           , ENTRPS_NM
+                           , NTIC_PD_FROM
+                           , CONST_PER_TO
+                           , ACCNUT_YEAR
+                           , NTICNO
+                           , NTIC_DT
+                           , PAY_TMLMT
+                           , OLNLP
+                           , FEE
+                           , VAT_YN
+                           , VAT
+                           , NTIC_AMT
+                           , RM
+                           , RCIV_SE
+                           , RCIV_DT
+                           , NHT_ISUE_YN
+                           , ARRRG_NO
+                           , ARRRG_AMT
+                           , REQEST_SEQ
+                           , DEPTCD
+                           , NTIC_MTH
+                           , REG_USR
+                           , REGIST_DT
+                           , UPD_USR
+                           , UPDT_DT
+                           , PRT_AT_CODE
+                           , MNG_YEAR
+                           , MNG_NO
+                           , MNG_CNT
+                         ) 
+                  VALUES ( 
+                             #nticCnt#
+                           , #fcltySe#
+                           , #chrgeKnd#
+                           , #entrpscd#
+                           , #entrpsNm#
+                           , #nticPdFrom#
+                           , #constPerTo#
+                           , #accnutYear#
+                           , #nticno#
+                           , #nticDt#
+                           , #payTmlmt#
+                           , #olnlp#
+                           , #fee#
+                           , #vatYn#
+                           , #vat#
+                           , #nticAmt#
+                           , #rm#
+                           , #rcivSe#
+                           , #rcivDt#
+                           , #nhtIsueYn#
+                           , #arrrgNo#
+                           , #arrrgAmt#
+                           , #reqestSeq#
+                           , #deptcd#
+                           , #nticMth#
+                           , #regUsr#
+                           , SYSDATE
+                           , #updUsr#
+                           , SYSDATE
+                           , #prtAtCode#
+                           , #mngYear#
+                           , #mngNo#
+                           , #mngCnt#
+                         )
+    </insert>
     
 </sqlMap>
