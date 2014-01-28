@@ -697,12 +697,17 @@
     
     <update id="gamAssetRentDao.updateAssetRentPrmisn_S">
         UPDATE ASSETS_RENT_F SET
-               PRMISN_DT        = TO_CHAR(SYSDATE,'YYYYMMDD')
-             , PRMISN_YN        = #prmisnYn# 
-        WHERE  PRT_AT_CODE      = #prtAtCode#
-        AND    MNG_YEAR         = #mngYear#
-        AND    MNG_NO           = #mngNo#
-        AND    MNG_CNT          = #mngCnt#
+             
+                <isEqual property="reqstSeCd" compareValue="1">
+                    FRST_PRMISN_DT = TO_CHAR(SYSDATE,'YYYYMMDD'),
+                </isEqual>
+             
+                PRMISN_DT     = TO_CHAR(SYSDATE,'YYYYMMDD')
+              , PRMISN_YN     = #prmisnYn# 
+        WHERE  PRT_AT_CODE   = #prtAtCode#
+        AND    MNG_YEAR      = #mngYear#
+        AND    MNG_NO        = #mngNo#
+        AND    MNG_CNT       = #mngCnt#
     </update>
     
     <insert id="gamAssetRentDao.insertAssetRentLevReqest_S">

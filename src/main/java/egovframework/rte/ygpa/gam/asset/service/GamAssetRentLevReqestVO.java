@@ -127,6 +127,9 @@ public class GamAssetRentLevReqestVO extends ComDefaultVO {
     
     /** 총 사용료 */
     private String grFee;
+    
+    /** 신청 구분 코드 */
+    private String reqstSeCd;
 
 	/**
 	 * @return the nticCnt
@@ -644,6 +647,20 @@ public class GamAssetRentLevReqestVO extends ComDefaultVO {
 	 */
 	public void setGrFee(String grFee) {
 		this.grFee = grFee;
+	}
+
+	/**
+	 * @return the reqstSeCd
+	 */
+	public String getReqstSeCd() {
+		return reqstSeCd;
+	}
+
+	/**
+	 * @param reqstSeCd the reqstSeCd to set
+	 */
+	public void setReqstSeCd(String reqstSeCd) {
+		this.reqstSeCd = reqstSeCd;
 	}
 	
 }

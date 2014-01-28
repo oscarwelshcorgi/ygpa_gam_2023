@@ -692,9 +692,11 @@ public class GamAssetRentMngtController {
         levReqestInfo.setGrFee( rentPrmisnInfo.getGrFee() );
         levReqestInfo.setGrUsagePdFrom( rentPrmisnInfo.getGrUsagePdFrom() ); //총사용기간 FROM
         levReqestInfo.setGrUsagePdTo( rentPrmisnInfo.getGrUsagePdTo() ); //총사용기간 TO
+        levReqestInfo.setReqstSeCd( rentPrmisnInfo.getReqstSeCd() );
+        
 		levReqestInfo.setChrgeKnd( gamAssetRentVO.getChrgeKnd() );
 		levReqestInfo.setVatYn( gamAssetRentVO.getVatYn() );
-        
+		
         levReqestInfo.setPrmisnYn("Y"); //허가여부
         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
