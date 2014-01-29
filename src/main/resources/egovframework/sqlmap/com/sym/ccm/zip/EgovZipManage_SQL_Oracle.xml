@@ -18,12 +18,13 @@
 			SELECT ROWNUM RNUM, ALL_LIST.*
 			  FROM  (
 			/* 구현 Sql */
-			SELECT  ZIP
+			SELECT  SUBSTR(ZIP, 0,3)||'-'||SUBSTR(ZIP, 4) AS ZIP
 			     ,  SN
 			     ,  CTPRVN_NM
 			     ,  SIGNGU_NM
 			     ,  EMD_NM
 			     ,  LI_BULD_NM
+			     ,	CTPRVN_NM ||' '|| SIGNGU_NM ||' '|| EMD_NM ||' '|| LI_BULD_NM AS ADDRESS
 			     ,  LNBR_DONG_HO
 			  FROM  COMTCZIP
 			 WHERE	1 = 1

@@ -26,8 +26,9 @@
 			     ,  BDNBR_MNNM
 			     ,  BDNBR_SLNO
 			     ,  BULD_NM
-			     ,  DETAIL_BULD_NM
-			     ,  ZIP
+			     ,  CTPRVN_NM||' '||RDMN ||' '|| BDNBR_MNNM ||' '|| BDNBR_SLNO || ' ' || BULD_NM AS ADDRESS
+			     ,  DETAIL_BULD_NM AS lNBR_DONG_HO
+			     ,  SUBSTR(ZIP, 0,3)||'-'||SUBSTR(ZIP,4) AS ZIP
 			  FROM  COMTRDNMADRZIP
 			 WHERE	1 = 1
 		]]>
