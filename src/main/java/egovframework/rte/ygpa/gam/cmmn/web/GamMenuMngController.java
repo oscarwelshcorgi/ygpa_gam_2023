@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
@@ -48,6 +49,13 @@ public class GamMenuMngController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
+    /**
+     * 화면호출
+     * @param windowId
+     * @param model
+     * @return String
+     * @throws Exception
+     */
 	@RequestMapping(value="/cmmn/gamMenuMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
@@ -236,23 +244,61 @@ public class GamMenuMngController {
 		return map;
     }
     
-    @RequestMapping(value="/cmmn/gamMenuListSelect.do")
-    public String selectMenuList(
-    		@ModelAttribute("searchVO") ComDefaultVO searchVO,
-    		ModelMap model)
-            throws Exception {
-//    	String resultMsg    = "";
-    	// 0. Spring Security 사용자권한 처리
-//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-//    	if(!isAuthenticated) {
-//    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-//        	return "egovframework/com/uat/uia/EgovLoginUsr";
-//    	}
-//    	List list_menulist = menuManageService.selectMenuList();
-//    	resultMsg = egovMessageSource.getMessage("success.common.select");
-//        model.addAttribute("list_menulist", list_menulist);
-//        model.addAttribute("resultMsg", resultMsg);
-    	return "/ygpa/gam/cmmn/GamMenuList";
-   }
 
+	/**
+	 * 프로그램검색 리스트 팝업 호출
+	 * @param searchVO
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/cmmn/popup/gamPopupProgramView.do", method=RequestMethod.POST)
+	public String popupGrouphView(ModelMap model, @RequestParam("progrmFileNm") String progrmFileNm) throws Exception {
+		
+		model.addAttribute("searchKeyword", progrmFileNm);
+		return "/ygpa/gam/cmmn/popup/GamPopupProgramList";
+	}
+	
+	
+	
+    /**
+     * 프로그램파일명을 조회한다.
+     * @param searchVO
+     * @return map
+     * @throws Exception
+     */
+	@RequestMapping(value="/cmmn/popup/gamPopupProgramList.do", method=RequestMethod.POST)
+	@ResponseBody Map<String, Object> selectProgrmListSearch(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception { 
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+    	// 0. Spring Security 사용자권한 처리
+   	    Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	// 내역 조회
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+        int totCnt = progrmManageService.selectProgrmListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+
+    	map.put("totalCount", totCnt);
+    	map.put("searchOption", searchVO);
+        map.put("resultList", progrmManageService.selectProgrmList(searchVO));
+      	return map;
+    }
 }

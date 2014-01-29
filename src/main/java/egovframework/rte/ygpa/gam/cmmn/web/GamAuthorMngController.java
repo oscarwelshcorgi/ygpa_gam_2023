@@ -43,6 +43,13 @@ public class GamAuthorMngController {
     
     final static String basePath = "/ygpa/gam/cmmn"; 
     
+    /**
+     * 화면 호출
+     * @param windowId
+     * @param model
+     * @return String
+     * @throws Exception
+     */
 	@RequestMapping(value="/cmmn/gamAuthorMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
@@ -75,6 +82,11 @@ public class GamAuthorMngController {
 		authorManageVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		authorManageVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		authorManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		// 조회값이 있을 경우
+		if(!"".equals(authorManageVO.getSearchKeyword()) && authorManageVO.getSearchKeyword() != null){
+			authorManageVO.setSearchCondition("1");
+		}
 		
 		/** List Data */
         List<AuthorManageVO> AuthorList = egovAuthorManageService.selectAuthorList(authorManageVO);

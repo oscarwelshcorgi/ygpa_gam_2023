@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
@@ -22,6 +23,7 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.uss.umt.service.UserManageVO;
+import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -237,7 +239,6 @@ public class GamUserMngController {
         UserManageVO userManageVO = new UserManageVO();
         userManageVO = userManageService.selectUser(uniqId);
 
-        //userManageVO.
         map.put("userSearchVO", userSearchVO);
         map.put("userManageVO", userManageVO);
 
@@ -263,6 +264,111 @@ public class GamUserMngController {
 
         map.put("resultCode", 0);
         map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+        return map;
+    }
+    
+    
+    /**
+     * 입력한 사용자아이디의 중복여부를 체크하여 사용가능여부를 확인
+     * @param commandMap
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/cmmn/gamIdDplctCnfirm.do")
+    @ResponseBody Map<String, Object> checkIdDplct(@RequestParam("checkId") String checkId)throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	checkId =  new String(checkId.getBytes("ISO-8859-1"), "UTF-8");
+
+    	if (checkId==null || checkId.equals("")){
+    		map.put("resultCode", 1);
+			map.put("resultMsg", "입력한 아이디가 존재하지 않습니다.");
+    	}
+
+        int usedCnt = userManageService.checkIdDplct(checkId);
+        
+        map.put("resultCode", 0);
+        map.put("usedCnt", usedCnt);
+        map.put("checkId", checkId);
+
+        return map;
+    }
+    
+    
+    /**
+     * 업무사용자 암호 수정  화면 이동
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/cmmn/popup/gamPopupChgPwView.do", method=RequestMethod.POST)
+    String updatePasswordView(@RequestParam("emplyrId") String emplyrId, ModelMap model) throws Exception {
+    	
+    	/*String userTyForPassword = (String)commandMap.get("userTyForPassword");
+    	userManageVO.setUserTy(userTyForPassword);
+    	*/
+
+    	model.addAttribute("emplyrId", emplyrId);
+    	return "/ygpa/gam/cmmn/popup/GamPopupChgPwView";
+    }
+    
+    
+    /**
+     * 업무사용자 암호 수정처리 후 화면 이동
+     * @param model 화면모델
+     * @param commandMap 파라메터전달용 commandMap
+     * @param userSearchVO 검색조 건
+     * @param userManageVO 사용자수정정보(비밀번호)
+     * @return uss/umt/EgovUserPasswordUpdt
+     * @throws Exception
+     */
+    @RequestMapping(value="/cmmn/popup/gamUserPasswordUpdt.do")
+    @ResponseBody Map<String, Object> updatePassword(Map<String, Object> commandMap,@ModelAttribute("searchVO") UserDefaultVO userSearchVO,
+    		  					 @ModelAttribute("userManageVO") UserManageVO userManageVO)throws Exception {
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	String oldPassword = (String)commandMap.get("oldPassword");
+        String newPassword = (String)commandMap.get("newPassword");
+        String newPassword2 = (String)commandMap.get("newPassword2");
+        String uniqId = (String)commandMap.get("uniqId");
+
+        boolean isCorrectPassword=false;
+        UserManageVO resultVO = new UserManageVO();
+        userManageVO.setPassword(newPassword);
+        userManageVO.setOldPassword(oldPassword);
+        userManageVO.setUniqId(uniqId);
+
+    	String resultMsg = "";
+    	resultVO = userManageService.selectPassword(userManageVO);
+    	System.out.println("resultVO : "+resultVO.getPassword());
+    	//패스워드 암호화
+		String encryptPass = EgovFileScrty.encryptPassword(oldPassword);
+		System.out.println("oldPassword : "+oldPassword);
+    	System.out.println("encryptPass : "+encryptPass);
+    	if (encryptPass.equals(resultVO.getPassword())){
+    		if (newPassword.equals(newPassword2)){
+        		isCorrectPassword = true;
+        	}else{
+        		isCorrectPassword = false;
+        		resultMsg="fail.user.passwordUpdate2";
+        	}
+    	}else{
+    		isCorrectPassword = false;
+    		resultMsg="fail.user.passwordUpdate1";
+    	}
+
+    	if (isCorrectPassword){
+    		userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword));
+    		userManageService.updatePassword(userManageVO);
+            map.put("userManageVO", userManageVO);
+            resultMsg = "success.common.update";
+        }else{
+        	map.put("userManageVO", userManageVO);
+        }
+    	map.put("userSearchVO", userSearchVO);
+    	map.put("resultMsg", resultMsg);
+
         return map;
     }
 }

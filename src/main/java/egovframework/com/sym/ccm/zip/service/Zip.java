@@ -32,6 +32,11 @@ public class Zip implements Serializable {
     private int    sn             = 0;
     
     /*
+     * 우편번호 이하 주소
+     */
+    private String address       = "";
+
+    /*
      * 시도명
      */
 	private String ctprvnNm       = "";
@@ -128,6 +133,22 @@ public class Zip implements Serializable {
 		this.sn = sn;
 	}
 
+	/**
+	 * address attribute 를 리턴한다.
+	 * @return String
+	 */
+	public String getAddress() {
+		return address;
+	}
+	
+	/**
+	 * address attribute 값을 설정한다.
+	 * @param address String
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
 	/**
 	 * ctprvnNm attribute 를 리턴한다.
 	 * @return String

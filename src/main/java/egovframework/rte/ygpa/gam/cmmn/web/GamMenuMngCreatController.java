@@ -38,6 +38,13 @@ public class GamMenuMngCreatController {
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
+	/**
+	 * 화면 호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/cmmn/gamMenuMngCreat.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
@@ -46,10 +53,10 @@ public class GamMenuMngCreatController {
 
 
 	/**
-	 * *메뉴생성목록을 조회한다.
-	 * @param searchVO ComDefaultVO
-	 * @return 출력페이지정보 "/ygpa/gam/cmmn/GamMenuMngCreat"
-	 * @exception Exception
+	 * 메뉴생성목록을 조회한다.
+	 * @param searchVO
+	 * @return String
+	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/cmmn/gamMenuCreatManageSelect.do")
@@ -67,7 +74,6 @@ public class GamMenuMngCreatController {
     	}
 
 		// 내역 조회
-		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
@@ -111,7 +117,7 @@ public class GamMenuMngCreatController {
     /**
      * 메뉴생성 팝업을 호출합니다.
      * @param searchVO
-     * @return
+     * @return map
      * @throws Exception
      */
     @RequestMapping(value="/cmmn/popup/showMenuCreat.do", method=RequestMethod.POST)
@@ -122,37 +128,74 @@ public class GamMenuMngCreatController {
     	return "/ygpa/gam/cmmn/popup/GamPopupMenuCreat";
     }
 
-    /* 메뉴생성 세부조회 */
+    
 	/**
 	 * 메뉴생성 세부화면을 조회한다.
-	 *
 	 * @param menuCreatVO
-	 *            MenuCreatVO
-	 * @return 출력페이지정보 "sym/mnu/mcm/EgovMenuCreat"
-	 * @exception Exception
+	 * @param model
+	 * @return map
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/cmmn/gamMenuCreatSelect.do")
-	@ResponseBody public Map selectMenuCreatList(
-			MenuCreatVO menuCreatVO,
-			ModelMap model) throws Exception {
-    	Map map = new HashMap();
-    	String resultMsg    = "";
-    	// 0. Spring Security 사용자권한 처리
+	@ResponseBody Map<String, Object> selectMenuCreatList(MenuCreatVO menuCreatVO) throws Exception {
+    	
+		Map<String, Object> map = new HashMap<String, Object>();
+    	
+		String resultMsg    = "";
+
+		// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
-    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
     		resultMsg = egovMessageSource.getMessage("fail.common.login");
-        	map.put("resultCode", 1);	// return error
+        	map.put("resultCode", 1);			// return error
         	map.put("resultMsg", resultMsg);	// return error message
         	return map;
     	}
-		List list_menulist = menuCreateManageService
-				.selectMenuCreatList(menuCreatVO);
+		
+    	List<?> list_menulist = menuCreateManageService.selectMenuCreatList(menuCreatVO);
 		resultMsg = egovMessageSource.getMessage("success.common.select");
-    	map.put("listMenulist", list_menulist);
+    	
+		map.put("listMenulist", list_menulist);
     	map.put("resultMsg", resultMsg);
     	map.put("resultCode", 0);
     	return map;
 	}
+	
+	
+	/**
+	 * 메뉴생성처리 및 메뉴생성내역을 등록한다.
+	 * @param checkedAuthorForInsert String
+	 * @param checkedMenuNoForInsert String
+	 * @return 출력페이지정보 등록처리시 "forward:/sym/mnu/mcm/EgovMenuCreatSelect.do"
+	 * @exception Exception
+	 */
+	@RequestMapping("/cmmn/gamMenuCreatInsert.do")
+	@ResponseBody Map<String, Object> insertMenuCreatList(@RequestParam("checkedAuthorForInsert") String checkedAuthorForInsert,@RequestParam("checkedMenuNoForInsert") String checkedMenuNoForInsert,
+			@ModelAttribute("menuCreatVO") MenuCreatVO menuCreatVO, ModelMap model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String resultMsg = "";
 
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		resultMsg = egovMessageSource.getMessage("fail.common.login");
+        	map.put("resultCode", 1);			// return error
+        	map.put("resultMsg", resultMsg);	// return error message
+        	return map;
+    	}
+    	
+		String[] insertMenuNo = checkedMenuNoForInsert.split(",");
+		
+		if(insertMenuNo == null || (insertMenuNo.length == 0)){
+			resultMsg = egovMessageSource.getMessage("fail.common.insert");
+		}else{
+			menuCreateManageService.insertMenuCreatList(checkedAuthorForInsert, checkedMenuNoForInsert);
+			resultMsg = egovMessageSource.getMessage("success.common.insert");
+			map.put("resultCode", 0);			// return ok
+        	map.put("resultMsg", resultMsg);	// return ok message
+		}
+		return map;
+	}
 }
