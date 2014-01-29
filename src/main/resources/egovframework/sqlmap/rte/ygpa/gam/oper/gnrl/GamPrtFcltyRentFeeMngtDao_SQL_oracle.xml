@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.oper.gnrl">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="gnrlRfmtVo" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO"/>
+
+	<select id="gamPrtFcltyRentFeeMngtDao.selectGamPrtFcltyRentFeeMngtList_D" parameterClass="gnrlRfmtVo" resultClass="egovMap">
+	
+		SELECT A.* FROM (
+			SELECT ROWNUM RNUM, S.* FROM (
+				SELECT 
+					QUAY_CD    
+					, QUAY_PLANDRAFT            
+					, QUAY_NM                    
+					, QUAY_LT                    
+					, QUAY_USAGE_DRAFT          
+					, QUAY_DPWT                  
+					, QUAY_CSDHP_POSBL_SHIP_QY
+					, QUAY_MTHD                  
+					, QUAY_LNL_ABLTY            
+					, QUAY_POSESN_SE            
+					, QUAY_TS_YN                
+					, PRT_AT_CODE                
+					, QUAY_GROUP_CD              
+					, QUAY_RELM_GISCD            
+					, REG_USR                    
+					, REGIST_DT                  
+					, UPD_USR                    
+					, UPDT_DT                    
+				FROM QUAY_CD_F
+				WHERE 1 = 1
+				ORDER BY REGIST_DT DESC
+			) S
+		) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# AND RNUM > #firstIndex# ]]>
+	
+	</select>
+	
+	<select id="gamPrtFcltyRentFeeMngtDao.selectGamPrtFcltyRentFeeMngtListTotCnt_S" parameterClass="gnrlRfmtVo" resultClass="int">
+
+		SELECT 
+			COUNT(1) TOTCNT
+		FROM QUAY_CD_F
+		WHERE 1 = 1
+	
+	</select>
+
+</sqlMap>

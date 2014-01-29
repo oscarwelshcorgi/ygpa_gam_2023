@@ -21,6 +21,7 @@
                      FROM (
                            SELECT 
                                     A.PRT_AT_CODE
+                                  , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE ) PRT_AT_CODE_NM  
                                   , A.MNG_YEAR
                                   , A.MNG_NO
                                   , A.MNG_CNT
@@ -32,6 +33,7 @@
                                   , A.GR_AR
                                   , A.GR_FEE
                                   , A.NTIC_MTH
+                                  , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM008' AND CD.CODE = A.NTIC_MTH ) NTIC_MTH_NM 
                                   , TO_CHAR(TO_DATE(A.FRST_PRMISN_DT), 'YYYY-MM-DD') FRST_PRMISN_DT
                                   , TO_CHAR(TO_DATE(A.PRMISN_DT), 'YYYY-MM-DD') PRMISN_DT
                                   , A.PRMISN_YN
@@ -91,6 +93,18 @@
 					             AND A.PRMISN_YN = #sPrmisnYn#
 					         </isNotEmpty>
                              
+                             <isNotEmpty property="sUsagePrposCd">
+                                 AND (
+								       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT 
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+															                       )
+								     ) 
+                             </isNotEmpty>
                              
                              ORDER BY REGIST_DT DESC
                 ) S
@@ -142,6 +156,20 @@
              <isNotEmpty property="sPrmisnYn">
                  AND A.PRMISN_YN = #sPrmisnYn#
              </isNotEmpty>
+             
+             <isNotEmpty property="sUsagePrposCd">
+                 AND (
+                       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                                                                     SELECT  PRT_AT_CODE
+                                                                           , MNG_YEAR
+                                                                           , MNG_NO
+                                                                           , MNG_CNT 
+                                                                       FROM ASSETS_RENT_DETAIL_F
+                                                                      WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                                   )
+                     ) 
+             </isNotEmpty>
+             
     </select>
     
     <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireSum_S" parameterClass="gamPrtFcltyUseSttusInqireVO" resultMap="gamPrtFcltyUseSttusInqireSumMap">
@@ -191,6 +219,20 @@
          <isNotEmpty property="sPrmisnYn">
              AND A.PRMISN_YN = #sPrmisnYn#
          </isNotEmpty>
+         
+         <isNotEmpty property="sUsagePrposCd">
+             AND (
+                   (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                                                                 SELECT  PRT_AT_CODE
+                                                                       , MNG_YEAR
+                                                                       , MNG_NO
+                                                                       , MNG_CNT 
+                                                                   FROM ASSETS_RENT_DETAIL_F
+                                                                  WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                               )
+                 ) 
+         </isNotEmpty>
+         
     </select>
     
     <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireDetailList_D" parameterClass="gamPrtFcltyUseSttusInqireVO" resultClass="egovMap">
@@ -208,8 +250,11 @@
                                 , A.USAGE_PURPS
                                 , A.USAGE_DTLS
                                 , A.USAGE_PRPOS_CD
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM007' AND CD.CODE = A.USAGE_PRPOS_CD ) USAGE_PRPOS_CD_NM
                                 , A.EXEMPT_SE
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE ) EXEMPT_SE_NM
                                 , A.EXEMPT_RSN_CD
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM017' AND CD.CODE = A.EXEMPT_RSN_CD ) EXEMPT_RSN_CD_NM
                                 , A.EXEMPT_RSN
                                 , TO_CHAR(TO_DATE(A.EXEMPT_PD_FROM), 'YYYY-MM-DD') EXEMPT_PD_FROM 
                                 , TO_CHAR(TO_DATE(A.EXEMPT_PD_TO), 'YYYY-MM-DD') EXEMPT_PD_TO 
@@ -218,9 +263,14 @@
                                 , A.APPLC_TARIFF
                                 , A.APPLC_MTH
                                 , A.PACK_SE
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM015' AND CD.CODE = A.PACK_SE ) PACK_SE_NM
                                 , A.ENTRPS_SE
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM012' AND CD.CODE = A.ENTRPS_SE ) ENTRPS_SE_NM
                                 , A.FEE_CALC_SE
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM023' AND CD.CODE = A.FEE_CALC_SE ) FEE_CALC_SE_NM
                                 , A.RDCXPT_FEE_CALC_SE
+                                <!-- 감면 사용료 계산 구분명 코드테이블 확인해서 CODE_ID 변경 -->
+                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'COM061' AND CD.CODE = A.RDCXPT_FEE_CALC_SE ) RDCXPT_FEE_CALC_SE_NM
                                 , A.RDCXPT_FEE
                                 , A.FEE
                                 , TO_CHAR(TO_DATE(A.TRMNAT_DT), 'YYYY-MM-DD') TRMNAT_DT
