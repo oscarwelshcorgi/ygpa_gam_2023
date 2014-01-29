@@ -36,26 +36,52 @@ GamMenuCreatPopupModule.prototype.loadComplete = function() {
 
 };
 
-// 사용자 설정 함수 추가
 
-GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case 'selectMenuList':
-		this.loadData();
-		throw 0;
+// 사용자 설정 함수 추가
+GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
+	
+	switch(buttonId){
+		// 메뉴 조회
+		case 'selectMenuList':
+			this.loadData();
+			throw 0;
 		break;
-	case 'btnCreate':
-		var createMenuList=[];
-		$.each(this.menuList, function() {
-			if($(this).attr("ischecked")) {
-				createMenuList[createMenuList.length] = this;
+	
+		// 메뉴생성
+		case "btnCreate":
+			
+			var checkedAuthorForInsert = this.$('#authorCode').val();
+			var checkedMenuNoForInsert = "";
+			
+			var createMenuList=[];
+			$.each(this.menuList, function(i) {
+				if($(this).attr("ischecked")) {
+					checkedMenuNoForInsert += this.id + ","; 
+				}
+			});
+			
+			
+			// 선택된 목록을 생성합니다.
+			if(checkedMenuNoForInsert != ""){
+				
+				var last = checkedMenuNoForInsert.lastIndexOf(',');
+				checkedMenuNoForInsert = checkedMenuNoForInsert.substr(0,last);
+
+				this.doAction('<c:url value="/cmmn/gamMenuCreatInsert.do" />', {checkedAuthorForInsert:checkedAuthorForInsert, checkedMenuNoForInsert:checkedMenuNoForInsert}, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			alert("OK");
+			 		}
+			 		alert(result.resultMsg);			 		
+			 	});
+			}else{
+				alert("선택 된 값이 없습니다.");
 			}
-		});
-		alert('메뉴가 '+createMenuList.length+' 개 선택 되었습니다.');	// 선택된 목록을 생성합니다.
-		this.closeDialog('ok');
+			//this.closeDialog('ok');
 		break;
-	case 'cancel':
-		this.cancelDialog();
+		
+		case "cancel":
+			this.cancelDialog();
+		break;
 	}
 };
 
@@ -66,11 +92,12 @@ GamMenuCreatPopupModule.prototype.onSubmit = function() {
 GamMenuCreatPopupModule.prototype.loadData = function() {
 	$("#menuTreeList").empty();
 
-	this.doAction('<c:url value="/cmmn/gamMenuCreatSelect.do" />', {authorCode: $('#roleCode').val()}, function(module, result) {
+	this.doAction('<c:url value="/cmmn/gamMenuCreatSelect.do" />', {authorCode: this.$('#authorCode').val()}, function(module, result) {
  		if(result.resultCode == 0){
  			var tree = $("#menuTreeList");
  			for(var i=0; i<result.listMenulist.length; i++) {
  				var obj = result.listMenulist[i];
+ 				console.log("obj.chkYeoBu : "+obj.chkYeoBu);
  				// 해당 리스트를 트리 라이브러리에 맞게 변경 한다.
  				obj.parentid = obj.upperMenuId;
  				obj.id = obj.menuNo;
@@ -78,9 +105,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
  				obj.ischecked = obj.chkYeoBu;	// 생성할때 다시 ischecked를 chkYeoBu 로 변경하여 생성한다.
  			}
 
- 			var data_obj = {
- 					"root" : result.listMenulist
- 			};
+ 			var data_obj = {"root" : result.listMenulist};
 
  			module.menuList = result.listMenulist;	// 메뉴를 저장한다.
 
@@ -110,17 +135,17 @@ var popup_instance = new GamMenuCreatPopupModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="searchPopupGisAssetCode">
-						<table class="searchPanel">
-							<tbody>
-							<tr>
-								<th>권한코드</th>
-								<td><input id="roleCode" type="text" size="20" value="${authorCode }"></td>
-								<td><button id="selectMenuList" class="submit">조회</button></td>
-							</tr>
-						</tbody>
-					</table>
+			<table class="searchPanel">
+				<tbody>
+					<tr>
+						<th>권한코드</th>
+						<td><input id="authorCode" type="text" size="20" value="${authorCode}"></td>
+						<td><button id="selectMenuList" class="submit">조회</button></td>
+					</tr>
+				</tbody>
+			</table>
 		</form>
-				</div>
+	</div>
 
 	<div class="emdPanel">
 		<div style="width: 100%; height: 350px;">

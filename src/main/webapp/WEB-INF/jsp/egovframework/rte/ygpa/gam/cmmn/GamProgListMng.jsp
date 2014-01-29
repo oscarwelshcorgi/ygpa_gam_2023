@@ -36,8 +36,8 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamProgramListManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'프로그램파일명', 	name:'progrmFileNm',	width:120, 		sortable:false,		align:'left'},
-					{display:'프로그램명', 		name:'progrmKoreanNm',	width:120, 		sortable:false,		align:'center'},
+					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'left'},
+					{display:'프로그램명', 		name:'progrmKoreanNm',	width:160, 		sortable:false,		align:'center'},
 					{display:'프로그램경로', 		name:'progrmStrePath',	width:100, 		sortable:false,		align:'left'},
 					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'left'},
 					{display:'프로그램설명',		name:'progrmDc',		width:160,		sortable:false,		align:'center'}
@@ -50,7 +50,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#progListMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		// 이벤트내에선 모듈에 대해 선택한다.
+
 		module.$("#programListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
 		if(row != null) {
@@ -189,25 +189,25 @@ var module_instance = new GamProgListMngModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 				<form id="progrmManageVO">
 					<input type="hidden" id="cmd"/>
-					<table class="tableForm">
+					<table class="searchPanel">
 						<tr>
-							<th><span class="label">프로그램파일명</span></th>
+							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />프로그램파일명</th>
 							<td><input type="text" size="80" id="progrmFileNm" /></td>
 						</tr>
 						<tr>
-							<th><span class="label">한글명</span></th>
+							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />한글명</th>
 							<td><input type="text" size="80" id="progrmKoreanNm"/></td>
 						</tr>
 						<tr>
-							<th><span class="label">프로그램경로</span></th>
+							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />프로그램경로</th>
 							<td><input type="text" size="80" id="progrmStrePath" /></td>
 						</tr>
 						<tr>
-							<th><span class="label">URL</span></th>
+							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />URL</th>
 							<td><input type="text" size="80" id="URL"/></td>
 						</tr>
 						<tr>
-							<th><span class="label">프로그램설명</span></th>
+							<th width="20%" height="23" class="required_text">프로그램설명</th>
 							<td><textarea cols="80" rows="10" id="progrmDc"></textarea></td>
 						</tr>
 					</table>

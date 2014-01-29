@@ -57,8 +57,8 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 	});
 };
 
-GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg)
-{
+
+GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 	switch (popupId) {
 	case 'selectMenuCreate':
 		if (msg != 'cancel') {
@@ -115,7 +115,7 @@ var module_instance = new GamMenuMngCreateModule();
 					<tbody>
 						<tr>
 							<th>보안설정대상ID</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
+							<td><input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
@@ -125,14 +125,6 @@ var module_instance = new GamMenuMngCreateModule();
 	</div>
 
 	<div class="emdPanel">
-	<!--
-		<div class="emdTabPanel">	// 주: 탭이 아닌데 탭판넬을 사용함
-			<div class="emdTabPage">
-			 -->
-				<table id="menuMngCreateList" style="display:none"></table>
-				<!--
-			</div>
-		</div>
-		 -->
+		<table id="menuMngCreateList" style="display:none"></table>
 	</div>
 </div>

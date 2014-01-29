@@ -44,9 +44,9 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 					{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
 					{display:"사용자 ID", 	name:"userId",		width:100, 	sortable:false,		align:"center"},
 					{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"center"},
-					{display:"hidden", 		name:"mberTyCode",	width:1, 	sortable:false,		align:"center"},
+					//{display:"hidden", 		name:"mberTyCode",	width:1, 	sortable:false,		align:"center"},
 					{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"center"},
-					{display:"hidden", 		name:"uniqId",		width:1, 	sortable:false,		align:"center"},
+					//{display:"hidden", 		name:"uniqId",		width:1, 	sortable:false,		align:"center"},
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
 					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
 					],

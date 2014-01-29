@@ -36,11 +36,10 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamAuthorList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"권한 ID", 	name:"authorCode",		width:120, 	sortable:false,		align:"left"},
+					{display:"권한 ID", 	name:"authorCode",		width:250, 	sortable:false,		align:"left"},
 					{display:"권한명", 	name:"authorNm",		width:150, 	sortable:false,		align:"center"},
 					{display:"설명", 	name:"authorDc",		width:200, 	sortable:false,		align:"center"},
-					{display:"등록일자", name:"authorCreatDe",	width:100, 	sortable:false,		align:"center"},
-					{display:'롤정보', 	name:'regYn',			width:60, 	sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'롤', className:'selectRoleButton'}}
+					{display:"등록일자", name:"authorCreatDe",	width:100, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,
@@ -54,12 +53,15 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		module.$("#authorMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
 
 		if(row != null) {
-			module.$("#displayDate").show();
+			
 			module.$("#cmd").val("modify");	 								// 더블클릭한 아이템을 수정한다
 			module.$("#authorCode").val(row["authorCode"]);					// 권한 ID
 			module.$("#authorNm").val(row["authorNm"]);						// 권한명
 			module.$("#authorDc").val(row["authorDc"]);						// 설명
 			module.$("#authorCreatDe").val(row["authorCreatDe"]);			// 등록일자
+			
+			module.$("#authorCode").attr("disabled","disabled");			// 수정불가능
+			module.$("#displayDate").show();								// 등록일자 show
 			throw 0;
 		}
 	});
@@ -87,6 +89,7 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 		// 추가
 		case "addBtn":
 			this.$("#displayDate").hide();
+			this.$("#authorCode").removeAttr("disabled");
 			this.$("#authorMngListTab").tabs("option", {active: 1});
 			this.$("#authorManageVO :input").val("");
 			this.$("#cmd").val("insert");
@@ -164,7 +167,7 @@ var module_instance = new GamAuthorMngModule();
 					<tbody>
 						<tr>
 							<th>권한 명</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
+							<td><input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>

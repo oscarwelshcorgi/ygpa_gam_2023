@@ -60,6 +60,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			
 			module.$("#menuNo").attr("disabled","disabled");
 			module.$("#upperMenuId").attr("disabled","disabled");
+			module.$("#progrmFileNm").attr("disabled","disabled");
 			
 			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
 			module.$("#menuNo").val(row["menuNo"]);						// 메뉴No
@@ -97,11 +98,17 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		case "addBtn":
 			this.$("#menuNo").removeAttr("disabled");
 			this.$("#upperMenuId").removeAttr("disabled");
+			this.$("#progrmFileNm").removeAttr("disabled");
 			this.$("#menuMngListTab").tabs("option", {active: 1});
 			this.$("#menuManageVO :input").val("");
 			this.$("#cmd").val("insert");
 		break;
 			
+		// 프로그램목록조회 팝업
+		case "popupBtn":
+			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '<c:url value="/cmmn/popup/gamPopupProgramView.do"/>', {progrmFileNm: this.$("#progrmFileNm").val()});
+		break;
+		
 		// 저장
 		case "saveBtn":
 		 	var inputVO = this.makeFormArgs("#menuManageVO");
@@ -175,6 +182,20 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 	}
 };
+
+GamMenuMngModule.prototype.onClosePopup = function(popupId, msg, value){
+	
+	switch(popupId){
+		case "selectProgramPopList":
+			this.$("#progrmFileNm").val(value);
+		break;
+	
+		default:
+			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+			throw 0;
+		break;
+	}
+};
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamMenuMngModule();
 </script>
@@ -212,7 +233,7 @@ var module_instance = new GamMenuMngModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 				<form id="menuManageVO">
 					<input type="hidden" id="cmd"/>
-					<table class="tableForm">
+					<table class="searchPanel">
 						<colgroup>
 							<col width="30%" />
 							<col />
@@ -220,29 +241,32 @@ var module_instance = new GamMenuMngModule();
 							<col />
 						</colgroup>
 						<tr>
-							<th><span class="label">메뉴No</span></th>
+							<th width="20%" height="23" class="required_text">메뉴No<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="25" id="menuNo" /></td>
-							<th><span class="label">메뉴순서</span></th>
+							<th width="20%" height="23" class="required_text">메뉴순서<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="25" id="menuOrdr"/></td>
 						</tr>
 						<tr>
-							<th><span class="label">메뉴명</span></th>
+							<th width="20%" height="23" class="required_text">메뉴명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="25" id="menuNm"/></td>
-							<th><span class="label">상위메뉴No</span></th>
+							<th width="20%" height="23" class="required_text">상위메뉴No<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="25" id="upperMenuId"/></td>
 						</tr>
 						<tr>
-							<th><span class="label">파일명</span></th>
-							<td colspan="3"><input type="text" size="75" id="progrmFileNm"/></td>
+							<th width="20%" height="23" class="required_text">파일명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<td colspan="3">
+								<input type="text" size="40" id="progrmFileNm" />&nbsp;&nbsp;
+								<button id="popupBtn">프로그램파일명 검색</button>
+							</td>
 						</tr>
 						<tr>
-							<th><span class="label">관련이미지명</span></th>
+							<th width="20%" height="23" class="required_text">관련이미지명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="25" id="relateImageNm"/></td>
-							<th><span class="label">관련이미지경로</span></th>
+							<th width="20%" height="23" class="required_text">관련이미지경로<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="25" id="relateImagePath"/></td>
 						</tr>
 						<tr>
-							<th><span class="label">메뉴설명</span></th>
+							<th width="20%" height="23" class="required_text">메뉴설명</th>
 							<td colspan="3"><textarea cols="76" rows="10" id="menuDc"></textarea></td>
 						</tr>
 					</table>
