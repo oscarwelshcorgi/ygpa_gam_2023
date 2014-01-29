@@ -783,4 +783,14 @@
                          )
     </insert>
     
+    <update id="gamAssetRentDao.updateAssetRentPrmisnCancel_S">
+        UPDATE ASSETS_RENT_F SET
+                PRMISN_DT     = TO_CHAR(SYSDATE,'YYYYMMDD')
+              , PRMISN_YN     = #prmisnYn# 
+        WHERE  PRT_AT_CODE   = #prtAtCode#
+        AND    MNG_YEAR      = #mngYear#
+        AND    MNG_NO        = #mngNo#
+        AND    MNG_CNT       = #mngCnt#
+    </update>
+    
 </sqlMap>

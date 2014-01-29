@@ -204,5 +204,13 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 		insert("gamAssetRentDao.insertAssetRentLevReqest_S", vo);
 	}
 	
+	/**
+	 * 자산임대 허가여부를 취소한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo){
+		update("gamAssetRentDao.updateAssetRentPrmisnCancel_S", vo);
+	}
 	
 }

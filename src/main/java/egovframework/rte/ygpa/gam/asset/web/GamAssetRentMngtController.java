@@ -713,4 +713,63 @@ public class GamAssetRentMngtController {
 		return map;
     }
     
+    /**
+     * 자산임대 승낙취소(허가취소)를 한다.
+     * @param gamAssetRentVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/gamUpdateAssetRentPrmisnCancel.do") 
+    public @ResponseBody Map updateAssetRentPrmisnCancel(
+     	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO, 
+     	   BindingResult bindingResult)
+            throws Exception {
+ 	
+     	Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+         
+         //승낙할 임대정보조회
+         GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+         
+         //징수의뢰 테이블에 갯수 카운트 조회
+         int levReqestCnt = gamAssetRentService.selectAssetRentLevReqestCnt(gamAssetRentVO);
+         
+         if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
+         	map.put("resultCode", 1);
+             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
+             
+     		return map;
+         }
+         
+         if( levReqestCnt > 0 ) { 
+         	map.put("resultCode", 1);
+             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
+             
+     		return map;
+         }
+         
+         GamAssetRentLevReqestVO levReqestInfo = new GamAssetRentLevReqestVO();
+         levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
+         levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
+         levReqestInfo.setMngNo( rentPrmisnInfo.getMngNo() );
+         levReqestInfo.setMngCnt( rentPrmisnInfo.getMngCnt() );
+ 		
+         levReqestInfo.setPrmisnYn("N"); //허가여부
+         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+         
+         //임대정보의 허가여부를 N으로 업데이트
+         gamAssetRentService.updateAssetRentPrmisnCancel(levReqestInfo);
+         
+         resultCode = 0; 
+ 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
+         
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+    
 }

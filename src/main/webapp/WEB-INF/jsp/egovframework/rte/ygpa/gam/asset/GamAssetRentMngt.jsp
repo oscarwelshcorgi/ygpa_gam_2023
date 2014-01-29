@@ -439,10 +439,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             
             if(rows.length>=1) {
-                this.doAction('<c:url value="/asset/gamDeleteAssetRentDetail.do" />', rows[0], function(module, result) {
+                this.doAction('<c:url value="/asset/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                        module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);

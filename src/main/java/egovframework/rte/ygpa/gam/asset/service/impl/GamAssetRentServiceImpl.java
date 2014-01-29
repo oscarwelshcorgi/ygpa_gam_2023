@@ -350,4 +350,13 @@ public class GamAssetRentServiceImpl implements GamAssetRentService {
 		gamAssetRentDao.updateAssetRentPrmisn(vo);
 	}
 	
+	/**
+	 * 자산임대 허가여부를 취소한다.
+	 * @param vo GamAssetRentLevReqestVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo) throws Exception {
+		gamAssetRentDao.updateAssetRentPrmisnCancel(vo);
+	}
+	
 }

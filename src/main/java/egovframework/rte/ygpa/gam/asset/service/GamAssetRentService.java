@@ -146,5 +146,13 @@ public interface GamAssetRentService {
 	 * @exception Exception
 	 */
 	void updateAssetRentPrmisn(GamAssetRentLevReqestVO vo) throws Exception;
+	
+	
+	/**
+	 * 자산임대 허가여부를 취소한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo) throws Exception;
     
 }
