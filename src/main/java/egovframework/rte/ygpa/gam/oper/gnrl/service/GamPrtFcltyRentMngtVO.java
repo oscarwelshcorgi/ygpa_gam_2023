@@ -3,8 +3,8 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamPrtFcltyUseSttusInqireVO.java
- * @Description : 항만시설사용현황조회 VO Class
+ * @Class Name : GamPrtFcltyRentMngtVO.java
+ * @Description : 항만시설사용목록관리 VO class
  * @Modification Information
  *
  * @author 도명호
@@ -14,7 +14,7 @@ import egovframework.com.cmm.ComDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
+public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 항코드 */
@@ -157,6 +157,12 @@ public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
     
     /** 관리 번호(조합) */
     private String rentMngNo;
+    
+    /** 요금 종류 */
+    private String chrgeKnd;	
+
+    /** 부가세 여부 */
+    private String vatYn;
 
 	/**
 	 * @return the prtAtCode
@@ -816,4 +822,32 @@ public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
 		this.sUsagePrposCd = sUsagePrposCd;
 	}
 
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
+	}
+
+	/**
+	 * @return the vatYn
+	 */
+	public String getVatYn() {
+		return vatYn;
+	}
+
+	/**
+	 * @param vatYn the vatYn to set
+	 */
+	public void setVatYn(String vatYn) {
+		this.vatYn = vatYn;
+	}
+    
 }
