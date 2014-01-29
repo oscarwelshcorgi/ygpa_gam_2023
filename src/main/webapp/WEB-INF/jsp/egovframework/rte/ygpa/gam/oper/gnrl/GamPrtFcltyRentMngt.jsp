@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamPrtFcltyUseSttusInqire.jsp
-  * @Description : 항만시설사용현황조회 (항만시설/일반부두/항만시설사용현황조회)
+  * @Class Name : GamPrtFcltyRentMngt.jsp
+  * @Description : 항만시설사용목록관리 (항만시설/일반부두/항만시설사용목록관리)
   * @Modification Information
   * 
   *   수정일          수정자                   수정내용 
@@ -23,17 +23,17 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
- function GamPrtFclltyUseSttusModule() {}
+ function GamPrtOperRentModule() {}
 
- GamPrtFclltyUseSttusModule.prototype = new EmdModule(910, 550);
+ GamPrtOperRentModule.prototype = new EmdModule(910, 550);
 
  // 페이지가 호출 되었을때 호출 되는 함수
- GamPrtFclltyUseSttusModule.prototype.loadComplete = function() {
+ GamPrtOperRentModule.prototype.loadComplete = function() {
 
      // 테이블 설정
      this.$("#operResultList").flexigrid({
          module: this,
-         url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireList.do" />',
+         url: '<c:url value="/oper/gnrl/selectPrtFcltyRentMngtList.do" />',
          dataType: 'json',
          colModel : [
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -82,7 +82,7 @@
      // 테이블 설정
      this.$("#operResultDetailList").flexigrid({  
          module: this,
-         url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireDetailList.do" />',  
+         url: '<c:url value="/oper/gnrl/selectPrtFcltyRentMngtDetailList.do" />',  
          dataType: 'json',
          colModel : [
                     {display:'자산 사용 순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},                          
@@ -222,7 +222,7 @@
  /**
   * 정의 된 버튼 클릭 시
   */
-  GamPrtFclltyUseSttusModule.prototype.onButtonClick = function(buttonId) {
+  GamPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
 
      switch(buttonId) {
 
@@ -232,7 +232,171 @@
              this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
              
              break;
+
+         // 최초신청
+         case 'addPrtFcltyRentMngtFirst':
+             this.$("#operResultListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+             //this.$(":input").val('');
+             this.$('#gamOperForm :input').val("");
+             this.$("#cmd").val('insert');
+             
+             break;
+             
+         // 연장신청
+         case 'addPrtFcltyRentMngtRenew':
+             var rows = this.$('#operResultList').selectedRows();
+             
+             if(rows.length>=1) {
+                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
+                 
+                 this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentMngtRenew.do" />', rows[0], function(module, result) {
+                     
+                     if(result.resultCode=='0') {
+                         
+                         var searchOpt=module.makeFormArgs('#gamOperSearchForm');
+                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
+                     }
+
+                     alert(result.resultMsg);
+
+                 });
+                 //throw 0;
+
+             } else {
+                 alert("연장신청할 업체를 선택하십시오.");
+             }
+             
+             break;
          
+         // 자산임대 저장
+         case 'btnSaveItem':
+             var inputVO=this.makeFormArgs('#gamOperForm');
+             if(this.$("#cmd").val()=='insert') {
+                 
+             	this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentMngtFirst.do" />', inputVO, function(module, result) {
+                     
+                     if(result.resultCode=='0') {
+                     	var searchOpt=module.makeFormArgs('#gamOperForm');
+                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
+                     }
+                     
+                     alert(result.resultMsg);
+                 });
+             }
+             else {
+                 this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngt.do" />', inputVO, function(module, result) {	
+                 	if(result.resultCode=='0') {
+                         var searchOpt=module.makeFormArgs('#gamOperForm');
+                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
+                     }
+                     
+                     alert(result.resultMsg);
+                 });
+             }
+             break;        
+         
+         // 자산임대 취소
+         case 'btnCancelItem':
+         	this.$('#gamOperForm :input').val("");
+             this.$("#cmd").val('insert');
+             break;
+         
+         //자산임대삭제
+         case 'btnRemoveItem':
+             if( this.$('#cmd').val() == 'modify' ) {
+                 this.$('#detailPrmisnYn').val( this.$('#prmisnYn').val() );   
+                 
+                 var inputVO=this.makeFormArgs('#gamOperForm');
+                 
+                 this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
+                     
+                     if(result.resultCode=='0') {
+                         var searchOpt=module.makeFormArgs('#gamOperSearchForm');
+                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
+                     }
+                     
+                     alert(result.resultMsg);
+                 });
+                 
+                 this.$("#operResultListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                 this.$('#gamOperForm :input').val("");
+                 this.$("#cmd").val('insert');
+                 
+             } else {
+                 alert("상세조회 후 삭제가 가능합니다.");
+             }
+             break;
+             
+         // 자산임대상세 신규등록
+         case 'btnInsertItemDetail':
+         	
+         	if( this.$('#prtAtCode').val() == '' ) {
+         		alert("자산임대상세 조회후 등록이 가능합니다.");
+         	} else {
+         		this.$("#operResultListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+                 this.$('#gamOperDetailForm :input').val("");
+                 
+                 this.$("#detailCmd").val('insert');
+                 this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );   
+                 this.$('#detailMngYear').val( this.$('#mngYear').val() );
+                 this.$('#detailMngNo').val( this.$('#mngNo').val() );
+                 this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
+         	}
+             
+             break;
+         
+         // 자산임대상세 삭제    
+         case 'btnRemoveItemDetail':
+             
+             var rows = this.$('#operResultDetailList').selectedRows();
+             
+             if(rows.length>=1) {
+                 this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngtDetail.do" />', rows[0], function(module, result) {
+                     if(result.resultCode=='0') {
+                         var searchOpt=module.makeFormArgs('#gamOperForm');
+                         module.$('#operResultDetailList').flexOptions({params:searchOpt}).flexReload();
+                     }
+
+                     alert(result.resultMsg);
+                 });
+                 
+                 this.$('#gamOperDetailForm :input').val("");
+                 this.$("#detailCmd").val('insert');
+                 
+             } else {
+                 alert("삭제할 정보를 선택하십시오.");
+             }
+             
+             break;
+             
+         // 자산임대상세 저장
+         case 'btnSaveItemDetail':
+             
+             var inputVO=this.makeFormArgs('#gamOperDetailForm');
+             if(this.$("#detailCmd").val()=='insert') {
+                 
+                 this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentMngtDetail.do" />', inputVO, function(module, result) {
+                     
+                     if(result.resultCode=='0') {
+                         var searchOpt=module.makeFormArgs('#gamOperForm');
+                         module.$('#operResultDetailList').flexOptions({params:searchOpt}).flexReload();
+                     }
+                     
+                     alert(result.resultMsg);
+                 });
+             }
+             else {
+             	this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtDetail.do" />', inputVO, function(module, result) { 
+                     if(result.resultCode=='0') {
+                     	var searchOpt=module.makeFormArgs('#gamOperForm');
+                         module.$('#operResultDetailList').flexOptions({params:searchOpt}).flexReload();
+                     }
+                     
+                     alert(result.resultMsg);
+                 });
+             }
+             break;
+             
          case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
              /*
              var opts = {
@@ -250,44 +414,77 @@
              var opts;
              
              this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-             break;     
+             break;    
+                  
+         case 'btnPrmisn': // 승낙 (허가)   
+             var rows = this.$('#operResultList').selectedRows();
+             
+             if(rows.length>=1) {
+             	var opts = {
+                     'prtAtCode': rows[0]['prtAtCode'],
+                     'mngYear': rows[0]['mngYear'],
+                     'mngNo': rows[0]['mngNo'],
+             	    'mngCnt': rows[0]['mngCnt']
+                 };
+
+                 this.doExecuteDialog('insertPrtFcltyRentMngtPrmisnPopup', '승낙', '<c:url value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do"/>', opts);
+             	
+             } else {
+                 alert("목록에서 선택하십시오.");
+             }
+         
+             break;
+         
+         case 'btnPrmisnCancel': // 승낙취소 (허가취소)
+             var rows = this.$('#operResultList').selectedRows();
+             
+             if(rows.length>=1) {
+                 this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
+                     if(result.resultCode=='0') {
+                         var searchOpt=module.makeFormArgs('#gamOperForm');
+                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
+                     }
+
+                     alert(result.resultMsg);
+                 });
+             } else {
+                 alert("목록에서 선택하십시오.");
+             }
+         
+             break; 
      }
  };
 
- GamPrtFclltyUseSttusModule.prototype.onSubmit = function() {
+ GamPrtOperRentModule.prototype.onSubmit = function() {
      this.loadData();
  };
 
- GamPrtFclltyUseSttusModule.prototype.loadData = function() {
+ GamPrtOperRentModule.prototype.loadData = function() {
      var searchOpt=this.makeFormArgs('#gamOperSearchForm');
      this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
  };
 
- GamPrtFclltyUseSttusModule.prototype.onTabChange = function(newTabId, oldTabId) {
+ GamPrtOperRentModule.prototype.onTabChange = function(newTabId, oldTabId) {
      switch(newTabId) {
      case 'tabs1':
          break;
      case 'tabs2':
          var row = this.$('#operResultList').selectedRows();
-         /*
          if(row.length==0) {
              this.$('#cmd').val('insert');
          }
          else {
              this.$('#cmd').val('modify');
          }
-         */
          break;
      case 'tabs3':
      	var row = this.$('#operResultDetailList').selectedRows();
-     	/*
          if(row.length==0) {
              this.$('#detailCmd').val('insert');
          }
          else {
              this.$('#detailCmd').val('modify');
          }
-     	*/
          break;
      }
  };
@@ -296,7 +493,7 @@
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
     case 'selectEntrpsInfoPopup':
         if (msg != 'cancel') {
@@ -314,6 +511,17 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
             alert('취소 되었습니다');
         }
         break;
+    case 'insertPrtFcltyRentMngtPrmisnPopup':    
+   	 if (msg != 'cancel') {
+   		 if( value == "0" ) {
+   			 var searchOpt=this.makeFormArgs('#gamOperSearchForm');
+                this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();               	 
+            }
+        } else {
+            alert('취소 되었습니다');
+        }
+   	 break;
+   	 
     default:
         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
         throw 0;
@@ -322,7 +530,7 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
 }; 
 
  // 다음 변수는 고정 적으로 정의 해야 함
- var module_instance = new GamPrtFclltyUseSttusModule();
+ var module_instance = new GamPrtOperRentModule();
  </script>
  <!-- 아래는 고정 -->
  <input type="hidden" id="window_id" value='${windowId}' />
@@ -401,9 +609,9 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
      <div class="emdPanel">
          <div id="operResultListTab" class="emdTabPanel" data-onchange="onTabChange">
              <ul>
-                 <li><a href="#tabs1" class="emdTab">항만시설사용현황 조회내역</a></li>
-                 <li><a href="#tabs2" class="emdTab">항만시설사용현황 상세조회 목록내역</a></li>
-                 <li><a href="#tabs3" class="emdTab">항만시설사용현황 상세조회내역</a></li>
+                 <li><a href="#tabs1" class="emdTab">항만시설사용목록관리 조회내역</a></li>
+                 <li><a href="#tabs2" class="emdTab">항만시설사용목록관리 상세조회 목록내역</a></li>
+                 <li><a href="#tabs3" class="emdTab">항만시설사용목록관리 상세조회내역</a></li>
              </ul>
              
              <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
@@ -422,10 +630,10 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                                 </form>
                              </td>
                              <td>
-                             	<!-- 
-                                 <button id="addAssetRentRenew">연장신청</button>
-                                 <button id="addAssetRentFirst">최초신청</button>
-                                  -->
+                                 <button id="addPrtFcltyRentMngtRenew">연장신청</button>
+                                 <button id="addPrtFcltyRentMngtFirst">최초신청</button>
+                                 <button id="btnPrmisn">승낙</button>
+                                 <button id="btnPrmisnCancel">승낙취소</button>
                              </td>
                          </tr>
                      </table>
@@ -435,7 +643,7 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
              <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                  
                  <div class="emdControlPanel">
-                 	<!-- <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button> -->
+                 	<button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button>
                  </div>
                      <form id="gamOperForm">
                          <input type="hidden" id="cmd"/>
@@ -461,7 +669,7 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                                 <td>
                                     <input type="text" size="5" id="entrpscd" maxlength="10"/>
                                     <input type="text" size="5" id="entrpsNm" readonly/>
-                                    <!-- <button id="popupEntrpsInfoInput">업체</button> -->
+                                    <button id="popupEntrpsInfoInput">업체</button>
                                 </td>
                             </tr>
                              <tr>
@@ -481,13 +689,11 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                                     </select>
                                 </td>
                                 <th><span class="label">최초 허가 일자</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="frstPrmisnDt"/></td> -->
-                                <td><input type="text" size="10" id="frstPrmisnDt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="frstPrmisnDt"/></td>
                             </tr>
                              <tr>
                                 <th><span class="label">허가 일자</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td> -->
-                                <td><input type="text" size="10" id="prmisnDt"></td>
+                                <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td>
                                 <th><span class="label">허가 여부</span></th>
                                 <td>
                                     <select id="prmisnYn">
@@ -533,17 +739,14 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                              
                              <tr>
                                 <th><span class="label">신청일자</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="dt"/></td> -->
-                                <td><input type="text" size="10" id="dt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="dt"/></td>
                                 <th><span class="label">총 사용 기간 FROM</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="grUsagePdFrom"/></td> -->
-                                <td><input type="text" size="10" id="grUsagePdFrom"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="grUsagePdFrom"/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">총 사용 기간 TO</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="grUsagePdTo"/></td> -->
-                                <td><input type="text" size="10" id="grUsagePdTo"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="grUsagePdTo"/></td>
                                 <th><span class="label">등록자</span></th>
                                 <td><input type="text" size="10" id="regUsr"/></td>
                             </tr>
@@ -573,7 +776,7 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                   <table>
                      <tr>
                          <td height="30">
-                             <!-- <button id="btnInsertItemDetail">등록</button><button id="btnRemoveItemDetail">삭제</button> -->
+                             <button id="btnInsertItemDetail">등록</button><button id="btnRemoveItemDetail">삭제</button>
                          </td>
                      </tr>
                   </table>
@@ -584,7 +787,7 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
              <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
                  
                  <div class="emdControlPanel">
-                 	<!-- <button id="btnSaveItemDetail">저장</button> -->
+                 	<button id="btnSaveItemDetail">저장</button>
                  </div>
                      <form id="gamOperDetailForm">
 
@@ -608,14 +811,12 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                                 <th><span class="label">사용 면적</span></th>
                                 <td><input type="text" size="10" id="usageAr"/></td>
                                 <th><span class="label">사용 기간 FROM</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="usagePdFrom"/></td> -->
-                                <td><input type="text" size="10" id="usagePdFrom"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="usagePdFrom"/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">사용 기간 TO</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="usagePdTo"/></td> -->
-                                <td><input type="text" size="10" id="usagePdTo"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="usagePdTo"/></td>
                                 <th><span class="label">사용 목적</span></th>
                                 <td><input type="text" size="10" id="usagePurps"/></td>
                             </tr>
@@ -662,14 +863,12 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                                 <th><span class="label">면제 사유</span></th>
                                 <td><input type="text" size="10" id="exemptRsn"/></td>
                                 <th><span class="label">면제 기간 FROM</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="exemptPdFrom"/></td> -->
-                                <td><input type="text" size="10" id="exemptPdFrom"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="exemptPdFrom"/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">면제 기간 TO</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="exemptPdTo"/></td> -->
-                                <td><input type="text" size="10" id="exemptPdTo"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="exemptPdTo"/></td>
                                 <th><span class="label">산출 내역</span></th>
                                 <td><input type="text" size="10" id="computDtls"/></td>
                             </tr>
@@ -738,8 +937,7 @@ GamPrtFclltyUseSttusModule.prototype.onClosePopup = function(popupId, msg, value
                                 <th><span class="label">사용료</span></th>
                                 <td><input type="text" size="10" id="fee"/></td>
                                 <th><span class="label">해지 일자</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td> -->
-                                <td><input type="text" size="10" id="trmnatDt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td>
                             </tr>
                              
                              <tr>
