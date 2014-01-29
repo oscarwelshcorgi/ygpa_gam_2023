@@ -145,11 +145,11 @@
 								</li>
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0003"
-									data-url="<c:url value='/oper/gnrl/gamPrtOperRentMngt.do'/>">항만시설사용목록관리</a>
+									data-url="<c:url value='/oper/gnrl/gamPrtFcltyRentMngt.do'/>">항만시설사용목록관리</a>
 								</li>
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0003"
-									data-url="<c:url value='/oper/gnrl/gamPrtOperRentFeeMngt.do'/>">항만시설사용료관리</a>
+									data-url="<c:url value='/oper/gnrl/gamPrtFcltyRentFeeMngt.do'/>">항만시설사용료관리</a>
 								</li>
 								<li><a href="#" data-role="LoadModule"
 									data-prgid="PRG_0003"
