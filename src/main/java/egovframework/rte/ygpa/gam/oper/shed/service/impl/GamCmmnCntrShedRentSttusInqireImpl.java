@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentSttusInqireVO;
 
@@ -18,12 +19,12 @@ import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentSttusInqi
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamCmmnCntrShedRentSttusInqireService")
-public class GamCmmnCntrShedRentSttusInqireImpl implements GamCmmnCntrShedRentSttusInqireService {
-	
+public class GamCmmnCntrShedRentSttusInqireImpl extends AbstractServiceImpl implements GamCmmnCntrShedRentSttusInqireService {
+
     @Resource(name="gamCmmnCntrShedRentSttusInqireDao")
     private GamCmmnCntrShedRentSttusInqireDao gamCmmnCntrShedRentSttusInqireDao;
 
@@ -46,7 +47,7 @@ public class GamCmmnCntrShedRentSttusInqireImpl implements GamCmmnCntrShedRentSt
     public int selectGamCmmnCntrShedRentSttusInqireListTotCnt(GamCmmnCntrShedRentSttusInqireVO searchVO) {
 		return gamCmmnCntrShedRentSttusInqireDao.selectGamCmmnCntrShedRentSttusInqireListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 컨테이너부두임대현황 정보 (자료수, 총면적, 총사용료 등)
 	 * @param searchVO - 조회할 정보가 담긴 VO

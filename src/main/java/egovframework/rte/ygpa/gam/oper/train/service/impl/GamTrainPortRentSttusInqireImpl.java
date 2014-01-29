@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqireVO;
 
@@ -18,12 +19,12 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqire
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamTrainPortRentSttusInqireService")
-public class GamTrainPortRentSttusInqireImpl implements GamTrainPortRentSttusInqireService {
-	
+public class GamTrainPortRentSttusInqireImpl extends AbstractServiceImpl implements GamTrainPortRentSttusInqireService {
+
     @Resource(name="gamTrainPortRentSttusInqireDao")
     private GamTrainPortRentSttusInqireDao gamTrainPortRentSttusInqireDao;
 
@@ -46,7 +47,7 @@ public class GamTrainPortRentSttusInqireImpl implements GamTrainPortRentSttusInq
     public int selectGamTrainPortRentSttusInqireListTotCnt(GamTrainPortRentSttusInqireVO searchVO) {
 		return gamTrainPortRentSttusInqireDao.selectGamTrainPortRentSttusInqireListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 컨테이너부두임대현황 정보 (자료수, 총면적, 총사용료 등)
 	 * @param searchVO - 조회할 정보가 담긴 VO

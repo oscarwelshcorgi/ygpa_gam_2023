@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.sample.service.GamAssetCodeSampleService;
 import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
 @Service("gamAssetCodeSampleService")
-public class GamAssetCodeSampleServiceImpl implements GamAssetCodeSampleService {
+public class GamAssetCodeSampleServiceImpl extends AbstractServiceImpl implements GamAssetCodeSampleService {
 
     @Resource(name="gamAssetCodeSampleDao")
     private GamAssetCodeSampleDao gamAssetCodeDao;

@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentfeeInqireService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentfeeInqireVO;
 
@@ -18,12 +19,12 @@ import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentfeeInqireVO
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamCntnrQuayRentfeeInqireService")
-public class GamCntnrQuayRentfeeInqireImpl implements GamCntnrQuayRentfeeInqireService {
-	
+public class GamCntnrQuayRentfeeInqireImpl extends AbstractServiceImpl implements GamCntnrQuayRentfeeInqireService {
+
     @Resource(name="gamCntnrQuayRentfeeInqireDao")
     private GamCntnrQuayRentfeeInqireDao gamCntnrQuayRentfeeInqireDao;
 
@@ -46,7 +47,7 @@ public class GamCntnrQuayRentfeeInqireImpl implements GamCntnrQuayRentfeeInqireS
     public int selectGamCntnrQuayRentfeeInqireListTotCnt(GamCntnrQuayRentfeeInqireVO searchVO) {
 		return gamCntnrQuayRentfeeInqireDao.selectGamCntnrQuayRentfeeInqireListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 컨테이너부두임대료관리 정보 (자료수, 총면적, 총사용료 등)
 	 * @param searchVO - 조회할 정보가 담긴 VO

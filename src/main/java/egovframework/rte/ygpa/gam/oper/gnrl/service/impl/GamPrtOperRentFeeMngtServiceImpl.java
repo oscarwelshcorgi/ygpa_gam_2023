@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtOperRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtOperRentFeeMngtVO;
 
@@ -18,12 +19,12 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtOperRentFeeMngtVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamPrtOperRentFeeMngtService")
-public class GamPrtOperRentFeeMngtServiceImpl implements GamPrtOperRentFeeMngtService {
-	
+public class GamPrtOperRentFeeMngtServiceImpl extends AbstractServiceImpl implements GamPrtOperRentFeeMngtService {
+
     @Resource(name="gamPrtOperRentFeeMngtDao")
     private GamPrtOperRentFeeMngtDao gamPrtOperRentFeeMngtDao;
 

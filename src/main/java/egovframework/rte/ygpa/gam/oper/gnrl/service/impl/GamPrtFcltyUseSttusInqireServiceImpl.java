@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireVO;
 
@@ -18,12 +19,12 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamPrtFcltyUseSttusInqireService")
-public class GamPrtFcltyUseSttusInqireServiceImpl implements GamPrtFcltyUseSttusInqireService {
-	
+public class GamPrtFcltyUseSttusInqireServiceImpl extends AbstractServiceImpl implements GamPrtFcltyUseSttusInqireService {
+
     @Resource(name="gamPrtFcltyUseSttusInqireDao")
     private GamPrtFcltyUseSttusInqireDao gamPrtFcltyUseSttusInqireDao;
 
@@ -46,7 +47,7 @@ public class GamPrtFcltyUseSttusInqireServiceImpl implements GamPrtFcltyUseSttus
     public int selectPrtFcltyUseSttusInqireListTotCnt(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
 		return gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -56,7 +57,7 @@ public class GamPrtFcltyUseSttusInqireServiceImpl implements GamPrtFcltyUseSttus
     public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireSum(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
         return gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireSum(searchVO);
     }
-    
+
     /**
 	 * 항만시설사용현황 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -76,5 +77,5 @@ public class GamPrtFcltyUseSttusInqireServiceImpl implements GamPrtFcltyUseSttus
     public int selectPrtFcltyUseSttusInqireDetailListTotCnt(GamPrtFcltyUseSttusInqireVO vo) throws Exception {
 		return gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireDetailListTotCnt(vo);
 	}
-    
+
 }

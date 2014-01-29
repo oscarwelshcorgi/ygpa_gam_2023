@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
@@ -19,13 +20,13 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
  * @since 2014-01-10
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamPopupEntrpsInfoService")
 
-public class GamPopupEntrpsInfoServiceImpl implements GamPopupEntrpsInfoService {
-	
+public class GamPopupEntrpsInfoServiceImpl extends AbstractServiceImpl implements GamPopupEntrpsInfoService {
+
 	@Resource(name="gamPopupEntrpsInfoDao")
     private GamPopupEntrpsInfoDao gamPopupEntrpsInfoDao;
 
