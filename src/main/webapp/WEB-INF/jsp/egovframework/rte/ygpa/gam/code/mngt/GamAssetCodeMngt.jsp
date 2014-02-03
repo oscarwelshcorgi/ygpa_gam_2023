@@ -5,16 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamAssetMngt.jsp
-  * @Description : 자산코드관리 테스트 (Prototype)
+  * @Class Name : GamAssetCodeMngt.jsp
+  * @Description : 자산코드관리
   * @Modification Information
   * 
   *   수정일         수정자                   수정내용 
   *  -------    --------    ---------------------------
-  *  2013.10.29  장은성          최초 생성
+  *  2014.02.03  kok          최초 생성
   *
-  * author 장은성
-  * since 2013.10.29
+  * author kok
+  * since 2014.02.03
   *  
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
@@ -40,41 +40,29 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'항코드', name:'PRT_AT_CODE',width:60, sortable:false,align:'center'},
-			{display:'자산Sub 코드', name:'GIS_ASSETS_SUB_CD',width:200, sortable:false,align:'center'},
-			{display:'부서구분 코드', name:'ASSETS_RENT_DEPT_SE_CD',width:200, sortable:false,align:'center'},
-			{display:'신청 업체 코드', name:'ASSETS_RENT_REQST_ENTRPS_CD',width:200, sortable:false,align:'center'},
-			{display:'신청 구분 코드,',name:'REQST_SE_CD',width:200,sortable:false,align:'center'},
-			{display:'위치 코드',name:'LOC_CD',width:200,sortable:false,align:'center'},
-			{display:'부두 코드',name:'QUAY_GROUP_CD',width:200,sortable:false,align:'center'},
-			{display:'자산구분 코드',name:'ASSETS_SE_CD',width:200,sortable:false,align:'center'},
-			{display:'관리부서 코드',name:'MNG_DEPT_CD',width:200,sortable:false,align:'center'},
-			{display:'운영부서 코드',name:'OPER_DEPT_CD',width:200,sortable:false,align:'center'}
-			],
-/* 		searchitems : [
-			{display: 'ISO', name : 'iso'},
-			{display: 'Name', name : 'name', isdefault: true}
-			],
-		sortname: "iso",
-		sortorder: "asc",
-		 */
+					{display:'항코드', 			name:'PRT_AT_CODE',					width:60, 		sortable:false,		align:'center'},
+					{display:'자산Sub 코드', 	name:'GIS_ASSETS_SUB_CD',			width:200,		sortable:false,		align:'center'},
+					{display:'부서구분 코드', 	name:'ASSETS_RENT_DEPT_SE_CD',		width:200, 		sortable:false,		align:'center'},
+					{display:'신청 업체 코드', 	name:'ASSETS_RENT_REQST_ENTRPS_CD',	width:200, 		sortable:false,		align:'center'},
+					{display:'신청 구분 코드,',	name:'REQST_SE_CD',					width:200,		sortable:false,		align:'center'},
+					{display:'위치 코드',			name:'LOC_CD',						width:200,		sortable:false,		align:'center'},
+					{display:'부두 코드',			name:'QUAY_GROUP_CD',				width:200,		sortable:false,		align:'center'},
+					{display:'자산구분 코드',		name:'ASSETS_SE_CD',				width:200,		sortable:false,		align:'center'},
+					{display:'관리부서 코드',		name:'MNG_DEPT_CD',					width:200,		sortable:false,		align:'center'},
+					{display:'운영부서 코드',		name:'OPER_DEPT_CD',				width:200,		sortable:false,		align:'center'}
+					],
 		usepager: false,
-//		title: '자산목록',
-//		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-//		width: '100%',
-//		height: '100%'
-/* 		onSubmit: addFormData, */
 	});
 };
 		
 // 사용자 설정 함수 추가
 // 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
 GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
-	//this.getSelect(msg);	
 	this.$('#prtCode').val(msg);
 }
+
 
 GamAssetCodeModule.prototype.onClick = function(e) {
 	switch(e.target_id) {
