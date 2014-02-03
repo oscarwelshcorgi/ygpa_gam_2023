@@ -102,7 +102,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
  				obj.parentid = obj.upperMenuId;
  				obj.id = obj.menuNo;
  				obj.name = obj.menuNm;
- 				obj.ischecked = obj.chkYeoBu=='Y';	// 생성할때 다시 ischecked를 chkYeoBu 로 변경하여 생성한다.
+ 				obj.ischecked = obj.chkYeoBu == "Y";	// 생성할때 다시 ischecked를 chkYeoBu 로 변경하여 생성한다.
  			}
 
  			var data_obj = {"root" : result.listMenulist};
