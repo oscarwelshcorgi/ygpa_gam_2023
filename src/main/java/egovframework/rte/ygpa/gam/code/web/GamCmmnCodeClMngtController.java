@@ -39,7 +39,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 1. 22.		권옥경		최초 생성
+ *  2014. 1. 22.		kok		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
