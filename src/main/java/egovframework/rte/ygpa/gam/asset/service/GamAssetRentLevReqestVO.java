@@ -3,7 +3,7 @@ package egovframework.rte.ygpa.gam.asset.service;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamAssetRentFeeMngtVO.java
+ * @Class Name : GamAssetRentLevReqestVO.java
  * @Description : 징수의뢰 VO class
  * @Modification Information
  *
