@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
+import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
+import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
+import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
+import egovframework.com.sym.ccm.cde.service.EgovCcmCmmnDetailCodeManageService;
 import egovframework.rte.cmmn.AjaxXmlView;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -48,6 +53,9 @@ public class GamAssetMngSampleController {
     @Resource(name = "gamAssetSampleService")
     private GamAssetSampleService gamAssetService;
 
+	@Resource(name = "CmmnDetailCodeManageService")
+    private EgovCcmCmmnDetailCodeManageService cmmnDetailCodeManageService;
+
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -72,6 +80,41 @@ public class GamAssetMngSampleController {
     	searchVO.setBigClsCd("0409");	// 자산구분
     	List erpAssetSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
     	model.addAttribute("erpAssetSeList", erpAssetSeList);
+
+    	// 코드 조회
+        CmmnDetailCodeVO searchCodeVO;
+        searchCodeVO = new CmmnDetailCodeVO();
+        searchCodeVO.setRecordCountPerPage(999999);
+        searchCodeVO.setFirstIndex(0);
+        searchCodeVO.setSearchCondition("1");
+
+        searchCodeVO.setSearchKeyword("GAM019");
+        List codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("prtAtCodeList", codeList);
+
+        searchCodeVO.setSearchKeyword("GAM001");
+        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("assetsPrprtySeCdList", codeList);
+
+        searchCodeVO.setSearchKeyword("GAM002");
+        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("assetsLocCdList", codeList);
+
+        searchCodeVO.setSearchKeyword("GAM003");
+        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("assetsQuayCdList", codeList);
+
+        searchCodeVO.setSearchKeyword("GAM019");
+        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("prtAtCodeList", codeList);
+
+        searchCodeVO.setSearchKeyword("GAM005");
+        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("assetsSeCdList", codeList);
+
+        searchCodeVO.setSearchKeyword("GAM013");
+        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+    	model.addAttribute("assetsInvstmntMthdList", codeList);
 
     	return "/ygpa/gam/sample/GamAssetMngt";
     }

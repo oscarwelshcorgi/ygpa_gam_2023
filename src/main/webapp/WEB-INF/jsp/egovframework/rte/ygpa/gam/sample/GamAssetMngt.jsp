@@ -103,35 +103,25 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'항코드', name:'GIS_ASSETS_PRT_AT_CODE', width:24, sortable:true, align:'center'},
-			{display:'코드', name:'GIS_ASSETS_CD', width:24, sortable:true, align:'center'},
-			{display:'SUB 코드', name:'GIS_ASSETS_SUB_CD', width:16, sortable:true, align:'center'},
-			{display:'자산명', name:'GIS_ASSETS_NM', width:240, sortable:true, align:'center'},
-			{display:'관리 부서 코드', name:'GIS_ASSETS_MNG_DEPT_CD', width:160, sortable:true, align:'center'},
-			{display:'운영 부서 코드', name:'GIS_ASSETS_OPER_DEPT_CD', width:160, sortable:true, align:'center'},
-			{display:'소재지', name:'GIS_ASSETS_LOCPLC', width:240, sortable:true, align:'left'},
-			{display:'지번', name:'GIS_ASSETS_LNM', width:40, sortable:true, align:'center'},
-			{display:'지번SUB', name:'GIS_ASSETS_LNM_SUB', width:40, sortable:true, align:'center'},
-			{display:'면적', name:'GIS_ASSETS_AR', width:64, sortable:true, align:'center'},
-			{display:'사용 여부', name:'GIS_ASSETS_USAGE_YN', width:8, sortable:true, align:'center'},
-			{display:'취득가액', name:'GIS_ASSETS_ACQ_PRI', width:104, sortable:true, align:'right'},
-			{display:'규격', name:'GIS_ASSETS_STNDRD', width:120, sortable:true, align:'center'},
-			{display:'준공년도', name:'GIS_ASSETS_BLDDATE', width:32, sortable:true, align:'center'},
-			{display:'준공 일자', name:'GIS_ASSETS_BLD_DT', width:128, sortable:true, align:'center'},
-			{display:'등록자', name:'REG_USR', width:160, sortable:true, align:'center'},
-			{display:'등록일자', name:'REGISTDT', width:128, sortable:true, align:'center'},
-			{display:'수정자', name:'UPD_USR', width:160, sortable:true, align:'center'},
-			{display:'수정일자', name:'UPDTDT', width:128, sortable:true, align:'center'},
-			{display:'부두 그룹 코드', name:'GIS_ASSETS_QUAY_GROUP_CD', width:80, sortable:true, align:'center'},
-			{display:'위치 코드', name:'GIS_ASSETS_LOC_CD', width:80, sortable:true, align:'center'},
-			{display:'구분 코드', name:'GIS_ASSETS_SE_CD', width:80, sortable:true, align:'center'},
-			{display:'재산 구분 코드', name:'GIS_ASSETS_PRPRTY_SE_CD', width:80, sortable:true, align:'center'},
-			{display:'출자 방식', name:'GIS_ASSETS_INVSTMNT_MTHD', width:80, sortable:true, align:'center'},
-			{display:'실제 임대 면적', name:'GIS_ASSETS_REAL_RENT_AR', width:64, sortable:true, align:'center'},
-			{display:'도면 목록 등록 년도', name:'DRW_LST_REGIST_YEAR', width:32, sortable:true, align:'center'},
-			{display:'도면 목록 순번', name:'DRW_LST_SEQ', width:32, sortable:true, align:'center'},
-			{display:'가치 금액', name:'GIS_ASSETS_VAL_AMT', width:120, sortable:true, align:'center'},
-			{display:'가치 조회 일자', name:'GIS_ASSETS_VAL_INQIRE_DT', width:64, sortable:true, align:'center'}
+			{display:'항코드', name:'gisAssetsPrtAtCode', width:24, sortable:true, align:'center'},
+			{display:'코드', name:'gisAssetsCd', width:24, sortable:true, align:'center'},
+			{display:'SUB 코드', name:'gisAssetsSubCd', width:16, sortable:true, align:'center'},
+			{display:'자산명', name:'gisAssetsNm', width:240, sortable:true, align:'center'},
+			{display:'관리 부서 코드', name:'gisAssetsMngDeptCd', width:160, sortable:true, align:'center'},
+			{display:'운영 부서 코드', name:'gisAssetsOperDeptCd', width:160, sortable:true, align:'center'},
+			{display:'소재지', name:'gisAssetsLocplc', width:240, sortable:true, align:'left'},
+			{display:'지번', name:'gisAssetsLnm', width:40, sortable:true, align:'center'},
+			{display:'지번SUB', name:'gisAssetsLnmSub', width:40, sortable:true, align:'center'},
+			{display:'면적', name:'gisAssetsAr', width:64, sortable:true, align:'center'},
+			{display:'사용 여부', name:'gisAssetsUsageYn', width:8, sortable:true, align:'center'},
+			{display:'취득가액', name:'gisAssetsAcqPri', width:104, sortable:true, align:'right'},
+			{display:'규격', name:'gisAssetsStndrd', width:120, sortable:true, align:'center'},
+			{display:'준공년도', name:'gisAssetsBlddate', width:32, sortable:true, align:'center'},
+			{display:'준공 일자', name:'gisAssetsBldDt', width:128, sortable:true, align:'center'},
+			{display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'},
+			{display:'등록일자', name:'registdt', width:128, sortable:true, align:'center'},
+			{display:'수정자', name:'updUsr', width:160, sortable:true, align:'center'},
+			{display:'수정일자', name:'updtdt', width:128, sortable:true, align:'center'}
 			],
 		usepager: false,
 //		useRp: true,
@@ -139,6 +129,14 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: '140'
 	});
+
+	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
+		$.each(row, function(id, val){
+			module.$('#editGisAssetCode #'+id).val(val);
+		});
+		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+	});
+
 
 	this.$("#assetCodePhotoList").flexigrid({
 		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
@@ -320,9 +318,9 @@ var module_instance = new GamAssetCodeModule();
 								<th>자산명</th>
 								<td colspan="3"><input id="assetNm" type="text" size="36"></td>
 								<th>관리부서</th>
-								<td><select id="mngDeptCd"></select></td>
+								<td><select id="searchMngDeptCd"></select></td>
 								<th>운영부서</th>
-								<td><select id="operDeptCd"></select></td>
+								<td><select id="searchOperDeptCd"></select></td>
 							</tr>
 						</tbody>
 					</table>
@@ -331,57 +329,169 @@ var module_instance = new GamAssetCodeModule();
 			</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="assetManageTab" class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="assetManageTab" class="emdTabPanel fillHeight" style="height:100%;" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">ERP자산정보</a></li>
 				<li><a href="#tabs2" class="emdTab">GIS자산목록</a></li>
 				<li><a href="#tabs3" class="emdTab">자산사진</a></li>
 			</ul>
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-				<div style="width: 100%; height: 100%; overflow:auto">
-						<table id="erpAssetCodeList" style="display:none"></table>
-				</div>
+				<table id="erpAssetCodeList" style="display:none"></table>
 				<div class="emdControlPanel"><button id="addAssetGisCd">자산등록</button></div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none"></table>
 				<div class="emdControlPanel"><button id="addAssetGisCdItem">추가</button><button id="removeAssetGisCd">삭제</button><button id="loadMap">지도보기</button></div>
+				<form id="editGisAssetCode" name="gisAssetCode">
 				<table>
 					<tr>
 						<th><span class="label">청코드</span></th>
-						<td><select>
-								<option selected="selected">620</option>
-								<option>621</option>
-								<option>622</option>
-						</select></td>
+						<td>
+							<select id="gisAssetdPrtAtCode">
+									<option value="" selected="selected">선택</option>
+									<c:forEach  items="${prtAtCodeList}" var="prtAtCode">
+										<option value="${prtAtCode.codeId }">${prtAtCode.codeNm }</option>
+									</c:forEach>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<th><span class="label">자산코드</span></th>
-						<td><input type="text" size="8"></td>
+						<td><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
+					</tr>
+					<tr>
+						<th><span class="label">ERP자산코드</span></th>
+						<td><input type="text" size="1" id="erpAssetsSeCd">-<input type="text" size="16" id="erpAssetsNo">-<input type="text" size="16" id="erpAssetsNoSeq"><button id="btnSelectErpAssetCode">ERP자산코드 검색</button></td>
+					</tr>
+					<tr>
+						<th><span class="label">재산구분</span></th>
+						<td>
+						<select id="gisAssetsPrprtySeCd">
+								<option value="" selected="selected">선택</option>
+								<c:forEach  items="${assetsPrprtySeCdList}" var="prprtySeCd">
+									<option value="${prprtySeCd.codeId }">${prprtySeCd.codeNm }</option>
+								</c:forEach>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="label">위치구분</span></th>
+						<td>
+							<select id="gisAssetsLocCd">
+									<option value="" selected="selected">선택</option>
+									<c:forEach  items="${assetsLocCdList}" var="assetsLocCd">
+										<option value="${assetsLocCd.codeId }">${assetsLocCd.codeNm }</option>
+									</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="label">부두구분</span></th>
+						<td>
+							<select id="gisAssetsLocCd">
+									<option value="" selected="selected">선택</option>
+									<c:forEach  items="${assetsQuayCdList}" var="assetsQuayCd">
+										<option value="${assetsQuayCd.codeId }">${assetsQuayCd.codeNm }</option>
+									</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="label">자산명</span></th>
+						<td><input type="text" size="80" id="gisAssetsNm"></td>
+					</tr>
+					<tr>
+						<th><span class="label">자산소재지</span></th>
+						<td><input type="text" size="60" id="gisAssetsLocplc"></td>
+					</tr>
+					<tr>
+						<th><span class="label">지번</span></th>
+						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="4" id="GisAssetsLnmSub"><button id="btnFindLotCode">지번검색</button></td>
+					</tr>
+					<tr>
+						<th><span class="label">자산구분</span></th>
+						<td>
+							<select id="gisAssetsSeCd">
+									<option value="" selected="selected">선택</option>
+									<c:forEach  items="${assetsSeCdList}" var="assetsSeCd">
+										<option value="${assetsSeCd.codeId }">${assetsSeCd.codeNm }</option>
+									</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="label">면적</span></th>
+						<td><input type="text" size="8" id="gisAssetsAr"> m^2</td>
+					</tr>
+					<tr>
+						<th><span class="label">취득가액</span></th>
+						<td><input type="text" size="16" id="gisAssetsAcqPri" class="number"> 원</td>
+					</tr>
+					<tr>
+						<th><span class="label">자산규격</span></th>
+						<td><input type="text" size="60" id="gisAssetsStndrd"></td>
+					</tr>
+					<tr>
+						<th><span class="label">출자 방식</span></th>
+						<td>
+							<select id="gisAssetsInvstmntMthd">
+									<option value="" selected="selected">선택</option>
+									<c:forEach  items="${assetsInvstmntMthdList}" var="assetsInvstmntMthd">
+										<option value="${assetsInvstmntMthd.codeId }">${assetsInvstmntMthd.codeNm }</option>
+									</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="label">실제 임대 면적</span></th>
+						<td><input type="text" size="60" id="gisAssetsRealRentAr" class="number"> m^2</td>
+					</tr>
+					<tr>
+						<th><span class="label">시설도면</span></th>
+						<td><input type="text" size="4" id="drwLstRegistYear" class="number">-<input type="text" size="4" id="drwLstSeq" class="number"> <button id="btnAddDrawing">도면등록</button></td>
+					</tr>
+					<tr>
+						<th><span class="label">자산 가치 금액</span></th>
+						<td><input type="text" size="16" id="gisAssetsValAmt" class="number"> 원 (조회일자 : <input type="text" size="16" class="emdcal" id="gisAssetsValInqireDt">)</td>
+					</tr>
+					<tr>
+						<th><span class="label">준공년도</span></th>
+						<td><input type="text" size="4" id="gisAssetsBlddate"></td>
+					</tr>
+					<tr>
+						<th><span class="label">준공일자</span></th>
+						<td><input type="text" size="16" class="emdcal" id="gisAssetsBldDt"></td>
+					</tr>
+					<tr>
+						<th><span class="label">비고</span></th>
+						<td><textarea cols="40" rows="4" id="gisAssetsRm"></textarea></td>
+					</tr>
+					<tr>
+						<th><span class="label">사용여부</span></th>
+						<td>
+							<select id="gisAssetsUsageYn">
+									<option value="" selected="selected">선택</option>
+									<option value="Y">사용</option>
+									<option value="N">사용안함</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="label">등록자</span></th>
+						<td><input type="text" size="20" disabled="disabled" id="regUsr"></td>
 					</tr>
 					<tr>
 						<th><span class="label">등록일</span></th>
-						<td><input type="text" class="emdcal" size="8"></td>
-					</tr>
-					<tr>
-						<th><span class="label">사용업체</span></th>
-						<td><input type="text" size="8"></td>
-					</tr>
-					<tr>
-						<th><span class="label">지도</span></th>
-						<td><input type="file" style="margin-left: 5px;"
-							multiple="multiple"></td>
-					</tr>
-					<tr>
-						<th><span class="label">기타</span></th>
-						<td><input type="text" size="50;"></td>
+						<td><input type="text" class="emdcal" size="16" disabled="disabled" id="registdt" ></td>
 					</tr>
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<input type="reset" value="취소" class="input_1"> <input
-						type="submit" value="저장" class="input_1">
+					<button id="btnDeleteGisAssetsCode">삭제</button>
+					<button id="btnCancelGisAssetsCode">취소</button>
+					<button id="btnSaveGisAssetsCode">저장</button>
 				</div>
+				</form>
 							</div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
 				<table id="assetCodePhotoList" style="display:none"></table>
