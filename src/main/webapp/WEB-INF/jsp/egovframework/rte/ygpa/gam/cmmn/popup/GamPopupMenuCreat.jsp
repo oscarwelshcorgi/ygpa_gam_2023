@@ -39,31 +39,31 @@ GamMenuCreatPopupModule.prototype.loadComplete = function() {
 
 // 사용자 설정 함수 추가
 GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
-	
+
 	switch(buttonId){
 		// 메뉴 조회
 		case 'selectMenuList':
 			this.loadData();
 			throw 0;
 		break;
-	
+
 		// 메뉴생성
 		case "btnCreate":
-			
+
 			var checkedAuthorForInsert = this.$('#authorCode').val();
 			var checkedMenuNoForInsert = "";
-			
+
 			var createMenuList=[];
 			$.each(this.menuList, function(i) {
 				if($(this).attr("ischecked")) {
-					checkedMenuNoForInsert += this.id + ","; 
+					checkedMenuNoForInsert += this.id + ",";
 				}
 			});
-			
-			
+
+
 			// 선택된 목록을 생성합니다.
 			if(checkedMenuNoForInsert != ""){
-				
+
 				var last = checkedMenuNoForInsert.lastIndexOf(',');
 				checkedMenuNoForInsert = checkedMenuNoForInsert.substr(0,last);
 
@@ -71,14 +71,14 @@ GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
 			 		if(result.resultCode == 0){
 			 			alert("OK");
 			 		}
-			 		alert(result.resultMsg);			 		
+			 		alert(result.resultMsg);
 			 	});
 			}else{
 				alert("선택 된 값이 없습니다.");
 			}
 			//this.closeDialog('ok');
 		break;
-		
+
 		case "cancel":
 			this.cancelDialog();
 		break;
@@ -102,7 +102,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
  				obj.parentid = obj.upperMenuId;
  				obj.id = obj.menuNo;
  				obj.name = obj.menuNm;
- 				obj.ischecked = obj.chkYeoBu;	// 생성할때 다시 ischecked를 chkYeoBu 로 변경하여 생성한다.
+ 				obj.ischecked = obj.chkYeoBu=='Y';	// 생성할때 다시 ischecked를 chkYeoBu 로 변경하여 생성한다.
  			}
 
  			var data_obj = {"root" : result.listMenulist};
