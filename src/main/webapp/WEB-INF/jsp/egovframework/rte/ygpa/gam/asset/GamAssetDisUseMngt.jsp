@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamAssetRentMngt.jsp
-  * @Description : 자산임대관리
+  * @Class Name : GamAssetDisUseMngt.jsp
+  * @Description : 자산폐기등록
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
