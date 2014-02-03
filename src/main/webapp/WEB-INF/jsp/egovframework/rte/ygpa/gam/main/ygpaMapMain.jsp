@@ -288,63 +288,48 @@
           </li>
         </ul>
       </li>
-      <li>
-        <a class="menu_trigger" href="#">시설관리</a>
-        <ul class="menu">
-          <li>
-            <a href="#"><b>건축</b></a>
-                        	<ul class="submenu">
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/bild/gamConstFcltyMngt.do'/>">건축시설관리</a>
-							</li>
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/bild/gamConstFcltyInqire.do'/>">건축시설조회</a>
-							</li>
-            	</ul>
-          </li>
-          <li>
-            <a href="#"><b>기계</b></a>
-                                    	<ul class="submenu">
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/macne/gamMechFcltyMngt.do'/>">기계시설관리</a>
-							</li>
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/macne/gamMechFcltyInqire.do'/>">기계시설조회</a>
-							</li>
-							</ul>
-          </li>
-          <li>
-            <a href="#"><b>정보통신</b></a>
-                                    	<ul class="submenu">
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/elcty/gamInfoTechFcltyMngt.do'/>">정보통신시설관리</a>
-							</li>
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/elcty/gamInfoTechInqire.do'/>">정보통신시설조회</a>
-							</li>
-							</ul>
-          </li>
-          <li>
-            <a href="#"><b>토목</b></a>
-                           	<ul class="submenu">
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamCivilFcltyMngt.do'/>">토목시설관리</a>
-							</li>
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamCivilFcltyInqire.do'/>">토목시설조회</a>
-							</li>
-							</ul>
-          </li>
-          <li>
-            <a href="#"><b>도면</b></a>
-                           	<ul class="submenu">
-							<li>
-								<a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamDrwListMngt.do'/>">도면목록관리</a>
-							</li>
-							</ul>
-          </li>
-        </ul>
-      </li>
+      
+      
+      	<!-- 시설관리 -->
+		<li>
+        	<a class="menu_trigger" href="#">시설관리</a>
+        	<ul class="menu">
+          		<li>
+            		<a href="#"><b>건축</b></a>
+                   	<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/mngt/gamCivilFcltyMngt.do'/>">건축시설관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/mngt/gamConstFcltyInqire.do'/>">건축시설조회</a></li>
+            		</ul>
+          		</li>
+          		<li>
+            		<a href="#"><b>기계</b></a>
+                   	<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/macne/gamMechFcltyMngt.do'/>">기계시설관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/macne/gamMechFcltyInqire.do'/>">기계시설조회</a></li>
+					</ul>
+          		</li>
+          		<li>
+            		<a href="#"><b>정보통신</b></a>
+                   	<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/elcty/gamInfoTechFcltyMngt.do'/>">정보통신시설관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/elcty/gamInfoTechInqire.do'/>">정보통신시설조회</a></li>
+					</ul>
+        		</li>
+        		<li>
+           			<a href="#"><b>토목</b></a>
+                   	<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamCivilFcltyMngt.do'/>">토목시설관리</a></li>
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamCivilFcltyInqire.do'/>">토목시설조회</a></li>
+					</ul>
+        		</li>
+        		<li>
+          			<a href="#"><b>도면</b></a>
+                   	<ul class="submenu">
+						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamDrwListMngt.do'/>">도면목록관리</a></li>
+					</ul>
+        		</li>
+        	</ul>
+      	</li>
 
 
 
@@ -355,6 +340,7 @@
 				<li>
 					<a href="#"><b>공통코드 관리</b></a>
 						<ul class="submenu">
+							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamAssetCodeMngt.do'/>">자산코드관리</a></li>
 							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeClMngt.do'/>">공통코드분류</a></li>
 							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeMngt.do'/>">공통코드관리</a></li>
 							<li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeDetailMngt.do'/>">공통코드상세 관리</a></li>
