@@ -1,24 +1,22 @@
 /**
  * 
  */
-package egovframework.rte.ygpa.gam.fclty.mngt.service.impl;
+package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.fclty.mngt.service.GamCivilFcltyManageVO;
-import egovframework.rte.ygpa.gam.fclty.mngt.service.GamCivilFcltyMngtService;
+import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyManageVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtService;
 
 /**
  * 
- * @author Administrator
+ * @author kok
  * @since 2014. 2. 3.
  * @version 1.0
  * @see
@@ -27,30 +25,70 @@ import egovframework.rte.ygpa.gam.fclty.mngt.service.GamCivilFcltyMngtService;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 2. 3.		Administrator		최초 생성
+ *  2014. 2. 3.		kok		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 
-@Service("civilFcltyMngtService")
+@Service("gamCivilFcltyMngtService")
 public class GamCivilFcltyMngtServiceImpl extends AbstractServiceImpl implements GamCivilFcltyMngtService{
 
-	protected Log log = LogFactory.getLog(this.getClass());
-	
-	@Resource(name="civilFcltyMngtDao")
-    private GamCivilFcltyMngtDao civilFcltyMngtDao;
+	@Resource(name="gamCivilFcltyMngtDao")
+    private GamCivilFcltyMngtDao gamCivilFcltyMngtDao;
 	
 	/**
-	 * 메뉴 정보를 등록
+	 * 시설관리 저장
 	 * @param vo GamCivilFcltyManageVO
 	 * @exception Exception
 	 */
 	public void insertCivilFcltyManage(GamCivilFcltyManageVO vo) throws Exception {
-		civilFcltyMngtDao.insertCivilFcltyManage(vo);
+		gamCivilFcltyMngtDao.insertCivilFcltyManage(vo);
 	}
 	
-	public List selectCivilFcltyMngtList(ComDefaultVO vo) throws Exception {
-   		return civilFcltyMngtDao.selectCivilFcltyMngtList(vo);
+	
+	/**
+	 * 시설관리 목록
+	 */
+	public List<ComDefaultVO> selectCivilFcltyMngtList(ComDefaultVO vo) throws Exception {
+   		return (List<ComDefaultVO>)gamCivilFcltyMngtDao.selectCivilFcltyMngtList(vo);
+	}
+	
+	
+	/**
+	 * 시설관리 카운트를 반환한다
+	 * @param ComDefaultVO vo
+	 * @return int
+	 * @exception Exception
+	 */
+	public int selectCivilFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception {
+		return gamCivilFcltyMngtDao.selectCivilFcltyMngtListTotCnt(vo);
+    }
+	
+	
+	/**
+	 * 시설관리 상세화면
+	 * @param vo
+	 * @return GamCivilFcltyManageVO
+	 */
+	public GamCivilFcltyManageVO civilFcltyMngSelectView(GamCivilFcltyManageVO vo) {
+		GamCivilFcltyManageVO civilFcltyManageVO = gamCivilFcltyMngtDao.civilFcltyMngSelectView(vo);		
+		return civilFcltyManageVO;
+	}
+	
+	
+	/**
+	 * 시설관리 수정화면
+	 */
+	public void updateCivilFclty(GamCivilFcltyManageVO vo) throws Exception {
+		gamCivilFcltyMngtDao.updateCivilFclty(vo);
+	}
+	
+
+	/**
+	 * 시설관리 삭제
+	 */
+	public void deleteCivilFclty(GamCivilFcltyManageVO vo) {
+		gamCivilFcltyMngtDao.deleteCivilFclty(vo);
 	}
 }
