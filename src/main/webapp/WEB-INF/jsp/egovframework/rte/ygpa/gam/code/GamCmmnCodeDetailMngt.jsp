@@ -112,9 +112,9 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 
+			this.$("#codeId").val(this.$("#codeIdSelect option:selected").val());
 		 	var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
 			if(this.$("#cmd").val() == "insert") {
-				this.$("#codeId").val(this.$("#codeIdSelect option:selected").val());
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
