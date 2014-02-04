@@ -36,7 +36,7 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
  * @Description : 자산임대관리
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroin
  * @since 2014-01-10
  * @version 1.0
  * @see
