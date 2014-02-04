@@ -25,7 +25,6 @@ import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.sym.ccm.cca.service.CmmnCode;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
-import egovframework.com.sym.ccm.ccc.service.CmmnClCode;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
 import egovframework.com.sym.ccm.ccc.service.EgovCcmCmmnClCodeManageService;
 import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
