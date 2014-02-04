@@ -254,8 +254,7 @@ public class GamUserMngController {
      * @throws Exception
      */
     @RequestMapping("/cmmn/gamUserDelete.do")
-    @ResponseBody Map<String, Object> deleteUser(@RequestParam("uniqId") String uniqId)
-            throws Exception {
+    @ResponseBody Map<String, Object> deleteUser(@RequestParam("uniqId") String uniqId) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
