@@ -297,8 +297,8 @@
                 <li>
                     <a href="#"><b>건축</b></a>
                     <ul class="submenu">
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/mngt/gamCivilFcltyMngt.do'/>">건축시설관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/mngt/gamConstFcltyInqire.do'/>">건축시설조회</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamCivilFcltyMngt.do'/>">건축시설관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamConstFcltyInqire.do'/>">건축시설조회</a></li>
                     </ul>
                 </li>
                 <li>
