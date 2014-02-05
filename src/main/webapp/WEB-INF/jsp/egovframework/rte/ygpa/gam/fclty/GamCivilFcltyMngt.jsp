@@ -40,7 +40,6 @@ GamCivilFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"GIS 자산 코드",		 		name:"gisAssetsCd",			width:100,		sortable:false,		align:"center"},
 				{display:"GIS 자산 SUB 코드", 		name:"gisAssetsSubCd",		width:120,		sortable:false,		align:"center"},
 				{display:"GIS 자산 항코드", 			name:"gisAssetsPrtAtCode",	width:100,		sortable:false,		align:"center"},
-				{display:"GIS 항만 시설 코드",		name:"gisPrtFcltyCd",		width:120,		sortable:false,		align:"center"},
 				{display:"항만시설명", 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"center"},
 				{display:"항만시설 구분", 			name:"prtFcltySe",			width:80,		sortable:false,		align:"center"},
 				{display:"등록일자",					name:"registDt",			width:80,		sortable:false,		align:"center"}
@@ -55,15 +54,14 @@ GamCivilFcltyMngtModule.prototype.loadComplete = function() {
 	this.$("#civilFcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#civilFcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-
-		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:row["gisPrtFcltyCd"]};
+alert(">> : "+module.$("#gisPrtFcltyCd").val());
+		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:module.$("#gisPrtFcltyCd").val()};
 		module.doAction('<c:url value="/fclty/gamCivilFcltyMngSelectView.do" />', detailInput, function(module, result) {
 
 			module.$("#cmd").val("modify");
 			module.$("#gisAssetsCd").val(result.detail.gisAssetsCd);
 			module.$("#gisAssetsPrtAtCode").val(result.detail.gisAssetsPrtAtCode);
 			module.$("#gisAssetsSubCd").val(result.detail.gisAssetsSubCd);
-			module.$("#gisPrtFcltyCd").val(result.detail.gisPrtFcltyCd);
 			module.$("#gisPrtFcltySeq").val(result.detail.gisPrtFcltySeq);
 			module.$("#prtFcltyNm").val(result.detail.prtFcltyNm);
 			module.$("#prtFcltyStndrd").val(result.detail.prtFcltyStndrd);
@@ -103,6 +101,11 @@ GamCivilFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#civilFcltyManageVO :input").val("");
 			this.$("#cmd").val("insert");
 			this.$("#civilFcltyMngtListTab").tabs("option", {active: 1});
+		break;
+
+		// 자산코드 팝업
+		case "gisCodePopupBtn":
+			this.doExecuteDialog("searchGisCodePopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamSearchGisCdPopupView.do"/>', {emplyrId : this.$("#emplyrId").val()});
 		break;
 			
 		// 저장
@@ -169,6 +172,24 @@ GamCivilFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
+
+/**
+ * 팝업 close 이벤트
+ */
+ GamCivilFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
+	
+	switch(popupId){
+		case "searchGisCodePopup":
+			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);
+			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);
+		break;
+	
+		default:
+			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+			throw 0;
+		break;
+	}
+};
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamCivilFcltyMngtModule();
 </script>
@@ -208,46 +229,46 @@ var module_instance = new GamCivilFcltyMngtModule();
 				<form id="civilFcltyManageVO">
 					<input type="hidden" id="cmd" />
 					<input type="hidden" id="gisPrtFcltySeq" />
+					<input type="hidden" id="gisPrtFcltyCd" value="01" />
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 항만 시설 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="60" id="gisPrtFcltyCd"/></td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 항코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="60" id="gisAssetsPrtAtCode"/></td>
-						</tr>
-						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="60" id="gisAssetsCd"/></td>
+							<td>
+								<input type="text" size="40" id="gisAssetsCd"/>
+								<button id="gisCodePopupBtn">자산코드 검색</button>
+							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 SUB 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="60" id="gisAssetsSubCd"/></td>
+							<td><input type="text" size="40" id="gisAssetsSubCd"/></td>
+						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">GIS 자산 항코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<td><input type="text" size="40" id="gisAssetsPrtAtCode"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 GIS 코드</th>
-							<td><input type="text" size="60" id="prtFcltyGisCd"/></td>
+							<td><input type="text" size="40" id="prtFcltyGisCd"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 명</th>
-							<td><input type="text" size="60" id="prtFcltyNm"/></td>
+							<td><input type="text" size="40" id="prtFcltyNm"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 구분</th>
-							<td><input type="text" size="60" id="prtFcltySe"/></td>
+							<td><input type="text" size="40" id="prtFcltySe"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 규격</th>
-							<td><input type="text" size="60" id="prtFcltyStndrd"/></td>
+							<td><input type="text" size="40" id="prtFcltyStndrd"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 단위</th>
-							<td><input type="text" size="60" id="prtFcltyUnit"/></td>
+							<td><input type="text" size="40" id="prtFcltyUnit"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 관리 업체 코드</th>
-							<td><input type="text" size="60" id="prtFcltyMngEntrpsCd"/></td>
+							<td><input type="text" size="40" id="prtFcltyMngEntrpsCd"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 설치일자</th>
@@ -259,7 +280,7 @@ var module_instance = new GamCivilFcltyMngtModule();
 						</tr>
 						<tr id="displayDate">
 							<th width="20%" height="23" class="required_text">등록일자</th>
-							<td><input type="text" size="60" id="registDt" disabled="disabled" /></td>
+							<td><input type="text" size="40" id="registDt" disabled="disabled" /></td>
 						</tr>
 					</table>
 				</form>
