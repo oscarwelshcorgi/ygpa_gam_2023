@@ -12,7 +12,7 @@
 
 	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
 		<!-- 로그 파일명 정의를 위한 parameter -->
-		<param name="File" value="./logs/ygpa_gam_debug.log"/>
+		<param name="File" value="/ygpa_server/logs/ygpa_gam_debug.log"/>
 		<param name="Append" value="false"/>
 		<param name="MaxFileSize" value="4096KB"/>
 		<param name="MaxBackupIndex" value="2"/>
