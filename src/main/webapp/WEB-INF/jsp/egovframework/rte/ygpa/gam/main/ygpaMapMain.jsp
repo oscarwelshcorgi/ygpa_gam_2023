@@ -20,7 +20,7 @@
   */
 %>
 <!DOCTYPE html>
-<html>
+<html lang="ko" xml:lang="ko">
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (Prototype)</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -80,7 +80,7 @@
                             <ul class="submenu">
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0001"
-                                    data-url="<c:url value='/asset/gamAssetMngt.do'/>">자산정보관리</a>
+                                    data-url="<c:url value='/asset/gamGisAssetCodeMngt.do'/>">자산코드정보관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0002"
@@ -115,7 +115,7 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0009"
-                                    data-url="<c:url value='/asset/rent/gamAssetRentFeeMngt.do'/>">자산임대료고지관리</a> 
+                                    data-url="<c:url value='/asset/rent/gamAssetRentFeeMngt.do'/>">자산임대료고지관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0010"
@@ -288,8 +288,8 @@
           </li>
         </ul>
       </li>
-      
-      
+
+
         <!-- 시설관리 -->
         <li>
             <a class="menu_trigger" href="#">시설관리</a>

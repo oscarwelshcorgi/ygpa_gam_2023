@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.sample.web;
+package egovframework.rte.ygpa.gam.asset.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,14 +32,15 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdService;
-import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
+import egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeMngtService;
+import egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeVO;
 
 /**
  * @author eunsungj
  *
  */
 @Controller
-public class GamAssetMngSampleController {
+public class GamGisAssetCodeMngtController {
 
     @Resource(name = "erpCmmnCdService")
     private ErpCmmnCdService erpCmmnCdService;
@@ -50,8 +51,8 @@ public class GamAssetMngSampleController {
     @Resource(name = "erpAssetCdService")
     private ErpAssetCdService erpAssetCdService;
 
-    @Resource(name = "gamAssetSampleService")
-    private GamAssetSampleService gamAssetService;
+    @Resource(name = "gamGisAssetCodeMngtService")
+    private GamGisAssetCodeMngtService gamGisAssetCodeMngtService;
 
 	@Resource(name = "CmmnDetailCodeManageService")
     private EgovCcmCmmnDetailCodeManageService cmmnDetailCodeManageService;
@@ -60,7 +61,7 @@ public class GamAssetMngSampleController {
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
 
-    @RequestMapping(value="/sample/gamAssetMngt.do")
+    @RequestMapping(value="/asset/gamGisAssetCodeMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
     	model.addAttribute("windowId", windowId);
@@ -116,35 +117,11 @@ public class GamAssetMngSampleController {
         codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
     	model.addAttribute("assetsInvstmntMthdList", codeList);
 
-    	return "/ygpa/gam/sample/GamAssetMngt";
+    	return "/ygpa/gam/asset/GamAssetCodeMngt";
     }
-
-/*    @SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/frgt/traffic/selectCityDoBizTypeDistList.do")
-    ModelAndView selectCityDoBizTypeDistList(@RequestParam Map<String,Object> searchOpt) throws Exception {
-    	int totalCnt, page, firstIndex;
-    	ModelAndView model = new ModelAndView(new AjaxXmlView());
-
-    	if (!searchOpt.containsKey("cmptpCd") || searchOpt.get("cmptpCd")==null  || searchOpt.get("cmptpCd")=="" ) {
-    		model.addObject("resultCode", "-1");
-    		model.addObject("resultMsg", "Occur Error!! errorno : -1");
-    		return model;
-    	}
-
-    	List resultList = cmptLogisStatusService.selectCityDoBizTypeDistList(searchOpt);
-
-    	model.addObject("searchOpt", searchOpt);
-		model.addObject("resultCode", "0");
-    	model.addObject("resultList", resultList);
-
-        model.addObject("totalCount", resultList.size());
-
-    	return model;
-    }
-    */
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/sample/selectErpAssetCodeList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/selectErpAssetCodeList.do", method=RequestMethod.POST)
     @ResponseBody Map selectErpAssetCodeList(ErpAssetCdDefaultVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -173,44 +150,33 @@ public class GamAssetMngSampleController {
     	return map;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/sample/selectJsonTest.do", method=RequestMethod.GET)
-    public @ResponseBody ErpAssetCdDefaultVO selectJsonTest(ErpAssetCdDefaultVO searchOpt) throws Exception {
-//    	ErpAssetCdDefaultVO searchOpt = new ErpAssetCdDefaultVO();
-    	searchOpt.setRecordCountPerPage(15);
-    	searchOpt.setLastIndex(9999);
-    	searchOpt.setFirstIndex(0);
+    @RequestMapping(value="/asset/selectGisAssetCodeList.do")
+    @ResponseBody Map selectAssetList(GamGisAssetCodeVO searchVO) throws Exception {
+    	int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
 
-    	return searchOpt;
-    }
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
-    @RequestMapping(value="/asset/selectAssetList.do")
-    ModelAndView selectAssetList(@RequestParam("prtAtCode") String prtAtCode) throws Exception {
-    	Map<String, Object> searchOpt = new HashMap();
-//    	AjaxXmlBuilder ajaxXmlBuilder = new AjaxXmlBuilder();
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
 
-    	searchOpt.put("prtAtCode", prtAtCode);
-    	searchOpt.put("recordCountPerPage", 15);
-    	searchOpt.put("firstIndex", 0);
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+    	totalCnt = gamGisAssetCodeMngtService.selectAssetCodeListTotCnt(searchVO);
 
-    	List gamAssetList = gamAssetService.selectGamAssetUseList(searchOpt);
-    	ModelAndView model = new ModelAndView(new AjaxXmlView());
+    	List gamAssetList = gamGisAssetCodeMngtService.selectAssetCodeList(searchVO);
 
-    	model.addObject("prtAtCode", prtAtCode);
-    	model.addObject("firstIndex", 0);
-    	model.addObject("lastIndex", 15);
-    	model.addObject("resultList", gamAssetList);
-        int totCnt = gamAssetService.selectGamAssetUseListTotCnt(searchOpt);
-        model.addObject("totalCount", totCnt);
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", gamAssetList);
+    	map.put("searchOption", searchVO);
 
-//    	for (Iterator iter = (Iterator) gamAssetList.iterator(); iter.hasNext();) {
-//    		EgovMap berthInfo = (EgovMap) iter.next();
-//    		ajaxXmlBuilder.add;
-//    		ajaxXmlBuilder.addItem((String)berthInfo.get("prtFcltyNm"), (String)berthInfo.get("prtFcltySubCd"));
-//    	}
-//        model.addObject("ajaxXml", ajaxXmlBuilder.toString());
-    	return model;
+    	return map;
     }
 
 //    protected void initBinder(HttpServletRequest request,  ServletRequestDataBinder binder) throws Exception{
