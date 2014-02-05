@@ -6,7 +6,6 @@ package egovframework.rte.ygpa.gam.fclty.service;
 import java.util.List;
 
 import egovframework.com.cmm.ComDefaultVO;
-import egovframework.com.uss.umt.service.UserManageVO;
 
 
 /**
@@ -26,14 +25,14 @@ import egovframework.com.uss.umt.service.UserManageVO;
  * </pre>
  */
 
-public interface GamCivilFcltyMngtService {
+public interface GamFcltyMngtService {
 
 	/**
 	 * 메뉴 정보를 등록
-	 * @param vo GamCivilFcltyManageVO
+	 * @param vo GamFcltyManageVO
 	 * @exception Exception
 	 */
-	void insertCivilFcltyManage(GamCivilFcltyManageVO vo) throws Exception;
+	void insertFcltyManage(GamFcltyManageVO vo) throws Exception;
 
 	
 	/**
@@ -42,7 +41,7 @@ public interface GamCivilFcltyMngtService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List<ComDefaultVO> selectCivilFcltyMngtList(ComDefaultVO vo) throws Exception;
+	List<ComDefaultVO> selectFcltyMngtList(ComDefaultVO vo) throws Exception;
 	
 	
 	/**
@@ -51,7 +50,7 @@ public interface GamCivilFcltyMngtService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectCivilFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception;
+	int selectFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception;
 
 	
 	/**
@@ -75,25 +74,25 @@ public interface GamCivilFcltyMngtService {
 	/** 
 	 * 시설관리 상세화면
 	 * @param emplyrId
-	 * @return GamCivilFcltyManageVO
+	 * @return GamFcltyManageVO
 	 * @throws Exception
 	 */
-	public GamCivilFcltyManageVO civilFcltyMngSelectView(GamCivilFcltyManageVO civilFcltyManageVO) throws Exception;
+	public GamFcltyManageVO fcltyMngSelectView(GamFcltyManageVO fcltyManageVO) throws Exception;
 	
 	
 	
 	/**
 	 * 시설관리 수정화면
-	 * @param civilFcltyManageVO
+	 * @param FcltyManageVO
 	 * @throws Exception
 	 */
-	public void updateCivilFclty(GamCivilFcltyManageVO civilFcltyManageVO) throws Exception;
+	public void updateFclty(GamFcltyManageVO fcltyManageVO) throws Exception;
 	
 	
 	/**
 	 * 시설관리 삭제
-	 * @param civilFcltyManageVO
+	 * @param fcltyManageVO
 	 * @throws Exception
 	 */
-	public void deleteCivilFclty(GamCivilFcltyManageVO civilFcltyManageVO) throws Exception;
+	public void deleteFclty(GamFcltyManageVO fcltyManageVO) throws Exception;
 }

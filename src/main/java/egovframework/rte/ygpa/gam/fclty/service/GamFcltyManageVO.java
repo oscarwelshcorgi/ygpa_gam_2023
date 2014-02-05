@@ -3,7 +3,7 @@ package egovframework.rte.ygpa.gam.fclty.service;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * Class Name : GamCivilFcltyManageVO.java
+ * Class Name : GamFcltyManageVO.java
  * @author kok
  * @since 2014. 2. 3.
  * @version 1.0
@@ -19,7 +19,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 
-public class GamCivilFcltyManageVO extends ComDefaultVO {
+public class GamFcltyManageVO extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 

@@ -22,12 +22,10 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.uss.umt.service.UserDefaultVO;
-import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyManageVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtService;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
 
 /**
  * 
@@ -47,14 +45,14 @@ import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtService;
  */
 
 @Controller
-public class GamCivilFcltyMngtController {
+public class GamFcltyMngtController {
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
 	
-	@Resource(name = "gamCivilFcltyMngtService")
-	protected GamCivilFcltyMngtService gamCivilFcltyMngtService;
+	@Resource(name = "gamFcltyMngtService")
+	protected GamFcltyMngtService gamFcltyMngtService;
 	
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -96,8 +94,8 @@ public class GamCivilFcltyMngtController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamCivilFcltyMngtList.do")
-	@ResponseBody Map<String, Object> selectCivilFcltyMngtList(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception {
+	@RequestMapping(value="/fclty/gamFcltyMngtList.do")
+	@ResponseBody Map<String, Object> selectFcltyMngtList(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -124,14 +122,14 @@ public class GamCivilFcltyMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<ComDefaultVO> civilFcltyMngtList = gamCivilFcltyMngtService.selectCivilFcltyMngtList(searchVO);
-        int totCnt = gamCivilFcltyMngtService.selectCivilFcltyMngtListTotCnt(searchVO);
+		List<ComDefaultVO> fcltyMngtList = gamFcltyMngtService.selectFcltyMngtList(searchVO);
+        int totCnt = gamFcltyMngtService.selectFcltyMngtListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
-    	map.put("resultList", civilFcltyMngtList);
+    	map.put("resultList", fcltyMngtList);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -165,8 +163,8 @@ public class GamCivilFcltyMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<ComDefaultVO> searchGisCdPopupList = gamCivilFcltyMngtService.selectSearchGisCdPopupList(searchVO);
-        int totCnt = gamCivilFcltyMngtService.selectSearchGisCdPopupListTotCnt(searchVO);
+		List<ComDefaultVO> searchGisCdPopupList = gamFcltyMngtService.selectSearchGisCdPopupList(searchVO);
+        int totCnt = gamFcltyMngtService.selectSearchGisCdPopupListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
@@ -181,14 +179,14 @@ public class GamCivilFcltyMngtController {
 	
 	/**
 	 * 시설관리등록
-	 * @param civilFcltyManageVO
+	 * @param fcltyManageVO
 	 * @param bindingResult
 	 * @param cmd
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamCivilFcltyInsert.do")
-    @ResponseBody Map<String, Object> insertCivilFclty(@ModelAttribute("civilFcltyManageVO") GamCivilFcltyManageVO civilFcltyManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)
+	@RequestMapping(value="/fclty/gamFcltyInsert.do")
+    @ResponseBody Map<String, Object> insertFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)
             throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -202,7 +200,7 @@ public class GamCivilFcltyMngtController {
         	return map;
     	}
     	if("insert".equals(cmd)) {
-		    beanValidator.validate(civilFcltyManageVO, bindingResult);
+		    beanValidator.validate(fcltyManageVO, bindingResult);
 		    if (bindingResult.hasErrors()){
 		        map.put("resultCode", 1);
 				map.put("resultMsg", "입력 값에 오류가 있습니다.");
@@ -210,7 +208,7 @@ public class GamCivilFcltyMngtController {
 				return map;
 			}
 
-		   gamCivilFcltyMngtService.insertCivilFcltyManage(civilFcltyManageVO);
+		   gamFcltyMngtService.insertFcltyManage(fcltyManageVO);
 
 			map.put("resultCode", 0);			// return ok
     		resultMsg = egovMessageSource.getMessage("success.common.insert");
@@ -223,18 +221,18 @@ public class GamCivilFcltyMngtController {
 	
 	/**
 	 * 시설관리 상세화면
-	 * @param civilFcltyManageVO
+	 * @param fcltyManageVO
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamCivilFcltyMngSelectView.do")
-    @ResponseBody Map<String, Object> civilFcltyMngSelectView(@ModelAttribute("civilFcltyManageVO") GamCivilFcltyManageVO civilFcltyManageVO) throws Exception {
+	@RequestMapping(value="/fclty/gamFcltyMngSelectView.do")
+    @ResponseBody Map<String, Object> fcltyMngSelectView(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	civilFcltyManageVO = gamCivilFcltyMngtService.civilFcltyMngSelectView(civilFcltyManageVO);
+    	fcltyManageVO = gamFcltyMngtService.fcltyMngSelectView(fcltyManageVO);
 
-        map.put("detail", civilFcltyManageVO);
+        map.put("detail", fcltyManageVO);
 
         return map;
     }
@@ -247,12 +245,12 @@ public class GamCivilFcltyMngtController {
      * @return String
      * @throws Exception
      */
-    @RequestMapping("/fclty/gamCivilFcltyUpdate.do")
-    @ResponseBody Map<String, Object> updateCivilFclty(@ModelAttribute("civilFcltyManageVO") GamCivilFcltyManageVO civilFcltyManageVO,BindingResult bindingResult)throws Exception {
+    @RequestMapping("/fclty/gamFcltyUpdate.do")
+    @ResponseBody Map<String, Object> updateFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO,BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-        beanValidator.validate(civilFcltyManageVO, bindingResult);
+        beanValidator.validate(fcltyManageVO, bindingResult);
 		if (bindingResult.hasErrors()){
 	        map.put("resultCode", 1);
 			map.put("resultMsg", "입력 값에 오류가 있습니다.");
@@ -260,7 +258,7 @@ public class GamCivilFcltyMngtController {
 
 		}else{
 			
-			gamCivilFcltyMngtService.updateCivilFclty(civilFcltyManageVO);
+			gamFcltyMngtService.updateFclty(fcltyManageVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		}
@@ -276,12 +274,12 @@ public class GamCivilFcltyMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping("/fclty/gamCivilFcltyDelete.do")
-    @ResponseBody Map<String, Object> deleteCivilFclty(@ModelAttribute("civilFcltyManageVO") GamCivilFcltyManageVO civilFcltyManageVO) throws Exception {
+    @RequestMapping("/fclty/gamFcltyDelete.do")
+    @ResponseBody Map<String, Object> deleteFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	gamCivilFcltyMngtService.deleteCivilFclty(civilFcltyManageVO);
+    	gamFcltyMngtService.deleteFclty(fcltyManageVO);
 
         map.put("resultCode", 0);
         map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

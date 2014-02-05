@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyManageVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
 
 /**
  * 
@@ -27,21 +27,17 @@ import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyManageVO;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-
-//YGPAAbstractDAO
-//EgovComAbstractDAO
-//EgovAbstractDAO
-@Repository("gamCivilFcltyMngtDao")
-public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
+@Repository("gamFcltyMngtDao")
+public class GamFcltyMngtDao extends YGPAAbstractDAO{
 
 	/**
 	 * 시설관리 저장
-	 * @param vo GamCivilFcltyManageVO 
+	 * @param vo GamFcltyManageVO 
 	 * @exception Exception
 	 */
-	public void insertCivilFcltyManage(GamCivilFcltyManageVO vo){
+	public void insertFcltyManage(GamFcltyManageVO vo){
 
-		insert("gamCivilFcltyMngtDao.insertCivilFcltyManage", vo);
+		insert("gamFcltyMngtDao.insertFcltyManage", vo);
 	}
 	
 	
@@ -52,8 +48,8 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
 	 * @exception Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComDefaultVO> selectCivilFcltyMngtList(ComDefaultVO vo) throws Exception{
-		return list("gamCivilFcltyMngtDao.selectCivilFcltyMngtList", vo);
+	public List<ComDefaultVO> selectFcltyMngtList(ComDefaultVO vo) throws Exception{
+		return list("gamFcltyMngtDao.selectFcltyMngtList", vo);
 	}
 	
 	
@@ -63,8 +59,8 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
 	 * @return int
 	 * @exception Exception
 	 */
-    public int selectCivilFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamCivilFcltyMngtDao.selectCivilFcltyMngtListTotCnt", vo);
+    public int selectFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMngtDao.selectFcltyMngtListTotCnt", vo);
     }
     
     
@@ -76,7 +72,7 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ComDefaultVO> selectSearchGisCdPopupList(ComDefaultVO vo) throws Exception{
-		return list("gamCivilFcltyMngtDao.selectSearchGisCdPopupList", vo);
+		return list("gamFcltyMngtDao.selectSearchGisCdPopupList", vo);
 	}
 	
 	
@@ -87,17 +83,17 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
 	 * @exception Exception
 	 */
     public int selectSearchGisCdPopupListTotCnt(ComDefaultVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamCivilFcltyMngtDao.selectSearchGisCdPopupListTotCnt", vo);
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMngtDao.selectSearchGisCdPopupListTotCnt", vo);
     }
     
     
     /**
      * 시설관리 상세화면
      * @param vo
-     * @return GamCivilFcltyManageVO
+     * @return GamFcltyManageVO
      */
-    public GamCivilFcltyManageVO civilFcltyMngSelectView(GamCivilFcltyManageVO vo){
-        return (GamCivilFcltyManageVO) selectByPk("gamCivilFcltyMngtDao.civilFcltyMngSelectView", vo);
+    public GamFcltyManageVO fcltyMngSelectView(GamFcltyManageVO vo){
+        return (GamFcltyManageVO) selectByPk("gamFcltyMngtDao.fcltyMngSelectView", vo);
     }
     
     
@@ -105,8 +101,8 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
      * 시설관리 수정화면
      * @param vo
      */
-    public void updateCivilFclty(GamCivilFcltyManageVO vo){
-        update("gamCivilFcltyMngtDao.updateCivilFclty",vo);
+    public void updateFclty(GamFcltyManageVO vo){
+        update("gamFcltyMngtDao.updateFclty",vo);
     }
 
     
@@ -114,7 +110,7 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
      * 시설관리 삭제화면
      * @param vo
      */
-    public void deleteCivilFclty(GamCivilFcltyManageVO vo){
-    	delete("gamCivilFcltyMngtDao.deleteCivilFclty", vo);
+    public void deleteFclty(GamFcltyManageVO vo){
+    	delete("gamFcltyMngtDao.deleteFclty", vo);
     }
 }
