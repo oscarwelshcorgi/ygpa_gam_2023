@@ -27,7 +27,7 @@
 function GamSearchGisCdPopupModule() {}
 
 /* 팝업모듈 초기화 */
-GamSearchGisCdPopupModule.prototype = new EmdPopupModule(550, 480);
+GamSearchGisCdPopupModule.prototype = new EmdPopupModule(650, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamSearchGisCdPopupModule.prototype.loadComplete = function() {
@@ -40,9 +40,10 @@ GamSearchGisCdPopupModule.prototype.loadComplete = function() {
 		url: '<c:url value="/fclty/gamSearchGisCdPopupList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"GIS 자산 SUB 코드",		name:"gisAssetsSubCd",	width:150, 	sortable:false,		align:"center"},
-					{display:"GIS 자산 코드", 		name:"gisAssetsCd",		width:100, 	sortable:false,		align:"center"},
-					{display:"GIS 자산 명", 			name:"gisAssetsNm",		width:200, 	sortable:false,		align:"center"}
+					{display:"GIS 자산 SUB 코드",		name:"gisAssetsSubCd",		width:150, 	sortable:false,		align:"center"},
+					{display:"GIS 자산 코드", 		name:"gisAssetsCd",			width:100, 	sortable:false,		align:"center"},
+					{display:"GIS 자산 명", 			name:"gisAssetsNm",			width:150, 	sortable:false,		align:"center"},
+					{display:"GIS 자산 항코드", 		name:"gisAssetsPrtAtCode",	width:120, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,
