@@ -75,6 +75,7 @@
 			                    , PRT_FCLTY_GIS_CD  
 		                FROM GIS_PRT_FCLTY_CD_F
 		                WHERE 1 = 1
+		                AND GIS_PRT_FCLTY_CD = #searchCondition#
 		                <isNotEmpty property="searchKeyword">
 	           				AND PRT_FCLTY_NM = #searchKeyword#
 	           			</isNotEmpty>
@@ -92,6 +93,7 @@
             SELECT COUNT(*) totcnt
               FROM GIS_PRT_FCLTY_CD_F
              WHERE 1=1 
+             AND GIS_PRT_FCLTY_CD = #searchCondition#
 			<isNotEmpty property="searchKeyword">
    				AND PRT_FCLTY_NM = #searchKeyword#
    			</isNotEmpty>
