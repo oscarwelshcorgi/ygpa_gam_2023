@@ -63,18 +63,130 @@ public class GamFcltyMngtController {
     EgovMessageSource egovMessageSource;
     
 	/**
-     * 화면호출
+     * 건축시설 관리화면호출
      * @param windowId
      * @param model
      * @return String
      * @throws Exception
      */
-	@RequestMapping(value="/fclty/gamCivilFcltyMngt.do")
-    String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+	@RequestMapping(value="/fclty/gamConstFcltyMngt.do")
+    String indexConstFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fclty/GamCivilFcltyMngt";
+    	return "/ygpa/gam/fclty/GamConstFcltyMngt";
     }
+	
+	
+	/**
+	 * 건축시설 조회화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamConstFcltyInqire.do")
+	String indexConstFcltyInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamConstFcltyInqire";
+	}
+	
+	
+	/**
+	 * 기계시설 관리화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamMechFcltyMngt.do")
+	String indexMechFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamMechFcltyMngt";
+	}
+	
+	
+	/**
+	 * 기계시설 조회화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamMechFcltyInqire.do")
+	String indexMechFcltyInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamMechFcltyInqire";
+	}
+	
+	
+	/**
+	 * 정보통신시설 관리화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamInfoTechFcltyMngt.do")
+	String indexInfoTechFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamInfoTechFcltyMngt";
+	}
+	
+	
+	/**
+	 * 정보통신시설 조회화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamInfoTechInqire.do")
+	String indexInfoTechInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamInfoTechInqire";
+	}
+	
+	
+	/**
+	 * 토목시설 관리화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamCivilFcltyMngt.do")
+	String indexCivilFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamCivilFcltyMngt";
+	}
+	
+	
+	/**
+	 * 토목시설 조회화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamCivilFcltyInqire.do")
+	String indexCivilFcltyInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamCivilFcltyInqire";
+	}
 
+	
+	/**
+	 * 도면시설 관리화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamDrwListMngt.do")
+	String indexDrwListMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamDrwListMngt";
+	}
+	
 	
 	/**
 	 * 자산코드 검색 팝업호출
@@ -95,7 +207,7 @@ public class GamFcltyMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamFcltyMngtList.do")
-	@ResponseBody Map<String, Object> selectFcltyMngtList(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltyMngtList(@ModelAttribute("searchVO") ComDefaultVO searchVO, @RequestParam("uniqFcltyCd") String uniqFcltyCd)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -120,6 +232,7 @@ public class GamFcltyMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		searchVO.setSearchCondition(uniqFcltyCd);
 
 		/** List Data */
 		List<ComDefaultVO> fcltyMngtList = gamFcltyMngtService.selectFcltyMngtList(searchVO);
