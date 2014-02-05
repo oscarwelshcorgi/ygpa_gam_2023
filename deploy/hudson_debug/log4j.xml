@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration
+    xmlns:log4j="http://jakarta.apache.org/log4j/"
+    debug="true">
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %5p [%c] %m%n" />
+        </layout>
+    </appender>
+
+	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
+		<!-- 로그 파일명 정의를 위한 parameter -->
+		<param name="File" value="./logs/ygpa_gam_debug.log"/>
+		<param name="Append" value="false"/>
+		<param name="MaxFileSize" value="4096KB"/>
+		<param name="MaxBackupIndex" value="2"/>
+	    <layout class="org.apache.log4j.PatternLayout">
+	        <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n" />
+	    </layout>
+	</appender>
+
+    <logger name="java.sql">
+    	<level value="DEBUG"/>
+        <appender-ref ref="rollingFile"/>
+    </logger>
+
+    <logger name="egovframework" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="rollingFile"/>
+    </logger>
+
+	<!-- log SQL with timing information, post execution -->
+	<logger name="jdbc.sqltiming" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="rollingFile" />
+	</logger>
+
+	<logger name="org.springframework" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="rollingFile" />
+	</logger>
+
+	<root>
+		<level value="ERROR" />
+		<appender-ref ref="rollingFile" />
+	</root>
+
+</log4j:configuration>

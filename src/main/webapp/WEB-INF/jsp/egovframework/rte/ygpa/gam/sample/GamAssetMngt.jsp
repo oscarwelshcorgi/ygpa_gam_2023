@@ -330,7 +330,7 @@ var module_instance = new GamAssetCodeModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="assetManageTab" class="emdTabPanel fillHeight" style="height:100%;" data-onchange="onTabChange">
+		<div id="assetManageTab" class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">ERP자산정보</a></li>
 				<li><a href="#tabs2" class="emdTab">GIS자산목록</a></li>

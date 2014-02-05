@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtVO;
 
@@ -22,7 +23,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtVO;
  *  Copyright (C)  All right reserved.
  */
 @Service("gamHtldRentMngtService")
-public class GamHtldRentMngtServiceImpl implements GamHtldRentMngtService {
+public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements GamHtldRentMngtService {
 	
     @Resource(name="gamHtldRentMngtDao")
     private GamHtldRentMngtDao gamHtldRentMngtDao;
