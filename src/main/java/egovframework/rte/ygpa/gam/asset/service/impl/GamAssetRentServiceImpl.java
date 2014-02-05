@@ -94,7 +94,26 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @exception Exception
 	 */
 	public void insertAssetRentRenew(GamAssetRentVO vo) throws Exception {
-		gamAssetRentDao.insertAssetRentRenew(vo);
+		gamAssetRentDao.insertAssetRentRenew(vo); //자산임대 복사등록
+		
+		//자산임대 복사등록된  MngCnt의 max값을 가져온다.
+		String maxMngCnt = gamAssetRentDao.selectAssetRentMaxMngCnt(vo);
+		
+		//자산임대상세정보 조회
+		List detailList = gamAssetRentDao.selectAssetRentDetailInfo(vo);
+		
+		GamAssetRentDetailVO resultVo = null;
+		
+		for( int i = 0 ; i < detailList.size() ; i++ ) {
+			resultVo = new GamAssetRentDetailVO();
+			resultVo = (GamAssetRentDetailVO)detailList.get(i);
+			
+			resultVo.setMngCnt(maxMngCnt);
+			resultVo.setRegUsr("admin2");
+			resultVo.setUpdUsr("admin2");
+			
+			gamAssetRentDao.insertAssetRentDetailRenew(resultVo); //자산임대상세 복사등록
+		}
 	}
 
 	/**
@@ -212,10 +231,17 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 		int[] dayCnt = null; //고지방법별 해당기간의 날짜수
 		int totDayCnt = 0; // 사용기간 총 일수
 		int dayFee = 0; //일별 사용료
+		
+		int propNticPdFrom = 0; //고지기간 FROM 
+		int propNticPdTo   = 0; //고지기간 TO 
+		int propPayTmlmt   = 0; //납부기한
 
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
-
-		dayFee = Integer.parseInt(vo.getGrFee()) / totDayCnt;
+		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
+		
+		int monthCnt = gamAssetRentDao.selectUsagePdMonthCnt(vo);
+		
+		log.debug("################################################ monthCnt => " + monthCnt);
 
 		if( vo.getNticMth().equals("1") ) {	// 일시납
 			startRetVal = new String[1];
@@ -228,7 +254,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 			try {
 				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //기간에 해당하는 날짜수 가져오기
 			} catch (Exception e) {}
-		} else if( vo.getNticMth().equals("2") ) { // 반기납
+		} else if( vo.getNticMth().equals("2") ) { // 반기납 [추후 협의후 재작업 (2014.02.04)]
 			startRetVal = new String[2];
 			endRetVal = new String[2];
 			dayCnt = new int[2];
@@ -244,7 +270,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 
 				dayCnt[1] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[1], 0, 0, 1)).getTime() - sdf.parse(startRetVal[1]).getTime()) / 1000 / 60 / 60 / 24); //하반기 날짜수
 			} catch (Exception e) {}
-		} else if( vo.getNticMth().equals("3") ) { // 3분납
+		} else if( vo.getNticMth().equals("3") ) { // 3분납 [추후 협의후 재작업 (2014.02.04)]
 			int term = 0;
 			startRetVal = new String[3];
 			endRetVal = new String[3];
@@ -268,7 +294,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24); //날짜수
 				} catch (Exception e) {}
 			}
-	    } else if( vo.getNticMth().equals("4") ) { // 분기별
+	    } else if( vo.getNticMth().equals("4") ) { // 분기별 [추후 협의후 재작업 (2014.02.04)]
 	    	int term = 0;
 	    	startRetVal = new String[4];
 			endRetVal = new String[4];
@@ -293,17 +319,19 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 				} catch (Exception e) {}
 			}
 	    } else if( vo.getNticMth().equals("5") ) { // 월별
-	    	startRetVal = new String[12];
-			endRetVal = new String[12];
-			dayCnt = new int[12];
+	    	startRetVal = new String[monthCnt];
+			endRetVal = new String[monthCnt];
+			dayCnt = new int[monthCnt];
 
-			for( int i = 0; i < 12; i++ ) {
+			for( int i = 0; i < monthCnt; i++ ) {
 				if( i == 0 ) {
 					startRetVal[i] = cStartDt;
 				} else {
 					startRetVal[i] = EgovDateUtil.addYearMonthDay(cStartDt, 0, i, 0);
 				}
-				if( i == 11 ) {
+				
+				int j = monthCnt-1;
+				if( i == j ) {
 					endRetVal[i] = cEndDt;
 				} else {
 					endRetVal[i] = EgovDateUtil.addYearMonthDay(startRetVal[i], 0, 1, -1);
@@ -316,35 +344,55 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 		}
 
 		for( int i = 0; i < startRetVal.length; i++ ) {
-			int thisTimeFee = 0 ;
+			int thisTimeFee = 0;
 			int thisTimeVat = 0;
 
 			vo.setNticCnt(Integer.toString(i+1)); //고지횟수
-
-			int propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
-			int propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
-			int propPayTmlmt   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmt"));
-
+			
+			if( "Pre".equals(vo.getPayMth()) ) { //납부방법(선납)
+				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
+				propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
+				propPayTmlmt   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmt"));
+			} else { //납부방법(후납)
+				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFromAfter"));
+				propNticPdTo = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdToAfter"));
+				propPayTmlmt = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmtAfter"));
+			}
+			
 			vo.setNticPdFrom(EgovDateUtil.addDay(startRetVal[i], propNticPdFrom)); //고지기간 FROM
 			vo.setConstPerTo(EgovDateUtil.addDay(startRetVal[i], propNticPdTo)); //고지기간 TO
 		    vo.setPayTmlmt(EgovDateUtil.addDay(startRetVal[i], propPayTmlmt));   //납부기한
 
-
-			thisTimeFee = dayFee * dayCnt[i]; //사용료
-			vo.setFee(Integer.toString(thisTimeFee));
-
-			if( "Y".equals(vo.getVatYn()) ) {
-				thisTimeVat = thisTimeFee / 10;
-				thisTimeFee = thisTimeFee + thisTimeVat;
-
-				vo.setVat(Integer.toString(thisTimeVat)); //부가세
-			}
-
-			vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
-
-
-			//징수의뢰 insert
-			gamAssetRentDao.insertAssetRentLevReqest(vo);
+		    if( dayCnt[i] > 0 ) {
+				thisTimeFee = dayFee * dayCnt[i]; //사용료
+				vo.setFee(Integer.toString(thisTimeFee));
+	
+				if( "Y".equals(vo.getVatYn()) ) {
+					thisTimeVat = thisTimeFee / 10;
+					thisTimeFee = thisTimeFee + thisTimeVat;
+	
+					vo.setVat(Integer.toString(thisTimeVat)); //부가세
+				}
+	
+				vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
+				
+				log.debug("################################################ for => " + i + "##################################");
+				log.debug("################################################ 월별 시작일 => " + startRetVal[i]);
+				log.debug("################################################ 월별 종료일 => " + endRetVal[i]);
+				log.debug("################################################ 월별 날짜수 => " + dayCnt[i]);
+				log.debug("################################################ 고지기간 FROM => " + vo.getNticPdFrom());
+				log.debug("################################################ 고지기간 TO => " + vo.getConstPerTo());
+				log.debug("################################################ 납부기한 => " + vo.getPayTmlmt());
+				log.debug("################################################ 사용료 => " + vo.getFee());
+				log.debug("################################################ 부가세여부 => " + vo.getVatYn());
+				log.debug("################################################ 부가세 => " + vo.getVat());
+				log.debug("################################################ 고지금액 => " + vo.getNticAmt());
+				log.debug("---------------------------------------------------------------------------------------------------");
+				
+				//징수의뢰 insert
+				gamAssetRentDao.insertAssetRentLevReqest(vo);
+		    }
+			
 		}
 
 		//자산임대 허가여부를 수정

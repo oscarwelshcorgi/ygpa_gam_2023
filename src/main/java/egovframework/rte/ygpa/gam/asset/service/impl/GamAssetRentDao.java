@@ -84,6 +84,25 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	}
 	
 	/**
+	 * 자산임대 연장 신청된 MaxMngCnt 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록 총 갯수
+	 * @exception
+	 */
+    public String selectAssetRentMaxMngCnt(GamAssetRentVO searchVO) {
+        return (String)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectAssetRentMaxMngCnt_S", searchVO);
+    }
+	
+	/**
+	 * 자산임대 연장 신청시 자산임대 상세를 복사하여 등록한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentDetailRenew(GamAssetRentDetailVO vo){
+		insert("gamAssetRentDao.insertAssetRentDetailRenew_S", vo);
+	}
+	
+	/**
 	 * 자산임대 정보를 수정한다.
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
@@ -212,5 +231,25 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo){
 		update("gamAssetRentDao.updateAssetRentPrmisnCancel_S", vo);
 	}
+	
+	/**
+	 * 해당기간의 월 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 해당기간의 월 갯수
+	 * @exception
+	 */
+    public int selectUsagePdMonthCnt(GamAssetRentLevReqestVO vo) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectUsagePdMonthCnt_S", vo);
+    }
+    
+	/**
+	 * 자산임대상세 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대상세 목록
+	 * @exception Exception
+	 */
+    public List selectAssetRentDetailInfo(GamAssetRentVO vo) throws Exception {
+        return list("gamAssetRentDao.selectAssetRentDetailInfo_S", vo);
+    }
 	
 }

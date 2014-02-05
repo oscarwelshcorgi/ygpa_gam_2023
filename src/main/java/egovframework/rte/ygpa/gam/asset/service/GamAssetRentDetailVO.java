@@ -155,6 +155,12 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
     /** 허가 여부 */
     private String detailPrmisnYn;
     
+    /** 부두코드 */
+    private String quayCd;
+    
+    /** 자산순번MAX+1 */
+    private int maxAssetsUsageSeq;
+    
 	/**
 	 * @return the assetsUsageSeq
 	 */
@@ -798,5 +804,33 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	public void setDetailUpdtDt(String detailUpdtDt) {
 		this.detailUpdtDt = detailUpdtDt;
 	}
-	
+
+	/**
+	 * @return the quayCd
+	 */
+	public String getQuayCd() {
+		return quayCd;
+	}
+
+	/**
+	 * @param quayCd the quayCd to set
+	 */
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the maxAssetsUsageSeq
+	 */
+	public int getMaxAssetsUsageSeq() {
+		return maxAssetsUsageSeq;
+	}
+
+	/**
+	 * @param maxAssetsUsageSeq the maxAssetsUsageSeq to set
+	 */
+	public void setMaxAssetsUsageSeq(int maxAssetsUsageSeq) {
+		this.maxAssetsUsageSeq = maxAssetsUsageSeq;
+	}
+
 }

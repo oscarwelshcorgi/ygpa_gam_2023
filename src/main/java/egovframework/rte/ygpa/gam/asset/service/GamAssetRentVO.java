@@ -164,6 +164,9 @@ public class GamAssetRentVO extends ComDefaultVO {
     /** 부가세 여부 */
     private String vatYn;
     
+    /** 납부방법코드 */
+    private String payMth;
+    
     
 	/**
 	 * @return the prtAtCode
@@ -850,5 +853,21 @@ public class GamAssetRentVO extends ComDefaultVO {
 	public void setVatYn(String vatYn) {
 		this.vatYn = vatYn;
 	}
+
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
+	}
+	
+	
 	
 }

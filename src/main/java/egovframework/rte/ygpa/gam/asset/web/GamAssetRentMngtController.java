@@ -114,6 +114,11 @@ public class GamAssetRentMngtController {
 		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분 (확인할것!!)
 		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
+		codeVo.setCodeId("GAM043"); //납부 방법 코드
+		List payMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM003"); //부두코드
+		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("reqstCdList", reqstCdList);
@@ -126,6 +131,8 @@ public class GamAssetRentMngtController {
 		model.addAttribute("entrpsSeCdList", entrpsSeCdList);
 		model.addAttribute("feeCalcSeCdList", feeCalcSeCdList);
 		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
+		model.addAttribute("payMthCdList", payMthCdList);
+		model.addAttribute("quayCdList", quayCdList);
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/asset/GamAssetRentMngt";
@@ -303,7 +310,7 @@ public class GamAssetRentMngtController {
     		//키 같고 max관리번호가 같으면 연장신청 등록
         	
     		gamAssetRentService.insertAssetRentRenew(gamAssetRentVO);
-        	
+    		
     		resultCode = 0; // return ok
     		resultMsg  = egovMessageSource.getMessage("success.common.insert");
     	} else {
@@ -450,19 +457,38 @@ public class GamAssetRentMngtController {
         }
         */
     	
-    	if("insert".equals(detailCmd)) {
-	    	//확인후 변경혀라~~
-	    	gamAssetRentDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	
-	        gamAssetRentService.insertAssetRentDetail(gamAssetRentDetailVO);
-	    	
-	        resultCode = 0; // return ok
-			resultMsg  = egovMessageSource.getMessage("success.common.insert");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-    	}
+        GamAssetRentVO gamAssetRentVO = new GamAssetRentVO();
+        gamAssetRentVO.setPrtAtCode(gamAssetRentDetailVO.getDetailPrtAtCode());
+        gamAssetRentVO.setMngYear(gamAssetRentDetailVO.getDetailMngYear());
+        gamAssetRentVO.setMngNo(gamAssetRentDetailVO.getDetailMngNo());
+        gamAssetRentVO.setMngCnt(gamAssetRentDetailVO.getDetailMngCnt());
+        
+        //임대정보 조회후 승낙여부 체크
+        GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+        
+        
+        
+        log.debug("######################################## rentPrmisnInfo.getPrmisnYn() => " + rentPrmisnInfo.getPrmisnYn());
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 등록가능
+        	if("insert".equals(detailCmd)) {
+    	    	//확인후 변경혀라~~
+    	    	gamAssetRentDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+    	    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+    	    	
+    	        gamAssetRentService.insertAssetRentDetail(gamAssetRentDetailVO);
+    	    	
+    	        resultCode = 0; // return ok
+    			resultMsg  = egovMessageSource.getMessage("success.common.insert");
+        	} else {
+        		resultCode = 1; // return fail
+        		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+        	}
+        } else {
+        	resultCode = 1; // return fail
+    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+        }
+    	
 		
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
@@ -518,19 +544,31 @@ public class GamAssetRentMngtController {
         }
         */
     	
-    	if("modify".equals(detailCmd)) {
-	    	//확인후 변경혀라~~
-	    	gamAssetRentDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	
-	        gamAssetRentService.updateAssetRentDetail(gamAssetRentDetailVO);
-	    	
-	        resultCode = 0; // return ok
-			resultMsg  = egovMessageSource.getMessage("success.common.update");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-    	}
+    	GamAssetRentVO gamAssetRentVO = new GamAssetRentVO();
+        gamAssetRentVO.setPrtAtCode(gamAssetRentDetailVO.getDetailPrtAtCode());
+        gamAssetRentVO.setMngYear(gamAssetRentDetailVO.getDetailMngYear());
+        gamAssetRentVO.setMngNo(gamAssetRentDetailVO.getDetailMngNo());
+        gamAssetRentVO.setMngCnt(gamAssetRentDetailVO.getDetailMngCnt());
+        
+        //임대정보 조회후 승낙여부 체크
+        GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
+	    	if("modify".equals(detailCmd)) {
+		    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+		    	
+		        gamAssetRentService.updateAssetRentDetail(gamAssetRentDetailVO);
+		    	
+		        resultCode = 0; // return ok
+				resultMsg  = egovMessageSource.getMessage("success.common.update");
+	    	} else {
+	    		resultCode = 1; // return fail
+	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+	    	}
+        } else {
+        	resultCode = 1; // return fail
+    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+        }
 		
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
@@ -680,6 +718,20 @@ public class GamAssetRentMngtController {
     		return map;
         }
         
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPayMth()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //납부방법 코드가 없습니다.
+            
+    		return map;
+        }
+        
+        if( !"Pre".equals( rentPrmisnInfo.getPayMth() ) && !"Aft".equals( rentPrmisnInfo.getPayMth() ) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject9")); //납부방법 코드가 올바르지 않습니다.
+            
+    		return map;
+        }
+        
         GamAssetRentLevReqestVO levReqestInfo = new GamAssetRentLevReqestVO();
         levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
         levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
@@ -693,9 +745,9 @@ public class GamAssetRentMngtController {
         levReqestInfo.setGrUsagePdFrom( rentPrmisnInfo.getGrUsagePdFrom() ); //총사용기간 FROM
         levReqestInfo.setGrUsagePdTo( rentPrmisnInfo.getGrUsagePdTo() ); //총사용기간 TO
         levReqestInfo.setReqstSeCd( rentPrmisnInfo.getReqstSeCd() );
-        
 		levReqestInfo.setChrgeKnd( gamAssetRentVO.getChrgeKnd() );
 		levReqestInfo.setVatYn( gamAssetRentVO.getVatYn() );
+		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
 		
         levReqestInfo.setPrmisnYn("Y"); //허가여부
         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
@@ -738,14 +790,14 @@ public class GamAssetRentMngtController {
          
          if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
          	map.put("resultCode", 1);
-             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
              
      		return map;
          }
          
          if( levReqestCnt > 0 ) { 
          	map.put("resultCode", 1);
-             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
              
      		return map;
          }

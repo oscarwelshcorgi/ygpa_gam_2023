@@ -130,6 +130,9 @@ public class GamAssetRentLevReqestVO extends ComDefaultVO {
     
     /** 신청 구분 코드 */
     private String reqstSeCd;
+    
+    /** 납부방법 코드 */
+    private String payMth;
 
 	/**
 	 * @return the nticCnt
@@ -661,6 +664,20 @@ public class GamAssetRentLevReqestVO extends ComDefaultVO {
 	 */
 	public void setReqstSeCd(String reqstSeCd) {
 		this.reqstSeCd = reqstSeCd;
+	}
+
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
 	}
 	
 }
