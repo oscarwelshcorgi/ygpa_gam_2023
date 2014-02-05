@@ -304,28 +304,28 @@
                 <li>
                     <a href="#"><b>기계</b></a>
                     <ul class="submenu">
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/macne/gamMechFcltyMngt.do'/>">기계시설관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/macne/gamMechFcltyInqire.do'/>">기계시설조회</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamMechFcltyMngt.do'/>">기계시설관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamMechFcltyInqire.do'/>">기계시설조회</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><b>정보통신</b></a>
                     <ul class="submenu">
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/elcty/gamInfoTechFcltyMngt.do'/>">정보통신시설관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/elcty/gamInfoTechInqire.do'/>">정보통신시설조회</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamInfoTechFcltyMngt.do'/>">정보통신시설관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamInfoTechInqire.do'/>">정보통신시설조회</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><b>토목</b></a>
                     <ul class="submenu">
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamCivilFcltyMngt.do'/>">토목시설관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamCivilFcltyInqire.do'/>">토목시설조회</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamCivilFcltyMngt.do'/>">토목시설관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamCivilFcltyInqire.do'/>">토목시설조회</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><b>도면</b></a>
                     <ul class="submenu">
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/maint/civil/gamDrwListMngt.do'/>">도면목록관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamDrwListMngt.do'/>">도면목록관리</a></li>
                     </ul>
                 </li>
             </ul>
