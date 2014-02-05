@@ -5,16 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamCivilFcltyMngt.jsp
-  * @Description : 토목시설사용목록관리
+  * @Class Name : GamCivilFcltyInqire.jsp
+  * @Description : 토목시설사용목록조회
   * @Modification Information
   * 
   *   수정일         수정자                   수정내용 
   *  -------    --------    ---------------------------
-  *  2014.02.03  kok          최초 생성
+  *  2014.02.05  kok          최초 생성
   *
   * author kok
-  * since 2014.02.03
+  * since 2014.02.05
   *  
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
@@ -97,74 +97,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "listBtn":
 			this.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
 		break;
-		
-		// 추가
-		case "addBtn":
-			this.$("#displayDate").hide();
-			this.$("#fcltyManageVO :input").val("");
-			this.$("#cmd").val("insert");
-			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
-		break;
-
-		// 자산코드 팝업
-		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamSearchGisCdPopupView.do"/>', {emplyrId : this.$("#emplyrId").val()});
-		break;
-			
-		// 저장
-		case "saveBtn":
-
-			// 자산구분코드 설정
-			this.$("#gisPrtFcltyCd").val("04");
-			
-			// 날짜 설정
-			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
-			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
-			alert(this.$("#gisPrtFcltyCd").val());
-		 	var inputVO = this.makeFormArgs("#fcltyManageVO");
-			if(this.$("#cmd").val() == "insert") {
-
-			 	this.doAction('<c:url value="/fclty/gamFcltyInsert.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
-						module.$("#fcltyManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('<c:url value="/fclty/gamFcltyUpdate.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
-						module.$("#fcltyManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}
-		break;
-		
-		// 삭제
-		case "deleteBtn":
-			if(confirm("삭제하시겠습니까?")){
-
-				// 자산구분코드 설정
-				this.$("#gisPrtFcltyCd").val("04");
-				
-				var inputVO = this.makeFormArgs("#fcltyManageVO");
-			 	this.doAction('<c:url value="/fclty/gamFcltyDelete.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
-						module.$("#fcltyManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}
-		break;
 	}
 };
 
@@ -174,33 +106,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
  */
  GamFcltyMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
-	case "tabs1":
-		break;
-	case "tabs2":
-		var row = this.$("#fcltyMngtList").selectedRows();
-		if(row.length == 0) this.$("#cmd").val("insert");
-		else this.$("#cmd").val("modify");
-		break;
-	}
-};
-
-
-/**
- * 팝업 close 이벤트
- */
- GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
-	
-	switch(popupId){
-		case "searchGisCodePopup":
-			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
-			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);
-			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);
-		break;
-	
-		default:
-			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-			throw 0;
-		break;
+		
+		case "tabs1": break;
+		case "tabs2": break;
 	}
 };
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -224,7 +132,6 @@ var module_instance = new GamFcltyMngtModule();
 				</table>
 				<div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-					<button id="addBtn">추가</button>
 				</div>
 			</form>
 		</div>
@@ -246,51 +153,48 @@ var module_instance = new GamFcltyMngtModule();
 					<input type="hidden" id="gisPrtFcltyCd"  />
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="40" id="gisAssetsCd" disabled="disabled"/>
-								<button id="gisCodePopupBtn">자산코드 검색</button>
-							</td>
+							<th width="20%" height="23" class="required_text">GIS 자산 코드</th>
+							<td><input type="text" size="40" id="gisAssetsCd" disabled="disabled"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 SUB 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">GIS 자산 SUB 코드</th>
 							<td><input type="text" size="40" id="gisAssetsSubCd" disabled="disabled"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 항코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">GIS 자산 항코드</th>
 							<td><input type="text" size="40" id="gisAssetsPrtAtCode" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 GIS 코드</th>
-							<td><input type="text" size="40" id="prtFcltyGisCd"/></td>
+							<td><input type="text" size="40" id="prtFcltyGisCd"disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 명</th>
-							<td><input type="text" size="40" id="prtFcltyNm"/></td>
+							<td><input type="text" size="40" id="prtFcltyNm" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 구분</th>
-							<td><input type="text" size="40" id="prtFcltySe"/></td>
+							<td><input type="text" size="40" id="prtFcltySe" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 규격</th>
-							<td><input type="text" size="40" id="prtFcltyStndrd"/></td>
+							<td><input type="text" size="40" id="prtFcltyStndrd" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 단위</th>
-							<td><input type="text" size="40" id="prtFcltyUnit"/></td>
+							<td><input type="text" size="40" id="prtFcltyUnit" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 관리 업체 코드</th>
-							<td><input type="text" size="40" id="prtFcltyMngEntrpsCd"/></td>
+							<td><input type="text" size="40" id="prtFcltyMngEntrpsCd" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 설치일자</th>
-							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" disabled="disabled" /></td>
+							<td><input id="prtFcltyInstlDt" type="text" size="20" title="설치일자" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 변경일자</th>
-							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" disabled="disabled" /></td>
+							<td><input id="prtFcltyChangeDt" type="text" size="20" title="변경일자" disabled="disabled" /></td>
 						</tr>
 						<tr id="displayDate">
 							<th width="20%" height="23" class="required_text">등록일자</th>
@@ -300,8 +204,6 @@ var module_instance = new GamFcltyMngtModule();
 				</form>
 				<div class="emdControlPanel">
 					<button id="listBtn">목록</button>
-					<button id="saveBtn">저장</button>
-					<button id="deleteBtn">삭제</button>
 				</div>
 			</div>
 		</div>
