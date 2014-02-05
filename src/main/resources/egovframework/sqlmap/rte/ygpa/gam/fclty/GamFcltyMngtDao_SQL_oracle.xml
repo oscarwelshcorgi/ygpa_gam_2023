@@ -6,9 +6,9 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
-    <typeAlias alias="civilFcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyManageVO"/>
+    <typeAlias alias="fcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO"/>
     
-    <insert id="gamCivilFcltyMngtDao.insertCivilFcltyManage">
+    <insert id="gamFcltyMngtDao.insertFcltyManage">
 		<![CDATA[
 			INSERT INTO GIS_PRT_FCLTY_CD_F
 			( GIS_PRT_FCLTY_CD
@@ -47,8 +47,8 @@
 		]]>
 	</insert>
     
-    <select id="gamCivilFcltyMngtDao.selectCivilFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
-         /* egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtDao_SQL_oracle.selectList */ 
+    <select id="gamFcltyMngtDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
+         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.selectList */ 
 		SELECT * 
 		  FROM 
 		       (SELECT Z.*, 
@@ -88,7 +88,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamCivilFcltyMngtDao.selectCivilFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamFcltyMngtDao.selectFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM GIS_PRT_FCLTY_CD_F
              WHERE 1=1 
@@ -97,8 +97,8 @@
    			</isNotEmpty>
     </select>
     
-	<select id="gamCivilFcltyMngtDao.civilFcltyMngSelectView" resultClass="civilFcltyManageVO" parameterClass="civilFcltyManageVO" >
-	    /* egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtDao_SQL_oracle.select */ 
+	<select id="gamFcltyMngtDao.fcltyMngSelectView" resultClass="fcltyManageVO" parameterClass="fcltyManageVO" >
+	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.select */ 
 			SELECT 
 				GIS_ASSETS_CD as gisAssetsCd
 				, GIS_ASSETS_PRT_AT_CODE as gisAssetsPrtAtCode
@@ -127,7 +127,7 @@
   	</select>
   	
   	
-  	<update id="gamCivilFcltyMngtDao.updateCivilFclty">
+  	<update id="gamFcltyMngtDao.updateFclty">
         <![CDATA[
             UPDATE GIS_PRT_FCLTY_CD_F 
 			SET 
@@ -154,7 +154,7 @@
     </update>
     
     
-    <delete id="gamCivilFcltyMngtDao.deleteCivilFclty">
+    <delete id="gamFcltyMngtDao.deleteFclty">
         <![CDATA[
 			DELETE 
 			  	FROM GIS_PRT_FCLTY_CD_F 
@@ -167,8 +167,8 @@
     </delete>
     
     
-    <select id="gamCivilFcltyMngtDao.selectSearchGisCdPopupList" parameterClass="comDefaultVO" resultClass="egovMap">
-         /* egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtDao_SQL_oracle.selectList */ 
+    <select id="gamFcltyMngtDao.selectSearchGisCdPopupList" parameterClass="comDefaultVO" resultClass="egovMap">
+         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.selectList */ 
 		SELECT * 
 		  FROM 
 		       (SELECT Z.*, 
@@ -223,7 +223,7 @@
     </select>
     
     
-    <select id="gamCivilFcltyMngtDao.selectSearchGisCdPopupListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamFcltyMngtDao.selectSearchGisCdPopupListTotCnt" parameterClass="comDefaultVO" resultClass="int">
 			SELECT COUNT(*) totcnt
               FROM GIS_ASSETS_CD_F
              WHERE 1=1 
