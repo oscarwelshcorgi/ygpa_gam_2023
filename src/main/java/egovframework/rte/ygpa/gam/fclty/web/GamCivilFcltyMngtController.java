@@ -76,10 +76,22 @@ public class GamCivilFcltyMngtController {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fclty/GamCivilFcltyMngt";
     }
+
+	
+	/**
+	 * 자산코드 검색 팝업호출
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/cmmn/popup/gamSearchGisCdPopupView.do")
+	String searchGisCdPopupView() throws Exception {
+		return "/ygpa/gam/cmmn/popup/GamPopupSearchGisCdView";
+	}
 	
 	
 	/**
-	 * 
+	 * 시설관리목록
 	 * @param searchVO
 	 * @return
 	 * @throws Exception
@@ -120,6 +132,47 @@ public class GamCivilFcltyMngtController {
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", civilFcltyMngtList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	/**
+	 * 시설관리자산코드 검색 팝업
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamSearchGisCdPopupList.do")
+	@ResponseBody Map<String, Object> searchGisCdPopupList(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+    	// 내역 조회
+    	/** EgovPropertyService */
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		/** List Data */
+		List<ComDefaultVO> searchGisCdPopupList = gamCivilFcltyMngtService.selectSearchGisCdPopupList(searchVO);
+        int totCnt = gamCivilFcltyMngtService.selectSearchGisCdPopupListTotCnt(searchVO);
+
+        paginationInfo.setTotalRecordCount(totCnt);
+		
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", searchGisCdPopupList);
     	map.put("searchOption", searchVO);
 
     	return map;

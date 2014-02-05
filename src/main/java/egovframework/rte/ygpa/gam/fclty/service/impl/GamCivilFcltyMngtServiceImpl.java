@@ -56,13 +56,26 @@ public class GamCivilFcltyMngtServiceImpl extends AbstractServiceImpl implements
 	
 	
 	/**
-	 * 시설관리 카운트를 반환한다
-	 * @param ComDefaultVO vo
-	 * @return int
-	 * @exception Exception
+	 * 시설관리 카운트
 	 */
 	public int selectCivilFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception {
 		return gamCivilFcltyMngtDao.selectCivilFcltyMngtListTotCnt(vo);
+    }
+
+	
+	/**
+	 * 시설관리 목록
+	 */
+	public List<ComDefaultVO> selectSearchGisCdPopupList(ComDefaultVO vo) throws Exception {
+   		return (List<ComDefaultVO>)gamCivilFcltyMngtDao.selectSearchGisCdPopupList(vo);
+	}
+	
+	
+	/**
+	 * 시설관리 카운트
+	 */
+	public int selectSearchGisCdPopupListTotCnt(ComDefaultVO vo) throws Exception {
+		return gamCivilFcltyMngtDao.selectSearchGisCdPopupListTotCnt(vo);
     }
 	
 	
