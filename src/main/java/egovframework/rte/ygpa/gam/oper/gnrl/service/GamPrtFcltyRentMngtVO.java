@@ -1,20 +1,20 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
-import egovframework.com.cmm.ComDefaultVO;
+import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
  * @Class Name : GamPrtFcltyRentMngtVO.java
  * @Description : 항만시설사용목록관리 VO class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
+public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 항코드 */
@@ -163,6 +163,9 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 
     /** 부가세 여부 */
     private String vatYn;
+    
+    /** 납부방법코드 */
+    private String payMth;
 
 	/**
 	 * @return the prtAtCode
@@ -848,6 +851,20 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	 */
 	public void setVatYn(String vatYn) {
 		this.vatYn = vatYn;
+	}
+
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
 	}
     
 }

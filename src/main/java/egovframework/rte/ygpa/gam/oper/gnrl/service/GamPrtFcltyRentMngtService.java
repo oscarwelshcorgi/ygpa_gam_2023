@@ -7,7 +7,7 @@ import java.util.List;
  * @Description : 항만시설사용목록관리 
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see

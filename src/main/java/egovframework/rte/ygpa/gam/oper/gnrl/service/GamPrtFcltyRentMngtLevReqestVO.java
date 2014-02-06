@@ -7,7 +7,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Description : 항만시설사용목록관리 징수의뢰 VO class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-23
  * @version 1.0
  * @see
@@ -127,6 +127,12 @@ public class GamPrtFcltyRentMngtLevReqestVO extends ComDefaultVO {
     
     /** 총 사용료 */
     private String grFee;
+    
+    /** 신청 구분 코드 */
+    private String reqstSeCd;
+    
+    /** 납부방법 코드 */
+    private String payMth;
 
 	/**
 	 * @return the nticCnt
@@ -644,6 +650,34 @@ public class GamPrtFcltyRentMngtLevReqestVO extends ComDefaultVO {
 	 */
 	public void setGrFee(String grFee) {
 		this.grFee = grFee;
+	}
+
+	/**
+	 * @return the reqstSeCd
+	 */
+	public String getReqstSeCd() {
+		return reqstSeCd;
+	}
+
+	/**
+	 * @param reqstSeCd the reqstSeCd to set
+	 */
+	public void setReqstSeCd(String reqstSeCd) {
+		this.reqstSeCd = reqstSeCd;
+	}
+
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
 	}
 	
 }

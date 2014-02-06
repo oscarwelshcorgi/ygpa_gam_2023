@@ -3,11 +3,11 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamPrtOperRentMngtVO.java
+ * @Class Name : GamPrtFcltyRentMngtDetailVO.java
  * @Description : 항만시설사용목록관리 상세 VO class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -154,6 +154,12 @@ public class GamPrtFcltyRentMngtDetailVO extends ComDefaultVO {
 
     /** 허가 여부 */
     private String detailPrmisnYn;
+    
+    /** 부두코드 */
+    private String quayCd;
+    
+    /** 자산순번MAX+1 */
+    private int maxAssetsUsageSeq;
 
 	/**
 	 * @return the assetsUsageSeq
@@ -797,6 +803,34 @@ public class GamPrtFcltyRentMngtDetailVO extends ComDefaultVO {
 	 */
 	public void setDetailPrmisnYn(String detailPrmisnYn) {
 		this.detailPrmisnYn = detailPrmisnYn;
+	}
+
+	/**
+	 * @return the quayCd
+	 */
+	public String getQuayCd() {
+		return quayCd;
+	}
+
+	/**
+	 * @param quayCd the quayCd to set
+	 */
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the maxAssetsUsageSeq
+	 */
+	public int getMaxAssetsUsageSeq() {
+		return maxAssetsUsageSeq;
+	}
+
+	/**
+	 * @param maxAssetsUsageSeq the maxAssetsUsageSeq to set
+	 */
+	public void setMaxAssetsUsageSeq(int maxAssetsUsageSeq) {
+		this.maxAssetsUsageSeq = maxAssetsUsageSeq;
 	}
     
 }

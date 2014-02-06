@@ -1,20 +1,20 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
-import egovframework.com.cmm.ComDefaultVO;
+import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
  * @Class Name : GamPrtFcltyUseSttusInqireVO.java
  * @Description : 항만시설사용현황조회 VO Class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamPrtFcltyUseSttusInqireVO extends ComDefaultVO {
+public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 항코드 */

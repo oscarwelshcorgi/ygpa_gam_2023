@@ -4,10 +4,10 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
  * @Class Name : GamPrtFcltyRentFeeMngtVO.java
- * @Description : 항만시설사용료관리 (항만시설/일반부두/항만시설사용료관리)
+ * @Description : 항만시설사용료관리  VO class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -15,992 +15,1387 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *  Copyright (C)  All right reserved.
  */
 public class GamPrtFcltyRentFeeMngtVO extends ErpCmmnCdDefaultVO {
-    private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
     
-    /**  */
-    private java.lang.String assetCls;
-    
-    /**  */
-    private java.lang.String prprtyCd;
-    
-    /**  */
-    private java.lang.String acqDateFrom;
-    
-    /**  */
-    private java.lang.String itemName;
+    /** 고지 횟수 */
+    private String nticCnt;
+        
+    /** 시설 구분 */
+    private String fcltySe;
+
+    /** 요금 종류 */
+    private String chrgeKnd;
+
+    /** 업체코드 */
+    private String entrpscd;	
+
+    /** 업체 명 */
+    private String entrpsNm;	
+
+    /** 고지 기간 FROM */
+    private String nticPdFrom;
+
+    /** 공사기간 TO */
+    private String constPerTo;
+
+    /** 회계 년도 */
+    private String accnutYear;	
+
+    /** 고지번호 */
+    private String nticno;	    
+
+    /** 고지 일자 */
+    private String nticDt;	    
+
+    /** 납부 기한 */
+    private String payTmlmt;	
+
+    /** 공시지가 */
+    private String olnlp;	    
+
+    /** 사용료 */
+    private String fee;	        
+
+    /** 부가세 여부 */
+    private String vatYn;	    
+
+    /** 부가세 */
+    private String vat;	        
+
+    /** 고지 금액 */
+    private String nticAmt;	
+
+    /** 비고 */
+    private String rm;	        
+
+    /** 수납 구분 */
+    private String rcivSe;	    
+
+    /** 수납 일자 */
+    private String rcivDt;	    
+
+    /** 고지서 발부 여부 */
+    private String nhtIsueYn;	
+
+    /** 연체 번호 */
+    private String arrrgNo;	
+
+    /** 연체 금액 */
+    private String arrrgAmt;	
+
+    /** 의뢰 순번 */
+    private String reqestSeq;	
+
+    /** 부서코드 */
+    private String deptcd;	    
+
+    /** 고지 방법 */
+    private String nticMth;	
+
+    /** 등록자 */
+    private String regUsr;	    
+
+    /** 등록일시 */
+    private String registDt;	
+
+    /** 수정자 */
+    private String updUsr;	    
+
+    /** 수정일시 */
+    private String updtDt;	    
 
     /** 항코드 */
-    private java.lang.String prtAtCode;
-    
+    private String prtAtCode;	
+
     /** 관리 년도 */
-    private java.lang.String mngYear;
-    
+    private String mngYear;	
+
     /** 관리 번호 */
-    private java.lang.String mngNo;
-    
+    private String mngNo;	    
+
     /** 관리 횟수 */
-    private java.lang.String mngCnt;
+    private String mngCnt;
     
-    /** 업체코드 */
-    private java.lang.String entrpscd;
+    /** 관리 번호(조합) */
+    private String rentMngNo;
     
-    /** 날짜 */
-    private java.lang.String dt;
+    /** 검색조건 */
+    private String sPrtAtCode;
     
-    /** 신청 구분 코드 */
-    private java.lang.String reqstSeCd;
+    /** 검색조건 */
+    private String sMngYear;
     
-    /** 총 면적 */
-    private java.lang.String grAr;
+    /** 검색조건 */
+    private String sMngNo;
     
-    /** 총 사용료 */
-    private java.lang.String grFee;
+    /** 검색조건 */
+    private String sMngCnt;
     
-    /** 고지 방법 */
-    private java.lang.String nticMth;
+    /** 검색조건 */
+    private String sReqstSeCd;
     
-    /** 최초 허가 일자 */
-    private java.lang.String frstPrmisnDt;
+    /** 검색조건 */
+    private String sEntrpscd;
     
-    /** 허가 일자 */
-    private java.lang.String prmisnDt;
+    /** 검색조건 */
+    private String sUsagePrposCd;
     
-    /** 허가 여부 */
-    private java.lang.String prmisnYn;
+    /** 검색조건 */
+    private String sPrmisnYn;
     
-    /** 총 사용 기간 FROM */
-    private java.lang.String grUsagePdFrom;
+    /** 검색조건 */
+    private String sUsagePdFrom;
     
-    /** 총 사용 기간 TO */
-    private java.lang.String grUsagePdTo;
+    /** 검색조건 */
+    private String sUsagePdTo;
     
-    /** 문서 번호 */
-    private java.lang.String docNo;
+    /** 검색조건 */
+    private String sRrArFrom;
     
-    /** 비고 */
-    private java.lang.String rm;
+    /** 검색조건 */
+    private String sRrArTo;
     
-    /** 코멘트 */
-    private java.lang.String cmt;
+    /** 자료수 */
+    private String sumCnt;
     
-    /** 기타 */
-    private java.lang.String etc;
+    /** 사용료(합계) */
+    private String sumFee;
     
-    /** 등록자 */
-    private java.lang.String regUsr;
+    /** 연체(합계) */
+    private String sumArrrgAmt;
     
-    /** 등록일시 */
-    private java.lang.String registDt;
+    /** 부가세(합계) */
+    private String sumVat;
     
-    /** 수정자 */
-    private java.lang.String updUsr;
+    /** 고지액(합계) */
+    private String sumNticAmt;   
     
-    /** 수정일시 */
-    private java.lang.String updtDt;
     
-    /** 총 감면 사용료 */
-    private java.lang.String grRdcxptFee;
-    
-    /** GIS 코드 */
-    private java.lang.String gisCd;
-    
-    /** 부서코드 */
-    private java.lang.String deptcd;
-    
-    //----------------
-    
-    /** 자산 사용 순번 */
-    private java.lang.String assetsUsageSeq;
-    
-    /** GIS 자산 코드 */
-    private java.lang.String gisAssetsCd;
-    
-    /** GIS 자산 SUB 코드 */
-    private java.lang.String gisAssetsSubCd;
-    
-    /** 사용 면적 */
-    private java.lang.String usageAr;
-    
-    /** 사용 기간 FROM */
-    private java.lang.String usagePdFrom;
-    
-    /** 사용 기간 TO */
-    private java.lang.String usagePdTo;
-    
-    /** 사용 목적 */
-    private java.lang.String usagePurps;
-    
-    /** 사용 내역 */
-    private java.lang.String usageDtls;
-    
-    /** 사용 용도 코드 */
-    private java.lang.String usagePrposCd;
-    
-    /** 면제 구분 */
-    private java.lang.String exemptSe;
-    
-    /** 면제 사유 코드 */
-    private java.lang.String exemptRsnCd;
-    
-    /** 면제 사유 */
-    private java.lang.String exemptRsn;
-    
-    /** 면제 기간 FROM */
-    private java.lang.String exemptPdFrom;
-    
-    /** 면제 기간 TO */
-    private java.lang.String exemptPdTo;
-    
+    /******* 세입징수 ********/
+
+    /** 회계 구분 코드 */
+    private String accnutSeCd;	           
+
     /** 산출 내역 */
-    private java.lang.String computDtls;
-    
-    /** 공시지가 */
-    private java.lang.String olnlp;
-    
-    /** 적용 요율 */
-    private java.lang.String applcTariff;
-    
-    /** 적용 방법 */
-    private java.lang.String applcMth;
-    
-    /** 포장 구분 */
-    private java.lang.String packSe;
-    
-    /** 업체 구분 */
-    private java.lang.String entrpsSe;
-    
-    /** 사용료 계산 구분 */
-    private java.lang.String feeCalcSe;
-    
-    /** 감면 사용료 계산 구분 */
-    private java.lang.String rdcxptFeeCalcSe;
-    
-    /** 감면 사용료 */
-    private java.lang.String rdcxptFee;
-    
-    /** 사용료 */
-    private java.lang.String fee;
-    
-    /** 해지 일자 */
-    private java.lang.String trmnatDt;
-    
-    /** 해지 사유 */
-    private java.lang.String trmnatRsn;
-    
-    /*
-    private java.lang.String gisCd;
-    private java.lang.String regUsr;
-    private java.lang.String registDt;
-    private java.lang.String updUsr;
-    private java.lang.String updtDt;
-    private java.lang.String prtAtCode;
-    */
-    
-    /** GIS 자산 항코드 */
-    private java.lang.String gisAssetsPrtAtCode;
-    
-    /*
-    private java.lang.String mngYear;
-    private java.lang.String mngNo;
-    private java.lang.String mngCnt;
-    */
+    private String computDtls;	               
+
+    /** 최초 고지 일자 */
+    private String frstNticDt;	           
+
+    /** 수납 이체 상태 코드 */
+    private String rcivTransfrSttusCd;	   
+
+    /** 불능 코드 */
+    private String incpctyCd;	               
+
+    /** 과오납 금액 */
+    private String overrpayAmt;	           
+
+    /** 임시 발행 번호 */
+    private String tmprIsuNo;	               
+
+    /** 할인 금액 */
+    private String dscntAmt;	               
+
+    /** 할인 사유 */
+    private String dscntRsn;	               
+
+    /** 할인 코드 */
+    private String dscntCd;	               
+
+    /** 수납 구분명 */
+    private String rcivSeNm;	               
+
+    /** 금융 기관 수납 일자 */
+    private String fnncInsttRcivDt;	       
+
+    /** 우편 고지 유무 */
+    private String postNticEnnc;	           
+
+    /** 불납 사유 코드 */
+    private String npymnRsnCd;	           
+
+    /** 전자 고지 결과 */
+    private String elctrnNticResult;	       
+
+    /** 전자 고지 정보 조회 일자 */
+    private String elctrnNticInfoInqireDt;	
+
+    /** 정산 여부 */
+    private String excclcYn;	               
+
+    /** 징수관 구분 */
+    private String prcepturSe;	               
+
+    /** 지로 수납처 */
+    private String giroRcivPlace;	           
+
+    /** 지로 수납 구분 */
+    private String giroRcivSe;	           
+
+    /** 수수료 */
+    private String cmsn;	                   
+
+    /** 마감 여부 */
+    private String closYn;	                   
+
+    /** 담당자 */
+    private String charger;	                   
+
+    /** 작업 구분 */
+    private String opertSe;	               
+
+    /** 원고지 요금 종류 */
+    private String orginlNticChrgeKnd;	   
+
+    /** 원고지 회계 년도 */
+    private String orginlNticAccnutYear;	   
+
+    /** 원고지 번호 */
+    private String orginlNticNo;	           
+
+    /** 전자 세금 계산서 발행 여부 */
+    private String elctrnTaxbilIsuYn;	   
+
+    /** 시작일 */
+    private String beginDt;	               
+
+    /** 종료일 */
+    private String endDt;	                   
+
 
 	/**
-	 * @return the assetCls
+	 * @return the nticCnt
 	 */
-	public java.lang.String getAssetCls() {
-		return assetCls;
+	public String getNticCnt() {
+		return nticCnt;
 	}
 
 	/**
-	 * @param assetCls the assetCls to set
+	 * @param nticCnt the nticCnt to set
 	 */
-	public void setAssetCls(java.lang.String assetCls) {
-		this.assetCls = assetCls;
+	public void setNticCnt(String nticCnt) {
+		this.nticCnt = nticCnt;
 	}
 
 	/**
-	 * @return the prprtyCd
+	 * @return the fcltySe
 	 */
-	public java.lang.String getPrprtyCd() {
-		return prprtyCd;
+	public String getFcltySe() {
+		return fcltySe;
 	}
 
 	/**
-	 * @param prprtyCd the prprtyCd to set
+	 * @param fcltySe the fcltySe to set
 	 */
-	public void setPrprtyCd(java.lang.String prprtyCd) {
-		this.prprtyCd = prprtyCd;
+	public void setFcltySe(String fcltySe) {
+		this.fcltySe = fcltySe;
 	}
 
 	/**
-	 * @return the acqDateFrom
+	 * @return the chrgeKnd
 	 */
-	public java.lang.String getAcqDateFrom() {
-		return acqDateFrom;
+	public String getChrgeKnd() {
+		return chrgeKnd;
 	}
 
 	/**
-	 * @param acqDateFrom the acqDateFrom to set
+	 * @param chrgeKnd the chrgeKnd to set
 	 */
-	public void setAcqDateFrom(java.lang.String acqDateFrom) {
-		this.acqDateFrom = acqDateFrom;
-	}
-
-	/**
-	 * @return the itemName
-	 */
-	public java.lang.String getItemName() {
-		return itemName;
-	}
-
-	/**
-	 * @param itemName the itemName to set
-	 */
-	public void setItemName(java.lang.String itemName) {
-		this.itemName = itemName;
-	}
-
-	/**
-	 * @return the prtAtCode
-	 */
-	public java.lang.String getPrtAtCode() {
-		return prtAtCode;
-	}
-
-	/**
-	 * @param prtAtCode the prtAtCode to set
-	 */
-	public void setPrtAtCode(java.lang.String prtAtCode) {
-		this.prtAtCode = prtAtCode;
-	}
-
-	/**
-	 * @return the mngYear
-	 */
-	public java.lang.String getMngYear() {
-		return mngYear;
-	}
-
-	/**
-	 * @param mngYear the mngYear to set
-	 */
-	public void setMngYear(java.lang.String mngYear) {
-		this.mngYear = mngYear;
-	}
-
-	/**
-	 * @return the mngNo
-	 */
-	public java.lang.String getMngNo() {
-		return mngNo;
-	}
-
-	/**
-	 * @param mngNo the mngNo to set
-	 */
-	public void setMngNo(java.lang.String mngNo) {
-		this.mngNo = mngNo;
-	}
-
-	/**
-	 * @return the mngCnt
-	 */
-	public java.lang.String getMngCnt() {
-		return mngCnt;
-	}
-
-	/**
-	 * @param mngCnt the mngCnt to set
-	 */
-	public void setMngCnt(java.lang.String mngCnt) {
-		this.mngCnt = mngCnt;
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
 	}
 
 	/**
 	 * @return the entrpscd
 	 */
-	public java.lang.String getEntrpscd() {
+	public String getEntrpscd() {
 		return entrpscd;
 	}
 
 	/**
 	 * @param entrpscd the entrpscd to set
 	 */
-	public void setEntrpscd(java.lang.String entrpscd) {
+	public void setEntrpscd(String entrpscd) {
 		this.entrpscd = entrpscd;
 	}
 
 	/**
-	 * @return the dt
+	 * @return the entrpsNm
 	 */
-	public java.lang.String getDt() {
-		return dt;
+	public String getEntrpsNm() {
+		return entrpsNm;
 	}
 
 	/**
-	 * @param dt the dt to set
+	 * @param entrpsNm the entrpsNm to set
 	 */
-	public void setDt(java.lang.String dt) {
-		this.dt = dt;
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
 	}
 
 	/**
-	 * @return the reqstSeCd
+	 * @return the nticPdFrom
 	 */
-	public java.lang.String getReqstSeCd() {
-		return reqstSeCd;
+	public String getNticPdFrom() {
+		return nticPdFrom;
 	}
 
 	/**
-	 * @param reqstSeCd the reqstSeCd to set
+	 * @param nticPdFrom the nticPdFrom to set
 	 */
-	public void setReqstSeCd(java.lang.String reqstSeCd) {
-		this.reqstSeCd = reqstSeCd;
+	public void setNticPdFrom(String nticPdFrom) {
+		this.nticPdFrom = nticPdFrom;
 	}
 
 	/**
-	 * @return the grAr
+	 * @return the constPerTo
 	 */
-	public java.lang.String getGrAr() {
-		return grAr;
+	public String getConstPerTo() {
+		return constPerTo;
 	}
 
 	/**
-	 * @param grAr the grAr to set
+	 * @param constPerTo the constPerTo to set
 	 */
-	public void setGrAr(java.lang.String grAr) {
-		this.grAr = grAr;
+	public void setConstPerTo(String constPerTo) {
+		this.constPerTo = constPerTo;
 	}
 
 	/**
-	 * @return the grFee
+	 * @return the accnutYear
 	 */
-	public java.lang.String getGrFee() {
-		return grFee;
+	public String getAccnutYear() {
+		return accnutYear;
 	}
 
 	/**
-	 * @param grFee the grFee to set
+	 * @param accnutYear the accnutYear to set
 	 */
-	public void setGrFee(java.lang.String grFee) {
-		this.grFee = grFee;
+	public void setAccnutYear(String accnutYear) {
+		this.accnutYear = accnutYear;
 	}
 
 	/**
-	 * @return the nticMth
+	 * @return the nticno
 	 */
-	public java.lang.String getNticMth() {
-		return nticMth;
+	public String getNticno() {
+		return nticno;
 	}
 
 	/**
-	 * @param nticMth the nticMth to set
+	 * @param nticno the nticno to set
 	 */
-	public void setNticMth(java.lang.String nticMth) {
-		this.nticMth = nticMth;
+	public void setNticno(String nticno) {
+		this.nticno = nticno;
 	}
 
 	/**
-	 * @return the frstPrmisnDt
+	 * @return the nticDt
 	 */
-	public java.lang.String getFrstPrmisnDt() {
-		return frstPrmisnDt;
+	public String getNticDt() {
+		return nticDt;
 	}
 
 	/**
-	 * @param frstPrmisnDt the frstPrmisnDt to set
+	 * @param nticDt the nticDt to set
 	 */
-	public void setFrstPrmisnDt(java.lang.String frstPrmisnDt) {
-		this.frstPrmisnDt = frstPrmisnDt;
+	public void setNticDt(String nticDt) {
+		this.nticDt = nticDt;
 	}
 
 	/**
-	 * @return the prmisnDt
+	 * @return the payTmlmt
 	 */
-	public java.lang.String getPrmisnDt() {
-		return prmisnDt;
+	public String getPayTmlmt() {
+		return payTmlmt;
 	}
 
 	/**
-	 * @param prmisnDt the prmisnDt to set
+	 * @param payTmlmt the payTmlmt to set
 	 */
-	public void setPrmisnDt(java.lang.String prmisnDt) {
-		this.prmisnDt = prmisnDt;
-	}
-
-	/**
-	 * @return the prmisnYn
-	 */
-	public java.lang.String getPrmisnYn() {
-		return prmisnYn;
-	}
-
-	/**
-	 * @param prmisnYn the prmisnYn to set
-	 */
-	public void setPrmisnYn(java.lang.String prmisnYn) {
-		this.prmisnYn = prmisnYn;
-	}
-
-	/**
-	 * @return the grUsagePdFrom
-	 */
-	public java.lang.String getGrUsagePdFrom() {
-		return grUsagePdFrom;
-	}
-
-	/**
-	 * @param grUsagePdFrom the grUsagePdFrom to set
-	 */
-	public void setGrUsagePdFrom(java.lang.String grUsagePdFrom) {
-		this.grUsagePdFrom = grUsagePdFrom;
-	}
-
-	/**
-	 * @return the grUsagePdTo
-	 */
-	public java.lang.String getGrUsagePdTo() {
-		return grUsagePdTo;
-	}
-
-	/**
-	 * @param grUsagePdTo the grUsagePdTo to set
-	 */
-	public void setGrUsagePdTo(java.lang.String grUsagePdTo) {
-		this.grUsagePdTo = grUsagePdTo;
-	}
-
-	/**
-	 * @return the docNo
-	 */
-	public java.lang.String getDocNo() {
-		return docNo;
-	}
-
-	/**
-	 * @param docNo the docNo to set
-	 */
-	public void setDocNo(java.lang.String docNo) {
-		this.docNo = docNo;
-	}
-
-	/**
-	 * @return the rm
-	 */
-	public java.lang.String getRm() {
-		return rm;
-	}
-
-	/**
-	 * @param rm the rm to set
-	 */
-	public void setRm(java.lang.String rm) {
-		this.rm = rm;
-	}
-
-	/**
-	 * @return the cmt
-	 */
-	public java.lang.String getCmt() {
-		return cmt;
-	}
-
-	/**
-	 * @param cmt the cmt to set
-	 */
-	public void setCmt(java.lang.String cmt) {
-		this.cmt = cmt;
-	}
-
-	/**
-	 * @return the etc
-	 */
-	public java.lang.String getEtc() {
-		return etc;
-	}
-
-	/**
-	 * @param etc the etc to set
-	 */
-	public void setEtc(java.lang.String etc) {
-		this.etc = etc;
-	}
-
-	/**
-	 * @return the regUsr
-	 */
-	public java.lang.String getRegUsr() {
-		return regUsr;
-	}
-
-	/**
-	 * @param regUsr the regUsr to set
-	 */
-	public void setRegUsr(java.lang.String regUsr) {
-		this.regUsr = regUsr;
-	}
-
-	/**
-	 * @return the registDt
-	 */
-	public java.lang.String getRegistDt() {
-		return registDt;
-	}
-
-	/**
-	 * @param registDt the registDt to set
-	 */
-	public void setRegistDt(java.lang.String registDt) {
-		this.registDt = registDt;
-	}
-
-	/**
-	 * @return the updUsr
-	 */
-	public java.lang.String getUpdUsr() {
-		return updUsr;
-	}
-
-	/**
-	 * @param updUsr the updUsr to set
-	 */
-	public void setUpdUsr(java.lang.String updUsr) {
-		this.updUsr = updUsr;
-	}
-
-	/**
-	 * @return the updtDt
-	 */
-	public java.lang.String getUpdtDt() {
-		return updtDt;
-	}
-
-	/**
-	 * @param updtDt the updtDt to set
-	 */
-	public void setUpdtDt(java.lang.String updtDt) {
-		this.updtDt = updtDt;
-	}
-
-	/**
-	 * @return the grRdcxptFee
-	 */
-	public java.lang.String getGrRdcxptFee() {
-		return grRdcxptFee;
-	}
-
-	/**
-	 * @param grRdcxptFee the grRdcxptFee to set
-	 */
-	public void setGrRdcxptFee(java.lang.String grRdcxptFee) {
-		this.grRdcxptFee = grRdcxptFee;
-	}
-
-	/**
-	 * @return the gisCd
-	 */
-	public java.lang.String getGisCd() {
-		return gisCd;
-	}
-
-	/**
-	 * @param gisCd the gisCd to set
-	 */
-	public void setGisCd(java.lang.String gisCd) {
-		this.gisCd = gisCd;
-	}
-
-	/**
-	 * @return the deptcd
-	 */
-	public java.lang.String getDeptcd() {
-		return deptcd;
-	}
-
-	/**
-	 * @param deptcd the deptcd to set
-	 */
-	public void setDeptcd(java.lang.String deptcd) {
-		this.deptcd = deptcd;
-	}
-
-	/**
-	 * @return the assetsUsageSeq
-	 */
-	public java.lang.String getAssetsUsageSeq() {
-		return assetsUsageSeq;
-	}
-
-	/**
-	 * @param assetsUsageSeq the assetsUsageSeq to set
-	 */
-	public void setAssetsUsageSeq(java.lang.String assetsUsageSeq) {
-		this.assetsUsageSeq = assetsUsageSeq;
-	}
-
-	/**
-	 * @return the gisAssetsCd
-	 */
-	public java.lang.String getGisAssetsCd() {
-		return gisAssetsCd;
-	}
-
-	/**
-	 * @param gisAssetsCd the gisAssetsCd to set
-	 */
-	public void setGisAssetsCd(java.lang.String gisAssetsCd) {
-		this.gisAssetsCd = gisAssetsCd;
-	}
-
-	/**
-	 * @return the gisAssetsSubCd
-	 */
-	public java.lang.String getGisAssetsSubCd() {
-		return gisAssetsSubCd;
-	}
-
-	/**
-	 * @param gisAssetsSubCd the gisAssetsSubCd to set
-	 */
-	public void setGisAssetsSubCd(java.lang.String gisAssetsSubCd) {
-		this.gisAssetsSubCd = gisAssetsSubCd;
-	}
-
-	/**
-	 * @return the usageAr
-	 */
-	public java.lang.String getUsageAr() {
-		return usageAr;
-	}
-
-	/**
-	 * @param usageAr the usageAr to set
-	 */
-	public void setUsageAr(java.lang.String usageAr) {
-		this.usageAr = usageAr;
-	}
-
-	/**
-	 * @return the usagePdFrom
-	 */
-	public java.lang.String getUsagePdFrom() {
-		return usagePdFrom;
-	}
-
-	/**
-	 * @param usagePdFrom the usagePdFrom to set
-	 */
-	public void setUsagePdFrom(java.lang.String usagePdFrom) {
-		this.usagePdFrom = usagePdFrom;
-	}
-
-	/**
-	 * @return the usagePdTo
-	 */
-	public java.lang.String getUsagePdTo() {
-		return usagePdTo;
-	}
-
-	/**
-	 * @param usagePdTo the usagePdTo to set
-	 */
-	public void setUsagePdTo(java.lang.String usagePdTo) {
-		this.usagePdTo = usagePdTo;
-	}
-
-	/**
-	 * @return the usagePurps
-	 */
-	public java.lang.String getUsagePurps() {
-		return usagePurps;
-	}
-
-	/**
-	 * @param usagePurps the usagePurps to set
-	 */
-	public void setUsagePurps(java.lang.String usagePurps) {
-		this.usagePurps = usagePurps;
-	}
-
-	/**
-	 * @return the usageDtls
-	 */
-	public java.lang.String getUsageDtls() {
-		return usageDtls;
-	}
-
-	/**
-	 * @param usageDtls the usageDtls to set
-	 */
-	public void setUsageDtls(java.lang.String usageDtls) {
-		this.usageDtls = usageDtls;
-	}
-
-	/**
-	 * @return the usagePrposCd
-	 */
-	public java.lang.String getUsagePrposCd() {
-		return usagePrposCd;
-	}
-
-	/**
-	 * @param usagePrposCd the usagePrposCd to set
-	 */
-	public void setUsagePrposCd(java.lang.String usagePrposCd) {
-		this.usagePrposCd = usagePrposCd;
-	}
-
-	/**
-	 * @return the exemptSe
-	 */
-	public java.lang.String getExemptSe() {
-		return exemptSe;
-	}
-
-	/**
-	 * @param exemptSe the exemptSe to set
-	 */
-	public void setExemptSe(java.lang.String exemptSe) {
-		this.exemptSe = exemptSe;
-	}
-
-	/**
-	 * @return the exemptRsnCd
-	 */
-	public java.lang.String getExemptRsnCd() {
-		return exemptRsnCd;
-	}
-
-	/**
-	 * @param exemptRsnCd the exemptRsnCd to set
-	 */
-	public void setExemptRsnCd(java.lang.String exemptRsnCd) {
-		this.exemptRsnCd = exemptRsnCd;
-	}
-
-	/**
-	 * @return the exemptRsn
-	 */
-	public java.lang.String getExemptRsn() {
-		return exemptRsn;
-	}
-
-	/**
-	 * @param exemptRsn the exemptRsn to set
-	 */
-	public void setExemptRsn(java.lang.String exemptRsn) {
-		this.exemptRsn = exemptRsn;
-	}
-
-	/**
-	 * @return the exemptPdFrom
-	 */
-	public java.lang.String getExemptPdFrom() {
-		return exemptPdFrom;
-	}
-
-	/**
-	 * @param exemptPdFrom the exemptPdFrom to set
-	 */
-	public void setExemptPdFrom(java.lang.String exemptPdFrom) {
-		this.exemptPdFrom = exemptPdFrom;
-	}
-
-	/**
-	 * @return the exemptPdTo
-	 */
-	public java.lang.String getExemptPdTo() {
-		return exemptPdTo;
-	}
-
-	/**
-	 * @param exemptPdTo the exemptPdTo to set
-	 */
-	public void setExemptPdTo(java.lang.String exemptPdTo) {
-		this.exemptPdTo = exemptPdTo;
-	}
-
-	/**
-	 * @return the computDtls
-	 */
-	public java.lang.String getComputDtls() {
-		return computDtls;
-	}
-
-	/**
-	 * @param computDtls the computDtls to set
-	 */
-	public void setComputDtls(java.lang.String computDtls) {
-		this.computDtls = computDtls;
+	public void setPayTmlmt(String payTmlmt) {
+		this.payTmlmt = payTmlmt;
 	}
 
 	/**
 	 * @return the olnlp
 	 */
-	public java.lang.String getOlnlp() {
+	public String getOlnlp() {
 		return olnlp;
 	}
 
 	/**
 	 * @param olnlp the olnlp to set
 	 */
-	public void setOlnlp(java.lang.String olnlp) {
+	public void setOlnlp(String olnlp) {
 		this.olnlp = olnlp;
-	}
-
-	/**
-	 * @return the applcTariff
-	 */
-	public java.lang.String getApplcTariff() {
-		return applcTariff;
-	}
-
-	/**
-	 * @param applcTariff the applcTariff to set
-	 */
-	public void setApplcTariff(java.lang.String applcTariff) {
-		this.applcTariff = applcTariff;
-	}
-
-	/**
-	 * @return the applcMth
-	 */
-	public java.lang.String getApplcMth() {
-		return applcMth;
-	}
-
-	/**
-	 * @param applcMth the applcMth to set
-	 */
-	public void setApplcMth(java.lang.String applcMth) {
-		this.applcMth = applcMth;
-	}
-
-	/**
-	 * @return the packSe
-	 */
-	public java.lang.String getPackSe() {
-		return packSe;
-	}
-
-	/**
-	 * @param packSe the packSe to set
-	 */
-	public void setPackSe(java.lang.String packSe) {
-		this.packSe = packSe;
-	}
-
-	/**
-	 * @return the entrpsSe
-	 */
-	public java.lang.String getEntrpsSe() {
-		return entrpsSe;
-	}
-
-	/**
-	 * @param entrpsSe the entrpsSe to set
-	 */
-	public void setEntrpsSe(java.lang.String entrpsSe) {
-		this.entrpsSe = entrpsSe;
-	}
-
-	/**
-	 * @return the feeCalcSe
-	 */
-	public java.lang.String getFeeCalcSe() {
-		return feeCalcSe;
-	}
-
-	/**
-	 * @param feeCalcSe the feeCalcSe to set
-	 */
-	public void setFeeCalcSe(java.lang.String feeCalcSe) {
-		this.feeCalcSe = feeCalcSe;
-	}
-
-	/**
-	 * @return the rdcxptFeeCalcSe
-	 */
-	public java.lang.String getRdcxptFeeCalcSe() {
-		return rdcxptFeeCalcSe;
-	}
-
-	/**
-	 * @param rdcxptFeeCalcSe the rdcxptFeeCalcSe to set
-	 */
-	public void setRdcxptFeeCalcSe(java.lang.String rdcxptFeeCalcSe) {
-		this.rdcxptFeeCalcSe = rdcxptFeeCalcSe;
-	}
-
-	/**
-	 * @return the rdcxptFee
-	 */
-	public java.lang.String getRdcxptFee() {
-		return rdcxptFee;
-	}
-
-	/**
-	 * @param rdcxptFee the rdcxptFee to set
-	 */
-	public void setRdcxptFee(java.lang.String rdcxptFee) {
-		this.rdcxptFee = rdcxptFee;
 	}
 
 	/**
 	 * @return the fee
 	 */
-	public java.lang.String getFee() {
+	public String getFee() {
 		return fee;
 	}
 
 	/**
 	 * @param fee the fee to set
 	 */
-	public void setFee(java.lang.String fee) {
+	public void setFee(String fee) {
 		this.fee = fee;
 	}
 
 	/**
-	 * @return the trmnatDt
+	 * @return the vatYn
 	 */
-	public java.lang.String getTrmnatDt() {
-		return trmnatDt;
+	public String getVatYn() {
+		return vatYn;
 	}
 
 	/**
-	 * @param trmnatDt the trmnatDt to set
+	 * @param vatYn the vatYn to set
 	 */
-	public void setTrmnatDt(java.lang.String trmnatDt) {
-		this.trmnatDt = trmnatDt;
+	public void setVatYn(String vatYn) {
+		this.vatYn = vatYn;
 	}
 
 	/**
-	 * @return the trmnatRsn
+	 * @return the vat
 	 */
-	public java.lang.String getTrmnatRsn() {
-		return trmnatRsn;
+	public String getVat() {
+		return vat;
 	}
 
 	/**
-	 * @param trmnatRsn the trmnatRsn to set
+	 * @param vat the vat to set
 	 */
-	public void setTrmnatRsn(java.lang.String trmnatRsn) {
-		this.trmnatRsn = trmnatRsn;
+	public void setVat(String vat) {
+		this.vat = vat;
 	}
 
 	/**
-	 * @return the gisAssetsPrtAtCode
+	 * @return the nticAmt
 	 */
-	public java.lang.String getGisAssetsPrtAtCode() {
-		return gisAssetsPrtAtCode;
+	public String getNticAmt() {
+		return nticAmt;
 	}
 
 	/**
-	 * @param gisAssetsPrtAtCode the gisAssetsPrtAtCode to set
+	 * @param nticAmt the nticAmt to set
 	 */
-	public void setGisAssetsPrtAtCode(java.lang.String gisAssetsPrtAtCode) {
-		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	public void setNticAmt(String nticAmt) {
+		this.nticAmt = nticAmt;
 	}
-    
+
+	/**
+	 * @return the rm
+	 */
+	public String getRm() {
+		return rm;
+	}
+
+	/**
+	 * @param rm the rm to set
+	 */
+	public void setRm(String rm) {
+		this.rm = rm;
+	}
+
+	/**
+	 * @return the rcivSe
+	 */
+	public String getRcivSe() {
+		return rcivSe;
+	}
+
+	/**
+	 * @param rcivSe the rcivSe to set
+	 */
+	public void setRcivSe(String rcivSe) {
+		this.rcivSe = rcivSe;
+	}
+
+	/**
+	 * @return the rcivDt
+	 */
+	public String getRcivDt() {
+		return rcivDt;
+	}
+
+	/**
+	 * @param rcivDt the rcivDt to set
+	 */
+	public void setRcivDt(String rcivDt) {
+		this.rcivDt = rcivDt;
+	}
+
+	/**
+	 * @return the nhtIsueYn
+	 */
+	public String getNhtIsueYn() {
+		return nhtIsueYn;
+	}
+
+	/**
+	 * @param nhtIsueYn the nhtIsueYn to set
+	 */
+	public void setNhtIsueYn(String nhtIsueYn) {
+		this.nhtIsueYn = nhtIsueYn;
+	}
+
+	/**
+	 * @return the arrrgNo
+	 */
+	public String getArrrgNo() {
+		return arrrgNo;
+	}
+
+	/**
+	 * @param arrrgNo the arrrgNo to set
+	 */
+	public void setArrrgNo(String arrrgNo) {
+		this.arrrgNo = arrrgNo;
+	}
+
+	/**
+	 * @return the arrrgAmt
+	 */
+	public String getArrrgAmt() {
+		return arrrgAmt;
+	}
+
+	/**
+	 * @param arrrgAmt the arrrgAmt to set
+	 */
+	public void setArrrgAmt(String arrrgAmt) {
+		this.arrrgAmt = arrrgAmt;
+	}
+
+	/**
+	 * @return the reqestSeq
+	 */
+	public String getReqestSeq() {
+		return reqestSeq;
+	}
+
+	/**
+	 * @param reqestSeq the reqestSeq to set
+	 */
+	public void setReqestSeq(String reqestSeq) {
+		this.reqestSeq = reqestSeq;
+	}
+
+	/**
+	 * @return the deptcd
+	 */
+	public String getDeptcd() {
+		return deptcd;
+	}
+
+	/**
+	 * @param deptcd the deptcd to set
+	 */
+	public void setDeptcd(String deptcd) {
+		this.deptcd = deptcd;
+	}
+
+	/**
+	 * @return the nticMth
+	 */
+	public String getNticMth() {
+		return nticMth;
+	}
+
+	/**
+	 * @param nticMth the nticMth to set
+	 */
+	public void setNticMth(String nticMth) {
+		this.nticMth = nticMth;
+	}
+
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+
+	/**
+	 * @return the registDt
+	 */
+	public String getRegistDt() {
+		return registDt;
+	}
+
+	/**
+	 * @param registDt the registDt to set
+	 */
+	public void setRegistDt(String registDt) {
+		this.registDt = registDt;
+	}
+
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
+
+	/**
+	 * @return the updtDt
+	 */
+	public String getUpdtDt() {
+		return updtDt;
+	}
+
+	/**
+	 * @param updtDt the updtDt to set
+	 */
+	public void setUpdtDt(String updtDt) {
+		this.updtDt = updtDt;
+	}
+
+	/**
+	 * @return the prtAtCode
+	 */
+	public String getPrtAtCode() {
+		return prtAtCode;
+	}
+
+	/**
+	 * @param prtAtCode the prtAtCode to set
+	 */
+	public void setPrtAtCode(String prtAtCode) {
+		this.prtAtCode = prtAtCode;
+	}
+
+	/**
+	 * @return the mngYear
+	 */
+	public String getMngYear() {
+		return mngYear;
+	}
+
+	/**
+	 * @param mngYear the mngYear to set
+	 */
+	public void setMngYear(String mngYear) {
+		this.mngYear = mngYear;
+	}
+
+	/**
+	 * @return the mngNo
+	 */
+	public String getMngNo() {
+		return mngNo;
+	}
+
+	/**
+	 * @param mngNo the mngNo to set
+	 */
+	public void setMngNo(String mngNo) {
+		this.mngNo = mngNo;
+	}
+
+	/**
+	 * @return the mngCnt
+	 */
+	public String getMngCnt() {
+		return mngCnt;
+	}
+
+	/**
+	 * @param mngCnt the mngCnt to set
+	 */
+	public void setMngCnt(String mngCnt) {
+		this.mngCnt = mngCnt;
+	}
+
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sMngYear
+	 */
+	public String getsMngYear() {
+		return sMngYear;
+	}
+
+	/**
+	 * @param sMngYear the sMngYear to set
+	 */
+	public void setsMngYear(String sMngYear) {
+		this.sMngYear = sMngYear;
+	}
+
+	/**
+	 * @return the sMngNo
+	 */
+	public String getsMngNo() {
+		return sMngNo;
+	}
+
+	/**
+	 * @param sMngNo the sMngNo to set
+	 */
+	public void setsMngNo(String sMngNo) {
+		this.sMngNo = sMngNo;
+	}
+
+	/**
+	 * @return the sMngCnt
+	 */
+	public String getsMngCnt() {
+		return sMngCnt;
+	}
+
+	/**
+	 * @param sMngCnt the sMngCnt to set
+	 */
+	public void setsMngCnt(String sMngCnt) {
+		this.sMngCnt = sMngCnt;
+	}
+
+	/**
+	 * @return the sReqstSeCd
+	 */
+	public String getsReqstSeCd() {
+		return sReqstSeCd;
+	}
+
+	/**
+	 * @param sReqstSeCd the sReqstSeCd to set
+	 */
+	public void setsReqstSeCd(String sReqstSeCd) {
+		this.sReqstSeCd = sReqstSeCd;
+	}
+
+	/**
+	 * @return the sEntrpscd
+	 */
+	public String getsEntrpscd() {
+		return sEntrpscd;
+	}
+
+	/**
+	 * @param sEntrpscd the sEntrpscd to set
+	 */
+	public void setsEntrpscd(String sEntrpscd) {
+		this.sEntrpscd = sEntrpscd;
+	}
+
+	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
+	}
+
+	/**
+	 * @return the sPrmisnYn
+	 */
+	public String getsPrmisnYn() {
+		return sPrmisnYn;
+	}
+
+	/**
+	 * @param sPrmisnYn the sPrmisnYn to set
+	 */
+	public void setsPrmisnYn(String sPrmisnYn) {
+		this.sPrmisnYn = sPrmisnYn;
+	}
+
+	/**
+	 * @return the sUsagePdFrom
+	 */
+	public String getsUsagePdFrom() {
+		return sUsagePdFrom;
+	}
+
+	/**
+	 * @param sUsagePdFrom the sUsagePdFrom to set
+	 */
+	public void setsUsagePdFrom(String sUsagePdFrom) {
+		this.sUsagePdFrom = sUsagePdFrom;
+	}
+
+	/**
+	 * @return the sUsagePdTo
+	 */
+	public String getsUsagePdTo() {
+		return sUsagePdTo;
+	}
+
+	/**
+	 * @param sUsagePdTo the sUsagePdTo to set
+	 */
+	public void setsUsagePdTo(String sUsagePdTo) {
+		this.sUsagePdTo = sUsagePdTo;
+	}
+
+	/**
+	 * @return the sRrArFrom
+	 */
+	public String getsRrArFrom() {
+		return sRrArFrom;
+	}
+
+	/**
+	 * @param sRrArFrom the sRrArFrom to set
+	 */
+	public void setsRrArFrom(String sRrArFrom) {
+		this.sRrArFrom = sRrArFrom;
+	}
+
+	/**
+	 * @return the sRrArTo
+	 */
+	public String getsRrArTo() {
+		return sRrArTo;
+	}
+
+	/**
+	 * @param sRrArTo the sRrArTo to set
+	 */
+	public void setsRrArTo(String sRrArTo) {
+		this.sRrArTo = sRrArTo;
+	}
+
+	/**
+	 * @return the sumCnt
+	 */
+	public String getSumCnt() {
+		return sumCnt;
+	}
+
+	/**
+	 * @param sumCnt the sumCnt to set
+	 */
+	public void setSumCnt(String sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+
+	/**
+	 * @return the sumFee
+	 */
+	public String getSumFee() {
+		return sumFee;
+	}
+
+	/**
+	 * @param sumFee the sumFee to set
+	 */
+	public void setSumFee(String sumFee) {
+		this.sumFee = sumFee;
+	}
+
+	/**
+	 * @return the sumArrrgAmt
+	 */
+	public String getSumArrrgAmt() {
+		return sumArrrgAmt;
+	}
+
+	/**
+	 * @param sumArrrgAmt the sumArrrgAmt to set
+	 */
+	public void setSumArrrgAmt(String sumArrrgAmt) {
+		this.sumArrrgAmt = sumArrrgAmt;
+	}
+
+	/**
+	 * @return the sumVat
+	 */
+	public String getSumVat() {
+		return sumVat;
+	}
+
+	/**
+	 * @param sumVat the sumVat to set
+	 */
+	public void setSumVat(String sumVat) {
+		this.sumVat = sumVat;
+	}
+
+	/**
+	 * @return the sumNticAmt
+	 */
+	public String getSumNticAmt() {
+		return sumNticAmt;
+	}
+
+	/**
+	 * @param sumNticAmt the sumNticAmt to set
+	 */
+	public void setSumNticAmt(String sumNticAmt) {
+		this.sumNticAmt = sumNticAmt;
+	}
+
+	/**
+	 * @return the rentMngNo
+	 */
+	public String getRentMngNo() {
+		return rentMngNo;
+	}
+
+	/**
+	 * @param rentMngNo the rentMngNo to set
+	 */
+	public void setRentMngNo(String rentMngNo) {
+		this.rentMngNo = rentMngNo;
+	}
+
+	/**
+	 * @return the accnutSeCd
+	 */
+	public String getAccnutSeCd() {
+		return accnutSeCd;
+	}
+
+	/**
+	 * @param accnutSeCd the accnutSeCd to set
+	 */
+	public void setAccnutSeCd(String accnutSeCd) {
+		this.accnutSeCd = accnutSeCd;
+	}
+
+	/**
+	 * @return the computDtls
+	 */
+	public String getComputDtls() {
+		return computDtls;
+	}
+
+	/**
+	 * @param computDtls the computDtls to set
+	 */
+	public void setComputDtls(String computDtls) {
+		this.computDtls = computDtls;
+	}
+
+	/**
+	 * @return the frstNticDt
+	 */
+	public String getFrstNticDt() {
+		return frstNticDt;
+	}
+
+	/**
+	 * @param frstNticDt the frstNticDt to set
+	 */
+	public void setFrstNticDt(String frstNticDt) {
+		this.frstNticDt = frstNticDt;
+	}
+
+	/**
+	 * @return the rcivTransfrSttusCd
+	 */
+	public String getRcivTransfrSttusCd() {
+		return rcivTransfrSttusCd;
+	}
+
+	/**
+	 * @param rcivTransfrSttusCd the rcivTransfrSttusCd to set
+	 */
+	public void setRcivTransfrSttusCd(String rcivTransfrSttusCd) {
+		this.rcivTransfrSttusCd = rcivTransfrSttusCd;
+	}
+
+	/**
+	 * @return the incpctyCd
+	 */
+	public String getIncpctyCd() {
+		return incpctyCd;
+	}
+
+	/**
+	 * @param incpctyCd the incpctyCd to set
+	 */
+	public void setIncpctyCd(String incpctyCd) {
+		this.incpctyCd = incpctyCd;
+	}
+
+	/**
+	 * @return the overrpayAmt
+	 */
+	public String getOverrpayAmt() {
+		return overrpayAmt;
+	}
+
+	/**
+	 * @param overrpayAmt the overrpayAmt to set
+	 */
+	public void setOverrpayAmt(String overrpayAmt) {
+		this.overrpayAmt = overrpayAmt;
+	}
+
+	/**
+	 * @return the tmprIsuNo
+	 */
+	public String getTmprIsuNo() {
+		return tmprIsuNo;
+	}
+
+	/**
+	 * @param tmprIsuNo the tmprIsuNo to set
+	 */
+	public void setTmprIsuNo(String tmprIsuNo) {
+		this.tmprIsuNo = tmprIsuNo;
+	}
+
+	/**
+	 * @return the dscntAmt
+	 */
+	public String getDscntAmt() {
+		return dscntAmt;
+	}
+
+	/**
+	 * @param dscntAmt the dscntAmt to set
+	 */
+	public void setDscntAmt(String dscntAmt) {
+		this.dscntAmt = dscntAmt;
+	}
+
+	/**
+	 * @return the dscntRsn
+	 */
+	public String getDscntRsn() {
+		return dscntRsn;
+	}
+
+	/**
+	 * @param dscntRsn the dscntRsn to set
+	 */
+	public void setDscntRsn(String dscntRsn) {
+		this.dscntRsn = dscntRsn;
+	}
+
+	/**
+	 * @return the dscntCd
+	 */
+	public String getDscntCd() {
+		return dscntCd;
+	}
+
+	/**
+	 * @param dscntCd the dscntCd to set
+	 */
+	public void setDscntCd(String dscntCd) {
+		this.dscntCd = dscntCd;
+	}
+
+	/**
+	 * @return the rcivSeNm
+	 */
+	public String getRcivSeNm() {
+		return rcivSeNm;
+	}
+
+	/**
+	 * @param rcivSeNm the rcivSeNm to set
+	 */
+	public void setRcivSeNm(String rcivSeNm) {
+		this.rcivSeNm = rcivSeNm;
+	}
+
+	/**
+	 * @return the fnncInsttRcivDt
+	 */
+	public String getFnncInsttRcivDt() {
+		return fnncInsttRcivDt;
+	}
+
+	/**
+	 * @param fnncInsttRcivDt the fnncInsttRcivDt to set
+	 */
+	public void setFnncInsttRcivDt(String fnncInsttRcivDt) {
+		this.fnncInsttRcivDt = fnncInsttRcivDt;
+	}
+
+	/**
+	 * @return the postNticEnnc
+	 */
+	public String getPostNticEnnc() {
+		return postNticEnnc;
+	}
+
+	/**
+	 * @param postNticEnnc the postNticEnnc to set
+	 */
+	public void setPostNticEnnc(String postNticEnnc) {
+		this.postNticEnnc = postNticEnnc;
+	}
+
+	/**
+	 * @return the npymnRsnCd
+	 */
+	public String getNpymnRsnCd() {
+		return npymnRsnCd;
+	}
+
+	/**
+	 * @param npymnRsnCd the npymnRsnCd to set
+	 */
+	public void setNpymnRsnCd(String npymnRsnCd) {
+		this.npymnRsnCd = npymnRsnCd;
+	}
+
+	/**
+	 * @return the elctrnNticResult
+	 */
+	public String getElctrnNticResult() {
+		return elctrnNticResult;
+	}
+
+	/**
+	 * @param elctrnNticResult the elctrnNticResult to set
+	 */
+	public void setElctrnNticResult(String elctrnNticResult) {
+		this.elctrnNticResult = elctrnNticResult;
+	}
+
+	/**
+	 * @return the elctrnNticInfoInqireDt
+	 */
+	public String getElctrnNticInfoInqireDt() {
+		return elctrnNticInfoInqireDt;
+	}
+
+	/**
+	 * @param elctrnNticInfoInqireDt the elctrnNticInfoInqireDt to set
+	 */
+	public void setElctrnNticInfoInqireDt(String elctrnNticInfoInqireDt) {
+		this.elctrnNticInfoInqireDt = elctrnNticInfoInqireDt;
+	}
+
+	/**
+	 * @return the excclcYn
+	 */
+	public String getExcclcYn() {
+		return excclcYn;
+	}
+
+	/**
+	 * @param excclcYn the excclcYn to set
+	 */
+	public void setExcclcYn(String excclcYn) {
+		this.excclcYn = excclcYn;
+	}
+
+	/**
+	 * @return the prcepturSe
+	 */
+	public String getPrcepturSe() {
+		return prcepturSe;
+	}
+
+	/**
+	 * @param prcepturSe the prcepturSe to set
+	 */
+	public void setPrcepturSe(String prcepturSe) {
+		this.prcepturSe = prcepturSe;
+	}
+
+	/**
+	 * @return the giroRcivPlace
+	 */
+	public String getGiroRcivPlace() {
+		return giroRcivPlace;
+	}
+
+	/**
+	 * @param giroRcivPlace the giroRcivPlace to set
+	 */
+	public void setGiroRcivPlace(String giroRcivPlace) {
+		this.giroRcivPlace = giroRcivPlace;
+	}
+
+	/**
+	 * @return the giroRcivSe
+	 */
+	public String getGiroRcivSe() {
+		return giroRcivSe;
+	}
+
+	/**
+	 * @param giroRcivSe the giroRcivSe to set
+	 */
+	public void setGiroRcivSe(String giroRcivSe) {
+		this.giroRcivSe = giroRcivSe;
+	}
+
+	/**
+	 * @return the cmsn
+	 */
+	public String getCmsn() {
+		return cmsn;
+	}
+
+	/**
+	 * @param cmsn the cmsn to set
+	 */
+	public void setCmsn(String cmsn) {
+		this.cmsn = cmsn;
+	}
+
+	/**
+	 * @return the closYn
+	 */
+	public String getClosYn() {
+		return closYn;
+	}
+
+	/**
+	 * @param closYn the closYn to set
+	 */
+	public void setClosYn(String closYn) {
+		this.closYn = closYn;
+	}
+
+	/**
+	 * @return the charger
+	 */
+	public String getCharger() {
+		return charger;
+	}
+
+	/**
+	 * @param charger the charger to set
+	 */
+	public void setCharger(String charger) {
+		this.charger = charger;
+	}
+
+	/**
+	 * @return the opertSe
+	 */
+	public String getOpertSe() {
+		return opertSe;
+	}
+
+	/**
+	 * @param opertSe the opertSe to set
+	 */
+	public void setOpertSe(String opertSe) {
+		this.opertSe = opertSe;
+	}
+
+	/**
+	 * @return the orginlNticChrgeKnd
+	 */
+	public String getOrginlNticChrgeKnd() {
+		return orginlNticChrgeKnd;
+	}
+
+	/**
+	 * @param orginlNticChrgeKnd the orginlNticChrgeKnd to set
+	 */
+	public void setOrginlNticChrgeKnd(String orginlNticChrgeKnd) {
+		this.orginlNticChrgeKnd = orginlNticChrgeKnd;
+	}
+
+	/**
+	 * @return the orginlNticAccnutYear
+	 */
+	public String getOrginlNticAccnutYear() {
+		return orginlNticAccnutYear;
+	}
+
+	/**
+	 * @param orginlNticAccnutYear the orginlNticAccnutYear to set
+	 */
+	public void setOrginlNticAccnutYear(String orginlNticAccnutYear) {
+		this.orginlNticAccnutYear = orginlNticAccnutYear;
+	}
+
+	/**
+	 * @return the orginlNticNo
+	 */
+	public String getOrginlNticNo() {
+		return orginlNticNo;
+	}
+
+	/**
+	 * @param orginlNticNo the orginlNticNo to set
+	 */
+	public void setOrginlNticNo(String orginlNticNo) {
+		this.orginlNticNo = orginlNticNo;
+	}
+
+	/**
+	 * @return the elctrnTaxbilIsuYn
+	 */
+	public String getElctrnTaxbilIsuYn() {
+		return elctrnTaxbilIsuYn;
+	}
+
+	/**
+	 * @param elctrnTaxbilIsuYn the elctrnTaxbilIsuYn to set
+	 */
+	public void setElctrnTaxbilIsuYn(String elctrnTaxbilIsuYn) {
+		this.elctrnTaxbilIsuYn = elctrnTaxbilIsuYn;
+	}
+
+	/**
+	 * @return the beginDt
+	 */
+	public String getBeginDt() {
+		return beginDt;
+	}
+
+	/**
+	 * @param beginDt the beginDt to set
+	 */
+	public void setBeginDt(String beginDt) {
+		this.beginDt = beginDt;
+	}
+
+	/**
+	 * @return the endDt
+	 */
+	public String getEndDt() {
+		return endDt;
+	}
+
+	/**
+	 * @param endDt the endDt to set
+	 */
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
+	}
+	
 }
