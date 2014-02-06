@@ -11,8 +11,8 @@ import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
@@ -21,7 +21,7 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
  * @Description : 항만시설사용목록관리 Implement class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -89,7 +89,26 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 	 * @exception Exception
 	 */
 	public void insertPrtFcltyRentMngtRenew(GamPrtFcltyRentMngtVO vo) throws Exception {
-		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew(vo);
+		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew(vo); //항만시설 복사등록
+		
+		//항만시설 복사등록된  MngCnt의 max값을 가져온다.
+		String maxMngCnt = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxMngCnt(vo);
+		
+		//항만시설상세정보 조회
+		List detailList = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailInfo(vo);
+		
+		GamPrtFcltyRentMngtDetailVO resultVo = null;
+		
+		for( int i = 0 ; i < detailList.size() ; i++ ) {
+			resultVo = new GamPrtFcltyRentMngtDetailVO();
+			resultVo = (GamPrtFcltyRentMngtDetailVO)detailList.get(i);
+			
+			resultVo.setMngCnt(maxMngCnt);
+			resultVo.setRegUsr("admin2");
+			resultVo.setUpdUsr("admin2");
+			
+			gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew(resultVo); //항만시설상세 복사등록
+		}
 	}
 	
 	/**
@@ -201,50 +220,57 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String cStartDt = EgovStringUtil.remove(vo.getGrUsagePdFrom(), '-');
 		String cEndDt = EgovStringUtil.remove(vo.getGrUsagePdTo(), '-');
-		
+
 		String[] startRetVal = null; //고지방법별 사용시작일
 		String[] endRetVal = null; //고지방법별 사용종료일
 		int[] dayCnt = null; //고지방법별 해당기간의 날짜수
 		int totDayCnt = 0; // 사용기간 총 일수
 		int dayFee = 0; //일별 사용료
 		
+		int propNticPdFrom = 0; //고지기간 FROM 
+		int propNticPdTo   = 0; //고지기간 TO 
+		int propPayTmlmt   = 0; //납부기한
+
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
+		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
 		
-		dayFee = Integer.parseInt(vo.getGrFee()) / totDayCnt;
+		int monthCnt = gamPrtFcltyRentMngtDao.selectUsagePdMonthCnt(vo);
 		
+		log.debug("################################################ monthCnt => " + monthCnt);
+
 		if( vo.getNticMth().equals("1") ) {	// 일시납
 			startRetVal = new String[1];
 			endRetVal = new String[1];
 			dayCnt = new int[1];
-			
-			startRetVal[0] = cStartDt; 
-			endRetVal[0] = cEndDt;     
-			
+
+			startRetVal[0] = cStartDt;
+			endRetVal[0] = cEndDt;
+
 			try {
 				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //기간에 해당하는 날짜수 가져오기
 			} catch (Exception e) {}
-		} else if( vo.getNticMth().equals("2") ) { // 반기납
+		} else if( vo.getNticMth().equals("2") ) { // 반기납 [추후 협의후 재작업 (2014.02.04)]
 			startRetVal = new String[2];
 			endRetVal = new String[2];
 			dayCnt = new int[2];
-			
+
 			startRetVal[0] = cStartDt; //상반기
-			endRetVal[0] = EgovDateUtil.addYearMonthDay(cStartDt, 0, 6, -1); 
-			
+			endRetVal[0] = EgovDateUtil.addYearMonthDay(cStartDt, 0, 6, -1);
+
 			startRetVal[1] = EgovDateUtil.addYearMonthDay(cStartDt, 0, 6, 0); //하반기
-			endRetVal[1] = cEndDt; 
-			
+			endRetVal[1] = cEndDt;
+
 			try {
 				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //상반기 날짜수
-				
+
 				dayCnt[1] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[1], 0, 0, 1)).getTime() - sdf.parse(startRetVal[1]).getTime()) / 1000 / 60 / 60 / 24); //하반기 날짜수
 			} catch (Exception e) {}
-		} else if( vo.getNticMth().equals("3") ) { // 3분납
+		} else if( vo.getNticMth().equals("3") ) { // 3분납 [추후 협의후 재작업 (2014.02.04)]
 			int term = 0;
 			startRetVal = new String[3];
 			endRetVal = new String[3];
 			dayCnt = new int[3];
-			
+
 			for( int i = 0; i < 3; i++ ) {
 				if( i == 0 ) {
 					startRetVal[i] = cStartDt;
@@ -256,19 +282,19 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 				} else {
 					endRetVal[i] = EgovDateUtil.addYearMonthDay(startRetVal[i], 0, 4, -1);
 				}
-				
-				term = term + 4; 
-				
-				try { 
+
+				term = term + 4;
+
+				try {
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24); //날짜수
 				} catch (Exception e) {}
 			}
-	    } else if( vo.getNticMth().equals("4") ) { // 분기별
+	    } else if( vo.getNticMth().equals("4") ) { // 분기별 [추후 협의후 재작업 (2014.02.04)]
 	    	int term = 0;
 	    	startRetVal = new String[4];
 			endRetVal = new String[4];
 			dayCnt = new int[4];
-	    	
+
 			for( int i = 0; i < 4; i++ ) {
 				if( i == 0 ) {
 					startRetVal[i] = cStartDt;
@@ -280,68 +306,77 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 				} else {
 					endRetVal[i] = EgovDateUtil.addYearMonthDay(startRetVal[i], 0, 3, -1);
 				}
-				
-				term = term + 3; 
-				
+
+				term = term + 3;
+
 				try {
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24);
 				} catch (Exception e) {}
 			}
 	    } else if( vo.getNticMth().equals("5") ) { // 월별
-	    	startRetVal = new String[12];
-			endRetVal = new String[12];
-			dayCnt = new int[12];
-			
-			for( int i = 0; i < 12; i++ ) {
+	    	startRetVal = new String[monthCnt];
+			endRetVal = new String[monthCnt];
+			dayCnt = new int[monthCnt];
+
+			for( int i = 0; i < monthCnt; i++ ) {
 				if( i == 0 ) {
 					startRetVal[i] = cStartDt;
 				} else {
 					startRetVal[i] = EgovDateUtil.addYearMonthDay(cStartDt, 0, i, 0);
 				}
-				if( i == 11 ) {
+				
+				int j = monthCnt-1;
+				if( i == j ) {
 					endRetVal[i] = cEndDt;
 				} else {
 					endRetVal[i] = EgovDateUtil.addYearMonthDay(startRetVal[i], 0, 1, -1);
 				}
-				
+
 				try {
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24);
 				} catch (Exception e) {}
 			}
 		}
-		
+
 		for( int i = 0; i < startRetVal.length; i++ ) {
-			int thisTimeFee = 0 ; 
-			int thisTimeVat = 0; 
-			
+			int thisTimeFee = 0;
+			int thisTimeVat = 0;
+
 			vo.setNticCnt(Integer.toString(i+1)); //고지횟수
 			
-			int propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
-			int propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
-			int propPayTmlmt   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmt"));
+			if( "Pre".equals(vo.getPayMth()) ) { //납부방법(선납)
+				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
+				propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
+				propPayTmlmt   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmt"));
+			} else { //납부방법(후납)
+				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFromAfter"));
+				propNticPdTo = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdToAfter"));
+				propPayTmlmt = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmtAfter"));
+			}
 			
 			vo.setNticPdFrom(EgovDateUtil.addDay(startRetVal[i], propNticPdFrom)); //고지기간 FROM
 			vo.setConstPerTo(EgovDateUtil.addDay(startRetVal[i], propNticPdTo)); //고지기간 TO
 		    vo.setPayTmlmt(EgovDateUtil.addDay(startRetVal[i], propPayTmlmt));   //납부기한
-			
-			
-			thisTimeFee = dayFee * dayCnt[i]; //사용료 
-			vo.setFee(Integer.toString(thisTimeFee));
-			
-			if( "Y".equals(vo.getVatYn()) ) { 
-				thisTimeVat = thisTimeFee / 10;
-				thisTimeFee = thisTimeFee + thisTimeVat;
-				
-				vo.setVat(Integer.toString(thisTimeVat)); //부가세
-			}
 
-			vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
+		    if( dayCnt[i] > 0 ) {
+				thisTimeFee = dayFee * dayCnt[i]; //사용료
+				vo.setFee(Integer.toString(thisTimeFee));
+	
+				if( "Y".equals(vo.getVatYn()) ) {
+					thisTimeVat = thisTimeFee / 10;
+					thisTimeFee = thisTimeFee + thisTimeVat;
+	
+					vo.setVat(Integer.toString(thisTimeVat)); //부가세
+				}
+	
+				vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
+				
+				//징수의뢰 insert
+				gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtLevReqest(vo);
+		    }
 			
-			
-			//징수의뢰 insert
-			gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtLevReqest(vo);
 		}
-		
+
 		//항만시설 허가여부를 수정
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisn(vo);
 	}

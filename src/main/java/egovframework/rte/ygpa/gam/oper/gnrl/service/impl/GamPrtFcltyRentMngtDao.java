@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
@@ -14,7 +14,7 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
  * @Description : 항만시설사용목록관리 DAO Class
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -81,6 +81,25 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	 */
 	public void insertPrtFcltyRentMngtRenew(GamPrtFcltyRentMngtVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew_S", vo);
+	}
+	
+	/**
+	 * 항만시설 연장 신청된 MaxMngCnt 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설관리 목록 총 갯수
+	 * @exception
+	 */
+    public String selectPrtFcltyRentMngtMaxMngCnt(GamPrtFcltyRentMngtVO searchVO) {
+        return (String)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxMngCnt_S", searchVO);
+    }
+	
+	/**
+	 * 항만시설 연장 신청시 항만시설 상세를 복사하여 등록한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void insertPrtFcltyRentMngtDetailRenew(GamPrtFcltyRentMngtDetailVO vo){
+		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew_S", vo);
 	}
 	
 	/**
@@ -212,5 +231,24 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtPrmisnCancel(GamPrtFcltyRentMngtLevReqestVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisnCancel_S", vo);
 	}
-
+	
+	/**
+	 * 해당기간의 월 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 해당기간의 월 갯수
+	 * @exception
+	 */
+    public int selectUsagePdMonthCnt(GamPrtFcltyRentMngtLevReqestVO vo) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectUsagePdMonthCnt_S", vo);
+    }
+    
+	/**
+	 * 항만시설상세 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대상세 목록
+	 * @exception Exception
+	 */
+    public List selectPrtFcltyRentMngtDetailInfo(GamPrtFcltyRentMngtVO vo) throws Exception {
+        return list("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailInfo_S", vo);
+    }
 }
