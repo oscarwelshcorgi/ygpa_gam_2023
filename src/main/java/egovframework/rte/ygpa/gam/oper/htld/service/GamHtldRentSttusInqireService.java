@@ -2,12 +2,14 @@ package egovframework.rte.ygpa.gam.oper.htld.service;
 
 import java.util.List;
 
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
+
 /**
  * @Class Name : GamHtldRentSttusInqireService.java
- * @Description : 배후단지임대현황조회 (항만시설/배후단지/배후단지임대현황조회)
+ * @Description : 배후단지임대현황조회 (배후단지/배후단지/배후단지임대현황조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -17,27 +19,43 @@ import java.util.List;
 public interface GamHtldRentSttusInqireService {
 	
 	/**
-	 * 배후단지임대현황을 조회한다.
+	 * 배후단지사용현황 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 목록
+	 * @return list
 	 * @exception Exception
 	 */
-    List selectGamHtldRentSttusInqireList(GamHtldRentSttusInqireVO searchVO) throws Exception;
+    List selectHtldRentSttusInqireList(GamHtldRentSttusInqireVO searchVO) throws Exception;
     
     /**
-	 * 배후단지임대현황 총 갯수를 조회한다.
+	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 총 갯수
+	 * @return vo
 	 * @exception Exception
 	 */
-    int selectGamHtldRentSttusInqireListTotCnt(GamHtldRentSttusInqireVO searchVO);
+    GamHtldRentSttusInqireVO selectHtldRentSttusInqireSum(GamHtldRentSttusInqireVO searchVO) throws Exception;
     
     /**
-	 * 배후단지임대현황 정보 (자료수, 총면적, 총사용료 등)
+	 * 배후단지사용현황 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 정보
+	 * @return cnt
+	 * @exception
+	 */
+    int selectHtldRentSttusInqireListTotCnt(GamHtldRentSttusInqireVO searchVO) throws Exception;
+    
+    /**
+	 * 배후단지사용현황 상세 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
 	 * @exception Exception
 	 */
-    GamHtldRentSttusInqireVO selectGamHtldRentSttusInqireInfo(GamHtldRentSttusInqireVO searchVO) throws Exception;
+    List selectHtldRentSttusInqireDetailList(GamHtldRentSttusInqireVO vo) throws Exception;
+
+    /**
+	 * 배후단지사용현황 상세 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectHtldRentSttusInqireDetailListTotCnt(GamHtldRentSttusInqireVO vo) throws Exception;
     
 }
