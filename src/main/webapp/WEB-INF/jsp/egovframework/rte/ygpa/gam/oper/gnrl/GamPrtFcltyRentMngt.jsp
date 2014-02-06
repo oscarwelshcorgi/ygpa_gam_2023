@@ -11,9 +11,9 @@
   * 
   *   수정일          수정자                   수정내용 
   *  -------    --------    ---------------------------
-  *  2014.01.14  도명호          최초 생성
+  *  2014.01.14  domh          최초 생성
   *
-  * author 도명호
+  * author domh
   * since 2014.01.14
   *  
   * Copyright (C) 2013 by LFIT  All right reserved.
@@ -23,12 +23,12 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
- function GamPrtOperRentModule() {}
+ function GamPrtFcltyRentMngtModule() {}
 
- GamPrtOperRentModule.prototype = new EmdModule(910, 550);
+ GamPrtFcltyRentMngtModule.prototype = new EmdModule(910, 550);
 
  // 페이지가 호출 되었을때 호출 되는 함수
- GamPrtOperRentModule.prototype.loadComplete = function() {
+ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
      // 테이블 설정
      this.$("#operResultList").flexigrid({
@@ -63,7 +63,8 @@
                     {display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},                                                           
                     {display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},                                         
                     {display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},                                               
-                    {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'}
+                    {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'},
+                    {display:'납부방법', name:'payMth',width:60, sortable:false,align:'center'}
                      ],
          usepager: true,
          useRp: true,
@@ -120,7 +121,8 @@
                     {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
                     {display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
                     {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
-                    {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'}
+                    {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'},
+                    {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
                      ],
          usepager: true,
          useRp: true,
@@ -162,6 +164,7 @@
              module.$('#registDt').val(row['registDt']);
              module.$('#updUsr').val(row['updUsr']);
              module.$('#updtDt').val(row['updtDt']);
+             module.$('#payMth').val(row['payMth']);
              //throw 0;
              
              // 해당하는 자산임대상세 목록을 불러온다.
@@ -215,6 +218,7 @@
              module.$('#detailGisCd').val(row['gisCd']);              
              module.$('#detailUpdUsr').val(row['updUsr']);             
              module.$('#gisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
+             module.$('#quayCd').val(row['quayCd']);
          }
      });
  };
@@ -222,7 +226,7 @@
  /**
   * 정의 된 버튼 클릭 시
   */
-  GamPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
+  GamPrtFcltyRentMngtModule.prototype.onButtonClick = function(buttonId) {
 
      switch(buttonId) {
 
@@ -452,19 +456,25 @@
              }
          
              break; 
+             
+         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
+             var opts;
+             
+             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+             break; 
      }
  };
 
- GamPrtOperRentModule.prototype.onSubmit = function() {
+ GamPrtFcltyRentMngtModule.prototype.onSubmit = function() {
      this.loadData();
  };
 
- GamPrtOperRentModule.prototype.loadData = function() {
+ GamPrtFcltyRentMngtModule.prototype.loadData = function() {
      var searchOpt=this.makeFormArgs('#gamOperSearchForm');
      this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
  };
 
- GamPrtOperRentModule.prototype.onTabChange = function(newTabId, oldTabId) {
+ GamPrtFcltyRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
      switch(newTabId) {
      case 'tabs1':
          break;
@@ -489,11 +499,11 @@
      }
  };
  
-//팝업이 종료 될때 리턴 값이 오출 된다.
+//팝업이 종료 될때 리턴 값이 호출 된다.
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamPrtFcltyRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
     case 'selectEntrpsInfoPopup':
         if (msg != 'cancel') {
@@ -521,6 +531,16 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
             alert('취소 되었습니다');
         }
    	 break;
+   	
+    case 'selectAssetsCdRentPopup':
+        if (msg != 'cancel') {
+            this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
+            this.$('#gisAssetsCd').val(value.gisAssetsCd);
+            this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
+        } else {
+            alert('취소 되었습니다');
+        }
+        break;	 
    	 
     default:
         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -530,7 +550,7 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
 }; 
 
  // 다음 변수는 고정 적으로 정의 해야 함
- var module_instance = new GamPrtOperRentModule();
+ var module_instance = new GamPrtFcltyRentMngtModule();
  </script>
  <!-- 아래는 고정 -->
  <input type="hidden" id="window_id" value='${windowId}' />
@@ -606,8 +626,8 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
          </div>
      </div>
 
-     <div class="emdPanel">
-         <div id="operResultListTab" class="emdTabPanel" data-onchange="onTabChange">
+     <div class="emdPanel fillHeight">
+         <div id="operResultListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
              <ul>
                  <li><a href="#tabs1" class="emdTab">항만시설사용목록관리 조회내역</a></li>
                  <li><a href="#tabs2" class="emdTab">항만시설사용목록관리 상세조회 목록내역</a></li>
@@ -615,9 +635,7 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
              </ul>
              
              <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                 <div style="width: 100%; height: 100%; overflow:auto">
-                         <table id="operResultList" style="display:none"></table>
-                 </div>
+				<table id="operResultList" style="display:none"></table>
                  <div class="emdControlPanel">
                      <table style="width:100%;" >
                          <tr>
@@ -654,16 +672,16 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
                              <tr>
                                 <th><span class="label">항코드</span></th>
                                 <td>
-                                    <!-- 
                                     <select id="prtAtCode">
 	                                    <option value="" selected="selected">선택</option>
-	
+
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
 	                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
 	                                    </c:forEach>
 	                                </select>
-	                                 -->
+	                                <!-- 
 	                                <input type="text" size="5" id="prtAtCode" maxlength="10"/>
+	                                 -->
                                 </td>
                                 <th><span class="label">업체코드</span></th>
                                 <td>
@@ -765,6 +783,21 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
                                  <td><input type="text" size="10" id="deptcd"/></td>
                              </tr>
                              
+                             <tr>
+                                <th><span class="label">납부방법</span></th>
+                                <td>
+                                    <select id="payMth">
+                                        <option value="" selected="selected">선택</option>
+
+                                        <c:forEach  items="${payMthCdList}" var="payMthCdItem">
+                                            <option value="${payMthCdItem.code }">${payMthCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th><span class="label">XXX</span></th>
+                                <td><input type="text" size="10" id="deptcd"/></td>
+                            </tr>
+                             
                          </table>
                      </form>
                   
@@ -790,21 +823,26 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
                  	<button id="btnSaveItemDetail">저장</button>
                  </div>
                      <form id="gamOperDetailForm">
-
                          <input type="hidden" id="detailCmd"/>
                          <input type="hidden" id="detailPrtAtCode"/>
                          <input type="hidden" id="detailMngYear"/>
                          <input type="hidden" id="detailMngNo"/>
                          <input type="hidden" id="detailMngCnt"/>
                          <input type="hidden" id="detailPrmisnYn"/>
-
                          <table>
                              <tr>
                                 <th><span class="label">자산사용순번</span></th>
                                 <td><input type="text" size="10" id="assetsUsageSeq" readonly/>
                                 </td>
+                                <th><span class="label">GIS 자산 항코드 </span></th>
+                                <td><input type="text" size="10" id="gisAssetsPrtAtCode" /><button id="popupFcltyCd" class="popupButton">GIS자산코드조회</button></td>
+                            </tr>
+                            
+                            <tr>
                                 <th><span class="label">GIS 자산 SUB 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsSubCd"/></td>
+                                <td><input type="text" size="10" id="gisAssetsSubCd" /></td>
+                                <th><span class="label">GIS 자산코드</span></th>
+                                <td><input type="text" size="10" id="gisAssetsCd" /></td>
                             </tr>
                             
                             <tr>
@@ -962,11 +1000,19 @@ GamPrtOperRentModule.prototype.onClosePopup = function(popupId, msg, value) {
                              </tr>
                              
                              <tr>
-                                 <th><span class="label">GIS 자산 항코드</span></th>
-                                 <td><input type="text" size="10" id="gisAssetsPrtAtCode"/></td>
-                                 <th><span class="label">xxx</span></th>
-                                 <td><input type="text" size="10" id="xxx"/></td>
-                             </tr>
+                                <th><span class="label">부두코드</span></th>
+                                <td>
+                                    <select id="quayCd">
+                                        <option value="" selected="selected">선택</option>
+
+                                        <c:forEach  items="${quayCdList}" var="quayCdItem">
+                                            <option value="${quayCdItem.code }">${quayCdItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th><span class="label">XXX</span></th>
+                                <td></td>
+                            </tr>
                              
                          </table>
                      </form>
