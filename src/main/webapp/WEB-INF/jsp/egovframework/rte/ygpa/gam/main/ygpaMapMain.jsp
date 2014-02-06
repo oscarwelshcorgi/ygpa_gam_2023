@@ -119,7 +119,7 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0010"
-                                    data-url="<c:url value='/asset/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
