@@ -6,17 +6,25 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 
@@ -25,7 +33,7 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
  * @Description : 항만시설사용료관리 (항만시설/일반부두/항만시설사용료관리)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -34,73 +42,89 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
  */
 @Controller
 public class GamPrtFcltyRentFeeMngtController {
+	
+	protected Log log = LogFactory.getLog(this.getClass());
 
-    @Resource(name = "erpCmmnCdService")
-    private ErpCmmnCdService erpCmmnCdService;
-    
-    /*
-    @Resource(name = "erpCmmnCdClService")
-    private ErpCmmnCdClService erpCmmnCdClService;
-    
-    @Resource(name = "erpAssetCdService")
-    private ErpAssetCdService erpAssetCdService;
-    */
-
-    @Resource(name = "gamPrtFcltyRentFeeMngtService")
-    private GamPrtFcltyRentFeeMngtService gamPrtFcltyRentFeeMngtService;
-    
-    /** EgovPropertyService */
+	/** Validator */
+	@Autowired
+	private DefaultBeanValidator beanValidator;
+	
+	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-
+    
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
+    
+    /** cmmUseService */
+    @Resource(name="EgovCmmUseService")
+    private EgovCmmUseService cmmUseService;
+    
+    @Resource(name = "gamPrtFcltyRentFeeMngtService")
+    private GamPrtFcltyRentFeeMngtService gamPrtFcltyRentFeeMngtService;
+	
+    
     /**
-     * 
+     * 자산임대료고지관리 화면을 로딩한다. 
+     *
+     * @param windowId
+     * @param model the model
+     * @return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeeMngt"
+     * @throws Exception the exception  
      */
-    /**
-	 * 항만시설사용현황조회 화면으로 이동한다.
-	 * @param windowId
-	 * @return 항만시설사용현황조회 화면
-	 * @exception Exception
-	 */
-    @RequestMapping(value="/oper/gnrl/gamPrtFcltyRentFeeMngt.do")
-    String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+	@RequestMapping(value="/oper/gnrl/gamPrtFcltyRentFeeMngt.do")
+	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-    	model.addAttribute("windowId", windowId);
-
-    	ErpCmmnCdVO searchVO = new ErpCmmnCdVO();
-
-    	searchVO.setBigClsCd("0401");	// 제코드구분(자산)
-    	searchVO.setFirstIndex(0);
-    	searchVO.setLastIndex(99);
-    	List erpAssetClsList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpAssetClsList", erpAssetClsList);
-    	
-    	/*
-    	searchVO.setBigClsCd("0402");	// 취득구분
-    	List erpPurchaseSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpPurchaseSeList", erpPurchaseSeList);
-    	
-    	searchVO.setBigClsCd("0409");	// 자산구분
-    	List erpAssetSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpAssetSeList", erpAssetSeList);
-    	*/
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		
+		codeVo.setCodeId("GAM019"); //항코드 
+		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM011"); //신청구분코드 
+		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM008"); //고지방법 코드
+		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM007"); //사용 용도 코드 
+		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM024"); //요금종류
+		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM005"); //시설구분
+		List fcltySeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM025"); //수납구분 
+		List rcivSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		model.addAttribute("prtAtCdList", prtAtCdList);
+		model.addAttribute("reqstCdList", reqstCdList);
+		model.addAttribute("nticMthCdList", nticMthCdList);
+		model.addAttribute("usagePrposCdList", usagePrposCdList);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+		model.addAttribute("fcltySeCdList", fcltySeCdList);
+		model.addAttribute("rcivSeCdList", rcivSeCdList);
+		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeeMngt";
     }
+	
+	/**
+     * 자산임대료고지관리 목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyRentFeeMngtList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectPrtFcltyRentFeeMngtList(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
 
-    /**
-	 * 항만시설사용현황을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 목록
-	 * @exception Exception
-	 */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectGamPrtFcltyRentFeeMngt.do", method=RequestMethod.POST)
-    @ResponseBody Map selectGamPrtFcltyRentFeeMngtList(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
-    	
-    	int totalCnt, page, firstIndex;
+		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
@@ -112,17 +136,322 @@ public class GamPrtFcltyRentFeeMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-    	totalCnt = gamPrtFcltyRentFeeMngtService.selectGamPrtFcltyRentFeeMngtListTotCnt(searchVO);
+		
+		//자산임대목록
+    	totalCnt = gamPrtFcltyRentFeeMngtService.selectPrtFcltyRentFeeMngtListTotCnt(searchVO);
+    	List resultList = gamPrtFcltyRentFeeMngtService.selectPrtFcltyRentFeeMngtList(searchVO);
     	
-    	List gamAssetList = gamPrtFcltyRentFeeMngtService.selectGamPrtFcltyRentFeeMngtList(searchVO);
+    	//자료수, 사용료, 연체, 부가세, 고지액
+    	GamPrtFcltyRentFeeMngtVO resultSum = gamPrtFcltyRentFeeMngtService.selectPrtFcltyRentFeeMngtSum(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
-    	map.put("resultList", gamAssetList);
+    	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
+    	map.put("sumFee", resultSum.getSumFee());
+    	map.put("sumArrrgAmt", resultSum.getSumArrrgAmt());
+    	map.put("sumVat", resultSum.getSumVat());
+    	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	
     	return map;
     }
+	
+	/**
+     * 자산임대료고지관리정보를 수정한다.
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/gamUpdatePrtFcltyRentFeeMngt.do") 
+    public @ResponseBody Map updatePrtFcltyRentFeeMngt(
+     	   @ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO, 
+     	   BindingResult bindingResult)
+            throws Exception {
+ 	
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+ 
+         gamPrtFcltyRentFeeMngtVO.setUpdUsr("admin1"); //수정자 (세션 로그인 아이디)
+         
+         gamPrtFcltyRentFeeMngtService.updatePrtFcltyRentFeeMngt(gamPrtFcltyRentFeeMngtVO);
+         
+         resultCode = 0; 
+ 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+         
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
 
+    /**
+     * 고지의뢰를 한다. (다중처리)
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/gamInsertPrtFcltyRentFeeMngtNtic.do") 
+    @ResponseBody Map<String, Object> insertPrtFcltyRentFeeMngtNtic (
+				  @RequestParam("nticCnts") String nticCnts
+				 ,@RequestParam("prtAtCodes") String prtAtCodes
+				 ,@RequestParam("mngYears") String mngYears
+				 ,@RequestParam("mngNos") String mngNos
+				 ,@RequestParam("mngCnts") String mngCnts
+				 ,@RequestParam("nticnos") String nticnos
+				 ,@RequestParam("accnutYears") String accnutYears
+				 ,@ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO
+    		     ) throws Exception {
+ 	
+        Map map = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        int anlrveLevCnt = 0;
+         
+        String [] arrNticCnts = nticCnts.split(";");
+     	String [] arrPrtAtCodes = prtAtCodes.split(";");
+     	String [] arrMngYears = mngYears.split(";");
+     	String [] arrMngNos = mngNos.split(";");
+     	String [] arrMngCnts = mngCnts.split(";");
+     	String [] arrNticnos = nticnos.split(";");
+     	String [] arrAccnutYears = accnutYears.split(";");
+        
+ 		//세입징수에 등록하기전 validation 체크
+     	for(int i=0; i<arrNticCnts.length;i++) {
+     		gamPrtFcltyRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
+     		gamPrtFcltyRentFeeMngtVO.setPrtAtCode(arrPrtAtCodes[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngYear(arrMngYears[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngNo(arrMngNos[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
+     		gamPrtFcltyRentFeeMngtVO.setNticno(arrNticnos[i]);
+     		gamPrtFcltyRentFeeMngtVO.setAccnutYear(arrAccnutYears[i]);
+     		
+     		//세입징수에 기등록  여부
+     		anlrveLevCnt = gamPrtFcltyRentFeeMngtService.selectAnlrveLevCnt(gamPrtFcltyRentFeeMngtVO);
+     		
+     		if( anlrveLevCnt > 0 ) {
+     			map.put("resultCode", 1);
+                map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
+                 
+         		return map;
+     		}
+     		
+     		//징수의뢰 정보조회
+            GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtInfo = gamPrtFcltyRentFeeMngtService.selectPrtFcltyRentFeeMngtInfo(gamPrtFcltyRentFeeMngtVO);
+            
+            if( EgovStringUtil.isEmpty(gamPrtFcltyRentFeeMngtInfo.getAccnutYear()) ) {
+            	map.put("resultCode", 1);
+                map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject2")); //회계년도가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
+                 
+         		return map;
+            }
+            
+            if( EgovStringUtil.isEmpty(gamPrtFcltyRentFeeMngtInfo.getNticno()) ) {
+            	map.put("resultCode", 1);
+                map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject3")); //고지번호가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
+                 
+         		return map;
+            }
+            
+    	}
+     	
+     	//세입징수 등록
+     	for(int i=0; i<arrNticCnts.length;i++) {
+     		gamPrtFcltyRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
+     		gamPrtFcltyRentFeeMngtVO.setPrtAtCode(arrPrtAtCodes[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngYear(arrMngYears[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngNo(arrMngNos[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
+     		
+     		//징수의뢰 정보조회
+            GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtInfo = gamPrtFcltyRentFeeMngtService.selectPrtFcltyRentFeeMngtInfo(gamPrtFcltyRentFeeMngtVO);
+            
+            gamPrtFcltyRentFeeMngtInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+            gamPrtFcltyRentFeeMngtInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+            
+            gamPrtFcltyRentFeeMngtService.insertAnlrveLev(gamPrtFcltyRentFeeMngtInfo);
+ 		}
+ 		
+ 		resultCode = 0; 
+        resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+         
+     	map.put("resultCode", resultCode);
+        map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+    
+    /**
+     * 고지취소를 한다. (다중처리)
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/gamDeletePrtFcltyRentFeeMngtNtic.do") 
+    @ResponseBody Map<String, Object> deletePrtFcltyRentFeeMngtNtic (
+				  @RequestParam("nticCnts") String nticCnts
+				 ,@RequestParam("prtAtCodes") String prtAtCodes
+				 ,@RequestParam("mngYears") String mngYears
+				 ,@RequestParam("mngNos") String mngNos
+				 ,@RequestParam("mngCnts") String mngCnts
+				 ,@RequestParam("nticnos") String nticnos
+				 ,@RequestParam("accnutYears") String accnutYears
+				 ,@ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO
+    		     ) throws Exception {
+ 	
+        Map map = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        int anlrveLevCnt = 0;
+         
+        String [] arrNticCnts = nticCnts.split(";");
+     	String [] arrPrtAtCodes = prtAtCodes.split(";");
+     	String [] arrMngYears = mngYears.split(";");
+     	String [] arrMngNos = mngNos.split(";");
+     	String [] arrMngCnts = mngCnts.split(";");
+     	String [] arrNticnos = nticnos.split(";");
+     	String [] arrAccnutYears = accnutYears.split(";");
+        
+ 		//징수의뢰 삭제전 세입징수의 등록건수 체크
+     	for(int i=0; i<arrNticCnts.length;i++) {
+     		gamPrtFcltyRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
+     		gamPrtFcltyRentFeeMngtVO.setPrtAtCode(arrPrtAtCodes[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngYear(arrMngYears[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngNo(arrMngNos[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
+     		gamPrtFcltyRentFeeMngtVO.setNticno(arrNticnos[i]);
+     		gamPrtFcltyRentFeeMngtVO.setAccnutYear(arrAccnutYears[i]);
+     		
+     		//세입징수에 기등록  여부
+     		anlrveLevCnt = gamPrtFcltyRentFeeMngtService.selectAnlrveLevCnt(gamPrtFcltyRentFeeMngtVO);
+     		
+     		if( anlrveLevCnt > 0 ) {
+     			map.put("resultCode", 1);
+                map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
+                 
+         		return map;
+     		}
+    	}
+     	
+     	//징수의뢰 삭제
+     	for(int i=0; i<arrNticCnts.length;i++) {
+     		gamPrtFcltyRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
+     		gamPrtFcltyRentFeeMngtVO.setPrtAtCode(arrPrtAtCodes[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngYear(arrMngYears[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngNo(arrMngNos[i]);
+     		gamPrtFcltyRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
+     		
+            gamPrtFcltyRentFeeMngtService.deletePrtFcltyRentFeeMngt(gamPrtFcltyRentFeeMngtVO);
+ 		}
+ 		
+ 		resultCode = 0; 
+        resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+         
+     	map.put("resultCode", resultCode);
+        map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+    
+    /**
+     * 고지의뢰를 한다.(단일처리)
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/gamInsertPrtFcltyRentFeeMngtNticSingle.do") 
+    public @ResponseBody Map insertPrtFcltyRentFeeMngtNticSingle(
+     	   @ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO, 
+     	   BindingResult bindingResult)
+            throws Exception {
+ 	
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+         int anlrveLevCnt = 0;
+ 
+       //세입징수에 기등록  여부
+  		anlrveLevCnt = gamPrtFcltyRentFeeMngtService.selectAnlrveLevCnt(gamPrtFcltyRentFeeMngtVO);
+  		
+  		if( anlrveLevCnt > 0 ) {
+  			map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
+              
+      		return map;
+  		}
+  		
+  		//징수의뢰 정보조회
+        GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtInfo = gamPrtFcltyRentFeeMngtService.selectPrtFcltyRentFeeMngtInfo(gamPrtFcltyRentFeeMngtVO);
+        
+        if( EgovStringUtil.isEmpty(gamPrtFcltyRentFeeMngtInfo.getAccnutYear()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject2")); //회계년도가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
+             
+     		return map;
+        }
+        
+        if( EgovStringUtil.isEmpty(gamPrtFcltyRentFeeMngtInfo.getNticno()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject3")); //고지번호가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
+             
+     		return map;
+        }
+        
+        gamPrtFcltyRentFeeMngtInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+        gamPrtFcltyRentFeeMngtInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+        
+        gamPrtFcltyRentFeeMngtService.insertAnlrveLev(gamPrtFcltyRentFeeMngtInfo);
+         
+        resultCode = 0; 
+ 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+        
+     	map.put("resultCode", resultCode);
+        map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+    
+    /**
+     * 고지취소를 한다.(단일처리)
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/gamDeletePrtFcltyRentFeeMngtNticSingle.do") 
+    public @ResponseBody Map deletePrtFcltyRentFeeMngtNticSingle(
+     	   @ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO, 
+     	   BindingResult bindingResult)
+            throws Exception {
+ 	
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+         int anlrveLevCnt = 0;
+ 
+       //세입징수에 기등록  여부
+  		anlrveLevCnt = gamPrtFcltyRentFeeMngtService.selectAnlrveLevCnt(gamPrtFcltyRentFeeMngtVO);
+  		
+  		if( anlrveLevCnt > 0 ) {
+  			map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
+              
+      		return map;
+  		}
+  		
+  		gamPrtFcltyRentFeeMngtService.deletePrtFcltyRentFeeMngt(gamPrtFcltyRentFeeMngtVO);
+         
+        resultCode = 0; 
+ 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+        
+     	map.put("resultCode", resultCode);
+        map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+    
 }

@@ -35,7 +35,7 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
  * @Description : 항만시설사용목록관리 (항만시설/일반부두/항만시설사용목록관리)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -113,6 +113,12 @@ public class GamPrtFcltyRentMngtController {
 		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분 (확인할것!!)
 		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
+		codeVo.setCodeId("GAM043"); //납부 방법 코드
+		List payMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM003"); //부두코드
+		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("reqstCdList", reqstCdList);
 		model.addAttribute("nticMthCdList", nticMthCdList);
@@ -124,6 +130,8 @@ public class GamPrtFcltyRentMngtController {
 		model.addAttribute("entrpsSeCdList", entrpsSeCdList);
 		model.addAttribute("feeCalcSeCdList", feeCalcSeCdList);
 		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
+		model.addAttribute("payMthCdList", payMthCdList);
+		model.addAttribute("quayCdList", quayCdList);
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentMngt";
@@ -198,7 +206,7 @@ public class GamPrtFcltyRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		// 자산임대상세리스트 및 총건수
+		// 항만시설상세리스트 및 총건수
 		totalCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtDetailList(searchVO);
     	
@@ -448,19 +456,33 @@ public class GamPrtFcltyRentMngtController {
         }
         */
     	
-    	if("insert".equals(detailCmd)) {
-	    	//확인후 변경혀라~~
-	    	gamPrtFcltyRentMngtDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamPrtFcltyRentMngtDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	
-	        gamPrtFcltyRentMngtService.insertPrtFcltyRentMngtDetail(gamPrtFcltyRentMngtDetailVO);
-	    	
-	        resultCode = 0; // return ok
-			resultMsg  = egovMessageSource.getMessage("success.common.insert");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-    	}
+        GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO = new GamPrtFcltyRentMngtVO();
+        gamPrtFcltyRentMngtVO.setPrtAtCode(gamPrtFcltyRentMngtDetailVO.getDetailPrtAtCode());
+        gamPrtFcltyRentMngtVO.setMngYear(gamPrtFcltyRentMngtDetailVO.getDetailMngYear());
+        gamPrtFcltyRentMngtVO.setMngNo(gamPrtFcltyRentMngtDetailVO.getDetailMngNo());
+        gamPrtFcltyRentMngtVO.setMngCnt(gamPrtFcltyRentMngtDetailVO.getDetailMngCnt());
+        
+        //임대정보 조회후 승낙여부 체크
+        GamPrtFcltyRentMngtVO rentPrmisnInfo = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtPrmisnInfo(gamPrtFcltyRentMngtVO);
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 등록가능
+        	if("insert".equals(detailCmd)) {
+    	    	//확인후 변경혀라~~
+    	    	gamPrtFcltyRentMngtDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+    	    	gamPrtFcltyRentMngtDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+    	    	
+    	        gamPrtFcltyRentMngtService.insertPrtFcltyRentMngtDetail(gamPrtFcltyRentMngtDetailVO);
+    	    	
+    	        resultCode = 0; // return ok
+    			resultMsg  = egovMessageSource.getMessage("success.common.insert");
+        	} else {
+        		resultCode = 1; // return fail
+        		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+        	}
+        } else {
+        	resultCode = 1; // return fail
+    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+        }
 		
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
@@ -516,19 +538,31 @@ public class GamPrtFcltyRentMngtController {
         }
         */
     	
-    	if("modify".equals(detailCmd)) {
-	    	//확인후 변경혀라~~
-	    	gamPrtFcltyRentMngtDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamPrtFcltyRentMngtDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	
-	        gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtDetail(gamPrtFcltyRentMngtDetailVO);
-	    	
-	        resultCode = 0; // return ok
-			resultMsg  = egovMessageSource.getMessage("success.common.update");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-    	}
+    	GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO = new GamPrtFcltyRentMngtVO();
+        gamPrtFcltyRentMngtVO.setPrtAtCode(gamPrtFcltyRentMngtDetailVO.getDetailPrtAtCode());
+        gamPrtFcltyRentMngtVO.setMngYear(gamPrtFcltyRentMngtDetailVO.getDetailMngYear());
+        gamPrtFcltyRentMngtVO.setMngNo(gamPrtFcltyRentMngtDetailVO.getDetailMngNo());
+        gamPrtFcltyRentMngtVO.setMngCnt(gamPrtFcltyRentMngtDetailVO.getDetailMngCnt());
+        
+        //임대정보 조회후 승낙여부 체크
+        GamPrtFcltyRentMngtVO rentPrmisnInfo = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtPrmisnInfo(gamPrtFcltyRentMngtVO);
+        
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
+	    	if("modify".equals(detailCmd)) {
+		    	gamPrtFcltyRentMngtDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+		    	
+		        gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtDetail(gamPrtFcltyRentMngtDetailVO);
+		    	
+		        resultCode = 0; // return ok
+				resultMsg  = egovMessageSource.getMessage("success.common.update");
+	    	} else {
+	    		resultCode = 1; // return fail
+	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+	    	}
+        } else {
+        	resultCode = 1; // return fail
+    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+        }
 		
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
@@ -678,6 +712,20 @@ public class GamPrtFcltyRentMngtController {
     		return map;
         }
         
+        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPayMth()) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //납부방법 코드가 없습니다.
+            
+    		return map;
+        }
+        
+        if( !"Pre".equals( rentPrmisnInfo.getPayMth() ) && !"Aft".equals( rentPrmisnInfo.getPayMth() ) ) {
+        	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject9")); //납부방법 코드가 올바르지 않습니다.
+            
+    		return map;
+        }
+        
         GamPrtFcltyRentMngtLevReqestVO levReqestInfo = new GamPrtFcltyRentMngtLevReqestVO();
         levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
         levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
@@ -690,8 +738,10 @@ public class GamPrtFcltyRentMngtController {
         levReqestInfo.setGrFee( rentPrmisnInfo.getGrFee() );
         levReqestInfo.setGrUsagePdFrom( rentPrmisnInfo.getGrUsagePdFrom() ); //총사용기간 FROM
         levReqestInfo.setGrUsagePdTo( rentPrmisnInfo.getGrUsagePdTo() ); //총사용기간 TO
+        levReqestInfo.setReqstSeCd( rentPrmisnInfo.getReqstSeCd() );
 		levReqestInfo.setChrgeKnd( gamPrtFcltyRentMngtVO.getChrgeKnd() );
 		levReqestInfo.setVatYn( gamPrtFcltyRentMngtVO.getVatYn() );
+		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
         
         levReqestInfo.setPrmisnYn("Y"); //허가여부
         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
@@ -733,17 +783,17 @@ public class GamPrtFcltyRentMngtController {
          int levReqestCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtLevReqestCnt(gamPrtFcltyRentMngtVO);
          
          if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
-         	map.put("resultCode", 1);
+        	 map.put("resultCode", 1);
              map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
-             
-     		return map;
-         }
-         
+              
+             return map;
+          }
+          
          if( levReqestCnt > 0 ) { 
-         	map.put("resultCode", 1);
+        	 map.put("resultCode", 1);
              map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
-             
-     		return map;
+              
+             return map;
          }
          
          GamPrtFcltyRentMngtLevReqestVO levReqestInfo = new GamPrtFcltyRentMngtLevReqestVO();
