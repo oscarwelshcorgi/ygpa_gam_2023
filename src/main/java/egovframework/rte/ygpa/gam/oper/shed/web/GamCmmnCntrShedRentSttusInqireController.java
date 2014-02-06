@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentSttusInqireVO;
 
 /**
  * @Class Name : GamCmmnCntrShedRentSttusInqireController.java
- * @Description : 공컨장치장임대현황조회 (항만시설/공컨장치장/공컨장치장임대현황조회)
+ * @Description : 공컨장치장임대현황조회 (공컨장치장/공컨장치장/공컨장치장임대현황조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -53,54 +53,131 @@ public class GamCmmnCntrShedRentSttusInqireController {
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-
-    @Resource(name = "erpCmmnCdService")
-    private ErpCmmnCdService erpCmmnCdService;
-
-    /*   
-    @Resource(name = "erpCmmnCdClService")
-    private ErpCmmnCdClService erpCmmnCdClService;
     
-    @Resource(name = "erpAssetCdService")
-    private ErpAssetCdService erpAssetCdService;
-	*/
+    /** cmmUseService */
+    @Resource(name="EgovCmmUseService")
+    private EgovCmmUseService cmmUseService;
 	
     @Resource(name = "gamCmmnCntrShedRentSttusInqireService")
     private GamCmmnCntrShedRentSttusInqireService gamCmmnCntrShedRentSttusInqireService;
     
     /**
-	 * 컨테이너부두임대현황조회 화면으로 이동한다.
-	 * @param windowId
-	 * @return 컨테이너부두임대현황조회 화면
-	 * @exception Exception
+	 * 공컨장치장사용현황조회 화면으로 이동한다.
+	 * 
+     * @param windowId
+     * @param model the model
+     * @return "/ygpa/gam/oper/shed/GamCmmnCntrShedRentSttusInqire"
+     * @throws Exception the exception  
 	 */
-    @RequestMapping(value="/oper/shed/gamCmmnCntrShedRentSttusInqire.do")
-    String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+	@RequestMapping(value="/oper/shed/gamCmmnCntrShedRentSttusInqire.do")
+	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-    	model.addAttribute("windowId", windowId);
-
-    	ErpCmmnCdVO searchVO = new ErpCmmnCdVO();
-
-    	searchVO.setBigClsCd("0401");	// 제코드구분(자산)
-    	searchVO.setFirstIndex(0);
-    	searchVO.setLastIndex(99);
-    	List erpAssetClsList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpAssetClsList", erpAssetClsList);
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		
+		codeVo.setCodeId("GAM019"); //항코드 
+		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM011"); //신청구분코드 
+		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM008"); //고지방법 코드
+		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM077"); //GIS 코드  
+		List gisCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM007"); //사용 용도 코드 
+		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM009"); //면제 구분  
+		List exemptSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM017"); //면제 사유 코드
+		List exemptRsnCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM015"); //포장 구분 
+		List packSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM012"); //업체 구분
+		List entrpsSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("GAM023"); //사용료 계산 구분
+		List feeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분 (확인할것!!)
+		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		model.addAttribute("prtAtCdList", prtAtCdList);
+		model.addAttribute("reqstCdList", reqstCdList);
+		model.addAttribute("nticMthCdList", nticMthCdList);
+		model.addAttribute("gisCdList", gisCdList);
+		model.addAttribute("usagePrposCdList", usagePrposCdList);
+		model.addAttribute("exemptSeCdList", exemptSeCdList);
+		model.addAttribute("exemptRsnCdList", exemptRsnCdList);
+		model.addAttribute("packSeCdList", packSeCdList);
+		model.addAttribute("entrpsSeCdList", entrpsSeCdList);
+		model.addAttribute("feeCalcSeCdList", feeCalcSeCdList);
+		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
+		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/shed/GamCmmnCntrShedRentSttusInqire";
     }
 
-    /**
-	 * 컨테이너부두임대현황을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대현황 목록
-	 * @exception Exception
-	 */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/shed/selectGamCmmnCntrShedRentSttusInqire.do", method=RequestMethod.POST)
-    @ResponseBody Map selectGamCmmnCntrShedRentSttusInqireList(GamCmmnCntrShedRentSttusInqireVO searchVO) throws Exception {
+	/**
+     * 공컨장치장사용현황을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/shed/selectCmmnCntrShedRentSttusInqireList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectCmmnCntrShedRentSttusInqireList(GamCmmnCntrShedRentSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
-    	int totalCnt, page, firstIndex;
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//공컨장치장사용현황
+    	totalCnt = gamCmmnCntrShedRentSttusInqireService.selectCmmnCntrShedRentSttusInqireListTotCnt(searchVO);
+    	List resultList = gamCmmnCntrShedRentSttusInqireService.selectCmmnCntrShedRentSttusInqireList(searchVO);
+    	
+    	//총면적, 총사용료
+    	GamCmmnCntrShedRentSttusInqireVO resultSum = gamCmmnCntrShedRentSttusInqireService.selectCmmnCntrShedRentSttusInqireSum(searchVO);
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+    	map.put("sumGrAr", resultSum.getSumGrAr());
+    	map.put("sumGrFee", resultSum.getSumGrFee());
+    	
+    	return map;
+    }
+	
+	/**
+     * 공컨장치장사용현황 상세리스트를 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/shed/selectCmmnCntrShedRentSttusInqireDetailList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectCmmnCntrShedRentSttusInqireDetailList(GamCmmnCntrShedRentSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -115,18 +192,14 @@ public class GamCmmnCntrShedRentSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-    	totalCnt = gamCmmnCntrShedRentSttusInqireService.selectGamCmmnCntrShedRentSttusInqireListTotCnt(searchVO);
-    	List resultList = gamCmmnCntrShedRentSttusInqireService.selectGamCmmnCntrShedRentSttusInqireList(searchVO);
-    	
-    	// 배후단지임대현황 정보
-    	GamCmmnCntrShedRentSttusInqireVO resultInfo = gamCmmnCntrShedRentSttusInqireService.selectGamCmmnCntrShedRentSttusInqireInfo(searchVO);
+		// 공컨장치장사용현황 상세리스트 및 총건수
+		totalCnt = gamCmmnCntrShedRentSttusInqireService.selectCmmnCntrShedRentSttusInqireDetailListTotCnt(searchVO);
+		List resultList = gamCmmnCntrShedRentSttusInqireService.selectCmmnCntrShedRentSttusInqireDetailList(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-    	
-    	map.put("resultInfo", resultInfo);
 
     	return map;
     }
