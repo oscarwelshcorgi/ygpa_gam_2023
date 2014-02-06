@@ -107,6 +107,17 @@
               FROM GIS_PRT_FCLTY_CD_F
              WHERE 1=1 
              AND GIS_PRT_FCLTY_CD = #searchCondition#
+			<isNotEmpty property="searchPrtAtCode">
+           		AND GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+           	</isNotEmpty>
+	        <isNotEmpty property="searchAssetsCd">
+           		AND GIS_ASSETS_CD = #searchAssetsCd#
+           		AND GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
+           	</isNotEmpty>
+	        <isNotEmpty property="searchFcltySeq">
+	           	AND GIS_PRT_FCLTY_CD = #searchFcltyCd#
+           		AND GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
+           	</isNotEmpty>
 			<isNotEmpty property="searchKeyword">
    				AND PRT_FCLTY_NM = #searchKeyword#
    			</isNotEmpty>
