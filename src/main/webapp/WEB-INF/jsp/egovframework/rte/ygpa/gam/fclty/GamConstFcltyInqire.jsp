@@ -56,7 +56,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
 		// 자산구분코드 설정
-		module.$("#gisPrtFcltyCd").val("01");
+		module.$("#gisPrtFcltyCd").val("AA");
 		
 		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:module.$("#gisPrtFcltyCd").val()};
 		module.doAction('<c:url value="/fclty/gamFcltyMngSelectView.do" />', detailInput, function(module, result) {
@@ -121,7 +121,7 @@ var module_instance = new GamFcltyMngtModule();
 	<div class="emdPanel">
 		<div class="viewStack">
 			<form id="fcltyForm">
-				<input type="hidden" id="uniqFcltyCd" value="01" />
+				<input type="hidden" id="uniqFcltyCd" value="AA" />
 				<table class="searchPanel">
 					<tbody>
 						<tr>

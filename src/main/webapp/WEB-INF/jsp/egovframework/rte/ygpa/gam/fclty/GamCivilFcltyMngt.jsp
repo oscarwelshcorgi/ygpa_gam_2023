@@ -56,7 +56,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
 		// 자산구분코드 설정
-		module.$("#gisPrtFcltyCd").val("04");
+		module.$("#gisPrtFcltyCd").val("AD");
 		
 		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:module.$("#gisPrtFcltyCd").val()};
 		module.doAction('<c:url value="/fclty/gamFcltyMngSelectView.do" />', detailInput, function(module, result) {
@@ -115,7 +115,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "saveBtn":
 
 			// 자산구분코드 설정
-			this.$("#gisPrtFcltyCd").val("04");
+			this.$("#gisPrtFcltyCd").val("AD");
 			
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
@@ -151,7 +151,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(confirm("삭제하시겠습니까?")){
 
 				// 자산구분코드 설정
-				this.$("#gisPrtFcltyCd").val("04");
+				this.$("#gisPrtFcltyCd").val("AD");
 				
 				var inputVO = this.makeFormArgs("#fcltyManageVO");
 			 	this.doAction('<c:url value="/fclty/gamFcltyDelete.do" />', inputVO, function(module, result) {
@@ -213,7 +213,7 @@ var module_instance = new GamFcltyMngtModule();
 	<div class="emdPanel">
 		<div class="viewStack">
 			<form id="fcltyForm">
-				<input type="hidden" id="uniqFcltyCd" value="04" />
+				<input type="hidden" id="uniqFcltyCd" value="AD" />
 				<table class="searchPanel">
 					<tbody>
 						<tr>

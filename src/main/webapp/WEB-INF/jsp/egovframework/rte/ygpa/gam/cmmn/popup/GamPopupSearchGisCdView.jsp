@@ -40,10 +40,12 @@ GamSearchGisCdPopupModule.prototype.loadComplete = function() {
 		url: '<c:url value="/fclty/gamSearchGisCdPopupList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"GIS 자산 SUB 코드",		name:"gisAssetsSubCd",		width:150, 	sortable:false,		align:"center"},
-					{display:"GIS 자산 코드", 		name:"gisAssetsCd",			width:100, 	sortable:false,		align:"center"},
-					{display:"GIS 자산 명", 			name:"gisAssetsNm",			width:150, 	sortable:false,		align:"center"},
-					{display:"GIS 자산 항코드", 		name:"gisAssetsPrtAtCode",	width:120, 	sortable:false,		align:"center"}
+					{display:"자산 코드", 		name:"gisAssetsCd",			width:60, 	sortable:false,		align:"center"},
+					{display:"자산 SUB 코드",		name:"gisAssetsSubCd",		width:100, 	sortable:false,		align:"center"},
+					{display:"자산 명", 			name:"gisAssetsNm",			width:120, 	sortable:false,		align:"center"},
+					{display:"자산 항코드", 		name:"gisAssetsPrtAtCode",	width:80, 	sortable:false,		align:"center"},
+					{display:"소재지",	 		name:"gisAssetsLocplc",		width:200, 	sortable:false,		align:"center"},
+					{display:"지번", 			name:"gisAssetsLnm",		width:80, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,

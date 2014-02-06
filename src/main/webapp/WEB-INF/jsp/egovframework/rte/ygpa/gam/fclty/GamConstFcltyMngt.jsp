@@ -36,13 +36,19 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/fclty/gamFcltyMngtList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"등록번호", 				name:"gisPrtFcltySeq",		width:50,		sortable:false,		align:"center"},
-				{display:"GIS 자산 코드",		 		name:"gisAssetsCd",			width:100,		sortable:false,		align:"center"},
-				{display:"GIS 자산 SUB 코드", 		name:"gisAssetsSubCd",		width:120,		sortable:false,		align:"center"},
-				{display:"GIS 자산 항코드", 			name:"gisAssetsPrtAtCode",	width:100,		sortable:false,		align:"center"},
+				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
+				{display:"자산코드",		 			name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
+				{display:"항만시설코드", 				name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 				{display:"항만시설명", 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"center"},
-				{display:"항만시설 구분", 			name:"prtFcltySe",			width:80,		sortable:false,		align:"center"},
-				{display:"등록일자",					name:"registDt",			width:80,		sortable:false,		align:"center"}
+				//{display:"항만시설 구분", 			name:"prtFcltySe",			width:80,		sortable:false,		align:"center"},
+				{display:"단위",		 	 			name:"prtFcltyUnit",		width:80,		sortable:false,		align:"center"},
+				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
+				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"},
+				{display:"등록자",					name:"regUsr",			width:80,		sortable:false,		align:"center"},
+				{display:"등록일자",					name:"registDt",			width:80,		sortable:false,		align:"center"},
+				{display:"hidden", 					name:"gisPrtFcltySeq",		width:1,		sortable:false,		align:"center"},
+				{display:"hidden",		 			name:"gisAssetsCd",			width:1,		sortable:false,		align:"center"},
+				{display:"hidden", 					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -56,7 +62,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
 		// 자산구분코드 설정
-		module.$("#gisPrtFcltyCd").val("01");
+		module.$("#gisPrtFcltyCd").val("AA");
 		
 		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:module.$("#gisPrtFcltyCd").val()};
 		module.doAction('<c:url value="/fclty/gamFcltyMngSelectView.do" />', detailInput, function(module, result) {
@@ -108,14 +114,19 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 자산코드 팝업
 		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamSearchGisCdPopupView.do"/>', {emplyrId : this.$("#emplyrId").val()});
+			this.doExecuteDialog("searchGisCodePopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamSearchGisCdPopupView.do"/>', {});
+		break;
+
+		// 자산코드 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("searchGisCodePopup2", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamSearchGisCdPopupView.do"/>', {});
 		break;
 			
 		// 저장
 		case "saveBtn":
 
 			// 자산구분코드 설정
-			this.$("#gisPrtFcltyCd").val("01");
+			this.$("#gisPrtFcltyCd").val("AA");
 			
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
@@ -151,7 +162,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(confirm("삭제하시겠습니까?")){
 
 				// 자산구분코드 설정
-				this.$("#gisPrtFcltyCd").val("01");
+				this.$("#gisPrtFcltyCd").val("AA");
 				
 				var inputVO = this.makeFormArgs("#fcltyManageVO");
 			 	this.doAction('<c:url value="/fclty/gamFcltyDelete.do" />', inputVO, function(module, result) {
@@ -191,10 +202,24 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
  GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 	
 	switch(popupId){
+		
+		// 상세화면
 		case "searchGisCodePopup":
 			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
 			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);
 			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);
+			
+			var tempLnm = value["gisAssetsLnm"];
+			tempLnm = tempLnm.split("-");
+			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
+			this.$("#gisAssetsLnm").val(tempLnm[0]);							// 지번
+			this.$("#gisAssetsLnmSub").val(tempLnm[1]);							// 서브지번
+		break;
+
+		// 조회화면
+		case "searchGisCodePopup2":
+			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
+			this.$("#searchAssetsSubCd").val(value["gisAssetsSubCd"]);
 		break;
 	
 		default:
@@ -213,12 +238,27 @@ var module_instance = new GamFcltyMngtModule();
 	<div class="emdPanel">
 		<div class="viewStack">
 			<form id="fcltyForm">
-				<input type="hidden" id="uniqFcltyCd" value="01" />
+				<input type="hidden" id="uniqFcltyCd" value="AA" />
 				<table class="searchPanel">
 					<tbody>
 						<tr>
+							<th>항코드</th>
+							<td><input id="searchPrtAtCode" type="text" size="3" maxlength="3" title="검색조건" /></td>
+							<th>자산코드</th>
+							<td>
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<button id="searchPopupBtn">선택</button>
+							</td>
+							<th>항만시설코드</th>
+							<td>
+								<input id="searchFcltyCd" type="text" size="2" maxlength="2" title="검색조건" value="AA" disabled="disabled"/>&nbsp;-&nbsp;
+								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
+							</td>
+						</tr>
+						<tr>
 							<th>항만시설 명</th>
-							<td><input id="searchKeyword" type="text" size="60" maxlength="60" title="검색조건" /></td>
+							<td colspan="5"><input id="searchKeyword" type="text" size="40" maxlength="40" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -248,10 +288,13 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td>
-								<input type="text" size="40" id="gisAssetsCd" disabled="disabled"/>
+								<input type="text" size="3" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="2" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="3" id="gisAssetsPrtAtCode" disabled="disabled"/>&nbsp;-&nbsp;
 								<button id="gisCodePopupBtn">자산코드 검색</button>
 							</td>
 						</tr>
+						<!-- 
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 SUB 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="40" id="gisAssetsSubCd" disabled="disabled"/></td>
@@ -264,14 +307,17 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="20%" height="23" class="required_text">항만시설 GIS 코드</th>
 							<td><input type="text" size="40" id="prtFcltyGisCd"/></td>
 						</tr>
+						-->
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 명</th>
 							<td><input type="text" size="40" id="prtFcltyNm"/></td>
 						</tr>
+						<!-- 
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 구분</th>
 							<td><input type="text" size="40" id="prtFcltySe"/></td>
 						</tr>
+						 -->
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 규격</th>
 							<td><input type="text" size="40" id="prtFcltyStndrd"/></td>
@@ -291,6 +337,17 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">항만시설 변경일자</th>
 							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">소재지</th>
+							<td><input id="gisAssetsLocplc" type="text" size="40" title="소재지" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">지번</th>
+							<td>
+								<input id="gisAssetsLnm" type="text" size="20" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
+								<input id="gisAssetsLnmSub" type="text" size="13" title="지번 뒷자리" disabled="disabled" />
+							</td>
 						</tr>
 						<tr id="displayDate">
 							<th width="20%" height="23" class="required_text">등록일자</th>
