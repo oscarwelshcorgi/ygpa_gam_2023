@@ -43,10 +43,9 @@
 	</select>
 
 	<select id="popupGisAssetsCdDAO.selectGisAssetsCdList_D" parameterClass="gisAssetsCdSearchVO" resultClass="egovMap">
-SELECT * FROM (
-	SELECT A.*, ROWNUM RNUM FROM (
-				SELECT
-
+				SELECT * FROM (
+					SELECT A.*, ROWNUM RNUM FROM (
+								SELECT
 								GIS_ASSETS_PRT_AT_CODE
 								, GIS_ASSETS_CD || '-' || GIS_ASSETS_SUB_CD GIS_ASSETS_CODE
 								, GIS_ASSETS_CD
@@ -68,15 +67,11 @@ SELECT * FROM (
 						GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 					</isNotEmpty>
 					ORDER BY
-						GIS_ASSETS_PRT_AT_CODE
-							, GIS_ASSETS_SUB_CD
-								, GIS_ASSETS_CD
+						GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_SUB_CD, GIS_ASSETS_CD
 
-		<![CDATA[
-	) A WHERE ROWNUM <= #lastIndex#
-)WHERE RNUM > #firstIndex#
-]]>
+		<![CDATA[) A WHERE ROWNUM <= #lastIndex#) WHERE RNUM > #firstIndex#]]>
 	</select>
+	
 	<select id="popupGisAssetsCdDAO.selectGisAssetsCdListTotCnt_S" parameterClass="gisAssetsCdSearchVO" resultClass="int">
 			SELECT COUNT(*) totcnt
 			FROM GIS_ASSETS_CD_F
