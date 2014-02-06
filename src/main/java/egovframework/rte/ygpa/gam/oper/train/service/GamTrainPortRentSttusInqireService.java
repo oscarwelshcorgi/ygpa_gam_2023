@@ -2,12 +2,14 @@ package egovframework.rte.ygpa.gam.oper.train.service;
 
 import java.util.List;
 
+import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqireVO;
+
 /**
  * @Class Name : GamTrainPortRentSttusInqireService.java
- * @Description : 철송장임대현황조회 (항만시설/철송장/철송장임대현황조회)
+ * @Description : 철송장임대현황조회 (철송장/철송장/철송장임대현황조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -17,27 +19,43 @@ import java.util.List;
 public interface GamTrainPortRentSttusInqireService {
 	
 	/**
-	 * 컨테이너부두임대현황을 조회한다.
+	 * 철송장사용현황 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 목록
+	 * @return list
 	 * @exception Exception
 	 */
-    List selectGamTrainPortRentSttusInqireList(GamTrainPortRentSttusInqireVO searchVO) throws Exception;
+    List selectTrainPortRentSttusInqireList(GamTrainPortRentSttusInqireVO searchVO) throws Exception;
     
     /**
-	 * 컨테이너부두임대현황 총 갯수를 조회한다.
+	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 총 갯수
+	 * @return vo
 	 * @exception Exception
 	 */
-    int selectGamTrainPortRentSttusInqireListTotCnt(GamTrainPortRentSttusInqireVO searchVO);
+    GamTrainPortRentSttusInqireVO selectTrainPortRentSttusInqireSum(GamTrainPortRentSttusInqireVO searchVO) throws Exception;
     
     /**
-	 * 컨테이너부두임대현황 정보 (자료수, 총면적, 총사용료 등)
+	 * 철송장사용현황 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설사용현황 정보
+	 * @return cnt
+	 * @exception
+	 */
+    int selectTrainPortRentSttusInqireListTotCnt(GamTrainPortRentSttusInqireVO searchVO) throws Exception;
+    
+    /**
+	 * 철송장사용현황 상세 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
 	 * @exception Exception
 	 */
-    GamTrainPortRentSttusInqireVO selectGamTrainPortRentSttusInqireInfo(GamTrainPortRentSttusInqireVO searchVO) throws Exception;
+    List selectTrainPortRentSttusInqireDetailList(GamTrainPortRentSttusInqireVO vo) throws Exception;
+
+    /**
+	 * 철송장사용현황 상세 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectTrainPortRentSttusInqireDetailListTotCnt(GamTrainPortRentSttusInqireVO vo) throws Exception;
     
 }
