@@ -19,7 +19,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 
-public class GamFcltyManageVO extends ComDefaultVO {
+public class GamFcltyManageVO extends ComDefaultVO{
 
 	private static final long serialVersionUID = 1L;
 
@@ -84,8 +84,52 @@ public class GamFcltyManageVO extends ComDefaultVO {
     // display
     private String gisAssetsDisplay;
     private String gisPrtFcltyDisplay;
+    private String gisAssetsLocplc;
+	private String gisAssetsLnm;
+    private String gisAssetsLnmSub;
     
-    
+    /**
+	 * @return the gisAssetsLocplc
+	 */
+	public String getGisAssetsLocplc() {
+		return gisAssetsLocplc;
+	}
+
+	/**
+	 * @param gisAssetsLocplc the gisAssetsLocplc to set
+	 */
+	public void setGisAssetsLocplc(String gisAssetsLocplc) {
+		this.gisAssetsLocplc = gisAssetsLocplc;
+	}
+
+	/**
+	 * @return the gisAssetsLnm
+	 */
+	public String getGisAssetsLnm() {
+		return gisAssetsLnm;
+	}
+
+	/**
+	 * @param gisAssetsLnm the gisAssetsLnm to set
+	 */
+	public void setGisAssetsLnm(String gisAssetsLnm) {
+		this.gisAssetsLnm = gisAssetsLnm;
+	}
+
+	/**
+	 * @return the gisAssetsLnmSub
+	 */
+	public String getGisAssetsLnmSub() {
+		return gisAssetsLnmSub;
+	}
+
+	/**
+	 * @param gisAssetsLnmSub the gisAssetsLnmSub to set
+	 */
+	public void setGisAssetsLnmSub(String gisAssetsLnmSub) {
+		this.gisAssetsLnmSub = gisAssetsLnmSub;
+	}
+	
     /**
 	 * @return the searchPrtAtCode
 	 */
