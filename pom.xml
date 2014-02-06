@@ -620,6 +620,14 @@
 											<include> log4j.xml </include>
 										</includes>
 									</resource>
+									<resource>
+										<directory>deploy/hudson_release/src/</directory>
+										<targetPath>WEB-INF/jsp/egovframework/rte/ygpa/gam/main</targetPath>
+										<includes>
+											<include> ygpaMapMain.jsp </include>
+										</includes>
+									</resource>
+
 							</webResources>
 						</configuration>
 					</plugin>
@@ -659,6 +667,13 @@
 											<include> log4j.xml </include>
 										</includes>
 									</resource>
+									<resource>
+										<directory>deploy/hudson_release/src/</directory>
+										<targetPath>WEB-INF/jsp/egovframework/rte/ygpa/gam/main</targetPath>
+										<includes>
+											<include> ygpaMapMain.jsp </include>
+										</includes>
+									</resource>
 							</webResources>
 						</configuration>
 					</plugin>
@@ -681,6 +696,14 @@
                         <encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>
+					<artifactId>tomcat6-maven-plugin</artifactId>
+					<version>2.3-SNAPSHOT</version>
+					<configuration>
+						<warFile>${basedir}/target/ygam.war</warFile>
+					</configuration>
+				      </plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>hibernate3-maven-plugin</artifactId>
