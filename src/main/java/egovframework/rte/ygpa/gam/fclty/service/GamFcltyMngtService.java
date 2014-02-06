@@ -63,6 +63,15 @@ public interface GamFcltyMngtService {
 	
 	
 	/**
+	 * 시설관리 시퀀스 가져오기
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	String insertFcltyGetSeq() throws Exception;
+	
+	
+	/**
 	 * 자산코드팝업 목록 총 수
 	 * @param vo
 	 * @return int
