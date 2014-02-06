@@ -30,7 +30,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentfeeMngtVO;
  * @Description : 배후단지임대료관리 (항만시설/배후단지/배후단지임대료관리)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
