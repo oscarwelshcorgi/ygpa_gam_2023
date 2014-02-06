@@ -15,7 +15,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentfeeInqireVO
  * @Description : 철송장임대료조회 (항만시설/철송장/철송장임대료조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
