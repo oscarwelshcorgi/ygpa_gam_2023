@@ -65,25 +65,12 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
     
     
     /**
-	 * 자산관리 목록 조회
-	 * @param vo ComDefaultVO
-	 * @return List
-	 * @exception Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ComDefaultVO> selectSearchGisCdPopupList(ComDefaultVO vo) throws Exception{
-		return list("gamFcltyMngtDao.selectSearchGisCdPopupList", vo);
-	}
-	
-	
-	/**
-	 * 자산관리 팝업목록 총 갯수를 조회한다.
-	 * @param ComDefaultVO vo
-	 * @return int
-	 * @exception Exception
-	 */
-    public int selectSearchGisCdPopupListTotCnt(ComDefaultVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMngtDao.selectSearchGisCdPopupListTotCnt", vo);
+     * 시설관리 시퀀스
+     * @return int
+     * @exception Exception
+     */
+    public String insertFcltyGetSeq() throws Exception {
+    	return (String)getSqlMapClientTemplate().queryForObject("gamFcltyMngtDao.insertFcltyGetSeq");
     }
     
     

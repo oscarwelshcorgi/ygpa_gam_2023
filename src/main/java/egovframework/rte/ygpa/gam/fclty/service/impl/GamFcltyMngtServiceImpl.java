@@ -64,19 +64,11 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 
 	
 	/**
-	 * 시설관리 목록
+	 * 시설관리 시퀀스
 	 */
-	public List<ComDefaultVO> selectSearchGisCdPopupList(ComDefaultVO vo) throws Exception {
-   		return (List<ComDefaultVO>)gamFcltyMngtDao.selectSearchGisCdPopupList(vo);
+	public String insertFcltyGetSeq() throws Exception {
+		return gamFcltyMngtDao.insertFcltyGetSeq();
 	}
-	
-	
-	/**
-	 * 시설관리 카운트
-	 */
-	public int selectSearchGisCdPopupListTotCnt(ComDefaultVO vo) throws Exception {
-		return gamFcltyMngtDao.selectSearchGisCdPopupListTotCnt(vo);
-    }
 	
 	
 	/**

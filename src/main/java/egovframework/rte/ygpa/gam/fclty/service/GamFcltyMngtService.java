@@ -51,15 +51,6 @@ public interface GamFcltyMngtService {
 	 * @throws Exception
 	 */
 	int selectFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception;
-
-	
-	/**
-	 * 자산코드팝업 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List<ComDefaultVO> selectSearchGisCdPopupList(ComDefaultVO vo) throws Exception;
 	
 	
 	/**
@@ -69,15 +60,6 @@ public interface GamFcltyMngtService {
 	 * @throws Exception
 	 */
 	String insertFcltyGetSeq() throws Exception;
-	
-	
-	/**
-	 * 자산코드팝업 목록 총 수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectSearchGisCdPopupListTotCnt(ComDefaultVO vo) throws Exception;
 	
 	
 	/** 

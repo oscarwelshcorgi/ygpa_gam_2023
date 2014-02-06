@@ -111,6 +111,11 @@
    				AND PRT_FCLTY_NM = #searchKeyword#
    			</isNotEmpty>
     </select>
+
+    <select id="gamFcltyMngtDao.insertFcltyGetSeq" resultClass="String">
+    	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0') GIS_PRT_FCLTY_SEQ 
+  			FROM GIS_PRT_FCLTY_CD_F
+    </select>
     
 	<select id="gamFcltyMngtDao.fcltyMngSelectView" resultClass="fcltyManageVO" parameterClass="fcltyManageVO" >
 	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.select */ 
@@ -185,70 +190,4 @@
 			    AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
         ]]>
     </delete>
-    
-    
-    <select id="gamFcltyMngtDao.selectSearchGisCdPopupList" parameterClass="comDefaultVO" resultClass="egovMap">
-         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.selectList */ 
-		SELECT * 
-		  FROM 
-		       (SELECT Z.*, 
-		              ROWNUM AS RNUM 
-		         FROM 
-		              (SELECT 
-								GIS_ASSETS_SUB_CD 
-						       , GIS_ASSETS_CD
-						       , GIS_ASSETS_NM
-						       , GIS_ASSETS_MNG_DEPT_CD
-						       , GIS_ASSETS_OPER_DEPT_CD
-						       , GIS_ASSETS_LOCPLC
-						       , GIS_ASSETS_LNM||'-'||GIS_ASSETS_LNM_SUB AS GIS_ASSETS_LNM
-						       , GIS_ASSETS_LNM_SUB
-						       , GIS_ASSETS_PRT_AT_CODE
-						       , GIS_ASSETS_AR
-						       , GIS_ASSETS_USAGE_YN
-						       , GIS_ASSETS_ACQ_PRI
-						       , GIS_ASSETS_STNDRD
-						       , GIS_ASSETS_BLDDATE
-						       , GIS_ASSETS_BLD_DT
-						       , GIS_ASSETS_RM
-						       , REG_USR
-						       , REGISTDT
-						       , UPD_USR
-						       , UPDTDT
-						       , GIS_ASSETS_QUAY_GROUP_CD
-						       , GIS_ASSETS_LOC_CD
-						       , GIS_ASSETS_SE_CD
-						       , GIS_ASSETS_PRPRTY_SE_CD
-						       , GIS_ASSETS_INVSTMNT_MTHD
-						       , GIS_ASSETS_GIS_CD
-						       , GIS_ASSETS_REAL_RENT_AR
-						       , DRW_LST_REGIST_YEAR
-						       , DRW_LST_SEQ
-						       , GIS_ASSETS_VAL_AMT
-						       , GIS_ASSETS_VAL_INQIRE_DT
-						       , ERP_ASSETS_SE_CD
-						       , ERP_ASSETS_NO
-						       , ERP_ASSETS_NO_SEQ
-						       , ERP_ASSETS_DISUSE_REGIST_YN
-						       , ERP_ASSETS_DISUSE_RSN 
-						 FROM GIS_ASSETS_CD_F 
-						 WHERE 1 = 1
- 		                <isNotEmpty property="searchKeyword">
-	           				AND GIS_ASSETS_NM like #searchKeyword#
-	           			</isNotEmpty>
-	           			ORDER BY GIS_ASSETS_CD
-		              )Z
-		       ) 
-	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
-    
-    
-    <select id="gamFcltyMngtDao.selectSearchGisCdPopupListTotCnt" parameterClass="comDefaultVO" resultClass="int">
-			SELECT COUNT(*) totcnt
-              FROM GIS_ASSETS_CD_F
-             WHERE 1=1 
-			<isNotEmpty property="searchKeyword">
-   				AND GIS_ASSETS_NM like #searchKeyword#
-   			</isNotEmpty>
-    </select>
 </sqlMap>
