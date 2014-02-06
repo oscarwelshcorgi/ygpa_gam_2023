@@ -7,7 +7,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  * @Description : 공컨장치장임대현황조회 (항만시설/공컨장치장/공컨장치장임대현황조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -31,6 +31,9 @@ public class GamCmmnCntrShedRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     
     /** 업체코드 */
     private String entrpscd;
+    
+    /** 업체 명 */
+    private String entrpsNm;
     
     /** 날짜 */
     private String dt;
@@ -105,7 +108,13 @@ public class GamCmmnCntrShedRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     private String sEntrpscd;
     
     /** 검색조건 */
+    private String sMngYear;
+    
+    /** 검색조건 */
     private String sMngNo;
+    
+    /** 검색조건 */
+    private String sMngCnt;
     
     /** 검색조건 */
     private String sPrmisnYn;
@@ -119,6 +128,9 @@ public class GamCmmnCntrShedRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     /** 검색조건 */
     private String sGrAr;
     
+    /** 검색조건(사용 용도 코드) */                                                   
+    private String sUsagePrposCd; 
+    
     /** 자료수 */
     private String sumCnt;
     
@@ -127,6 +139,24 @@ public class GamCmmnCntrShedRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     
     /** 총사용료 */
     private String sumGrFee;
+    
+    /** 관리번호(MAX) */
+    private String maxMngCnt; 
+    
+    /** 항코드(연장신청) */
+    private String rPrtAtCode;
+    
+    /** 관리 년도(연장신청) */
+    private String rMngYear;
+    
+    /** 관리 번호(연장신청) */
+    private String rMngNo;
+    
+    /** 관리 횟수(연장신청) */
+    private String rMngCnt;
+    
+    /** 관리 번호(조합) */
+    private String rentMngNo;
 
 	/**
 	 * @return the prtAtCode
@@ -644,6 +674,146 @@ public class GamCmmnCntrShedRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setSumGrFee(String sumGrFee) {
 		this.sumGrFee = sumGrFee;
+	}
+
+	/**
+	 * @return the maxMngCnt
+	 */
+	public String getMaxMngCnt() {
+		return maxMngCnt;
+	}
+
+	/**
+	 * @param maxMngCnt the maxMngCnt to set
+	 */
+	public void setMaxMngCnt(String maxMngCnt) {
+		this.maxMngCnt = maxMngCnt;
+	}
+
+	/**
+	 * @return the rPrtAtCode
+	 */
+	public String getrPrtAtCode() {
+		return rPrtAtCode;
+	}
+
+	/**
+	 * @param rPrtAtCode the rPrtAtCode to set
+	 */
+	public void setrPrtAtCode(String rPrtAtCode) {
+		this.rPrtAtCode = rPrtAtCode;
+	}
+
+	/**
+	 * @return the rMngYear
+	 */
+	public String getrMngYear() {
+		return rMngYear;
+	}
+
+	/**
+	 * @param rMngYear the rMngYear to set
+	 */
+	public void setrMngYear(String rMngYear) {
+		this.rMngYear = rMngYear;
+	}
+
+	/**
+	 * @return the rMngNo
+	 */
+	public String getrMngNo() {
+		return rMngNo;
+	}
+
+	/**
+	 * @param rMngNo the rMngNo to set
+	 */
+	public void setrMngNo(String rMngNo) {
+		this.rMngNo = rMngNo;
+	}
+
+	/**
+	 * @return the rMngCnt
+	 */
+	public String getrMngCnt() {
+		return rMngCnt;
+	}
+
+	/**
+	 * @param rMngCnt the rMngCnt to set
+	 */
+	public void setrMngCnt(String rMngCnt) {
+		this.rMngCnt = rMngCnt;
+	}
+
+	/**
+	 * @return the rentMngNo
+	 */
+	public String getRentMngNo() {
+		return rentMngNo;
+	}
+
+	/**
+	 * @param rentMngNo the rentMngNo to set
+	 */
+	public void setRentMngNo(String rentMngNo) {
+		this.rentMngNo = rentMngNo;
+	}
+
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
+	}
+
+	/**
+	 * @return the sMngYear
+	 */
+	public String getsMngYear() {
+		return sMngYear;
+	}
+
+	/**
+	 * @param sMngYear the sMngYear to set
+	 */
+	public void setsMngYear(String sMngYear) {
+		this.sMngYear = sMngYear;
+	}
+
+	/**
+	 * @return the sMngCnt
+	 */
+	public String getsMngCnt() {
+		return sMngCnt;
+	}
+
+	/**
+	 * @param sMngCnt the sMngCnt to set
+	 */
+	public void setsMngCnt(String sMngCnt) {
+		this.sMngCnt = sMngCnt;
+	}
+
+	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
 	}
 
 }
