@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 
@@ -28,6 +27,13 @@ public class GamPopupAssetsCdController {
 	private GamPopupGisAssetsCdService gamPopupGisAssetsCdService;
 
 
+    /**
+     * 화면 호출
+     * @param searchOpt
+     * @param model
+     * @return String
+     * @throws Exception
+     */
     @RequestMapping(value="/popup/showAssetsCd.do")
     String showAssetsCd(GamPopupGisAssetsCdVO searchOpt, ModelMap model) throws Exception {
     	model.addAttribute("searchOpt", searchOpt);
@@ -35,11 +41,17 @@ public class GamPopupAssetsCdController {
     	return "/ygpa/gam/popup/GamPopupAssetsCd";
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    
+    /**
+     * 자산코드 목록 가져오기
+     * @param searchVO
+     * @return map
+     * @throws Exception
+     */
     @RequestMapping(value="/popup/selectAssetCodeList.do", method=RequestMethod.POST)
-    @ResponseBody Map selectAssetCodeList(GamPopupGisAssetsCdVO searchVO) throws Exception {
-    	int totalCnt;
-    	Map map = new HashMap();
+    @ResponseBody Map<String, Object> selectAssetCodeList(GamPopupGisAssetsCdVO searchVO) throws Exception {
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
 
     	searchVO.setPageUnit(10);
     	searchVO.setPageSize(10);
@@ -53,9 +65,8 @@ public class GamPopupAssetsCdController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-    	totalCnt = gamPopupGisAssetsCdService.selectGisAssetsCdListTotCnt(searchVO);
-
-    	List gamAssetList = gamPopupGisAssetsCdService.selectGisAssetsCdList(searchVO);
+		int totalCnt = gamPopupGisAssetsCdService.selectGisAssetsCdListTotCnt(searchVO);
+    	List<?> gamAssetList = gamPopupGisAssetsCdService.selectGisAssetsCdList(searchVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
