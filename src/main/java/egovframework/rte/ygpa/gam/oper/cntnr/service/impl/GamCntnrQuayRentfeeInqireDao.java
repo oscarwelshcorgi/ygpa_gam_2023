@@ -12,7 +12,7 @@ import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentfeeInqireVO
  * @Description : 컨테이너부두임대료조회 (항만시설/컨테이너부두/컨테이너부두임대료조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
