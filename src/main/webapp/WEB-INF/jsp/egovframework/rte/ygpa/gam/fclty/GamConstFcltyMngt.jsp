@@ -298,7 +298,7 @@ var module_instance = new GamFcltyMngtModule();
 							<td>
 								<input type="text" size="3" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
 								<input type="text" size="2" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
-								<input type="text" size="3" id="gisAssetsPrtAtCode" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="3" id="gisAssetsPrtAtCode" disabled="disabled"/>
 								<button id="gisCodePopupBtn">자산코드 검색</button>
 							</td>
 						</tr>
