@@ -207,7 +207,7 @@ public class GamFcltyMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamFcltyMngtList.do")
-	@ResponseBody Map<String, Object> selectFcltyMngtList(@ModelAttribute("searchVO") ComDefaultVO searchVO, @RequestParam("uniqFcltyCd") String uniqFcltyCd)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltyMngtList(GamFcltyManageVO searchVO, @RequestParam("uniqFcltyCd") String uniqFcltyCd)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		

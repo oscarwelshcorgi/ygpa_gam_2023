@@ -73,9 +73,119 @@ public class GamFcltyManageVO extends ComDefaultVO {
     
     /** GIS 자산 SUB 코드 */
     private String gisAssetsSubCd;
+
+    /** 조회 검색 조건 */
+    private String searchPrtAtCode;
+	private String searchAssetsCd;
+    private String searchAssetsSubCd;
+    private String searchFcltyCd;
+    private String searchFcltySeq;
+
+    // display
+    private String gisAssetsDisplay;
+    private String gisPrtFcltyDisplay;
     
     
     /**
+	 * @return the searchPrtAtCode
+	 */
+	public String getSearchPrtAtCode() {
+		return searchPrtAtCode;
+	}
+
+	/**
+	 * @param searchPrtAtCode the searchPrtAtCode to set
+	 */
+	public void setSearchPrtAtCode(String searchPrtAtCode) {
+		this.searchPrtAtCode = searchPrtAtCode;
+	}
+
+	/**
+	 * @return the searchAssetsCd
+	 */
+	public String getSearchAssetsCd() {
+		return searchAssetsCd;
+	}
+
+	/**
+	 * @param searchAssetsCd the searchAssetsCd to set
+	 */
+	public void setSearchAssetsCd(String searchAssetsCd) {
+		this.searchAssetsCd = searchAssetsCd;
+	}
+
+	/**
+	 * @return the searchAssetsSubCd
+	 */
+	public String getSearchAssetsSubCd() {
+		return searchAssetsSubCd;
+	}
+
+	/**
+	 * @param searchAssetsSubCd the searchAssetsSubCd to set
+	 */
+	public void setSearchAssetsSubCd(String searchAssetsSubCd) {
+		this.searchAssetsSubCd = searchAssetsSubCd;
+	}
+
+	/**
+	 * @return the searchFcltyCd
+	 */
+	public String getSearchFcltyCd() {
+		return searchFcltyCd;
+	}
+
+	/**
+	 * @param searchFcltyCd the searchFcltyCd to set
+	 */
+	public void setSearchFcltyCd(String searchFcltyCd) {
+		this.searchFcltyCd = searchFcltyCd;
+	}
+
+	/**
+	 * @return the searchFcltySeq
+	 */
+	public String getSearchFcltySeq() {
+		return searchFcltySeq;
+	}
+
+	/**
+	 * @param searchFcltySeq the searchFcltySeq to set
+	 */
+	public void setSearchFcltySeq(String searchFcltySeq) {
+		this.searchFcltySeq = searchFcltySeq;
+	}
+
+	
+    /**
+	 * @return the gisPrtFcltyDisplay
+	 */
+	public String getGisPrtFcltyDisplay() {
+		return gisPrtFcltyDisplay;
+	}
+
+	/**
+	 * @param gisPrtFcltyDisplay the gisPrtFcltyDisplay to set
+	 */
+	public void setGisPrtFcltyDisplay(String gisPrtFcltyDisplay) {
+		this.gisPrtFcltyDisplay = gisPrtFcltyDisplay;
+	}
+
+	/**
+	 * @return the gisAssetsDisplay
+	 */
+	public String getGisAssetsDisplay() {
+		return gisAssetsDisplay;
+	}
+
+	/**
+	 * @param gisAssetsDisplay the gisAssetsDisplay to set
+	 */
+	public void setGisAssetsDisplay(String gisAssetsDisplay) {
+		this.gisAssetsDisplay = gisAssetsDisplay;
+	}
+
+	/**
 	 * @return the gisPrtFcltyCd
 	 */
 	public String getGisPrtFcltyCd() {
