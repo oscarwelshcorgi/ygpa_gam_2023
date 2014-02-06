@@ -114,31 +114,36 @@
     
 	<select id="gamFcltyMngtDao.fcltyMngSelectView" resultClass="fcltyManageVO" parameterClass="fcltyManageVO" >
 	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.select */ 
-			SELECT 
-				GIS_ASSETS_CD as gisAssetsCd
-				, GIS_ASSETS_PRT_AT_CODE as gisAssetsPrtAtCode
-				, GIS_ASSETS_SUB_CD as gisAssetsSubCd
-				, GIS_PRT_FCLTY_CD as gisPrtFcltyCd
-				, GIS_PRT_FCLTY_SEQ as gisPrtFcltySeq
-				, PRT_FCLTY_NM as prtFcltyNm
-				, PRT_FCLTY_STNDRD as prtFcltyStndrd
-				, PRT_FCLTY_UNIT as prtFcltyUnit
-				, TO_CHAR(TO_DATE(PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') as prtFcltyInstlDt
-                , TO_CHAR(TO_DATE(PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') as prtFcltyChangeDt
-				, REG_USR as regUsr
-                , TO_CHAR(TO_DATE(REGIST_DT), 'YYYY-MM-DD') as registDt
-				, UPD_USR as updUsr
-                , TO_CHAR(TO_DATE(UPDT_DT), 'YYYY-MM-DD') as updtDt
-				, PRT_FCLTY_SE as prtFcltySe
-				, PRT_FCLTY_MNG_ENTRPS_CD as prtFcltyMngEntrpsCd
-				, PRT_FCLTY_GIS_CD as prtFcltyGisCd
-	  	FROM GIS_PRT_FCLTY_CD_F 
-	 		WHERE 1 = 1 
-	 		AND GIS_ASSETS_CD = #gisAssetsCd# 
-	       	AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-	       	AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-	       	AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-	       	AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		SELECT C.GIS_ASSETS_CD AS gisAssetsCd , 
+		       C.GIS_ASSETS_PRT_AT_CODE AS gisAssetsPrtAtCode , 
+		       C.GIS_ASSETS_SUB_CD AS gisAssetsSubCd , 
+		       C.GIS_PRT_FCLTY_CD AS gisPrtFcltyCd , 
+		       C.GIS_PRT_FCLTY_SEQ AS gisPrtFcltySeq , 
+		       C.PRT_FCLTY_NM AS prtFcltyNm , 
+		       C.PRT_FCLTY_STNDRD AS prtFcltyStndrd , 
+		       C.PRT_FCLTY_UNIT AS prtFcltyUnit , 
+		       TO_CHAR(TO_DATE(C.PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') AS prtFcltyInstlDt , 
+		       TO_CHAR(TO_DATE(C.PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') AS prtFcltyChangeDt , 
+		       C.REG_USR AS regUsr , 
+		       TO_CHAR(TO_DATE(C.REGIST_DT), 'YYYY-MM-DD') AS registDt , 
+		       C.UPD_USR AS updUsr , 
+		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS updtDt , 
+		       C.PRT_FCLTY_SE AS prtFcltySe , 
+		       C.PRT_FCLTY_MNG_ENTRPS_CD AS prtFcltyMngEntrpsCd , 
+		       C.PRT_FCLTY_GIS_CD AS prtFcltyGisCd, 
+		       P.GIS_ASSETS_LOCPLC AS gisAssetsLocplc, 
+		       P.GIS_ASSETS_LNM AS gisAssetsLnm, 
+		       P.GIS_ASSETS_LNM_SUB AS gisAssetsLnmSub 
+		  FROM GIS_PRT_FCLTY_CD_F C, 
+		       GIS_ASSETS_CD_F P 
+		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE 
+		       AND P.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD 
+		       AND P.GIS_ASSETS_CD = C.GIS_ASSETS_CD 
+		 	   AND C.GIS_ASSETS_CD = #gisAssetsCd# 
+		       AND C.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
+		       AND C.GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
+		       AND C.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
+		       AND C.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
   	</select>
   	
   	
