@@ -12,10 +12,10 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
 
 /**
  * @Class Name : GamHtldRentSttusInqireServiceImpl.java
- * @Description : 배후단지임대현황조회 (항만시설/배후단지/배후단지임대현황조회)
+ * @Description : 배후단지임대현황조회 (배후단지/배후단지/배후단지임대현황조회)
  * @Modification Information
  *
- * @author 도명호
+ * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
@@ -29,32 +29,53 @@ public class GamHtldRentSttusInqireServiceImpl extends AbstractServiceImpl imple
     private GamHtldRentSttusInqireDao gamHtldRentSttusInqireDao;
 
     /**
-	 * 배후단지임대현황을 조회한다.
+	 * 배후단지사용현황 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대현황 목록
+	 * @return list
 	 * @exception Exception
 	 */
-    public List selectGamHtldRentSttusInqireList(GamHtldRentSttusInqireVO searchVO) throws Exception {
-        return gamHtldRentSttusInqireDao.selectGamHtldRentSttusInqireList(searchVO);
+    public List selectHtldRentSttusInqireList(GamHtldRentSttusInqireVO searchVO) throws Exception {
+        return gamHtldRentSttusInqireDao.selectHtldRentSttusInqireList(searchVO);
     }
 
     /**
-	 * 배후단지임대현황 총 갯수를 조회한다.
+	 * 배후단지사용현황 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대현황 총 갯수
-	 * @exception Exception
+	 * @return cnt
+	 * @exception
 	 */
-    public int selectGamHtldRentSttusInqireListTotCnt(GamHtldRentSttusInqireVO searchVO) {
-		return gamHtldRentSttusInqireDao.selectGamHtldRentSttusInqireListTotCnt(searchVO);
+    public int selectHtldRentSttusInqireListTotCnt(GamHtldRentSttusInqireVO searchVO) throws Exception {
+		return gamHtldRentSttusInqireDao.selectHtldRentSttusInqireListTotCnt(searchVO);
 	}
 
     /**
-	 * 배후단지임대현황 정보 (자료수, 총면적, 총사용료 등)
+	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대현황 정보
+	 * @return vo
 	 * @exception Exception
 	 */
-    public GamHtldRentSttusInqireVO selectGamHtldRentSttusInqireInfo(GamHtldRentSttusInqireVO searchVO) throws Exception {
-        return gamHtldRentSttusInqireDao.selectGamHtldRentSttusInqireInfo(searchVO);
+    public GamHtldRentSttusInqireVO selectHtldRentSttusInqireSum(GamHtldRentSttusInqireVO searchVO) throws Exception {
+        return gamHtldRentSttusInqireDao.selectHtldRentSttusInqireSum(searchVO);
     }
+
+    /**
+	 * 배후단지사용현황 상세 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectHtldRentSttusInqireDetailList(GamHtldRentSttusInqireVO vo) throws Exception {
+        return gamHtldRentSttusInqireDao.selectHtldRentSttusInqireDetailList(vo);
+    }
+
+    /**
+	 * 배후단지사용현황 상세 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectHtldRentSttusInqireDetailListTotCnt(GamHtldRentSttusInqireVO vo) throws Exception {
+		return gamHtldRentSttusInqireDao.selectHtldRentSttusInqireDetailListTotCnt(vo);
+	}
+
 }
