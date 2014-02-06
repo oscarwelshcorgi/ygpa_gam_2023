@@ -37,71 +37,71 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 	this.$("#assetCodeList").flexigrid({
 		module: this,
 		url: '<c:url value="/popup/selectAssetCodeList.do"/>',
-		dataType: 'json',
+		dataType: "json",
 		colModel : [
-			{display:'항코드', name:'gisAssetsPrtAtCode', width:60, sortable:true, align:'center'},
-			{display:'항코드', name:'gisAssetsSubCd', width:60, sortable:true, align:'center'},
-			{display:'자산코드', name:'gisAssetsCd', width:60, sortable:true, align:'center'},
-			{display:'시설코드', name:'gisAssetsCode', width:70, sortable:true, align:'center'},
-			{display:'시설명', name:'gisAssetsNm', width:160, sortable:true, align:'center'},
-			{display:'소재지', name:'gisAssetsLocplc', width:160, sortable:true, align:'left'},
-			{display:'지번', name:'gisAssetsLnm', width:40, sortable:true, align:'center'},
-			{display:'지번SUB', name:'gisAssetsLnmSub', width:40, sortable:true, align:'center'},
-			{display:'면적', name:'gisAssetsAr', width:64, sortable:true, align:'center'}
+			{display:"자산코드", 	name:"gisAssetsCd", 		width:60, 	sortable:true, align:"center"},
+			{display:"자산명", 		name:"gisAssetsNm", 		width:160, 	sortable:true, align:"center"},
+			{display:"소재지", 		name:"gisAssetsLocplc", 	width:160, 	sortable:true, align:"left"},
+			{display:"지번", 		name:"gisAssetsLnm", 		width:40, 	sortable:true, align:"center"},
+			{display:"지번SUB", 		name:"gisAssetsLnmSub", 	width:40, 	sortable:true, align:"center"},
+			{display:"항코드", 		name:"gisAssetsPrtAtCode", 	width:60, 	sortable:true, align:"center"},
+			{display:"항코드", 		name:"gisAssetsSubCd", 		width:60, 	sortable:true, align:"center"},
+			{display:"시설코드", 	name:"gisAssetsCode", 		width:70, 	sortable:true, align:"center"},
+			{display:"면적", 		name:"gisAssetsAr", 		width:64, 	sortable:true, align:"center"}
 			],
 		usepager: false,
-//		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: '300'
+		height: "300"
 	});
 
-	this.$("#assetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	this.$("#assetCodeList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.closeDialog('ok', row);
+		module.closeDialog("ok", row);
 	});
 
-	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+	this.$("#assetCodeList").on("onItemSelected", function(event, module, row, grid, param) {
+		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is selected");
 	});
 
-	this.$("#assetCodeList").on('onItemUnSelected', function(event, module, row, grid, param) {
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is unselected');
+	this.$("#assetCodeList").on("onItemUnSelected", function(event, module, row, grid, param) {
+		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is unselected");
 	});
 
 };
 
-// 사용자 설정 함수 추가
 
+// 사용자 설정 함수 추가
 GamAssetCodePopupModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case 'selectGisAssetCode':
-		var searchOpt=this.makeFormArgs('#searchPopupGisAssetCode');
-	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	case "selectGisAssetCode":
+		var searchOpt=this.makeFormArgs("#searchPopupGisAssetCode");
+	 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
 	 	throw 0;
 		break;
-	case 'btnOk':
-		var row = this.$('#assetCodeList').selectedRows();
+	case "btnOk":
+		var row = this.$("#assetCodeList").selectedRows();
 		if(row.length>0) {
-			this.closeDialog('ok', row[0]);
+			this.closeDialog("ok", row[0]);
 		}
 		else {
-			alert('먼저 입력 하고자 하는 항목을 선택 하십시요.');
+			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
 		}
 		break;
-	case 'cancel':
+	case "cancel":
 		this.cancelDialog();
 	}
 };
 
 GamAssetCodePopupModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
+	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
 	this.loadData();
 };
 
 GamAssetCodePopupModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#searchGisAssetCode');
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	var searchOpt=this.makeFormArgs("#searchGisAssetCode");
+ 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -113,10 +113,12 @@ var popup_instance = new GamAssetCodePopupModule();
 						<table class="searchPanel">
 							<tbody>
 							<tr>
+								<!-- 
 								<th>청코드</th>
-								<td><input id="gisAssetsPrtAtCode" type="text" size="3" value="${searchOpt.gisAssetsPrtAtCode }"></td>
+								<td><input id="gisAssetsPrtAtCode" type="text" size="3" value="${searchOpt.gisAssetsPrtAtCode}"></td>
+								 -->
 								<th>자산코드</th>
-								<td><input id="gisAssetsCd" type="text" size="1" value="${searchOpt.gisAssetsCd }">-<input id="gisAssetsSubCd" type="text" size="4" value="${searchOpt.gisAssetsSubCd }"></td>
+								<td><input id="gisAssetsCd" type="text" size="1" value="${searchOpt.gisAssetsCd}">-<input id="gisAssetsSubCd" type="text" size="4" value="${searchOpt.gisAssetsSubCd }"></td>
 								<th>자산명</th>
 								<td colspan="3"><input id="assetNm" type="text" size="10"></td>
 								<td rowSpan="2"><button id="selectGisAssetCode" class="submit">조회</button></td>
@@ -124,6 +126,7 @@ var popup_instance = new GamAssetCodePopupModule();
 							<tr>
 								<th>자산 주소</th>
 								<td colspan="3"><input id="assetNm" type="text" size="40"></td>
+								<!-- 
 								<th>재산분류</th>
 								<td><select id="prprtyCd">
 										<option value="" selected="selected">선택</option>
@@ -132,7 +135,9 @@ var popup_instance = new GamAssetCodePopupModule();
 										<option value="S">공작물</option>
 										<option value="w">창고</option>
 										<option value="E">기타</option>
-								</select></td>
+								</select>
+								</td>
+								 -->
 							</tr>
 						</tbody>
 					</table>
@@ -144,7 +149,7 @@ var popup_instance = new GamAssetCodePopupModule();
 			<table id="assetCodeList" style="display: none"></table>
 		</div>
 		<div class="emdControlPanel">
-			<button id="btnOk">시설 선택</button>
+			<button id="btnOk">자산 선택</button>
 			<button id="cancel">취소</button>
 		</div>
 	</div>
