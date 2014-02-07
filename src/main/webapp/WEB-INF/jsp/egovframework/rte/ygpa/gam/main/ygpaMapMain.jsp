@@ -182,7 +182,7 @@
                                 </li>
                                 <li>
                                     <a href="#" data-role="LoadModule" data-prgid="PRG_0005"
-                                    data-url="<c:url value='/oper/cntnr/gamCntnrQuayRentfeeInqire.do'/>">컨테이너부두임대료조회</a>
+                                    data-url="<c:url value='/oper/cntnr/gamCntnrRentFeeMngt.do'/>">컨테이너부두임대료관리</a>
                                 </li>
                                 <li>
                                     <a href="#" data-role="LoadModule" data-prgid="PRG_0005"
@@ -202,7 +202,7 @@
                             </li>
                             <li>
                             	<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            	data-url="<c:url value='/oper/htld/gamHtldRentfeeMngt.do'/>">배후단지임대료관리</a>
+                            	data-url="<c:url value='/oper/htld/gamHtldRentFeeMngt.do'/>">배후단지임대료관리</a>
                             </li>
                             <li>
                             	<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
@@ -223,7 +223,7 @@
                             </li>
                             <li>
                             	<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            	data-url="<c:url value='/oper/train/gamTrainPortRentfeeInqire.do'/>">철송장임대료조회</a>
+                            	data-url="<c:url value='/oper/train/gamTrainPortRentFeeMngt.do'/>">철송장임대료관리</a>
                             </li>
                             <li>
                             	<a href="#" data-role="LoadModule" data-prgid="PRG_0004"
@@ -244,7 +244,7 @@
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/shed/gamCmmnCntrRentFeeInqire.do'/>">공컨장치장임대료조회</a>
+                            data-url="<c:url value='/oper/shed/gamCmmnCntrShedRentFeeMngt.do'/>">공컨장치장임대료관리</a>
                             </li>
 							<li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
