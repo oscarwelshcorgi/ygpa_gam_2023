@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
+    <typeAlias alias="nticPayListVO" type="egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO"/>
+    
+    <select id="gamNticPayListDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
+			SELECT * 
+				  FROM 
+				       (SELECT Z.*, 
+				              ROWNUM AS RNUM 
+				         FROM 
+				              (SELECT ACCNUT_YEAR , 
+				                     MNG_CNT , 
+				                     MNG_NO , 
+				                     MNG_YEAR , 
+				                     NTICNO , 
+				                     NTIC_CNT , 
+				                     PRT_AT_CODE ,
+				                     (SELECT CODE_NM FROM COMTCCMMNDETAILCODE 
+				 						WHERE USE_AT = 'Y' 
+				       					AND CODE_ID = 'GAM024' 
+				       					AND CODE = CHRGE_KND) CHRGE_KND_NM ,
+                                     CHRGE_KND,  
+				                     ACCNUT_SE_CD , 
+				                     ENTRPSCD , 
+				                     NTIC_AMT , 
+				                     NTIC_DT , 
+				                     NHT_ISUE_YN , 
+				                     COMPUT_DTLS , 
+				                     TO_CHAR(TO_DATE(PAY_TMLMT), 'YYYY-MM-DD') AS PAY_TMLMT, 
+				                     FRST_NTIC_DT , 
+				                     RCIV_TRANSFR_STTUS_CD , 
+				                     RCIV_DT ,
+				                     RCIV_SE ,  
+				                     INCPCTY_CD , 
+				                     OVERRPAY_AMT , 
+				                     TMPR_ISU_NO , 
+				                     DSCNT_AMT , 
+				                     DSCNT_RSN , 
+				                     DSCNT_CD , 
+				                     (SELECT CODE_NM FROM COMTCCMMNDETAILCODE 
+                                          WHERE USE_AT = 'Y' 
+                                          AND CODE_ID = 'GAM025' 
+                                          AND CODE = RCIV_SE) AS RCIV_SE_NM , 
+				                     FNNC_INSTT_RCIV_DT , 
+				                     POST_NTIC_ENNC , 
+				                     NPYMN_RSN_CD , 
+				                     ELCTRN_NTIC_RESULT , 
+				                     ELCTRN_NTIC_INFO_INQIRE_DT , 
+				                     EXCCLC_YN , 
+				                     VAT , 
+				                     VAT_YN , 
+				                     PRCEPTUR_SE , 
+				                     GIRO_RCIV_PLACE , 
+				                     GIRO_RCIV_SE , 
+				                     CMSN , 
+				                     CLOS_YN , 
+				                     DEPTCD , 
+				                     CHARGER , 
+				                     OPERT_SE , 
+				                     ORGINL_NTIC_CHRGE_KND , 
+				                     ORGINL_NTIC_ACCNUT_YEAR , 
+				                     ORGINL_NTIC_NO , 
+				                     ELCTRN_TAXBIL_ISU_YN , 
+				                     BEGIN_DT , 
+				                     END_DT , 
+				                     NTIC_MTH , 
+				                     REG_USR , 
+				                     TO_CHAR(REGIST_DT, 'yyyy-mm-dd') AS REGIST_DT , 
+				                     UPD_USR , 
+				                     UPDT_DT 
+				                FROM ANLRVE_LEV_F 
+				                WHERE 1 = 1
+				                <isNotEmpty property="entrpscd">
+				                	AND ENTRPSCD = #entrpscd#
+				                </isNotEmpty>
+				                <isNotEmpty property="rcivSe">
+				                	AND RCIV_SE = #rcivSe#
+				                </isNotEmpty>
+				                <isNotEmpty property="chrgeKnd">
+				                	AND CHRGE_KND = #chrgeKnd#
+				                </isNotEmpty>
+				            ORDER BY ACCNUT_YEAR DESC , 
+				                     MNG_CNT DESC , 
+				                     MNG_NO DESC , 
+				                     MNG_YEAR DESC , 
+				                     NTICNO DESC , 
+				                     NTIC_CNT DESC , 
+				                     PRT_AT_CODE DESC 
+				              )Z 
+				       )
+				       
+	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamNticPayListDao.selectFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ANLRVE_LEV_F
+             WHERE 1=1 
+    </select>
+
+    <select id="gamNticPayListDao.gamNticPayListSelectView" parameterClass="nticPayListVO" resultClass="nticPayListVO">
+            SELECT ACCNUT_YEAR AS accnutYear , 
+			       MNG_CNT AS mngCnt , 
+			       MNG_NO AS mngNo , 
+			       MNG_YEAR AS mngYear , 
+			       NTICNO AS nticno , 
+			       NTIC_CNT AS nticCnt , 
+			       PRT_AT_CODE AS prtAtCode ,
+			       (SELECT CODE_NM FROM COMTCCMMNDETAILCODE 
+ 						WHERE USE_AT = 'Y' 
+       					AND CODE_ID = 'GAM024' 
+       					AND CODE = CHRGE_KND) AS chrgeKndNm ,
+			       ACCNUT_SE_CD AS accnutSeCd , 
+			       ENTRPSCD AS entrpscd , 
+			       NTIC_AMT AS nticAmt , 
+			       NTIC_DT AS nticDt , 
+			       NHT_ISUE_YN AS nhtIsueYn , 
+			       COMPUT_DTLS AS computDtls , 
+			       TO_CHAR(TO_DATE(PAY_TMLMT), 'YYYY-MM-DD') AS payTmlmt , 
+			       FRST_NTIC_DT AS frstNticDt , 
+			       RCIV_TRANSFR_STTUS_CD AS rcivTransfrSttusCd , 
+			       RCIV_DT AS rcivDt , 
+			       RCIV_SE AS rcivSe ,
+			       INCPCTY_CD AS incpctyCd , 
+			       OVERRPAY_AMT AS overrpayAmt , 
+			       TMPR_ISU_NO AS tmprIsuNo , 
+			       DSCNT_AMT AS dscntAmt , 
+			       DSCNT_RSN AS dscntRsn , 
+			       DSCNT_CD AS dscntCd ,
+			       (SELECT CODE_NM FROM COMTCCMMNDETAILCODE 
+                        WHERE USE_AT = 'Y' 
+                        AND CODE_ID = 'GAM025' 
+                        AND CODE = RCIV_SE) AS rcivSeNm , 
+			       FNNC_INSTT_RCIV_DT AS fnncInsttRcivDt , 
+			       POST_NTIC_ENNC AS postNticEnnc , 
+			       NPYMN_RSN_CD AS npymnRsnCd , 
+			       ELCTRN_NTIC_RESULT AS elctrnNticResult , 
+			       ELCTRN_NTIC_INFO_INQIRE_DT AS elctrnNticInfoInqireDt , 
+			       EXCCLC_YN AS excclcYn , 
+			       VAT AS vat , 
+			       VAT_YN AS vatYn , 
+			       PRCEPTUR_SE AS prcepturSe , 
+			       GIRO_RCIV_PLACE AS giroRcivPlace , 
+			       GIRO_RCIV_SE AS giroRcivSe , 
+			       CMSN AS cmsn , 
+			       CLOS_YN AS closYn , 
+			       DEPTCD AS deptcd , 
+			       CHARGER AS charger , 
+			       OPERT_SE AS opertSe , 
+			       ORGINL_NTIC_CHRGE_KND AS orginlNticChrgeKnd , 
+			       ORGINL_NTIC_ACCNUT_YEAR AS orginlNticAccnutYear , 
+			       ORGINL_NTIC_NO AS orginlNticNo , 
+			       ELCTRN_TAXBIL_ISU_YN AS elctrnTaxbilIsuYn , 
+			       BEGIN_DT AS beginDt , 
+			       END_DT AS endDt , 
+			       NTIC_MTH AS nticMth , 
+			       REG_USR AS regUsr , 
+				   TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS registDt ,
+			       UPD_USR AS updUsr , 
+			       UPDT_DT AS updtDt  
+			  FROM ANLRVE_LEV_F 
+			 WHERE ACCNUT_YEAR = #accnutYear# 
+			       AND MNG_CNT = #mngCnt# 
+			       AND MNG_NO = #mngNo# 
+			       AND MNG_YEAR = #mngYear# 
+			       AND NTICNO = #nticno# 
+			       AND NTIC_CNT = #nticCnt# 
+			       AND PRT_AT_CODE = #prtAtCode# 
+    </select>
+</sqlMap>
