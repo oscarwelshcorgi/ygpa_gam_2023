@@ -22,8 +22,8 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentfeeMngtService;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentfeeMngtVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 
 /**
  * @Class Name : GamHtldRentfeeMngtController.java
@@ -38,7 +38,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentfeeMngtVO;
  *  Copyright (C)  All right reserved.
  */
 @Controller
-public class GamHtldRentfeeMngtController {
+public class GamHtldRentFeeMngtController {
 	
 	protected Log log = LogFactory.getLog(this.getClass());
 	
@@ -66,7 +66,7 @@ public class GamHtldRentfeeMngtController {
 	*/
 	
     @Resource(name = "gamHtldRentfeeMngtService")
-    private GamHtldRentfeeMngtService gamHtldRentfeeMngtService;
+    private GamHtldRentFeeMngtService gamHtldRentfeeMngtService;
     
     /**
 	 * 배후단지임대료관리 화면으로 이동한다.
@@ -98,7 +98,7 @@ public class GamHtldRentfeeMngtController {
 	 */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/selectGamHtldRentfeeMngt.do", method=RequestMethod.POST)
-    @ResponseBody Map selectGamHtldRentfeeMngtList(GamHtldRentfeeMngtVO searchVO) throws Exception {
+    @ResponseBody Map selectGamHtldRentfeeMngtList(GamHtldRentFeeMngtVO searchVO) throws Exception {
     	
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -119,7 +119,7 @@ public class GamHtldRentfeeMngtController {
     	List resultList = gamHtldRentfeeMngtService.selectGamHtldRentfeeMngtList(searchVO);
     	
     	// 배후단지임대료관리 정보
-    	GamHtldRentfeeMngtVO resultInfo = gamHtldRentfeeMngtService.selectGamHtldRentfeeMngtInfo(searchVO);
+    	GamHtldRentFeeMngtVO resultInfo = gamHtldRentfeeMngtService.selectGamHtldRentfeeMngtInfo(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
