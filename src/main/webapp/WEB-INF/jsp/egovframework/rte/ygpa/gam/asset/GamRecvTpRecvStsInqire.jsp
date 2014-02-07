@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamAssetEvlDtlsInqire.jsp
-  * @Description : 자산가치평가내역조회
+  * @Class Name : GamRecvTpRecvStsInqire.jsp
+  * @Description : 수입종류별수입현황조회
   * @Modification Information
   * 
   *   수정일         수정자                   수정내용 
@@ -23,56 +23,22 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamAssetEvlDtlsInqireModule() {}
+function GamRecvTpRecvStsInqireModule() {}
 
-GamAssetEvlDtlsInqireModule.prototype = new EmdModule(900, 550);
+GamRecvTpRecvStsInqireModule.prototype = new EmdModule(570, 480);
 
 //페이지가 호출 되었을때 호출 되는 함수
-GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
+GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
  
  // 테이블 설정 //       
- this.$("#assetEvlDtlsInqireList").flexigrid({
+ this.$("#recvTpRecvStsInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectAssetEvlDtlsInqireList.do"/>',
+     url: '<c:url value="/asset/gamSelectRecvTpRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 관리 부서 코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 운영 부서 코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},          
-                 {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
-                 {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
-                 {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
-                 {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},                                  
-                 {display:'GIS 자산 부두 그룹 코드', name:'gisAssetsQuayGroupCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 위치 코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},                   
-                 {display:'GIS 자산 구분 코드', name:'gisAssetsSeCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 재산 구분 코드', name:'gisAssetsPrprtySeCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 출자 방식', name:'gisAssetsInvstmntMthd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 GIS 코드', name:'gisAssetsGisCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},          
-                 {display:'도면 목록 등록 년도', name:'drwLstRegistYear',width:100, sortable:false,align:'center'},         
-                 {display:'도면 목록 순번', name:'drwLstSeq',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 가치 금액', name:'gisAssetsValAmt',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 가치 조회 일자', name:'gisAssetsValInqireDt',width:100, sortable:false,align:'center'},
-                 {display:'ERP 자산 구분 코드', name:'erpAssetsSeCd',width:100, sortable:false,align:'center'},           
-                 {display:'ERP 자산 번호', name:'erpAssetsNo',width:100, sortable:false,align:'center'},
-                 {display:'ERP 자산 번호 순번', name:'erpAssetsNoSeq',width:100, sortable:false,align:'center'},
-                 {display:'ERP 자산 폐기 등록 여부', name:'erpAssetsDisuseRegistYn',width:100, sortable:false,align:'center'},                      
-                 {display:'ERP 자산 폐기 사유', name:'erpAssetsDisuseRsn',width:100, sortable:false,align:'center'},
-                 {display:'부두코드', name:'gisAssetsQuayCd',width:100, sortable:false,align:'center'}
+                 {display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'center'},
+				 {display:'금액', name:'sumNticAmt',width:150, sortable:false,align:'center'},
+				 {display:'할인금액', name:'sumDscntAmt',width:150, sortable:false,align:'center'}
                  ],
      usepager: true,
      useRp: true,
@@ -85,32 +51,38 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
 /**
 * 정의 된 버튼 클릭 시
 */
-GamAssetEvlDtlsInqireModule.prototype.onButtonClick = function(buttonId) {
+GamRecvTpRecvStsInqireModule.prototype.onButtonClick = function(buttonId) {
 
  switch(buttonId) {
 
      // 조회
      case 'searchBtn':
-         var searchOpt=this.makeFormArgs('#gamAssetEvlDtlsInqireSearchForm');
-         this.$('#assetEvlDtlsInqireList').flexOptions({params:searchOpt}).flexReload();
+         var searchOpt=this.makeFormArgs('#gamRecvTpRecvStsInqireSearchForm');
+         this.$('#recvTpRecvStsInqireList').flexOptions({params:searchOpt}).flexReload();
 
+         break;
+         
+     case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
+         var opts;
+
+         this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
          break;
  }
 };
 
-GamAssetEvlDtlsInqireModule.prototype.onSubmit = function() {
+GamRecvTpRecvStsInqireModule.prototype.onSubmit = function() {
  //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
  this.loadData();
 };
 
-GamAssetEvlDtlsInqireModule.prototype.loadData = function() {
- var searchOpt=this.makeFormArgs('#gamAssetEvlDtlsInqireSearchForm');
+GamRecvTpRecvStsInqireModule.prototype.loadData = function() {
+ var searchOpt=this.makeFormArgs('#gamRecvTpRecvStsInqireSearchForm');
  //this.showAlert(searchOpt);
- this.$('#assetEvlDtlsInqireList').flexOptions({params:searchOpt}).flexReload();
+ this.$('#recvTpRecvStsInqireList').flexOptions({params:searchOpt}).flexReload();
 };
 
-GamAssetEvlDtlsInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamRecvTpRecvStsInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
  switch(newTabId) {
  case 'tabs1':
      break;
@@ -119,8 +91,30 @@ GamAssetEvlDtlsInqireModule.prototype.onTabChange = function(newTabId, oldTabId)
  }
 };
 
+//팝업이 종료 될때 리턴 값이 오출 된다.
+//popupId : 팝업 대화상자 아이디
+//msg : 팝업에서 전송한 메시지 (취소는 cancel)
+//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+GamRecvTpRecvStsInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
+  switch (popupId) {
+   case 'selectEntrpsInfoPopup':
+       if (msg != 'cancel') {
+           this.$('#sEntrpscd').val(value.entrpscd);
+           this.$('#sEntrpsNm').val(value.entrpsNm);
+       } else {
+           alert('취소 되었습니다');
+       }
+       break;
+       
+   default:
+       alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+       throw 0;
+       break;
+   }
+};
+
 //다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamAssetEvlDtlsInqireModule();
+var module_instance = new GamRecvTpRecvStsInqireModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
@@ -128,19 +122,22 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamAssetEvlDtlsInqireSearchForm">
+            <form id="gamRecvTpRecvStsInqireSearchForm">
                 <table class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>GIS자산코드</th>
-                            <td><input id="sGisAssetsCd" type="text" size="5"></td>
-                            <th>GIS자산명</th>
-                            <td><input id="sGisAssetsNm" type="text" size="8"></td>
-                            <th>GIS자산가치 조회일자</th>
-                            <td><input id="sGisAssetsValInqireDtFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sGisAssetsValInqireDtTo" type="text"
-                                class="emdcal" size="8"></td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <th>수납일</th>
+                            <td>
+                                <input id="sRcivDtFrom" type="text" class="emdcal" size="5"> ~
+                                <input id="sRcivDtTo" type="text" class="emdcal" size="5">
+                            </td>
+                            <th>업체</th>
+                            <td>
+                                <input id="sEntrpscd" type="text" size="5">
+                                <input id="sEntrpsNm" type="text" size="8" readonly> 
+                                <button id="popupEntrpsInfo">업체</button>
+                            </td>
+                            <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                         <!-- 
                         <tr>
@@ -164,32 +161,14 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                 <li><a href="#tabs2" class="emdTab">자산정보현황 상세</a></li>
                  -->
                  
-                <li><a href="#tabs1" class="emdTab">자산가치평가내역</a></li>
+                <li><a href="#tabs1" class="emdTab">수입종류별수입현황</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetEvlDtlsInqireList" style="display:none"></table>
+                        <table id="recvTpRecvStsInqireList" style="display:none"></table>
                 </div>
-                <div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <form id="form1">
-                        <tr>
-                            <td width="300">당기자산증가금액 <input id="xxx1" size="7" readonly></td>
-                            <td width="300">대차대조기말현재금액 <input id="xxx2" size="7" readonly></td>
-                            <td width="300">대차재도전기말상각누계금액 <input id="xxx3" size="7" readonly></td>
-                            <td width="300">대차대조미상각잔액 <input id="xxx4" size="7" readonly></td>
-                            
-                        </tr>
-                        <tr>
-                            <td width="300">전기말자본적지출금액 누계<input id="xxx5" size="7" readonly></td>
-                            <td width="300">자본적지출금액 <input id="xxx6" size="7" readonly></td>
-                            <td width="300">당기상각금액 <input id="xxx7" size="7" readonly></td>
-                            <td width="300">잔존금액 <input id="xxx8" size="7" readonly></td>
-                        </tr>
-                        </form>
-                    </table>
-                </div>
+               
                 <!-- 
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
