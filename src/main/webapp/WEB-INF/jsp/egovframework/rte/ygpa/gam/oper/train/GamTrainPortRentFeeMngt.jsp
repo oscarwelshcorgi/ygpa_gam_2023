@@ -6,8 +6,8 @@
 
 <%
   /**
-  * @Class Name : GamPrtFcltyRentFeeMngt.jsp
-  * @Description : 항만시설사용료관리 (항만시설/일반부두/항만시설사용료관리)
+  * @Class Name : GamTrainPortRentFeeMngt.jsp
+  * @Description : 철송장임대료관리 (항만시설/일반부두/철송장임대료관리)
   * @Modification Information
   * 
   *   수정일          수정자                   수정내용 
@@ -24,17 +24,17 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamPrtFcltyRentFeeMngtModule() {}
+function GamTrainPortRentFeeMngtModule() {}
 
-GamPrtFcltyRentFeeMngtModule.prototype = new EmdModule(1000, 550);
+GamTrainPortRentFeeMngtModule.prototype = new EmdModule(1000, 550);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
+GamTrainPortRentFeeMngtModule.prototype.loadComplete = function() {
 
     // 테이블 설정 //       
     this.$("#operResultList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentFeeMngtList.do" />',
+        url: '<c:url value="/oper/train/gamSelectTrainPortRentFeeMngtList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'선택', name:'chkItem', width:40, sortable:false, align:'center', displayFormat:'checkbox'},
@@ -137,13 +137,13 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
- GamPrtFcltyRentFeeMngtModule.prototype.onButtonClick = function(buttonId) {
+ GamTrainPortRentFeeMngtModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
 
         // 조회
         case 'searchBtn':
-            var searchOpt=this.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+            var searchOpt=this.makeFormArgs('#gamTrainPortRentFeeMngtSearchForm');
             this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
 
             break;
@@ -153,12 +153,12 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
         	if( this.$('#prtAtCode').val() == '' ) {
         		alert("목록에서 더블클릭하여 상세로 이동하십시오.");
         	} else {
-	        	var inputVO=this.makeFormArgs('#gamPrtFcltyRentFeeMngtForm');
+	        	var inputVO=this.makeFormArgs('#gamTrainPortRentFeeMngtForm');
 	        	
-	        	this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentFeeMngt.do" />', inputVO, function(module, result) {
+	        	this.doAction('<c:url value="/oper/train/gamUpdateTrainPortRentFeeMngt.do" />', inputVO, function(module, result) {
 	
 	                if(result.resultCode=='0') {
-	                    var searchOpt=module.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+	                    var searchOpt=module.makeFormArgs('#gamTrainPortRentFeeMngtSearchForm');
 	                    module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
 	                }
 	
@@ -169,7 +169,7 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
             
          // 취소
         case 'btnCancelItem':
-            this.$('#gamPrtFcltyRentFeeMngtForm :input').val("");
+            this.$('#gamTrainPortRentFeeMngtForm :input').val("");
             break;
             
         // 고지의뢰(목록)
@@ -209,9 +209,9 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
                 }
                 
                 var inputVO = {nticCnts: nticCnts, prtAtCodes: prtAtCodes, mngYears: mngYears, mngNos: mngNos, mngCnts: mngCnts, nticnos: nticnos, accnutYears: accnutYears };
-                this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentFeeMngtNtic.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/oper/train/gamInsertTrainPortRentFeeMngtNtic.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
-                        var searchOpt = module.makeFormArgs("#gamPrtFcltyRentFeeMngtSearchForm");
+                        var searchOpt = module.makeFormArgs("#gamTrainPortRentFeeMngtSearchForm");
                         module.$("#operResultList").flexOptions({params:searchOpt}).flexReload();
                     }
                     alert(result.resultMsg);                    
@@ -258,9 +258,9 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
                 }
                 
                 var inputVO = {nticCnts: nticCnts, prtAtCodes: prtAtCodes, mngYears: mngYears, mngNos: mngNos, mngCnts: mngCnts, nticnos: nticnos, accnutYears: accnutYears };
-                this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentFeeMngtNtic.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/oper/train/gamDeleteTrainPortRentFeeMngtNtic.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
-                        var searchOpt = module.makeFormArgs("#gamPrtFcltyRentFeeMngtSearchForm");
+                        var searchOpt = module.makeFormArgs("#gamTrainPortRentFeeMngtSearchForm");
                         module.$("#operResultList").flexOptions({params:searchOpt}).flexReload();
                     }
                     alert(result.resultMsg);                    
@@ -275,12 +275,12 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("목록에서 더블클릭하여 상세로 이동하십시오.");
             } else {
-                var inputVO=this.makeFormArgs('#gamPrtFcltyRentFeeMngtForm');
+                var inputVO=this.makeFormArgs('#gamTrainPortRentFeeMngtForm');
                 
-                this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentFeeMngtNticSingle.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/oper/train/gamInsertTrainPortRentFeeMngtNticSingle.do" />', inputVO, function(module, result) {
     
                     if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+                        var searchOpt=module.makeFormArgs('#gamTrainPortRentFeeMngtSearchForm');
                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
                     }
     
@@ -294,12 +294,12 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("목록에서 더블클릭하여 상세로 이동하십시오.");
             } else {
-                var inputVO=this.makeFormArgs('#gamPrtFcltyRentFeeMngtForm');
+                var inputVO=this.makeFormArgs('#gamTrainPortRentFeeMngtForm');
                 
-                this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentFeeMngtNticSingle.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/oper/train/gamDeleteTrainPortRentFeeMngtNticSingle.do" />', inputVO, function(module, result) {
     
                     if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+                        var searchOpt=module.makeFormArgs('#gamTrainPortRentFeeMngtSearchForm');
                         module.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
                     }
     
@@ -318,19 +318,19 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
     }
 };
 
-GamPrtFcltyRentFeeMngtModule.prototype.onSubmit = function() {
+GamTrainPortRentFeeMngtModule.prototype.onSubmit = function() {
     //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
     this.loadData();
 };
 
-GamPrtFcltyRentFeeMngtModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+GamTrainPortRentFeeMngtModule.prototype.loadData = function() {
+    var searchOpt=this.makeFormArgs('#gamTrainPortRentFeeMngtSearchForm');
     //this.showAlert(searchOpt);
     this.$('#operResultList').flexOptions({params:searchOpt}).flexReload();
 };
 
-GamPrtFcltyRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamTrainPortRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
@@ -343,7 +343,7 @@ GamPrtFcltyRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamPrtFcltyRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamTrainPortRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
     case 'selectEntrpsInfoFeePopup':
         if (msg != 'cancel') {
@@ -362,7 +362,7 @@ GamPrtFcltyRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, val
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamPrtFcltyRentFeeMngtModule();
+var module_instance = new GamTrainPortRentFeeMngtModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
@@ -370,7 +370,7 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamPrtFcltyRentFeeMngtSearchForm">
+            <form id="gamTrainPortRentFeeMngtSearchForm">
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
@@ -441,8 +441,8 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
     <div class="emdPanel">
         <div id="operResultListTab" class="emdTabPanel" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">항만시설사용료 목록내역</a></li>
-                <li><a href="#tabs2" class="emdTab">항만시설사용료 상세조회내역</a></li>
+                <li><a href="#tabs1" class="emdTab">철송장임대료 목록내역</a></li>
+                <li><a href="#tabs2" class="emdTab">철송장임대료 상세조회내역</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
@@ -475,7 +475,7 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
 
                 <div class="emdControlPanel">
                     <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
-                    <form id="gamPrtFcltyRentFeeMngtForm">
+                    <form id="gamTrainPortRentFeeMngtForm">
                         <input type="hidden" id="cmd"/>
                         
                         <table>

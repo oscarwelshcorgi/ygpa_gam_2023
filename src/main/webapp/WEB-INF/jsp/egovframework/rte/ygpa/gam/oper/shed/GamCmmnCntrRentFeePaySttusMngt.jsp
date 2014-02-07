@@ -329,8 +329,8 @@ var module_instance = new GamCmmnCntrRentFeePaySttusMngtModule();
     <div class="emdPanel">
         <div id="assetRentFeePayListTab" class="emdTabPanel" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">자산임대료납부 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">자산임대료납부 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">공컨장치장납부 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">공컨장치장납부 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
