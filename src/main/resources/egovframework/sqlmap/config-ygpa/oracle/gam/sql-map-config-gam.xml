@@ -13,6 +13,7 @@
 
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/itgrn/GamNticPayListDao_SQL_oracle.xml"/>
 
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFcltyDrwMngtDao_SQL_oracle.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFcltyMngtDao_SQL_oracle.xml"/>
 	
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/GamAssetRentDao_SQL_oracle.xml"/>
