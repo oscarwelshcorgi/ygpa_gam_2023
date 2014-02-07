@@ -37,9 +37,9 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
-					{display:"코드ID", 		name:"codeId",		width:200, 	sortable:false,		align:"center"},
-					{display:"코드", 		name:"clCode",		width:100, 	sortable:false,		align:"center"},
-					{display:"코드명", 		name:"codeIdNm",	width:250, 	sortable:false,		align:"center"},
+					{display:"분류명",		name:"clCodeNm",	width:250, 	sortable:false,		align:"center"},
+					{display:"코드ID", 		name:"codeId",		width:100, 	sortable:false,		align:"center"},
+					{display:"코드ID명", 	name:"codeIdNm",	width:150, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
@@ -57,13 +57,13 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		module.doAction('<c:url value="/code/gamCcmCmmnCodeDetail.do" />', {codeId: row["codeId"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
-			module.$("#clCode").val(result.codeDetail.clCode);			// 코드
+			module.$("#clCode").val(result.codeDetail.clCode);			// 분류코드
 			module.$("#codeId").val(result.codeDetail.codeId);			// 코드ID
 			module.$("#codeIdNm").val(result.codeDetail.codeIdNm);		// 코드명
 			module.$("#codeIdDc").val(result.codeDetail.codeIdDc);		// 코드설명
 			module.$("#useAt").val(result.codeDetail.useAt);			// 사용여부
 			
-			module.$("#clCode").attr("disabled","disabled");			// 코드
+			module.$("#clCode").attr("disabled","disabled");			// 분류코드
 			module.$("#codeId").attr("disabled","disabled");			// 코드ID
 			module.$("#useAt").attr("disabled","disabled");				// 사용여부
 	 	});
@@ -94,7 +94,7 @@ GamCmmnCodeMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmmnCodeMngListTab").tabs("option", {active: 1});
 			this.$("#cmmnCodeManageVO :input").val("");
 			this.$("#cmd").val("insert");
-			this.$("#clCode").removeAttr("disabled","disabled");			// 코드
+			this.$("#clCode").removeAttr("disabled","disabled");			// 분류코드
 			this.$("#codeId").removeAttr("disabled","disabled");			// 코드ID
 			this.$("#useAt").removeAttr("disabled","disabled");				// 사용여부
 		break;
