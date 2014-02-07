@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.oper.cntnr">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamCntnrRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrRentFeePaySttusMngtVO"/>
+    
+    <resultMap id="gamCntnrRentFeePaySttusMngtSumMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrRentFeePaySttusMngtVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
+        <result property="sumVat" column="SUM_VAT" columnIndex="3"/>
+        <result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="4"/>
+    </resultMap>
+    
+    <select id="gamCntnrRentFeePaySttusMngtDao.selectCntnrRentFeePaySttusMngtList_D" parameterClass="gamCntnrRentFeePaySttusMngtVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+							         A.CHRGE_KND
+							       , A.ACCNUT_YEAR
+							       , A.NTICNO
+							       , A.ACCNUT_SE_CD
+							       , A.ENTRPSCD
+							       , A.NTIC_AMT
+							       , TO_CHAR(TO_DATE(A.NTIC_DT), 'YYYY-MM-DD') NTIC_DT 
+							       , A.NHT_ISUE_YN
+							       , A.COMPUT_DTLS
+							       , A.PAY_TMLMT
+							       , TO_CHAR(TO_DATE(A.FRST_NTIC_DT), 'YYYY-MM-DD') FRST_NTIC_DT
+							       , A.RCIV_TRANSFR_STTUS_CD
+							       , TO_CHAR(TO_DATE(A.RCIV_DT), 'YYYY-MM-DD') RCIV_DT
+							       , A.RCIV_SE
+							       , A.INCPCTY_CD
+							       , A.OVERRPAY_AMT
+							       , A.TMPR_ISU_NO
+							       , A.DSCNT_AMT
+							       , A.DSCNT_RSN
+							       , A.DSCNT_CD
+							       , A.RCIV_SE_NM
+							       , TO_CHAR(TO_DATE(A.FNNC_INSTT_RCIV_DT), 'YYYY-MM-DD') FNNC_INSTT_RCIV_DT
+							       , A.POST_NTIC_ENNC
+							       , A.NPYMN_RSN_CD
+							       , A.ELCTRN_NTIC_RESULT
+							       , TO_CHAR(TO_DATE(A.ELCTRN_NTIC_INFO_INQIRE_DT), 'YYYY-MM-DD') ELCTRN_NTIC_INFO_INQIRE_DT
+							       , A.EXCCLC_YN
+							       , A.VAT
+							       , A.VAT_YN
+							       , A.PRCEPTUR_SE
+							       , A.GIRO_RCIV_PLACE
+							       , A.GIRO_RCIV_SE
+							       , A.CMSN
+							       , A.CLOS_YN
+							       , A.DEPTCD
+							       , A.CHARGER
+							       , A.OPERT_SE
+							       , A.ORGINL_NTIC_CHRGE_KND
+							       , A.ORGINL_NTIC_ACCNUT_YEAR
+							       , A.ORGINL_NTIC_NO
+							       , A.ELCTRN_TAXBIL_ISU_YN
+							       , TO_CHAR(TO_DATE(A.BEGIN_DT), 'YYYY-MM-DD') BEGIN_DT
+							       , TO_CHAR(TO_DATE(A.END_DT), 'YYYY-MM-DD') END_DT
+							       , A.NTIC_MTH
+							       , A.REG_USR
+							       , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+							       , A.UPD_USR
+							       , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
+							       , A.NTIC_CNT
+							       , A.PRT_AT_CODE
+							       , A.MNG_YEAR
+							       , A.MNG_NO
+							       , A.MNG_CNT
+							       , L.FCLTY_SE
+							       , L.ENTRPS_NM
+							       , TO_CHAR(TO_DATE(L.NTIC_PD_FROM), 'YYYY-MM-DD') NTIC_PD_FROM
+							       , TO_CHAR(TO_DATE(L.CONST_PER_TO), 'YYYY-MM-DD') CONST_PER_TO
+							       , L.OLNLP
+							       , L.FEE
+							       , L.RM
+							       , L.ARRRG_NO
+							       , L.ARRRG_AMT
+							       , L.REQEST_SEQ
+							 FROM   ANLRVE_LEV_F A
+							      , LEV_REQEST_F L
+							WHERE A.PRT_AT_CODE = L.PRT_AT_CODE
+							  AND A.MNG_YEAR    = L.MNG_YEAR 
+							  AND A.MNG_NO      = L.MNG_NO
+							  AND A.MNG_CNT     = L.MNG_CNT
+							  AND A.NTIC_CNT    = L.NTIC_CNT
+							  AND (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+							                                                 SELECT  F.PRT_AT_CODE
+							                                                       , F.MNG_YEAR
+							                                                       , F.MNG_NO
+							                                                       , F.MNG_CNT 
+							                                                 FROM ASSETS_RENT_DETAIL_F F
+							                                                 WHERE F.QUAY_CD = 'C'	<!-- 컨테이너부두 -->
+                             ) 
+						   <isNotEmpty property="sPrtAtCode">
+						       AND A.PRT_AT_CODE = #sPrtAtCode#
+						   </isNotEmpty>
+						   
+						   <isNotEmpty property="sNticMth">
+							   AND (
+							         (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+							                                                              SELECT   R.PRT_AT_CODE
+							                                                                     , R.MNG_YEAR
+							                                                                     , R.MNG_NO
+							                                                                     , R.MNG_CNT 
+							                                                                FROM ASSETS_RENT_F R
+							                                                               WHERE R.NTIC_MTH = #sNticMth# 
+							                                                             )
+							       ) 
+						   </isNotEmpty>
+						   
+						   <isNotEmpty property="sQuayCd">
+                                  AND (
+                                        (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                                             SELECT  D.PRT_AT_CODE
+                                                                                                   , D.MNG_YEAR
+                                                                                                   , D.MNG_NO
+                                                                                                   , D.MNG_CNT
+                                                                                               FROM ASSETS_RENT_DETAIL_F D
+                                                                                              WHERE D.QUAY_CD = #sQuayCd#
+                                                                                              GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
+                                                                                            )
+                                      )
+                           </isNotEmpty>
+						   
+						   <isNotEmpty property="sChrgeKnd">
+						       AND A.CHRGE_KND = #sChrgeKnd# 
+						   </isNotEmpty>
+							   
+						   <isNotEmpty property="sRcivSe">
+						       AND A.RCIV_SE = #sRcivSe#
+						   </isNotEmpty>
+							   
+						   <isNotEmpty property="sEntrpscd">
+						       AND A.ENTRPSCD = #sEntrpscd#
+						   </isNotEmpty>
+						   
+						   <isNotEmpty property="sNticDtFrom">
+						       AND A.NTIC_DT BETWEEN #sNticDtFrom# AND #sNticDtTo#
+						   </isNotEmpty>
+							   
+                           ORDER BY A.REGIST_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamCntnrRentFeePaySttusMngtDao.selectCntnrRentFeePaySttusMngtListTotCnt_S" parameterClass="gamCntnrRentFeePaySttusMngtVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM  ANLRVE_LEV_F A
+			      , LEV_REQEST_F L
+			 WHERE A.PRT_AT_CODE = L.PRT_AT_CODE
+			   AND A.MNG_YEAR    = L.MNG_YEAR 
+			   AND A.MNG_NO      = L.MNG_NO
+			   AND A.MNG_CNT     = L.MNG_CNT
+			   AND A.NTIC_CNT    = L.NTIC_CNT
+               AND (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+				                                                 SELECT  F.PRT_AT_CODE
+				                                                       , F.MNG_YEAR
+				                                                       , F.MNG_NO
+				                                                       , F.MNG_CNT 
+				                                                 FROM ASSETS_RENT_DETAIL_F F
+				                                                 WHERE F.QUAY_CD = 'C'	<!-- 컨테이너부두 -->
+                          )  
+             <isNotEmpty property="sPrtAtCode">
+                 AND A.PRT_AT_CODE = #sPrtAtCode#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sNticMth">
+                 AND (
+                       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                            SELECT   R.PRT_AT_CODE
+                                                                                   , R.MNG_YEAR
+                                                                                   , R.MNG_NO
+                                                                                   , R.MNG_CNT 
+                                                                              FROM ASSETS_RENT_F R
+                                                                             WHERE R.NTIC_MTH = #sNticMth# 
+                                                                           )
+                     ) 
+             </isNotEmpty>
+             
+             <isNotEmpty property="sQuayCd">
+                 AND (
+                       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                            SELECT  D.PRT_AT_CODE
+                                                                                  , D.MNG_YEAR
+                                                                                  , D.MNG_NO
+                                                                                  , D.MNG_CNT
+                                                                              FROM ASSETS_RENT_DETAIL_F D
+                                                                             WHERE D.QUAY_CD = #sQuayCd#
+                                                                             GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
+                                                                           )
+                     )
+             </isNotEmpty>
+             
+             <isNotEmpty property="sChrgeKnd">
+                 AND A.CHRGE_KND = #sChrgeKnd# 
+             </isNotEmpty>
+                 
+             <isNotEmpty property="sRcivSe">
+                 AND A.RCIV_SE = #sRcivSe#
+             </isNotEmpty>
+                 
+             <isNotEmpty property="sEntrpscd">
+                 AND A.ENTRPSCD = #sEntrpscd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sNticDtFrom">
+                 AND A.NTIC_DT BETWEEN #sNticDtFrom# AND #sNticDtTo#
+             </isNotEmpty>
+    </select>
+    
+    <select id="gamCntnrRentFeePaySttusMngtDao.selectCntnrRentFeePaySttusMngtSum_S" parameterClass="gamCntnrRentFeePaySttusMngtVO" resultMap="gamCntnrRentFeePaySttusMngtSumMap">
+         SELECT 
+                 NVL(COUNT(*),0) SUM_CNT
+               , NVL(SUM(L.FEE),0) SUM_FEE
+               , NVL(SUM(L.VAT),0) SUM_VAT
+               , NVL(SUM(L.NTIC_AMT),0) SUM_NTIC_AMT
+          FROM  ANLRVE_LEV_F A
+              , LEV_REQEST_F L
+         WHERE A.PRT_AT_CODE = L.PRT_AT_CODE
+           AND A.MNG_YEAR    = L.MNG_YEAR 
+           AND A.MNG_NO      = L.MNG_NO
+           AND A.MNG_CNT     = L.MNG_CNT
+           AND A.NTIC_CNT    = L.NTIC_CNT
+           AND (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+			                                                 SELECT  F.PRT_AT_CODE
+			                                                       , F.MNG_YEAR
+			                                                       , F.MNG_NO
+			                                                       , F.MNG_CNT 
+			                                                 FROM ASSETS_RENT_DETAIL_F F
+			                                                 WHERE F.QUAY_CD = 'C'	<!-- 컨테이너부두 -->
+                         )  
+         <isNotEmpty property="sPrtAtCode">
+             AND A.PRT_AT_CODE = #sPrtAtCode#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sNticMth">
+             AND (
+                   (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                        SELECT   R.PRT_AT_CODE
+                                                                               , R.MNG_YEAR
+                                                                               , R.MNG_NO
+                                                                               , R.MNG_CNT 
+                                                                          FROM ASSETS_RENT_F R
+                                                                         WHERE R.NTIC_MTH = #sNticMth# 
+                                                                       )
+                 ) 
+         </isNotEmpty>
+         
+         <isNotEmpty property="sQuayCd">
+             AND (
+                   (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                        SELECT  D.PRT_AT_CODE
+                                                                              , D.MNG_YEAR
+                                                                              , D.MNG_NO
+                                                                              , D.MNG_CNT
+                                                                          FROM ASSETS_RENT_DETAIL_F D
+                                                                         WHERE D.QUAY_CD = #sQuayCd#
+                                                                         GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
+                                                                       )
+                 )
+         </isNotEmpty>
+         
+         <isNotEmpty property="sChrgeKnd">
+             AND A.CHRGE_KND = #sChrgeKnd# 
+         </isNotEmpty>
+             
+         <isNotEmpty property="sRcivSe">
+             AND A.RCIV_SE = #sRcivSe#
+         </isNotEmpty>
+             
+         <isNotEmpty property="sEntrpscd">
+             AND A.ENTRPSCD = #sEntrpscd#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sNticDtFrom">
+             AND A.NTIC_DT BETWEEN #sNticDtFrom# AND #sNticDtTo#
+         </isNotEmpty>
+    </select>
+    
+    
+</sqlMap>
