@@ -23,17 +23,17 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamFcltyMngtModule() {}
+function GamFcltyDrwListMngtModule() {}
 
-GamFcltyMngtModule.prototype = new EmdModule(840,510);	// 초기 시작 창크기 지정
+GamFcltyDrwListMngtModule.prototype = new EmdModule(840,510);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamFcltyMngtModule.prototype.loadComplete = function() {
+GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 
 	// 테이블 설정
-	this.$("#fcltyMngtList").flexigrid({
+	this.$("#drwListMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamFcltyMngtList.do" />',
+		url: '<c:url value="/fclty/gamFcltyDrwMngtList.do" />',
 		dataType: "json",
 		colModel : [
 				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
@@ -57,15 +57,12 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		height: "270"
 	});
 	
-	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+	this.$("#drwListMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-		
-		// 자산구분코드 설정
-		module.$("#gisPrtFcltyCd").val("AE");
+		module.$("#drwListMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
 		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:module.$("#gisPrtFcltyCd").val()};
-		module.doAction('<c:url value="/fclty/gamFcltyMngSelectView.do" />', detailInput, function(module, result) {
+		module.doAction('<c:url value="/fclty/gamFcltyDrwListMngSelectView.do" />', detailInput, function(module, result) {
 
 			module.$("#cmd").val("modify");
 			module.$("#gisAssetsCd").val(result.detail.gisAssetsCd);
@@ -92,34 +89,34 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
-GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
+GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 	
 	switch(buttonId) {
 	
 		// 조회
 		case "searchBtn":
-			var searchOpt=this.makeFormArgs("#fcltyForm");
-		 	this.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload(); 
+			var searchOpt=this.makeFormArgs("#drwListForm");
+		 	this.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload(); 
 		break;
 		
 			// 목록
 		case "listBtn":
-			this.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
+			this.$("#drwListMngtListTab").tabs("option", {active: 0}); 
 		break;
 		
 		// 추가
 		case "addBtn":
 			this.$("#displayDate").hide();
-			this.$("#fcltyManageVO :input").val("");
+			this.$("#drwListManageVO :input").val("");
 			this.$("#cmd").val("insert");
 			
 			// 자산구분코드 설정
 			this.$("#gisPrtFcltyCd").val("AE");
-			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
+			this.$("#drwListMngtListTab").tabs("option", {active: 1});
 			
-			this.doAction('<c:url value="/fclty/gamFcltyGetInsertSeq.do" />', inputVO, function(module, result) {
+			/*this.doAction('<c:url value="/fclty/gamFcltyGetInsertSeq.do" />', inputVO, function(module, result) {
 				module.$("#gisPrtFcltySeq").val(result.seq);
-		 	});
+		 	});*/
 		break;
 
 		// 자산코드 팝업
@@ -142,25 +139,25 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
-		 	var inputVO = this.makeFormArgs("#fcltyManageVO");
+		 	var inputVO = this.makeFormArgs("#drwListManageVO");
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/fclty/gamFcltyInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
-						module.$("#fcltyManageVO :input").val("");
+			 			var searchOpt = module.makeFormArgs("#drwListForm");
+						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/fclty/gamFcltyUpdate.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngUpdate.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
-						module.$("#fcltyManageVO :input").val("");
+			 			var searchOpt = module.makeFormArgs("#drwListForm");
+						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -171,13 +168,13 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				
-				var inputVO = this.makeFormArgs("#fcltyManageVO");
-			 	this.doAction('<c:url value="/fclty/gamFcltyDelete.do" />', inputVO, function(module, result) {
+				var inputVO = this.makeFormArgs("#drwListManageVO");
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngDelete.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyMngtListTab").tabs("option", {active: 0}); 
-						module.$("#fcltyManageVO :input").val("");
+			 			var searchOpt = module.makeFormArgs("#drwListForm");
+						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -190,12 +187,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 /**
  * 탭 변경시 실행 이벤트
  */
- GamFcltyMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
+ GamFcltyDrwListMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 	case "tabs1":
 		break;
 	case "tabs2":
-		var row = this.$("#fcltyMngtList").selectedRows();
+		var row = this.$("#drwListMngtList").selectedRows();
 		if(row.length == 0) this.$("#cmd").val("insert");
 		else this.$("#cmd").val("modify");
 		break;
@@ -206,7 +203,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 /**
  * 팝업 close 이벤트
  */
-GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
+GamFcltyDrwListMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 	
 	switch(popupId){
 		
@@ -239,7 +236,7 @@ GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 	}
 };
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamFcltyMngtModule();
+var module_instance = new GamFcltyDrwListMngtModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
@@ -281,16 +278,16 @@ var module_instance = new GamFcltyMngtModule();
 	</div>
 
 	<div class="emdPanel">
-		<div id="fcltyMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+		<div id="drwListMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">항만시설목록</a></li>
 				<li><a href="#tabs2" class="emdTab">항만시설상세</a></li>
 			</ul>
 			<div id="tabs1" class="emdTabPage">
-				<table id="fcltyMngtList" style="display:none"></table>
+				<table id="drwListMngtList" style="display:none"></table>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
-				<form id="fcltyManageVO">
+				<form id="drwListManageVO">
 					<input type="hidden" id="cmd" />
 					<table class="searchPanel">
 						<tr>
