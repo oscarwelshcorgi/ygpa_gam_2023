@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.oper.gnrl">
+<sqlMap namespace="ygpa.gam.oper.shed">
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamPrtFcltyRentFeeMngtVO" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO"/>
+    <typeAlias alias="gamCmmnCntrShedRentFeeMngtVO" type="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentFeeMngtVO"/>
     
-    <resultMap id="gamPrtFcltyRentFeeMngtSumMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO">
+    <resultMap id="gamCmmnCntrShedRentFeeMngtSumMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentFeeMngtVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
         <result property="sumArrrgAmt" column="SUM_ARRRG_AMT" columnIndex="3"/>
@@ -15,7 +15,7 @@
         <result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="5"/>
     </resultMap>
     
-    <resultMap id="gamPrtFcltyRentFeeMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO">
+    <resultMap id="gamCmmnCntrShedRentFeeMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrShedRentFeeMngtVO">
         <result property="nticCnt" column="NTIC_CNT" columnIndex="1"/> 
 		<result property="fcltySe" column="FCLTY_SE" columnIndex="2"/>     
 		<result property="chrgeKnd" column="CHRGE_KND" columnIndex="3"/>    
@@ -52,7 +52,7 @@
     </resultMap>
 
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtList_D" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="egovMap">
+    <select id="gamCmmnCntrShedRentFeeMngtDao.selectCmmnCntrShedRentFeeMngtList_D" parameterClass="gamCmmnCntrShedRentFeeMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -99,8 +99,8 @@
 							                                                       , F.MNG_NO
 							                                                       , F.MNG_CNT 
 							                                                 FROM ASSETS_RENT_DETAIL_F F
-							                                                 WHERE F.QUAY_CD = 'G'	<!-- 일반부두 -->
-                             )    
+							                                                 WHERE F.QUAY_CD = 'E'	<!-- 공컨장치장 -->
+                             )
 							   
 							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
@@ -195,7 +195,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtListTotCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int">
+    <select id="gamCmmnCntrShedRentFeeMngtDao.selectCmmnCntrShedRentFeeMngtListTotCnt_S" parameterClass="gamCmmnCntrShedRentFeeMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM LEV_REQEST_F L
              WHERE (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
@@ -204,8 +204,8 @@
 				                                                       , F.MNG_NO
 				                                                       , F.MNG_CNT 
 				                                                 FROM ASSETS_RENT_DETAIL_F F
-				                                                 WHERE F.QUAY_CD = 'G'	<!-- 일반부두 -->
-                          )    
+				                                                 WHERE F.QUAY_CD = 'E'	<!-- 공컨장치장 -->
+                 )
                
                <isNotEmpty property="sPrtAtCode">
                    AND L.PRT_AT_CODE = #sPrtAtCode# 
@@ -296,7 +296,7 @@
                </isNotEmpty>
     </select>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtSum_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtSumMap">
+    <select id="gamCmmnCntrShedRentFeeMngtDao.selectCmmnCntrShedRentFeeMngtSum_S" parameterClass="gamCmmnCntrShedRentFeeMngtVO" resultMap="gamCmmnCntrShedRentFeeMngtSumMap">
          SELECT 
                  NVL(COUNT(*),0) SUM_CNT
                , NVL(SUM(L.FEE),0) SUM_FEE
@@ -310,8 +310,8 @@
 			                                                       , F.MNG_NO
 			                                                       , F.MNG_CNT 
 			                                                 FROM ASSETS_RENT_DETAIL_F F
-			                                                 WHERE F.QUAY_CD = 'G'	<!-- 일반부두 -->
-             )    
+			                                                 WHERE F.QUAY_CD = 'E'	<!-- 공컨장치장 -->
+            )
          
          <isNotEmpty property="sPrtAtCode">
              AND L.PRT_AT_CODE = #sPrtAtCode# 
@@ -402,7 +402,7 @@
          </isNotEmpty>
     </select>
     
-    <update id="gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeMngt_S">
+    <update id="gamCmmnCntrShedRentFeeMngtDao.updateCmmnCntrShedRentFeeMngt_S">
         UPDATE LEV_REQEST_F SET
 		       FCLTY_SE     = #fcltySe#
 		     , CHRGE_KND    = #chrgeKnd#
@@ -437,7 +437,7 @@
 		AND    MNG_CNT      = #mngCnt#
     </update>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtInfo_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtInfoMap"> 
+    <select id="gamCmmnCntrShedRentFeeMngtDao.selectCmmnCntrShedRentFeeMngtInfo_S" parameterClass="gamCmmnCntrShedRentFeeMngtVO" resultMap="gamCmmnCntrShedRentFeeMngtInfoMap"> 
         SELECT 
                  L.NTIC_CNT
                , L.FCLTY_SE
@@ -481,7 +481,7 @@
            AND L.MNG_CNT     = #mngCnt#
     </select>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int"> 
+    <select id="gamCmmnCntrShedRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamCmmnCntrShedRentFeeMngtVO" resultClass="int"> 
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
          WHERE 1=1
@@ -494,7 +494,7 @@
 		   AND MNG_CNT     = #mngCnt#
     </select>
     
-    <insert id="gamPrtFcltyRentFeeMngtDao.insertAnlrveLev_S">
+    <insert id="gamCmmnCntrShedRentFeeMngtDao.insertAnlrveLev_S">
         INSERT INTO ANLRVE_LEV_F (
 		                            CHRGE_KND
 		                          , ACCNUT_YEAR
@@ -607,7 +607,7 @@
 		                        )
     </insert>
     
-    <update id="gamPrtFcltyRentFeeMngtDao.deletePrtFcltyRentFeeMngt_S">
+    <update id="gamCmmnCntrShedRentFeeMngtDao.deleteCmmnCntrShedRentFeeMngt_S">
          DELETE FROM LEV_REQEST_F
           WHERE NTIC_CNT    = #nticCnt#
             AND PRT_AT_CODE = #prtAtCode#
