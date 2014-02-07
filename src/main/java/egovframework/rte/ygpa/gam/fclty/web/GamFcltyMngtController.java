@@ -175,20 +175,6 @@ public class GamFcltyMngtController {
 
 	
 	/**
-	 * 도면시설 관리화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamDrwListMngt.do")
-	String indexDrwListMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamDrwListMngt";
-	}
-	
-	
-	/**
 	 * 시설관리목록
 	 * @param searchVO
 	 * @return

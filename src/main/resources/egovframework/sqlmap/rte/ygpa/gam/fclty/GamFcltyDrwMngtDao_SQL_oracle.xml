@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
+    <typeAlias alias="fcltyDrwDtaFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO"/>
+    
+    <insert id="gamFcltyDrwMngtDao.insertFcltyDrwListMng">
+	</insert>
+    
+    <select id="gamFcltyDrwMngtDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
+    </select>
+    
+    <select id="gamFcltyDrwMngtDao.selectFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    </select>
+
+    <select id="gamFcltyDrwMngtDao.insertFcltyGetSeq" resultClass="String">
+    </select>
+    
+	<select id="gamFcltyDrwMngtDao.fcltyDrwListMngSelectView" resultClass="fcltyDrwDtaFVO" parameterClass="fcltyDrwDtaFVO" >
+  	</select>
+  	
+  	<update id="gamFcltyDrwMngtDao.updateFcltyDrwListMng">
+    </update>
+    
+    <delete id="gamFcltyMngtDao.deleteFcltyDrwListMng">
+    </delete>
+</sqlMap>
