@@ -7,7 +7,7 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
 
 /**
  * @Class Name : GamAssetRentFeePayDtlsMngtService.java
- * @Description : 자산임대료고지관리 Business class
+ * @Description : 자산임대료납부관리 Business class
  * @Modification Information
  *
  * @author heroin
