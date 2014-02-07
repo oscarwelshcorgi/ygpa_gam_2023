@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamAssetEvlDtlsInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO"/>
+    
+    <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireList_D" parameterClass="gamAssetEvlDtlsInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+							       G.GIS_ASSETS_SUB_CD, G.GIS_ASSETS_CD, G.GIS_ASSETS_NM, 
+							       G.GIS_ASSETS_MNG_DEPT_CD, G.GIS_ASSETS_OPER_DEPT_CD, G.GIS_ASSETS_LOCPLC, 
+							       G.GIS_ASSETS_LNM, G.GIS_ASSETS_LNM_SUB, G.GIS_ASSETS_PRT_AT_CODE, 
+							       G.GIS_ASSETS_AR, G.GIS_ASSETS_USAGE_YN, G.GIS_ASSETS_ACQ_PRI, 
+							       G.GIS_ASSETS_STNDRD, G.GIS_ASSETS_BLDDATE, G.GIS_ASSETS_BLD_DT, 
+							       G.GIS_ASSETS_RM, G.REG_USR, G.REGISTDT, 
+							       G.UPD_USR, G.UPDTDT, G.GIS_ASSETS_QUAY_GROUP_CD, 
+							       G.GIS_ASSETS_LOC_CD, G.GIS_ASSETS_SE_CD, G.GIS_ASSETS_PRPRTY_SE_CD, 
+							       G.GIS_ASSETS_INVSTMNT_MTHD, G.GIS_ASSETS_GIS_CD, G.GIS_ASSETS_REAL_RENT_AR, 
+							       G.DRW_LST_REGIST_YEAR, G.DRW_LST_SEQ, G.GIS_ASSETS_VAL_AMT, 
+							       G.GIS_ASSETS_VAL_INQIRE_DT, G.ERP_ASSETS_SE_CD, G.ERP_ASSETS_NO, 
+							       G.ERP_ASSETS_NO_SEQ, G.ERP_ASSETS_DISUSE_REGIST_YN, G.ERP_ASSETS_DISUSE_RSN, 
+							       G.GIS_ASSETS_QUAY_CD
+							  FROM GIS_ASSETS_CD_F G
+							 WHERE 1=1
+							   
+							   <isNotEmpty property="sGisAssetsCd">
+							       AND G.GIS_ASSETS_CD = #sGisAssetsCd# 
+							   </isNotEmpty>
+							   
+							   <isNotEmpty property="sGisAssetsNm">
+							       AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+							   </isNotEmpty> 
+							   
+							   <isNotEmpty property="sGisAssetsValInqireDtFrom">
+							        AND G.GIS_ASSETS_VAL_INQIRE_DT BETWEEN REPLACE(#sGisAssetsValInqireDtFrom#,'-','') AND REPLACE(#sGisAssetsValInqireDtTo#,'-','') 
+							   </isNotEmpty>
+                            
+                             ORDER BY G.REGISTDT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireListTotCnt_S" parameterClass="gamAssetEvlDtlsInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM GIS_ASSETS_CD_F G
+             WHERE 1=1
+               
+               <isNotEmpty property="sGisAssetsCd">
+                   AND G.GIS_ASSETS_CD = #sGisAssetsCd# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="sGisAssetsNm">
+                   AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+               </isNotEmpty> 
+               
+               <isNotEmpty property="sGisAssetsValInqireDtFrom">
+                    AND G.GIS_ASSETS_VAL_INQIRE_DT BETWEEN REPLACE(#sGisAssetsValInqireDtFrom#,'-','') AND REPLACE(#sGisAssetsValInqireDtTo#,'-','') 
+               </isNotEmpty>
+    </select>
+    
+</sqlMap>

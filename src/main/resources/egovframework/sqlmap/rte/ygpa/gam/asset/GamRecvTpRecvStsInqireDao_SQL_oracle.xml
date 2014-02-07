@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamRecvTpRecvStsInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamRecvTpRecvStsInqireVO"/>
+    
+    <select id="gamRecvTpRecvStsInqireDao.selectRecvTpRecvStsInqireList_D" parameterClass="gamRecvTpRecvStsInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+						          A.CHRGE_KND
+						        , SUM(NVL(A.NTIC_AMT,0)) SUM_NTIC_AMT
+						        , SUM(NVL(A.DSCNT_AMT,0)) SUM_DSCNT_AMT
+						        , ( SELECT C.CODE_NM 
+									  FROM COMTCCMMNDETAILCODE C
+									 WHERE C.CODE_ID = 'GAM024'
+									   AND C.CODE = A.CHRGE_KND
+									   AND ROWNUM = 1 ) CHRGE_KND_NM
+						    FROM ANLRVE_LEV_F A
+						   WHERE 1=1
+						   
+						   <isNotEmpty property="sEntrpscd">
+						     AND A.ENTRPSCD = #sEntrpscd#
+						   </isNotEmpty>
+						   
+						   <isNotEmpty property="sRcivDtFrom">
+                               AND  A.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+                           </isNotEmpty>
+						   
+						   GROUP BY A.CHRGE_KND
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamRecvTpRecvStsInqireDao.selectRecvTpRecvStsInqireListTotCnt_S" parameterClass="gamRecvTpRecvStsInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ANLRVE_LEV_F A
+             WHERE 1=1
+             
+             <isNotEmpty property="sEntrpscd">
+               AND A.ENTRPSCD = #sEntrpscd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sRcivDtFrom">
+                 AND  A.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+             </isNotEmpty>
+             
+             GROUP BY A.CHRGE_KND
+    </select>
+    
+</sqlMap>

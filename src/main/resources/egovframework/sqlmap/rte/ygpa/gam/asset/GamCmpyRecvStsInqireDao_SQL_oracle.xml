@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamCmpyRecvStsInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamCmpyRecvStsInqireVO"/>
+    
+    <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireList_D" parameterClass="gamCmpyRecvStsInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+							       L.ENTRPSCD
+							     , SUM(NVL(L.FEE,0)) FEE
+							     , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E 
+							          WHERE E.ENTRPSCD = L.ENTRPSCD ) ENTRPS_NM
+							     , ( SELECT E.INDUTY FROM ENTRPS_INFO_F E 
+							          WHERE E.ENTRPSCD = L.ENTRPSCD ) INDUTY
+							     , ( SELECT E.BIZCND FROM ENTRPS_INFO_F E 
+							          WHERE E.ENTRPSCD = L.ENTRPSCD ) BIZCND
+							  FROM LEV_REQEST_F L
+							 WHERE 1=1 
+							 
+							 <isNotEmpty property="sRcivDtFrom">
+                                 AND  L.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+                             </isNotEmpty>
+							
+							GROUP BY L.ENTRPSCD, L.FEE
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireListTotCnt_S" parameterClass="gamCmpyRecvStsInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM LEV_REQEST_F L
+             WHERE 1=1 
+             
+             <isNotEmpty property="sRcivDtFrom">
+                 AND  L.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+             </isNotEmpty>
+            
+            GROUP BY L.ENTRPSCD, L.FEE
+    </select>
+    
+</sqlMap>
