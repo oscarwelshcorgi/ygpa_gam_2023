@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.asset">
+<sqlMap namespace="ygpa.gam.asset.rent">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamAssetRentSttusInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireVO"/>
+    <typeAlias alias="gamAssetRentSttusInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO"/>
     
-    <resultMap id="gamAssetRentSumMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireVO">
+    <resultMap id="gamAssetRentSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
         <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
