@@ -41,7 +41,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
  *  Copyright (C)  All right reserved.
  */
 @Controller
-public class GamHtldRentFeeMngtController {
+public class GamHtldRentFeeMngtController { 
 	
 	protected Log log = LogFactory.getLog(this.getClass());
 
