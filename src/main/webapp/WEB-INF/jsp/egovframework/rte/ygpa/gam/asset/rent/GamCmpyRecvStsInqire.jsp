@@ -33,7 +33,7 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //       
  this.$("#cmpyRecvStsInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectCmpyRecvStsInqireList.do"/>',
+     url: '<c:url value="/asset/rent/gamSelectCmpyRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
                  {display:'업체코드', name:'entrpscd',width:150, sortable:false,align:'center'},
