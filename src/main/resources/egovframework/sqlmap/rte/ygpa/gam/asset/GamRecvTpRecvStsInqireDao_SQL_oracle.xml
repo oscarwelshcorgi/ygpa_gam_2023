@@ -39,19 +39,22 @@
     </select>
     
     <select id="gamRecvTpRecvStsInqireDao.selectRecvTpRecvStsInqireListTotCnt_S" parameterClass="gamRecvTpRecvStsInqireVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM ANLRVE_LEV_F A
-             WHERE 1=1
-             
-             <isNotEmpty property="sEntrpscd">
-               AND A.ENTRPSCD = #sEntrpscd#
-             </isNotEmpty>
-             
-             <isNotEmpty property="sRcivDtFrom">
-                 AND  A.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
-             </isNotEmpty>
-             
-             GROUP BY A.CHRGE_KND
+        SELECT COUNT(*) totcnt
+          FROM (    
+	            SELECT A.CHRGE_KND
+	              FROM ANLRVE_LEV_F A
+	             WHERE 1=1
+	             
+	             <isNotEmpty property="sEntrpscd">
+	               AND A.ENTRPSCD = #sEntrpscd#
+	             </isNotEmpty>
+	             
+	             <isNotEmpty property="sRcivDtFrom">
+	                 AND  A.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+	             </isNotEmpty>
+	             
+	             GROUP BY A.CHRGE_KND
+	           )
     </select>
     
 </sqlMap>

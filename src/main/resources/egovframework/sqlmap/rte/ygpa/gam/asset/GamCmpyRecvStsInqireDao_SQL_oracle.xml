@@ -35,15 +35,19 @@
     </select>
     
     <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireListTotCnt_S" parameterClass="gamCmpyRecvStsInqireVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM LEV_REQEST_F L
-             WHERE 1=1 
-             
-             <isNotEmpty property="sRcivDtFrom">
-                 AND  L.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
-             </isNotEmpty>
             
-            GROUP BY L.ENTRPSCD, L.FEE
+        SELECT COUNT(*) totcnt
+          FROM (
+	            SELECT L.ENTRPSCD, L.FEE
+	              FROM LEV_REQEST_F L
+	             WHERE 1=1 
+	             
+	             <isNotEmpty property="sRcivDtFrom">
+	                 AND  L.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+	             </isNotEmpty>
+	            
+	            GROUP BY L.ENTRPSCD, L.FEE
+	           )
     </select>
     
 </sqlMap>
