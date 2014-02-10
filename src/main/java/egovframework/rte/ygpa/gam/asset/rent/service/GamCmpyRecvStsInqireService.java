@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service;
+package egovframework.rte.ygpa.gam.asset.rent.service;
 
 import java.util.List;
 import java.util.Map;
