@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.asset">
+<sqlMap namespace="ygpa.gam.asset.rent">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamAssetPopupInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireVO"/>
+    <typeAlias alias="gamAssetPopupInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO"/>
     
-    <resultMap id="gamAssetPopupInqireMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireVO">
+    <resultMap id="gamAssetPopupInqireMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO">
         <result property="prmisnYnCnt" column="PRMISN_YN_CNT" columnIndex="1"/>
         <result property="nticPdCnt" column="NTIC_PD_CNT" columnIndex="2"/>
         <result property="rcivSeCnt" column="RCIV_SE_CNT" columnIndex="3"/>

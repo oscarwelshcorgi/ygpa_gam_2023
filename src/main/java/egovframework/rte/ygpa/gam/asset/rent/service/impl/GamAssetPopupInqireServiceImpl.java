@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service.impl;
+package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import javax.annotation.Resource;
 
@@ -7,8 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
 
 /**
  * @Class Name : GamAssetPopupInqireServiceImpl.java

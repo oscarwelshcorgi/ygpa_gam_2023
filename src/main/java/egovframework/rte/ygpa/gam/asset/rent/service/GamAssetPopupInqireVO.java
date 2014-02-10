@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service;
+package egovframework.rte.ygpa.gam.asset.rent.service;
 
 import egovframework.com.cmm.ComDefaultVO;
 

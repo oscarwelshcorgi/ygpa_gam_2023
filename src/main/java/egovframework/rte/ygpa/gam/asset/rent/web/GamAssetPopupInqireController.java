@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.web;
+package egovframework.rte.ygpa.gam.asset.rent.web;
 
 import javax.annotation.Resource;
 
@@ -14,8 +14,8 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
 
 /**
  * @Class Name : GamAssetSttusInqireController.java
@@ -59,10 +59,10 @@ public class GamAssetPopupInqireController {
      *
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/asset/GamAssetPopupInqire"
+     * @return "/ygpa/gam/asset/rent/GamAssetPopupInqire"
      * @throws Exception the exception  
      */
-	@RequestMapping(value="/asset/gamAssetPopupInqire.do")
+	@RequestMapping(value="/asset/rent/gamAssetPopupInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
 		//총면적, 총사용료
@@ -75,7 +75,7 @@ public class GamAssetPopupInqireController {
 		
 		model.addAttribute("windowId", windowId);
     	
-    	return "/ygpa/gam/asset/GamAssetPopupInqire"; 
+    	return "/ygpa/gam/asset/rent/GamAssetPopupInqire"; 
     }
 	
 }

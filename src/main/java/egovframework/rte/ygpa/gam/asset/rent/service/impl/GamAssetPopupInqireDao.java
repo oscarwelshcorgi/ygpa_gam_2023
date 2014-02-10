@@ -1,9 +1,9 @@
-package egovframework.rte.ygpa.gam.asset.service.impl;
+package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
 
 /**
  * @Class Name : GamAssetPopupInqireDao.java
