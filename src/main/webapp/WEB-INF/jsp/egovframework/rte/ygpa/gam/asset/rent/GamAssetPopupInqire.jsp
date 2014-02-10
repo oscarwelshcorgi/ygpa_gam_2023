@@ -33,7 +33,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //       
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectAssetLndValInqireList.do"/>',
+     url: '<c:url value="/asset/rent/gamSelectAssetLndValInqireList.do"/>',
      dataType: 'json',
      colModel : [
                  {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},

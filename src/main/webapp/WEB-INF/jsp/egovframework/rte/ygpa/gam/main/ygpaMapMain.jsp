@@ -123,15 +123,15 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
-                                    data-url="<c:url value='/asset/gamAssetPopupInqire.do'/>">자산정보현황알림</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetPopupInqire.do'/>">자산정보현황알림</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0012"
-                                    data-url="<c:url value='/asset/gamCmpyRecvStsInqire.do'/>">업체별수입현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamCmpyRecvStsInqire.do'/>">업체별수입현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0012"
-                                    data-url="<c:url value='/asset/gamRecvTpRecvStsInqire.do'/>">수입종류별수입현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamRecvTpRecvStsInqire.do'/>">수입종류별수입현황조회</a>
                                 </li>
                             </ul></li>
                     </ul></li>
