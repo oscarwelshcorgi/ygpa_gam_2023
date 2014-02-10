@@ -33,7 +33,7 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
     // 테이블 설정
     this.$("#assetRentMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/selectAssetRentSttusInqireList.do" />',
+        url: '<c:url value="/asset/rent/selectAssetRentSttusInqireList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -84,7 +84,7 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
     // 테이블 설정
     this.$("#assetRentDetailList").flexigrid({  
         module: this,
-        url: '<c:url value="/asset/selectAssetRentSttusInqireDetailList.do" />',  
+        url: '<c:url value="/asset/rent/selectAssetRentSttusInqireDetailList.do" />',  
         dataType: 'json',
         colModel : [
                     {display:'자산 사용 순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},                          

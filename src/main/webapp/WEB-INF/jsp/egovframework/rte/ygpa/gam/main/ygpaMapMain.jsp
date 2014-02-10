@@ -107,7 +107,7 @@
                             <ul class="submenu">
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0007"
-                                    data-url="<c:url value='/asset/gamAssetRentSttusInqire.do'/>">자산임대현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetRentSttusInqire.do'/>">자산임대현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0008"
