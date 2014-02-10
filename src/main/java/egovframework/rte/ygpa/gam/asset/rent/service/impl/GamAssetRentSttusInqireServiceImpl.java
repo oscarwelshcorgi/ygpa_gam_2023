@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service.impl;
+package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO;
 
 /**
  * @Class Name : GamAssetRentSttusInqireServiceImpl.java

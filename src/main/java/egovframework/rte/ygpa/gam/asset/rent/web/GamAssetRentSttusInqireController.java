@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.web;
+package egovframework.rte.ygpa.gam.asset.rent.web;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +22,8 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO;
 
 /**
  * @Class Name : GamAssetRentSttusInqireController.java
@@ -67,10 +67,10 @@ public class GamAssetRentSttusInqireController {
      *
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/asset/GamAssetRentSttusInqire"
+     * @return "/ygpa/gam/asset/rent/GamAssetRentSttusInqire"
      * @throws Exception the exception  
      */
-	@RequestMapping(value="/asset/gamAssetRentSttusInqire.do")
+	@RequestMapping(value="/asset/rent/gamAssetRentSttusInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -89,7 +89,7 @@ public class GamAssetRentSttusInqireController {
 		model.addAttribute("usagePrposCdList", usagePrposCdList);
 		model.addAttribute("windowId", windowId);
     	
-    	return "/ygpa/gam/asset/GamAssetRentSttusInqire";
+    	return "/ygpa/gam/asset/rent/GamAssetRentSttusInqire";
     }
 	
 	/**
@@ -100,7 +100,7 @@ public class GamAssetRentSttusInqireController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/selectAssetRentSttusInqireList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/rent/selectAssetRentSttusInqireList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectAssetRentList(GamAssetRentSttusInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -143,7 +143,7 @@ public class GamAssetRentSttusInqireController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/selectAssetRentSttusInqireDetailList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/rent/selectAssetRentSttusInqireDetailList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectAssetRentDetailList(GamAssetRentSttusInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
