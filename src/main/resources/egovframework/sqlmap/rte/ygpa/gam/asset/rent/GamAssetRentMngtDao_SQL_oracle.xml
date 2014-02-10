@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.assetRent">
+<sqlMap namespace="ygpa.gam.asset.rent">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamAssetRentVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO"/>
-    <typeAlias alias="gamAssetRentDetailVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO"/>
-    <typeAlias alias="gamAssetRentLevReqestVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO"/>
+    <typeAlias alias="gamAssetRentMngtVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO"/>
+    <typeAlias alias="gamAssetRentDetailVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO"/>
+    <typeAlias alias="gamAssetRentLevReqestVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO"/>
     
-    <resultMap id="gamAssetRentSumMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
+    <resultMap id="gamAssetRentSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
         <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
     </resultMap>
     
-    <resultMap id="gamAssetRentMaxMngMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
+    <resultMap id="gamAssetRentMaxMngMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO">
         <result property="maxMngCnt" column="MAX_MNG_CNT" columnIndex="1"/>
     </resultMap>
     
-    <resultMap id="gamAssetRentInfoMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO">
+    <resultMap id="gamAssetRentInfoMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO">
 	    <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>         
 	    <result property="mngYear" column="MNG_YEAR" columnIndex="2"/>        
 	    <result property="mngNo" column="MNG_NO" columnIndex="3"/>          
@@ -50,7 +50,7 @@
 	    <result property="payMth" column="PAY_MTH" columnIndex="28"/>
 	</resultMap>
     
-    <resultMap id="gamAssetRentDetailInfoMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO">
+    <resultMap id="gamAssetRentDetailInfoMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO">
 	    <result property="assetsUsageSeq" column="ASSETS_USAGE_SEQ" columnIndex="1"/>         
 	    <result property="gisAssetsCd" column="GIS_ASSETS_CD" columnIndex="2"/>           
 	    <result property="gisAssetsSubCd" column="GIS_ASSETS_SUB_CD" columnIndex="3"/>        
@@ -90,7 +90,7 @@
 	    <result property="quayCd" column="QUAY_CD" columnIndex="37"/>
     </resultMap>
     
-    <select id="gamAssetRentDao.selectAssetRentList_D" parameterClass="gamAssetRentVO" resultClass="egovMap">
+    <select id="gamAssetRentMngtDao.selectAssetRentList_D" parameterClass="gamAssetRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -188,7 +188,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentListTotCnt_S" parameterClass="gamAssetRentVO" resultClass="int">
+    <select id="gamAssetRentMngtDao.selectAssetRentListTotCnt_S" parameterClass="gamAssetRentMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM ASSETS_RENT_F A
              WHERE 1=1
@@ -247,7 +247,7 @@
              </isNotEmpty>
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentSum_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentSumMap">
+    <select id="gamAssetRentMngtDao.selectAssetRentSum_S" parameterClass="gamAssetRentMngtVO" resultMap="gamAssetRentSumMap">
          SELECT 
                  NVL(COUNT(*),0) SUM_CNT
                , NVL(SUM(A.GR_AR),0) SUM_GR_AR
@@ -309,7 +309,7 @@
          </isNotEmpty>
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentMaxNo_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentMaxMngMap">
+    <select id="gamAssetRentMngtDao.selectAssetRentMaxNo_S" parameterClass="gamAssetRentMngtVO" resultMap="gamAssetRentMaxMngMap">
           SELECT 
                   MAX(MNG_CNT) MAX_MNG_CNT
            FROM ASSETS_RENT_F A
@@ -319,7 +319,7 @@
             <!-- AND A.MNG_CNT     = #mngCnt# -->  
     </select>       
     
-    <insert id="gamAssetRentDao.insertAssetRentFirst_S">     
+    <insert id="gamAssetRentMngtDao.insertAssetRentFirst_S">     
         INSERT INTO ASSETS_RENT_F (
                                      PRT_AT_CODE
                                    , MNG_YEAR
@@ -382,7 +382,7 @@
                                    )
     </insert>
     
-    <insert id="gamAssetRentDao.insertAssetRentRenew_S">     
+    <insert id="gamAssetRentMngtDao.insertAssetRentRenew_S">     
         INSERT INTO ASSETS_RENT_F (
                                       PRT_AT_CODE
                                     , MNG_YEAR
@@ -446,7 +446,7 @@
              AND A.MNG_CNT     = #mngCnt#
     </insert>
     
-    <update id="gamAssetRentDao.updateAssetRent_S">
+    <update id="gamAssetRentMngtDao.updateAssetRent_S">
         UPDATE ASSETS_RENT_F SET
 		         ENTRPSCD         = #entrpscd#
 		       , DT               = TO_DATE(#dt:DATE:NO_ENTRY#)  
@@ -475,7 +475,7 @@
 		AND    MNG_CNT            = #mngCnt#
     </update>
     
-    <select id="gamAssetRentDao.selectAssetRentDetailList_D" parameterClass="gamAssetRentVO" resultClass="egovMap">
+    <select id="gamAssetRentMngtDao.selectAssetRentDetailList_D" parameterClass="gamAssetRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -531,7 +531,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentDetailListTotCnt_S" parameterClass="gamAssetRentVO" resultClass="int">
+    <select id="gamAssetRentMngtDao.selectAssetRentDetailListTotCnt_S" parameterClass="gamAssetRentMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM ASSETS_RENT_DETAIL_F A
              WHERE 1=1  
@@ -541,7 +541,7 @@
                AND A.MNG_CNT     = #mngCnt#
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentLevReqestCnt_S" parameterClass="gamAssetRentVO" resultClass="int">
+    <select id="gamAssetRentMngtDao.selectAssetRentLevReqestCnt_S" parameterClass="gamAssetRentMngtVO" resultClass="int">
 	    SELECT COUNT(*) LEV_REQEST_CNT 
 	      FROM LEV_REQEST_F A
 	     WHERE A.PRT_AT_CODE = #prtAtCode#
@@ -550,7 +550,7 @@
            AND A.MNG_CNT     = #mngCnt#
     </select>
     
-    <delete id="gamAssetRentDao.deleteAssetRentPhoto_S">
+    <delete id="gamAssetRentMngtDao.deleteAssetRentPhoto_S">
         DELETE FROM ASSETS_RENT_PHOTO_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
@@ -558,7 +558,7 @@
            AND MNG_CNT     = #mngCnt# 
     </delete>
     
-    <delete id="gamAssetRentDao.deleteAssetRentDetail_S">
+    <delete id="gamAssetRentMngtDao.deleteAssetRentDetail_S">
         DELETE FROM ASSETS_RENT_DETAIL_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
@@ -566,7 +566,7 @@
            AND MNG_CNT     = #mngCnt#
     </delete>
     
-    <delete id="gamAssetRentDao.deleteAssetRent_S">
+    <delete id="gamAssetRentMngtDao.deleteAssetRent_S">
         DELETE FROM ASSETS_RENT_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
@@ -574,7 +574,7 @@
            AND MNG_CNT     = #mngCnt#
     </delete>
     
-    <insert id="gamAssetRentDao.insertAssetRentDetail_S">
+    <insert id="gamAssetRentMngtDao.insertAssetRentDetail_S">
         INSERT INTO ASSETS_RENT_DETAIL_F (
 		                                     ASSETS_USAGE_SEQ
 		                                   , GIS_ASSETS_CD
@@ -660,7 +660,7 @@
 		                                 )
     </insert>
     
-    <update id="gamAssetRentDao.updateAssetRentDetail_S">
+    <update id="gamAssetRentMngtDao.updateAssetRentDetail_S">
         UPDATE ASSETS_RENT_DETAIL_F SET
 		         GIS_ASSETS_CD          = #gisAssetsCd#
 		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
@@ -699,7 +699,7 @@
 		    AND  PRT_AT_CODE            = #detailPrtAtCode#
     </update>
     
-    <delete id="gamAssetRentDao.deleteAssetRentDetail2_S">
+    <delete id="gamAssetRentMngtDao.deleteAssetRentDetail2_S">
         DELETE FROM ASSETS_RENT_DETAIL_F
          WHERE ASSETS_USAGE_SEQ = #assetsUsageSeq#
            AND MNG_YEAR         = #mngYear#
@@ -708,7 +708,7 @@
            AND PRT_AT_CODE      = #prtAtCode# 
     </delete>
     
-    <select id="gamAssetRentDao.selectAssetRentPrmisnInfo_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentInfoMap">
+    <select id="gamAssetRentMngtDao.selectAssetRentPrmisnInfo_S" parameterClass="gamAssetRentMngtVO" resultMap="gamAssetRentInfoMap">
         SELECT   A.PRT_AT_CODE
                , A.MNG_YEAR
                , A.MNG_NO
@@ -745,7 +745,7 @@
            AND A.PRT_AT_CODE      = #prtAtCode# 
     </select>
     
-    <update id="gamAssetRentDao.updateAssetRentPrmisn_S">
+    <update id="gamAssetRentMngtDao.updateAssetRentPrmisn_S">
         UPDATE ASSETS_RENT_F SET
              
                 <isEqual property="reqstSeCd" compareValue="1">
@@ -760,7 +760,7 @@
         AND    MNG_CNT       = #mngCnt#
     </update>
     
-    <insert id="gamAssetRentDao.insertAssetRentLevReqest_S">
+    <insert id="gamAssetRentMngtDao.insertAssetRentLevReqest_S">
         INSERT INTO LEV_REQEST_F (
                              NTIC_CNT
                            , FCLTY_SE
@@ -833,7 +833,7 @@
                          )
     </insert>
     
-    <update id="gamAssetRentDao.updateAssetRentPrmisnCancel_S">
+    <update id="gamAssetRentMngtDao.updateAssetRentPrmisnCancel_S">
         UPDATE ASSETS_RENT_F SET
                 PRMISN_DT     = TO_CHAR(SYSDATE,'YYYYMMDD')
               , PRMISN_YN     = #prmisnYn# 
@@ -843,13 +843,13 @@
         AND    MNG_CNT       = #mngCnt#
     </update>
     
-    <select id="gamAssetRentDao.selectUsagePdMonthCnt_S" parameterClass="GamAssetRentLevReqestVO" resultClass="int">
+    <select id="gamAssetRentMngtDao.selectUsagePdMonthCnt_S" parameterClass="GamAssetRentLevReqestVO" resultClass="int">
         SELECT 
                ROUND(MONTHS_BETWEEN(TO_DATE(LAST_DAY(#grUsagePdTo#)), TO_DATE(SUBSTR(#grUsagePdFrom#,0,6)||'01')))
           FROM DUAL
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentMaxMngCnt_S" parameterClass="gamAssetRentVO" resultClass="String">
+    <select id="gamAssetRentMngtDao.selectAssetRentMaxMngCnt_S" parameterClass="gamAssetRentMngtVO" resultClass="String">
         SELECT 
 		       (MAX(A.MNG_CNT)) MNG_CNT       
 		  FROM ASSETS_RENT_F A
@@ -858,7 +858,7 @@
 		   AND A.MNG_NO      = #mngNo#
     </select>
     
-    <select id="gamAssetRentDao.selectAssetRentDetailInfo_S" parameterClass="gamAssetRentVO" resultMap="gamAssetRentDetailInfoMap"> 
+    <select id="gamAssetRentMngtDao.selectAssetRentDetailInfo_S" parameterClass="gamAssetRentMngtVO" resultMap="gamAssetRentDetailInfoMap"> 
         SELECT 
                A.ASSETS_USAGE_SEQ
              , A.GIS_ASSETS_CD
@@ -905,7 +905,7 @@
           AND A.MNG_CNT     = #mngCnt#
     </select>
     
-    <insert id="gamAssetRentDao.insertAssetRentDetailRenew_S">
+    <insert id="gamAssetRentMngtDao.insertAssetRentDetailRenew_S">
 	    <selectKey keyProperty="maxAssetsUsageSeq" resultClass="int">
 	       SELECT 
 	              (NVL(MAX(ASSETS_USAGE_SEQ),0) + 1) MAX_ASSETS_USAGE_SEQ
