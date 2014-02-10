@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.web;
+package egovframework.rte.ygpa.gam.asset.rent.web;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +21,8 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.asset.service.GamRecvTpRecvStsInqireService;
-import egovframework.rte.ygpa.gam.asset.service.GamRecvTpRecvStsInqireVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamRecvTpRecvStsInqireService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamRecvTpRecvStsInqireVO;
 
 /**
  * @Class Name : GamRecvTpRecvStsInqireController.java
@@ -69,12 +69,12 @@ public class GamRecvTpRecvStsInqireController {
      * @return "/ygpa/gam/asset/GamRecvTpRecvStsInqire"
      * @throws Exception the exception  
      */
-	@RequestMapping(value="/asset/gamRecvTpRecvStsInqire.do")
+	@RequestMapping(value="/asset/rent/gamRecvTpRecvStsInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
 		model.addAttribute("windowId", windowId);
     	
-    	return "/ygpa/gam/asset/GamRecvTpRecvStsInqire"; 
+    	return "/ygpa/gam/asset/rent/GamRecvTpRecvStsInqire"; 
     }
 	
 	/**
@@ -85,7 +85,7 @@ public class GamRecvTpRecvStsInqireController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/gamSelectRecvTpRecvStsInqireList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/rent/gamSelectRecvTpRecvStsInqireList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectRecvTpRecvStsInqireList(GamRecvTpRecvStsInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
