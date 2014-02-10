@@ -1,16 +1,16 @@
-package egovframework.rte.ygpa.gam.asset.service.impl;
+package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 
 /**
- * @Class Name : GamAssetRentDao.java
+ * @Class Name : GamAssetRentMngtDao.java
  * @Description : 자산임대관리 DAO Class
  * @Modification Information
  *
@@ -21,8 +21,8 @@ import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
  *  
  *  Copyright (C)  All right reserved.
  */
-@Repository("gamAssetRentDao")
-public class GamAssetRentDao extends YGPAAbstractDAO {
+@Repository("gamAssetRentMngtDao")
+public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	
 	/**
 	 * 자산임대관리 목록을 조회한다.
@@ -30,8 +30,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentList(GamAssetRentVO searchVO) throws Exception {
-        return list("gamAssetRentDao.selectAssetRentList_D", searchVO);
+    public List selectAssetRentList(GamAssetRentMngtVO searchVO) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentList_D", searchVO);
     }
 
     /**
@@ -40,8 +40,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentListTotCnt(GamAssetRentVO searchVO) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectAssetRentListTotCnt_S", searchVO);
+    public int selectAssetRentListTotCnt(GamAssetRentMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentListTotCnt_S", searchVO);
     }
     
     /**
@@ -50,8 +50,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentVO selectAssetRentSum(GamAssetRentVO searchVO) throws Exception {
-		return (GamAssetRentVO) selectByPk("gamAssetRentDao.selectAssetRentSum_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentSum(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentSum_S", searchVO);
 	}
     
 	/**
@@ -59,8 +59,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentFirst(GamAssetRentVO vo){
-		insert("gamAssetRentDao.insertAssetRentFirst_S", vo);
+	public void insertAssetRentFirst(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentFirst_S", vo);
 	}
     
 	
@@ -70,8 +70,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록 총 갯수
 	 * @exception
 	 */
-    public GamAssetRentVO selectAssetRentMaxNo(GamAssetRentVO vo) {
-        return (GamAssetRentVO)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectAssetRentMaxNo_S", vo);
+    public GamAssetRentMngtVO selectAssetRentMaxNo(GamAssetRentMngtVO vo) {
+        return (GamAssetRentMngtVO)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMaxNo_S", vo);
     }
     
     /**
@@ -79,8 +79,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentRenew(GamAssetRentVO vo){
-		insert("gamAssetRentDao.insertAssetRentRenew_S", vo);
+	public void insertAssetRentRenew(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentRenew_S", vo);
 	}
 	
 	/**
@@ -89,8 +89,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록 총 갯수
 	 * @exception
 	 */
-    public String selectAssetRentMaxMngCnt(GamAssetRentVO searchVO) {
-        return (String)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectAssetRentMaxMngCnt_S", searchVO);
+    public String selectAssetRentMaxMngCnt(GamAssetRentMngtVO searchVO) {
+        return (String)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMaxMngCnt_S", searchVO);
     }
 	
 	/**
@@ -99,7 +99,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void insertAssetRentDetailRenew(GamAssetRentDetailVO vo){
-		insert("gamAssetRentDao.insertAssetRentDetailRenew_S", vo);
+		insert("gamAssetRentMngtDao.insertAssetRentDetailRenew_S", vo);
 	}
 	
 	/**
@@ -107,8 +107,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void updateAssetRent(GamAssetRentVO vo){
-		update("gamAssetRentDao.updateAssetRent_S", vo);
+	public void updateAssetRent(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRent_S", vo);
 	}
 	
 	/**
@@ -117,8 +117,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentDetailList(GamAssetRentVO vo) throws Exception {
-        return list("gamAssetRentDao.selectAssetRentDetailList_D", vo);
+    public List selectAssetRentDetailList(GamAssetRentMngtVO vo) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentDetailList_D", vo);
     }
 
     /**
@@ -127,8 +127,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentDetailListTotCnt(GamAssetRentVO vo) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectAssetRentDetailListTotCnt_S", vo);
+    public int selectAssetRentDetailListTotCnt(GamAssetRentMngtVO vo) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentDetailListTotCnt_S", vo);
     }
 	
     /**
@@ -137,8 +137,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentLevReqestCnt(GamAssetRentVO vo) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectAssetRentLevReqestCnt_S", vo);
+    public int selectAssetRentLevReqestCnt(GamAssetRentMngtVO vo) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentLevReqestCnt_S", vo);
     }
     
     /**
@@ -146,8 +146,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentPhoto(GamAssetRentVO vo){
-		delete("gamAssetRentDao.deleteAssetRentPhoto_S", vo);
+	public void deleteAssetRentPhoto(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentPhoto_S", vo);
 	}
     
 	/**
@@ -155,8 +155,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRent(GamAssetRentVO vo){
-		delete("gamAssetRentDao.deleteAssetRent_S", vo);
+	public void deleteAssetRent(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRent_S", vo);
 	}
     
 	/**
@@ -164,8 +164,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentDetail(GamAssetRentVO vo){
-		delete("gamAssetRentDao.deleteAssetRentDetail_S", vo);
+	public void deleteAssetRentDetail(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentDetail_S", vo);
 	}
 	
 	/**
@@ -174,7 +174,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void insertAssetRentDetail(GamAssetRentDetailVO vo){
-		insert("gamAssetRentDao.insertAssetRentDetail_S", vo);
+		insert("gamAssetRentMngtDao.insertAssetRentDetail_S", vo);
 	}
 	
 	/**
@@ -183,7 +183,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void updateAssetRentDetail(GamAssetRentDetailVO vo){
-		update("gamAssetRentDao.updateAssetRentDetail_S", vo);
+		update("gamAssetRentMngtDao.updateAssetRentDetail_S", vo);
 	}
 	
 	/**
@@ -192,7 +192,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteAssetRentDetail2(GamAssetRentDetailVO vo){
-		delete("gamAssetRentDao.deleteAssetRentDetail2_S", vo);
+		delete("gamAssetRentMngtDao.deleteAssetRentDetail2_S", vo);
 	}
 
 	/**
@@ -201,8 +201,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대정보
 	 * @exception Exception
 	 */
-	public GamAssetRentVO selectAssetRentPrmisnInfo(GamAssetRentVO searchVO) throws Exception {
-		return (GamAssetRentVO) selectByPk("gamAssetRentDao.selectAssetRentPrmisnInfo_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentPrmisnInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentPrmisnInfo_S", searchVO);
 	}
 	
 	/**
@@ -211,7 +211,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void updateAssetRentPrmisn(GamAssetRentLevReqestVO vo){
-		update("gamAssetRentDao.updateAssetRentPrmisn_S", vo);
+		update("gamAssetRentMngtDao.updateAssetRentPrmisn_S", vo);
 	}
 	
 	/**
@@ -220,7 +220,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void insertAssetRentLevReqest(GamAssetRentLevReqestVO vo){
-		insert("gamAssetRentDao.insertAssetRentLevReqest_S", vo);
+		insert("gamAssetRentMngtDao.insertAssetRentLevReqest_S", vo);
 	}
 	
 	/**
@@ -229,7 +229,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo){
-		update("gamAssetRentDao.updateAssetRentPrmisnCancel_S", vo);
+		update("gamAssetRentMngtDao.updateAssetRentPrmisnCancel_S", vo);
 	}
 	
 	/**
@@ -239,7 +239,7 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @exception
 	 */
     public int selectUsagePdMonthCnt(GamAssetRentLevReqestVO vo) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentDao.selectUsagePdMonthCnt_S", vo);
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectUsagePdMonthCnt_S", vo);
     }
     
 	/**
@@ -248,8 +248,8 @@ public class GamAssetRentDao extends YGPAAbstractDAO {
 	 * @return 자산임대상세 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentDetailInfo(GamAssetRentVO vo) throws Exception {
-        return list("gamAssetRentDao.selectAssetRentDetailInfo_S", vo);
+    public List selectAssetRentDetailInfo(GamAssetRentMngtVO vo) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentDetailInfo_S", vo);
     }
 	
 }

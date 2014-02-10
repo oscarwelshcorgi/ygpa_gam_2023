@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service.impl;
+package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -13,29 +13,29 @@ import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 
 /**
- * @Class Name : GamAssetRentServiceImpl.java
+ * @Class Name : GamAssetRentServiceMngtImpl.java
  * @Description : 자산임대관리 Business Implement class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-10
  * @version 1.0
  * @see
  *
  *  Copyright (C)  All right reserved.
  */
-@Service("gamAssetRentService")
+@Service("gamAssetRentMngtService")
 
-public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements GamAssetRentService {
+public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements GamAssetRentMngtService {
 
-	@Resource(name="gamAssetRentDao")
-    private GamAssetRentDao gamAssetRentDao;
+	@Resource(name="gamAssetRentMngtDao")
+    private GamAssetRentMngtDao gamAssetRentMngtDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -45,8 +45,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetRentList(GamAssetRentVO searchVO) throws Exception {
-        return gamAssetRentDao.selectAssetRentList(searchVO);
+    public List selectAssetRentList(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentList(searchVO);
     }
 
     /**
@@ -55,8 +55,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetRentListTotCnt(GamAssetRentVO searchVO) throws Exception {
-		return gamAssetRentDao.selectAssetRentListTotCnt(searchVO);
+    public int selectAssetRentListTotCnt(GamAssetRentMngtVO searchVO) throws Exception {
+		return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
 	}
 
     /**
@@ -65,8 +65,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return 자산임대목록
 	 * @exception Exception
 	 */
-    public GamAssetRentVO selectAssetRentSum(GamAssetRentVO searchVO) throws Exception {
-        return gamAssetRentDao.selectAssetRentSum(searchVO);
+    public GamAssetRentMngtVO selectAssetRentSum(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentSum(searchVO);
     }
 
     /**
@@ -74,8 +74,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentFirst(GamAssetRentVO vo) throws Exception {
-		gamAssetRentDao.insertAssetRentFirst(vo);
+	public void insertAssetRentFirst(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.insertAssetRentFirst(vo);
 	}
 
     /**
@@ -84,8 +84,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return 자산임대목록
 	 * @exception Exception
 	 */
-    public GamAssetRentVO selectAssetRentMaxNo(GamAssetRentVO searchVO) throws Exception {
-        return gamAssetRentDao.selectAssetRentMaxNo(searchVO);
+    public GamAssetRentMngtVO selectAssetRentMaxNo(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentMaxNo(searchVO);
     }
 
     /**
@@ -93,14 +93,14 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentRenew(GamAssetRentVO vo) throws Exception {
-		gamAssetRentDao.insertAssetRentRenew(vo); //자산임대 복사등록
+	public void insertAssetRentRenew(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.insertAssetRentRenew(vo); //자산임대 복사등록
 		
 		//자산임대 복사등록된  MngCnt의 max값을 가져온다.
-		String maxMngCnt = gamAssetRentDao.selectAssetRentMaxMngCnt(vo);
+		String maxMngCnt = gamAssetRentMngtDao.selectAssetRentMaxMngCnt(vo);
 		
 		//자산임대상세정보 조회
-		List detailList = gamAssetRentDao.selectAssetRentDetailInfo(vo);
+		List detailList = gamAssetRentMngtDao.selectAssetRentDetailInfo(vo);
 		
 		GamAssetRentDetailVO resultVo = null;
 		
@@ -112,7 +112,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 			resultVo.setRegUsr("admin2");
 			resultVo.setUpdUsr("admin2");
 			
-			gamAssetRentDao.insertAssetRentDetailRenew(resultVo); //자산임대상세 복사등록
+			gamAssetRentMngtDao.insertAssetRentDetailRenew(resultVo); //자산임대상세 복사등록
 		}
 	}
 
@@ -121,8 +121,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void updateAssetRent(GamAssetRentVO vo) throws Exception {
-		gamAssetRentDao.updateAssetRent(vo);
+	public void updateAssetRent(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.updateAssetRent(vo);
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetRentDetailList(GamAssetRentVO vo) throws Exception {
-        return gamAssetRentDao.selectAssetRentDetailList(vo);
+    public List selectAssetRentDetailList(GamAssetRentMngtVO vo) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentDetailList(vo);
     }
 
     /**
@@ -141,8 +141,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetRentDetailListTotCnt(GamAssetRentVO vo) throws Exception {
-		return gamAssetRentDao.selectAssetRentDetailListTotCnt(vo);
+    public int selectAssetRentDetailListTotCnt(GamAssetRentMngtVO vo) throws Exception {
+		return gamAssetRentMngtDao.selectAssetRentDetailListTotCnt(vo);
 	}
 
     /**
@@ -151,8 +151,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetRentLevReqestCnt(GamAssetRentVO vo) throws Exception {
-		return gamAssetRentDao.selectAssetRentLevReqestCnt(vo);
+    public int selectAssetRentLevReqestCnt(GamAssetRentMngtVO vo) throws Exception {
+		return gamAssetRentMngtDao.selectAssetRentLevReqestCnt(vo);
 	}
 
     /**
@@ -160,13 +160,13 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRent(GamAssetRentVO vo) throws Exception {
+	public void deleteAssetRent(GamAssetRentMngtVO vo) throws Exception {
 
-		gamAssetRentDao.deleteAssetRentPhoto(vo); //자산임대 사진정보 삭제
+		gamAssetRentMngtDao.deleteAssetRentPhoto(vo); //자산임대 사진정보 삭제
 
-		gamAssetRentDao.deleteAssetRentDetail(vo); //자산임대 상세정보 삭제
+		gamAssetRentMngtDao.deleteAssetRentDetail(vo); //자산임대 상세정보 삭제
 
-		gamAssetRentDao.deleteAssetRent(vo); // 자산임대정보 삭제
+		gamAssetRentMngtDao.deleteAssetRent(vo); // 자산임대정보 삭제
 	}
 
 	/**
@@ -174,8 +174,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentDetail(GamAssetRentVO vo) throws Exception {
-		gamAssetRentDao.deleteAssetRentDetail(vo);
+	public void deleteAssetRentDetail(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.deleteAssetRentDetail(vo);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @exception Exception
 	 */
 	public void insertAssetRentDetail(GamAssetRentDetailVO vo) throws Exception {
-		gamAssetRentDao.insertAssetRentDetail(vo);
+		gamAssetRentMngtDao.insertAssetRentDetail(vo);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @exception Exception
 	 */
 	public void updateAssetRentDetail(GamAssetRentDetailVO vo) throws Exception {
-		gamAssetRentDao.updateAssetRentDetail(vo);
+		gamAssetRentMngtDao.updateAssetRentDetail(vo);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @exception Exception
 	 */
 	public void deleteAssetRentDetail2(GamAssetRentDetailVO vo) throws Exception {
-		gamAssetRentDao.deleteAssetRentDetail2(vo);
+		gamAssetRentMngtDao.deleteAssetRentDetail2(vo);
 	}
 
 	/**
@@ -211,8 +211,8 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @return 자산임대정보
 	 * @exception Exception
 	 */
-    public GamAssetRentVO selectAssetRentPrmisnInfo(GamAssetRentVO searchVO) throws Exception {
-        return gamAssetRentDao.selectAssetRentPrmisnInfo(searchVO);
+    public GamAssetRentMngtVO selectAssetRentPrmisnInfo(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentPrmisnInfo(searchVO);
     }
 
 	/**
@@ -239,7 +239,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
 		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
 		
-		int monthCnt = gamAssetRentDao.selectUsagePdMonthCnt(vo);
+		int monthCnt = gamAssetRentMngtDao.selectUsagePdMonthCnt(vo);
 		
 		log.debug("################################################ monthCnt => " + monthCnt);
 
@@ -390,13 +390,13 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 				log.debug("---------------------------------------------------------------------------------------------------");
 				
 				//징수의뢰 insert
-				gamAssetRentDao.insertAssetRentLevReqest(vo);
+				gamAssetRentMngtDao.insertAssetRentLevReqest(vo);
 		    }
 			
 		}
 
 		//자산임대 허가여부를 수정
-		gamAssetRentDao.updateAssetRentPrmisn(vo);
+		gamAssetRentMngtDao.updateAssetRentPrmisn(vo);
 	}
 
 	/**
@@ -405,7 +405,7 @@ public class GamAssetRentServiceImpl  extends AbstractServiceImpl implements Gam
 	 * @exception Exception
 	 */
 	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo) throws Exception {
-		gamAssetRentDao.updateAssetRentPrmisnCancel(vo);
+		gamAssetRentMngtDao.updateAssetRentPrmisnCancel(vo);
 	}
 	
 }

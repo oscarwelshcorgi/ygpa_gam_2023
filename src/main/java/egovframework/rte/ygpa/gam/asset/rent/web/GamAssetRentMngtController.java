@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.web;
+package egovframework.rte.ygpa.gam.asset.rent.web;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,18 +25,17 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentDetailVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentLevReqestVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
-import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 
 /**
  * @Class Name : GamAssetRentMngtController.java
  * @Description : 자산임대관리
  * @Modification Information
  *
- * @author heroin
+ * @author heroine
  * @since 2014-01-10
  * @version 1.0
  * @see
@@ -64,8 +63,8 @@ public class GamAssetRentMngtController {
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
     
-    @Resource(name = "gamAssetRentService")
-    private GamAssetRentService gamAssetRentService;
+    @Resource(name = "gamAssetRentMngtService")
+    private GamAssetRentMngtService gamAssetRentMngtService;
 	
     
     /**
@@ -73,10 +72,10 @@ public class GamAssetRentMngtController {
      *
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/asset/GamAssetRentMngt"
+     * @return "/ygpa/gam/asset/rent/GamAssetRentMngt"
      * @throws Exception the exception  
      */
-	@RequestMapping(value="/asset/gamAssetRentMngt.do")
+	@RequestMapping(value="/asset/rent/gamAssetRentMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -135,7 +134,7 @@ public class GamAssetRentMngtController {
 		model.addAttribute("quayCdList", quayCdList);
 		model.addAttribute("windowId", windowId);
     	
-    	return "/ygpa/gam/asset/GamAssetRentMngt";
+    	return "/ygpa/gam/asset/rent/GamAssetRentMngt";
     }
 	
 	/**
@@ -146,8 +145,8 @@ public class GamAssetRentMngtController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/selectAssetRentList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetRentList(GamAssetRentVO searchVO) throws Exception {
+    @RequestMapping(value="/asset/rent/selectAssetRentList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentList(GamAssetRentMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -165,11 +164,11 @@ public class GamAssetRentMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		//자산임대목록
-    	totalCnt = gamAssetRentService.selectAssetRentListTotCnt(searchVO);
-    	List assetRentList = gamAssetRentService.selectAssetRentList(searchVO);
+    	totalCnt = gamAssetRentMngtService.selectAssetRentListTotCnt(searchVO);
+    	List assetRentList = gamAssetRentMngtService.selectAssetRentList(searchVO);
     	
     	//총면적, 총사용료
-    	GamAssetRentVO resultSum = gamAssetRentService.selectAssetRentSum(searchVO);
+    	GamAssetRentMngtVO resultSum = gamAssetRentMngtService.selectAssetRentSum(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -189,8 +188,8 @@ public class GamAssetRentMngtController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/selectAssetRentDetailList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetRentDetailList(GamAssetRentVO searchVO) throws Exception {
+    @RequestMapping(value="/asset/rent/selectAssetRentDetailList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentDetailList(GamAssetRentMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -208,8 +207,8 @@ public class GamAssetRentMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		// 자산임대상세리스트 및 총건수
-		totalCnt = gamAssetRentService.selectAssetRentDetailListTotCnt(searchVO);
-		List resultList = gamAssetRentService.selectAssetRentDetailList(searchVO);
+		totalCnt = gamAssetRentMngtService.selectAssetRentDetailListTotCnt(searchVO);
+		List resultList = gamAssetRentMngtService.selectAssetRentDetailList(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -222,15 +221,15 @@ public class GamAssetRentMngtController {
 	/**
      * 자산임대 최초신청을 등록한다.
      * @param String
-     * @param gamAssetRentVO
+     * @param gamAssetRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamInsertAssetRentFirst.do") 
+    @RequestMapping(value="/asset/rent/gamInsertAssetRentFirst.do") 
     public @ResponseBody Map insertAssetRentFirst(
     	   @RequestParam("cmd") String cmd, 
-    	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO, 
+    	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
     	   BindingResult bindingResult)
            throws Exception {
 	
@@ -250,15 +249,15 @@ public class GamAssetRentMngtController {
 
     	/*
         if("insert".equals(cmd)) {
-	        beanValidator.validate(gamAssetRentVO, bindingResult);
+	        beanValidator.validate(gamAssetRentMngtVO, bindingResult);
 			if (bindingResult.hasErrors()){
 				map.put("resultCode", 1);			// return error
 				map.put("resultMsg", "입력 값에 오류가 있습니다.");
 				map.put("resultObject", bindingResult.getAllErrors());
 				return map;
 			}
-			//if(gamAssetRentVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
-	    	gamAssetRentService.insertAssetRentFirst(gamAssetRentVO);
+			//if(gamAssetRentMngtVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
+	    	gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
 	    	
 			resultMsg = egovMessageSource.getMessage("success.common.insert");
         }
@@ -266,12 +265,12 @@ public class GamAssetRentMngtController {
     	
     	if("insert".equals(cmd)) {
 	    	//확인후 변경혀라~~
-	    	gamAssetRentVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamAssetRentVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamAssetRentVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	//gamAssetRentVO.setDeptcd("A001");   //부서코드 (세션?) 
+	    	gamAssetRentMngtVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+	    	gamAssetRentMngtVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	gamAssetRentMngtVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	//gamAssetRentMngtVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
-	        gamAssetRentService.insertAssetRentFirst(gamAssetRentVO);
+	        gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
 	    	
 	        resultCode = 0; // return ok
 			resultMsg  = egovMessageSource.getMessage("success.common.insert");
@@ -289,14 +288,14 @@ public class GamAssetRentMngtController {
     
     /**
      * 자산임대 연장신청을 등록한다.
-     * @param gamAssetRentVO
+     * @param gamAssetRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamInsertAssetRentRenew.do") 
+    @RequestMapping(value="/asset/rent/gamInsertAssetRentRenew.do") 
     public @ResponseBody Map insertAssetRentRenew(
-    	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO,
+    	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO,
    	       BindingResult bindingResult)
            throws Exception {
     	
@@ -304,12 +303,12 @@ public class GamAssetRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
-    	GamAssetRentVO resultVO = gamAssetRentService.selectAssetRentMaxNo(gamAssetRentVO);
+    	GamAssetRentMngtVO resultVO = gamAssetRentMngtService.selectAssetRentMaxNo(gamAssetRentMngtVO);
     	
-    	if( gamAssetRentVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
+    	if( gamAssetRentMngtVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
     		//키 같고 max관리번호가 같으면 연장신청 등록
         	
-    		gamAssetRentService.insertAssetRentRenew(gamAssetRentVO);
+    		gamAssetRentMngtService.insertAssetRentRenew(gamAssetRentMngtVO);
     		
     		resultCode = 0; // return ok
     		resultMsg  = egovMessageSource.getMessage("success.common.insert");
@@ -327,15 +326,15 @@ public class GamAssetRentMngtController {
     /**
      * 자산임대 정보를 수정한다.
      * @param String
-     * @param gamAssetRentVO
+     * @param gamAssetRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamUpdateAssetRent.do") 
+    @RequestMapping(value="/asset/rent/gamUpdateAssetRent.do") 
     public @ResponseBody Map updateAssetRentFirst(
     	   @RequestParam("cmd") String cmd, 
-    	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO, 
+    	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
     	   BindingResult bindingResult)
            throws Exception {
 	
@@ -345,11 +344,11 @@ public class GamAssetRentMngtController {
         
     	if("modify".equals(cmd)) {
 	    	//확인후 변경혀라~~
-	    	gamAssetRentVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamAssetRentVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	//gamAssetRentVO.setDeptcd("A001");   //부서코드 (세션?) 
+	    	gamAssetRentMngtVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+	    	gamAssetRentMngtVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	//gamAssetRentMngtVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
-	        gamAssetRentService.updateAssetRent(gamAssetRentVO);
+	        gamAssetRentMngtService.updateAssetRent(gamAssetRentMngtVO);
 	    	
 	        resultCode = 0; // return ok
 	        resultMsg  = egovMessageSource.getMessage("success.common.update");
@@ -367,15 +366,15 @@ public class GamAssetRentMngtController {
     /**
      * 자산임대 정보를 삭제한다.
      * @param String
-     * @param gamAssetRentVO
+     * @param gamAssetRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamDeleteAssetRent.do") 
+    @RequestMapping(value="/asset/rent/gamDeleteAssetRent.do") 
     public @ResponseBody Map deleteAssetRent(
     	   //@RequestParam("cmd") String cmd, 
-    	   @ModelAttribute("gamAssetRentDetailVO") GamAssetRentVO gamAssetRentVO, 
+    	   @ModelAttribute("gamAssetRentDetailVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
     	   BindingResult bindingResult)
            throws Exception {
 	
@@ -386,18 +385,18 @@ public class GamAssetRentMngtController {
         
         int resultLevReqestCnt = -1;
         
-        if( gamAssetRentVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
+        if( gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
         	deleteFlag = "Y";
         } else {
-        	resultLevReqestCnt = gamAssetRentService.selectAssetRentLevReqestCnt(gamAssetRentVO); //징수의뢰 정보 카운트
+        	resultLevReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO); //징수의뢰 정보 카운트
         	
-        	if( gamAssetRentVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
+        	if( gamAssetRentMngtVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
             	deleteFlag = "Y";
             }
         }
     	
     	if("Y".equals(deleteFlag)) {
-	        gamAssetRentService.deleteAssetRent(gamAssetRentVO);
+	        gamAssetRentMngtService.deleteAssetRent(gamAssetRentMngtVO);
 	    	
 	        resultCode = 0; // return ok
 	        resultMsg  = egovMessageSource.getMessage("success.common.delete");
@@ -420,7 +419,7 @@ public class GamAssetRentMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamInsertAssetRentDetail.do") 
+    @RequestMapping(value="/asset/rent/gamInsertAssetRentDetail.do") 
     public @ResponseBody Map insertAssetRentDetail(
     	   @RequestParam("detailCmd") String detailCmd, 
     	   @ModelAttribute("gamAssetRentDetailVO") GamAssetRentDetailVO gamAssetRentDetailVO, 
@@ -443,28 +442,28 @@ public class GamAssetRentMngtController {
 
     	/*
         if("insert".equals(cmd)) {
-	        beanValidator.validate(gamAssetRentVO, bindingResult);
+	        beanValidator.validate(gamAssetRentMngtVO, bindingResult);
 			if (bindingResult.hasErrors()){
 				map.put("resultCode", 1);			// return error
 				map.put("resultMsg", "입력 값에 오류가 있습니다.");
 				map.put("resultObject", bindingResult.getAllErrors());
 				return map;
 			}
-			//if(gamAssetRentVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
-	    	gamAssetRentService.insertAssetRentFirst(gamAssetRentVO);
+			//if(gamAssetRentMngtVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
+	    	gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
 	    	
 			resultMsg = egovMessageSource.getMessage("success.common.insert");
         }
         */
     	
-        GamAssetRentVO gamAssetRentVO = new GamAssetRentVO();
-        gamAssetRentVO.setPrtAtCode(gamAssetRentDetailVO.getDetailPrtAtCode());
-        gamAssetRentVO.setMngYear(gamAssetRentDetailVO.getDetailMngYear());
-        gamAssetRentVO.setMngNo(gamAssetRentDetailVO.getDetailMngNo());
-        gamAssetRentVO.setMngCnt(gamAssetRentDetailVO.getDetailMngCnt());
+        GamAssetRentMngtVO gamAssetRentMngtVO = new GamAssetRentMngtVO();
+        gamAssetRentMngtVO.setPrtAtCode(gamAssetRentDetailVO.getDetailPrtAtCode());
+        gamAssetRentMngtVO.setMngYear(gamAssetRentDetailVO.getDetailMngYear());
+        gamAssetRentMngtVO.setMngNo(gamAssetRentDetailVO.getDetailMngNo());
+        gamAssetRentMngtVO.setMngCnt(gamAssetRentDetailVO.getDetailMngCnt());
         
         //임대정보 조회후 승낙여부 체크
-        GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+        GamAssetRentMngtVO rentPrmisnInfo = gamAssetRentMngtService.selectAssetRentPrmisnInfo(gamAssetRentMngtVO);
         
         
         
@@ -476,7 +475,7 @@ public class GamAssetRentMngtController {
     	    	gamAssetRentDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
     	    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
     	    	
-    	        gamAssetRentService.insertAssetRentDetail(gamAssetRentDetailVO);
+    	        gamAssetRentMngtService.insertAssetRentDetail(gamAssetRentDetailVO);
     	    	
     	        resultCode = 0; // return ok
     			resultMsg  = egovMessageSource.getMessage("success.common.insert");
@@ -504,7 +503,7 @@ public class GamAssetRentMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamUpdateAssetRentDetail.do") 
+    @RequestMapping(value="/asset/rent/gamUpdateAssetRentDetail.do") 
     public @ResponseBody Map updateAssetRentDetail(
     	   @RequestParam("detailCmd") String detailCmd, 
     	   @ModelAttribute("gamAssetRentDetailVO") GamAssetRentDetailVO gamAssetRentDetailVO, 
@@ -526,38 +525,38 @@ public class GamAssetRentMngtController {
     	*/
 
     	log.debug("######################################## detailCmd => " + detailCmd);
-    	log.debug("######################################## gamAssetRentVO.getDetailPrtAtCode() => " + gamAssetRentDetailVO.getDetailPrtAtCode());
+    	log.debug("######################################## gamAssetRentMngtVO.getDetailPrtAtCode() => " + gamAssetRentDetailVO.getDetailPrtAtCode());
     	
     	/*
         if("insert".equals(cmd)) {
-	        beanValidator.validate(gamAssetRentVO, bindingResult);
+	        beanValidator.validate(gamAssetRentMngtVO, bindingResult);
 			if (bindingResult.hasErrors()){
 				map.put("resultCode", 1);			// return error
 				map.put("resultMsg", "입력 값에 오류가 있습니다.");
 				map.put("resultObject", bindingResult.getAllErrors());
 				return map;
 			}
-			//if(gamAssetRentVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
-	    	gamAssetRentService.insertAssetRentFirst(gamAssetRentVO);
+			//if(gamAssetRentMngtVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
+	    	gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
 	    	
 			resultMsg = egovMessageSource.getMessage("success.common.insert");
         }
         */
     	
-    	GamAssetRentVO gamAssetRentVO = new GamAssetRentVO();
-        gamAssetRentVO.setPrtAtCode(gamAssetRentDetailVO.getDetailPrtAtCode());
-        gamAssetRentVO.setMngYear(gamAssetRentDetailVO.getDetailMngYear());
-        gamAssetRentVO.setMngNo(gamAssetRentDetailVO.getDetailMngNo());
-        gamAssetRentVO.setMngCnt(gamAssetRentDetailVO.getDetailMngCnt());
+    	GamAssetRentMngtVO gamAssetRentMngtVO = new GamAssetRentMngtVO();
+        gamAssetRentMngtVO.setPrtAtCode(gamAssetRentDetailVO.getDetailPrtAtCode());
+        gamAssetRentMngtVO.setMngYear(gamAssetRentDetailVO.getDetailMngYear());
+        gamAssetRentMngtVO.setMngNo(gamAssetRentDetailVO.getDetailMngNo());
+        gamAssetRentMngtVO.setMngCnt(gamAssetRentDetailVO.getDetailMngCnt());
         
         //임대정보 조회후 승낙여부 체크
-        GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+        GamAssetRentMngtVO rentPrmisnInfo = gamAssetRentMngtService.selectAssetRentPrmisnInfo(gamAssetRentMngtVO);
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
 	    	if("modify".equals(detailCmd)) {
 		    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
 		    	
-		        gamAssetRentService.updateAssetRentDetail(gamAssetRentDetailVO);
+		        gamAssetRentMngtService.updateAssetRentDetail(gamAssetRentDetailVO);
 		    	
 		        resultCode = 0; // return ok
 				resultMsg  = egovMessageSource.getMessage("success.common.update");
@@ -583,7 +582,7 @@ public class GamAssetRentMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamDeleteAssetRentDetail.do") 
+    @RequestMapping(value="/asset/rent/gamDeleteAssetRentDetail.do") 
     public @ResponseBody Map deleteAssetRentDetail(
     	   @ModelAttribute("gamAssetRentDetailVO") GamAssetRentDetailVO gamAssetRentDetailVO, 
     	   BindingResult bindingResult)
@@ -605,21 +604,21 @@ public class GamAssetRentMngtController {
 
     	/*
         if("insert".equals(cmd)) {
-	        beanValidator.validate(gamAssetRentVO, bindingResult);
+	        beanValidator.validate(gamAssetRentMngtVO, bindingResult);
 			if (bindingResult.hasErrors()){
 				map.put("resultCode", 1);			// return error
 				map.put("resultMsg", "입력 값에 오류가 있습니다.");
 				map.put("resultObject", bindingResult.getAllErrors());
 				return map;
 			}
-			//if(gamAssetRentVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
-	    	gamAssetRentService.insertAssetRentFirst(gamAssetRentVO);
+			//if(gamAssetRentMngtVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
+	    	gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
 	    	
 			resultMsg = egovMessageSource.getMessage("success.common.insert");
         }
         */
     	
-    	gamAssetRentService.deleteAssetRentDetail2(gamAssetRentDetailVO);
+    	gamAssetRentMngtService.deleteAssetRentDetail2(gamAssetRentDetailVO);
     	
         resultCode = 0; // return ok
 		resultMsg  = egovMessageSource.getMessage("success.common.delete");
@@ -635,10 +634,10 @@ public class GamAssetRentMngtController {
      *
      * @param gamAssetRentLevReqestVO
      * @param model the model
-     * @return "/ygpa/gam/asset/GamPopupAssetRentPrmisn"
+     * @return "/ygpa/gam/asset/rent/GamPopupAssetRentPrmisn"
      * @throws Exception the exception  
      */
-	@RequestMapping(value="/asset/popup/showAssetRentPrmisn.do")
+	@RequestMapping(value="/asset/rent/popup/showAssetRentPrmisn.do") 
     String showEntrpsInfo(GamAssetRentLevReqestVO gamAssetRentLevReqestVO, ModelMap model) throws Exception {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -649,19 +648,19 @@ public class GamAssetRentMngtController {
 		model.addAttribute("gamAssetRentInfo", gamAssetRentLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
-    	return "/ygpa/gam/asset/GamPopupAssetRentPrmisn";
+    	return "/ygpa/gam/asset/rent/GamPopupAssetRentPrmisn";
     }
     
     /**
      * 자산임대 승낙(허가)을 한다.
-     * @param gamAssetRentVO
+     * @param gamAssetRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamInsertAssetRentPrmisn.do") 
+    @RequestMapping(value="/asset/rent/gamInsertAssetRentPrmisn.do") 
     public @ResponseBody Map insertAssetRentLevReqest(
-    	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO, 
+    	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
     	   BindingResult bindingResult)
            throws Exception {
 	
@@ -671,10 +670,10 @@ public class GamAssetRentMngtController {
         
         
         //승낙할 임대정보조회
-        GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+        GamAssetRentMngtVO rentPrmisnInfo = gamAssetRentMngtService.selectAssetRentPrmisnInfo(gamAssetRentMngtVO);
         
         //징수의뢰 테이블에 갯수 카운트 조회
-        int levReqestCnt = gamAssetRentService.selectAssetRentLevReqestCnt(gamAssetRentVO);
+        int levReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO);
         
         if( "Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
         	map.put("resultCode", 1);
@@ -745,8 +744,8 @@ public class GamAssetRentMngtController {
         levReqestInfo.setGrUsagePdFrom( rentPrmisnInfo.getGrUsagePdFrom() ); //총사용기간 FROM
         levReqestInfo.setGrUsagePdTo( rentPrmisnInfo.getGrUsagePdTo() ); //총사용기간 TO
         levReqestInfo.setReqstSeCd( rentPrmisnInfo.getReqstSeCd() );
-		levReqestInfo.setChrgeKnd( gamAssetRentVO.getChrgeKnd() );
-		levReqestInfo.setVatYn( gamAssetRentVO.getVatYn() );
+		levReqestInfo.setChrgeKnd( gamAssetRentMngtVO.getChrgeKnd() );
+		levReqestInfo.setVatYn( gamAssetRentMngtVO.getVatYn() );
 		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
 		
         levReqestInfo.setPrmisnYn("Y"); //허가여부
@@ -754,7 +753,7 @@ public class GamAssetRentMngtController {
         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
         
         //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
-        gamAssetRentService.updateAssetRentPrmisn(levReqestInfo);
+        gamAssetRentMngtService.updateAssetRentPrmisn(levReqestInfo);
         
         resultCode = 0; 
 		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 처리되었습니다.
@@ -767,14 +766,14 @@ public class GamAssetRentMngtController {
     
     /**
      * 자산임대 승낙취소(허가취소)를 한다.
-     * @param gamAssetRentVO
+     * @param gamAssetRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamUpdateAssetRentPrmisnCancel.do") 
+    @RequestMapping(value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do") 
     public @ResponseBody Map updateAssetRentPrmisnCancel(
-     	   @ModelAttribute("gamAssetRentVO") GamAssetRentVO gamAssetRentVO, 
+     	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
      	   BindingResult bindingResult)
             throws Exception {
  	
@@ -783,10 +782,10 @@ public class GamAssetRentMngtController {
          int resultCode = 1;
          
          //승낙할 임대정보조회
-         GamAssetRentVO rentPrmisnInfo = gamAssetRentService.selectAssetRentPrmisnInfo(gamAssetRentVO);
+         GamAssetRentMngtVO rentPrmisnInfo = gamAssetRentMngtService.selectAssetRentPrmisnInfo(gamAssetRentMngtVO);
          
          //징수의뢰 테이블에 갯수 카운트 조회
-         int levReqestCnt = gamAssetRentService.selectAssetRentLevReqestCnt(gamAssetRentVO);
+         int levReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO);
          
          if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
          	map.put("resultCode", 1);
@@ -813,7 +812,7 @@ public class GamAssetRentMngtController {
          levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
          
          //임대정보의 허가여부를 N으로 업데이트
-         gamAssetRentService.updateAssetRentPrmisnCancel(levReqestInfo);
+         gamAssetRentMngtService.updateAssetRentPrmisnCancel(levReqestInfo);
          
          resultCode = 0; 
  		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.

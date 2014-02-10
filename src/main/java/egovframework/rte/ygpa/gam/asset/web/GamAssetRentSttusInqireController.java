@@ -24,7 +24,6 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 
 /**
  * @Class Name : GamAssetRentSttusInqireController.java

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
 
 /**

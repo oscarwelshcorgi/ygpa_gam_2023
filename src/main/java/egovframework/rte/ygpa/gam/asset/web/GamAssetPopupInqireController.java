@@ -1,9 +1,5 @@
 package egovframework.rte.ygpa.gam.asset.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
@@ -12,19 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetPopupInqireVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 
 /**
  * @Class Name : GamAssetSttusInqireController.java

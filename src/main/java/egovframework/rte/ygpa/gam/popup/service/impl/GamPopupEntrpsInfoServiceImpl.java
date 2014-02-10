@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
 

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetRentSttusInqireVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetRentVO;
 
 /**
  * @Class Name : GamAssetRentSttusInqireDao.java
