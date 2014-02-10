@@ -11,9 +11,9 @@
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2014.01.10  heroin     최초 생성
+  *  2014.01.10  heroine     최초 생성
   *
-  * author heroin
+  * author heroine
   * since 2014.01.10
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
@@ -33,7 +33,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     // 테이블 설정
     this.$("#assetRentMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/selectAssetRentList.do" />',
+        url: '<c:url value="/asset/rent/selectAssetRentList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -83,7 +83,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     // 테이블 설정
     this.$("#assetRentDetailList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/selectAssetRentDetailList.do" />',
+        url: '<c:url value="/asset/rent/selectAssetRentDetailList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'자산 사용 순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
@@ -253,7 +253,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
 
-                this.doAction('<c:url value="/asset/gamInsertAssetRentRenew.do" />', rows[0], function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentRenew.do" />', rows[0], function(module, result) {
 
                     if(result.resultCode=='0') {
 
@@ -277,7 +277,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             var inputVO=this.makeFormArgs('#gamAssetRentForm');
             if(this.$("#cmd").val()=='insert') {
 
-            	this.doAction('<c:url value="/asset/gamInsertAssetRentFirst.do" />', inputVO, function(module, result) {
+            	this.doAction('<c:url value="/asset/rent/gamInsertAssetRentFirst.do" />', inputVO, function(module, result) {
 
                     if(result.resultCode=='0') {
                     	var searchOpt=module.makeFormArgs('#gamAssetRentForm');
@@ -288,7 +288,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 });
             }
             else {
-                this.doAction('<c:url value="/asset/gamUpdateAssetRent.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamUpdateAssetRent.do" />', inputVO, function(module, result) {
                 	if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                         module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
@@ -312,7 +312,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
                 var inputVO=this.makeFormArgs('#gamAssetRentForm');
 
-                this.doAction('<c:url value="/asset/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
@@ -355,7 +355,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             var rows = this.$('#assetRentDetailList').selectedRows();
 
             if(rows.length>=1) {
-                this.doAction('<c:url value="/asset/gamDeleteAssetRentDetail.do" />', rows[0], function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamDeleteAssetRentDetail.do" />', rows[0], function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                         module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
@@ -379,7 +379,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             var inputVO=this.makeFormArgs('#gamAssetRentDetailForm');
             if(this.$("#detailCmd").val()=='insert') {
 
-                this.doAction('<c:url value="/asset/gamInsertAssetRentDetail.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentDetail.do" />', inputVO, function(module, result) {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
@@ -390,7 +390,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 });
             }
             else {
-            	this.doAction('<c:url value="/asset/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
+            	this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
                     	var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                         module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
@@ -431,7 +431,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             	    'mngCnt': rows[0]['mngCnt']
                 };
 
-                this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/asset/popup/showAssetRentPrmisn.do"/>', opts);
+                this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/asset/rent/popup/showAssetRentPrmisn.do"/>', opts);
             	
             } else {
                 alert("목록에서 선택하십시오.");
@@ -443,7 +443,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             
             if(rows.length>=1) {
-                this.doAction('<c:url value="/asset/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                         module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();

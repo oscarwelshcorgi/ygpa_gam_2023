@@ -40,7 +40,7 @@ GamPopupAssetRentPrmisnModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnPrmisnExec':
 		var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
         
-        this.doAction('<c:url value="/asset/gamInsertAssetRentPrmisn.do" />', inputVO, function(module, result) {
+        this.doAction('<c:url value="/asset/rent/gamInsertAssetRentPrmisn.do" />', inputVO, function(module, result) {
            
             alert(result.resultMsg);
             
