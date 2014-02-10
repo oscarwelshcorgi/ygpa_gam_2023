@@ -33,7 +33,7 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //       
  this.$("#recvTpRecvStsInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectRecvTpRecvStsInqireList.do"/>',
+     url: '<c:url value="/asset/rent/gamSelectRecvTpRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
                  {display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'center'},
