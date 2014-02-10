@@ -25,7 +25,7 @@
  */
 function GamAssetEvlDtlsInqireModule() {}
 
-GamAssetEvlDtlsInqireModule.prototype = new EmdModule(900, 550);
+GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1100, 550);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
@@ -172,20 +172,28 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                         <table id="assetEvlDtlsInqireList" style="display:none"></table>
                 </div>
                 <div class="emdControlPanel">
-                    <table style="width:100%;" >
+                    <table style="width:100%;" border="1">
                         <form id="form1">
                         <tr>
-                            <td width="300">당기자산증가금액 <input id="xxx1" size="7" readonly></td>
-                            <td width="300">대차대조기말현재금액 <input id="xxx2" size="7" readonly></td>
-                            <td width="300">대차재도전기말상각누계금액 <input id="xxx3" size="7" readonly></td>
-                            <td width="300">대차대조미상각잔액 <input id="xxx4" size="7" readonly></td>
+                            <td>당기자산증가금액</td>
+                            <td><input id="xxx1" size="7" readonly></td>
+                            <td>대차대조기말현재금액</td>
+                            <td><input id="xxx2" size="7" readonly></td>
+                            <td>대차재도전기말상각누계금액</td> 
+                            <td><input id="xxx3" size="7" readonly></td>
+                            <td>대차대조미상각잔액</td> 
+                            <td><input id="xxx4" size="7" readonly></td>
                             
                         </tr>
                         <tr>
-                            <td width="300">전기말자본적지출금액 누계<input id="xxx5" size="7" readonly></td>
-                            <td width="300">자본적지출금액 <input id="xxx6" size="7" readonly></td>
-                            <td width="300">당기상각금액 <input id="xxx7" size="7" readonly></td>
-                            <td width="300">잔존금액 <input id="xxx8" size="7" readonly></td>
+                            <td>전기말자본적지출금액 누계</td>
+                            <td><input id="xxx5" size="7" readonly></td>
+                            <td>자본적지출금액</td> 
+                            <td><input id="xxx6" size="7" readonly></td>
+                            <td>당기상각금액</td> 
+                            <td><input id="xxx7" size="7" readonly></td>
+                            <td>잔존금액</td>
+                            <td><input id="xxx8" size="7" readonly></td>
                         </tr>
                         </form>
                     </table>

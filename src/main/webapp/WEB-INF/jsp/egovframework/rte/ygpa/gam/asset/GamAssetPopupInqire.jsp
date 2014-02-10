@@ -132,18 +132,27 @@ var module_instance = new GamAssetLndValInqireModule();
                     <table style="width:100%;" >
                         <form id="form1">
                         <tr>
+                            <th>
+                                * 자산임대 미허가 건수 
+                            </th>
                             <td>
-                                자산임대 미허가 건수 <input id="totalResultCnt" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
+                                <input id="totalResultCnt" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
                             </td>
                         </tr>
                         <tr>
+                            <th>
+                                * 징수의뢰 고지 건수 
+                            </th>
                             <td>
-                                징수의뢰 고지 건수 <input id="totalResultCnt" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
+                                <input id="totalResultCnt" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
                             </td>
                         </tr>                                                
                         <tr>
+                            <th>
+                                * 세입징수 미수납 건수 
+                            </th>
                             <td>
-                                세입징수 미수납 건수 <input id="totalResultCnt" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
+                                <input id="totalResultCnt" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
                             </td>
                         </tr>       
                             
