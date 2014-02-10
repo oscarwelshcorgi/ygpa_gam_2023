@@ -17,7 +17,7 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
  *  
  *  Copyright (C)  All right reserved.
  */
-public interface GamHtldRentFeePaySttusMngtService {
+public interface GamHtldRentFeePaySttusMngtService { 
 	
     /**
 	 * 배후단지납부현황관리 목록을 조회한다.
