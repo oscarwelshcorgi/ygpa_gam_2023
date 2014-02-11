@@ -14,7 +14,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
  * @Description : 자산임대관리 DAO Class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-10
  * @version 1.0
  * @see

@@ -7,7 +7,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Description : 자산임대현황조회 VO class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-10
  * @version 1.0
  * @see

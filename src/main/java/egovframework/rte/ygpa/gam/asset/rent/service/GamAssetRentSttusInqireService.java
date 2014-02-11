@@ -10,7 +10,7 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
  * @Description : 자산임대현황조회 Business class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-22
  * @version 1.0
  * @see

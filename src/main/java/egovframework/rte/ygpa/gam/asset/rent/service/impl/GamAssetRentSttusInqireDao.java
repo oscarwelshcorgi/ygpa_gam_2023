@@ -12,7 +12,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO;
  * @Description : 자산임대현황조회 DAO Class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-22
  * @version 1.0
  * @see

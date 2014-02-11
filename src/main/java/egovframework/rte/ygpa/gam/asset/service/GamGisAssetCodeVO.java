@@ -7,7 +7,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Description : 자산폐기등록 VO class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-29
  * @version 1.0
  * @see

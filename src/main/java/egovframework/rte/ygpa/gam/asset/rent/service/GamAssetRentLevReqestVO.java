@@ -7,7 +7,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Description : 징수의뢰 VO class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-23
  * @version 1.0
  * @see

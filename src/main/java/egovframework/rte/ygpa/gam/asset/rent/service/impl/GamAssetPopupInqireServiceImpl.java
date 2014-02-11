@@ -15,7 +15,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
  * @Description : 자산정보현황알림 Business Implement class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-29
  * @version 1.0
  * @see

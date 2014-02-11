@@ -11,7 +11,7 @@ import egovframework.rte.ygpa.gam.asset.service.impl.GamAssetEvlDtlsInqireDao;
  * @Description : 자산가치평가내역조회 Business class
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-29
  * @version 1.0
  * @see
