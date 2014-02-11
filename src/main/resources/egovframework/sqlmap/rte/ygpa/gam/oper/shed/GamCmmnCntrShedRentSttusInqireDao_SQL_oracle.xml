@@ -192,14 +192,21 @@
                , NVL(SUM(A.GR_AR),0) SUM_GR_AR
                , NVL(SUM(A.GR_FEE),0) SUM_GR_FEE
           FROM ASSETS_RENT_F A
-         WHERE 1=1
+         WHERE (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+			                                                 SELECT  F.PRT_AT_CODE
+			                                                       , F.MNG_YEAR
+			                                                       , F.MNG_NO
+			                                                       , F.MNG_CNT 
+			                                                 FROM ASSETS_RENT_DETAIL_F F
+			                                                 WHERE F.QUAY_CD = 'E'	<!-- 공컨장치장 -->
+            ) 
               
          <isNotEmpty property="sPrtAtCode">
              AND A.PRT_AT_CODE = #sPrtAtCode#  
          </isNotEmpty>
          
          <isNotEmpty property="sReqstSeCd">
-             AND A.REQST_SE_CD = #sReqstSeCd#  
+             AND A.REQST_SE_CD = #sReqstSeCd#
          </isNotEmpty>
          
          <isNotEmpty property="sEntrpscd">
