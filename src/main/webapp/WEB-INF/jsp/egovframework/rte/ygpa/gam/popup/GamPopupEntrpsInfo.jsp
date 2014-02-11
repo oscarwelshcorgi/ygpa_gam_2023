@@ -11,9 +11,9 @@
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2014.01.22  정윤후          최초 생성
+  *  2014.01.22  heroine          최초 생성
   *
-  * author 정윤후
+  * author heroine
   * since 2014.01.22
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
