@@ -261,7 +261,7 @@
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/prt_fclty/gamMarineCenterRentFeeMngt.do'/>">마린센터임대료관리</a>
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentFeeMngt.do'/>">마린센터임대료관리</a>
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
