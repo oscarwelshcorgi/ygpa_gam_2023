@@ -35,4 +35,12 @@ public interface GamAssetEvlDtlsInqireService {
 	 * @exception
 	 */
     int selectAssetEvlDtlsInqireListTotCnt(GamAssetEvlDtlsInqireVO searchVO) throws Exception;
+    
+    /**
+	 * ERP감가상각내역을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireErp(GamAssetEvlDtlsInqireVO searchVO) throws Exception;
 }

@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +22,10 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 
@@ -117,6 +121,42 @@ public class GamAssetEvlDtlsInqireController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
+    	
+    	return map;
+    }
+	
+	/**
+     * ERP감가상각내역을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+    @RequestMapping(value="/asset/gamSelectAssetEvlDtlsInqireErp.do") 
+    public @ResponseBody Map selectAssetEvlDtlsInqireErp(
+     	   @ModelAttribute("gamAssetEvlDtlsInqireVO") GamAssetEvlDtlsInqireVO searchVO, 
+     	   BindingResult bindingResult)
+            throws Exception {	
+		
+		Map map = new HashMap();
+		
+		GamAssetEvlDtlsInqireVO result = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireErp(searchVO);
+    	
+		if( EgovStringUtil.isEmpty(result.getDeprctnYear()) ) {
+			map.put("resultCode", 1);	
+			map.put("resultMsg", egovMessageSource.getMessage("gam.asset.EvlDtlsInqire.nodata.reason")); //ERP에 해당 데이터가 존재하지 않습니다.
+		} else {
+			map.put("resultCode", 0);	// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select")); //정상적으로 조회되었습니다.
+	    	map.put("thisTermIncreAmt", result.getThisTermIncreAmt());
+	    	map.put("bsThisCurAmt", result.getBsThisCurAmt());
+	    	map.put("bsPreDeprctnSum", result.getBsPreDeprctnSum());
+	    	map.put("bsNoDeprctnBal", result.getBsNoDeprctnBal());
+	    	map.put("preEndAssetBuySum", result.getPreEndAssetBuySum());
+	    	map.put("assetBuyAmt", result.getAssetBuyAmt());
+	    	map.put("thisTermDeprctnAmt", result.getThisTermDeprctnAmt());
+	    	map.put("curAmt", result.getCurAmt());
+		}
     	
     	return map;
     }

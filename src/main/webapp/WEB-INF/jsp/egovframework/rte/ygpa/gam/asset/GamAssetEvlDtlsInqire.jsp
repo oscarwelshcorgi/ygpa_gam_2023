@@ -25,7 +25,7 @@
  */
 function GamAssetEvlDtlsInqireModule() {}
 
-GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1100, 550);
+GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1100, 580);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
@@ -81,7 +81,7 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
      height: '290'
  });
 };
-     
+
 /**
 * 정의 된 버튼 클릭 시
 */
@@ -93,6 +93,32 @@ GamAssetEvlDtlsInqireModule.prototype.onButtonClick = function(buttonId) {
      case 'searchBtn':
          var searchOpt=this.makeFormArgs('#gamAssetEvlDtlsInqireSearchForm');
          this.$('#assetEvlDtlsInqireList').flexOptions({params:searchOpt}).flexReload();
+
+         break;
+         
+     // ERP 조회
+     case 'erpSearchBtn':
+    	 var rows = this.$('#assetEvlDtlsInqireList').selectedRows();
+
+    	    if(rows.length>=1) {
+		   	    this.doAction('<c:url value="/asset/gamSelectAssetEvlDtlsInqireErp.do" />', rows[0], function(module, result) {
+	                if(result.resultCode=='0') {
+	                	module.$('#thisTermIncreAmt').val(result.thisTermIncreAmt); 
+	                	module.$('#bsThisCurAmt').val(result.bsThisCurAmt);
+	                	module.$('#bsPreDeprctnSum').val(result.bsPreDeprctnSum);
+	                	module.$('#bsNoDeprctnBal').val(result.bsNoDeprctnBal);
+	                	module.$('#preEndAssetBuySum').val(result.preEndAssetBuySum);
+	                	module.$('#assetBuyAmt').val(result.assetBuyAmt);
+	                	module.$('#thisTermDeprctnAmt').val(result.thisTermDeprctnAmt);
+	                	module.$('#curAmt').val(result.curAmt);
+	                } else {
+	                	alert(result.resultMsg);
+	                }
+	            });
+	   	        
+    	    } else {
+                alert("목록에서 선택하십시오.");
+            }
 
          break;
  }
@@ -175,25 +201,28 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                     <table style="width:100%;" border="1">
                         <form id="form1">
                         <tr>
+                            <td colspan="8"><button id="erpSearchBtn" class="submit">ERP 감가상가내역</button></td>
+                        </tr>
+                        <tr>
                             <td>당기자산증가금액</td>
-                            <td><input id="xxx1" size="7" readonly></td>
+                            <td><input id="thisTermIncreAmt" size="7" readonly></td>
                             <td>대차대조기말현재금액</td>
-                            <td><input id="xxx2" size="7" readonly></td>
-                            <td>대차재도전기말상각누계금액</td> 
-                            <td><input id="xxx3" size="7" readonly></td>
+                            <td><input id="bsThisCurAmt" size="7" readonly></td>
+                            <td>대차대조전기말상각누계금액</td> 
+                            <td><input id="bsPreDeprctnSum" size="7" readonly></td>
                             <td>대차대조미상각잔액</td> 
-                            <td><input id="xxx4" size="7" readonly></td>
+                            <td><input id="bsNoDeprctnBal" size="7" readonly></td>
                             
                         </tr>
                         <tr>
-                            <td>전기말자본적지출금액 누계</td>
-                            <td><input id="xxx5" size="7" readonly></td>
+                            <td>전기말자본적지출금액누계</td>
+                            <td><input id="preEndAssetBuySum" size="7" readonly></td>
                             <td>자본적지출금액</td> 
-                            <td><input id="xxx6" size="7" readonly></td>
+                            <td><input id="assetBuyAmt" size="7" readonly></td>
                             <td>당기상각금액</td> 
-                            <td><input id="xxx7" size="7" readonly></td>
+                            <td><input id="thisTermDeprctnAmt" size="7" readonly></td>
                             <td>잔존금액</td>
-                            <td><input id="xxx8" size="7" readonly></td>
+                            <td><input id="curAmt" size="7" readonly></td>
                         </tr>
                         </form>
                     </table>

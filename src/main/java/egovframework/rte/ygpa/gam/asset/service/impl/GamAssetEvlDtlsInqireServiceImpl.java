@@ -30,6 +30,9 @@ public class GamAssetEvlDtlsInqireServiceImpl  extends AbstractServiceImpl imple
 
 	@Resource(name="gamAssetEvlDtlsInqireDao")
     private GamAssetEvlDtlsInqireDao gamAssetEvlDtlsInqireDao;
+	
+	@Resource(name="gamAssetEvlDtlsInqireErpDao")
+    private GamAssetEvlDtlsInqireErpDao gamAssetEvlDtlsInqireErpDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -52,5 +55,15 @@ public class GamAssetEvlDtlsInqireServiceImpl  extends AbstractServiceImpl imple
     public int selectAssetEvlDtlsInqireListTotCnt(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
 		return gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireListTotCnt(searchVO);
 	}
-
+    
+    /**
+	 * ERP감가상각내역을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireErp(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
+        return gamAssetEvlDtlsInqireErpDao.selectAssetEvlDtlsInqireErp(searchVO);
+    }
+    
 }

@@ -10,4 +10,6 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetCd_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetDeprctn_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetHist_SQL.xml"/>
+	
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/erp/code/ErpAssetEvlDtls_SQL.xml"/>
 </sqlMapConfig>
