@@ -627,12 +627,13 @@ GamTrainPortRentLstMngtModule.prototype.onClosePopup = function(popupId, msg, va
          </div>
      </div>
 
-     <div class="emdPanel">
+     <div class="emdPanel fillHeight">
          <div id="operResultListTab" class="emdTabPanel" data-onchange="onTabChange">
              <ul>
                  <li><a href="#tabs1" class="emdTab">철송장사용목록관리 조회내역</a></li>
                  <li><a href="#tabs2" class="emdTab">철송장사용목록관리 상세조회 목록내역</a></li>
                  <li><a href="#tabs3" class="emdTab">철송장사용목록관리 상세조회내역</a></li>
+                 <li><a href="#tabs4" class="emdTab">사진</a></li>
              </ul>
              
              <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
@@ -1021,6 +1022,16 @@ GamTrainPortRentLstMngtModule.prototype.onClosePopup = function(popupId, msg, va
                      </form>
                   
              </div>
+             
+             <div id="tabs4" class="emdTabPage" style="overflow: scroll;" >
+                <table id="assetCodePhotoList" style="display:none"></table>
+                <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
+                <!-- 
+                <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
+                 -->
+                <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div> 
+            </div>
+            
          </div>
      </div>
  </div>

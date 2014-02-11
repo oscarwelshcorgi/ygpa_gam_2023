@@ -38,6 +38,7 @@
          dataType: 'json',
          colModel : [
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'항코드명', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
                     {display:'관리 번호(조합)', name:'rentMngNo',width:100, sortable:false,align:'center'},
                     {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
                     {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},                                                
@@ -48,7 +49,8 @@
                     {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},                                 
                     {display:'총 면적', name:'grAr',width:60, sortable:false,align:'center'},                                                           
                     {display:'총 사용료', name:'grFee',width:60, sortable:false,align:'center'},                                                        
-                    {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},                                            
+                    {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},
+                    {display:'고지 방법명', name:'nticMthNm',width:60, sortable:false,align:'center'},
                     {display:'최초 허가 일자', name:'frstPrmisnDt',width:60, sortable:false,align:'center'},                           
                     {display:'허가 일자', name:'prmisnDt',width:60, sortable:false,align:'center'},                                          
                     {display:'허가 여부', name:'prmisnYn',width:60, sortable:false,align:'center'},                                          
@@ -95,8 +97,11 @@
                     {display:'사용 목적', name:'usagePurps',width:100, sortable:false,align:'center'},
                     {display:'사용 내역', name:'usageDtls',width:100, sortable:false,align:'center'},
                     {display:'사용 용도 코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
+                    {display:'사용 용도 코드명', name:'usagePrposCdNm',width:100, sortable:false,align:'center'},
                     {display:'면제 구분', name:'exemptSe',width:100, sortable:false,align:'center'},
+                    {display:'면제 구분명', name:'exemptSeNm',width:100, sortable:false,align:'center'},
                     {display:'면제 사유 코드', name:'exemptRsnCd',width:100, sortable:false,align:'center'},
+                    {display:'면제 사유 코드명', name:'exemptRsnCdNm',width:100, sortable:false,align:'center'},
                     {display:'면제 사유', name:'exemptRsn',width:100, sortable:false,align:'center'},
                     {display:'면제 기간 FROM', name:'exemptPdFrom',width:100, sortable:false,align:'center'},
                     {display:'면제 기간 TO', name:'exemptPdTo',width:100, sortable:false,align:'center'},
@@ -105,9 +110,13 @@
                     {display:'적용 요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'적용 방법', name:'applcMth',width:100, sortable:false,align:'center'},
                     {display:'포장 구분', name:'packSe',width:100, sortable:false,align:'center'},
+                    {display:'포장 구분명', name:'packSeNm',width:100, sortable:false,align:'center'},
                     {display:'업체 구분', name:'entrpsSe',width:100, sortable:false,align:'center'},
+                    {display:'업체 구분명', name:'entrpsSeNm',width:100, sortable:false,align:'center'},
                     {display:'사용료 계산 구분', name:'feeCalcSe',width:100, sortable:false,align:'center'},
+                    {display:'사용료 계산 구분명', name:'feeCalcSeNm',width:100, sortable:false,align:'center'},
                     {display:'감면 사용료 계산 구분', name:'rdcxptFeeCalcSe',width:100, sortable:false,align:'center'},
+                    {display:'감면 사용료 계산 구분명', name:'rdcxptFeeCalcSeNm',width:100, sortable:false,align:'center'},
                     {display:'감면 사용료', name:'rdcxptFee',width:100, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'center'},
                     {display:'해지 일자', name:'trmnatDt',width:100, sortable:false,align:'center'},
@@ -135,8 +144,9 @@
          module.$("#operResultListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
 
          if(row!=null) {
-             module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
+        	 module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
              module.$('#prtAtCode').val(row['prtAtCode']);
+             module.$('#prtAtCodeNm').val(row['prtAtCodeNm']);
              module.$('#mngYear').val(row['mngYear']);
              module.$('#mngNo').val(row['mngNo']);
              module.$('#mngCnt').val(row['mngCnt']);
@@ -147,6 +157,7 @@
              module.$('#grAr').val(row['grAr']);
              module.$('#grFee').val(row['grFee']);
              module.$('#nticMth').val(row['nticMth']);
+             module.$('#nticMthNm').val(row['nticMthNm']);            
              module.$('#frstPrmisnDt').val(row['frstPrmisnDt']);
              module.$('#prmisnDt').val(row['prmisnDt']);
              module.$('#prmisnYn').val(row['prmisnYn']);
@@ -181,7 +192,7 @@
          module.$("#operResultListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
 
          if(row!=null) {
-             //module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
+        	//module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
              module.$('#detailCmd').val('modify');
              module.$('#assetsUsageSeq').val(row['assetsUsageSeq']);
              module.$('#detailMngYear').val(row['mngYear']);
@@ -195,20 +206,27 @@
              module.$('#usagePdTo').val(row['usagePdTo']);          
              module.$('#usagePurps').val(row['usagePurps']);         
              module.$('#usageDtls').val(row['usageDtls']);          
-             module.$('#usagePrposCd').val(row['usagePrposCd']);       
-             module.$('#exemptSe').val(row['exemptSe']);           
+             module.$('#usagePrposCd').val(row['usagePrposCd']);
+             module.$('#usagePrposCdNm').val(row['usagePrposCdNm']); 
+             module.$('#exemptSe').val(row['exemptSe']);
+             module.$('#exemptSeNm').val(row['exemptSeNm']);
              module.$('#exemptRsnCd').val(row['exemptRsnCd']);        
+             module.$('#exemptRsnCdNm').val(row['exemptRsnCdNm']); 
              module.$('#exemptRsn').val(row['exemptRsn']);          
              module.$('#exemptPdFrom').val(row['exemptPdFrom']);       
              module.$('#exemptPdTo').val(row['exemptPdTo']);         
              module.$('#computDtls').val(row['computDtls']);         
              module.$('#olnlp').val(row['olnlp']);              
              module.$('#applcTariff').val(row['applcTariff']);        
-             module.$('#applcMth').val(row['applcMth']);           
-             module.$('#packSe').val(row['packSe']);             
-             module.$('#entrpsSe').val(row['entrpsSe']);           
-             module.$('#feeCalcSe').val(row['feeCalcSe']);          
-             module.$('#rdcxptFeeCalcSe').val(row['rdcxptFeeCalcSe']);    
+             module.$('#applcMth').val(row['applcMth']);      
+             module.$('#packSe').val(row['packSe']);
+             module.$('#packSeNm').val(row['packSeNm']);
+             module.$('#entrpsSe').val(row['entrpsSe']);
+             module.$('#entrpsSeNm').val(row['entrpsSeNm']);
+             module.$('#feeCalcSe').val(row['feeCalcSe']);
+             module.$('#feeCalcSeNm').val(row['feeCalcSeNm']); 
+             module.$('#rdcxptFeeCalcSe').val(row['rdcxptFeeCalcSe']);
+             module.$('#rdcxptFeeCalcSeNm').val(row['rdcxptFeeCalcSeNm']);
              module.$('#rdcxptFee').val(row['rdcxptFee']);          
              module.$('#fee').val(row['fee']);                
              module.$('#trmnatDt').val(row['trmnatDt']);           
@@ -265,30 +283,12 @@
  };
 
  GamTrainPortRentSttusModule.prototype.onTabChange = function(newTabId, oldTabId) {
-     switch(newTabId) {
+	 switch(newTabId) {
      case 'tabs1':
          break;
      case 'tabs2':
-         var row = this.$('#operResultList').selectedRows();
-         /*
-         if(row.length==0) {
-             this.$('#cmd').val('insert');
-         }
-         else {
-             this.$('#cmd').val('modify');
-         }
-         */
          break;
      case 'tabs3':
-     	var row = this.$('#operResultDetailList').selectedRows();
-     	/*
-         if(row.length==0) {
-             this.$('#detailCmd').val('insert');
-         }
-         else {
-             this.$('#detailCmd').val('modify');
-         }
-     	*/
          break;
      }
  };
@@ -303,14 +303,6 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
         if (msg != 'cancel') {
             this.$('#sEntrpscd').val(value.entrpscd);
             this.$('#sEntrpsNm').val(value.entrpsNm);
-        } else {
-            alert('취소 되었습니다');
-        }
-        break;
-    case 'insertEntrpsInfoPopup':
-        if (msg != 'cancel') {
-            this.$('#entrpscd').val(value.entrpscd);
-            this.$('#entrpsNm').val(value.entrpsNm);
         } else {
             alert('취소 되었습니다');
         }
@@ -399,7 +391,7 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
          </div>
      </div>
 
-     <div class="emdPanel">
+     <div class="emdPanel fillHeight">
          <div id="operResultListTab" class="emdTabPanel" data-onchange="onTabChange">
              <ul>
                  <li><a href="#tabs1" class="emdTab">철송장사용현황 조회내역</a></li>
@@ -408,9 +400,7 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
              </ul>
              
              <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                 <div style="width: 100%; height: 100%; overflow:auto">
-                         <table id="operResultList" style="display:none"></table>
-                 </div>
+                 <table id="operResultList" style="display:none"></table>
                  <div class="emdControlPanel">
                      <table style="width:100%;" >
                          <tr>
@@ -445,18 +435,10 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
                          <input type="hidden" id="mngCnt"/>
                          <table>
                              <tr>
-                                <th><span class="label">항코드</span></th>
+                                <th><span class="label">항코드명</span></th>
                                 <td>
-                                    <!-- 
-                                    <select id="prtAtCode">
-	                                    <option value="" selected="selected">선택</option>
-	
-	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-	                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
-	                                    </c:forEach>
-	                                </select>
-	                                 -->
-	                                <input type="text" size="5" id="prtAtCode" maxlength="10"/>
+                                    <input type="hidden" id="prtAtCode"/>
+	                                <input type="text" size="5" id="prtAtCodeNm" maxlength="10"/>
                                 </td>
                                 <th><span class="label">업체코드</span></th>
                                 <td>
@@ -474,28 +456,18 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
                              <tr>
                                 <th><span class="label">고지 방법</span></th>
                                 <td>
-                                    <select id="nticMth">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${nticMthCdList}" var="nticMthItem">
-                                            <option value="${nticMthItem.code }">${nticMthItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="nticMth"/>
+                                    <input type="text" size="10" id="nticMthNm"/>
                                 </td>
                                 <th><span class="label">최초 허가 일자</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="frstPrmisnDt"/></td> -->
                                 <td><input type="text" size="10" id="frstPrmisnDt"/></td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <th><span class="label">허가 일자</span></th>
-                                <!-- <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td> -->
                                 <td><input type="text" size="10" id="prmisnDt"></td>
                                 <th><span class="label">허가 여부</span></th>
                                 <td>
-                                    <select id="prmisnYn">
-                                        <option value="" selected="selected">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N">N</option>
-                                    </select>
+                                    <input type="text" size="10" id="prmisnYn"/>
                                 </td>
                             </tr>
                              
@@ -626,36 +598,21 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
                                 <td><input type="text" size="10" id="usageDtls"/></td>
                                 <th><span class="label">사용 용도 코드</span></th>
                                 <td>
-                                    <select id="usagePrposCd">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
-                                            <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="usagePrposCd"/>
+                                    <input type="text" size="10" id="usagePrposCdNm"/>
                                 </td>
                             </tr>
                              
                              <tr>
                                 <th><span class="label">면제 구분</span></th>
                                 <td>
-                                    <select id="exemptSe">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${exemptSeCdList}" var="exemptSeCdItem">
-                                            <option value="${exemptSeCdItem.code }">${exemptSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="exemptSe"/>
+                                    <input type="text" size="10" id="exemptSeNm"/>
                                 </td>
                                 <th><span class="label">면제 사유 코드</span></th>
                                 <td>
-                                    <select id="exemptRsnCd">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${exemptRsnCdList}" var="exemptRsnCdItem">
-                                            <option value="${exemptRsnCdItem.code }">${exemptRsnCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="exemptRsnCd"/>
+                                    <input type="text" size="10" id="exemptRsnCdNm"/>
                                 </td>
                             </tr>
                             
@@ -687,49 +644,29 @@ GamTrainPortRentSttusModule.prototype.onClosePopup = function(popupId, msg, valu
                                 <td><input type="text" size="10" id="applcMth"/></td>
                                 <th><span class="label">포장 구분</span></th>
                                 <td>
-                                    <select id="packSe">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${packSeCdList}" var="packSeCdItem">
-                                            <option value="${packSeCdItem.code }">${packSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="packSe"/>
+                                    <input type="text" size="10" id="packSeNm"/>
                                 </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">업체 구분</span></th>
                                 <td>
-                                    <select id="entrpsSe">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${entrpsSeCdList}" var="entrpsSeCdItem">
-                                            <option value="${entrpsSeCdItem.code }">${entrpsSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="entrpsSe"/>
+                                    <input type="text" size="10" id="entrpsSeNm"/>
                                 </td>
                                 <th><span class="label">사용료 계산 구분</span></th>
                                 <td>
-                                    <select id="feeCalcSe">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${feeCalcSeCdList}" var="feeCalcSeCdItem">
-                                            <option value="${feeCalcSeCdItem.code }">${feeCalcSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="feeCalcSe"/>
+                                    <input type="text" size="10" id="feeCalcSeNm"/>
                                 </td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">감면 사용료 계산 구분</span></th>
                                 <td>
-                                    <select id="rdcxptFeeCalcSe">
-                                        <option value="" selected="selected">선택</option> 
-                                        
-                                        <c:forEach  items="${rdcxptFeeCalcSeCdList}" var="rdcxptFeeCalcSeCdItem">
-                                            <option value="${rdcxptFeeCalcSeCdItem.code }">${rdcxptFeeCalcSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="hidden" id="rdcxptFeeCalcSe"/>
+                                    <input type="text" size="10" id="rdcxptFeeCalcSeNm"/>
                                 </td>
                                 <th><span class="label">감면 사용료</span></th>
                                 <td><input type="text" size="10" id="rdcxptFee"/></td>
