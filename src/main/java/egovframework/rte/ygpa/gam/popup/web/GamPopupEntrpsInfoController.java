@@ -29,7 +29,7 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
  * @Description : 업체정보
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-10
  * @version 1.0
  * @see

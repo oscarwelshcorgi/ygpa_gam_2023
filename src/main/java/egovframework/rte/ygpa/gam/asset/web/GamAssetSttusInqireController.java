@@ -32,7 +32,7 @@ import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireService;
  * @Description : 자산정보현황조회
  * @Modification Information
  *
- * @author 정윤후
+ * @author heroine
  * @since 2014-01-29
  * @version 1.0
  * @see
