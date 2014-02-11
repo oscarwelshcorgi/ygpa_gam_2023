@@ -637,9 +637,7 @@ GamCmmnCntrRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
              </ul>
              
              <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                 <div style="width: 100%; height: 100%; overflow:auto">
-                         <table id="operResultList" style="display:none"></table>
-                 </div>
+				<table id="operResultList" style="display:none"></table>
                  <div class="emdControlPanel">
                      <table style="width:100%;" >
                          <tr>

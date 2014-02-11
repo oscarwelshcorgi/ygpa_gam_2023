@@ -326,7 +326,7 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
         </div>
     </div>
 
-    <div class="emdPanel">
+    <div class="emdPanel fillHeight">
         <div id="assetRentFeePayListTab" class="emdTabPanel" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">철송장납부 목록</a></li>
@@ -334,9 +334,7 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetRentFeePayList" style="display:none"></table>
-                </div>
+                <table id="assetRentFeePayList" style="display:none"></table>
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
