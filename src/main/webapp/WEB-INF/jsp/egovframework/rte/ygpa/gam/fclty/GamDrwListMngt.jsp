@@ -25,7 +25,7 @@
  */
 function GamFcltyDrwListMngtModule() {}
 
-GamFcltyDrwListMngtModule.prototype = new EmdModule(840,510);	// 초기 시작 창크기 지정
+GamFcltyDrwListMngtModule.prototype = new EmdModule(840,500);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
@@ -33,54 +33,83 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#drwListMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamFcltyDrwMngtList.do" />',
+		url: '<c:url value="/fclty/gamFcltyDrwMngtInfoList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
-				{display:"자산코드",		 			name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"항만시설코드", 				name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-				{display:"항만시설명", 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"center"},
-				//{display:"항만시설 구분", 			name:"prtFcltySe",			width:80,		sortable:false,		align:"center"},
-				{display:"단위",		 	 			name:"prtFcltyUnit",		width:80,		sortable:false,		align:"center"},
-				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
-				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"},
-				{display:"등록자",					name:"regUsr",			width:80,		sortable:false,		align:"center"},
-				{display:"등록일자",					name:"registDt",			width:80,		sortable:false,		align:"center"},
-				{display:"hidden", 					name:"gisPrtFcltySeq",		width:1,		sortable:false,		align:"center"},
-				{display:"hidden",		 			name:"gisAssetsCd",			width:1,		sortable:false,		align:"center"},
-				{display:"hidden", 					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
+				{display:"도면 목록 등록 년도",	name:"drwLstRegistYear",		width:80,		sortable:false,		align:"center"},
+				{display:"도면 목록 순번", 		name:"drwLstSeq",				width:100,		sortable:false,		align:"center"},
+				{display:"도면 명", 				name:"drwLstNm",				width:300,		sortable:false,		align:"center"},
+				{display:"도면 부서 명",			name:"drwLstMngDeptCd",			width:160,		sortable:false,		align:"center"},
+				{display:"도면 번호", 			name:"drwLstSeCd",				width:100,		sortable:false,		align:"center"},
+				{display:"등록일자",				name:"registDt",				width:100,		sortable:false,		align:"center"},
+				{display:"등록자",				name:"regUsr",					width:100,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "270"
+		height: "240"
 	});
 	
 	this.$("#drwListMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#drwListMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-		
-		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:module.$("#gisPrtFcltyCd").val()};
-		module.doAction('<c:url value="/fclty/gamFcltyDrwListMngSelectView.do" />', detailInput, function(module, result) {
-
+		module.doAction('<c:url value="/fclty/gamFcltyDrwMngtList.do" />', {drwLstRegistYear:row["drwLstRegistYear"], drwLstSeq:row["drwLstSeq"]}, function(module, result) {
 			module.$("#cmd").val("modify");
-			module.$("#gisAssetsCd").val(result.detail.gisAssetsCd);
-			module.$("#gisAssetsPrtAtCode").val(result.detail.gisAssetsPrtAtCode);
-			module.$("#gisAssetsSubCd").val(result.detail.gisAssetsSubCd);
-			module.$("#gisPrtFcltySeq").val(result.detail.gisPrtFcltySeq);
-			module.$("#gisPrtFcltyCd").val(result.detail.gisPrtFcltyCd);
-			module.$("#prtFcltyNm").val(result.detail.prtFcltyNm);
-			module.$("#prtFcltyStndrd").val(result.detail.prtFcltyStndrd);
-			module.$("#prtFcltyUnit").val(result.detail.prtFcltyUnit);
-			module.$("#prtFcltyInstlDt").val(result.detail.prtFcltyInstlDt);
-			module.$("#prtFcltyChangeDt").val(result.detail.prtFcltyChangeDt);
-			module.$("#prtFcltySe").val(result.detail.prtFcltySe);
-			module.$("#prtFcltyMngEntrpsCd").val(result.detail.prtFcltyMngEntrpsCd);
-			module.$("#gisAssetsLocplc").val(result.detail.gisAssetsLocplc);
-			module.$("#gisAssetsLnm").val(result.detail.gisAssetsLnm);
-			module.$("#gisAssetsLnmSub").val(result.detail.gisAssetsLnmSub);
+			module.$("#drwLstRegistYear").val(result.detail.drwLstRegistYear);
+			module.$("#drwLstSeq").val(result.detail.drwLstSeq);
+			module.$("#drwLstNm").val(result.detail.drwLstNm);
+			module.$("#drwLstMngDeptCd").val(result.detail.drwLstMngDeptCd);
+			module.$("#regUsr").val(result.detail.regUsr);
 			module.$("#registDt").val(result.detail.registDt);
+			module.$("#drwLstSeCd").val(result.detail.drwLstSeCd);
+			module.$("#drwLstGisCd").val(result.detail.drwLstGisCd);
+			module.$("#authnm").val(result.detail.authnm);
+			module.$("#sbmNm").val(result.detail.sbmNm);
+			module.$("#exmNm").val(result.detail.exmNm);
+			module.$("#cnstrtr").val(result.detail.cnstrtr);
+			module.$("#scl").val(result.detail.scl);
+			
+			
+			module.$("#drwListMngtListSub").flexigrid({
+				module: this,
+				url: '<c:url value="/fclty/gamFcltyDrwMngtList.do" />',
+				dataType: "json",
+				colModel : [
+						{display:"도면 자료 코드",		name:"drwDtaCd",			width:150,		sortable:false,		align:"center"},
+						{display:"도면 명", 				name:"drwNm",				width:100,		sortable:false,		align:"center"},
+						{display:"도면 파일명 물리", 		name:"drwFilenmPhysicl",	width:200,		sortable:false,		align:"center"},
+						{display:"도면 파일명 논리",		name:"drwFilenmLogic",		width:200,		sortable:false,		align:"center"},
+						{display:"도면 구분 코드", 		name:"drwSeCd",				width:100,		sortable:false,		align:"center"},
+						{display:"도면 번호",				name:"drwNo",				width:100,		sortable:false,		align:"center"},
+						{display:"도면 작성 일자",		name:"drwWritngDt",			width:100,		sortable:false,		align:"center"},
+						{display:"등록일자",				name:"registdt",			width:100,		sortable:false,		align:"center"},
+						{display:"등록자",				name:"regUsr",				width:100,		sortable:false,		align:"center"},
+						{display:"도면 변경일",			name:"drwChangedt",			width:100,		sortable:false,		align:"center"},
+						{display:"도면 변경 내역",		name:"drwChangeDtls",		width:100,		sortable:false,		align:"center"},
+						{display:"hidden",				name:"drwLstRegistYear",	width:1,		sortable:false,		align:"center"},
+						{display:"hidden",				name:"drwLstSeq",			width:1,		sortable:false,		align:"center"}
+					],
+				usepager: true,
+				useRp: true,
+				showTableToggleBtn: false,
+				height: "200"
+			});
+			
+			module.$("#drwListMngtListSub").flexOptions().flexReload();
+			module.$("#subListDiv").show();
+			
+			/*
+			module.$("#drwListInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+			       
+				module.doAction('<c:url value="/fclty/gamFcltyDrwListMngSelectView.do" />', {drwLstRegistYear:row["drwLstRegistYear"], drwLstSeq:row["drwLstSeq"], drwDtaCd:["drwDtaCd"]}, function(module, result) {
+					
+					alert(result.detail.drwDtaCd);
+					alert(result.detail.drwLstRegistYear);
+					alert(result.detail.drwDtaCd);
+				});
+			});
+			*/
 	 	});
 	});
 };
@@ -107,47 +136,83 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 추가
 		case "addBtn":
 			this.$("#displayDate").hide();
+			this.$("#subListDiv").hide();
 			this.$("#drwListManageVO :input").val("");
+			this.$("#drwListManageVO :input").removeAttr("disabled");
 			this.$("#cmd").val("insert");
 			
-			// 자산구분코드 설정
-			this.$("#gisPrtFcltyCd").val("AE");
-			this.$("#drwListMngtListTab").tabs("option", {active: 1});
+			this.doAction('<c:url value="/fclty/gamFcltyDrwInfoGetInsertSeq.do" />', inputVO, function(module, result) {
+				module.$("#drwLstSeq").val(result.seq);
+				module.$("#drwLstSeq").attr("disabled","disabled");
+				module.$("#regUsr").val("TEST01");
+				module.$("#regUsr").attr("disabled","disabled");
+		 	});
 			
-			/*this.doAction('<c:url value="/fclty/gamFcltyGetInsertSeq.do" />', inputVO, function(module, result) {
-				module.$("#gisPrtFcltySeq").val(result.seq);
-		 	});*/
+			this.$("#drwListMngtListTab").tabs("option", {active: 1});
+		break;
+		
+		
+		// 도면 자료 추가
+		case "addSubBtn":
+			this.$(".changeView").hide();
+			this.$("#displayDateSub").hide();
+			this.$("#drwDtaListManageVO").show();
+			this.$("#drwDtaListManageVO :input").val("");
+			this.$("#drwDtaListManageVO :input").removeAttr("disabled");
+			this.$("#dtaCmd").val("insert");
+			this.$("#drwLstRegistYearSub").val(this.$("#drwLstRegistYear").val());
+			this.$("#drwLstRegistYearSub").attr("disabled","disabled");
+			this.$("#drwLstSeqSub").val(this.$("#drwLstSeq").val());
+			this.$("#drwLstSeqSub").attr("disabled","disabled");
+			this.$("#drwWritngDt").attr("disabled","disabled");
+			this.$("#regUsrSub").val("TEST01");
+			this.$("#regUsrSub").attr("disabled","disabled");
 		break;
 
 		// 자산코드 팝업
 		case "gisCodePopupBtn":
 			this.doExecuteDialog("searchGisCodePopup", "자산코드 조회", '<c:url value="/popup/showAssetsCd.do"/>', {});
 		break;
-
-		// 자산코드 팝업
-		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup2", "자산코드 조회", '<c:url value="/popup/showAssetsCd.do"/>', {});
-		break;
-
-		// 업체조회 팝업
-		case "searchEntrpsCdBtn":
-			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
-		break;
 			
 		// 저장
 		case "saveBtn":
-			// 날짜 설정
-			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
-			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
+
 		 	var inputVO = this.makeFormArgs("#drwListManageVO");
 			if(this.$("#cmd").val() == "insert") {
-
-			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwInfoListMngInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
 						module.$("#drwListManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}else{
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngUpdate.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#drwListForm");
+						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+		break;
+		
+		
+		// 저장
+		case "saveSubBtn":
+			this.$("#drwWritngDt").val(this.$("#drwWritngDt").val().replace(/\-/g,""));
+		 	var inputVO = this.makeFormArgs("#drwDtaListManageVO");
+			if(this.$("#dtaCmd").val() == "insert") {
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngInsert.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#drwListForm");
+						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwDtaListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -280,8 +345,8 @@ var module_instance = new GamFcltyDrwListMngtModule();
 	<div class="emdPanel">
 		<div id="drwListMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
 			<ul>
-				<li><a href="#tabs1" class="emdTab">항만시설목록</a></li>
-				<li><a href="#tabs2" class="emdTab">항만시설상세</a></li>
+				<li><a href="#tabs1" class="emdTab">도면시설목록</a></li>
+				<li><a href="#tabs2" class="emdTab">도면시설상세</a></li>
 			</ul>
 			<div id="tabs1" class="emdTabPage">
 				<table id="drwListMngtList" style="display:none"></table>
@@ -291,77 +356,48 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<input type="hidden" id="cmd" />
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="3" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
-								<input type="text" size="2" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
-								<input type="text" size="3" id="gisAssetsPrtAtCode" disabled="disabled"/>
-								<button id="gisCodePopupBtn">자산코드 검색</button>
-							</td>
-						</tr>
-						<!-- 
-						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 SUB 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="40" id="gisAssetsSubCd" disabled="disabled"/></td>
+							<th width="20%" height="23" class="required_text">도면 목록 등록 년도<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<td><input type="text" size="40" id="drwLstRegistYear" disabled="disabled" maxlength="4" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 항코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="40" id="gisAssetsPrtAtCode" disabled="disabled"/></td>
+							<th width="20%" height="23" class="required_text">도면 목록 순번</th>
+							<td><input type="text" size="40" id="drwLstSeq" disabled="disabled"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 GIS 코드</th>
-							<td><input type="text" size="40" id="prtFcltyGisCd"/></td>
-						</tr>
-						-->
-						<tr>
-							<th width="20%" height="23" class="required_text">항만시설코드</th>
-							<td>
-								<input type="text" size="10" id="gisPrtFcltyCd" disabled="disabled"/>&nbsp;-&nbsp;<input type="text" size="13" id="gisPrtFcltySeq" disabled="disabled"/>
-							</td>
+							<th width="20%" height="23" class="required_text">도면 목록 명</th>
+							<td><input type="text" size="40" id="drwLstNm" disabled="disabled" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 명</th>
-							<td><input type="text" size="40" id="prtFcltyNm"/></td>
-						</tr>
-						<!-- 
-						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 구분</th>
-							<td><input type="text" size="40" id="prtFcltySe"/></td>
-						</tr>
-						 -->
-						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 규격</th>
-							<td><input type="text" size="40" id="prtFcltyStndrd"/></td>
+							<th width="20%" height="23" class="required_text">공사명</th>
+							<td><input type="text" size="40" id="authnm" disabled="disabled" maxlength="80" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 단위</th>
-							<td><input type="text" size="40" id="prtFcltyUnit"/></td>
+							<th width="20%" height="23" class="required_text">제출자</th>
+							<td><input type="text" size="40" id="sbmNm" disabled="disabled" maxlength="40"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 관리 업체 코드</th>
-							<td>
-								<input type="text" size="27" id="prtFcltyMngEntrpsCd" disabled="disabled"/>&nbsp;&nbsp;
-								<button id="searchEntrpsCdBtn">업체조회</button>
-							</td>
+							<th width="20%" height="23" class="required_text">검토자</th>
+							<td><input type="text" size="40" id="exmNm" disabled="disabled" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 설치일자</th>
-							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" disabled="disabled" /></td>
+							<th width="20%" height="23" class="required_text">시공자</th>
+							<td><input type="text" size="40" id="cnstrtr" disabled="disabled" maxlength="30" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">항만시설 변경일자</th>
-							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" disabled="disabled" /></td>
+							<th width="20%" height="23" class="required_text">도면 목록 구분 코드</th>
+							<td><input type="text" size="40" id="drwLstSeCd" disabled="disabled" maxlength="10" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">소재지</th>
-							<td><input id="gisAssetsLocplc" type="text" size="40" title="소재지" disabled="disabled" /></td>
+							<th width="20%" height="23" class="required_text">도면 목록 관리 부서 코드</th>
+							<td><input type="text" size="40" id="drwLstMngDeptCd" disabled="disabled" maxlength="20" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">지번</th>
-							<td>
-								<input id="gisAssetsLnm" type="text" size="20" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="13" title="지번 뒷자리" disabled="disabled" />
-							</td>
+							<th width="20%" height="23" class="required_text">도면 목록 GIS 코드</th>
+							<td><input type="text" size="40" id="drwLstGisCd" disabled="disabled" maxlength="11" /></td>
+						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">등록자</th>
+							<td><input type="text" size="40" id="regUsr"/></td>
 						</tr>
 						<tr id="displayDate">
 							<th width="20%" height="23" class="required_text">등록일자</th>
@@ -369,10 +405,83 @@ var module_instance = new GamFcltyDrwListMngtModule();
 						</tr>
 					</table>
 				</form>
-				<div class="emdControlPanel">
-					<button id="listBtn">목록</button>
-					<button id="saveBtn">저장</button>
-					<button id="deleteBtn">삭제</button>
+				<div class="emdControlPanel"><button id="saveBtn">도면저장</button></div>
+				
+				<!-- 도면자료 목록조회 --> 
+				<div id="subListDiv">
+					<table id="drwListMngtListSub" style="display: none;"></table>
+					<br />
+					<form id="drwDtaListManageVO" style="display:none;">
+						<input type="hidden" id="dtaCmd" />
+						<table class="searchPanel">
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 자료 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+								<td><input type="text" size="40" id="drwDtaCd" disabled="disabled" maxlength="20" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면명</th>
+								<td><input type="text" size="40" id="drwNm" disabled="disabled" maxlength="40"/></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 파일명 물리</th>
+								<td><input type="text" size="40" id="drwFilenmPhysicl" disabled="disabled" maxlength="240" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 파일명 논리</th>
+								<td><input type="text" size="40" id="drwFilenmLogic" disabled="disabled" maxlength="240" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 구분 코드</th>
+								<td><input type="text" size="40" id="drwSeCd" disabled="disabled" maxlength="10"/></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면번호</th>
+								<td><input type="text" size="40" id="drwNo" disabled="disabled" maxlength="8" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면작성일자</th>
+								<td><input type="text" size="40" id="drwWritngDt" class="emdcal" disabled="disabled" maxlength="8" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 목록 구분 코드</th>
+								<td><input type="text" size="40" id="drwLstSeCd" disabled="disabled" maxlength="10" /></td>
+							</tr>
+							<tr class="changeView">
+								<th width="20%" height="23" class="required_text">도면 변경일</th>
+								<td><input type="text" size="40" id="drwChangedt" disabled="disabled" maxlength="8" /></td>
+							</tr>
+							<tr class="changeView">
+								<th width="20%" height="23" class="required_text">도면 변경 내역</th>
+								<td><input type="text" size="40" id="drwChangeDtls" disabled="disabled" maxlength="200" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 GIS 코드</th>
+								<td><input type="text" size="40" id="drwGisCd" disabled="disabled" maxlength="11" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 목록 등록 년도</th>
+								<td><input type="text" size="40" id="drwLstRegistYearSub" disabled="disabled" maxlength="4" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">도면 목록 순번</th>
+								<td><input type="text" size="40" id="drwLstSeqSub" disabled="disabled" maxlength="4" /></td>
+							</tr>
+							<tr>
+								<th width="20%" height="23" class="required_text">등록자</th>
+								<td><input type="text" size="40" id="regUsrSub"/></td>
+							</tr>
+							<tr id="displayDateSub">
+								<th width="20%" height="23" class="required_text">등록일자</th>
+								<td><input type="text" size="40" id="registdtSub" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
+					<div class="emdControlPanel">
+						<button id="listSubBtn">목록</button>
+						<button id="addSubBtn">도면자료추가</button>
+						<button id="saveSubBtn">도면자료저장</button>
+						<button id="deleteSubBtn">도면자료삭제</button>
+					</div>
 				</div>
 			</div>
 		</div>

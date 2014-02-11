@@ -7,25 +7,230 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="fcltyDrwDtaFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO"/>
+    <typeAlias alias="fcltyDrwinfoFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO"/>
     
-    <insert id="gamFcltyDrwMngtDao.insertFcltyDrwListMng">
-	</insert>
-    
-    <select id="gamFcltyDrwMngtDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
-    </select>
-    
-    <select id="gamFcltyDrwMngtDao.selectFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamFcltyDrwMngtDao.selectFcltyMngtInfoList" parameterClass="comDefaultVO" resultClass="egovMap">
+    	/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.selectList */ 
+		SELECT * 
+		  FROM 
+		       (SELECT Z.*, 
+		              ROWNUM AS RNUM 
+		         FROM 
+		              (SELECT 
+		              		  DRW_LST_REGIST_YEAR 
+		                    , DRW_LST_SEQ 
+		                    , DRW_LST_NM 
+		                    , DRW_LST_MNG_DEPT_CD 
+		                    , REG_USR 
+		                    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
+		                    , DRW_LST_SE_CD 
+		                    , DRW_LST_GIS_CD 
+		                    , AUTHNM 
+		                    , SBM_NM 
+		                    , EXM_NM 
+		                    , CNSTRTR 
+		                    , SCL  
+		                FROM DRW_INFO_F 
+		            ORDER BY DRW_LST_REGIST_YEAR DESC , 
+		                     DRW_LST_SEQ DESC 
+		              )Z
+		       )
+		       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltyDrwMngtDao.insertFcltyGetSeq" resultClass="String">
+    <select id="gamFcltyDrwMngtDao.selectFcltyDrwMngtInfoListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+			SELECT COUNT(*) totcnt 
+			  FROM DRW_INFO_F 
+			 WHERE 1=1
     </select>
     
+    <insert id="gamFcltyDrwMngtDao.insertFcltyDrwInfoListMng">
+    	/* egovframework.rte.ygpa.gam.fclty.service.DrwInfoF.insert */ 
+		INSERT 
+		  INTO DRW_INFO_F 
+		       ( 
+		           DRW_LST_REGIST_YEAR , 
+		           DRW_LST_SEQ , 
+		           DRW_LST_NM , 
+		           DRW_LST_MNG_DEPT_CD , 
+		           REG_USR , 
+		           REGIST_DT , 
+		           DRW_LST_SE_CD , 
+		           DRW_LST_GIS_CD , 
+		           AUTHNM , 
+		           SBM_NM , 
+		           EXM_NM , 
+		           CNSTRTR , 
+		           SCL  
+		       ) 
+		       VALUES 
+		       ( 
+		           #drwLstRegistYear# , 
+		           #drwLstSeq# , 
+		           #drwLstNm# , 
+		           #drwLstMngDeptCd# , 
+		           #regUsr# , 
+		           sysdate , 
+		           #drwLstSeCd# , 
+		           #drwLstGisCd# , 
+		           #authnm# , 
+		           #sbmNm# , 
+		           #exmNm# , 
+		           #cnstrtr# , 
+		           #scl# 
+		       )
+	</insert>
+	
+	<select id="gamFcltyDrwMngtDao.insertFcltyGetSeq" resultClass="String">
+    	SELECT LPAD(NVL(MAX(DRW_LST_SEQ),0) + 1,'4','0') DRW_LST_SEQ 
+  			FROM DRW_DTA_F
+    </select>
+    
+    <insert id="gamFcltyDrwMngtDao.insertFcltyDrwListMng">
+    	/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.insert */ 
+		INSERT INTO DRW_DTA_F (
+				DRW_DTA_CD
+				, DRW_LST_REGIST_YEAR
+				, DRW_LST_SEQ
+				, DRW_NM
+				, DRW_FILENM_PHYSICL
+				, DRW_FILENM_LOGIC
+				, DRW_SE_CD
+				, DRW_NO
+				, DRW_WRITNG_DT
+				, REGISTDT
+				, REG_USR
+				, DRW_GIS_CD
+		
+		    ) VALUES (
+				#drwDtaCd#
+				, #drwLstRegistYear#
+				, #drwLstSeq#
+				, #drwNm#
+				, #drwFilenmPhysicl#
+				, #drwFilenmLogic#
+				, #drwSeCd#
+				, #drwNo#
+				, #drwWritngDt#
+				, sysdate
+				, #regUsr#
+				, #drwGisCd#
+			)
+	</insert>
+	
+    <select id="gamFcltyDrwMngtDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
+    	/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.selectList */ 
+		SELECT * 
+		  FROM 
+		       (SELECT Z.*, 
+		              ROWNUM AS RNUM 
+		         FROM 
+		              (SELECT  DRW_DTA_CD 
+		                     , DRW_LST_REGIST_YEAR 
+		                     , DRW_LST_SEQ 
+		                     , DRW_NM 
+		                     , DRW_FILENM_PHYSICL 
+		                     , DRW_FILENM_LOGIC 
+		                     , DRW_SE_CD 
+		                     , DRW_NO 
+							 , TO_CHAR(TO_DATE(DRW_WRITNG_DT), 'YYYY-MM-DD') AS DRW_WRITNG_DT
+                             , TO_CHAR(REGISTDT, 'YYYY-MM-DD') AS REGISTDT 
+		                     , REG_USR
+                             , TO_CHAR(TO_DATE(DRW_CHANGEDT), 'YYYY-MM-DD') AS DRW_CHANGEDT
+                             , DRW_CHANGE_DTLS
+		                     , DRW_GIS_CD  
+		                FROM DRW_DTA_F
+		            ORDER BY DRW_DTA_CD DESC , 
+		                     DRW_LST_REGIST_YEAR DESC , 
+		                     DRW_LST_SEQ DESC 
+		              )Z 
+		       )
+		       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamFcltyDrwMngtDao.selectFcltyDrwMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+			SELECT COUNT(*) totcnt 
+			  FROM DRW_DTA_F 
+			 WHERE 1=1
+    </select>
+
+    <select id="gamFcltyDrwMngtDao.insertFcltyInfoGetSeq" resultClass="String">
+    	SELECT LPAD(NVL(MAX(DRW_LST_SEQ),0) + 1,'4','0') DRW_LST_SEQ 
+  			FROM DRW_INFO_F
+    </select>
+    
+	<select id="gamFcltyDrwMngtDao.fcltyDrwInfoListMngSelectView" resultClass="fcltyDrwinfoFVO" parameterClass="fcltyDrwinfoFVO" >
+		/* egovframework.rte.ygpa.gam.fclty.service.DrwInfoF.select */ 
+		SELECT DRW_LST_REGIST_YEAR AS drwLstRegistYear , 
+		       DRW_LST_SEQ AS drwLstSeq , 
+		       DRW_LST_NM AS drwLstNm , 
+		       DRW_LST_MNG_DEPT_CD AS drwLstMngDeptCd , 
+		       REG_USR AS regUsr , 
+		       TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS registDt , 
+		       DRW_LST_SE_CD AS drwLstSeCd , 
+		       DRW_LST_GIS_CD AS drwLstGisCd , 
+		       AUTHNM AS authnm , 
+		       SBM_NM AS sbmNm , 
+		       EXM_NM AS exmNm , 
+		       CNSTRTR AS cnstrtr , 
+		       SCL AS scl  
+		  FROM DRW_INFO_F 
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       AND DRW_LST_SEQ = #drwLstSeq#
+  	</select>
+  	
+  	
 	<select id="gamFcltyDrwMngtDao.fcltyDrwListMngSelectView" resultClass="fcltyDrwDtaFVO" parameterClass="fcltyDrwDtaFVO" >
+		/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.select */ 
+		SELECT 
+				 DRW_DTA_CD AS drwDtaCd 
+		       , DRW_LST_REGIST_YEAR AS drwLstRegistYear 
+		       , DRW_LST_SEQ AS drwLstSeq
+		       , DRW_NM AS drwNm
+		       , DRW_FILENM_PHYSICL AS drwFilenmPhysicl 
+		       , DRW_FILENM_LOGIC AS drwFilenmLogic
+		       , DRW_SE_CD AS drwSeCd
+		       , DRW_NO AS drwNo
+		       , DRW_WRITNG_DT AS drwWritngDt 
+		       , REGISTDT AS registdt
+		       , REG_USR AS regUsr
+		       , DRW_CHANGEDT AS drwChangedt 
+		       , DRW_CHANGE_DTLS AS drwChangeDtls 
+		       , DRW_GIS_CD AS drwGisCd  
+		  FROM DRW_DTA_F 
+		 WHERE DRW_DTA_CD = #drwDtaCd# 
+		       AND DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       AND DRW_LST_SEQ = #drwLstSeq#
   	</select>
   	
   	<update id="gamFcltyDrwMngtDao.updateFcltyDrwListMng">
+  		/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.update */ 
+  		UPDATE DRW_DTA_F 
+		       SET DRW_DTA_CD = #drwDtaCd#, 
+		       DRW_LST_REGIST_YEAR = #drwLstRegistYear#, 
+		       DRW_LST_SEQ = #drwLstSeq#, 
+		       DRW_NM = #drwNm#, 
+		       DRW_FILENM_PHYSICL = #drwFilenmPhysicl#, 
+		       DRW_FILENM_LOGIC = #drwFilenmLogic#, 
+		       DRW_SE_CD = #drwSeCd#, 
+		       DRW_NO = #drwNo#, 
+		       DRW_WRITNG_DT = #drwWritngDt#, 
+		       REGISTDT = #registdt#, 
+		       REG_USR = #regUsr#, 
+		       DRW_CHANGEDT = #drwChangedt#, 
+		       DRW_CHANGE_DTLS = #drwChangeDtls#, 
+		       DRW_GIS_CD = #drwGisCd# 
+		 WHERE DRW_DTA_CD = #drwDtaCd# 
+		       AND DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       AND DRW_LST_SEQ = #drwLstSeq#
     </update>
     
     <delete id="gamFcltyMngtDao.deleteFcltyDrwListMng">
+    	/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.delete */ 
+    	DELETE 
+		  FROM DRW_DTA_F 
+		 WHERE DRW_DTA_CD = #drwDtaCd# 
+		       AND DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       AND DRW_LST_SEQ = #drwLstSeq#
     </delete>
 </sqlMap>
