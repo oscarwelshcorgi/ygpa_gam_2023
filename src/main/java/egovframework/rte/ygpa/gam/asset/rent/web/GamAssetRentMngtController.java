@@ -719,7 +719,7 @@ public class GamAssetRentMngtController {
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPayMth()) ) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //납부방법 코드가 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject10")); //납부방법 코드가 없습니다.
             
     		return map;
         }
