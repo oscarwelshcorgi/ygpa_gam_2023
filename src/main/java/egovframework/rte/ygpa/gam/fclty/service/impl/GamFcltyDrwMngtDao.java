@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO;
 
 /**
  * 
@@ -32,12 +33,44 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
 
 	/**
 	 * 시설관리 저장
+	 * @param vo GamFcltyDrwInfoFVO 
+	 * @exception Exception
+	 */
+	public void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo){
+		insert("gamFcltyDrwMngtDao.insertFcltyDrwInfoListMng", vo);
+	}
+	
+	
+	/**
+	 * 시설관리 저장
 	 * @param vo GamFcltyDrwDtaFVO 
 	 * @exception Exception
 	 */
 	public void insertFcltyDrwListMng(GamFcltyDrwDtaFVO vo){
-
 		insert("gamFcltyDrwMngtDao.insertFcltyDrwListMng", vo);
+	}
+	
+	
+	/**
+	 * 시설관리 목록 조회
+	 * @param vo ComDefaultVO
+	 * @return List
+	 * @exception Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ComDefaultVO> selectFcltyDrwMngtInfoList(ComDefaultVO vo) throws Exception{
+		return list("gamFcltyDrwMngtDao.selectFcltyMngtInfoList", vo);
+	}
+	
+	
+	/**
+	 * 시설관리 총 갯수를 조회한다.
+	 * @param ComDefaultVO vo
+	 * @return int
+	 * @exception Exception
+	 */
+	public int selectFcltyDrwMngtInfoListTotCnt(ComDefaultVO vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyDrwMngtDao.selectFcltyDrwMngtInfoListTotCnt", vo);
 	}
 	
 	
@@ -72,7 +105,27 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
     public String insertFcltyGetSeq() throws Exception {
     	return (String)getSqlMapClientTemplate().queryForObject("gamFcltyDrwMngtDao.insertFcltyGetSeq");
     }
+
     
+    /**
+     * 시설관리 시퀀스
+     * @return int
+     * @exception Exception
+     */
+    public String insertFcltyInfoGetSeq() throws Exception {
+    	return (String)getSqlMapClientTemplate().queryForObject("gamFcltyDrwMngtDao.insertFcltyInfoGetSeq");
+    }
+    
+    
+    /**
+     * 시설관리 상세화면
+     * @param vo
+     * @return GamFcltyDrwDtaFVO
+     */
+    public GamFcltyDrwInfoFVO fcltyDrwInfoListMngSelectView(GamFcltyDrwInfoFVO vo){
+    	return (GamFcltyDrwInfoFVO) selectByPk("gamFcltyDrwMngtDao.fcltyDrwInfoListMngSelectView", vo);
+    }
+
     
     /**
      * 시설관리 상세화면

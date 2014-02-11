@@ -224,55 +224,6 @@ public class GamFcltyMngtController {
 	
 	
 	/**
-	 * 도면관리목록
-	 * @param searchVO
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamFcltyDrwListMngtList.do")
-	@ResponseBody Map<String, Object> selectFcltyDrwListMngt(GamFcltyManageVO searchVO, @RequestParam("uniqFcltyCd") String uniqFcltyCd)throws Exception {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
-		// 내역 조회
-		/** EgovPropertyService */
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-		
-		/** pageing */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-		
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		searchVO.setSearchCondition(uniqFcltyCd);
-		
-		/** List Data */
-		List<ComDefaultVO> fcltyMngtList = gamFcltyMngtService.selectFcltyMngtList(searchVO);
-		int totCnt = gamFcltyMngtService.selectFcltyMngtListTotCnt(searchVO);
-		
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		map.put("resultCode", 0);			// return ok
-		map.put("totalCount", totCnt);
-		map.put("resultList", fcltyMngtList);
-		map.put("searchOption", searchVO);
-		
-		return map;
-	}
-	
-	
-	/**
 	 * 시설관리 등록 시 시퀀스 값 가져오기
 	 * @param fcltyManageVO
 	 * @param bindingResult

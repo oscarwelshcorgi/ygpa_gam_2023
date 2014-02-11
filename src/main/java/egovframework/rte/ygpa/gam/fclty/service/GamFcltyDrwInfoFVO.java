@@ -26,7 +26,100 @@ public class GamFcltyDrwInfoFVO extends ComDefaultVO{
     private String drwLstSeCd;
 
     /** 도면 목록 GIS 코드 */
-    private Long drwLstGisCd;
+    private String drwLstGisCd;
+
+    /** 공사명 */
+    private String authnm;
+
+    /** 제출자 */
+    private String sbmNm;
+    
+    /** 검토자 */
+    private String exmNm;
+    
+    /** 시공자 */
+    private String cnstrtr;
+
+    /**  */
+    private String scl;
+
+    
+    /**
+	 * @return the authnm
+	 */
+	public String getAuthnm() {
+		return authnm;
+	}
+
+	/**
+	 * @param authnm the authnm to set
+	 */
+	public void setAuthnm(String authnm) {
+		this.authnm = authnm;
+	}
+
+	/**
+	 * @return the sbmNm
+	 */
+	public String getSbmNm() {
+		return sbmNm;
+	}
+
+	/**
+	 * @param sbmNm the sbmNm to set
+	 */
+	public void setSbmNm(String sbmNm) {
+		this.sbmNm = sbmNm;
+	}
+
+	/**
+	 * @return the exmNm
+	 */
+	public String getExmNm() {
+		return exmNm;
+	}
+
+	/**
+	 * @param exmNm the exmNm to set
+	 */
+	public void setExmNm(String exmNm) {
+		this.exmNm = exmNm;
+	}
+
+	/**
+	 * @return the cnstrtr
+	 */
+	public String getCnstrtr() {
+		return cnstrtr;
+	}
+
+	/**
+	 * @param cnstrtr the cnstrtr to set
+	 */
+	public void setCnstrtr(String cnstrtr) {
+		this.cnstrtr = cnstrtr;
+	}
+
+	/**
+	 * @return the scl
+	 */
+	public String getScl() {
+		return scl;
+	}
+
+	/**
+	 * @param scl the scl to set
+	 */
+	public void setScl(String scl) {
+		this.scl = scl;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
     public String getDrwLstRegistYear() {
         return drwLstRegistYear;
@@ -84,11 +177,11 @@ public class GamFcltyDrwInfoFVO extends ComDefaultVO{
         this.drwLstSeCd = drwLstSeCd;
     }
 
-    public Long getDrwLstGisCd() {
+    public String getDrwLstGisCd() {
         return drwLstGisCd;
     }
 
-    public void setDrwLstGisCd(Long drwLstGisCd) {
+    public void setDrwLstGisCd(String drwLstGisCd) {
         this.drwLstGisCd = drwLstGisCd;
     }
 }

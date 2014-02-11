@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO;
 
@@ -42,6 +43,16 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @param vo GamFcltyDrwDtaFVO
 	 * @exception Exception
 	 */
+	public void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception {
+		gamFcltyDrwMngtDao.insertFcltyDrwInfoListMng(vo);
+	}
+
+	
+	/**
+	 * 도면목록관리 저장
+	 * @param vo GamFcltyDrwDtaFVO
+	 * @exception Exception
+	 */
 	public void insertFcltyDrwListMng(GamFcltyDrwDtaFVO vo) throws Exception {
 		gamFcltyDrwMngtDao.insertFcltyDrwListMng(vo);
 	}
@@ -61,7 +72,31 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 	public int selectFcltyDrwMngtListTotCnt(ComDefaultVO vo) throws Exception {
 		return gamFcltyDrwMngtDao.selectFcltyDrwMngtListTotCnt(vo);
     }
+	
+	
+	/**
+	 * 도면목록관리 목록
+	 */
+	public List<ComDefaultVO> selectFcltyDrwMngtInfoList(ComDefaultVO vo) throws Exception {
+		return (List<ComDefaultVO>)gamFcltyDrwMngtDao.selectFcltyDrwMngtInfoList(vo);
+	}
+	
+	
+	/**
+	 * 도면목록관리 카운트
+	 */
+	public int selectFcltyDrwMngtInfoListTotCnt(ComDefaultVO vo) throws Exception {
+		return gamFcltyDrwMngtDao.selectFcltyDrwMngtInfoListTotCnt(vo);
+	}
 
+	
+	/**
+	 * 도면목록관리 시퀀스
+	 */
+	public String insertFcltyInfoGetSeq() throws Exception {
+		return gamFcltyDrwMngtDao.insertFcltyInfoGetSeq();
+	}
+	
 	
 	/**
 	 * 도면목록관리 시퀀스
@@ -78,6 +113,17 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 	 */
 	public GamFcltyDrwDtaFVO fcltyDrwListMngSelectView(GamFcltyDrwDtaFVO vo) {
 		GamFcltyDrwDtaFVO fcltyManageVO = gamFcltyDrwMngtDao.fcltyDrwListMngSelectView(vo);		
+		return fcltyManageVO;
+	}
+	
+	
+	/**
+	 * 도면목록관리 상세화면
+	 * @param vo
+	 * @return GamFcltyDrwInfoFVO
+	 */
+	public GamFcltyDrwInfoFVO fcltyDrwInfoListMngSelectView(GamFcltyDrwInfoFVO vo) {
+		GamFcltyDrwInfoFVO fcltyManageVO = gamFcltyDrwMngtDao.fcltyDrwInfoListMngSelectView(vo);		
 		return fcltyManageVO;
 	}
 	

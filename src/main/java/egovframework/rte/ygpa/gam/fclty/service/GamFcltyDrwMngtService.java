@@ -36,6 +36,14 @@ public interface GamFcltyDrwMngtService {
 
 	
 	/**
+	 * 도면목록관리 저장
+	 * @param vo GamFcltyDrwInfoFVO
+	 * @exception Exception
+	 */
+	void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception;
+
+	
+	/**
 	 * 도면목록관리 조회
 	 * @param vo
 	 * @return list
@@ -54,6 +62,33 @@ public interface GamFcltyDrwMngtService {
 	
 	
 	/**
+	 * 도면목록관리 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List<ComDefaultVO> selectFcltyDrwMngtInfoList(ComDefaultVO vo) throws Exception;
+	
+	
+	/**
+	 * 도면목록관리 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFcltyDrwMngtInfoListTotCnt(ComDefaultVO vo) throws Exception;
+	
+	
+	/**
+	 * 시설관리 시퀀스 가져오기
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	String insertFcltyInfoGetSeq() throws Exception;
+
+	
+	/**
 	 * 시설관리 시퀀스 가져오기
 	 * @param vo
 	 * @return int
@@ -64,12 +99,20 @@ public interface GamFcltyDrwMngtService {
 	
 	/** 
 	 * 도면목록관리 상세화면
-	 * @param emplyrId
+	 * @param fcltyManageVO
 	 * @return GamFcltyDrwDtaFVO
 	 * @throws Exception
 	 */
 	public GamFcltyDrwDtaFVO fcltyDrwListMngSelectView(GamFcltyDrwDtaFVO fcltyManageVO) throws Exception;
+
 	
+	/** 
+	 * 도면목록관리 상세화면
+	 * @param fcltyManageVO
+	 * @return GamFcltyDrwInfoFVO
+	 * @throws Exception
+	 */
+	public GamFcltyDrwInfoFVO fcltyDrwInfoListMngSelectView(GamFcltyDrwInfoFVO fcltyManageVO) throws Exception;
 	
 	
 	/**
