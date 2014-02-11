@@ -57,4 +57,5 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/shed/GamCmmnCntrShedRentSttusInqireDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/shed/GamCmmnCntrRentFeePaySttusMngtDao_SQL_oracle.xml"/>
 
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/center/GamMarineCenterRentMngtDao_SQL_oracle.xml"/>
 </sqlMapConfig>
