@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpAssetEvlDtls">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamAssetEvlDtlsInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO"/>
+    
+    <resultMap id="gamAssetEvlDtlsInqireMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO">
+	    <result property="deprctnYear" column="DEPRCTN_YEAR" columnIndex="1"/>            
+	    <result property="assetCls" column="ASSET_CLS" columnIndex="2"/>            
+	    <result property="assetNo" column="ASSET_NO" columnIndex="3"/>             
+	    <result property="assetNoSeq" column="ASSET_NO_SEQ" columnIndex="4"/>         
+	    <result property="revalAmt" column="REVAL_AMT" columnIndex="5"/>            
+	    <result property="thisTermIncreAmt" column="THIS_TERM_INCRE_AMT" columnIndex="6"/>  
+	    <result property="bsThisCurAmt" column="BS_THIS_CUR_AMT" columnIndex="7"/>      
+	    <result property="bsPreDeprctnSum" column="BS_PRE_DEPRCTN_SUM" columnIndex="8"/>   
+	    <result property="bsNoDeprctnBal" column="BS_NO_DEPRCTN_BAL" columnIndex="9"/>    
+	    <result property="preEndAssetBuySum" column="PRE_END_ASSET_BUY_SUM" columnIndex="10"/>
+	    <result property="assetBuyAmt" column="ASSET_BUY_AMT" columnIndex="11"/>        
+	    <result property="gnrlDeprctnRate" column="GNRL_DEPRCTN_RATE" columnIndex="12"/>    
+	    <result property="thisTermDeprctnAmt" column="THIS_TERM_DEPRCTN_AMT" columnIndex="13"/>
+	    <result property="curAmt" column="CUR_AMT" columnIndex="14"/>              
+	    <result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="15"/>         
+	    <result property="inputDate" column="INPUT_DATE" columnIndex="16"/>           
+	    <result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="17"/>        
+	    <result property="updateDate" column="UPDATE_DATE" columnIndex="18"/> 
+	</resultMap>    
+    
+    <select id="gamAssetEvlDtlsInqireErpDao.selectAssetEvlDtlsInqireErp_S" parameterClass="gamAssetEvlDtlsInqireVO" resultMap="gamAssetEvlDtlsInqireMap">
+           SELECT 
+			       E.DEPRCTN_YEAR
+			     , E.ASSET_CLS
+			     , E.ASSET_NO
+			     , E.ASSET_NO_SEQ
+			     , E.REVAL_AMT
+			     , E.THIS_TERM_INCRE_AMT
+			     , E.BS_THIS_CUR_AMT
+			     , E.BS_PRE_DEPRCTN_SUM
+			     , E.BS_NO_DEPRCTN_BAL
+			     , E.PRE_END_ASSET_BUY_SUM
+			     , E.ASSET_BUY_AMT
+			     , E.GNRL_DEPRCTN_RATE
+			     , E.THIS_TERM_DEPRCTN_AMT
+			     , E.CUR_AMT
+			     , E.INPUT_EMP_NO
+			     , E.INPUT_DATE
+			     , E.UPDATE_EMP_NO
+			     , E.UPDATE_DATE
+			FROM EGMFA2000 E
+		   WHERE E.ASSET_CLS    = #erpAssetsSeCd#
+			 AND E.ASSET_NO     = #erpAssetsNo# 
+			 AND E.ASSET_NO_SEQ = #erpAssetsNoSeq#
+    </select>
+    
+</sqlMap>
