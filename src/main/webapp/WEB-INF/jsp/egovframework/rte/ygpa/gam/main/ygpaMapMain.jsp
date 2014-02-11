@@ -265,7 +265,7 @@
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/prt_fclty/gamMarineCenteRentNticMngt.do'/>">마린센터납부현황관리</a>
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentNticMngt.do'/>">마린센터납부현황관리</a>
                             </li>
 
                             <li>
