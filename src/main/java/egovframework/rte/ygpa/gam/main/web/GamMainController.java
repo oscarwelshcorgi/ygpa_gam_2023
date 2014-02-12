@@ -16,8 +16,8 @@ public class GamMainController {
     	return "ygpa/gam/main/ygpaMapMain";
     }
     
-    @RequestMapping(value="/index.do")
-    String index(ModelMap model) throws Exception {
-    	return "ygpa/gam/main/index";
-    }
+//    @RequestMapping(value="/index.do")
+//    String index(ModelMap model) throws Exception {
+//    	return "ygpa/gam/main/index";
+//    }
 }

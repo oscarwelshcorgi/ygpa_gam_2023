@@ -41,10 +41,7 @@ public class GamGroupMngController {
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
     
-    /** EgovMenuManageService */
-	@Resource(name = "groupManageService")
-    private EgovGroupManageService groupManageService;
-	
+    /** EgovGroupManageService */
     @Resource(name = "egovGroupManageService")
     private EgovGroupManageService egovGroupManageService;
 
@@ -105,8 +102,8 @@ public class GamGroupMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List list_menumanage = groupManageService.selectGroupList(searchVO);
-        int totCnt = groupManageService.selectGroupListTotCnt(searchVO);
+		List list_menumanage = egovGroupManageService.selectGroupList(searchVO);
+        int totCnt = egovGroupManageService.selectGroupListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
