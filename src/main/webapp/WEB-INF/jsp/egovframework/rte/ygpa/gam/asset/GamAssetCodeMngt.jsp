@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamAssetMngt.jsp
-  * @Description : 자산코드관리 테스트 (Prototype)
+  * @Description : 자산코드관리
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -85,6 +85,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module.$('#searchGisErpAssetCls').val(row['assetCls']);
 		module.$('#searchGisErpAssetNo').val(row['assetNo']);
 		module.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
+		
 		// 해당하는 자산 목록을 불러온다/
 		var searchOpt=module.makeFormArgs('#searchGisAssetCode');
 		//this.showAlert(searchOpt);

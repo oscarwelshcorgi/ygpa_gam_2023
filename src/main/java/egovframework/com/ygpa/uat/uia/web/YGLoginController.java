@@ -34,8 +34,8 @@ public class YGLoginController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-    private String LOGINJSP = "com/ygpa/cmm/uat/uia/YGSLoginUsr";
-    private String MAINURL = "/form_miplatform.do";
+    private String LOGINJSP = "rte/ygpa/cmm/uat/uia/YGSLoginUsr";
+    private String MAINURL = "/gamMain.do";
     
 	/**
      * 로그인 화면

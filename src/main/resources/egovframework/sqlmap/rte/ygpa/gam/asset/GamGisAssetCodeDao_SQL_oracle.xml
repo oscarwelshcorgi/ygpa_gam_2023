@@ -244,6 +244,15 @@
 				<isNotNull prepend="AND" property="gisAssetsSubCd">
 					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 				</isNotNull>
+				<isNotEmpty prepend="AND" property="searchErpAssetsSeCd">
+					ERP_ASSETS_SE_CD=#searchErpAssetsSeCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="searchErpAssetsNo">
+					ERP_ASSETS_NO=#searchErpAssetsNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="searchErpAssetsNoSeq">
+					ERP_ASSETS_NO_SEQ=#searchErpAssetsNoSeq#
+				</isNotEmpty>
 	</select>
 
 </sqlMap>
