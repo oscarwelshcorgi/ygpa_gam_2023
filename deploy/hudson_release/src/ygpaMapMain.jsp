@@ -385,20 +385,6 @@
                 </li>
             </ul>
         </li>
-
-                <li><a class="menu_trigger" href="#">샘플</a>
-                    <ul class="menu">
-                        <li><a href="#"><b>자산정보 관리</b></a>
-                            <ul class="submenu">
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/mnu/gamMenuList.do'/>">메뉴리스트(샘플)</a></li>
-                            </ul>
-                            </li>
-                    </ul>
-                </li>
         </ul>
   </div>
     <div class="abs" id="bar_bottom">
