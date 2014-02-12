@@ -394,24 +394,12 @@ public class GamFcltyDrwListMngtController {
 			map.put("resultObject", bindingResult.getAllErrors());
 
 		}else{
-			
-		    System.out.println(" drwNm"+drwListManageVO.getDrwNm());
-		       System.out.println("drwFilenmPhysicl "+drwListManageVO.getDrwFilenmPhysicl());
-		       System.out.println(" drwFilenmLogic"+drwListManageVO.getDrwFilenmLogic());
-		       System.out.println(" drwSeCd"+drwListManageVO.getDrwSeCd());
-		       System.out.println(" drwNo"+drwListManageVO.getDrwNo());
-		       System.out.println(" drwWritngDt"+drwListManageVO.getDrwWritngDt());
-		       System.out.println("drwChangedt "+drwListManageVO.getDrwChangedt());
-		       System.out.println("drwChangeDtls "+drwListManageVO.getDrwChangeDtls());
-		       System.out.println("drwGisCd "+drwListManageVO.getDrwGisCd());
-		       System.out.println(" drwDtaCd"+drwListManageVO.getDrwDtaCd());
-
 		       
-		       drwListManageVO.setDrwLstRegistYear(drwLstRegistYear);
-		       drwListManageVO.setDrwLstSeq(drwLstSeq);
-			gamFcltyDrwMngtService.updateFcltyDrwListMng(drwListManageVO);
-			map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+	       drwListManageVO.setDrwLstRegistYear(drwLstRegistYear);
+	       drwListManageVO.setDrwLstSeq(drwLstSeq);
+	       gamFcltyDrwMngtService.updateFcltyDrwListMng(drwListManageVO);
+	       map.put("resultCode", 0);
+	       map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		}
 
         return map;
