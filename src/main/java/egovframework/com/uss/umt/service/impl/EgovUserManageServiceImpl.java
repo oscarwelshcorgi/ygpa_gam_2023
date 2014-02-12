@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageUpdateVO;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
@@ -133,11 +134,7 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 	 * @param userManageVO 업무사용자 수정정보
 	 * @throws Exception
 	 */
-	public void updateUser(UserManageVO userManageVO) throws Exception {
-		//패스워드 암호화
-		String pass = EgovFileScrty.encryptPassword(userManageVO.getPassword());
-		userManageVO.setPassword(pass);
-		
+	public void updateUser(UserManageUpdateVO userManageVO) throws Exception {
 		userManageDAO.updateUser(userManageVO);
 	}
 
@@ -157,7 +154,17 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 	 * @throws Exception
 	 */
 	public void updatePassword(UserManageVO userManageVO) {
-		userManageDAO.updatePassword(userManageVO);
+		//패스워드 암호화
+		String pass;
+		try {
+			pass = EgovFileScrty.encryptPassword(userManageVO.getPassword());
+
+			userManageVO.setPassword(pass);
+			userManageDAO.updatePassword(userManageVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**

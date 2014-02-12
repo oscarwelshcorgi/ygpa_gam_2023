@@ -23,9 +23,11 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamAuthorGrpMngModule() {}
+function GamAuthorGrpMngModule() {
+	this._cmd='';
+}
 
-GamAuthorGrpMngModule.prototype = new EmdModule(840, 475);
+GamAuthorGrpMngModule.prototype = new EmdModule(840, 530);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorGrpMngModule.prototype.loadComplete = function() {
@@ -33,25 +35,26 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#groupMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/selectGroupList.do" />',
+		url: '<c:url value="/sec/gmt/selectGroupList.do" />',
 		dataType: "json",
 		colModel : [
 					{display:"선택", 		name:"delYn",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
-					{display:"그룹 ID", 	name:"userId",		width:100, 	sortable:false,		align:"center"},
-					{display:"그룹 명", 	name:"userNm",		width:100, 	sortable:false,		align:"center"},
-					{display:"설명", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"center"},
-					{display:"등록일자", 		name:"authorCode",	width:200, 	sortable:false,		align:"center"}
+					{display:"그룹 ID", 	name:"groupId",		width:200, 	sortable:false,		align:"center"},
+					{display:"그룹 명", 	name:"groupNm",		width:180, 	sortable:false,		align:"center"},
+					{display:"설명", 	name:"groupDc",	width:180, 	sortable:false,		align:"center"},
+					{display:"등록일자", 		name:"groupCreatDe",	width:100, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,
-		rp: 24,
+		rp: 20,
 		showTableToggleBtn: false,
 		width: "730",
-		height: "315",
-		preProcess: function(data){
+		height: "300",
+		preProcess: function(module, data){
 			for(var i=0; i<data.length; i++) {
 				data[i].delYn=false;
 			}
+			return data;
 		}
 	});
 	
@@ -60,18 +63,16 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 
 		if(row != null) {
 			
-			module.$("#groupId").attr("disabled","disabled");
-			module.$("#groupCreatDe").attr("disabled","disabled");
-			
-			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
-			module.$("#groupNm").val(row["groupNm"]);						// 메뉴No
-			module.$("#groupDc").val(row["groupDc"]);					// 메뉴순서
-			module.$("#groupCreatDe").val(row["groupCreatDe"]);						// 메뉴명
-			throw 0;
+//			module.$("#groupId").attr("disabled","disabled");
+//			module.$("#groupCreatDe").attr("disabled","disabled");
+			module._cmd='modify';
+			module.$("#groupId").val(row["groupId"]);
+			module.$("#groupNm").val(row["groupNm"]);
+			module.$("#groupDc").val(row["groupDc"]);
+			module.$("#groupCreatDe").val(row["groupCreatDe"]);
 		}
 	});
 };
-
 
 /**
  * 정의 된 버튼 클릭 시
@@ -83,25 +84,34 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#groupMngForm");
 		 	this.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();
+		 	//throw 0;
 		break;
+		case "listBtn":
+			this.$("#groupMngListTab").tabs("option", {active: 0});
+			break;
 		// 등록
 		case "addBtn":
-			this.$('#groupManageVO :input').val('');
-			this.$("#groupId").attr("disabled","");
 			this.$("#groupMngListTab").tabs("option", {active: 1}); 
-			this.$('#groupId').focus();
+			this.$('#groupManage :input').val('');
+			this._cmd='insert';
+			this.$('#groupNm').focus();
 		break;
 		// 저장
 		case "saveBtn":
-			this.$('#groupManageVO :input').val('');
-			var inputVo = this.makeFormArgs("#groupMngForm");
-			this.$('#groupMngForm :input').val('');
-			this.$('#groupMngForm :input :first').forcus();
-			this.doAction('<c:url value="/cmmn/gamGroupListInsert.do" />', inputVo, function(module, result) {
+			var inputVo = this.makeFormArgs("#groupManage");
+			var url;
+			if(this._cmd=='modify') {
+				url='<c:url value="/sec/gmt/gamGroupListUpdt.do" />';
+			}
+			else {
+				url='<c:url value="/sec/gmt/gamGroupListInsert.do" />';
+			}
+			this.doAction(url, inputVo, function(module, result) {
 		 		if(result.resultCode == 0){
 		 			var searchOpt = module.makeFormArgs("#groupMngForm");
+		 			module.$('#groupManage :input').val('');
+		 			module.$("#groupMngListTab").tabs("option", {active: 0}); 
 		 			module.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();
-					this.$("#groupMngListTab").tabs("option", {active: 1}); 
 		 		}
 		 		alert(result.resultMsg);			 		
 		 	});
@@ -114,14 +124,11 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 
 			if(reglist.length > 0){
 
-				var esntlIds = "";
+				var inputVO = [{name: 'delList', value: []}];
 				for(var i=0; i<reglist.length; i++){
-					if(reglist[i].chkRole == true){
-						if(i < (reglist.length-1)) esntlIds += reglist[i].uniqId + ";";
-						else esntlIds += reglist[i].uniqId;
-					}
+					inputVO[0].value[inputVO[0].value.length] = reglist[i].groupId;
 				}
-				this.doAction('<c:url value="/cmmn/gamGroupDelete.do" />', {esntlIds: esntlIds}, function(module, result) {
+				this.doAction('<c:url value="/sec/gmt/gamGroupListDelete.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#groupMngForm");
 			 			module.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();
@@ -146,6 +153,8 @@ GamAuthorGrpMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	}
 };
 
+GamAuthorGrpMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+};
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAuthorGrpMngModule();
@@ -169,23 +178,24 @@ var module_instance = new GamAuthorGrpMngModule();
 				</table>
 				<div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-					<button id="addBtn">등록</button>
-					<button id="deleteBtn">삭제</button>
 				</div>
 			</form>
 		</div>
 	</div>
-	<div id="groupMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div id="groupMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 		<ul>
 			<li><a href="#tabs1" class="emdTab">그룹목록</a></li>
 			<li><a href="#tabs2" class="emdTab">그룹상세</a></li>
 		</ul>
-		<div id="tabs1" class="emdTabPage">
+		<div id="tabs1" class="emdTabPage fillHeight">
 			<table id="groupMngList" style="display:none"></table>
+			<div class="emdControlPanel">
+				<button id="addBtn">등록</button>
+				<button id="deleteBtn">삭제</button>
+			</div>
 		</div>
-					<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-				<form id="groupManageVO">
-					<input type="hidden" id="cmd"/>
+				<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
+				<form id="groupManage">
 					<table class="searchPanel">
 						<colgroup>
 							<col width="30%" />
@@ -195,7 +205,7 @@ var module_instance = new GamAuthorGrpMngModule();
 						</colgroup>
 						<tr>
 							<th width="20%" height="23" class="required_text">그룹 ID<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="groupId" /></td>
+							<td><input type="text" size="25" id="groupId" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">그룹명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
@@ -208,7 +218,7 @@ var module_instance = new GamAuthorGrpMngModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23">등록일자</th>
-							<td><input type="text" size="20" id="groupCreatDe"/>
+							<td><input type="text" size="20" id="groupCreatDe" disabled="disabled"/>
 							</td>
 						</tr>
 					</table>

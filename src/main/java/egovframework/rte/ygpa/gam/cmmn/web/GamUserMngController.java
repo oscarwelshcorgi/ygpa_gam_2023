@@ -22,6 +22,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageUpdateVO;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -195,27 +196,27 @@ public class GamUserMngController {
      * @throws Exception
      */
     @RequestMapping("/cmmn/gamUserSelectUpdt.do")
-    @ResponseBody Map<String, Object> updateUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
+    @ResponseBody Map<String, Object> updateUser(@ModelAttribute("userManageUpdateVO") UserManageUpdateVO userManageUpdateVO,BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-        beanValidator.validate(userManageVO, bindingResult);
+        beanValidator.validate(userManageUpdateVO, bindingResult);
 		if (bindingResult.hasErrors()){
-	        map.put("resultCode", 1);
+	        map.put("resultCode", 2);
 			map.put("resultMsg", "입력 값에 오류가 있습니다.");
 			map.put("resultObject", bindingResult.getAllErrors());
 
 		}else{
 
 			//업무사용자 수정시 히스토리 정보를 등록한다.
-			userManageService.insertUserHistory(userManageVO);
-			if(userManageVO.getOrgnztId().equals("")){
-				userManageVO.setOrgnztId(null);
-			}
-			if(userManageVO.getGroupId().equals("")){
-				userManageVO.setGroupId(null);
-			}
-			userManageService.updateUser(userManageVO);
+//			userManageService.insertUserHistory(userManageUpdateVO);
+//			if(userManageUpdateVO.getOrgnztId().equals("")){
+//				userManageUpdateVO.setOrgnztId(null);
+//			}
+//			if(userManageUpdateVO.getGroupId().equals("")){
+//				userManageUpdateVO.setGroupId(null);
+//			}
+			userManageService.updateUser(userManageUpdateVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		}
@@ -301,13 +302,14 @@ public class GamUserMngController {
      * @throws Exception
      */
     @RequestMapping(value="/cmmn/popup/gamPopupChgPwView.do", method=RequestMethod.POST)
-    String updatePasswordView(@RequestParam("emplyrId") String emplyrId, ModelMap model) throws Exception {
+    String updatePasswordView(@RequestParam("emplyrId") String emplyrId, @RequestParam("uniqId") String uniqId, ModelMap model) throws Exception {
     	
     	/*String userTyForPassword = (String)commandMap.get("userTyForPassword");
     	userManageVO.setUserTy(userTyForPassword);
     	*/
 
     	model.addAttribute("emplyrId", emplyrId);
+    	model.addAttribute("uniqId", uniqId);
     	return "/ygpa/gam/cmmn/popup/GamPopupChgPwView";
     }
     
@@ -340,11 +342,8 @@ public class GamUserMngController {
 
     	String resultMsg = "";
     	resultVO = userManageService.selectPassword(userManageVO);
-    	System.out.println("resultVO : "+resultVO.getPassword());
     	//패스워드 암호화
 		String encryptPass = EgovFileScrty.encryptPassword(oldPassword);
-		System.out.println("oldPassword : "+oldPassword);
-    	System.out.println("encryptPass : "+encryptPass);
     	if (encryptPass.equals(resultVO.getPassword())){
     		if (newPassword.equals(newPassword2)){
         		isCorrectPassword = true;

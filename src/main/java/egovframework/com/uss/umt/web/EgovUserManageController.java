@@ -22,6 +22,7 @@ import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageUpdateVO;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -247,24 +248,24 @@ public class EgovUserManageController {
      */
     @RequestMapping("/uss/umt/EgovUserSelectUpdt.do")
     public String updateUser(
-            @ModelAttribute("userManageVO") UserManageVO userManageVO,
+            @ModelAttribute("userManageUpdateVO") UserManageUpdateVO userManageUpdateVO,
             BindingResult bindingResult,
             Model model
             )throws Exception {
 
-        beanValidator.validate(userManageVO, bindingResult);
+        beanValidator.validate(userManageUpdateVO, bindingResult);
     	if (bindingResult.hasErrors()){
     		return "egovframework/com/uss/umt/EgovUserSelectUpdt";
 		}else{
 			//업무사용자 수정시 히스토리 정보를 등록한다.
-	        userManageService.insertUserHistory(userManageVO);
-	        if(userManageVO.getOrgnztId().equals("")){
-				userManageVO.setOrgnztId(null);
-			}
-			if(userManageVO.getGroupId().equals("")){
-				userManageVO.setGroupId(null);
-			}
-	        userManageService.updateUser(userManageVO);
+//	        userManageService.insertUserHistory(userManageUpdateVO);
+//	        if(userManageUpdateVO.getOrgnztId().equals("")){
+//	        	userManageUpdateVO.setOrgnztId(null);
+//			}
+//			if(userManageUpdateVO.getGroupId().equals("")){
+//				userManageUpdateVO.setGroupId(null);
+//			}
+//	        userManageService.updateUser(userManageUpdateVO);
 	        //Exception 없이 진행시 수정성공메시지
 	        model.addAttribute("resultMsg", "success.common.update");
 	        return "forward:/uss/umt/EgovUserManage.do";

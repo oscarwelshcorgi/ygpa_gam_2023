@@ -385,7 +385,7 @@
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamMenuMngCreat.do'/>">메뉴 생성 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorMng.do'/>">권한 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamGroupMng.do'/>">그룹 관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sec/gmt/gamGroupMng.do'/>">그룹 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
                     </ul>
                 </li>

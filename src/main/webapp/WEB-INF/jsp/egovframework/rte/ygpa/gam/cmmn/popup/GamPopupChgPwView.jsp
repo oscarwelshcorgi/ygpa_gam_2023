@@ -66,11 +66,20 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 
 		// 수정
 		case "changeBtn":
+			if(this.$('newPassword').val()!=this.$('newPasswor2').val()) {
+				alert('입력한 암호가 서로 다릅니다.');
+				return;
+			}
 			if(confirm("암호를 수정하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#passwordChgPopupForm");
 				this.doAction('<c:url value="/cmmn/popup/gamUserPasswordUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			this.closeDialog(); 			
+			 			alert(result.resultMsg);
+			 			module.closeDialog(); 			
+			 		}
+			 		else {
+			 			alert(result.resultMsg);
+			 			return;
 			 		}
 			 	});				
 			}
@@ -97,11 +106,12 @@ var popup_instance = new GamPassWordChgPopupModule();
 	<div class="emdPanel">
 		<div class="viewStack">
 			<form id="passwordChgPopupForm">
+			<input type="hidden" id="uniqId" value="<c:out value='${uniqId }'/>"  />
 				<table class="searchPanel">
 					<tbody>
 						<tr>
 							<th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td width="80%"><input id="uniqId" title="사용자아이디" size="20" maxlength="20" value="<c:out value="${emplyrId}" />" /></td>
+							<td width="80%"><input id="uniqId" title="사용자아이디" size="20" maxlength="20" value="<c:out value="${emplyrId}" />"  disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">기존비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>

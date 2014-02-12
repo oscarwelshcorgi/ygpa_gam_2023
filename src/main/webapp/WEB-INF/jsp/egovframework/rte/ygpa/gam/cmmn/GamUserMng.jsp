@@ -20,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -38,7 +39,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"No", 			name:"rn",				width:30, 	sortable:false,		align:"center"},
-					{display:"hidden",		name:"uniqId",			width:1, 	sortable:false,		align:'center'},
+//					{display:"hidden",		name:"uniqId",			width:1, 	sortable:false,		align:'center'},
 					{display:"아이디", 		name:"userId",			width:100, 	sortable:false,		align:"center"},
 					{display:"사용자이름", 	name:"userNm",			width:80, 	sortable:false,		align:"center"},
 					{display:"사용자이메일", 	name:"emailAdres",		width:210, 	sortable:false,		align:"center"},
@@ -65,8 +66,9 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			module.$("#uniqId").val(result.userManageVO.uniqId);													// 사용자 고유 ID
 			module.$("#emplyrId").val(result.userManageVO.emplyrId);												// 사용자 ID
 			module.$("#emplyrNm").val(result.userManageVO.emplyrNm);												// 사용자 이름
-			module.$("#password").val(result.userManageVO.password);												// 비밀번호
-			module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
+			this.$(".displayPassword").show();
+//			module.$("#password").val(result.userManageVO.password);												// 비밀번호
+//			module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
 			module.$("#passwordHint").val(result.userManageVO.passwordHint).attr("selected","selected");			// 비밀번호 질문
 			module.$("#passwordCnsr").val(result.userManageVO.passwordCnsr);										// 비밀번호 답변
 			module.$("#emplNo").val(result.userManageVO.emplNo);													// 사번
@@ -112,8 +114,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		// 추가
 		case "addBtn":
 			this.$("#userMngListTab").tabs("option", {active: 1});
-			this.$("#password").removeAttr("disabled");
-			this.$("#password2").removeAttr("disabled");
+			this.$(".displayPassword").show();
 			this.$("#userManageVO :input").val("");
 			this.$("#cmd").val("insert");
 			this.$("#checkId").val("");
@@ -163,7 +164,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 암호변경 팝업
 		case "chgPwBtn":
-			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamPopupChgPwView.do"/>', {emplyrId : this.$("#emplyrId").val()});
+			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamPopupChgPwView.do"/>', {emplyrId : this.$("#emplyrId").val(), uniqId: this.$("#uniqId").val()});
 		break;
 
 		// 취소
@@ -179,25 +180,24 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 				alert("아이디 체크를 해주세요.");
 				return;
 			}
-			var inputVO = this.makeFormArgs("#userManageVO");
 			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
+			var inputVO = this.makeFormArgs("#userManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
-			 			var searchOpt = this.makeFormArgs("#userMngForm");
+			 			var searchOpt = module.makeFormArgs("#userMngForm");
 					 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-				
 			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
-			 			var searchOpt = this.makeFormArgs("#userMngForm");
+			 			var searchOpt = module.makeFormArgs("#userMngForm");
 					 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
 			 		alert(result.resultMsg);
@@ -213,7 +213,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
-			 			var searchOpt = this.makeFormArgs("#userMngForm");
+			 			var searchOpt = module.makeFormArgs("#userMngForm");
 					 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
 			 		alert(result.resultMsg);
@@ -303,22 +303,23 @@ var module_instance = new GamUserMngListModule();
 				</table>
 			</form>
 			<div class="emdControlPanel">
-				<button id="searchBtn">검색</button>
+				<button id="searchBtn">조회</button>
 				<button id="addBtn">추가</button>
 			</div>
 		</div>
 	</div>
 
-	<div class="emdPanel" style="overflow: auto;">
-		<div id="userMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="userMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 		<ul>
 			<li><a href="#tabs1" class="emdTab">사용자목록</a></li>
 			<li><a href="#tabs2" class="emdTab">사용자상세</a></li>
 		</ul>
-			<div id="tabs1" class="emdTabPage">
+			<div id="tabs1" class="emdTabPage fillHeight">
 				<table id="userMngList" style="display:none"></table>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="height:330px; overflow: scroll;">
+			<div id="tabs2" class="emdTabPage fillHeight">
+				<div class="emdPanel fillHeight" style="overflow:scroll;">
 				<form id="userManageVO">
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" id="checkId"/>
@@ -340,7 +341,7 @@ var module_instance = new GamUserMngListModule();
 			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" value="" maxlength="60" />
 			                </td>
 			            </tr>
-			            <tr>
+			            <tr class="displayPassword">
 			                <th width="20%" height="23" class="required_text">
 			                    비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
 			                </th>
@@ -348,7 +349,7 @@ var module_instance = new GamUserMngListModule();
 			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
 			                </td>
 			            </tr>
-			            <tr>
+			            <tr class="displayPassword">
 			                <th width="20%" height="23" class="required_text"  >
 			                    비밀번호확인<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
 			                </th>
@@ -511,14 +512,15 @@ var module_instance = new GamUserMngListModule();
 			                <td width="80%" ><input id="subDn" title="사용자DN" size="40" maxlength="100" /></td>
 			            </tr>
 					</table>
-					<div class="emdControlPanel">
-						<button id="saveBtn">저장</button>
-						<button id="listBtn">목록</button>
-						<button id="chgPwBtn">암호변경</button>
-						<button id="deleteBtn">삭제</button>
-						<button id="cancelBtn">취소</button>
-					</div>
 				</form>
+				</div>
+				<div class="emdControlPanel">
+					<button id="saveBtn">저장</button>
+					<button id="listBtn">목록</button>
+					<button id="chgPwBtn">암호변경</button>
+					<button id="deleteBtn">삭제</button>
+					<button id="cancelBtn">취소</button>
+				</div>
 			</div>
 		</div>
 	</div>

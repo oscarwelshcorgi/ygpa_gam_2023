@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.cmmn.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class GamGroupMngController {
      * @return String
      * @throws Exception
      */
-	@RequestMapping(value="/cmmn/gamGroupMng.do")
+	@RequestMapping(value="/sec/gmt/gamGroupMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/GamGroupMng";
@@ -74,8 +75,8 @@ public class GamGroupMngController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/cmmn/selectGroupList.do")
-	@ResponseBody Map<String, Object> selectGroupListList(@ModelAttribute("searchVO") GroupManageVO searchVO)throws Exception {
+    @RequestMapping(value="/sec/gmt/selectGroupList.do")
+	@ResponseBody Map<String, Object> selectGroupListList(GroupManageVO searchVO)throws Exception {
 
 		Map map = new HashMap();
 		
@@ -88,8 +89,6 @@ public class GamGroupMngController {
     	}
     	// 내역 조회
     	/** EgovPropertyService */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -102,14 +101,14 @@ public class GamGroupMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List list_menumanage = egovGroupManageService.selectGroupList(searchVO);
+		List groupList = egovGroupManageService.selectGroupList(searchVO);
         int totCnt = egovGroupManageService.selectGroupListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
-    	map.put("resultList", list_menumanage);
+    	map.put("resultList", groupList);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -124,7 +123,7 @@ public class GamGroupMngController {
 	 * @return Map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/cmmn/gamGroupListInsert.do")
+    @RequestMapping(value="/sec/gmt/gamGroupListInsert.do")
     @ResponseBody Map<String, Object> insertGroupList(@ModelAttribute("groupManage") GroupManage groupManage, BindingResult bindingResult, @RequestParam("cmd") String cmd)
             throws Exception {
 
@@ -138,21 +137,20 @@ public class GamGroupMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	if("insert".equals(cmd)) {
-		    beanValidator.validate(groupManage, bindingResult);
-		    if (bindingResult.hasErrors()){
-		        map.put("resultCode", 1);
-				map.put("resultMsg", "입력 값에 오류가 있습니다.");
-				map.put("resultObject", bindingResult.getAllErrors());
-				return map;
-			}
+    	
+	    beanValidator.validate(groupManage, bindingResult);
+	    if (bindingResult.hasErrors()){
+	        map.put("resultCode", 2);
+			map.put("resultMsg", "입력 값에 오류가 있습니다.");
+			map.put("resultObject", bindingResult.getAllErrors());
+			return map;
+		}
 
-	    	groupManage.setGroupId(egovGroupIdGnrService.getNextStringId());
-	        groupManage.setGroupId(groupManage.getGroupId());
-		        
-	        resultMsg = egovMessageSource.getMessage("success.common.insert");
-	        egovGroupManageService.insertGroup(groupManage, new GroupManageVO());
-    	}
+    	groupManage.setGroupId(egovGroupIdGnrService.getNextStringId());
+        groupManage.setGroupId(groupManage.getGroupId());
+	        
+        resultMsg = egovMessageSource.getMessage("success.common.insert");
+        egovGroupManageService.insertGroup(groupManage, new GroupManageVO());
 
         map.put("resultMsg", resultMsg);
       	return map;
@@ -167,7 +165,7 @@ public class GamGroupMngController {
      * @return Map
      * @throws Exception
      */
-    @RequestMapping(value="/cmmn/gamGroupListUpdt.do")
+    @RequestMapping(value="/sec/gmt/gamGroupListUpdt.do")
     @ResponseBody Map<String, Object> updateGroupManage(@ModelAttribute("groupManage") GroupManage groupManage,BindingResult bindingResult,ModelMap model) throws Exception {
     	
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -182,7 +180,7 @@ public class GamGroupMngController {
 
         beanValidator.validate(groupManage, bindingResult);
 		if (bindingResult.hasErrors()){
-	        map.put("resultCode", 1);
+	        map.put("resultCode", 2);
 			map.put("resultMsg", "입력 값에 오류가 있습니다.");
 			map.put("resultObject", bindingResult.getAllErrors());
 			return map;
@@ -191,6 +189,7 @@ public class GamGroupMngController {
 	    egovGroupManageService.updateGroup(groupManage);
 	    resultMsg = egovMessageSource.getMessage("success.common.update");
 
+        map.put("resultCode", 0);
         map.put("resultMsg", resultMsg);
     	return map;
     }
@@ -203,8 +202,8 @@ public class GamGroupMngController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/cmmn/gamGroupListDelete.do")
-    @ResponseBody Map<String, Object> deleteGroupList(@ModelAttribute("groupManage") GroupManage groupManage,BindingResult bindingResult)throws Exception {
+    @RequestMapping(value="/sec/gmt/gamGroupListDelete.do")
+    @ResponseBody Map<String, Object> deleteGroupList(String delList[])throws Exception {
         
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -216,15 +215,12 @@ public class GamGroupMngController {
         	return map;
     	}
 
-        beanValidator.validate(groupManage, bindingResult);
-        if (bindingResult.hasErrors()){
-	        map.put("resultCode", 1);
-			map.put("resultMsg", "삭제시 오류가 있습니다.");
-			map.put("resultObject", bindingResult.getAllErrors());
-			return map;
-		}
-
-        egovGroupManageService.deleteGroup(groupManage);
+    	GroupManage gm = new GroupManage();
+//    	List list = (ArrayList)deleteList.get("delList");
+    	for(int i=0; i<delList.length; i++) {
+    		gm.setGroupId((String)delList[i]);
+    		egovGroupManageService.deleteGroup(gm);
+    	}
 
 		map.put("resultCode", 0);
       	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
