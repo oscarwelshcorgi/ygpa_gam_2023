@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +24,6 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 
@@ -75,7 +73,7 @@ public class GamAssetEvlDtlsInqireController {
      * @throws Exception the exception  
      */
 	@RequestMapping(value="/asset/gamAssetEvlDtlsInqire.do") 
-	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+	String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
@@ -97,7 +95,7 @@ public class GamAssetEvlDtlsInqireController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/asset/gamSelectAssetEvlDtlsInqireList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetEvlDtlsInqireList(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
+	@ResponseBody Map selectAssetEvlDtlsInqireList(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -132,12 +130,13 @@ public class GamAssetEvlDtlsInqireController {
      * @return map
      * @throws Exception the exception  
      */
-    @RequestMapping(value="/asset/gamSelectAssetEvlDtlsInqireErp.do") 
-    public @ResponseBody Map selectAssetEvlDtlsInqireErp(
-     	   @ModelAttribute("gamAssetEvlDtlsInqireVO") GamAssetEvlDtlsInqireVO searchVO, 
-     	   BindingResult bindingResult)
-            throws Exception {	
-		
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/gamSelectAssetEvlDtlsInqireErp.do", method=RequestMethod.POST)
+	@ResponseBody Map selectAssetEvlDtlsInqireErp( @RequestParam("erpAssetsSeCd") String erpAssetsSeCd
+												  ,@RequestParam("erpAssetsNo") String erpAssetsNo
+												  ,@RequestParam("erpAssetsNoSeq") String erpAssetsNoSeq
+												  ,@ModelAttribute("gamAssetEvlDtlsInqireVO") GamAssetEvlDtlsInqireVO searchVO
+		     								     ) throws Exception {	
 		Map map = new HashMap();
 		
 		GamAssetEvlDtlsInqireVO result = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireErp(searchVO);
@@ -148,6 +147,9 @@ public class GamAssetEvlDtlsInqireController {
 		} else {
 			map.put("resultCode", 0);	// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select")); //정상적으로 조회되었습니다.
+			map.put("assetCls", result.getAssetCls());
+			map.put("assetNo", result.getAssetNo());
+			map.put("assetNoSeq", result.getAssetNoSeq());
 	    	map.put("thisTermIncreAmt", result.getThisTermIncreAmt());
 	    	map.put("bsThisCurAmt", result.getBsThisCurAmt());
 	    	map.put("bsPreDeprctnSum", result.getBsPreDeprctnSum());
