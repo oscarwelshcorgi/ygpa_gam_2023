@@ -31,8 +31,18 @@
 		                    , CNSTRTR 
 		                    , SCL  
 		                FROM DRW_INFO_F 
-		            ORDER BY DRW_LST_REGIST_YEAR DESC , 
-		                     DRW_LST_SEQ DESC 
+		                WHERE 1 = 1
+		                <isNotEmpty property="drwLstRegistYear">
+	           				AND DRW_LST_REGIST_YEAR = #drwLstRegistYear#
+	           			</isNotEmpty>
+	           			<isNotEmpty property="drwLstSeq">
+	           				AND DRW_LST_SEQ = #drwLstSeq#
+	           			</isNotEmpty>
+	           			<isNotEmpty property="drwLstNm">
+	           				AND DRW_LST_NM LIKE '%' || #drwLstNm# || '%'
+	           			</isNotEmpty>
+		            ORDER BY DRW_LST_SEQ DESC , 
+		                     DRW_LST_REGIST_YEAR DESC 
 		              )Z
 		       )
 		       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -118,7 +128,7 @@
 			)
 	</insert>
 	
-    <select id="gamFcltyDrwMngtDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
+    <select id="gamFcltyDrwMngtDao.selectFcltyDrwMngtList" parameterClass="fcltyDrwDtaFVO" resultClass="egovMap">
     	/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.selectList */ 
 		SELECT * 
 		  FROM 
@@ -140,6 +150,8 @@
                              , DRW_CHANGE_DTLS
 		                     , DRW_GIS_CD  
 		                FROM DRW_DTA_F
+		                WHERE DRW_LST_SEQ = #drwLstSeq#
+           				AND DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 		            ORDER BY DRW_DTA_CD DESC , 
 		                     DRW_LST_REGIST_YEAR DESC , 
 		                     DRW_LST_SEQ DESC 
@@ -148,10 +160,11 @@
 		       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltyDrwMngtDao.selectFcltyDrwMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamFcltyDrwMngtDao.selectFcltyDrwMngtListTotCnt" parameterClass="fcltyDrwDtaFVO" resultClass="int">
 			SELECT COUNT(*) totcnt 
 			  FROM DRW_DTA_F 
-			 WHERE 1=1
+			 WHERE DRW_LST_SEQ = #drwLstSeq#
+			 AND DRW_LST_REGIST_YEAR = #drwLstRegistYear#
     </select>
 
     <select id="gamFcltyDrwMngtDao.insertFcltyInfoGetSeq" resultClass="String">
@@ -178,7 +191,6 @@
 		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
 		       AND DRW_LST_SEQ = #drwLstSeq#
   	</select>
-  	
   	
 	<select id="gamFcltyDrwMngtDao.fcltyDrwListMngSelectView" resultClass="fcltyDrwDtaFVO" parameterClass="fcltyDrwDtaFVO" >
 		/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.select */ 
