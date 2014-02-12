@@ -45,6 +45,15 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 	public void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception {
 		gamFcltyDrwMngtDao.insertFcltyDrwInfoListMng(vo);
 	}
+
+	/**
+	 * 도면 정보 수정
+	 * @param vo GamFcltyDrwInfoFVO
+	 * @exception Exception
+	 */
+	public void updateFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception {
+		gamFcltyDrwMngtDao.updateFcltyDrwInfoListMng(vo);
+	}
 	
 	/**
 	 * 도면 자료 저장

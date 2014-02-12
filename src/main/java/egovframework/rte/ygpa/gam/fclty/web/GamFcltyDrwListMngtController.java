@@ -314,25 +314,46 @@ public class GamFcltyDrwListMngtController {
         map.put("resultMsg", resultMsg);
       	return map;
     }
+	
+	
+	/**
+	 * 도면 정보 수정
+	 * @param drwListManageVO
+	 * @param bindingResult
+	 * @param cmd
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamFcltyDrwInfoListMngUpdate.do")
+	@ResponseBody Map<String, Object> updateFcltyDrwInfoListMng(@ModelAttribute("drwListManageVO") GamFcltyDrwInfoFVO drwListManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)
+			throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 0. Spring Security 사용자권한 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+		
+		beanValidator.validate(drwListManageVO, bindingResult);
+		if (bindingResult.hasErrors()){
+			map.put("resultCode", 1);
+			map.put("resultMsg", "입력 값에 오류가 있습니다.");
+			map.put("resultObject", bindingResult.getAllErrors());
+			return map;
+		}
+			
+		gamFcltyDrwMngtService.updateFcltyDrwInfoListMng(drwListManageVO);
+			
+		map.put("resultCode", 0);			// return ok
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		
+		return map;
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * 도면 자료 상세화면
@@ -353,34 +374,16 @@ public class GamFcltyDrwListMngtController {
     }
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
-     * 시설관리를 수정한다.
+     * 도면 자료 수정화면
      * @param userManageVO
      * @param bindingResult
      * @return String
      * @throws Exception
      */
     @RequestMapping("/fclty/gamFcltyDrwListMngUpdate.do")
-    @ResponseBody Map<String, Object> updateFcltyDrwListMng(@ModelAttribute("drwListManageVO") GamFcltyDrwDtaFVO drwListManageVO,BindingResult bindingResult)throws Exception {
+    @ResponseBody Map<String, Object> updateFcltyDrwListMng(@ModelAttribute("drwDtaListManageVO") GamFcltyDrwDtaFVO drwListManageVO,BindingResult bindingResult,
+    				@RequestParam("drwLstRegistYearSub") String drwLstRegistYear, @RequestParam("drwLstSeqSub") String drwLstSeq)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -392,6 +395,20 @@ public class GamFcltyDrwListMngtController {
 
 		}else{
 			
+		    System.out.println(" drwNm"+drwListManageVO.getDrwNm());
+		       System.out.println("drwFilenmPhysicl "+drwListManageVO.getDrwFilenmPhysicl());
+		       System.out.println(" drwFilenmLogic"+drwListManageVO.getDrwFilenmLogic());
+		       System.out.println(" drwSeCd"+drwListManageVO.getDrwSeCd());
+		       System.out.println(" drwNo"+drwListManageVO.getDrwNo());
+		       System.out.println(" drwWritngDt"+drwListManageVO.getDrwWritngDt());
+		       System.out.println("drwChangedt "+drwListManageVO.getDrwChangedt());
+		       System.out.println("drwChangeDtls "+drwListManageVO.getDrwChangeDtls());
+		       System.out.println("drwGisCd "+drwListManageVO.getDrwGisCd());
+		       System.out.println(" drwDtaCd"+drwListManageVO.getDrwDtaCd());
+
+		       
+		       drwListManageVO.setDrwLstRegistYear(drwLstRegistYear);
+		       drwListManageVO.setDrwLstSeq(drwLstSeq);
 			gamFcltyDrwMngtService.updateFcltyDrwListMng(drwListManageVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -401,7 +418,7 @@ public class GamFcltyDrwListMngtController {
     }
     
     
-    /**
+	/**
      * 사용자정보삭제후 목록조회 화면으로 이동한다.
      * @param checkedId
      * @param userSearchVO

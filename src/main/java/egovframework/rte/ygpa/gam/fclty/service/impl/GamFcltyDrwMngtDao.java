@@ -79,6 +79,14 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
 	public void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo){
 		insert("gamFcltyDrwMngtDao.insertFcltyDrwInfoListMng", vo);
 	}
+
+	/**
+	 * 도면 정보 수정
+	 * @param vo
+	 */
+	public void updateFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo){
+		insert("gamFcltyDrwMngtDao.updateFcltyDrwInfoListMng", vo);
+	}
 	
 	/**
 	 * 도면 자료 저장
@@ -115,29 +123,30 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
         return (GamFcltyDrwDtaFVO) selectByPk("gamFcltyDrwMngtDao.fcltyDrwListMngSelectView", vo);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
-     * 시설관리 수정화면
+     * 도면 자료 수정
      * @param vo
      */
     public void updateFcltyDrwListMng(GamFcltyDrwDtaFVO vo){
         update("gamFcltyDrwMngtDao.updateFcltyDrwListMng",vo);
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
     
     /**
