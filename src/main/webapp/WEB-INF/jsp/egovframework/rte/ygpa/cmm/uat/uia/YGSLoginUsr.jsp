@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="/css/egovframework/cmm/uat/uia/com.css" type="text/css"></link>
+<link rel="stylesheet" href="/css/egovframework/com/cmm/uat/uia/com.css" type="text/css"></link>
 <title>YGPA 로그인</title>
 <SCRIPT LANGUAGE="JavaScript">
 	function fn_check_module(classid)

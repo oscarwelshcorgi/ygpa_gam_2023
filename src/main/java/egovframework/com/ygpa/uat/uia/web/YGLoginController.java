@@ -34,7 +34,7 @@ public class YGLoginController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-    private String LOGINJSP = "rte/ygpa/cmm/uat/uia/YGSLoginUsr";
+    private String LOGINJSP = "ygpa/cmm/uat/uia/YGSLoginUsr";
     private String MAINURL = "/gamMain.do";
     
 	/**
