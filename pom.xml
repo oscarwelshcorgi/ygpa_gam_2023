@@ -628,6 +628,13 @@
 										</includes>
 									</resource>
 									<resource>
+										<directory>deploy/hudson_debug/egovProps/</directory>
+										<targetPath>WEB-INF/classes/egovframework/egovProps</targetPath>
+										<includes>
+											<include> *.properties </include>
+										</includes>
+									</resource>
+									<resource>
 										<directory>deploy/hudson_release/src/</directory>
 										<targetPath>WEB-INF/jsp/egovframework/rte/ygpa/gam/main</targetPath>
 										<includes>
@@ -679,6 +686,13 @@
 										<targetPath>WEB-INF/classes</targetPath>
 										<includes>
 											<include> log4j.xml </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/hudson_release/egovProps/</directory>
+										<targetPath>WEB-INF/classes/egovframework/egovProps</targetPath>
+										<includes>
+											<include> *.properties </include>
 										</includes>
 									</resource>
 									<resource>
