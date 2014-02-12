@@ -661,7 +661,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </td>
                             <td>
                                 <button id="addMarineCenterRentRenew">연장신청</button>
-                                <button id="addMarineCenterRentFirst">최초신청</button>
+                                <!-- <button id="addMarineCenterRentFirst">최초신청</button> -->
                                 <button id="btnPrmisn">승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
                             </td>
