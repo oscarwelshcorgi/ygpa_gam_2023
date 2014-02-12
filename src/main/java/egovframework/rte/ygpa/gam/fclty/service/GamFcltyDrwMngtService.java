@@ -71,6 +71,21 @@ public interface GamFcltyDrwMngtService {
 	void insertFcltyDrwListMng(GamFcltyDrwDtaFVO vo) throws Exception;
 	
 	/**
+	 * 도면 정보 수정
+	 * @param vo
+	 * @throws Exception
+	 */
+	void updateFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception;
+
+	/**
+	 * 도면 정보 상세화면
+	 * @param fcltyManageVO
+	 * @return GamFcltyDrwInfoFVO
+	 * @throws Exception
+	 */
+	public GamFcltyDrwInfoFVO fcltyDrwInfoListMngSelectView(GamFcltyDrwInfoFVO fcltyManageVO) throws Exception;
+	
+	/**
 	 * 도면 정보 저장
 	 * @param vo
 	 * @throws Exception
@@ -86,34 +101,27 @@ public interface GamFcltyDrwMngtService {
 	public GamFcltyDrwDtaFVO fcltyDrwListMngSelectView(GamFcltyDrwDtaFVO fcltyManageVO) throws Exception;
 	
 	/**
-	 * 도면 정보 상세화면
+	 * 도면 자료 수정화면
 	 * @param fcltyManageVO
-	 * @return GamFcltyDrwInfoFVO
-	 * @throws Exception
-	 */
-	public GamFcltyDrwInfoFVO fcltyDrwInfoListMngSelectView(GamFcltyDrwInfoFVO fcltyManageVO) throws Exception;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * 도면목록관리 수정화면
-	 * @param FcltyManageVO
 	 * @throws Exception
 	 */
 	public void updateFcltyDrwListMng(GamFcltyDrwDtaFVO fcltyManageVO) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	/**
