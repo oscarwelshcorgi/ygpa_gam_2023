@@ -30,9 +30,9 @@
 							      , G.GIS_ASSETS_BLD_DT
 							      , G.GIS_ASSETS_RM
 							      , G.REG_USR
-							      , G.REGISTDT
+							      , TO_CHAR(G.REGISTDT, 'YYYY-MM-DD') REGISTDT
 							      , G.UPD_USR
-							      , G.UPDTDT
+							      , TO_CHAR(G.UPDTDT, 'YYYY-MM-DD') UPDTDT 
 							      , G.GIS_ASSETS_QUAY_GROUP_CD
 							      , G.GIS_ASSETS_LOC_CD
 							      , G.GIS_ASSETS_SE_CD
