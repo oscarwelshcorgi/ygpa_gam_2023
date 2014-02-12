@@ -80,7 +80,6 @@
 		<property name="permittedURL">
 			<set>
 				<value>/uat/uia/[a-zA-Z]+\.do</value>
-				<value>/EgovLeft.do</value>
 				<value>/uat/uia/actionLogin.do</value>
 			</set>
 		</property>
