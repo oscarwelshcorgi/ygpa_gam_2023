@@ -82,6 +82,45 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
  });
 };
 
+this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, row, grid, param) {
+    //alert("row " + row["erpAssetsSeCd"]+"-"+row["erpAssetsNo"]+"-"+row["erpAssetsNoSeq"]+" is selected");
+    
+     if(row!=null) {
+         var erpAssetsSeCd = "";
+         var erpAssetsNo = "";
+         var erpAssetsNoSeq = "";
+         
+         erpAssetsSeCd = row['erpAssetsSeCd'];
+         erpAssetsNo = row['erpAssetsNo'];
+         erpAssetsNoSeq = row['erpAssetsNoSeq'];
+         
+         var inputVO = {erpAssetsSeCd: erpAssetsSeCd, erpAssetsNo: erpAssetsNo, erpAssetsNoSeq: erpAssetsNoSeq};
+    	 
+    	 module.doAction('<c:url value="/asset/gamSelectAssetEvlDtlsInqireErp.do" />', inputVO, function(module, result) {
+             
+             if(result.resultCode=='0') {
+            	 
+            	 module.$('#assetCls').val(result.assetCls); 
+            	 module.$('#assetNo').val(result.assetNo); 
+            	 module.$('#assetNoSeq').val(result.assetNoSeq); 
+                 module.$('#thisTermIncreAmt').val(result.thisTermIncreAmt); 
+                 module.$('#bsThisCurAmt').val(result.bsThisCurAmt);
+                 module.$('#bsPreDeprctnSum').val(result.bsPreDeprctnSum);
+                 module.$('#bsNoDeprctnBal').val(result.bsNoDeprctnBal);
+                 module.$('#preEndAssetBuySum').val(result.preEndAssetBuySum);
+                 module.$('#assetBuyAmt').val(result.assetBuyAmt);
+                 module.$('#thisTermDeprctnAmt').val(result.thisTermDeprctnAmt);
+                 module.$('#curAmt').val(result.curAmt);
+             } else {
+                 alert(result.resultMsg);
+             }
+         });
+     } else {
+    	 alert("선택된 항목이 없습니다.");
+     }
+    
+});
+
 /**
 * 정의 된 버튼 클릭 시
 */
@@ -97,6 +136,7 @@ GamAssetEvlDtlsInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
          
      // ERP 조회
+     /*
      case 'erpSearchBtn':
     	 var rows = this.$('#assetEvlDtlsInqireList').selectedRows();
 
@@ -121,6 +161,7 @@ GamAssetEvlDtlsInqireModule.prototype.onButtonClick = function(buttonId) {
             }
 
          break;
+     */
  }
 };
 
@@ -201,7 +242,18 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                     <table style="width:100%;" border="1">
                         <form id="form1">
                         <tr>
-                            <td colspan="8"><button id="erpSearchBtn" class="submit">ERP 감가상가내역</button></td>
+                            <td colspan="8">
+                                <!-- <button id="erpSearchBtn" class="submit">ERP 감가상가내역</button>  -->
+                                <a href="#erpInfo" class="emdTab"><strong>ERP 감가상가 조회내역</strong></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>자산구분</td>
+                            <td><input id="assetCls" size="7" readonly></td>
+                            <td>자산번호</td>
+                            <td><input id="assetNo" size="7" readonly></td>
+                            <td>자산번호순번</td> 
+                            <td colspan="3"><input id="assetNoSeq" size="7" readonly></td>
                         </tr>
                         <tr>
                             <td>당기자산증가금액</td>
@@ -212,7 +264,6 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                             <td><input id="bsPreDeprctnSum" size="7" readonly></td>
                             <td>대차대조미상각잔액</td> 
                             <td><input id="bsNoDeprctnBal" size="7" readonly></td>
-                            
                         </tr>
                         <tr>
                             <td>전기말자본적지출금액누계</td>
