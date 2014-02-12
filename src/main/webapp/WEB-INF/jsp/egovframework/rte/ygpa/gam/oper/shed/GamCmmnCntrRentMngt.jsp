@@ -651,7 +651,7 @@ GamCmmnCntrRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
                              </td>
                              <td>
                                  <button id="addCmmnCntrRentMngtRenew">연장신청</button>
-                                 <button id="addCmmnCntrRentMngtFirst">최초신청</button>
+                                 <!-- <button id="addCmmnCntrRentMngtFirst">최초신청</button> -->
                                  <button id="btnPrmisn">승낙</button>
                                  <button id="btnPrmisnCancel">승낙취소</button>
                              </td>
