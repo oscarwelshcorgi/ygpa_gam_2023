@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -63,6 +62,7 @@ public class GamFcltyDrwListMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
+    
 	/**
 	 * 도면시설 관리화면호출
 	 * @param windowId
@@ -78,13 +78,18 @@ public class GamFcltyDrwListMngtController {
 	
 	
 	/**
-	 * 도면시설관리목록 도면정보 
+	 * 도면 정보 목록
 	 * @param searchVO
-	 * @return
+	 * @param drwLstRegistYear
+	 * @param drwLstSeq
+	 * @param drwLstNm
+	 * @return map
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamFcltyDrwMngtInfoList.do")
-	@ResponseBody Map<String, Object> selectFcltyDrwMngtInfoList(GamFcltyDrwDtaFVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltyDrwMngtInfoList(GamFcltyDrwInfoFVO searchVO, 
+			@RequestParam("searchDrwLstRegistYear") String drwLstRegistYear,@RequestParam("searchDrwLstSeq") String drwLstSeq,
+			@RequestParam("searchDrwLstNm") String drwLstNm)throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -110,8 +115,12 @@ public class GamFcltyDrwListMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
+		searchVO.setDrwLstRegistYear(drwLstRegistYear);
+		searchVO.setDrwLstNm(drwLstNm);
+		searchVO.setDrwLstSeq(drwLstSeq);
+		
 		/** List Data */
-		List<ComDefaultVO> fcltyDrwMngtList = gamFcltyDrwMngtService.selectFcltyDrwMngtInfoList(searchVO);
+		List<GamFcltyDrwInfoFVO> fcltyDrwMngtList = gamFcltyDrwMngtService.selectFcltyDrwMngtInfoList(searchVO);
 		int totCnt = gamFcltyDrwMngtService.selectFcltyDrwMngtInfoListTotCnt(searchVO);
 		
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -126,13 +135,17 @@ public class GamFcltyDrwListMngtController {
 	
 	
 	/**
-	 * 도면시설관리목록
+	 * 도면 자료 목록
 	 * @param searchVO
-	 * @return
+	 * @param fcltyDrwInfoFVO
+	 * @param drwLstSeq
+	 * @param drwLstRegistYear
+	 * @return map
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamFcltyDrwMngtList.do")
-	@ResponseBody Map<String, Object> selectFcltyDrwMngtList(GamFcltyDrwDtaFVO searchVO, GamFcltyDrwInfoFVO fcltyDrwInfoFVO)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltyDrwMngtList(@RequestParam("drwLstSeq") String drwLstSeq, @RequestParam("drwLstRegistYear") String drwLstRegistYear
+			)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -143,6 +156,7 @@ public class GamFcltyDrwListMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
+    	GamFcltyDrwDtaFVO searchVO = new GamFcltyDrwDtaFVO();
     	// 내역 조회
     	/** EgovPropertyService */
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -159,18 +173,27 @@ public class GamFcltyDrwListMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/** infoDetail Data */
+		GamFcltyDrwInfoFVO fcltyDrwInfoFVO = new GamFcltyDrwInfoFVO();
+		fcltyDrwInfoFVO.setDrwLstSeq(drwLstSeq);
+		fcltyDrwInfoFVO.setDrwLstRegistYear(drwLstRegistYear);
 		fcltyDrwInfoFVO = gamFcltyDrwMngtService.fcltyDrwInfoListMngSelectView(fcltyDrwInfoFVO);
         map.put("detail", fcltyDrwInfoFVO);
+
+        // 목록 조회 값 설정
+        searchVO.setDrwLstSeq(drwLstSeq);
+        searchVO.setDrwLstRegistYear(drwLstRegistYear);
 		
-		/** List Data */
-		List<ComDefaultVO> fcltyDrwMngtList = gamFcltyDrwMngtService.selectFcltyDrwMngtList(searchVO);
+        /** List Data */
         int totCnt = gamFcltyDrwMngtService.selectFcltyDrwMngtListTotCnt(searchVO);
+        if(totCnt > 0){
+        	List<GamFcltyDrwDtaFVO> fcltyDrwMngtList = gamFcltyDrwMngtService.selectFcltyDrwMngtList(searchVO);
+        	map.put("resultList", fcltyDrwMngtList);
+        }
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
-    	map.put("resultList", fcltyDrwMngtList);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -178,29 +201,7 @@ public class GamFcltyDrwListMngtController {
 	
 	
 	/**
-	 * 시설관리 등록 시 시퀀스 값 가져오기
-	 * @return map
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamFcltyDrwGetInsertSeq.do")
-	@ResponseBody Map<String, Object> insertFcltyGetSeq() throws Exception {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
-		map.put("seq", gamFcltyDrwMngtService.insertFcltyGetSeq());
-		return map;
-	}
-
-	
-	/**
-	 * 시설관리 등록 시 시퀀스 값 가져오기
+	 * 도면 정보 저장 시퀀스 생성
 	 * @return map
 	 * @throws Exception
 	 */
@@ -222,8 +223,8 @@ public class GamFcltyDrwListMngtController {
 	
 	
 	/**
-	 * 도면시설관리등록
-	 * @param fcltyManageVO
+	 * 도면 정보 저장
+	 * @param drwListManageVO
 	 * @param bindingResult
 	 * @param cmd
 	 * @return map
@@ -264,10 +265,13 @@ public class GamFcltyDrwListMngtController {
 	
 	
 	/**
-	 * 도면시설관리등록
-	 * @param fcltyManageVO
+	 * 도면 자료 저장
+	 * @param drwListManageVO
 	 * @param bindingResult
 	 * @param cmd
+	 * @param drwLstRegistYearSub
+	 * @param drwLstSeqSub
+	 * @param regUsrSub
 	 * @return map
 	 * @throws Exception
 	 */
@@ -297,6 +301,7 @@ public class GamFcltyDrwListMngtController {
 			}
 
 		    
+		    // 도면 자료 목록 조건
 		    drwListManageVO.setDrwLstRegistYear(drwLstRegistYearSub);
 		    drwListManageVO.setDrwLstSeq(drwLstSeqSub);
 		    drwListManageVO.setRegUsr(regUsrSub);
@@ -311,9 +316,27 @@ public class GamFcltyDrwListMngtController {
     }
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * 시설관리 상세화면
-	 * @param fcltyManageVO
+	 * 도면 자료 상세화면
+	 * @param drwListManageVO
 	 * @return map
 	 * @throws Exception
 	 */
@@ -329,6 +352,25 @@ public class GamFcltyDrwListMngtController {
         return map;
     }
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
      * 시설관리를 수정한다.

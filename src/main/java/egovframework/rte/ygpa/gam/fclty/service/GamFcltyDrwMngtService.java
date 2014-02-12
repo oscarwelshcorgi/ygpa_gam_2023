@@ -5,9 +5,6 @@ package egovframework.rte.ygpa.gam.fclty.service;
 
 import java.util.List;
 
-import egovframework.com.cmm.ComDefaultVO;
-
-
 /**
  * 
  * @author kok
@@ -28,91 +25,87 @@ import egovframework.com.cmm.ComDefaultVO;
 public interface GamFcltyDrwMngtService {
 
 	/**
-	 * 도면목록관리 등록
-	 * @param vo GamFcltyDrwDtaFVO
-	 * @exception Exception
-	 */
-	void insertFcltyDrwListMng(GamFcltyDrwDtaFVO vo) throws Exception;
-
-	
-	/**
-	 * 도면목록관리 저장
-	 * @param vo GamFcltyDrwInfoFVO
-	 * @exception Exception
-	 */
-	void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception;
-
-	
-	/**
-	 * 도면목록관리 조회
+	 * 도면 정보 목록
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */
-	List<ComDefaultVO> selectFcltyDrwMngtList(ComDefaultVO vo) throws Exception;
-	
+	List<GamFcltyDrwInfoFVO> selectFcltyDrwMngtInfoList(GamFcltyDrwInfoFVO vo) throws Exception;
 	
 	/**
-	 * 도면목록관리 총 수
+	 * 도면 정보 총 수
 	 * @param vo
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyDrwMngtListTotCnt(ComDefaultVO vo) throws Exception;
-	
+	int selectFcltyDrwMngtInfoListTotCnt(GamFcltyDrwInfoFVO vo) throws Exception;
 	
 	/**
-	 * 도면목록관리 조회
+	 * 도면 자료 목록
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */
-	List<ComDefaultVO> selectFcltyDrwMngtInfoList(ComDefaultVO vo) throws Exception;
-	
+	List<GamFcltyDrwDtaFVO> selectFcltyDrwMngtList(GamFcltyDrwDtaFVO vo) throws Exception;
 	
 	/**
-	 * 도면목록관리 총 수
+	 * 도면 자료 총 수
 	 * @param vo
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyDrwMngtInfoListTotCnt(ComDefaultVO vo) throws Exception;
-	
+	int selectFcltyDrwMngtListTotCnt(GamFcltyDrwDtaFVO vo) throws Exception;
 	
 	/**
-	 * 시설관리 시퀀스 가져오기
-	 * @param vo
-	 * @return int
+	 * 도면 정보 시퀀스
+	 * @return String
 	 * @throws Exception
 	 */
 	String insertFcltyInfoGetSeq() throws Exception;
-
 	
 	/**
-	 * 시설관리 시퀀스 가져오기
+	 * 도면 자료 저장
 	 * @param vo
-	 * @return int
 	 * @throws Exception
 	 */
-	String insertFcltyGetSeq() throws Exception;
+	void insertFcltyDrwListMng(GamFcltyDrwDtaFVO vo) throws Exception;
 	
-	
-	/** 
-	 * 도면목록관리 상세화면
+	/**
+	 * 도면 정보 저장
+	 * @param vo
+	 * @throws Exception
+	 */
+	void insertFcltyDrwInfoListMng(GamFcltyDrwInfoFVO vo) throws Exception;
+
+	/**
+	 * 도면 자료 상세화면
 	 * @param fcltyManageVO
 	 * @return GamFcltyDrwDtaFVO
 	 * @throws Exception
 	 */
 	public GamFcltyDrwDtaFVO fcltyDrwListMngSelectView(GamFcltyDrwDtaFVO fcltyManageVO) throws Exception;
-
 	
-	/** 
-	 * 도면목록관리 상세화면
+	/**
+	 * 도면 정보 상세화면
 	 * @param fcltyManageVO
 	 * @return GamFcltyDrwInfoFVO
 	 * @throws Exception
 	 */
 	public GamFcltyDrwInfoFVO fcltyDrwInfoListMngSelectView(GamFcltyDrwInfoFVO fcltyManageVO) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/**
