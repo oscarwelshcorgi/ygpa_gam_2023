@@ -36,13 +36,15 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/fclty/gamFcltyDrwMngtInfoList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"도면 목록 등록 년도",	name:"drwLstRegistYear",		width:80,		sortable:false,		align:"center"},
+//{display:'삭제', 				name:'regYn',					width:40, 		sortable:false,		align:'center', displayFormat:'button', displayOption:{label:'삭제', className:'deleteButton'}},
 				{display:"도면 목록 순번", 		name:"drwLstSeq",				width:100,		sortable:false,		align:"center"},
+				{display:"도면 목록 등록 년도",	name:"drwLstRegistYear",		width:120,		sortable:false,		align:"center"},
 				{display:"도면 명", 				name:"drwLstNm",				width:300,		sortable:false,		align:"center"},
 				{display:"도면 부서 명",			name:"drwLstMngDeptCd",			width:160,		sortable:false,		align:"center"},
 				{display:"도면 번호", 			name:"drwLstSeCd",				width:100,		sortable:false,		align:"center"},
 				{display:"등록일자",				name:"registDt",				width:100,		sortable:false,		align:"center"},
 				{display:"등록자",				name:"regUsr",					width:100,		sortable:false,		align:"center"}
+				
 			],
 		usepager: true,
 		useRp: true,
@@ -50,6 +52,32 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: "240"
 	});
+	
+	this.$("#drwListMngtListSub").flexigrid({
+		module: this,
+		url: '<c:url value="/fclty/gamFcltyDrwMngtList.do" />',
+		dataType: "json",
+		colModel : [
+				{display:"도면 자료 코드",		name:"drwDtaCd",			width:150,		sortable:false,		align:"center"},
+				{display:"도면 명", 				name:"drwNm",				width:100,		sortable:false,		align:"center"},
+				{display:"도면 파일명 물리", 		name:"drwFilenmPhysicl",	width:200,		sortable:false,		align:"center"},
+				{display:"도면 파일명 논리",		name:"drwFilenmLogic",		width:200,		sortable:false,		align:"center"},
+				{display:"도면 구분 코드", 		name:"drwSeCd",				width:100,		sortable:false,		align:"center"},
+				{display:"도면 번호",				name:"drwNo",				width:100,		sortable:false,		align:"center"},
+				{display:"도면 작성 일자",		name:"drwWritngDt",			width:100,		sortable:false,		align:"center"},
+				{display:"등록일자",				name:"registdt",			width:100,		sortable:false,		align:"center"},
+				{display:"등록자",				name:"regUsr",				width:100,		sortable:false,		align:"center"},
+				{display:"도면 변경일",			name:"drwChangedt",			width:100,		sortable:false,		align:"center"},
+				{display:"도면 변경 내역",		name:"drwChangeDtls",		width:100,		sortable:false,		align:"center"},
+				{display:"hidden",				name:"drwLstRegistYear",	width:1,		sortable:false,		align:"center"},
+				{display:"hidden",				name:"drwLstSeq",			width:1,		sortable:false,		align:"center"}
+			],
+		usepager: true,
+		useRp: true,
+		showTableToggleBtn: false,
+		height: "200"
+	});
+	
 	
 	this.$("#drwListMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
@@ -70,49 +98,33 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 			module.$("#cnstrtr").val(result.detail.cnstrtr);
 			module.$("#scl").val(result.detail.scl);
 			
-			
-			module.$("#drwListMngtListSub").flexigrid({
-				module: this,
-				url: '<c:url value="/fclty/gamFcltyDrwMngtList.do" />',
-				dataType: "json",
-				colModel : [
-						{display:"도면 자료 코드",		name:"drwDtaCd",			width:150,		sortable:false,		align:"center"},
-						{display:"도면 명", 				name:"drwNm",				width:100,		sortable:false,		align:"center"},
-						{display:"도면 파일명 물리", 		name:"drwFilenmPhysicl",	width:200,		sortable:false,		align:"center"},
-						{display:"도면 파일명 논리",		name:"drwFilenmLogic",		width:200,		sortable:false,		align:"center"},
-						{display:"도면 구분 코드", 		name:"drwSeCd",				width:100,		sortable:false,		align:"center"},
-						{display:"도면 번호",				name:"drwNo",				width:100,		sortable:false,		align:"center"},
-						{display:"도면 작성 일자",		name:"drwWritngDt",			width:100,		sortable:false,		align:"center"},
-						{display:"등록일자",				name:"registdt",			width:100,		sortable:false,		align:"center"},
-						{display:"등록자",				name:"regUsr",				width:100,		sortable:false,		align:"center"},
-						{display:"도면 변경일",			name:"drwChangedt",			width:100,		sortable:false,		align:"center"},
-						{display:"도면 변경 내역",		name:"drwChangeDtls",		width:100,		sortable:false,		align:"center"},
-						{display:"hidden",				name:"drwLstRegistYear",	width:1,		sortable:false,		align:"center"},
-						{display:"hidden",				name:"drwLstSeq",			width:1,		sortable:false,		align:"center"}
-					],
-				usepager: true,
-				useRp: true,
-				showTableToggleBtn: false,
-				height: "200"
-			});
-			
-			module.$("#drwListMngtListSub").flexOptions().flexReload();
-			module.$("#subListDiv").show();
-			
-			/*
-			module.$("#drwListInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-			       
-				module.doAction('<c:url value="/fclty/gamFcltyDrwListMngSelectView.do" />', {drwLstRegistYear:row["drwLstRegistYear"], drwLstSeq:row["drwLstSeq"], drwDtaCd:["drwDtaCd"]}, function(module, result) {
-					
-					alert(result.detail.drwDtaCd);
-					alert(result.detail.drwLstRegistYear);
-					alert(result.detail.drwDtaCd);
-				});
-			});
-			*/
+			var totalCount = result.totalCount;
+			if(totalCount > 0){
+				var searchOpt = module.makeFormArgs("#drwListManageVO");
+				module.$("#drwListMngtListSub").flexOptions({params:searchOpt}).flexReload();
+				module.$("#subListDiv").show();				
+			}else{
+				module.$("#subListDiv").hide();
+			}
+			module.$("#subBtnDiv").show();
 	 	});
 	});
+	
+	this.$("#drwListMngtListSub").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		module.doAction('<c:url value="/fclty/gamFcltyDrwListMngSelectView.do" />', {drwLstRegistYear:row["drwLstRegistYear"], drwLstSeq:row["drwLstSeq"], drwDtaCd:row["drwDtaCd"]}, function(module, result) {
+			
+			/*alert(result.detail.drwDtaCd);
+			alert(result.detail.drwLstRegistYear);
+			alert(result.detail.drwDtaCd);*/
+		});
+	});
+
 };
+
+
+this.$("#drwListMngtList").on("onButtonClicked", function(event, module, row, grid, param) {
+	throw 0;
+});
 
 
 /**
@@ -154,8 +166,8 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 도면 자료 추가
 		case "addSubBtn":
+			this.$("#subListDiv").show();
 			this.$(".changeView").hide();
-			this.$("#displayDateSub").hide();
 			this.$("#drwDtaListManageVO").show();
 			this.$("#drwDtaListManageVO :input").val("");
 			this.$("#drwDtaListManageVO :input").removeAttr("disabled");
@@ -169,11 +181,6 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#regUsrSub").attr("disabled","disabled");
 		break;
 
-		// 자산코드 팝업
-		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드 조회", '<c:url value="/popup/showAssetsCd.do"/>', {});
-		break;
-			
 		// 저장
 		case "saveBtn":
 
@@ -309,28 +316,19 @@ var module_instance = new GamFcltyDrwListMngtModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="fcltyForm">
+			<form id="drwListForm">
 				<input type="hidden" id="uniqFcltyCd" value="AE" />
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
-							<td><input id="searchPrtAtCode" type="text" size="3" maxlength="3" title="검색조건" /></td>
-							<th>자산코드</th>
-							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
-								<button id="searchPopupBtn">선택</button>
-							</td>
-							<th>항만시설코드</th>
-							<td>
-								<input id="searchFcltyCd" type="text" size="2" maxlength="2" title="검색조건" value="AE" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
-							</td>
+							<th>도면 목록 등록 년도</th>
+							<td><input id="searchDrwLstRegistYear" type="text" size="20" maxlength="4" title="검색조건" /></td>
+							<th>도면 목록 순번</th>
+							<td><input id="searchDrwLstSeq" type="text" size="20" maxlength="4" title="검색조건" /></td>
 						</tr>
 						<tr>
-							<th>항만시설 명</th>
-							<td colspan="5"><input id="searchKeyword" type="text" size="40" maxlength="40" title="검색조건" /></td>
+							<th>도면 명</th>
+							<td><input id="searchDrwLstNm" type="text" size="40" title="검색조건" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -411,7 +409,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 				<div id="subListDiv">
 					<table id="drwListMngtListSub" style="display: none;"></table>
 					<br />
-					<form id="drwDtaListManageVO" style="display:none;">
+					<form id="drwDtaListManageVO" style="display: none;">
 						<input type="hidden" id="dtaCmd" />
 						<table class="searchPanel">
 							<tr>
@@ -470,12 +468,14 @@ var module_instance = new GamFcltyDrwListMngtModule();
 								<th width="20%" height="23" class="required_text">등록자</th>
 								<td><input type="text" size="40" id="regUsrSub"/></td>
 							</tr>
-							<tr id="displayDateSub">
+							<tr class="changeView">
 								<th width="20%" height="23" class="required_text">등록일자</th>
 								<td><input type="text" size="40" id="registdtSub" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>
+				</div>
+				<div id="subBtnDiv">
 					<div class="emdControlPanel">
 						<button id="listSubBtn">목록</button>
 						<button id="addSubBtn">도면자료추가</button>
