@@ -607,6 +607,13 @@
 										</includes>
 									</resource>
 									<resource>
+										<directory>deploy/hudson_debug/spring-config</directory>
+										<targetPath>WEB-INF/classes/egovframework/spring</targetPath>
+										<includes>
+											<include> **/*.xml </include>
+										</includes>
+									</resource>
+									<resource>
 										<directory>deploy/hudson_debug/</directory>
 										<targetPath>WEB-INF</targetPath>
 										<includes>
@@ -649,6 +656,13 @@
 										<directory>deploy/hudson_release/config</directory>
 										<targetPath>config</targetPath>
 										<targetPath>config</targetPath>
+										<includes>
+											<include> **/*.xml </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/hudson_release/spring-config</directory>
+										<targetPath>WEB-INF/classes/egovframework/spring</targetPath>
 										<includes>
 											<include> **/*.xml </include>
 										</includes>

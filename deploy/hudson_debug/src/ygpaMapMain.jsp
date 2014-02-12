@@ -22,7 +22,7 @@
 <!DOCTYPE html>
 <html lang="ko" xml:lang="ko">
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (DEBUG)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (Prototype)</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 
@@ -107,11 +107,11 @@
                             <ul class="submenu">
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0007"
-                                    data-url="<c:url value='/asset/gamAssetRentSttusInqire.do'/>">자산임대현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetRentSttusInqire.do'/>">자산임대현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0008"
-                                    data-url="<c:url value='/asset/gamAssetRentMngt.do'/>">자산임대관리</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetRentMngt.do'/>">자산임대관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0009"
@@ -119,19 +119,19 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0010"
-                                    data-url="<c:url value='/asset/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
-                                    data-url="<c:url value='/asset/gamAssetPopupList.do'/>">자산정보현황알림</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetPopupInqire.do'/>">자산정보현황알림</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0012"
-                                    data-url="<c:url value='/asset/gamCmpyRecvStsList.do'/>">업체별수입현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamCmpyRecvStsInqire.do'/>">업체별수입현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0012"
-                                    data-url="<c:url value='/asset/gamRecvTpRecvStsList.do'/>">수입종류별수입현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamRecvTpRecvStsInqire.do'/>">수입종류별수입현황조회</a>
                                 </li>
                             </ul></li>
                     </ul></li>
@@ -153,8 +153,9 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
-                                    data-url="<c:url value=''/>">항만시설납부현황관리</a>
+                                    data-url="<c:url value="/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do"/>">항만시설납부현황관리</a>
                                 </li>
+                                <!--  
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
                                     data-url="<c:url value=''/>">항만시설월별사용료현황조회</a>
@@ -167,36 +168,45 @@
                                     data-prgid="PRG_0003"
                                     data-url="<c:url value=''/>">항만시설기간별사용료현황조회</a>
                                 </li>
+                                 -->
                             </ul></li>
                         <li><a href="#"><b>컨테이너 부두</b></a>
                             <ul class="submenu">
                                 <li>
                                     <a href="#" data-role="LoadModule"data-prgid="PRG_0005"
                                     data-url="<c:url value='/oper/cntnr/gamCntnrQuayRentSttusInqire.do'/>">컨테이너부두임대현황조회</a>
-                                    </li>
-                                    <li>
+                                </li>
+                                <li>
                                     <a href="#" data-role="LoadModule" data-prgid="PRG_0005"
                                     data-url="<c:url value='/oper/cntnr/gamCntnrRentMngt.do'/>">컨테이너부두임대목록관리</a>
-                                    </li>
-                                    <li>
+                                </li>
+                                <li>
                                     <a href="#" data-role="LoadModule" data-prgid="PRG_0005"
-                                    data-url="<c:url value='/oper/cntnr/gamCntnrQuayRentfeeInqire.do'/>">컨테이너부두임대료조회</a>
+                                    data-url="<c:url value='/oper/cntnr/gamCntnrRentFeeMngt.do'/>">컨테이너부두임대료관리</a>
+                                </li>
+                                <li>
+                                    <a href="#" data-role="LoadModule" data-prgid="PRG_0005"
+                                    data-url="<c:url value='/oper/cntnr/gamCntnrRentFeePaySttusMngt.do'/>">컨테이너부두납부현황관리</a>
                                 </li>
                             </ul>
                             </li>
                         <li><a href="#"><b>배후단지</b></a>
                             <ul class="submenu">
                             <li>
-                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/htld/gamHtldRentSttusInqire.do'/>">배후단지임대현황조회</a>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/htld/gamHtldRentSttusInqire.do'/>">배후단지임대현황조회</a>
                             </li>
                             <li>
-                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/htld/gamHtldRentMngt.do'/>">배후단지임대목록관리</a>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/htld/gamHtldRentMngt.do'/>">배후단지임대목록관리</a>
                             </li>
                             <li>
-                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/htld/gamHtldRentfeeMngt.do'/>">배후단지임대료관리</a>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/htld/gamHtldRentFeeMngt.do'/>">배후단지임대료관리</a>
+                            </li>
+                            <li>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/htld/gamHtldRentFeePaySttusMngt.do'/>">배후단지납부현황관리</a>
                             </li>
                             </ul>
                         </li>
@@ -204,16 +214,20 @@
                             <ul class="submenu">
                                 <li>
                                 <a href="#"
-                            data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/train/gamTrainPortRentSttusInqire.do'/>">철송장임대현황조회</a>
+                                data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/train/gamTrainPortRentSttusInqire.do'/>">철송장임대현황조회</a>
                             </li>
                             <li>
-                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/train/gamTrainPortRentLstMngt.do'/>">철송장임대목록관리</a>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/train/gamTrainPortRentLstMngt.do'/>">철송장임대목록관리</a>
                             </li>
                             <li>
-                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/train/gamTrainPortRentfeeInqire.do'/>">철송장임대료조회</a>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/train/gamTrainPortRentFeeMngt.do'/>">철송장임대료관리</a>
+                            </li>
+                            <li>
+                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                                data-url="<c:url value='/oper/train/gamTrainPortRentFeePaySttusMngt.do'/>">철송장납부현황관리</a>
                             </li>
                             </ul>
                         </li>
@@ -230,9 +244,12 @@
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/oper/shed/gamCmmnCntrRentFeeInqire.do'/>">공컨장치장임대료조회</a>
+                            data-url="<c:url value='/oper/shed/gamCmmnCntrShedRentFeeMngt.do'/>">공컨장치장임대료관리</a>
                             </li>
-
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do'/>">공컨장치장납부현황관리</a>
+                            </li>
                             </ul>
                         </li>
                         <li><a href="#"><b>사옥관리</b></a>
@@ -240,15 +257,15 @@
                                 <li>
                                 <a href="#"
                             data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/prt_fclty/gamMarineCenterRentMngt.do'/>">마린센터임대목록관리</a>
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentMngt.do'/>">마린센터임대목록관리</a>
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/prt_fclty/gamMarineCenterRentFeeMngt.do'/>">마린센터임대료관리</a>
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentFeeMngt.do'/>">마린센터임대료관리</a>
                             </li>
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                            data-url="<c:url value='/prt_fclty/gamMarineCenteRentNticMngt.do'/>">마린센터납부현황관리</a>
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentNticMngt.do'/>">마린센터납부현황관리</a>
                             </li>
 
                             <li>
