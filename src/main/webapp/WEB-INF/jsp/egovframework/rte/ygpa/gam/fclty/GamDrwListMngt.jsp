@@ -107,15 +107,37 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 				module.$("#subListDiv").hide();
 			}
 			module.$("#subBtnDiv").show();
+			
+			module.$("#drwListManageVO :input").removeAttr("disabled");
+			module.$("#drwDtaListManageVO").hide();
 	 	});
 	});
 	
 	this.$("#drwListMngtListSub").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		
+		module.$("#dtaCmd").val("modify");
+		module.$("#subListDiv").show();
+		module.$("#drwDtaListManageVO").show();
+		module.$(".changeView").show();
 		module.doAction('<c:url value="/fclty/gamFcltyDrwListMngSelectView.do" />', {drwLstRegistYear:row["drwLstRegistYear"], drwLstSeq:row["drwLstSeq"], drwDtaCd:row["drwDtaCd"]}, function(module, result) {
 			
-			/*alert(result.detail.drwDtaCd);
-			alert(result.detail.drwLstRegistYear);
-			alert(result.detail.drwDtaCd);*/
+			module.$("#drwDtaCd").val(result.detail.drwDtaCd);
+			module.$("#drwNm").val(result.detail.drwNm);
+			module.$("#drwFilenmPhysicl").val(result.detail.drwFilenmPhysicl);
+			module.$("#drwFilenmLogic").val(result.detail.drwFilenmLogic);
+			module.$("#drwSeCd").val(result.detail.drwSeCd);
+			module.$("#drwNo").val(result.detail.drwNo);
+			module.$("#drwWritngDt").val(result.detail.drwWritngDt);
+			module.$("#drwChangedt").val(result.detail.drwChangedt);
+			module.$("#drwChangeDtls").val(result.detail.drwChangeDtls);
+			module.$("#drwGisCd").val(result.detail.drwGisCd);
+			module.$("#drwLstRegistYearSub").val(result.detail.drwLstRegistYear);
+			module.$("#drwLstSeqSub").val(result.detail.drwLstSeq);
+			module.$("#regUsrSub").val(result.detail.regUsr);
+			module.$("#registdtSub").val(result.detail.registdt);
+			
+			module.$("#drwDtaCd").attr("disabled","disabled");
+			module.$("#drwChangedt").attr("disabled","disabled");
 		});
 	});
 
@@ -183,7 +205,6 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-
 		 	var inputVO = this.makeFormArgs("#drwListManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamFcltyDrwInfoListMngInsert.do" />', inputVO, function(module, result) {
@@ -196,11 +217,11 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngUpdate.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/fclty/gamFcltyDrwInfoListMngUpdate.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
+			 			module.$("#drwListMngtListTab").tabs("option", {active: 0});
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
 						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -212,6 +233,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveSubBtn":
 			this.$("#drwWritngDt").val(this.$("#drwWritngDt").val().replace(/\-/g,""));
+			this.$("#drwChangedt").val(this.$("#drwChangedt").val().replace(/\-/g,""));
 		 	var inputVO = this.makeFormArgs("#drwDtaListManageVO");
 			if(this.$("#dtaCmd").val() == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngInsert.do" />', inputVO, function(module, result) {
@@ -229,7 +251,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
-						module.$("#drwListManageVO :input").val("");
+						module.$("#drwDtaListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -363,39 +385,39 @@ var module_instance = new GamFcltyDrwListMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면 목록 명</th>
-							<td><input type="text" size="40" id="drwLstNm" disabled="disabled" maxlength="40" /></td>
+							<td><input type="text" size="40" id="drwLstNm" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">공사명</th>
-							<td><input type="text" size="40" id="authnm" disabled="disabled" maxlength="80" /></td>
+							<td><input type="text" size="40" id="authnm" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">제출자</th>
-							<td><input type="text" size="40" id="sbmNm" disabled="disabled" maxlength="40"/></td>
+							<td><input type="text" size="40" id="sbmNm" maxlength="40"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">검토자</th>
-							<td><input type="text" size="40" id="exmNm" disabled="disabled" maxlength="40" /></td>
+							<td><input type="text" size="40" id="exmNm" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">시공자</th>
-							<td><input type="text" size="40" id="cnstrtr" disabled="disabled" maxlength="30" /></td>
+							<td><input type="text" size="40" id="cnstrtr" maxlength="30" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면 목록 구분 코드</th>
-							<td><input type="text" size="40" id="drwLstSeCd" disabled="disabled" maxlength="10" /></td>
+							<td><input type="text" size="40" id="drwLstSeCd" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면 목록 관리 부서 코드</th>
-							<td><input type="text" size="40" id="drwLstMngDeptCd" disabled="disabled" maxlength="20" /></td>
+							<td><input type="text" size="40" id="drwLstMngDeptCd" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면 목록 GIS 코드</th>
-							<td><input type="text" size="40" id="drwLstGisCd" disabled="disabled" maxlength="11" /></td>
+							<td><input type="text" size="40" id="drwLstGisCd" maxlength="11" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">등록자</th>
-							<td><input type="text" size="40" id="regUsr"/></td>
+							<td><input type="text" size="40" id="regUsr" disabled="disabled"/></td>
 						</tr>
 						<tr id="displayDate">
 							<th width="20%" height="23" class="required_text">등록일자</th>
@@ -403,7 +425,10 @@ var module_instance = new GamFcltyDrwListMngtModule();
 						</tr>
 					</table>
 				</form>
-				<div class="emdControlPanel"><button id="saveBtn">도면저장</button></div>
+				<div class="emdControlPanel">
+					<button id="listBtn">목록</button>
+					<button id="saveBtn">도면저장</button>
+				</div>
 				
 				<!-- 도면자료 목록조회 --> 
 				<div id="subListDiv">
@@ -418,43 +443,39 @@ var module_instance = new GamFcltyDrwListMngtModule();
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면명</th>
-								<td><input type="text" size="40" id="drwNm" disabled="disabled" maxlength="40"/></td>
+								<td><input type="text" size="40" id="drwNm" maxlength="40"/></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면 파일명 물리</th>
-								<td><input type="text" size="40" id="drwFilenmPhysicl" disabled="disabled" maxlength="240" /></td>
+								<td><input type="text" size="40" id="drwFilenmPhysicl" maxlength="240" /></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면 파일명 논리</th>
-								<td><input type="text" size="40" id="drwFilenmLogic" disabled="disabled" maxlength="240" /></td>
+								<td><input type="text" size="40" id="drwFilenmLogic" maxlength="240" /></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면 구분 코드</th>
-								<td><input type="text" size="40" id="drwSeCd" disabled="disabled" maxlength="10"/></td>
+								<td><input type="text" size="40" id="drwSeCd" maxlength="10"/></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면번호</th>
-								<td><input type="text" size="40" id="drwNo" disabled="disabled" maxlength="8" /></td>
+								<td><input type="text" size="40" id="drwNo" maxlength="8" /></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면작성일자</th>
 								<td><input type="text" size="40" id="drwWritngDt" class="emdcal" disabled="disabled" maxlength="8" /></td>
 							</tr>
-							<tr>
-								<th width="20%" height="23" class="required_text">도면 목록 구분 코드</th>
-								<td><input type="text" size="40" id="drwLstSeCd" disabled="disabled" maxlength="10" /></td>
-							</tr>
 							<tr class="changeView">
 								<th width="20%" height="23" class="required_text">도면 변경일</th>
-								<td><input type="text" size="40" id="drwChangedt" disabled="disabled" maxlength="8" /></td>
+								<td><input type="text" size="40" id="drwChangedt" class="emdcal" maxlength="8" disabled="disabled" /></td>
 							</tr>
 							<tr class="changeView">
 								<th width="20%" height="23" class="required_text">도면 변경 내역</th>
-								<td><input type="text" size="40" id="drwChangeDtls" disabled="disabled" maxlength="200" /></td>
+								<td><input type="text" size="40" id="drwChangeDtls" maxlength="200" /></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면 GIS 코드</th>
-								<td><input type="text" size="40" id="drwGisCd" disabled="disabled" maxlength="11" /></td>
+								<td><input type="text" size="40" id="drwGisCd" maxlength="11" /></td>
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">도면 목록 등록 년도</th>
@@ -466,7 +487,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 							</tr>
 							<tr>
 								<th width="20%" height="23" class="required_text">등록자</th>
-								<td><input type="text" size="40" id="regUsrSub"/></td>
+								<td><input type="text" size="40" id="regUsrSub" disabled="disabled" /></td>
 							</tr>
 							<tr class="changeView">
 								<th width="20%" height="23" class="required_text">등록일자</th>
@@ -477,7 +498,6 @@ var module_instance = new GamFcltyDrwListMngtModule();
 				</div>
 				<div id="subBtnDiv">
 					<div class="emdControlPanel">
-						<button id="listSubBtn">목록</button>
 						<button id="addSubBtn">도면자료추가</button>
 						<button id="saveSubBtn">도면자료저장</button>
 						<button id="deleteSubBtn">도면자료삭제</button>
