@@ -91,6 +91,24 @@
 		       )
 	</insert>
 	
+	
+    <update id="gamFcltyDrwMngtDao.updateFcltyDrwInfoListMng">
+    	/* egovframework.rte.ygpa.gam.fclty.service.DrwInfoF.update */ 
+		UPDATE DRW_INFO_F 
+		SET
+		       DRW_LST_NM = #drwLstNm#, 
+		       DRW_LST_MNG_DEPT_CD = #drwLstMngDeptCd#, 
+		       DRW_LST_SE_CD = #drwLstSeCd#, 
+		       DRW_LST_GIS_CD = #drwLstGisCd#, 
+		       AUTHNM = #authnm#, 
+		       SBM_NM = #sbmNm#, 
+		       EXM_NM = #exmNm#, 
+		       CNSTRTR = #cnstrtr#, 
+		       SCL = #scl# 
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       AND DRW_LST_SEQ = #drwLstSeq#
+	</update>
+	
 	<select id="gamFcltyDrwMngtDao.insertFcltyGetSeq" resultClass="String">
     	SELECT LPAD(NVL(MAX(DRW_LST_SEQ),0) + 1,'4','0') DRW_LST_SEQ 
   			FROM DRW_DTA_F
@@ -203,10 +221,10 @@
 		       , DRW_FILENM_LOGIC AS drwFilenmLogic
 		       , DRW_SE_CD AS drwSeCd
 		       , DRW_NO AS drwNo
-		       , DRW_WRITNG_DT AS drwWritngDt 
-		       , REGISTDT AS registdt
+		       , TO_CHAR(TO_DATE(DRW_WRITNG_DT), 'YYYY-MM-DD') AS drwWritngDt 
+		       , TO_CHAR(REGISTDT, 'YYYY-MM-DD') AS registdt
 		       , REG_USR AS regUsr
-		       , DRW_CHANGEDT AS drwChangedt 
+		       , TO_CHAR(TO_DATE(DRW_CHANGEDT), 'YYYY-MM-DD') AS drwChangedt
 		       , DRW_CHANGE_DTLS AS drwChangeDtls 
 		       , DRW_GIS_CD AS drwGisCd  
 		  FROM DRW_DTA_F 
@@ -218,17 +236,13 @@
   	<update id="gamFcltyDrwMngtDao.updateFcltyDrwListMng">
   		/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.update */ 
   		UPDATE DRW_DTA_F 
-		       SET DRW_DTA_CD = #drwDtaCd#, 
-		       DRW_LST_REGIST_YEAR = #drwLstRegistYear#, 
-		       DRW_LST_SEQ = #drwLstSeq#, 
+		       SET 
 		       DRW_NM = #drwNm#, 
 		       DRW_FILENM_PHYSICL = #drwFilenmPhysicl#, 
 		       DRW_FILENM_LOGIC = #drwFilenmLogic#, 
 		       DRW_SE_CD = #drwSeCd#, 
 		       DRW_NO = #drwNo#, 
 		       DRW_WRITNG_DT = #drwWritngDt#, 
-		       REGISTDT = #registdt#, 
-		       REG_USR = #regUsr#, 
 		       DRW_CHANGEDT = #drwChangedt#, 
 		       DRW_CHANGE_DTLS = #drwChangeDtls#, 
 		       DRW_GIS_CD = #drwGisCd# 
