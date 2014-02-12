@@ -84,7 +84,6 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt = this.makeFormArgs("#groupMngForm");
 		 	this.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
-
 		// 등록
 		case "addBtn":
 			this.$('#groupManageVO :input').val('');
