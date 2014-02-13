@@ -131,26 +131,16 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
         update("gamFcltyDrwMngtDao.updateFcltyDrwListMng",vo);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
+    /**
+     * 도면 정보 삭제
+     * @param vo
+     */
+    public void deleteFcltyDrwInfoListMng(GamFcltyDrwDtaFVO vo){
+    	delete("gamFcltyDrwMngtDao.deleteFcltyDrwInfoListMng", vo);
+    }
     
     /**
-     * 시설관리 삭제화면
+     * 도면 자료 삭제
      * @param vo
      */
     public void deleteFcltyDrwListMng(GamFcltyDrwDtaFVO vo){
