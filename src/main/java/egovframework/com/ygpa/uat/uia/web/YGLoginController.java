@@ -136,7 +136,7 @@ public class YGLoginController {
     	
 		// 3. 메인 페이지 이동
 		String main_page = Globals.MAIN_PAGE;
-		main_page = MAINURL;
+//		main_page = MAINURL;
 		
 		logger.debug("Globals.MAIN_PAGE > " +  Globals.MAIN_PAGE);
 		logger.debug("main_page > " +  main_page);

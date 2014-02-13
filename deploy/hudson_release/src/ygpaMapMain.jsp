@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
-  * @Description : 맵 조회 화면 (Prototype)
+  * @Description : 맵 조회 화면 (RELEASE)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -22,7 +22,7 @@
 <!DOCTYPE html>
 <html lang="ko" xml:lang="ko">
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (Prototype)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (RELEASE)</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 

@@ -89,11 +89,11 @@
 
     <http access-denied-page="/sec/ram/accessDenied.do" path-type="regex" lowercase-comparisons="false">
 		<intercept-url pattern="\A/js/.*\Z" filters="none" />
-		<intercept-url pattern="\A/image/.*\Z" filters="none" />
+		<intercept-url pattern="\A/images/.*\Z" filters="none" />
 		<intercept-url pattern="\A/css/.*\Z" filters="none" />
 		<intercept-url pattern="\A/common/.*\Z" filters="none" />
 	    <!-- debug -->
-		<intercept-url pattern="\A/ygpa/sym/mpm/.*\Z" filters="none" />
+		<!-- <intercept-url pattern="\A/ygpa/sym/mpm/.*\Z" filters="none" /> -->
         <form-login login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/uat/uia/YGLoginUsr.do?login_error=1"
                     default-target-url="/uat/uia/YGActionMain.do"

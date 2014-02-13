@@ -36,21 +36,21 @@
     </filter-mapping>
 
 	<!-- 0. 로그인 정책 컴포넌트용 필터 -->
-     <!-- <filter>
+     <filter>
         <filter-name>LoginPolicyFilter</filter-name>
         <filter-class>egovframework.com.uat.uap.filter.EgovLoginPolicyFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>LoginPolicyFilter</filter-name>
         <url-pattern>/uat/uia/YGActionLogin.do</url-pattern>
-    </filter-mapping> -->
+    </filter-mapping>
 	<!-- Restoration from HTMLTagFilter's action (certification login) -->
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
         		<param-value>
 				classpath*:egovframework/spring/context-*.xml
-		,classpath*:egovframework/spring/com/context-*.xml
+				,classpath*:egovframework/spring/com/context-*.xml
 </param-value>
     </context-param>
 

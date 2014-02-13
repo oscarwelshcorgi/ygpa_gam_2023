@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class GamMainController {
 
-    @RequestMapping(value="/gamMain.do")
+    @RequestMapping(value="/main/gamMain.do")
     String indexMain(ModelMap model) throws Exception {
     	return "ygpa/gam/main/ygpaMapMain";
     }

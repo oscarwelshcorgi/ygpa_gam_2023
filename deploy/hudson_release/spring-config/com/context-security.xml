@@ -96,7 +96,7 @@
 		<intercept-url pattern="\A/ygpa/sym/mpm/.*\Z" filters="none" />
         <form-login login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/uat/uia/YGLoginUsr.do?login_error=1"
-                    default-target-url="/uat/uia/YGActionMain.do"
+                    default-target-url="/uat/uia/YGActionLogin.do"
                     login-page="/uat/uia/YGLoginUsr.do" />
         <anonymous/>
         <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/YGLoginUsr.do" />
