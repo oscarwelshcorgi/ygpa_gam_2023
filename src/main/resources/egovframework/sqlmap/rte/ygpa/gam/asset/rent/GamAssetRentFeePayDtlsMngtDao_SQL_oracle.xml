@@ -29,7 +29,7 @@
 							       , TO_CHAR(TO_DATE(A.NTIC_DT), 'YYYY-MM-DD') NTIC_DT 
 							       , A.NHT_ISUE_YN
 							       , A.COMPUT_DTLS
-							       , A.PAY_TMLMT
+							       , TO_CHAR(TO_DATE(A.PAY_TMLMT), 'YYYY-MM-DD') PAY_TMLMT
 							       , TO_CHAR(TO_DATE(A.FRST_NTIC_DT), 'YYYY-MM-DD') FRST_NTIC_DT
 							       , A.RCIV_TRANSFR_STTUS_CD
 							       , TO_CHAR(TO_DATE(A.RCIV_DT), 'YYYY-MM-DD') RCIV_DT

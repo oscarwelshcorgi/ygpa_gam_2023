@@ -63,12 +63,12 @@
 							       , L.CHRGE_KND
 							       , L.ENTRPSCD
 							       , L.ENTRPS_NM
-							       , L.NTIC_PD_FROM
-							       , L.CONST_PER_TO
+							       , TO_CHAR(TO_DATE(L.NTIC_PD_FROM), 'YYYY-MM-DD') NTIC_PD_FROM 
+							       , TO_CHAR(TO_DATE(L.CONST_PER_TO), 'YYYY-MM-DD') CONST_PER_TO
 							       , L.ACCNUT_YEAR
 							       , L.NTICNO
 							       , TO_CHAR(TO_DATE(L.NTIC_DT), 'YYYY-MM-DD') NTIC_DT
-							       , L.PAY_TMLMT
+							       , TO_CHAR(TO_DATE(L.PAY_TMLMT), 'YYYY-MM-DD') PAY_TMLMT
 							       , L.OLNLP
 							       , L.FEE
 							       , L.VAT_YN
@@ -387,12 +387,12 @@
 		     , CHRGE_KND    = #chrgeKnd#
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
-		     , NTIC_PD_FROM = #nticPdFrom#
-		     , CONST_PER_TO = #constPerTo#
+		     , NTIC_PD_FROM = REPLACE(#nticPdFrom#,'-','') 
+		     , CONST_PER_TO = REPLACE(#constPerTo#,'-','') 
 		     , ACCNUT_YEAR  = #accnutYear#
 		     , NTICNO       = #nticno#
-		     , NTIC_DT      = #nticDt#
-		     , PAY_TMLMT    = #payTmlmt#
+		     , NTIC_DT      = REPLACE(#nticDt#,'-','') 
+		     , PAY_TMLMT    = REPLACE(#payTmlmt#,'-','') 
 		     , OLNLP        = #olnlp#
 		     , FEE          = #fee#
 		     , VAT_YN       = #vatYn#
@@ -400,7 +400,7 @@
 		     , NTIC_AMT     = #nticAmt#
 		     , RM           = #rm#
 		     , RCIV_SE      = #rcivSe#
-		     , RCIV_DT      = #rcivDt#
+		     , RCIV_DT      = REPLACE(#rcivDt#,'-','') 
 		     , NHT_ISUE_YN  = #nhtIsueYn#
 		     , ARRRG_NO     = #arrrgNo#
 		     , ARRRG_AMT    = #arrrgAmt#
@@ -536,13 +536,13 @@
 		                          , #accnutSeCd#
 		                          , #entrpscd#
 		                          , #nticAmt#
-		                          , #nticDt#
+		                          , REPLACE(#nticDt#,'-','') 
 		                          , #nhtIsueYn#
 		                          , #computDtls#
-		                          , #payTmlmt#
-		                          , #frstNticDt#
+		                          , REPLACE(#payTmlmt#,'-','')  
+		                          , REPLACE(#frstNticDt#,'-','') 
 		                          , #rcivTransfrSttusCd#
-		                          , #rcivDt#
+		                          , REPLACE(#rcivDt#,'-','') 
 		                          , #rcivSe#
 		                          , #incpctyCd#
 		                          , #overrpayAmt#
@@ -551,11 +551,11 @@
 		                          , #dscntRsn#
 		                          , #dscntCd#
 		                          , #rcivSeNm#
-		                          , #fnncInsttRcivDt#
+		                          , REPLACE(#fnncInsttRcivDt#,'-','')  
 		                          , #postNticEnnc#
 		                          , #npymnRsnCd#
 		                          , #elctrnNticResult#
-		                          , #elctrnNticInfoInqireDt#
+		                          , REPLACE(#elctrnNticInfoInqireDt#,'-','') 
 		                          , #excclcYn#
 		                          , #vat#
 		                          , #vatYn#
@@ -571,8 +571,8 @@
 		                          , #orginlNticAccnutYear#
 		                          , #orginlNticNo#
 		                          , #elctrnTaxbilIsuYn#
-		                          , #beginDt#
-		                          , #endDt#
+		                          , REPLACE(#beginDt#,'-','') 
+		                          , REPLACE(#endDt#,'-','')
 		                          , #nticMth#
 		                          , #regUsr#
 		                          , SYSDATE
