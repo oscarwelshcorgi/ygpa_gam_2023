@@ -123,7 +123,14 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 	}
 
 	/**
-	 * 도면목록관리 삭제
+	 * 도면 정보 삭제
+	 */
+	public void deleteFcltyDrwInfoListMng(GamFcltyDrwDtaFVO vo) {
+		gamFcltyDrwMngtDao.deleteFcltyDrwInfoListMng(vo);
+	}
+
+	/**
+	 * 도면 자료 삭제
 	 */
 	public void deleteFcltyDrwListMng(GamFcltyDrwDtaFVO vo) {
 		gamFcltyDrwMngtDao.deleteFcltyDrwListMng(vo);
