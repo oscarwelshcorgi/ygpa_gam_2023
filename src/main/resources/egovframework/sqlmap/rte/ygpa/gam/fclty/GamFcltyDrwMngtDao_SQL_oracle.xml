@@ -251,12 +251,21 @@
 		       AND DRW_LST_SEQ = #drwLstSeq#
     </update>
     
-    <delete id="gamFcltyMngtDao.deleteFcltyDrwListMng">
+    <delete id="gamFcltyDrwMngtDao.deleteFcltyDrwInfoListMng">
+    	DELETE 
+		  FROM DRW_INFO_F 
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       AND DRW_LST_SEQ = #drwLstSeq#
+    </delete>
+    
+    <delete id="gamFcltyDrwMngtDao.deleteFcltyDrwListMng">
     	/* egovframework.rte.ygpa.gam.fclty.service.DrwDtaF.delete */ 
     	DELETE 
 		  FROM DRW_DTA_F 
-		 WHERE DRW_DTA_CD = #drwDtaCd# 
-		       AND DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
-		       AND DRW_LST_SEQ = #drwLstSeq#
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		    AND DRW_LST_SEQ = #drwLstSeq#
+		    <isNotEmpty property="drwDtaCd">
+   				AND DRW_DTA_CD = #drwDtaCd#
+   			</isNotEmpty>
     </delete>
 </sqlMap>
