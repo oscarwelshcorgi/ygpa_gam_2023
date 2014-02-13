@@ -107,25 +107,15 @@ public interface GamFcltyDrwMngtService {
 	 */
 	public void updateFcltyDrwListMng(GamFcltyDrwDtaFVO fcltyManageVO) throws Exception;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
+	/**
+	 * 도면 정보 삭제
+	 * @param fcltyManageVO
+	 * @throws Exception
+	 */
+	public void deleteFcltyDrwInfoListMng(GamFcltyDrwDtaFVO fcltyManageVO) throws Exception;
 	
 	/**
-	 * 도면목록관리 삭제
+	 * 도면 자료 삭제
 	 * @param fcltyManageVO
 	 * @throws Exception
 	 */
