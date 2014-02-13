@@ -36,7 +36,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/fclty/gamFcltyDrwMngtInfoList.do" />',
 		dataType: "json",
 		colModel : [
-//{display:'삭제', 				name:'regYn',					width:40, 		sortable:false,		align:'center', displayFormat:'button', displayOption:{label:'삭제', className:'deleteButton'}},
+				{display:"삭제", 				name:"chkRole",					width:40, 		sortable:false,		align:"center", displayFormat:"checkbox" },
 				{display:"도면 목록 순번", 		name:"drwLstSeq",				width:100,		sortable:false,		align:"center"},
 				{display:"도면 목록 등록 년도",	name:"drwLstRegistYear",		width:120,		sortable:false,		align:"center"},
 				{display:"도면 명", 				name:"drwLstNm",				width:300,		sortable:false,		align:"center"},
@@ -110,6 +110,11 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 			
 			module.$("#drwListManageVO :input").removeAttr("disabled");
 			module.$("#drwDtaListManageVO").hide();
+			
+			module.$("#drwLstRegistYear").attr("disabled","disabled");
+			module.$("#drwLstSeq").attr("disabled","disabled");
+			module.$("#regUsr").attr("disabled","disabled");
+			module.$("#registDt").attr("disabled","disabled");
 	 	});
 	});
 	
@@ -142,11 +147,6 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 	});
 
 };
-
-
-this.$("#drwListMngtList").on("onButtonClicked", function(event, module, row, grid, param) {
-	throw 0;
-});
 
 
 /**
@@ -262,15 +262,53 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				
-				var inputVO = this.makeFormArgs("#drwListManageVO");
-			 	this.doAction('<c:url value="/fclty/gamFcltyDrwListMngDelete.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#drwListForm");
-						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+				var filter = [{ 'col': 'chkRole', 'filter': true}];
+				var reglist = this.$("#drwListMngtList").selectFilterData(filter);
+
+				if(reglist.length > 0){
+
+					var drwLstRegistYears = "";
+					var drwLstSeqs = "";
+					
+					for(var i=0; i<reglist.length; i++){
+						if(reglist[i].chkRole == true){
+							if(i < (reglist.length-1)){
+								drwLstRegistYears += reglist[i].drwLstRegistYear + ";";
+								drwLstSeqs += reglist[i].drwLstSeq + ";";
+							}else{
+								drwLstRegistYears += reglist[i].drwLstRegistYear;
+								drwLstSeqs += reglist[i].drwLstSeq;
+							}
+						}
+					}
+
+					var inputVO = {drwLstRegistYears: drwLstRegistYears, drwLstSeqs:drwLstSeqs};
+					this.doAction('<c:url value="/fclty/gamFcltyDrwInfoListMngDelete.do" />', inputVO, function(module, result) {
+				 		if(result.resultCode == 0){
+				 			module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+							module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+							module.$("#drwDtaListManageVO :input").val("");
+				 		}
+				 		alert(result.resultMsg);			 		
+				 	});
+				}else{
+					
+				}
+			}
+		break;
+		
+		// 삭제
+		case "deleteSubBtn":
+			if(confirm("삭제하시겠습니까?")){
+
+				var inputVO = {drwLstRegistYear: this.$("#drwLstRegistYearSub").val(), drwLstSeq:this.$("#drwLstSeqSub").val(), drwDtaCd:this.$("#drwDtaCd").val()};
+				this.doAction('<c:url value="/fclty/gamFcltyDrwListMngDelete.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
-						module.$("#drwListManageVO :input").val("");
+						module.$("#drwDtaListManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg);
+			 		alert(result.resultMsg);			 		
 			 	});
 			}
 		break;
@@ -293,42 +331,6 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
-
-/**
- * 팝업 close 이벤트
- */
-GamFcltyDrwListMngtModule.prototype.onClosePopup = function(popupId, msg, value){
-	
-	switch(popupId){
-		
-		// 상세화면
-		case "searchGisCodePopup":
-			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
-			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);
-			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);
-			
-			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
-			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
-			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
-		break;
-
-		// 조회화면
-		case "searchGisCodePopup2":
-			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#searchAssetsSubCd").val(value["gisAssetsSubCd"]);
-		break;
-
-		// 업체조회화면
-		case "searchEntrpsCdPopup":
-			this.$("#prtFcltyMngEntrpsCd").val(value["entrpscd"]);
-		break;
-	
-		default:
-			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-			throw 0;
-		break;
-	}
-};
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamFcltyDrwListMngtModule();
 </script>
@@ -357,6 +359,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 				<div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
 					<button id="addBtn">추가</button>
+					<button id="deleteBtn">삭제</button>
 				</div>
 			</form>
 		</div>
