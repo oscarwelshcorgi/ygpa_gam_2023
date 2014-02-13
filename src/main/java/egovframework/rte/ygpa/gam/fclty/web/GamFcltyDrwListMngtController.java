@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO;
@@ -94,12 +93,12 @@ public class GamFcltyDrwListMngtController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
+//		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//		if(!isAuthenticated) {
+//			map.put("resultCode", 1);
+//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//			return map;
+//		}
 		// 내역 조회
 		/** EgovPropertyService */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -149,13 +148,13 @@ public class GamFcltyDrwListMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+//    	// 0. Spring Security 사용자권한 처리
+//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//    	if(!isAuthenticated) {
+//	        map.put("resultCode", 1);
+//    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//        	return map;
+//    	}
     	GamFcltyDrwDtaFVO searchVO = new GamFcltyDrwDtaFVO();
     	// 내역 조회
     	/** EgovPropertyService */
@@ -210,13 +209,13 @@ public class GamFcltyDrwListMngtController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
+//		// 0. Spring Security 사용자권한 처리
+//		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//		if(!isAuthenticated) {
+//			map.put("resultCode", 1);
+//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//			return map;
+//		}
 		map.put("seq", gamFcltyDrwMngtService.insertFcltyInfoGetSeq());
 		return map;
 	}
@@ -238,12 +237,12 @@ public class GamFcltyDrwListMngtController {
 		String resultMsg    = "";
 		
 		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
+//		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//		if(!isAuthenticated) {
+//			map.put("resultCode", 1);
+//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//			return map;
+//		}
 		if("insert".equals(cmd)) {
 			beanValidator.validate(drwListManageVO, bindingResult);
 			if (bindingResult.hasErrors()){
@@ -285,12 +284,12 @@ public class GamFcltyDrwListMngtController {
     	String resultMsg    = "";
     	
     	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//    	if(!isAuthenticated) {
+//	        map.put("resultCode", 1);
+//    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//        	return map;
+//    	}
     	if("insert".equals(cmd)) {
 		    beanValidator.validate(drwListManageVO, bindingResult);
 		    if (bindingResult.hasErrors()){
@@ -331,12 +330,12 @@ public class GamFcltyDrwListMngtController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
+//		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//		if(!isAuthenticated) {
+//			map.put("resultCode", 1);
+//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//			return map;
+//		}
 		
 		beanValidator.validate(drwListManageVO, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -406,13 +405,41 @@ public class GamFcltyDrwListMngtController {
     }
     
     
-	/**
-     * 사용자정보삭제후 목록조회 화면으로 이동한다.
-     * @param checkedId
-     * @param userSearchVO
+    /**
+     * 도면 정보 삭제
+     * @param drwListManageVO
      * @return map
      * @throws Exception
      */
+    @RequestMapping("/fclty/gamFcltyDrwInfoListMngDelete.do")
+    @ResponseBody Map<String, Object> deleteFcltyDrwInfoListMng(@RequestParam("drwLstRegistYears") String drwLstRegistYears, @RequestParam("drwLstSeqs") String drwLstSeqs) throws Exception {
+    	                                
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	String[] drwLstRegistYear = drwLstRegistYears.split(";");
+    	String[] drwLstSeq = drwLstSeqs.split(";");
+    	
+    	for(int i=0; i<drwLstRegistYear.length; i++){
+    		GamFcltyDrwDtaFVO drwListManageVO = new GamFcltyDrwDtaFVO();
+        	drwListManageVO.setDrwLstRegistYear(drwLstRegistYear[i]);
+        	drwListManageVO.setDrwLstSeq(drwLstSeq[i]);
+        	
+        	gamFcltyDrwMngtService.deleteFcltyDrwListMng(drwListManageVO);			// 도면 자료 삭제	
+        	gamFcltyDrwMngtService.deleteFcltyDrwInfoListMng(drwListManageVO);		// 도면 정보 삭제
+    	}
+    	
+    	map.put("resultCode", 0);
+    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	return map;
+    }
+    
+    
+	/**
+	 * 도면 자료 삭제
+	 * @param drwListManageVO
+	 * @return map
+	 * @throws Exception
+	 */
     @RequestMapping("/fclty/gamFcltyDrwListMngDelete.do")
     @ResponseBody Map<String, Object> deleteFcltyDrwListMng(@ModelAttribute("drwListManageVO") GamFcltyDrwDtaFVO drwListManageVO) throws Exception {
 
