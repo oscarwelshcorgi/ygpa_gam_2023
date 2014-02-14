@@ -35,7 +35,7 @@ public class YGLoginController {
     EgovMessageSource egovMessageSource;
     
     private String LOGINJSP = "ygpa/cmm/uat/uia/YGSLoginUsr";
-    private String MAINURL = "/gamMain.do";
+    private String MAINURL = "/main/gamMain.do";
     
 	/**
      * 로그인 화면

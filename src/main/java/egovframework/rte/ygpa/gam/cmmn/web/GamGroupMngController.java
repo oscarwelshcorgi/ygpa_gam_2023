@@ -124,7 +124,7 @@ public class GamGroupMngController {
 	 * @throws Exception
 	 */
     @RequestMapping(value="/sec/gmt/gamGroupListInsert.do")
-    @ResponseBody Map<String, Object> insertGroupList(@ModelAttribute("groupManage") GroupManage groupManage, BindingResult bindingResult, @RequestParam("cmd") String cmd)
+    @ResponseBody Map<String, Object> insertGroupList(@ModelAttribute("groupManage") GroupManage groupManage, BindingResult bindingResult)
             throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();

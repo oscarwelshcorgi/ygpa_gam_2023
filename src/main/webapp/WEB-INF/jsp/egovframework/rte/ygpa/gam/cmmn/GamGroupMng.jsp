@@ -204,7 +204,7 @@ var module_instance = new GamAuthorGrpMngModule();
 							<col />
 						</colgroup>
 						<tr>
-							<th width="20%" height="23" class="required_text">그룹 ID<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">그룹 ID</th>
 							<td><input type="text" size="25" id="groupId" disabled="disabled"/></td>
 						</tr>
 						<tr>
