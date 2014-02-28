@@ -36,21 +36,21 @@
     </filter-mapping>
 
 	<!-- 0. 로그인 정책 컴포넌트용 필터 -->
-     <filter>
+     <!-- <filter>
         <filter-name>LoginPolicyFilter</filter-name>
         <filter-class>egovframework.com.uat.uap.filter.EgovLoginPolicyFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>LoginPolicyFilter</filter-name>
         <url-pattern>/uat/uia/YGActionLogin.do</url-pattern>
-    </filter-mapping>
+    </filter-mapping> -->
 	<!-- Restoration from HTMLTagFilter's action (certification login) -->
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
         		<param-value>
 				classpath*:egovframework/spring/context-*.xml
-				,classpath*:egovframework/spring/com/context-*.xml
+		,classpath*:egovframework/spring/com/context-*.xml
 </param-value>
     </context-param>
 
@@ -75,7 +75,7 @@
     </servlet-mapping>
 
   	<!-- 1. 스프링 시큐리티 설정-->
-      <filter>
+<!--      <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
@@ -86,11 +86,11 @@
     <listener>
         <listener-class>org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class>
     </listener>
-    <!-- security 끝 -->
+ -->    <!-- security 끝 -->
 
 
   	<!-- 3. Spring Security 로그아웃 설정을 위한 필터 설정 -->
-   	<filter>
+<!--   	<filter>
     	<filter-name>EgovSpringSecurityLogoutFilter</filter-name>
     	<filter-class>egovframework.com.sec.security.filter.EgovSpringSecurityLogoutFilter</filter-class>
   	</filter>
@@ -98,9 +98,9 @@
     	<filter-name>EgovSpringSecurityLogoutFilter</filter-name>
     	<url-pattern>/uat/uia/YGActionLogout.do</url-pattern>
   	</filter-mapping>
-
+ -->
   	<!-- 3. Spring Security 로그인 설정을 위한 필터 설정 -->
-   	<filter>
+<!--   	<filter>
     	<filter-name>EgovSpringSecurityLoginFilter</filter-name>
     	<filter-class>egovframework.com.sec.security.filter.EgovSpringSecurityLoginFilter</filter-class>
 		<init-param>
@@ -113,7 +113,7 @@
     	<filter-name>EgovSpringSecurityLoginFilter</filter-name>
     	<url-pattern>*.do</url-pattern>
   	</filter-mapping>
- 
+ -->
     <!-- AjaxTags configuration START-->
     <servlet>
         <servlet-name>ajaxServlet</servlet-name>
@@ -137,7 +137,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.do</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <login-config>
         <auth-method>BASIC</auth-method>

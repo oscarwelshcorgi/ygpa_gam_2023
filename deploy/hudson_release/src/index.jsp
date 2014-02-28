@@ -1,2 +1,2 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<jsp:forward page="/main/gamMain.do"/>
+<jsp:forward page="/uat/uia/YGLoginUsr.do"/>

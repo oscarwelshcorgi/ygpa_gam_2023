@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
-  * @Description : 맵 조회 화면 (TEST)
+  * @Description : 맵 조회 화면 (DEBUG)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -22,15 +22,14 @@
 <!DOCTYPE html>
 <html lang="ko" xml:lang="ko">
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (TEST)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (DEBUG)</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/emd_desktop.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_desktop.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/jquery-ui.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/jquery.ui.tabs.css'/>" />
+<link rel="stylesheet" href="<c:url value='/css/theme/jquery-ui-1.10.4.custom.css' />" />
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.sidr.light.css'/>">
 <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
@@ -155,7 +154,7 @@
                                     data-prgid="PRG_0003"
                                     data-url="<c:url value="/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do"/>">항만시설납부현황관리</a>
                                 </li>
-                                <!--  
+                                <!--
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
                                     data-url="<c:url value=''/>">항만시설월별사용료현황조회</a>
@@ -385,7 +384,6 @@
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamMenuMngCreat.do'/>">메뉴 생성 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorMng.do'/>">권한 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sec/gmt/gamGroupMng.do'/>">그룹 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
                     </ul>
                 </li>

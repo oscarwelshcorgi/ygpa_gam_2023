@@ -113,7 +113,7 @@
     	<filter-name>EgovSpringSecurityLoginFilter</filter-name>
     	<url-pattern>*.do</url-pattern>
   	</filter-mapping>
- 
+
     <!-- AjaxTags configuration START-->
     <servlet>
         <servlet-name>ajaxServlet</servlet-name>
@@ -137,7 +137,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.do</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <login-config>
         <auth-method>BASIC</auth-method>

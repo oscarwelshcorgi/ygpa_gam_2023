@@ -635,10 +635,17 @@
 										</includes>
 									</resource>
 									<resource>
-										<directory>deploy/hudson_release/src/</directory>
+										<directory>deploy/hudson_debug/src/</directory>
 										<targetPath>WEB-INF/jsp/egovframework/rte/ygpa/gam/main</targetPath>
 										<includes>
 											<include> ygpaMapMain.jsp </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/hudson_debug/src/</directory>
+										<targetPath>/</targetPath>
+										<includes>
+											<include> index.jsp </include>
 										</includes>
 									</resource>
 
@@ -702,6 +709,14 @@
 											<include> ygpaMapMain.jsp </include>
 										</includes>
 									</resource>
+									<resource>
+										<directory>deploy/hudson_release/src/</directory>
+										<targetPath>/</targetPath>
+										<includes>
+											<include> index.jsp </include>
+										</includes>
+									</resource>
+
 							</webResources>
 						</configuration>
 					</plugin>
