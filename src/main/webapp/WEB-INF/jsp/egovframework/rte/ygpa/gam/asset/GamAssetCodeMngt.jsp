@@ -37,7 +37,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		url: '<c:url value="/asset/selectErpAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'등록', name:'regYn', width:44, sortable:true, align:'left'},
+			{display:'등록', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
 			{display:'자산구분', name:'assetCls', width:66, sortable:true, align:'left'},
 			{display:'자산번호', name:'assetNo', width:62, sortable:true, align:'right'},
 			{display:'자산번호순번', name:'assetNoSeq', width:128, sortable:true, align:'left'},
@@ -73,7 +73,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
 			],
 		usepager: true,
-		useRp: true,
+		useRp: false,
 		rp: 24,
 		showTableToggleBtn: false,
 		height: '300'
@@ -85,7 +85,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module.$('#searchGisErpAssetCls').val(row['assetCls']);
 		module.$('#searchGisErpAssetNo').val(row['assetNo']);
 		module.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
-		
+
 		// 해당하는 자산 목록을 불러온다/
 		var searchOpt=module.makeFormArgs('#searchGisAssetCode');
 		//this.showAlert(searchOpt);
