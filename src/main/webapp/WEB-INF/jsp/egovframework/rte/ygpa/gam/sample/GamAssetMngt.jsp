@@ -73,8 +73,6 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
 			],
 		usepager: true,
-		useRp: true,
-		rp: 24,
 		showTableToggleBtn: false,
 		height: '300'
 	});
