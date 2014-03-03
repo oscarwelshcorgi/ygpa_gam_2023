@@ -431,7 +431,7 @@
     </div>
     </div>  <!-- div wrapper -->
     <div id="progress_dialog" title="로딩중...">
-	<p><img alt="로딩중 입니다." style="width:100%; height:10px;" src="<c:url value='images/egovframework/rte/progress.gif' />" /></p>
+	<p><img alt="로딩중 입니다." style="width:100%; height:10px;" src="<c:url value='/images/egovframework/rte/progress.gif' />" /></p>
 </div>
 
   </body>

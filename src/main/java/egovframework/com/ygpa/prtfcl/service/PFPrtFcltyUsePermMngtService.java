@@ -29,5 +29,5 @@ public interface PFPrtFcltyUsePermMngtService {
 	 * @throws Exception
 	 */
 	public void updatePrtFcltyUsePerm(Map<String, Object>map) throws Exception;
-
+	
 }
