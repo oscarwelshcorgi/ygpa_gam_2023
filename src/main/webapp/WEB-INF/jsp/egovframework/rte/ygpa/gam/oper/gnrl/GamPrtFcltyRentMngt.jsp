@@ -632,7 +632,7 @@ GamPrtFcltyRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
                  <li><a href="#tabs1" class="emdTab">항만시설사용목록관리 조회내역</a></li>
                  <li><a href="#tabs2" class="emdTab">항만시설사용목록관리 상세조회 목록내역</a></li>
                  <li><a href="#tabs3" class="emdTab">항만시설사용목록관리 상세조회내역</a></li>
-                 <li><a href="#tabs4" class="emdTab">사진</a></li>
+                 <li><a href="#tabs4" class="emdTab">첨부 파일</a></li>
              </ul>
              
              <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
