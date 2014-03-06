@@ -39,7 +39,6 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		colModel : [
 			{display:'등록', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
 			{display:'자산구분', name:'assetCls', width:66, sortable:true, align:'left'},
-			{display:'자산번호', name:'assetNo', width:62, sortable:true, align:'right'},
 			{display:'자산번호순번', name:'assetNoSeq', width:128, sortable:true, align:'left'},
 			{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'right'},
 			{display:'품목', name:'itemCls', width:32, sortable:true, align:'center'},
@@ -248,7 +247,8 @@ var module_instance = new GamAssetCodeModule();
 						<tbody>
 							<tr>
 								<th>자산구분</th>
-								<td><select id="assetCls">
+								<td>
+								<select id="assetCls">
 										<option value="" selected="selected">선택</option>
 										<c:forEach  items="${erpAssetClsList}" var="clsItem">
 											<option value="${clsItem.smCls }">${clsItem.smClsName }</option>
@@ -277,7 +277,9 @@ var module_instance = new GamAssetCodeModule();
 								<th>품명</th>
 								<td colspan="3"><input id="itemName" type="text" size="36"></td>
 								<th>부서</th>
-								<td width="200px" colspan="3"><select id="deptCd"><option value="" selected="selected">선택</option>
+								<td width="200px" colspan="3">
+									<input id="deptCd" class="ygpaDeptSelect"/>
+									<select id="deptCd"><option value="" selected="selected">선택</option>
 										<option value="GRP0001">재무회계팀</option>
 										<option value="GRP0002">경영지원팀</option>
 										<option value="GRP0003">경영기획팀</option>
