@@ -97,6 +97,27 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     
     /** 부서코드 */
     private String deptcd;
+    
+    /** 항이름 */
+    private String prtAtCodeNm;
+    
+    /** 신청구분명 */
+    private String reqstSeCdNm;
+    
+    /** 결재 상태 */
+    private String sanctnSttus;	
+    
+    /** 결재자 사원 번호 */
+    private String sanctnerEmplNo;  
+    
+    /** 부두 코드 */
+    private String quayCd;	  
+    
+    /** 최초 신청 일자 */
+    private String frstReqstDt;  
+    
+    /** 결재 일시 */
+    private String sanctnDt;	
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -867,7 +888,103 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
 	public void setPayMth(String payMth) {
 		this.payMth = payMth;
 	}
-	
-	
+
+	/**
+	 * @return the prtAtCodeNm
+	 */
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
+	}
+
+	/**
+	 * @param prtAtCodeNm the prtAtCodeNm to set
+	 */
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
+	}
+
+	/**
+	 * @return the reqstSeCdNm
+	 */
+	public String getReqstSeCdNm() {
+		return reqstSeCdNm;
+	}
+
+	/**
+	 * @param reqstSeCdNm the reqstSeCdNm to set
+	 */
+	public void setReqstSeCdNm(String reqstSeCdNm) {
+		this.reqstSeCdNm = reqstSeCdNm;
+	}
+
+	/**
+	 * @return the sanctnSttus
+	 */
+	public String getSanctnSttus() {
+		return sanctnSttus;
+	}
+
+	/**
+	 * @param sanctnSttus the sanctnSttus to set
+	 */
+	public void setSanctnSttus(String sanctnSttus) {
+		this.sanctnSttus = sanctnSttus;
+	}
+
+	/**
+	 * @return the sanctnerEmplNo
+	 */
+	public String getSanctnerEmplNo() {
+		return sanctnerEmplNo;
+	}
+
+	/**
+	 * @param sanctnerEmplNo the sanctnerEmplNo to set
+	 */
+	public void setSanctnerEmplNo(String sanctnerEmplNo) {
+		this.sanctnerEmplNo = sanctnerEmplNo;
+	}
+
+	/**
+	 * @return the quayCd
+	 */
+	public String getQuayCd() {
+		return quayCd;
+	}
+
+	/**
+	 * @param quayCd the quayCd to set
+	 */
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the frstReqstDt
+	 */
+	public String getFrstReqstDt() {
+		return frstReqstDt;
+	}
+
+	/**
+	 * @param frstReqstDt the frstReqstDt to set
+	 */
+	public void setFrstReqstDt(String frstReqstDt) {
+		this.frstReqstDt = frstReqstDt;
+	}
+
+	/**
+	 * @return the sanctnDt
+	 */
+	public String getSanctnDt() {
+		return sanctnDt;
+	}
+
+	/**
+	 * @param sanctnDt the sanctnDt to set
+	 */
+	public void setSanctnDt(String sanctnDt) {
+		this.sanctnDt = sanctnDt;
+	}
 	
 }

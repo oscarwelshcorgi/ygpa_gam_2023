@@ -144,6 +144,16 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public int selectAssetRentDetailListTotCnt(GamAssetRentMngtVO vo) throws Exception {
 		return gamAssetRentMngtDao.selectAssetRentDetailListTotCnt(vo);
 	}
+    
+    /**
+   	 * 공시지가 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+       public List selectOlnlpInfo() throws Exception {
+           return gamAssetRentMngtDao.selectOlnlpInfo();
+       }
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.

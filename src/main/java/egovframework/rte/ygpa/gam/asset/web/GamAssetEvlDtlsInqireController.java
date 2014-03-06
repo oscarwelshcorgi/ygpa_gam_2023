@@ -141,7 +141,7 @@ public class GamAssetEvlDtlsInqireController {
 		
 		GamAssetEvlDtlsInqireVO result = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireErp(searchVO);
     	
-		if( EgovStringUtil.isEmpty(result.getDeprctnYear()) ) {
+		if( result == null || EgovStringUtil.isEmpty(result.getDeprctnYear()) ) {
 			map.put("resultCode", 1);	
 			map.put("resultMsg", egovMessageSource.getMessage("gam.asset.EvlDtlsInqire.nodata.reason")); //ERP에 해당 데이터가 존재하지 않습니다.
 		} else {

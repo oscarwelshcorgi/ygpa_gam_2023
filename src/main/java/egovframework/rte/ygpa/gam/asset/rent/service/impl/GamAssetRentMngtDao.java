@@ -251,5 +251,15 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
     public List selectAssetRentDetailInfo(GamAssetRentMngtVO vo) throws Exception {
         return list("gamAssetRentMngtDao.selectAssetRentDetailInfo_S", vo);
     }
+    
+    /**
+	 * 공시지가 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 공시지가 목록
+	 * @exception Exception
+	 */
+    public List selectOlnlpInfo() throws Exception {
+        return list("gamAssetRentMngtDao.selectOlnlpInfo_S", null);
+    }
 	
 }

@@ -21,7 +21,9 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -78,8 +80,20 @@ public class GamAssetRentMngtController {
 	@RequestMapping(value="/asset/rent/gamAssetRentMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		//login정보
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
+		//부서정보
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+		vo.setTableNm("COMTNORGNZTINFO");
+		List ogrnztIdList = cmmUseService.selectOgrnztIdDetail(vo);
+		
+		//공시지가정보
+		GamAssetRentMngtVO gvo = new GamAssetRentMngtVO();
+		List olnlpList = gamAssetRentMngtService.selectOlnlpInfo();
+		
+		//각 코드정보
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
@@ -119,6 +133,9 @@ public class GamAssetRentMngtController {
 		codeVo.setCodeId("GAM003"); //부두코드
 		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
+		codeVo.setCodeId("GAM014"); //적용방법
+		List applcMthList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("reqstCdList", reqstCdList);
 		model.addAttribute("nticMthCdList", nticMthCdList);
@@ -132,6 +149,11 @@ public class GamAssetRentMngtController {
 		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
 		model.addAttribute("payMthCdList", payMthCdList);
 		model.addAttribute("quayCdList", quayCdList);
+		model.addAttribute("ogrnztIdList", ogrnztIdList);
+		model.addAttribute("olnlpList", olnlpList);
+		model.addAttribute("applcMthList", applcMthList);
+		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
+		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/asset/rent/GamAssetRentMngt";

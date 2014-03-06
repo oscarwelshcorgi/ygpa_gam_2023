@@ -87,6 +87,14 @@ public interface GamAssetRentMngtService {
     int selectAssetRentDetailListTotCnt(GamAssetRentMngtVO vo) throws Exception;
 	
     /**
+	 * 공시지가 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectOlnlpInfo() throws Exception;
+    
+    /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param VO - 조회할 정보가 담긴 VO
 	 * @return cnt
