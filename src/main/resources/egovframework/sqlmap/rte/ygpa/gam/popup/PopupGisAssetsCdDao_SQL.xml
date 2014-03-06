@@ -58,6 +58,7 @@
 								, GIS_ASSETS_LNM_SUB
 								, GIS_ASSETS_AR
 								, GIS_ASSETS_USAGE_YN
+								, GIS_ASSETS_REAL_RENT_AR
 						FROM GIS_ASSETS_CD_F
 				WHERE 1=1
 					<isNotEmpty prepend="AND" property="gisAssetsCd">
