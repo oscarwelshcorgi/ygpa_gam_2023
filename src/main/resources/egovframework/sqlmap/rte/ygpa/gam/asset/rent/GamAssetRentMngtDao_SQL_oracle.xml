@@ -90,6 +90,13 @@
 	    <result property="quayCd" column="QUAY_CD" columnIndex="37"/>
     </resultMap>
     
+    <resultMap id="CmmCodeDetail" class="egovframework.com.cmm.service.CmmnDetailCode">
+        <result property="codeId"       column="CODE_ID"    columnIndex="1"/>
+        <result property="code"         column="CODE"       columnIndex="2"/>
+        <result property="codeNm"       column="CODE_NM"    columnIndex="3"/>
+        <result property="codeDc"       column="CODE_DC"    columnIndex="4"/>
+    </resultMap>
+    
     <select id="gamAssetRentMngtDao.selectAssetRentList_D" parameterClass="gamAssetRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -97,6 +104,7 @@
                      FROM (
                            SELECT 
                                     A.PRT_AT_CODE
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM  
                                   , A.MNG_YEAR
                                   , A.MNG_NO
                                   , A.MNG_CNT
@@ -105,14 +113,15 @@
                                   , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
                                   , TO_CHAR(A.DT, 'YYYY-MM-DD') DT
                                   , A.REQST_SE_CD
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
                                   , A.GR_AR
                                   , A.GR_FEE
                                   , A.NTIC_MTH
-                                  , TO_CHAR(TO_DATE(A.FRST_PRMISN_DT), 'YYYY-MM-DD') FRST_PRMISN_DT
-                                  , TO_CHAR(TO_DATE(A.PRMISN_DT), 'YYYY-MM-DD') PRMISN_DT
+                                  , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+                                  , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
                                   , A.PRMISN_YN
-                                  , TO_CHAR(TO_DATE(A.GR_USAGE_PD_FROM), 'YYYY-MM-DD') GR_USAGE_PD_FROM 
-                                  , TO_CHAR(TO_DATE(A.GR_USAGE_PD_TO), 'YYYY-MM-DD') GR_USAGE_PD_TO
+                                  , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+                                  , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
                                   , A.DOC_NO
                                   , A.RM
                                   , A.CMT
@@ -125,6 +134,7 @@
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , PAY_MTH
+                                  , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
                              FROM ASSETS_RENT_F A
                             WHERE 1=1 
                             
@@ -141,12 +151,12 @@
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrUsagePdFrom"> 
-					             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
-					         </isNotEmpty>
-					         
-					         <isNotEmpty property="sGrUsagePdTo">
-					             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
-					         </isNotEmpty>
+                                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sGrUsagePdTo">
+                                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrAr">
 					             AND A.GR_AR = #sGrAr#
@@ -207,11 +217,11 @@
              </isNotEmpty>
              
              <isNotEmpty property="sGrUsagePdFrom"> 
-                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
              </isNotEmpty>
              
              <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
              </isNotEmpty>
              
              <isNotEmpty property="sGrAr">
@@ -269,11 +279,11 @@
          </isNotEmpty>
          
          <isNotEmpty property="sGrUsagePdFrom"> 
-             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
          </isNotEmpty>
          
          <isNotEmpty property="sGrUsagePdTo">
-             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
          </isNotEmpty>
          
          <isNotEmpty property="sGrAr">
@@ -363,8 +373,8 @@
                                    , #grAr#
                                    , #grFee#
                                    , #nticMth#
-                                   , REPLACE(#frstPrmisnDt#,'-','')
-                                   , REPLACE(#prmisnDt#,'-','')
+                                   , TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#)
+                                   , TO_DATE(#prmisnDt:DATE:NO_ENTRY#)
                                    , #prmisnYn#
                                    , TO_CHAR(SYSDATE,'YYYYMMDD')
                                    , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD')
@@ -455,11 +465,11 @@
 		       , GR_AR            = #grAr#
 		       , GR_FEE           = #grFee#
 		       , NTIC_MTH         = #nticMth#
-		       , FRST_PRMISN_DT   = REPLACE(#frstPrmisnDt#,'-','')
+		       , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#) 
 		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
 		       , PRMISN_YN        = #prmisnYn# -->
-		       , GR_USAGE_PD_FROM = REPLACE(#grUsagePdFrom#,'-','') 
-		       , GR_USAGE_PD_TO   = REPLACE(#grUsagePdTo#,'-','') 
+		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom:DATE:NO_ENTRY#)
+		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#)
 		       , DOC_NO           = #docNo#
 		       , RM               = #rm#
 		       , CMT              = #cmt#
@@ -485,17 +495,56 @@
                                   A.ASSETS_USAGE_SEQ             
                                 , A.GIS_ASSETS_CD
                                 , A.GIS_ASSETS_SUB_CD
+                                , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
+                                
+                                , (SELECT F.GIS_ASSETS_NM FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_NM
+                                
+                                , (SELECT F.GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LOCPLC      
+                                
+                                , (SELECT F.GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LNM
+                                
+                                , (SELECT F.GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LNM_SUB
+                                
+                                , (SELECT F.GIS_ASSETS_AR FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_AR
+                                
+                                , (SELECT F.GIS_ASSETS_REAL_RENT_AR FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
+      
                                 , A.USAGE_AR
-                                , TO_CHAR(TO_DATE(A.USAGE_PD_FROM), 'YYYY-MM-DD') USAGE_PD_FROM
-                                , TO_CHAR(TO_DATE(A.USAGE_PD_TO), 'YYYY-MM-DD') USAGE_PD_TO
+                                , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
+                                , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
                                 , A.USAGE_PURPS
                                 , A.USAGE_DTLS
                                 , A.USAGE_PRPOS_CD
                                 , A.EXEMPT_SE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE AND ROWNUM = 1) EXEMPT_SE_NM
                                 , A.EXEMPT_RSN_CD
                                 , A.EXEMPT_RSN
-                                , TO_CHAR(TO_DATE(A.EXEMPT_PD_FROM), 'YYYY-MM-DD') EXEMPT_PD_FROM 
-                                , TO_CHAR(TO_DATE(A.EXEMPT_PD_TO), 'YYYY-MM-DD') EXEMPT_PD_TO 
+                                , TO_CHAR(A.EXEMPT_PD_FROM,'YYYY-MM-DD') EXEMPT_PD_FROM
+                                , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
                                 , A.COMPUT_DTLS
                                 , A.OLNLP
                                 , A.APPLC_TARIFF
@@ -506,7 +555,7 @@
                                 , A.RDCXPT_FEE_CALC_SE
                                 , A.RDCXPT_FEE
                                 , A.FEE
-                                , TO_CHAR(TO_DATE(A.TRMNAT_DT), 'YYYY-MM-DD') TRMNAT_DT
+                                , TO_CHAR(A.TRMNAT_DT,'YYYY-MM-DD') TRMNAT_DT
                                 , A.TRMNAT_RSN
                                 , A.GIS_CD
                                 , A.REG_USR
@@ -514,6 +563,7 @@
                                 , A.UPD_USR
                                 , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
                                 , A.PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
                                 , A.GIS_ASSETS_PRT_AT_CODE
                                 , A.MNG_YEAR
                                 , A.MNG_NO
@@ -625,16 +675,16 @@
 		                                   , #gisAssetsCd#
 		                                   , #gisAssetsSubCd#
 		                                   , #usageAr#
-		                                   , REPLACE(#usagePdFrom#,'-','') 
-		                                   , REPLACE(#usagePdTo#,'-','') 
+		                                   , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
+		                                   , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
 		                                   , #usagePurps#
 		                                   , #usageDtls#
 		                                   , #usagePrposCd#
 		                                   , #exemptSe#
 		                                   , #exemptRsnCd#
 		                                   , #exemptRsn#
-		                                   , REPLACE(#exemptPdFrom#,'-','')
-		                                   , REPLACE(#exemptPdTo#,'-','') 
+		                                   , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
+		                                   , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
 		                                   , #computDtls#
 		                                   , #olnlp#
 		                                   , #applcTariff#
@@ -645,7 +695,7 @@
 		                                   , #rdcxptFeeCalcSe#
 		                                   , #rdcxptFee#
 		                                   , #fee#
-		                                   , REPLACE(#trmnatDt#,'-','') 
+		                                   , TO_DATE(#trmnatDt:DATE:NO_ENTRY#)
 		                                   , #trmnatRsn#
 		                                   , #gisCd#
 		                                   , #regUsr#
@@ -666,16 +716,16 @@
 		         GIS_ASSETS_CD          = #gisAssetsCd#
 		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
 		       , USAGE_AR               = #usageAr#
-		       , USAGE_PD_FROM          = REPLACE(#usagePdFrom#,'-','')
-		       , USAGE_PD_TO            = REPLACE(#usagePdTo#,'-','') 
+		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
+		       , USAGE_PD_TO            = TO_DATE(#usagePdTo:DATE:NO_ENTRY#) 
 		       , USAGE_PURPS            = #usagePurps#
 		       , USAGE_DTLS             = #usageDtls#
 		       , USAGE_PRPOS_CD         = #usagePrposCd#
 		       , EXEMPT_SE              = #exemptSe#
 		       , EXEMPT_RSN_CD          = #exemptRsnCd#
 		       , EXEMPT_RSN             = #exemptRsn#
-		       , EXEMPT_PD_FROM         = REPLACE(#exemptPdFrom#,'-','') 
-		       , EXEMPT_PD_TO           = REPLACE(#exemptPdTo#,'-','') 
+		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#) 
+		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo:DATE:NO_ENTRY#) 
 		       , COMPUT_DTLS            = #computDtls#
 		       , OLNLP                  = #olnlp#
 		       , APPLC_TARIFF           = #applcTariff#
@@ -686,7 +736,7 @@
 		       , RDCXPT_FEE_CALC_SE     = #rdcxptFeeCalcSe#
 		       , RDCXPT_FEE             = #rdcxptFee#
 		       , FEE                    = #fee#
-		       , TRMNAT_DT              = REPLACE(#trmnatDt#,'-','') 
+		       , TRMNAT_DT              = TO_DATE(#trmnatDt:DATE:NO_ENTRY#) 
 		       , TRMNAT_RSN             = #trmnatRsn#
 		       , GIS_CD                 = #detailGisCd#
 		       , UPD_USR                = #updUsr#
@@ -716,16 +766,16 @@
                , A.MNG_CNT
                , A.ENTRPSCD
                , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
-               , TO_CHAR(A.DT, 'YYYYMMDD') DT
+               , TO_CHAR(A.DT, 'YYYY-MM-DD') DT
                , A.REQST_SE_CD
                , A.GR_AR
                , A.GR_FEE
                , A.NTIC_MTH
-               , A.FRST_PRMISN_DT
-               , A.PRMISN_DT 
+               , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+               , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT 
                , A.PRMISN_YN
-               , A.GR_USAGE_PD_FROM
-               , A.GR_USAGE_PD_TO
+               , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+               , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
                , A.DOC_NO
                , A.RM
                , A.CMT
@@ -750,10 +800,10 @@
         UPDATE ASSETS_RENT_F SET
              
                 <isEqual property="reqstSeCd" compareValue="1">
-                    FRST_PRMISN_DT = TO_CHAR(SYSDATE,'YYYYMMDD'),
+                    FRST_PRMISN_DT = SYSDATE,
                 </isEqual>
              
-                PRMISN_DT     = TO_CHAR(SYSDATE,'YYYYMMDD')
+                PRMISN_DT     = SYSDATE
               , PRMISN_YN     = #prmisnYn# 
         WHERE  PRT_AT_CODE   = #prtAtCode#
         AND    MNG_YEAR      = #mngYear#
@@ -836,7 +886,7 @@
     
     <update id="gamAssetRentMngtDao.updateAssetRentPrmisnCancel_S">
         UPDATE ASSETS_RENT_F SET
-                PRMISN_DT     = TO_CHAR(SYSDATE,'YYYYMMDD')
+                PRMISN_DT     = SYSDATE
               , PRMISN_YN     = #prmisnYn# 
         WHERE  PRT_AT_CODE   = #prtAtCode#
         AND    MNG_YEAR      = #mngYear#
@@ -865,16 +915,16 @@
              , A.GIS_ASSETS_CD
              , A.GIS_ASSETS_SUB_CD
              , A.USAGE_AR
-             , A.USAGE_PD_FROM
-             , A.USAGE_PD_TO
+             , TO_CHAR(A.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
+             , TO_CHAR(A.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
              , A.USAGE_PURPS
              , A.USAGE_DTLS
              , A.USAGE_PRPOS_CD
              , A.EXEMPT_SE
              , A.EXEMPT_RSN_CD
              , A.EXEMPT_RSN
-             , A.EXEMPT_PD_FROM
-             , A.EXEMPT_PD_TO
+             , TO_CHAR(A.EXEMPT_PD_FROM, 'YYYY-MM-DD') EXEMPT_PD_FROM
+             , TO_CHAR(A.EXEMPT_PD_TO, 'YYYY-MM-DD') EXEMPT_PD_TO
              , A.COMPUT_DTLS
              , A.OLNLP
              , A.APPLC_TARIFF
@@ -885,7 +935,7 @@
              , A.RDCXPT_FEE_CALC_SE
              , A.RDCXPT_FEE
              , A.FEE
-             , A.TRMNAT_DT
+             , TO_CHAR(A.TRMNAT_DT, 'YYYY-MM-DD') TRMNAT_DT
              , A.TRMNAT_RSN
              , A.GIS_CD
              , A.REG_USR
@@ -961,16 +1011,16 @@
                                            , #gisAssetsCd#
                                            , #gisAssetsSubCd#
                                            , #usageAr#
-                                           , #usagePdFrom#
-                                           , #usagePdTo#
+                                           , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
                                            , #usagePurps#
                                            , #usageDtls#
                                            , #usagePrposCd#
                                            , #exemptSe#
                                            , #exemptRsnCd#
                                            , #exemptRsn#
-                                           , #exemptPdFrom#
-                                           , #exemptPdTo#
+                                           , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
                                            , #computDtls#
                                            , #olnlp#
                                            , #applcTariff#
@@ -981,7 +1031,7 @@
                                            , #rdcxptFeeCalcSe#
                                            , #rdcxptFee#
                                            , #fee#
-                                           , #trmnatDt#
+                                           , TO_DATE(#trmnatDt:DATE:NO_ENTRY#)
                                            , #trmnatRsn#
                                            , #gisCd#
                                            , #regUsr#
@@ -996,5 +1046,17 @@
                                            , #quayCd#
                                          )
     </insert>
+    
+    <select id="gamAssetRentMngtDao.selectOlnlpInfo_S" resultMap="CmmCodeDetail">
+            SELECT 
+                '' CODE_ID, 
+                OLNLP CODE, 
+                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원]') CODE_NM,  
+                '' CODE_DC
+            FROM 
+                OLNLP_F
+            WHERE 1=1
+            ORDER BY BEGIN_DT DESC
+    </select>
     
 </sqlMap>
