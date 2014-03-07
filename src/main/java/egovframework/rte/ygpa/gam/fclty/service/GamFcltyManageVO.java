@@ -67,7 +67,7 @@ public class GamFcltyManageVO extends ComDefaultVO{
     
     /** GIS 자산 항코드 */
     private String gisAssetsPrtAtCode;
-    
+
     /** GIS 자산 코드 */
     private String gisAssetsCd;
     
@@ -84,11 +84,27 @@ public class GamFcltyManageVO extends ComDefaultVO{
     // display
     private String gisAssetsDisplay;
     private String gisPrtFcltyDisplay;
+    private String gisAssetsLocCd;
     private String gisAssetsLocplc;
 	private String gisAssetsLnm;
     private String gisAssetsLnmSub;
     private String gisAssetsNm;
+    private String gisAssetsPrtAtName;
     private String prtFcltyMngEntrpsNm;
+    
+    /**
+     * @return the gisAssetsPrtAtName
+     */
+    public String getGisAssetsPrtAtName() {
+    	return gisAssetsPrtAtName;
+    }
+    
+    /**
+     * @param gisAssetsPrtAtName the gisAssetsPrtAtName to set
+     */
+    public void setGisAssetsPrtAtName(String gisAssetsPrtAtName) {
+    	this.gisAssetsPrtAtName = gisAssetsPrtAtName;
+    }
     
     /**
      * @return the prtFcltyMngEntrpsNm
@@ -119,12 +135,26 @@ public class GamFcltyManageVO extends ComDefaultVO{
     }
     
     /**
+	 * @return the gisAssetsLocCd
+	 */
+	public String getGisAssetsLocCd() {
+		return gisAssetsLocCd;
+	}
+
+	/**
+	 * @param gisAssetsLocCd the gisAssetsLocCd to set
+	 */
+	public void setGisAssetsLocCd(String gisAssetsLocCd) {
+		this.gisAssetsLocCd = gisAssetsLocCd;
+	}
+	
+	/**
 	 * @return the gisAssetsLocplc
 	 */
 	public String getGisAssetsLocplc() {
 		return gisAssetsLocplc;
 	}
-
+	
 	/**
 	 * @param gisAssetsLocplc the gisAssetsLocplc to set
 	 */
