@@ -43,10 +43,11 @@
 				, A.MENU_ORDR AS "menuOrdr"
 				, A.MENU_NM AS "menuNm"
 				, A.UPPER_MENU_NO AS "upperMenuId"
-			    , (SELECT count(B.MENU_NO)
-			         FROM COMTNMENUCREATDTLS B
-			        WHERE B.MENU_NO  = A.MENU_NO
-			          AND B.AUTHOR_CODE = #authorCode#) AS "chkYeoBu"
+				, DECODE(
+					(SELECT count(B.MENU_NO) FROM COMTNMENUCREATDTLS B 
+				    	WHERE B.MENU_NO = A.MENU_NO
+				        AND B.AUTHOR_CODE = #authorCode#
+					), '0','N','Y') AS "chkYeoBu"
 			FROM COMTNMENUINFO A
 			WHERE A.MENU_NO > 0
 			ORDER BY A.MENU_NO, A.MENU_ORDR
