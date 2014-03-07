@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
+	<typeAlias alias="entrpsInfoFVO" type="egovframework.rte.ygpa.gam.code.service.GamEntrpsInfoFVO"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="gamCmpyInfoMngtDao.insertCmpyChargerMngt">
+		<![CDATA[
+		INSERT 
+		  INTO ENTRPS_CHARGER_F 
+		       ( 
+		           CHARGER_NO , 
+		           ENTRPSCD , 
+		           CHARGER_NM , 
+		           CHARGER_OFC_POS , 
+		           CHRG_JOB , 
+		           CHARGER_MOBLPHON_NO , 
+		           CHARGER_TLPHON_NO , 
+		           CHARGER_FAX , 
+		           CHARGER_EMAIL , 
+		           CHARGER_DEPT , 
+		           MNG_DEPT_CD , 
+		           REG_USR , 
+		           REGIST_DT
+		       ) 
+		       VALUES 
+		       ( 
+		              (SELECT LPAD(NVL(MAX(CHARGER_NO),0) + 1,'5','0') 
+		                FROM ENTRPS_CHARGER_F 
+		              ) , 
+		              #entrpscd# , 
+		              #chargerNm# , 
+		              #chargerOfcPos# , 
+		              #chrgJob# , 
+		              #chargerMoblphonNo# , 
+		              #chargerTlphonNo# , 
+		              #chargerFax# , 
+		              #chargerEmail# , 
+		              #chargerDept# , 
+		              #mngDeptCd# , 
+		              #regUsr# , 
+		              SYSDATE 
+		          )
+		]]>
+	</insert>
+	
+	<update id="gamCmpyInfoMngtDao.updateGisCode_S">
+		<![CDATA[
+			UPDATE GIS_CD 
+			SET 
+					GIS_TY=#gisTy#,
+					GIS_DATA=#gisData#,
+					HREF=#href#
+			WHERE 
+				GISCD=#giscd#
+		]]>
+	</update>
+	
+	<delete id="gamCmpyInfoMngtDao.deleteGisCode_S">
+		<![CDATA[
+			DELETE FROM GIS_CD 
+			WHERE 				
+				GISCD=#giscd#
+		]]>
+	</delete>
+	
+	<select id="gamCmpyInfoMngtDao.selectCmpyInfoMngtDetail" resultClass="entrpsInfoFVO" parameterClass="entrpsInfoFVO">
+		<![CDATA[
+			SELECT ENTRPSCD AS entrpscd , 
+			       ENTRPS_NM AS entrpsNm , 
+			       ENTRPS_TY AS entrpsTy , 
+			       BSNM_SE AS bsnmSe , 
+			       RPRSNTV_NM AS rprsntvNm , 
+			       BIZRNO AS bizrno , 
+			       CPRREGISTNO AS cprregistno , 
+			       INDUTY AS induty , 
+			       BIZCND AS bizcnd , 
+			       TLPHON_NO AS tlphonNo , 
+			       ZIP AS zip , 
+			       ADRES AS adres , 
+			       REG_USR AS regUsr , 
+			       REGIST_DT AS registDt , 
+			       UPD_USR AS updUsr , 
+			       UPDT_DT AS updtDt , 
+			       FAX AS fax  
+			  FROM ENTRPS_INFO_F 
+			 WHERE ENTRPSCD = #entrpscd#
+		]]>
+	</select>
+	
+	<select id="gamCmpyInfoMngtDao.selectCmpyInfoMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
+	       SELECT * 
+			  FROM 
+			       (SELECT Z.*, 
+			              ROWNUM AS RNUM 
+			         FROM 
+			              (SELECT ENTRPSCD, 
+			                     ENTRPS_NM, 
+			                     ENTRPS_TY, 
+			                     BSNM_SE, 
+			                     RPRSNTV_NM, 
+			                     BIZRNO, 
+			                     CPRREGISTNO, 
+			                     INDUTY, 
+			                     BIZCND, 
+			                     TLPHON_NO, 
+			                     ZIP, 
+			                     ADRES, 
+			                     REG_USR,
+			                     TO_CHAR(TO_DATE(REGIST_DT), 'YYYY-MM-DD') AS REGIST_DT, 
+			                     UPD_USR, 
+			                     TO_CHAR(TO_DATE(UPDT_DT), 'YYYY-MM-DD') AS UPDT_DT, 
+			                     FAX 
+			                FROM ENTRPS_INFO_F 
+			            ORDER BY ENTRPSCD DESC 
+			              )Z 
+			       )
+       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+	</select>
+	
+	<select id="gamCmpyInfoMngtDao.selectCmpyInfoMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM ENTRPS_INFO_F
+			WHERE 1=1
+	</select>
+
+</sqlMap>
