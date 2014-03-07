@@ -56,11 +56,11 @@
 		         FROM 
 		              (
 		              	SELECT 
-		              			GIS_ASSETS_CD
-		              			, GIS_ASSETS_CD ||'-'|| GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY
+		              			F.GIS_ASSETS_CD
+		              			, F.GIS_ASSETS_CD ||'-'|| F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY
 		              			, GIS_PRT_FCLTY_CD ||'-'|| GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY
-			                    , GIS_ASSETS_PRT_AT_CODE  
-			                    , GIS_ASSETS_SUB_CD  
+			                    , F.GIS_ASSETS_PRT_AT_CODE  
+			                    , F.GIS_ASSETS_SUB_CD  
 			                    , GIS_PRT_FCLTY_CD 
 			                    , GIS_PRT_FCLTY_SEQ 
 			                    , PRT_FCLTY_NM 
@@ -68,35 +68,35 @@
 			                    , PRT_FCLTY_UNIT 
 			                    , TO_CHAR(TO_DATE(PRT_FCLTY_INSTL_DT) , 'yyyy-mm-dd')  PRT_FCLTY_INSTL_DT
                                 , TO_CHAR(TO_DATE(PRT_FCLTY_CHANGE_DT) , 'yyyy-mm-dd')  PRT_FCLTY_CHANGE_DT 
-			                    , REG_USR 
-                                , TO_CHAR(REGIST_DT, 'yyyy-mm-dd')  REGIST_DT
-			                    , UPD_USR
-                                , TO_CHAR(UPDT_DT , 'yyyy-mm-dd')  UPDT_DT 
 			                    , PRT_FCLTY_SE 
+			                    , (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = F.PRT_FCLTY_MNG_ENTRPS_CD) PRT_FCLTY_MNG_ENTRPS_NM
 			                    , PRT_FCLTY_MNG_ENTRPS_CD 
 			                    , PRT_FCLTY_GIS_CD  
-		                FROM GIS_PRT_FCLTY_CD_F
+		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
 		                WHERE 1 = 1
-		                AND GIS_PRT_FCLTY_CD = #searchCondition#
+                        AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+                        AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+                        AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+		                AND PRT_FCLTY_SE = #prtFcltySe#
 		                <isNotEmpty property="searchPrtAtCode">
-	           				AND GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+	           				AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchAssetsCd">
-	           				AND GIS_ASSETS_CD = #searchAssetsCd#
-	           				AND GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
+	           				AND F.GIS_ASSETS_CD = #searchAssetsCd#
+	           				AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchFcltySeq">
-		                	AND GIS_PRT_FCLTY_CD = #searchFcltyCd#
-	           				AND GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
+		                	AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+	           				AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchKeyword">
 	           				AND PRT_FCLTY_NM = #searchKeyword#
 	           			</isNotEmpty>
-		            ORDER BY GIS_ASSETS_CD DESC , 
-		                     GIS_ASSETS_PRT_AT_CODE DESC , 
-		                     GIS_ASSETS_SUB_CD DESC , 
-		                     GIS_PRT_FCLTY_CD DESC , 
-		                     GIS_PRT_FCLTY_SEQ DESC 
+		            ORDER BY F.GIS_ASSETS_CD DESC , 
+		                     F.GIS_ASSETS_PRT_AT_CODE DESC , 
+		                     F.GIS_ASSETS_SUB_CD DESC , 
+		                     F.GIS_PRT_FCLTY_CD DESC , 
+		                     F.GIS_PRT_FCLTY_SEQ DESC 
 		              )Z
 		       ) 
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -104,23 +104,26 @@
     
     <select id="gamFcltyMngtDao.selectFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM GIS_PRT_FCLTY_CD_F
-             WHERE 1=1 
-             AND GIS_PRT_FCLTY_CD = #searchCondition#
-			<isNotEmpty property="searchPrtAtCode">
-           		AND GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchAssetsCd">
-           		AND GIS_ASSETS_CD = #searchAssetsCd#
-           		AND GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchFcltySeq">
-	           	AND GIS_PRT_FCLTY_CD = #searchFcltyCd#
-           		AND GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
-           	</isNotEmpty>
-			<isNotEmpty property="searchKeyword">
-   				AND PRT_FCLTY_NM = #searchKeyword#
-   			</isNotEmpty>
+             FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
+             WHERE 1 = 1
+			 AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+             AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+             AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+             AND PRT_FCLTY_SE = #prtFcltySe#
+             <isNotEmpty property="searchPrtAtCode">
+       			AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+       		 </isNotEmpty>
+             <isNotEmpty property="searchAssetsCd">
+       			AND F.GIS_ASSETS_CD = #searchAssetsCd#
+       			AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
+       		 </isNotEmpty>
+             <isNotEmpty property="searchFcltySeq">
+             	AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+       			AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
+       		 </isNotEmpty>
+             <isNotEmpty property="searchKeyword">
+       			AND PRT_FCLTY_NM = #searchKeyword#
+       		 </isNotEmpty>
     </select>
 
     <select id="gamFcltyMngtDao.insertFcltyGetSeq" resultClass="String">
@@ -145,11 +148,13 @@
 		       C.UPD_USR AS updUsr , 
 		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS updtDt , 
 		       C.PRT_FCLTY_SE AS prtFcltySe , 
-		       C.PRT_FCLTY_MNG_ENTRPS_CD AS prtFcltyMngEntrpsCd , 
+		       C.PRT_FCLTY_MNG_ENTRPS_CD AS prtFcltyMngEntrpsCd ,
+		       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = C.PRT_FCLTY_MNG_ENTRPS_CD) AS prtFcltyMngEntrpsNm , 
 		       C.PRT_FCLTY_GIS_CD AS prtFcltyGisCd, 
 		       P.GIS_ASSETS_LOCPLC AS gisAssetsLocplc, 
 		       P.GIS_ASSETS_LNM AS gisAssetsLnm, 
-		       P.GIS_ASSETS_LNM_SUB AS gisAssetsLnmSub 
+		       P.GIS_ASSETS_LNM_SUB AS gisAssetsLnmSub,
+		       P.GIS_ASSETS_NM AS gisAssetsNm 
 		  FROM GIS_PRT_FCLTY_CD_F C, 
 		       GIS_ASSETS_CD_F P 
 		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE 
