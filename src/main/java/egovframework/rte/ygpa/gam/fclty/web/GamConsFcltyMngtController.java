@@ -180,8 +180,8 @@ public class GamConsFcltyMngtController {
 		   fcltyManageVO.setPrtFcltySe(prtFcltySe);
 		   gamFcltyMngtService.insertFcltyManage(fcltyManageVO);
 
-			map.put("resultCode", 0);			// return ok
-    		resultMsg = egovMessageSource.getMessage("success.common.insert");
+		   map.put("resultCode", 0);			// return ok
+		   resultMsg = egovMessageSource.getMessage("success.common.insert");
     	}
 
         map.put("resultMsg", resultMsg);
@@ -227,8 +227,9 @@ public class GamConsFcltyMngtController {
 			map.put("resultObject", bindingResult.getAllErrors());
 
 		}else{
-			
+
 			fcltyManageVO.setUpdUsr(user.getId());
+			fcltyManageVO.setPrtFcltySe(prtFcltySe);
 			gamFcltyMngtService.updateFclty(fcltyManageVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
