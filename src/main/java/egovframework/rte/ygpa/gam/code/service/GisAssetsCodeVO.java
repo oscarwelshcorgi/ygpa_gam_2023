@@ -3,8 +3,11 @@ package egovframework.rte.ygpa.gam.code.service;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class GisAssetsCodeVO {
-	
+import egovframework.com.cmm.ComDefaultVO;
+
+public class GisAssetsCodeVO extends ComDefaultVO{
+
+	private static final long serialVersionUID = 1L;
 	
     /** GIS 자산 코드 */
     private String gisAssetsCd;
