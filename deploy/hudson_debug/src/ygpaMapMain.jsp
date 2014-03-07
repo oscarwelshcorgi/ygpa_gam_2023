@@ -54,6 +54,7 @@
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 
+    <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
        OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
 
@@ -63,7 +64,6 @@
 
 
     </script>
-    <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
   </head>
   <body>
     <div class="abs" id="wrapper">
