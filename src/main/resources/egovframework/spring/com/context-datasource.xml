@@ -31,9 +31,9 @@
 		<property name="username" value="${Globals.UserName}"/>
 		<property name="password" value="${Globals.Password}"/>
   		<property name="validationQuery" value="select 1 from dual"/>
-  		<property name="testWhileIdle" value="true" /> 
-  		<property name="timeBetweenEvictionRunsMillis" value="60000" /> <!-- 1min --> 
-<!--   		<property name="defaultAutoCommit" value="false"/> -->
+  		<property name="testWhileIdle" value="true" />
+  		<property name="timeBetweenEvictionRunsMillis" value="60000" /> <!-- 1min -->
+		<property name="defaultAutoCommit" value="false"/>
 	</bean>
 
 	<!-- Altibase -->
