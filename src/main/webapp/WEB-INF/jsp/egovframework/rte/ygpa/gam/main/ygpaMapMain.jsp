@@ -56,6 +56,11 @@
 
     <script type="text/javascript">
        OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
+
+       jQuery(document).ready(function() {
+    	   EMD.go("${pageContext.request.contextPath}");
+    	 });
+
     </script>
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
   </head>

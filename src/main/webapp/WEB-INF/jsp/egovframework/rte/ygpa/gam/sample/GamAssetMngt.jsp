@@ -90,11 +90,11 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#erpAssetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
 	this.$("#erpAssetCodeList").on('onItemUnSelected', function(event, module, row, grid, param) {
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is unselected');
+		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is unselected');
 	});
 
 	this.$("#assetCodeList").flexigrid({
@@ -130,11 +130,17 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
 		$.each(row, function(id, val){
-			module.$('#editGisAssetCode #'+id).val(val);
+			if(id!='_updt') module.$('#editGisAssetCode #'+id).val(val);
 		});
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
+	this.$("#assetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		$.each(row, function(id, val){
+			if(id!='_updt') this.module.$('#editGisAssetCode #'+id).val(val);
+		});
+		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+	});
 
 	this.$("#assetCodePhotoList").flexigrid({
 		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
@@ -196,10 +202,39 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'addAssetGisCdItem':
+		this._editItem={_updtId:'I'};
+		this.$('#editGisAssetCode').find(':input').val('');
 		break;
 	case 'removeAssetCdItem':
+		// 선택된 목록을 저장한다.
+		var rows=this.$('#assetCodeList').selectedRows();
+		if(rows.length!=0) {
+			// 삭제 아이템을 담을 변수를 준비한다.
+			if(this._deletedItem==null) this._deletedItem=[];
+			for(var i=0; i<rows.length;i++) {
+				// 신규로 추가된 자료는 삭제 아이템에 추가하지 않는다.
+				if(rows[i]._updt!='I')
+					this._deletedItem[this._deleteItem.length]=rows[i];
+			}
+			// 아이템을 그리드에서 삭제 한다.
+			var data=this.$('#assetCodeList').unSelectedRows();
+			this.$('#assetCodeList').flexAddData(data);
+		}
 		break;
-	case 'editAssetCd':
+	case 'btnCancelGisAssetsCode':
+		this.$('#editGisAssetCode').find(':input').val('');
+		break;
+	case 'btnApplyGisAssetsCode':
+		if(this._editItem==null) {
+			alert('편집한 항목이 존재하지 않습니다.')
+			return;
+		}
+		var editOpt=this.makeFormArgs('#editGisAssetCode');
+		for(var i=0; i<editOpt.length; i++) {
+			this._editItem[editOpt.name]=editOpt.value;
+		}
+		this.$('#assetCodeList').flexAddData(this._editItem);
+		this._editItem=null;
 		break;
 	}
 };
@@ -252,14 +287,7 @@ var module_instance = new GamAssetCodeModule();
 								</select>
 								</td>
 								<th>품목구분</th>
-								<td><select id="prprtyCd">
-										<option value="" selected="selected">선택</option>
-										<option value="A">건물</option>
-										<option value="L">토지</option>
-										<option value="S">공작물</option>
-										<option value="w">창고</option>
-										<option value="E">기타</option>
-								</select></td>
+								<td><input id="prprtyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM002" /></td>
 								<th>취득일자</th>
 								<td><input id="acqDateFrom" type="text" class="emdcal"
 									size="8"> ~ <input id="acqDateTo" type="text"
@@ -270,19 +298,10 @@ var module_instance = new GamAssetCodeModule();
 								<td rowSpan="2"><button id="selectErpAssetCode" class="submit">조회</button></td>
 							</tr>
 							<tr>
-								<th>품명</th>
-								<td colspan="3"><input id="itemName" type="text" size="36"></td>
-								<th>부서</th>
-								<td width="200px" colspan="3"><select id="deptCd"><option value="" selected="selected">선택</option>
-										<option value="GRP0001">재무회계팀</option>
-										<option value="GRP0002">경영지원팀</option>
-										<option value="GRP0003">경영기획팀</option>
-										<option value="GRP0004">물류기획팀</option>
-										<option value="GRP0005">항만운영팀</option>
-										<option value="GRP0006">항만건설팀</option>
-										<option value="GRP0007">항만시설팀</option>
-										<option value="GRP0008">여수사업소</option>
-										</select></td>
+								<th>품명1</th>
+								<td colspan="3"><input id="locCd1" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001" /></td>
+								<th>부서1</th>
+								<td width="200px" colspan="3"><input id="locCd2" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001" /></td>
 
 							</tr>
 						</tbody>
@@ -340,7 +359,12 @@ var module_instance = new GamAssetCodeModule();
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addAssetGisCdItem">추가</button><button id="removeAssetGisCd">삭제</button><button id="loadMap">지도보기</button></div>
+				<div class="emdControlPanel">
+					<button id="loadMap">지도보기</button>
+					<button id="addAssetGisCdItem">추가</button>
+					<button id="removeAssetGisCd">삭제</button>
+					<button id="btnSaveGisAssetsCode">저장</button>
+				</div>
 				<form id="editGisAssetCode" name="gisAssetCode">
 				<table>
 					<tr>
@@ -485,9 +509,8 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<button id="btnDeleteGisAssetsCode">삭제</button>
 					<button id="btnCancelGisAssetsCode">취소</button>
-					<button id="btnSaveGisAssetsCode">저장</button>
+					<button id="btnApplyGisAssetsCode">적용</button>
 				</div>
 				</form>
 							</div>
