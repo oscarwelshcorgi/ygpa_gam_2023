@@ -62,33 +62,6 @@ public class GamFcltyMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-	/**
-     * 건축시설 관리화면호출
-     * @param windowId
-     * @param model
-     * @return String
-     * @throws Exception
-     */
-	@RequestMapping(value="/fclty/gamConstFcltyMngt.do")
-    String indexConstFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fclty/GamConstFcltyMngt";
-    }
-	
-	
-	/**
-	 * 건축시설 조회화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamConstFcltyInqire.do")
-	String indexConstFcltyInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamConstFcltyInqire";
-	}
-	
 	
 	/**
 	 * 기계시설 관리화면호출
