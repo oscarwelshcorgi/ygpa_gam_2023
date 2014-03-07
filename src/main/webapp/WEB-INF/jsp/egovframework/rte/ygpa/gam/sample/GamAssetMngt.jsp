@@ -301,7 +301,7 @@ var module_instance = new GamAssetCodeModule();
 								<th>품명1</th>
 								<td colspan="3"><input id="locCd1" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001" /></td>
 								<th>부서1</th>
-								<td width="200px" colspan="3"><input id="locCd2" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001" /></td>
+								<td width="200px" colspan="3"><input id="locCd2" class="ygpaDeptSelect" data-default-prompt="전체" data-code-id="GAM001" /></td>
 
 							</tr>
 						</tbody>
