@@ -87,6 +87,36 @@ public class GamFcltyManageVO extends ComDefaultVO{
     private String gisAssetsLocplc;
 	private String gisAssetsLnm;
     private String gisAssetsLnmSub;
+    private String gisAssetsNm;
+    private String prtFcltyMngEntrpsNm;
+    
+    /**
+     * @return the prtFcltyMngEntrpsNm
+     */
+    public String getPrtFcltyMngEntrpsNm() {
+    	return prtFcltyMngEntrpsNm;
+    }
+    
+    /**
+     * @param prtFcltyMngEntrpsNm the prtFcltyMngEntrpsNm to set
+     */
+    public void setPrtFcltyMngEntrpsNm(String prtFcltyMngEntrpsNm) {
+    	this.prtFcltyMngEntrpsNm = prtFcltyMngEntrpsNm;
+    }
+    
+    /**
+     * @return the gisAssetsNm
+     */
+    public String getGisAssetsNm() {
+    	return gisAssetsNm;
+    }
+    
+    /**
+     * @param gisAssetsNm the gisAssetsNm to set
+     */
+    public void setGisAssetsNm(String gisAssetsNm) {
+    	this.gisAssetsNm = gisAssetsNm;
+    }
     
     /**
 	 * @return the gisAssetsLocplc
