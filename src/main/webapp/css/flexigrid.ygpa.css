@@ -39,11 +39,20 @@
 	padding-right: 40px;
 }
 
+.flexigrid div.cDiv {
+	overflow-x: scroll;
+	overflow-y: hidden;
+	width:100%;
+	height: 100%;
+	border-bottom: 0px;
+	margin-bootom: 0px;
+}
+
 .flexigrid div.bDiv table {
 	margin-bottom: 10px;
 }
 
-.flexigrid div.bDiv table.autoht {
+.flexigrid div.bDiv table.autoht div.autoht {
 	border-bottom: 0px;
 	margin-bottom: 0px;
 }
@@ -239,6 +248,7 @@
 
 .flexigrid div.hDiv table {
 	border-right: 1px solid #fff;
+	background: #fafafa url(../images/egovframework/ygpa/gam/grid/fhbg.gif) repeat-x bottom;
 }
 
 .flexigrid div.cDrag {
@@ -290,7 +300,10 @@
 	/* border: 1px solid #ccc; */
 	border-top: 0px;
 	background: #fff;
+	display: inline;
 	/* position: relative; */
+	overflow-y: hidden;
+	overflow-x: visible;
 }
 
 .flexigrid div.bDiv table {
@@ -374,7 +387,7 @@ div.colCopy {
 }
 
 .flexigrid div.hDiv th.thOver {
-	
+
 }
 
 .flexigrid div.hDiv th.thOver div,.flexigrid div.hDiv th.sorted.thOver div
@@ -417,7 +430,7 @@ div.colCopy {
 }
 
 .flexigrid div.hDiv th div {
-	
+
 }
 
 .flexigrid span.cdropleft {
@@ -454,7 +467,7 @@ div.colCopy {
 }
 
 .flexigrid tr td.sorted div {
-	
+
 }
 
 .flexigrid tr.erow td {
@@ -468,7 +481,7 @@ div.colCopy {
 }
 
 .flexigrid tr.erow td.sorted div {
-	
+
 }
 
 .flexigrid div.bDiv tr:hover td,.flexigrid div.bDiv tr:hover td.sorted,.flexigrid div.bDiv tr.trOver td.sorted,.flexigrid div.bDiv tr.trOver td
@@ -627,3 +640,9 @@ div.pGroup {
 	/* common inner cell properties*/ {
 	overflow: hidden;
 }
+
+.flexigrid .scroll-bar-wrap { /* clear: both; */ position: absolute; padding: 0 4px 0 2px; /* margin: 0 0px 0px -1px; */ right: 0; top: 40px; width: 16px; border-left: 1px solid gray; /* height: 100%; */ bottom: 22px;}
+.flexigrid .scroll-bar-wrap .ui-slider { background: none; border:0; height: 100%; margin: 0 auto;  }
+.flexigrid .scroll-bar-wrap .ui-handle-helper-parent { position: relative; width: 100%; height: 100%; margin: 0 auto; }
+.flexigrid .scroll-bar-wrap .ui-slider-handle { height: 1.5em; }
+.flexigrid .scroll-bar-wrap .ui-slider-handle .ui-icon { margin: -8px auto 0; position: relative; top: 50%; }

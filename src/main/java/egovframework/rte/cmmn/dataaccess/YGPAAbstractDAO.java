@@ -1,5 +1,10 @@
 package egovframework.rte.cmmn.dataaccess;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -15,14 +20,14 @@ public class YGPAAbstractDAO extends EgovAbstractDAO {
 	public void setSuperSqlMapClient(SqlMapClient sqlMapClient) {
         super.setSuperSqlMapClient(sqlMapClient);
     }
-	
+
     /**
      * 데이터를 병합한다.
      * @param map   insert, update 레코드는 CU 에 delete 레코드는 D 에 사용자 정보는 USER 에 리스트로 각각 저장된다.
      * @param insertQuery 실제 삽입 할 쿼리 아이디
      * @param updateQuery 실제 갱신 할 쿼리 아이디
      * @param deleteQuery 실제 삭제 할 쿼리 아이디
-     * @return 적용된 결과가 cntC, cntU, cntD 에 저장되어 리스트로 리턴한다.
+     * @return 적용된 결과가 cntC, cntU, cntD 에 저장되어 리스트로 리턴한다. */
     public List merge(Map<String, Object> map, String insertQuery, String updateQuery, String deleteQuery) throws Exception {
         ArrayList arraylistD = (ArrayList)map.get("D");
         ArrayList arraylistCU = (ArrayList)map.get("CU");
@@ -39,10 +44,10 @@ public class YGPAAbstractDAO extends EgovAbstractDAO {
 
         //삭제처리
         for (int i=0; i<hmD.length; i++) {
-            hmD[i].put("upid", hmUSER.get("id"));
+            hmD[i].put("updtId", hmUSER.get("id"));
             cntD += this.delete(deleteQuery, hmD[i]);
         }
-        
+
         logger.debug("Create update length = " + hmCU.length + " (delete "+ cntD + " records)");
         //수정처리 & 입력처리
         for (int i=0; i<hmCU.length; i++) {
@@ -74,6 +79,5 @@ public class YGPAAbstractDAO extends EgovAbstractDAO {
 
         return list;
     }
-         */
 
 }
