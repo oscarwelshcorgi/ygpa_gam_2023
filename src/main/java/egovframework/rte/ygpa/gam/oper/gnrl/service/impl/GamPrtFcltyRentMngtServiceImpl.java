@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.service.EgovProperties;
@@ -34,8 +36,10 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 	@Resource(name="gamPrtFcltyRentMngtDao")
     private GamPrtFcltyRentMngtDao gamPrtFcltyRentMngtDao;
 
+	protected Log log = LogFactory.getLog(this.getClass());
+
 	/**
-	 * 항만시설 목록을 조회한다.
+	 * 항만시설사용 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -45,7 +49,7 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 항만시설 목록 총 갯수를 조회한다.
+	 * 항만시설사용 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -53,48 +57,48 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     public int selectPrtFcltyRentMngtListTotCnt(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자산임대목록
+	 * @return 항만시설사용목록
 	 * @exception Exception
 	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtSum(GamPrtFcltyRentMngtVO searchVO) throws Exception {
         return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtSum(searchVO);
     }
-    
+
     /**
-	 * 항만시설 최초 신청을 등록한다.
+	 * 항만시설사용 최초 신청을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
 	public void insertPrtFcltyRentMngtFirst(GamPrtFcltyRentMngtVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFirst(vo);
 	}
-	
+
     /**
 	 * 관리번호(MAX) 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자산임대목록
+	 * @return 항만시설사용목록
 	 * @exception Exception
 	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtMaxNo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
         return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxNo(searchVO);
     }
-    
+
     /**
-	 * 항만시설 연장 신청을 등록한다.
+	 * 항만시설사용 연장 신청을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
 	public void insertPrtFcltyRentMngtRenew(GamPrtFcltyRentMngtVO vo) throws Exception {
-		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew(vo); //항만시설 복사등록
+		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew(vo); //항만시설사용 복사등록
 		
-		//항만시설 복사등록된  MngCnt의 max값을 가져온다.
+		//항만시설사용 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxMngCnt(vo);
 		
-		//항만시설상세정보 조회
+		//항만시설사용상세정보 조회
 		List detailList = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailInfo(vo);
 		
 		GamPrtFcltyRentMngtDetailVO resultVo = null;
@@ -107,21 +111,21 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 			resultVo.setRegUsr("admin2");
 			resultVo.setUpdUsr("admin2");
 			
-			gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew(resultVo); //항만시설상세 복사등록
+			gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew(resultVo); //항만시설사용상세 복사등록
 		}
 	}
-	
+
 	/**
-	 * 항만시설 정보를 수정한다.
+	 * 항만시설사용정보를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
 	public void updatePrtFcltyRentMngt(GamPrtFcltyRentMngtVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngt(vo);
 	}
-	
+
 	/**
-	 * 항만시설 상세 목록을 조회한다.
+	 * 항만시설사용 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -131,7 +135,7 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 항만시설 상세 목록 총 갯수를 조회한다.
+	 * 항만시설사용 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -139,7 +143,17 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     public int selectPrtFcltyRentMngtDetailListTotCnt(GamPrtFcltyRentMngtVO vo) throws Exception {
 		return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailListTotCnt(vo);
 	}
-	
+    
+    /**
+   	 * 공시지가 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+       public List selectOlnlpInfo() throws Exception {
+           return gamPrtFcltyRentMngtDao.selectOlnlpInfo();
+       }
+
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param VO - 조회할 정보가 담긴 VO
@@ -149,61 +163,61 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     public int selectPrtFcltyRentMngtLevReqestCnt(GamPrtFcltyRentMngtVO vo) throws Exception {
 		return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtLevReqestCnt(vo);
 	}
-    
+
     /**
-	 * 항만시설 정보를 삭제한다.
+	 * 항만시설사용 정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void deletePrtFcltyRentMngt(GamPrtFcltyRentMngtVO vo) throws Exception {
-		
-		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhoto(vo); //자산임대 사진정보 삭제
-		
-		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtDetail(vo); //자산임대 상세정보 삭제
-		
-		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngt(vo); // 자산임대정보 삭제
+
+		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhoto(vo); //항만시설사용 사진정보 삭제
+
+		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtDetail(vo); //항만시설사용 상세정보 삭제
+
+		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngt(vo); // 항만시설사용정보 삭제
 	}
-    
+
 	/**
-	 * 항만시설 상세정보를 삭제한다.
+	 * 항만시설사용 상세정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void deletePrtFcltyRentMngtDetail(GamPrtFcltyRentMngtVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtDetail(vo);
 	}
-	
+
 	/**
-	 * 항만시설 상세를 등록한다.
+	 * 항만시설사용 상세를 등록한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void insertPrtFcltyRentMngtDetail(GamPrtFcltyRentMngtDetailVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetail(vo);
 	}
-	
+
 	/**
-	 * 항만시설 상세를 수정한다.
+	 * 항만시설사용 상세를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void updatePrtFcltyRentMngtDetail(GamPrtFcltyRentMngtDetailVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtDetail(vo);
 	}
-	
+
 	/**
-	 * 항만시설 상세를 삭제한다.
+	 * 항만시설사용 상세를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void deletePrtFcltyRentMngtDetail2(GamPrtFcltyRentMngtDetailVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtDetail2(vo);
 	}
-	
+
 	/**
-	 * 승낙할 항만시설 정보 조회.
+	 * 승낙할 항만시설사용 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자산임대정보
+	 * @return 항만시설사용정보
 	 * @exception Exception
 	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtPrmisnInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
@@ -211,7 +225,7 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
 	/**
-	 * 항만시설 허가여부를 수정 및 징수의뢰를 등록한다.
+	 * 항만시설사용 허가여부를 수정 및 징수의뢰를 등록한다.
 	 * @param vo GamPrtFcltyRentMngtLevReqestVO
 	 * @exception Exception
 	 */
@@ -371,23 +385,36 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 	
 				vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
 				
+				log.debug("################################################ for => " + i + "##################################");
+				log.debug("################################################ 월별 시작일 => " + startRetVal[i]);
+				log.debug("################################################ 월별 종료일 => " + endRetVal[i]);
+				log.debug("################################################ 월별 날짜수 => " + dayCnt[i]);
+				log.debug("################################################ 고지기간 FROM => " + vo.getNticPdFrom());
+				log.debug("################################################ 고지기간 TO => " + vo.getConstPerTo());
+				log.debug("################################################ 납부기한 => " + vo.getPayTmlmt());
+				log.debug("################################################ 사용료 => " + vo.getFee());
+				log.debug("################################################ 부가세여부 => " + vo.getVatYn());
+				log.debug("################################################ 부가세 => " + vo.getVat());
+				log.debug("################################################ 고지금액 => " + vo.getNticAmt());
+				log.debug("---------------------------------------------------------------------------------------------------");
+				
 				//징수의뢰 insert
 				gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtLevReqest(vo);
 		    }
 			
 		}
 
-		//항만시설 허가여부를 수정
+		//항만시설사용 허가여부를 수정
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisn(vo);
 	}
-	
+
 	/**
-	 * 항만시설 허가여부를 취소한다.
+	 * 항만시설사용 허가여부를 취소한다.
 	 * @param vo GamPrtFcltyRentMngtLevReqestVO
 	 * @exception Exception
 	 */
 	public void updatePrtFcltyRentMngtPrmisnCancel(GamPrtFcltyRentMngtLevReqestVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisnCancel(vo);
 	}
-
+	
 }

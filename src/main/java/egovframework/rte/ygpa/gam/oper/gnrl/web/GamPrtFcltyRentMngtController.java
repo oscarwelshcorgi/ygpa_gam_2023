@@ -21,7 +21,9 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -68,7 +70,7 @@ public class GamPrtFcltyRentMngtController {
 	
     
     /**
-     * 항만시설사용목록관리 화면을 로딩한다. 
+     * 항만시설사용관리 화면을 로딩한다. 
      *
      * @param windowId
      * @param model the model
@@ -78,60 +80,16 @@ public class GamPrtFcltyRentMngtController {
 	@RequestMapping(value="/oper/gnrl/gamPrtFcltyRentMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		//login정보
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
-		codeVo.setCodeId("GAM019"); //항코드 
-		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		//공시지가정보
+		GamPrtFcltyRentMngtVO gvo = new GamPrtFcltyRentMngtVO();
+		List olnlpList = gamPrtFcltyRentMngtService.selectOlnlpInfo();
 		
-		codeVo.setCodeId("GAM011"); //신청구분코드 
-		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM008"); //고지방법 코드
-		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("COM077"); //GIS 코드  
-		List gisCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM007"); //사용 용도 코드 
-		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM009"); //면제 구분  
-		List exemptSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM017"); //면제 사유 코드
-		List exemptRsnCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM015"); //포장 구분 
-		List packSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM012"); //업체 구분
-		List entrpsSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM023"); //사용료 계산 구분
-		List feeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분 (확인할것!!)
-		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM043"); //납부 방법 코드
-		List payMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM003"); //부두코드
-		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		model.addAttribute("prtAtCdList", prtAtCdList);
-		model.addAttribute("reqstCdList", reqstCdList);
-		model.addAttribute("nticMthCdList", nticMthCdList);
-		model.addAttribute("gisCdList", gisCdList);
-		model.addAttribute("usagePrposCdList", usagePrposCdList);
-		model.addAttribute("exemptSeCdList", exemptSeCdList);
-		model.addAttribute("exemptRsnCdList", exemptRsnCdList);
-		model.addAttribute("packSeCdList", packSeCdList);
-		model.addAttribute("entrpsSeCdList", entrpsSeCdList);
-		model.addAttribute("feeCalcSeCdList", feeCalcSeCdList);
-		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
-		model.addAttribute("payMthCdList", payMthCdList);
-		model.addAttribute("quayCdList", quayCdList);
+		model.addAttribute("olnlpList", olnlpList);
+		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
+		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentMngt";
@@ -165,14 +123,14 @@ public class GamPrtFcltyRentMngtController {
 		
 		//항만시설사용목록
     	totalCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtListTotCnt(searchVO);
-    	List resultList = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtList(searchVO);
+    	List assetRentList = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtList(searchVO);
     	
     	//총면적, 총사용료
     	GamPrtFcltyRentMngtVO resultSum = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtSum(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
-    	map.put("resultList", resultList);
+    	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
     	map.put("sumGrAr", resultSum.getSumGrAr());
     	map.put("sumGrFee", resultSum.getSumGrFee());
@@ -181,7 +139,7 @@ public class GamPrtFcltyRentMngtController {
     }
 	
 	/**
-     * 항만시설사용목록상세리스트를 조회한다. 
+     * 항만시설사용상세리스트를 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -206,7 +164,7 @@ public class GamPrtFcltyRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		// 항만시설상세리스트 및 총건수
+		// 항만시설사용상세리스트 및 총건수
 		totalCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtDetailList(searchVO);
     	
@@ -219,7 +177,7 @@ public class GamPrtFcltyRentMngtController {
     }
 	
 	/**
-     * 항만시설 최초신청을 등록한다.
+     * 항만시설사용 최초신청을 등록한다.
      * @param String
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
@@ -276,7 +234,7 @@ public class GamPrtFcltyRentMngtController {
 			resultMsg  = egovMessageSource.getMessage("success.common.insert");
     	} else {
     		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.err.exceptional");
     	}
 		
     	map.put("resultCode", resultCode);
@@ -287,7 +245,7 @@ public class GamPrtFcltyRentMngtController {
     
     
     /**
-     * 항만시설 연장신청을 등록한다.
+     * 항만시설사용 연장신청을 등록한다.
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
      * @return map
@@ -309,12 +267,12 @@ public class GamPrtFcltyRentMngtController {
     		//키 같고 max관리번호가 같으면 연장신청 등록
         	
     		gamPrtFcltyRentMngtService.insertPrtFcltyRentMngtRenew(gamPrtFcltyRentMngtVO);
-        	
+    		
     		resultCode = 0; // return ok
     		resultMsg  = egovMessageSource.getMessage("success.common.insert");
     	} else {
     		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
+    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.reject");
     	}
     	
     	map.put("resultCode", resultCode);
@@ -324,7 +282,7 @@ public class GamPrtFcltyRentMngtController {
     }
     
     /**
-     * 항만시설 정보를 수정한다.
+     * 항만시설사용 정보를 수정한다.
      * @param String
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
@@ -354,7 +312,7 @@ public class GamPrtFcltyRentMngtController {
 	        resultMsg  = egovMessageSource.getMessage("success.common.update");
     	} else {
     		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.err.exceptional");
     	}
     	
     	map.put("resultCode", resultCode);
@@ -364,7 +322,7 @@ public class GamPrtFcltyRentMngtController {
     }
 	
     /**
-     * 항만시설  정보를 삭제한다.
+     * 항만시설사용 정보를 삭제한다.
      * @param String
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
@@ -402,7 +360,7 @@ public class GamPrtFcltyRentMngtController {
 	        resultMsg  = egovMessageSource.getMessage("success.common.delete");
     	} else {
     		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
+    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.err.delete");
     	}
 		
     	map.put("resultCode", resultCode);
@@ -465,6 +423,10 @@ public class GamPrtFcltyRentMngtController {
         //임대정보 조회후 승낙여부 체크
         GamPrtFcltyRentMngtVO rentPrmisnInfo = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtPrmisnInfo(gamPrtFcltyRentMngtVO);
         
+        
+        
+        log.debug("######################################## rentPrmisnInfo.getPrmisnYn() => " + rentPrmisnInfo.getPrmisnYn());
+        
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 등록가능
         	if("insert".equals(detailCmd)) {
     	    	//확인후 변경혀라~~
@@ -477,12 +439,13 @@ public class GamPrtFcltyRentMngtController {
     			resultMsg  = egovMessageSource.getMessage("success.common.insert");
         	} else {
         		resultCode = 1; // return fail
-        		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+        		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.err.exceptional");
         	}
         } else {
         	resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.detailModify.reject");
         }
+    	
 		
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
@@ -491,7 +454,7 @@ public class GamPrtFcltyRentMngtController {
     }
     
     /**
-     * 항만시설 상세를 수정한다.
+     * 항만시설사용 상세를 수정한다.
      * @param String
      * @param gamPrtFcltyRentMngtDetailVO
      * @param bindingResult
@@ -557,11 +520,11 @@ public class GamPrtFcltyRentMngtController {
 				resultMsg  = egovMessageSource.getMessage("success.common.update");
 	    	} else {
 	    		resultCode = 1; // return fail
-	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+	    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.err.exceptional");
 	    	}
         } else {
         	resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+    		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.detailModify.reject");
         }
 		
     	map.put("resultCode", resultCode);
@@ -571,7 +534,7 @@ public class GamPrtFcltyRentMngtController {
     }
     
     /**
-     * 항만시설 상세를 삭제한다.
+     * 항만시설사용 상세를 삭제한다.
      * @param gamPrtFcltyRentMngtDetailVO
      * @param bindingResult
      * @return map
@@ -632,29 +595,29 @@ public class GamPrtFcltyRentMngtController {
      * @return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyRentMngtPrmisn"
      * @throws Exception the exception  
      */
-	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do")
-    String showEntrpsInfo(GamPrtFcltyRentMngtLevReqestVO gamPrtFcltyRentLevReqestVO, ModelMap model) throws Exception {
+	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do") 
+    String showEntrpsInfo(GamPrtFcltyRentMngtLevReqestVO gamPrtFcltyRentMngtLevReqestVO, ModelMap model) throws Exception {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
 		codeVo.setCodeId("GAM024"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		model.addAttribute("gamPrtFcltyRentMngtInfo", gamPrtFcltyRentLevReqestVO);
+		model.addAttribute("gamPrtFcltyRentMngtInfo", gamPrtFcltyRentMngtLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
     	return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyRentMngtPrmisn";
     }
     
     /**
-     * 항만시설 승낙(허가)을 한다.
+     * 항만시설사용 승낙(허가)을 한다.
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/gnrl/popup/gamInsertPrtFcltyRentMngtPrmisn.do") 
-    public @ResponseBody Map insertPrtFcltyRentLevReqest(
+    @RequestMapping(value="/oper/gnrl/gamInsertPrtFcltyRentMngtPrmisn.do") 
+    public @ResponseBody Map insertPrtFcltyRentMngtLevReqest(
     	   @ModelAttribute("gamPrtFcltyRentMngtVO") GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO, 
     	   BindingResult bindingResult)
            throws Exception {
@@ -672,56 +635,56 @@ public class GamPrtFcltyRentMngtController {
         
         if( "Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject2")); //이미 승낙된 상태입니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject2")); //이미 승낙된 상태입니다.
             
     		return map;
         }
         
         if( levReqestCnt > 0 ) { 
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject3")); //징수의뢰에 정보가 존재하여 승낙을 진행할 수 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject3")); //징수의뢰에 정보가 존재하여 승낙을 진행할 수 없습니다.
             
     		return map;
         }
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getNticMth()) ) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject1")); //고지방법코드가 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject1")); //고지방법코드가 없습니다.
             
     		return map;
         }
         
         if( !"1".equals(rentPrmisnInfo.getNticMth()) && !"2".equals(rentPrmisnInfo.getNticMth()) && !"3".equals(rentPrmisnInfo.getNticMth()) && !"4".equals(rentPrmisnInfo.getNticMth()) && !"5".equals(rentPrmisnInfo.getNticMth())) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject5")); // 고지방법코드가 올바르지 않습니다. ('1':일괄, '2':반기납, '3':3분납, '4':분기납, '5':월납)
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject5")); // 고지방법코드가 올바르지 않습니다. ('1':일괄, '2':반기납, '3':3분납, '4':분기납, '5':월납)
             
     		return map;
         }
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getGrUsagePdFrom()) || EgovStringUtil.isEmpty(rentPrmisnInfo.getGrUsagePdTo()) ) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject4")); //총사용기간 일자가 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject4")); //총사용기간 일자가 없습니다.
             
     		return map;
         }
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getGrFee()) ) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject6")); //총사용료가 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject6")); //총사용료가 없습니다.
             
     		return map;
         }
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPayMth()) ) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //납부방법 코드가 없습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject10")); //납부방법 코드가 없습니다.
             
     		return map;
         }
         
         if( !"Pre".equals( rentPrmisnInfo.getPayMth() ) && !"Aft".equals( rentPrmisnInfo.getPayMth() ) ) {
         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject9")); //납부방법 코드가 올바르지 않습니다.
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject9")); //납부방법 코드가 올바르지 않습니다.
             
     		return map;
         }
@@ -742,7 +705,7 @@ public class GamPrtFcltyRentMngtController {
 		levReqestInfo.setChrgeKnd( gamPrtFcltyRentMngtVO.getChrgeKnd() );
 		levReqestInfo.setVatYn( gamPrtFcltyRentMngtVO.getVatYn() );
 		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
-        
+		
         levReqestInfo.setPrmisnYn("Y"); //허가여부
         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
@@ -751,7 +714,7 @@ public class GamPrtFcltyRentMngtController {
         gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtPrmisn(levReqestInfo);
         
         resultCode = 0; 
-		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 처리되었습니다.
+		resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.prmisn.exec"); //승낙이 정상적으로 처리되었습니다.
         
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
@@ -760,7 +723,7 @@ public class GamPrtFcltyRentMngtController {
     }
     
     /**
-     * 항만시설 승낙취소(허가취소)를 한다.
+     * 항만시설사용 승낙취소(허가취소)를 한다.
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
      * @return map
@@ -783,17 +746,17 @@ public class GamPrtFcltyRentMngtController {
          int levReqestCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtLevReqestCnt(gamPrtFcltyRentMngtVO);
          
          if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) { 
-        	 map.put("resultCode", 1);
-             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
-              
-             return map;
-          }
-          
+         	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject7")); //승낙된 상태가 아닙니다.
+             
+     		return map;
+         }
+         
          if( levReqestCnt > 0 ) { 
-        	 map.put("resultCode", 1);
-             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
-              
-             return map;
+         	map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("gam.oper.gnrl.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
+             
+     		return map;
          }
          
          GamPrtFcltyRentMngtLevReqestVO levReqestInfo = new GamPrtFcltyRentMngtLevReqestVO();
@@ -810,11 +773,12 @@ public class GamPrtFcltyRentMngtController {
          gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtPrmisnCancel(levReqestInfo);
          
          resultCode = 0; 
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
+ 		 resultMsg  = egovMessageSource.getMessage("gam.oper.gnrl.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
          
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
          
  		return map;
      }
+    
 }

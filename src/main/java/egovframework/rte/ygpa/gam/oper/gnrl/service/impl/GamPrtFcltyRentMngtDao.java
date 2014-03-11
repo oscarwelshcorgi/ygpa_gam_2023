@@ -25,9 +25,9 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 항만시설 목록을 조회한다.
+	 * 항만시설사용관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
     public List selectPrtFcltyRentMngtList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
@@ -35,9 +35,9 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 항만시설 목록 총 갯수를 조회한다.
+	 * 항만시설사용관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectPrtFcltyRentMngtListTotCnt(GamPrtFcltyRentMngtVO searchVO) {
@@ -47,7 +47,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtSum(GamPrtFcltyRentMngtVO searchVO) throws Exception {
@@ -55,7 +55,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
     
 	/**
-	 * 항만시설 최초 신청을 등록한다.
+	 * 항만시설사용 최초 신청을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -67,7 +67,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	/**
 	 * 해당건에 대한 (MAX)관리번호
 	 * @param searchMap - GamPrtFcltyRentMngtVO
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtMaxNo(GamPrtFcltyRentMngtVO vo) {
@@ -75,7 +75,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     }
     
     /**
-	 * 항만시설 연장 신청을 등록한다.
+	 * 항만시설사용 연장 신청을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -84,9 +84,9 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 연장 신청된 MaxMngCnt 조회한다.
+	 * 항만시설사용 연장 신청된 MaxMngCnt 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 항만시설관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
     public String selectPrtFcltyRentMngtMaxMngCnt(GamPrtFcltyRentMngtVO searchVO) {
@@ -94,7 +94,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     }
 	
 	/**
-	 * 항만시설 연장 신청시 항만시설 상세를 복사하여 등록한다.
+	 * 항만시설사용 연장 신청시 항만시설사용 상세를 복사하여 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -103,7 +103,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 정보를 수정한다.
+	 * 항만시설사용 정보를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -112,9 +112,9 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 상세목록을 조회한다.
+	 * 항만시설사용관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
     public List selectPrtFcltyRentMngtDetailList(GamPrtFcltyRentMngtVO vo) throws Exception {
@@ -122,9 +122,9 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 항만시설 상세목록 총 갯수를 조회한다.
+	 * 항만시설사용관리 상세목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectPrtFcltyRentMngtDetailListTotCnt(GamPrtFcltyRentMngtVO vo) {
@@ -134,7 +134,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectPrtFcltyRentMngtLevReqestCnt(GamPrtFcltyRentMngtVO vo) {
@@ -142,7 +142,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     }
     
     /**
-	 * 항만시설 사진정보를 삭제한다.
+	 * 항만시설사용 사진정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -151,7 +151,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
     
 	/**
-	 * 항만시설 정보를 삭제한다.
+	 * 항만시설사용 정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -160,7 +160,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
     
 	/**
-	 * 항만시설 상세정보를 삭제한다.
+	 * 항만시설사용 상세정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
@@ -169,7 +169,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 상세를 등록한다.
+	 * 항만시설사용 상세를 등록한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -178,7 +178,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 상세를 수정한다.
+	 * 항만시설사용 상세를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -187,18 +187,18 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 상세를 삭제한다.
+	 * 항만시설사용 상세를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void deletePrtFcltyRentMngtDetail2(GamPrtFcltyRentMngtDetailVO vo){
 		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtDetail2_S", vo);
 	}
-	
+
 	/**
-	 * 승낙할 항만시설 정보 조회.
+	 * 승낙할 항만시설사용 정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대정보
+	 * @return 항만시설사용정보
 	 * @exception Exception
 	 */
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtPrmisnInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
@@ -206,8 +206,8 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 허가여부를 수정한다.
-	 * @param vo GamPrtFcltyRentVO
+	 * 항만시설사용 허가여부를 수정한다.
+	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
 	public void updatePrtFcltyRentMngtPrmisn(GamPrtFcltyRentMngtLevReqestVO vo){
@@ -216,7 +216,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	
 	/**
 	 * 징수의뢰를 등록한다.
-	 * @param vo GamPrtFcltyRentLevReqestVO
+	 * @param vo GamPrtFcltyRentMngtLevReqestVO
 	 * @exception Exception
 	 */
 	public void insertPrtFcltyRentMngtLevReqest(GamPrtFcltyRentMngtLevReqestVO vo){
@@ -224,8 +224,8 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 항만시설 허가여부를 취소한다.
-	 * @param vo GamPrtFcltyRentVO
+	 * 항만시설사용 허가여부를 취소한다.
+	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
 	public void updatePrtFcltyRentMngtPrmisnCancel(GamPrtFcltyRentMngtLevReqestVO vo){
@@ -243,12 +243,43 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     }
     
 	/**
-	 * 항만시설상세 목록을 조회한다.
+	 * 항만시설사용상세 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대상세 목록
+	 * @return 항만시설사용상세 목록
 	 * @exception Exception
 	 */
     public List selectPrtFcltyRentMngtDetailInfo(GamPrtFcltyRentMngtVO vo) throws Exception {
         return list("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailInfo_S", vo);
     }
+    
+    /**
+	 * 공시지가 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 공시지가 목록
+	 * @exception Exception
+	 */
+    public List selectOlnlpInfo() throws Exception {
+        return list("gamPrtFcltyRentMngtDao.selectOlnlpInfo_S", null);
+    }
+    
+    /**
+	 * 파일 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+    public List selectPrtFcltyRentMngtFileList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+        return list("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileList_D", searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록 총 갯수
+	 * @exception
+	 */
+    public int selectPrtFcltyRentMngtFileListTotCnt(GamPrtFcltyRentMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileListTotCnt_S", searchVO);
+    }
+	
 }

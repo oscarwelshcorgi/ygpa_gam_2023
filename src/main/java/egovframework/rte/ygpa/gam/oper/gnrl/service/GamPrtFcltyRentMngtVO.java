@@ -1,6 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
+import egovframework.com.cmm.ComDefaultVO;
 
 /**
  * @Class Name : GamPrtFcltyRentMngtVO.java
@@ -14,7 +14,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
+public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 항코드 */
@@ -97,6 +97,27 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
     
     /** 부서코드 */
     private String deptcd;
+    
+    /** 항이름 */
+    private String prtAtCodeNm;
+    
+    /** 신청구분명 */
+    private String reqstSeCdNm;
+    
+    /** 결재 상태 */
+    private String sanctnSttus;	
+    
+    /** 결재자 사원 번호 */
+    private String sanctnerEmplNo;  
+    
+    /** 부두 코드 */
+    private String quayCd;	  
+    
+    /** 최초 신청 일자 */
+    private String frstReqstDt;  
+    
+    /** 결재 일시 */
+    private String sanctnDt;	
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -106,15 +127,6 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
     
     /** 검색조건 */
     private String sEntrpscd;
-    
-    /** 검색조건 */
-    private String sMngYear;
-    
-    /** 검색조건 */
-    private String sMngNo;
-    
-    /** 검색조건 */
-    private String sMngCnt;
     
     /** 검색조건 */
     private String sPrmisnYn;
@@ -127,6 +139,15 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
     
     /** 검색조건 */
     private String sGrAr;
+    
+    /** 검색조건 */
+    private String sMngYear;
+    
+    /** 검색조건 */
+    private String sMngNo;
+    
+    /** 검색조건 */
+    private String sMngCnt;
     
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
@@ -235,6 +256,20 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setEntrpscd(String entrpscd) {
 		this.entrpscd = entrpscd;
+	}
+
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
 	}
 
 	/**
@@ -532,6 +567,104 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
+	 * @return the prtAtCodeNm
+	 */
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
+	}
+
+	/**
+	 * @param prtAtCodeNm the prtAtCodeNm to set
+	 */
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
+	}
+
+	/**
+	 * @return the reqstSeCdNm
+	 */
+	public String getReqstSeCdNm() {
+		return reqstSeCdNm;
+	}
+
+	/**
+	 * @param reqstSeCdNm the reqstSeCdNm to set
+	 */
+	public void setReqstSeCdNm(String reqstSeCdNm) {
+		this.reqstSeCdNm = reqstSeCdNm;
+	}
+
+	/**
+	 * @return the sanctnSttus
+	 */
+	public String getSanctnSttus() {
+		return sanctnSttus;
+	}
+
+	/**
+	 * @param sanctnSttus the sanctnSttus to set
+	 */
+	public void setSanctnSttus(String sanctnSttus) {
+		this.sanctnSttus = sanctnSttus;
+	}
+
+	/**
+	 * @return the sanctnerEmplNo
+	 */
+	public String getSanctnerEmplNo() {
+		return sanctnerEmplNo;
+	}
+
+	/**
+	 * @param sanctnerEmplNo the sanctnerEmplNo to set
+	 */
+	public void setSanctnerEmplNo(String sanctnerEmplNo) {
+		this.sanctnerEmplNo = sanctnerEmplNo;
+	}
+
+	/**
+	 * @return the quayCd
+	 */
+	public String getQuayCd() {
+		return quayCd;
+	}
+
+	/**
+	 * @param quayCd the quayCd to set
+	 */
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the frstReqstDt
+	 */
+	public String getFrstReqstDt() {
+		return frstReqstDt;
+	}
+
+	/**
+	 * @param frstReqstDt the frstReqstDt to set
+	 */
+	public void setFrstReqstDt(String frstReqstDt) {
+		this.frstReqstDt = frstReqstDt;
+	}
+
+	/**
+	 * @return the sanctnDt
+	 */
+	public String getSanctnDt() {
+		return sanctnDt;
+	}
+
+	/**
+	 * @param sanctnDt the sanctnDt to set
+	 */
+	public void setSanctnDt(String sanctnDt) {
+		this.sanctnDt = sanctnDt;
+	}
+
+	/**
 	 * @return the sPrtAtCode
 	 */
 	public String getsPrtAtCode() {
@@ -571,20 +704,6 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setsEntrpscd(String sEntrpscd) {
 		this.sEntrpscd = sEntrpscd;
-	}
-
-	/**
-	 * @return the sMngNo
-	 */
-	public String getsMngNo() {
-		return sMngNo;
-	}
-
-	/**
-	 * @param sMngNo the sMngNo to set
-	 */
-	public void setsMngNo(String sMngNo) {
-		this.sMngNo = sMngNo;
 	}
 
 	/**
@@ -641,6 +760,62 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setsGrAr(String sGrAr) {
 		this.sGrAr = sGrAr;
+	}
+
+	/**
+	 * @return the sMngYear
+	 */
+	public String getsMngYear() {
+		return sMngYear;
+	}
+
+	/**
+	 * @param sMngYear the sMngYear to set
+	 */
+	public void setsMngYear(String sMngYear) {
+		this.sMngYear = sMngYear;
+	}
+
+	/**
+	 * @return the sMngNo
+	 */
+	public String getsMngNo() {
+		return sMngNo;
+	}
+
+	/**
+	 * @param sMngNo the sMngNo to set
+	 */
+	public void setsMngNo(String sMngNo) {
+		this.sMngNo = sMngNo;
+	}
+
+	/**
+	 * @return the sMngCnt
+	 */
+	public String getsMngCnt() {
+		return sMngCnt;
+	}
+
+	/**
+	 * @param sMngCnt the sMngCnt to set
+	 */
+	public void setsMngCnt(String sMngCnt) {
+		this.sMngCnt = sMngCnt;
+	}
+
+	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
 	}
 
 	/**
@@ -767,62 +942,6 @@ public class GamPrtFcltyRentMngtVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setRentMngNo(String rentMngNo) {
 		this.rentMngNo = rentMngNo;
-	}
-
-	/**
-	 * @return the entrpsNm
-	 */
-	public String getEntrpsNm() {
-		return entrpsNm;
-	}
-
-	/**
-	 * @param entrpsNm the entrpsNm to set
-	 */
-	public void setEntrpsNm(String entrpsNm) {
-		this.entrpsNm = entrpsNm;
-	}
-
-	/**
-	 * @return the sMngYear
-	 */
-	public String getsMngYear() {
-		return sMngYear;
-	}
-
-	/**
-	 * @param sMngYear the sMngYear to set
-	 */
-	public void setsMngYear(String sMngYear) {
-		this.sMngYear = sMngYear;
-	}
-
-	/**
-	 * @return the sMngCnt
-	 */
-	public String getsMngCnt() {
-		return sMngCnt;
-	}
-
-	/**
-	 * @param sMngCnt the sMngCnt to set
-	 */
-	public void setsMngCnt(String sMngCnt) {
-		this.sMngCnt = sMngCnt;
-	}
-
-	/**
-	 * @return the sUsagePrposCd
-	 */
-	public String getsUsagePrposCd() {
-		return sUsagePrposCd;
-	}
-
-	/**
-	 * @param sUsagePrposCd the sUsagePrposCd to set
-	 */
-	public void setsUsagePrposCd(String sUsagePrposCd) {
-		this.sUsagePrposCd = sUsagePrposCd;
 	}
 
 	/**

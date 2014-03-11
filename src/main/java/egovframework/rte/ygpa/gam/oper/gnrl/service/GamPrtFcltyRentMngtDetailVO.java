@@ -24,8 +24,14 @@ public class GamPrtFcltyRentMngtDetailVO extends ComDefaultVO {
     private String gisAssetsCd;                           
                                                             
     /** GIS 자산 SUB 코드 */                                                   
-    private String gisAssetsSubCd;                             
-                                                         
+    private String gisAssetsSubCd;    
+    
+    /** GIS 자산 명 */                                                   
+    private String gisAssetsNm;
+
+    /** 자산코드 */                                                   
+    private String assetsCdStr;	    
+    
     /**  사용 면적 */                                                    
     private String usageAr;                               
                                                               
@@ -45,7 +51,10 @@ public class GamPrtFcltyRentMngtDetailVO extends ComDefaultVO {
     private String usagePrposCd;                              
                                                                 
     /** 면제 구분 */                                                       
-    private String exemptSe;                                     
+    private String exemptSe;         
+    
+    /** 면제 구분 명*/                                                       
+    private String exemptSeNm;
                                                                   
     /**  면제 사유 코드 */                                                     
     private String exemptRsnCd;                                    
@@ -204,6 +213,34 @@ public class GamPrtFcltyRentMngtDetailVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the gisAssetsNm
+	 */
+	public String getGisAssetsNm() {
+		return gisAssetsNm;
+	}
+
+	/**
+	 * @param gisAssetsNm the gisAssetsNm to set
+	 */
+	public void setGisAssetsNm(String gisAssetsNm) {
+		this.gisAssetsNm = gisAssetsNm;
+	}
+
+	/**
+	 * @return the assetsCdStr
+	 */
+	public String getAssetsCdStr() {
+		return assetsCdStr;
+	}
+
+	/**
+	 * @param assetsCdStr the assetsCdStr to set
+	 */
+	public void setAssetsCdStr(String assetsCdStr) {
+		this.assetsCdStr = assetsCdStr;
+	}
+
+	/**
 	 * @return the usageAr
 	 */
 	public String getUsageAr() {
@@ -299,6 +336,20 @@ public class GamPrtFcltyRentMngtDetailVO extends ComDefaultVO {
 	 */
 	public void setExemptSe(String exemptSe) {
 		this.exemptSe = exemptSe;
+	}
+
+	/**
+	 * @return the exemptSeNm
+	 */
+	public String getExemptSeNm() {
+		return exemptSeNm;
+	}
+
+	/**
+	 * @param exemptSeNm the exemptSeNm to set
+	 */
+	public void setExemptSeNm(String exemptSeNm) {
+		this.exemptSeNm = exemptSeNm;
 	}
 
 	/**
