@@ -64,7 +64,7 @@
 							       , L.ENTRPSCD
 							       , L.ENTRPS_NM
 							       , TO_CHAR(TO_DATE(L.NTIC_PD_FROM), 'YYYY-MM-DD') NTIC_PD_FROM 
-							       , TO_CHAR(TO_DATE(L.CONST_PER_TO), 'YYYY-MM-DD') CONST_PER_TO
+							       <!-- , TO_CHAR(TO_DATE(L.CONST_PER_TO), 'YYYY-MM-DD') CONST_PER_TO  -->
 							       , L.ACCNUT_YEAR
 							       , L.NTICNO
 							       , TO_CHAR(TO_DATE(L.NTIC_DT), 'YYYY-MM-DD') NTIC_DT
