@@ -210,7 +210,9 @@ public class GamAssetRentFeeMngtController {
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
-         
+        
+        System.out.println("############ prtAtCodes => " + prtAtCodes);
+        
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
