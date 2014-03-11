@@ -47,6 +47,8 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 			{display:"항코드", 		name:"gisAssetsPrtAtCode", 	width:60, 	sortable:true, align:"center"},
 			{display:"항코드", 		name:"gisAssetsSubCd", 		width:60, 	sortable:true, align:"center"},
 			{display:"시설코드", 	name:"gisAssetsCode", 		width:70, 	sortable:true, align:"center"},
+			{display:"부두그룹코드", name:"gisAssetsQuayGroupCd", width:80, 	sortable:true, align:"center"},
+			{display:"부두코드", 	name:"gisAssetsQuayCd", 	width:70, 	sortable:true, align:"center"},
 			{display:"면적", 		name:"gisAssetsAr", 		width:64, 	sortable:true, align:"center"},
 			{display:"GIS자산실제임대면적",       name:"gisAssetsRealRentAr",         width:64,   sortable:true, align:"center"}
 			],

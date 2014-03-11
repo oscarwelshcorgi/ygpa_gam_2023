@@ -59,6 +59,8 @@
 								, GIS_ASSETS_AR
 								, GIS_ASSETS_USAGE_YN
 								, GIS_ASSETS_REAL_RENT_AR
+								, GIS_ASSETS_QUAY_GROUP_CD
+        						, GIS_ASSETS_QUAY_CD
 						FROM GIS_ASSETS_CD_F
 				WHERE 1=1
 					<isNotEmpty prepend="AND" property="gisAssetsCd">
