@@ -3,11 +3,15 @@ package egovframework.rte.ygpa.gam.sample.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.SimpleType;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
@@ -27,8 +38,8 @@ import egovframework.com.sym.ccm.ccc.service.CmmnClCode;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
 import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
 import egovframework.com.sym.ccm.cde.service.EgovCcmCmmnDetailCodeManageService;
+import egovframework.com.uat.uia.web.EgovLoginController;
 import egovframework.rte.cmmn.AjaxXmlView;
-import egovframework.rte.cmmn.dataaccess.service.MergeDataList;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -65,6 +76,8 @@ public class GamAssetMngSampleController {
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
+
+    protected static final Log LOG = LogFactory.getLog(GamAssetMngSampleController.class);
 
     @RequestMapping(value="/sample/gamAssetMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -144,10 +157,32 @@ public class GamAssetMngSampleController {
     	return map;
     }
 
+
     @RequestMapping(value="/sample/mergeAssetCodeList.do")
 	@ResponseBody Map<String, Object> mergeAssetCodeList (@RequestParam Map<String, Object> mergeAssetCodeList) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String,Object> map = new HashMap<String,Object>();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+
+    	ObjectMapper mapper = new ObjectMapper();
+
+    	try {
+    		//convert JSON string to Map
+    		insertList = mapper.readValue((String)mergeAssetCodeList.get("insertList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    		updateList = mapper.readValue((String)mergeAssetCodeList.get("updateList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    		deleteList = mapper.readValue((String)mergeAssetCodeList.get("deleteList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	LOG.debug("insert list : "+insertList.size());
+    	LOG.debug("updateList list : "+updateList.size());
+    	LOG.debug("deleteList list : "+deleteList.size());
 
 		map.put("resultCode", 0);			// return ok
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));

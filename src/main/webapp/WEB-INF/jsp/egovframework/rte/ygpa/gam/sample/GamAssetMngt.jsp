@@ -241,18 +241,13 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnSaveGisAssetsCode':
 		// 변경된 자료를 저장한다.
 		var inputVO=[{name: 'test', value:'test hello'}];
-		inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+ 		inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 		inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-		var vo=inputVO;
-/* 		var inputVO={};
-		inputVO.updateList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}]);
-		inputVO.insertList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}]);
-		inputVO.deleteList = this._deleteDataList; */
-		console.log(vo);
+		console.log(inputVO);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', vo, function(result) {
+	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', inputVO, function(result) {
 	 		if(result.resultCode == 0){
 	 			this.$('#assetCodeList').flexReload();
 	 		}
@@ -439,7 +434,7 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
-						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd">-<input type="text" size="16" id="erpAssetsNo">-<input type="text" size="16" id="erpAssetsNoSeq"></td>
+						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="prtAtCode">-<input type="text" size="16" id="erpAssetsNo">-<input type="text" size="16" id="erpAssetsNoSeq"></td>
 					</tr>
 					<tr>
 						<th><span class="label">재산구분</span></th>
