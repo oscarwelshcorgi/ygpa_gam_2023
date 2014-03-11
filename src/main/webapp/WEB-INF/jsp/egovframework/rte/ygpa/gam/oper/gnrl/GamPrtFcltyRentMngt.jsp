@@ -28,7 +28,7 @@ function GamPrtFcltyRentMngtModule() {}
 GamPrtFcltyRentMngtModule.prototype = new EmdModule(950, 610);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
+GamPrtFcltyRentMngtModule.prototype.loadComplete = function() { 
 
     // 테이블 설정
     this.$("#PrtFcltyRentMngtList").flexigrid({
@@ -82,6 +82,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             module.$('#totalArea').val(data.sumGrAr);
             module.$('#totalUse').val(data.sumGrFee);
 
+            module.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+            
             return data;
         }
     });
@@ -634,6 +636,8 @@ GamPrtFcltyRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
              this.$('#gisAssetsLocplc').val(value.gisAssetsLocplc);
              this.$('#gisAssetsLnm').val(value.gisAssetsLnm);
              this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
+             this.$('#gisAssetsQuayGroupCd').val(value.gisAssetsQuayGroupCd);
+             this.$('#gisAssetsQuayCd').val(value.gisAssetsQuayCd);
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
          } else {
@@ -759,14 +763,17 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                         <table>
                             <tr>
                                 <th><span class="label">항구분</span></th>
-                                <td style="width: 350px">
-	                                <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
+                                <!-- <td style="width: 350px"> -->
+                                <td colspan="3">
+	                                <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
 	                                <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
+                                <!-- 
                                 <th><span class="label">담당부서</span></th>
                                 <td>
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" />
                                 </td>
+                                 -->
                             </tr>
                             <tr>
                                 <th><span class="label">관리번호</span></th>
@@ -786,8 +793,8 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">최초신청일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="frstReqstDt"/></td>
-                                <th><span class="label">신청일자</span></th>
+                                <td style="width: 350px"><input type="text" class="emdcal" size="10" id="frstReqstDt"/></td>
+                                <th ><span class="label">신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="dt"/></td>
                             </tr>
                             <tr>
@@ -818,13 +825,16 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <td><input type="text" size="10" id="grRdcxptFee"/></td>
                             </tr>
                             <tr>
+                            	<!-- 
                                 <th><span class="label">납부방법</span></th>
                                 <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
                                 </td>
+                                 -->
+                                 <input type="hidden" id="payMth" value="Pre" />	<!-- 선납 고정 -->
                                 <th><span class="label">고지 방법</span></th>
                                 <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
                             </tr>
                             <tr>
@@ -862,7 +872,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                  
                  <table style="width:100%">
                     <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">임대상세추가</button><button id="btnRemoveItemDetail">임대상세삭제</button></td>
+                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">항만시설사용추가</button><button id="btnRemoveItemDetail">항만시설사용삭제</button></td>
                     </tr>
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -877,7 +887,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
 
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 
-                <div class="emdControlPanel"><button id="btnSaveItemDetail">저장</button></div>
+                <div class="emdControlPanel"><!-- <button id="btnSaveItemDetail">저장</button> --></div>
                     <form id="gamPrtFcltyRentMngtDetailForm">
                         <input type="hidden" id="detailCmd"/>
                         <input type="hidden" id="detailPrtAtCode"/>
@@ -885,9 +895,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                         <input type="hidden" id="detailMngNo"/>
                         <input type="hidden" id="detailMngCnt"/>
                         <input type="hidden" id="detailPrmisnYn"/>
-                        <table>
+                        <table >
                             <tr>
-                                <th style="width: 270px"><span class="label">자산사용순번</span></th>
+                                <th ><span class="label">자산사용순번</span></th>
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/></td>
                             </tr>
                             <tr>
@@ -904,12 +914,16 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <td><input type="text" size="5" id="gisAssetsLnm"/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">자산면적</span></th>
-                                <td style="width: 270px"><input type="text" size="17" id="gisAssetsAr" disabled/></td>
-                                <th style="width: 80px"><span class="label">실제임대면적</span></th>
-                                <td style="width: 170px"><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
-                                <th style="width: 120px"><span class="label">공시지가목록</span></th>
-                                <td>
+                                <th><span class="label">부두그룹코드</span></th>
+                                <td><input type="text" size="17" id="gisAssetsQuayGroupCd" disabled/></td>
+                                <th><span class="label">부두코드</span></th>
+                                <td colspan="3"><input type="text" size="17" id="gisAssetsQuayCd" disabled/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">시설면적</span></th>
+                                <td ><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
+                                <th ><span class="label">공시지가목록</span></th>
+                                <td colspan="3" style="text-align: left;">
                                     <select id="olnlpList">
                                         <option value="">선택</option>
                                         <c:forEach items="${olnlpList}" var="olnlpItem">
@@ -931,21 +945,23 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">적용요율</span></th>
                                 <td>
+                                	<!-- 
                                     <select id="applcTariff">
                                         <option value="" selected="selected">선택</option>
                                     </select>
-                                    
+                                     -->
+                                    <input id="applcTariff" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM023" />
                                     <input type="text" size="14" id="applcTariffStr"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
                                 <td colspan="3">
-                                    <input id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM014 />
+                                    <input id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" />
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제구분</span></th>
                                 <td colspan="5">
-                                    <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM009 />
+                                    <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM009" />
                                     <input type="text" size="17" id="exemptSeStr" readonly/>
                                 </td>
                             </tr>
@@ -956,7 +972,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">면제사유</span></th>
                                 <td colspan="5">
-                                    <input id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM017 />
+                                    <input id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" />
                                     
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
                                     <input type="text" size="70" id="exemptRsn"/>
@@ -978,7 +994,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용내역</span></th>
-                                <td colspan="5"><input type="text" size="100" id="usageDtls"/></td>
+                                <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" ></textarea></td>
                             </tr>
 
 
@@ -1096,7 +1112,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="xxxx">취소</button><button id="xxxx">임대상세적용</button>
+                        <td style="text-align:right"><button id="xxxx">취소</button><button id="xxxx">항만시설상세적용</button>
                         </td>
                     </tr>
                  </table>
