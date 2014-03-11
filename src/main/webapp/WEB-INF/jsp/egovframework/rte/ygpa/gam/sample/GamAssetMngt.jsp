@@ -255,6 +255,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
  		});
 		break;
 	case 'btnApplyGisAssetsCode':
+		if(this._editData==null) return;	// 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
 		this._editData=this.getFormValues('#editGisAssetCode', this._editData);
 		if(this._editData._updtId==undefined || this._editData._updtId!='I') {
 			this._editData._updtId='U';
@@ -264,6 +265,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#assetCodeList').flexAddRow(this._editData);
 		}
 		this.$('#editGisAssetCode').find(':input').val('');
+		this._editData=null;		// 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
 		break;
 	case 'btnCancelGisAssetsCode':
