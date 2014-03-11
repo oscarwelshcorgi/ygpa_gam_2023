@@ -69,6 +69,14 @@ public class GamOlnlpMngtServiceImpl extends AbstractServiceImpl implements GamO
 
 	
 	/**
+	 * 공시지가 관리 등록화면
+	 */
+	public void insertOlnlpMngt(GamOlnlpFVO vo) throws Exception {
+		gamOlnlpMngtDao.insertOlnlpMngt(vo);
+	}
+	
+	
+	/**
 	 * 공시지가 관리 수정화면
 	 */
 	public void updateOlnlpMngt(GamOlnlpFVO vo) throws Exception {

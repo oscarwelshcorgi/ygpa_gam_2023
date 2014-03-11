@@ -94,8 +94,11 @@ public class GamCmpyInfoMngtController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/code/gamCmpyInfoMngtList.do")
-	@ResponseBody Map<String, Object> selectCmpyInfoMngtList(GamEntrpsInfoFVO searchVO) throws Exception {
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/code/gamCmpyInfoMngtList.do")
+	@ResponseBody Map<String, Object> selectCmpyInfoMngtList(GamEntrpsInfoFVO searchVO,
+			@RequestParam("searchEntrpsCd") String searchEntrpsCd, @RequestParam("searchEntrpsTy") String searchEntrpsTy,
+			@RequestParam("searchBizrno") String searchBizrno, @RequestParam("searchBsnmSe") String searchBsnmSe) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -113,7 +116,11 @@ public class GamCmpyInfoMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-        List<?> cmpyInfoMngtList = gamCmpyInfoMngtService.selectCmpyInfoMngtList(searchVO);
+		searchVO.setEntrpscd(searchEntrpsCd);
+		searchVO.setEntrpsTy(searchEntrpsTy);
+		searchVO.setBizrno(searchBizrno);
+		searchVO.setBsnmSe(searchBsnmSe);
+        List cmpyInfoMngtList = gamCmpyInfoMngtService.selectCmpyInfoMngtList(searchVO);
         int totCnt = gamCmpyInfoMngtService.selectCmpyInfoMngtListTotCnt(searchVO);
         paginationInfo.setTotalRecordCount(totCnt);
 

@@ -61,6 +61,13 @@ public interface GamOlnlpMngtService {
 	
 	
 	/**
+	 * 공시지가 관리 등록화면
+	 * @param vo
+	 * @throws Exception
+	 */
+	void insertOlnlpMngt(GamOlnlpFVO vo) throws Exception;
+
+	/**
 	 * 공시지가 관리 수정화면
 	 * @param vo
 	 * @throws Exception

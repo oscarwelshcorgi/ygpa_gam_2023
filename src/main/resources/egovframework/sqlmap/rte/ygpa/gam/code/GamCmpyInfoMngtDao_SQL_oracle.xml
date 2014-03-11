@@ -101,9 +101,11 @@
 			              (SELECT ENTRPSCD, 
 			                     ENTRPS_NM, 
 			                     ENTRPS_TY, 
-			                     BSNM_SE, 
+                                 (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM020' AND CODE = ENTRPS_TY) AS ENTRPS_TY_DISPLAY,
+			                     BSNM_SE,
+                                 (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM018' AND CODE = BSNM_SE) AS BSNM_SE_DISPLAY, 
 			                     RPRSNTV_NM, 
-			                     BIZRNO, 
+			                     SUBSTR(BIZRNO, 0,3)||'-'||SUBSTR(BIZRNO, 4,2)||'-'||SUBSTR(BIZRNO, 6,5) AS BIZRNO,
 			                     CPRREGISTNO, 
 			                     INDUTY, 
 			                     BIZCND, 
@@ -115,7 +117,20 @@
 			                     UPD_USR, 
 			                     TO_CHAR(TO_DATE(UPDT_DT), 'YYYY-MM-DD') AS UPDT_DT, 
 			                     FAX 
-			                FROM ENTRPS_INFO_F 
+			                FROM ENTRPS_INFO_F
+			                WHERE 1 = 1
+			                <isNotEmpty property="entrpscd">
+			                	AND ENTRPSCD = #entrpscd#
+			                </isNotEmpty>
+			                <isNotEmpty property="entrpsTy">
+			                	AND ENTRPS_TY = #entrpsTy#
+			                </isNotEmpty>
+			                <isNotEmpty property="bizrno">
+			                	AND BIZRNO LIKE #bizrno# || '%'
+			                </isNotEmpty>
+			                <isNotEmpty property="bsnmSe">
+			                	AND BSNM_SE = #bsnmSe#
+			                </isNotEmpty>
 			            ORDER BY ENTRPSCD DESC 
 			              )Z 
 			       )
@@ -125,7 +140,18 @@
 	<select id="gamCmpyInfoMngtDao.selectCmpyInfoMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
 		SELECT COUNT(*) totcnt
 			FROM ENTRPS_INFO_F
-			WHERE 1=1
+			WHERE 1 = 1
+			<isNotEmpty property="entrpscd">
+               	AND ENTRPSCD = #entrpscd#
+            </isNotEmpty>
+            <isNotEmpty property="entrpsTy">
+              	AND ENTRPS_TY = #entrpsTy#
+            </isNotEmpty>
+            <isNotEmpty property="bizrno">
+               	AND BIZRNO LIKE #bizrno# || '%'
+            </isNotEmpty>
+            <isNotEmpty property="bsnmSe">
+            	AND BSNM_SE = #bsnmSe#
+            </isNotEmpty>
 	</select>
-
 </sqlMap>

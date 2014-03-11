@@ -76,6 +76,15 @@ public class GamOlnlpMngtDao extends YGPAAbstractDAO{
     
     
     /**
+     * 공시지가 관리 등록화면
+     * @param vo
+     */
+    public void insertOlnlpMngt(GamOlnlpFVO vo){
+    	insert("gamOlnlpMngtDao.insertOlnlpMngt",vo);
+    }
+
+    
+    /**
      * 공시지가 관리 수정화면
      * @param vo
      */

@@ -99,7 +99,9 @@ public class GamOlnlpMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/gamOlnlpInsertList.do")
-	@ResponseBody Map<String, Object> selectOlnlpInsertList(GisAssetsCodeVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectOlnlpInsertList(GisAssetsCodeVO searchVO,
+			@RequestParam("searchAssetsPrtAtCode") String searchAssetsPrtAtCode,
+			@RequestParam("searchAssetsCd") String searchAssetsCd, @RequestParam("searchAssetsSubCd") String searchAssetsSubCd)throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -124,6 +126,10 @@ public class GamOlnlpMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		searchVO.setGisAssetsPrtAtCode(searchAssetsPrtAtCode);
+		searchVO.setGisAssetsCd(searchAssetsCd);
+		searchVO.setGisAssetsSubCd(searchAssetsSubCd);
 		
 		/** List Data */
 		List<GisAssetsCodeVO> OlnlpMngtList = gamOlnlpMngtService.selectOlnlpInsertList(searchVO);
@@ -172,25 +178,51 @@ public class GamOlnlpMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		System.out.println("getGisAssetsCd : " + searchVO.getGisAssetsCd());
-		System.out.println("getGisAssetsPrtAtCode : " + searchVO.getGisAssetsPrtAtCode());
-		System.out.println("getGisAssetsSubCd : " + searchVO.getGisAssetsSubCd());
 		
 		/** List Data */
-		List<GamOlnlpFVO> OlnlpMngtList = gamOlnlpMngtService.selectOlnlpMngtList(searchVO);
+		List<GamOlnlpFVO> olnlpMngtList = gamOlnlpMngtService.selectOlnlpMngtList(searchVO);
         int totCnt = gamOlnlpMngtService.selectOlnlpMngtListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
-    	map.put("resultList", OlnlpMngtList);
+    	map.put("resultList", olnlpMngtList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
 	
+	
+	/**
+	 * 공시지가 목록 관리 등록
+	 * @param olnlpManageVO
+	 * @param bindingResult
+	 * @return map
+	 * @throws Exception
+	 */
+    @RequestMapping("/code/insertOlnlpMngt.do")
+    @ResponseBody Map<String, Object> insertOlnlpMngt(GamOlnlpFVO olnlpVO, BindingResult bindingResult)throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+        beanValidator.validate(olnlpVO, bindingResult);
+		if (bindingResult.hasErrors()){
+	        map.put("resultCode", 1);
+			map.put("resultMsg", "입력 값에 오류가 있습니다.");
+			map.put("resultObject", bindingResult.getAllErrors());
+
+		}else{
+
+			olnlpVO.setRegUsr(user.getId());
+			gamOlnlpMngtService.insertOlnlpMngt(olnlpVO);
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		}
+
+        return map;
+    }
+    
 	
 	/**
 	 * 공시지가 목록 관리 수정
@@ -200,7 +232,7 @@ public class GamOlnlpMngtController {
 	 * @throws Exception
 	 */
     @RequestMapping("/code/updateOlnlpMngt.do")
-    @ResponseBody Map<String, Object> updateOlnlpMngt(GamOlnlpFVO olnlpVO,BindingResult bindingResult)throws Exception {
+    @ResponseBody Map<String, Object> updateOlnlpMngt(GamOlnlpFVO olnlpVO, BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 

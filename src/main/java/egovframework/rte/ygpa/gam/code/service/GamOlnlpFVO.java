@@ -3,8 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.code.service;
 
-import java.util.Date;
-
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -47,19 +45,19 @@ public class GamOlnlpFVO extends ComDefaultVO{
     private String regUsr;
 
     /** 등록일시 */
-    private Date registDt;
+    private String registDt;
 
     /** 수정자 */
     private String updUsr;
 
     /** 수정일시 */
-    private Date updtDt;
+    private String updtDt;
 
     /** 시작 일자 */
-    private Date beginDt;
+    private String beginDt;
 
     /** 종료 일자 */
-    private Date endDt;
+    private String endDt;
 
     public String getGisAssetsCd() {
         return gisAssetsCd;
@@ -109,11 +107,11 @@ public class GamOlnlpFVO extends ComDefaultVO{
         this.regUsr = regUsr;
     }
 
-    public Date getRegistDt() {
+    public String getRegistDt() {
         return registDt;
     }
 
-    public void setRegistDt(Date registDt) {
+    public void setRegistDt(String registDt) {
         this.registDt = registDt;
     }
 
@@ -125,27 +123,27 @@ public class GamOlnlpFVO extends ComDefaultVO{
         this.updUsr = updUsr;
     }
 
-    public Date getUpdtDt() {
+    public String getUpdtDt() {
         return updtDt;
     }
 
-    public void setUpdtDt(Date updtDt) {
+    public void setUpdtDt(String updtDt) {
         this.updtDt = updtDt;
     }
 
-    public Date getBeginDt() {
+    public String getBeginDt() {
         return beginDt;
     }
 
-    public void setBeginDt(Date beginDt) {
+    public void setBeginDt(String beginDt) {
         this.beginDt = beginDt;
     }
 
-    public Date getEndDt() {
+    public String getEndDt() {
         return endDt;
     }
 
-    public void setEndDt(Date endDt) {
+    public void setEndDt(String endDt) {
         this.endDt = endDt;
     }
 }
