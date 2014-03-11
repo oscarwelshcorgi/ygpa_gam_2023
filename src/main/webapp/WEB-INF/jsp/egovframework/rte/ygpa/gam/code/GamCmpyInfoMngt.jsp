@@ -30,33 +30,31 @@ GamCmpyInfoMngtModule.prototype = new EmdModule(840, 540);
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 
-	// 테이블 설정
+	// 업체정보 목록 조회
 	this.$("#cmpyInfoMngtList").flexigrid({
 		module: this,
 		url: '<c:url value="/code/gamCmpyInfoMngtList.do" />',
 		dataType: "json",
 		colModel : [
 					{display:"업체코드", 		name:"entrpscd",		width:60, 	sortable:false,		align:"center"},
-					{display:"업체명", 			name:"entrpsNm",		width:200, 	sortable:false,		align:"center"},
-					{display:"업체유형", 		name:"entrpsTy",		width:50, 	sortable:false,		align:"center"},
-					{display:"사업자구분", 		name:"bsnmSe",			width:100, 	sortable:false,		align:"center"},
+					{display:"업체명", 			name:"entrpsNm",		width:150, 	sortable:false,		align:"center"},
+					{display:"업체유형", 		name:"entrpsTyDisplay",	width:50, 	sortable:false,		align:"center"},
+					{display:"사업자구분", 		name:"bsnmSeDisplay",	width:80, 	sortable:false,		align:"center"},
 					{display:"대표자명", 		name:"rprsntvNm",		width:80, 	sortable:false,		align:"center"},
-					{display:"사업자등록번호", 	name:"bizrno",			width:80, 	sortable:false,		align:"center"},
-					{display:"법인등록번호", 		name:"cprregistno",		width:80, 	sortable:false,		align:"center"},
-					{display:"업종", 			name:"induty",			width:40, 	sortable:false,		align:"center"},
-					{display:"업태", 			name:"bizcnd",			width:40, 	sortable:false,		align:"center"},
-					{display:"전화번호", 		name:"tlphonNo",		width:80, 	sortable:false,		align:"center"},
-					{display:"팩스", 			name:"fax",				width:80, 	sortable:false,		align:"center"},
-					{display:"우편번호", 		name:"zip",				width:60, 	sortable:false,		align:"center"},
-					{display:"주소", 			name:"adres",			width:120, 	sortable:false,		align:"center"},
-					{display:"등록자", 			name:"regUsr",			width:40, 	sortable:false,		align:"center"},
-					{display:"등록일자", 		name:"registDt",		width:60, 	sortable:false,		align:"center"},
+					{display:"사업자등록번호", 	name:"bizrno",			width:120, 	sortable:false,		align:"center"},
+					{display:"법인등록번호", 		name:"cprregistno",		width:100, 	sortable:false,		align:"center"},
+					{display:"업종", 			name:"induty",			width:80, 	sortable:false,		align:"center"},
+					{display:"업태", 			name:"bizcnd",			width:80, 	sortable:false,		align:"center"},
+					{display:"전화번호", 		name:"tlphonNo",		width:100, 	sortable:false,		align:"center"},
+					{display:"팩스", 			name:"fax",				width:100, 	sortable:false,		align:"center"},
+					{display:"우편번호", 		name:"zip",				width:80, 	sortable:false,		align:"center"},
+					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,
-		rp: 24,
+		rp: 13,
 		showTableToggleBtn: false,
-		height: "220",
+		height: "230",
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -119,7 +117,6 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 저장
 		case "saveBtn":
-
 		 	var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
@@ -269,35 +266,18 @@ var module_instance = new GamCmpyInfoMngtModule();
 								<input type="text" size="20" id="searchEntrpsNm" />&nbsp;<button id="searchEntrpsCdBtn">업체조회</button>
 							</td>
 							<th>업체유형</th>
-							<td width="10%">  		
-								<select id="searchCondition" class="select" title="searchCondition">
-									<option selected="selected">&nbsp;&nbsp;전체&nbsp;&nbsp;</option>
-									<option value="C">대리점</option>
-									<option value="E">기타</option>
-									<option value="F">하역사명</option>
-									<option value="S">선사</option>
-								</select>
+							<td width="10%">
+								<input id="searchEntrpsTy" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" />
 							</td>
 						</tr>
 						<tr>
 							<th>사업자번호</th>
 							<td>
-								<input type="text" size="10" id="searchEntrpsCd" />
+								<input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/>
 							</td>
 							<th>사업자구분</th>
 							<td width="10%">  		
-								<select id="searchCondition" class="select" title="searchCondition">
-									<option selected="selected">&nbsp;&nbsp;전체&nbsp;&nbsp;</option>
-									<option value="620">여수</option>
-									<option value="621">여천</option>
-									<option value="622">광양</option>
-									<option value="625">하동항</option>
-									<option value="626">월내분실</option>
-									<option value="627">중흥분실</option>
-									<option value="629">광양항</option>
-									<option value="630">여수권역항</option>
-									<option value="640">마린센터</option>
-								</select>
+								<input id="searchBsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM018" />
 							</td>
 						</tr>
 					</tbody>
@@ -336,25 +316,9 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 유형<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<select id="entrpsTy">
-									<option value="C">대리점</option>
-									<option value="E">기타</option>
-									<option value="F">하역사명</option>
-									<option value="S">선사</option>
-									<option value="A">A</option>
-									<option value="W">W</option>
-								</select>
-							</td>
+							<td><input id="entrpsTy" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" /></td>
 							<th width="20%" height="23" class="required_text">사업자구분<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<select id="bsnmSe">
-									<option value="1">세금계산서</option>
-									<option value="2">고지납부</option>
-									<option value="3">계약</option>
-									<option value="4">영업</option>
-								</select>
-							</td>
+							<td><input id="bsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM018" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">법인등록번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
@@ -362,41 +326,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업종<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<select id="induty">
-									<option value="11.0">내 항 화 물</option>
-									<option value="12.0">외 항 화 물</option>
-									<option value="21.0">내 항 여 객</option>
-									<option value="22.0">외 항 여 객</option>
-									<option value="23.0">국내 해운 대리점</option>
-									<option value="24.0">국제 해운 대리점</option>
-									<option value="31.0">항 만 하 역 업</option>
-									<option value="32.0">항 만 용 역 업</option>
-									<option value="33.0">물 품 공 급 업</option>
-									<option value="34.0">선 박 급 유 업</option>
-									<option value="35.0">예 선 업</option>
-									<option value="36.0">컨테이너 수리업</option>
-									<option value="37.0">검 수 업</option>
-									<option value="38.0">검 량 감 정 업</option>
-									<option value="41.0">화 물 운 송 주 선 업</option>
-									<option value="42.0">해 운 중 개 업</option>
-									<option value="43.0">대 리 점</option>
-									<option value="44.0">선 박 대 여 업</option>
-									<option value="45.0">선 박 관 리 업</option>
-									<option value="46.0">도 선 업</option>
-									<option value="81.0">부 선 관련 업체</option>
-									<option value="82.0">100톤미만 자영업</option>
-									<option value="83.0">공사작업 관련업</option>
-									<option value="84.0">수산 관련 업체</option>
-									<option value="91.0">항 내 운 항</option>
-									<option value="92.0">조 선 소</option>
-									<option value="93.0">외국선사국내지사</option>
-									<option value="94.0">원 양 어 업</option>
-									<option value="95.0">연 안 어 업</option>
-									<option value="96.0">선 박 수 리</option>
-									<option value="99.0">기 타</option>
-								</select>
-							</td>
+							<td><input type="text" id="induty" title="업종" size="30" maxlength="50" /></td>
 							<th width="20%" height="23" class="required_text">업태<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="30" id="bizcnd"/></td>
 						</tr>
@@ -410,7 +340,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<th width="20%" height="23" class="required_text">우편번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="30" id="zip" /></td>
 							<th width="20%" height="23" class="required_text">주소<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="30" id="adres"/></td>
+							<td><input type="text" size="30" id="adres" /></td>
 						</tr>
 					</table>
 					<table id="cmpyInfoMngtList" style="display:none"></table>

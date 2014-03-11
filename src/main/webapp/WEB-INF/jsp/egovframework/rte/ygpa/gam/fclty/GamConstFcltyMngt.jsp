@@ -326,7 +326,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">건축시설 코드</th>
 							<td colspan="3">
-								<input type="text" size="10" id="gisPrtFcltyCd" disabled="disabled"/>&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
+								<input type="text" size="10" id="gisPrtFcltyCd" />&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
