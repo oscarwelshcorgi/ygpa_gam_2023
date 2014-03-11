@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
+import egovframework.com.sym.ccm.ccc.service.CmmnClCode;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
 import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
 import egovframework.com.sym.ccm.cde.service.EgovCcmCmmnDetailCodeManageService;
 import egovframework.rte.cmmn.AjaxXmlView;
+import egovframework.rte.cmmn.dataaccess.service.MergeDataList;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -53,8 +58,9 @@ public class GamAssetMngSampleController {
     @Resource(name = "gamAssetSampleService")
     private GamAssetSampleService gamAssetService;
 
-	@Resource(name = "CmmnDetailCodeManageService")
-    private EgovCcmCmmnDetailCodeManageService cmmnDetailCodeManageService;
+	/** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
 
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -138,63 +144,14 @@ public class GamAssetMngSampleController {
     	return map;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/sample/selectJsonTest.do", method=RequestMethod.GET)
-    public @ResponseBody ErpAssetCdDefaultVO selectJsonTest(ErpAssetCdDefaultVO searchOpt) throws Exception {
-//    	ErpAssetCdDefaultVO searchOpt = new ErpAssetCdDefaultVO();
-    	searchOpt.setRecordCountPerPage(15);
-    	searchOpt.setLastIndex(9999);
-    	searchOpt.setFirstIndex(0);
+    @RequestMapping(value="/sample/mergeAssetCodeList.do")
+	@ResponseBody Map<String, Object> mergeAssetCodeList (@RequestParam Map<String, Object> mergeAssetCodeList) throws Exception {
 
-    	return searchOpt;
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("resultCode", 0);			// return ok
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		return map;
     }
-
-    @RequestMapping(value="/asset/selectAssetList.do")
-    ModelAndView selectAssetList(@RequestParam("prtAtCode") String prtAtCode) throws Exception {
-    	Map<String, Object> searchOpt = new HashMap();
-//    	AjaxXmlBuilder ajaxXmlBuilder = new AjaxXmlBuilder();
-
-    	searchOpt.put("prtAtCode", prtAtCode);
-    	searchOpt.put("recordCountPerPage", 15);
-    	searchOpt.put("firstIndex", 0);
-
-
-    	List gamAssetList = gamAssetService.selectGamAssetUseList(searchOpt);
-    	ModelAndView model = new ModelAndView(new AjaxXmlView());
-
-    	model.addObject("prtAtCode", prtAtCode);
-    	model.addObject("firstIndex", 0);
-    	model.addObject("lastIndex", 15);
-    	model.addObject("resultList", gamAssetList);
-        int totCnt = gamAssetService.selectGamAssetUseListTotCnt(searchOpt);
-        model.addObject("totalCount", totCnt);
-
-//    	for (Iterator iter = (Iterator) gamAssetList.iterator(); iter.hasNext();) {
-//    		EgovMap berthInfo = (EgovMap) iter.next();
-//    		ajaxXmlBuilder.add;
-//    		ajaxXmlBuilder.addItem((String)berthInfo.get("prtFcltyNm"), (String)berthInfo.get("prtFcltySubCd"));
-//    	}
-//        model.addObject("ajaxXml", ajaxXmlBuilder.toString());
-    	return model;
-    }
-
-//    protected void initBinder(HttpServletRequest request,  ServletRequestDataBinder binder) throws Exception{
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-//        binder.registerCustomEditor(Date.class, editor);
-//}
-//
-//@Override
-//protected Object formBackingObject(HttpServletRequest request)
-//                throws Exception {
-//        SpringJsonForm bean = new SpringJsonForm();
-//        bean.setBirthday(new Date());
-//        bean.setPlaceofbirth("Sydney");
-//        return bean;
-//}
-//
-//public void onSubmitAction(Object command, BindException errors) {
-//        SpringJsonForm bean = (SpringJsonForm) command;
-//}
 
 }

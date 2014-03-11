@@ -240,12 +240,24 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnSaveGisAssetsCode':
 		// 변경된 자료를 저장한다.
-		var inputVO={};
+		var inputVO=[{name: 'test', value:'test hello'}];
+		inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+		inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+		var vo=inputVO;
+/* 		var inputVO={};
 		inputVO.updateList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}]);
 		inputVO.insertList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}]);
-		inputVO.deleteList = this._deleteDataList;
-		console.log(inputVO);
+		inputVO.deleteList = this._deleteDataList; */
+		console.log(vo);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+
+	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', vo, function(result) {
+	 		if(result.resultCode == 0){
+	 			this.$('#assetCodeList').flexReload();
+	 		}
+	 		alert(result.resultMsg);
+ 		});
 		break;
 	case 'btnApplyGisAssetsCode':
 		this._editData=this.getFormValues('#editGisAssetCode', this._editData);

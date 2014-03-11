@@ -136,6 +136,38 @@
         <url-pattern>/ajaxtags/css/*</url-pattern>
     </servlet-mapping>
 
+	<servlet>
+		<description/>
+		<servlet-name>proxyServlet</servlet-name>
+		<servlet-class>egovframework.com.cmm.ProxyServlet</servlet-class>
+
+		<init-param>
+			<param-name>proxyHost</param-name>
+			<param-value>localhost</param-value>
+		</init-param>
+		<init-param>
+			<param-name>proxyPort</param-name>
+			<param-value>80</param-value>
+		</init-param>
+		<init-param>
+			<param-name>protocol</param-name>
+			<param-value>http</param-value>
+		</init-param>
+		<init-param>
+			<param-name>proxyPath</param-name>
+			<param-value></param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxFileUploadSize</param-name>
+			<param-value></param-value>
+		</init-param>
+
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>proxyServlet</servlet-name>
+		<url-pattern>/proxy.do</url-pattern>
+	</servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
