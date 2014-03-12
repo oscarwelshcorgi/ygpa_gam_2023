@@ -43,7 +43,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"지번", 					name:"gisAssetsLnmDisplay",	width:100,		sortable:false,		align:"center"},
 				{display:"자산명",		 			name:"gisAssetsNm",			width:140,		sortable:false,		align:"center"}
 			],
-		usepager: true,
+		//usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
@@ -61,7 +61,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"종료일자",		 			name:"endDt",			width:120,		sortable:false,		align:"center"},
 				{display:"공시지가",		 			name:"olnlp",			width:200,		sortable:false,		align:"center"}
 			],
-		usepager: true,
+		//usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
@@ -75,17 +75,13 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		var listInput = {gisAssetsCd:row["gisAssetsCd"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"]};
 		module.doAction('<c:url value="/code/gamOlnlpMngtList.do" />', listInput, function(module, result) {
 
-			var totalCount = result.totalCount;
-			if(totalCount > 0){
-				module.$("#gisAssetsCd").val(result.searchOption.gisAssetsCd);
-				module.$("#gisAssetsPrtAtCode").val(result.searchOption.gisAssetsPrtAtCode);
-				module.$("#gisAssetsSubCd").val(result.searchOption.gisAssetsSubCd);
-				
-				var searchOpt = module.makeFormArgs("#olnlpManageVO");
-				module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
-			}else{
-				alert("등록된 공시지가 목록이 없습니다.");
-			}
+			module.$("#gisAssetsCd").val(result.searchOption.gisAssetsCd);
+			module.$("#gisAssetsPrtAtCode").val(result.searchOption.gisAssetsPrtAtCode);
+			module.$("#gisAssetsSubCd").val(result.searchOption.gisAssetsSubCd);
+
+			var searchOpt = module.makeFormArgs("#olnlpManageVO");
+			module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
+			if(result.totalCount == 0) alert("등록된 공시지가 목록이 없습니다.");
 	 	});
 	});
 	

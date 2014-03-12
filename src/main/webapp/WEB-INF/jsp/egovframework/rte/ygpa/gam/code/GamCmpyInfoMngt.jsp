@@ -50,7 +50,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"우편번호", 		name:"zip",				width:80, 	sortable:false,		align:"center"},
 					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
+		//usepager: true,
 		useRp: true,
 		rp: 13,
 		showTableToggleBtn: false,
@@ -93,7 +93,8 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#cmpyInfoMngtForm");
-		 	this.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
+		 	this.$("#cmpyInfoMngtListTab").tabs("option", {active: 0});
 		break;
 	
 		// 업체조회 팝업
@@ -142,9 +143,23 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 		
 		
-		// 업체담당자 정보 저장
+		// 업체담당자 정보 화면상 임시 저장
 		case "chargerSaveBtn":
-
+/*
+			
+			if(this._editData == null) return;
+			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", this._editData);
+			if(this._editData._updtId == undefined || this._editData._updtId != "I") {
+				this._editData._updtId = "U";
+				this.$('#assetCodeList').flexUpdateRow(this._editRow, this._editData);
+			}else {
+				this.$('#assetCodeList').flexAddRow(this._editData);
+			}
+			this.$('#editGisAssetCode').find(':input').val('');
+			this._editData=null;		// 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
+//			this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
+			break;*/
+			
 		 	var inputVO = this.makeFormArgs("#cmpyChargerMngtManageVO");
 			if(this.$("#chargerCmd").val() == "insert") {
 				this.$("#chargerEntrpscd").val(this.$("#entrpscd").val());
