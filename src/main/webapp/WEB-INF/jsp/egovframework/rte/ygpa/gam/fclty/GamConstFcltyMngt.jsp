@@ -53,7 +53,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"hidden",		 			name:"gisAssetsCd",			width:1,		sortable:false,		align:"center"},
 				{display:"hidden", 					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}*/
 			],
-		usepager: true,
+		//usepager: true,
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
