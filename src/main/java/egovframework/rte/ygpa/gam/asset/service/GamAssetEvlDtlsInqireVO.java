@@ -35,6 +35,36 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
     /**  GIS 자산 가치 조회 일자 TO */
     private String sGisAssetsValInqireDtTo;
     
+    /** GIS 자산 준공년도(검색조건) */
+    private String sGisAssetsBlddate;
+    
+    /** GIS 자산 위치 코드(검색조건) */
+    private String sGisAssetsLocCd; 
+    
+    /** GIS 자산 부두 코드(검색조건) */
+    private String sGisAssetsQuayCd;
+    
+    /** GIS 자산 구분 코드(검색조건) */
+    private String sGisAssetsSeCd;	   
+    
+    /** GIS 자산 재산 구분 코드(검색조건) */
+    private String sGisAssetsPrprtySeCd;
+    
+    /** GIS 자산 준공년도 */
+    private String gisAssetsBlddate;
+    
+    /** GIS 자산 위치 코드 */
+    private String gisAssetsLocCd; 
+    
+    /** GIS 자산 부두 코드 */
+    private String gisAssetsQuayCd;
+    
+    /** GIS 자산 구분 코드 */
+    private String gisAssetsSeCd;	   
+    
+    /** GIS 자산 재산 구분 코드 */
+    private String gisAssetsPrprtySeCd;
+    
     /** ERP 자산 구분 코드 */
     private String erpAssetsSeCd;
     
@@ -473,6 +503,146 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 	 */
 	public void setErpAssetsNoSeq(String erpAssetsNoSeq) {
 		this.erpAssetsNoSeq = erpAssetsNoSeq;
+	}
+
+	/**
+	 * @return the sGisAssetsBlddate
+	 */
+	public String getsGisAssetsBlddate() {
+		return sGisAssetsBlddate;
+	}
+
+	/**
+	 * @param sGisAssetsBlddate the sGisAssetsBlddate to set
+	 */
+	public void setsGisAssetsBlddate(String sGisAssetsBlddate) {
+		this.sGisAssetsBlddate = sGisAssetsBlddate;
+	}
+
+	/**
+	 * @return the sGisAssetsLocCd
+	 */
+	public String getsGisAssetsLocCd() {
+		return sGisAssetsLocCd;
+	}
+
+	/**
+	 * @param sGisAssetsLocCd the sGisAssetsLocCd to set
+	 */
+	public void setsGisAssetsLocCd(String sGisAssetsLocCd) {
+		this.sGisAssetsLocCd = sGisAssetsLocCd;
+	}
+
+	/**
+	 * @return the sGisAssetsSeCd
+	 */
+	public String getsGisAssetsSeCd() {
+		return sGisAssetsSeCd;
+	}
+
+	/**
+	 * @param sGisAssetsSeCd the sGisAssetsSeCd to set
+	 */
+	public void setsGisAssetsSeCd(String sGisAssetsSeCd) {
+		this.sGisAssetsSeCd = sGisAssetsSeCd;
+	}
+
+	/**
+	 * @return the sGisAssetsPrprtySeCd
+	 */
+	public String getsGisAssetsPrprtySeCd() {
+		return sGisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @param sGisAssetsPrprtySeCd the sGisAssetsPrprtySeCd to set
+	 */
+	public void setsGisAssetsPrprtySeCd(String sGisAssetsPrprtySeCd) {
+		this.sGisAssetsPrprtySeCd = sGisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @return the gisAssetsBlddate
+	 */
+	public String getGisAssetsBlddate() {
+		return gisAssetsBlddate;
+	}
+
+	/**
+	 * @param gisAssetsBlddate the gisAssetsBlddate to set
+	 */
+	public void setGisAssetsBlddate(String gisAssetsBlddate) {
+		this.gisAssetsBlddate = gisAssetsBlddate;
+	}
+
+	/**
+	 * @return the gisAssetsLocCd
+	 */
+	public String getGisAssetsLocCd() {
+		return gisAssetsLocCd;
+	}
+
+	/**
+	 * @param gisAssetsLocCd the gisAssetsLocCd to set
+	 */
+	public void setGisAssetsLocCd(String gisAssetsLocCd) {
+		this.gisAssetsLocCd = gisAssetsLocCd;
+	}
+
+	/**
+	 * @return the gisAssetsSeCd
+	 */
+	public String getGisAssetsSeCd() {
+		return gisAssetsSeCd;
+	}
+
+	/**
+	 * @param gisAssetsSeCd the gisAssetsSeCd to set
+	 */
+	public void setGisAssetsSeCd(String gisAssetsSeCd) {
+		this.gisAssetsSeCd = gisAssetsSeCd;
+	}
+
+	/**
+	 * @return the gisAssetsPrprtySeCd
+	 */
+	public String getGisAssetsPrprtySeCd() {
+		return gisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @param gisAssetsPrprtySeCd the gisAssetsPrprtySeCd to set
+	 */
+	public void setGisAssetsPrprtySeCd(String gisAssetsPrprtySeCd) {
+		this.gisAssetsPrprtySeCd = gisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @return the sGisAssetsQuayCd
+	 */
+	public String getsGisAssetsQuayCd() {
+		return sGisAssetsQuayCd;
+	}
+
+	/**
+	 * @param sGisAssetsQuayCd the sGisAssetsQuayCd to set
+	 */
+	public void setsGisAssetsQuayCd(String sGisAssetsQuayCd) {
+		this.sGisAssetsQuayCd = sGisAssetsQuayCd;
+	}
+
+	/**
+	 * @return the gisAssetsQuayCd
+	 */
+	public String getGisAssetsQuayCd() {
+		return gisAssetsQuayCd;
+	}
+
+	/**
+	 * @param gisAssetsQuayCd the gisAssetsQuayCd to set
+	 */
+	public void setGisAssetsQuayCd(String gisAssetsQuayCd) {
+		this.gisAssetsQuayCd = gisAssetsQuayCd;
 	}
 	
 }

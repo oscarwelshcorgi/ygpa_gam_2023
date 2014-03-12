@@ -58,5 +58,35 @@ public interface GamAssetRentSttusInqireService {
 	 * @exception
 	 */
     int selectAssetRentDetailListTotCnt(GamAssetRentSttusInqireVO vo) throws Exception;
+    
+    /**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectAssetRentFileList(GamAssetRentSttusInqireVO searchVO) throws Exception;
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectAssetRentFileListTotCnt(GamAssetRentSttusInqireVO searchVO) throws Exception;
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void insertAssetRentFile(GamAssetRentSttusInqireVO vo) throws Exception;
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void deleteAssetRentPhotoSingle(GamAssetRentSttusInqireVO vo) throws Exception;
 	
 }

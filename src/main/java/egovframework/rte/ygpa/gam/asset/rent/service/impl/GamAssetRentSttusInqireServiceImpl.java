@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO;
 
@@ -77,6 +78,44 @@ public class GamAssetRentSttusInqireServiceImpl  extends AbstractServiceImpl imp
 	 */
     public int selectAssetRentDetailListTotCnt(GamAssetRentSttusInqireVO vo) throws Exception {
 		return gamAssetRentSttusInqireDao.selectAssetRentDetailListTotCnt(vo);
+	}
+    
+    /**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectAssetRentFileList(GamAssetRentSttusInqireVO searchVO) throws Exception {
+        return gamAssetRentSttusInqireDao.selectAssetRentFileList(searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectAssetRentFileListTotCnt(GamAssetRentSttusInqireVO searchVO) throws Exception {
+		return gamAssetRentSttusInqireDao.selectAssetRentFileListTotCnt(searchVO);
+	}
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentFile(GamAssetRentSttusInqireVO vo) throws Exception {
+		gamAssetRentSttusInqireDao.insertAssetRentFile(vo);
+	}
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void deleteAssetRentPhotoSingle(GamAssetRentSttusInqireVO vo) throws Exception {
+		gamAssetRentSttusInqireDao.deleteAssetRentPhotoSingle(vo);
 	}
 
 }

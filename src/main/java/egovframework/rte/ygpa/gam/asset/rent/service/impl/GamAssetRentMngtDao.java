@@ -261,5 +261,42 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
     public List selectOlnlpInfo() throws Exception {
         return list("gamAssetRentMngtDao.selectOlnlpInfo_S", null);
     }
-	
+    
+    /**
+	 * 파일 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+    public List selectAssetRentFileList(GamAssetRentMngtVO searchVO) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentFileList_D", searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록 총 갯수
+	 * @exception
+	 */
+    public int selectAssetRentFileListTotCnt(GamAssetRentMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentFileListTotCnt_S", searchVO);
+    }
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentFile(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentFile_S", vo);
+	}
+    
+	/**
+	 * 파일을 삭제한다.(1row)
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void deleteAssetRentPhotoSingle(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentPhotoSingle_S", vo);
+	}
 }

@@ -22,6 +22,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO;
 
@@ -100,7 +101,7 @@ public class GamAssetRentSttusInqireController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/rent/selectAssetRentSttusInqireList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/rent/gamSelectAssetRentSttusInqireList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectAssetRentList(GamAssetRentSttusInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -143,7 +144,7 @@ public class GamAssetRentSttusInqireController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/rent/selectAssetRentSttusInqireDetailList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/rent/gamSelectAssetRentSttusInqireDetailList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectAssetRentDetailList(GamAssetRentSttusInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -170,6 +171,42 @@ public class GamAssetRentSttusInqireController {
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
 
+    	return map;
+    }
+	
+	/**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/rent/GamAssetRentSttusInqireFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentFileList(GamAssetRentSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		totalCnt = gamAssetRentSttusInqireService.selectAssetRentFileListTotCnt(searchVO);
+    	List assetFileList = gamAssetRentSttusInqireService.selectAssetRentFileList(searchVO);
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("assetFileList", assetFileList);
+    	
     	return map;
     }
 	

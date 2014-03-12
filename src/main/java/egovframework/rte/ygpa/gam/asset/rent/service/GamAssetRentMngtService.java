@@ -159,5 +159,35 @@ public interface GamAssetRentMngtService {
 	 * @exception Exception
 	 */
 	void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo) throws Exception;
+	
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectAssetRentFileList(GamAssetRentMngtVO searchVO) throws Exception;
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectAssetRentFileListTotCnt(GamAssetRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void insertAssetRentFile(GamAssetRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void deleteAssetRentPhotoSingle(GamAssetRentMngtVO vo) throws Exception;
     
 }

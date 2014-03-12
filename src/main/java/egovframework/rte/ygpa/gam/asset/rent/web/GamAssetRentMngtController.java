@@ -83,75 +83,11 @@ public class GamAssetRentMngtController {
 		//login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
-		//부서정보
-		ComDefaultCodeVO vo = new ComDefaultCodeVO();
-		vo.setTableNm("COMTNORGNZTINFO");
-		List ogrnztIdList = cmmUseService.selectOgrnztIdDetail(vo);
-		
 		//공시지가정보
 		GamAssetRentMngtVO gvo = new GamAssetRentMngtVO();
 		List olnlpList = gamAssetRentMngtService.selectOlnlpInfo();
 		
-		//각 코드정보
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		codeVo.setCodeId("GAM019"); //항코드 
-		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM011"); //신청구분코드 
-		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM008"); //고지방법 코드
-		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("COM077"); //GIS 코드  
-		List gisCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM007"); //사용 용도 코드 
-		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM009"); //면제 구분  
-		List exemptSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM017"); //면제 사유 코드
-		List exemptRsnCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM015"); //포장 구분 
-		List packSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM012"); //업체 구분
-		List entrpsSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM023"); //사용료 계산 구분
-		List feeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("COM998"); //감면 사용료 계산 구분 (확인할것!!)
-		List rdcxptFeeCalcSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM043"); //납부 방법 코드
-		List payMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM003"); //부두코드
-		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM014"); //적용방법
-		List applcMthList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		model.addAttribute("prtAtCdList", prtAtCdList);
-		model.addAttribute("reqstCdList", reqstCdList);
-		model.addAttribute("nticMthCdList", nticMthCdList);
-		model.addAttribute("gisCdList", gisCdList);
-		model.addAttribute("usagePrposCdList", usagePrposCdList);
-		model.addAttribute("exemptSeCdList", exemptSeCdList);
-		model.addAttribute("exemptRsnCdList", exemptRsnCdList);
-		model.addAttribute("packSeCdList", packSeCdList);
-		model.addAttribute("entrpsSeCdList", entrpsSeCdList);
-		model.addAttribute("feeCalcSeCdList", feeCalcSeCdList);
-		model.addAttribute("rdcxptFeeCalcSeCdList", rdcxptFeeCalcSeCdList);
-		model.addAttribute("payMthCdList", payMthCdList);
-		model.addAttribute("quayCdList", quayCdList);
-		model.addAttribute("ogrnztIdList", ogrnztIdList);
 		model.addAttribute("olnlpList", olnlpList);
-		model.addAttribute("applcMthList", applcMthList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("windowId", windowId);
@@ -167,9 +103,9 @@ public class GamAssetRentMngtController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/rent/selectAssetRentList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetRentList(GamAssetRentMngtVO searchVO) throws Exception {
-
+    @RequestMapping(value="/asset/rent/gamSelectAssetRentList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectAssetRentList(GamAssetRentMngtVO searchVO) throws Exception {
+		
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
@@ -210,7 +146,7 @@ public class GamAssetRentMngtController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/rent/selectAssetRentDetailList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/rent/gamSelectAssetRentDetailList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectAssetRentDetailList(GamAssetRentMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -844,5 +780,42 @@ public class GamAssetRentMngtController {
          
  		return map;
      }
+    
+    /**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/rent/gamSelectAssetRentFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentFileList(GamAssetRentMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//자산임대목록
+    	totalCnt = gamAssetRentMngtService.selectAssetRentFileListTotCnt(searchVO);
+    	List assetFileList = gamAssetRentMngtService.selectAssetRentFileList(searchVO);
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("assetFileList", assetFileList);
+    	
+    	return map;
+    }
     
 }
