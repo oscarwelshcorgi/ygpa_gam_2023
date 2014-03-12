@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -72,28 +71,7 @@ public class GamPopupEntrpsInfoController {
 	@RequestMapping(value="/popup/showEntrpsInfo.do")
     String showEntrpsInfo(GamPopupEntrpsInfoVO searchOpt, ModelMap model) throws Exception {
     	
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		
-		codeVo.setCodeId("COM998"); //업체 유형 (코드확인요망!!)
-		List entrpsTyCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("COM998"); //사업자 구분
-		List bsnmSeCdList = cmmUseService.selectCmmCodeDetail(codeVo); 
-		
-		codeVo.setCodeId("COM998"); //업종
-		List indutyCdList = cmmUseService.selectCmmCodeDetail(codeVo);  
-		
-		codeVo.setCodeId("COM998"); //업태
-		List bizcndCdList = cmmUseService.selectCmmCodeDetail(codeVo); 
-		
-		
 		model.addAttribute("searchOpt", searchOpt);
-		
-		model.addAttribute("entrpsTyCdList", entrpsTyCdList);
-		model.addAttribute("bsnmSeCdList", bsnmSeCdList);
-		model.addAttribute("indutyCdList", indutyCdList);
-		model.addAttribute("bizcndCdList", bizcndCdList);
-
     	return "/ygpa/gam/popup/GamPopupEntrpsInfo";  
     }
 	
@@ -108,7 +86,7 @@ public class GamPopupEntrpsInfoController {
     @RequestMapping(value="/popup/selectEntrpsInfoList.do", method=RequestMethod.POST)
 	@ResponseBody Map selectEntrpsInfoList(GamPopupEntrpsInfoVO searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -123,9 +101,8 @@ public class GamPopupEntrpsInfoController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//자산임대목록
+		List resultList = gamPopupEntrpsInfoService.selectEntrpsInfoList(searchVO);
     	totalCnt = gamPopupEntrpsInfoService.selectEntrpsInfoListTotCnt(searchVO);
-    	List resultList = gamPopupEntrpsInfoService.selectEntrpsInfoList(searchVO);
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -134,5 +111,4 @@ public class GamPopupEntrpsInfoController {
     	
     	return map;
     }
-
 }
