@@ -13,54 +13,90 @@
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT 
-							        E.ENTRPSCD
-							      , E.ENTRPS_NM
-							      , E.ENTRPS_TY
-							      , E.BSNM_SE
-							      , E.RPRSNTV_NM
-							      , E.BIZRNO
-							      , E.CPRREGISTNO
-							      , E.INDUTY
-							      , E.BIZCND
-							      , E.TLPHON_NO
-							      , E.ZIP
-							      , E.ADRES
-							      , E.REG_USR
-							      , E.REGIST_DT
-							      , E.UPD_USR
-							      , E.UPDT_DT
-							      , E.FAX
-							  FROM ENTRPS_INFO_F E
-							 WHERE 1=1
-                            
+                           SELECT ENTRPSCD , 
+			                     ENTRPS_NM , 
+			                     (SELECT CODE_NM 
+			                       FROM COMTCCMMNDETAILCODE 
+			                      WHERE CODE_ID = 'GAM020' 
+			                            AND CODE = ENTRPS_TY
+			                     ) AS ENTRPS_TY, 
+			                     (SELECT CODE_NM 
+			                       FROM COMTCCMMNDETAILCODE 
+			                      WHERE CODE_ID = 'GAM018' 
+			                            AND CODE = BSNM_SE
+			                     ) AS BSNM_SE, 
+			                     RPRSNTV_NM , 
+			                     SUBSTR(BIZRNO, 0,3)||'-'||SUBSTR(BIZRNO, 4,2)||'-'||SUBSTR(BIZRNO, 6,5) AS BIZRNO, 
+			                     SUBSTR(CPRREGISTNO, 0,6)||'-'||SUBSTR(CPRREGISTNO, 7,8) AS CPRREGISTNO, 
+			                     INDUTY , 
+			                     BIZCND , 
+			                     TLPHON_NO , 
+			                     SUBSTR(ZIP, 0,3)||'-'||SUBSTR(ZIP, 4,3) AS ZIP, 
+			                     ADRES , 
+			                     REG_USR , 
+			                     REGIST_DT , 
+			                     UPD_USR , 
+			                     UPDT_DT , 
+			                     FAX 
+			                FROM ENTRPS_INFO_F
+			                WHERE 1=1
+                             <!-- 업체 코드 -->
                              <isNotEmpty property="entrpscd">
-                                 AND E.ENTRPSCD = #entrpscd#  
+                                 AND ENTRPSCD = #entrpscd#  
                              </isNotEmpty>
-                             
+                             <!-- 업체 명 -->
                              <isNotEmpty property="entrpsNm">
-                                 AND E.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+                                 AND ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+                             </isNotEmpty>
+                             <!-- 사업자 구분 -->
+                             <isNotEmpty property="entrpsTy">
+                                 AND ENTRPS_TY = #entrpsTy#
+                             </isNotEmpty>
+                             <!-- 업체 유형 -->
+                             <isNotEmpty property="bsnmSe">
+                                 AND BSNM_SE = #bsnmSe#
+                             </isNotEmpty>
+                             <!-- 업종 -->
+                             <isNotEmpty property="induty">
+                                 AND INDUTY LIKE '%' || #induty# || '%'
+                             </isNotEmpty>
+                             <!-- 업태 -->
+                             <isNotEmpty property="bizcnd">
+                                 AND bizcnd LIKE '%' || #bizcnd# || '%'
                              </isNotEmpty>
                              
-                             ORDER BY E.ENTRPS_NM
+                             ORDER BY ENTRPS_NM
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
     <select id="gamPopupEntrpsInfoDao.selectEntrpsInfoListTotCnt_S" parameterClass="gamPopupEntrpsInfoVO" resultClass="int">
-        SELECT COUNT(*) totcnt
-          FROM ENTRPS_INFO_F E
-         WHERE 1=1
-          
-         <isNotEmpty property="entrpscd">
-             AND E.ENTRPSCD = #entrpscd#  
-         </isNotEmpty>
-         
+        SELECT COUNT(*) totcnt FROM ENTRPS_INFO_F
+			WHERE 1=1
+        <!-- 업체 코드 -->
+        <isNotEmpty property="entrpscd">
+            AND ENTRPSCD = #entrpscd#  
+        </isNotEmpty>
+        <!-- 업체 명 -->
         <isNotEmpty property="entrpsNm">
-	        AND E.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
-	    </isNotEmpty>
+            AND ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+        </isNotEmpty>
+        <!-- 사업자 구분 -->
+        <isNotEmpty property="entrpsTy">
+            AND ENTRPS_TY = #entrpsTy#
+        </isNotEmpty>
+        <!-- 업체 유형 -->
+        <isNotEmpty property="bsnmSe">
+            AND BSNM_SE = #bsnmSe#
+        </isNotEmpty>
+        <!-- 업종 -->
+        <isNotEmpty property="induty">
+            AND INDUTY LIKE '%' || #induty# || '%'
+        </isNotEmpty>
+        <!-- 업태 -->
+        <isNotEmpty property="bizcnd">
+            AND bizcnd LIKE '%' || #bizcnd# || '%'
+        </isNotEmpty>
     </select>
-    
-    
 </sqlMap>
