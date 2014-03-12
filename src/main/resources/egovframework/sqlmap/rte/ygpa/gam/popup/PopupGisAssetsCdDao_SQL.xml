@@ -7,39 +7,37 @@
 	<typeAlias  alias="gisAssetsCdSearchVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdDefaultVO"/>
 
 	<resultMap id="gisAssetsCd" class="egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO">
-		<result property="gisAssetsPrtAtCode" column="GIS_ASSETS_PRT_AT_CODE" columnIndex="1"/>
-		<result property="gisAssetsCode" column="GIS_ASSETS_CODE" columnIndex="2"/>
-		<result property="gisAssetsNm" column="GIS_ASSETS_NM" columnIndex="3"/>
-		<result property="gisAssetsMngDeptCd" column="GIS_ASSETS_MNG_DEPT_CD" columnIndex="4"/>
-		<result property="gisAssetsOperDeptCd" column="GIS_ASSETS_OPER_DEPT_CD" columnIndex="5"/>
-		<result property="gisAssetsLocplc" column="GIS_ASSETS_LOCPLC" columnIndex="6"/>
-		<result property="gisAssetsLnm" column="GIS_ASSETS_LNM" columnIndex="7"/>
-		<result property="gisAssetsLnmSub" column="GIS_ASSETS_LNM_SUB" columnIndex="8"/>
-		<result property="gisAssetsAr" column="GIS_ASSETS_AR" columnIndex="9"/>
-		<result property="gisAssetsUsageYn" column="GIS_ASSETS_USAGE_YN" columnIndex="10"/>
+		<result property="gisAssetsPrtAtCode" 		column="GIS_ASSETS_PRT_AT_CODE" 	columnIndex="1"/>
+		<result property="gisAssetsCode" 			column="GIS_ASSETS_CODE" 			columnIndex="2"/>
+		<result property="gisAssetsNm" 				column="GIS_ASSETS_NM" 				columnIndex="3"/>
+		<result property="gisAssetsMngDeptCd" 		column="GIS_ASSETS_MNG_DEPT_CD" 	columnIndex="4"/>
+		<result property="gisAssetsOperDeptCd" 		column="GIS_ASSETS_OPER_DEPT_CD" 	columnIndex="5"/>
+		<result property="gisAssetsLocplc" 			column="GIS_ASSETS_LOCPLC"			columnIndex="6"/>
+		<result property="gisAssetsLnm" 			column="GIS_ASSETS_LNM" 			columnIndex="7"/>
+		<result property="gisAssetsLnmSub" 			column="GIS_ASSETS_LNM_SUB" 		columnIndex="8"/>
+		<result property="gisAssetsAr" 				column="GIS_ASSETS_AR" 				columnIndex="9"/>
+		<result property="gisAssetsUsageYn" 		column="GIS_ASSETS_USAGE_YN" 		columnIndex="10"/>
 	</resultMap>
 
 	<select id="popupGisAssetsCdDAO.selectGisAssetsCd_S" resultMap="gisAssetsCd">
 		<![CDATA[
-			SELECT
-								GIS_ASSETS_PRT_AT_CODE
-								, GIS_ASSETS_CD || '-' || GIS_ASSETS_SUB_CD GIS_ASSETS_CODE
-								, GIS_ASSETS_CD
-								, GIS_ASSETS_SUB_CD
-								, GIS_ASSETS_NM
-								, GIS_ASSETS_MNG_DEPT_CD
-								, GIS_ASSETS_OPER_DEPT_CD
-								, GIS_ASSETS_LOCPLC
-								, GIS_ASSETS_LNM
-								, GIS_ASSETS_LNM_SUB
-								, GIS_ASSETS_AR
-								, GIS_ASSETS_USAGE_YN
-			FROM GIS_ASSETS_CD_F
-						WHERE
-								GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
-								AND GIS_ASSETS_CD=#gisAssetsCd#
-								AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
-				]]>
+			SELECT GIS_ASSETS_PRT_AT_CODE , 
+			       GIS_ASSETS_CD || '-' || GIS_ASSETS_SUB_CD GIS_ASSETS_CODE , 
+			       GIS_ASSETS_CD , 
+			       GIS_ASSETS_SUB_CD , 
+			       GIS_ASSETS_NM , 
+			       GIS_ASSETS_MNG_DEPT_CD , 
+			       GIS_ASSETS_OPER_DEPT_CD , 
+			       GIS_ASSETS_LOCPLC , 
+			       GIS_ASSETS_LNM , 
+			       GIS_ASSETS_LNM_SUB , 
+			       GIS_ASSETS_AR , 
+			       GIS_ASSETS_USAGE_YN 
+			  FROM GIS_ASSETS_CD_F 
+			 WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode# 
+			       AND GIS_ASSETS_CD=#gisAssetsCd# 
+			       AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+			]]>
 	</select>
 
 	<select id="popupGisAssetsCdDAO.selectGisAssetsCdList_D" parameterClass="gisAssetsCdSearchVO" resultClass="egovMap">
@@ -47,30 +45,37 @@
 					SELECT A.*, ROWNUM RNUM FROM (
 								SELECT
 								GIS_ASSETS_PRT_AT_CODE
-								, GIS_ASSETS_CD || '-' || GIS_ASSETS_SUB_CD GIS_ASSETS_CODE
+								, GIS_ASSETS_CD || '-' || GIS_ASSETS_SUB_CD AS GIS_ASSETS_CODE
 								, GIS_ASSETS_CD
 								, GIS_ASSETS_SUB_CD
 								, GIS_ASSETS_NM
 								, GIS_ASSETS_MNG_DEPT_CD
 								, GIS_ASSETS_OPER_DEPT_CD
 								, GIS_ASSETS_LOCPLC
-								, GIS_ASSETS_LNM
-								, GIS_ASSETS_LNM_SUB
+								, GIS_ASSETS_LNM ||'-'|| GIS_ASSETS_LNM_SUB AS GIS_ASSETS_LNM
 								, GIS_ASSETS_AR
 								, GIS_ASSETS_USAGE_YN
 								, GIS_ASSETS_REAL_RENT_AR
 								, GIS_ASSETS_QUAY_GROUP_CD
         						, GIS_ASSETS_QUAY_CD
 						FROM GIS_ASSETS_CD_F
-				WHERE 1=1
+						WHERE 1=1
+					<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
+						GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="gisAssetsCd">
 						GIS_ASSETS_CD = #gisAssetsCd#
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="gisAssetsSubCd">
 						GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 					</isNotEmpty>
-					ORDER BY
-						GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_SUB_CD, GIS_ASSETS_CD
+					<isNotEmpty prepend="AND" property="gisAssetsNm">
+						GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="gisAssetsLocplc">
+						GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+					</isNotEmpty>
+					ORDER BY GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_SUB_CD, GIS_ASSETS_CD
 
 		<![CDATA[) A WHERE ROWNUM <= #lastIndex#) WHERE RNUM > #firstIndex#]]>
 	</select>
@@ -79,12 +84,20 @@
 			SELECT COUNT(*) totcnt
 			FROM GIS_ASSETS_CD_F
 			WHERE 1=1
+			<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
+				GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="gisAssetsCd">
 				GIS_ASSETS_CD = #gisAssetsCd#
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="gisAssetsSubCd">
 				GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsNm">
+				GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsLocplc">
+				GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+			</isNotEmpty>
 	</select>
-
 </sqlMap>

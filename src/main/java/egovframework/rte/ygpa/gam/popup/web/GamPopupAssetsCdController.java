@@ -65,8 +65,8 @@ public class GamPopupAssetsCdController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		List<?> gamAssetList = gamPopupGisAssetsCdService.selectGisAssetsCdList(searchVO);
 		int totalCnt = gamPopupGisAssetsCdService.selectGisAssetsCdListTotCnt(searchVO);
-    	List<?> gamAssetList = gamPopupGisAssetsCdService.selectGisAssetsCdList(searchVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);

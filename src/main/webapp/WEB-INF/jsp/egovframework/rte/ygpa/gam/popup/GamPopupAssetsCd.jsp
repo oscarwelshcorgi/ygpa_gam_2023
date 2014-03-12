@@ -39,19 +39,14 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		url: '<c:url value="/popup/selectAssetCodeList.do"/>',
 		dataType: "json",
 		colModel : [
-			{display:"자산코드", 	name:"gisAssetsCd", 		width:60, 	sortable:true, align:"center"},
-			{display:"자산명", 		name:"gisAssetsNm", 		width:160, 	sortable:true, align:"center"},
-			{display:"소재지", 		name:"gisAssetsLocplc", 	width:160, 	sortable:true, align:"left"},
-			{display:"지번", 		name:"gisAssetsLnm", 		width:40, 	sortable:true, align:"center"},
-			{display:"지번SUB", 		name:"gisAssetsLnmSub", 	width:40, 	sortable:true, align:"center"},
-			{display:"항코드", 		name:"gisAssetsPrtAtCode", 	width:60, 	sortable:true, align:"center"},
-			{display:"항코드", 		name:"gisAssetsSubCd", 		width:60, 	sortable:true, align:"center"},
-			{display:"시설코드", 	name:"gisAssetsCode", 		width:70, 	sortable:true, align:"center"},
-			{display:"부두그룹코드", name:"gisAssetsQuayGroupCd", width:80, 	sortable:true, align:"center"},
-			{display:"부두코드", 	name:"gisAssetsQuayCd", 	width:70, 	sortable:true, align:"center"},
-			{display:"면적", 		name:"gisAssetsAr", 		width:64, 	sortable:true, align:"center"},
-			{display:"GIS자산실제임대면적",       name:"gisAssetsRealRentAr",         width:64,   sortable:true, align:"center"}
-			],
+					{display:"순번", 					name:"rnum", 				width:40, 	sortable:true, align:"center"},
+					{display:"항코드", 					name:"gisAssetsPrtAtCode",	width:60, 	sortable:true, align:"center"},
+					{display:"자산코드", 				name:"gisAssetsCode", 		width:60, 	sortable:true, align:"center"},
+					{display:"자산명", 					name:"gisAssetsNm", 		width:120, 	sortable:true, align:"center"},
+					{display:"소재지", 					name:"gisAssetsLocplc", 	width:180, 	sortable:true, align:"center"},
+					{display:"사용여부",					name:"gisAssetsUsageYn",	width:80, 	sortable:true, align:"center"}
+					//{display:"지번", 					name:"gisAssetsLnm", 		width:40, 	sortable:true, align:"center"}
+					],
 		//usepager: false,
 		rp: 24,
 		showTableToggleBtn: false,
@@ -63,15 +58,6 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.closeDialog("ok", row);
 	});
-
-	this.$("#assetCodeList").on("onItemSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is selected");
-	});
-
-	this.$("#assetCodeList").on("onItemUnSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is unselected");
-	});
-
 };
 
 
@@ -97,11 +83,6 @@ GamAssetCodePopupModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
-GamAssetCodePopupModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
-	this.loadData();
-};
-
 GamAssetCodePopupModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs("#searchGisAssetCode");
  	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
@@ -113,44 +94,28 @@ var popup_instance = new GamAssetCodePopupModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="searchPopupGisAssetCode">
-						<table class="searchPanel">
-							<tbody>
-							<tr>
-								<!-- 
-								<th>청코드</th>
-								<td><input id="gisAssetsPrtAtCode" type="text" size="3" value="${searchOpt.gisAssetsPrtAtCode}"></td>
-								 -->
-								<th>자산코드</th>
-								<td><input id="gisAssetsCd" type="text" size="1" value="${searchOpt.gisAssetsCd}">-<input id="gisAssetsSubCd" type="text" size="4" value="${searchOpt.gisAssetsSubCd }"></td>
-								<th>자산명</th>
-								<td colspan="3"><input id="assetNm" type="text" size="10"></td>
-								<td rowSpan="2"><button id="selectGisAssetCode" class="submit">조회</button></td>
-							</tr>
-							<tr>
-								<th>자산 주소</th>
-								<td colspan="3"><input id="assetNm" type="text" size="40"></td>
-								<!-- 
-								<th>재산분류</th>
-								<td><select id="prprtyCd">
-										<option value="" selected="selected">선택</option>
-										<option value="A">건물</option>
-										<option value="L">토지</option>
-										<option value="S">공작물</option>
-										<option value="w">창고</option>
-										<option value="E">기타</option>
-								</select>
-								</td>
-								 -->
-							</tr>
-						</tbody>
-					</table>
+			<table class="searchPanel">
+				<tbody>
+					<tr>
+						<th>항코드</th>
+						<td><input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
+						<th>자산코드</th>
+						<td><input id="gisAssetsCd" type="text" size="3" />&nbsp;-&nbsp;<input id="gisAssetsSubCd" type="text" size="2" /></td>
+					</tr>
+					<tr>
+						<th>자산명</th>
+						<td><input id="gisAssetsNm" type="text" size="30" /></td>
+						<th>소재지</th>
+						<td><input id="gisAssetsLocplc" type="text" size="40"></td>
+					</tr>
+				</tbody>
+			</table>
 		</form>
-				</div>
-
-	<div class="emdPanel">
-		<div style="width: 100%; height: 100%; overflow: auto">
-			<table id="assetCodeList" style="display: none"></table>
+		<div class="emdControlPanel">
+			<button id="selectGisAssetCode">조회</button>
 		</div>
+
+		<table id="assetCodeList" style="display: none"></table>
 		<div class="emdControlPanel">
 			<button id="btnOk">자산 선택</button>
 			<button id="cancel">취소</button>
