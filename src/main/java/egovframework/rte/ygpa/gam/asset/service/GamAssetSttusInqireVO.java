@@ -28,6 +28,24 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
     
     /** 사용기간 TO */
     private String sUsagePdTo;
+    
+    /** 검색조건 */
+    private String sPrtAtCode;
+    
+    /** 검색조건 */
+    private String sGisAssetsSubCd;
+    
+    /** 검색조건 */
+    private String entrpscd;
+    
+    /** 검색조건 */
+    private String sPrmisnYn;
+    
+    /** 검색조건 */
+    private String deptcd;
+    
+    /** 검색조건 */
+    private String sQuayCd;
 
 	/**
 	 * @return the sGisAssetsCd
@@ -84,6 +102,90 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
 	public void setsUsagePdTo(String sUsagePdTo) {
 		this.sUsagePdTo = sUsagePdTo;
 	}
-    
-    
+
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sGisAssetsSubCd
+	 */
+	public String getsGisAssetsSubCd() {
+		return sGisAssetsSubCd;
+	}
+
+	/**
+	 * @param sGisAssetsSubCd the sGisAssetsSubCd to set
+	 */
+	public void setsGisAssetsSubCd(String sGisAssetsSubCd) {
+		this.sGisAssetsSubCd = sGisAssetsSubCd;
+	}
+
+	/**
+	 * @return the entrpscd
+	 */
+	public String getEntrpscd() {
+		return entrpscd;
+	}
+
+	/**
+	 * @param entrpscd the entrpscd to set
+	 */
+	public void setEntrpscd(String entrpscd) {
+		this.entrpscd = entrpscd;
+	}
+
+	/**
+	 * @return the sPrmisnYn
+	 */
+	public String getsPrmisnYn() {
+		return sPrmisnYn;
+	}
+
+	/**
+	 * @param sPrmisnYn the sPrmisnYn to set
+	 */
+	public void setsPrmisnYn(String sPrmisnYn) {
+		this.sPrmisnYn = sPrmisnYn;
+	}
+
+	/**
+	 * @return the deptcd
+	 */
+	public String getDeptcd() {
+		return deptcd;
+	}
+
+	/**
+	 * @param deptcd the deptcd to set
+	 */
+	public void setDeptcd(String deptcd) {
+		this.deptcd = deptcd;
+	}
+
+	/**
+	 * @return the sQuayCd
+	 */
+	public String getsQuayCd() {
+		return sQuayCd;
+	}
+
+	/**
+	 * @param sQuayCd the sQuayCd to set
+	 */
+	public void setsQuayCd(String sQuayCd) {
+		this.sQuayCd = sQuayCd;
+	}
+	
+	
 }

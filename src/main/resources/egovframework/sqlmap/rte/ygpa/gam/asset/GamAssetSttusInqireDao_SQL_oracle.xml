@@ -13,7 +13,7 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT 
-							       G.GIS_ASSETS_SUB_CD
+							         G.GIS_ASSETS_SUB_CD
 							       , G.GIS_ASSETS_CD
 							       , G.GIS_ASSETS_NM
 							       , G.GIS_ASSETS_MNG_DEPT_CD
@@ -50,37 +50,68 @@
 							       , G.ERP_ASSETS_DISUSE_REGIST_YN
 							       , G.ERP_ASSETS_DISUSE_RSN
 							       , G.GIS_ASSETS_QUAY_CD
-							       , A.USAGE_AR
+							       , B.USAGE_AR
 							       , CASE
-                                       WHEN NVL(A.USAGE_AR,0) > 0 AND NVL(G.GIS_ASSETS_AR,0) > 0
+                                       WHEN NVL(B.USAGE_AR,0) > 0 AND NVL(G.GIS_ASSETS_AR,0) > 0
                                          THEN 
-                                           (NVL(A.USAGE_AR,0) / NVL(G.GIS_ASSETS_AR,0)) 
+                                           (NVL(B.USAGE_AR,0) / NVL(G.GIS_ASSETS_AR,0)) 
                                          ELSE
                                            0
                                      END USAGE_RATIO
-							       , TO_CHAR(A.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
-							       , TO_CHAR(A.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
-							  FROM GIS_ASSETS_CD_F G
-							     , ASSETS_RENT_DETAIL_F A
-							 WHERE G.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-							   AND G.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-							   AND G.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+							       , TO_CHAR(B.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
+							       , TO_CHAR(B.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
+							  FROM ASSETS_RENT_F A
+							     , ASSETS_RENT_DETAIL_F B
+							     , GIS_ASSETS_CD_F G  
+							 WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
+							   AND A.MNG_YEAR    = B.MNG_YEAR
+							   AND A.MNG_NO      = B.MNG_NO
+							   AND A.MNG_CNT     = B.MNG_CNT
+							   AND B.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+							   AND B.GIS_ASSETS_CD          = G.GIS_ASSETS_CD
+							   AND B.GIS_ASSETS_SUB_CD      = G.GIS_ASSETS_SUB_CD
+							   
+							   <isNotEmpty property="sPrtAtCode">
+                                   AND A.PRT_AT_CODE = #sPrtAtCode# 
+                               </isNotEmpty>
 							   
 							   <isNotEmpty property="sGisAssetsCd">
 							       AND G.GIS_ASSETS_CD = #sGisAssetsCd# 
 							   </isNotEmpty>
 							   
-							   <isNotEmpty property="sGisAssetsNm">
-							       AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-							   </isNotEmpty> 
+							   <isNotEmpty property="sGisAssetsSubCd">
+                                   AND G.GIS_ASSETS_SUB_CD = #sGisAssetsSubCd# 
+                               </isNotEmpty>
+                               
+                               <isNotEmpty property="sQuayCd">
+                                   AND A.QUAY_CD = #sQuayCd# 
+                               </isNotEmpty>
+                               
+                               <isNotEmpty property="entrpscd">
+                                   AND A.ENTRPSCD = #entrpscd# 
+                               </isNotEmpty>
+                               
+                               <isNotEmpty property="sPrmisnYn">
+                                   AND A.PRMISN_YN = #sPrmisnYn# 
+                               </isNotEmpty>
+							   
+							   <isNotEmpty property="deptcd">
+                                   AND A.DEPTCD = #deptcd# 
+                               </isNotEmpty>
 							   
 							   <isNotEmpty property="sUsagePdFrom">
-							       AND A.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+							       AND B.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>
 							   
 							   <isNotEmpty property="sUsagePdTo">
-							       AND A.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+							       AND B.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>    
+							   
+							   <!-- 
+							   <isNotEmpty property="sGisAssetsNm">
+                                   AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+                               </isNotEmpty> 
+                                -->
                             
                              ORDER BY G.REGISTDT DESC
                 ) S
