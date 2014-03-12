@@ -36,23 +36,23 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/selectAssetRentList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'}, 
-                    {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'}, 
-                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'}, 
-                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'}, 
-                    {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'}, 
-                    {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
-                    {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
-                    {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'}, 
-                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center'}, 
-                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center'}, 
-                    {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
-                    {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
+                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                    {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
+                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
+                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},
+                    {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
+                    {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
+                    {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
+                    {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center'},
+                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center'},
+                    {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
+                    {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
                     {display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
-                    {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'}, 
-                    
+                    {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'},
 
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'}, 
+
+                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
                     {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
                     {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
                     {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
@@ -71,11 +71,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'},
                     {display:'납부방법', name:'payMth',width:60, sortable:false,align:'center'}
                     ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
         showTableToggleBtn: false,
-        height: '290',
+        height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#totalArea').val(data.sumGrAr);
@@ -102,8 +99,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center'},
                     {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'},
-                    
-                    
+
+
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
                     {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
@@ -444,9 +441,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-        case 'btnPrmisn': // 승낙 (허가)   
+        case 'btnPrmisn': // 승낙 (허가)
             var rows = this.$('#assetRentMngtList').selectedRows();
-            
+
             if(rows.length>=1) {
             	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
@@ -456,16 +453,16 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 };
 
                 this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/asset/rent/popup/showAssetRentPrmisn.do"/>', opts);
-            	
+
             } else {
                 alert("목록에서 선택하십시오.");
             }
-        
+
             break;
-        
+
         case 'btnPrmisnCancel': // 승낙취소 (허가취소)
             var rows = this.$('#assetRentMngtList').selectedRows();
-            
+
             if(rows.length>=1) {
                 this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
                     if(result.resultCode=='0') {
@@ -478,15 +475,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             } else {
                 alert("목록에서 선택하십시오.");
             }
-        
+
             break;
-        
+
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
-            
+
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
-            break;    
-            
+            break;
+
     }
 };
 
@@ -549,17 +546,17 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              alert('취소 되었습니다');
          }
          break;
-     case 'insertAssetRentPrmisnPopup':    
+     case 'insertAssetRentPrmisnPopup':
     	 if (msg != 'cancel') {
     		 if( value == "0" ) {
     			 var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-                 this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();               	 
+                 this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
              }
          } else {
              alert('취소 되었습니다');
          }
     	 break;
-     
+
      case 'selectAssetsCdRentPopup':
          if (msg != 'cancel') {
              this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
@@ -574,8 +571,8 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          } else {
              alert('취소 되었습니다');
          }
-         break;	 
-         
+         break;
+
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -661,7 +658,7 @@ var module_instance = new GamAssetRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentListTab" class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
+        <div id="assetRentListTab" class="emdTabPanel filllHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">자산임대 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">자산임대 내역</a></li>
@@ -670,20 +667,20 @@ var module_instance = new GamAssetRentMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="assetRentMngtList" style="display:none"></table>
+                <table id="assetRentMngtList" style="display:none" class="filllHeight"></table>
 
                 <div class="emdControlPanel">
                     <table style="width:100%;">
                         <tr>
                             <td>
                                <form id="form1">
-                                   합계 : 
+                                   합계 :
                                    자료수 <input id="totalResultCnt" size="15" readonly>
                                    총면적 <input id="totalArea" type="text" size="15" readonly>
                                    총사용료 <input id="totalUse" type="text" size="15" readonly>원
-                                   
+
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
-                                   <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/> 
+                                   <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
                                </form>
                             </td>
                         </tr>
@@ -718,14 +715,14 @@ var module_instance = new GamAssetRentMngtModule();
 	                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
 	                                    </c:forEach>
 	                                </select>
-	                                
+
 	                                <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
                                 <th><span class="label">담당부서</span></th>
                                 <td>
                                     <select id="deptcd">
                                         <option value="">선택</option>
-                                        
+
                                         <c:forEach  items="${ogrnztIdList}" var="ogrnztIdItem">
                                             <option value="${ogrnztIdItem.code }" <c:if test="${ogrnztIdItem.code == loginOrgnztId}">selected="selected"</c:if>>${ogrnztIdItem.codeNm }</option>
                                         </c:forEach>
@@ -834,7 +831,7 @@ var module_instance = new GamAssetRentMngtModule();
                  </table>
 
                  <table id="assetRentDetailList" style="display:none"></table>
-                 
+
                  <table style="width:100%">
                     <tr>
                         <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">임대상세추가</button><button id="btnRemoveItemDetail">임대상세삭제</button></td>
@@ -909,7 +906,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <select id="applcTariff">
                                         <option value="" selected="selected">선택</option>
                                     </select>
-                                    
+
                                     <input type="text" size="14" id="applcTariffStr"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
@@ -933,7 +930,7 @@ var module_instance = new GamAssetRentMngtModule();
                                             <option value="${exemptSeCdItem.code }">${exemptSeCdItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
-                                    
+
                                     <input type="text" size="17" id="exemptSeStr" readonly/>
                                 </td>
                             </tr>
@@ -951,7 +948,7 @@ var module_instance = new GamAssetRentMngtModule();
                                             <option value="${exemptRsnCdItem.code }">${exemptRsnCdItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
-                                    
+
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
                                     <input type="text" size="70" id="exemptRsn"/>
                                 </td>
@@ -976,7 +973,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
 
 
-                            <!-- 
+                            <!--
                             <tr>
                                 <th><span class="label">사용 용도 코드</span></th>
                                 <td>
@@ -1034,10 +1031,10 @@ var module_instance = new GamAssetRentMngtModule();
                                         </c:forEach>
                                     </select>
                                 </td>
-                                
+
                             </tr>
                             <tr>
-                                
+
                                 <th><span class="label">해지 일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td>
                             </tr>
@@ -1078,14 +1075,14 @@ var module_instance = new GamAssetRentMngtModule();
                             -->
                         </table>
                     </form>
-                    
-                <!-- 
+
+                <!--
                 <div style="vertical-align: bottom; text-align: right;">
                     <input type="reset" value="취소" class="input_1"> <input
                         type="submit" value="저장" class="input_1">
                 </div>
                 -->
-                
+
                 <table style="width:100%">
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -1096,18 +1093,18 @@ var module_instance = new GamAssetRentMngtModule();
                  </table>
 
             </div>
-            
+
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
                 <table id="assetCodePhotoList" style="display:none"></table>
                 <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
-                <!-- 
+                <!--
                 <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
                  -->
                 <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-                
+
             </div>
-            
-            
+
+
         </div>
     </div>
 </div>
