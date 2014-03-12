@@ -36,28 +36,30 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/gamSelectAssetDisUseList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 관리 부서 코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 운영 부서 코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                    {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                    {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},          
+                    {display:'자산명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
+                    {display:'자산소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
+                    {display:'자산관리부서코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
+                    {display:'자산운영부서코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
+                    {display:'자산지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
+                    {display:'자산지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
+                    {display:'자산SUB코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
+                    {display:'자산코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
+                    {display:'자산항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
+                    {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
+                    {display:'자산사용여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
+                    {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
+                    {display:'자산규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
+                    {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
+                    {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
+                    {display:'자산비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},          
+                    
+                    /*
                     {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
                     {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
                     {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
                     {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},                                  
-                    {display:'GIS 자산 부두 그룹 코드', name:'gisAssetsQuayGroupCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 위치 코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},                   
+                    {display:'자산부두그룹코드', name:'gisAssetsQuayGroupCd',width:100, sortable:false,align:'center'},
+                    {display:'자산위치코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},                   
                     {display:'GIS 자산 구분 코드', name:'gisAssetsSeCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 재산 구분 코드', name:'gisAssetsPrprtySeCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 출자 방식', name:'gisAssetsInvstmntMthd',width:100, sortable:false,align:'center'},
@@ -65,6 +67,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
                     {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},          
                     {display:'도면 목록 등록 년도', name:'drwLstRegistYear',width:100, sortable:false,align:'center'},         
                     {display:'도면 목록 순번', name:'drwLstSeq',width:100, sortable:false,align:'center'},
+                    */
                     {display:'GIS 자산 가치 금액', name:'gisAssetsValAmt',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 가치 조회 일자', name:'gisAssetsValInqireDt',width:100, sortable:false,align:'center'},
                     {display:'ERP 자산 구분 코드', name:'erpAssetsSeCd',width:100, sortable:false,align:'center'},           
@@ -73,11 +76,8 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
                     {display:'ERP 자산 폐기 등록 여부', name:'erpAssetsDisuseRegistYn',width:100, sortable:false,align:'center'},                      
                     {display:'ERP 자산 폐기 사유', name:'erpAssetsDisuseRsn',width:100, sortable:false,align:'center'}
                     ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
         showTableToggleBtn: false,
-        height: '290'
+        height: 'auto'
     });
 
     this.$("#assetDisUseList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -226,7 +226,7 @@ var module_instance = new GamAssetDisUseMngtModule();
                             </td>
                             <th>GIS 자산 명</th>
                             <td>
-                                <input id="sGisAssetsNm" type="text" size="7">
+                                <input id="sGisAssetsNm" type="text" size="10">
                             </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
@@ -236,17 +236,15 @@ var module_instance = new GamAssetDisUseMngtModule();
         </div>
     </div>
 
-    <div class="emdPanel">
-        <div id="assetDisUseListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetDisUseListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">GIS자산 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">GIS자산 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetDisUseList" style="display:none"></table>
-                </div>
+                <table id="assetDisUseList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
@@ -260,7 +258,7 @@ var module_instance = new GamAssetDisUseMngtModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
-                <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>
+                <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
                     <form id="gamAssetDisUseForm">
                         <input type="hidden" id="cmd"/>
                         

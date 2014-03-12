@@ -40,12 +40,16 @@ GamPopupAssetDisUseModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnDisUseExec':
 		var inputVO=this.makeFormArgs('#gamPopupDisUseForm');
         
-        this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', inputVO, function(module, result) {
-           
-            alert(result.resultMsg);
-            
-            module.closeDialog('ok', result.resultCode);
-        });
+		if( this.$('#erpAssetsDisuseRsn').val() == '' ) {
+            alert("자산폐기사유를 입력하십시오.");
+        } else {
+        	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', inputVO, function(module, result) {
+                
+                alert(result.resultMsg);
+                
+                module.closeDialog('ok', result.resultCode);
+            });
+        }
 		
 		break;
 	case 'cancel':
