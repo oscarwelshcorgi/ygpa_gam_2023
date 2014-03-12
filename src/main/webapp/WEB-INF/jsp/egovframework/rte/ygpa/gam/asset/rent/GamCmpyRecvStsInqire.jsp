@@ -102,8 +102,8 @@ var module_instance = new GamCmpyRecvStsInqireModule();
                         <tr>
                             <th>수납일</th>
                             <td>
-                                <input id="sRcivDtFrom" type="text" size="5"> ~
-                                <input id="sRcivDtTo" type="text" size="5">
+                                <input id="sRcivDtFrom" type="text" size="10" class="emdcal"> ~
+                                <input id="sRcivDtTo" type="text" size="10" class="emdcal">
                             </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
