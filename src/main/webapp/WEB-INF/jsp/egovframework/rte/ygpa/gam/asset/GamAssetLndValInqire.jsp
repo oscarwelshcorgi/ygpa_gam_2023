@@ -25,7 +25,7 @@
  */
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(900, 550);
+GamAssetLndValInqireModule.prototype = new EmdModule(900, 500);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
@@ -137,8 +137,8 @@ var module_instance = new GamAssetLndValInqireModule();
         </div>
     </div>
 
-    <div class="emdPanel">
-        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <!-- 
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
@@ -149,9 +149,7 @@ var module_instance = new GamAssetLndValInqireModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetLndValInqireList" style="display:none"></table>
-                </div>
+                <table id="assetLndValInqireList" style="display:none" class="fillHeight"></table>
                
                 <!-- 
                 <div class="emdControlPanel">
