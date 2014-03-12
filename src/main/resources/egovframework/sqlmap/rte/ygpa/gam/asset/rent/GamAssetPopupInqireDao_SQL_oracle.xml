@@ -11,25 +11,49 @@
         <result property="prmisnYnCnt" column="PRMISN_YN_CNT" columnIndex="1"/>
         <result property="nticPdCnt" column="NTIC_PD_CNT" columnIndex="2"/>
         <result property="rcivSeCnt" column="RCIV_SE_CNT" columnIndex="3"/>
+        <result property="nhtIsueCnt" column="NHT_ISUE_CNT" columnIndex="4"/>
     </resultMap>
     
     <select id="gamAssetPopupInqireDao.selectAssetPopupInqire_S" parameterClass="gamAssetPopupInqireVO" resultMap="gamAssetPopupInqireMap">
            SELECT
 			       (                               
 			        SELECT COUNT(*) 
-			          FROM ASSETS_RENT_F
-			         WHERE PRMISN_YN IS NULL OR PRMISN_YN = 'N'     
+			          FROM ASSETS_RENT_F F
+			         WHERE F.PRMISN_YN IS NULL OR F.PRMISN_YN = 'N'     
+			           AND F.DEPTCD = #sDeptcd#
 			       ) PRMISN_YN_CNT
 			      ,(
 			         SELECT COUNT(*) 
-			          FROM LEV_REQEST_F L
+			           FROM LEV_REQEST_F L, ASSETS_RENT_F F
+			          WHERE L.PRT_AT_CODE = F.PRT_AT_CODE 
+			            AND L.MNG_YEAR    = F.MNG_YEAR
+			            AND L.MNG_NO      = F.MNG_NO
+			            AND L.MNG_CNT     = F.MNG_CNT
+			            AND F.DEPTCD      = #sDeptcd#
+			            AND TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(SYSDATE - 15,'YYYYMMDD')
+                        AND TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+			         <!-- 
 			         WHERE L.NTIC_PD_FROM <![CDATA[>=]]> TO_CHAR(SYSDATE, 'YYYYMMDD') 
 			           AND L.CONST_PER_TO <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
+			         -->
 			       ) NTIC_PD_CNT   
 			      ,(
-			        SELECT COUNT(*)
-			          FROM ANLRVE_LEV_F
-			         WHERE RCIV_SE IS NULL OR RCIV_SE = 'N'  
+                    SELECT COUNT(*) 
+                       FROM LEV_REQEST_F L, ASSETS_RENT_F F
+                      WHERE L.PRT_AT_CODE = F.PRT_AT_CODE 
+                        AND L.MNG_YEAR    = F.MNG_YEAR
+                        AND L.MNG_NO      = F.MNG_NO
+                        AND L.MNG_CNT     = F.MNG_CNT
+                        AND F.DEPTCD      = #sDeptcd#
+					    AND L.NHT_ISUE_YN = 'Y'
+					    AND L.RCIV_SE     = 'N'
+                   ) NHT_ISUE_CNT 
+			      ,(
+			        SELECT COUNT(*) 
+                      FROM ASSETS_RENT_F F
+                     WHERE F.DEPTCD = #sDeptcd#
+                       AND TO_CHAR(F.GR_USAGE_PD_TO,'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(SYSDATE - 30,'YYYYMMDD')
+                       AND TO_CHAR(F.GR_USAGE_PD_TO,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
 			       ) RCIV_SE_CNT
 			 FROM DUAL
     </select>

@@ -25,6 +25,12 @@ public class GamAssetPopupInqireVO extends ComDefaultVO {
     
     /** 세입징수(수납구분 'N' 건수) */
     private String rcivSeCnt;
+    
+    /** 세입징수(수납구분 'N' 건수) */
+    private String nhtIsueCnt;
+    
+    /** 부서코드 */
+    private String sDeptcd;
 
     
 	/**
@@ -67,6 +73,34 @@ public class GamAssetPopupInqireVO extends ComDefaultVO {
 	 */
 	public void setRcivSeCnt(String rcivSeCnt) {
 		this.rcivSeCnt = rcivSeCnt;
-	}       
+	}
+
+	/**
+	 * @return the nhtIsueCnt
+	 */
+	public String getNhtIsueCnt() {
+		return nhtIsueCnt;
+	}
+
+	/**
+	 * @param nhtIsueCnt the nhtIsueCnt to set
+	 */
+	public void setNhtIsueCnt(String nhtIsueCnt) {
+		this.nhtIsueCnt = nhtIsueCnt;
+	}
+
+	/**
+	 * @return the sDeptcd
+	 */
+	public String getsDeptcd() {
+		return sDeptcd;
+	}
+
+	/**
+	 * @param sDeptcd the sDeptcd to set
+	 */
+	public void setsDeptcd(String sDeptcd) {
+		this.sDeptcd = sDeptcd;
+	}
 
 }

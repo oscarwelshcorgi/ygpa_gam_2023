@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
@@ -65,13 +67,17 @@ public class GamAssetPopupInqireController {
 	@RequestMapping(value="/asset/rent/gamAssetPopupInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-		//총면적, 총사용료
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		
 		GamAssetPopupInqireVO gamAssetPopupInqireVO = new GamAssetPopupInqireVO();
+		gamAssetPopupInqireVO.setsDeptcd(user.getOrgnztId());
+		
 		GamAssetPopupInqireVO resultMap = gamAssetPopupInqireService.selectAssetPopupInqire(gamAssetPopupInqireVO);
     	
 		model.addAttribute("prmisnYnCnt", resultMap.getPrmisnYnCnt());
 		model.addAttribute("nticPdCnt", resultMap.getNticPdCnt());
 		model.addAttribute("rcivSeCnt", resultMap.getRcivSeCnt());
+		model.addAttribute("nhtIsueCnt", resultMap.getNhtIsueCnt());
 		
 		model.addAttribute("windowId", windowId);
     	

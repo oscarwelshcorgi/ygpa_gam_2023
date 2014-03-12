@@ -25,7 +25,7 @@
  */
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(300, 200);
+GamAssetLndValInqireModule.prototype = new EmdModule(300, 250);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
@@ -109,8 +109,8 @@ var module_instance = new GamAssetLndValInqireModule();
 
     
 
-    <div class="emdPanel">
-        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <!-- 
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
@@ -133,29 +133,36 @@ var module_instance = new GamAssetLndValInqireModule();
                         <form id="form1">
                         <tr>
                             <th>
-                                * 자산임대 미허가 건수 
+                                * 자산임대/사용 신청 건수 
                             </th>
                             <td>
-                                <input id="totalResultCnt" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
+                                <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
                             </td>
                         </tr>
                         <tr>
                             <th>
-                                * 징수의뢰 고지 건수 
+                                * 고지도래 자료 건수
                             </th>
                             <td>
-                                <input id="totalResultCnt" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
+                                <input id="totalResultCnt2" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
                             </td>
                         </tr>                                                
                         <tr>
                             <th>
-                                * 세입징수 미수납 건수 
+                                * 미수납 자료 건수 
                             </th>
                             <td>
-                                <input id="totalResultCnt" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
+                                <input id="totalResultCnt3" size="10" readonly value="<c:out value="${nhtIsueCnt}"/>">
                             </td>
                         </tr>       
-                            
+                        <tr>
+                            <th>
+                                * 계약 만료 자료 건수
+                            </th>
+                            <td>
+                                <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
+                            </td>
+                        </tr>    
                         </form>
                     </table>
                 </div>
