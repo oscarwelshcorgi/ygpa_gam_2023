@@ -27,7 +27,7 @@
 							      , G.GIS_ASSETS_ACQ_PRI
 							      , G.GIS_ASSETS_STNDRD
 							      , G.GIS_ASSETS_BLDDATE
-							      , G.GIS_ASSETS_BLD_DT
+							      , TO_CHAR(G.GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') GIS_ASSETS_BLD_DT 
 							      , G.GIS_ASSETS_RM
 							      , G.REG_USR
 							      , TO_CHAR(G.REGISTDT, 'YYYY-MM-DD') REGISTDT
@@ -43,7 +43,7 @@
 							      , G.DRW_LST_REGIST_YEAR
 							      , G.DRW_LST_SEQ
 							      , G.GIS_ASSETS_VAL_AMT
-							      , G.GIS_ASSETS_VAL_INQIRE_DT
+							      , TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') GIS_ASSETS_VAL_INQIRE_DT
 							      , G.ERP_ASSETS_SE_CD
 							      , G.ERP_ASSETS_NO
 							      , G.ERP_ASSETS_NO_SEQ
@@ -53,6 +53,7 @@
 							  FROM GIS_ASSETS_CD_F G
 							 WHERE 1=1
 							   
+							   <!-- 
 							   <isNotEmpty property="sGisAssetsCd">
 							       AND G.GIS_ASSETS_CD = #sGisAssetsCd# 
 							   </isNotEmpty>
@@ -62,9 +63,27 @@
 							   </isNotEmpty> 
 							   
 							   <isNotEmpty property="sGisAssetsValInqireDtFrom">
-							        AND G.GIS_ASSETS_VAL_INQIRE_DT BETWEEN REPLACE(#sGisAssetsValInqireDtFrom#,'-','') AND REPLACE(#sGisAssetsValInqireDtTo#,'-','') 
+							       AND G.GIS_ASSETS_VAL_INQIRE_DT BETWEEN TO_DATE(#sGisAssetsValInqireDtFrom#||'000000','yyyy-mm-ddhh24miss') AND TO_DATE(#sGisAssetsValInqireDtTo#||'235959','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>
-                            
+                               -->
+                               
+                               <isNotEmpty property="sGisAssetsBlddate">
+                                   AND G.GIS_ASSETS_BLDDATE = #sGisAssetsBlddate# 
+                               </isNotEmpty>
+                               
+                               <isNotEmpty property="sGisAssetsPrprtySeCd">
+                                   AND G.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd# 
+                               </isNotEmpty>
+                               
+                               <isNotEmpty property="sGisAssetsLocCd">
+                                   AND G.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd# 
+                               </isNotEmpty>
+                               
+                               <isNotEmpty property="sGisAssetsQuayCd">
+                                   AND G.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd# 
+                               </isNotEmpty>
+                               
+                               
                              ORDER BY G.REGISTDT DESC
                 ) S
              ) A
@@ -76,6 +95,7 @@
               FROM GIS_ASSETS_CD_F G
              WHERE 1=1
                
+               <!-- 
                <isNotEmpty property="sGisAssetsCd">
                    AND G.GIS_ASSETS_CD = #sGisAssetsCd# 
                </isNotEmpty>
@@ -85,7 +105,24 @@
                </isNotEmpty> 
                
                <isNotEmpty property="sGisAssetsValInqireDtFrom">
-                    AND G.GIS_ASSETS_VAL_INQIRE_DT BETWEEN REPLACE(#sGisAssetsValInqireDtFrom#,'-','') AND REPLACE(#sGisAssetsValInqireDtTo#,'-','') 
+                   AND G.GIS_ASSETS_VAL_INQIRE_DT BETWEEN TO_DATE(#sGisAssetsValInqireDtFrom#||'000000','yyyy-mm-ddhh24miss') AND TO_DATE(#sGisAssetsValInqireDtTo#||'235959','yyyy-mm-ddhh24miss') 
+               </isNotEmpty>
+               -->
+               
+               <isNotEmpty property="sGisAssetsBlddate">
+                   AND G.GIS_ASSETS_BLDDATE = #sGisAssetsBlddate# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="sGisAssetsPrprtySeCd">
+                   AND G.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="sGisAssetsLocCd">
+                   AND G.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="sGisAssetsQuayCd">
+                   AND G.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd# 
                </isNotEmpty>
     </select>
     

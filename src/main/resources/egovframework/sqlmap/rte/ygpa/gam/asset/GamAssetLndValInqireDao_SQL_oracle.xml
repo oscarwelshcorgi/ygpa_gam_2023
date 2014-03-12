@@ -27,7 +27,7 @@
 							      , G.GIS_ASSETS_ACQ_PRI
 							      , G.GIS_ASSETS_STNDRD
 							      , G.GIS_ASSETS_BLDDATE
-							      , G.GIS_ASSETS_BLD_DT
+							      , TO_CHAR(G.GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') GIS_ASSETS_BLD_DT
 							      , G.GIS_ASSETS_RM
 							      , G.REG_USR
 							      , TO_CHAR(G.REGISTDT, 'YYYY-MM-DD') REGISTDT
@@ -43,7 +43,7 @@
 							      , G.DRW_LST_REGIST_YEAR
 							      , G.DRW_LST_SEQ
 							      , G.GIS_ASSETS_VAL_AMT
-							      , G.GIS_ASSETS_VAL_INQIRE_DT
+							      , TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') GIS_ASSETS_VAL_INQIRE_DT
 							      , G.ERP_ASSETS_SE_CD
 							      , G.ERP_ASSETS_NO
 							      , G.ERP_ASSETS_NO_SEQ
@@ -67,11 +67,11 @@
 							   </isNotEmpty> 
 							   
 							   <isNotEmpty property="sBeginDt">
-							       AND O.BEGIN_DT <![CDATA[>=]]> REPLACE(#sBeginDt#,'-','')  
+							       AND O.BEGIN_DT <![CDATA[>=]]> TO_DATE(#sBeginDt#||'000000','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>
 							   
 							   <isNotEmpty property="sEndDt">
-							       AND O.END_DT <![CDATA[<=]]> REPLACE(#sEndDt#,'-','')
+							       AND O.END_DT <![CDATA[<=]]> TO_DATE(#sEndDt#||'235959','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>    
                             
                              ORDER BY G.REGISTDT DESC
@@ -97,12 +97,12 @@
                </isNotEmpty> 
                
                <isNotEmpty property="sBeginDt">
-                   AND O.BEGIN_DT <![CDATA[>=]]> REPLACE(#sBeginDt#,'-','')  
+                   AND O.BEGIN_DT <![CDATA[>=]]> TO_DATE(#sBeginDt#||'000000','yyyy-mm-ddhh24miss')
                </isNotEmpty>
                
                <isNotEmpty property="sEndDt">
-                   AND O.END_DT <![CDATA[<=]]> REPLACE(#sEndDt#,'-','')
-               </isNotEmpty>
+                   AND O.END_DT <![CDATA[<=]]> TO_DATE(#sEndDt#||'235959','yyyy-mm-ddhh24miss')
+               </isNotEmpty>  
     </select>
     
 </sqlMap>

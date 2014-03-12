@@ -26,7 +26,6 @@
 	    <result property="mngCnt" column="MNG_CNT" columnIndex="4"/>         
 	    <result property="entrpscd" column="ENTRPSCD" columnIndex="5"/>         
 	    <result property="entrpsNm" column="ENTRPS_NM" columnIndex="6"/>          
-	    <result property="dt" column="DT" columnIndex="7"/>              
 	    <result property="reqstSeCd" column="REQST_SE_CD" columnIndex="8"/>        
 	    <result property="grAr" column="GR_AR" columnIndex="9"/>           
 	    <result property="grFee" column="GR_FEE" columnIndex="10"/>          
@@ -111,7 +110,6 @@
                                   , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
                                   , A.ENTRPSCD
                                   , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
-                                  , TO_CHAR(A.DT, 'YYYY-MM-DD') DT
                                   , A.REQST_SE_CD
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
                                   , A.GR_AR
@@ -133,8 +131,14 @@
                                   , A.GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
-                                  , PAY_MTH
+                                  , A.PAY_MTH
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+                                  , A.SANCTN_STTUS
+                                  , A.SANCTNER_EMPL_NO
+                                  , A.QUAY_CD
+                                  , A.SANCTN_DT
+                                  , A.QUAY_GROUP_CD
+                                  , A.REQST_DT
                              FROM ASSETS_RENT_F A
                             WHERE 1=1 
                             
@@ -428,7 +432,6 @@
                  , A.MNG_NO
                  , LPAD(A.MNG_CNT + 1,'2','0')
                  , A.ENTRPSCD
-                 , A.DT
                  , A.REQST_SE_CD
                  , A.GR_AR
                  , A.GR_FEE
@@ -766,7 +769,6 @@
                , A.MNG_CNT
                , A.ENTRPSCD
                , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
-               , TO_CHAR(A.DT, 'YYYY-MM-DD') DT
                , A.REQST_SE_CD
                , A.GR_AR
                , A.GR_FEE
@@ -1058,5 +1060,88 @@
             WHERE 1=1
             ORDER BY BEGIN_DT DESC
     </select>
+    
+    <select id="gamAssetRentMngtDao.selectAssetRentFileList_D" parameterClass="gamAssetRentMngtVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           
+                           SELECT 
+					                A.PHOTO_SEQ
+					              , A.PHOTO_SJ
+					              , A.FILENM_PHYSICL
+					              , A.FILENM_LOGIC
+					              , A.SHOT_DT
+					              , A.REG_USR
+					              , A.REGIST_DT
+					              , A.PRT_AT_CODE
+					              , A.MNG_YEAR
+					              , A.MNG_NO
+					              , A.MNG_CNT
+					              , A.PHOTO_DESC
+					         FROM ASSETS_RENT_PHOTO_F A
+					        WHERE PRT_AT_CODE = #prtAtCode#
+					          AND MNG_YEAR    = #mngYear#
+					          AND MNG_NO      = #mngNo#
+					          AND MNG_CNT     = #mngCnt#
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetRentMngtDao.selectAssetRentFileListTotCnt_S" parameterClass="gamAssetRentMngtVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_PHOTO_F A
+             WHERE PRT_AT_CODE = #prtAtCode#
+               AND MNG_YEAR    = #mngYear#
+               AND MNG_NO      = #mngNo#
+               AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    <insert id="gamAssetRentMngtDao.insertAssetRentFile_S">
+        INSERT INTO ASSETS_RENT_PHOTO_F (
+                                             PHOTO_SEQ
+                                           , PHOTO_SJ
+                                           , FILENM_PHYSICL
+                                           , FILENM_LOGIC
+                                           , SHOT_DT
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , PRT_AT_CODE
+                                           , MNG_YEAR
+                                           , MNG_NO
+                                           , MNG_CNT
+                                           , PHOTO_DESC
+                                        ) 
+                                 VALUES (
+                                             (SELECT NVL(MAX(PHOTO_SEQ),0) + 1
+												FROM ASSETS_RENT_PHOTO_F AF
+												WHERE  PRT_AT_CODE = #prtAtCode#
+												AND    MNG_YEAR    = #mngYear#
+												AND    MNG_NO      = #mngNo#
+												AND    MNG_CNT     = #mngCnt#)
+                                           , #photoSj#
+                                           , #filenmPhysicl#
+                                           , #filenmLogic#
+                                           , #shotDt#
+                                           , #regUsr#
+                                           , SYSDATE
+                                           , #prtAtCode#
+                                           , #mngYear#
+                                           , #mngNo#
+                                           , #mngCnt#
+                                           , #photoDesc#
+                                        ) 
+    </insert>
+    
+    <delete id="gamAssetRentMngtDao.deleteAssetRentPhotoSingle_S">
+        DELETE FROM ASSETS_RENT_PHOTO_F
+         WHERE PHOTO_SEQ   = #photoSeq#
+           AND PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt# 
+    </delete>
     
 </sqlMap>

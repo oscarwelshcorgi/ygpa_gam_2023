@@ -21,24 +21,23 @@
                      FROM (
                            SELECT 
                                     A.PRT_AT_CODE
-                                  , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE ) PRT_AT_CODE_NM  
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM  
                                   , A.MNG_YEAR
                                   , A.MNG_NO
                                   , A.MNG_CNT
                                   , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
                                   , A.ENTRPSCD
                                   , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
-                                  , TO_CHAR(A.DT, 'YYYY-MM-DD') DT
                                   , A.REQST_SE_CD
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
                                   , A.GR_AR
                                   , A.GR_FEE
                                   , A.NTIC_MTH
-                                  , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM008' AND CD.CODE = A.NTIC_MTH ) NTIC_MTH_NM 
-                                  , TO_CHAR(TO_DATE(A.FRST_PRMISN_DT), 'YYYY-MM-DD') FRST_PRMISN_DT
-                                  , TO_CHAR(TO_DATE(A.PRMISN_DT), 'YYYY-MM-DD') PRMISN_DT
+                                  , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+                                  , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
                                   , A.PRMISN_YN
-                                  , TO_CHAR(TO_DATE(A.GR_USAGE_PD_FROM), 'YYYY-MM-DD') GR_USAGE_PD_FROM 
-                                  , TO_CHAR(TO_DATE(A.GR_USAGE_PD_TO), 'YYYY-MM-DD') GR_USAGE_PD_TO
+                                  , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+                                  , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
                                   , A.DOC_NO
                                   , A.RM
                                   , A.CMT
@@ -50,8 +49,14 @@
                                   , A.GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
-                                  
-                                    
+                                  , A.PAY_MTH
+                                  , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+                                  , A.SANCTN_STTUS
+                                  , A.SANCTNER_EMPL_NO
+                                  , A.QUAY_CD
+                                  , A.SANCTN_DT
+                                  , A.QUAY_GROUP_CD
+                                  , A.REQST_DT
                              FROM ASSETS_RENT_F A
                             WHERE 1=1 
                             
@@ -68,11 +73,11 @@
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrUsagePdFrom"> 
-					             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+					             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrUsagePdTo">
-					             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+					             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrAr">
@@ -108,7 +113,8 @@
 					                 ) 
 					         </isNotEmpty>
                              
-                             ORDER BY REGIST_DT DESC
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -132,11 +138,11 @@
              </isNotEmpty>
              
              <isNotEmpty property="sGrUsagePdFrom"> 
-                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
              </isNotEmpty>
              
              <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
              </isNotEmpty>
              
              <isNotEmpty property="sGrAr">
@@ -194,11 +200,11 @@
          </isNotEmpty>
          
          <isNotEmpty property="sGrUsagePdFrom"> 
-             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
          </isNotEmpty>
          
          <isNotEmpty property="sGrUsagePdTo">
-             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
          </isNotEmpty>
          
          <isNotEmpty property="sGrAr">
@@ -244,36 +250,67 @@
                                   A.ASSETS_USAGE_SEQ             
                                 , A.GIS_ASSETS_CD
                                 , A.GIS_ASSETS_SUB_CD
+                                , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
+                                
+                                , (SELECT F.GIS_ASSETS_NM FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_NM
+                                
+                                , (SELECT F.GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LOCPLC      
+                                
+                                , (SELECT F.GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LNM
+                                
+                                , (SELECT F.GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LNM_SUB
+                                
+                                , (SELECT F.GIS_ASSETS_AR FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_AR
+                                
+                                , (SELECT F.GIS_ASSETS_REAL_RENT_AR FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
+      
                                 , A.USAGE_AR
-                                , TO_CHAR(TO_DATE(A.USAGE_PD_FROM), 'YYYY-MM-DD') USAGE_PD_FROM
-                                , TO_CHAR(TO_DATE(A.USAGE_PD_TO), 'YYYY-MM-DD') USAGE_PD_TO
+                                , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
+                                , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
                                 , A.USAGE_PURPS
                                 , A.USAGE_DTLS
                                 , A.USAGE_PRPOS_CD
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM007' AND CD.CODE = A.USAGE_PRPOS_CD ) USAGE_PRPOS_CD_NM
                                 , A.EXEMPT_SE
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE ) EXEMPT_SE_NM
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE AND ROWNUM = 1) EXEMPT_SE_NM
                                 , A.EXEMPT_RSN_CD
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM017' AND CD.CODE = A.EXEMPT_RSN_CD ) EXEMPT_RSN_CD_NM
                                 , A.EXEMPT_RSN
-                                , TO_CHAR(TO_DATE(A.EXEMPT_PD_FROM), 'YYYY-MM-DD') EXEMPT_PD_FROM 
-                                , TO_CHAR(TO_DATE(A.EXEMPT_PD_TO), 'YYYY-MM-DD') EXEMPT_PD_TO 
+                                , TO_CHAR(A.EXEMPT_PD_FROM,'YYYY-MM-DD') EXEMPT_PD_FROM
+                                , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
                                 , A.COMPUT_DTLS
                                 , A.OLNLP
                                 , A.APPLC_TARIFF
                                 , A.APPLC_MTH
                                 , A.PACK_SE
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM015' AND CD.CODE = A.PACK_SE ) PACK_SE_NM
                                 , A.ENTRPS_SE
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM012' AND CD.CODE = A.ENTRPS_SE ) ENTRPS_SE_NM
                                 , A.FEE_CALC_SE
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'GAM023' AND CD.CODE = A.FEE_CALC_SE ) FEE_CALC_SE_NM
                                 , A.RDCXPT_FEE_CALC_SE
-                                <!-- 감면 사용료 계산 구분명 코드테이블 확인해서 CODE_ID 변경 -->
-                                , ( SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.USE_AT = 'Y' AND CODE_ID = 'COM061' AND CD.CODE = A.RDCXPT_FEE_CALC_SE ) RDCXPT_FEE_CALC_SE_NM
                                 , A.RDCXPT_FEE
                                 , A.FEE
-                                , TO_CHAR(TO_DATE(A.TRMNAT_DT), 'YYYY-MM-DD') TRMNAT_DT
+                                , TO_CHAR(A.TRMNAT_DT,'YYYY-MM-DD') TRMNAT_DT
                                 , A.TRMNAT_RSN
                                 , A.GIS_CD
                                 , A.REG_USR
@@ -281,10 +318,12 @@
                                 , A.UPD_USR
                                 , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
                                 , A.PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
                                 , A.GIS_ASSETS_PRT_AT_CODE
                                 , A.MNG_YEAR
                                 , A.MNG_NO
                                 , A.MNG_CNT
+                                , A.QUAY_CD
                             FROM ASSETS_RENT_DETAIL_F A
                            WHERE 1=1  
                              AND A.PRT_AT_CODE = #prtAtCode#
@@ -307,5 +346,88 @@
            AND A.MNG_NO      = #mngNo#
            AND A.MNG_CNT     = #mngCnt#
     </select>
+    
+    <select id="gamAssetRentSttusInqireDao.selectAssetRentFileList_D" parameterClass="gamAssetRentSttusInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           
+                           SELECT 
+                                    A.PHOTO_SEQ
+                                  , A.PHOTO_SJ
+                                  , A.FILENM_PHYSICL
+                                  , A.FILENM_LOGIC
+                                  , A.SHOT_DT
+                                  , A.REG_USR
+                                  , A.REGIST_DT
+                                  , A.PRT_AT_CODE
+                                  , A.MNG_YEAR
+                                  , A.MNG_NO
+                                  , A.MNG_CNT
+                                  , A.PHOTO_DESC
+                             FROM ASSETS_RENT_PHOTO_F A
+                            WHERE PRT_AT_CODE = #prtAtCode#
+                              AND MNG_YEAR    = #mngYear#
+                              AND MNG_NO      = #mngNo#
+                              AND MNG_CNT     = #mngCnt#
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetRentSttusInqireDao.selectAssetRentFileListTotCnt_S" parameterClass="gamAssetRentSttusInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_PHOTO_F A
+             WHERE PRT_AT_CODE = #prtAtCode#
+               AND MNG_YEAR    = #mngYear#
+               AND MNG_NO      = #mngNo#
+               AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    <insert id="gamAssetRentSttusInqireDao.insertAssetRentFile_S">
+        INSERT INTO ASSETS_RENT_PHOTO_F (
+                                             PHOTO_SEQ
+                                           , PHOTO_SJ
+                                           , FILENM_PHYSICL
+                                           , FILENM_LOGIC
+                                           , SHOT_DT
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , PRT_AT_CODE
+                                           , MNG_YEAR
+                                           , MNG_NO
+                                           , MNG_CNT
+                                           , PHOTO_DESC
+                                        ) 
+                                 VALUES (
+                                             (SELECT NVL(MAX(PHOTO_SEQ),0) + 1
+                                                FROM ASSETS_RENT_PHOTO_F AF
+                                                WHERE  PRT_AT_CODE = #prtAtCode#
+                                                AND    MNG_YEAR    = #mngYear#
+                                                AND    MNG_NO      = #mngNo#
+                                                AND    MNG_CNT     = #mngCnt#)
+                                           , #photoSj#
+                                           , #filenmPhysicl#
+                                           , #filenmLogic#
+                                           , #shotDt#
+                                           , #regUsr#
+                                           , SYSDATE
+                                           , #prtAtCode#
+                                           , #mngYear#
+                                           , #mngNo#
+                                           , #mngCnt#
+                                           , #photoDesc#
+                                        ) 
+    </insert>
+    
+    <delete id="gamAssetRentSttusInqireDao.deleteAssetRentPhotoSingle_S">
+        DELETE FROM ASSETS_RENT_PHOTO_F
+         WHERE PHOTO_SEQ   = #photoSeq#
+           AND PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt# 
+    </delete>
     
 </sqlMap>
