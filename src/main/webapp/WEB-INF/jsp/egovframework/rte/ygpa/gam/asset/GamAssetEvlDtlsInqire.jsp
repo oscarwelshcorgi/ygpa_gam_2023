@@ -25,7 +25,7 @@
  */
 function GamAssetEvlDtlsInqireModule() {}
 
-GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1100, 580);
+GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1150, 580);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
@@ -36,22 +36,24 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamSelectAssetEvlDtlsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 관리 부서 코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 운영 부서 코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},          
+                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
+                 {display:'자산소재지', name:'gisAssetsLocplc',width:200, sortable:false,align:'center'},
+                 {display:'자산코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
+                 {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
+                 {display:'자산지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
+                 {display:'자산지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
+                 {display:'자산항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
+                 {display:'자산사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
+                 {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
+                 {display:'자산규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
+                 {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
+                 {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
+                 {display:'자산비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},
+                 {display:'자산SUB코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
+                 {display:'자산관리부서코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
+                 {display:'자산운영부서코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'}
+                 
+                 /*
                  {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
                  {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
                  {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
@@ -73,12 +75,13 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
                  {display:'ERP 자산 폐기 등록 여부', name:'erpAssetsDisuseRegistYn',width:100, sortable:false,align:'center'},                      
                  {display:'ERP 자산 폐기 사유', name:'erpAssetsDisuseRsn',width:100, sortable:false,align:'center'},
                  {display:'부두코드', name:'gisAssetsQuayCd',width:100, sortable:false,align:'center'}
+                 */
                  ],
-     usepager: true,
+     /*usepager: true,
      useRp: true,
-     rp: 24,
+     rp: 24,*/
      showTableToggleBtn: false,
-     height: '290'
+     height: 'auto'
  });
 };
 
@@ -199,6 +202,18 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
+                            <th>상각연도</th>
+                            <td><input id="sGisAssetsBlddate" type="text" size="5" value=""></td>
+                            <th>재산구분</th>
+                            <td><input id="sGisAssetsPrprtySeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM001 /></td>
+                            <th>위치</th>
+                            <td><input id="sGisAssetsLocCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM002 /></td>
+                            <th>부두</th>
+                            <td><input id="sGisAssetsQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 /></td>
+                            <td><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>
+                        <!-- 
+                        <tr>
                             <th>GIS자산코드</th>
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
                             <th>GIS자산명</th>
@@ -209,7 +224,7 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                                 class="emdcal" size="8"></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
-                        <!-- 
+                        
                         <tr>
                             <th>관리부서</th>
                             <td><select id="mngDeptCd"></select></td>
@@ -223,8 +238,8 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
         </div>
     </div>
 
-    <div class="emdPanel">
-        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <!-- 
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
@@ -235,11 +250,10 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetEvlDtlsInqireList" style="display:none"></table>
-                </div>
+                <table id="assetEvlDtlsInqireList" style="display:none" class="fillHeight"></table>
+
                 <div class="emdControlPanel">
-                    <table style="width:100%;" border="1">
+                    <table style="width:100%">
                         <form id="form1">
                         <tr>
                             <td colspan="8">
@@ -249,31 +263,31 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                         </tr>
                         <tr>
                             <td>자산구분</td>
-                            <td><input id="assetCls" size="7" readonly></td>
+                            <td><input id="assetCls" size="15" readonly></td>
                             <td>자산번호</td>
-                            <td><input id="assetNo" size="7" readonly></td>
+                            <td><input id="assetNo" size="15" readonly></td>
                             <td>자산번호순번</td> 
-                            <td colspan="3"><input id="assetNoSeq" size="7" readonly></td>
+                            <td colspan="3"><input id="assetNoSeq" size="15" readonly></td>
                         </tr>
                         <tr>
-                            <td>당기자산증가금액</td>
-                            <td><input id="thisTermIncreAmt" size="7" readonly></td>
-                            <td>대차대조기말현재금액</td>
-                            <td><input id="bsThisCurAmt" size="7" readonly></td>
-                            <td>대차대조전기말상각누계금액</td> 
-                            <td><input id="bsPreDeprctnSum" size="7" readonly></td>
-                            <td>대차대조미상각잔액</td> 
-                            <td><input id="bsNoDeprctnBal" size="7" readonly></td>
+                            <td style="width: 160px">당기자산증가금액</td>
+                            <td style="width: 120px"><input id="thisTermIncreAmt" size="15" readonly></td>
+                            <td style="width: 130px">대차대조기말현재금액</td>
+                            <td style="width: 120px"><input id="bsThisCurAmt" size="15" readonly></td>
+                            <td style="width: 170px">대차대조전기말상각누계금액</td> 
+                            <td><input id="bsPreDeprctnSum" size="15" readonly></td>
+                            <td style="width: 120px">대차대조미상각잔액</td> 
+                            <td><input id="bsNoDeprctnBal" size="15" readonly></td>
                         </tr>
                         <tr>
                             <td>전기말자본적지출금액누계</td>
-                            <td><input id="preEndAssetBuySum" size="7" readonly></td>
+                            <td><input id="preEndAssetBuySum" size="15" readonly></td>
                             <td>자본적지출금액</td> 
-                            <td><input id="assetBuyAmt" size="7" readonly></td>
+                            <td><input id="assetBuyAmt" size="15" readonly></td>
                             <td>당기상각금액</td> 
-                            <td><input id="thisTermDeprctnAmt" size="7" readonly></td>
+                            <td><input id="thisTermDeprctnAmt" size="15" readonly></td>
                             <td>잔존금액</td>
-                            <td><input id="curAmt" size="7" readonly></td>
+                            <td><input id="curAmt" size="15" readonly></td>
                         </tr>
                         </form>
                     </table>
