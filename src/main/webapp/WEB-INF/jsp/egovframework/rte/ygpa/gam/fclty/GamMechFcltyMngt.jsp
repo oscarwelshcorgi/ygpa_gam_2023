@@ -155,6 +155,13 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 삭제
 		case "deleteBtn":
+			var row = this.$("#fcltyMngtList").selectedRows();
+
+			if(row.length == "0"){
+				alert("삭제할 시설을 선택 하십시오.");
+				return;
+			}
+
 			if(confirm("선택 한 기계 시설을 삭제하시겠습니까?")){
 				
 				var row = this.$("#fcltyMngtList").selectedRows();

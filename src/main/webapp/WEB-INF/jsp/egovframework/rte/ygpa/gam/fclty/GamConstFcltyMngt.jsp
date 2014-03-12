@@ -159,9 +159,14 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 삭제
 		case "deleteBtn":
+			var row = this.$("#fcltyMngtList").selectedRows();
+
+			if(row.length == "0"){
+				alert("삭제할 시설을 선택 하십시오.");
+				return;
+			}
+			
 			if(confirm("선택 한 건축 시설을 삭제하시겠습니까?")){
-				
-				var row = this.$("#fcltyMngtList").selectedRows();
 				
 				var inputVO = {gisAssetsCd:row[0]["gisAssetsCd"], gisPrtFcltySeq:row[0]["gisPrtFcltySeq"], gisAssetsPrtAtCode:row[0]["gisAssetsPrtAtCode"], gisAssetsSubCd:row[0]["gisAssetsSubCd"], gisPrtFcltyCd:row[0]["gisPrtFcltyCd"]};
 			 	this.doAction('<c:url value="/fclty/gamConstFcltyDelete.do" />', inputVO, function(module, result) {
