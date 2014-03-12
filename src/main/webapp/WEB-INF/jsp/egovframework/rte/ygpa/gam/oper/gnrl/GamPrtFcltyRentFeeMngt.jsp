@@ -26,7 +26,7 @@
  */
 function GamPrtFcltyRentFeeMngtModule() {}
 
-GamPrtFcltyRentFeeMngtModule.prototype = new EmdModule(1000, 550);
+GamPrtFcltyRentFeeMngtModule.prototype = new EmdModule(1100, 650);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
@@ -37,6 +37,26 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentFeeMngtList.do" />',
         dataType: 'json',
         colModel : [
+					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+					{display:'회계년도', name:'accnutYear',width:100, sortable:false,align:'center'},
+					{display:'고지횟수', name:'nticCnt',width:100, sortable:false,align:'center'},
+					{display:'업체명', name:'entrpsNm',width:100, sortable:false,align:'center'},
+					{display:'업체코드', name:'entrpscd',width:100, sortable:false,align:'center'},
+					{display:'고지 기간 FROM', name:'nticPdFrom',width:100, sortable:false,align:'center'}, 
+					{display:'고지 기간 TO', name:'constPerTo',width:100, sortable:false,align:'center'},
+					{display:'요금 종류', name:'chrgeKnd',width:100, sortable:false,align:'center'},
+					{display:'사용료', name:'fee',width:100, sortable:false,align:'center'},
+					{display:'부가세', name:'vat',width:100, sortable:false,align:'center'},
+					{display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
+					{display:'고지여부', name:'nhtIsueYn',width:100, sortable:false,align:'center'},
+					{display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},
+					{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'center'},
+					{display:'부서명', name:'',width:100, sortable:false,align:'center'},
+					{display:'사용면적', name:'',width:100, sortable:false,align:'center'},
+					{display:'사용기간 FROM', name:'',width:100, sortable:false,align:'center'},
+					{display:'사용기간 TO', name:'',width:100, sortable:false,align:'center'},
+					{display:'허가일자', name:'',width:100, sortable:false,align:'center'}
+                    /*
                     {display:'선택', name:'chkItem', width:40, sortable:false, align:'center', displayFormat:'checkbox'},
 					{display:'고지 횟수', name:'nticCnt',width:100, sortable:false,align:'center'},
 					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
@@ -72,18 +92,18 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
 					{display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
 					{display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
 					{display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'}
+					*/
                     ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
         showTableToggleBtn: false,
-        height: '290',
+        height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#sumFee').val(data.sumFee);
             module.$('#sumArrrgAmt').val(data.sumArrrgAmt);
             module.$('#sumVat').val(data.sumVat);
             module.$('#sumNticAmt').val(data.sumNticAmt);
+            
+            module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             
             return data;
         }
@@ -374,63 +394,46 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
+                            <th>항구분</th>
                             <td>
-                                <select id="sPrtAtCode">
-                                    <option value="" selected="selected">선택</option>
-
-                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <select id="sReqstSeCd">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${reqstCdList}" var="reqstCdItem">
-                                        <option value="${reqstCdItem.code }">${reqstCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th>신청업체</th>
-                            <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfoFee">업체</button>
-                            </td>
-                            <th>사용용도</th>
-                            <td>
-                                <select id="sUsagePrposCd">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
-                                        <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>
-                        <tr>
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
-                            <th>승낙구분</th>
+                            <th>고지구분</th>
                             <td >
-                                <select id="sPrmisnYn">
-                                    <option value="" selected="selected">선택</option>
+                                <select id="xxxxx">
+                                    <option value="" selected="selected">전체</option>
                                     <option value="Y">Y</option>
                                     <option value="N">N</option>
                                 </select>
                             </td>
-                            <th>사용기간</th>
+                            <th>요금종류</th>
+                            <td >
+                                <input id="ddxxee" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
+                            </td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>
+                        <tr>
+                            <th>업체명</th>
                             <td>
-                            <input id="sUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sUsagePdTo" type="text"
+                                <input id="xxxxx" type="text" size="4"> <input id="xxxxx" type="text" size="7"> 
+                            </td>
+                            <th>고지기간</th>
+                            <td>
+                            	<input id="xxxxxxx" type="text" class="emdcal"
+                                size="8"> ~ <input id="dddddd" type="text"
                                 class="emdcal" size="8">
                             </td>
-                            <th>총면적</th>
-                            <td>
-                                <input id="sRrArFrom" type="text" size="5">~<input id="sRrArTo" type="text" size="5">
+                            <th>담당부서</th>
+                            <td >
+                                <select id="xxxxx">
+                                    <option value="" selected="selected">전체</option>
+                                </select>
                             </td>
+                            <td></td><td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -439,25 +442,25 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="operResultListTab" class="emdTabPanel" data-onchange="onTabChange">
+        <div id="operResultListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">항만시설사용료 목록내역</a></li>
                 <li><a href="#tabs2" class="emdTab">항만시설사용료 상세조회내역</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="operResultList" style="display:none"></table>
+                <table id="operResultList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
                             <td>
                                <form id="form1">
 			                                                            합계
-			                                                            자료수 <input id="totalResultCnt" size="5" readonly>
-			                                                            사용료 <input id="sumFee" type="text" size="14" readonly>
-			                                                            연체 <input id="sumArrrgAmt" type="text" size="14" readonly>
-			                                                            부가세 <input id="sumVat" type="text" size="14" readonly>
-			                                                            고지액 <input id="sumNticAmt" type="text" size="14" readonly>
+			                                                            자료수 <input id="totalResultCnt" size="5"  style="text-align:right;" readonly>
+			                                                            사용료 <input id="sumFee" type="text" size="14"  style="text-align:right;" readonly>
+			                                                            연체 <input id="sumArrrgAmt" type="text" size="14"  style="text-align:right;" readonly>
+			                                                            부가세 <input id="sumVat" type="text" size="14"  style="text-align:right;" readonly>
+			                                                            고지액 <input id="sumNticAmt" type="text" size="14"  style="text-align:right;" readonly>
                                </form>
                             </td>
                             <td>
@@ -472,26 +475,103 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
                 <div class="emdControlPanel">
-                    <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
+                    <button id="btnSaveItem">저장</button><button id="btnCancelItem">삭제</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
                     <form id="gamPrtFcltyRentFeeMngtForm">
                         <input type="hidden" id="cmd"/>
                         
                         <table>
+                        	<tr>
+                        		<th style="width: 100px"><span class="label">항구분</span></th>
+	                            <td style="width: 300px">
+	                                <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+	                            </td>
+	                            <th style="width: 100px"><span class="label">고지 횟수</span></th>
+							    <td style="width: 300px"><input type="text" size="10" id="nticCnt"/></td>
+                        	</tr>
+                        	<tr>
+                        		<th style="width: 100px"><span class="label">관리번호</span></th>
+	                            <td style="width: 300px" colspan="3">
+	                                <input type="text" size="4" id="mngYear" />
+                                    <input type="text" size="3" id="mngNo" />
+                                    <input type="text" size="2" id="mngCnt" />
+                                    <button id="kkkkk" class="popupButton">사용허가자료 조회</button>
+	                            </td>
+                        	</tr>
+                        	<tr>
+                        		<th style="width: 100px"><span class="label">신청업체</span></th>
+	                            <td colspan="3">
+	                                <input type="text" size="30" id="eeeeee" />
+	                            </td>
+                        	</tr>
+                        	<tr>
+                        		<th><span class="label">총사용기간</span></th>
+                                <td colspan="3">
+                                    <input type="text" class="emdcal" size="10" id="grUsagePdFrom"/>~
+                                    <input type="text" class="emdcal" size="10" id="grUsagePdTo"/>
+                                </td>
+                        	</tr>
+                        	<tr>
+                                <th><span class="label">총사용료</span></th>
+                                <td><input type="text" size="10" id="grFee"/></td>
+                                <th style="width: 100px"><span class="label">총감면사용료</span></th>
+                                <td><input type="text" size="10" id="grRdcxptFee"/></td>
+                            </tr>
                             <tr>
-							    <th><span class="label">고지 횟수</span></th>
-							    <td><input type="text" size="10" id="nticCnt"/></td>
-							    <th><span class="label">시설 구분</span></th>
-							    <td><input type="text" size="10" id="fcltySe"/></td>
+                        		<th style="width: 100px"><span class="label">요금종류</span></th>
+	                            <td >
+	                                <input type="text" size="10" id="eeee3ee" />
+	                            </td>
+	                            <th><span class="label">고지기간</span></th>
+                                <td >
+                                    <input type="text" class="emdcal" size="10" id="ssss"/>~
+                                    <input type="text" class="emdcal" size="10" id="aaaaa"/>
+                                </td>
+                        	</tr>
+                            <tr>
+                                <th><span class="label">수납일자</span></th>
+                                <td><input type="text" class="emdcal" size="10" id="ooo"/></td>
+                                <th style="width: 100px"><span class="label">수납구분</span></th>
+                                <td><input id="ddd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM025" /></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">연체금액</span></th>
+                                <td colspan="3"><input type="text" size="15" id="eeee3ee" /></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 100px"><span class="label" >등록자</span></th>
+                                <td><input type="text" size="10" id="eeee3ee22" /></td>
+                                <th ><span class="label">등록일자</span></th>
+                                <td><input type="text" size="10" id="eeee3ee33" /></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">수정자</span></th>
+                                <td><input type="text" size="10" id="eeee3ee22" /></td>
+                                <th style="width: 100px"><span class="label">수정일자</span></th>
+                                <td><input type="text" size="10" id="eeee3ee33" /></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">비고</span></th>
+                                <td colspan="3"><textarea cols="99" rows="4" size="100" id="rm" ></textarea></td>
+                            </tr>
+                        <%--
+                            <tr>
+							    <th style="width: 100px"><span class="label">고지 횟수</span></th>
+							    <td style="width: 300px"><input type="text" size="10" id="nticCnt"/></td>
+							    <th style="width: 100px"><span class="label">시설 구분</span></th>
+							    <td style="width: 300px"><input type="text" size="10" id="fcltySe"/></td>
 							</tr>
 							<tr>
 							    <th><span class="label">요금 종류</span></th>
 							    <td>
+							    	<!-- 
 							        <select id="chrgeKnd">
                                         <option value="">선택</option>
                                         <c:forEach items="${chrgeKndCdList}" var="chrgeKndItem">
                                             <option value="${chrgeKndItem.code }">${chrgeKndItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
+                                    -->
+                                    <input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" />
 							    </td>
 							    <th><span class="label">업체코드</span></th>
 							    <td><input type="text" size="10" id="entrpscd"/></td>
@@ -549,12 +629,15 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
 							    <td><input type="text" size="10" id="rm"/></td>
 							    <th><span class="label">수납 구분</span></th>
 							    <td>
+							    	<!-- 
 							        <select id="rcivSe">
                                         <option value="">선택</option>
                                         <c:forEach items="${rcivSeCdList}" var="rcivSeItem">
                                             <option value="${rcivSeItem.code }">${rcivSeItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
+                                    -->
+                                    <input id="rcivSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM025" />
 							    </td>
 							</tr>
 							
@@ -588,12 +671,15 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
 							<tr>
 							    <th><span class="label">고지 방법</span></th>
 							    <td>
+							    	<!-- 
 							        <select id="nticMth">
                                         <option value="">선택</option>
                                         <c:forEach items="${nticMthCdList}" var="nticMthItem">
                                             <option value="${nticMthItem.code }">${nticMthItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
+                                    -->
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
 							    </td>
 							    <th><span class="label">등록자</span></th>
 							    <td><input type="text" size="10" id="regUsr"/></td>
@@ -626,6 +712,7 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
 							    <th><span class="label">관리 번호(조합)</span></th>
 							    <td><input type="text" size="10" id="rentMngNo" readonly/></td>
 							</tr>
+							 --%>
                         </table>
                     </form>
 

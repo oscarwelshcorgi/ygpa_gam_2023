@@ -25,71 +25,83 @@
  */
 function GamPrtFcltyRentMngtModule() {}
 
-GamPrtFcltyRentMngtModule.prototype = new EmdModule(950, 610);
+GamPrtFcltyRentMngtModule.prototype = new EmdModule(1100, 650);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyRentMngtModule.prototype.loadComplete = function() { 
+GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
     // 테이블 설정
-    this.$("#PrtFcltyRentMngtList").flexigrid({
+    this.$("#prtFcltyRentMngtList").flexigrid({
         module: this,
         url: '<c:url value="/oper/gnrl/selectPrtFcltyRentMngtList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'}, 
-					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'}, 
-					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'}, 
-					{display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'}, 
-					{display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'}, 
-					{display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
-					{display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
-					{display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'}, 
-					{display:'총사용료', name:'grFee',width:120, sortable:false,align:'center'}, 
-					{display:'총면적', name:'grAr',width:120, sortable:false,align:'center'}, 
-					{display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
-					{display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
-					{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
-					{display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'} 
-					
-					/*
-					{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'}, 
-					{display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
-					{display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
-					{display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
-					{display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},
-					{display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},
-					{display:'문서 번호', name:'docNo',width:60, sortable:false,align:'center'},
-					{display:'비고', name:'rm',width:60, sortable:false,align:'center'},
-					{display:'코멘트', name:'cmt',width:60, sortable:false,align:'center'},
-					{display:'기타', name:'etc',width:60, sortable:false,align:'center'},
-					{display:'등록자', name:'regUsr',width:60, sortable:false,align:'center'},
-					{display:'등록일시', name:'registDt',width:60, sortable:false,align:'center'},
-					{display:'수정자', name:'updUsr',width:60, sortable:false,align:'center'},
-					{display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},
-					{display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},
-					{display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},
-					{display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'},
-					{display:'납부방법', name:'payMth',width:60, sortable:false,align:'center'}
-					*/
+					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
+					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
+					{display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},
+					{display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
+					{display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
+					{display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
+					{display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+					{display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+					{display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+					{display:'최초신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
+					{display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
+					{display:'신청일자', name:'reqstDt',width:60, sortable:false,align:'center'},
+					{display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
+                    /*
+                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                    {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
+                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
+                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},
+                    {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
+                    {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
+                    {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
+                    {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center'},
+                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center'},
+                    {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
+                    {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
+                    {display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
+                    {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'},
+
+
+                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
+                    {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
+                    {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
+                    {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},
+                    {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},
+                    {display:'문서 번호', name:'docNo',width:60, sortable:false,align:'center'},
+                    {display:'비고', name:'rm',width:60, sortable:false,align:'center'},
+                    {display:'코멘트', name:'cmt',width:60, sortable:false,align:'center'},
+                    {display:'기타', name:'etc',width:60, sortable:false,align:'center'},
+                    {display:'등록자', name:'regUsr',width:60, sortable:false,align:'center'},
+                    {display:'등록일시', name:'registDt',width:60, sortable:false,align:'center'},
+                    {display:'수정자', name:'updUsr',width:60, sortable:false,align:'center'},
+                    {display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},
+                    {display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},
+                    {display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},
+                    {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'},
+                    {display:'납부방법', name:'payMth',width:60, sortable:false,align:'center'}
+                    */
                     ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
         showTableToggleBtn: false,
-        height: '290',
+        height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#totalArea').val(data.sumGrAr);
             module.$('#totalUse').val(data.sumGrFee);
 
-            module.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+            module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             
             return data;
         }
     });
 
- 	// 항만시설사용상세 테이블 설정
-    this.$("#PrtFcltyRentMngtDetailList").flexigrid({
+    // 테이블 설정
+    this.$("#prtFcltyRentMngtDetailList").flexigrid({
         module: this,
         url: '<c:url value="/oper/gnrl/selectPrtFcltyRentMngtDetailList.do" />',
         dataType: 'json',
@@ -101,12 +113,12 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center'},
-                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
-                    
-                    /*
+                    {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'},
+
+
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
                     {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
@@ -142,70 +154,6 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
                     {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'},
                     {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
-                    */
-                    ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
-        showTableToggleBtn: false,
-        height: '140'
-    });
-    
-    // 첨부파일 테이블 설정
-    this.$("#PrtFcltyRentMngtFileList").flexigrid({
-        module: this,
-        url: '<c:url value="/oper/gnrl/selectPrtFcltyRentMngtDetailList.do" />',
-        dataType: 'json',
-        colModel : [
-                    {display:'순번', name:'assetsUsageSeq',width:50, sortable:false,align:'center'},
-                    {display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-                    {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
-                    {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
-                    {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
-                    {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center'},
-                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center'},
-                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
-                    
-                    /*
-                    {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                    {display:'지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                    {display:'지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                    {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                    {display:'실제임대면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},
-                    {display:'사용 목적', name:'usagePurps',width:100, sortable:false,align:'center'},
-                    {display:'사용 내역', name:'usageDtls',width:100, sortable:false,align:'center'},
-                    {display:'사용 용도 코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSe',width:100, sortable:false,align:'center'},
-                    {display:'면제 사유 코드', name:'exemptRsnCd',width:100, sortable:false,align:'center'},
-                    {display:'면제 사유', name:'exemptRsn',width:100, sortable:false,align:'center'},
-                    {display:'면제 기간 FROM', name:'exemptPdFrom',width:100, sortable:false,align:'center'},
-                    {display:'면제 기간 TO', name:'exemptPdTo',width:100, sortable:false,align:'center'},
-                    {display:'산출 내역', name:'computDtls',width:100, sortable:false,align:'center'},
-                    {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
-                    {display:'적용 방법', name:'applcMth',width:100, sortable:false,align:'center'},
-                    {display:'포장 구분', name:'packSe',width:100, sortable:false,align:'center'},
-                    {display:'업체 구분', name:'entrpsSe',width:100, sortable:false,align:'center'},
-                    {display:'사용료 계산 구분', name:'feeCalcSe',width:100, sortable:false,align:'center'},
-                    {display:'감면 사용료 계산 구분', name:'rdcxptFeeCalcSe',width:100, sortable:false,align:'center'},
-                    {display:'감면 사용료', name:'rdcxptFee',width:100, sortable:false,align:'center'},
-                    {display:'해지 일자', name:'trmnatDt',width:100, sortable:false,align:'center'},
-                    {display:'해지 사유', name:'trmnatRsn',width:100, sortable:false,align:'center'},
-                    {display:'GIS 코드', name:'gisCd',width:100, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
-                    {display:'등록일시', name:'registDt',width:100, sortable:false,align:'center'},
-                    {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
-                    {display:'수정일시', name:'updtDt',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                    {display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                    {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
-                    {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'},
-                    {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
-                    */
                     ],
         usepager: true,
         useRp: true,
@@ -214,9 +162,9 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         height: '140'
     });
 
-    this.$("#PrtFcltyRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    this.$("#prtFcltyRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
-        module.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
+        module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
 
         if(row!=null) {
             module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
@@ -259,13 +207,13 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             module.$('#detailMngCnt').val(row['mngCnt']);
 
             var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-            module.$('#PrtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+            module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
         }
     });
 
-    this.$("#PrtFcltyRentMngtDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    this.$("#prtFcltyRentMngtDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
-        module.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
+        module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
 
         if(row!=null) {
             //module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
@@ -324,13 +272,13 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
             var searchOpt=this.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
-            this.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+            this.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;
 
         // 최초신청
         case 'addPrtFcltyRentMngtFirst':
-            this.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             //this.$(":input").val('');
             this.$('#gamPrtFcltyRentMngtForm :input').val("");
             this.$("#cmd").val('insert');
@@ -339,7 +287,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
         // 연장신청
         case 'addPrtFcltyRentMngtRenew':
-            var rows = this.$('#PrtFcltyRentMngtList').selectedRows();
+            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
 
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
@@ -349,7 +297,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     if(result.resultCode=='0') {
 
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
-                        module.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -372,7 +320,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
                     if(result.resultCode=='0') {
                     	var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -382,7 +330,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                 this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
                 	if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -407,13 +355,13 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
-                        module.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
                 });
 
-                this.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
                 this.$('#gamPrtFcltyRentMngtForm :input').val("");
                 this.$("#cmd").val('insert');
 
@@ -428,7 +376,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         	if( this.$('#prtAtCode').val() == '' ) {
         		alert("항만시설사용상세 조회후 등록이 가능합니다.");
         	} else {
-        		this.$("#PrtFcltyRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+        		this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
                 this.$('#gamPrtFcltyRentMngtDetailForm :input').val("");
 
                 this.$("#detailCmd").val('insert');
@@ -443,13 +391,13 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         // 항만시설사용상세 삭제
         case 'btnRemoveItemDetail':
 
-            var rows = this.$('#PrtFcltyRentMngtDetailList').selectedRows();
+            var rows = this.$('#prtFcltyRentMngtDetailList').selectedRows();
 
             if(rows.length>=1) {
                 this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngtDetail.do" />', rows[0], function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#PrtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -474,7 +422,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#PrtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -484,7 +432,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             	this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtDetail.do" />', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
                     	var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#PrtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -511,9 +459,9 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-        case 'btnPrmisn': // 승낙 (허가)   
-            var rows = this.$('#PrtFcltyRentMngtList').selectedRows();
-            
+        case 'btnPrmisn': // 승낙 (허가)
+            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
+
             if(rows.length>=1) {
             	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
@@ -523,21 +471,21 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                 };
 
                 this.doExecuteDialog('insertPrtFcltyRentMngtPrmisnPopup', '승낙', '<c:url value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do"/>', opts);
-            	
+
             } else {
                 alert("목록에서 선택하십시오.");
             }
-        
+
             break;
-        
+
         case 'btnPrmisnCancel': // 승낙취소 (허가취소)
-            var rows = this.$('#PrtFcltyRentMngtList').selectedRows();
-            
+            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
+
             if(rows.length>=1) {
                 this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -545,15 +493,15 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             } else {
                 alert("목록에서 선택하십시오.");
             }
-        
+
             break;
-        
+
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
-            
+
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
-            break;    
-            
+            break;
+
     }
 };
 
@@ -566,7 +514,7 @@ GamPrtFcltyRentMngtModule.prototype.onSubmit = function() {
 GamPrtFcltyRentMngtModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
     //this.showAlert(searchOpt);
-    this.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+    this.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamPrtFcltyRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -574,7 +522,7 @@ GamPrtFcltyRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        var row = this.$('#PrtFcltyRentMngtList').selectedRows();
+        var row = this.$('#prtFcltyRentMngtList').selectedRows();
         if(row.length==0) {
             this.$('#cmd').val('insert');
         }
@@ -583,7 +531,7 @@ GamPrtFcltyRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
         break;
     case 'tabs3':
-    	var row = this.$('#PrtFcltyRentMngtDetailList').selectedRows();
+    	var row = this.$('#prtFcltyRentMngtDetailList').selectedRows();
         if(row.length==0) {
             this.$('#detailCmd').val('insert');
         }
@@ -616,17 +564,17 @@ GamPrtFcltyRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
              alert('취소 되었습니다');
          }
          break;
-     case 'insertPrtFcltyRentMngtPrmisnPopup':    
+     case 'insertPrtFcltyRentMngtPrmisnPopup':
     	 if (msg != 'cancel') {
     		 if( value == "0" ) {
     			 var searchOpt=this.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
-                 this.$('#PrtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();               	 
+                 this.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
              }
          } else {
              alert('취소 되었습니다');
          }
     	 break;
-     
+
      case 'selectAssetsCdRentPopup':
          if (msg != 'cancel') {
              this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
@@ -643,8 +591,8 @@ GamPrtFcltyRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
          } else {
              alert('취소 되었습니다');
          }
-         break;	 
-         
+         break;
+
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -665,36 +613,29 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
+                            <th>항구분</th>
                             <td>
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM011" />
+                            <th>부두구분</th>
+                            <td >
+                                <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" />
                             </td>
-                            <th>신청업체</th>
-                            <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
-                            </td>
-                            <th>사용용도</th>
-                            <td>
-                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>
-                        <tr>
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
-                            <th>승낙구분</th>
+                            <th>신청구분</th>
                             <td >
-                                <select id="sPrmisnYn">
-                                    <option value="" selected="selected">선택</option>
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
-                                </select>
+                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
+                            </td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>
+                        <tr>
+                        	
+                            <th>업체명</th>
+                            <td>
+                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
                             <th>사용기간</th>
                             <td>
@@ -702,9 +643,24 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 size="8"> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8">
                             </td>
-                            <th>총면적</th>
+                            <th>신청/허가일자</th>
                             <td>
-                                <input id="sGrAr" type="text" size="5">
+                            	<select id="ddddd">
+                                    <option value="" selected="selected">선택</option>
+                                    <option value="1">최초신청일</option>
+                                    <option value="2">최초허가일</option>
+                                    <option value="3">신청일자</option>
+                                    <option value="4">허가일자</option>
+                                </select>
+                                <input id="tttttt" type="text" class="emdcal" size="8" >
+                            </td>
+                            <th>승낙여부</th>
+                            <td >
+                                <select id="sPrmisnYn">
+                                    <option value="" selected="selected">선택</option>
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
                             </td>
                         </tr>
                     </tbody>
@@ -714,7 +670,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="PrtFcltyRentMngtListTab" class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
+        <div id="prtFcltyRentMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">항만시설사용 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">항만시설사용 내역</a></li>
@@ -723,7 +679,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="PrtFcltyRentMngtList" style="display:none"></table>
+                <table id="prtFcltyRentMngtList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">
                     <table style="width:100%;">
@@ -734,9 +690,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                    자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
                                    총면적 <input id="totalArea" type="text" size="15" style="text-align:right;" readonly>
                                    총사용료 <input id="totalUse" type="text" size="15" style="text-align:right;" readonly>원
-                                   
+
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
-                                   <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/> 
+                                   <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
                                </form>
                             </td>
                         </tr>
@@ -792,7 +748,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="label">최초신청일자</span></th>
+                                <th style="width: 100px"><span class="label">최초신청일자</span></th>
                                 <td style="width: 350px"><input type="text" class="emdcal" size="10" id="frstReqstDt"/></td>
                                 <th ><span class="label">신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="dt"/></td>
@@ -821,7 +777,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">총사용료</span></th>
                                 <td><input type="text" size="10" id="grFee"/></td>
-                                <th><span class="label">총감면사용료</span></th>
+                                <th style="width: 100px"><span class="label">총감면사용료</span></th>
                                 <td><input type="text" size="10" id="grRdcxptFee"/></td>
                             </tr>
                             <tr>
@@ -868,11 +824,11 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                     </tbody>
                  </table>
 
-                 <table id="PrtFcltyRentMngtDetailList" style="display:none"></table>
-                 
+                 <table id="prtFcltyRentMngtDetailList" style="display:none"></table>
+
                  <table style="width:100%">
                     <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">항만시설사용추가</button><button id="btnRemoveItemDetail">항만시설사용삭제</button></td>
+                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">항만시설상세추가</button><button id="btnRemoveItemDetail">항만시설상세삭제</button></td>
                     </tr>
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -887,7 +843,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
 
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 
-                <div class="emdControlPanel"><!-- <button id="btnSaveItemDetail">저장</button> --></div>
+                <!-- <div class="emdControlPanel"><button id="btnSaveItemDetail">저장</button></div> -->
                     <form id="gamPrtFcltyRentMngtDetailForm">
                         <input type="hidden" id="detailCmd"/>
                         <input type="hidden" id="detailPrtAtCode"/>
@@ -897,19 +853,19 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table >
                             <tr>
-                                <th ><span class="label">자산사용순번</span></th>
+                                <th style="width: 100px"><span class="label">시설사용순번</span></th>
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">자산코드 </span></th>
+                                <th><span class="label">시설코드 </span></th>
                                 <td><input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>-<input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <button id="popupFcltyCd" class="popupButton">자산조회</button></td>
-                                <th><span class="label">자산명</span></th>
+                                <th><span class="label">시설명</span></th>
                                 <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">소재지</span></th>
-                                <td colspan="3"><input type="text" size="80" id="gisAssetsLocplc" disabled/></td>
+                                <td ><input type="text" size="50" id="gisAssetsLocplc" disabled/></td>
                                 <th><span class="label">지번</span></th>
                                 <td><input type="text" size="5" id="gisAssetsLnm"/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
@@ -922,7 +878,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">시설면적</span></th>
                                 <td ><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
-                                <th ><span class="label">공시지가목록</span></th>
+                                <th style="width: 100px"><span class="label">공시지가목록</span></th>
                                 <td colspan="3" style="text-align: left;">
                                     <select id="olnlpList">
                                         <option value="">선택</option>
@@ -996,118 +952,16 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <th><span class="label">사용내역</span></th>
                                 <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" ></textarea></td>
                             </tr>
-
-
-                            <!-- 
-                            <tr>
-                                <th><span class="label">사용 용도 코드</span></th>
-                                <td>
-                                    <select id="usagePrposCd">
-                                        <option value="" selected="selected">선택</option>
-
-                                        <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
-                                            <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">포장 구분</span></th>
-                                <td>
-                                    <select id="packSe">
-                                        <option value="" selected="selected">선택</option>
-
-                                        <c:forEach  items="${packSeCdList}" var="packSeCdItem">
-                                            <option value="${packSeCdItem.code }">${packSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">업체 구분</span></th>
-                                <td>
-                                    <select id="entrpsSe">
-                                        <option value="" selected="selected">선택</option>
-
-                                        <c:forEach  items="${entrpsSeCdList}" var="entrpsSeCdItem">
-                                            <option value="${entrpsSeCdItem.code }">${entrpsSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <th><span class="label">사용료 계산 구분</span></th>
-                                <td>
-                                    <select id="feeCalcSe">
-                                        <option value="" selected="selected">선택</option>
-
-                                        <c:forEach  items="${feeCalcSeCdList}" var="feeCalcSeCdItem">
-                                            <option value="${feeCalcSeCdItem.code }">${feeCalcSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">감면 사용료 계산 구분</span></th>
-                                <td>
-                                    <select id="rdcxptFeeCalcSe">
-                                        <option value="" selected="selected">선택</option>
-
-                                        <c:forEach  items="${rdcxptFeeCalcSeCdList}" var="rdcxptFeeCalcSeCdItem">
-                                            <option value="${rdcxptFeeCalcSeCdItem.code }">${rdcxptFeeCalcSeCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                
-                                <th><span class="label">해지 일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">해지 사유</span></th>
-                                <td><input type="text" size="10" id="trmnatRsn"/></td>
-                                <th><span class="label">GIS 코드</span></th>
-                                <td>
-                                    <input type="text" size="10" id="detailGisCd"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">등록자</span></th>
-                                <td><input type="text" size="10" id="detailRegUsr"/></td>
-                                <th><span class="label">등록일시</span></th>
-                                <td><input type="text" size="10" id="detailRegistDt"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">수정자</span></th>
-                                <td><input type="text" size="10" id="detailUpdUsr"/></td>
-                                <th><span class="label">수정일시</span></th>
-                                <td><input type="text" size="10" id="updtDt"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">부두코드</span></th>
-                                <td>
-                                    <select id="quayCd">
-                                        <option value="" selected="selected">선택</option>
-
-                                        <c:forEach  items="${quayCdList}" var="quayCdItem">
-                                            <option value="${quayCdItem.code }">${quayCdItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <th><span class="label">XXX</span></th>
-                                <td></td>
-                            </tr>
-                            -->
                         </table>
                     </form>
-                    
-                <!-- 
+
+                <!--
                 <div style="vertical-align: bottom; text-align: right;">
                     <input type="reset" value="취소" class="input_1"> <input
                         type="submit" value="저장" class="input_1">
                 </div>
                 -->
-                
+
                 <table style="width:100%">
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -1118,18 +972,18 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                  </table>
 
             </div>
-            
+
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
                 <table id="assetCodePhotoList" style="display:none"></table>
                 <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
-                <!-- 
+                <!--
                 <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
                  -->
                 <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-                
+
             </div>
-            
-            
+
+
         </div>
     </div>
 </div>
