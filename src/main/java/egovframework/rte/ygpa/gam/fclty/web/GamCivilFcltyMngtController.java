@@ -21,6 +21,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -45,7 +46,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
  */
 
 @Controller
-public class GamFcltyMngtController {
+public class GamCivilFcltyMngtController {
 
 	/** Validator */
 	@Autowired
@@ -62,75 +63,22 @@ public class GamFcltyMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-	
+    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    
+    private final static String prtFcltySe = "S";
+    
 	/**
-	 * 기계시설 관리화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamMechFcltyMngt.do")
-	String indexMechFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamMechFcltyMngt";
-	}
-	
-	
-	/**
-	 * 기계시설 조회화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamMechFcltyInqire.do")
-	String indexMechFcltyInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamMechFcltyInqire";
-	}
-	
-	
-	/**
-	 * 정보통신시설 관리화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamInfoTechFcltyMngt.do")
-	String indexInfoTechFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamInfoTechFcltyMngt";
-	}
-	
-	
-	/**
-	 * 정보통신시설 조회화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamInfoTechInqire.do")
-	String indexInfoTechInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamInfoTechInqire";
-	}
-	
-	
-	/**
-	 * 토목시설 관리화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
+     * 토목시설 관리화면호출
+     * @param windowId
+     * @param model
+     * @return String
+     * @throws Exception
+     */
 	@RequestMapping(value="/fclty/gamCivilFcltyMngt.do")
-	String indexCivilFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/fclty/GamCivilFcltyMngt";
-	}
+    String indexCivilFcltyMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    	model.addAttribute("windowId", windowId);
+    	return "/ygpa/gam/fclty/GamCivilFcltyMngt";
+    }
 	
 	
 	/**
@@ -145,16 +93,17 @@ public class GamFcltyMngtController {
 		model.addAttribute("windowId", windowId);
 		return "/ygpa/gam/fclty/GamCivilFcltyInqire";
 	}
-
+	
+	
 	
 	/**
-	 * 시설관리목록
+	 * 토목시설목록 조회
 	 * @param searchVO
-	 * @return
+	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamFcltyMngtList.do")
-	@ResponseBody Map<String, Object> selectFcltyMngtList(GamFcltyManageVO searchVO, @RequestParam("uniqFcltyCd") String uniqFcltyCd)throws Exception {
+	@RequestMapping(value="/fclty/gamCivilFcltyMngtList.do")
+	@ResponseBody Map<String, Object> selectFcltyMngtList(GamFcltyManageVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -179,9 +128,9 @@ public class GamFcltyMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		searchVO.setSearchCondition(uniqFcltyCd);
 
 		/** List Data */
+		searchVO.setPrtFcltySe(prtFcltySe);
 		List<ComDefaultVO> fcltyMngtList = gamFcltyMngtService.selectFcltyMngtList(searchVO);
         int totCnt = gamFcltyMngtService.selectFcltyMngtListTotCnt(searchVO);
 
@@ -197,39 +146,14 @@ public class GamFcltyMngtController {
 	
 	
 	/**
-	 * 시설관리 등록 시 시퀀스 값 가져오기
+	 * 토목 시설관리 등록
 	 * @param fcltyManageVO
 	 * @param bindingResult
 	 * @param cmd
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamFcltyGetInsertSeq.do")
-	@ResponseBody Map<String, Object> insertFcltyGetSeq() throws Exception {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
-		map.put("seq", gamFcltyMngtService.insertFcltyGetSeq());
-		return map;
-	}
-	
-	
-	/**
-	 * 시설관리등록
-	 * @param fcltyManageVO
-	 * @param bindingResult
-	 * @param cmd
-	 * @return map
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamFcltyInsert.do")
+	@RequestMapping(value="/fclty/gamCivilFcltyInsert.do")
     @ResponseBody Map<String, Object> insertFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)
             throws Exception {
 
@@ -252,10 +176,12 @@ public class GamFcltyMngtController {
 				return map;
 			}
 
+		   fcltyManageVO.setRegUsr(user.getId());
+		   fcltyManageVO.setPrtFcltySe(prtFcltySe);
 		   gamFcltyMngtService.insertFcltyManage(fcltyManageVO);
 
-			map.put("resultCode", 0);			// return ok
-    		resultMsg = egovMessageSource.getMessage("success.common.insert");
+		   map.put("resultCode", 0);			// return ok
+		   resultMsg = egovMessageSource.getMessage("success.common.insert");
     	}
 
         map.put("resultMsg", resultMsg);
@@ -264,16 +190,16 @@ public class GamFcltyMngtController {
 
 	
 	/**
-	 * 시설관리 상세화면
+	 * 토목 시설관리 상세
 	 * @param fcltyManageVO
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamFcltyMngSelectView.do")
+	@RequestMapping(value="/fclty/gamCivilFcltyView.do")
     @ResponseBody Map<String, Object> fcltyMngSelectView(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-
+    	
     	fcltyManageVO = gamFcltyMngtService.fcltyMngSelectView(fcltyManageVO);
 
         map.put("detail", fcltyManageVO);
@@ -283,13 +209,13 @@ public class GamFcltyMngtController {
 
 	
 	/**
-     * 시설관리를 수정한다.
-     * @param userManageVO
-     * @param bindingResult
-     * @return String
-     * @throws Exception
-     */
-    @RequestMapping("/fclty/gamFcltyUpdate.do")
+	 * 토목 시설관리 수정
+	 * @param fcltyManageVO
+	 * @param bindingResult
+	 * @return map
+	 * @throws Exception
+	 */
+    @RequestMapping("/fclty/gamCivilFcltyUpdate.do")
     @ResponseBody Map<String, Object> updateFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO,BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -301,7 +227,9 @@ public class GamFcltyMngtController {
 			map.put("resultObject", bindingResult.getAllErrors());
 
 		}else{
-			
+
+			fcltyManageVO.setUpdUsr(user.getId());
+			fcltyManageVO.setPrtFcltySe(prtFcltySe);
 			gamFcltyMngtService.updateFclty(fcltyManageVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -312,13 +240,12 @@ public class GamFcltyMngtController {
     
     
     /**
-     * 사용자정보삭제후 목록조회 화면으로 이동한다.
-     * @param checkedId
-     * @param userSearchVO
+     * 토목 시설관리 삭제
+     * @param fcltyManageVO
      * @return map
      * @throws Exception
      */
-    @RequestMapping("/fclty/gamFcltyDelete.do")
+    @RequestMapping("/fclty/gamCivilFcltyDelete.do")
     @ResponseBody Map<String, Object> deleteFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
