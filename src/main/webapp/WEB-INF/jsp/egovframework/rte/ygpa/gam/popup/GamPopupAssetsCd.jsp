@@ -52,7 +52,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 			{display:"면적", 		name:"gisAssetsAr", 		width:64, 	sortable:true, align:"center"},
 			{display:"GIS자산실제임대면적",       name:"gisAssetsRealRentAr",         width:64,   sortable:true, align:"center"}
 			],
-		usepager: false,
+		//usepager: false,
 		rp: 24,
 		showTableToggleBtn: false,
 		height: "300"

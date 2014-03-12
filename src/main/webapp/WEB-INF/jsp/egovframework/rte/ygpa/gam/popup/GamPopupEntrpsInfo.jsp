@@ -38,20 +38,20 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"업체코드",			name:"entrpscd", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"업체 명",			name:"entrpsNm", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"업체 유형",			name:"entrpsTy", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"사업자 구분",		name:"bsnmSe", 		width:60, 		sortable:true, 		align:"center"},
+					{display:"업체 명",			name:"entrpsNm", 	width:120, 		sortable:true, 		align:"center"},
+					//{display:"업체 유형",			name:"entrpsTy", 	width:60, 		sortable:true, 		align:"center"},
+					{display:"사업자 구분",		name:"bsnmSe", 		width:100, 		sortable:true, 		align:"center"},
 					{display:"대표자 명",			name:"rprsntvNm", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"사업자등록번호",	name:"bizrno", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"법인등록번호",		name:"cprregistno", width:60, 		sortable:true, 		align:"center"},
-					{display:"업종",				name:"induty", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"업태",				name:"bizcnd", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"전화번호",			name:"tlphonNo", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"우편번호",			name:"zip", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"주소",				name:"adres", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"팩스",				name:"fax", 		width:60, 		sortable:true, 		align:"center"}
+					{display:"사업자등록번호",	name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
+					//{display:"법인등록번호",		name:"cprregistno", width:60, 		sortable:true, 		align:"center"},
+					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"},
+					{display:"업태",				name:"bizcnd", 		width:100, 		sortable:true, 		align:"center"}
+					//{display:"전화번호",			name:"tlphonNo", 	width:60, 		sortable:true, 		align:"center"},
+					//{display:"우편번호",			name:"zip", 		width:60, 		sortable:true, 		align:"center"},
+					//{display:"주소",				name:"adres", 		width:60, 		sortable:true, 		align:"center"},
+					//{display:"팩스",				name:"fax", 		width:60, 		sortable:true, 		align:"center"}
 			],
-		usepager: false,
+		//usepager: false,
 		rp: 24,
 		showTableToggleBtn: false,
 		height: "300"
@@ -115,57 +115,28 @@ var popup_instance = new GamPopupEntrpsModule();
 				<tbody>
 					<tr>
 						<th>업체코드</th>
-                        <td><input id="entrpscd" type="text" size="5" value=""></td>
+                        <td><input id="entrpscd" type="text" size="7" title="업체코드" /></td>
                         <th>업체 명</th>
-                        <td><input id="entrpsNm" type="text" size="10" value=""></td>
+                        <td><input id="entrpsNm" type="text" size="10" title="업체 명" /></td>
                         <th>업체 유형</th>
-                        <td>
-                        	<select id="entrpsTy">
-                            	<option value="" selected="selected">선택</option>
-                                <c:forEach  items="${entrpsTyCdList}" var="entrpsTyCdItem">
-                                	<option value="${entrpsTyCdItem.code }">${entrpsTyCdItem.codeNm }</option>
-								</c:forEach>
-							</select>
-						</td>
-						<td rowSpan="2"><button id=btnEntrpsSearch class="submit">조회</button></td>
+                        <td><input id="bsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" size="10" /></td>
 					</tr>
                     <tr>
                     	<th>사업자 구분</th>
-                        <td>
-                        	<select id="bsnmSe">
-	                            <option value="" selected="selected">선택</option>
-	                            <c:forEach  items="${bsnmSeCdList}" var="bsnmSeCdItem">
-	                               	<option value="${bsnmSeCdItem.code }">${bsnmSeCdItem.codeNm }</option>
-								</c:forEach>
-                            </select>
-						</td>
+						<td><input id="entrpsTy" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM018" size="10" /></td>
                         <th>업종</th>
-                        <td>
-                        	<select id="induty">
-                            	<option value="" selected="selected">선택</option>
-                            	<c:forEach  items="${indutyCdList}" var="indutyCdItem">
-                                   	<option value="${indutyCdItem.code }">${indutyCdItem.codeNm }</option>
-								</c:forEach>
-							</select>
-						</td>
-                           <th>업태</th>
-                           <td>
-                           	<select id="bizcnd">
-                               	<option value="" selected="selected">선택</option>
-                                   <c:forEach  items="${bizcndCdList}" var="bizcndCdItem">
-                                   	<option value="${bizcndCdItem.code }">${bizcndCdItem.codeNm }</option>
-								</c:forEach>
-							</select>
-						</td>
+                        <td><input type="text" id="induty" title="업종" size="10" /></td>
+                        <th>업태</th>
+                        <td><input type="text" id="bizcnd" title="업태" size="10" /></td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
-	</div>
-	<div class="emdPanel">
-		<div style="width: 100%; height: 100%; overflow: auto">
-			<table id="grdInfoList" style="display: none"></table>
+		<div class="emdControlPanel">
+			<button id="btnEntrpsSearch">조회</button>
 		</div>
+		
+		<table id="grdInfoList" style="display: none"></table>
 		<div class="emdControlPanel">
 			<button id="btnOk">업체 선택</button>
 			<button id="cancel">취소</button>
