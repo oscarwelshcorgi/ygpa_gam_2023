@@ -121,7 +121,7 @@
                                   , A.NTIC_MTH
                                   , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                                   , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
-                                  , A.PRMISN_YN
+                                  , NVL(A.PRMISN_YN,'N') PRMISN_YN
                                   , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
                                   , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
                                   , A.DOC_NO
@@ -136,6 +136,7 @@
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , A.PAY_MTH
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
@@ -198,7 +199,8 @@
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 화면에서 페이징 제거 -->
+        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
     </select>
     
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtListTotCnt_S" parameterClass="gamPrtFcltyRentMngtVO" resultClass="int">
@@ -262,12 +264,12 @@
     
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtSum_S" parameterClass="gamPrtFcltyRentMngtVO" resultMap="gamPrtFcltyRentMngtSumMap">
          SELECT 
-               NVL(COUNT(*),0) SUM_CNT
+               <!--  NVL(COUNT(*),0) SUM_CNT
                , NVL(SUM(A.GR_AR),0) SUM_GR_AR
-               , NVL(SUM(A.GR_FEE),0) SUM_GR_FEE
-               <!--   TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+               , NVL(SUM(A.GR_FEE),0) SUM_GR_FEE  --> 
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
                , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999')) SUM_GR_AR
-               , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE -->
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
           FROM ASSETS_RENT_F A
          WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
               
@@ -575,7 +577,7 @@
                                 , A.MNG_CNT
                                 , A.QUAY_CD
                             FROM ASSETS_RENT_DETAIL_F A
-                           WHERE 1=1  
+                           WHERE 1 = 1
                              AND A.PRT_AT_CODE = #prtAtCode#
                              AND A.MNG_YEAR    = #mngYear#
                              AND A.MNG_NO      = #mngNo#
@@ -584,13 +586,14 @@
                              ORDER BY REGIST_DT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 화면에서 페이징 제거 -->
+        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
     </select>
     
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailListTotCnt_S" parameterClass="gamPrtFcltyRentMngtVO" resultClass="int">
-            SELECT COUNT(*) totcnt
+            SELECT COUNT(*) TOTCNT
               FROM ASSETS_RENT_DETAIL_F A
-             WHERE 1=1  
+             WHERE 1 = 1
                AND A.PRT_AT_CODE = #prtAtCode#
                AND A.MNG_YEAR    = #mngYear#
                AND A.MNG_NO      = #mngNo#

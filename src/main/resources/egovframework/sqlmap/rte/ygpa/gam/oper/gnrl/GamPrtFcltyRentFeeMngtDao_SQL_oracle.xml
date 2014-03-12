@@ -64,13 +64,14 @@
 							       , L.ENTRPSCD
 							       , L.ENTRPS_NM
 							       , TO_CHAR(TO_DATE(L.NTIC_PD_FROM), 'YYYY-MM-DD') NTIC_PD_FROM 
-							       , TO_CHAR(TO_DATE(L.CONST_PER_TO), 'YYYY-MM-DD') CONST_PER_TO
+							       , TO_CHAR(TO_DATE(L.NTIC_PD_TO), 'YYYY-MM-DD') NTIC_PD_TO
 							       , L.ACCNUT_YEAR
 							       , L.NTICNO
 							       , TO_CHAR(TO_DATE(L.NTIC_DT), 'YYYY-MM-DD') NTIC_DT
 							       , TO_CHAR(TO_DATE(L.PAY_TMLMT), 'YYYY-MM-DD') PAY_TMLMT
 							       , L.OLNLP
 							       , L.FEE
+							       <!-- , TRIM(TO_CHAR(L.FEE, '999,999,999,999')) FEE -->
 							       , L.VAT_YN
 							       , L.VAT
 							       , L.NTIC_AMT
@@ -98,8 +99,8 @@
 							                                                       , F.MNG_YEAR
 							                                                       , F.MNG_NO
 							                                                       , F.MNG_CNT 
-							                                                 FROM ASSETS_RENT_DETAIL_F F
-							                                                 WHERE F.QUAY_CD = 'G'	<!-- 일반부두 -->
+							                                                 FROM ASSETS_RENT_F F
+							                                                 WHERE F.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                              )    
 							   
 							   <isNotEmpty property="sPrtAtCode">
@@ -192,20 +193,21 @@
                              ORDER BY L.REGIST_DT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
     </select>
     
     <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtListTotCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int">
-            SELECT COUNT(*) totcnt
+            SELECT COUNT(*) TOTCNT
               FROM LEV_REQEST_F L
              WHERE (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-				                                                 SELECT  F.PRT_AT_CODE
-				                                                       , F.MNG_YEAR
-				                                                       , F.MNG_NO
-				                                                       , F.MNG_CNT 
-				                                                 FROM ASSETS_RENT_DETAIL_F F
-				                                                 WHERE F.QUAY_CD = 'G'	<!-- 일반부두 -->
-                          )    
+							                                                 SELECT  F.PRT_AT_CODE
+							                                                       , F.MNG_YEAR
+							                                                       , F.MNG_NO
+							                                                       , F.MNG_CNT 
+							                                                 FROM ASSETS_RENT_F F
+							                                                 WHERE F.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+                             )   
                
                <isNotEmpty property="sPrtAtCode">
                    AND L.PRT_AT_CODE = #sPrtAtCode# 
@@ -298,20 +300,25 @@
     
     <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtSum_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtSumMap">
          SELECT 
-                 NVL(COUNT(*),0) SUM_CNT
+               <!--   NVL(COUNT(*),0) SUM_CNT
                , NVL(SUM(L.FEE),0) SUM_FEE
                , NVL(SUM(L.ARRRG_AMT),0) SUM_ARRRG_AMT
                , NVL(SUM(L.VAT),0) SUM_VAT
-               , NVL(SUM(L.NTIC_AMT),0) SUM_NTIC_AMT
+               , NVL(SUM(L.NTIC_AMT),0) SUM_NTIC_AMT  -->
+               NVL(COUNT(*),0) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(L.FEE),0), '999,999,999,999')) SUM_FEE
+               , TRIM(TO_CHAR(NVL(SUM(L.ARRRG_AMT),0), '999,999,999,999')) SUM_ARRRG_AMT
+               , TRIM(TO_CHAR(NVL(SUM(L.VAT),0), '999,999,999,999')) SUM_VAT
+               , TRIM(TO_CHAR(NVL(SUM(L.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMT
           FROM LEV_REQEST_F L
          WHERE (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-			                                                 SELECT  F.PRT_AT_CODE
-			                                                       , F.MNG_YEAR
-			                                                       , F.MNG_NO
-			                                                       , F.MNG_CNT 
-			                                                 FROM ASSETS_RENT_DETAIL_F F
-			                                                 WHERE F.QUAY_CD = 'G'	<!-- 일반부두 -->
-             )    
+		                                                 SELECT  F.PRT_AT_CODE
+		                                                       , F.MNG_YEAR
+		                                                       , F.MNG_NO
+		                                                       , F.MNG_CNT 
+		                                                 FROM ASSETS_RENT_F F
+		                                                 WHERE F.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+                        )   
          
          <isNotEmpty property="sPrtAtCode">
              AND L.PRT_AT_CODE = #sPrtAtCode# 
