@@ -25,7 +25,7 @@
  */
 function GamCmpyRecvStsInqireModule() {}
 
-GamCmpyRecvStsInqireModule.prototype = new EmdModule(800, 480);
+GamCmpyRecvStsInqireModule.prototype = new EmdModule(800, 450);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
@@ -36,10 +36,10 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/rent/gamSelectCmpyRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'업체코드', name:'entrpscd',width:150, sortable:false,align:'center'},
+                 {display:'업체코드', name:'entrpscd',width:100, sortable:false,align:'center'},
 				 {display:'금액', name:'fee',width:150, sortable:false,align:'center'},
 				 {display:'업체명', name:'entrpsNm',width:150, sortable:false,align:'center'},
-				 {display:'업종', name:'induty',width:150, sortable:false,align:'center'},
+				 {display:'업종', name:'induty',width:100, sortable:false,align:'center'},
 				 {display:'업태', name:'bizcnd',width:150, sortable:false,align:'center'}                                
                  ],
      usepager: true,
@@ -121,8 +121,8 @@ var module_instance = new GamCmpyRecvStsInqireModule();
         </div>
     </div>
 
-    <div class="emdPanel">
-        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <!-- 
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
@@ -133,9 +133,7 @@ var module_instance = new GamCmpyRecvStsInqireModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="cmpyRecvStsInqireList" style="display:none"></table>
-                </div>
+                <table id="cmpyRecvStsInqireList" style="display:none" class="fillHeight"></table>
                
                 <!-- 
                 <div class="emdControlPanel">

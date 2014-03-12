@@ -25,10 +25,10 @@
 							 WHERE 1=1 
 							 
 							 <isNotEmpty property="sRcivDtFrom">
-                                 AND  L.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+                                 AND TO_CHAR(L.RCIV_DT, 'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
                              </isNotEmpty>
 							
-							GROUP BY L.ENTRPSCD, L.FEE
+							GROUP BY L.ENTRPSCD
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -38,15 +38,15 @@
             
         SELECT COUNT(*) totcnt
           FROM (
-	            SELECT L.ENTRPSCD, L.FEE
+	            SELECT L.ENTRPSCD
 	              FROM LEV_REQEST_F L
 	             WHERE 1=1 
 	             
 	             <isNotEmpty property="sRcivDtFrom">
-	                 AND  L.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+	                 AND TO_CHAR(L.RCIV_DT, 'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
 	             </isNotEmpty>
 	            
-	            GROUP BY L.ENTRPSCD, L.FEE
+	            GROUP BY L.ENTRPSCD
 	           )
     </select>
     

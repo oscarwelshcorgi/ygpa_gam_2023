@@ -867,10 +867,12 @@ var module_instance = new GamAssetRentSttusInqireModule();
                                 <th><span class="label">비고</span></th>
                                 <td colspan="3"><input type="text" size="50" id="rm"/></td>
                             </tr>
+                            <!-- 
                             <tr>
                                 <th><span class="label">코멘트</span></th>
                                 <td colspan="3"><input type="text" size="50" id="cmt"/><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
+                             -->
                         </table>
                     </form>
 
@@ -897,6 +899,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                  <!-- <table id="assetRentDetailList" style="display:none" class="fillHeight"></table> -->
                  <table id="assetRentDetailList" style="display:none"></table>
                  
+                 <!-- 
                  <table style="width:100%">
                     <tr>
                         <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">임대상세추가</button><button id="btnRemoveItemDetail">임대상세삭제</button></td>
@@ -906,10 +909,11 @@ var module_instance = new GamAssetRentSttusInqireModule();
                         <td width="100"></td>
                         <td style="text-align:right"><button id="xxxx">결재요청</button><button id="xxxx">사용승낙</button>
                             <button id="xxxx">승낙취소</button><button id="btnRemoveItem">신청삭제</button></button><button id="btnSaveItem">신청저장</button>
-                            <!-- <button id="btnCancelItem">취소</button>  -->
+                             <button id="btnCancelItem">취소</button>  
                         </td>
                     </tr>
                  </table>
+                  -->
             </div>
 
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
@@ -1132,6 +1136,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                 </div>
                 -->
                 
+                <!-- 
                 <table style="width:100%">
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -1140,7 +1145,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                         </td>
                     </tr>
                  </table>
-
+                -->
             </div>
             
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
@@ -1153,9 +1158,9 @@ var module_instance = new GamAssetRentSttusInqireModule();
                  -->
                  
                 <div style="vertical-align: bottom; text-align: right;">
-                    <button id="xxxx">업로드</button>
+                    <!-- <button id="xxxx">업로드</button> -->
                     <button id="xxxx">다운로드</button>
-                    <button id="xxxx">삭제</button>
+                    <!--<button id="xxxx">삭제</button> -->
                 </div> 
                 
                 <table>
@@ -1178,11 +1183,13 @@ var module_instance = new GamAssetRentSttusInqireModule();
                             <input type="text" size="130" id="xxx"/>
                         </td>
                     </tr>
+                    <!-- 
                     <tr>
                         <td style="text-align:right" colspan="2">
                             <button id="xxxx">적용</button>
                         </td>
                     </tr>
+                     -->
                 </table>
                 
                 <table class="searchPanel">
