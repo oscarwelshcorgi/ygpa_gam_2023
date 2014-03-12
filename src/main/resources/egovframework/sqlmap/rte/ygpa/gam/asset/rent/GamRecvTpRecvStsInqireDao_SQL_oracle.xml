@@ -25,11 +25,11 @@
 						   WHERE 1=1
 						   
 						   <isNotEmpty property="sEntrpscd">
-						     AND A.ENTRPSCD = #sEntrpscd#
+						       AND A.ENTRPSCD = #sEntrpscd#
 						   </isNotEmpty>
 						   
 						   <isNotEmpty property="sRcivDtFrom">
-                               AND  A.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+                               AND TO_CHAR(A.RCIV_DT,'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
                            </isNotEmpty>
 						   
 						   GROUP BY A.CHRGE_KND
@@ -50,7 +50,7 @@
 	             </isNotEmpty>
 	             
 	             <isNotEmpty property="sRcivDtFrom">
-	                 AND  A.RCIV_DT BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+	                 AND TO_CHAR(A.RCIV_DT,'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
 	             </isNotEmpty>
 	             
 	             GROUP BY A.CHRGE_KND
