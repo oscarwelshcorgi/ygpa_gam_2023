@@ -703,7 +703,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
                             <th>승낙구분</th>
-                            <td >
+                            <td>
                                 <select id="sPrmisnYn">
                                     <option value="" selected="selected">전체</option>
                                     <option value="Y">Y</option>
