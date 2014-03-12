@@ -153,8 +153,8 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
         </div>
     </div>
 
-    <div class="emdPanel">
-        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <!-- 
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
@@ -165,9 +165,7 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="recvTpRecvStsInqireList" style="display:none"></table>
-                </div>
+                <table id="recvTpRecvStsInqireList" style="display:none" class="fillHeight"></table>
                
                 <!-- 
                 <div class="emdControlPanel">
