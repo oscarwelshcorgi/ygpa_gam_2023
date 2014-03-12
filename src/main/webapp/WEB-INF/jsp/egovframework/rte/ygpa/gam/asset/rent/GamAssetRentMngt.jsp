@@ -658,7 +658,7 @@ var module_instance = new GamAssetRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentListTab" class="emdTabPanel filllHeight" data-onchange="onTabChange">
+        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">자산임대 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">자산임대 내역</a></li>
@@ -667,7 +667,7 @@ var module_instance = new GamAssetRentMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="assetRentMngtList" style="display:none" class="filllHeight"></table>
+                <table id="assetRentMngtList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">
                     <table style="width:100%;">
