@@ -736,7 +736,7 @@ var module_instance = new GamAssetRentMngtModule();
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
-            <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="assetRentMngtList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">

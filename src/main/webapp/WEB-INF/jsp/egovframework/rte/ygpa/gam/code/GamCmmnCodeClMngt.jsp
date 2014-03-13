@@ -8,14 +8,14 @@
   * @Class Name : GamCmmnCodeClMngt.jsp
   * @Description : 공통분류코드 화면
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.22  kok          최초 생성
   *
   * author kok
   * since 2014.01.22
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -45,13 +45,13 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "300",
+		height: "300"
 	});
-	
+
 	this.$("#cmmnCodeClMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmmnCodeClMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
-			
+
 		module.doAction('<c:url value="/code/gamCmmnClCodeDetail.do" />', {clCode: row["clCode"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
@@ -59,32 +59,32 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 			module.$("#clCodeNm").val(result.codeDetail.clCodeNm);			// 분류명
 			module.$("#clCodeDc").val(result.codeDetail.clCodeDc);			// 분류코드 설명
 			module.$("#useAt").val(result.codeDetail.useAt);				// 사용여부
-			
+
 			module.$("#clCode").attr("disabled","disabled");				// 분류코드
 			module.$("#useAt").attr("disabled","disabled");					// 사용여부
 	 	});
 	});
 };
-		
+
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#cmmnCodeClMngtForm");
-		 	this.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 			// 목록
 		case "listBtn":
-			this.$("#cmmnCodeClMngListTab").tabs("option", {active: 0}); 
+			this.$("#cmmnCodeClMngListTab").tabs("option", {active: 0});
 		break;
-		
+
 		// 추가
 		case "addBtn":
 			this.$("#cmmnCodeClMngListTab").tabs("option", {active: 1});
@@ -93,7 +93,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#clCode").removeAttr("disabled");
 			this.$("#useAt").removeAttr("disabled");
 		break;
-			
+
 		// 저장
 		case "saveBtn":
 		 	var inputVO = this.makeFormArgs("#cmmnCodeClManageVO");
@@ -102,7 +102,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeClMngtForm");
 						module.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmmnCodeClMngListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeClMngListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeClManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -112,14 +112,14 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeClMngtForm");
 						module.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmmnCodeClMngListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeClMngListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeClManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}
 		break;
-		
+
 		// 삭제
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
@@ -128,7 +128,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeClMngtForm");
 						module.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmmnCodeClMngListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeClMngListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeClManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -143,7 +143,7 @@ GamCmmnCodeClMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 		case "tabs1":
 		break;
-	
+
 		case "tabs2":
 			var row = this.$("#cmmnCodeClMngList").selectedRows();
 			if(row.length == 0) this.$("#cmd").val("insert");
@@ -166,12 +166,12 @@ var module_instance = new GamCmmnCodeClMngtModule();
 					<tbody>
 						<tr>
 							<th>공통분류코드 목록</th>
-							<td width="10%">  		
+							<td width="10%">
 								<select id="searchCondition" class="select">
 									<option selected="selected">--선택하세요--</option>
 									<option value="1">분류코드</option>
 									<option value="2">분류코드명</option>
-								</select>	   
+								</select>
 							</td>
 							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 						</tr>
