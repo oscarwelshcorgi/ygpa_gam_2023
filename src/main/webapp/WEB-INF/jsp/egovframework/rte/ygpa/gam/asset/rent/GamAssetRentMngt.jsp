@@ -224,7 +224,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.$("#assetRentListTab").tabs("option", {active: 1});    
 
         if(row!=null) {
-        	module.$('#cmd').val('modify');  
+            module.$('#cmd').val('modify');  
         }
     });
     
@@ -232,7 +232,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.$("#assetRentListTab").tabs("option", {active: 2});
 
         if(row!=null) {
-        	module.$('#detailCmd').val('modify');
+            module.$('#detailCmd').val('modify');
         }
     });
 };
@@ -246,9 +246,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-        	this.$("#assetRentListTab").tabs("option", {active: 0});
-        	
-        	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+            this.$("#assetRentListTab").tabs("option", {active: 0});
+            
+            var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
             this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;
@@ -269,15 +269,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
                 
                 if( confirm("연장신청을 하시겠습니까?") ) {
-	                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentRenew.do" />', rows[0], function(module, result) {
-	
-	                    if(result.resultCode=='0') {
-	                        var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
-	                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-	                    }
-	
-	                    alert(result.resultMsg);
-	                });
+                    this.doAction('<c:url value="/asset/rent/gamInsertAssetRentRenew.do" />', rows[0], function(module, result) {
+    
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
+                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        }
+    
+                        alert(result.resultMsg);
+                    });
                 //throw 0;
                 }
             } else {
@@ -313,14 +313,21 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             }
             break;
 
-        //자산임대삭제
+        //신청삭제
         case 'btnRemoveItem':
-        	alert("77");
-            if( this.$('#cmd').val() == 'modify' ) {
-                this.$('#detailPrmisnYn').val( this.$('#prmisnYn').val() );
-
-                var inputVO=this.makeFormArgs('#gamAssetRentForm');
-
+        	var rows = this.$('#assetRentMngtList').selectedRows();
+            
+            if(rows.length == 0) {
+                alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
+            } else {
+	        	if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
+	        		this.$('#detailPrmisnYn').val('N');
+	        		
+	        		alert( this.$('#detailPrmisnYn').val() );
+	        	}
+	        	
+	        	var inputVO=this.makeFormArgs('#gamAssetRentForm');
+	            
                 this.doAction('<c:url value="/asset/rent/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
 
                     if(result.resultCode=='0') {
@@ -334,13 +341,11 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
                 this.$('#gamAssetRentForm :input').val("");
                 this.$("#cmd").val('insert');
-
-            } else {
-                alert("상세조회 후 삭제가 가능합니다.");
             }
+            
             break;
 
-        // 자산임대상세 신규등록
+        //임대상세추가
         case 'btnInsertItemDetail':
 
             if( this.$('#prtAtCode').val() == '' ) {
@@ -368,16 +373,16 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             if(rows.length == 0) {
                 alert("자산임대상세목록에서 삭제할 행을 선택하십시오.");
             } else {
-	        	if(this.$('#assetRentDetailList').selectedRowIds().length>0) {
-	                for(var i=this.$('#assetRentDetailList').selectedRowIds().length-1; i>=0; i--) {
-	                    var row=this.$('#assetRentDetailList').flexGetRow(this.$('#assetRentDetailList').selectedRowIds()[i]);
-	                    
-	                    if(row._updtId==undefined || row._updtId!='I') {
-	                    	this._deleteDataList[this._deleteDataList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-	                    }
-	                    this.$('#assetRentDetailList').flexRemoveRow(this.$('#assetRentDetailList').selectedRowIds()[i]);
-	                }
-	            }
+                if(this.$('#assetRentDetailList').selectedRowIds().length>0) {
+                    for(var i=this.$('#assetRentDetailList').selectedRowIds().length-1; i>=0; i--) {
+                        var row=this.$('#assetRentDetailList').flexGetRow(this.$('#assetRentDetailList').selectedRowIds()[i]);
+                        
+                        if(row._updtId==undefined || row._updtId!='I') {
+                            this._deleteDataList[this._deleteDataList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+                        }
+                        this.$('#assetRentDetailList').flexRemoveRow(this.$('#assetRentDetailList').selectedRowIds()[i]);
+                    }
+                }
             }
             
             this.$('#gamAssetRentDetailForm').find(':input').val('');
@@ -459,16 +464,16 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             
             if(rows.length>=1) {
-            	if( confirm("승낙취소를 하시겠습니까?") ) {
-	            	this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
-	                    if(result.resultCode=='0') {
-	                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-	                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-	                    }
-	
-	                    alert(result.resultMsg);
-	                });
-            	}
+                if( confirm("승낙취소를 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        }
+    
+                        alert(result.resultMsg);
+                    });
+                }
             } else {
                 alert("목록에서 선택하십시오.");
             }
@@ -682,7 +687,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <td style="text-align: right">
                                 <button id="addAssetRentFirst">최초신청</button>
                                 <button id="addAssetRentRenew">연장신청</button>
-                                <button id="btnXXX1">신청삭제</button>
+                                <button id="btnRemoveItem">신청삭제</button>
                                 <button id="btnXXX2">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
@@ -810,8 +815,8 @@ var module_instance = new GamAssetRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="xxxx">결재요청</button><button id="xxxx">사용승낙</button>
-                            <button id="xxxx">승낙취소</button><button id="btnRemoveItem">신청삭제</button></button><button id="btnSaveItem">신청저장</button>
+                        <td style="text-align:right"><button id="xxxx">결재요청</button><button id="btnPrmisn">사용승낙</button>
+                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem">신청삭제</button></button><button id="btnSaveItem">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>
                     </tr>

@@ -343,7 +343,7 @@ public class GamAssetRentMngtController {
         
         int resultLevReqestCnt = -1;
         
-        if( gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
+        if( EgovStringUtil.isEmpty(gamAssetRentMngtVO.getPrmisnYn()) || gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
         	deleteFlag = "Y";
         } else {
         	resultLevReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO); //징수의뢰 정보 카운트
