@@ -139,8 +139,8 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
 		//module.$('#btnApplyGisAssetsCode').prop('disabled', false);
 		module.makeFormValues('#editGisAssetCode', row);
-		module._editData=module.getFormValues('#editGisAssetCode', row);
-		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
+		module._editData1=module.getFormValues('#editGisAssetCode', row);
+		module._editRow1=module.$('#assetCodeList').selectedRowIds()[0];
 
 		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
@@ -196,6 +196,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'selectGisAssetCode':
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	 	throw 0;
 		break;
 	case 'addAssetGisCd':	// gis 자산 추가
 		var row = this.$('#erpAssetCodeList').selectedRows();
@@ -225,8 +226,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.$('#erpAssetsNo').attr('readonly', true);
 		this.$('#erpAssetsNoSeq').attr('readonly', true);
 		this.$('#gisAssetsPrtAtCode').focus();
-		this._editData=this.getFormValues('#editGisAssetCode', {_updtId:'I'});
-		this._editRow=this.$('#assetCodeList').flexGetData().length;
+		this._editData1=this.getFormValues('#editGisAssetCode', {_updtId:'I'});
+		this._editRow1=this.$('#assetCodeList').flexGetData().length;
 		this.$('#btnApplyGisAssetCode').removeAttr('disabled');
 		break;
 	case 'removeAssetGisCdItem':
@@ -244,6 +245,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
  		inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 		inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+		var otherForm=this.getFormValues('#editGisAssetCode', {});	// 폼만 있을 경우
+		inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData1) };	// 폼의 데이터를 컨트롤러에 보낸다.
 		console.log(inputVO);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
@@ -255,17 +258,17 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
  		});
 		break;
 	case 'btnApplyGisAssetsCode':
-		if(this._editData==null) return;	// 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
-		this._editData=this.getFormValues('#editGisAssetCode', this._editData);
-		if(this._editData._updtId==undefined || this._editData._updtId!='I') {
-			this._editData._updtId='U';
-			this.$('#assetCodeList').flexUpdateRow(this._editRow, this._editData);
+		if(this._editData1==null) return;	// 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
+		this._editData1=this.getFormValues('#editGisAssetCode', this._editData1);
+		if(this._editData1._updtId==undefined || this._editData1._updtId!='I') {
+			this._editData1._updtId='U';
+			this.$('#assetCodeList').flexUpdateRow(this._editRow1, this._editData1);
 		}
 		else {
-			this.$('#assetCodeList').flexAddRow(this._editData);
+			this.$('#assetCodeList').flexAddRow(this._editData1);
 		}
 		this.$('#editGisAssetCode').find(':input').val('');
-		this._editData=null;		// 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
+		this._editData1=null;		// 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
 		break;
 	case 'btnCancelGisAssetsCode':

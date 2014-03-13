@@ -166,38 +166,42 @@ public class GamAssetMngSampleController {
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
+    	HashMap<String,String> form=null;
 
     	ObjectMapper mapper = new ObjectMapper();
 
     	try {
-    		
+
     		LOG.debug("###################################################### mergeAssetCodeList 1");
-    		
+
     		//convert JSON string to Map
     		insertList = mapper.readValue((String)mergeAssetCodeList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    		
+
     		LOG.debug("###################################################### mergeAssetCodeList 2");
-    		
+
     		updateList = mapper.readValue((String)mergeAssetCodeList.get("updateList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
-    		
+
     		LOG.debug("###################################################### mergeAssetCodeList 3");
-    		
+
     		deleteList = mapper.readValue((String)mergeAssetCodeList.get("deleteList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
-    		
+
     		LOG.debug("###################################################### mergeAssetCodeList 4");
-    		
+
+    		form = mapper.readValue((String)mergeAssetCodeList.get("form"),
+        		    new TypeReference<HashMap<String,String>>(){});
+
     		LOG.debug("###################################################### insertList : "+insertList);
     		LOG.debug("###################################################### updateList : "+updateList);
     		LOG.debug("###################################################### deleteList : "+deleteList);
-    		
+
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
     			LOG.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
-    			
+
     			Map resultMap = insertList.get(i);
-    			
+
     			LOG.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ resultMap.get() => " + resultMap.get("gisAssetsPrtAtCode"));
     		}
     	} catch (Exception e) {
