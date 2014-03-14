@@ -161,6 +161,46 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: '140'
     });
+    
+ // 첨부파일 테이블 설정
+    this.$("#prtFcltyRentMngtFileList").flexigrid({
+        module: this,
+        url: '<c:url value="/oper/gnrl/gamSelectFcltyRentMngtFileList.do" />',
+        dataType: 'json',
+        colModel : [
+                    {display:'순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
+                    {display:'제목', name:'prtAtCodeNm',width:250, sortable:false,align:'center'},
+                    {display:'파일명', name:'prtAtCode',width:250, sortable:false,align:'center'},
+                    {display:'파일설명', name:'assetsCdStr',width:300, sortable:false,align:'center'}
+                    
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto'
+    });
+ 
+    this.$("#prtFcltyRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.makeFormValues('#gamPrtFcltyRentMngtForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyRentMngtForm', row);
+        module._editRow=module.$('#prtFcltyRentMngtList').selectedRowIds()[0];
+        
+        //해당하는 자산임대상세 목록과 파일목록를 불러온다.
+        module.$('#detailPrtAtCode').val(row['prtAtCode']);
+        module.$('#prtAtCodeStr').val(row['prtAtCode']);
+        module.$('#detailMngYear').val(row['mngYear']);
+        module.$('#detailMngNo').val(row['mngNo']);
+        module.$('#detailMngCnt').val(row['mngCnt']);
+
+        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+        module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+        module.$('#prtFcltyRentMngtFileList').flexOptions({params:searchOpt}).flexReload();
+    });
+    
+    this.$("#prtFcltyRentMngtDetailList").on('onItemSelected', function(event, module, row, grid, param) {
+        //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
+        module.makeFormValues('#gamPrtFcltyRentMngtDetailForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyRentMngtDetailForm', row);
+        module._editRow=module.$('#prtFcltyRentMngtDetailList').selectedRowIds()[0];
+    });
 
     this.$("#prtFcltyRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
@@ -168,6 +208,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
         if(row!=null) {
             module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
+            //alert("-->>> " + row['prtAtCode']);
             module.$('#prtAtCode').val(row['prtAtCode']);
             module.$('#mngYear').val(row['mngYear']);
             module.$('#mngNo').val(row['mngNo']);
@@ -271,6 +312,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	this.$("#assetRentListTab").tabs("option", {active: 0});
+        	
             var searchOpt=this.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
             this.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
 
@@ -374,43 +417,46 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         case 'btnInsertItemDetail':
 
         	if( this.$('#prtAtCode').val() == '' ) {
-        		alert("항만시설사용상세 조회후 등록이 가능합니다.");
+        		alert("항만시설사용목록에서 등록할 행을 더블클릭한 후 시도하십시오.");
         	} else {
-        		this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
-                this.$('#gamPrtFcltyRentMngtDetailForm :input').val("");
+                this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+                this.$('#gamPrtFcltyRentMngtDetailForm').find(':input').val('');
 
                 this.$("#detailCmd").val('insert');
                 this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
                 this.$('#detailMngYear').val( this.$('#mngYear').val() );
                 this.$('#detailMngNo').val( this.$('#mngNo').val() );
                 this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
+                
+                this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', {_updtId:'I'});
+                this._editRow=this.$('#prtFcltyRentMngtDetailList').flexGetData().length;
         	}
 
             break;
 
         // 항만시설사용상세 삭제
         case 'btnRemoveItemDetail':
-
             var rows = this.$('#prtFcltyRentMngtDetailList').selectedRows();
 
-            if(rows.length>=1) {
-                this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngtDetail.do" />', rows[0], function(module, result) {
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-
-                this.$('#gamPrtFcltyRentMngtDetailForm :input').val("");
-                this.$("#detailCmd").val('insert');
-
+            if(rows.length == 0) {
+                alert("자산임대상세목록에서 삭제할 행을 선택하십시오.");
             } else {
-                alert("삭제할 정보를 선택하십시오.");
+                if(this.$('#prtFcltyRentMngtDetailList').selectedRowIds().length>0) {
+                    for(var i=this.$('#prtFcltyRentMngtDetailList').selectedRowIds().length-1; i>=0; i--) {
+                        var row=this.$('#prtFcltyRentMngtDetailList').flexGetRow(this.$('#prtFcltyRentMngtDetailList').selectedRowIds()[i]);
+                        
+                        if(row._updtId==undefined || row._updtId!='I') {
+                            this._deleteDataList[this._deleteDataList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+                        }
+                        this.$('#prtFcltyRentMngtDetailList').flexRemoveRow(this.$('#prtFcltyRentMngtDetailList').selectedRowIds()[i]);
+                    }
+                }
             }
+            
+            this.$('#gamAssetRentDetailForm').find(':input').val('');
+            this.$("#detailCmd").val('insert');
 
-            break;
+            break;    
 
         // 항만시설사용상세 저장
         case 'btnSaveItemDetail':
@@ -721,7 +767,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <th><span class="label">항구분</span></th>
                                 <!-- <td style="width: 350px"> -->
                                 <td colspan="3">
-	                                <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+	                                <input id="prtAtCode" class="ygpaCmmnCd" data-code-id="GAM019" />
 	                                <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
                                 <!-- 
@@ -790,7 +836,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                  <input type="hidden" id="payMth" value="Pre" />	<!-- 선납 고정 -->
                                 <th><span class="label">고지 방법</span></th>
                                 <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
+                                    <input id="nticMth" class="ygpaCmmnCd" data-code-id="GAM008" />
                                 </td>
                             </tr>
                             <tr>
@@ -974,13 +1020,52 @@ var module_instance = new GamPrtFcltyRentMngtModule();
             </div>
 
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
-                <table id="assetCodePhotoList" style="display:none"></table>
-                <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
-                <!--
-                <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-                 -->
+                <table id="prtFcltyRentMngtFileList" style="display:none"></table>
+                
+                <div class="emdControlPanel"></div>
+                 
+                <div style="vertical-align: bottom; text-align: right;">
+                    <button id="xxxx">업로드</button>
+                    <button id="xxxx">다운로드</button>
+                    <button id="xxxx">삭제</button>
+                </div> 
+                
+                <table>
+                    <tr height="30">
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            제목
+                        </th>
+                        <td>
+                            <input type="text" size="130" id="xxx"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            파일설명
+                        </th>
+                        <td>
+                            <input type="text" size="130" id="xxx"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right" colspan="2">
+                            <button id="xxxx">적용</button>
+                        </td>
+                    </tr>
+                </table>
+                
+                <table class="searchPanel">
+                    <tbody>
+                    <tr>
+                        <th>미리보기</th>
+                    </tr>
+                    </tbody>
+                </table> 
                 <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-
+                
             </div>
 
 
