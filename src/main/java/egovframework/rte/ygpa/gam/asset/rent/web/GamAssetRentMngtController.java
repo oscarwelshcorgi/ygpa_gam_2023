@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -175,6 +178,114 @@ public class GamAssetRentMngtController {
 
     	return map;
     }
+	
+	@RequestMapping(value="/asset/rent/gamSaveAssetRent.do")
+	@ResponseBody Map<String, Object> saveAssetRent(@RequestParam Map<String, Object> mergeAssetCodeList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	HashMap<String,String> form=null;
+    	
+    	try {
+    		insertList = mapper.readValue((String)mergeAssetCodeList.get("insertList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    		updateList = mapper.readValue((String)mergeAssetCodeList.get("updateList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    		deleteList = mapper.readValue((String)mergeAssetCodeList.get("deleteList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    		form = mapper.readValue((String)mergeAssetCodeList.get("form"),
+        		    new TypeReference<HashMap<String,String>>(){});
+
+    		log.debug("###################################################### insertList : "+insertList);
+    		log.debug("###################################################### updateList : "+updateList);
+    		log.debug("###################################################### deleteList : "+deleteList);
+    		log.debug("###################################################### form : "+form);
+
+    		//자산임대저장
+    		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
+    		/*
+    		   prtAtCode
+    		   deptcd
+    		   mngYear
+    		   mngNo
+    		   mngCnt
+    		   entrpscd
+    		   frstReqstDt
+    		   
+    		   prmisnYn//넣지마!!
+    		   prmisnDt 넣지마
+    		   
+    		   grUsagePdFrom 넣지마
+    		   grUsagePdTo  넣지마
+    		   grAr 넣지마
+    		   grFee 넣지마
+    		   grRdcxptFee  넣지마
+    		   
+    		   payMth
+    		   nticMth
+    		   rm
+    		   cmt
+    		   
+    		   
+    		   
+    		   
+    		   MAX키값 가져오기
+    		 */
+    		
+
+			saveVO.setPrtAtCode(form.get("prtAtCode"));
+			saveVO.setDeptcd(form.get("deptcd"));     
+			saveVO.setMngYear(form.get(" mngYear"));    
+			saveVO.setMngNo(form.get("mngNo"));      
+			saveVO.setMngCnt(form.get("mngCnt"));     
+			saveVO.setEntrpscd(form.get("entrpscd"));   
+			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
+			saveVO.setPayMth(form.get("payMth"));     
+			saveVO.setNticMth(form.get("nticMth"));    
+			saveVO.setRm(form.get("rm"));         
+			saveVO.setCmt(form.get("cmt")); 
+    		
+    		saveVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    		saveVO.setRegUsr(loginVO.getId()); 
+    		saveVO.setUpdUsr(loginVO.getId());
+    		
+    		//자산임대상세저장
+    		for( int i = 0 ; i < insertList.size() ; i++ ) {
+    			Map resultMap = insertList.get(i);
+    		}
+    		
+    		for( int i = 0 ; i < updateList.size() ; i++ ) {
+    			Map resultMap = updateList.get(i);
+    		}
+    		
+    		for( int i = 0 ; i < deleteList.size() ; i++ ) {
+    			Map resultMap = deleteList.get(i);
+    			
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ resultMap.get() => " + resultMap.get("gisAssetsPrtAtCode"));
+    		}
+    		
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	log.debug("insert list : "+insertList.size());
+    	log.debug("updateList list : "+updateList.size());
+    	log.debug("deleteList list : "+deleteList.size());
+
+		map.put("resultCode", 0);			// return ok
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		return map;
+    }
+	
 	
 	/**
      * 자산임대 최초신청을 등록한다.

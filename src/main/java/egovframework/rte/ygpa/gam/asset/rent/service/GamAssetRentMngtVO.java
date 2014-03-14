@@ -206,6 +206,9 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     /** 사진 설명  */
     private String photoDesc;	    
     
+    /** 신청일자 */
+    private String reqstDt;
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -1086,6 +1089,20 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
 	 */
 	public void setPhotoDesc(String photoDesc) {
 		this.photoDesc = photoDesc;
+	}
+
+	/**
+	 * @return the reqstDt
+	 */
+	public String getReqstDt() {
+		return reqstDt;
+	}
+
+	/**
+	 * @param reqstDt the reqstDt to set
+	 */
+	public void setReqstDt(String reqstDt) {
+		this.reqstDt = reqstDt;
 	}
 	
 }
