@@ -299,8 +299,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
         // 신청저장
         case 'btnSaveItem':
-            alert("SAVE 1");
-        	
             if( this.$('#prtAtCode').val() == '' ) {
             	alert("항구분을 선택하십시오.");
             	return;
@@ -327,25 +325,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         	
         	//this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
         	
-        	alert("SAVE 2");
-        	
             inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
             
-            alert("SAVE 3");
-            
             inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-            
-            alert("SAVE 4");
             
             inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
             //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
             
-            alert("SAVE 5");
-            
             this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
             inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
-            
-            alert("6");
             
             //console.log(inputVO);
             // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
@@ -354,7 +342,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 if(result.resultCode == 0){
                 	var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                     module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                	module.$('#assetRentDetailList').flexReload();
+                	//module.$('#assetRentDetailList').flexReload();
+                    module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
                 }
                 alert(result.resultMsg);
             });
@@ -384,6 +373,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 });
             }
             */
+            
+            //var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+            
+            
             break;
 
         //신청삭제
@@ -580,6 +573,11 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             
         case 'btnRentDetailApply': //임대상세적용
             
+        	if( this.$('#gisAssetsPrtAtCode').val() == '' ) {
+                alert("자산구분을 선택하십시오.");
+                return;
+            }
+        
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
             //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);

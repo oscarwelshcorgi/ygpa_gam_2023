@@ -228,7 +228,7 @@ public class GamAssetRentMngtController {
     		saveVO.setUpdUsr(loginVO.getId());
     		
     		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
-    		if( form.get("mngYear") == null && "".equals(form.get("mngYear")) ) {
+    		if( form.get("mngYear") == null || "".equals(form.get("mngYear")) ) {
     			GamAssetRentMngtVO keyVO = new GamAssetRentMngtVO();
     			keyVO = gamAssetRentMngtService.selectAssetRentMaxKey(saveVO);
     			
