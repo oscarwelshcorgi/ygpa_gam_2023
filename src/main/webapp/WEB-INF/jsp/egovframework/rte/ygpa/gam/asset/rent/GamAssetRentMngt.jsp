@@ -287,9 +287,47 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
             break;
 
-        // 자산임대 저장
+        // 신청저장
         case 'btnSaveItem':
-            var inputVO=this.makeFormArgs('#gamAssetRentForm');
+            alert("SAVE 1");
+        	// 변경된 자료를 저장한다.
+            var inputVO=[{name: 'test', value:'test hello'}];
+        	//var inputVO=[{}];
+        	
+        	//this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
+        	
+        	alert("SAVE 2");
+        	
+            inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+            
+            alert("SAVE 3");
+            
+            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+            
+            alert("SAVE 4");
+            
+            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+            //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
+            
+            alert("SAVE 5");
+            
+            this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
+            inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
+            
+            alert("6");
+            
+            //console.log(inputVO);
+            // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+
+            this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
+                if(result.resultCode == 0){
+                    module.$('#assetRentDetailList').flexReload();
+                }
+                alert(result.resultMsg);
+            });
+        	
+        	/*
+        	var inputVO=this.makeFormArgs('#gamAssetRentForm');
             if(this.$("#cmd").val()=='insert') {
 
                 this.doAction('<c:url value="/asset/rent/gamInsertAssetRentFirst.do" />', inputVO, function(module, result) {
@@ -312,6 +350,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     alert(result.resultMsg);
                 });
             }
+            */
             break;
 
         //신청삭제
@@ -776,7 +815,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">최초신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="frstReqstDt"/></td>
                                 <th><span class="label">신청일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="dt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="reqstDt"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
