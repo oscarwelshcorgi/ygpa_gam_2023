@@ -548,6 +548,18 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
             break;
 
+        case 'btnRentDetailApply': //임대상세적용
+            this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
+            if(this._editData._updtId==undefined || this._editData._updtId!='I') {
+                this._editData._updtId='U';
+                this.$('#prtFcltyRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
+            }
+            else {
+                this.$('#prtFcltyRentMngtDetailList').flexAddRow(this._editData);
+            }
+            
+            break;
+            
     }
 };
 
@@ -1012,7 +1024,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="xxxx">취소</button><button id="xxxx">항만시설상세적용</button>
+                        <td style="text-align:right"><button id="xxxx">취소</button><button id="btnRentDetailApply">항만시설상세적용</button>
                         </td>
                     </tr>
                  </table>
