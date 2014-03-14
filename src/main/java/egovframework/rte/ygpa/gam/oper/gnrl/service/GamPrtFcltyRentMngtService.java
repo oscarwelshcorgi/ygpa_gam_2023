@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
 import java.util.List;
 
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 
@@ -162,5 +163,35 @@ public interface GamPrtFcltyRentMngtService {
 	 * @exception Exception
 	 */
 	void updatePrtFcltyRentMngtPrmisnCancel(GamPrtFcltyRentMngtLevReqestVO vo) throws Exception;
+	
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectPrtFcltyRentMngtFileList(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectPrtFcltyRentMngtFileListTotCnt(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	void deletePrtFcltyRentMngtPhotoSingle(GamPrtFcltyRentMngtVO vo) throws Exception;
     
 }

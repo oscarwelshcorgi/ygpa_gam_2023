@@ -187,6 +187,27 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     
     /** 납부방법코드 */
     private String payMth;
+    
+    /** 사진 순번 */
+    private String photoSeq;
+    	    
+    /** 사진 제목 */
+    private String photoSj;	    
+    
+    /** 파일명 물리 */
+    private String filenmPhysicl;  
+    
+    /** 파일명 논리 */
+    private String filenmLogic;	
+    
+    /** 촬영 일시 */
+    private String shotDt;	        
+    
+    /** 사진 설명  */
+    private String photoDesc;
+    
+    /** 신청일자 */
+    private String reqstDt;
 
 	/**
 	 * @return the prtAtCode
@@ -984,6 +1005,104 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	 */
 	public void setPayMth(String payMth) {
 		this.payMth = payMth;
+	}
+
+	/**
+	 * @return the photoSeq
+	 */
+	public String getPhotoSeq() {
+		return photoSeq;
+	}
+
+	/**
+	 * @param photoSeq the photoSeq to set
+	 */
+	public void setPhotoSeq(String photoSeq) {
+		this.photoSeq = photoSeq;
+	}
+
+	/**
+	 * @return the photoSj
+	 */
+	public String getPhotoSj() {
+		return photoSj;
+	}
+
+	/**
+	 * @param photoSj the photoSj to set
+	 */
+	public void setPhotoSj(String photoSj) {
+		this.photoSj = photoSj;
+	}
+
+	/**
+	 * @return the filenmPhysicl
+	 */
+	public String getFilenmPhysicl() {
+		return filenmPhysicl;
+	}
+
+	/**
+	 * @param filenmPhysicl the filenmPhysicl to set
+	 */
+	public void setFilenmPhysicl(String filenmPhysicl) {
+		this.filenmPhysicl = filenmPhysicl;
+	}
+
+	/**
+	 * @return the filenmLogic
+	 */
+	public String getFilenmLogic() {
+		return filenmLogic;
+	}
+
+	/**
+	 * @param filenmLogic the filenmLogic to set
+	 */
+	public void setFilenmLogic(String filenmLogic) {
+		this.filenmLogic = filenmLogic;
+	}
+
+	/**
+	 * @return the shotDt
+	 */
+	public String getShotDt() {
+		return shotDt;
+	}
+
+	/**
+	 * @param shotDt the shotDt to set
+	 */
+	public void setShotDt(String shotDt) {
+		this.shotDt = shotDt;
+	}
+
+	/**
+	 * @return the photoDesc
+	 */
+	public String getPhotoDesc() {
+		return photoDesc;
+	}
+
+	/**
+	 * @param photoDesc the photoDesc to set
+	 */
+	public void setPhotoDesc(String photoDesc) {
+		this.photoDesc = photoDesc;
+	}
+
+	/**
+	 * @return the reqstDt
+	 */
+	public String getReqstDt() {
+		return reqstDt;
+	}
+
+	/**
+	 * @param reqstDt the reqstDt to set
+	 */
+	public void setReqstDt(String reqstDt) {
+		this.reqstDt = reqstDt;
 	}
     
 }
