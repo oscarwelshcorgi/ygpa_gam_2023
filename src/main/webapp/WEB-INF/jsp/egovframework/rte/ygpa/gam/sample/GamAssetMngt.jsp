@@ -251,9 +251,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		console.log(inputVO);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', inputVO, function(result) {
+	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', inputVO, function(module, result) {
 	 		if(result.resultCode == 0){
-	 			this.$('#assetCodeList').flexReload();
+	 			module.$('#assetCodeList').flexReload();
 	 		}
 	 		alert(result.resultMsg);
  		});
