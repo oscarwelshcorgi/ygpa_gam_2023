@@ -356,6 +356,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
                 this.$("#detailCmd").val('insert');
                 this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
+                this.$('#detailPrtAtCodeNm').val( this.$('#prtAtCodeNm').val() );
                 this.$('#detailMngYear').val( this.$('#mngYear').val() );
                 this.$('#detailMngNo').val( this.$('#mngNo').val() );
                 this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
@@ -487,6 +488,20 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             break;    
             
         case 'btnRentDetailApply': //임대상세적용
+            
+        	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
+            this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
+            if(this._editData._updtId==undefined || this._editData._updtId!='I') {
+                this._editData._updtId='U';
+                this.$('#assetRentDetailList').flexUpdateRow(this._editRow1, this._editData);
+            }
+            else {
+                this.$('#assetRentDetailList').flexAddRow(this._editData);
+            }
+            this.$('#gamAssetRentDetailForm').find(':input').val('');
+            this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
+        
+            /*
             this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
             if(this._editData._updtId==undefined || this._editData._updtId!='I') {
                 this._editData._updtId='U';
@@ -495,6 +510,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             else {
                 this.$('#assetRentDetailList').flexAddRow(this._editData);
             }
+            */
+            
+            
             
             break;
     }
@@ -832,6 +850,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <input type="hidden" id="detailMngYear" data-column-id="mngYear"/>
                         <input type="hidden" id="detailMngNo" data-column-id="mngNo"/>
                         <input type="hidden" id="detailMngCnt" data-column-id="mngCnt"/>
+                        <input type="hidden" id="detailPrtAtCodeNm" data-column-id="prtAtCodeNm"/>
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table>
                             <tr>
@@ -896,7 +915,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
                                 <th><span class="label">면제구분</span></th>
                                 <td colspan="5">
-                                    <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM009 />
+                                    <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM009  data-column-label-id='exemptSeNm'/>
                                     <input type="text" size="17" id="exemptSeStr" readonly/>
                                 </td>
                             </tr>
