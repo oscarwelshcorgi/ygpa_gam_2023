@@ -5,33 +5,74 @@
 
 	<typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
 	<typeAlias alias="entrpsInfoFVO" type="egovframework.rte.ygpa.gam.code.service.GamEntrpsInfoFVO"/>
+	<typeAlias alias="entrpsChargerFVO" type="egovframework.rte.ygpa.gam.code.service.GamEntrpsChargerFVO"/>
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
-	<insert id="gamCmpyInfoMngtDao.insertCmpyChargerMngt">
+	<insert id="gamCmpyInfoMngtDao.insertCmpyInfo">
 		<![CDATA[
 		INSERT 
-		  INTO ENTRPS_CHARGER_F 
+		  INTO ENTRPS_INFO_F 
 		       ( 
-		           CHARGER_NO , 
 		           ENTRPSCD , 
-		           CHARGER_NM , 
-		           CHARGER_OFC_POS , 
-		           CHRG_JOB , 
-		           CHARGER_MOBLPHON_NO , 
-		           CHARGER_TLPHON_NO , 
-		           CHARGER_FAX , 
-		           CHARGER_EMAIL , 
-		           CHARGER_DEPT , 
-		           MNG_DEPT_CD , 
+		           ENTRPS_NM , 
+		           ENTRPS_TY , 
+		           BSNM_SE , 
+		           RPRSNTV_NM , 
+		           BIZRNO , 
+		           CPRREGISTNO , 
+		           INDUTY , 
+		           BIZCND , 
+		           TLPHON_NO , 
+		           ZIP , 
+		           ADRES , 
 		           REG_USR , 
-		           REGIST_DT
+		           REGIST_DT , 
+		           FAX 
 		       ) 
 		       VALUES 
 		       ( 
-		              (SELECT LPAD(NVL(MAX(CHARGER_NO),0) + 1,'5','0') 
-		                FROM ENTRPS_CHARGER_F 
-		              ) , 
+		           #entrpscd# , 
+		           #entrpsNm# , 
+		           #entrpsTy# , 
+		           #bsnmSe# , 
+		           #rprsntvNm# , 
+		           #bizrno# , 
+		           #cprregistno# , 
+		           #induty# , 
+		           #bizcnd# , 
+		           #tlphonNo# , 
+		           #zip# , 
+		           #adres# , 
+		           #regUsr# , 
+		           SYSDATE , 
+		           #fax# 
+		       )
+		]]>
+	</insert>
+	
+	<insert id="gamCmpyInfoMngtDao.insertCmpyCharger">
+		<![CDATA[
+			INSERT 
+			  INTO ENTRPS_CHARGER_F 
+			       ( 
+			           CHARGER_NO , 
+			           ENTRPSCD , 
+			           CHARGER_NM , 
+			           CHARGER_OFC_POS , 
+			           CHRG_JOB , 
+			           CHARGER_MOBLPHON_NO , 
+			           CHARGER_TLPHON_NO , 
+			           CHARGER_FAX , 
+			           CHARGER_EMAIL , 
+			           CHARGER_DEPT , 
+			           MNG_DEPT_CD , 
+			           REG_USR , 
+			           REGIST_DT 
+			       ) 
+			       VALUES 
+			       ( 
+		              (SELECT NVL(MAX(CHARGER_NO+1),1) FROM ENTRPS_CHARGER_F WHERE entrpscd = #entrpscd#) , 
 		              #entrpscd# , 
 		              #chargerNm# , 
 		              #chargerOfcPos# , 
@@ -153,5 +194,61 @@
             <isNotEmpty property="bsnmSe">
             	AND BSNM_SE = #bsnmSe#
             </isNotEmpty>
+	</select>
+	
+	<select id="gamCmpyInfoMngtDao.checkEntrpscd" parameterClass="String" resultClass="int">
+		SELECT COUNT(0) FROM ENTRPS_INFO_F
+		WHERE ENTRPSCD = #entrpscd#
+	</select>
+	
+	<select id="gamCmpyInfoMngtDao.selectCmpyMngtList" parameterClass="entrpsChargerFVO" resultClass="egovMap">
+		SELECT * 
+		  FROM 
+		       (SELECT Z.*, 
+		              ROWNUM AS RNUM 
+		         FROM 
+		              (SELECT 
+		              		 CHARGER_NO, 
+		                     ENTRPSCD, 
+		                     CHARGER_NM, 
+		                     CHARGER_OFC_POS, 
+		                     CHRG_JOB, 
+		                     CHARGER_MOBLPHON_NO, 
+		                     CHARGER_TLPHON_NO, 
+		                     CHARGER_FAX, 
+		                     CHARGER_EMAIL, 
+		                     CHARGER_DEPT, 
+		                     MNG_DEPT_CD 
+		                FROM ENTRPS_CHARGER_F 
+		                WHERE ENTRPSCD = #entrpscd#
+		            ORDER BY CHARGER_NO DESC, ENTRPSCD DESC 
+		              )Z 
+		       ) W
+			<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamCmpyInfoMngtDao.selectCmpyMngtListTotCnt" parameterClass="entrpsChargerFVO" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM ENTRPS_CHARGER_F
+			WHERE ENTRPSCD = #entrpscd#
+	</select>
+	
+	<select id="gamCmpyInfoMngtDao.selectCmpyMngtDetail" parameterClass="entrpsChargerFVO" resultClass="entrpsChargerFVO">
+		<![CDATA[
+			SELECT CHARGER_NO AS chargerNo , 
+			       ENTRPSCD AS entrpscd , 
+			       CHARGER_NM as chargerNm ,
+			       CHARGER_OFC_POS AS chargerOfcPos , 
+			       CHRG_JOB AS chrgJob , 
+			       CHARGER_MOBLPHON_NO AS chargerMoblphonNo , 
+			       CHARGER_TLPHON_NO AS chargerTlphonNo , 
+			       CHARGER_FAX AS chargerFax , 
+			       CHARGER_EMAIL AS chargerEmail , 
+			       CHARGER_DEPT AS chargerDept , 
+			       MNG_DEPT_CD AS mngDeptCd 
+			  FROM ENTRPS_CHARGER_F 
+			 WHERE CHARGER_NO = #chargerNo# 
+			       AND ENTRPSCD = #entrpscd#
+		]]>
 	</select>
 </sqlMap>

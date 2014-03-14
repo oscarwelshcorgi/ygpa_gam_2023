@@ -3,14 +3,15 @@
  */
 package egovframework.rte.ygpa.gam.code.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.code.service.GamEntrpsChargerFVO;
 import egovframework.rte.ygpa.gam.code.service.GamEntrpsInfoFVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO;
 
 /**
  * 
@@ -52,6 +53,29 @@ public class GamCmpyInfoMngtDao extends YGPAAbstractDAO{
 	public int selectCmpyInfoMngtListTotCnt(GamEntrpsInfoFVO vo) throws Exception{
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamCmpyInfoMngtDao.selectCmpyInfoMngtListTotCnt", vo);
 	}
+	
+	
+	/**
+	 * 업체관리 목록
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<GamEntrpsChargerFVO> selectCmpyMngtList(GamEntrpsChargerFVO vo) throws Exception{
+		return list("gamCmpyInfoMngtDao.selectCmpyMngtList", vo);
+	}
+	
+	
+	/**
+	 * 업체관리 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCmpyMngtListTotCnt(GamEntrpsChargerFVO vo) throws Exception{
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamCmpyInfoMngtDao.selectCmpyMngtListTotCnt", vo);
+	}
 
 	
 	/**
@@ -66,10 +90,39 @@ public class GamCmpyInfoMngtDao extends YGPAAbstractDAO{
 	
 	
 	/**
-	 * 업체담당자 정보 저장
+	 * 업체담당자 정보 상세화면
+	 * @param vo
+	 * @return vo
+	 * @throws Exception
+	 */
+	public GamEntrpsChargerFVO selectCmpyMngtDetail(GamEntrpsChargerFVO vo) throws Exception{
+		return (GamEntrpsChargerFVO) selectByPk("gamCmpyInfoMngtDao.selectCmpyMngtDetail", vo);
+	}
+	
+	
+	/**
+	 * 업체정보 관리 저장
 	 * @param vo
 	 */
-	public void insertCmpyChargerMngt(GamEntrpsChargerFVO vo){
-		insert("gamCmpyInfoMngtDao.insertCmpyChargerMngt", vo);
+	public void insertCmpyInfo(HashMap<String,String> form){
+		insert("gamCmpyInfoMngtDao.insertCmpyInfo", form);
+	}
+
+	
+	/**
+	 * 업체 담당자 저장
+	 * @param vo
+	 */
+	public void insertCmpyCharger(Map insertList){
+		insert("gamCmpyInfoMngtDao.insertCmpyCharger", insertList);
+	}
+	
+	
+	/**
+	 * 업체코드 체크
+	 * @param vo
+	 */
+	public int checkEntrpscd(String entrpscd){
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamCmpyInfoMngtDao.checkEntrpscd", entrpscd);
 	}
 }

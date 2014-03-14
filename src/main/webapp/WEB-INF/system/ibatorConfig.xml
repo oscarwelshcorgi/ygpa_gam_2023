@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ibatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN" "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd" >
+<ibatorConfiguration >
+	<classPathEntry location="D:\gamProject\ygam\src\main\webapp\WEB-INF\lib\ojdbc5.jar" />
+  <ibatorContext id="context1" >
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@192.168.0.65:1521:LFIT" userId="ygpagam" password="ygpagam" />
+    <javaModelGenerator targetPackage="egovframework.rte.ygpa.gam.fclty.service" targetProject="ygam" />
+    <sqlMapGenerator targetPackage="ygam.src.main.resources.egovframework.sqlmap.rte.ygpa.gam.fclty" targetProject="ygam"  />
+    <daoGenerator targetPackage="egovframework.rte.ygpa.gam.fclty.service.impl" targetProject="ygam"  type="SPRING" implementationPackage="gam.fclty.service.impl"/>
+    <table tableName="ENTRPS_INFO_F"  > </table>
+  </ibatorContext>
+</ibatorConfiguration>
+
+
+<!--  oracle
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ibatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN" "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd" >
+<ibatorConfiguration >
+	  <classPathEntry location="C:\iKEP4-Project\maven-repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" />
+	  <ibatorContext id="context1" >
+		    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@165.243.186.78:1521:IKEPDEVDB" userId="ikep4test" password="ikep4test" />
+		    <javaModelGenerator targetPackage="com.lgcns.ikep4.lightpack.planner.model" targetProject="dee" />
+		    <sqlMapGenerator targetPackage="com.lgcns.ikep4.lightpack.planner.dao.impl.maps.oracle" targetProject="dee" />
+		    <daoGenerator targetPackage="com.lgcns.ikep4.lightpack.planner.dao" targetProject="dee" type="GENERIC-CI" />
+		    <table schema="ikep4test" tableName="IKEP4_SD_SCHEDULE"  domainObjectName="SdSchedule"> </table>
+		    <table schema="ikep4test" tableName="IKEP4_SD_FACILITIES"  domainObjectName="SdFacilities"> </table>
+	  </ibatorContext>
+</ibatorConfiguration>
+
+
+ -->

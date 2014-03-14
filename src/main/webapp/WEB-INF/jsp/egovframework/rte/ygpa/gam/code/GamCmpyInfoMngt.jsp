@@ -61,6 +61,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		module.makeFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoData = module.getFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoRow = module.$("#cmpyInfoMngtList").selectedRowIds()[0];
+		module.$("#cmd").val("modify");
 	});
 	
 	// 업체정보 목록 선택
@@ -188,6 +189,11 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			
+			if(this.$("#entrpscdFlag").val() != "Y"){
+				alert("입력하신 업체코드를 확인해 주십시오.");
+				return;
+			}
+			
 			var inputVO=[{}];
 			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
 			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -224,7 +230,6 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 업체담당자 정보 화면상 임시 저장
 		case "chargerSaveBtn":
-
 			if(this._editData == null) return;
 			this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", this._editInfoData);
 			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", this._editData);
@@ -239,25 +244,66 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 			this.$("#cmpyChargerMngtManageVO :input").val("");
 			this._editData = null;
+		break;
+		
+		// 업체코드 체크
+		case "checkEntrpscdBtn":
+
+			if(this.$("#cmd").val() != "insert"){
+				alert("저장된 업체코드는 수정하실 수 없습니다.");
+				return;
+			}
 			
-		 /*	var inputVO = this.makeFormArgs("#cmpyChargerMngtManageVO");
-			if(this.$("#chargerCmd").val() == "insert") {
-				this.$("#chargerEntrpscd").val(this.$("#entrpscd").val());
-				
-			 	this.doAction('<c:url value="/code/gamCmpyChargerMngtRegist.do" />', inputVO, function(module, result) {
-			 		alert(result.resultMsg);
-			 	});
+			if(this.$("#entrpscd").val() == ""){
+				alert("사용하실 업체 코드를 입력하십시오.");
+				this.$("#entrpscd").focus();
+				return;
+			}
+			
+			this.doAction('<c:url value="/code/gamCheckEntrpscd.do" />', {entrpscd : this.$("#entrpscd").val()}, function(module, result) {
+
+		 		if(result.resultCode == "0" && result.codeCount == 0){
+		 			if(confirm("입력하신 코드를 업체코드로 사용하시겠습니까?")){
+		 				module.$("#entrpscd").attr("disabled","disabled");
+		 				module.$("#entrpscdFlag").val("Y");
+		 			}else{
+		 				module.$("#entrpscdFlag").val("");	
+		 				module.$("#entrpscd").val("");
+		 				module.$("#entrpscd").focus();
+		 			}
+		 		}else{
+		 			module.$("#entrpscdFlag").val("N");
+		 			module.$("#entrpscd").val("");
+		 			module.$("#entrpscd").focus();
+		 			alert("사용하실 수 없는 업체 코드 입니다. 다시 입력 하십시오.");
+		 		}
+		 	});
+			
+		break;
+		
+		// 업체 코드 입력
+		case "inputEntrpscdBtn":
+
+			if(this.$("#cmd").val() != "insert"){
+				alert("저장된 업체코드는 수정하실 수 없습니다.");
+				return;
+			}
+
+			if(this.$("#entrpscdFlag").val() == "Y"){
+				if(confirm("업체 코드를 다시 입력 하시겠습니까?")){
+					this.$("#entrpscdFlag").val("");
+					this.$("#entrpscd").val("");
+					this.$("#entrpscd").removeAttr("disabled");
+					this.$("#entrpscd").focus();
+				}else{
+					return;
+				}
 			}else{
-			 	this.doAction('<c:url value="/code/gamCmpyChargerMngtModify.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
-						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0}); 
-						module.$("#cmmnCodeDetailManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}*/
+				this.$("#entrpscdFlag").val("");
+				this.$("#entrpscd").val("");
+				this.$("#entrpscd").focus();
+			}
+			
 		break;
 		
 		// 삭제
@@ -315,11 +361,11 @@ GamCmpyInfoMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case "tabs2":
 			this.$("#searchViewStack")[0].changePanelId(1);
 			this._deleteDataList = [];
-			
+			/*
 			var row = this.$("#cmpyMngtList").selectedRows();
 			if(row.length == 0) this.$("#cmd").val("insert");
 			else this.$("#cmd").val("modify");
-
+*/
 		break;
 
 		case "tabs3":
@@ -425,11 +471,15 @@ var module_instance = new GamCmpyInfoMngtModule();
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
 				<form id="cmpyInfoMngtManageVO">
 					<input type="hidden" id="cmd"/>
-					<input type="hidden" id="entrpscd"/>
+					<input type="hidden" id="entrpscdFlag"/>
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td colspan="3"><input type="text" size="30" id="entrpscd" /></td>
+							<td colspan="3">
+								<input type="text" size="30" id="entrpscd" />
+								<button id="checkEntrpscdBtn">업체 코드 확인</button>
+								<button id="inputEntrpscdBtn">업체 코드 입력</button>
+							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>

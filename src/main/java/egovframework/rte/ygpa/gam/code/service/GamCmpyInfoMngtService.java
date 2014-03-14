@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.code.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -40,6 +41,24 @@ public interface GamCmpyInfoMngtService {
 	 * @throws Exception
 	 */
 	int selectCmpyInfoMngtListTotCnt(GamEntrpsInfoFVO vo) throws Exception;
+	
+	
+	/**
+	 * 업체관리 목록
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List<GamEntrpsChargerFVO> selectCmpyMngtList(GamEntrpsChargerFVO vo) throws Exception;
+	
+	
+	/**
+	 * 업체관리 목록 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectCmpyMngtListTotCnt(GamEntrpsChargerFVO vo) throws Exception;
 
 	
 	/**
@@ -49,12 +68,29 @@ public interface GamCmpyInfoMngtService {
 	 * @throws Exception
 	 */
 	GamEntrpsInfoFVO selectCmpyInfoMngtDetail(GamEntrpsInfoFVO vo) throws Exception;
+	
+	
+	/**
+	 * 업체담당자 정보 상세
+	 * @param vo
+	 * @return vo
+	 * @throws Exception
+	 */
+	GamEntrpsChargerFVO selectCmpyMngtDetail(GamEntrpsChargerFVO vo) throws Exception;
 
 	
 	/**
-	 * 업체담당자 정보 저장
+	 * 업체정보 관리 저장
 	 * @param vo
 	 * @throws Exception
 	 */
-	void insertCmpyChargerMngt(GamEntrpsChargerFVO vo) throws Exception;
+	void insertCmpyInfoMngt(Map<String, Object> cmpyMngtList) throws Exception;
+	
+	
+	/**
+	 * 업체정보 관리 저장
+	 * @param vo
+	 * @throws Exception
+	 */
+	int checkEntrpscd(String entrpscd) throws Exception;
 }
