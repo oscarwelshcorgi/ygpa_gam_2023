@@ -333,8 +333,6 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             this._editData2=this.getFormValues('#gamPrtFcltyRentMngtForm', {_updtId:'I'});
             inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
             
-            alert("6");
-            
             //console.log(inputVO);
             // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
