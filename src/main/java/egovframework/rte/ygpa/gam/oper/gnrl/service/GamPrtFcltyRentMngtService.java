@@ -194,4 +194,18 @@ public interface GamPrtFcltyRentMngtService {
 	 */
 	void deletePrtFcltyRentMngtPhotoSingle(GamPrtFcltyRentMngtVO vo) throws Exception;
     
+	/**
+	 * 항만시설사용 신규저장시 키값 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return  항만시설사용 목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtMaxKey(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 코멘트를 수정한다.
+	 * @param vo GamPrtFcltyRentMngtDetailVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentMngtComment(GamPrtFcltyRentMngtVO vo) throws Exception;
 }

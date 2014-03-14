@@ -97,6 +97,12 @@
         <result property="codeDc"       column="CODE_DC"    columnIndex="4"/>
     </resultMap>
     
+    <resultMap id="gamPrtFcltyRentMngtInfoMaxKeyMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO">
+        <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
+        <result property="mngNo" column="MNG_NO" columnIndex="2"/>
+        <result property="mngCnt" column="MNG_CNT" columnIndex="3"/>
+    </resultMap>
+    
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtList_D" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -136,8 +142,13 @@
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , A.PAY_MTH
-                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+                                  , A.SANCTN_STTUS
+                                  , A.SANCTNER_EMPL_NO
+                                  , A.QUAY_CD
+                                  , A.SANCTN_DT
+                                  , A.QUAY_GROUP_CD
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                             
@@ -344,17 +355,17 @@
                                    , MNG_NO
                                    , MNG_CNT
                                    , ENTRPSCD
-                                   , DT
-                                   , REQST_SE_CD
+                                   , REQST_DT
+                                   <!-- , REQST_SE_CD  -->
                                    , GR_AR
-                                   , GR_FEE
+                                   , GR_FEE 
                                    , NTIC_MTH
-                                   , FRST_PRMISN_DT
+                                   <!--, FRST_PRMISN_DT
                                    , PRMISN_DT
-                                   , PRMISN_YN
                                    , GR_USAGE_PD_FROM
-                                   , GR_USAGE_PD_TO
-                                   , DOC_NO
+                                   , GR_USAGE_PD_TO 
+                                   , DOC_NO -->
+                                   , PRMISN_YN
                                    , RM
                                    , CMT
                                    , ETC
@@ -362,10 +373,12 @@
                                    , REGIST_DT
                                    , UPD_USR
                                    , UPDT_DT
-                                   , GR_RDCXPT_FEE
-                                   , GIS_CD
+                                   <!-- , GR_RDCXPT_FEE
+                                   , GIS_CD  -->
                                    , DEPTCD
                                    , PAY_MTH
+                                   , QUAY_GROUP_CD
+                                   , FRST_REQST_DT
                                    )
                             VALUES (
                                      #prtAtCode#
@@ -375,17 +388,17 @@
 									    WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
                                    , '01'  
                                    , #entrpscd#
-                                   , TO_DATE(#dt:DATE:NO_ENTRY#)  
-                                   , #reqstSeCd#
-                                   , #grAr#
-                                   , #grFee#
+                                   , SYSDATE
+                                   <!-- , #reqstSeCd# -->
+                                   , 0
+                                   , 0  
                                    , #nticMth#
-                                   , TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#)
-                                   , TO_DATE(#prmisnDt:DATE:NO_ENTRY#)
-                                   , #prmisnYn#
+                                   <!--, #frstPrmisnDt#
+                                   , TO_DATE(#prmisnDt:DATE:NO_ENTRY#)  
                                    , TO_CHAR(SYSDATE,'YYYYMMDD')
-                                   , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD')
-                                   , #docNo#
+                                   , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD') 
+                                   , #docNo# -->
+                                   , 'N' 
                                    , #rm#
                                    , #cmt#
                                    , #etc#
@@ -393,16 +406,18 @@
                                    , SYSDATE
                                    , #updUsr#
                                    , SYSDATE
-                                   , #grRdcxptFee#
-                                   , #gisCd#
+                                   <!-- , #grRdcxptFee#
+                                   , #gisCd#  -->
                                    , #deptcd#
                                    , #payMth#
+                                   , 'G'
+                                   , SYSDATE
                                    )
     </insert>
     
     <insert id="gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew_S">     
         INSERT INTO ASSETS_RENT_F (
-                                      PRT_AT_CODE
+                                    <!--   PRT_AT_CODE
                                     , MNG_YEAR
                                     , MNG_NO
                                     , MNG_CNT
@@ -429,13 +444,25 @@
                                     , GIS_CD
                                     , DEPTCD
                                     , PAY_MTH
+                                    -->
+                                   PRT_AT_CODE, MNG_YEAR, MNG_NO, 
+                                   MNG_CNT, ENTRPSCD, REQST_SE_CD, 
+                                   GR_AR, GR_FEE, NTIC_MTH, 
+                                   PRMISN_YN, DOC_NO, RM, 
+                                   CMT, ETC, REG_USR, 
+                                   REGIST_DT, UPD_USR, UPDT_DT, 
+                                   GR_RDCXPT_FEE, GIS_CD, DEPTCD, 
+                                   PAY_MTH, FRST_PRMISN_DT, GR_USAGE_PD_FROM, 
+                                   GR_USAGE_PD_TO, PRMISN_DT, SANCTN_STTUS, 
+                                   SANCTNER_EMPL_NO, QUAY_CD, FRST_REQST_DT, 
+                                   SANCTN_DT, QUAY_GROUP_CD, REQST_DT
                                )
-          SELECT   A.PRT_AT_CODE
+          SELECT   
+                 <!--   A.PRT_AT_CODE
                  , A.MNG_YEAR
                  , A.MNG_NO
                  , LPAD(A.MNG_CNT + 1,'2','0')
                  , A.ENTRPSCD
-                 , A.DT
                  , A.REQST_SE_CD
                  , A.GR_AR
                  , A.GR_FEE
@@ -456,7 +483,19 @@
                  , A.GR_RDCXPT_FEE
                  , A.GIS_CD
                  , A.DEPTCD
-                 , A.PAY_MTH
+                 , A.PAY_MTH -->
+                 
+                 A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, 
+				   LPAD(A.MNG_CNT + 1,'2','0'), A.ENTRPSCD, A.REQST_SE_CD, 
+				   A.GR_AR, A.GR_FEE, A.NTIC_MTH, 
+				   A.PRMISN_YN, A.DOC_NO, A.RM, 
+				   A.CMT, A.ETC, A.REG_USR, 
+				   SYSDATE, A.UPD_USR, SYSDATE, 
+				   A.GR_RDCXPT_FEE, A.GIS_CD, A.DEPTCD, 
+				   A.PAY_MTH, A.FRST_PRMISN_DT, A.GR_USAGE_PD_FROM, 
+				   A.GR_USAGE_PD_TO, NULL, A.SANCTN_STTUS, 
+				   A.SANCTNER_EMPL_NO, A.QUAY_CD, A.FRST_REQST_DT, 
+				   A.SANCTN_DT, A.QUAY_GROUP_CD, A.REQST_DT
             FROM ASSETS_RENT_F A
            WHERE A.PRT_AT_CODE = #prtAtCode#
              AND A.MNG_YEAR    = #mngYear#
@@ -467,24 +506,24 @@
     <update id="gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngt_S">
         UPDATE ASSETS_RENT_F SET
 		         ENTRPSCD         = #entrpscd#
-		       , DT               = TO_DATE(#dt:DATE:NO_ENTRY#)  
-		       , REQST_SE_CD      = #reqstSeCd#
-		       , GR_AR            = #grAr#
-		       , GR_FEE           = #grFee#
+		       <!-- , REQST_DT    = TO_DATE(#reqstDt:DATE:NO_ENTRY#)  -->  
+		       , REQST_SE_CD      = '3'
+		       <!-- , GR_AR            = #grAr#
+		       , GR_FEE           = #grFee#  -->
 		       , NTIC_MTH         = #nticMth#
-		       , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#) 
+		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#)  --> 
 		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
-		       , PRMISN_YN        = #prmisnYn# -->
+		       , PRMISN_YN        = #prmisnYn# 
 		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom:DATE:NO_ENTRY#)
-		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#)
-		       , DOC_NO           = #docNo#
+		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#) 
+		       , DOC_NO           = #docNo# -->
 		       , RM               = #rm#
 		       , CMT              = #cmt#
 		       , ETC              = #etc#
 		       , UPD_USR          = #updUsr#
 		       , UPDT_DT          = SYSDATE
-		       , GR_RDCXPT_FEE    = #grRdcxptFee#
-		       , GIS_CD           = #gisCd#
+		       <!--, GR_RDCXPT_FEE    = #grRdcxptFee#
+		       , GIS_CD           = #gisCd# --> 
 		       , DEPTCD           = #deptcd#
 		       , PAY_MTH          = #payMth#
 		WHERE  PRT_AT_CODE        = #prtAtCode#
@@ -540,7 +579,7 @@
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
                                       AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
       
-                                , A.USAGE_AR
+                                , NVL(A.USAGE_AR,0) USAGE_AR
                                 , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
                                 , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
                                 , A.USAGE_PURPS
@@ -554,6 +593,7 @@
                                 , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
                                 , A.COMPUT_DTLS
                                 , A.OLNLP
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM023' AND CD.CODE = A.APPLC_TARIFF AND ROWNUM = 1) APPLC_TARIFF_NM
                                 , A.APPLC_TARIFF
                                 , A.APPLC_MTH
                                 , A.PACK_SE
@@ -561,7 +601,7 @@
                                 , A.FEE_CALC_SE
                                 , A.RDCXPT_FEE_CALC_SE
                                 , A.RDCXPT_FEE
-                                , A.FEE
+                                , NVL(A.FEE,0) FEE
                                 , TO_CHAR(A.TRMNAT_DT,'YYYY-MM-DD') TRMNAT_DT
                                 , A.TRMNAT_RSN
                                 , A.GIS_CD
@@ -636,42 +676,32 @@
     <insert id="gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetail_S">
         INSERT INTO ASSETS_RENT_DETAIL_F (
 		                                     ASSETS_USAGE_SEQ
-		                                   , GIS_ASSETS_CD
-		                                   , GIS_ASSETS_SUB_CD
-		                                   , USAGE_AR
-		                                   , USAGE_PD_FROM
-		                                   , USAGE_PD_TO 
-		                                   , USAGE_PURPS
-		                                   , USAGE_DTLS
-		                                   , USAGE_PRPOS_CD
-		                                   , EXEMPT_SE
-		                                   , EXEMPT_RSN_CD
-		                                   , EXEMPT_RSN
-		                                   , EXEMPT_PD_FROM
-		                                   , EXEMPT_PD_TO
-		                                   , COMPUT_DTLS
-		                                   , OLNLP
-		                                   , APPLC_TARIFF
-		                                   , APPLC_MTH
-		                                   , PACK_SE
-		                                   , ENTRPS_SE
-		                                   , FEE_CALC_SE
-		                                   , RDCXPT_FEE_CALC_SE
-		                                   , RDCXPT_FEE
-		                                   , FEE
-		                                   , TRMNAT_DT
-		                                   , TRMNAT_RSN
-		                                   , GIS_CD
-		                                   , REG_USR
-		                                   , REGIST_DT
-		                                   , UPD_USR
-		                                   , UPDT_DT
-		                                   , PRT_AT_CODE
-		                                   , GIS_ASSETS_PRT_AT_CODE
 		                                   , MNG_YEAR
-		                                   , MNG_NO
-		                                   , MNG_CNT
-		                                   , QUAY_CD
+                                           , MNG_NO
+                                           , MNG_CNT  
+		                                   , PRT_AT_CODE  
+		                                   , USAGE_PD_FROM
+                                           , USAGE_PD_TO 
+                                           , OLNLP
+                                           , APPLC_TARIFF
+                                           , APPLC_MTH
+                                           , EXEMPT_SE
+                                           , EXEMPT_PD_FROM
+                                           , EXEMPT_PD_TO
+                                           , EXEMPT_RSN_CD
+                                           , EXEMPT_RSN
+                                           , RDCXPT_FEE
+                                           , FEE
+                                           , COMPUT_DTLS
+                                           , USAGE_PURPS
+                                           , USAGE_DTLS
+                                           , QUAY_CD
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , UPD_USR
+                                           , UPDT_DT
+                                           , GIS_ASSETS_CD          
+                                           , GIS_ASSETS_SUB_CD 
 		                                 ) 
 		                          VALUES (
 		                                     ( SELECT NVL(MAX(ASSETS_USAGE_SEQ),0) + 1
@@ -680,42 +710,32 @@
 											      AND MNG_NO      = #detailMngNo#
 											      AND MNG_CNT     = #detailMngCnt#
 											      AND PRT_AT_CODE = #detailPrtAtCode# )
-		                                   , #gisAssetsCd#
-		                                   , #gisAssetsSubCd#
-		                                   , #usageAr#
+										   , #detailMngYear#
+                                           , #detailMngNo#
+                                           , #detailMngCnt#
+                                           , #detailPrtAtCode#
 		                                   , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
-		                                   , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
-		                                   , #usagePurps#
-		                                   , #usageDtls#
-		                                   , #usagePrposCd#
-		                                   , #exemptSe#
-		                                   , #exemptRsnCd#
-		                                   , #exemptRsn#
-		                                   , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
-		                                   , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
-		                                   , #computDtls#
+                                           , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)  
 		                                   , #olnlp#
 		                                   , #applcTariff#
-		                                   , #applcMth#
-		                                   , #packSe#
-		                                   , #entrpsSe#
-		                                   , #feeCalcSe#
-		                                   , #rdcxptFeeCalcSe#
+                                           , #applcMth#
+                                           , #exemptSe#
+                                           , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)  
+                                           , #exemptRsnCd#
+                                           , #exemptRsn#
 		                                   , #rdcxptFee#
-		                                   , #fee#
-		                                   , TO_DATE(#trmnatDt:DATE:NO_ENTRY#)
-		                                   , #trmnatRsn#
-		                                   , #gisCd#
+                                           , #fee#
+                                           , #computDtls#
+                                           , #usagePurps#
+                                           , #usageDtls#
+                                           , #quayCd#
 		                                   , #regUsr#
-		                                   , SYSDATE
-		                                   , #updUsr#
-		                                   , SYSDATE
-		                                   , #detailPrtAtCode#
-		                                   , #gisAssetsPrtAtCode#
-		                                   , #detailMngYear#
-		                                   , #detailMngNo#
-		                                   , #detailMngCnt#
-		                                   , #quayCd#
+                                           , SYSDATE
+                                           , #updUsr#
+                                           , SYSDATE
+                                           , #gisAssetsCd#
+                                           , #gisAssetsSubCd#
 		                                 )
     </insert>
     
@@ -1150,5 +1170,24 @@
            AND MNG_NO      = #mngNo#
            AND MNG_CNT     = #mngCnt# 
     </delete>
+    
+    <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxKey_S" parameterClass="gamPrtFcltyRentMngtVO" resultMap="gamPrtFcltyRentMngtInfoMaxKeyMap">
+        SELECT 
+                TO_CHAR(SYSDATE,'YYYY') MNG_YEAR
+		       , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') 
+		             FROM ASSETS_RENT_F
+		            WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY')) MNG_NO
+		       , '01' MNG_CNT
+		FROM DUAL
+    </select>
+    
+    <update id="gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtComment_S">
+        UPDATE ASSETS_RENT_F SET
+		       CMT = #cmt#      
+		WHERE PRT_AT_CODE = #prtAtCode#
+		 AND MNG_YEAR    = #mngYear#
+		 AND MNG_NO      = #mngNo#
+		 AND MNG_CNT     = #mngCnt#
+    </update>
     
 </sqlMap>

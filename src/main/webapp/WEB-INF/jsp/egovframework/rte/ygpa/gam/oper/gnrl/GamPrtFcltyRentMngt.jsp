@@ -98,7 +98,9 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
+                    //{display:'시설면적', name:'gisAssetsRealRentAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
+                    //{display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
                     
                     /*
@@ -197,7 +199,9 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     });
     
     this.$("#prtFcltyRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamPrtFcltyRentMngtForm', row);
+    	module.$('#cmd').val('modify');
+    	
+    	module.makeFormValues('#gamPrtFcltyRentMngtForm', row);
         module._editData=module.getFormValues('#gamPrtFcltyRentMngtForm', row);
         module._editRow=module.$('#prtFcltyRentMngtList').selectedRowIds()[0];
         
@@ -222,6 +226,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
     this.$("#prtFcltyRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});    
+        module.$('#cmd').val('modify');
 
         if(row!=null) {
             module.$('#cmd').val('modify');  
@@ -258,6 +263,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamPrtFcltyRentMngtForm').find(':input').val('');
             //this.$("#prtFcltyRentMngtDetailList").flexRemove();
+            this.$("#prtFcltyRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
             break;
@@ -289,27 +295,40 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
         // 저장
         case 'btnSaveItem':
-        	alert("SAVE 1");
+
+        	if( this.$('#prtAtCode').val() == '' ) {
+            	alert("항구분을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#entrpscd').val() == '' ) {
+                alert("신청업체를 선택하십시오.");
+                return;
+            }
+            
+            /*
+            if( this.$('#payMth').val() == '' ) {
+                alert("납부방법을 선택하십시오.");
+                return;
+            }
+            */
+            if( this.$('#nticMth').val() == '' ) {
+                alert("고지방법을 선택하십시오.");
+                return;
+            }
+            
         	// 변경된 자료를 저장한다.
             var inputVO=[{name: 'test', value:'test hello'}];
         	//var inputVO=[{}];
         	
         	//this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
         	
-        	alert("SAVE 2");
-        	
             inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-            
-            alert("SAVE 3");
             
             inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
             
-            alert("SAVE 4");
-            
             inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
             //var otherForm=this.getFormValues('#gamPrtFcltyRentMngtForm', {});  // 폼만 있을 경우
-            
-            alert("SAVE 5");
             
             this._editData2=this.getFormValues('#gamPrtFcltyRentMngtForm', {_updtId:'I'});
             inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
@@ -319,9 +338,12 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             //console.log(inputVO);
             // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-            this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
-                if(result.resultCode == 0){
-                    module.$('#assetRentDetailList').flexReload();
+            this.doAction('<c:url value="/oper/gnrl/gamSavePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
+            	if(result.resultCode == 0){
+                	var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+                    module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                	//module.$('#prtFcltyRentMngtDetailList').flexReload();
+                	module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
                 }
                 alert(result.resultMsg);
             });
@@ -385,6 +407,22 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             }
             
             break;
+            
+          //코멘트저장
+        case 'btnSaveComment':     
+        	var inputVO=this.makeFormArgs('#gamPrtFcltyRentMngtForm');
+        	
+        	this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtComment.do" />', inputVO, function(module, result) {
+
+                if(result.resultCode=='0') {
+                    var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
+                    module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                }
+
+                alert(result.resultMsg);
+            });
+        	
+        	break;    
 
         //항만시설사용상세추가
         case 'btnInsertItemDetail':
@@ -531,6 +569,11 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             break;    
             
         case 'btnRentDetailApply': //항만시설사용상세적용
+        
+        	if( this.$('#gisAssetsPrtAtCode').val() == '' ) {
+                alert("자산구분을 선택하십시오.");
+                return;
+            }
             
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
@@ -572,7 +615,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                 this.$('#prtFcltyRentMngtDetailList').flexAddRow(this._editData);
             }
             */
-            
+            this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             
             
             break;
@@ -838,13 +881,13 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                     <input type="text" class="emdcal" size="10" id="grUsagePdTo"/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" id="grAr"/></td>
+                                <td><input type="text" size="10" id="grAr" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" id="grFee"/></td>
+                                <td><input type="text" size="10" id="grFee" style="text-align:right;" /></td>
                                 <th><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" id="grRdcxptFee"/></td>
+                                <td><input type="text" size="10" id="grRdcxptFee" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                             	<!-- 
@@ -969,7 +1012,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="17" id="olnlp"/></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="usageAr"/></td>
+                                <td colspan="3"><input type="text" size="17" id="usageAr" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -1012,9 +1055,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="20" id="fee"/>원</td>
+                                <td><input type="text" size="20" id="fee" style="text-align:right;" />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" id="rdcxptFee"/>원</td>
+                                <td colspan="3"><input type="text" size="20" id="rdcxptFee" style="text-align:right;" />원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>

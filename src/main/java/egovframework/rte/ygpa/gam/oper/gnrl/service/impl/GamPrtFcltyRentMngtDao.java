@@ -300,4 +300,22 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhotoSingle_S", vo);
 	}
 	
+	/**
+	 * 항만시설사용 신규저장시 키값 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtMaxKey(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxKey_S", searchVO);
+	}
+	
+	/**
+	 * 코멘트를 수정한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentMngtComment(GamPrtFcltyRentMngtVO vo){
+		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtComment_S", vo);
+	}
 }
