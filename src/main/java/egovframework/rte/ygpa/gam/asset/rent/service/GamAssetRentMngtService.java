@@ -189,5 +189,13 @@ public interface GamAssetRentMngtService {
 	 * @exception Exception
 	 */
 	void deleteAssetRentPhotoSingle(GamAssetRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 임대신규저장시 키값 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception;
     
 }

@@ -299,4 +299,14 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	public void deleteAssetRentPhotoSingle(GamAssetRentMngtVO vo){
 		delete("gamAssetRentMngtDao.deleteAssetRentPhotoSingle_S", vo);
 	}
+	
+	/**
+	 * 임대신규저장시 키값 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+	public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMaxKey_S", searchVO);
+	}
 }

@@ -456,4 +456,14 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 		gamAssetRentMngtDao.deleteAssetRentPhotoSingle(vo);
 	}
 	
+	/**
+	 * 임대신규저장시 키값 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentMaxKey(searchVO);
+    }
+	
 }
