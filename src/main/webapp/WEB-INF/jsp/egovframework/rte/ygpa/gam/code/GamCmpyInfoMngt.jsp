@@ -172,7 +172,6 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 			this.$("#cmpyInfoMngtManageVO :input").val("");
-			this.$("#cmpyMngtList").flexRemoveRow();
 			this.$("#cmd").val("insert");
 		break;
 
@@ -188,14 +187,24 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 저장
 		case "saveBtn":
-		 	var inputVO=[{}];
-	 		inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
-			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
-			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
-			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this._editInfoData) };	// 폼의 데이터를 컨트롤러에 보낸다.
 			
+			var inputVO=[{}];
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
+				
+				var row = this.$("#cmpyMngtList").selectedRows();
+
+				if(row.length > 0){
+					inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
+					inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
+					inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
+					
+				}else{
+					this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", {});	
+				}
+				
+				inputVO[inputVO.length]={name: "form", value: JSON.stringify(this._editInfoData) };	// 폼의 데이터를 컨트롤러에 보낸다.
+
+				this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
 						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -206,6 +215,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			 	});
 			}else{
 				alert("업데이트");
+				
 				/*
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeModify.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
@@ -425,6 +435,10 @@ var module_instance = new GamCmpyInfoMngtModule();
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" id="entrpscd"/>
 					<table class="searchPanel">
+						<tr>
+							<th width="20%" height="23" class="required_text">업체 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<td colspan="3"><input type="text" size="30" id="entrpscd" /></td>
+						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td><input type="text" size="30" id="entrpsNm" /></td>
