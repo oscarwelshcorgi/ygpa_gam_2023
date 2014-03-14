@@ -1169,4 +1169,13 @@
 		FROM DUAL
     </select>
     
+    <update id="gamAssetRentMngtDao.updateAssetRentComment_S">
+        UPDATE ASSETS_RENT_F SET
+		       CMT = #cmt#      
+		WHERE PRT_AT_CODE = #prtAtCode#
+		 AND MNG_YEAR    = #mngYear#
+		 AND MNG_NO      = #mngNo#
+		 AND MNG_CNT     = #mngCnt#
+    </update>
+    
 </sqlMap>

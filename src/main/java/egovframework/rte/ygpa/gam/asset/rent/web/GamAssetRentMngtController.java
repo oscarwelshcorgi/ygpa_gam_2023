@@ -1006,5 +1006,59 @@ public class GamAssetRentMngtController {
     	
     	return map;
     }
+	
+	/**
+     * 코멘트를 저장한다.
+     * @param String
+     * @param gamAssetRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/rent/gamUpdateAssetRentComment.do") 
+    public @ResponseBody Map updateAssetRentComment(
+    	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
+    	   BindingResult bindingResult)
+           throws Exception {
+	
+    	Map map = new HashMap();
+        String resultMsg  = "";
+        String updateFlag = "";
+        int resultCode = 1;
+        
+        /*
+        int resultLevReqestCnt = -1;
+        
+        if( EgovStringUtil.isEmpty(gamAssetRentMngtVO.getPrmisnYn()) || gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
+        	deleteFlag = "Y";
+        } else {
+        	resultLevReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO); //징수의뢰 정보 카운트
+        	
+        	if( gamAssetRentMngtVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
+            	deleteFlag = "Y";
+            }
+        }
+    	*/
+        if( gamAssetRentMngtVO.getMngYear() == null || "".equals(gamAssetRentMngtVO.getMngYear()) ) {
+        	updateFlag = "N";
+        } else {
+        	updateFlag = "Y";
+        }
+        
+    	if("Y".equals(updateFlag)) {
+	        gamAssetRentMngtService.updateAssetRentComment(gamAssetRentMngtVO);
+	    	
+	        resultCode = 0; // return ok
+	        resultMsg  = egovMessageSource.getMessage("success.common.insert");
+    	} else {
+    		resultCode = 1; // return fail
+    		resultMsg  = "신청 저장후 코멘트 저장이 가능합니다.";
+    	}
+		
+    	map.put("resultCode", resultCode);
+    	map.put("resultMsg", resultMsg);
+        
+		return map;
+    }
     
 }

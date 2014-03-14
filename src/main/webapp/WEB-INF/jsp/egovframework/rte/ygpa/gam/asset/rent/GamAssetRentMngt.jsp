@@ -417,7 +417,23 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             }
             
             break;
+        
+        //코멘트저장
+        case 'btnSaveComment':     
+        	var inputVO=this.makeFormArgs('#gamAssetRentForm');
+        	
+        	this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentComment.do" />', inputVO, function(module, result) {
 
+                if(result.resultCode=='0') {
+                    var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
+                    module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                }
+
+                alert(result.resultMsg);
+            });
+        	
+        	break;
+            
         //임대상세추가
         case 'btnInsertItemDetail':
             if( this.$('#prtAtCode').val() == '' ) {

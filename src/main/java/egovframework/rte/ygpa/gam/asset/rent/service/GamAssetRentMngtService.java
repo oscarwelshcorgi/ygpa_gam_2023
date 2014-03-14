@@ -198,4 +198,11 @@ public interface GamAssetRentMngtService {
 	 */
     public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception;
     
+    /**
+	 * 코멘트를 수정한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentComment(GamAssetRentMngtVO vo) throws Exception;
+    
 }

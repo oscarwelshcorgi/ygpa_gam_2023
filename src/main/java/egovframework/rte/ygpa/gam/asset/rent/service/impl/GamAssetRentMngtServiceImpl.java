@@ -465,5 +465,14 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentMaxKey(searchVO);
     }
+    
+    /**
+	 * 코멘트를 수정한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentComment(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.updateAssetRentComment(vo);
+	}
 	
 }

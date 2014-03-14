@@ -309,4 +309,13 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
 		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMaxKey_S", searchVO);
 	}
+	
+	/**
+	 * 코멘트를 수정한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentComment(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentComment_S", vo);
+	}
 }
