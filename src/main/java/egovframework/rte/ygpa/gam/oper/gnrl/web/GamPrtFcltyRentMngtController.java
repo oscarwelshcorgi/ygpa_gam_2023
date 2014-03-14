@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +106,7 @@ public class GamPrtFcltyRentMngtController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectPrtFcltyRentMngtList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyRentMngtList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectPrtFcltyRentMngtList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -146,7 +149,7 @@ public class GamPrtFcltyRentMngtController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectPrtFcltyRentMngtDetailList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyRentMngtDetailList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectPrtFcltyRentMngtDetailList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -174,6 +177,121 @@ public class GamPrtFcltyRentMngtController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	/**
+     * 항만시설사용 등록한다.
+     * @param String
+     * @param gamPrtFcltyRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+	@RequestMapping(value="/oper/gnrl/gamSavePrtFcltyRentMngt.do")
+	@ResponseBody Map<String, Object> savePrtFcltyRentMngt(@RequestParam Map<String, Object> mergeAssetCodeList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		ObjectMapper mapper = new ObjectMapper();
+ 
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	HashMap<String,String> form=null;
+    	
+    	try {
+    		insertList = mapper.readValue((String)mergeAssetCodeList.get("insertList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    		updateList = mapper.readValue((String)mergeAssetCodeList.get("updateList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    		deleteList = mapper.readValue((String)mergeAssetCodeList.get("deleteList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    		form = mapper.readValue((String)mergeAssetCodeList.get("form"),
+        		    new TypeReference<HashMap<String,String>>(){});
+
+    		log.debug("###################################################### insertList : "+insertList);
+    		log.debug("###################################################### updateList : "+updateList);
+    		log.debug("###################################################### deleteList : "+deleteList);
+    		log.debug("###################################################### form : "+form);
+
+    		//자산임대저장
+    		GamPrtFcltyRentMngtVO saveVO= new GamPrtFcltyRentMngtVO();
+    		/*
+    		   prtAtCode
+    		   deptcd
+    		   mngYear
+    		   mngNo
+    		   mngCnt
+    		   entrpscd
+    		   frstReqstDt
+    		   
+    		   prmisnYn//넣지마!!
+    		   prmisnDt 넣지마
+    		   
+    		   grUsagePdFrom 넣지마
+    		   grUsagePdTo  넣지마
+    		   grAr 넣지마
+    		   grFee 넣지마
+    		   grRdcxptFee  넣지마
+    		   
+    		   payMth
+    		   nticMth
+    		   rm
+    		   cmt
+    		   
+    		   
+    		   
+    		   
+    		   MAX키값 가져오기
+    		 */
+    		
+
+			saveVO.setPrtAtCode(form.get("prtAtCode"));
+			saveVO.setDeptcd(form.get("deptcd"));     
+			saveVO.setMngYear(form.get(" mngYear"));    
+			saveVO.setMngNo(form.get("mngNo"));      
+			saveVO.setMngCnt(form.get("mngCnt"));     
+			saveVO.setEntrpscd(form.get("entrpscd"));   
+			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
+			saveVO.setPayMth(form.get("payMth"));     
+			saveVO.setNticMth(form.get("nticMth"));    
+			saveVO.setRm(form.get("rm"));         
+			saveVO.setCmt(form.get("cmt")); 
+    		
+    		saveVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    		saveVO.setRegUsr(loginVO.getId()); 
+    		saveVO.setUpdUsr(loginVO.getId());
+    		
+    		//자산임대상세저장
+    		for( int i = 0 ; i < insertList.size() ; i++ ) {
+    			Map resultMap = insertList.get(i);
+    		}
+    		
+    		for( int i = 0 ; i < updateList.size() ; i++ ) {
+    			Map resultMap = updateList.get(i);
+    		}
+    		
+    		for( int i = 0 ; i < deleteList.size() ; i++ ) {
+    			Map resultMap = deleteList.get(i);
+    			
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ resultMap.get() => " + resultMap.get("gisAssetsPrtAtCode"));
+    		}
+    		
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	log.debug("insert list : "+insertList.size());
+    	log.debug("updateList list : "+updateList.size());
+    	log.debug("deleteList list : "+deleteList.size());
+
+		map.put("resultCode", 0);			// return ok
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		return map;
     }
 	
 	/**
@@ -780,5 +898,41 @@ public class GamPrtFcltyRentMngtController {
          
  		return map;
      }
-    
+
+    /**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyRentMngtFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectPrtFcltyRentMngtFileList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//파일목록
+    	totalCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtFileListTotCnt(searchVO);
+    	List assetFileList = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtFileList(searchVO);
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("assetFileList", assetFileList);
+    	
+    	return map;
+    }
 }
