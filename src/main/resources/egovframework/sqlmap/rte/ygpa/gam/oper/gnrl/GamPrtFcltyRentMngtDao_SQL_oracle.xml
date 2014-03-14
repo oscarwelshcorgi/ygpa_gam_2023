@@ -1068,24 +1068,87 @@
     </select>
     
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileList_D" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
-        SELECT 
-                A.PHOTO_SEQ
-              , A.PHOTO_SJ
-              , A.FILENM_PHYSICL
-              , A.FILENM_LOGIC
-              , A.SHOT_DT
-              , A.REG_USR
-              , A.REGIST_DT
-              , A.PRT_AT_CODE
-              , A.MNG_YEAR
-              , A.MNG_NO
-              , A.MNG_CNT
-              , A.PHOTO_DESC
-         FROM ASSETS_RENT_PHOTO_F A
-        WHERE PRT_AT_CODE = #prtAtCode#
-		  AND MNG_YEAR    = #mngYear#
-		  AND MNG_NO      = #mngNo#
-		  AND MNG_CNT     = #mngCnt#
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           
+                           SELECT 
+					                A.PHOTO_SEQ
+					              , A.PHOTO_SJ
+					              , A.FILENM_PHYSICL
+					              , A.FILENM_LOGIC
+					              , A.SHOT_DT
+					              , A.REG_USR
+					              , A.REGIST_DT
+					              , A.PRT_AT_CODE
+					              , A.MNG_YEAR
+					              , A.MNG_NO
+					              , A.MNG_CNT
+					              , A.PHOTO_DESC
+					         FROM ASSETS_RENT_PHOTO_F A
+					        WHERE PRT_AT_CODE = #prtAtCode#
+					          AND MNG_YEAR    = #mngYear#
+					          AND MNG_NO      = #mngNo#
+					          AND MNG_CNT     = #mngCnt#
+                ) S
+             ) A
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+        <![CDATA[ WHERE ROWNUM <= 1000 and RNUM > 0 ]]>
     </select>
+    
+    <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileListTotCnt_S" parameterClass="gamPrtFcltyRentMngtVO" resultClass="int">
+            SELECT COUNT(*) TOTCNT
+              FROM ASSETS_RENT_PHOTO_F A
+             WHERE PRT_AT_CODE = #prtAtCode#
+               AND MNG_YEAR    = #mngYear#
+               AND MNG_NO      = #mngNo#
+               AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    <insert id="gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFile_S">
+        INSERT INTO ASSETS_RENT_PHOTO_F (
+                                             PHOTO_SEQ
+                                           , PHOTO_SJ
+                                           , FILENM_PHYSICL
+                                           , FILENM_LOGIC
+                                           , SHOT_DT
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , PRT_AT_CODE
+                                           , MNG_YEAR
+                                           , MNG_NO
+                                           , MNG_CNT
+                                           , PHOTO_DESC
+                                        ) 
+                                 VALUES (
+                                             (SELECT NVL(MAX(PHOTO_SEQ),0) + 1
+												FROM ASSETS_RENT_PHOTO_F AF
+												WHERE  PRT_AT_CODE = #prtAtCode#
+												AND    MNG_YEAR    = #mngYear#
+												AND    MNG_NO      = #mngNo#
+												AND    MNG_CNT     = #mngCnt#)
+                                           , #photoSj#
+                                           , #filenmPhysicl#
+                                           , #filenmLogic#
+                                           , #shotDt#
+                                           , #regUsr#
+                                           , SYSDATE
+                                           , #prtAtCode#
+                                           , #mngYear#
+                                           , #mngNo#
+                                           , #mngCnt#
+                                           , #photoDesc#
+                                        ) 
+    </insert>
+    
+    <delete id="gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhotoSingle_S">
+        DELETE FROM ASSETS_RENT_PHOTO_F
+         WHERE PHOTO_SEQ   = #photoSeq#
+           AND PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt# 
+    </delete>
     
 </sqlMap>
