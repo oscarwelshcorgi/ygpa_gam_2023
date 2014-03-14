@@ -417,4 +417,42 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisnCancel(vo);
 	}
 	
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectPrtFcltyRentMngtFileList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+        return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileList(searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectPrtFcltyRentMngtFileListTotCnt(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileListTotCnt(searchVO);
+	}
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo) throws Exception {
+		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFile(vo);
+	}
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void deletePrtFcltyRentMngtPhotoSingle(GamPrtFcltyRentMngtVO vo) throws Exception {
+		gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhotoSingle(vo);
+	}
+	
 }

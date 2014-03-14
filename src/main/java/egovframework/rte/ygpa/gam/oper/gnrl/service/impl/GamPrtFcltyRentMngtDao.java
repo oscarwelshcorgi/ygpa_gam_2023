@@ -275,11 +275,29 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 파일 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 항만시설사용관리 목록 총 갯수
+	 * @return 항만시설사용관리목록 총 갯수
 	 * @exception
 	 */
     public int selectPrtFcltyRentMngtFileListTotCnt(GamPrtFcltyRentMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileListTotCnt_S", searchVO);
     }
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo){
+		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFile_S", vo);
+	}
+    
+	/**
+	 * 파일을 삭제한다.(1row)
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void deletePrtFcltyRentMngtPhotoSingle(GamPrtFcltyRentMngtVO vo){
+		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhotoSingle_S", vo);
+	}
 	
 }
