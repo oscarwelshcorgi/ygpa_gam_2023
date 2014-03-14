@@ -573,10 +573,51 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             
         case 'btnRentDetailApply': //임대상세적용
             
-        	if( this.$('#gisAssetsPrtAtCode').val() == '' ) {
-                alert("자산구분을 선택하십시오.");
+        	if( this.$('#gisAssetsCd').val() == '' ) {
+                alert("자산을 조회하여 선택하십시오.");
                 return;
             }
+        
+        	if( this.$('#usagePdFrom').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#usagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
+        	
+        	if( this.$('#olnlp').val() == '' ) {
+                alert("공시지가를 입력하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#usageAr').val() == '' ) {
+                alert("사용면적를 입력하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#applcTariff').val() == '' ) {
+                alert("적용요율을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#applcMth').val() == '' ) {
+                alert("적용방법을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#exemptSe').val() == '' ) {
+                alert("면제구분을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#fee').val() == '' ) {
+                alert("사용료를 입력하십시오.");
+                return;
+            } 
+        	
         
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
