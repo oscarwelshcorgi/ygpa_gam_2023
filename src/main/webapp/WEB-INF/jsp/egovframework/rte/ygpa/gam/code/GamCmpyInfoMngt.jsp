@@ -189,20 +189,12 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "saveBtn":
 			
 			var inputVO=[{}];
-			if(this.$("#cmd").val() == "insert") {
-				
-				var row = this.$("#cmpyMngtList").selectedRows();
+			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
+			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
+			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
+			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this.getFormValues("#cmpyInfoMngtManageVO", {})) };	
 
-				if(row.length > 0){
-					inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
-					inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
-					inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
-					
-				}else{
-					this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", {});	
-				}
-				
-				inputVO[inputVO.length]={name: "form", value: JSON.stringify(this._editInfoData) };	// 폼의 데이터를 컨트롤러에 보낸다.
+			if(this.$("#cmd").val() == "insert") {
 
 				this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
