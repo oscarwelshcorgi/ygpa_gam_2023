@@ -226,6 +226,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.$("#assetRentListTab").tabs("option", {active: 1});    
         module.$('#cmd').val('modify');
         
+        module.makeFormValues('#gamAssetRentForm', row);
+        module._editData=module.getFormValues('#gamAssetRentForm', row);
+        module._editRow=module.$('#assetRentMngtList').selectedRowIds()[0];
+        
         if(row!=null) {
             module.$('#cmd').val('modify');  
         }
@@ -234,6 +238,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     this.$("#assetRentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 2});
 
+        module.makeFormValues('#gamAssetRentDetailForm', row);
+        module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
+        module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
+        
         if(row!=null) {
             module.$('#detailCmd').val('modify');
         }
@@ -375,7 +383,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             */
             
             //var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-            
+            this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
             
             break;
 
