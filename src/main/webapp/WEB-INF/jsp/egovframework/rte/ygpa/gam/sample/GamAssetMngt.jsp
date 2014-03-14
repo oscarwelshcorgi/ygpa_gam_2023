@@ -261,6 +261,16 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnApplyGisAssetsCode':
 		if(this._editData1==null) return;	// 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
 		this._editData1=this.getFormValues('#editGisAssetCode', this._editData1);
+		this._editData1=this.getFormValues('#editGisAssetCode', this._editData);
+		if(this._editRow1!=null) {	// 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
+			if(this._editData1._updtId!='I') this._editData1._updtId='U';	// 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
+			this.$('#assetCodeList').flexUpdateRow(this._editRow1, this._editData1);
+			this._editRow1=null;	// 편집 저장 하였으므로 로우 편집을 종료 한다.
+		}
+		else {
+			this.$('#assetCodeList').flexAddRow(this._editData1);
+		}
+		/* 추가후 적용하면 계속 추가되어 아래 코드 위와 같이 변경 함
 		if(this._editData1._updtId==undefined || this._editData1._updtId!='I') {
 			this._editData1._updtId='U';
 			this.$('#assetCodeList').flexUpdateRow(this._editRow1, this._editData1);
@@ -268,6 +278,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		else {
 			this.$('#assetCodeList').flexAddRow(this._editData1);
 		}
+		*/
 		this.$('#editGisAssetCode').find(':input').val('');
 		this._editData1=null;		// 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
@@ -422,9 +433,9 @@ var module_instance = new GamAssetCodeModule();
 								<table id="assetCodeList" style="display:none"></table>
 				<div class="emdControlPanel">
 					<button id="loadMap">지도보기</button>
-					<button id="addAssetGisCdItem">자산추가</button>
-					<button id="removeAssetGisCdItem">삭제</button>
-					<button id="btnSaveGisAssetsCode">저장</button>
+					<button id="addAssetGisCdItem" class="buttonAdd">자산추가</button>
+					<button id="removeAssetGisCdItem" class="buttonDelete">삭제</button>
+					<button id="btnSaveGisAssetsCode" class="buttonSave">저장</button>
 				</div>
 				<form id="editGisAssetCode" name="gisAssetCode">
 				<table>
@@ -445,7 +456,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-								<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM001'>
+								<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM001' onchange='alert("재산구분이 변경 되었습니다.")'>
 						</td>
 					</tr>
 					<tr>
@@ -547,8 +558,8 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<button id="btnCancelGisAssetsCode">취소</button>
-					<button id="btnApplyGisAssetsCode">적용</button>
+					<button id="btnCancelGisAssetsCode" class="buttonCancel">취소</button>
+					<button id="btnApplyGisAssetsCode" class="buttonApply">적용</button>
 				</div>
 				</form>
 							</div>
