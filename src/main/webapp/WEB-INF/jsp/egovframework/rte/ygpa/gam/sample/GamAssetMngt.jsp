@@ -103,6 +103,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
 		colModel : [
 			{display:'항코드', name:'gisAssetsPrtAtCode', width:24, sortable:true, align:'center'},
+			{display:'항구분', name:'prtAtCodeNm', width:24, sortable:true, align:'center'},
 			{display:'코드', name:'gisAssetsCd', width:24, sortable:true, align:'center'},
 			{display:'SUB 코드', name:'gisAssetsSubCd', width:16, sortable:true, align:'center'},
 			{display:'자산명', name:'gisAssetsNm', width:240, sortable:true, align:'center'},
@@ -430,7 +431,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">청코드</span></th>
 						<td>
-							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019'>
+							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm'>
 						</td>
 					</tr>
 					<tr>
