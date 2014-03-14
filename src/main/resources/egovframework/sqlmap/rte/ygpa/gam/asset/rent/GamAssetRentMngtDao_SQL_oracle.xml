@@ -409,7 +409,7 @@
     
     <insert id="gamAssetRentMngtDao.insertAssetRentRenew_S">     
         INSERT INTO ASSETS_RENT_F (
-                                      PRT_AT_CODE
+                                    <!--   PRT_AT_CODE
                                     , MNG_YEAR
                                     , MNG_NO
                                     , MNG_CNT
@@ -436,8 +436,21 @@
                                     , GIS_CD
                                     , DEPTCD
                                     , PAY_MTH
+                                    -->
+                                   PRT_AT_CODE, MNG_YEAR, MNG_NO, 
+                                   MNG_CNT, ENTRPSCD, REQST_SE_CD, 
+                                   GR_AR, GR_FEE, NTIC_MTH, 
+                                   PRMISN_YN, DOC_NO, RM, 
+                                   CMT, ETC, REG_USR, 
+                                   REGIST_DT, UPD_USR, UPDT_DT, 
+                                   GR_RDCXPT_FEE, GIS_CD, DEPTCD, 
+                                   PAY_MTH, FRST_PRMISN_DT, GR_USAGE_PD_FROM, 
+                                   GR_USAGE_PD_TO, PRMISN_DT, SANCTN_STTUS, 
+                                   SANCTNER_EMPL_NO, QUAY_CD, FRST_REQST_DT, 
+                                   SANCTN_DT, QUAY_GROUP_CD, REQST_DT
                                )
-          SELECT   A.PRT_AT_CODE
+          SELECT   
+                 <!--   A.PRT_AT_CODE
                  , A.MNG_YEAR
                  , A.MNG_NO
                  , LPAD(A.MNG_CNT + 1,'2','0')
@@ -462,7 +475,19 @@
                  , A.GR_RDCXPT_FEE
                  , A.GIS_CD
                  , A.DEPTCD
-                 , A.PAY_MTH
+                 , A.PAY_MTH -->
+                 
+                 A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, 
+				   LPAD(A.MNG_CNT + 1,'2','0'), A.ENTRPSCD, A.REQST_SE_CD, 
+				   A.GR_AR, A.GR_FEE, A.NTIC_MTH, 
+				   A.PRMISN_YN, A.DOC_NO, A.RM, 
+				   A.CMT, A.ETC, A.REG_USR, 
+				   SYSDATE, A.UPD_USR, SYSDATE, 
+				   A.GR_RDCXPT_FEE, A.GIS_CD, A.DEPTCD, 
+				   A.PAY_MTH, A.FRST_PRMISN_DT, A.GR_USAGE_PD_FROM, 
+				   A.GR_USAGE_PD_TO, NULL, A.SANCTN_STTUS, 
+				   A.SANCTNER_EMPL_NO, A.QUAY_CD, A.FRST_REQST_DT, 
+				   A.SANCTN_DT, A.QUAY_GROUP_CD, A.REQST_DT
             FROM ASSETS_RENT_F A
            WHERE A.PRT_AT_CODE = #prtAtCode#
              AND A.MNG_YEAR    = #mngYear#
