@@ -210,12 +210,13 @@ public class GamAssetRentMngtController {
     		log.debug("###################################################### updateList : "+updateList);
     		log.debug("###################################################### deleteList : "+deleteList);
     		log.debug("###################################################### form : "+form);
+    		log.debug("###################################################### cmd : "+form.get("cmd"));
 
     		//자산임대저장
     		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
 			saveVO.setPrtAtCode(form.get("prtAtCode"));
 			saveVO.setDeptcd(loginVO.getOrgnztId());     
-			saveVO.setMngYear(form.get(" mngYear"));    
+			saveVO.setMngYear(form.get("mngYear"));    
 			saveVO.setMngNo(form.get("mngNo"));      
 			saveVO.setMngCnt(form.get("mngCnt"));     
 			saveVO.setEntrpscd(form.get("entrpscd"));   
@@ -226,7 +227,8 @@ public class GamAssetRentMngtController {
 			saveVO.setCmt(form.get("cmt")); 
     		saveVO.setUpdUsr(loginVO.getId());
     		
-    		if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
+    		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
+    		if( form.get("mngYear") == null && "".equals(form.get("mngYear")) ) {
     			GamAssetRentMngtVO keyVO = new GamAssetRentMngtVO();
     			keyVO = gamAssetRentMngtService.selectAssetRentMaxKey(saveVO);
     			
@@ -246,7 +248,7 @@ public class GamAssetRentMngtController {
     		} else {
     			saveVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
     	    	
-    	        //gamAssetRentMngtService.updateAssetRent(saveVO);
+    	        gamAssetRentMngtService.updateAssetRent(saveVO);
     			
     			//임대상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
@@ -258,6 +260,7 @@ public class GamAssetRentMngtController {
     		//자산임대상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
     			Map resultMap = insertList.get(i);
+    			
     			GamAssetRentDetailVO insertDetailVO = new GamAssetRentDetailVO();
     			
     			log.debug("############################### saveDetailVO => " + saveDetailVO);
@@ -271,8 +274,8 @@ public class GamAssetRentMngtController {
     			insertDetailVO.setDetailMngNo(saveDetailVO.getDetailMngNo());      
     			insertDetailVO.setDetailMngCnt(saveDetailVO.getDetailMngCnt());
     			
-    			
-    			
+    			insertDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
+    			insertDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
     			insertDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			insertDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			insertDetailVO.setOlnlp(resultMap.get("olnlp").toString());
@@ -286,6 +289,7 @@ public class GamAssetRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
     			
@@ -301,15 +305,51 @@ public class GamAssetRentMngtController {
     		}
     		
     		for( int i = 0 ; i < updateList.size() ; i++ ) {
-    			Map resultMap = updateList.get(i);
     			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ updateList.get(i) String => " + updateList.get(i));
+    			
+    			Map resultMap = updateList.get(i);
+    			
+    			GamAssetRentDetailVO updateDetailVO = new GamAssetRentDetailVO();
+    			updateDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
+    			updateDetailVO.setDetailPrtAtCode(resultMap.get("prtAtCode").toString());
+    			updateDetailVO.setDetailMngYear(resultMap.get("mngYear").toString());    
+    			updateDetailVO.setDetailMngNo(resultMap.get("mngNo").toString());      
+    			updateDetailVO.setDetailMngCnt(resultMap.get("mngCnt").toString());
+    			updateDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
+    			updateDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+    			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
+    			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
+    			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
+    			updateDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
+    			updateDetailVO.setApplcMth(resultMap.get("applcMth").toString());
+    			updateDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
+    			updateDetailVO.setExemptRsnCd(resultMap.get("exemptRsnCd").toString());
+    			updateDetailVO.setExemptRsn(resultMap.get("exemptRsn").toString());
+    			updateDetailVO.setRdcxptFee(resultMap.get("rdcxptFee").toString());
+    			updateDetailVO.setFee(resultMap.get("fee").toString());
+    			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
+    			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
+    			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			
+    			updateDetailVO.setRegUsr(loginVO.getId());
+    			updateDetailVO.setUpdUsr(loginVO.getId());
+    			
+    			gamAssetRentMngtService.updateAssetRentDetail(updateDetailVO);
     		}
     		
     		for( int i = 0 ; i < deleteList.size() ; i++ ) {
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ deleteList.get(i) String => " + deleteList.get(i));
+    			
     			Map resultMap = deleteList.get(i);
     			
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ deleteList.get(i) String => " + deleteList.get(i));
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ resultMap.get() => " + resultMap.get("gisAssetsPrtAtCode"));
+    			GamAssetRentDetailVO deleteDetailVO = new GamAssetRentDetailVO();
+    			deleteDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
+    			deleteDetailVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+    			deleteDetailVO.setMngYear(resultMap.get("mngYear").toString());    
+    			deleteDetailVO.setMngNo(resultMap.get("mngNo").toString());      
+    			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
+    			
+    			gamAssetRentMngtService.deleteAssetRentDetail2(deleteDetailVO);
     		}
     		
     	} catch (Exception e) {

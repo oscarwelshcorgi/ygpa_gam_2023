@@ -665,6 +665,8 @@
                                            , REGIST_DT
                                            , UPD_USR
                                            , UPDT_DT
+                                           , GIS_ASSETS_CD          
+                                           , GIS_ASSETS_SUB_CD     
 		                                 ) 
 		                          VALUES (
 		                                     ( SELECT NVL(MAX(ASSETS_USAGE_SEQ),0) + 1
@@ -697,6 +699,8 @@
                                            , SYSDATE
                                            , #updUsr#
                                            , SYSDATE
+                                           , #gisAssetsCd#
+                                           , #gisAssetsSubCd#
 		                                 )
     </insert>
     
