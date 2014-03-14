@@ -138,7 +138,7 @@
                                   , A.QUAY_CD
                                   , A.SANCTN_DT
                                   , A.QUAY_GROUP_CD
-                                  , A.REQST_DT
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
                              FROM ASSETS_RENT_F A
                             WHERE 1=1 
                             
@@ -341,17 +341,17 @@
                                    , MNG_NO
                                    , MNG_CNT
                                    , ENTRPSCD
-                                   , DT
-                                   , REQST_SE_CD
+                                   , REQST_DT
+                                   <!-- , REQST_SE_CD  -->
                                    , GR_AR
-                                   , GR_FEE
+                                   , GR_FEE 
                                    , NTIC_MTH
-                                   , FRST_PRMISN_DT
+                                   <!--, FRST_PRMISN_DT
                                    , PRMISN_DT
-                                   , PRMISN_YN
                                    , GR_USAGE_PD_FROM
-                                   , GR_USAGE_PD_TO
-                                   , DOC_NO
+                                   , GR_USAGE_PD_TO 
+                                   , DOC_NO -->
+                                   , PRMISN_YN
                                    , RM
                                    , CMT
                                    , ETC
@@ -359,10 +359,12 @@
                                    , REGIST_DT
                                    , UPD_USR
                                    , UPDT_DT
-                                   , GR_RDCXPT_FEE
-                                   , GIS_CD
+                                   <!-- , GR_RDCXPT_FEE
+                                   , GIS_CD  -->
                                    , DEPTCD
                                    , PAY_MTH
+                                   , QUAY_GROUP_CD
+                                   , FRST_REQST_DT
                                    )
                             VALUES (
                                      #prtAtCode#
@@ -372,17 +374,17 @@
 									    WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
                                    , '01'  
                                    , #entrpscd#
-                                   , TO_DATE(#dt:DATE:NO_ENTRY#)  
-                                   , #reqstSeCd#
-                                   , #grAr#
-                                   , #grFee#
+                                   , SYSDATE
+                                   <!-- , #reqstSeCd# -->
+                                   , 0
+                                   , 0  
                                    , #nticMth#
-                                   , TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#)
-                                   , TO_DATE(#prmisnDt:DATE:NO_ENTRY#)
-                                   , #prmisnYn#
+                                   <!--, #frstPrmisnDt#
+                                   , TO_DATE(#prmisnDt:DATE:NO_ENTRY#)  
                                    , TO_CHAR(SYSDATE,'YYYYMMDD')
-                                   , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD')
-                                   , #docNo#
+                                   , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD') 
+                                   , #docNo# -->
+                                   , 'N' 
                                    , #rm#
                                    , #cmt#
                                    , #etc#
@@ -390,10 +392,12 @@
                                    , SYSDATE
                                    , #updUsr#
                                    , SYSDATE
-                                   , #grRdcxptFee#
-                                   , #gisCd#
+                                   <!-- , #grRdcxptFee#
+                                   , #gisCd#  -->
                                    , #deptcd#
                                    , #payMth#
+                                   , 'P'
+                                   , SYSDATE
                                    )
     </insert>
     
@@ -463,24 +467,24 @@
     <update id="gamAssetRentMngtDao.updateAssetRent_S">
         UPDATE ASSETS_RENT_F SET
 		         ENTRPSCD         = #entrpscd#
-		       , DT               = TO_DATE(#dt:DATE:NO_ENTRY#)  
-		       , REQST_SE_CD      = #reqstSeCd#
-		       , GR_AR            = #grAr#
-		       , GR_FEE           = #grFee#
+		       <!-- , REQST_DT    = TO_DATE(#reqstDt:DATE:NO_ENTRY#)  -->  
+		       , REQST_SE_CD      = '3'
+		       <!-- , GR_AR            = #grAr#
+		       , GR_FEE           = #grFee#  -->
 		       , NTIC_MTH         = #nticMth#
-		       , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#) 
+		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#)  --> 
 		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
-		       , PRMISN_YN        = #prmisnYn# -->
+		       , PRMISN_YN        = #prmisnYn# 
 		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom:DATE:NO_ENTRY#)
-		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#)
-		       , DOC_NO           = #docNo#
+		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#) 
+		       , DOC_NO           = #docNo# -->
 		       , RM               = #rm#
 		       , CMT              = #cmt#
 		       , ETC              = #etc#
 		       , UPD_USR          = #updUsr#
 		       , UPDT_DT          = SYSDATE
-		       , GR_RDCXPT_FEE    = #grRdcxptFee#
-		       , GIS_CD           = #gisCd#
+		       <!--, GR_RDCXPT_FEE    = #grRdcxptFee#
+		       , GIS_CD           = #gisCd# --> 
 		       , DEPTCD           = #deptcd#
 		       , PAY_MTH          = #payMth#
 		WHERE  PRT_AT_CODE        = #prtAtCode#

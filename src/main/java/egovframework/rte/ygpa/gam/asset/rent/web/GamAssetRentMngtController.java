@@ -253,24 +253,34 @@ public class GamAssetRentMngtController {
 			saveVO.setNticMth(form.get("nticMth"));    
 			saveVO.setRm(form.get("rm"));         
 			saveVO.setCmt(form.get("cmt")); 
-    		
-    		saveVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-    		saveVO.setRegUsr(loginVO.getId()); 
     		saveVO.setUpdUsr(loginVO.getId());
+    		
+    		if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
+    			saveVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    			saveVO.setRegUsr(loginVO.getId()); 
+    			
+    			gamAssetRentMngtService.insertAssetRentFirst(saveVO);
+    		} else {
+    			saveVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    	    	
+    	        //gamAssetRentMngtService.updateAssetRent(saveVO);
+    		}
     		
     		//자산임대상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
     			Map resultMap = insertList.get(i);
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
     		}
     		
     		for( int i = 0 ; i < updateList.size() ; i++ ) {
     			Map resultMap = updateList.get(i);
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ updateList.get(i) String => " + updateList.get(i));
     		}
     		
     		for( int i = 0 ; i < deleteList.size() ; i++ ) {
     			Map resultMap = deleteList.get(i);
     			
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ deleteList.get(i) String => " + deleteList.get(i));
     			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ resultMap.get() => " + resultMap.get("gisAssetsPrtAtCode"));
     		}
     		

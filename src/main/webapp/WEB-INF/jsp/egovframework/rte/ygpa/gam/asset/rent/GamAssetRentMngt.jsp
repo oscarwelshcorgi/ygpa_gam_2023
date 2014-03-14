@@ -48,7 +48,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
                     {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
-                    {display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
+                    //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
                     {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'} 
                     
                     /*
@@ -258,7 +258,14 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamAssetRentForm').find(':input').val('');
             //this.$("#assetRentDetailList").flexRemove();
+            this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
+            
+            //alert(this.$('#loginOrgnztId').val());
+            
+            //this.$('#deptcd').val(this.$('#loginOrgnztId').val());
+            
+            this.$('#deptcd').val('ORGNZT_0000000000001');
 
             break;
 
@@ -290,7 +297,28 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         // 신청저장
         case 'btnSaveItem':
             alert("SAVE 1");
-        	// 변경된 자료를 저장한다.
+        	
+            if( this.$('#prtAtCode').val() == '' ) {
+            	alert("항구분을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#entrpscd').val() == '' ) {
+                alert("신청업체를 선택하십시오.");
+                return;
+            }
+            
+            if( this.$('#payMth').val() == '' ) {
+                alert("납부방법을 선택하십시오.");
+                return;
+            }
+            
+            if( this.$('#nticMth').val() == '' ) {
+                alert("고지방법을 선택하십시오.");
+                return;
+            }
+            
+            // 변경된 자료를 저장한다.
             var inputVO=[{name: 'test', value:'test hello'}];
         	//var inputVO=[{}];
         	
@@ -321,7 +349,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
             this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
                 if(result.resultCode == 0){
-                    module.$('#assetRentDetailList').flexReload();
+                	var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                    module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                	module.$('#assetRentDetailList').flexReload();
                 }
                 alert(result.resultMsg);
             });
