@@ -61,6 +61,18 @@ public class GamPrtFcltyMtRentFeeSttusInqireVO extends ComDefaultVO {
     private String gisAssetsSubCd;
     
     private String quayCd;
+    
+    /** 검색 항코드 */
+    private String sPrtAtCode;
+    
+    /** 검색 업체명 */
+    private String sEntrpscd;
+    
+    /** 검색 사용기간 시작 */
+    private String sGrUsagePdFrom;
+    
+    /** 검색 사용기간 종료 */
+    private String sGrUsagePdTo;
 
 	/**
 	 * @return the usageYear
@@ -354,6 +366,62 @@ public class GamPrtFcltyMtRentFeeSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setQuayCd(String quayCd) {
 		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sEntrpscd
+	 */
+	public String getsEntrpscd() {
+		return sEntrpscd;
+	}
+
+	/**
+	 * @param sEntrpscd the sEntrpscd to set
+	 */
+	public void setsEntrpscd(String sEntrpscd) {
+		this.sEntrpscd = sEntrpscd;
+	}
+
+	/**
+	 * @return the sGrUsagePdFrom
+	 */
+	public String getsGrUsagePdFrom() {
+		return sGrUsagePdFrom;
+	}
+
+	/**
+	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
+	 */
+	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
+		this.sGrUsagePdFrom = sGrUsagePdFrom;
+	}
+
+	/**
+	 * @return the sGrUsagePdTo
+	 */
+	public String getsGrUsagePdTo() {
+		return sGrUsagePdTo;
+	}
+
+	/**
+	 * @param sGrUsagePdTo the sGrUsagePdTo to set
+	 */
+	public void setsGrUsagePdTo(String sGrUsagePdTo) {
+		this.sGrUsagePdTo = sGrUsagePdTo;
 	}
     
 }
