@@ -41,6 +41,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"순번", 					name:"rnum", 				width:40, 	sortable:true, align:"center"},
 					{display:"항코드", 					name:"gisAssetsPrtAtCode",	width:60, 	sortable:true, align:"center"},
+					{display:"항코드명",                name:"gisAssetsPrtAtCodeNm",  width:60,   sortable:true, align:"center"},
 					{display:"자산코드", 				name:"gisAssetsCode", 		width:60, 	sortable:true, align:"center"},
 					{display:"자산명", 					name:"gisAssetsNm", 		width:120, 	sortable:true, align:"center"},
 					{display:"소재지", 					name:"gisAssetsLocplc", 	width:180, 	sortable:true, align:"center"},
