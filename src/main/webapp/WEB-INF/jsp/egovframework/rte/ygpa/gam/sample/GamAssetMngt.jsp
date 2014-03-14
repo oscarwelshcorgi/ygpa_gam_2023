@@ -169,6 +169,10 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		height: '120'
 	});
 
+	// 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
+	this.$('#gisAssetsPrprtySeCd').on('change', function() {
+		alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+	});
 };
 
 // 사용자 설정 함수 추가
@@ -456,7 +460,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-								<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM001' onchange='alert("재산구분이 변경 되었습니다.")'>
+								<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001'>
 						</td>
 					</tr>
 					<tr>
