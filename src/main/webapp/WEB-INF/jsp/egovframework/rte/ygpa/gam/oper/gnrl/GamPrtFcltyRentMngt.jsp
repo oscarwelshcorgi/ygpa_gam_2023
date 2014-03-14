@@ -99,8 +99,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     //{display:'시설면적', name:'gisAssetsRealRentAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
-                    //{display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
+                    //{display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
+                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
                     
                     /*
@@ -228,6 +228,10 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});    
         module.$('#cmd').val('modify');
 
+        module.makeFormValues('#gamPrtFcltyRentMngtForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyRentMngtForm', row);
+        module._editRow=module.$('#prtFcltyRentMngtList').selectedRowIds()[0];
+        
         if(row!=null) {
             module.$('#cmd').val('modify');  
         }
@@ -236,6 +240,10 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     this.$("#prtFcltyRentMngtDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});
 
+        module.makeFormValues('#gamPrtFcltyRentMngtDetailForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyRentMngtDetailForm', row);
+        module._editRow=module.$('#prtFcltyRentMngtDetailList').selectedRowIds()[0];
+        
         if(row!=null) {
             module.$('#detailCmd').val('modify');
         }
@@ -568,10 +576,50 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             
         case 'btnRentDetailApply': //항만시설사용상세적용
         
-        	if( this.$('#gisAssetsPrtAtCode').val() == '' ) {
-                alert("자산구분을 선택하십시오.");
+        	if( this.$('#gisAssetsCd').val() == '' ) {
+                alert("자산을 조회하여 선택하십시오.");
                 return;
             }
+        
+        	if( this.$('#usagePdFrom').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#usagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
+        	
+        	if( this.$('#olnlp').val() == '' ) {
+                alert("공시지가를 입력하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#usageAr').val() == '' ) {
+                alert("사용면적를 입력하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#applcTariff').val() == '' ) {
+                alert("적용요율을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#applcMth').val() == '' ) {
+                alert("적용방법을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#exemptSe').val() == '' ) {
+                alert("면제구분을 선택하십시오.");
+                return;
+            } 
+        	
+        	if( this.$('#fee').val() == '' ) {
+                alert("사용료를 입력하십시오.");
+                return;
+            } 
             
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
@@ -1008,7 +1056,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" id="olnlp"/></td>
+                                <td><input type="text" size="17" id="olnlp" style="text-align:right;" /></td>
                                 <th><span class="label">사용면적</span></th>
                                 <td colspan="3"><input type="text" size="17" id="usageAr" style="text-align:right;" /></td>
                             </tr>
