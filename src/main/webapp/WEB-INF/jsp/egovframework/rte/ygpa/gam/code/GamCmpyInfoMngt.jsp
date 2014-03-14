@@ -54,9 +54,16 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 13,
 		showTableToggleBtn: false,
-		height: "230",
+		height: 'auto'
 	});
 	
+	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.makeFormValues("#cmpyInfoMngtManageVO", row);
+		module._editInfoData = module.getFormValues("#cmpyInfoMngtManageVO", row);
+		module._editInfoRow = module.$("#cmpyInfoMngtList").selectedRowIds()[0];
+	});
+	
+	// 업체정보 목록 선택
 	this.$("#cmpyInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		
 		// 이벤트내에선 모듈에 대해 선택한다.
@@ -65,6 +72,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
 
 			// value 설정
+			/*
 			module.$("#cmd").val("modify");
 			module.$("#entrpscd").val(result.detail.entrpscd);										// 업체ID(hidden)
 			module.$("#entrpsNm").val(result.detail.entrpsNm);										// 업체명
@@ -78,7 +86,65 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 			module.$("#fax").val(result.detail.fax);												// 팩스
 			module.$("#zip").val(result.detail.zip);												// 우편번호
 			module.$("#adres").val(result.detail.adres);											// 주소
+			*/
+			var searchOpt = module.makeFormArgs("#cmpyInfoMngtManageVO");
+			module.$("#cmpyMngtList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 	 	});
+	});
+	
+	// 업체목록 조회
+	this.$("#cmpyMngtList").flexigrid({
+		module: this,
+		url: '<c:url value="/code/gamCmpyMngtList.do" />',
+		dataType: "json",
+		colModel : [
+					{display:"번호",		 		name:"rnum",				width:40, 	sortable:false,		align:"center"},
+					{display:"담당자명", 		name:"chargerNm",			width:100, 	sortable:false,		align:"center"},
+					{display:"부서", 			name:"chargerDept",			width:100, 	sortable:false,		align:"center"},
+					{display:"직위", 			name:"chargerOfcPos",		width:80, 	sortable:false,		align:"center"},
+					{display:"업무", 			name:"chrgJob",				width:100, 	sortable:false,		align:"center"},
+					{display:"휴대폰번호", 		name:"chargerMoblphonNo",	width:120, 	sortable:false,		align:"center"},
+					{display:"팩스 번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
+					{display:"이메일", 			name:"chargerEmail",		width:80, 	sortable:false,		align:"center"}
+					],
+		//usepager: true,
+		useRp: true,
+		rp: 13,
+		showTableToggleBtn: false,
+		height: 'auto'
+	});
+	
+	this.$("#cmpyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.makeFormValues("#cmpyChargerMngtManageVO", row);
+		module._editData = module.getFormValues("#cmpyChargerMngtManageVO", row);
+		module._editRow = module.$("#cmpyMngtList").selectedRowIds()[0];
+	});
+	
+	// 업체 담당자 목록 선택
+	this.$("#cmpyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 2});			// 탭을 전환 한다.
+		/*
+		module.doAction('<c:url value="/code/cmpyMngtDetail.do" />', {entrpscd: row["entrpscd"], chargerNo: row["chargerNo"]}, function(module, result) {
+
+			// value 설정
+		module.$("#cmd").val("modify");
+			module.$("#entrpscd").val(result.detail.entrpscd);										// 업체코드
+			module.$("#chargerNm").val(result.detail.chargerNm);									// 담당자명
+			module.$("#chargerOfcPos").val(result.detail.chargerOfcPos);							// 담당자 직위
+			module.$("#chargerDept").val(result.detail.chargerDept);								// 담당자 부서
+			module.$("#chrgJob").val(result.detail.chrgJob);										// 담당 업무
+			module.$("#cprregistno").val(result.detail.cprregistno);								// 법인등록번호
+			module.$("#mngDeptCd").val(result.detail.mngDeptCd).attr("selected","selected");		// 관리 부서
+			module.$("#chargerMoblphonNo").val(result.detail.chargerMoblphonNo);					// 담당자 휴대폰 번호
+			module.$("#chargerTlphonNo").val(result.detail.chargerTlphonNo);						// 담당자 전화번호
+			module.$("#chargerFax").val(result.detail.chargerFax);									// 담당자 팩스
+			module.$("#chargerEmail").val(result.detail.chargerEmail);								// 담당자 이메일
+			
+	 	});
+		*/
 	});
 };
 		
@@ -106,30 +172,41 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 			this.$("#cmpyInfoMngtManageVO :input").val("");
+			this.$("#cmpyMngtList").flexRemoveRow();
 			this.$("#cmd").val("insert");
 		break;
 
 		// 업체정보 담당자 정보 추가
 		case "chargerAddBtn":
+			
 			this.$("#cmpyInfoMngtListTab").tabs("option", {active: 2});
 			this.$("#cmpyChargerMngtManageVO :input").val("");
-			this.$("#chargerCmd").val("insert");
+			
+			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", {_updtId:"I"});
+			this._editRow = this.$("#cmpyMngtList").flexGetData().length;
 		break;
 			
 		// 저장
 		case "saveBtn":
-		 	var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
+		 	var inputVO=[{}];
+	 		inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
+			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
+			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
+			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this._editInfoData) };	// 폼의 데이터를 컨트롤러에 보낸다.
+			
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
 						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0}); 
+						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
+				alert("업데이트");
+				/*
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeModify.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
@@ -139,41 +216,33 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		}
 			 		alert(result.resultMsg);
 			 	});
+				*/
 			}
 		break;
 		
-		
 		// 업체담당자 정보 화면상 임시 저장
 		case "chargerSaveBtn":
-/*
-			
+
 			if(this._editData == null) return;
+			this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", this._editInfoData);
 			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", this._editData);
-			if(this._editData._updtId == undefined || this._editData._updtId != "I") {
+
+			if(this._editData._updtId == undefined || this._editData._updtId != "I"){
 				this._editData._updtId = "U";
-				this.$('#assetCodeList').flexUpdateRow(this._editRow, this._editData);
-			}else {
-				this.$('#assetCodeList').flexAddRow(this._editData);
+				this.$("#cmpyMngtList").flexUpdateRow(this._editRow, this._editData);
+			}else{
+				this.$("#cmpyMngtList").flexAddRow(this._editData);
 			}
-			this.$('#editGisAssetCode').find(':input').val('');
-			this._editData=null;		// 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-//			this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
-			break;*/
 			
-		 	var inputVO = this.makeFormArgs("#cmpyChargerMngtManageVO");
+			this.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
+			this.$("#cmpyChargerMngtManageVO :input").val("");
+			this._editData = null;
+			
+		 /*	var inputVO = this.makeFormArgs("#cmpyChargerMngtManageVO");
 			if(this.$("#chargerCmd").val() == "insert") {
 				this.$("#chargerEntrpscd").val(this.$("#entrpscd").val());
 				
 			 	this.doAction('<c:url value="/code/gamCmpyChargerMngtRegist.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			alert("0");
-			 			/*
-			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
-						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0}); 
-						module.$("#cmmnCodeDetailManageVO :input").val("");
-						*/
-			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
@@ -186,12 +255,39 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		}
 			 		alert(result.resultMsg);
 			 	});
-			}
+			}*/
 		break;
 		
 		// 삭제
+		case "chargerDeleteBtn":
+			if(confirm("업체 담당자 정보를 삭제하시겠습니까?")){
+				
+				if(this.$("#cmpyMngtList").selectedRowIds().length > 0) {
+					for(var i=this.$("#cmpyMngtList").selectedRowIds().length-1; i>=0; i--) {
+				
+						var row = this.$("#cmpyMngtList").flexGetRow(this.$("#cmpyMngtList").selectedRowIds()[i]);
+						if(row._updtId == undefined || row._updtId != "I") this._deleteDataList[this._deleteDataList.length] = row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+						this.$("#cmpyMngtList").flexRemoveRow(this.$("#cmpyMngtList").selectedRowIds()[i]);
+					}
+				}
+				break;
+				
+				var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
+			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRemove.do" />', {codeId : this.$("#codeId").val(), code : this.$("#code").val()}, function(module, result) {
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
+						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeDetailManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+		break;
+
+		// 삭제
 		case "deleteBtn":
-			if(confirm("삭제하시겠습니까?")){
+			if(confirm("해당 업체정보를 삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRemove.do" />', {codeId : this.$("#codeId").val(), code : this.$("#code").val()}, function(module, result) {
 			 		if(result.resultCode == "0"){
@@ -211,15 +307,21 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 GamCmpyInfoMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 		case "tabs1":
+			this.$('#searchViewStack')[0].changePanelId(0);
 		break;
 	
 		case "tabs2":
-			var row = this.$("#cmpyInfoMngtList").selectedRows();
-			if(row.length == 0){
-				this.$("#cmd").val("insert");
-			}else{
-				this.$("#cmd").val("modify");
-			}
+			this.$("#searchViewStack")[0].changePanelId(1);
+			this._deleteDataList = [];
+			
+			var row = this.$("#cmpyMngtList").selectedRows();
+			if(row.length == 0) this.$("#cmd").val("insert");
+			else this.$("#cmd").val("modify");
+
+		break;
+
+		case "tabs3":
+			this.$('#searchViewStack')[0].changePanelId(2);
 		break;
 	}
 };
@@ -270,7 +372,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 <div class="window_main">
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
-		<div class="viewStack">
+		<div id="searchViewStack" class="viewStack">
 			<form id="cmpyInfoMngtForm">
 				<table class="searchPanel">
 					<tbody>
@@ -358,13 +460,13 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<td><input type="text" size="30" id="adres" /></td>
 						</tr>
 					</table>
-					<table id="cmpyInfoMngtList" style="display:none"></table>
+					<table id="cmpyMngtList" style="display:none"></table>
 				</form>
 				<div class="emdControlPanel">
 					<button id="chargerAddBtn">추가</button>
-					<button id="deleteBtn">편집</button>
-					<button id="deleteBtn">삭제</button>
-					<button id="deleteBtn">업체정보 저장</button>
+					<button id="edieBtn">편집</button>
+					<button id="chargerDeleteBtn">삭제</button>
+					<button id="saveBtn">업체정보 저장</button>
 				</div>
 			</div>
 			
@@ -372,7 +474,6 @@ var module_instance = new GamCmpyInfoMngtModule();
 			<!-- 업체담당자 정보 -->
 			<div id="tabs3" class="emdTabPage" style="height:300px; overflow: scroll;">
 				<form id="cmpyChargerMngtManageVO">
-					<input type="hidden" id="chargerCmd"/>
 					<input type="hidden" id="chargerEntrpscd"/>
 					<table class="searchPanel">
 						<tr>
@@ -387,19 +488,12 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">담당 업무<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<select id="chrgJob">
-									<option value="1">세금계산서</option>
-									<option value="2">고지납부</option>
-									<option value="3">계약</option>
-									<option value="4">영업</option>
-								</select>
-							</td>
+							<td><input id="chrgJob" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM045" /></td>
 							<th width="20%" height="23" class="required_text">관리부서<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td>
 								<select class="select" id="mngDeptCd">
 									<c:forEach var="result" items="${ogrnztId_result}" varStatus="status">
-										<option value='<c:out value="${result.codeId}"/>'><c:out value="${result.codeNm}"/></option>
+										<option value='<c:out value="${result.code}"/>'><c:out value="${result.codeNm}"/></option>
 									</c:forEach>			  		   
 								</select>
 							</td>
