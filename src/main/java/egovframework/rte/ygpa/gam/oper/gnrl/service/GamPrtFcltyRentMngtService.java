@@ -208,4 +208,28 @@ public interface GamPrtFcltyRentMngtService {
 	 * @exception Exception
 	 */
 	public void updatePrtFcltyRentMngtComment(GamPrtFcltyRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 항만시설사용 목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtRenewInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentMngtRenewInfo(GamPrtFcltyRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 항만시설사용 목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCurrRenewInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+    
 }
