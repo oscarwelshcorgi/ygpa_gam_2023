@@ -282,6 +282,10 @@ public class GamAssetRentMngtController {
     			
     			insertDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
     			insertDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+    			insertDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+    			insertDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+    			insertDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
+    			insertDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
     			insertDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			insertDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			insertDetailVO.setOlnlp(resultMap.get("olnlp").toString());
@@ -321,6 +325,10 @@ public class GamAssetRentMngtController {
     			updateDetailVO.setDetailMngCnt(resultMap.get("mngCnt").toString());
     			updateDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
     			updateDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+    			updateDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+    			updateDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+    			updateDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
+    			updateDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
     			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
@@ -559,11 +567,14 @@ public class GamAssetRentMngtController {
         if( EgovStringUtil.isEmpty(gamAssetRentMngtVO.getPrmisnYn()) || gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
         	deleteFlag = "Y";
         } else {
+        	/*
         	resultLevReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO); //징수의뢰 정보 카운트
         	
         	if( gamAssetRentMngtVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
             	deleteFlag = "Y";
             }
+            */
+        	deleteFlag = "N";
         }
     	
     	if("Y".equals(deleteFlag)) {

@@ -44,6 +44,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
                     {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'}, 
+                    {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
                     {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
                     {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
@@ -283,7 +284,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         // 연장신청
         case 'addAssetRentRenew':
             var rows = this.$('#assetRentMngtList').selectedRows();
-
+            
+            if( rows[0]['quayGroupCd'] != 'P' ) {
+            	alert("해당 건은 자산임대관리 메뉴에서 연장신청이 불가능합니다.");
+            	return;
+            }
+            
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
                 
@@ -306,8 +312,13 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             break;
 
         // 신청저장
-        case 'btnSaveItem':
-            if( this.$('#prtAtCode').val() == '' ) {
+        case 'btnSaveItem': 
+        	if( this.$('#quayGroupCd').val() != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
+                return;
+            }
+        	
+        	if( this.$('#prtAtCode').val() == '' ) {
             	alert("항구분을 선택하십시오.");
             	return;
             }
@@ -327,94 +338,75 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 return;
             }
             
-            // 변경된 자료를 저장한다.
-            var inputVO=[{name: 'test', value:'test hello'}];
-        	//var inputVO=[{}];
-        	
-        	//this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
-        	
-            inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-            
-            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-            
-            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-            //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
-            
-            this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
-            inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
-            
-            //console.log(inputVO);
-            // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-
-            this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
-                if(result.resultCode == 0){
-                	var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                    module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                	//module.$('#assetRentDetailList').flexReload();
-                    module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
-                }
-                alert(result.resultMsg);
-            });
-        	
-        	/*
-        	var inputVO=this.makeFormArgs('#gamAssetRentForm');
-            if(this.$("#cmd").val()=='insert') {
-
-                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentFirst.do" />', inputVO, function(module, result) {
-
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-            }
-            else {
-                this.doAction('<c:url value="/asset/rent/gamUpdateAssetRent.do" />', inputVO, function(module, result) {
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-            }
-            */
-            
-            //var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-            this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-            
+	        if( confirm("저장하시겠습니까?") ) {
+	            // 변경된 자료를 저장한다.
+	            var inputVO=[{name: 'test', value:'test hello'}];
+	        	//var inputVO=[{}];
+	        	
+	        	//this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
+	        	
+	            inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	            
+	            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	            
+	            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+	            //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
+	            
+	            this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
+	            inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
+	            
+	            //console.log(inputVO);
+	            // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+	
+	            this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
+	                if(result.resultCode == 0){
+	                	var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+	                    module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	                	//module.$('#assetRentDetailList').flexReload();
+	                    module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
+	                }
+	                alert(result.resultMsg);
+	            });
+	        	
+	            
+	            this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+	        }
+	            
             break;
 
         //신청삭제
         case 'btnRemoveItem':
         	var rows = this.$('#assetRentMngtList').selectedRows();
             
+        	if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 신청삭제가 불가능합니다.");
+                return;
+            }
+        	
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
             } else {
-	        	if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
-	        		this.$('#detailPrmisnYn').val('N');
-	        		
-	        		alert( this.$('#detailPrmisnYn').val() );
-	        	}
-	        	
-	        	var inputVO=this.makeFormArgs('#gamAssetRentForm');
-	            
-                this.doAction('<c:url value="/asset/rent/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
-
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
-                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-
-                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-                this.$('#gamAssetRentForm :input').val("");
-                this.$("#cmd").val('insert');
+            	if( confirm("신청삭제를 하시겠습니까?") ) {   
+		        	if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
+		        		this.$('#detailPrmisnYn').val('N');
+		        	}
+		        	
+		        	var inputVO=this.makeFormArgs('#gamAssetRentForm');
+		            
+	                this.doAction('<c:url value="/asset/rent/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
+	
+	                    if(result.resultCode=='0') {
+	                        var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
+	                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	                    }
+	
+	                    alert(result.resultMsg);
+	                });
+	
+	                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+	                this.$('#gamAssetRentForm :input').val("");
+	                this.$("#cmd").val('insert');
+            	}
             }
             
             break;
@@ -424,7 +416,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         	var inputVO=this.makeFormArgs('#gamAssetRentForm');
         	
         	this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentComment.do" />', inputVO, function(module, result) {
-
                 if(result.resultCode=='0') {
                     var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
                     module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
@@ -578,7 +569,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
             break;    
-            
+        
         case 'btnRentDetailApply': //임대상세적용
             
         	if( this.$('#gisAssetsCd').val() == '' ) {
@@ -671,6 +662,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             
             
             break;
+            
+        case 'btnSanctnReq':    //결재요청.  
+        
+            alert("결재요청을 합니다.");
+        
+            break;  
     }
 };
 
@@ -758,7 +755,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
              this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-             this.$('#gisAssetsQuayCd').val(value.gisAssetsQuayCd);
+             this.$('#quayCd').val(value.gisAssetsQuayCd);
          } else {
              alert('취소 되었습니다');
          }
@@ -864,7 +861,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <button id="addAssetRentFirst">최초신청</button>
                                 <button id="addAssetRentRenew">연장신청</button>
                                 <button id="btnRemoveItem">신청삭제</button>
-                                <button id="btnXXX2">결재요청</button>
+                                <button id="btnSanctnReq">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
                                 <button id="btnXXX3">맵조회</button>
@@ -878,6 +875,7 @@ var module_instance = new GamAssetRentMngtModule();
                 <div class="emdControlPanel"></div>
                     <form id="gamAssetRentForm">
                         <input type="hidden" id="cmd"/>
+                        <input type="hidden" id="quayGroupCd"/>
 
                         <table>
                             <tr>
@@ -991,7 +989,7 @@ var module_instance = new GamAssetRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="xxxx">결재요청</button><button id="btnPrmisn">사용승낙</button>
+                        <td style="text-align:right"><button id="btnSanctnReq">결재요청</button><button id="btnPrmisn">사용승낙</button>
                             <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem">신청삭제</button><button id="btnSaveItem">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>
@@ -1016,7 +1014,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
                                 
                                 <input type="text" id="prtAtCodeNm" />
-                                <input type="text" id="gisAssetsQuayCd" />
+                                <input type="text" id="quayCd" />
                                 </td>
                             </tr>
                             <tr>
