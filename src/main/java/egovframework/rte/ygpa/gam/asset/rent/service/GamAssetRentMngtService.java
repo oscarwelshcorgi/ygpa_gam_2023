@@ -204,5 +204,28 @@ public interface GamAssetRentMngtService {
 	 * @exception Exception
 	 */
 	public void updateAssetRentComment(GamAssetRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentRenewInfo(GamAssetRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentRenewInfo(GamAssetRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentCurrRenewInfo(GamAssetRentMngtVO searchVO) throws Exception;
     
 }

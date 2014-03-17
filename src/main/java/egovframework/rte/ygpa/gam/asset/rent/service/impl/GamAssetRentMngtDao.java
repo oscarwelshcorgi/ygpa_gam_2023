@@ -318,4 +318,33 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	public void updateAssetRentComment(GamAssetRentMngtVO vo){
 		update("gamAssetRentMngtDao.updateAssetRentComment_S", vo);
 	}
+	
+	/**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+	public GamAssetRentMngtVO selectAssetRentRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentRenewInfo_S", searchVO);
+	}
+	
+	/**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentRenewInfo(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentRenewInfo_S", vo);
+	}
+	
+	/**
+	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+	public GamAssetRentMngtVO selectAssetRentCurrRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentCurrRenewInfo_S", searchVO);
+	}
 }

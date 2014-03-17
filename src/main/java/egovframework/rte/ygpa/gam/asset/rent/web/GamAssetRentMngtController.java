@@ -179,8 +179,14 @@ public class GamAssetRentMngtController {
     	return map;
     }
 	
+	/**
+     * 자산임대 최초신청을 등록한다.
+     * @param dataList
+     * @return map
+     * @throws Exception
+     */
 	@RequestMapping(value="/asset/rent/gamSaveAssetRent.do")
-	@ResponseBody Map<String, Object> saveAssetRent(@RequestParam Map<String, Object> mergeAssetCodeList) throws Exception {
+	@ResponseBody Map<String, Object> saveAssetRent(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		GamAssetRentDetailVO saveDetailVO = new GamAssetRentDetailVO(); 
@@ -194,16 +200,16 @@ public class GamAssetRentMngtController {
     	HashMap<String,String> form=null;
     	
     	try {
-    		insertList = mapper.readValue((String)mergeAssetCodeList.get("insertList"),
+    		insertList = mapper.readValue((String)dataList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		updateList = mapper.readValue((String)mergeAssetCodeList.get("updateList"),
+    		updateList = mapper.readValue((String)dataList.get("updateList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		deleteList = mapper.readValue((String)mergeAssetCodeList.get("deleteList"),
+    		deleteList = mapper.readValue((String)dataList.get("deleteList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		form = mapper.readValue((String)mergeAssetCodeList.get("form"),
+    		form = mapper.readValue((String)dataList.get("form"),
         		    new TypeReference<HashMap<String,String>>(){});
 
     		log.debug("###################################################### insertList : "+insertList);
@@ -211,6 +217,10 @@ public class GamAssetRentMngtController {
     		log.debug("###################################################### deleteList : "+deleteList);
     		log.debug("###################################################### form : "+form);
     		log.debug("###################################################### cmd : "+form.get("cmd"));
+    		
+    		log.debug("###################################################### insertList.size() => "+insertList.size());
+    		log.debug("###################################################### updateList.size() => "+updateList.size());
+    		log.debug("###################################################### deleteList.size() => "+deleteList.size());
 
     		//자산임대저장
     		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
@@ -235,7 +245,7 @@ public class GamAssetRentMngtController {
     			saveVO.setMngYear(keyVO.getMngYear());    
     			saveVO.setMngNo(keyVO.getMngNo());    
     			saveVO.setMngCnt(keyVO.getMngCnt()); 
-    			saveVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    			saveVO.setReqstSeCd("1");  //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
     			saveVO.setRegUsr(loginVO.getId()); 
     			
     			gamAssetRentMngtService.insertAssetRentFirst(saveVO);
@@ -246,7 +256,7 @@ public class GamAssetRentMngtController {
         		saveDetailVO.setDetailMngNo(keyVO.getMngNo());      
         		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt());     
     		} else {
-    			saveVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    			saveVO.setReqstSeCd("3"); //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
     	    	
     	        gamAssetRentMngtService.updateAssetRent(saveVO);
     			
@@ -259,15 +269,11 @@ public class GamAssetRentMngtController {
     		
     		//자산임대상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
+    			
     			Map resultMap = insertList.get(i);
     			
     			GamAssetRentDetailVO insertDetailVO = new GamAssetRentDetailVO();
-    			
-    			log.debug("############################### saveDetailVO => " + saveDetailVO);
-    			log.debug("############################### saveDetailVO.getDetailPrtAtCode() => " + saveDetailVO.getDetailPrtAtCode());
-    			log.debug("############################### saveDetailVO.getDetailMngYear() => " + saveDetailVO.getDetailMngYear());
-    			log.debug("############################### saveDetailVO.getDetailMngNo() => " + saveDetailVO.getDetailMngNo());
-    			log.debug("############################### saveDetailVO.getDetailMngCnt() => " + saveDetailVO.getDetailMngCnt());
     			
     			insertDetailVO.setDetailPrtAtCode(saveDetailVO.getDetailPrtAtCode());
     			insertDetailVO.setDetailMngYear(saveDetailVO.getDetailMngYear());    
@@ -292,8 +298,6 @@ public class GamAssetRentMngtController {
     			
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
-    			
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
     			
     			/*saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(keyVO.getMngYear());    
@@ -350,6 +354,26 @@ public class GamAssetRentMngtController {
     			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
     			
     			gamAssetRentMngtService.deleteAssetRentDetail2(deleteDetailVO);
+    		}
+    		
+    		//총사용료, 총면적, 총사용기간 조회
+    		GamAssetRentMngtVO paramVO = new GamAssetRentMngtVO(); 
+    		paramVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
+    		paramVO.setMngYear(saveDetailVO.getDetailMngYear());
+    		paramVO.setMngNo(saveDetailVO.getDetailMngNo());
+    		paramVO.setMngCnt(saveDetailVO.getDetailMngCnt());
+    		
+    		GamAssetRentMngtVO updRentVO = new GamAssetRentMngtVO();
+    		updRentVO = gamAssetRentMngtService.selectAssetRentCurrRenewInfo(paramVO);
+    		
+    		if( updRentVO != null ) {
+    			updRentVO.setPrtAtCode(paramVO.getPrtAtCode());
+    			updRentVO.setMngYear(paramVO.getMngYear());
+    			updRentVO.setMngNo(paramVO.getMngNo());
+    			updRentVO.setMaxMngCnt(paramVO.getMngCnt());
+    			
+    			//총사용료, 총면적, 총사용기간 업데이트
+    			gamAssetRentMngtService.updateAssetRentRenewInfo(updRentVO);
     		}
     		
     	} catch (Exception e) {
