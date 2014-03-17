@@ -285,10 +285,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         case 'addAssetRentRenew':
             var rows = this.$('#assetRentMngtList').selectedRows();
             
+            /*
             if( rows[0]['quayGroupCd'] != 'P' ) {
             	alert("해당 건은 자산임대관리 메뉴에서 연장신청이 불가능합니다.");
             	return;
             }
+            */
             
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
@@ -313,10 +315,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
         // 신청저장
         case 'btnSaveItem': 
+        	/*
         	if( this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
                 return;
             }
+        	*/
         	
         	if( this.$('#prtAtCode').val() == '' ) {
             	alert("항구분을 선택하십시오.");
@@ -378,10 +382,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         case 'btnRemoveItem':
         	var rows = this.$('#assetRentMngtList').selectedRows();
             
+        	/*
         	if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 신청삭제가 불가능합니다.");
                 return;
             }
+        	*/
         	
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
