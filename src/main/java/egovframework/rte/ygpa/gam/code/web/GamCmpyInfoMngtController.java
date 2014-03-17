@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -85,6 +82,27 @@ public class GamCmpyInfoMngtController {
     @RequestMapping(value="/code/gamCmpyInfoMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
+    	
+    	// 관리부서
+    	ComDefaultCodeVO vo = new ComDefaultCodeVO();
+    	vo.setTableNm("COMTNORGNZTINFO");
+    	List<?> groupId_result = cmmUseService.selectOgrnztIdDetail(vo);
+    	model.addAttribute("ogrnztId_result",         groupId_result);
+    	
+    	return "/ygpa/gam/code/GamCmpyInfoMngt";
+    }
+    
+    
+    /**
+     * 화면 호출
+     * @param windowId
+     * @param model
+     * @return String
+     * @throws Exception
+     */
+    @RequestMapping(value="/code/gamCmpyInfoList.do")
+    String indexGamCmpyInfoList(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    	model.addAttribute("windowId", windowId);
 
     	// 관리부서
     	ComDefaultCodeVO vo = new ComDefaultCodeVO();
@@ -92,7 +110,7 @@ public class GamCmpyInfoMngtController {
         List<?> groupId_result = cmmUseService.selectOgrnztIdDetail(vo);
         model.addAttribute("ogrnztId_result",         groupId_result);
 
-        return "/ygpa/gam/code/GamCmpyInfoMngt";
+        return "/ygpa/gam/code/GamCmpyInfoList";
     }
     
     
@@ -220,7 +238,27 @@ public class GamCmpyInfoMngtController {
 		return map;
 	}
 
-	
+
+	/**
+     * 입력한 업체코드를 조회한다.
+     * @param entrpscd
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/code/gamCheckEntrpscd.do")
+	@ResponseBody Map<String, Object> checkEntrpscd (@RequestParam("entrpscd") String entrpscd) throws Exception {    
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	int codeCount = gamCmpyInfoMngtService.checkEntrpscd(entrpscd);
+    	
+    	map.put("codeCount", codeCount);
+    	map.put("resultCode", 0);
+
+        return map;
+    }
+    
+    
 	/**
 	 * 업체정보 관리 저장
 	 * @param chargerVo
@@ -240,30 +278,8 @@ public class GamCmpyInfoMngtController {
 
         return map;
     }
-    
-    
-    /*
-	 * 공통코드관리를 등록한다.
-	 * @param loginVO
-	 * @param cmmnCode
-	 * @param bindingResult
-	 * @return map
-	 * @throws Exception
-	 */
-    @RequestMapping(value="/code/gamCheckEntrpscd.do")
-	@ResponseBody Map<String, Object> checkEntrpscd (@RequestParam("entrpscd") String entrpscd) throws Exception {    
-    	
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	
-    	int codeCount = gamCmpyInfoMngtService.checkEntrpscd(entrpscd);
-    	
-    	map.put("codeCount", codeCount);			// return ok
-    	map.put("resultCode", 0);			// return ok
+	
 
-        return map;
-    }
-    
-/*
     /**
      * 공통코드관리를 수정한다.
      * @param loginVO
@@ -272,61 +288,36 @@ public class GamCmpyInfoMngtController {
      * @param commandMap
      * @return map
      * @throws Exception
-     
-    @RequestMapping(value="/code/gamCcmCmmnCodeModify.do")
-	@ResponseBody Map<String, Object> updateCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode
-			, BindingResult bindingResult, @ModelAttribute("cmd") String cmd) throws Exception {
+     */     
+    @RequestMapping(value="/code/gamCmpyInfoMngtModify.do")
+	@ResponseBody Map<String, Object> updateCmmnCode (@RequestParam Map<String, Object> cmpyMngtList) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+
+    	cmpyMngtList.put("USERID", user.getId());
+    	gamCmpyInfoMngtService.updateCmpyInfoMngt(cmpyMngtList);
     	
-		if (cmd.equals("")) {
-    		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
-    		map.put("cmmnCode", vo);
-
-    		map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
-    		return map;
-    	} else if (cmd.equals("modify")) {
-            beanValidator.validate(cmmnCode, bindingResult);
-    		if (bindingResult.hasErrors()){
-        		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
-        		map.put("cmmnCode", vo);
-
-        		map.put("resultCode", 1);
-        		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
-        		return map;
-    		}
-    		
-    		if("".equals(loginVO.getUniqId()) || loginVO.getUniqId() == null){
-    			cmmnCode.setLastUpdusrId("TESTUPDATEID");
-    		}
-
-	    	cmmnCodeManageService.updateCmmnCode(cmmnCode);
-	    	
-	    	map.put("resultCode", 0);
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-	        return map;
-    	} else {
-    		return map;
-    	}
+    	map.put("resultCode", 0);			// return ok
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	return map;
     }
     
     
     /**
-     * 공통코드관리를 삭제한다.
+     * 업체정보를 삭제한다. 
      * @param cmmnCode
      * @return map
      * @throws Exception
-     
-    @RequestMapping(value="/code/gamCcmCmmnCodeRemove.do")
-	@ResponseBody Map<String, Object> deleteCmmnCode (@ModelAttribute("clCode") CmmnCode cmmnCode) throws Exception {
+     */
+    @RequestMapping(value="/code/gamCmpyInfoMngtRemove.do")
+	@ResponseBody Map<String, Object> deleteCmmnCode (@RequestParam("entrpscd") String entrpscd) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	cmmnCodeManageService.deleteCmmnCode(cmmnCode);
+    	gamCmpyInfoMngtService.deleteCmpyInfoMngt(entrpscd);
         
     	map.put("resultCode", 0);
       	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	return map;
-	}*/
+	}
 }

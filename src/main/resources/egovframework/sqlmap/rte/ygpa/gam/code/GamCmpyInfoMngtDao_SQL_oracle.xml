@@ -89,24 +89,65 @@
 		]]>
 	</insert>
 	
-	<update id="gamCmpyInfoMngtDao.updateGisCode_S">
+	<update id="gamCmpyInfoMngtDao.updateCmpyInfo">
 		<![CDATA[
-			UPDATE GIS_CD 
-			SET 
-					GIS_TY=#gisTy#,
-					GIS_DATA=#gisData#,
-					HREF=#href#
-			WHERE 
-				GISCD=#giscd#
+			UPDATE ENTRPS_INFO_F 
+		     SET 
+		       ENTRPS_NM = #entrpsNm#, 
+		       ENTRPS_TY = #entrpsTy#, 
+		       BSNM_SE = #bsnmSe#, 
+		       RPRSNTV_NM = #rprsntvNm#, 
+		       BIZRNO = #bizrno#, 
+		       CPRREGISTNO = #cprregistno#, 
+		       INDUTY = #induty#, 
+		       BIZCND = #bizcnd#, 
+		       TLPHON_NO = #tlphonNo#, 
+		       ZIP = #zip#, 
+		       ADRES = #adres#, 
+		       UPD_USR = #updUsr#, 
+		       UPDT_DT = SYSDATE, 
+		       FAX = #fax# 
+		    WHERE ENTRPSCD = #entrpscd#
 		]]>
 	</update>
 	
-	<delete id="gamCmpyInfoMngtDao.deleteGisCode_S">
+	<update id="gamCmpyInfoMngtDao.updateCmpyCharger">
 		<![CDATA[
-			DELETE FROM GIS_CD 
-			WHERE 				
-				GISCD=#giscd#
+			UPDATE ENTRPS_CHARGER_F 
+			  SET
+			  	CHARGER_NM = #chargerNm#, 
+			    CHARGER_OFC_POS = #chargerOfcPos#, 
+			    CHRG_JOB = #chrgJob#, 
+			    CHARGER_MOBLPHON_NO = #chargerMoblphonNo#, 
+			    CHARGER_TLPHON_NO = #chargerTlphonNo#, 
+			    CHARGER_FAX = #chargerFax#, 
+			    CHARGER_EMAIL = #chargerEmail#, 
+			    CHARGER_DEPT = #chargerDept#, 
+			    MNG_DEPT_CD = #mngDeptCd#, 
+			    UPD_USR = #updUsr#, 
+			    UPDT_DT = SYSDATE 
+			WHERE CHARGER_NO = #chargerNo# 
+			AND ENTRPSCD = #entrpscd#
 		]]>
+	</update>
+	
+	<delete id="gamCmpyInfoMngtDao.deleteCmpyInfo">
+		<![CDATA[
+			DELETE 
+			  FROM ENTRPS_INFO_F 
+			 WHERE ENTRPSCD = #entrpscd#
+		]]>
+	</delete>
+
+	<delete id="gamCmpyInfoMngtDao.deleteCmpyCharger">
+		<![CDATA[
+			DELETE 
+			  FROM ENTRPS_CHARGER_F 
+			 WHERE ENTRPSCD = #entrpscd# 
+		]]>
+		<isNotEmpty property="chargerNo">
+			AND CHARGER_NO = #chargerNo#
+		</isNotEmpty>
 	</delete>
 	
 	<select id="gamCmpyInfoMngtDao.selectCmpyInfoMngtDetail" resultClass="entrpsInfoFVO" parameterClass="entrpsInfoFVO">
@@ -167,7 +208,7 @@
 			                	AND ENTRPS_TY = #entrpsTy#
 			                </isNotEmpty>
 			                <isNotEmpty property="bizrno">
-			                	AND BIZRNO LIKE #bizrno# || '%'
+			                	AND BIZRNO LIKE REPLACE(#bizrno#,'-','') || '%'
 			                </isNotEmpty>
 			                <isNotEmpty property="bsnmSe">
 			                	AND BSNM_SE = #bsnmSe#
@@ -189,7 +230,7 @@
               	AND ENTRPS_TY = #entrpsTy#
             </isNotEmpty>
             <isNotEmpty property="bizrno">
-               	AND BIZRNO LIKE #bizrno# || '%'
+               	AND BIZRNO LIKE REPLACE(#bizrno#,'-','') || '%'
             </isNotEmpty>
             <isNotEmpty property="bsnmSe">
             	AND BSNM_SE = #bsnmSe#

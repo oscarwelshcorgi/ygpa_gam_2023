@@ -113,10 +113,46 @@ public class GamCmpyInfoMngtDao extends YGPAAbstractDAO{
 	 * 업체 담당자 저장
 	 * @param vo
 	 */
-	public void insertCmpyCharger(Map insertList){
+	public void insertCmpyCharger(Map<String,String> insertList){
 		insert("gamCmpyInfoMngtDao.insertCmpyCharger", insertList);
 	}
 	
+	
+	/**
+	 * 업체정보 관리 수정
+	 * @param vo
+	 */
+	public void updateCmpyInfo(HashMap<String,String> form){
+		update("gamCmpyInfoMngtDao.updateCmpyInfo", form);
+	}
+	
+	
+	/**
+	 * 업체 담당자 수정
+	 * @param vo
+	 */
+	public void updateCmpyCharger(Map<String,String> updateList){
+		update("gamCmpyInfoMngtDao.updateCmpyCharger", updateList);
+	}
+	
+	
+	/**
+	 * 업체정보 관리 삭제
+	 * @param vo
+	 */
+	public void deleteCmpyInfo(String entrpscd){
+		delete("gamCmpyInfoMngtDao.deleteCmpyInfo", entrpscd);
+	}
+	
+	
+	/**
+	 * 업체 담당자 삭제
+	 * @param vo
+	 */
+	public void deleteCmpyCharger(Map<String,String> deleteList){
+		delete("gamCmpyInfoMngtDao.deleteCmpyCharger", deleteList);
+	}
+
 	
 	/**
 	 * 업체코드 체크
