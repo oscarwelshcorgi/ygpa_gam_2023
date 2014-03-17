@@ -80,6 +80,15 @@ public interface GamCmpyInfoMngtService {
 
 	
 	/**
+	 * 업체코드 체크
+	 * @param entrpscd
+	 * @return int
+	 * @throws Exception
+	 */
+	int checkEntrpscd(String entrpscd) throws Exception;
+	
+	
+	/**
 	 * 업체정보 관리 저장
 	 * @param vo
 	 * @throws Exception
@@ -88,9 +97,17 @@ public interface GamCmpyInfoMngtService {
 	
 	
 	/**
-	 * 업체정보 관리 저장
+	 * 업체정보 관리 수정
 	 * @param vo
 	 * @throws Exception
 	 */
-	int checkEntrpscd(String entrpscd) throws Exception;
+	void updateCmpyInfoMngt(Map<String, Object> cmpyMngtList) throws Exception;
+	
+	
+	/**
+	 * 업체정보 관리 삭제
+	 * @param vo
+	 * @throws Exception
+	 */
+	void deleteCmpyInfoMngt(String entrpscd) throws Exception;
 }
