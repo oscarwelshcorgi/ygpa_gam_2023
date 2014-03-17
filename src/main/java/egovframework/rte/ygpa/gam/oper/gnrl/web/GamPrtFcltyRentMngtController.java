@@ -188,7 +188,7 @@ public class GamPrtFcltyRentMngtController {
      * @throws Exception
      */
 	@RequestMapping(value="/oper/gnrl/gamSavePrtFcltyRentMngt.do")
-	@ResponseBody Map<String, Object> savePrtFcltyRentMngt(@RequestParam Map<String, Object> mergeAssetCodeList) throws Exception {
+	@ResponseBody Map<String, Object> savePrtFcltyRentMngt(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		GamPrtFcltyRentMngtDetailVO saveDetailVO = new GamPrtFcltyRentMngtDetailVO();
@@ -202,16 +202,16 @@ public class GamPrtFcltyRentMngtController {
     	HashMap<String,String> form=null;
     	
     	try {
-    		insertList = mapper.readValue((String)mergeAssetCodeList.get("insertList"),
+    		insertList = mapper.readValue((String)dataList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		updateList = mapper.readValue((String)mergeAssetCodeList.get("updateList"),
+    		updateList = mapper.readValue((String)dataList.get("updateList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		deleteList = mapper.readValue((String)mergeAssetCodeList.get("deleteList"),
+    		deleteList = mapper.readValue((String)dataList.get("deleteList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		form = mapper.readValue((String)mergeAssetCodeList.get("form"),
+    		form = mapper.readValue((String)dataList.get("form"),
         		    new TypeReference<HashMap<String,String>>(){});
 
     		log.debug("###################################################### insertList : "+insertList);
@@ -219,6 +219,10 @@ public class GamPrtFcltyRentMngtController {
     		log.debug("###################################################### deleteList : "+deleteList);
     		log.debug("###################################################### form : "+form);
     		log.debug("###################################################### cmd : "+form.get("cmd"));
+    		
+    		log.debug("###################################################### insertList.size() => "+insertList.size());
+    		log.debug("###################################################### updateList.size() => "+updateList.size());
+    		log.debug("###################################################### deleteList.size() => "+deleteList.size());
 
     		//항만시설사용저장
     		GamPrtFcltyRentMngtVO saveVO= new GamPrtFcltyRentMngtVO();
@@ -267,16 +271,12 @@ public class GamPrtFcltyRentMngtController {
     		
     		//항만시설사용 상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
+    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
+    			
     			Map resultMap = insertList.get(i);
     			
     			GamPrtFcltyRentMngtDetailVO insertDetailVO = new GamPrtFcltyRentMngtDetailVO();
-    			
-    			log.debug("############################### saveDetailVO => " + saveDetailVO);
-    			log.debug("############################### saveDetailVO.getDetailPrtAtCode() => " + saveDetailVO.getDetailPrtAtCode());
-    			log.debug("############################### saveDetailVO.getDetailMngYear() => " + saveDetailVO.getDetailMngYear());
-    			log.debug("############################### saveDetailVO.getDetailMngNo() => " + saveDetailVO.getDetailMngNo());
-    			log.debug("############################### saveDetailVO.getDetailMngCnt() => " + saveDetailVO.getDetailMngCnt());
-    			
+   			
     			insertDetailVO.setDetailPrtAtCode(saveDetailVO.getDetailPrtAtCode());
     			insertDetailVO.setDetailMngYear(saveDetailVO.getDetailMngYear());    
     			insertDetailVO.setDetailMngNo(saveDetailVO.getDetailMngNo());      
@@ -284,6 +284,10 @@ public class GamPrtFcltyRentMngtController {
     			
     			insertDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
     			insertDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+    			insertDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+    			insertDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+    			insertDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
+    			insertDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
     			insertDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			insertDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			insertDetailVO.setOlnlp(resultMap.get("olnlp").toString());
@@ -300,8 +304,6 @@ public class GamPrtFcltyRentMngtController {
     			
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
-    			
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
     			
     			/*saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(keyVO.getMngYear());    
@@ -325,6 +327,10 @@ public class GamPrtFcltyRentMngtController {
     			updateDetailVO.setDetailMngCnt(resultMap.get("mngCnt").toString());
     			updateDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
     			updateDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+    			updateDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+    			updateDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+    			updateDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
+    			updateDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
     			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
@@ -358,6 +364,26 @@ public class GamPrtFcltyRentMngtController {
     			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
     			
     			gamPrtFcltyRentMngtService.deletePrtFcltyRentMngtDetail2(deleteDetailVO);
+    		}
+    		
+    		//총사용료, 총면적, 총사용기간 조회
+    		GamPrtFcltyRentMngtVO paramVO = new GamPrtFcltyRentMngtVO(); 
+    		paramVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
+    		paramVO.setMngYear(saveDetailVO.getDetailMngYear());
+    		paramVO.setMngNo(saveDetailVO.getDetailMngNo());
+    		paramVO.setMngCnt(saveDetailVO.getDetailMngCnt());
+    		
+    		GamPrtFcltyRentMngtVO updRentVO = new GamPrtFcltyRentMngtVO();
+    		updRentVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtCurrRenewInfo(paramVO);
+    		
+    		if( updRentVO != null ) {
+    			updRentVO.setPrtAtCode(paramVO.getPrtAtCode());
+    			updRentVO.setMngYear(paramVO.getMngYear());
+    			updRentVO.setMngNo(paramVO.getMngNo());
+    			updRentVO.setMaxMngCnt(paramVO.getMngCnt());
+    			
+    			//총사용료, 총면적, 총사용기간 업데이트
+    			gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtRenewInfo(updRentVO);
     		}
     		
     	} catch (Exception e) {
@@ -542,11 +568,14 @@ public class GamPrtFcltyRentMngtController {
         if( EgovStringUtil.isEmpty(gamPrtFcltyRentMngtVO.getPrmisnYn()) || gamPrtFcltyRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능	
         	deleteFlag = "Y";
         } else {
+        	/*
         	resultLevReqestCnt = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtLevReqestCnt(gamPrtFcltyRentMngtVO); //징수의뢰 정보 카운트
         	
         	if( gamPrtFcltyRentMngtVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
             	deleteFlag = "Y";
             }
+            */
+        	deleteFlag = "N";
         }
     	
     	if("Y".equals(deleteFlag)) {
