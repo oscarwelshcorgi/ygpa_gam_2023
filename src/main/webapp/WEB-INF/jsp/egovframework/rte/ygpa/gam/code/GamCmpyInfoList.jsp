@@ -75,7 +75,8 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 			module.$("#cmpyMngtList").flexOptions({params:searchOpt}).flexReload();
 			module.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 			
-			module.$("#entrpscd").text(result.detail.entrpscd);										// 업체ID(hidden)
+			module.$("#entrpscd").val(result.detail.entrpscd);										// 업체ID(hidden)
+			module.$("#entrpscdSpan").text(result.detail.entrpscd);										// 업체ID(hidden)
 			module.$("#entrpsNm").text(result.detail.entrpsNm);										// 업체명
 			module.$("#bizrno").text(result.detail.bizrno);											// 사업자등록번호
 			module.$("#entrpsTy").val(result.detail.entrpsTy).attr("selected","selected");			// 업체유형
@@ -252,10 +253,11 @@ var module_instance = new GamCmpyInfoMngtModule();
 
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<form id="cmpyInfoMngtManageVO">
+				<input type="hidden" id="entrpscd" />
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 코드</th>
-							<td><span id="entrpscd"></span></td>
+							<td><span id="entrpscdSpan"></span></td>
 							<th width="20%" height="23" class="required_text">대표자 명</th>
 							<td><input type="text" size="30" id="rprsntvNm" maxlength="20" /></td>
 						</tr>
