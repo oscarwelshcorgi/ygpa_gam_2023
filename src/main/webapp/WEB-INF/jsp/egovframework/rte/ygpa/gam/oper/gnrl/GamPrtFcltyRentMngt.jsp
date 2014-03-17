@@ -43,7 +43,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'}, 
                     {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
-                    {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'}, 
+                    {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+                    {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
                     {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
                     {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
@@ -279,7 +280,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         // 연장신청
         case 'addPrtFcltyRentMngtRenew':
             var rows = this.$('#prtFcltyRentMngtList').selectedRows();
-
+            
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
                 
@@ -325,60 +326,36 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                 return;
             }
             
-        	// 변경된 자료를 저장한다.
-            var inputVO=[{name: 'test', value:'test hello'}];
-        	//var inputVO=[{}];
-        	
-        	//this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
-        	
-            inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-            
-            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-            
-            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-            //var otherForm=this.getFormValues('#gamPrtFcltyRentMngtForm', {});  // 폼만 있을 경우
-            
-            this._editData2=this.getFormValues('#gamPrtFcltyRentMngtForm', {_updtId:'I'});
-            inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
-            
-            //console.log(inputVO);
-            // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-
-            this.doAction('<c:url value="/oper/gnrl/gamSavePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
-            	if(result.resultCode == 0){
-                	var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                    module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                	//module.$('#prtFcltyRentMngtDetailList').flexReload();
-                	module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
-                }
-                alert(result.resultMsg);
-            });
-        	
-        	/*
-            var inputVO=this.makeFormArgs('#gamPrtFcltyRentMngtForm');
-            if(this.$("#cmd").val()=='insert') {
-
-                this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentMngtFirst.do" />', inputVO, function(module, result) {
-
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-            }
-            else {
-                this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-            }
-            */
+            if( confirm("저장하시겠습니까?") ) {
+	            // 변경된 자료를 저장한다.
+	            var inputVO=[{name: 'test', value:'test hello'}];
+	        	//var inputVO=[{}];
+	        	
+	        	//this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
+	        	
+	            inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	            
+	            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	            
+	            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+	            //var otherForm=this.getFormValues('#gamPrtFcltyRentMngtForm', {});  // 폼만 있을 경우
+	            
+	            this._editData2=this.getFormValues('#gamPrtFcltyRentMngtForm', {_updtId:'I'});
+	            inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
+	            
+	            //console.log(inputVO);
+	            // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+	
+	            this.doAction('<c:url value="/oper/gnrl/gamSavePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
+	            	if(result.resultCode == 0){
+	                	var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+	                    module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	                	//module.$('#prtFcltyRentMngtDetailList').flexReload();
+	                	module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+	                }
+	                alert(result.resultMsg);
+	            });
+	        }
             
             break;
 
@@ -389,27 +366,29 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             if(rows.length == 0) {
                 alert("항만시설사용목록에서 신청삭제할 행을 선택하십시오.");
             } else {
-	        	if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
-	        		this.$('#detailPrmisnYn').val('N');
-	        		
-	        		alert( this.$('#detailPrmisnYn').val() );
-	        	}
-	        	
-	        	var inputVO=this.makeFormArgs('#gamPrtFcltyRentMngtForm');
-	            
-                this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
-
-                    if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
-                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                    }
-
-                    alert(result.resultMsg);
-                });
-
-                this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-                this.$('#gamPrtFcltyRentMngtForm :input').val("");
-                this.$("#cmd").val('insert');
+            	if( confirm("신청삭제를 하시겠습니까?") ) {   
+		        	if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
+		        		this.$('#detailPrmisnYn').val('N');
+		        		
+		        		alert( this.$('#detailPrmisnYn').val() );
+		        	}
+		        	
+		        	var inputVO=this.makeFormArgs('#gamPrtFcltyRentMngtForm');
+		            
+	                this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
+	
+	                    if(result.resultCode=='0') {
+	                        var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
+	                        module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	                    }
+	
+	                    alert(result.resultMsg);
+	                });
+	
+	                this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+	                this.$('#gamPrtFcltyRentMngtForm :input').val("");
+	                this.$("#cmd").val('insert');
+            	}
             }
             
             break;
@@ -665,6 +644,12 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             
             
             break;
+            
+        case 'btnSanctnReq':    //결재요청.  
+            
+            alert("결재요청을 합니다.");
+        
+            break;            
     }
 };
 
@@ -752,7 +737,7 @@ GamPrtFcltyRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
              this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-             this.$('#gisAssetsQuayCd').val(value.gisAssetsQuayCd);
+             this.$('#quayCd').val(value.gisAssetsQuayCd);
              
              var tpCdStr = value.gisAssetsCd  + '-' + value.gisAssetsSubCd;
              this.$('#assetsCdStr').val(tpCdStr);	// 시설코드
@@ -862,7 +847,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <button id="addPrtFcltyRentMngtFirst">최초신청</button>
                                 <button id="addPrtFcltyRentMngtRenew">연장신청</button>
                                 <button id="btnRemoveItem">신청삭제</button>
-                                <button id="btnXXX2">결재요청</button>
+                                <button id="btnSanctnReq">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
                                 <button id="btnXXX3">맵조회</button>
@@ -876,6 +861,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                 <div class="emdControlPanel"></div>
                     <form id="gamPrtFcltyRentMngtForm">
                         <input type="hidden" id="cmd"/>
+                        <!-- <input type="hidden" id="quayGroupCd"/> 확인필요. -->
 
                         <table>
                             <tr>
@@ -989,7 +975,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="xxxx">결재요청</button><button id="btnPrmisn">사용승낙</button>
+                        <td style="text-align:right"><button id="btnSanctnReq">결재요청</button><button id="btnPrmisn">사용승낙</button>
                             <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem">신청삭제</button><button id="btnSaveItem">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>
@@ -1014,7 +1000,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
                                 
                                 <input type="hidden" id="prtAtCodeNm" />	<!-- 항코드명 -->
-                                <input type="hidden" id="gisAssetsQuayCd" />	<!-- 부두코드 -->
+                                <input type="hidden" id="quayCd" />	<!-- 부두코드 -->
                                 <input type="hidden" id="assetsCdStr" />	<!-- 시설코드 -->
                                 
                                 <!-- <input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>- -->
