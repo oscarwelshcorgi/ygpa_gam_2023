@@ -124,8 +124,7 @@
 
 	<delete id="CmmnDetailCodeManageDAO.deleteCmmnDetailCode">
 		<![CDATA[
-            UPDATE  COMTCCMMNDETAILCODE
-               SET  USE_AT    = 'N'
+            DELETE  COMTCCMMNDETAILCODE
              WHERE  CODE_ID   = #codeId#
                AND  CODE      = #code#
 		]]>

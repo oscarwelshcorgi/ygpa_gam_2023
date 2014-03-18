@@ -254,6 +254,7 @@
 		                     CHARGER_NM, 
 		                     CHARGER_OFC_POS, 
 		                     CHRG_JOB, 
+		                     (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM045' AND CODE = CHRG_JOB) AS CHRG_JOB_DISPLAY,
 		                     CHARGER_MOBLPHON_NO, 
 		                     CHARGER_TLPHON_NO, 
 		                     CHARGER_FAX, 

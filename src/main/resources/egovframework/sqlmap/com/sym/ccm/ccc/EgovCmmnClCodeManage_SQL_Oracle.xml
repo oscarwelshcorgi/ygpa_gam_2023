@@ -107,8 +107,7 @@
 
 	<delete id="CmmnClCodeManageDAO.deleteCmmnClCode">
 		<![CDATA[
-            UPDATE  COMTCCMMNCLCODE
-               SET  USE_AT  = 'N'
+            DELETE  COMTCCMMNCLCODE
              WHERE  CL_CODE = #clCode#
 		]]>
 	</delete>
