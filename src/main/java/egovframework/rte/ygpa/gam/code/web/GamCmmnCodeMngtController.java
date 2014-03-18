@@ -21,13 +21,13 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.cca.service.CmmnCode;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
 import egovframework.com.sym.ccm.ccc.service.EgovCcmCmmnClCodeManageService;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -66,6 +66,8 @@ public class GamCmmnCodeMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
+    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -175,10 +177,8 @@ public class GamCmmnCodeMngtController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", "등록된 코드가 존재합니다.");
 		}else{
-			// 로그인 Id필요
-			if("".equals(loginVO.getUniqId()) || loginVO.getUniqId() == null){
-				cmmnCode.setFrstRegisterId("TESTID");
-			}
+
+			cmmnCode.setFrstRegisterId(user.getId());
 
 	    	cmmnCodeManageService.insertCmmnCode(cmmnCode);
 	    	map.put("resultCode", 0);			// return ok
@@ -222,10 +222,8 @@ public class GamCmmnCodeMngtController {
         		return map;
     		}
     		
-    		if("".equals(loginVO.getUniqId()) || loginVO.getUniqId() == null){
-    			cmmnCode.setLastUpdusrId("TESTUPDATEID");
-    		}
 
+   			cmmnCode.setLastUpdusrId(user.getId());
 	    	cmmnCodeManageService.updateCmmnCode(cmmnCode);
 	    	
 	    	map.put("resultCode", 0);
@@ -248,10 +246,16 @@ public class GamCmmnCodeMngtController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	cmmnCodeManageService.deleteCmmnCode(cmmnCode);
+    	try{
+    		cmmnCodeManageService.deleteCmmnCode(cmmnCode);
+    		map.put("resultCode", 0);
+          	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	}catch(Exception e){
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", "해당 데이터는 삭제가 불가능합니다.");
+    	}
         
-    	map.put("resultCode", 0);
-      	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	
     	return map;
 	}
 }

@@ -22,6 +22,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.cca.service.CmmnCode;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
@@ -72,6 +73,7 @@ public class GamCmmnCodeDetailMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
+    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -91,20 +93,6 @@ public class GamCmmnCodeDetailMngtController {
         List CmmnClCodeList = (List)cmmnClCodeManageService.selectCmmnClCodeList(searchClCodeVO);
         model.addAttribute("cmmnClCodeList", CmmnClCodeList);
 		
-        CmmnCodeVO searchCodeVO;
-        searchCodeVO = new CmmnCodeVO();
-        searchCodeVO.setRecordCountPerPage(999999);
-        searchCodeVO.setFirstIndex(0);
-        searchCodeVO.setSearchCondition("clCode");
-        if (cmmnCode.getClCode().equals("")) {
-        	EgovMap emp = (EgovMap)CmmnClCodeList.get(0);
-        	cmmnCode.setClCode(emp.get("clCode").toString());
-        }
-        searchCodeVO.setSearchKeyword(cmmnCode.getClCode());
-		
-        List CmmnCodeList = cmmnCodeManageService.selectCmmnCodeList(searchCodeVO);
-        model.addAttribute("cmmnCodeList", CmmnCodeList);
-        
     	return "/ygpa/gam/code/GamCmmnCodeDetailMngt";
     }
 	
@@ -216,7 +204,7 @@ public class GamCmmnCodeDetailMngtController {
 	            return map;
 	    	}
 			
-	    	cmmnDetailCode.setFrstRegisterId(loginVO.getUniqId());
+	    	cmmnDetailCode.setFrstRegisterId(user.getId());
 	    	cmmnDetailCodeManageService.insertCmmnDetailCode(cmmnDetailCode);
 	    	
 	    	map.put("resultCode", 0);			// return ok
@@ -250,11 +238,32 @@ public class GamCmmnCodeDetailMngtController {
         		return map;
     		}
 
-    		cmmnDetailCode.setLastUpdusrId(loginVO.getUniqId());
+    		cmmnDetailCode.setLastUpdusrId(user.getId());
 	    	cmmnDetailCodeManageService.updateCmmnDetailCode(cmmnDetailCode);
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	}
+    	return map;
+    }
+    
+    
+    
+    @RequestMapping(value="/code/gamGetSubCode.do")
+    @ResponseBody Map<String, Object> gamGetSubCode (@RequestParam("clCode") String clCode) throws Exception {
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	CmmnCodeVO searchCodeVO;
+        searchCodeVO = new CmmnCodeVO();
+        searchCodeVO.setRecordCountPerPage(999999);
+        searchCodeVO.setFirstIndex(0);
+        searchCodeVO.setSearchCondition("clCode");
+        searchCodeVO.setSearchKeyword(clCode);
+		
+        List CmmnCodeList = cmmnCodeManageService.selectCmmnCodeList(searchCodeVO);
+        map.put("resultCode",0);
+        map.put("cmmnCodeList", CmmnCodeList);
+        
     	return map;
     }
     

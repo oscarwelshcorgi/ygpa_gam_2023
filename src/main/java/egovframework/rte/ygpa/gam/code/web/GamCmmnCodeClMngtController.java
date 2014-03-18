@@ -21,6 +21,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCode;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
 import egovframework.com.sym.ccm.ccc.service.EgovCcmCmmnClCodeManageService;
@@ -61,6 +62,8 @@ public class GamCmmnCodeClMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
+    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -172,7 +175,7 @@ public class GamCmmnCodeClMngtController {
 			}
 		}
 		
-		cmmnClCode.setFrstRegisterId(loginVO.getUniqId());
+		cmmnClCode.setFrstRegisterId(user.getId());
 		cmmnClCodeManageService.insertCmmnClCode(cmmnClCode);
 		map.put("resultCode", 0);			// return ok
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -212,7 +215,7 @@ public class GamCmmnCodeClMngtController {
         		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
         		return map;
     		}
-    		cmmnClCode.setLastUpdusrId(loginVO.getUniqId());
+    		cmmnClCode.setLastUpdusrId(user.getId());
 	    	cmmnClCodeManageService.updateCmmnClCode(cmmnClCode);
 
 	    	map.put("resultCode", 0);
@@ -233,14 +236,35 @@ public class GamCmmnCodeClMngtController {
 	 * @throws Exception
 	 */
     @RequestMapping(value="/code/gamCmmnClCodeRemove.do")
-	@ResponseBody Map<String, Object> deleteCmmnClCode (@ModelAttribute("loginVO") LoginVO loginVO,  @ModelAttribute("clCode") CmmnClCode cmmnClCode) throws Exception {
+	@ResponseBody Map<String, Object> deleteCmmnClCode (@ModelAttribute("loginVO") LoginVO loginVO,  @RequestParam("clCode") String clCode) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	cmmnClCodeManageService.deleteCmmnClCode(cmmnClCode);
-        
-    	map.put("resultCode", 0);
-      	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	CmmnClCodeVO vo = new CmmnClCodeVO();
+    	vo.setSearchCondition("1");
+    	vo.setSearchKeyword(clCode);
+    	
+    	int codeCheck = cmmnClCodeManageService.selectCmmnClCodeListTotCnt(vo);
+    	
+    	if(codeCheck > 0){
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", "해당 데이터는 삭제가 불가능합니다.");
+    	}else{
+    		
+    		try{
+    			CmmnClCode code = new CmmnClCode();
+        		code.setClCode(clCode);
+    			cmmnClCodeManageService.deleteCmmnClCode(code);
+    			map.put("resultCode", 0);
+              	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+
+    		}catch(Exception e){
+    			map.put("resultCode", 1);
+        		map.put("resultMsg", "해당 데이터는 삭제가 불가능합니다.");
+    		}
+    	}
+    	
+    	
     	return map;
 	}
 }
