@@ -212,7 +212,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.$('#detailMngYear').val(row['mngYear']);
         module.$('#detailMngNo').val(row['mngNo']);
         module.$('#detailMngCnt').val(row['mngCnt']);
-
+        
+        if( row['prmisnYn'] == 'Y' ) {
+        	module.$('#entrpscd').attr('readonly', true);
+        	module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
+        }
+        
         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
         module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
         module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
@@ -220,6 +225,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
+        module.$('#gamAssetRentDetailForm :input').val('');
+        
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
@@ -228,7 +235,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     this.$("#assetRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
-
+        module.$('#gamAssetRentForm :input').val('');
+        
         module.makeFormValues('#gamAssetRentForm', row);
         module._editData=module.getFormValues('#gamAssetRentForm', row);
         module._editRow=module.$('#assetRentMngtList').selectedRowIds()[0];
@@ -240,7 +248,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
     this.$("#assetRentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 2});
-
+        module.$('#gamAssetRentDetailForm :input').val('');
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
@@ -249,6 +257,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             module.$('#detailCmd').val('modify');
         }
     });
+    
+ // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
+    this.$('#olnlpList').on('change', function() {
+    	alert("1");
+        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+        //alert( this.$('#olnlpList').val() );
+        //this.$('#olnlp').val( this.$('#olnlpList').val() );
+    });
+    
 };
 
 /**
@@ -280,6 +297,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             //this.$('#deptcd').val(this.$('#loginOrgnztId').val());
 
             this.$('#deptcd').val('ORGNZT_0000000000001');
+            
+            //currentDateStr
+            
+            //this.$('#frstReqstDt').val('2014-03-18');
+            this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
+            this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
             break;
 
@@ -331,6 +354,16 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
             if( this.$('#entrpscd').val() == '' ) {
                 alert("신청업체를 선택하십시오.");
+                return;
+            }
+            
+            if( this.$('#frstReqstDt').val() == '' ) {
+                alert("최초신청일자가 없습니다..");
+                return;
+            }
+            
+            if( this.$('#reqstDt').val() == '' ) {
+                alert("신청일자가 없습니다..");
                 return;
             }
 
@@ -437,7 +470,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         //임대상세추가
         case 'btnInsertItemDetail':
             if( this.$('#prtAtCode').val() == '' ) {
-                alert("자산임대목록에서 등록할 행을 더블클릭한 후 시도하십시오.");
+                alert("선택된 항구분이 없습니다.");
             } else {
                 this.$("#assetRentListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
                 this.$('#gamAssetRentDetailForm').find(':input').val('');
@@ -448,9 +481,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 this.$('#detailMngYear').val( this.$('#mngYear').val() );
                 this.$('#detailMngNo').val( this.$('#mngNo').val() );
                 this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
-
-                //this.$('#prtAtCodeNm').val( 'qqqq' );
-
 
                 this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I'});
                 this._editRow=this.$('#assetRentDetailList').flexGetData().length;
@@ -625,10 +655,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 return;
             }
 
-
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
             //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
+            
+            alert(this._editRow);
+            
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#assetRentDetailList').flexUpdateRow(this._editRow, this._editData);
@@ -641,33 +673,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 
-            /*
-        	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
-            this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
-            if(this._editData._updtId==undefined || this._editData._updtId!='I') {
-                this._editData._updtId='U';
-                this.$('#assetRentDetailList').flexUpdateRow(this._editRow, this._editData);
-            }
-            else {
-                this.$('#assetRentDetailList').flexAddRow(this._editData);
-            }
-            this.$('#gamAssetRentDetailForm').find(':input').val('');
-            this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-            */
-
-
-            /*
-            this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
-            if(this._editData._updtId==undefined || this._editData._updtId!='I') {
-                this._editData._updtId='U';
-                this.$('#assetRentDetailList').flexUpdateRow(this._editRow, this._editData);
-            }
-            else {
-                this.$('#assetRentDetailList').flexAddRow(this._editData);
-            }
-            */
             this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
-
 
             break;
 
@@ -778,6 +784,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAssetRentMngtModule();
+
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
@@ -861,6 +868,7 @@ var module_instance = new GamAssetRentMngtModule();
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
+                                   <input id="currentDateStr" type="hidden" value="<c:out value="${currentDateStr}"/>"/>
                                </form>
                             </td>
                         </tr>
@@ -894,7 +902,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
                                 <th><span class="label">담당부서</span></th>
                                 <td>
-                                    <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" />
+                                    <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
                             </tr>
                             <tr>
@@ -908,43 +916,43 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
                                 <th><span class="label">신청업체</span></th>
                                 <td colspan="3">
-                                    <input type="text" size="5" id="entrpscd" maxlength="10"/>
+                                    <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <button id="popupEntrpsInfoInput">업체조회</button>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">최초신청일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="frstReqstDt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly/></td>
                                 <th><span class="label">신청일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="reqstDt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="reqstDt" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
                                 <td>
-                                    <select id="prmisnYn">
+                                    <select id="prmisnYn" disabled>
                                         <option value="" selected="selected">선택</option>
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
                                     </select>
                                 </td>
                                 <th><span class="label">승낙일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td>
+                                <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용기간</span></th>
                                 <td>
-                                    <input type="text" class="emdcal" size="10" id="grUsagePdFrom"/>~
-                                    <input type="text" class="emdcal" size="10" id="grUsagePdTo"/>
+                                    <input type="text" class="emdcal" size="10" id="grUsagePdFrom" disabled/>~
+                                    <input type="text" class="emdcal" size="10" id="grUsagePdTo" disabled/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" id="grAr"/></td>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" id="grFee"/></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
                                 <th><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" id="grRdcxptFee"/></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
@@ -992,13 +1000,13 @@ var module_instance = new GamAssetRentMngtModule();
 
                  <table style="width:100%">
                     <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">임대상세추가</button><button id="btnRemoveItemDetail">임대상세삭제</button></td>
+                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail">임대상세삭제</button></td>
                     </tr>
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
                         <td style="text-align:right"><button id="btnSanctnReq">결재요청</button><button id="btnPrmisn">사용승낙</button>
-                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem">신청삭제</button><button id="btnSaveItem">신청저장</button>
+                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>
                     </tr>
@@ -1021,13 +1029,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th style="width: 80px"><span class="label">자산사용순번</span></th>
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
 
-                                <input type="text" id="prtAtCodeNm" />
-                                <input type="text" id="quayCd" />
+                                <input type="hidden" id="prtAtCodeNm" />
+                                부두코드 : <input type="text" id="quayCd" readonly/>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">자산코드 </span></th>
-                                <td><input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>-<input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
+                                <td><input type="hidden" id="gisAssetsPrtAtCode"/><input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <button id="popupFcltyCd" class="popupButton">자산조회</button></td>
                                 <th><span class="label">자산명</span></th>
                                 <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
@@ -1036,13 +1044,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">소재지</span></th>
                                 <td colspan="3"><input type="text" size="67" id="gisAssetsLocplc" disabled/></td>
                                 <th><span class="label">지번</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLnm"/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
+                                <td><input type="text" size="5" id="gisAssetsLnm" disabled/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">자산면적</span></th>
-                                <td style="width: 230px"><input type="text" size="17" id="gisAssetsAr" disabled/></td>
+                                <td style="width: 230px"><input type="text" size="17" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
                                 <th style="width: 80px"><span class="label">실제임대면적</span></th>
-                                <td style="width: 170px"><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
+                                <td style="width: 170px"><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
                                 <th style="width: 120px"><span class="label">공시지가목록</span></th>
                                 <td>
                                     <select id="olnlpList">
@@ -1059,9 +1067,9 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" id="olnlp"/></td>
+                                <td><input type="text" size="17" class="ygpaCurrency" id="olnlp"/></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="usageAr"/></td>
+                                <td colspan="3"><input type="text" size="17" class="ygpaNumber" id="usageAr"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -1102,9 +1110,9 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="20" id="fee"/>원</td>
+                                <td><input type="text" size="20" class="ygpaCurrency" id="fee" />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" id="rdcxptFee"/>원</td>
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="rdcxptFee"/>원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>
