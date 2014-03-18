@@ -281,7 +281,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
             var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
             this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-
+			throw 0;
             break;
 
         // 최초신청

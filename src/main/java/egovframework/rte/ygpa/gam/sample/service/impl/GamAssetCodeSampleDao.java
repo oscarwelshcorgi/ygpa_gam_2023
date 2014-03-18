@@ -37,4 +37,13 @@ public class GamAssetCodeSampleDao extends EgovAbstractDAO {
 		return  (Integer)getSqlMapClientTemplate().queryForObject("gamAssetCodeDao.selectAssetCodeListTotCnt_S", searchOpt);
 	}
 
+	public List selectGamAssetCodePhotoList(Map searchOpt) {
+		// TODO Auto-generated method stub
+		 return list("gamAssetCodeDao.selectAssetCodePhotoList_D", searchOpt);
+	}
+
+	public int selectGamAssetCodePhotoListTotCnt(Map searchOpt) {
+		return  (Integer)getSqlMapClientTemplate().queryForObject("gamAssetCodeDao.selectAssetCodePhotoListTotCnt_S", searchOpt);
+	}
+
 }

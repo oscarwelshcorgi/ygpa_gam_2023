@@ -7,13 +7,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.sample.service.GamAssetCodeSampleService;
 import egovframework.rte.ygpa.gam.sample.service.GamAssetSampleService;
 
 @Service("gamAssetCodeSampleService")
-public class GamAssetCodeSampleServiceImpl extends AbstractServiceImpl implements GamAssetCodeSampleService {
+public class GamAssetCodeSampleServiceImpl implements GamAssetCodeSampleService {
 
     @Resource(name="gamAssetCodeSampleDao")
     private GamAssetCodeSampleDao gamAssetCodeDao;
@@ -59,6 +58,18 @@ public class GamAssetCodeSampleServiceImpl extends AbstractServiceImpl implement
 	public int selectAssetCodeListTotCnt(Map searchOpt) {
 		// TODO Auto-generated method stub
 		return gamAssetCodeDao.selectGamAssetCodeListTotCnt(searchOpt);
+	}
+
+	@Override
+	public List selectAssetCodePhotoList(Map searchOpt) {
+		// TODO Auto-generated method stub
+		return gamAssetCodeDao.selectGamAssetCodePhotoList(searchOpt);
+	}
+
+	@Override
+	public int selectAssetCodePhotoListTotCnt(Map searchOpt) {
+		// TODO Auto-generated method stub
+		return gamAssetCodeDao.selectGamAssetCodePhotoListTotCnt(searchOpt);
 	}
 
 }

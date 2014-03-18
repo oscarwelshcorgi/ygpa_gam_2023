@@ -25,51 +25,42 @@
  */
 function GamAssetCodeModule() {}
 
-GamAssetCodeModule.prototype = new EmdModule(800,500);
+GamAssetCodeModule.prototype = new EmdModule(800,600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetCodeModule.prototype.loadComplete = function() {
 	// 테이블 설정
-	this.$("#assetCodeList").flexigrid({
+	this.$('#assetRentList').flexigrid({
 		module: this,
-		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
+		url: '<c:url value="/asset/rent/gamSelectAssetRentList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'항코드', name:'PRT_AT_CODE',width:60, sortable:false,align:'center'},
-			{display:'관리 코드', name:'MNG_Code',width:100, sortable:false,align:'center'},
-			{display:'부서 구분코드', name:'ASSETS_RENT_DEPT_SE_CD',width:100, sortable:false,align:'center'},
-			{display:'신청 업체코드',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'신청 일자',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'신청 구분코드',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'총 면적',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'총 사용료',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'사용기간 From', name:'GR_USAGE_PD_FROM',width:100, sortable:false,align:'center'},
-			{display:'사용기간 To', name:'GR_USAGE_PD_TO',width:100, sortable:false,align:'center'},
-			{display:'고지 방법',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'최초 허가일자',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'허가 일자',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'허가 여부',name:'MNG_CNT',width:100,sortable:false,align:'center'},
-			{display:'등록자',name:'REG_USR',width:100,sortable:false,align:'center'},
-			{display:'등록 일시',name:'REGIST_DT',width:100,sortable:false,align:'center'},
-			{display:'수정자',name:'UPD_USR',width:100,sortable:false,align:'center'},
-			{display:'수정 일시',name:'UPDT_DT',width:100,sortable:false,align:'center'},
-			{display:'비고 ',name:'RM',width:200,sortable:false,align:'center'}
+			{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+			{display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+			{display:'관리코드', name:'mngNumber',width:110, sortable:false,align:'center'},
+			{display:'신청 업체코드',name:'entrpscd',width:100,sortable:false,align:'center'},
+			{display:'업체명',name:'entrpsNm',width:120,sortable:false,align:'center'},
+			{display:'부두명',name:'quayNm',width:120,sortable:false,align:'center'},
+			{display:'신청 일자',name:'reqstDt',width:100,sortable:false,align:'center'},
+			{display:'신청 구분코드',name:'reqstSeCd',width:100,sortable:false,align:'center'},
+			{display:'총 면적',name:'grAr',width:100,sortable:false,align:'center'},
+			{display:'총 사용료',name:'grFee',width:100,sortable:false,align:'center'},
+			{display:'감면 사용료',name:'grRdcxptFee',width:100,sortable:false,align:'center'},
+			{display:'사용기간 From', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
+			{display:'사용기간 To', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
+			{display:'고지 방법',name:'nticMth',width:100,sortable:false,align:'center'},
+			{display:'허가 일자',name:'prmisnDt',width:100,sortable:false,align:'center'},
+			{display:'허가 여부',name:'prmisnYn',width:100,sortable:false,align:'center'},
+			{display:'결재상태',name:'sanctnSttus',width:100,sortable:false,align:'center'},
+			{display:'결재일시',name:'sanctnDt',width:100,sortable:false,align:'center'}
 			],
-/* 		searchitems : [
-			{display: 'ISO', name : 'iso'},
-			{display: 'Name', name : 'name', isdefault: true}
-			],
-		sortname: "iso",
-		sortorder: "asc",
-		 */
-		usepager: false,
-//		title: '자산목록',
-//		useRp: true,
-		rp: 24,
 		showTableToggleBtn: false,
-//		width: '100%',
-//		height: '100%'
-/* 		onSubmit: addFormData, */
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.mngNumber = this.mngYear+'-'+this.mngNo+'-'+this.mngCnt;
+			});
+			return data;
+		}
 	});
 };
 
@@ -82,7 +73,19 @@ GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
 GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'submitButton':
+		var searchOpt=this.makeFormArgs('#searchForm');
+	 	this.$('#assetRentList').flexOptions({params:searchOpt}).flexReload();
 		throw 0;
+		break;
+	case 'btnNewRequest':
+		break;
+	case 'btnExtRequest':
+		break;
+	case 'btnDelRequest':
+		break;
+	case 'btnUseConfirm':
+		break;
+	case 'btnViewMap':
 		break;
 	case 'clearForm1':
 		this.$('#editForm :input').val("");
@@ -100,6 +103,19 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'removeAssetCd':
 		break;
 	case 'editAssetCd':
+		break;
+	case 'btnEApproval':	// 전자결재 테스트
+		if(this.$('#assetRentList').selectedRowCount()>0) {
+			var rows = this.$('#assetRentList').selectedRows();
+			var opts = {
+					'type': 'AR',
+					'prtAtCode': rows['#prtAtCode'],
+					'mngYear': rows['#mngYear'],
+					'mngNo': rows['#mngNo'],
+					'mngSeq': rows['#mngSeq']
+				};
+				this.requestEApproval(opts);
+		}
 		break;
 	}
 };
@@ -134,7 +150,7 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 
 	GamAssetCodeModule.prototype.loadData = function() {
 		var searchOpt = this.makeFormArgs('#searchForm');
-		this.$('#assetCodeList').flexOptions({
+		this.$('#assetRentList').flexOptions({
 			params : searchOpt
 		}).flexReload();
 	};
@@ -185,16 +201,24 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 		</div>
 	</div>
 
-	<div class="emdPanel">
+	<div class="emdPanel fillHeight">
 		<div id='' class="emdTabPanel">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">자산임대 관리</a></li>
 				<li><a href="#tabs2" class="emdTab">자산상세</a></li>
 				<li><a href="#tabs3" class="emdTab">자산사진</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="assetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addAssetCd">자산추가</button><button id="removeAssetCd">삭제</button><button id="editAssetCd">편집</button><button id="toExcel">엑셀(XLS)</button><button id="loadMap">지도보기</button></div>
+			<div id="tabs1" class="emdTabPage fillHeight">
+				<table id="assetRentList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="btnNewRequest" class="buttonRegist">최초신청</button>
+					<button id="btnExtRequest" class="buttonExtends">연장신청</button>
+					<button id="btnDelRequest" class="buttonDelete">신청삭제</button>
+					<button id="btnEApproval" class="buttonSendRequest">결재요청</button>
+					<button id="btnUseConfirm" class="buttonOk">사용승낙</button>
+					<button id="btnCancelConfirm" class="buttonCancel">승낙취소</button>
+					<button id="btnViewMap" class="buttonViewMap">맵조회</button>
+				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage">
 				<form id="editForm">

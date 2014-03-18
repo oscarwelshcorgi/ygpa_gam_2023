@@ -25,7 +25,7 @@
  */
 function GamAssetCodeModule() {}
 
-GamAssetCodeModule.prototype = new EmdModule(800, 600);
+GamAssetCodeModule.prototype = new EmdModule(900, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetCodeModule.prototype.loadComplete = function() {
@@ -39,6 +39,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		colModel : [
 			{display:'등록', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
 			{display:'자산구분', name:'assetCls', width:66, sortable:true, align:'left'},
+			{display:'자산번호', name:'assetNo', width:62, sortable:true, align:'right'},
 			{display:'자산번호순번', name:'assetNoSeq', width:128, sortable:true, align:'left'},
 			{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'right'},
 			{display:'품목', name:'itemCls', width:32, sortable:true, align:'center'},
@@ -71,11 +72,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'수정자코드', name:'updateEmpNo', width:80, sortable:true, align:'center'},
 			{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
 			],
-		usepager: true,
-		useRp: false,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: '300'
+		height: 'auto'
 	});
 
 	this.$("#erpAssetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -84,26 +81,28 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module.$('#searchGisErpAssetCls').val(row['assetCls']);
 		module.$('#searchGisErpAssetNo').val(row['assetNo']);
 		module.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
-
 		// 해당하는 자산 목록을 불러온다/
-		var searchOpt=module.makeFormArgs('#searchGisAssetCode');
+		var searchOpt=module.makeFormArgs('#searchForm');
 		//this.showAlert(searchOpt);
 	 	module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	});
 
 	this.$("#erpAssetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
+		module.$('#addAssetGisCd').attr('disabled', 'disabled');
 		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
 	this.$("#erpAssetCodeList").on('onItemUnSelected', function(event, module, row, grid, param) {
+		module.$('#addAssetGisCd').removeAttr('disabled');
 		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is unselected');
 	});
 
 	this.$("#assetCodeList").flexigrid({
+		module: this,
 		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
-		dataType: 'json',
 		colModel : [
 			{display:'항코드', name:'gisAssetsPrtAtCode', width:24, sortable:true, align:'center'},
+			{display:'항구분', name:'prtAtCodeNm', width:40, sortable:true, align:'center'},
 			{display:'코드', name:'gisAssetsCd', width:24, sortable:true, align:'center'},
 			{display:'SUB 코드', name:'gisAssetsSubCd', width:16, sortable:true, align:'center'},
 			{display:'자산명', name:'gisAssetsNm', width:240, sortable:true, align:'center'},
@@ -123,23 +122,22 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'수정자', name:'updUsr', width:160, sortable:true, align:'center'},
 			{display:'수정일자', name:'updtdt', width:128, sortable:true, align:'center'}
 			],
-		usepager: false,
-//		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
 		height: '140'
 	});
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
-		$.each(row, function(id, val){
-			module.$('#editGisAssetCode #'+id).val(val);
-		});
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+		//module.$('#btnApplyGisAssetsCode').prop('disabled', false);
+		module.makeFormValues('#editGisAssetCode', row);
+		module._editData=module.getFormValues('#editGisAssetCode', row);
+		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
+
+		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
 
 	this.$("#assetCodePhotoList").flexigrid({
-		url: '<c:url value="/code/mngt/selectAssetCodeList.do"/>',
+		module: this,
+		url: '<c:url value="/sample/selectAssetCodePhotoList.do"/>',
 		dataType: 'json',
 		colModel : [
 				{display:'GIS 자산 항코드', name:'GIS_ASSETS_PRT_AT_CODE', width:24, sortable:true, align:'center'},
@@ -152,11 +150,11 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 				{display:'등록자', name:'REG_USR', width:160, sortable:true, align:'center'},
 				{display:'등록일시', name:'REGIST_DT', width:128, sortable:true, align:'center'}
 			],
-		usepager: false,
-//		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
 		height: '120'
+	});
+
+	this.$('#gisAssetsLocCd').on('change', function() {
+		alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
 	});
 };
 
@@ -170,14 +168,24 @@ GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
 GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'selectErpAssetCode':
+		if(this.$('#assetCls').val()=='') {
+			alert('자산구분을 선택 하세요');
+			this.$('#assetCls').addClass('ui-state-error');
+			return;
+		}
+		else {
+			alert(this.$('#assetCls').getSelectedCodeLabel()+ ' 이(가) 선택 되었습니다.');
+			this.$('#assetCls').removeClass('ui-state-error');
+		}
 		var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	 	this.$('#erpAssetCodeList').flexOptions({params:searchOpt}).flexReload();
+	 	throw 0;
 		break;
 
 	case 'selectGisAssetCode':
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-		//this.showAlert(searchOpt);
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	 	throw 0;
 		break;
 	case 'addAssetGisCd':	// gis 자산 추가
 		var row = this.$('#erpAssetCodeList').selectedRows();
@@ -199,10 +207,64 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'addAssetGisCdItem':
+		this.$('#editGisAssetCode').find(':input').val('');
+		this.$('#erpAssetsCls').val(this.$('#searchGisErpAssetCls').val());
+		this.$('#erpAssetsNo').val(this.$('#searchGisErpAssetNo').val());
+		this.$('#erpAssetsNoSeq').val(this.$('#searchGisErpAssetNoSeq').val());
+		this.$('#erpAssetsCls').attr('readonly', true);
+		this.$('#erpAssetsNo').attr('readonly', true);
+		this.$('#erpAssetsNoSeq').attr('readonly', true);
+		this.$('#gisAssetsPrtAtCode').focus();
+		this._editData=this.getFormValues('#editGisAssetCode', {_updtId:'I'});
+		this._editRow=this.$('#assetCodeList').flexGetData().length;
+		this.$('#btnApplyGisAssetCode').removeAttr('disabled');
+		break;
+	case 'removeAssetGisCdItem':
+		if(this.$('#assetCodeList').selectedRowIds().length>0) {
+			for(var i=this.$('#assetCodeList').selectedRowIds().length-1; i>=0; i--) {
+				var row=this.$('#assetCodeList').flexGetRow(this.$('#assetCodeList').selectedRowIds()[i]);
+				if(row._updtId==undefined || row._updtId!='I')  this._deleteDataList[this._deleteDataList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+				this.$('#assetCodeList').flexRemoveRow(this.$('#assetCodeList').selectedRowIds()[i]);
+			}
+		}
+		break;
+	case 'btnSaveGisAssetsCode':
+		// 변경된 자료를 저장한다.
+		var inputVO={};
+		inputVO.updateList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}]);
+		inputVO.insertList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}]);
+		inputVO.deleteList = this._deleteDataList;
+		console.log(inputVO);
+		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+		break;
+	case 'btnApplyGisAssetsCode':
+		this._editData=this.getFormValues('#editGisAssetCode', this._editData);
+		if(this._editRow!=null) {	// 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
+			if(this._editData._updtId!='I') this._editData._updtId='U';	// 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
+			this.$('#assetCodeList').flexUpdateRow(this._editRow, this._editData);
+			this._editRow=null;	// 편집 저장 하였으므로 로우 편집을 종료 한다.
+		}
+		else {
+			this.$('#assetCodeList').flexAddRow(this._editData);
+		}
+		this.$('#editGisAssetCode').find(':input').val('');
+//		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
+		break;
+	case 'btnCancelGisAssetsCode':
+		this.$('#editGisAssetCode').find(':input').val('');
+		this.$('#btnApplyGisAssetCode').removeAttr('disabled');
 		break;
 	case 'removeAssetCdItem':
 		break;
 	case 'editAssetCd':
+		break;
+	case 'btnAddGisMap':
+		if(this.$('#assetCodeList').selectedRowIds().length>0) {
+			var row = this.$('#erpAssetCodeList').selectedRows();
+			// test
+			this.addGisAssetsCdMap('GAC', {'gisPrtAtCode': '620', 'gisAssetsCd': 'LNF', 'gisAssetsSubCd': '01'});
+//			this.btnAddGisMap('GAC', {row.gisAssetsCd, row.gisAssetsSubCd});
+		}
 		break;
 	}
 };
@@ -214,6 +276,7 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 	case 'tabs2':
 		this.$('#searchViewStack')[0].changePanelId(1);
+		this._deleteDataList=[];	// 삭제 리스트 초기화
 		break;
 	case 'tabs3':
 		this.$('#searchViewStack')[0].changePanelId(1);
@@ -247,8 +310,7 @@ var module_instance = new GamAssetCodeModule();
 						<tbody>
 							<tr>
 								<th>자산구분</th>
-								<td>
-								<select id="assetCls">
+								<td><select id="assetCls">
 										<option value="" selected="selected">선택</option>
 										<c:forEach  items="${erpAssetClsList}" var="clsItem">
 											<option value="${clsItem.smCls }">${clsItem.smClsName }</option>
@@ -275,11 +337,9 @@ var module_instance = new GamAssetCodeModule();
 							</tr>
 							<tr>
 								<th>품명</th>
-								<td colspan="3"><input id="itemName" type="text" size="36"></td>
+								<td colspan="3"><input id="itemName" size="10" class="ygpaNumber"></td>
 								<th>부서</th>
-								<td width="200px" colspan="3">
-									<input id="deptCd" class="ygpaDeptSelect"/>
-									<select id="deptCd"><option value="" selected="selected">선택</option>
+								<td width="200px" colspan="3"><select id="deptCd"><option value="" selected="selected">선택</option>
 										<option value="GRP0001">재무회계팀</option>
 										<option value="GRP0002">경영지원팀</option>
 										<option value="GRP0003">경영기획팀</option>
@@ -304,36 +364,28 @@ var module_instance = new GamAssetCodeModule();
 								<td><input id="prtAtCode" type="text" size="3"></td>
 								<th>ERP 자산코드</th>
 								<td><input id="searchGisErpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" type="text" size="2"></td>
-								<th>자산명</th>
-								<td colspan="3"><input id="assetNm" type="text" size="36"></td>
-
+								<th>자산코드</th>
+								<td><input id="gisAssetCode" type="text" size="6">-<input
+									id="gisAssetSubCode" type="text" size="6"><button id="popupFcltyCd" class="popupButton">시설조회</button></td>
+								<th>재산코드</th>
+								<td><select id="prprtyCd">
+										<option value="" selected="selected">선택</option>
+										<option value="A">건물</option>
+										<option value="L">토지</option>
+										<option value="S">공작물</option>
+										<option value="w">창고</option>
+										<option value="E">기타</option>
+								</select></td>
 								<td rowSpan="2"><button id="selectGisAssetCode" class="submit">조회</button></td>
 							</tr>
 							<tr>
-								<th>재산</th>
-								<td>
-								<select id="searchPrprtyCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsPrprtySeCdList}" var="prprtySeCd">
-										<option value="${prprtySeCd.codeId }">${prprtySeCd.codeNm }</option>
-									</c:forEach>
-								</select></td>
-								<th>위치</th>
-								<td>
-									<select id="searchGisAssetsLocCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsLocCdList}" var="assetsLocCd">
-										<option value="${assetsLocCd.codeId }">${assetsLocCd.codeNm }</option>
-									</c:forEach>
-							</select></td>
-								<th>부두</th>
-								<td>							<select id="searchGisAssetsLocCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsQuayCdList}" var="assetsQuayCd">
-										<option value="${assetsQuayCd.codeId }">${assetsQuayCd.codeNm }</option>
-									</c:forEach>
-							</select></td>
-														</tr>
+								<th>자산명</th>
+								<td colspan="3"><input id="assetNm" type="text" size="36"></td>
+								<th>관리부서</th>
+								<td><select id="mngDeptCd"></select></td>
+								<th>운영부서</th>
+								<td><select id="operDeptCd"></select></td>
+							</tr>
 						</tbody>
 					</table>
 		</form>
@@ -342,30 +394,31 @@ var module_instance = new GamAssetCodeModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="assetManageTab" class="emdTabPanel" style="height:100%;" data-onchange="onTabChange">
+		<div id="assetManageTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">ERP자산정보</a></li>
 				<li><a href="#tabs2" class="emdTab">GIS자산목록</a></li>
 				<li><a href="#tabs3" class="emdTab">자산사진</a></li>
 			</ul>
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-				<table id="erpAssetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addAssetGisCd">자산등록</button></div>
+				<table id="erpAssetCodeList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel"><button id="addAssetGisCd" disabled="disabled">자산등록</button></div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
-				<table id="assetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addAssetGisCdItem">추가</button><button id="removeAssetGisCd">삭제</button><button id="loadMap">지도보기</button></div>
+								<table id="assetCodeList" style="display:none"></table>
+				<div class="emdControlPanel">
+					<button id="loadMap">지도보기</button>
+					<button id="btnAddGisMap">지도 위치 추가</button>
+					<button id="addAssetGisCdItem">자산추가</button>
+					<button id="removeAssetGisCdItem">삭제</button>
+					<button id="btnSaveGisAssetsCode">저장</button>
+				</div>
 				<form id="editGisAssetCode" name="gisAssetCode">
 				<table>
 					<tr>
 						<th><span class="label">청코드</span></th>
 						<td>
-							<select id="gisAssetdPrtAtCode">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${prtAtCodeList}" var="prtAtCode">
-										<option value="${prtAtCode.codeId }">${prtAtCode.codeNm }</option>
-									</c:forEach>
-							</select>
+							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm'>
 						</td>
 					</tr>
 					<tr>
@@ -374,39 +427,24 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
-						<td><input type="text" size="1" id="erpAssetsSeCd">-<input type="text" size="16" id="erpAssetsNo">-<input type="text" size="16" id="erpAssetsNoSeq"><button id="btnSelectErpAssetCode">ERP자산코드 검색</button></td>
+						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd">-<input type="text" size="16" id="erpAssetsNo">-<input type="text" size="16" id="erpAssetsNoSeq"></td>
 					</tr>
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-						<select id="gisAssetsPrprtySeCd">
-								<option value="" selected="selected">선택</option>
-								<c:forEach  items="${assetsPrprtySeCdList}" var="prprtySeCd">
-									<option value="${prprtySeCd.codeId }">${prprtySeCd.codeNm }</option>
-								</c:forEach>
-						</select>
+								<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM001'>
 						</td>
 					</tr>
 					<tr>
 						<th><span class="label">위치구분</span></th>
 						<td>
-							<select id="gisAssetsLocCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsLocCdList}" var="assetsLocCd">
-										<option value="${assetsLocCd.codeId }">${assetsLocCd.codeNm }</option>
-									</c:forEach>
-							</select>
+							<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM002'>
 						</td>
 					</tr>
 					<tr>
 						<th><span class="label">부두구분</span></th>
 						<td>
-							<select id="gisAssetsLocCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsQuayCdList}" var="assetsQuayCd">
-										<option value="${assetsQuayCd.codeId }">${assetsQuayCd.codeNm }</option>
-									</c:forEach>
-							</select>
+							<input id="gisAssetsQuayCd" class="ygpaCmmnCd" data-code-id='GAM003'>
 						</td>
 					</tr>
 					<tr>
@@ -419,26 +457,21 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">지번</span></th>
-						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="4" id="GisAssetsLnmSub"><button id="btnFindLotCode">지번검색</button></td>
+						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="GisAssetsLnmSub"></td>
 					</tr>
 					<tr>
 						<th><span class="label">자산구분</span></th>
 						<td>
-							<select id="gisAssetsSeCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsSeCdList}" var="assetsSeCd">
-										<option value="${assetsSeCd.codeId }">${assetsSeCd.codeNm }</option>
-									</c:forEach>
-							</select>
+							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013'>
 						</td>
 					</tr>
 					<tr>
 						<th><span class="label">면적</span></th>
-						<td><input type="text" size="8" id="gisAssetsAr"> m^2</td>
+						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> m^2</td>
 					</tr>
 					<tr>
 						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="16" id="gisAssetsAcqPri" class="number"> 원</td>
+						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency"> 원</td>
 					</tr>
 					<tr>
 						<th><span class="label">자산규격</span></th>
@@ -457,15 +490,17 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">실제 임대 면적</span></th>
-						<td><input type="text" size="60" id="gisAssetsRealRentAr" class="number"> m^2</td>
+						<td><input type="text" size="60" id="gisAssetsRealRentAr" class="ygpaCurrency"> m^2</td>
 					</tr>
+					<!--
 					<tr>
 						<th><span class="label">시설도면</span></th>
-						<td><input type="text" size="4" id="drwLstRegistYear" class="number">-<input type="text" size="4" id="drwLstSeq" class="number"> <button id="btnAddDrawing">도면등록</button></td>
+						<td><input type="text" size="4" id="drwLstRegistYear" class="ygpaCurrency">-<input type="text" size="4" id="drwLstSeq" class="ygpaCurrency"> <button id="btnAddDrawing">도면등록</button></td>
 					</tr>
+					 -->
 					<tr>
 						<th><span class="label">자산 가치 금액</span></th>
-						<td><input type="text" size="16" id="gisAssetsValAmt" class="number"> 원 (조회일자 : <input type="text" size="16" class="emdcal" id="gisAssetsValInqireDt">)</td>
+						<td><input type="text" size="16" id="gisAssetsValAmt" class="ygpaCurrency"> 원 (조회일자 : <input type="text" size="16" class="emdcal" id="gisAssetsValInqireDt">)</td>
 					</tr>
 					<tr>
 						<th><span class="label">준공년도</span></th>
@@ -499,16 +534,15 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<button id="btnDeleteGisAssetsCode">삭제</button>
 					<button id="btnCancelGisAssetsCode">취소</button>
-					<button id="btnSaveGisAssetsCode">저장</button>
+					<button id="btnApplyGisAssetsCode">적용</button>
 				</div>
 				</form>
 							</div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
 				<table id="assetCodePhotoList" style="display:none"></table>
 				<div class="emdControlPanel"><button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button></div>
-				<div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
+				<div class="emdPanel fillHeight" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
 			</div>
 		</div>
 	</div>

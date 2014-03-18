@@ -1,5 +1,6 @@
 package egovframework.com.ygpa.uat.uia.web;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -29,14 +31,14 @@ public class YGLoginController {
     /** EgovLoginService */
 	@Resource(name = "loginService")
     private EgovLoginService loginService;
-	
+
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     private String LOGINJSP = "ygpa/cmm/uat/uia/YGSLoginUsr";
     private String MAINURL = "/main/gamMain.do";
-    
+
 	/**
      * 로그인 화면
      * @param loginVO
@@ -53,19 +55,19 @@ public class YGLoginController {
             HttpServletRequest request,
             HttpServletResponse response,
             ModelMap model,
-            Map commandMap) 
+            Map commandMap)
             throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("loginUsrView(LoginVO, HttpServletRequest, HttpServletResponse, ModelMap) - start"); //$NON-NLS-1$
             logger.debug("urlpath" + session.getAttribute("urlpath"));
         }
-        
-        
+
+
         model.addAttribute("pageurl", commandMap.get("pageurl"));
         //model.addAttribute(Common.PARAM_NEXTURL, commandMap.get(Common.PARAM_NEXTURL));
 //        if ( isLoginIPCIS(session) ) return LOGINJSP_IPCIS;
-//        else return LOGINJSP;   
-        
+//        else return LOGINJSP;
+
         return LOGINJSP;
     }
 
@@ -77,42 +79,42 @@ public class YGLoginController {
 	 * @exception Exception
 	 */
     @RequestMapping(value="/uat/uia/YGActionLogin.do")
-    public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO, 
+    public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO,
     		                   HttpServletRequest request,
     		                   ModelMap model)
             throws Exception {
-    	
+
 
     	// 1. 일반 로그인 처리
         LoginVO resultVO = loginService.actionLogin(loginVO);
-    
-		
+
+
         if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
-        	
+
         	// 2-1. 로그인 정보를 세션에 저장
 //        	request.getSession().setAttribute("loginVO", resultVO);
-        	
+
             return "redirect:/j_spring_security_check?j_username=" + resultVO.getUserSe() + resultVO.getId() + "&j_password=" + resultVO.getUniqId();
 
 //    		return "redirect:/uat/uia/actionMain.do";
-      
+
         } else {
-        	
+
         	model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
         	return LOGINJSP;
         }
-    }   
-    
+    }
+
     /**
 	 * 로그인 후 메인화면으로 들어간다
-	 * @param 
+	 * @param
 	 * @return 로그인 페이지
 	 * @exception Exception
 	 */
     @RequestMapping(value="/uat/uia/YGActionMain.do")
-	public String actionMain(ModelMap model) 
+	public String actionMain(ModelMap model)
 			throws Exception {
-    	
+
     	// 1. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -120,7 +122,7 @@ public class YGLoginController {
         	return LOGINJSP;
     	}
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	
+
     	/*
     	// 2. 메뉴조회
 		MenuManageVO menuManageVO = new MenuManageVO();
@@ -133,11 +135,11 @@ public class YGLoginController {
     	List list_headmenu = menuManageService.selectMainMenuHead(menuManageVO);
 		model.addAttribute("list_headmenu", list_headmenu);
     	*/
-    	
+
 		// 3. 메인 페이지 이동
 		String main_page = Globals.MAIN_PAGE;
 //		main_page = MAINURL;
-		
+
 		logger.debug("Globals.MAIN_PAGE > " +  Globals.MAIN_PAGE);
 		logger.debug("main_page > " +  main_page);
 		logger.debug("main_page > " +  main_page);
@@ -147,22 +149,22 @@ public class YGLoginController {
 		logger.debug("main_page > " +  main_page);
 		logger.debug("main_page > " +  main_page);
 		logger.debug("main_page > " +  main_page);
-		
-		
+
+
 		if (main_page.startsWith("/")) {
 		    return "forward:" + main_page;
 		} else {
 		    return main_page;
 		}
-		
+
 		/*
 		if (main_page != null && !main_page.equals("")) {
-			
+
 			// 3-1. 설정된 메인화면이 있는 경우
 			return main_page;
-			
+
 		} else {
-			
+
 			// 3-2. 설정된 메인화면이 없는 경우
 			if (user.getUserSe().equals("USR")) {
 	    		return "egovframework/com/EgovMainView";
@@ -172,20 +174,44 @@ public class YGLoginController {
 		}
 		*/
 	}
-    
+
     /**
 	 * 로그아웃한다.
 	 * @return String
 	 * @exception Exception
 	 */
     @RequestMapping(value="/uat/uia/YGActionLogout.do")
-	public String actionLogout(HttpServletRequest request, ModelMap model) 
+	public String actionLogout(HttpServletRequest request, ModelMap model)
 			throws Exception {
-    	
+
     	// 1. Security 연동
     	return "redirect:/j_spring_security_logout";
-    	
-    	
+
+
     }
-    
+
+    @RequestMapping(value="/uat/uia/getUserInfo.do")
+	public @ResponseBody Map<String, Object> getUserInfo()
+			throws Exception {
+
+    	Map <String, Object> map = new HashMap();
+
+    	// 1. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultCode", 1);
+    		map.put("message", egovMessageSource.getMessage("fail.common.login"));
+    		return map;
+    	}
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	user.setPassword("");
+    	user.setPasswordCnsr("");
+    	user.setPasswordHint("");
+
+		map.put("resultCode", 0);
+    	map.put("userInfo", user);
+
+    	return map;
+	}
+
 }

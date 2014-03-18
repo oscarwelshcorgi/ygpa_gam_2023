@@ -4,18 +4,20 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.asset.service.GisAssetsCdDefaultVO;
+import egovframework.rte.ygpa.gam.asset.service.GisAssetsCdVO;
 
 public interface GamGisCodeSampleService {
 
-	String insertGisCode(Map vo) throws Exception;
+	String insertGisCode(GisAssetsCdVO vo) throws Exception;
 
-    void updateGisCode(Map vo) throws Exception;
+    void updateGisCode(GisAssetsCdVO vo) throws Exception;
 
-    void deleteGisCode(Map vo) throws Exception;
+    void deleteGisCode(GisAssetsCdVO vo) throws Exception;
 
-    EgovMap selectGisCode(Map vo) throws Exception;
+    EgovMap selectGisCode(GisAssetsCdVO vo) throws Exception;
 
-	List selectGisCodeList(Map searchOpt);
-	
-	int selectGisCodeListTotCnt(Map searchOpt);
+	List selectGisCodeList(GisAssetsCdDefaultVO searchOpt);
+
+	int selectGisCodeListTotCnt(GisAssetsCdDefaultVO searchVO);
 }

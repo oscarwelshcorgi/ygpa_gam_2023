@@ -23,7 +23,7 @@ table .searchPanel {
 }
 
 .viewStack {
-	
+
 }
 
 .viewPanel {
@@ -33,7 +33,6 @@ table .searchPanel {
 
 .viewStack > .viewPanel {
 	padding: 0px;
-	background: blue;
 }
 
 .searchPanel th {

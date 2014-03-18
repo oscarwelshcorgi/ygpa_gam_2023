@@ -17,12 +17,12 @@
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFcltyDrwMngtDao_SQL_oracle.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFcltyMngtDao_SQL_oracle.xml"/>
-	
+
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/GamAssetDisUseMngtDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/GamAssetSttusInqireDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/GamAssetEvlDtlsInqireDao_SQL_oracle.xml"/> 
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/GamAssetLndValInqireDao_SQL_oracle.xml"/>
-    
+
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/rent/GamAssetRentSttusInqireDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/rent/GamAssetRentMngtDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/rent/GamAssetRentFeeMngtDao_SQL_oracle.xml"/>
@@ -66,4 +66,8 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/center/GamMarineCenterRentMngtDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/center/GamMarineCenterRentFeeMngtDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/center/GamMarineCenterRentNticMngtDao_SQL_oracle.xml"/>
+
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamBupJungDongCodeMngtDao_SQL_oracle.xml"/>
+
+
 </sqlMapConfig>

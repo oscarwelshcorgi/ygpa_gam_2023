@@ -79,6 +79,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#cmmnCodeClMngtForm");
 		 	this.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
+		 	throw 0;
 		break;
 
 			// 목록

@@ -16,8 +16,13 @@ public interface GamAssetCodeSampleService {
     EgovMap selectAssetCode(Map vo) throws Exception;
 
     void updateAssetCodeGis(Map vo) throws Exception;
-	
+
 	List selectAssetCodeList(Map searchOpt);
-	
+
 	int selectAssetCodeListTotCnt(Map searchOpt);
+
+	List selectAssetCodePhotoList(Map searchOpt);
+
+	int selectAssetCodePhotoListTotCnt(Map searchOpt);
+
 }
