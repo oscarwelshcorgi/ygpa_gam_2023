@@ -170,9 +170,20 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	});
 
 	// 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
-	this.$('#gisAssetsPrprtySeCd').on('change', function() {
-		alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+	this.$('#gisAssetsInvstmntMthd').on('change', {module: this}, function(event) {
+		event.data.module.$('#gisAssetsRealRentAr').val($(this).val());
+		//alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
 	});
+
+	this.$('.calcInput').on('change', {module: this}, function(event) {
+		var m = event.data.module;
+		m.onCalc();
+		//alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+	});
+};
+
+GamAssetCodeModule.prototype.onCalc = function() {
+	this.$('#gisAssetsRealRentAr').val(this.$('#gisAssetsSeCd').val()+' '+this.$('#gisAssetsAr').val()+' '+this.$('#gisAssetsAcqPri').val());
 };
 
 // 사용자 설정 함수 추가
@@ -490,16 +501,16 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">자산구분</span></th>
 						<td>
-							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013'>
+							<input id="gisAssetsSeCd" class="ygpaCmmnCd calcInput" data-code-id='GAM013'>
 						</td>
 					</tr>
 					<tr>
 						<th><span class="label">면적</span></th>
-						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> m^2</td>
+						<td><input type="text" size="8" class="ygpaNumber calcInput" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2" onkeyup="$(this).trigger('change')"> m^2</td>
 					</tr>
 					<tr>
 						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency"> 원</td>
+						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency calcInput" class="ygpaCurrency" onkeyup="$(this).trigger('change')"> 원</td>
 					</tr>
 					<tr>
 						<th><span class="label">자산규격</span></th>
@@ -508,11 +519,11 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">출자 방식</span></th>
 						<td>
-							<select id="gisAssetsInvstmntMthd">
+							<select id="gisAssetsInvstmntMthd" onkeyup="$(this).trigger('change')">
 									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsInvstmntMthdList}" var="assetsInvstmntMthd">
-										<option value="${assetsInvstmntMthd.codeId }">${assetsInvstmntMthd.codeNm }</option>
-									</c:forEach>
+										<option value="a">A클래스</option>
+										<option value="b">b클래스</option>
+										<option value="v">v클래스</option>
 							</select>
 						</td>
 					</tr>
