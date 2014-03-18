@@ -321,12 +321,19 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
         
-        if( applcTariffStr == '1' ) {
+        
+        if( applcTariffStr == '0' ) {
+        	this.$('#computDtls').val('');
+        	return;
+        } else if( applcTariffStr == '1' ) {
             applcTariff = 0.005;
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
         } else if( applcTariffStr == '2' ) {
             applcTariff = 0.0025;
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
         } else if( applcTariffStr == '3' ) {
             applcTariff = 0.001;
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
         }
         
         if( exemptSe == '1' ) {        // 일부면제
