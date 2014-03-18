@@ -326,7 +326,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnUploadFile':
 		// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 		this.uploadFile('uploadPhoto', function(module, result) {
-			var userid=EMD.util.getLoginUserVO().userNm;
+// 			var userid=EMD.util.getLoginUserVO().userNm; 임시
+			var userid='admin';
 			$.each(result, function(){
 				module.$('#assetCodePhotoList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()});	// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 			});
