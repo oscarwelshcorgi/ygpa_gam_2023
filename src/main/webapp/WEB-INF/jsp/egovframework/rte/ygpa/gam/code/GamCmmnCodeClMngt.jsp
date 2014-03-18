@@ -41,17 +41,14 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 					{display:"분류코드명", 	name:"clCodeNm",	width:200, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:100, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
+		//usepager: true,
+		//useRp: true,
+		//rp: 24,
 		showTableToggleBtn: false,
-		height: "300"
+		height: "270"
 	});
 
-	this.$("#cmmnCodeClMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#cmmnCodeClMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
-
+	this.$("#cmmnCodeClMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.doAction('<c:url value="/code/gamCmmnClCodeDetail.do" />', {clCode: row["clCode"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
@@ -61,8 +58,12 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 			module.$("#useAt").val(result.codeDetail.useAt);				// 사용여부
 
 			module.$("#clCode").attr("disabled","disabled");				// 분류코드
-			module.$("#useAt").attr("disabled","disabled");					// 사용여부
 	 	});
+	});
+	
+	this.$("#cmmnCodeClMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#cmmnCodeClMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
 	});
 };
 
@@ -91,7 +92,6 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmmnCodeClManageVO :input").val("");
 			this.$("#cmd").val("insert");
 			this.$("#clCode").removeAttr("disabled");
-			this.$("#useAt").removeAttr("disabled");
 		break;
 
 		// 저장
@@ -145,9 +145,6 @@ GamCmmnCodeClMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 
 		case "tabs2":
-			var row = this.$("#cmmnCodeClMngList").selectedRows();
-			if(row.length == 0) this.$("#cmd").val("insert");
-			else this.$("#cmd").val("modify");
 		break;
 	}
 };
@@ -200,15 +197,15 @@ var module_instance = new GamCmmnCodeClMngtModule();
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="clCode"/></td>
+							<td><input type="text" size="80" id="clCode" maxlength="3" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="clCodeNm"/></td>
+							<td><input type="text" size="80" id="clCodeNm" maxlength="30" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드설명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="clCodeDc"/></td>
+							<td><input type="text" size="80" id="clCodeDc" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">사용여부<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>

@@ -42,18 +42,14 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 					{display:"코드ID명", 	name:"codeIdNm",	width:150, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
+		//usepager: true,
+		//useRp: true,
+		//rp: 24,
+		//showTableToggleBtn: false,
 		height: "300",
 	});
 	
-	this.$("#cmmnCodeMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
-		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#cmmnCodeMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
-
+	this.$("#cmmnCodeMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.doAction('<c:url value="/code/gamCcmCmmnCodeDetail.do" />', {codeId: row["codeId"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
@@ -65,8 +61,13 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 			
 			module.$("#clCode").attr("disabled","disabled");			// 분류코드
 			module.$("#codeId").attr("disabled","disabled");			// 코드ID
-			module.$("#useAt").attr("disabled","disabled");				// 사용여부
 	 	});
+	});
+
+	this.$("#cmmnCodeMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#cmmnCodeMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
 	});
 };
 		
@@ -96,7 +97,6 @@ GamCmmnCodeMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmd").val("insert");
 			this.$("#clCode").removeAttr("disabled","disabled");			// 분류코드
 			this.$("#codeId").removeAttr("disabled","disabled");			// 코드ID
-			this.$("#useAt").removeAttr("disabled","disabled");				// 사용여부
 		break;
 			
 		// 저장
@@ -150,9 +150,6 @@ GamCmmnCodeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 	
 		case "tabs2":
-			var row = this.$("#cmmnCodeMngList").selectedRows();
-			if(row.length == 0) this.$("#cmd").val("insert");
-			else this.$("#cmd").val("modify");
 		break;
 	}
 };

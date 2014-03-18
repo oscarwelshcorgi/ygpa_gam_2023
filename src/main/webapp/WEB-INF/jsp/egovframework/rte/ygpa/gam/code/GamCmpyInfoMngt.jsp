@@ -72,8 +72,6 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 	this.$("#cmpyInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
-
 		module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
 
 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtManageVO");
@@ -92,7 +90,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"담당자명", 		name:"chargerNm",			width:100, 	sortable:false,		align:"center"},
 					{display:"부서", 			name:"chargerDept",			width:100, 	sortable:false,		align:"center"},
 					{display:"직위", 			name:"chargerOfcPos",		width:80, 	sortable:false,		align:"center"},
-					{display:"업무", 			name:"chrgJob",				width:100, 	sortable:false,		align:"center"},
+					{display:"업무", 			name:"chrgJobDisplay",		width:100, 	sortable:false,		align:"center"},
 					{display:"휴대폰번호", 		name:"chargerMoblphonNo",	width:120, 	sortable:false,		align:"center"},
 					{display:"팩스 번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
 					{display:"이메일", 			name:"chargerEmail",		width:80, 	sortable:false,		align:"center"}

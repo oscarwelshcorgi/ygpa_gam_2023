@@ -42,18 +42,14 @@ GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {
 					{display:"코드명", 		name:"codeNm",		width:250, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
+		//usepager: true,
+		//useRp: true,
+		//rp: 24,
 		showTableToggleBtn: false,
-		height: "300",
+		height: "270"
 	});
 	
-	this.$("#cmmnCodeMngDetailMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
-		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
-
+	this.$("#cmmnCodeMngDetailMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.doAction('<c:url value="/code/gamCcmCmmnDetailCodeDetail.do" />', {codeId: row["codeId"], code: row["code"]}, function(module, result) {
 
 			// value 설정
@@ -68,13 +64,42 @@ GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {
 			// style 설정
 			module.$("#codeIdText").show();								// 코드ID(text)[display]
 			module.$("#codeIdText").attr("disabled","disabled");		// 코드ID(text)[display]
-			module.$("#useAt").attr("disabled","disabled");				// 사용여부
 			module.$("#code").attr("disabled","disabled");				// 코드
 			module.$("#codeIdText").removeAttr("style");				// 코드ID(text)[display]
 			module.$("#codeIdSelect").hide();							// 코드ID(select)[display]
 			module.$("#clCode").hide();									// 코드ID(select)[display]
 	 	});
 	});
+
+	
+	this.$("#cmmnCodeMngDetailMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
+	});
+	
+	this.$("#clCode").on("change", {module: this}, function(event) {
+		
+		event.data.module.doAction('<c:url value="/code/gamGetSubCode.do" />', {clCode : $(this).val()}, function(module, result) {
+			
+			if(result.resultCode == "0"){
+				if(result.cmmnCodeList.length > 0){
+					for(var i=0; i<result.cmmnCodeList.length; i++){
+						if(i == 0){
+							module.$("#codeIdSelect").html("<option value='"+result.cmmnCodeList[i].codeId+"'>"+result.cmmnCodeList[i].codeIdNm+"</option>");	
+						}else{
+							module.$("#codeIdSelect").append("<option value='"+result.cmmnCodeList[i].codeId+"'>"+result.cmmnCodeList[i].codeIdNm+"</option>");
+						}
+					}	
+				}else{
+					module.$("#codeIdSelect").html("");
+				}
+	 		}
+	 	});
+	});
+	
+	
+
 };
 		
 
@@ -103,7 +128,6 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmd").val("insert");
 			
 			this.$("#codeIdText").hide();						// 코드ID(text)[display]
-			this.$("#useAt").removeAttr("disabled");			// 사용여부
 			this.$("#code").removeAttr("disabled");				// 코드
 			this.$("#codeIdSelect").show();						// 코드ID(select)[display]
 			this.$("#clCode").show();							// 코드ID(select)[display]
@@ -112,9 +136,10 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 
-			this.$("#codeId").val(this.$("#codeIdSelect option:selected").val());
 		 	var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
+
 			if(this.$("#cmd").val() == "insert") {
+				this.$("#codeId").val(this.$("#codeIdSelect").val());
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
@@ -162,18 +187,6 @@ GamCmmnCodeDetailMngtModule.prototype.onTabChange = function(newTabId, oldTabId)
 		break;
 	
 		case "tabs2":
-			var row = this.$("#cmmnCodeMngDetailMngList").selectedRows();
-			if(row.length == 0){
-				this.$("#cmd").val("insert");
-				
-				this.$("#codeIdText").hide();						// 코드ID(text)[display]
-				this.$("#useAt").removeAttr("disabled");			// 사용여부
-				this.$("#code").removeAttr("disabled");				// 코드
-				this.$("#codeIdSelect").show();						// 코드ID(select)[display]
-				this.$("#clCode").show();							// 코드ID(select)[display]
-			}else{
-				this.$("#cmd").val("modify");
-			}
 		break;
 	}
 };
@@ -230,16 +243,12 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 							<th width="20%" height="23" class="required_text">코드ID<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td>
 								<input type="text" size="80" id="codeIdText" style="display:none" />
-								<select name="clCode" class="select" id="clCode" onChange="javascript:fn_egov_get_CodeId(document.cmmnDetailCode);" title="clCode">
+								<select class="select" id="clCode" title="clCode">
 									<c:forEach var="result" items="${cmmnClCodeList}" varStatus="status">
 										<option value='<c:out value="${result.clCode}"/>' <c:if test="${result.clCode == cmmnCode.clCode}">selected="selected"</c:if>><c:out value="${result.clCodeNm}"/></option>
 									</c:forEach>
 								</select>
-								<select class="select" id="codeIdSelect">
-									<c:forEach var="result" items="${cmmnCodeList}" varStatus="status">
-										<option value='<c:out value="${result.codeId}"/>' ><c:out value="${result.codeIdNm}"/></option>
-									</c:forEach>
-								</select>
+								<select class="select" id="codeIdSelect"></select>
 							</td>
 						</tr>
 						<tr>
