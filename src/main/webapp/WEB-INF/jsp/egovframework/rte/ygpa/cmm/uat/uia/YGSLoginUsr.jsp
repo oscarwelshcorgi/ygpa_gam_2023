@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="/css/egovframework/com/cmm/uat/uia/com.css" type="text/css"></link>
 <title>YGPA 로그인</title>
-<SCRIPT LANGUAGE="JavaScript">
+<SCRIPT language="JavaScript">
 	function fn_check_module(classid)
 	{
 		try{
@@ -298,7 +298,7 @@ input[type=radio] {
 }
 
 input[type=checkbox]:checked::after {
-content:"âœ”";
+content:"✔";
 display:block;
 text-align: center;
 font-size: 16px;
@@ -307,7 +307,7 @@ line-height: 18px;
 }
 
 input[type=radio]:checked::after {
-content:"â—";
+content:"●";
 display:block;
 height: 16px;
 line-height: 15px;
