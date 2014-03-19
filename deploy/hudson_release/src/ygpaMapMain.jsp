@@ -105,10 +105,6 @@
                                     data-prgid="PRG_0005"
                                     data-url="<c:url value='/asset/gamAssetLndValInqire.do'/>">자산부지공시지가조회</a>
                                 </li>
-                                <li><a href="#" data-role="LoadModule"
-                                    data-prgid="PRG_0005"
-                                    data-url="<c:url value='/asset/gamAssetTypeValueSts.do'/>">자산종류별자산가치통계조회</a>
-                                </li>
                             </ul></li>
                         <li><a href="#"><b>자산운영</b></a>
                             <ul class="submenu">
@@ -284,7 +280,7 @@
                         </li>
                     </ul>
                     </li>
-                <li>
+<%--                 <li>
         <a class="menu_trigger" href="#">포트미스 연계</a>
         <ul class="menu">
           <li>
@@ -310,7 +306,7 @@
                             </li>
                 </ul>
           </li>
-        </ul>
+ --%>        </ul>
       </li>
 
 
