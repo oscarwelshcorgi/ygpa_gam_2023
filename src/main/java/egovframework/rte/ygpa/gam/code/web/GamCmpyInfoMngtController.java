@@ -281,14 +281,11 @@ public class GamCmpyInfoMngtController {
 	
 
     /**
-     * 공통코드관리를 수정한다.
-     * @param loginVO
-     * @param cmmnCode
-     * @param bindingResult
-     * @param commandMap
+     * 업체정보 관리 수정     
+     * @param cmpyMngtList
      * @return map
      * @throws Exception
-     */     
+     */
     @RequestMapping(value="/code/gamCmpyInfoMngtModify.do")
 	@ResponseBody Map<String, Object> updateCmmnCode (@RequestParam Map<String, Object> cmpyMngtList) throws Exception {
 		

@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -32,15 +33,22 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
 
 	/**
 	 * 시설관리 저장
-	 * @param vo GamFcltyManageVO 
-	 * @exception Exception
+	 * @param fcltyMngtList
 	 */
-	public void insertFcltyManage(GamFcltyManageVO vo){
-
-		insert("gamFcltyMngtDao.insertFcltyManage", vo);
+	public void insertFcltyManage(HashMap<String,String> form){
+		insert("gamFcltyMngtDao.insertFcltyManage", form);
 	}
 	
 	
+    /**
+     * 시설관리 수정화면
+     * @param vo
+     */
+    public void updateFclty(HashMap<String,String> form){
+        update("gamFcltyMngtDao.updateFclty",form);
+    }
+    
+    
 	/**
 	 * 시설관리 목록 조회
 	 * @param vo ComDefaultVO
@@ -83,15 +91,6 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
         return (GamFcltyManageVO) selectByPk("gamFcltyMngtDao.fcltyMngSelectView", vo);
     }
     
-    
-    /**
-     * 시설관리 수정화면
-     * @param vo
-     */
-    public void updateFclty(GamFcltyManageVO vo){
-        update("gamFcltyMngtDao.updateFclty",vo);
-    }
-
     
     /**
      * 시설관리 삭제화면

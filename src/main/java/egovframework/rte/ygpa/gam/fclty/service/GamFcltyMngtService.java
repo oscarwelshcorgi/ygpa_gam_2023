@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.com.cmm.ComDefaultVO;
 
@@ -32,7 +33,7 @@ public interface GamFcltyMngtService {
 	 * @param vo GamFcltyManageVO
 	 * @exception Exception
 	 */
-	void insertFcltyManage(GamFcltyManageVO vo) throws Exception;
+	void insertFcltyManage(Map<String, Object> fcltyMngtList) throws Exception;
 
 	
 	/**
@@ -71,13 +72,12 @@ public interface GamFcltyMngtService {
 	public GamFcltyManageVO fcltyMngSelectView(GamFcltyManageVO fcltyManageVO) throws Exception;
 	
 	
-	
 	/**
 	 * 시설관리 수정화면
 	 * @param FcltyManageVO
 	 * @throws Exception
 	 */
-	public void updateFclty(GamFcltyManageVO fcltyManageVO) throws Exception;
+	public void updateFclty(Map<String, Object> fcltyMngtList) throws Exception;
 	
 	
 	/**
@@ -85,5 +85,5 @@ public interface GamFcltyMngtService {
 	 * @param fcltyManageVO
 	 * @throws Exception
 	 */
-	public void deleteFclty(GamFcltyManageVO fcltyManageVO) throws Exception;
+	public void deleteFcltyMngt(GamFcltyManageVO fcltyManageVO) throws Exception;
 }
