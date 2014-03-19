@@ -370,6 +370,20 @@
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeDetailMngt.do'/>">공통코드상세 관리</a></li>
                         </ul>
                 </li>
+                <li>
+                    <a href="#"><b>공시지가</b></a>
+                        <ul class="submenu">
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpMngt.do'/>">공시지가 관리</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpList.do'/>">공시지가 조회</a></li>
+                        </ul>
+                </li>
+                <li>
+                    <a href="#"><b>업체정보</b></a>
+                        <ul class="submenu">
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoMngt.do'/>">업체정보 관리</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoList.do'/>">업체정보 조회</a></li>
+                        </ul>
+                </li>
             </ul>
         </li>
 
