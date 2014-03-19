@@ -182,7 +182,7 @@ public class GamAssetRentMngtController {
     }
 	
 	/**
-     * 자산임대 최초신청을 등록한다.
+     * 자산임대,상세를 저장한다.
      * @param dataList
      * @return map
      * @throws Exception
@@ -233,6 +233,7 @@ public class GamAssetRentMngtController {
 			saveVO.setMngCnt(form.get("mngCnt"));     
 			saveVO.setEntrpscd(form.get("entrpscd"));   
 			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
+			saveVO.setReqstDt(form.get("reqstDt"));
 			saveVO.setPayMth(form.get("payMth"));     
 			saveVO.setNticMth(form.get("nticMth"));    
 			saveVO.setRm(form.get("rm"));         
@@ -258,7 +259,7 @@ public class GamAssetRentMngtController {
         		saveDetailVO.setDetailMngNo(keyVO.getMngNo());      
         		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt());     
     		} else {
-    			saveVO.setReqstSeCd("3"); //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
+    			//saveVO.setReqstSeCd("3"); //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
     	    	
     	        gamAssetRentMngtService.updateAssetRent(saveVO);
     			
@@ -301,6 +302,7 @@ public class GamAssetRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
     			
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
@@ -344,6 +346,7 @@ public class GamAssetRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
     			
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());
@@ -384,6 +387,21 @@ public class GamAssetRentMngtController {
     			
     			//총사용료, 총면적, 총사용기간 업데이트
     			gamAssetRentMngtService.updateAssetRentRenewInfo(updRentVO);
+    			
+    			//부두코드 가져오기
+    			GamAssetRentMngtVO quaycdVO = new GamAssetRentMngtVO();
+    			quaycdVO = gamAssetRentMngtService.selectAssetRentDetailQuaycd(updRentVO);
+    			
+    			//부두코드 업데이트
+    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+    				quaycdVO = new GamAssetRentMngtVO();
+    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+    				quaycdVO.setMngYear(paramVO.getMngYear());
+    				quaycdVO.setMngNo(paramVO.getMngNo());
+    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+    			}
+    			
+    			gamAssetRentMngtService.updateAssetRentQuaycd(quaycdVO);
     		}
     		
     	} catch (Exception e) {

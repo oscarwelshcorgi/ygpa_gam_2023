@@ -99,10 +99,11 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
+                    {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
                     /*
+                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
                     {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
@@ -270,15 +271,41 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
  
  
     // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
+    this.$('#prtAtCode').on('change', {module: this}, function(event) {
+        event.data.module.$('#prtAtCodeStr').val($(this).val());
+        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+    });
+ 
     this.$('#olnlpList').on('change', {module: this}, function(event) {
         event.data.module.$('#olnlp').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
     });
-
- 
  
     this.$('#applcTariff').on('change', {module: this}, function(event) {
-        event.data.module.$('#applcTariffStr').val($(this).val());
+    	if( $(this).val() == '1' ) {
+    		event.data.module.$('#applcTariffStr').val("0.005");
+    	} else if( $(this).val() == '2' ) {
+    		event.data.module.$('#applcTariffStr').val("0.0025");
+    	} else if( $(this).val() == '3' ) {
+    		event.data.module.$('#applcTariffStr').val("0.001");
+    	} else {
+    		event.data.module.$('#applcTariffStr').val("");
+    	}
+    	
+    	if( $(this).val() == '' ) {
+    		event.data.module.$('#applcTariffNm').val("");
+    	} else {
+    		event.data.module.$('#applcTariffNm').val($(this).getSelectedCodeLabel());
+    	}
+    });
+    
+    this.$('#exemptSe').on('change', {module: this}, function(event) {
+    	event.data.module.$('#exemptSeStr').val($(this).val());
+    	
+    	if( $(this).val() != '1' ) {
+            event.data.module.$('#exemptPdFrom').val("");
+            event.data.module.$('#exemptPdTo').val("");
+        }
     });
     
     this.$('.calcInput').on('change', {module: this}, function(event) {
@@ -338,11 +365,11 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         
         if( exemptSe == '1' ) {        // 일부면제
               if( this.$('#exemptPdFrom').val() == '' ) {
-                  alert("일부 면제의 경우 면제 기간을 선택하시오.");
+                  alert("일부 면제의 경우 면제기간(시작)을 선택하십시오.");
                   return;
               }
               if( this.$('#exemptPdTo').val() == '' ) {
-                  alert("일부 면제의 경우 면제 기간을 선택하시오.");
+                  alert("일부 면제의 경우 면제기간(종료)을 선택하십시오.");
                   return;
               }
         }
@@ -471,15 +498,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
-            //alert(this.$('#loginOrgnztId').val());
+            this.$('#deptcd').val(this.$('#loginOrgnztId').val());
 
-            //this.$('#deptcd').val(this.$('#loginOrgnztId').val());
-
-            this.$('#deptcd').val('ORGNZT_0000000000001');
-            
-            //currentDateStr
-            
-            //this.$('#frstReqstDt').val('2014-03-18');
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
@@ -795,12 +815,12 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             }
 
             if( this.$('#usagePdFrom').val() == '' ) {
-                alert("사용기간을 선택하십시오.");
+                alert("사용기간(시작)을 선택하십시오.");
                 return;
             }
 
             if( this.$('#usagePdTo').val() == '' ) {
-                alert("사용기간을 선택하십시오.");
+                alert("사용기간(종료)을 선택하십시오.");
                 return;
             }
 
@@ -826,7 +846,18 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
             if( this.$('#exemptSe').val() == '' ) {
                 alert("면제구분을 선택하십시오.");
-                return;
+                return; 
+            }
+            
+            if( this.$('#exemptSe').val() == '1' ) {
+            	if( this.$('#exemptPdFrom').val() == '' ) {
+            		alert("면제기간(시작)을 선택하십시오.");
+                    return;
+            	}
+            	if( this.$('#exemptPdTo').val() == '' ) {
+                    alert("면제기간(종료)을 선택하십시오.");
+                    return;
+                }
             }
 
             if( this.$('#fee').val() == '' ) {
@@ -837,8 +868,6 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
             //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
-            
-            alert(this._editRow);
             
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
@@ -949,6 +978,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
              this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#quayCd').val(value.gisAssetsQuayCd);
+             this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd); 
          } else {
              alert('취소 되었습니다');
          }
@@ -1041,9 +1071,9 @@ var module_instance = new GamAssetRentMngtModule();
                             <td>
                                <form id="form1">
                                    합계 :
-                                   자료수 <input id="totalResultCnt" size="15" readonly>
-                                   총면적 <input id="totalArea" type="text" size="15" readonly>
-                                   총사용료 <input id="totalUse" type="text" size="15" readonly>원
+                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" readonly>
+                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" readonly>
+                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" readonly>원
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
@@ -1215,6 +1245,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
                                 <th><span class="label">자산코드 </span></th>
                                 <td><input type="hidden" id="gisAssetsPrtAtCode"/><input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
+                                    <input type="hidden" id="assetsCdStr"/>
                                     <button id="popupFcltyCd" class="popupButton">자산조회</button></td>
                                 <th><span class="label">자산명</span></th>
                                 <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
@@ -1261,6 +1292,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <input id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id=GAM023 />
 
                                     <input type="text" size="14" id="applcTariffStr"/>
+                                    <input type="hidden" id="applcTariffNm"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
                                 <td colspan="3">

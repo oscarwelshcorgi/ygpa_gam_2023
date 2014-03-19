@@ -527,5 +527,24 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCurrRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCurrRenewInfo(searchVO);
     }
+    
+    /**
+	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentDetailQuaycd(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentDetailQuaycd(searchVO);
+    }
+    
+    /**
+	 * 신청저장시 임대테이블의 부두코드를 업데이트 한다.
+	 * @param vo GamAssetRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentQuaycd(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.updateAssetRentQuaycd(vo);
+	}
 	
 }
