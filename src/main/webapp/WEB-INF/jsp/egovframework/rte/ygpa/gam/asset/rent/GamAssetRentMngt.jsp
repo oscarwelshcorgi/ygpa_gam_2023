@@ -286,6 +286,21 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.makeFormValues('#gamAssetRentFileForm', row);
         module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
         module._editRowFile=module.$('#assetRentFileList').selectedRowIds()[0];
+        
+        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
+            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+            var filenm=row['filenmPhysicl'];
+            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+                $imgURL = module.getImageUrl(filenm);
+                module.$("#previewImage").fadeIn(400, function() {
+                    module.$("#previewImage").attr('src', $imgURL);
+                });
+            }
+            else {
+                module.$("#previewImage").attr(src, '#');
+            }
+        }
     });
     
  // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
