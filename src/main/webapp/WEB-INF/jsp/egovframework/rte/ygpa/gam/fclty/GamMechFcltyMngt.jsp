@@ -49,17 +49,14 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
-//		usepager: true,
-		useRp: true,
-		rp: 24,
+		//usepager: true,
+		//useRp: true,
+		//rp: 24,
 		showTableToggleBtn: false,
 		height: "230"
 	});
 	
-	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-
+	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:row["gisPrtFcltyCd"]};
 		module.doAction('<c:url value="/fclty/gamMechFcltyView.do" />', detailInput, function(module, result) {
 
@@ -80,7 +77,79 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 			module.$("#gisAssetsLnm").val(result.detail.gisAssetsLnm);
 			module.$("#gisAssetsLnmSub").val(result.detail.gisAssetsLnmSub);
 			module.$("#gisAssetsNm").val(result.detail.gisAssetsNm);
+			module.$(".selectedGAM005").hide();
+			module.$("#gisCodePopupBtn").hide();
+			
+			module.makeFormValues("#cmpyChargerMngtManageVO", row);
+			module._editRow = module.$("#cmpyMngtList").selectedRowIds()[0];
 	 	});
+	});
+	
+	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
+		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
+	});
+
+	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		// 이벤트내에선 모듈에 대해 선택한다.
+		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
+	});
+	
+	// 사진 정보 속성이 변경 된 경우 이벤트 실행
+	this.$('.photoEditItem').on('change', {module: this}, function(event) {
+		var m = event.data.module;
+		if(m._editPhotoRow==null) return;
+
+		if(m._editPhotoData==null) return;
+
+		if(m._editPhotoData._updt==null || m._editPhotoData._updt=='') {
+			 m._editPhotoData._updt='U';
+		}
+		else {
+			m._editPhotoData._updt='I';
+		}
+
+		if(m.$('#photoSj')==event.target) {	// 제목 변경
+			m._editPhotoData.photoSj = $(event.target).val();
+		}
+		else {	// 날짜 시간 변경
+			var dtStr = m.$('#shotDate').val()+' '+m.$('#shotTime').val();
+			m._editPhotoData.shotDt = dtStr;
+		}
+
+	});
+	
+	this.$("#fcltyPhotoList").flexigrid({
+		module: this,
+		url: '<c:url value="/sample/selectAssetCodePhotoList.do"/>',
+		dataType: 'json',
+		colModel : [
+				{display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+				{display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
+				{display:'파일명', name:'filenmLogical', width:200, sortable:true, align:'left'},
+				{display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'}
+			],
+		height: "120"
+	});
+
+	this.$("#fcltyPhotoList").on('onItemSelected', function(event, module, row, grid, param) {
+		module.makeFormValues('#editAssetGisPhotoForm', row);
+		module._editPhotoData=module.getFormValues('#editAssetGisPhotoForm', row);
+		module._editPhotoRow=module.$('#fcltyPhotoList').selectedRowIds()[0];
+
+		if(row.filenmPhyicl!=null || row.filenmPhyicl!='') {
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm=row['filenmPhyicl'];
+			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+			    $imgURL = module.getImageUrl(filenm);
+			    module.$("#previewImage").fadeIn(400, function() {
+			    	module.$("#previewImage").attr('src', $imgURL);
+			    });
+			}
+			else {
+				module.$("#previewImage").attr(src, '#');
+			}
+		}
 	});
 };
 
@@ -104,6 +173,8 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
 			this.$("#fcltyManageVO :input").val("");
 			this.$("#cmd").val("insert");
+			this.$(".selectedGAM005").show();
+			this.$("#gisCodePopupBtn").show();
 		break;
 
 		// 자산코드 팝업
@@ -123,12 +194,17 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 저장
 		case "saveBtn":
-			
+		 	
+		 	var inputVO=[{}];
+			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
+			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
+			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
+			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this.getFormValues("#fcltyManageVO", {})) };
+
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
-		 	var inputVO = this.makeFormArgs("#fcltyManageVO");
-			
+
 		 	if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamMechFcltyInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
@@ -161,10 +237,8 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 				alert("삭제할 시설을 선택 하십시오.");
 				return;
 			}
-
+			
 			if(confirm("선택 한 기계 시설을 삭제하시겠습니까?")){
-				
-				var row = this.$("#fcltyMngtList").selectedRows();
 				
 				var inputVO = {gisAssetsCd:row[0]["gisAssetsCd"], gisPrtFcltySeq:row[0]["gisPrtFcltySeq"], gisAssetsPrtAtCode:row[0]["gisAssetsPrtAtCode"], gisAssetsSubCd:row[0]["gisAssetsSubCd"], gisPrtFcltyCd:row[0]["gisPrtFcltyCd"]};
 			 	this.doAction('<c:url value="/fclty/gamMechFcltyDelete.do" />', inputVO, function(module, result) {
@@ -178,6 +252,36 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			 	});
 			}
 		break;
+		
+		case "btnAddGisMap":
+			if(this.$("#assetCodeList").selectedRowIds().length>0) {
+				var row = this.$("#erpAssetCodeList").selectedRows();
+				this.addGisAssetsCdMap("GAC", {"gisPrtAtCode": "620", "gisAssetsCd": "LNF", "gisAssetsSubCd": "01"});
+			}
+		break;
+
+		case "btnUploadFile":
+			
+			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
+			this.uploadFile("uploadPhoto", function(module, result) {
+				
+				var userid="admin";
+				
+				$.each(result, function(){
+					// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+					module.$("#fcltyPhotoList").flexAddRow({photoSj: "", filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()});
+				});
+			}, "시설사진 업로드");
+		break;
+
+		case "btnApplyPhotoData":
+			var rownum;
+			var row = {};
+			row = module.getFormValues("#editAssetGisPhotoForm", row);
+			rownum = module.$("#fcltyPhotoList").selectedRowIds()[0];
+
+			this.$("#fcltyPhotoList").flexUpdateRow(rownum, row);
+		break;
 	}
 };
 
@@ -190,9 +294,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 	case "tabs1":
 		break;
 	case "tabs2":
-		var row = this.$("#fcltyMngtList").selectedRows();
-		if(row.length == 0) this.$("#cmd").val("insert");
-		else this.$("#cmd").val("modify");
 		break;
 	}
 };
@@ -320,16 +421,16 @@ var module_instance = new GamFcltyMngtModule();
 								<input id="gisAssetsLnmSub" type="text" size="4" title="지번 뒷자리" disabled="disabled" />
 							</td>
 						</tr>
-						<tr>
+						<tr class="selectedGAM005">
 							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" onchange="alert(11);" id="selectedGAM005"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005"/>
 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">기계시설 코드</th>
 							<td colspan="3">
-								<input type="text" size="10" id="gisPrtFcltyCd" />&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
+								<input type="text" size="10" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
@@ -370,45 +471,27 @@ var module_instance = new GamFcltyMngtModule();
 			</div>
 			
 			<!-- 기계시설 사진 -->
-			<div id="tabs3" class="emdTabPage" style="height:300px; overflow: scroll;">
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
+				<table id="fcltyPhotoList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="uploadPic">업로드</button>
-					<button id="uploadPicOpen">사진열기</button>
-					<button id="uploadPicDel">삭제</button>
+					<button id="btnUploadFile">업로드</button>
+					<button id="btnDownloadFile">다운로드</button>
+					<button id="removeAssetGisPhoto">삭제</button>
 				</div>
-				<form id="fcltyPicManageVO">
-					<table class="searchPanel">
-						<tr>
-							<th width="20%" height="23" class="required_text">제목<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">촬영일시<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">사진 설명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
-						</tr>
-					</table>
-					<div class="emdControlPanel">
-						<button id="">적용</button>
-					</div>
+				<form id="editAssetGisPhotoForm">
 					<table>
 						<tr>
-							<th width="20%" height="23" class="required_text">미리보기<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
+							<th><span class="label">제 목</span></th>
+							<td><input id="photoSj" type="text" size="60" class="photoEditItem" /></td>
+						</tr>
+						<tr>
+							<th><span class="label">촬영일자</span></th>
+							<td><input id="shotDate" type="text" size="10"  class="emdcal photoEditItem">&nbsp;<input id="shotTime" type="text" size="5"  class="photoEditItem emdTime"/></td>
 						</tr>
 					</table>
 				</form>
+				<button id="btnApplyPhotoData">적용</button>
+				<div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
 	</div>
