@@ -54,8 +54,13 @@
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , A.PAY_MTH
-                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+                                  , A.SANCTN_STTUS
+                                  , A.SANCTNER_EMPL_NO
+                                  , A.QUAY_CD
+                                  , A.SANCTN_DT
+                                  , A.QUAY_GROUP_CD
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                             
@@ -124,6 +129,23 @@
 															                       )
 								     ) 
                              </isNotEmpty>
+                             
+                             <isNotEmpty property="sDateSearchGbn">
+                             <isNotEmpty property="sDateSearchValue">
+					            	<isEqual property="sDateSearchGbn" compareValue="1">
+					            		AND TO_CHAR(A.FRST_REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            	<isEqual property="sDateSearchGbn" compareValue="2">
+					            		AND TO_CHAR(A.FRST_PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            	<isEqual property="sDateSearchGbn" compareValue="3">
+					            		AND TO_CHAR(A.REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            	<isEqual property="sDateSearchGbn" compareValue="4">
+					            		AND TO_CHAR(A.PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            </isNotEmpty>
+					            </isNotEmpty>
                              
                              <!--  ORDER BY REGIST_DT DESC -->
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
@@ -203,6 +225,23 @@
 											                       )
 						) 
               </isNotEmpty>
+              
+              <isNotEmpty property="sDateSearchGbn">
+              <isNotEmpty property="sDateSearchValue">
+	            	<isEqual property="sDateSearchGbn" compareValue="1">
+	            		AND TO_CHAR(A.FRST_REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            	<isEqual property="sDateSearchGbn" compareValue="2">
+	            		AND TO_CHAR(A.FRST_PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            	<isEqual property="sDateSearchGbn" compareValue="3">
+	            		AND TO_CHAR(A.REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            	<isEqual property="sDateSearchGbn" compareValue="4">
+	            		AND TO_CHAR(A.PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            </isNotEmpty>
+	            </isNotEmpty>
              
     </select>
     
@@ -282,6 +321,23 @@
 									                       )
 				) 
           </isNotEmpty>
+          
+          <isNotEmpty property="sDateSearchGbn">
+          <isNotEmpty property="sDateSearchValue">
+            	<isEqual property="sDateSearchGbn" compareValue="1">
+            		AND TO_CHAR(A.FRST_REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            	<isEqual property="sDateSearchGbn" compareValue="2">
+            		AND TO_CHAR(A.FRST_PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            	<isEqual property="sDateSearchGbn" compareValue="3">
+            		AND TO_CHAR(A.REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            	<isEqual property="sDateSearchGbn" compareValue="4">
+            		AND TO_CHAR(A.PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            </isNotEmpty>
+            </isNotEmpty>
          
     </select>
     
