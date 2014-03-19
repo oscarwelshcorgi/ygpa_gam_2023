@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/emd_desktop.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_desktop.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/theme/jquery-ui-1.10.4.custom.css' />" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.fileupload.css' />">
 <link rel="stylesheet" href="<c:url value='/css/jquery.fileupload-ui.css' />">
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
