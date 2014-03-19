@@ -677,14 +677,14 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </td>
                             <th>신청/허가일자</th>
                             <td>
-                            	<select id="ddddd">
+                            	<select id="sDateSearchGbn">
                                     <option value="" selected="selected">선택</option>
                                     <option value="1">최초신청일</option>
                                     <option value="2">최초허가일</option>
                                     <option value="3">신청일자</option>
                                     <option value="4">허가일자</option>
                                 </select>
-                                <input id="tttttt" type="text" class="emdcal" size="8" >
+                                <input id="sDateSearchValue" type="text" class="emdcal" size="10" >
                             </td>
                             <th>승낙여부</th>
                             <td >
