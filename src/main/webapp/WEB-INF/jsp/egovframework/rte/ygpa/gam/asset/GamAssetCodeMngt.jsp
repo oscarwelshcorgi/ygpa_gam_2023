@@ -38,15 +38,13 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		dataType: 'json',
 		colModel : [
 			{display:'등록', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
-			{display:'자산구분', name:'assetCls', width:66, sortable:true, align:'left'},
-			{display:'자산번호', name:'assetNo', width:62, sortable:true, align:'right'},
-			{display:'자산번호순번', name:'assetNoSeq', width:128, sortable:true, align:'left'},
+			{display:'ERP자산코드', name:'erpAssetCode', width:80, sortable:true, align:'left'},
 			{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'right'},
 			{display:'품목', name:'itemCls', width:32, sortable:true, align:'center'},
-			{display:'품명', name:'itemName', width:200, sortable:true, align:'center'},
+			{display:'품명', name:'itemNameAsset', width:200, sortable:true, align:'center'},
 			{display:'취득일자', name:'buyDate', width:64, sortable:true, align:'center'},
-			{display:'현재수량', name:'curQty', width:128, sortable:true, align:'right', displayFormat: 'number'},
-			{display:'취득금액', name:'deprctnAmt', width:128, sortable:true, align:'right', displayFormat: 'number'},
+			{display:'취득수량', name:'buyQty', width:128, sortable:true, align:'right', displayFormat: 'number'},
+			{display:'취득단가', name:'buyPrice', width:128, sortable:true, align:'right', displayFormat: 'number'},
 			{display:'취득구분', name:'buyCls', width:40, sortable:true, align:'center'},
 			{display:'구매구분', name:'purCls', width:40, sortable:true, align:'center'},
 			{display:'구매용도', name:'purPurpose', width:200, sortable:true, align:'center'},
@@ -63,16 +61,19 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'계정코드', name:'accntCd', width:64, sortable:true, align:'center'},
 			{display:'상각구분', name:'deprctnCls', width:8, sortable:true, align:'center'},
 			{display:'자산내용년수', name:'assetFixTerm', width:128, sortable:true, align:'center'},
-			{display:'변동구분', name:'changeCls', width:8, sortable:true, align:'center'},
-			{display:'변동일자', name:'changeDate', width:64, sortable:true, align:'center'},
-			{display:'변동금액', name:'changeAmt', width:128, sortable:true, align:'center'},
-			{display:'사진이미지', name:'picImage', width:0, sortable:true, align:'center'},
-			{display:'입력자코드', name:'inputEmpNo', width:80, sortable:true, align:'center'},
-			{display:'입력일자', name:'inputDate', width:128, sortable:true, align:'center'},
-			{display:'수정자코드', name:'updateEmpNo', width:80, sortable:true, align:'center'},
-			{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
+			{display:'변동구분', name:'changeCls', width:8, sortable:true, align:'center'}
+
+//			{display:'입력일자', name:'inputDate', width:128, sortable:true, align:'center'},
+//			{display:'수정자코드', name:'updateEmpNo', width:80, sortable:true, align:'center'},
+//			{display:'수정일자', name:'updateDate', width:128, sortable:true, align:'center'}
 			],
-		height: 'auto'
+		height: 'auto',
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq;
+			});
+			return data;
+		}
 	});
 
 	this.$("#erpAssetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -392,7 +393,7 @@ var module_instance = new GamAssetCodeModule();
 						<tbody>
 							<tr>
 								<th>자산구분</th>
-								<td><select id="assetCls">
+								<td><select id="searchAssetCls">
 										<option value="" selected="selected">선택</option>
 										<c:forEach  items="${erpAssetClsList}" var="clsItem">
 											<option value="${clsItem.smCls }">${clsItem.smClsName }</option>

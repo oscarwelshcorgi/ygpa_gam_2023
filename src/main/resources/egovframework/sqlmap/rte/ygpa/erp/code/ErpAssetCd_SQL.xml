@@ -2,86 +2,90 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="ErpAssetCd">
-	
+
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="erpAssetCdSerarchVO" type="egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO"/>
-	
+
 	<resultMap id="erpAssetCd" class="egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO">
-		<result property="assetCls" column="ASSET_CLS" columnIndex="1"/>
-		<result property="assetNo" column="ASSET_NO" columnIndex="2"/>
-		<result property="assetNoSeq" column="ASSET_NO_SEQ" columnIndex="3"/>
-		<result property="assetMngtNo" column="ASSET_MNGT_NO" columnIndex="4"/>
-		<result property="itemCls" column="ITEM_CLS" columnIndex="5"/>
-		<result property="itemName" column="ITEM_NAME" columnIndex="6"/>
-		<result property="buyDate" column="BUY_DATE" columnIndex="7"/>
-		<result property="curQty" column="CUR_QTY" columnIndex="8"/>
-		<result property="deprctnAmt" column="DEPRCTN_AMT" columnIndex="9"/>
-		<result property="buyCls" column="BUY_CLS" columnIndex="10"/>
-		<result property="purCls" column="PUR_CLS" columnIndex="11"/>
-		<result property="purPurpose" column="PUR_PURPOSE" columnIndex="12"/>
-		<result property="purCust" column="PUR_CUST" columnIndex="13"/>
-		<result property="accUnitCls" column="ACC_UNIT_CLS" columnIndex="14"/>
-		<result property="projectCd" column="PROJECT_CD" columnIndex="15"/>
-		<result property="placeCd" column="PLACE_CD" columnIndex="16"/>
-		<result property="deptCd" column="DEPT_CD" columnIndex="17"/>
-		<result property="empNo" column="EMP_NO" columnIndex="18"/>
-		<result property="modelName" column="MODEL_NAME" columnIndex="19"/>
-		<result property="assetSize" column="ASSET_SIZE" columnIndex="20"/>
-		<result property="productSeqNo" column="PRODUCT_SEQ_NO" columnIndex="21"/>
-		<result property="makerName" column="MAKER_NAME" columnIndex="22"/>
-		<result property="remark1" column="REMARK1" columnIndex="23"/>
-		<result property="remark2" column="REMARK2" columnIndex="24"/>
-		<result property="accntCd" column="ACCNT_CD" columnIndex="25"/>
-		<result property="deprctnCls" column="DEPRCTN_CLS" columnIndex="26"/>
-		<result property="assetFixTerm" column="ASSET_FIX_TERM" columnIndex="27"/>
-		<result property="changeCls" column="CHANGE_CLS" columnIndex="28"/>
-		<result property="changeDate" column="CHANGE_DATE" columnIndex="29"/>
-		<result property="changeAmt" column="CHANGE_AMT" columnIndex="30"/>
-		<result property="picImage" column="PIC_IMAGE" columnIndex="31"/>
-		<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="32"/>
-		<result property="inputDate" column="INPUT_DATE" columnIndex="33"/>
-		<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="34"/>
-		<result property="updateDate" column="UPDATE_DATE" columnIndex="35"/>
+			<result property="assetCls" column="ASSET_CLS" columnIndex="1"/>
+			<result property="assetNo" column="ASSET_NO" columnIndex="2"/>
+			<result property="assetNoSeq" column="ASSET_NO_SEQ" columnIndex="3"/>
+			<result property="assetMngtNo" column="ASSET_MNGT_NO" columnIndex="4"/>
+			<result property="itemCls" column="ITEM_CLS" columnIndex="5"/>
+			<result property="itemNameAsset" column="ITEM_NAME_ASSET" columnIndex="6"/>
+			<result property="buyDate" column="BUY_DATE" columnIndex="7"/>
+			<result property="buyQty" column="BUY_QTY" columnIndex="8"/>
+			<result property="curQty" column="CUR_QTY" columnIndex="9"/>
+			<result property="buyPrice" column="BUY_PRICE" columnIndex="10"/>
+			<result property="buyAmt" column="BUY_AMT" columnIndex="11"/>
+			<result property="buyCls" column="BUY_CLS" columnIndex="12"/>
+			<result property="purCls" column="PUR_CLS" columnIndex="13"/>
+			<result property="purPurpose" column="PUR_PURPOSE" columnIndex="14"/>
+			<result property="purCust" column="PUR_CUST" columnIndex="15"/>
+			<result property="accUnitCls" column="ACC_UNIT_CLS" columnIndex="16"/>
+			<result property="projectCd" column="PROJECT_CD" columnIndex="17"/>
+			<result property="placeCd" column="PLACE_CD" columnIndex="18"/>
+			<result property="deptCd" column="DEPT_CD" columnIndex="19"/>
+			<result property="empNo" column="EMP_NO" columnIndex="20"/>
+			<result property="modelName" column="MODEL_NAME" columnIndex="21"/>
+			<result property="assetSize" column="ASSET_SIZE" columnIndex="22"/>
+			<result property="productSeqNo" column="PRODUCT_SEQ_NO" columnIndex="23"/>
+			<result property="makerName" column="MAKER_NAME" columnIndex="24"/>
+			<result property="remarkAsset1" column="REMARK_ASSET1" columnIndex="25"/>
+			<result property="remarkAsset2" column="REMARK_ASSET2" columnIndex="26"/>
+			<result property="accntCd" column="ACCNT_CD" columnIndex="27"/>
+			<result property="deprctnCls" column="DEPRCTN_CLS" columnIndex="28"/>
+			<result property="assetFixTerm" column="ASSET_FIX_TERM" columnIndex="29"/>
+			<result property="changeCls" column="CHANGE_CLS" columnIndex="30"/>
+			<result property="assetSaleDate" column="ASSET_SALE_DATE" columnIndex="31"/>
+			<result property="assetSaleAmt" column="ASSET_SALE_AMT" columnIndex="32"/>
+			<result property="picImageAsset" column="PIC_IMAGE_ASSET" columnIndex="33"/>
+			<result property="inputEmpNo" column="INPUT_EMP_NO" columnIndex="34"/>
+			<result property="inputDate" column="INPUT_DATE" columnIndex="35"/>
+			<result property="updateEmpNo" column="UPDATE_EMP_NO" columnIndex="36"/>
+			<result property="updateDate" column="UPDATE_DATE" columnIndex="37"/>
 	</resultMap>
-	
+
 	<insert id="erpAssetCdDAO.insertErpAssetCd_S">
 		<![CDATA[
-			INSERT INTO ERP_ASSET_CD 
-				( ASSET_CLS
-				  , ASSET_NO
-				  , ASSET_NO_SEQ
-				  , ASSET_MNGT_NO
-				  , ITEM_CLS
-				  , ITEM_NAME
-				  , BUY_DATE
-				  , CUR_QTY
-				  , DEPRCTN_AMT
-				  , BUY_CLS
-				  , PUR_CLS
-				  , PUR_PURPOSE
-				  , PUR_CUST
-				  , ACC_UNIT_CLS
-				  , PROJECT_CD
-				  , PLACE_CD
-				  , DEPT_CD
-				  , EMP_NO
-				  , MODEL_NAME
-				  , ASSET_SIZE
-				  , PRODUCT_SEQ_NO
-				  , MAKER_NAME
-				  , REMARK1
-				  , REMARK2
-				  , ACCNT_CD
-				  , DEPRCTN_CLS
-				  , ASSET_FIX_TERM
-				  , CHANGE_CLS
-				  , CHANGE_DATE
-				  , CHANGE_AMT
-				  , PIC_IMAGE
-				  , INPUT_EMP_NO
-				  , INPUT_DATE
-				  , UPDATE_EMP_NO
-				  , UPDATE_DATE )
+			INSERT INTO EGMFA1000
+				( ASSET_CLS,
+					ASSET_NO,
+					ASSET_NO_SEQ,
+					ASSET_MNGT_NO,
+					ITEM_CLS,
+					ITEM_NAME_ASSET,
+					BUY_DATE,
+					BUY_QTY,
+					CUR_QTY,
+					BUY_PRICE,
+					BUY_AMT,
+					BUY_CLS,
+					PUR_CLS,
+					PUR_PURPOSE,
+					PUR_CUST,
+					ACC_UNIT_CLS,
+					PROJECT_CD,
+					PLACE_CD,
+					DEPT_CD,
+					EMP_NO,
+					MODEL_NAME,
+					ASSET_SIZE,
+					PRODUCT_SEQ_NO,
+					MAKER_NAME,
+					REMARK_ASSET1,
+					REMARK_ASSET2,
+					ACCNT_CD,
+					DEPRCTN_CLS,
+					ASSET_FIX_TERM,
+					CHANGE_CLS,
+					ASSET_SALE_DATE,
+					ASSET_SALE_AMT,
+					INPUT_EMP_NO,
+					INPUT_DATE,
+					UPDATE_EMP_NO,
+					UPDATE_DATE
+ )
 			VALUES ( #assetCls#
 				  , #assetNo#
 				  , #assetNoSeq#
@@ -119,172 +123,115 @@
 				  , #updateDate# )
 		]]>
 	</insert>
-	
-	<update id="erpAssetCdDAO.updateErpAssetCd_S">
-		<![CDATA[
-			UPDATE ERP_ASSET_CD
-			SET ASSET_CLS=#assetCls#
-				, ASSET_NO=#assetNo#
-				, ASSET_NO_SEQ=#assetNoSeq#
-				, ASSET_MNGT_NO=#assetMngtNo#
-				, ITEM_CLS=#itemCls#
-				, ITEM_NAME=#itemName#
-				, BUY_DATE=#buyDate#
-				, CUR_QTY=#curQty#
-				, DEPRCTN_AMT=#deprctnAmt#
-				, BUY_CLS=#buyCls#
-				, PUR_CLS=#purCls#
-				, PUR_PURPOSE=#purPurpose#
-				, PUR_CUST=#purCust#
-				, ACC_UNIT_CLS=#accUnitCls#
-				, PROJECT_CD=#projectCd#
-				, PLACE_CD=#placeCd#
-				, DEPT_CD=#deptCd#
-				, EMP_NO=#empNo#
-				, MODEL_NAME=#modelName#
-				, ASSET_SIZE=#assetSize#
-				, PRODUCT_SEQ_NO=#productSeqNo#
-				, MAKER_NAME=#makerName#
-				, REMARK1=#remark1#
-				, REMARK2=#remark2#
-				, ACCNT_CD=#accntCd#
-				, DEPRCTN_CLS=#deprctnCls#
-				, ASSET_FIX_TERM=#assetFixTerm#
-				, CHANGE_CLS=#changeCls#
-				, CHANGE_DATE=#changeDate#
-				, CHANGE_AMT=#changeAmt#
-				, PIC_IMAGE=#picImage#
-				, INPUT_EMP_NO=#inputEmpNo#
-				, INPUT_DATE=#inputDate#
-				, UPDATE_EMP_NO=#updateEmpNo#
-				, UPDATE_DATE=#updateDate#
-						WHERE ASSET_CLS=#assetCls#
-								AND ASSET_NO=#assetNo#
-								AND ASSET_NO_SEQ=#assetNoSeq#
-				]]>
-	</update>
-	
-	<delete id="erpAssetCdDAO.deleteErpAssetCd_S">
-		<![CDATA[
-			DELETE FROM ERP_ASSET_CD 
-						WHERE ASSET_CLS=#assetCls#
-								AND ASSET_NO=#assetNo#
-								AND ASSET_NO_SEQ=#assetNoSeq#
-				]]>
-	</delete>
-	
+
 	<select id="erpAssetCdDAO.selectErpAssetCd_S" resultMap="erpAssetCd">
 		<![CDATA[
 			SELECT
-				ASSET_CLS
-				, ASSET_NO
-				, ASSET_NO_SEQ
-				, ASSET_MNGT_NO
-				, ITEM_CLS
-				, ITEM_NAME
-				, BUY_DATE
-				, CUR_QTY
-				, DEPRCTN_AMT
-				, BUY_CLS
-				, PUR_CLS
-				, PUR_PURPOSE
-				, PUR_CUST
-				, ACC_UNIT_CLS
-				, PROJECT_CD
-				, PLACE_CD
-				, DEPT_CD
-				, EMP_NO
-				, MODEL_NAME
-				, ASSET_SIZE
-				, PRODUCT_SEQ_NO
-				, MAKER_NAME
-				, REMARK1
-				, REMARK2
-				, ACCNT_CD
-				, DEPRCTN_CLS
-				, ASSET_FIX_TERM
-				, CHANGE_CLS
-				, CHANGE_DATE
-				, CHANGE_AMT
-				, PIC_IMAGE
-				, INPUT_EMP_NO
-				, INPUT_DATE
-				, UPDATE_EMP_NO
-				, UPDATE_DATE
-			FROM ERP_ASSET_CD
+				ASSET_CLS,
+					ASSET_NO,
+					ASSET_NO_SEQ,
+					ASSET_MNGT_NO,
+					ITEM_CLS,
+					ITEM_NAME_ASSET,
+					BUY_DATE,
+					BUY_QTY,
+					CUR_QTY,
+					BUY_PRICE,
+					BUY_AMT,
+					BUY_CLS,
+					PUR_CLS,
+					PUR_PURPOSE,
+					PUR_CUST,
+					ACC_UNIT_CLS,
+					PROJECT_CD,
+					PLACE_CD,
+					DEPT_CD,
+					EMP_NO,
+					MODEL_NAME,
+					ASSET_SIZE,
+					PRODUCT_SEQ_NO,
+					MAKER_NAME,
+					REMARK_ASSET1,
+					REMARK_ASSET2,
+					ACCNT_CD,
+					DEPRCTN_CLS,
+					ASSET_FIX_TERM,
+					CHANGE_CLS,
+					ASSET_SALE_DATE,
+					ASSET_SALE_AMT,
+					INPUT_EMP_NO,
+					INPUT_DATE,
+					UPDATE_EMP_NO,
+					UPDATE_DATE
+			FROM EGMFA1000
 						WHERE ASSET_CLS=#assetCls#
 								AND ASSET_NO=#assetNo#
 								AND ASSET_NO_SEQ=#assetNoSeq#
 				]]>
 	</select>
-	
+
 	<select id="erpAssetCdDAO.selectErpAssetCdList_D" parameterClass="erpAssetCdSerarchVO" resultClass="egovMap">
 SELECT * FROM (
 	SELECT A.*, ROWNUM RNUM FROM (
 				SELECT
-								ASSET_CLS
-								, ASSET_NO
-								, ASSET_NO_SEQ
-								, ASSET_MNGT_NO
-								, ITEM_CLS
-								, ITEM_NAME
-								, BUY_DATE
-								, CUR_QTY
-								, DEPRCTN_AMT
-								, BUY_CLS
-								, PUR_CLS
-								, PUR_PURPOSE
-								, PUR_CUST
-								, ACC_UNIT_CLS
-								, PROJECT_CD
-								, PLACE_CD
-								, DEPT_CD
-								, EMP_NO
-								, MODEL_NAME
-								, ASSET_SIZE
-								, PRODUCT_SEQ_NO
-								, MAKER_NAME
-								, REMARK1
-								, REMARK2
-								, ACCNT_CD
-								, DEPRCTN_CLS
-								, ASSET_FIX_TERM
-								, CHANGE_CLS
-								, CHANGE_DATE
-								, CHANGE_AMT
-								, PIC_IMAGE
-								, INPUT_EMP_NO
-								, INPUT_DATE
-								, UPDATE_EMP_NO
-								, UPDATE_DATE
-						FROM ERP_ASSET_CD
+								ASSET_CLS,
+								ASSET_NO,
+								ASSET_NO_SEQ,
+								ASSET_MNGT_NO,
+								ITEM_CLS,
+								ITEM_NAME_ASSET,
+								BUY_DATE,
+								BUY_QTY,
+								CUR_QTY,
+								BUY_PRICE,
+								BUY_AMT,
+								BUY_CLS,
+								PUR_CLS,
+								PUR_PURPOSE,
+								PUR_CUST,
+								ACC_UNIT_CLS,
+								PROJECT_CD,
+								PLACE_CD,
+								DEPT_CD,
+								EMP_NO,
+								MODEL_NAME,
+								ASSET_SIZE,
+								PRODUCT_SEQ_NO,
+								MAKER_NAME,
+								REMARK_ASSET1,
+								REMARK_ASSET2,
+								ACCNT_CD,
+								DEPRCTN_CLS,
+								ASSET_FIX_TERM,
+								CHANGE_CLS,
+								ASSET_SALE_DATE,
+								ASSET_SALE_AMT,
+								INPUT_EMP_NO,
+								INPUT_DATE,
+								UPDATE_EMP_NO,
+								UPDATE_DATE
+						FROM EGMFA1000
 				WHERE 1=1
-				<isEqual prepend="AND" property="searchCondition" compareValue="0">
-					ASSET_CLS = #searchKeyword#
-				</isEqual>
-				<isEqual prepend="AND" property="searchCondition" compareValue="1">
-					ASSET_NO LIKE '%' || #searchKeyword# || '%'
-				</isEqual>
-					ORDER BY 
-						ASSET_CLS DESC
-							, ASSET_NO DESC
-							, ASSET_NO_SEQ DESC
-		
-		<![CDATA[					
+					<isNotEmpty prepend="AND" property="searchAssetCls">
+						ASSET_CLS = #searchAssetCls#
+					</isNotEmpty>
+					ORDER BY
+						ASSET_CLS
+							, ASSET_NO
+							, ASSET_NO_SEQ
+
+		<![CDATA[
 	) A WHERE ROWNUM <= #lastIndex#
 )WHERE RNUM > #firstIndex#
 ]]>
-	</select>	
+	</select>
 	<select id="erpAssetCdDAO.selectErpAssetCdListTotCnt_S" parameterClass="erpAssetCdSerarchVO" resultClass="int">
 			SELECT COUNT(*) totcnt
-			FROM ERP_ASSET_CD
+			FROM EGMFA1000
 			WHERE 1=1
-			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				ASSET_CLS = #searchKeyword#
-			</isEqual>
-			<isEqual prepend="AND" property="searchCondition" compareValue="1">
-				ASSET_NO LIKE '%' || #searchKeyword# || '%'
-			</isEqual>
+			<isNotEmpty prepend="AND" property="searchAssetCls">
+				ASSET_CLS = #searchAssetCls#
+			</isNotEmpty>
 	</select>
 
 </sqlMap>

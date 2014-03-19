@@ -89,39 +89,39 @@ public class GamGisAssetCodeMngtController {
     	model.addAttribute("erpAssetSeList", erpAssetSeList);
 
     	// 코드 조회
-        CmmnDetailCodeVO searchCodeVO;
-        searchCodeVO = new CmmnDetailCodeVO();
-        searchCodeVO.setRecordCountPerPage(999999);
-        searchCodeVO.setFirstIndex(0);
-        searchCodeVO.setSearchCondition("1");
+//        CmmnDetailCodeVO searchCodeVO;
+//        searchCodeVO = new CmmnDetailCodeVO();
+//        searchCodeVO.setRecordCountPerPage(999999);
+//        searchCodeVO.setFirstIndex(0);
+//        searchCodeVO.setSearchCondition("1");
 
-        searchCodeVO.setSearchKeyword("GAM019");
-        List codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("prtAtCodeList", codeList);
-
-        searchCodeVO.setSearchKeyword("GAM001");
-        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("assetsPrprtySeCdList", codeList);
-
-        searchCodeVO.setSearchKeyword("GAM002");
-        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("assetsLocCdList", codeList);
-
-        searchCodeVO.setSearchKeyword("GAM003");
-        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("assetsQuayCdList", codeList);
-
-        searchCodeVO.setSearchKeyword("GAM019");
-        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("prtAtCodeList", codeList);
-
-        searchCodeVO.setSearchKeyword("GAM005");
-        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("assetsSeCdList", codeList);
-
-        searchCodeVO.setSearchKeyword("GAM013");
-        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
-    	model.addAttribute("assetsInvstmntMthdList", codeList);
+//        searchCodeVO.setSearchKeyword("GAM019");
+//        List codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("prtAtCodeList", codeList);
+//
+//        searchCodeVO.setSearchKeyword("GAM001");
+//        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("assetsPrprtySeCdList", codeList);
+//
+//        searchCodeVO.setSearchKeyword("GAM002");
+//        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("assetsLocCdList", codeList);
+//
+//        searchCodeVO.setSearchKeyword("GAM003");
+//        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("assetsQuayCdList", codeList);
+//
+//        searchCodeVO.setSearchKeyword("GAM019");
+//        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("prtAtCodeList", codeList);
+//
+//        searchCodeVO.setSearchKeyword("GAM005");
+//        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("assetsSeCdList", codeList);
+//
+//        searchCodeVO.setSearchKeyword("GAM013");
+//        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
+//    	model.addAttribute("assetsInvstmntMthdList", codeList);
 
     	return "/ygpa/gam/asset/GamAssetCodeMngt";
     }
