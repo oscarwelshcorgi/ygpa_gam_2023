@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.eap.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +9,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.eap.service.EapGwCallInterfaceService;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.impl.GamEApprovalRequestDAO;
 
 /**
  * @Class Name : EapGwCallInterfaceServiceImpl.java
@@ -29,6 +30,9 @@ import egovframework.rte.ygpa.eap.service.EapGwCallInterfaceService;
 public class EapGwCallInterfaceServiceImpl extends AbstractServiceImpl implements
         EapGwCallInterfaceService {
 
+    @Resource(name="gamEApprovalRequestDAO")
+    private GamEApprovalRequestDAO gamEApprovalRequestDAO;
+
     @Resource(name="eapGwCallInterfaceDAO")
     private EapGwCallInterfaceDAO eapGwCallInterfaceDAO;
 
@@ -36,12 +40,6 @@ public class EapGwCallInterfaceServiceImpl extends AbstractServiceImpl implement
     //@Resource(name="{egovEapGwCallInterfaceIdGnrService}")
     //private EgovIdGnrService egovIdGnrService;
 
-	/**
-	 * ERP_ASSET_CATE을 등록한다.
-	 * @param vo - 등록할 정보가 담긴 EapGwCallInterfaceVO
-	 * @return 등록 결과
-	 * @exception Exception
-	 */
     public String insertEapGwCallInterface(Map<String, Object> vo) throws Exception {
     	log.debug(vo.toString());
 
@@ -56,32 +54,14 @@ public class EapGwCallInterfaceServiceImpl extends AbstractServiceImpl implement
         return eapGwCallInterfaceDAO.insertGwCallInterface(vo);
     }
 
-    /**
-	 * ERP_ASSET_CATE을 수정한다.
-	 * @param vo - 수정할 정보가 담긴 EapGwCallInterfaceVO
-	 * @return void형
-	 * @exception Exception
-	 */
     public void updateEapGwCallInterface(Map<String, Object> vo) throws Exception {
         eapGwCallInterfaceDAO.updateGwCallInterface(vo);
     }
 
-    /**
-	 * ERP_ASSET_CATE을 삭제한다.
-	 * @param vo - 삭제할 정보가 담긴 EapGwCallInterfaceVO
-	 * @return void형
-	 * @exception Exception
-	 */
     public void deleteEapGwCallInterface(Map<String, Object> vo) throws Exception {
         eapGwCallInterfaceDAO.deleteGwCallInterface(vo);
     }
 
-    /**
-	 * ERP_ASSET_CATE을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 EapGwCallInterfaceVO
-	 * @return 조회한 ERP_ASSET_CATE
-	 * @exception Exception
-	 */
     public EgovMap selectEapGwCallInterface(Map<String, Object> vo) throws Exception {
     	EgovMap resultVO = eapGwCallInterfaceDAO.selectGwCallInterface(vo);
         if (resultVO == null)
@@ -89,24 +69,65 @@ public class EapGwCallInterfaceServiceImpl extends AbstractServiceImpl implement
         return resultVO;
     }
 
-    /**
-	 * ERP_ASSET_CATE 목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return ERP_ASSET_CATE 목록
-	 * @exception Exception
-	 */
     public List selectEapGwCallInterfaceList(Map<String, Object> searchVO) throws Exception {
         return eapGwCallInterfaceDAO.selectGwCallInterfaceList(searchVO);
     }
 
-    /**
-	 * ERP_ASSET_CATE 총 갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return ERP_ASSET_CATE 총 갯수
-	 * @exception
-	 */
     public int selectEapGwCallInterfaceListTotCnt(Map<String, Object> searchVO) {
 		return eapGwCallInterfaceDAO.selectGwCallInterfaceListTotCnt(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.eap.service.EapGwCallInterfaceService#eApprovalTest(java.util.Map)
+	 */
+	@Override
+	public void eApprovalTest(Map<String, Object> vo) throws Exception {
+		String miskey = (String)vo.get("miskey");
+		Map<String, String> map = new HashMap();
+		map.put("sanctnSttus", (String)vo.get("testEa"));
+		if(miskey.startsWith("GAMAR")) {		// 자산임대 사용승낙
+			String mode = miskey.substring(5, 8);
+			String prtAtCode = miskey.substring(8, 11);
+			String mngYear = miskey.substring(11, 15);
+			String mngNo = miskey.substring(15, 18);
+			String mngCnt = miskey.substring(18);
+			if("CNF".equals(mode)) {	// 사용 승낙
+				map.put("prtAtCode", prtAtCode);
+				map.put("mngYear", mngYear);
+				map.put("mngNo", mngNo);
+				map.put("mngCnt", mngCnt);
+				gamEApprovalRequestDAO.updateAssetRentSanctn(map);	// 결재 코드 삽입
+			}
+			else if("NTC".equals(mode)) {	// 사용료 고지 (징수결의)
+				map.put("prtAtCode", prtAtCode);
+				map.put("mngYear", mngYear);
+				map.put("mngNo", mngNo);
+				map.put("mngCnt", mngCnt);
+				gamEApprovalRequestDAO.updateAssetRentSanctn(map);	// 결재 코드 삽입
+			}
+		}
+		else if(miskey.startsWith("GAMPF")) {	// 항만시설
+			String mode = miskey.substring(5, 3);
+			String prtAtCode = miskey.substring(8, 2);
+			String mngYear = miskey.substring(10, 4);
+			String mngNo = miskey.substring(14, 3);
+			String mngCnt = miskey.substring(17);
+			if("CNF".equals(mode)) {	// 사용 승낙
+				map.put("prtAtCode", prtAtCode);
+				map.put("mngYear", mngYear);
+				map.put("mngNo", mngNo);
+				map.put("mngCnt", mngCnt);
+				gamEApprovalRequestDAO.updatePrtFcltyUseSanctn(map);	// 결재 코드 삽입
+			}
+			else if("NTC".equals(mode)) {	// 사용료 고지 (징수결의)
+				map.put("prtAtCode", prtAtCode);
+				map.put("mngYear", mngYear);
+				map.put("mngNo", mngNo);
+				map.put("mngCnt", mngCnt);
+				gamEApprovalRequestDAO.updatePrtFcltyUseSanctn(map);	// 결재 코드 삽입
+			}
+		}
+		eapGwCallInterfaceDAO.updateGwCallInterface(vo);	// 결재 코드 갱신
 	}
 
 }

@@ -8,7 +8,7 @@
 
 	<insert id="gamAssetCodeDao.insertAssetCode_S">
 		<![CDATA[
-			INSERT INTO GIS_ASSETS_CD 
+			INSERT INTO GIS_ASSETS_CD
 				( ASSETS_CD,
 				GIS_ASSETS_SUB_CD,
 				GIS_ASSETS_CD,
@@ -63,31 +63,31 @@
  )
 		]]>
 	</insert>
-	
+
 	<update id="gamAssetCodeDao.updateAssetCode_S">
 		<![CDATA[
-			UPDATE GIS_ASSETS_CD 
+			UPDATE GIS_ASSETS_CD
 			SET ID=#id#
 				, NAME=#name#
 				, DESCRIPTION=#description#
 				, USE_YN=#useYn#
-			WHERE 
+			WHERE
 				PRT_AT_CODE=#prtAtCode#
 				AND GIS_ASSETS_CD=#gisAssetsCd#
 				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 		]]>
 	</update>
-	
+
 	<delete id="gamAssetCodeDao.deleteAssetCode_S">
 		<![CDATA[
-			DELETE FROM GIS_ASSETS_CD 
+			DELETE FROM GIS_ASSETS_CD
 			WHERE PRT_AT_CODE=#prtAtCode#
 				AND GIS_ASSETS_CD=#gisAssetsCd#
 				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 
 		]]>
 	</delete>
-	
+
 	<select id="gamAssetDao.selectAssetCode_S" resultClass="egovMap">
 		<![CDATA[
 			SELECT
@@ -116,14 +116,14 @@
 				BLD_DT,
 				RM,
 				GISCD
-			FROM GIS_ASSETS_CD 
+			FROM GIS_ASSETS_CD
 			WHERE PRT_AT_CODE=#prtAtCode#
 				AND GIS_ASSETS_CD=#gisAssetsCd#
 				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 
 		]]>
 	</select>
-	
+
 	<select id="gamAssetCodeDao.selectAssetCodeList_D" parameterClass="hashMap" resultClass="egovMap">
 	       SELECT A.*
 	       FROM (
@@ -141,6 +141,7 @@
 				LNM,
 				LNM_SUB,
 				PRT_AT_CODE,
+				GAM_GET_CODENAME('GAM019', PRT_AT_CODE) PRT_AT_CODE_NM,
 				PRPRTY_CD,
 				LOC_CD,
 				QUAY_CD,
@@ -171,7 +172,7 @@
 			 ) A
 		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 	</select>
-	
+
 	<select id="gamAssetCodeDao.selectAssetCodeListTotCnt_S" parameterClass="hashMap" resultClass="int">
 
 			SELECT COUNT(*) totcnt

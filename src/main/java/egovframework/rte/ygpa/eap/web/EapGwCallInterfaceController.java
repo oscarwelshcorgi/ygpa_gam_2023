@@ -25,6 +25,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.eap.service.EapGwCallInterfaceService;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamEApprovalRequestService;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 
 /**
@@ -45,6 +46,9 @@ public class EapGwCallInterfaceController {
 
     @Resource(name = "eapGwCallInterfaceService")
     private EapGwCallInterfaceService eapGwCallInterfaceService;
+
+    @Resource(name = "gamEApprovalRequestService")
+    private GamEApprovalRequestService gamEApprovalRequestService;
 
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -71,47 +75,50 @@ public class EapGwCallInterfaceController {
 	 * @return "/eapGwCallInterface/EapGwCallInterfaceList"
 	 * @exception Exception
 	 */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes" })
     @RequestMapping(value="/eap/selectEapGwCallInterfaceList.do", method=RequestMethod.POST)
     @ResponseBody public Map<String, Object> selectEapGwCallInterfaceList(@RequestParam Map<String, Object> searchVO) throws Exception {
     	Map<String, Object>map = new HashMap<String, Object>();
 
-//    	PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo((Integer)searchVO.get("pageIndex"));
-//		paginationInfo.setRecordCountPerPage((Integer)searchVO.get("pageUnit"));
-//		paginationInfo.setPageSize((Integer)searchVO.get("PageSize"));
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(Integer.parseInt((String)searchVO.get("pageIndex")));
+		paginationInfo.setRecordCountPerPage(Integer.parseInt((String)searchVO.get("pageUnit")));
+		paginationInfo.setPageSize(Integer.parseInt((String)searchVO.get("recordCountPerPage")));
 
 
-//		searchVO.put("firstIndex", paginationInfo.getFirstRecordIndex());
-//		searchVO.put("lastIndex", paginationInfo.getLastRecordIndex());
-//		searchVO.put("recordCountPerPage", paginationInfo.getRecordCountPerPage());
+		searchVO.put("firstIndex", paginationInfo.getFirstRecordIndex());
+		searchVO.put("lastIndex", paginationInfo.getLastRecordIndex());
+		searchVO.put("recordCountPerPage", paginationInfo.getRecordCountPerPage());
 
         List eapGwCallInterfaceList = eapGwCallInterfaceService.selectEapGwCallInterfaceList(searchVO);
-        map.put("resultList", eapGwCallInterfaceList);
 
         int totCnt = eapGwCallInterfaceService.selectEapGwCallInterfaceListTotCnt(searchVO);
-//		paginationInfo.setTotalRecordCount(totCnt);
-//        map.put("paginationInfo", paginationInfo);
+
+        map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", eapGwCallInterfaceList);
+    	map.put("searchOption", searchVO);
 
         return map;
     }
 
-    @RequestMapping("/eap/updateEapGwCallInterface.do")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping("/eap/updateGwCallInterface.do")
     @ResponseBody public Map updateEapGwCallInterface(
-            @ModelAttribute("gwCallInterfaceVo") Map gwCall,
-            BindingResult bindingResult, Model model, SessionStatus status)
+            @RequestParam Map gwCall)
             throws Exception {
     	Map map = new HashMap<String, Object>();
 
-    	eapGwCallInterfaceService.updateEapGwCallInterface(gwCall);
+    	eapGwCallInterfaceService.eApprovalTest(gwCall);
 
-        status.setComplete();
         map.put("resultCode", "0");
         map.put("resultMsg", "Done.");
         return map;
     }
 
-    @RequestMapping("/code/mngt/deleteEapGwCallInterface.do")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping("/eap/deleteEapGwCallInterface.do")
     public Map deleteEapGwCallInterface(
             @ModelAttribute("gwCall") Map gwCall, SessionStatus status)
             throws Exception {
@@ -124,10 +131,13 @@ public class EapGwCallInterfaceController {
         return map;
     }
 
+    @SuppressWarnings({ "rawtypes" })
     @RequestMapping("/eapGwCallInterface/selectEapGwCallInterface.do")
     public @ModelAttribute("eapGwCallInterfaceVO")
     @ResponseBody Map selectEapGwCallInterface(Map<String, Object> gwCall) throws Exception {
         return eapGwCallInterfaceService.selectEapGwCallInterface(gwCall);
     }
+
+
 
 }

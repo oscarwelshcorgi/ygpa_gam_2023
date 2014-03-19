@@ -128,12 +128,12 @@
                                     data-prgid="PRG_0010"
                                     data-url="<c:url value='/asset/rent/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
                                 </li>
-                                
+
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
                                     data-url="<c:url value='/asset/rent/gamAssetUseExprInqire.do'/>">자산임대만기도래자료조회</a>
                                 </li>
-                                
+
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
                                     data-url="<c:url value='/asset/rent/gamAssetPopupInqire.do'/>">자산정보현황알림</a>
@@ -388,14 +388,20 @@
                 <li>
                     <a href="#"><b>공통코드 관리</b></a>
                         <ul class="submenu">
-                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamAssetCodeMngt.do'/>">자산코드관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeClMngt.do'/>">공통코드분류</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeMngt.do'/>">공통코드관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeDetailMngt.do'/>">공통코드상세 관리</a></li>
+                        </ul>
+                </li>
+                  <li>
+                    <a href="#"><b>기본코드 관리</b></a>
+                        <ul class="submenu">
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamAssetCodeMngt.do'/>">자산코드관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpMngt.do'/>">공시지가 관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpList.do'/>">공시지가 조회</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoMngt.do'/>">업체정보 관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoList.do'/>">업체정보 조회</a></li>
+                              <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamBupJungDongCodeMngt.do'/>">법정동 조회</a></li>
                         </ul>
                 </li>
             </ul>
@@ -423,7 +429,12 @@
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
                     </ul>
                 </li>
-                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamBupJungDongCodeMngt.do'/>">법정동 조회</a></li>
+                                            </li>
+        						<li><a href="#"><b>테스트</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/eap/showEapGwCallInterfaceView.do'/>">전자결재 테스트</a></li>
+							</ul>
+							</li>
             </ul>
         </li>
 
@@ -449,7 +460,6 @@
                                 <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리(샘플)</a></li>
                                 <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/mnu/gamMenuList.do'/>">메뉴리스트(샘플)</a></li>
                             </ul>
-                            </li>
                     </ul>
                 </li>
         </ul>

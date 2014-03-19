@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ErpAssetCd">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="eapGwCallInterfceDAO.insertGwCallInterface_S">
+		<![CDATA[
+			INSERT INTO GWCALL_FWD_IF
+				( T_NO,
+					EMP_CD,
+					SYS_ID,
+					DOC_ID,
+					MISKEY,
+					M_CNT,
+					M_DATA_VALUE1,
+					M_DATA_VALUE2,
+					M_DATA_VALUE3,
+					M_DATA_VALUE4,
+					M_DATA_VALUE5,
+					IP )
+			VALUES ( TO_CHAR(SYSDATE, 'YYYYMMDDHHMISS'),
+					#empCd#,
+					#sysId#,
+					#docId#,
+					#miskey#,
+					#mCnt#,
+					#mDataValue1#,
+					#mDataValue2#,
+					#mDataValue3#,
+					#mDataValue4#,
+					#mDataValue5#,
+					#ip# )
+		]]>
+	</insert>
+
+	<update id="eapGwCallInterfceDAO.updateGwCallInterface_S">
+		<![CDATA[
+			UPDATE GWCALL_FWD_IF
+			SET TEST_EA=#testEa#
+			WHERE T_NO=#tNo#
+				AND EMP_CD=#empCd#
+				]]>
+	</update>
+
+	<delete id="eapGwCallInterfceDAO.deleteGwCallInterface_S">
+		<![CDATA[
+					UPDATE
+			SET TEST_EA=#testEa#
+			DELETE FROM GWCALL_FWD_IF
+			WHERE T_NO=#tNo#
+				AND EMP_CD=#empCd#
+				]]>
+	</delete>
+
+	<select id="eapGwCallInterfceDAO.selectGwCallInterface_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+					T_NO,
+					EMP_CD,
+					SYS_ID,
+					DOC_ID,
+					MISKEY,
+					M_CNT,
+					TEST_EA,
+					IP
+			FROM GWCALL_FWD_IF
+			WHERE T_NO=#tNo#
+				AND EMP_CD=#empCd#
+				]]>
+	</select>
+
+	<select id="eapGwCallInterfceDAO.selectGwCallInterfaceList_D" parameterClass="hashMap" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+					T_NO,
+					EMP_CD,
+					SYS_ID,
+					DOC_ID,
+					MISKEY,
+					M_CNT,
+					TEST_EA,
+					IP
+						FROM GWCALL_FWD_IF
+				WHERE  1=1
+				<isNotEmpty prepend="AND" property="testEa">
+					TEST_EA = #testEa#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="tNo">
+							T_NO LIKE #tNo# || '%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="empCd">
+							EMP_CD LIKE #empCd# || '%'
+				</isNotEmpty>
+					ORDER BY
+						T_NO DESC
+		<![CDATA[
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>
+	<select id="eapGwCallInterfceDAO.selectGwCallInterfaceListTotCnt_S" parameterClass="hashMap" resultClass="int">
+			SELECT COUNT(*) totcnt
+					FROM GWCALL_FWD_IF
+			WHERE 1=1
+				<isNotEmpty prepend="AND" property="testEa">
+					TEST_EA = #testEa#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="tNo">
+							T_NO LIKE #tNo# || '%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="empCd">
+							EMP_CD LIKE #empCd# || '%'
+				</isNotEmpty>
+	</select>
+
+
+</sqlMap>

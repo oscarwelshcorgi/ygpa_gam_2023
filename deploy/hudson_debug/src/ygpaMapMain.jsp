@@ -409,6 +409,11 @@
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
                     </ul>
                 </li>
+   						<li><a href="#"><b>테스트</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/eap/showEapGwCallInterfaceView.do'/>">전자결재 테스트</a></li>
+							</ul>
+							</li>
             </ul>
         </li>
 
@@ -435,7 +440,7 @@
                                 <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/mnu/gamMenuList.do'/>">메뉴리스트(샘플)</a></li>
                             </ul>
                             </li>
-                    </ul>
+	                    </ul>
                 </li>
         </ul>
   </div>

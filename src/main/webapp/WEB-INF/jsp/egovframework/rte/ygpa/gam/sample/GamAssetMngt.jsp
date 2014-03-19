@@ -103,8 +103,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		colModel : [
 			{display:'항코드', name:'gisAssetsPrtAtCode', width:24, sortable:true, align:'center'},
 			{display:'항구분', name:'prtAtCodeNm', width:40, sortable:true, align:'center'},
-			{display:'코드', name:'gisAssetsCd', width:24, sortable:true, align:'center'},
-			{display:'SUB 코드', name:'gisAssetsSubCd', width:16, sortable:true, align:'center'},
+			{display:'자산코드', name:'gisAssetsCode', width:24, sortable:true, align:'center'},
 			{display:'자산명', name:'gisAssetsNm', width:240, sortable:true, align:'center'},
 			{display:'관리 부서 코드', name:'gisAssetsMngDeptCd', width:160, sortable:true, align:'center'},
 			{display:'운영 부서 코드', name:'gisAssetsOperDeptCd', width:160, sortable:true, align:'center'},
@@ -132,7 +131,16 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'가치 금액', name:'gisAssetsValAmt', width:120, sortable:true, align:'center'},
 			{display:'가치 조회 일자', name:'gisAssetsValInqireDt', width:64, sortable:true, align:'center'}
 			],
-		height: '140'
+		height: '140',
+		preProcess: function(module, data) {
+			$.each(data.resultList, function(){
+				this.gisAssetCode = this.gisAssetCd+'-'+this.gisAssetSubCd;
+			});
+			module.photoList = data.photoList;	// 사진 목록을 추가한다.
+			module.photoTotalCount = data.photoTotalCount;
+			module.applyPhotoList();
+			return data;
+		}
 	});
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -173,9 +181,9 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			var filenm=row['filenmPhyicl'];
 			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-			    $imgURL = module.getImageUrl(filenm);
+			    var imgURL = module.getImageUrl(filenm);
 			    module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr('src', $imgURL);
+			    	module.$("#previewImage").attr('src', imgURL);
 			    });
 			}
 			else {
@@ -212,6 +220,10 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		}
 
 	});
+};
+
+GamAssetCodeModule.prototype.applyPhotoList = function() {
+	this.$('#assetCodePhotoList').flexAddData({resultList: this.photoList, totalCount: this.photoTotalCount});
 };
 
 // 사용자 설정 함수 추가
@@ -444,12 +456,12 @@ var module_instance = new GamAssetCodeModule();
 							<tbody>
 							<tr>
 								<th>청코드</th>
-								<td><input id="prtAtCode" type="text" size="3"></td>
+								<td><input id="searchPrtAtCode" type="text" size="3"></td>
 								<th>ERP 자산코드</th>
 								<td><input id="searchGisErpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" type="text" size="2"></td>
 								<th>자산코드</th>
-								<td><input id="gisAssetCode" type="text" size="6">-<input
-									id="gisAssetSubCode" type="text" size="6"><button id="popupFcltyCd" class="popupButton">시설조회</button></td>
+								<td><input id="searchGisAssetCode" type="text" size="6">-<input
+									id="searchGisAssetSubCode" type="text" size="6"><button id="popupFcltyCd" class="popupButton">시설조회</button></td>
 								<th>재산코드</th>
 								<td><select id="prprtyCd">
 										<option value="" selected="selected">선택</option>
@@ -463,11 +475,11 @@ var module_instance = new GamAssetCodeModule();
 							</tr>
 							<tr>
 								<th>자산명</th>
-								<td colspan="3"><input id="assetNm" type="text" size="36"></td>
+								<td colspan="3"><input id="searchAssetNm" type="text" size="36"></td>
 								<th>관리부서</th>
-								<td><select id="mngDeptCd"></select></td>
+								<td><input type="text" id="searchMngDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" /></td>
 								<th>운영부서</th>
-								<td><select id="operDeptCd"></select></td>
+								<td><input type="text" id="searchOperDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -501,7 +513,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">청코드</span></th>
 						<td colspan="5">
-							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm'' data-display-code='P' />
+							<input id="gisAssetsPrtAtCode" type='text' class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm'' data-display-code='P' />
 						</td>
 					</tr>
 					<tr>

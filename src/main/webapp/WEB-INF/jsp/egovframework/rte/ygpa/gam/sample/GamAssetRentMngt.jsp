@@ -42,7 +42,8 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'업체명',name:'entrpsNm',width:120,sortable:false,align:'center'},
 			{display:'부두명',name:'quayNm',width:120,sortable:false,align:'center'},
 			{display:'신청 일자',name:'reqstDt',width:100,sortable:false,align:'center'},
-			{display:'신청 구분코드',name:'reqstSeCd',width:100,sortable:false,align:'center'},
+			{display:'신청구분',name:'reqstSeCdNm',width:100,sortable:false,align:'center'},
+			{display:'결재상태',name:'sanctnSttusNm',width:100,sortable:false,align:'center'},
 			{display:'총 면적',name:'grAr',width:100,sortable:false,align:'center'},
 			{display:'총 사용료',name:'grFee',width:100,sortable:false,align:'center'},
 			{display:'감면 사용료',name:'grRdcxptFee',width:100,sortable:false,align:'center'},
@@ -51,13 +52,29 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'고지 방법',name:'nticMth',width:100,sortable:false,align:'center'},
 			{display:'허가 일자',name:'prmisnDt',width:100,sortable:false,align:'center'},
 			{display:'허가 여부',name:'prmisnYn',width:100,sortable:false,align:'center'},
-			{display:'결재상태',name:'sanctnSttus',width:100,sortable:false,align:'center'},
 			{display:'결재일시',name:'sanctnDt',width:100,sortable:false,align:'center'}
 			],
 		showTableToggleBtn: false,
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
-				this.mngNumber = this.mngYear+'-'+this.mngNo+'-'+this.mngCnt;
+				this.mngNumber = this.mngYear+'-'+this.mngNo+'-'+this.mngCnt;	// 관리 코드를 지정
+				this.quayNm = '일반부두';	// 부두명조회 하지 않아서 임의로 부두명을 지정 함
+				switch(this.sanctnSttus) {	// 결재상태를 정의한다. 조회 시 공통코드를 참조 할 수 있으나 이렇게도 처리가 가능함
+				case '0':
+					this.sanctnSttusNm='반송';
+					break;
+				case '1':
+					this.sanctnSttusNm='결재완료';
+					break;
+				case '2':
+					this.sanctnSttusNm='결재요청중';
+					break;
+				case '5':
+					this.sanctnSttusNm='상신';
+					break;
+				default:
+					this.sanctnSttusNm='';
+				}
 			});
 			return data;
 		}
@@ -106,15 +123,15 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnEApproval':	// 전자결재 테스트
 		if(this.$('#assetRentList').selectedRowCount()>0) {
-			var rows = this.$('#assetRentList').selectedRows();
+			var rows = this.$('#assetRentList').selectedRows()[0];
 			var opts = {
-					'type': 'AR',
-					'prtAtCode': rows['#prtAtCode'],
-					'mngYear': rows['#mngYear'],
-					'mngNo': rows['#mngNo'],
-					'mngSeq': rows['#mngSeq']
-				};
-				this.requestEApproval(opts);
+					type: 'ARUC',
+		            prtAtCode: rows['prtAtCode'],
+		            mngYear: rows['mngYear'],
+		            mngNo: rows['mngNo'],
+		            mngCnt: rows['mngCnt']
+			};
+			this.requestEApproval(opts);
 		}
 		break;
 	}

@@ -34,6 +34,7 @@ public class EgovTestUserDetailsServiceImpl extends AbstractServiceImpl implemen
 		loginVO.setPassword("a4ayc/80/OGda4BO/1o/V0etpOqiLx1JwB5S3beHW0s=");
 		loginVO.setUserSe("USR");
 		loginVO.setEmail("a3@aa.aa");
+		loginVO.setEmplNo("20140319");
 		loginVO.setIhidNum("1111111111118");
 		loginVO.setName("더미사용자");
 		loginVO.setOrgnztId("ORGNZT_0000000000000");

@@ -15,15 +15,15 @@ import java.io.Serializable;
  *  @since 2009.03.03
  *  @version 1.0
  *  @see
- *  
+ *
  */
 public class LoginVO implements Serializable{
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8274004534207618049L;
-	
+
 	/** 아이디 */
 	private String id;
 	/** 이름 */
@@ -40,6 +40,8 @@ public class LoginVO implements Serializable{
 	private String passwordCnsr;
 	/** 사용자구분 */
 	private String userSe;
+	/** 사원번호 */
+	private String emplNo;
 	/** 조직(부서)ID */
 	private String orgnztId;
 	/** 조직(부서)명 */
@@ -246,5 +248,11 @@ public class LoginVO implements Serializable{
 	public void setOrgnztNm(String orgnztNm) {
 		this.orgnztNm = orgnztNm;
 	}
-	
+	public String getEmplNo() {
+		return emplNo;
+	}
+	public void setEmplNo(String emplNo) {
+		this.emplNo = emplNo;
+	}
+
 }

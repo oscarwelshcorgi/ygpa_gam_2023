@@ -11,9 +11,9 @@
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2013.10.29  eunsungj          최초 생성
+  *  2014.03.19  eunsungj          최초 생성
   *
-  * author kok
+  * author eunsungj
   * since 2014.03.14
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
@@ -38,6 +38,6 @@
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
   </head>
   <body>
-  <h2>결재 처리 모듈을 호출 중입니다...</h2>
+	  <h2>결재 처리 모듈을 호출 중입니다...</h2>
   </body>
 </html>

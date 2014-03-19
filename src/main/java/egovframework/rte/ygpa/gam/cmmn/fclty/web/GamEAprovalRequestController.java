@@ -5,9 +5,17 @@ package egovframework.rte.ygpa.gam.cmmn.fclty.web;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamEApprovalRequestService;
 
 
 /**
@@ -30,7 +38,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class GamEAprovalRequestController {
 
-    /**
+	@Resource(name="gamEApprovalRequestService")
+	private GamEApprovalRequestService gamEApprovalRequestService;
+
+
+	@Resource(name="egovMessageSource")
+	private EgovMessageSource egovMessageSource;
+
+	/**
      * 결재 처리 모듈 호출
      * @param searchOpt
      * @param model
@@ -38,10 +53,55 @@ public class GamEAprovalRequestController {
      * @throws Exception
      */
     @RequestMapping(value="/cmmn/fclty/openApprovalRequest.do")
-    String showAssetsCd(Map<String, Object> searchOpt, ModelMap model) throws Exception {
-    	model.addAttribute("searchOpt", searchOpt);
-    	// 결재 중으로 결재 상태를 변경하고 전자결재를 위한 자산 임대 데이터를 출력한다.
-    	return "/ygpa/gam/cmmn/fclty/GamOpenApprovalRequest";
-    }
+    String showAssetsCd(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	    	if("ARUC".equals(approvalOpt.get("type"))) {
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+	    		approvalOpt.put("empCd", loginVo.getEmplNo());
+	    		approvalOpt.put("docId", "GAMAR01");
+	    		approvalOpt.put("misKeyValue", "GAMARCNF");
+	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+	    		if(loginVo.getIp()==null) {
+	    			approvalOpt.put("regIp", "127.0.0.1");
+	    		}
+	    		else {
+	    			approvalOpt.put("regIp", loginVo.getIp());
+	    		}
+
+	    		gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+	    		model.addAttribute("resultCode", 0);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
+	    	}
+	    	else if("PFUC".equals(approvalOpt.get("type"))) {
+	    		// 항만시설 임대관리 사용 승낙
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+	    		approvalOpt.put("empCd", loginVo.getEmplNo());
+	    		approvalOpt.put("docId", "GAMPF01");
+	    		approvalOpt.put("misKeyValue", "GAMPFCNF");
+	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+	    		approvalOpt.put("regIp", loginVo.getIp());
+
+	    		gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+	    		model.addAttribute("resultCode", 0);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
+	    	}
+	    	else {
+	    		model.addAttribute("resultCode", 2);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.errortype"));
+	    	}
+    	}
+
+    	return "ygpa/gam/cmmn/fclty/GamOpenApprovalRequest";
+    	}
 
 }

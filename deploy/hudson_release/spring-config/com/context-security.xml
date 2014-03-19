@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-<!-- 
+<!--
 	수정일                 수정자                          수정내용
   =========     =======    =================================================
   2011.09.07   	서준식     	 	일반, 업무사용자의 경우 조직아이디가 없어 로그인이 안되던 문제 수정(SQL 수정)
@@ -30,13 +30,13 @@
         <b:property name="dataSource" ref="egov.dataSource"/>
     </b:bean>
 
-    <b:bean id="userDetailsServiceWrapper" 
+    <b:bean id="userDetailsServiceWrapper"
             class="org.springframework.security.userdetails.hierarchicalroles.UserDetailsServiceWrapper" >
         <b:property name="roleHierarchy" ref="roleHierarchy"/>
         <b:property name="userDetailsService" ref="jdbcUserService"/>
     </b:bean>
-    
-    <b:bean id="roleHierarchy" 
+
+    <b:bean id="roleHierarchy"
             class="org.springframework.security.userdetails.hierarchicalroles.RoleHierarchyImpl" >
         <b:property name="hierarchy" ref="hierarchyStrings"/>
     </b:bean>
@@ -73,7 +73,7 @@
     <b:bean id="databaseObjectDefinitionSource"
         class="org.springframework.security.intercept.web.EgovReloadableDefaultFilterInvocationDefinitionSource">
         <b:constructor-arg ref="regexUrlPathMatcher" />
-        <b:constructor-arg ref="requestMap" />      
+        <b:constructor-arg ref="requestMap" />
         <b:property name="securedObjectService" ref="securedObjectService"/>
     </b:bean>
 
@@ -83,9 +83,9 @@
         <b:property name="securedObjectService" ref="securedObjectService"/>
         <b:property name="resourceType" value="url"/>
     </b:bean>
-    
+
     <b:bean id="regexUrlPathMatcher"
-        class="org.springframework.security.util.RegexUrlPathMatcher" />   
+        class="org.springframework.security.util.RegexUrlPathMatcher" />
 
     <http access-denied-page="/sec/ram/accessDenied.do" path-type="regex" lowercase-comparisons="false">
 		<intercept-url pattern="\A/js/.*\Z" filters="none" />
@@ -102,43 +102,43 @@
         <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/YGLoginUsr.do" />
         <concurrent-session-control max-sessions="500" exception-if-maximum-exceeded="false" expired-url="/uat/uia/YGLoginUsr.do" />
     </http>
-    
+
     <authentication-provider user-service-ref="jdbcUserService"/>
     <authentication-manager alias="authenticationManager"/>
 
     <b:bean id="jdbcUserService"
             class="egovframework.com.sec.security.userdetails.jdbc.EgovJdbcUserDetailsManager" >
 
-        <b:property name="usersByUsernameQuery" value="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, USER_ZIP,  
+        <b:property name="usersByUsernameQuery" value="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, EMPL_NO, USER_ZIP,
                                                               USER_ADRES, USER_EMAIL, USER_SE, ORGNZT_ID, ESNTL_ID,
                                                               (select a.ORGNZT_NM from COMTNORGNZTINFO a where a.ORGNZT_ID = m.ORGNZT_ID) ORGNZT_NM
                                                          FROM COMVNUSERMASTER m WHERE CONCAT(USER_SE, USER_ID) = ? "/>
-        <b:property name="authoritiesByUsernameQuery" value="SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY 
-                                                               FROM COMTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B 
+        <b:property name="authoritiesByUsernameQuery" value="SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY
+                                                               FROM COMTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B
                                                               WHERE A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID AND B.USER_ID = ? "/>
         <b:property name="roleHierarchy" ref="roleHierarchy"/>
         <b:property name="dataSource" ref="egov.dataSource"/>
-        <b:property name="mapClass" value="egovframework.com.sec.security.common.EgovSessionMapping"/> 
+        <b:property name="mapClass" value="egovframework.com.sec.security.common.EgovSessionMapping"/>
     </b:bean>
 
     <b:bean id="methodDefinitionSources"
         class="org.springframework.security.intercept.method.MapBasedMethodDefinitionSource">
         <b:constructor-arg ref="methodMap" />
     </b:bean>
-    
+
     <b:bean id="methodMap"
         class="egovframework.com.sec.security.intercept.ResourcesMapFactoryBean"
         init-method="init">
         <b:property name="securedObjectService" ref="securedObjectService"/>
         <b:property name="resourceType" value="method"/>
     </b:bean>
-    
+
     <!--  method  -->
     <b:bean id="_methodDefinitionSourceAdvisor" class="org.springframework.security.intercept.method.aopalliance.MethodDefinitionSourceAdvisor">
         <b:constructor-arg value="_methodSecurityInterceptor" />
         <b:constructor-arg ref="_delegatingMethodDefinitionSource" />
     </b:bean>
-    
+
     <b:bean id="_methodSecurityInterceptor" class="org.springframework.security.intercept.method.aopalliance.MethodSecurityInterceptor">
         <b:property name="validateConfigAttributes" value="false" />
         <b:property name="authenticationManager" ref="authenticationManager"/>
