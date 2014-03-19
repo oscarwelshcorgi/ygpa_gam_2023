@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -154,37 +153,17 @@ public class GamConsFcltyMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamConstFcltyInsert.do")
-    @ResponseBody Map<String, Object> insertFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)
-            throws Exception {
+    @ResponseBody Map<String, Object> insertFclty(@RequestParam Map<String, Object> fcltyMngtList) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	String resultMsg    = "";
     	
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	if("insert".equals(cmd)) {
-		    beanValidator.validate(fcltyManageVO, bindingResult);
-		    if (bindingResult.hasErrors()){
-		        map.put("resultCode", 1);
-				map.put("resultMsg", "입력 값에 오류가 있습니다.");
-				map.put("resultObject", bindingResult.getAllErrors());
-				return map;
-			}
+    	fcltyMngtList.put("USERID",user.getId());
+    	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
-		   fcltyManageVO.setRegUsr(user.getId());
-		   fcltyManageVO.setPrtFcltySe(prtFcltySe);
-		   gamFcltyMngtService.insertFcltyManage(fcltyManageVO);
+    	gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
 
-		   map.put("resultCode", 0);			// return ok
-		   resultMsg = egovMessageSource.getMessage("success.common.insert");
-    	}
-
-        map.put("resultMsg", resultMsg);
+		map.put("resultCode", 0);			// return ok
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
       	return map;
     }
 
@@ -216,26 +195,19 @@ public class GamConsFcltyMngtController {
 	 * @throws Exception
 	 */
     @RequestMapping("/fclty/gamConstFcltyUpdate.do")
-    @ResponseBody Map<String, Object> updateFclty(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO,BindingResult bindingResult)throws Exception {
+    @ResponseBody Map<String, Object> updateFclty(@RequestParam Map<String, Object> fcltyMngtList)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-        beanValidator.validate(fcltyManageVO, bindingResult);
-		if (bindingResult.hasErrors()){
-	        map.put("resultCode", 1);
-			map.put("resultMsg", "입력 값에 오류가 있습니다.");
-			map.put("resultObject", bindingResult.getAllErrors());
-
-		}else{
-
-			fcltyManageVO.setUpdUsr(user.getId());
-			fcltyManageVO.setPrtFcltySe(prtFcltySe);
-			gamFcltyMngtService.updateFclty(fcltyManageVO);
-			map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		}
-
-        return map;
+    	fcltyMngtList.put("USERID", user.getId());
+    	fcltyMngtList.put("prtFcltySe",prtFcltySe);
+    	
+		gamFcltyMngtService.updateFclty(fcltyMngtList);
+		
+		map.put("resultCode", 0);			// return ok
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	return map;
+	    	
     }
     
     
@@ -250,7 +222,7 @@ public class GamConsFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	gamFcltyMngtService.deleteFclty(fcltyManageVO);
+    	gamFcltyMngtService.deleteFcltyMngt(fcltyManageVO);
 
         map.put("resultCode", 0);
         map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
