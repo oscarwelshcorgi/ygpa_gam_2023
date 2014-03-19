@@ -39,17 +39,19 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
 					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
 					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
-					{display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},
+					{display:'업체코드', name:'entrpscd',width:85, sortable:false,align:'center'},
 					{display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
 					{display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
 					{display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
 					{display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
 					{display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
 					{display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-					{display:'최초신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
+					{display:'최초신청일', name:'frstReqstDt',width:90, sortable:false,align:'center'},
 					{display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
-					{display:'신청일자', name:'reqstDt',width:60, sortable:false,align:'center'},
+					{display:'신청일자', name:'reqstDt',width:70, sortable:false,align:'center'},
+					//{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
 					{display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
+					
                     /*
                     {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
@@ -115,10 +117,11 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'},
+                    {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
+                    //{display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
+                    {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
-
+					/*
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
                     {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
@@ -154,6 +157,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
                     {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
                     {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'},
                     {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
+                    */
                     ],
         usepager: true,
         useRp: true,
@@ -198,6 +202,8 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
             module.$('#updtDt').val(row['updtDt']);
             module.$('#payMth').val(row['payMth']);
             module.$('#frstReqstDt').val(row['frstReqstDt']);
+            module.$('#reqstDt').val(row['reqstDt']);
+            module.$('#nticMthNm').val(row['nticMthNm']);
             //throw 0;
 
             // 해당하는 항만시설사용현황상세 목록을 불러온다.
@@ -209,6 +215,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 
             var searchOpt=module.makeFormArgs('#gamPrtFcltyUseSttusInqireForm');
             module.$('#prtFcltyUseSttusInqireDetailList').flexOptions({params:searchOpt}).flexReload();
+            //module.$('#prtFcltyUseSttusInqireFileList').flexOptions({params:searchOpt}).flexReload(); 첨부부분 수정할것
         }
     });
 
@@ -233,19 +240,29 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
             module.$('#usagePurps').val(row['usagePurps']);
             module.$('#usageDtls').val(row['usageDtls']);
             module.$('#usagePrposCd').val(row['usagePrposCd']);
+            module.$('#usagePrposNm').val(row['usagePrposNm']);
             module.$('#exemptSe').val(row['exemptSe']);
+            module.$('#exemptSeNm').val(row['exemptSeNm']);
             module.$('#exemptRsnCd').val(row['exemptRsnCd']);
+            module.$('#exemptRsnCdNm').val(row['exemptRsnCdNm']);
             module.$('#exemptRsn').val(row['exemptRsn']);
             module.$('#exemptPdFrom').val(row['exemptPdFrom']);
             module.$('#exemptPdTo').val(row['exemptPdTo']);
             module.$('#computDtls').val(row['computDtls']);
             module.$('#olnlp').val(row['olnlp']);
             module.$('#applcTariff').val(row['applcTariff']);
+            module.$('#applcTariffNm').val(row['applcTariffNm']);
+            module.$('#applcTariffStr').val(row['applcTariffStr']);
             module.$('#applcMth').val(row['applcMth']);
+            module.$('#applcMthNm').val(row['applcMthNm']);
             module.$('#packSe').val(row['packSe']);
+            module.$('#packSeNm').val(row['packSeNm']);
             module.$('#entrpsSe').val(row['entrpsSe']);
+            module.$('#entrpsSeNm').val(row['entrpsSeNm']);
             module.$('#feeCalcSe').val(row['feeCalcSe']);
+            module.$('#feeCalcSeNm').val(row['feeCalcSeNm']);
             module.$('#rdcxptFeeCalcSe').val(row['rdcxptFeeCalcSe']);
+            module.$('#rdcxptFeeCalcSeNm').val(row['rdcxptFeeCalcSeNm']);
             module.$('#rdcxptFee').val(row['rdcxptFee']);
             module.$('#fee').val(row['fee']);
             module.$('#trmnatDt').val(row['trmnatDt']);
@@ -755,7 +772,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th style="width: 100px"><span class="label">최초신청일자</span></th>
                                 <td style="width: 350px"><input type="text" size="10" id="frstReqstDt" readonly /></td>
                                 <th ><span class="label">신청일자</span></th>
-                                <td><input type="text" size="10" id="dt" readonly /></td>
+                                <td><input type="text" size="10" id="reqstDt" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
@@ -779,13 +796,13 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                     <input type="text" size="10" id="grUsagePdTo" readonly/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" id="grAr"/></td>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" id="grFee"/></td>
+                                <td><input type="text" size="10" id="grFee" class="ygpaCurrency" style="text-align:right;"/></td>
                                 <th style="width: 100px"><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" id="grRdcxptFee"/></td>
+                                <td><input type="text" size="10" id="grRdcxptFee" class="ygpaCurrency" style="text-align:right;"/></td>
                             </tr>
                             <tr>
                             	<!-- 
@@ -798,7 +815,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th><span class="label">고지 방법</span></th>
                                 <td>
                                     <!-- <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" /> -->
-                                    <input type="text" size="10" id="nticMth" readonly/>
+                                    <input type="text" size="10" id="nticMthNm" style="text-align:center;" readonly />
                                     
                                 </td>
                             </tr>
@@ -884,27 +901,31 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th><span class="label">지번</span></th>
                                 <td><input type="text" size="5" id="gisAssetsLnm"/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
+                            <!-- 
                             <tr>
                                 <th><span class="label">부두그룹코드</span></th>
                                 <td><input type="text" size="17" id="gisAssetsQuayGroupCd" disabled/></td>
                                 <th><span class="label">부두코드</span></th>
                                 <td colspan="3"><input type="text" size="17" id="gisAssetsQuayCd" disabled/></td>
                             </tr>
+                             -->
                             <tr>
                                 <th><span class="label">시설면적</span></th>
-                                <td ><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
+                                <td colspan="3"><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
+                                <!-- 
                                 <th style="width: 100px"><span class="label">공시지가목록</span></th>
                                 <td colspan="3" style="text-align: left;">
-                                	<!-- 
+                                	
                                     <select id="olnlpList">
                                         <option value="">선택</option>
                                         <c:forEach items="${olnlpList}" var="olnlpItem">
                                             <option value="${olnlpItem.code }">${olnlpItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
-                                     -->
+                                     
                                      &nbsp;
                                 </td>
+                                -->
                             </tr>
                             <tr>
                                 <th><span class="label">사용기간</span></th>
@@ -912,9 +933,9 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" id="olnlp"/></td>
+                                <td><input type="text" size="17" id="olnlp" style="text-align:right;" /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="usageAr"/></td>
+                                <td colspan="3"><input type="text" size="17" id="usageAr" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -925,21 +946,21 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                     </select>
                                      -->
                                     <!-- <input id="applcTariff" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM023" /> -->
-                                    <input type="text" size="7" id="applcTariff" readonly />
-                                    <input type="text" size="14" id="applcTariffStr" readonly />
+                                    <input type="text" size="20" id="applcTariffNm" style="text-align:center;" readonly />
+                                    <input type="text" size="14" id="applcTariffStr" style="text-align:center;" readonly />
                                 </td>
                                 <th><span class="label">적용방법</span></th>
                                 <td colspan="3">
                                     <!-- <input id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" /> -->
-                                    <input type="text" size="10" id="applcMth" readonly />
+                                    <input type="text" size="10" id="applcMthNm" readonly />
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제구분</span></th>
                                 <td colspan="5">
                                     <!-- <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM009" /> -->
-                                    <input type="text" size="10" id="exemptSe" readonly/>
-                                    <input type="text" size="17" id="exemptSeStr" readonly/>
+                                    <input type="text" size="20" id="exemptSeNm" style="text-align:center;" readonly/>
+                                    <!-- <input type="text" size="17" id="exemptSeStr" readonly/> -->
                                 </td>
                             </tr>
                             <tr>
@@ -950,16 +971,17 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th><span class="label">면제사유</span></th>
                                 <td colspan="5">
                                     <!-- <input id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" /> -->
-                                    <input type="text" size="20" id="exemptRsnCd" readonly />
+                                    <!-- <input type="text" size="20" id="exemptRsnCd" readonly /> -->
+                                    <input type="text" size="23" id="exemptRsnCdNm" style="text-align:center;" readonly />
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
                                     <input type="text" size="70" id="exemptRsn"/>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="20" id="fee"/>원</td>
+                                <td><input type="text" size="20" id="fee" style="text-align:right;" />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" id="rdcxptFee"/>원</td>
+                                <td colspan="3"><input type="text" size="20" id="rdcxptFee" style="text-align:right;" />원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>

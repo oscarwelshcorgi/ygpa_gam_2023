@@ -43,7 +43,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'}, 
                     {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
-                    {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+                    {display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
                     {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
                     {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
@@ -100,8 +100,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     //{display:'시설면적', name:'gisAssetsRealRentAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    //{display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
-                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
+                    {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
+                    //{display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
                     
                     /*
@@ -202,6 +202,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     this.$("#prtFcltyRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
     	
+    	module.$('#gamPrtFcltyRentMngtForm :input').val('');
+    	
     	module.makeFormValues('#gamPrtFcltyRentMngtForm', row);
         module._editData=module.getFormValues('#gamPrtFcltyRentMngtForm', row);
         module._editRow=module.$('#prtFcltyRentMngtList').selectedRowIds()[0];
@@ -212,6 +214,11 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         module.$('#detailMngYear').val(row['mngYear']);
         module.$('#detailMngNo').val(row['mngNo']);
         module.$('#detailMngCnt').val(row['mngCnt']);
+        
+        if( row['prmisnYn'] == 'Y' ) {
+        	module.$('#entrpscd').attr('readonly', true);
+        	module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
+        }
 
         var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
         module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
@@ -220,6 +227,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     
     this.$("#prtFcltyRentMngtDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
+        module.$('#gamPrtFcltyRentMngtDetailForm :input').val('');
+        
         module.makeFormValues('#gamPrtFcltyRentMngtDetailForm', row);
         module._editData=module.getFormValues('#gamPrtFcltyRentMngtDetailForm', row);
         module._editRow=module.$('#prtFcltyRentMngtDetailList').selectedRowIds()[0];
@@ -228,6 +237,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     this.$("#prtFcltyRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});    
         module.$('#cmd').val('modify');
+        module.$('#gamPrtFcltyRentMngtForm :input').val('');
 
         module.makeFormValues('#gamPrtFcltyRentMngtForm', row);
         module._editData=module.getFormValues('#gamPrtFcltyRentMngtForm', row);
@@ -240,6 +250,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     
     this.$("#prtFcltyRentMngtDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});
+        module.$('#gamPrtFcltyRentMngtDetailForm :input').val('');
 
         module.makeFormValues('#gamPrtFcltyRentMngtDetailForm', row);
         module._editData=module.getFormValues('#gamPrtFcltyRentMngtDetailForm', row);
@@ -249,6 +260,215 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             module.$('#detailCmd').val('modify');
         }
     });
+    
+    // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
+    /*
+    this.$('#olnlpList').on('change', function() {
+    	//alert("1");
+        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+        //alert( this.$('#olnlpList').val() );
+        //this.$('#olnlp').val( this.$('#olnlpList').val() );
+    });
+    */
+    
+ // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
+ 	this.$('#prtAtCode').on('change', {module: this}, function(event) {
+        event.data.module.$('#prtAtCodeStr').val($(this).val());
+        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+    });
+    
+    this.$('#olnlpList').on('change', {module: this}, function(event) {
+        event.data.module.$('#olnlp').val($(this).val());
+        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
+    });
+	 
+    this.$('#applcTariff').on('change', {module: this}, function(event) {
+    	if( $(this).val() == '1' ) {
+    		event.data.module.$('#applcTariffStr').val("0.005");
+    	} else if( $(this).val() == '2' ) {
+    		event.data.module.$('#applcTariffStr').val("0.0025");
+    	} else if( $(this).val() == '3' ) {
+    		event.data.module.$('#applcTariffStr').val("0.001");
+    	} else {
+    		event.data.module.$('#applcTariffStr').val("");
+    	}
+    	
+    	if( $(this).val() == '' ) {
+    		event.data.module.$('#applcTariffNm').val("");
+    	} else {
+    		event.data.module.$('#applcTariffNm').val($(this).getSelectedCodeLabel());
+    	}
+    });
+    
+    this.$('#exemptSe').on('change', {module: this}, function(event) {
+    	event.data.module.$('#exemptSeStr').val($(this).val());
+    	
+    	if( $(this).val() != '1' ) {
+            event.data.module.$('#exemptPdFrom').val("");
+            event.data.module.$('#exemptPdTo').val("");
+        }
+    });
+    
+    this.$('.calcInput').on('change', {module: this}, function(event) {
+        var m = event.data.module;
+        m.onCalc();
+    });
+    
+};
+
+GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
+    
+    if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != '' 
+        && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
+    ) {
+
+        var calFee      = 0;  //계산된 사용료
+        var olnlp       = 0;  //공시지가
+        var usageAr     = 0;  //사용면적
+        var applcTariff = 0;  //적용요율(계산용)
+        var applcTariffStr = "";  //적용요율
+        var rdcxptFee   = 0;  //감면사용료
+        var dayUseCnt   = 0;  //사용일수
+        var usagePdFrom = ""; //사용기간 from
+        var usagePdTo   = ""; //사용기간 to
+        var exemptPdFrom = "";    // 면제기간
+        var exemptPdTo = "";      // 면제기간
+        var exemptCnt   = 0;      // 면제일수
+        var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
+        
+        olnlp = Number(this.$('#olnlp').val());
+        usageAr = Number(this.$('#usageAr').val());
+        //applcTariff = Number(this.$('#applcTariff').val());
+        applcTariffStr = Number(this.$('#applcTariff').val());
+        //rdcxptFee = Number(this.$('#rdcxptFee').val());
+        usagePdFrom = this.$('#usagePdFrom').val();
+        usagePdTo = this.$('#usagePdTo').val();
+        exemptPdFrom = this.$('#exemptPdFrom').val();
+        exemptPdTo = this.$('#exemptPdTo').val();
+        exemptSe = this.$('#exemptSe').val();
+        
+        if( applcTariffStr == '0' ) {
+        	this.$('#computDtls').val('');
+        	return;
+        } else if( applcTariffStr == '1' ) {
+            applcTariff = 0.005;
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
+        } else if( applcTariffStr == '2' ) {
+            applcTariff = 0.0025;
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
+        } else if( applcTariffStr == '3' ) {
+            applcTariff = 0.001;
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
+        }
+        
+        if( exemptSe == '1' ) {        // 일부면제
+              if( this.$('#exemptPdFrom').val() == '' ) {
+            	  alert("일부 면제의 경우 면제기간(시작)을 선택하십시오.");
+                  return;
+              }
+              if( this.$('#exemptPdTo').val() == '' ) {
+            	  alert("일부 면제의 경우 면제기간(종료)을 선택하십시오.");
+                  return;
+              }
+        }
+        
+        if( exemptSe == '0' ) {               // 면제없음.
+            rdcxptFee = 0;
+        } else if( exemptSe == '1' ) {   // 일부면제
+            
+            /* 면제 일수 계산 */
+            var year3 = exemptPdFrom.substring(0,4);
+            var month3 = exemptPdFrom.substring(5,7);
+            var day3 = exemptPdFrom.substring(8,10);
+            
+            var year4 = exemptPdTo.substring(0,4);
+            var month4 = exemptPdTo.substring(5,7);
+            var day4 = exemptPdTo.substring(8,10);
+            
+            var e_st_day = new Date(year3, (month3-1), day3, 0, 0, 0);
+            var e_mt_day = new Date(year4, (month4-1), day4, 0, 0, 0);
+            
+            var e_take1 = e_mt_day.getTime();
+            var e_take2 = e_st_day.getTime();
+            
+            var e_how_day = Math.ceil((e_take1-e_take2)/24/60/60/1000); // 두 날짜 사이의 일수
+            
+            //exemptCnt = Number(e_how_day) + 1;
+            exemptCnt = Number(e_how_day);
+        
+            rdcxptFee = olnlp * (exemptCnt / 365) * usageAr * applcTariff;
+            
+            //alert("감면사용료 => " + rdcxptFee);
+            
+        } else if( exemptSe == '2' ) {        // 전체면제
+            //this.$('#rdcxptFee').val('0');
+            rdcxptFee = 0;
+        }
+        
+        /* 날짜계산 */
+        var year = usagePdFrom.substring(0,4);
+        var month = usagePdFrom.substring(5,7);
+        var day = usagePdFrom.substring(8,10);
+        
+        var year2 = usagePdTo.substring(0,4);
+        var month2 = usagePdTo.substring(5,7);
+        var day2 = usagePdTo.substring(8,10);
+
+        var st_day = new Date(year, (month-1), day, 0, 0, 0);
+        var mt_day = new Date(year2, (month2-1), day2, 0, 0, 0);
+        
+        var take1 = mt_day.getTime();
+        var take2 = st_day.getTime();
+        
+        var how_day = Math.ceil((take1-take2)/24/60/60/1000); // 두 날짜 사이의 일수
+        
+        //dayUseCnt = parseInt(how_day) + 1;
+        dayUseCnt = parseInt(how_day);
+        
+        var cur_day = new Date(year, (month-1), day, 0, 0, 0); // 입력받은 첫번째 날짜
+        //cur_day.setDate( cur_day.getDate() - 1 );
+        cur_day.setYear( cur_day.getFullYear() + 1 );
+        
+        //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
+        //if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
+            //calFee = 0;
+        //} else {
+            calFee = olnlp*((dayUseCnt/365)*usageAr)*applcTariff - rdcxptFee;
+        //}
+        
+        //alert("계산후 => " + calFee);
+        var calFeeStr = "" + calFee;
+        
+        if( calFeeStr.indexOf('.') >= 0 ) {
+            calFeeStr = calFeeStr.substring(0,calFeeStr.indexOf('.'));
+        } else {
+            calFeeStr = calFeeStr;
+        }
+        
+        this.$('#fee').val(calFeeStr);
+        
+        if( exemptSe == '0' ) {
+            this.$('#rdcxptFee').val('0');
+        } else if( exemptSe == '1' ) {
+            var rdcxptFeeStr = "" + rdcxptFee;
+
+            if( rdcxptFeeStr.indexOf('.') >= 0 ) {
+                rdcxptFeeStr = rdcxptFeeStr.substring(0,rdcxptFeeStr.indexOf('.'));
+            } else {
+                rdcxptFeeStr = rdcxptFeeStr;
+            }
+            
+            this.$('#rdcxptFee').val(rdcxptFeeStr);
+        } else if( exemptSe == '2' ) {
+            this.$('#rdcxptFee').val(calFeeStr);
+            this.$('#fee').val('0');
+        }
+        
+    } else {
+        this.$('#fee').val(''); 
+        this.$('#rdcxptFee').val('');
+    }
+    
 };
 
 /**
@@ -269,11 +489,25 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 
         // 최초신청
         case 'addPrtFcltyRentMngtFirst':
+        	/*
             this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamPrtFcltyRentMngtForm').find(':input').val('');
             //this.$("#prtFcltyRentMngtDetailList").flexRemove();
             this.$("#prtFcltyRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
+
+            break;
+            */
+            this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$('#gamPrtFcltyRentMngtForm').find(':input').val('');
+            //this.$("#prtFcltyRentMngtDetailList").flexRemove();
+            this.$("#prtFcltyRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
+            this.$("#cmd").val('insert');
+
+            this.$('#deptcd').val(this.$('#loginOrgnztId').val());
+            
+            this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
+            this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
             break;
 
@@ -312,6 +546,16 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             
             if( this.$('#entrpscd').val() == '' ) {
                 alert("신청업체를 선택하십시오.");
+                return;
+            }
+            
+            if( this.$('#frstReqstDt').val() == '' ) {
+                alert("최초신청일자가 없습니다..");
+                return;
+            }
+            
+            if( this.$('#reqstDt').val() == '' ) {
+                alert("신청일자가 없습니다..");
                 return;
             }
             
@@ -355,6 +599,8 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
 	                }
 	                alert(result.resultMsg);
 	            });
+
+	            this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
 	        }
             
             break;
@@ -412,7 +658,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         //항만시설사용상세추가
         case 'btnInsertItemDetail':
             if( this.$('#prtAtCode').val() == '' ) {
-                alert("항만시설사용목록에서 등록할 행을 더블클릭한 후 시도하십시오.");
+            	alert("선택된 항구분이 없습니다.");
             } else {
                 this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
                 this.$('#gamPrtFcltyRentMngtDetailForm').find(':input').val('');
@@ -423,9 +669,6 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                 this.$('#detailMngYear').val( this.$('#mngYear').val() );
                 this.$('#detailMngNo').val( this.$('#mngNo').val() );
                 this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
-                
-                //this.$('#prtAtCodeNm').val( 'qqqq' );
-                
 
                 this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', {_updtId:'I'});
                 this._editRow=this.$('#prtFcltyRentMngtDetailList').flexGetData().length;
@@ -561,12 +804,12 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             }
         
         	if( this.$('#usagePdFrom').val() == '' ) {
-                alert("사용기간을 선택하십시오.");
+        		alert("사용기간(시작)을 선택하십시오.");
                 return;
             } 
         	
         	if( this.$('#usagePdTo').val() == '' ) {
-                alert("사용기간을 선택하십시오.");
+        		alert("사용기간(종료)을 선택하십시오.");
                 return;
             }
         	
@@ -595,6 +838,17 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                 return;
             } 
         	
+        	if( this.$('#exemptSe').val() == '1' ) {
+            	if( this.$('#exemptPdFrom').val() == '' ) {
+            		alert("면제기간(시작)을 선택하십시오.");
+                    return;
+            	}
+            	if( this.$('#exemptPdTo').val() == '' ) {
+                    alert("면제기간(종료)을 선택하십시오.");
+                    return;
+                }
+            }
+        	
         	if( this.$('#fee').val() == '' ) {
                 alert("사용료를 입력하십시오.");
                 return;
@@ -603,6 +857,9 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
             //this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
+            
+            //alert(this._editRow);
+            
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#prtFcltyRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
@@ -615,31 +872,6 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
             this.$('#gamPrtFcltyRentMngtDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
         
-            /*
-        	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
-            this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
-            if(this._editData._updtId==undefined || this._editData._updtId!='I') {
-                this._editData._updtId='U';
-                this.$('#prtFcltyRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
-            }
-            else {
-                this.$('#prtFcltyRentMngtDetailList').flexAddRow(this._editData);
-            }
-            this.$('#gamPrtFcltyRentMngtDetailForm').find(':input').val('');
-            this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-            */
-            
-            
-            /*
-            this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
-            if(this._editData._updtId==undefined || this._editData._updtId!='I') {
-                this._editData._updtId='U';
-                this.$('#prtFcltyRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
-            }
-            else {
-                this.$('#prtFcltyRentMngtDetailList').flexAddRow(this._editData);
-            }
-            */
             this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             
             
@@ -767,36 +999,29 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
+                            <th>항구분</th>
                             <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
+                            <th>부두구분</th>
+                            <td >
+                                <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" />
                             </td>
-                            <th>신청업체</th>
-                            <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
-                            </td>
-                            <th>사용용도</th>
-                            <td>
-                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM007 />
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>
-                        <tr>
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
-                            <th>승낙구분</th>
+                            <th>신청구분</th>
+                            <td >
+                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
+                            </td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>
+                        <tr>
+                        	
+                            <th>업체명</th>
                             <td>
-                                <select id="sPrmisnYn">
-                                    <option value="" selected="selected">전체</option>
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
-                                </select>
+                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
                             <th>사용기간</th>
                             <td>
@@ -804,9 +1029,24 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 size="8"> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8">
                             </td>
-                            <th>총면적</th>
+                            <th>신청/허가일자</th>
                             <td>
-                                <input id="sGrAr" type="text" size="5">
+                            	<select id="ddddd">
+                                    <option value="" selected="selected">선택</option>
+                                    <option value="1">최초신청일</option>
+                                    <option value="2">최초허가일</option>
+                                    <option value="3">신청일자</option>
+                                    <option value="4">허가일자</option>
+                                </select>
+                                <input id="tttttt" type="text" class="emdcal" size="8" >
+                            </td>
+                            <th>승낙여부</th>
+                            <td >
+                                <select id="sPrmisnYn">
+                                    <option value="" selected="selected">선택</option>
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
                             </td>
                         </tr>
                     </tbody>
@@ -833,12 +1073,13 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <td>
                                <form id="form1">
                                    합계 : 
-                                   자료수 <input id="totalResultCnt" style="text-align:right;" size="15" readonly>
-                                   총면적 <input id="totalArea" type="text" style="text-align:right;" size="15" readonly>
-                                   총사용료 <input id="totalUse" type="text" style="text-align:right;" size="15" readonly>원
+                                   자료수 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                                   총면적 <input id="totalArea" type="text" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                                   총사용료 <input id="totalUse" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>원
                                    
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
-                                   <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/> 
+                                   <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
+                                   <input id="currentDateStr" type="hidden" value="<c:out value="${currentDateStr}"/>"/>
                                </form>
                             </td>
                         </tr>
@@ -882,44 +1123,44 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">신청업체</span></th>
                                 <td colspan="3">
-                                    <input type="text" size="12" id="entrpscd" maxlength="10"/>
+                                    <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <button id="popupEntrpsInfoInput">업체조회</button>
                                 </td>
                             </tr>
                             <tr>
                                 <th style="width: 100px"><span class="label">최초신청일자</span></th>
-                                <td style="width: 400px"><input type="text" class="emdcal" size="10" id="frstReqstDt"/></td>
+                                <td style="width: 400px"><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly /></td>
                                 <th style="width: 100px"><span class="label">신청일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="reqstDt"/></td>
+                                <td><input type="text" class="emdcal" size="10" id="reqstDt" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
                                 <td>
-                                    <select id="prmisnYn">
+                                    <select id="prmisnYn" disabled >
                                         <option value="" selected="selected">선택</option>
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
                                     </select>
                                 </td>
                                 <th><span class="label">승낙일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="prmisnDt"></td>
+                                <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용기간</span></th>
                                 <td>
-                                    <input type="text" class="emdcal" size="10" id="grUsagePdFrom"/>
+                                    <input type="text" class="emdcal" size="10" id="grUsagePdFrom" disabled />
                                     ~
-                                    <input type="text" class="emdcal" size="10" id="grUsagePdTo"/>
+                                    <input type="text" class="emdcal" size="10" id="grUsagePdTo" disabled />
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" id="grAr" style="text-align:right;" /></td>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" disabled /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" id="grFee" style="text-align:right;" /></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" disabled /></td>
                                 <th><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" id="grRdcxptFee" style="text-align:right;" /></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" disabled /></td>
                             </tr>
                             <tr>
                             	<!-- 
@@ -928,7 +1169,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
                                 </td>
                                  -->
-                                <input type="hidden" id="payMth" value="Pre" />	<!-- 납부 방법 선납 고정 -->
+                                <!-- <input type="hidden" id="payMth" value="Pre" /> 납부 방법 선납  쿼리 고정 -->
                                 <th><span class="label">고지 방법</span></th>
                                 <td colspan="3">
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
@@ -960,7 +1201,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                  <table class="searchPanel">
                     <tbody>
                     <tr>
-                        <th>항만시설사용상세목록</th>
+                        <th>항만시설사용 상세목록</th>
                     </tr>
                     </tbody>
                  </table>
@@ -970,13 +1211,13 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                  
                  <table style="width:100%">
                     <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail">항만시설상세추가</button><button id="btnRemoveItemDetail">항만시설상세삭제</button></td>
+                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd" >항만시설상세추가</button><button id="btnRemoveItemDetail">항만시설상세삭제</button></td>
                     </tr>
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
                         <td style="text-align:right"><button id="btnSanctnReq">결재요청</button><button id="btnPrmisn">사용승낙</button>
-                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem">신청삭제</button><button id="btnSaveItem">신청저장</button>
+                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>
                     </tr>
@@ -1003,7 +1244,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <input type="hidden" id="quayCd" />	<!-- 부두코드 -->
                                 <input type="hidden" id="assetsCdStr" />	<!-- 시설코드 -->
                                 
-                                <!-- <input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>- -->
+                                <input type="hidden" id="gisAssetsPrtAtCode" />
                                 </td>
                             </tr>
                             <tr>
@@ -1017,12 +1258,13 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <th><span class="label">소재지</span></th>
                                 <td colspan="3" style="width: 400px"><input type="text" size="60" id="gisAssetsLocplc" disabled/></td>
                                 <th><span class="label">지번</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLnm"/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
+                                <td><input type="text" size="5" id="gisAssetsLnm" disabled />-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">시설면적</span></th>
-                                <td ><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
+                                <td ><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
+                                
                                 <th style="width: 100px"><span class="label">공시지가목록</span></th>
                                 <td colspan="3" style="text-align: left;">
                                     <select id="olnlpList">
@@ -1036,15 +1278,15 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             
                             <tr>
                                 <th><span class="label">사용기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal" size="10" id="usagePdFrom"/>
+                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')"/>
                                 ~
-                                <input type="text" class="emdcal" size="10" id="usagePdTo"/></td>
+                                <input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" id="olnlp" style="text-align:right;" /></td>
+                                <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" style="text-align:right;" /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="usageAr" style="text-align:right;" /></td>
+                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -1054,9 +1296,10 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                         <option value="" selected="selected">선택</option>
                                     </select>
                                      -->
-                                    <input id="applcTariff" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM023" />
+                                    <input id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id="GAM023"/>
                                     
                                     <input type="text" size="14" id="applcTariffStr"/>
+                                    <input type="hidden" id="applcTariffNm"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
                                 <td colspan="3">
@@ -1066,15 +1309,15 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">면제구분</span></th>
                                 <td colspan="5">
-                                    <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM009"  data-column-label-id='exemptSeNm'/>
+                                    <input id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM009"  data-column-label-id='exemptSeNm'/>
                                     <input type="text" size="17" id="exemptSeStr" readonly/>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal" size="10" id="exemptPdFrom"/>
+                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom"/>
                                 ~
-                                <input type="text" class="emdcal" size="10" id="exemptPdTo"/></td>
+                                <input type="text" class="emdcal calcInput" size="10" id="exemptPdTo"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제사유</span></th>
@@ -1087,9 +1330,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="20" id="fee" style="text-align:right;" />원</td>
+                                <td><input type="text" size="20" class="ygpaCurrency" id="fee" style="text-align:right;" />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" id="rdcxptFee" style="text-align:right;" />원</td>
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency calcInput" id="rdcxptFee" onkeyup="$(this).trigger('change')" style="text-align:right;" />원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>
