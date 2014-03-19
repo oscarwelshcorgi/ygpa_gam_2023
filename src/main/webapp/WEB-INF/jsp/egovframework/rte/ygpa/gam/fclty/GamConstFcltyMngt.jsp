@@ -57,6 +57,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 	});
 	
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
+		
 		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:row["gisPrtFcltyCd"]};
 		module.doAction('<c:url value="/fclty/gamConstFcltyView.do" />', detailInput, function(module, result) {
 
@@ -80,8 +81,9 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 			module.$(".selectedGAM005").hide();
 			module.$("#gisCodePopupBtn").hide();
 			
-			module.makeFormValues("#cmpyChargerMngtManageVO", row);
-			module._editRow = module.$("#cmpyMngtList").selectedRowIds()[0];
+			// 파일 tab
+			var searchOpt = module.makeFormArgs("#fcltyManageVO");
+	        module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
 	 	});
 	});
 	
@@ -108,11 +110,11 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 			m._editPhotoData._updt='I';
 		}
 
-		if(m.$('#photoSj')==event.target) {	// 제목 변경
+		if(m.$("#photoSj")==event.target) {	// 제목 변경
 			m._editPhotoData.photoSj = $(event.target).val();
 		}
 		else {	// 날짜 시간 변경
-			var dtStr = m.$('#shotDate').val()+' '+m.$('#shotTime').val();
+			var dtStr = m.$('#shotDt').val()+' '+m.$('#shotTime').val();
 			m._editPhotoData.shotDt = dtStr;
 		}
 
@@ -123,32 +125,36 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/sample/selectAssetCodePhotoList.do"/>',
 		dataType: 'json',
 		colModel : [
-				{display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-				{display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
-				{display:'파일명', name:'filenmLogical', width:200, sortable:true, align:'left'},
-				{display:'filenmPhyicl', name:'filenmPhyicl', width:200, sortable:true, align:'left'},
-				{display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'}
+				{display:"사진 순번",			name:"photoSeq",		width:80,		sortable:true,		align:"center"},
+				{display:"사진 제목",			name:"photoSj",			width:300,		sortable:true,		align:"center"},
+				{display:"파일명",			name:"filenmLogic",		width:200,		sortable:true,		align:"left"},
+				{display:"파일 설명",			name:"photoDesc",		width:200,		sortable:true,		align:"left"},
+				{display:"촬영 일시",			name:"shotDt",			width:120,		sortable:true,		align:"center"}
 			],
 		height: "120"
 	});
 
-	this.$("#fcltyPhotoList").on('onItemSelected', function(event, module, row, grid, param) {
-		module.makeFormValues('#editAssetGisPhotoForm', row);
-		module._editPhotoData=module.getFormValues('#editAssetGisPhotoForm', row);
-		module._editPhotoRow=module.$('#fcltyPhotoList').selectedRowIds()[0];
+	
+	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
+		
+		module.makeFormValues("#fcltyGisPhotoForm", row);
+		module._editDataFile = module.getFormValues("#fcltyGisPhotoForm", row);
+		module._editRowFile = module.$("#fcltyPhotoList").selectedRowIds()[0];
 
-		if(row.filenmPhyicl!=null || row.filenmPhyicl!='') {
+		if(row.filenmPhysicl != null || row.filenmPhysicl != "") {
+			
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm=row['filenmPhyicl'];
-			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-			    $imgURL = module.getImageUrl(filenm);
-			    module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr('src', $imgURL);
+			var filenm = row["filenmPhysicl"];
+			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			
+			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+			    
+				$imgURL = module.getImageUrl(filenm);
+				module.$("#previewImage").fadeIn(400, function() {
+			    	module.$("#previewImage").attr("src", $imgURL);
 			    });
-			}
-			else {
-				module.$("#previewImage").attr(src, '#');
+			}else{
+				module.$("#previewImage").attr(src, "#");
 			}
 		}
 	});
@@ -197,9 +203,10 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "saveBtn":
 		 	
 		 	var inputVO=[{}];
-			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
-			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
-			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
+		 	
+			inputVO[inputVO.length]={name: "insertFileList", value: JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: "_updtId", filter: "I"}])) };
+			inputVO[inputVO.length]={name: "updateFileList", value :JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: "_updtId", filter: "U"}])) };
+			inputVO[inputVO.length]={name: "deleteFileList", value: JSON.stringify(this._deleteDataFileList) };
 			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this.getFormValues("#fcltyManageVO", {})) };
 
 			// 날짜 설정
@@ -261,35 +268,75 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			}
 		break;
 
+		
+		// 파일 업로드
 		case "btnUploadFile":
 			
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 			this.uploadFile("uploadPhoto", function(module, result) {
 				
-				var userid="admin";
-				
-				/*
-					{display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-				{display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
-				{display:'파일명', name:'filenmLogical', width:200, sortable:true, align:'left'},
-				{display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'}
-				*/
+				var userid = "admin";
 				
 				$.each(result, function(){
-					// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-					//module.$("#fcltyPhotoList").flexAddRow({photoSj: "", filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()});
-					module.$("#fcltyPhotoList").flexAddRow({photoSeq: "", photoSj: "", filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, shotDt: ""});
+					module.$("#fcltyPhotoList").flexAddRow({photoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
 				});
 			}, "시설사진 업로드");
 		break;
+		
+		case "btnRemoveFile":
+        	
+            var rows = this.$("#fcltyPhotoList").selectedRows();
 
+            if(rows.length == 0){
+                alert("파일목록에서 삭제할 행을 선택하십시오.");
+                return;
+            }
+            
+            if(this.$("#fcltyPhotoList").selectedRowIds().length>0) {
+            	for(var i=this.$("#fcltyPhotoList").selectedRowIds().length-1; i>=0; i--) {
+
+            		var row = this.$("#fcltyPhotoList").flexGetRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
+                       
+                    if(row._updtId == undefined || row._updtId != "I") {
+                    	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+					}
+                	this.$("#fcltyPhotoList").flexRemoveRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
+				}
+			}
+
+            this.$("#fcltyGisPhotoForm").find(":input").val("");
+
+		break;
+
+		
+		// 파일 적용
 		case "btnApplyPhotoData":
-			var rownum;
+
+			if(this.$("#filenmLogic").val() == "") {
+                alert("첨부파일목록에서 선택하십시오.");
+                return;
+            }
+
+			if(this._editDataFile == null) return;
+            this._editDataFile = this.getFormValues("#fcltyGisPhotoForm", this._editDataFile);
+            if(this._editRowFile != null) {
+                if(this._editDataFile._updtId != "I") this._editDataFile._updtId = "U";
+                this.$("#fcltyPhotoList").flexUpdateRow(this._editRowFile, this._editDataFile);
+                this._editRowFile = null;
+            }else{
+                this.$("#fcltyPhotoList").flexAddRow(this._editDataFile);
+            }
+
+            this.$("#fcltyGisPhotoForm :input").val("");
+            this._editDataFile = null;
+            
+			/*var rownum;
 			var row = {};
-			row = module.getFormValues("#editAssetGisPhotoForm", row);
+			row = module.getFormValues("#fcltyGisPhotoForm", row);
 			rownum = module.$("#fcltyPhotoList").selectedRowIds()[0];
 
 			this.$("#fcltyPhotoList").flexUpdateRow(rownum, row);
+			*/
 		break;
 	}
 };
@@ -303,6 +350,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 	case "tabs1":
 		break;
 	case "tabs2":
+		break;
+	case "tabs3":
+		this._deleteDataList=[];    // 삭제 목록 초기화
 		break;
 	}
 };
@@ -485,9 +535,9 @@ var module_instance = new GamFcltyMngtModule();
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
-					<button id="removeAssetGisPhoto">삭제</button>
+					<button id="btnRemoveFile">삭제</button>
 				</div>
-				<form id="editAssetGisPhotoForm">
+				<form id="fcltyGisPhotoForm">
 					<table>
 						<tr>
 							<th><span class="label">제 목</span></th>
@@ -495,7 +545,11 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 						<tr>
 							<th><span class="label">촬영일자</span></th>
-							<td><input id="shotDate" type="text" size="10"  class="emdcal photoEditItem">&nbsp;<input id="shotTime" type="text" size="5"  class="photoEditItem emdTime"/></td>
+							<td><input id="shotDt" type="text" size="10"  class="emdcal photoEditItem"></td>
+						</tr>
+						<tr>
+							<th><span class="label">사진 설명</span></th>
+							<td><input id="photoDesc" type="text" size="60"  class="photoEditItem"></td>
 						</tr>
 					</table>
 				</form>
