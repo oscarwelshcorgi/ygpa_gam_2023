@@ -166,6 +166,10 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyUseExprInqire.do'/>">항만시설사용만기도래자료조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0003"
                                     data-url="<c:url value='/oper/gnrl/gamPrtFcltyMtRentFeeSttusInqire.do'/>">항만시설월별사용료현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
