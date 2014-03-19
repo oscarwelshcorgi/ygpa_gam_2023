@@ -149,6 +149,12 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     /** 검색조건 */
     private String sMngCnt;
     
+    /** 검색조건 */
+    private String sQuayCd;
+    
+    /** 검색조건 */
+    private String sEntrpsNm;
+    
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
     
@@ -1103,6 +1109,34 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	 */
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the sQuayCd
+	 */
+	public String getsQuayCd() {
+		return sQuayCd;
+	}
+
+	/**
+	 * @param sQuayCd the sQuayCd to set
+	 */
+	public void setsQuayCd(String sQuayCd) {
+		this.sQuayCd = sQuayCd;
+	}
+
+	/**
+	 * @return the sEntrpsNm
+	 */
+	public String getsEntrpsNm() {
+		return sEntrpsNm;
+	}
+
+	/**
+	 * @param sEntrpsNm the sEntrpsNm to set
+	 */
+	public void setsEntrpsNm(String sEntrpsNm) {
+		this.sEntrpsNm = sEntrpsNm;
 	}
     
 }

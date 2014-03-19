@@ -232,4 +232,18 @@ public interface GamPrtFcltyRentMngtService {
 	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCurrRenewInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception;
     
+    /**
+   	 * 신청저장시 항만시설사용 상세테이블의 (MIN)순번의 부두코드 가져오기.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return 항만시설사용 목록
+   	 * @exception Exception
+   	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtDetailQuaycd(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+       
+    /**
+   	 * 신청저장시 항만시설사용 테이블의 부두코드를 업데이트 한다.
+   	 * @param vo GamPrtFcltyRentMngtDetailVO
+   	 * @exception Exception
+   	 */
+   	public void updatePrtFcltyRentMngtQuaycd(GamPrtFcltyRentMngtVO vo) throws Exception;
 }

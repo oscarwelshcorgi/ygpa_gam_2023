@@ -97,6 +97,12 @@ public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
     
     /** 부서코드 */
     private String deptcd;
+    
+    /**  */
+    private String detailPrtAtCode;
+    
+    /**  */
+    private String prtAtCodeStr;
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -124,6 +130,12 @@ public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
     
     /** 검색조건 */
     private String sGrUsagePdTo;
+    
+    /** 검색조건 */
+    private String sQuayCd;
+    
+    /** 검색조건 */
+    private String sEntrpsNm;
     
     /** 검색조건 */
     private String sGrAr;
@@ -814,6 +826,62 @@ public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setsUsagePrposCd(String sUsagePrposCd) {
 		this.sUsagePrposCd = sUsagePrposCd;
+	}
+
+	/**
+	 * @return the sQuayCd
+	 */
+	public String getsQuayCd() {
+		return sQuayCd;
+	}
+
+	/**
+	 * @param sQuayCd the sQuayCd to set
+	 */
+	public void setsQuayCd(String sQuayCd) {
+		this.sQuayCd = sQuayCd;
+	}
+
+	/**
+	 * @return the sEntrpsNm
+	 */
+	public String getsEntrpsNm() {
+		return sEntrpsNm;
+	}
+
+	/**
+	 * @param sEntrpsNm the sEntrpsNm to set
+	 */
+	public void setsEntrpsNm(String sEntrpsNm) {
+		this.sEntrpsNm = sEntrpsNm;
+	}
+
+	/**
+	 * @return the detailPrtAtCode
+	 */
+	public String getDetailPrtAtCode() {
+		return detailPrtAtCode;
+	}
+
+	/**
+	 * @param detailPrtAtCode the detailPrtAtCode to set
+	 */
+	public void setDetailPrtAtCode(String detailPrtAtCode) {
+		this.detailPrtAtCode = detailPrtAtCode;
+	}
+
+	/**
+	 * @return the prtAtCodeStr
+	 */
+	public String getPrtAtCodeStr() {
+		return prtAtCodeStr;
+	}
+
+	/**
+	 * @param prtAtCodeStr the prtAtCodeStr to set
+	 */
+	public void setPrtAtCodeStr(String prtAtCodeStr) {
+		this.prtAtCodeStr = prtAtCodeStr;
 	}
 
 }
