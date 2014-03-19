@@ -44,6 +44,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 					{display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
 					{display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
 					{display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+					{display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
 					{display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
 					{display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
 					{display:'최초신청일', name:'frstReqstDt',width:90, sortable:false,align:'center'},
@@ -102,7 +103,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         }
     });
 
-    // 테이블 설정
+    // 항만시설사용상세 테이블 설정
     this.$("#prtFcltyUseSttusInqireDetailList").flexigrid({
         module: this,
         url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireDetailList.do" />',
@@ -159,11 +160,24 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
                     {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
                     */
                     ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
+           showTableToggleBtn: false,
+           height: 'auto'
+    });
+    
+    // 첨부파일 테이블 설정
+    this.$("#prtFcltyUseSttusInqireFileDetailList").flexigrid({
+        module: this,
+        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyUseSttusInqireFileList.do" />',
+        dataType: 'json',
+        colModel : [
+                    {display:'순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
+                    {display:'제목', name:'prtAtCodeNm',width:250, sortable:false,align:'center'},
+                    {display:'파일명', name:'prtAtCode',width:250, sortable:false,align:'center'},
+                    {display:'파일설명', name:'assetsCdStr',width:300, sortable:false,align:'center'}
+                    
+                    ],
         showTableToggleBtn: false,
-        height: '140'
+        height: 'auto'
     });
 
     this.$("#prtFcltyUseSttusInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -215,7 +229,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 
             var searchOpt=module.makeFormArgs('#gamPrtFcltyUseSttusInqireForm');
             module.$('#prtFcltyUseSttusInqireDetailList').flexOptions({params:searchOpt}).flexReload();
-            //module.$('#prtFcltyUseSttusInqireFileList').flexOptions({params:searchOpt}).flexReload(); 첨부부분 수정할것
+            module.$('#prtFcltyUseSttusInqireFileDetailList').flexOptions({params:searchOpt}).flexReload(); 
         }
     });
 
@@ -1018,14 +1032,57 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
 
             </div>
 
-            <div id="tabs4" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
-                <table id="assetCodePhotoList" style="display:none"></table>
+            <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
+                <!-- <table id="prtFcltyUseSttusInqireFileDetailList" style="display:none"  class="fillHeight"></table> -->
+                <table id="prtFcltyUseSttusInqireFileDetailList" style="display:none"></table>
+                
                 <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
-                <!--
+                <!-- 
                 <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
                  -->
+                 
+                <div style="vertical-align: bottom; text-align: right;">
+                    <button id="xxxx">업로드</button>
+                    <button id="xxxx">다운로드</button>
+                    <button id="xxxx">삭제</button>
+                </div> 
+                
+                <table>
+                    <tr height="30">
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            제목
+                        </th>
+                        <td>
+                            <input type="text" size="130" id="xxx"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            파일설명
+                        </th>
+                        <td>
+                            <input type="text" size="130" id="xxx"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right" colspan="2">
+                            <button id="xxxx">적용</button>
+                        </td>
+                    </tr>
+                </table>
+                
+                <table class="searchPanel">
+                    <tbody>
+                    <tr>
+                        <th>미리보기</th>
+                    </tr>
+                    </tbody>
+                </table> 
                 <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-
+                
             </div>
 
 
