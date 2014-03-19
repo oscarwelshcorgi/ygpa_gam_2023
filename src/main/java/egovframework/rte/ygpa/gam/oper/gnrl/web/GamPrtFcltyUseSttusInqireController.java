@@ -191,6 +191,10 @@ public class GamPrtFcltyUseSttusInqireController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		log.debug("##############################################");
+		log.debug("### searchVO : " + searchVO);
+		log.debug("##############################################");
 
 		// 항만시설사용현황 상세리스트 및 총건수
 		totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireDetailListTotCnt(searchVO);

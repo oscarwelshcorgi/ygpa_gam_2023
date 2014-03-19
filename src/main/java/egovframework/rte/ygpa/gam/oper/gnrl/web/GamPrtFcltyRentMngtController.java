@@ -27,6 +27,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -93,6 +94,7 @@ public class GamPrtFcltyRentMngtController {
 		model.addAttribute("olnlpList", olnlpList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
+		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentMngt";
@@ -233,11 +235,15 @@ public class GamPrtFcltyRentMngtController {
 			saveVO.setMngCnt(form.get("mngCnt"));     
 			saveVO.setEntrpscd(form.get("entrpscd"));   
 			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
+			saveVO.setReqstDt(form.get("reqstDt"));
 			saveVO.setPayMth(form.get("payMth"));     
 			saveVO.setNticMth(form.get("nticMth"));    
 			saveVO.setRm(form.get("rm"));         
 			saveVO.setCmt(form.get("cmt")); 
     		saveVO.setUpdUsr(loginVO.getId());
+    		
+    		log.debug("########### form.get(payMth) => "+form.get("payMth"));
+    		log.debug("########### saveVO.setPayMth(.get(payMth) => "+saveVO.getPayMth());
     		
     		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
     		if( form.get("mngYear") == null || "".equals(form.get("mngYear")) ) {
@@ -258,7 +264,7 @@ public class GamPrtFcltyRentMngtController {
         		saveDetailVO.setDetailMngNo(keyVO.getMngNo());      
         		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt());     
     		} else {
-    			saveVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+    			//saveVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
     	    	
     	        gamPrtFcltyRentMngtService.updatePrtFcltyRentMngt(saveVO);
     			
@@ -301,6 +307,7 @@ public class GamPrtFcltyRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
     			
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
@@ -344,6 +351,7 @@ public class GamPrtFcltyRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
     			
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());
@@ -384,6 +392,21 @@ public class GamPrtFcltyRentMngtController {
     			
     			//총사용료, 총면적, 총사용기간 업데이트
     			gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtRenewInfo(updRentVO);
+    			
+    			//부두코드 가져오기
+    			GamPrtFcltyRentMngtVO quaycdVO = new GamPrtFcltyRentMngtVO();
+    			quaycdVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtDetailQuaycd(updRentVO);
+    			
+    			//부두코드 업데이트
+    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+    				quaycdVO = new GamPrtFcltyRentMngtVO();
+    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+    				quaycdVO.setMngYear(paramVO.getMngYear());
+    				quaycdVO.setMngNo(paramVO.getMngNo());
+    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+    			}
+    			
+    			gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtQuaycd(quaycdVO);
     		}
     		
     	} catch (Exception e) {
@@ -399,7 +422,7 @@ public class GamPrtFcltyRentMngtController {
     }
 	
 	/**
-     * 항만시설사용 최초신청을 등록한다.
+     * 항만시설사용,상세를 저장한다.
      * @param String
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
