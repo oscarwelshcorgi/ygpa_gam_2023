@@ -281,6 +281,10 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 					module.$("#fcltyPhotoList").flexAddRow({photoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
 				});
 			}, "시설사진 업로드");
+			
+			this._editDataFile=this.getFormValues('#fcltyGisPhotoForm', {_updtId:'I'});
+            this._editRowFile=this.$('#fcltyPhotoList').flexGetData().length;
+            
 		break;
 		
 		case "btnRemoveFile":
@@ -352,7 +356,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 	case "tabs2":
 		break;
 	case "tabs3":
-		this._deleteDataList=[];    // 삭제 목록 초기화
+		this._deleteDataFileList = [];    // 삭제 목록 초기화
 		break;
 	}
 };
