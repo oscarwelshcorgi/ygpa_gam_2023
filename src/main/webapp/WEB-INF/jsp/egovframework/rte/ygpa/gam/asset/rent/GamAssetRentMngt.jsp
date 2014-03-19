@@ -151,10 +151,33 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/gamSelectAssetRentFileList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
-                    {display:'제목', name:'prtAtCodeNm',width:250, sortable:false,align:'center'},
-                    {display:'파일명', name:'prtAtCode',width:250, sortable:false,align:'center'},
-                    {display:'파일설명', name:'assetsCdStr',width:300, sortable:false,align:'center'}
+					/*
+					{display:'순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
+					{display:'제목', name:'prtAtCodeNm',width:250, sortable:false,align:'center'},
+					{display:'파일명', name:'prtAtCode',width:250, sortable:false,align:'center'},
+					{display:'파일설명', name:'assetsCdStr',width:300, sortable:false,align:'center'}
+					
+					
+					{display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+					{display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
+					{display:'파일명', name:'filenmLogical', width:200, sortable:true, align:'left'},
+					{display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
+					{display:'등록자', name:'regUse', width:160, sortable:true, align:'center'}
+					*/
+                    
+					{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
+                    {display:'관리번호', name:'mngNo',width:60, sortable:false,align:'center'},
+                    {display:'관리횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
+					
+                    {display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+                    {display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
+                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
+                    {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
+                    {display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
+                    {display:'사진설명', name:'photoDesc', width:120, sortable:true, align:'center'},
+                    {display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'},
+                    {display:'등록일', name:'registDt', width:160, sortable:true, align:'center'}
 
                     /*
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
@@ -257,6 +280,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         if(row!=null) {
             module.$('#detailCmd').val('modify');
         }
+    });
+    
+    this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.makeFormValues('#gamAssetRentFileForm', row);
+        module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
+        module._editRowFile=module.$('#assetRentFileList').selectedRowIds()[0];
     });
     
  // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
@@ -589,6 +618,15 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
                 inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+                
+                
+                inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+
+                inputVO[inputVO.length]={name: 'insertFileList', value: JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+
+                inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
+                
+                
                 //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
 
                 this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
@@ -886,11 +924,87 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
             break;
 
+        case 'btnUploadFile':
+            // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
+            this.uploadFile('uploadPhoto', function(module, result) {
+//              var userid=EMD.util.getLoginUserVO().userNm; 임시
+                var userid='admin';
+                $.each(result, function(){
+                	alert(this.logicalFileNm);
+                    alert(this.physcalFileNm);
+                	
+                    /*
+                     {display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+                    {display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
+                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
+                    {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
+                    {display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
+                    {display:'사진설명', name:'photoDesc', width:120, sortable:true, align:'center'},
+                    {display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'}
+                    */
+                    
+                    //module.$('#assetRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    module.$('#assetRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                });
+            }, '첨부파일 업로드');
+            
+            break;
+        
+        case 'btnApplyPhotoData':
+        	if( this.$('#filenmLogic').val() == '' ) {
+                alert("첨부파일목록에서 선택하십시오.");
+                return;
+            }
+        	
+        	if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
+            this._editDataFile=this.getFormValues('#gamAssetRentFileForm', this._editDataFile);
+            
+            if(this._editRowFile!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRowFile 로 변경 2014-03-14.001
+                if(this._editDataFile._updtId!='I') this._editDataFile._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
+                this.$('#assetRentFileList').flexUpdateRow(this._editRowFile, this._editDataFile);
+                this._editRowFile=null;    // 편집 저장 하였으므로 로우 편집을 종료 한다.
+            }
+            else {
+                this.$('#assetRentFileList').flexAddRow(this._editDataFile);
+            }
+
+            this.$('#gamAssetRentFileForm').find(':input').val('');
+            this._editDataFile=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
+        	
+        	break;
+        
+        // 파일 삭제 (Grid상에서만 삭제됨)
+        case 'btnRemoveFile':
+        	alert("a");
+            var rows = this.$('#assetRentFileList').selectedRows();
+
+            if(rows.length == 0) {
+                alert("파일목록에서 삭제할 행을 선택하십시오.");
+            } else {
+                if(this.$('#assetRentFileList').selectedRowIds().length>0) {
+                    for(var i=this.$('#assetRentFileList').selectedRowIds().length-1; i>=0; i--) {
+                        var row=this.$('#assetRentFileList').flexGetRow(this.$('#assetRentFileList').selectedRowIds()[i]);
+                        
+                        alert( row._updtId );
+                        
+                        if(row._updtId==undefined || row._updtId!='I') {
+                            this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+                        }
+                        this.$('#assetRentFileList').flexRemoveRow(this.$('#assetRentFileList').selectedRowIds()[i]);
+                    }
+                }
+            }
+
+            this.$('#gamAssetRentFileForm').find(':input').val('');
+
+            break;    
+            
         case 'btnSanctnReq':    //결재요청.
 
             alert("결재요청을 합니다.");
 
             break;
+            
     }
 };
 
@@ -1462,55 +1576,45 @@ var module_instance = new GamAssetRentMngtModule();
             </div>
 
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-                <!-- <table id="assetRentFileList" style="display:none"  class="fillHeight"></table> -->
-                <table id="assetRentFileList" style="display:none"></table>
-
-                <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
-                <!--
-                <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-                 -->
-
-                <div style="vertical-align: bottom; text-align: right;">
-                    <button id="xxxx">업로드</button>
-                    <button id="xxxx">다운로드</button>
-                    <button id="xxxx">삭제</button>
-                </div>
-
-                <table>
-                    <tr height="30">
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <th>
-                            제목
-                        </th>
-                        <td>
-                            <input type="text" size="130" id="xxx"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            파일설명
-                        </th>
-                        <td>
-                            <input type="text" size="130" id="xxx"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="2">
-                            <button id="xxxx">적용</button>
-                        </td>
-                    </tr>
-                </table>
-
-                <table class="searchPanel">
-                    <tbody>
-                    <tr>
-                        <th>미리보기</th>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
+                
+                <table id=assetRentFileList style="display:none"></table>
+                <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
+                <form id="gamAssetRentFileForm">
+                    <input type="text" id="photoPrtAtCode" data-column-id="prtAtCode"/>
+                    <input type="text" id="photoMngYear" data-column-id="mngYear"/>
+                    <input type="text" id="photoMngNo" data-column-id="mngNo"/>
+                    <input type="text" id="photoMngCnt" data-column-id="mngCnt"/>
+                    <input type="text" id="photoSeq" data-column-id="photoSeq"/>
+                
+                    <table>
+                        <tr>
+                            <th><span class="label">파일명</span></th>
+                            <td>
+                                <input id="filenmLogic" type="text" size="30" class="photoEditItem" disabled/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">제 목</span></th>
+                            <td>
+                                <input id="photoSj" type="text" size="60" class="photoEditItem" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">촬영일시</span></th>
+                            <td>
+                                <input id="shotDt" type="text" size="10"  class="emdcal photoEditItem"><!-- &nbsp;<input id="shotTime" type="text" size="5"  class="photoEditItem emdTime"/> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">사진설명</span></th>
+                            <td>
+                                <input id="photoDesc" type="text" size="10" class="photoEditItem">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                    <button id="btnApplyPhotoData">첨부파일 적용</button>
+                <div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>
 
