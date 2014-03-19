@@ -255,7 +255,28 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
     });
-
+    
+    this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.makeFormValues('#gamAssetRentFileForm', row);
+        module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
+        module._editRowFile=module.$('#assetRentFileList').selectedRowIds()[0];
+        
+        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
+            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+            var filenm=row['filenmPhysicl'];
+            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+                $imgURL = module.getImageUrl(filenm);
+                module.$("#previewImage").fadeIn(400, function() {
+                    module.$("#previewImage").attr('src', $imgURL);
+                });
+            }
+            else {
+                module.$("#previewImage").attr(src, '#');
+            }
+        }
+    });
+    
     this.$("#assetRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
@@ -279,27 +300,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
         if(row!=null) {
             module.$('#detailCmd').val('modify');
-        }
-    });
-    
-    this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamAssetRentFileForm', row);
-        module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
-        module._editRowFile=module.$('#assetRentFileList').selectedRowIds()[0];
-        
-        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
-            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-            var filenm=row['filenmPhysicl'];
-            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-                $imgURL = module.getImageUrl(filenm);
-                module.$("#previewImage").fadeIn(400, function() {
-                    module.$("#previewImage").attr('src', $imgURL);
-                });
-            }
-            else {
-                module.$("#previewImage").attr(src, '#');
-            }
         }
     });
     
@@ -641,7 +641,6 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
                 inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
                 
-                alert(inputVO);
                 //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
 
                 this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
@@ -924,6 +923,9 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
             
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
+            	
+            	alert(this._editData._updtId);
+            	
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#assetRentDetailList').flexUpdateRow(this._editRow, this._editData);
                 this._editRow=null;    // 편집 저장 하였으므로 로우 편집을 종료 한다.
@@ -964,6 +966,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         	if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editDataFile=this.getFormValues('#gamAssetRentFileForm', this._editDataFile);
             
+        	alert(this._editDataFile._updtId);
+        	
             if(this._editRowFile!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRowFile 로 변경 2014-03-14.001
                 if(this._editDataFile._updtId!='I') this._editDataFile._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#assetRentFileList').flexUpdateRow(this._editRowFile, this._editDataFile);
@@ -1039,6 +1043,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
 
         this._deleteDataList=[];    // 삭제 목록 초기화
+        this._deleteDataFileList=[];    // 파일삭제 목록 초기화
 
         break;
     case 'tabs3':
@@ -1052,7 +1057,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         break;
     
     case 'tabs4':
-    	this._deleteDataFileList=[];    // 삭제 목록 초기화
+    	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
         
     	break;
     }
