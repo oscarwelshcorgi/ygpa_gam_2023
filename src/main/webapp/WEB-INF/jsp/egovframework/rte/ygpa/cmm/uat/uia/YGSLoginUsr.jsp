@@ -72,7 +72,7 @@ function getCookie(Name) {
 function saveid(form) {
 	var expdate = new Date();
 	// 기본적으로 30일동안 기억하게 함. 일수를 조절하려면 * 30에서 숫자를 조절하면 됨
-	if (form.checkId.checked)
+	if (form.idsave.checked)
 		expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30); // 30일
 	else
 		expdate.setTime(expdate.getTime() - 1); // 쿠키 삭제조건
@@ -80,7 +80,7 @@ function saveid(form) {
 }
 
 function getid(form) {
-	form.checkId.checked = ((form.id.value = getCookie("saveid")) != "");
+	form.idsave.checked = ((form.id.value = getCookie("saveid")) != "");
 }
 
 function fnInit() {
@@ -357,7 +357,7 @@ body {
         </label>
         </label>
       </p>
-      <p class="submit"><input type="submit" name="commit" value="로그인" onclick="actionLogin();"></p>
+      <p class="submit"><input type="submit" name="commit" value="로그인" onclick="actionLogin(event);"></p>
     </form>
   </div>
 

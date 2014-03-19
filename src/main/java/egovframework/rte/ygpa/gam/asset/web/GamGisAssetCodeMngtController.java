@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
@@ -60,6 +62,10 @@ public class GamGisAssetCodeMngtController {
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
+
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
 
     @RequestMapping(value="/asset/gamGisAssetCodeMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -123,12 +129,20 @@ public class GamGisAssetCodeMngtController {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/asset/selectErpAssetCodeList.do", method=RequestMethod.POST)
     @ResponseBody Map selectErpAssetCodeList(ErpAssetCdDefaultVO searchVO) throws Exception {
-    	int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
+		Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
+    	// 환경설정
+    	/** EgovPropertyService */
+
+    	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -138,25 +152,34 @@ public class GamGisAssetCodeMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-    	totalCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+		/** List Data */
+    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
 
     	List gamAssetList = erpAssetCdService.selectErpAssetCdList(searchVO);
 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
     	map.put("resultList", gamAssetList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
 
+
     @RequestMapping(value="/asset/selectGisAssetCodeList.do")
     @ResponseBody Map selectAssetList(GamGisAssetCodeVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
