@@ -290,6 +290,15 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFile_S", vo);
 	}
+	
+	/**
+	 * 파일을 수정한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo){
+		insert("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtFile_S", vo);
+	}
     
 	/**
 	 * 파일을 삭제한다.(1row)

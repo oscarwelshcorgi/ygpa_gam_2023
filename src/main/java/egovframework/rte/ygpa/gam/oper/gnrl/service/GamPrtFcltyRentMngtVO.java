@@ -155,6 +155,12 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     /** 검색조건 */
     private String sEntrpsNm;
     
+    /** 검색조건 */
+    private String sDateSearchGbn;
+    
+    /** 검색조건 */
+    private String sDateSearchValue;
+    
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
     
@@ -1137,6 +1143,34 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	 */
 	public void setsEntrpsNm(String sEntrpsNm) {
 		this.sEntrpsNm = sEntrpsNm;
+	}
+
+	/**
+	 * @return the sDateSearchGbn
+	 */
+	public String getsDateSearchGbn() {
+		return sDateSearchGbn;
+	}
+
+	/**
+	 * @param sDateSearchGbn the sDateSearchGbn to set
+	 */
+	public void setsDateSearchGbn(String sDateSearchGbn) {
+		this.sDateSearchGbn = sDateSearchGbn;
+	}
+
+	/**
+	 * @return the sDateSearchValue
+	 */
+	public String getsDateSearchValue() {
+		return sDateSearchValue;
+	}
+
+	/**
+	 * @param sDateSearchValue the sDateSearchValue to set
+	 */
+	public void setsDateSearchValue(String sDateSearchValue) {
+		this.sDateSearchValue = sDateSearchValue;
 	}
     
 }

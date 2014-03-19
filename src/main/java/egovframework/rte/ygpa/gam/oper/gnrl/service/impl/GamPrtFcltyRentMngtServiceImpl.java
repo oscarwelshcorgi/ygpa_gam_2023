@@ -9,7 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovProperties;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
@@ -92,11 +94,18 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception
 	 */
-	public void insertPrtFcltyRentMngtRenew(GamPrtFcltyRentMngtVO vo) throws Exception {
-		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew(vo); //항만시설사용 복사등록
+    public void insertPrtFcltyRentMngtRenew(GamPrtFcltyRentMngtVO vo) throws Exception {
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		//항만시설사용 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxMngCnt(vo);
+		
+		//항만시설사용 복사등록
+		vo.setMaxMngCnt(maxMngCnt);
+		vo.setRegUsr(loginVO.getId());
+		vo.setUpdUsr(loginVO.getId());
+		vo.setReqstSeCd("2");
+		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew(vo); 
 		
 		//항만시설사용상세정보 조회
 		List detailList = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailInfo(vo);
@@ -108,10 +117,25 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 			resultVo = (GamPrtFcltyRentMngtDetailVO)detailList.get(i);
 			
 			resultVo.setMngCnt(maxMngCnt);
-			resultVo.setRegUsr("admin2");
-			resultVo.setUpdUsr("admin2");
+			resultVo.setRegUsr(loginVO.getId());
+			resultVo.setUpdUsr(loginVO.getId());
 			
-			gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew(resultVo); //항만시설사용상세 복사등록
+			//항만시설사용상세 복사등록
+			gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew(resultVo); 
+		}
+		
+		GamPrtFcltyRentMngtVO updRentVO = new GamPrtFcltyRentMngtVO();
+		
+		//총사용료, 총면적, 총사용기간 조회
+		updRentVO = gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtRenewInfo(vo);
+		
+		if( updRentVO != null ) {
+			updRentVO.setPrtAtCode(vo.getPrtAtCode());
+			updRentVO.setMngYear(vo.getMngYear());
+			updRentVO.setMngNo(vo.getMngNo());
+			updRentVO.setMaxMngCnt(maxMngCnt);
+			
+			gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtRenewInfo(updRentVO);
 		}
 	}
 
@@ -444,6 +468,15 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 	 */
 	public void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFile(vo);
+	}
+	
+	/**
+	 * 파일을 수정한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo) throws Exception {
+		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtFile(vo);
 	}
 	
 	/**

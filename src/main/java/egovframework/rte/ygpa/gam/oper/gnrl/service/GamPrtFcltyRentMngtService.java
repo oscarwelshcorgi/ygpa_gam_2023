@@ -188,6 +188,13 @@ public interface GamPrtFcltyRentMngtService {
 	void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo) throws Exception;
 	
 	/**
+	 * 파일을 수정한다.
+	 * @param vo GamPrtFcltyRentMngtVO
+	 * @exception Exception
+	 */
+	void updatePrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo) throws Exception;
+	
+	/**
 	 * 파일을 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
 	 * @exception Exception

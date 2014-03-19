@@ -138,6 +138,12 @@ public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
     private String sEntrpsNm;
     
     /** 검색조건 */
+    private String sDateSearchGbn;
+    
+    /** 검색조건 */
+    private String sDateSearchValue;
+    
+    /** 검색조건 */
     private String sGrAr;
     
     /** 검색조건(사용 용도 코드) */                                                   
@@ -882,6 +888,34 @@ public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setPrtAtCodeStr(String prtAtCodeStr) {
 		this.prtAtCodeStr = prtAtCodeStr;
+	}
+
+	/**
+	 * @return the sDateSearchGbn
+	 */
+	public String getsDateSearchGbn() {
+		return sDateSearchGbn;
+	}
+
+	/**
+	 * @param sDateSearchGbn the sDateSearchGbn to set
+	 */
+	public void setsDateSearchGbn(String sDateSearchGbn) {
+		this.sDateSearchGbn = sDateSearchGbn;
+	}
+
+	/**
+	 * @return the sDateSearchValue
+	 */
+	public String getsDateSearchValue() {
+		return sDateSearchValue;
+	}
+
+	/**
+	 * @param sDateSearchValue the sDateSearchValue to set
+	 */
+	public void setsDateSearchValue(String sDateSearchValue) {
+		this.sDateSearchValue = sDateSearchValue;
 	}
 
 }

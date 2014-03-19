@@ -182,7 +182,7 @@ public class GamPrtFcltyRentMngtController {
     }
 	
 	/**
-     * 항만시설사용 등록한다.
+     * 항만시설,상세,첨부파일을 저장한다.
      * @param String
      * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
@@ -201,6 +201,9 @@ public class GamPrtFcltyRentMngtController {
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
+    	List<HashMap<String,String>> insertFileList=null;
+    	List<HashMap<String,String>> updateFileList=null;
+    	List<HashMap<String,String>> deleteFileList=null;
     	HashMap<String,String> form=null;
     	
     	try {
@@ -215,7 +218,17 @@ public class GamPrtFcltyRentMngtController {
 
     		form = mapper.readValue((String)dataList.get("form"),
         		    new TypeReference<HashMap<String,String>>(){});
+    		
+    		insertFileList = mapper.readValue((String)dataList.get("insertFileList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    		
+    		updateFileList = mapper.readValue((String)dataList.get("updateFileList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    		
+    		deleteFileList = mapper.readValue((String)dataList.get("deleteFileList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
 
+    		/*
     		log.debug("###################################################### insertList : "+insertList);
     		log.debug("###################################################### updateList : "+updateList);
     		log.debug("###################################################### deleteList : "+deleteList);
@@ -225,6 +238,7 @@ public class GamPrtFcltyRentMngtController {
     		log.debug("###################################################### insertList.size() => "+insertList.size());
     		log.debug("###################################################### updateList.size() => "+updateList.size());
     		log.debug("###################################################### deleteList.size() => "+deleteList.size());
+			*/
 
     		//항만시설사용저장
     		GamPrtFcltyRentMngtVO saveVO= new GamPrtFcltyRentMngtVO();
@@ -372,6 +386,65 @@ public class GamPrtFcltyRentMngtController {
     			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
     			
     			gamPrtFcltyRentMngtService.deletePrtFcltyRentMngtDetail2(deleteDetailVO);
+    		}
+    		
+    		//파일저장
+    		for( int i = 0 ; i < insertFileList.size() ; i++ ) {
+    			Map resultMap = insertFileList.get(i);
+    			
+    			GamPrtFcltyRentMngtVO insertFileVO = new GamPrtFcltyRentMngtVO();
+    			
+    			insertFileVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
+    			insertFileVO.setMngYear(saveDetailVO.getDetailMngYear());    
+    			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());      
+    			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
+    			
+    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
+    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
+    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
+    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
+    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			insertFileVO.setRegUsr(loginVO.getId());
+    			
+    			System.out.println("############################################### insertFileVO => " + insertFileVO);
+    			
+    			gamPrtFcltyRentMngtService.insertPrtFcltyRentMngtFile(insertFileVO);
+    		}
+    		
+    		for( int i = 0 ; i < updateFileList.size() ; i++ ) {
+    			Map resultMap = updateFileList.get(i);
+    			
+    			GamPrtFcltyRentMngtVO updateFileVO = new GamPrtFcltyRentMngtVO();
+    			
+    			updateFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
+    			updateFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+    			updateFileVO.setMngYear(resultMap.get("mngYear").toString());    
+    			updateFileVO.setMngNo(resultMap.get("mngNo").toString());      
+    			updateFileVO.setMngCnt(resultMap.get("mngCnt").toString());
+    			
+    			updateFileVO.setPhotoSj(resultMap.get("photoSj").toString());
+    			updateFileVO.setShotDt(resultMap.get("shotDt").toString());
+    			updateFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			
+    			System.out.println("############################################### updateFileVO => " + updateFileVO);
+    			
+    			gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtFile(updateFileVO);
+    		}
+    		
+    		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
+    			Map resultMap = deleteFileList.get(i);
+    			
+    			GamPrtFcltyRentMngtVO deleteFileVO = new GamPrtFcltyRentMngtVO();
+    			
+    			deleteFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
+    			deleteFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+    			deleteFileVO.setMngYear(resultMap.get("mngYear").toString());    
+    			deleteFileVO.setMngNo(resultMap.get("mngNo").toString());      
+    			deleteFileVO.setMngCnt(resultMap.get("mngCnt").toString());
+    			
+    			System.out.println("############################################### deleteFileVO => " + deleteFileVO);
+    			
+    			gamPrtFcltyRentMngtService.deletePrtFcltyRentMngtPhotoSingle(deleteFileVO);
     		}
     		
     		//총사용료, 총면적, 총사용기간 조회
@@ -1069,7 +1142,7 @@ public class GamPrtFcltyRentMngtController {
 	/**
      * 코멘트를 저장한다.
      * @param String
-     * @param gamAssetRentMngtVO
+     * @param gamPrtFcltyRentMngtVO
      * @param bindingResult
      * @return map
      * @throws Exception
