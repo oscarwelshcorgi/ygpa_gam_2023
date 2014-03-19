@@ -472,6 +472,15 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	}
 	
 	/**
+	 * 파일을 수정한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentFile(GamAssetRentMngtVO vo) throws Exception {
+		gamAssetRentMngtDao.updateAssetRentFile(vo);
+	}
+	
+	/**
 	 * 파일을 삭제한다.
 	 * @param vo GamAssetRentVO
 	 * @exception Exception

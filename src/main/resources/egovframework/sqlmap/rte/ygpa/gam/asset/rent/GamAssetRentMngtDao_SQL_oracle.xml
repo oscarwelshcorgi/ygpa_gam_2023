@@ -1156,7 +1156,7 @@
                                            , PHOTO_DESC
                                         ) 
                                  VALUES (
-                                             (SELECT NVL(MAX(PHOTO_SEQ),0) + 1
+                                             (SELECT LPAD(NVL(MAX(PHOTO_SEQ),0) + 1,'2','0')
 												FROM ASSETS_RENT_PHOTO_F AF
 												WHERE  PRT_AT_CODE = #prtAtCode#
 												AND    MNG_YEAR    = #mngYear#
@@ -1165,7 +1165,7 @@
                                            , #photoSj#
                                            , #filenmPhysicl#
                                            , #filenmLogic#
-                                           , #shotDt#
+                                           , TO_DATE(#shotDt:DATE:NO_ENTRY#)
                                            , #regUsr#
                                            , SYSDATE
                                            , #prtAtCode#
@@ -1175,6 +1175,22 @@
                                            , #photoDesc#
                                         ) 
     </insert>
+    
+    <update id="gamAssetRentMngtDao.updateAssetRentFile_S">
+        UPDATE ASSETS_RENT_PHOTO_F SET
+		       PHOTO_SJ       = #photoSj#,
+		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
+		       FILENM_LOGIC   = :FILENM_LOGIC, -->
+		       SHOT_DT        = TO_DATE(#shotDt:DATE:NO_ENTRY#),
+		       <!-- REG_USR        = :REG_USR,
+		       REGIST_DT      = :REGIST_DT,-->
+		       PHOTO_DESC     = #photoDesc#
+		WHERE  PHOTO_SEQ      = #photoSeq#
+		AND    PRT_AT_CODE    = #prtAtCode#
+		AND    MNG_YEAR       = #mngYear#
+		AND    MNG_NO         = #mngNo#
+		AND    MNG_CNT        = #mngCnt#
+    </update>
     
     <delete id="gamAssetRentMngtDao.deleteAssetRentPhotoSingle_S">
         DELETE FROM ASSETS_RENT_PHOTO_F

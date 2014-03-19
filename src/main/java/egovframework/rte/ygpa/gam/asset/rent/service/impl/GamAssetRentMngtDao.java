@@ -290,6 +290,15 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	public void insertAssetRentFile(GamAssetRentMngtVO vo){
 		insert("gamAssetRentMngtDao.insertAssetRentFile_S", vo);
 	}
+	
+	/**
+	 * 파일을 업데이트한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	public void updateAssetRentFile(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.updateAssetRentFile_S", vo);
+	}
     
 	/**
 	 * 파일을 삭제한다.(1row)

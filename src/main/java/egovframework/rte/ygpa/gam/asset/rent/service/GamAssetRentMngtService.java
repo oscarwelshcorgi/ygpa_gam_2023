@@ -184,6 +184,13 @@ public interface GamAssetRentMngtService {
 	void insertAssetRentFile(GamAssetRentMngtVO vo) throws Exception;
 	
 	/**
+	 * 파일을 수정한다.
+	 * @param vo GamAssetRentVO
+	 * @exception Exception
+	 */
+	void updateAssetRentFile(GamAssetRentMngtVO vo) throws Exception;
+	
+	/**
 	 * 파일을 삭제한다.
 	 * @param vo GamAssetRentVO
 	 * @exception Exception

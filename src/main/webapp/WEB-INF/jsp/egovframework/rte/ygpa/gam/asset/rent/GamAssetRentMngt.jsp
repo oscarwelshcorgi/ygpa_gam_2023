@@ -641,7 +641,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
                 inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
                 
-                
+                alert(inputVO);
                 //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
 
                 this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
@@ -945,23 +945,13 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
                 $.each(result, function(){
-                	alert(this.logicalFileNm);
-                    alert(this.physcalFileNm);
-                	
-                    /*
-                     {display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
-                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
-                    {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
-                    {display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
-                    {display:'사진설명', name:'photoDesc', width:120, sortable:true, align:'center'},
-                    {display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'}
-                    */
-                    
                     //module.$('#assetRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     module.$('#assetRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                 });
             }, '첨부파일 업로드');
+            
+            this._editDataFile=this.getFormValues('#gamAssetRentFileForm', {_updtId:'I'});
+            this._editRowFile=this.$('#assetRentFileList').flexGetData().length;
             
             break;
         
@@ -1000,7 +990,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                     for(var i=this.$('#assetRentFileList').selectedRowIds().length-1; i>=0; i--) {
                         var row=this.$('#assetRentFileList').flexGetRow(this.$('#assetRentFileList').selectedRowIds()[i]);
                         
-                        alert( row._updtId );
+                        //alert( row._updtId );
                         
                         if(row._updtId==undefined || row._updtId!='I') {
                             this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
@@ -1060,6 +1050,11 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
             this.$('#detailCmd').val('modify');
         }
         break;
+    
+    case 'tabs4':
+    	this._deleteDataFileList=[];    // 삭제 목록 초기화
+        
+    	break;
     }
 };
 

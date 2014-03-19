@@ -182,7 +182,7 @@ public class GamAssetRentMngtController {
     }
 	
 	/**
-     * 자산임대,상세를 저장한다.
+     * 자산임대,상세,첨부파일을 저장한다.
      * @param dataList
      * @return map
      * @throws Exception
@@ -199,6 +199,9 @@ public class GamAssetRentMngtController {
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
+    	List<HashMap<String,String>> insertFileList=null;
+    	List<HashMap<String,String>> updateFileList=null;
+    	List<HashMap<String,String>> deleteFileList=null;
     	HashMap<String,String> form=null;
     	
     	try {
@@ -213,17 +216,38 @@ public class GamAssetRentMngtController {
 
     		form = mapper.readValue((String)dataList.get("form"),
         		    new TypeReference<HashMap<String,String>>(){});
-
+    		
+    		
+    		insertFileList = mapper.readValue((String)dataList.get("insertFileList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    		
+    		updateFileList = mapper.readValue((String)dataList.get("updateFileList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    		
+    		deleteFileList = mapper.readValue((String)dataList.get("deleteFileList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+    		
+    		log.debug("##############################################################################################");
+    		log.debug("###################################################### dataList : "+dataList);
+    		log.debug("###################################################### form : "+form);
+    		log.debug("###################################################### cmd : "+form.get("cmd"));
+    		log.debug("----------------------------------------------------------------------------------------------");
     		log.debug("###################################################### insertList : "+insertList);
     		log.debug("###################################################### updateList : "+updateList);
     		log.debug("###################################################### deleteList : "+deleteList);
-    		log.debug("###################################################### form : "+form);
-    		log.debug("###################################################### cmd : "+form.get("cmd"));
-    		
     		log.debug("###################################################### insertList.size() => "+insertList.size());
     		log.debug("###################################################### updateList.size() => "+updateList.size());
     		log.debug("###################################################### deleteList.size() => "+deleteList.size());
-
+    		log.debug("----------------------------------------------------------------------------------------------");
+    		log.debug("###################################################### insertFileList : "+insertFileList);
+    		log.debug("###################################################### updateFileList : "+updateFileList);
+    		log.debug("###################################################### deleteFileList : "+deleteFileList);
+    		log.debug("###################################################### insertFileList.size() => "+insertFileList.size());
+    		log.debug("###################################################### updateFileList.size() => "+updateFileList.size());
+    		log.debug("###################################################### deleteFileList.size() => "+deleteFileList.size());
+    		log.debug("##############################################################################################");
+    		
+    		
     		//자산임대저장
     		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
 			saveVO.setPrtAtCode(form.get("prtAtCode"));
@@ -367,6 +391,65 @@ public class GamAssetRentMngtController {
     			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
     			
     			gamAssetRentMngtService.deleteAssetRentDetail2(deleteDetailVO);
+    		}
+    		
+    		//파일저장
+    		for( int i = 0 ; i < insertFileList.size() ; i++ ) {
+    			Map resultMap = insertFileList.get(i);
+    			
+    			GamAssetRentMngtVO insertFileVO = new GamAssetRentMngtVO();
+    			
+    			insertFileVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
+    			insertFileVO.setMngYear(saveDetailVO.getDetailMngYear());    
+    			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());      
+    			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
+    			
+    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
+    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
+    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
+    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
+    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			insertFileVO.setRegUsr(loginVO.getId());
+    			
+    			System.out.println("############################################### insertFileVO => " + insertFileVO);
+    			
+    			gamAssetRentMngtService.insertAssetRentFile(insertFileVO);
+    		}
+    		
+    		for( int i = 0 ; i < updateFileList.size() ; i++ ) {
+    			Map resultMap = updateFileList.get(i);
+    			
+    			GamAssetRentMngtVO updateFileVO = new GamAssetRentMngtVO();
+    			
+    			updateFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
+    			updateFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+    			updateFileVO.setMngYear(resultMap.get("mngYear").toString());    
+    			updateFileVO.setMngNo(resultMap.get("mngNo").toString());      
+    			updateFileVO.setMngCnt(resultMap.get("mngCnt").toString());
+    			
+    			updateFileVO.setPhotoSj(resultMap.get("photoSj").toString());
+    			updateFileVO.setShotDt(resultMap.get("shotDt").toString());
+    			updateFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			
+    			System.out.println("############################################### updateFileVO => " + updateFileVO);
+    			
+    			gamAssetRentMngtService.updateAssetRentFile(updateFileVO);
+    		}
+    		
+    		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
+    			Map resultMap = deleteFileList.get(i);
+    			
+    			GamAssetRentMngtVO deleteFileVO = new GamAssetRentMngtVO();
+    			
+    			deleteFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
+    			deleteFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+    			deleteFileVO.setMngYear(resultMap.get("mngYear").toString());    
+    			deleteFileVO.setMngNo(resultMap.get("mngNo").toString());      
+    			deleteFileVO.setMngCnt(resultMap.get("mngCnt").toString());
+    			
+    			System.out.println("############################################### deleteFileVO => " + deleteFileVO);
+    			
+    			gamAssetRentMngtService.deleteAssetRentPhotoSingle(deleteFileVO);
     		}
     		
     		//총사용료, 총면적, 총사용기간 조회
