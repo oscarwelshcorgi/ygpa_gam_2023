@@ -347,4 +347,23 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCurrRenewInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCurrRenewInfo_S", searchVO);
 	}
+	
+	/**
+	 * 신청저장시 항만시설사용상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtDetailQuaycd(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailQuaycd_S", searchVO);
+	}
+	
+	/**
+	 * 신청저장시 항만시설사용테이블의 부두코드를 업데이트 한다.
+	 * @param vo GamPrtFcltyRentMngtDetailVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentMngtQuaycd(GamPrtFcltyRentMngtVO vo){
+		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtQuaycd_S", vo);
+	}
 }
