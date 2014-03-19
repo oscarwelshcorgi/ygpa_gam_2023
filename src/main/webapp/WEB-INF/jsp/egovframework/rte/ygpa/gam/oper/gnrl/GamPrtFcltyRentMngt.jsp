@@ -249,6 +249,27 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         module._editData=module.getFormValues('#gamPrtFcltyRentMngtDetailForm', row);
         module._editRow=module.$('#prtFcltyRentMngtDetailList').selectedRowIds()[0];
     });
+    
+    this.$("#prtFcltyRentMngtFileList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.makeFormValues('#gamPrtFcltyRentMngtFileForm', row);
+        module._editDataFile=module.getFormValues('#gamPrtFcltyRentMngtFileForm', row);
+        module._editRowFile=module.$('#prtFcltyRentMngtFileList').selectedRowIds()[0];
+        
+        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
+            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+            var filenm=row['filenmPhysicl'];
+            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+                $imgURL = module.getImageUrl(filenm);
+                module.$("#previewImage").fadeIn(400, function() {
+                    module.$("#previewImage").attr('src', $imgURL);
+                });
+            }
+            else {
+                module.$("#previewImage").attr(src, '#');
+            }
+        }
+    });
 
     this.$("#prtFcltyRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});    
@@ -274,27 +295,6 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         
         if(row!=null) {
             module.$('#detailCmd').val('modify');
-        }
-    });
-    
-    this.$("#prtFcltyRentMngtFileList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamPrtFcltyRentMngtFileForm', row);
-        module._editDataFile=module.getFormValues('#gamPrtFcltyRentMngtFileForm', row);
-        module._editRowFile=module.$('#prtFcltyRentMngtFileList').selectedRowIds()[0];
-        
-        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
-            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-            var filenm=row['filenmPhysicl'];
-            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-                $imgURL = module.getImageUrl(filenm);
-                module.$("#previewImage").fadeIn(400, function() {
-                    module.$("#previewImage").attr('src', $imgURL);
-                });
-            }
-            else {
-                module.$("#previewImage").attr(src, '#');
-            }
         }
     });
     
@@ -1020,6 +1020,7 @@ GamPrtFcltyRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
         
         this._deleteDataList=[];    // 삭제 목록 초기화
+        this._deleteDataFileList=[];    // 파일삭제 목록 초기화
         
         break;
     case 'tabs3':
