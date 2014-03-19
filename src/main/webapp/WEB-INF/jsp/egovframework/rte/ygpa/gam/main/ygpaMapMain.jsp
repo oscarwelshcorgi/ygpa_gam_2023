@@ -128,6 +128,12 @@
                                     data-prgid="PRG_0010"
                                     data-url="<c:url value='/asset/rent/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
                                 </li>
+                                
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0011"
+                                    data-url="<c:url value='/asset/rent/gamAssetUseExprInqire.do'/>">자산임대만기도래자료조회</a>
+                                </li>
+                                
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
                                     data-url="<c:url value='/asset/rent/gamAssetPopupInqire.do'/>">자산정보현황알림</a>

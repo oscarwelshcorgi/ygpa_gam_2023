@@ -1,0 +1,1301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.rent"> 
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamAssetUseExprInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO"/>
+    <typeAlias alias="gamAssetUseExprInqireDetailVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireDetailVO"/>
+    <typeAlias alias="gamAssetUseExprInqireLevReqestVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireLevReqestVO"/>
+    
+    <resultMap id="gamAssetUseExprInqireSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
+        <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
+    </resultMap>
+    
+    <resultMap id="gamAssetUseExprInqireMaxMngMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO">
+        <result property="maxMngCnt" column="MAX_MNG_CNT" columnIndex="1"/>
+    </resultMap>
+    
+    <resultMap id="gamAssetUseExprInqireDetailQuaycdMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO">
+        <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>              
+        <result property="mngYear" column="MNG_YEAR" columnIndex="2"/>               
+        <result property="mngNo" column="MNG_NO" columnIndex="3"/>                   
+        <result property="mngCnt" column="MNG_CNT" columnIndex="4"/>   
+        <result property="quayCd" column="QUAY_CD" columnIndex="5"/>
+        
+    </resultMap>
+    
+    
+    <resultMap id="gamAssetUseExprInqireInfoMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO">
+	    <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>         
+	    <result property="mngYear" column="MNG_YEAR" columnIndex="2"/>        
+	    <result property="mngNo" column="MNG_NO" columnIndex="3"/>          
+	    <result property="mngCnt" column="MNG_CNT" columnIndex="4"/>         
+	    <result property="entrpscd" column="ENTRPSCD" columnIndex="5"/>         
+	    <result property="entrpsNm" column="ENTRPS_NM" columnIndex="6"/>          
+	    <result property="reqstSeCd" column="REQST_SE_CD" columnIndex="8"/>        
+	    <result property="grAr" column="GR_AR" columnIndex="9"/>           
+	    <result property="grFee" column="GR_FEE" columnIndex="10"/>          
+	    <result property="nticMth" column="NTIC_MTH" columnIndex="11"/>         
+	    <result property="frstPrmisnDt" column="FRST_PRMISN_DT" columnIndex="12"/>         
+	    <result property="prmisnDt" column="PRMISN_DT" columnIndex="13"/>          
+	    <result property="prmisnYn" column="PRMISN_YN" columnIndex="14"/>         
+	    <result property="grUsagePdFrom" column="GR_USAGE_PD_FROM" columnIndex="15"/>         
+	    <result property="grUsagePdTo" column="GR_USAGE_PD_TO" columnIndex="16"/>         
+	    <result property="docNo" column="DOC_NO" columnIndex="17"/>          
+	    <result property="rm" column="RM" columnIndex="18"/>              
+	    <result property="cmt" column="CMT" columnIndex="19"/>             
+	    <result property="etc" column="ETC" columnIndex="20"/>             
+	    <result property="regUsr" column="REG_USR" columnIndex="21"/>         
+	    <result property="registDt" column="REGIST_DT" columnIndex="22"/>         
+	    <result property="updUsr" column="UPD_USR" columnIndex="23"/>         
+	    <result property="updtDt" column="UPDT_DT" columnIndex="24"/>         
+	    <result property="grRdcxptFee" column="GR_RDCXPT_FEE" columnIndex="25"/>         
+	    <result property="gisCd" column="GIS_CD" columnIndex="26"/>          
+	    <result property="deptcd" column="DEPTCD" columnIndex="27"/>
+	    <result property="payMth" column="PAY_MTH" columnIndex="28"/>
+	</resultMap>
+    
+    <resultMap id="gamAssetUseExprInqireDetailInfoMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireDetailVO">
+	    <result property="assetsUsageSeq" column="ASSETS_USAGE_SEQ" columnIndex="1"/>         
+	    <result property="gisAssetsCd" column="GIS_ASSETS_CD" columnIndex="2"/>           
+	    <result property="gisAssetsSubCd" column="GIS_ASSETS_SUB_CD" columnIndex="3"/>        
+	    <result property="usageAr" column="USAGE_AR" columnIndex="4"/>                
+	    <result property="usagePdFrom" column="USAGE_PD_FROM" columnIndex="5"/>           
+	    <result property="usagePdTo" column="USAGE_PD_TO" columnIndex="6"/>           
+	    <result property="usagePurps" column="USAGE_PURPS" columnIndex="7"/>              
+	    <result property="usageDtls" column="USAGE_DTLS" columnIndex="8"/>                
+	    <result property="usagePrposCd" column="USAGE_PRPOS_CD" columnIndex="9"/>             
+	    <result property="exemptSe" column="EXEMPT_SE" columnIndex="10"/>                 
+	    <result property="exemptRsnCd" column="EXEMPT_RSN_CD" columnIndex="11"/>              
+	    <result property="exemptRsn" column="EXEMPT_RSN" columnIndex="12"/>               
+	    <result property="exemptPdFrom" column="EXEMPT_PD_FROM" columnIndex="13"/>            
+	    <result property="exemptPdTo" column="EXEMPT_PD_TO" columnIndex="14"/>            
+	    <result property="computDtls" column="COMPUT_DTLS" columnIndex="15"/>             
+	    <result property="olnlp" column="OLNLP" columnIndex="16"/>                    
+	    <result property="applcTariff" column="APPLC_TARIFF" columnIndex="17"/>           
+	    <result property="applcMth" column="APPLC_MTH" columnIndex="18"/>                 
+	    <result property="packSe" column="PACK_SE" columnIndex="19"/>                 
+	    <result property="entrpsSe" column="ENTRPS_SE" columnIndex="20"/>                 
+	    <result property="feeCalcSe" column="FEE_CALC_SE" columnIndex="21"/>              
+	    <result property="rdcxptFeeCalcSe" column="RDCXPT_FEE_CALC_SE" columnIndex="22"/>         
+	    <result property="rdcxptFee" column="RDCXPT_FEE" columnIndex="23"/>               
+	    <result property="fee" column="FEE" columnIndex="24"/>                    
+	    <result property="trmnatDt" column="TRMNAT_DT" columnIndex="25"/>                 
+	    <result property="trmnatRsn" column="TRMNAT_RSN" columnIndex="26"/>               
+	    <result property="gisCd" column="GIS_CD" columnIndex="27"/>                   
+	    <result property="regUsr" column="REG_USR" columnIndex="28"/>                 
+	    <result property="registDt" column="REGIST_DT" columnIndex="29"/>                 
+	    <result property="updUsr" column="UPD_USR" columnIndex="30"/>                 
+	    <result property="updtDt" column="UPDT_DT" columnIndex="31"/>                 
+	    <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="32"/>              
+	    <result property="gisAssetsPrtAtCode" column="GIS_ASSETS_PRT_AT_CODE" columnIndex="33"/>   
+	    <result property="mngYear" column="MNG_YEAR" columnIndex="34"/>               
+	    <result property="mngNo" column="MNG_NO" columnIndex="35"/>                   
+	    <result property="mngCnt" column="MNG_CNT" columnIndex="36"/>                 
+	    <result property="quayCd" column="QUAY_CD" columnIndex="37"/>
+    </resultMap>
+    
+    <resultMap id="CmmCodeDetail" class="egovframework.com.cmm.service.CmmnDetailCode">
+        <result property="codeId"       column="CODE_ID"    columnIndex="1"/>
+        <result property="code"         column="CODE"       columnIndex="2"/>
+        <result property="codeNm"       column="CODE_NM"    columnIndex="3"/>
+        <result property="codeDc"       column="CODE_DC"    columnIndex="4"/>
+    </resultMap>
+    
+    <resultMap id="gamAssetUseExprInqireInfoMaxKeyMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO">
+        <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
+        <result property="mngNo" column="MNG_NO" columnIndex="2"/>
+        <result property="mngCnt" column="MNG_CNT" columnIndex="3"/>
+    </resultMap>
+    
+    <resultMap id="gamAssetUseExprInqireRenewInfoMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetUseExprInqireVO">
+        <result property="grUsagePdFrom" column="GR_USAGE_PD_FROM" columnIndex="1"/>
+        <result property="grUsagePdTo" column="GR_USAGE_PD_TO" columnIndex="2"/>
+        <result property="grFee" column="GR_FEE" columnIndex="3"/>
+        <result property="grAr" column="GR_AR" columnIndex="4"/>
+        <result property="grRdcxptFee" column="GR_RDCXPT_FEE" columnIndex="5"/>
+    </resultMap>
+    
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireList_D" parameterClass="gamAssetUseExprInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+                                    A.PRT_AT_CODE
+                                  , A.PRT_AT_CODE PRT_AT_CODE_STR  
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM  
+                                  , A.MNG_YEAR
+                                  , A.MNG_NO
+                                  , A.MNG_CNT
+                                  , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
+                                  , A.ENTRPSCD
+                                  , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
+                                  , A.REQST_SE_CD
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
+                                  , A.GR_AR
+                                  , A.GR_FEE
+                                  , A.NTIC_MTH
+                                  , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+                                  , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+                                  , A.PRMISN_YN
+                                  , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+                                  , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+                                  , A.DOC_NO
+                                  , A.RM
+                                  , A.CMT
+                                  , A.ETC
+                                  , A.REG_USR
+                                  , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
+                                  , A.UPD_USR
+                                  , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
+                                  , A.GR_RDCXPT_FEE
+                                  , A.GIS_CD
+                                  , A.DEPTCD
+                                  , A.PAY_MTH
+                                  , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+                                  , A.SANCTN_STTUS
+                                  , A.SANCTNER_EMPL_NO
+                                  , A.QUAY_CD
+                                  , A.SANCTN_DT
+                                  , A.QUAY_GROUP_CD
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
+                             FROM ASSETS_RENT_F A
+                            WHERE 1=1 
+                             
+                             <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+                             
+                             <isNotEmpty property="sPrtAtCode">
+					             AND A.PRT_AT_CODE = #sPrtAtCode#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sReqstSeCd">
+					             AND A.REQST_SE_CD = #sReqstSeCd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sEntrpscd">
+					             AND A.ENTRPSCD = #sEntrpscd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrUsagePdFrom"> 
+                                 AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sGrUsagePdTo">
+                                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrAr">
+					             AND A.GR_AR = #sGrAr#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngYear">
+					             AND A.MNG_YEAR = #sMngYear#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngNo">
+					             AND A.MNG_NO = #sMngNo#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngCnt">
+					             AND A.MNG_CNT = #sMngCnt#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sPrmisnYn">
+					             AND A.PRMISN_YN = #sPrmisnYn#
+					         </isNotEmpty>
+                             
+                             <isNotEmpty property="sUsagePrposCd">
+                                 AND (
+								       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT 
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+															                       )
+								     ) 
+                             </isNotEmpty>
+                             
+                             
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireListTotCnt_S" parameterClass="gamAssetUseExprInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_F A
+             WHERE 1=1 
+                             
+             <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+             
+             <isNotEmpty property="sPrtAtCode">
+                 AND A.PRT_AT_CODE = #sPrtAtCode#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sReqstSeCd">
+                 AND A.REQST_SE_CD = #sReqstSeCd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sEntrpscd">
+                 AND A.ENTRPSCD = #sEntrpscd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdFrom"> 
+                 AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdTo">
+                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrAr">
+                 AND A.GR_AR = #sGrAr#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngYear">
+                 AND A.MNG_YEAR = #sMngYear#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngNo">
+                 AND A.MNG_NO = #sMngNo#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngCnt">
+                 AND A.MNG_CNT = #sMngCnt#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sPrmisnYn">
+                 AND A.PRMISN_YN = #sPrmisnYn#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sUsagePrposCd">
+                 AND (
+                       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                                                                     SELECT  PRT_AT_CODE
+                                                                           , MNG_YEAR
+                                                                           , MNG_NO
+                                                                           , MNG_CNT 
+                                                                       FROM ASSETS_RENT_DETAIL_F
+                                                                      WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                                   )
+                     ) 
+             </isNotEmpty>
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireSum_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireSumMap">
+         SELECT 
+                 NVL(COUNT(*),0) SUM_CNT
+               , NVL(SUM(A.GR_AR),0) SUM_GR_AR
+               , NVL(SUM(A.GR_FEE),0) SUM_GR_FEE
+          FROM ASSETS_RENT_F A
+         WHERE 1=1 
+                             
+         <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+         
+         <isNotEmpty property="sPrtAtCode">
+             AND A.PRT_AT_CODE = #sPrtAtCode#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sReqstSeCd">
+             AND A.REQST_SE_CD = #sReqstSeCd#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sEntrpscd">
+             AND A.ENTRPSCD = #sEntrpscd#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrUsagePdFrom"> 
+             AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrUsagePdTo">
+             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrAr">
+             AND A.GR_AR = #sGrAr#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngYear">
+             AND A.MNG_YEAR = #sMngYear#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngNo">
+             AND A.MNG_NO = #sMngNo#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngCnt">
+             AND A.MNG_CNT = #sMngCnt#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sPrmisnYn">
+             AND A.PRMISN_YN = #sPrmisnYn#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sUsagePrposCd">
+             AND (
+                   (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                                                                 SELECT  PRT_AT_CODE
+                                                                       , MNG_YEAR
+                                                                       , MNG_NO
+                                                                       , MNG_CNT 
+                                                                   FROM ASSETS_RENT_DETAIL_F
+                                                                  WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                               )
+                 ) 
+         </isNotEmpty>
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireMaxNo_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireMaxMngMap">
+          SELECT 
+                  MAX(MNG_CNT) MAX_MNG_CNT
+           FROM ASSETS_RENT_F A
+          WHERE A.PRT_AT_CODE = #prtAtCode# 
+            AND A.MNG_YEAR    = #mngYear#    
+            AND A.MNG_NO      = #mngNo#    
+            <!-- AND A.MNG_CNT     = #mngCnt# -->  
+    </select>       
+    
+    <insert id="gamAssetUseExprInqireDao.insertAssetUseExprInqireFirst_S">     
+        INSERT INTO ASSETS_RENT_F (
+                                     PRT_AT_CODE
+                                   , MNG_YEAR
+                                   , MNG_NO
+                                   , MNG_CNT
+                                   , ENTRPSCD
+                                   , REQST_DT
+                                   , REQST_SE_CD
+                                   , GR_AR
+                                   , GR_FEE 
+                                   , NTIC_MTH
+                                   <!--, FRST_PRMISN_DT
+                                   , PRMISN_DT
+                                   , GR_USAGE_PD_FROM
+                                   , GR_USAGE_PD_TO 
+                                   , DOC_NO -->
+                                   , PRMISN_YN
+                                   , RM
+                                   , CMT
+                                   , ETC
+                                   , REG_USR
+                                   , REGIST_DT
+                                   , UPD_USR
+                                   , UPDT_DT
+                                   <!-- , GR_RDCXPT_FEE
+                                   , GIS_CD  -->
+                                   , DEPTCD
+                                   , PAY_MTH
+                                   , QUAY_GROUP_CD
+                                   , FRST_REQST_DT
+                                   , SANCTN_STTUS
+                                   )
+                            VALUES (
+                                     #prtAtCode#
+                                   , TO_CHAR(SYSDATE,'YYYY')
+                                   , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') 
+									     FROM ASSETS_RENT_F
+									    WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
+                                   , '01'  
+                                   , #entrpscd#
+                                   , TO_DATE(#reqstDt:DATE:NO_ENTRY#)
+                                   , '1'
+                                   , 0
+                                   , 0  
+                                   , #nticMth#
+                                   <!--, #frstPrmisnDt#
+                                   , TO_DATE(#prmisnDt:DATE:NO_ENTRY#)  
+                                   , TO_CHAR(SYSDATE,'YYYYMMDD')
+                                   , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD') 
+                                   , #docNo# -->
+                                   , 'N' 
+                                   , #rm#
+                                   , #cmt#
+                                   , #etc#
+                                   , #regUsr#
+                                   , SYSDATE
+                                   , #updUsr#
+                                   , SYSDATE
+                                   <!-- , #grRdcxptFee#
+                                   , #gisCd#  -->
+                                   , #deptcd#
+                                   , #payMth#
+                                   , 'P'
+                                   , TO_DATE(#frstReqstDt:DATE:NO_ENTRY#) 
+                                   , 'N'
+                                   )
+    </insert>
+    
+    <insert id="gamAssetUseExprInqireDao.insertAssetUseExprInqireRenew_S">     
+        INSERT INTO ASSETS_RENT_F (
+                                     PRT_AT_CODE
+                                   , MNG_YEAR
+                                   , MNG_NO
+                                   , MNG_CNT
+                                   , ENTRPSCD
+                                   , REQST_SE_CD
+                                   , GR_AR
+                                   , GR_FEE
+                                   , NTIC_MTH
+                                   , PRMISN_YN
+                                   , DOC_NO
+                                   , RM
+                                   , CMT
+                                   , ETC
+                                   , REG_USR
+                                   , REGIST_DT
+                                   , UPD_USR
+                                   , UPDT_DT
+                                   , GR_RDCXPT_FEE
+                                   , GIS_CD
+                                   , DEPTCD
+                                   , PAY_MTH
+                                   , FRST_PRMISN_DT
+                                   , GR_USAGE_PD_FROM
+                                   , GR_USAGE_PD_TO
+                                   , SANCTN_STTUS
+                                   , SANCTNER_EMPL_NO
+                                   , QUAY_CD
+                                   , FRST_REQST_DT
+                                   , QUAY_GROUP_CD
+                                   , REQST_DT
+                               )
+                         SELECT    A.PRT_AT_CODE
+                                 , A.MNG_YEAR
+                                 , A.MNG_NO
+                                 , #maxMngCnt#
+                                 , A.ENTRPSCD
+                                 , #reqstSeCd#
+                                 , A.GR_AR
+                                 , A.GR_FEE
+                                 , A.NTIC_MTH
+                                 , 'N'
+                                 , A.DOC_NO
+                                 , A.RM
+                                 , A.CMT
+                                 , A.ETC
+                                 , #regUsr#
+                                 , SYSDATE
+                                 , #updUsr#
+                                 , SYSDATE
+                                 , A.GR_RDCXPT_FEE
+                                 , A.GIS_CD
+                                 , A.DEPTCD
+                                 , A.PAY_MTH
+                                 , A.FRST_PRMISN_DT
+                                 , A.GR_USAGE_PD_FROM
+                                 , A.GR_USAGE_PD_TO
+                                 , 'N'
+                                 , A.SANCTNER_EMPL_NO
+                                 , A.QUAY_CD
+                                 , A.FRST_REQST_DT
+                                 , A.QUAY_GROUP_CD
+                                 , SYSDATE
+				           FROM ASSETS_RENT_F A
+				          WHERE A.PRT_AT_CODE = #prtAtCode#
+				            AND A.MNG_YEAR    = #mngYear#
+				            AND A.MNG_NO      = #mngNo#
+				            AND A.MNG_CNT     = #mngCnt#
+    </insert>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqire_S">
+        UPDATE ASSETS_RENT_F SET
+		         ENTRPSCD         = #entrpscd#
+		       <!-- , REQST_DT    = TO_DATE(#reqstDt:DATE:NO_ENTRY#)  -->  
+		       <!-- , REQST_SE_CD      = '3'  -->
+		       <!-- , GR_AR            = #grAr#
+		       , GR_FEE           = #grFee#  -->
+		       , NTIC_MTH         = #nticMth#
+		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt:DATE:NO_ENTRY#)  --> 
+		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
+		       , PRMISN_YN        = #prmisnYn# 
+		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom:DATE:NO_ENTRY#)
+		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#) 
+		       , DOC_NO           = #docNo# -->
+		       , RM               = #rm#
+		       , CMT              = #cmt#
+		       , ETC              = #etc#
+		       , UPD_USR          = #updUsr#
+		       , UPDT_DT          = SYSDATE
+		       <!--, GR_RDCXPT_FEE    = #grRdcxptFee#
+		       , GIS_CD           = #gisCd# --> 
+		       , DEPTCD           = #deptcd#
+		       , PAY_MTH          = #payMth#
+		WHERE  PRT_AT_CODE        = #prtAtCode#
+		AND    MNG_YEAR           = #mngYear#
+		AND    MNG_NO             = #mngNo#
+		AND    MNG_CNT            = #mngCnt#
+    </update>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireDetailList_D" parameterClass="gamAssetUseExprInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+                                  A.ASSETS_USAGE_SEQ             
+                                , A.GIS_ASSETS_CD
+                                , A.GIS_ASSETS_SUB_CD
+                                , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
+                                
+                                , (SELECT F.GIS_ASSETS_NM FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_NM
+                                
+                                , (SELECT F.GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LOCPLC      
+                                
+                                , (SELECT F.GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LNM
+                                
+                                , (SELECT F.GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_LNM_SUB
+                                
+                                , (SELECT F.GIS_ASSETS_AR FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_AR
+                                
+                                , (SELECT F.GIS_ASSETS_REAL_RENT_AR FROM GIS_ASSETS_CD_F F 
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE 
+                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD 
+                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD 
+                                      AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
+      
+                                , NVL(A.USAGE_AR,0) USAGE_AR
+                                , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
+                                , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
+                                , A.USAGE_PURPS
+                                , A.USAGE_DTLS
+                                , A.USAGE_PRPOS_CD
+                                , A.EXEMPT_SE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE AND ROWNUM = 1) EXEMPT_SE_NM
+                                , A.EXEMPT_RSN_CD
+                                , A.EXEMPT_RSN
+                                , TO_CHAR(A.EXEMPT_PD_FROM,'YYYY-MM-DD') EXEMPT_PD_FROM
+                                , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
+                                , A.COMPUT_DTLS
+                                , A.OLNLP
+                                , A.APPLC_TARIFF
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM023' AND CD.CODE = A.APPLC_TARIFF AND ROWNUM = 1) APPLC_TARIFF_NM
+                                , A.APPLC_MTH
+                                , A.PACK_SE
+                                , A.ENTRPS_SE
+                                , A.FEE_CALC_SE
+                                , A.RDCXPT_FEE_CALC_SE
+                                , A.RDCXPT_FEE
+                                , NVL(A.FEE,0) FEE
+                                , TO_CHAR(A.TRMNAT_DT,'YYYY-MM-DD') TRMNAT_DT
+                                , A.TRMNAT_RSN
+                                , A.GIS_CD
+                                , A.REG_USR
+                                , TO_CHAR(A.REGIST_DT,'YYYY-MM-DD') REGIST_DT
+                                , A.UPD_USR
+                                , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
+                                , A.PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+                                , A.GIS_ASSETS_PRT_AT_CODE
+                                , A.MNG_YEAR
+                                , A.MNG_NO
+                                , A.MNG_CNT
+                                , A.QUAY_CD
+                                , CASE 
+							         WHEN A.APPLC_TARIFF = '1' THEN 
+							           '0.005'
+							         WHEN A.APPLC_TARIFF = '2' THEN 
+							           '0.0025'
+							         WHEN A.APPLC_TARIFF = '3' THEN 
+							           '0.001'    
+							         ELSE
+							           ''
+							       END APPLC_TARIFF_STR
+                            FROM ASSETS_RENT_DETAIL_F A
+                           WHERE 1=1  
+                             AND A.PRT_AT_CODE = #prtAtCode#
+                             AND A.MNG_YEAR    = #mngYear#
+                             AND A.MNG_NO      = #mngNo#
+                             AND A.MNG_CNT     = #mngCnt#
+                             
+                             ORDER BY REGIST_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireDetailListTotCnt_S" parameterClass="gamAssetUseExprInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_DETAIL_F A
+             WHERE 1=1  
+               AND A.PRT_AT_CODE = #prtAtCode#
+               AND A.MNG_YEAR    = #mngYear#
+               AND A.MNG_NO      = #mngNo#
+               AND A.MNG_CNT     = #mngCnt#
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireLevReqestCnt_S" parameterClass="gamAssetUseExprInqireVO" resultClass="int">
+	    SELECT COUNT(*) LEV_REQEST_CNT 
+	      FROM LEV_REQEST_F A
+	     WHERE A.PRT_AT_CODE = #prtAtCode#
+           AND A.MNG_YEAR    = #mngYear#
+           AND A.MNG_NO      = #mngNo#
+           AND A.MNG_CNT     = #mngCnt#
+    </select>
+    
+    <delete id="gamAssetUseExprInqireDao.deleteAssetUseExprInqirePhoto_S">
+        DELETE FROM ASSETS_RENT_PHOTO_F
+         WHERE PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt# 
+    </delete>
+    
+    <delete id="gamAssetUseExprInqireDao.deleteAssetUseExprInqireDetail_S">
+        DELETE FROM ASSETS_RENT_DETAIL_F
+         WHERE PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt#
+    </delete>
+    
+    <delete id="gamAssetUseExprInqireDao.deleteAssetUseExprInqire_S">
+        DELETE FROM ASSETS_RENT_F
+         WHERE PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt#
+    </delete>
+    
+    <insert id="gamAssetUseExprInqireDao.insertAssetUseExprInqireDetail_S">
+        INSERT INTO ASSETS_RENT_DETAIL_F (
+		                                     ASSETS_USAGE_SEQ
+		                                   , MNG_YEAR
+                                           , MNG_NO
+                                           , MNG_CNT  
+		                                   , PRT_AT_CODE  
+		                                   , USAGE_PD_FROM
+                                           , USAGE_PD_TO 
+                                           , OLNLP
+                                           , APPLC_TARIFF
+                                           , APPLC_MTH
+                                           , EXEMPT_SE
+                                           , EXEMPT_PD_FROM
+                                           , EXEMPT_PD_TO
+                                           , EXEMPT_RSN_CD
+                                           , EXEMPT_RSN
+                                           , RDCXPT_FEE
+                                           , FEE
+                                           , COMPUT_DTLS
+                                           , USAGE_PURPS
+                                           , USAGE_DTLS
+                                           , QUAY_CD
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , UPD_USR
+                                           , UPDT_DT
+                                           , GIS_ASSETS_CD          
+                                           , GIS_ASSETS_SUB_CD    
+                                           , GIS_ASSETS_PRT_AT_CODE
+                                           , USAGE_AR
+		                                 ) 
+		                          VALUES (
+		                                     ( SELECT NVL(MAX(ASSETS_USAGE_SEQ),0) + 1
+											     FROM ASSETS_RENT_DETAIL_F
+											    WHERE MNG_YEAR    = #detailMngYear#
+											      AND MNG_NO      = #detailMngNo#
+											      AND MNG_CNT     = #detailMngCnt#
+											      AND PRT_AT_CODE = #detailPrtAtCode# )
+										   , #detailMngYear#
+                                           , #detailMngNo#
+                                           , #detailMngCnt#
+                                           , #detailPrtAtCode#
+		                                   , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)  
+		                                   , #olnlp#
+		                                   , #applcTariff#
+                                           , #applcMth#
+                                           , #exemptSe#
+                                           , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)  
+                                           , #exemptRsnCd#
+                                           , #exemptRsn#
+		                                   , #rdcxptFee#
+                                           , #fee#
+                                           , #computDtls#
+                                           , #usagePurps#
+                                           , #usageDtls#
+                                           , #quayCd#
+		                                   , #regUsr#
+                                           , SYSDATE
+                                           , #updUsr#
+                                           , SYSDATE
+                                           , #gisAssetsCd#
+                                           , #gisAssetsSubCd#
+                                           , #gisAssetsPrtAtCode# 
+                                           , #usageAr#
+		                                 )
+    </insert>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqireDetail_S">
+        UPDATE ASSETS_RENT_DETAIL_F SET
+		         GIS_ASSETS_CD          = #gisAssetsCd#
+		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
+		       , USAGE_AR               = #usageAr#
+		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
+		       , USAGE_PD_TO            = TO_DATE(#usagePdTo:DATE:NO_ENTRY#) 
+		       , USAGE_PURPS            = #usagePurps#
+		       , USAGE_DTLS             = #usageDtls#
+		       , USAGE_PRPOS_CD         = #usagePrposCd#
+		       , EXEMPT_SE              = #exemptSe#
+		       , EXEMPT_RSN_CD          = #exemptRsnCd#
+		       , EXEMPT_RSN             = #exemptRsn#
+		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#) 
+		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo:DATE:NO_ENTRY#) 
+		       , COMPUT_DTLS            = #computDtls#
+		       , OLNLP                  = #olnlp#
+		       , APPLC_TARIFF           = #applcTariff#
+		       , APPLC_MTH              = #applcMth#
+		       , PACK_SE                = #packSe#
+		       , ENTRPS_SE              = #entrpsSe#
+		       , FEE_CALC_SE            = #feeCalcSe#
+		       , RDCXPT_FEE_CALC_SE     = #rdcxptFeeCalcSe#
+		       , RDCXPT_FEE             = #rdcxptFee#
+		       , FEE                    = #fee#
+		       , TRMNAT_DT              = TO_DATE(#trmnatDt:DATE:NO_ENTRY#) 
+		       , TRMNAT_RSN             = #trmnatRsn#
+		       , GIS_CD                 = #detailGisCd#
+		       , UPD_USR                = #updUsr#
+		       , UPDT_DT                = SYSDATE
+		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       , QUAY_CD                = #quayCd#
+		  WHERE  ASSETS_USAGE_SEQ       = #assetsUsageSeq#
+		    AND  MNG_YEAR               = #detailMngYear#
+		    AND  MNG_NO                 = #detailMngNo#
+		    AND  MNG_CNT                = #detailMngCnt#
+		    AND  PRT_AT_CODE            = #detailPrtAtCode#
+    </update>
+    
+    <delete id="gamAssetUseExprInqireDao.deleteAssetUseExprInqireDetail2_S">
+        DELETE FROM ASSETS_RENT_DETAIL_F
+         WHERE ASSETS_USAGE_SEQ = #assetsUsageSeq#
+           AND MNG_YEAR         = #mngYear#
+           AND MNG_NO           = #mngNo#
+           AND MNG_CNT          = #mngCnt#
+           AND PRT_AT_CODE      = #prtAtCode# 
+    </delete>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqirePrmisnInfo_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireInfoMap">
+        SELECT   A.PRT_AT_CODE
+               , A.MNG_YEAR
+               , A.MNG_NO
+               , A.MNG_CNT
+               , A.ENTRPSCD
+               , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
+               , A.REQST_SE_CD
+               , A.GR_AR
+               , A.GR_FEE
+               , A.NTIC_MTH
+               , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+               , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT 
+               , A.PRMISN_YN
+               , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+               , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+               , A.DOC_NO
+               , A.RM
+               , A.CMT
+               , A.ETC
+               , A.REG_USR
+               , A.REGIST_DT
+               , A.UPD_USR
+               , A.UPDT_DT
+               , A.GR_RDCXPT_FEE
+               , A.GIS_CD
+               , A.DEPTCD
+               , A.PAY_MTH
+          FROM ASSETS_RENT_F A
+         WHERE 1=1 
+           AND A.MNG_YEAR         = #mngYear#
+           AND A.MNG_NO           = #mngNo#
+           AND A.MNG_CNT          = #mngCnt#
+           AND A.PRT_AT_CODE      = #prtAtCode# 
+    </select>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqirePrmisn_S">
+        UPDATE ASSETS_RENT_F SET
+             
+                <isEqual property="reqstSeCd" compareValue="1">
+                    FRST_PRMISN_DT = SYSDATE,
+                </isEqual>
+             
+                PRMISN_DT     = SYSDATE
+              , PRMISN_YN     = #prmisnYn# 
+        WHERE  PRT_AT_CODE   = #prtAtCode#
+        AND    MNG_YEAR      = #mngYear#
+        AND    MNG_NO        = #mngNo#
+        AND    MNG_CNT       = #mngCnt#
+    </update>
+    
+    <insert id="gamAssetUseExprInqireDao.insertAssetUseExprInqireLevReqest_S">
+        INSERT INTO LEV_REQEST_F (
+                             NTIC_CNT
+                           , FCLTY_SE
+                           , CHRGE_KND
+                           , ENTRPSCD
+                           , ENTRPS_NM
+                           , NTIC_PD_FROM
+                           , CONST_PER_TO
+                           , ACCNUT_YEAR
+                           , NTICNO
+                           , NTIC_DT
+                           , PAY_TMLMT
+                           , OLNLP
+                           , FEE
+                           , VAT_YN
+                           , VAT
+                           , NTIC_AMT
+                           , RM
+                           , RCIV_SE
+                           , RCIV_DT
+                           , NHT_ISUE_YN
+                           , ARRRG_NO
+                           , ARRRG_AMT
+                           , REQEST_SEQ
+                           , DEPTCD
+                           , NTIC_MTH
+                           , REG_USR
+                           , REGIST_DT
+                           , UPD_USR
+                           , UPDT_DT
+                           , PRT_AT_CODE
+                           , MNG_YEAR
+                           , MNG_NO
+                           , MNG_CNT
+                         ) 
+                  VALUES ( 
+                             #nticCnt#
+                           , #fcltySe#
+                           , #chrgeKnd#
+                           , #entrpscd#
+                           , #entrpsNm#
+                           , #nticPdFrom#
+                           , #constPerTo#
+                           , #accnutYear#
+                           , #nticno#
+                           , #nticDt#
+                           , #payTmlmt#
+                           , #olnlp#
+                           , #fee#
+                           , #vatYn#
+                           , #vat#
+                           , #nticAmt#
+                           , #rm#
+                           , #rcivSe#
+                           , #rcivDt#
+                           , #nhtIsueYn#
+                           , #arrrgNo#
+                           , #arrrgAmt#
+                           , #reqestSeq#
+                           , #deptcd#
+                           , #nticMth#
+                           , #regUsr#
+                           , SYSDATE
+                           , #updUsr#
+                           , SYSDATE
+                           , #prtAtCode#
+                           , #mngYear#
+                           , #mngNo#
+                           , #mngCnt#
+                         )
+    </insert>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqirePrmisnCancel_S">
+        UPDATE ASSETS_RENT_F SET
+                PRMISN_DT     = SYSDATE
+              , PRMISN_YN     = #prmisnYn# 
+        WHERE  PRT_AT_CODE   = #prtAtCode#
+        AND    MNG_YEAR      = #mngYear#
+        AND    MNG_NO        = #mngNo#
+        AND    MNG_CNT       = #mngCnt#
+    </update>
+    
+    <select id="gamAssetUseExprInqireDao.selectUsagePdMonthCnt_S" parameterClass="GamAssetUseExprInqireLevReqestVO" resultClass="int">
+        SELECT 
+               ROUND(MONTHS_BETWEEN(TO_DATE(LAST_DAY(#grUsagePdTo#)), TO_DATE(SUBSTR(#grUsagePdFrom#,0,6)||'01')))
+          FROM DUAL
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireMaxMngCnt_S" parameterClass="gamAssetUseExprInqireVO" resultClass="String">
+        SELECT 
+		       <!-- (MAX(A.MNG_CNT)) MNG_CNT -->
+		       LPAD((MAX(A.MNG_CNT)+ 1),'2','0') MNG_CNT
+		  FROM ASSETS_RENT_F A
+		 WHERE A.PRT_AT_CODE = #prtAtCode#
+		   AND A.MNG_YEAR    = #mngYear#
+		   AND A.MNG_NO      = #mngNo#
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireDetailInfo_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireDetailInfoMap"> 
+        SELECT 
+               A.ASSETS_USAGE_SEQ
+             , A.GIS_ASSETS_CD
+             , A.GIS_ASSETS_SUB_CD
+             , A.USAGE_AR
+             <!-- 
+             , TO_CHAR(A.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM 
+             , TO_CHAR(A.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
+             -->
+             , TO_CHAR((A.USAGE_PD_TO + 1), 'YYYY-MM-DD') USAGE_PD_FROM
+             , TO_CHAR(((A.USAGE_PD_TO + 1) + (A.USAGE_PD_TO - A.USAGE_PD_FROM)), 'YYYY-MM-DD') USAGE_PD_TO
+             , A.USAGE_PURPS
+             , A.USAGE_DTLS
+             , A.USAGE_PRPOS_CD
+             , A.EXEMPT_SE
+             , A.EXEMPT_RSN_CD
+             , A.EXEMPT_RSN
+             , TO_CHAR(A.EXEMPT_PD_FROM, 'YYYY-MM-DD') EXEMPT_PD_FROM
+             , TO_CHAR(A.EXEMPT_PD_TO, 'YYYY-MM-DD') EXEMPT_PD_TO
+             , A.COMPUT_DTLS
+             , A.OLNLP
+             , A.APPLC_TARIFF
+             , A.APPLC_MTH
+             , A.PACK_SE
+             , A.ENTRPS_SE
+             , A.FEE_CALC_SE
+             , A.RDCXPT_FEE_CALC_SE
+             , A.RDCXPT_FEE
+             , A.FEE
+             , TO_CHAR(A.TRMNAT_DT, 'YYYY-MM-DD') TRMNAT_DT
+             , A.TRMNAT_RSN
+             , A.GIS_CD
+             , A.REG_USR
+             , A.REGIST_DT
+             , A.UPD_USR
+             , A.UPDT_DT
+             , A.PRT_AT_CODE
+             , A.GIS_ASSETS_PRT_AT_CODE
+             , A.MNG_YEAR
+             , A.MNG_NO
+             , A.MNG_CNT
+             , A.QUAY_CD
+         FROM ASSETS_RENT_DETAIL_F A
+        WHERE 1=1  
+          AND A.PRT_AT_CODE = #prtAtCode#
+          AND A.MNG_YEAR    = #mngYear#
+          AND A.MNG_NO      = #mngNo#
+          AND A.MNG_CNT     = #mngCnt#
+    </select>
+    
+    <insert id="gamAssetUseExprInqireDao.insertAssetUseExprInqireDetailRenew_S">
+	    <selectKey keyProperty="maxAssetsUsageSeq" resultClass="int">
+	       SELECT 
+	              (NVL(MAX(ASSETS_USAGE_SEQ),0) + 1) MAX_ASSETS_USAGE_SEQ
+             FROM ASSETS_RENT_DETAIL_F
+            WHERE MNG_YEAR    = #mngYear#
+              AND MNG_NO      = #mngNo#
+              AND MNG_CNT     = #mngCnt#
+              AND PRT_AT_CODE = #prtAtCode#
+	    </selectKey>
+	    
+	    INSERT INTO ASSETS_RENT_DETAIL_F (
+                                             ASSETS_USAGE_SEQ
+                                           , GIS_ASSETS_CD
+                                           , GIS_ASSETS_SUB_CD
+                                           , USAGE_AR
+                                           , USAGE_PD_FROM
+                                           , USAGE_PD_TO 
+                                           , USAGE_PURPS
+                                           , USAGE_DTLS
+                                           , USAGE_PRPOS_CD
+                                           , EXEMPT_SE
+                                           , EXEMPT_RSN_CD
+                                           , EXEMPT_RSN
+                                           , EXEMPT_PD_FROM
+                                           , EXEMPT_PD_TO
+                                           , COMPUT_DTLS
+                                           , OLNLP
+                                           , APPLC_TARIFF
+                                           , APPLC_MTH
+                                           , PACK_SE
+                                           , ENTRPS_SE
+                                           , FEE_CALC_SE
+                                           , RDCXPT_FEE_CALC_SE
+                                           , RDCXPT_FEE
+                                           , FEE
+                                           , TRMNAT_DT
+                                           , TRMNAT_RSN
+                                           , GIS_CD
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , UPD_USR
+                                           , UPDT_DT
+                                           , PRT_AT_CODE
+                                           , GIS_ASSETS_PRT_AT_CODE
+                                           , MNG_YEAR
+                                           , MNG_NO
+                                           , MNG_CNT
+                                           , QUAY_CD
+                                         ) 
+                                  VALUES (
+                                             #maxAssetsUsageSeq#
+                                           , #gisAssetsCd#
+                                           , #gisAssetsSubCd#
+                                           , #usageAr#
+                                           , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
+                                           , #usagePurps#
+                                           , #usageDtls#
+                                           , #usagePrposCd#
+                                           , #exemptSe#
+                                           , #exemptRsnCd#
+                                           , #exemptRsn#
+                                           , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
+                                           , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
+                                           , #computDtls#
+                                           , #olnlp#
+                                           , #applcTariff#
+                                           , #applcMth#
+                                           , #packSe#
+                                           , #entrpsSe#
+                                           , #feeCalcSe#
+                                           , #rdcxptFeeCalcSe#
+                                           , #rdcxptFee#
+                                           , #fee#
+                                           , TO_DATE(#trmnatDt:DATE:NO_ENTRY#)
+                                           , #trmnatRsn#
+                                           , #gisCd#
+                                           , #regUsr#
+                                           , SYSDATE
+                                           , #updUsr#
+                                           , SYSDATE
+                                           , #prtAtCode#
+                                           , #gisAssetsPrtAtCode#
+                                           , #mngYear#
+                                           , #mngNo#
+                                           , #mngCnt#
+                                           , #quayCd#
+                                         )
+    </insert>
+    
+    <select id="gamAssetUseExprInqireDao.selectOlnlpInfo_S" resultMap="CmmCodeDetail">
+            SELECT 
+                '' CODE_ID, 
+                OLNLP CODE, 
+                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원]') CODE_NM,  
+                '' CODE_DC
+            FROM 
+                OLNLP_F
+            WHERE 1=1
+            ORDER BY BEGIN_DT DESC
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireFileList_D" parameterClass="gamAssetUseExprInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           
+                           SELECT 
+					                A.PHOTO_SEQ
+					              , A.PHOTO_SJ
+					              , A.FILENM_PHYSICL
+					              , A.FILENM_LOGIC
+					              , A.SHOT_DT
+					              , A.REG_USR
+					              , A.REGIST_DT
+					              , A.PRT_AT_CODE
+					              , A.MNG_YEAR
+					              , A.MNG_NO
+					              , A.MNG_CNT
+					              , A.PHOTO_DESC
+					         FROM ASSETS_RENT_PHOTO_F A
+					        WHERE PRT_AT_CODE = #prtAtCode#
+					          AND MNG_YEAR    = #mngYear#
+					          AND MNG_NO      = #mngNo#
+					          AND MNG_CNT     = #mngCnt#
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireFileListTotCnt_S" parameterClass="gamAssetUseExprInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_PHOTO_F A
+             WHERE PRT_AT_CODE = #prtAtCode#
+               AND MNG_YEAR    = #mngYear#
+               AND MNG_NO      = #mngNo#
+               AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    <insert id="gamAssetUseExprInqireDao.insertAssetUseExprInqireFile_S">
+        INSERT INTO ASSETS_RENT_PHOTO_F (
+                                             PHOTO_SEQ
+                                           , PHOTO_SJ
+                                           , FILENM_PHYSICL
+                                           , FILENM_LOGIC
+                                           , SHOT_DT
+                                           , REG_USR
+                                           , REGIST_DT
+                                           , PRT_AT_CODE
+                                           , MNG_YEAR
+                                           , MNG_NO
+                                           , MNG_CNT
+                                           , PHOTO_DESC
+                                        ) 
+                                 VALUES (
+                                             (SELECT LPAD(NVL(MAX(PHOTO_SEQ),0) + 1,'2','0')
+												FROM ASSETS_RENT_PHOTO_F AF
+												WHERE  PRT_AT_CODE = #prtAtCode#
+												AND    MNG_YEAR    = #mngYear#
+												AND    MNG_NO      = #mngNo#
+												AND    MNG_CNT     = #mngCnt#)
+                                           , #photoSj#
+                                           , #filenmPhysicl#
+                                           , #filenmLogic#
+                                           , TO_DATE(#shotDt:DATE:NO_ENTRY#)
+                                           , #regUsr#
+                                           , SYSDATE
+                                           , #prtAtCode#
+                                           , #mngYear#
+                                           , #mngNo#
+                                           , #mngCnt#
+                                           , #photoDesc#
+                                        ) 
+    </insert>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqireFile_S">
+        UPDATE ASSETS_RENT_PHOTO_F SET
+		       PHOTO_SJ       = #photoSj#,
+		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
+		       FILENM_LOGIC   = :FILENM_LOGIC, -->
+		       SHOT_DT        = TO_DATE(#shotDt:DATE:NO_ENTRY#),
+		       <!-- REG_USR        = :REG_USR,
+		       REGIST_DT      = :REGIST_DT,-->
+		       PHOTO_DESC     = #photoDesc#
+		WHERE  PHOTO_SEQ      = #photoSeq#
+		AND    PRT_AT_CODE    = #prtAtCode#
+		AND    MNG_YEAR       = #mngYear#
+		AND    MNG_NO         = #mngNo#
+		AND    MNG_CNT        = #mngCnt#
+    </update>
+    
+    <delete id="gamAssetUseExprInqireDao.deleteAssetUseExprInqirePhotoSingle_S">
+        DELETE FROM ASSETS_RENT_PHOTO_F
+         WHERE PHOTO_SEQ   = #photoSeq#
+           AND PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt# 
+    </delete>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireMaxKey_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireInfoMaxKeyMap">
+        SELECT 
+                TO_CHAR(SYSDATE,'YYYY') MNG_YEAR
+		       , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') 
+		             FROM ASSETS_RENT_F
+		            WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY')) MNG_NO
+		       , '01' MNG_CNT
+		FROM DUAL
+    </select>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqireComment_S">
+        UPDATE ASSETS_RENT_F SET
+		       CMT = #cmt#      
+		WHERE PRT_AT_CODE = #prtAtCode#
+		 AND MNG_YEAR    = #mngYear#
+		 AND MNG_NO      = #mngNo#
+		 AND MNG_CNT     = #mngCnt#
+    </update>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireRenewInfo_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireRenewInfoMap">
+        SELECT   
+		         TO_CHAR((MAX(USAGE_PD_TO) + 1), 'YYYY-MM-DD') GR_USAGE_PD_FROM
+               , TO_CHAR(((MAX(USAGE_PD_TO) + 1) + (MAX(USAGE_PD_TO) - MIN(USAGE_PD_FROM))), 'YYYY-MM-DD') GR_USAGE_PD_TO
+		       , SUM(NVL(FEE,0))      GR_FEE
+		       , SUM(NVL(USAGE_AR,0)) GR_AR
+		       , SUM(NVL(RDCXPT_FEE,0)) GR_RDCXPT_FEE
+		  FROM ASSETS_RENT_DETAIL_F
+		 WHERE PRT_AT_CODE = #prtAtCode#
+		   AND MNG_YEAR    = #mngYear#
+		   AND MNG_NO      = #mngNo#
+		   AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqireRenewInfo_S">
+        UPDATE ASSETS_RENT_F SET
+		       GR_AR            = #grAr#
+		     , GR_FEE           = #grFee# 
+		     , GR_RDCXPT_FEE    = #grRdcxptFee#
+		     , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom:DATE:NO_ENTRY#) 
+		     , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#)  
+		WHERE PRT_AT_CODE = #prtAtCode#
+		  AND MNG_YEAR    = #mngYear#
+		  AND MNG_NO      = #mngNo#
+		  AND MNG_CNT     = #maxMngCnt#
+    </update>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireCurrRenewInfo_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireRenewInfoMap">
+        SELECT   
+                 TO_CHAR(MIN(USAGE_PD_FROM),'YYYY-MM-DD') GR_USAGE_PD_FROM
+               , TO_CHAR(MAX(USAGE_PD_TO),'YYYY-MM-DD')   GR_USAGE_PD_TO
+               , SUM(NVL(FEE,0))      GR_FEE
+               , SUM(NVL(USAGE_AR,0)) GR_AR
+               , SUM(NVL(RDCXPT_FEE,0)) GR_RDCXPT_FEE 
+          FROM ASSETS_RENT_DETAIL_F
+         WHERE PRT_AT_CODE = #prtAtCode#
+           AND MNG_YEAR    = #mngYear#
+           AND MNG_NO      = #mngNo#
+           AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    <select id="gamAssetUseExprInqireDao.selectAssetUseExprInqireDetailQuaycd_S" parameterClass="gamAssetUseExprInqireVO" resultMap="gamAssetUseExprInqireDetailQuaycdMap">
+        SELECT 
+               PRT_AT_CODE
+             , MNG_YEAR
+             , MNG_NO
+             , MNG_CNT 
+             , QUAY_CD
+		  FROM ASSETS_RENT_DETAIL_F
+		 WHERE PRT_AT_CODE = #prtAtCode#
+		   AND MNG_YEAR    = #mngYear#
+		   AND MNG_NO      = #mngNo#
+		   AND MNG_CNT     = #maxMngCnt#
+		   AND ASSETS_USAGE_SEQ = (  
+		                            SELECT MIN(ASSETS_USAGE_SEQ)
+		                              FROM ASSETS_RENT_DETAIL_F
+		                             WHERE PRT_AT_CODE = #prtAtCode#
+		                               AND MNG_YEAR    = #mngYear#
+		                               AND MNG_NO      = #mngNo#
+		                               AND MNG_CNT     = #maxMngCnt#
+		                          )
+    </select>
+    
+    <update id="gamAssetUseExprInqireDao.updateAssetUseExprInqireQuaycd_S">
+        UPDATE ASSETS_RENT_F SET
+               QUAY_CD    = #quayCd#
+        WHERE PRT_AT_CODE = #prtAtCode#
+          AND MNG_YEAR    = #mngYear#
+          AND MNG_NO      = #mngNo#
+          AND MNG_CNT     = #maxMngCnt#
+    </update>
+    
+</sqlMap>
