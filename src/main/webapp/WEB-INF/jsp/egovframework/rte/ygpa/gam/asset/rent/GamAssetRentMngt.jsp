@@ -39,7 +39,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
                     {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
-                    {display:'업체코드', name:'entrpscd',width:60, sortable:false,align:'center'},
+                    {display:'업체코드', name:'entrpscd',width:90, sortable:false,align:'center'},
                     {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
                     {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
@@ -494,6 +494,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'addAssetRentFirst':
             this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamAssetRentForm').find(':input').val('');
+            this.$('#gamAssetRentDetailForm').find(':input').val('');
             //this.$("#assetRentDetailList").flexRemove();
             this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
