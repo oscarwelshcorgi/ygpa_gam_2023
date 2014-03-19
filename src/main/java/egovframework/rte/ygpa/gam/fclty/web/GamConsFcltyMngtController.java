@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -157,10 +160,25 @@ public class GamConsFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	
+    	List<HashMap<String,String>> insertFileList = null;
+		List<HashMap<String,String>> updateFileList = null;
+		List<HashMap<String,String>> deleteFileList = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		//convert JSON string to Map
+		insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		
+		//System.out.println("insertFileList : "+insertFileList);
+		//System.out.println("insertFileList : "+updateFileList);
+		//System.out.println("insertFileList : "+deleteFileList);
+		
     	fcltyMngtList.put("USERID",user.getId());
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
-    	gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
+    	//gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
 
 		map.put("resultCode", 0);			// return ok
         map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

@@ -5,6 +5,7 @@ package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -35,8 +36,17 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
 	 * 시설관리 저장
 	 * @param fcltyMngtList
 	 */
-	public void insertFcltyManage(HashMap<String,String> form){
-		insert("gamFcltyMngtDao.insertFcltyManage", form);
+	public void insertFclty(HashMap<String,String> form){
+		insert("gamFcltyMngtDao.insertFclty", form);
+	}
+	
+	
+	/**
+	 * 시설관리 파일 저장
+	 * @param fcltyMngtList
+	 */
+	public void insertFcltyFile(Map<String,String> fileList){
+		insert("gamFcltyMngtDao.insertFcltyFile", fileList);
 	}
 	
 	
@@ -46,6 +56,24 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
      */
     public void updateFclty(HashMap<String,String> form){
         update("gamFcltyMngtDao.updateFclty",form);
+    }
+    
+    
+    /**
+     * 시설관리 파일 저장
+     * @param vo
+     */
+    public void updateFcltyFile(Map<String,String> fileList){
+    	update("gamFcltyMngtDao.updateFcltyFile",fileList);
+    }
+    
+    
+    /**
+     * 시설관리 파일 저장
+     * @param vo
+     */
+    public void deleteFcltyFile(Map<String,String> fileList){
+    	update("gamFcltyMngtDao.deleteFcltyFile",fileList);
     }
     
     

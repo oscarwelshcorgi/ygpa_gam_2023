@@ -84,7 +84,7 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 	 */
 	public void insertFcltyManage(Map<String, Object> fcltyMngtList) throws Exception {
 		
-		List<HashMap<String,String>> insertList = null;
+		List<HashMap<String,String>> insertFileList = null;
     	HashMap<String,String> form = null;
 
     	ObjectMapper mapper = new ObjectMapper();
@@ -93,21 +93,21 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 
     		//convert JSON string to Map
     		form = mapper.readValue((String)fcltyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
-    		insertList = mapper.readValue((String)fcltyMngtList.get("insertList"),new TypeReference<List<HashMap<String,String>>>(){});
+    		insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
 
     		// 시설관리 등록
     		form.put("regUsr", (String)fcltyMngtList.get("USERID"));
     		form.put("prtFcltySe", (String)fcltyMngtList.get("prtFcltySe"));
-    		insertFcltyManage(form);
+    		insertFclty(form);
 
     		// 시설관리 파일을 저장한다.
-    		if(insertList.size() > 0){
-    			for(int i = 0 ; i < insertList.size() ; i++) {
-    				//insertList.get(i).put("entrpscd", form.get("entrpscd"));
-    				//insertList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));
-    				//insertFcltyFile(insertList.get(i));
-    			}
-    		}
+			if(insertFileList.size() > 0){
+				for(int i = 0 ; i < insertFileList.size() ; i++) {
+					insertFileList.get(i).put("entrpscd", form.get("entrpscd"));
+					insertFileList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));
+					insertFcltyFile(insertFileList.get(i));
+				}
+			}
     	}catch (Exception e){
     		e.printStackTrace();
     	}
@@ -119,9 +119,9 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 	 */
 	public void updateFclty(Map<String, Object> fcltyMngtList) throws Exception {
 		
-		List<HashMap<String,String>> insertList = null;
-		List<HashMap<String,String>> updateList = null;
-		List<HashMap<String,String>> deleteList = null;
+		List<HashMap<String,String>> insertFileList = null;
+		List<HashMap<String,String>> updateFileList = null;
+		List<HashMap<String,String>> deleteFileList = null;
 		HashMap<String,String> form = null;
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -130,10 +130,9 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 			
 			//convert JSON string to Map
 			form = mapper.readValue((String)fcltyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
-			/*insertList = mapper.readValue((String)fcltyMngtList.get("insertList"),new TypeReference<List<HashMap<String,String>>>(){});
-			updateList = mapper.readValue((String)fcltyMngtList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
-			deleteList = mapper.readValue((String)fcltyMngtList.get("deleteList"),new TypeReference<List<HashMap<String,String>>>(){});
-			*/
+			insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+			updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+			deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),new TypeReference<List<HashMap<String,String>>>(){});
 
 			// 시설관리 수정
 			form.put("updUsr", (String)fcltyMngtList.get("USERID"));
@@ -141,28 +140,28 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 			updateFclty(form);
 			
 			// 업체 담당자 목록을 수정한다.
-			/*if(insertList.size() > 0){
-				for(int i = 0 ; i < insertList.size() ; i++) {
-					insertList.get(i).put("entrpscd", form.get("entrpscd"));
-					insertList.get(i).put("regUsr", (String)cmpyMngtList.get("USERID"));
-					insertCmpyCharger(insertList.get(i));
+			if(insertFileList.size() > 0){
+				for(int i = 0 ; i < insertFileList.size() ; i++) {
+					insertFileList.get(i).put("entrpscd", form.get("entrpscd"));
+					insertFileList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));
+					insertFcltyFile(insertFileList.get(i));
 				}
 			}
-			if(updateList.size() > 0){
-				for(int i = 0 ; i < updateList.size() ; i++) {
-					updateList.get(i).put("entrpscd", updateList.get(i).get("entrpscd"));
-					updateList.get(i).put("chargerNo", updateList.get(i).get("chargerNo"));
-					updateList.get(i).put("updUsr", (String)cmpyMngtList.get("USERID"));
-					updateCmpyCharger(updateList.get(i));
+			if(updateFileList.size() > 0){
+				for(int i = 0 ; i < updateFileList.size() ; i++) {
+					updateFileList.get(i).put("entrpscd", updateFileList.get(i).get("entrpscd"));
+					updateFileList.get(i).put("chargerNo", updateFileList.get(i).get("chargerNo"));
+					updateFileList.get(i).put("updUsr", (String)fcltyMngtList.get("USERID"));
+					updateFcltyFile(updateFileList.get(i));
 				}
 			}
-			if(deleteList.size() > 0){
-				for(int i = 0 ; i < deleteList.size() ; i++) {
-					deleteList.get(i).put("entrpscd", deleteList.get(i).get("entrpscd"));
-					deleteList.get(i).put("chargerNo", deleteList.get(i).get("chargerNo"));
-					deleteCmpyCharger(deleteList.get(i));
+			if(deleteFileList.size() > 0){
+				for(int i = 0 ; i < deleteFileList.size() ; i++) {
+					deleteFileList.get(i).put("entrpscd", deleteFileList.get(i).get("entrpscd"));
+					deleteFileList.get(i).put("chargerNo", deleteFileList.get(i).get("chargerNo"));
+					deleteFcltyFile(deleteFileList.get(i));
 				}
-			}*/
+			}
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -184,13 +183,13 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 	
 	
 	// 시설관리 저장
-	private void insertFcltyManage(HashMap<String,String> form) throws Exception{
-		gamFcltyMngtDao.insertFcltyManage(form);
+	private void insertFclty(HashMap<String,String> form) throws Exception{
+		gamFcltyMngtDao.insertFclty(form);
 	}
 	
 	// 시설 파일 목록 저장
 	private void insertFcltyFile(Map<String,String> insertList) throws Exception{
-		//gamFcltyMngtDao.insertFcltyFile(insertList);
+		gamFcltyMngtDao.insertFcltyFile(insertList);
 	}
 	
 	// 시설관리 수정
@@ -200,16 +199,16 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 	
 	// 시설 파일 목록 수정
 	private void updateFcltyFile(Map<String,String> updateList) throws Exception{
-		//gamFcltyMngtDao.updateFcltyFile(updateList);
+		gamFcltyMngtDao.updateFcltyFile(updateList);
 	}
 	
-	// 업체 정보 삭제
+	// 시설 정보 삭제
 	private void deleteFclty(GamFcltyManageVO vo) throws Exception{
 		gamFcltyMngtDao.deleteFclty(vo);
 	}
 	
 	// 시설 파일 삭제
 	private void deleteFcltyFile(Map<String,String> deleteList) throws Exception{
-		//gamCmpyInfoMngtDao.deleteFcltyFile(deleteList);
+		gamFcltyMngtDao.deleteFcltyFile(deleteList);
 	}
 }
