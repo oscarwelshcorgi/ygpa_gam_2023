@@ -168,7 +168,7 @@
                              FROM ASSETS_RENT_F A
                             WHERE 1=1 
                              
-                             <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+                             AND A.PRMISN_YN = 'Y'
                              
                              <isNotEmpty property="sPrtAtCode">
 					             AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -236,7 +236,7 @@
               FROM ASSETS_RENT_F A
              WHERE 1=1 
                              
-             <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+             AND A.PRMISN_YN = 'Y'
              
              <isNotEmpty property="sPrtAtCode">
                  AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -300,7 +300,7 @@
           FROM ASSETS_RENT_F A
          WHERE 1=1 
                              
-         <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+         AND A.PRMISN_YN = 'Y'
          
          <isNotEmpty property="sPrtAtCode">
              AND A.PRT_AT_CODE = #sPrtAtCode#  
