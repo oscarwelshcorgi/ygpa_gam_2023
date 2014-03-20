@@ -152,64 +152,21 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtFileList.do" />',
         dataType: 'json',
         colModel : [
-                    /*
-                    {display:'순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
-                    {display:'제목', name:'prtAtCodeNm',width:250, sortable:false,align:'center'},
-                    {display:'파일명', name:'prtAtCode',width:250, sortable:false,align:'center'},
-                    {display:'파일설명', name:'assetsCdStr',width:300, sortable:false,align:'center'}
-                    */
-                    
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-                    {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
-                    {display:'관리번호', name:'mngNo',width:60, sortable:false,align:'center'},
-                    {display:'관리횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
+					{display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+					{display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
+					{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
+					{display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
+					{display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
 					
-                    {display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
-                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
-                    {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
-                    {display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
-                    {display:'사진설명', name:'photoDesc', width:120, sortable:true, align:'center'},
-                    {display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'},
-                    {display:'등록일', name:'registDt', width:160, sortable:true, align:'center'}
-                    
-                    /*
-                    {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                    {display:'지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                    {display:'지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                    {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                    {display:'실제임대면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},
-                    {display:'사용 목적', name:'usagePurps',width:100, sortable:false,align:'center'},
-                    {display:'사용 내역', name:'usageDtls',width:100, sortable:false,align:'center'},
-                    {display:'사용 용도 코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSe',width:100, sortable:false,align:'center'},
-                    {display:'면제 사유 코드', name:'exemptRsnCd',width:100, sortable:false,align:'center'},
-                    {display:'면제 사유', name:'exemptRsn',width:100, sortable:false,align:'center'},
-                    {display:'면제 기간 FROM', name:'exemptPdFrom',width:100, sortable:false,align:'center'},
-                    {display:'면제 기간 TO', name:'exemptPdTo',width:100, sortable:false,align:'center'},
-                    {display:'산출 내역', name:'computDtls',width:100, sortable:false,align:'center'},
-                    {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
-                    {display:'적용 방법', name:'applcMth',width:100, sortable:false,align:'center'},
-                    {display:'포장 구분', name:'packSe',width:100, sortable:false,align:'center'},
-                    {display:'업체 구분', name:'entrpsSe',width:100, sortable:false,align:'center'},
-                    {display:'사용료 계산 구분', name:'feeCalcSe',width:100, sortable:false,align:'center'},
-                    {display:'감면 사용료 계산 구분', name:'rdcxptFeeCalcSe',width:100, sortable:false,align:'center'},
-                    {display:'감면 사용료', name:'rdcxptFee',width:100, sortable:false,align:'center'},
-                    {display:'해지 일자', name:'trmnatDt',width:100, sortable:false,align:'center'},
-                    {display:'해지 사유', name:'trmnatRsn',width:100, sortable:false,align:'center'},
-                    {display:'GIS 코드', name:'gisCd',width:100, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
-                    {display:'등록일시', name:'registDt',width:100, sortable:false,align:'center'},
-                    {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
-                    {display:'수정일시', name:'updtDt',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                    {display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                    {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
-                    {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'},
-                    {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
-                    */
+					/*
+					{display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
+					{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+					{display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
+					{display:'관리번호', name:'mngNo',width:60, sortable:false,align:'center'},
+					{display:'관리횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
+					{display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'},
+					{display:'등록일', name:'registDt', width:160, sortable:true, align:'center'}
+					*/
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -298,17 +255,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         }
     });
     
-    // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
-    /*
-    this.$('#olnlpList').on('change', function() {
-    	//alert("1");
-        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
-        //alert( this.$('#olnlpList').val() );
-        //this.$('#olnlp').val( this.$('#olnlpList').val() );
-    });
-    */
-    
- // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
+    // 컴포넌트 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
  	this.$('#prtAtCode').on('change', {module: this}, function(event) {
         event.data.module.$('#prtAtCodeStr').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
@@ -349,6 +296,31 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
     this.$('.calcInput').on('change', {module: this}, function(event) {
         var m = event.data.module;
         m.onCalc();
+    });
+    
+    this.$('#nticMth').on('change', {module: this}, function(event) {
+        if( $(this).val() != '' && $(this).val() != '1' ) {
+        	event.data.module.$('#cofixList').val( event.data.module.$('#blceStdrIntrrate').val() );
+        	event.data.module.$('#payinstIntrrate').val(Number(event.data.module.$('#cofixList').val()) * 100); 
+        } else {
+        	event.data.module.$('#cofixList').val("");
+        	event.data.module.$('#payinstIntrrate').val("");
+        }
+    });
+    
+    this.$('#cofixList').on('change', {module: this}, function(event) {
+        if( $(this).val() == '' ) {
+        	event.data.module.$('#payinstIntrrate').val("");
+        } else {
+        	var payinstIntrrateCal = (Number($(this).val()) * 100) + "";
+        	
+        	if(payinstIntrrateCal.length > 4) {
+        		payinstIntrrateCal = payinstIntrrateCal.substring(0,5);
+        		payinstIntrrateCal = Number(payinstIntrrateCal).toFixed(2);
+        	}
+        	
+        	event.data.module.$('#payinstIntrrate').val( payinstIntrrateCal );
+        }
     });
     
     this.$('#sDateSearchGbn').on('change', {module: this}, function(event) {
@@ -539,16 +511,23 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             this.$("#prtFcltyRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
-            break;
+            this.$('#deptcd').val(this.$('#loginOrgnztId').val());
+            
+            this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
+            this.$('#reqstDt').val(this.$('#currentDateStr').val());
             */
             this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamPrtFcltyRentMngtForm').find(':input').val('');
+            this.$('#gamPrtFcltyRentMngtDetailForm').find(':input').val('');
+            this.$('#gamPrtFcltyRentMngtFileForm').find(':input').val('');
+            
             //this.$("#prtFcltyRentMngtDetailList").flexRemove();
             this.$("#prtFcltyRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
+            this.$("#prtFcltyRentMngtFileList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
-            
+
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
@@ -613,6 +592,16 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                 return;
             }
             
+            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' ) {
+                alert("고지방법이 일괄납부인 경우는 분납이자율을 입력하지 마십시오.");
+                return;
+            }
+            
+            if( this.$('#nticMth').val() != '1' && this.$('#payinstIntrrate').val() == '' ) {
+                alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
+                return;
+            }
+            
             if( confirm("저장하시겠습니까?") ) {
 	            // 변경된 자료를 저장한다.
 	            var inputVO=[{name: 'test', value:'test hello'}];
@@ -625,6 +614,10 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 	            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#prtFcltyRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	            
 	            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+	            
+	            if(this._deleteDataFileList == undefined ) {
+                    this._deleteDataFileList=[];
+                }
 	            
 	            inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#prtFcltyRentMngtFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	            
@@ -646,6 +639,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 	                    module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	                	//module.$('#prtFcltyRentMngtDetailList').flexReload();
 	                	module.$('#prtFcltyRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+	                	module.$('#prtFcltyRentMngtFileList').flexOptions({params:searchOpt}).flexReload();
 	                }
 	                alert(result.resultMsg);
 	            });
@@ -908,8 +902,6 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
             //this._editData=this.getFormValues('#gamPrtFcltyRentMngtDetailForm', this._editData);
             
-            //alert(this._editRow);
-            
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#prtFcltyRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
@@ -934,21 +926,23 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                 var userid='admin';
                 $.each(result, function(){
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    module.$('#prtFcltyRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    //module.$('#prtFcltyRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                 });
             }, '첨부파일 업로드');
             
-            this._editDataFile=this.getFormValues('#gamPrtFcltyRentMngtFileForm', {_updtId:'I'});
-            this._editRowFile=this.$('#prtFcltyRentMngtFileList').flexGetData().length;
+            //this._editDataFile=this.getFormValues('#gamPrtFcltyRentMngtFileForm', {_updtId:'I'});
+            //this._editRowFile=this.$('#prtFcltyRentMngtFileList').flexGetData().length;
             
             break;
         
         case 'btnApplyPhotoData':
+        	/*
         	if( this.$('#filenmLogic').val() == '' ) {
                 alert("첨부파일목록에서 선택하십시오.");
                 return;
             }
-        	
+        	*/
         	if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editDataFile=this.getFormValues('#gamPrtFcltyRentMngtFileForm', this._editDataFile);
             
@@ -968,7 +962,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
         
         // 파일 삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveFile':
-        	//alert("a");
+
             var rows = this.$('#prtFcltyRentMngtFileList').selectedRows();
 
             if(rows.length == 0) {
@@ -989,6 +983,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             }
 
             this.$('#gamPrtFcltyRentMngtFileForm').find(':input').val('');
+            this._editDataFile = null;
 
             break;        
             
@@ -1026,7 +1021,7 @@ GamPrtFcltyRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
         
         this._deleteDataList=[];    // 삭제 목록 초기화
-        this._deleteDataFileList=[];    // 파일삭제 목록 초기화
+        //this._deleteDataFileList=[];    // 파일삭제 목록 초기화
         
         break;
     case 'tabs3':
@@ -1202,6 +1197,8 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
                                    <input id="currentDateStr" type="hidden" value="<c:out value="${currentDateStr}"/>"/>
+                                   <input id="blceStdrIntrrate" type="hidden" value="<c:out value="${blceStdrIntrrate}"/>"/>
+                                   <input id="blceStdrIntrrateShow" type="hidden" value="<c:out value="${blceStdrIntrrateShow}"/>"/>
                                </form>
                             </td>
                         </tr>
@@ -1293,8 +1290,18 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                  -->
                                 <!-- <input type="hidden" id="payMth" value="Pre" /> 납부 방법 선납  쿼리 고정 -->
                                 <th><span class="label">고지 방법</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                </td>
+                                <th><span class="label">분납이자율</span></th>
+                                <td>
+                                    <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
+                                    <select id="cofixList">
+                                        <option value="">선택</option>
+                                        <c:forEach items="${cofixList}" var="cofixListItem">
+                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -1593,38 +1600,38 @@ var module_instance = new GamPrtFcltyRentMngtModule();
             
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
                 
-                <table id="prtFcltyRentMngtFileList" style="display:none"></table>
+                <table id="prtFcltyRentMngtFileList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
                 <form id="gamPrtFcltyRentMngtFileForm">
-                    <input type="text" id="photoPrtAtCode" data-column-id="prtAtCode"/>
-                    <input type="text" id="photoMngYear" data-column-id="mngYear"/>
-                    <input type="text" id="photoMngNo" data-column-id="mngNo"/>
-                    <input type="text" id="photoMngCnt" data-column-id="mngCnt"/>
-                    <input type="text" id="photoSeq" data-column-id="photoSeq"/>
+                    <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
+                    <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
+                    <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
+                    <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
+                    <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
                 
                     <table>
                         <tr>
                             <th><span class="label">파일명</span></th>
                             <td>
-                                <input id="filenmLogic" type="text" size="30" class="photoEditItem" disabled/>
+                                <input id="filenmLogic" type="text" size="60" class="photoEditItem" disabled/>
                             </td>
                         </tr>
                         <tr>
                             <th><span class="label">제 목</span></th>
                             <td>
-                                <input id="photoSj" type="text" size="60" class="photoEditItem" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><span class="label">촬영일시</span></th>
-                            <td>
-                                <input id="shotDt" type="text" size="10"  class="emdcal photoEditItem"><!-- &nbsp;<input id="shotTime" type="text" size="5"  class="photoEditItem emdTime"/> -->
+                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40" />
                             </td>
                         </tr>
                         <tr>
                             <th><span class="label">사진설명</span></th>
                             <td>
-                                <input id="photoDesc" type="text" size="10" class="photoEditItem">
+                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">촬영일시</span></th>
+                            <td>
+                                <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
                             </td>
                         </tr>
                     </table>

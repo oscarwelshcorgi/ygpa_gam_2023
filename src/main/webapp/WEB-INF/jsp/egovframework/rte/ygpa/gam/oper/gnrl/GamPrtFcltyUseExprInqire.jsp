@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamPrtFcltyUseExprInqire.jsp
-  * @Description : 항만시설사용만기도래자료조회
+  * @Description : 항만시설사용만기도래자료조회 (항만시설/일반부두/항만시설사용만기도래자료조회)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
