@@ -55,6 +55,24 @@ public interface GamFcltyMngtService {
 	
 	
 	/**
+	 * 시설관리 파일 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List<ComDefaultVO> selectFcltyMngtPhotoList(ComDefaultVO vo) throws Exception;
+	
+	
+	/**
+	 * 시설관리 파일 목록 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFcltyMngtPhotoListTotCnt(ComDefaultVO vo) throws Exception;
+	
+	
+	/**
 	 * 시설관리 시퀀스 가져오기
 	 * @param vo
 	 * @return int
