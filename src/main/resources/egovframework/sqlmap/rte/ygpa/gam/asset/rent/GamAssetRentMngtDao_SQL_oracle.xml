@@ -151,8 +151,8 @@
                                   , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
                                   , A.REQST_SE_CD
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
-                                  , A.GR_AR
-                                  , A.GR_FEE
+                                  , NVL(A.GR_AR,0) GR_AR
+                                  , NVL(A.GR_FEE,0) GR_FEE
                                   , A.NTIC_MTH
                                   , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                                   , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
