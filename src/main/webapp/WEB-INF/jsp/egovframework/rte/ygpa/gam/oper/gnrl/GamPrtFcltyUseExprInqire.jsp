@@ -1201,8 +1201,8 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
     <div class="emdPanel fillHeight">
         <div id="prtFcltyUseExprInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">항만시설사용(고지도래) 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">항만시설사용(고지도래) 내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만시설사용(만기도래) 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만시설사용(만기도래) 내역</a></li>
                 <!-- <li><a href="#tabs3" class="emdTab">항만시설사용 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li> -->
             </ul>

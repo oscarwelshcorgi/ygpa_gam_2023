@@ -351,6 +351,12 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
         m.onCalc();
     });
     
+    this.$('#sDateSearchGbn').on('change', {module: this}, function(event) {
+		if( $(this).val() == '' ) {
+			event.data.module.$('#sDateSearchValue').val("");
+		}
+    });
+    
 };
 
 GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
@@ -1147,7 +1153,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </td>
                             <th>신청/허가일자</th>
                             <td>
-                            	<select id="sDateSearchGbn">
+                            	<select id="sDateSearchGbn" onchange="$(this).trigger('change')">
                                     <option value="" selected="selected">선택</option>
                                     <option value="1">최초신청일</option>
                                     <option value="2">최초허가일</option>
