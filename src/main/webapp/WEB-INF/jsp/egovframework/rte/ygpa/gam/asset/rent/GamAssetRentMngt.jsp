@@ -257,17 +257,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         }
     });
     
- // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
-    /*
-    this.$('#olnlpList').on('change', function() {
-        alert("1");
-        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
-        //alert( this.$('#olnlpList').val() );
-        //this.$('#olnlp').val( this.$('#olnlpList').val() );
-    });
- */
- 
- 
     // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
     this.$('#prtAtCode').on('change', {module: this}, function(event) {
         event.data.module.$('#prtAtCodeStr').val($(this).val());
@@ -311,6 +300,33 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         m.onCalc();
     });
 
+    this.$('#nticMth').on('change', {module: this}, function(event) {
+        //alert($(this).val());
+        if( $(this).val() != '' && $(this).val() != '1' ) {
+        	event.data.module.$('#cofixList').val( event.data.module.$('#blceStdrIntrrate').val() );
+        	event.data.module.$('#payinstIntrrate').val(Number(event.data.module.$('#cofixList').val()) * 100); 
+        } else {
+        	event.data.module.$('#cofixList').val("");
+        	event.data.module.$('#payinstIntrrate').val("");
+        }
+    });
+    
+    this.$('#cofixList').on('change', {module: this}, function(event) {
+    	//alert('||'+$(this).val()+'||');
+        if( $(this).val() == '' ) {
+        	event.data.module.$('#payinstIntrrate').val("");
+        } else {
+        	var payinstIntrrateCal = (Number($(this).val()) * 100) + "";
+        	
+        	if(payinstIntrrateCal.length > 4) {
+        		payinstIntrrateCal = payinstIntrrateCal.substring(0,5);
+        		payinstIntrrateCal = Number(payinstIntrrateCal).toFixed(2);
+        	}
+        	
+        	event.data.module.$('#payinstIntrrate').val( payinstIntrrateCal );
+        }
+    });
+    
     
 };
 
@@ -539,12 +555,11 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
         // 신청저장
         case 'btnSaveItem':
-            /*
-            if( this.$('#quayGroupCd').val() != 'P' ) {
+            
+            if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
                 return;
             }
-            */
             
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("항구분을 선택하십시오.");
@@ -573,6 +588,16 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
             if( this.$('#nticMth').val() == '' ) {
                 alert("고지방법을 선택하십시오.");
+                return;
+            }
+            
+            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' ) {
+                alert("고지방법이 일괄납부인 경우는 분납이자율을 입력하지 마십시오.");
+                return;
+            }
+            
+            if( this.$('#nticMth').val() != '1' && this.$('#payinstIntrrate').val() == '' ) {
+                alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
                 return;
             }
 
@@ -628,17 +653,15 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'btnRemoveItem':
             var rows = this.$('#assetRentMngtList').selectedRows();
 
-            /*
             if( rows[0]['quayGroupCd'] != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 신청삭제가 불가능합니다.");
+                alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
                 return;
             }
-            */
 
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
             } else {
-                if( confirm("신청삭제를 하시겠습니까?") ) {
+            	if( confirm("신청삭제를 하시겠습니까?") ) {
                     if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
                         this.$('#detailPrmisnYn').val('N');
                     }
@@ -1161,6 +1184,8 @@ var module_instance = new GamAssetRentMngtModule();
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
                                    <input id="currentDateStr" type="hidden" value="<c:out value="${currentDateStr}"/>"/>
+                                   <input id="blceStdrIntrrate" type="hidden" value="<c:out value="${blceStdrIntrrate}"/>"/>
+                                   <input id="blceStdrIntrrateShow" type="hidden" value="<c:out value="${blceStdrIntrrateShow}"/>"/>
                                </form>
                             </td>
                         </tr>
@@ -1248,14 +1273,29 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
                                 </td>
+                            </tr>
+                            
+                            <tr>
                                 <th><span class="label">고지 방법</span></th>
                                 <td>
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
                                 </td>
+                                <th><span class="label">분납이자율</span></th>
+                                <td>
+                                    <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
+                                    <select id="cofixList">
+                                        <option value="">선택</option>
+                                        <c:forEach items="${cofixList}" var="cofixListItem">
+                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
                             </tr>
+                            
+                            
                             <tr>
                                 <th><span class="label">비고</span></th>
                                 <td colspan="3"><input type="text" size="50" id="rm"/></td>
