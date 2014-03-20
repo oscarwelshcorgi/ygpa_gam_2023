@@ -151,19 +151,21 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/gamSelectAssetRentFileList.do" />',
         dataType: 'json',
         colModel : [
+                    {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+                    {display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
+                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
+                    {display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
+                    {display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
+                    
+                    /*
+                    {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
                     {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'mngNo',width:60, sortable:false,align:'center'},
                     {display:'관리횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
-                    
-                    {display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
-                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
-                    {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
-                    {display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
-                    {display:'사진설명', name:'photoDesc', width:120, sortable:true, align:'center'},
                     {display:'등록자', name:'regUsr', width:160, sortable:true, align:'center'},
                     {display:'등록일', name:'registDt', width:160, sortable:true, align:'center'}
+                    */
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -914,11 +916,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             break;
         
         case 'btnApplyPhotoData':
-            if( this.$('#filenmLogic').val() == '' ) {
-                alert("첨부파일목록에서 선택하십시오.");
-                return;
-            }
-            
+
             if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editDataFile=this.getFormValues('#gamAssetRentFileForm', this._editDataFile);
             
@@ -960,6 +958,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             }
 
             this.$('#gamAssetRentFileForm').find(':input').val('');
+            this._editDataFile = null;
 
             break;    
             
@@ -1549,35 +1548,35 @@ var module_instance = new GamAssetRentMngtModule();
                 <table id="assetRentFileList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
                 <form id="gamAssetRentFileForm">
-                    <input type="text" id="photoPrtAtCode" data-column-id="prtAtCode"/>
-                    <input type="text" id="photoMngYear" data-column-id="mngYear"/>
-                    <input type="text" id="photoMngNo" data-column-id="mngNo"/>
-                    <input type="text" id="photoMngCnt" data-column-id="mngCnt"/>
-                    <input type="text" id="photoSeq" data-column-id="photoSeq"/>
+                    <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
+                    <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
+                    <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
+                    <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
+                    <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
                 
                     <table>
                         <tr>
                             <th><span class="label">파일명</span></th>
                             <td>
-                                <input id="filenmLogic" type="text" size="30" class="photoEditItem" disabled/>
+                                <input id="filenmLogic" type="text" size="60" class="photoEditItem" disabled/>
                             </td>
                         </tr>
                         <tr>
                             <th><span class="label">제 목</span></th>
                             <td>
-                                <input id="photoSj" type="text" size="60" class="photoEditItem" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><span class="label">촬영일시</span></th>
-                            <td>
-                                <input id="shotDt" type="text" size="10"  class="emdcal photoEditItem"><!-- &nbsp;<input id="shotTime" type="text" size="5"  class="photoEditItem emdTime"/> -->
+                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40"/>
                             </td>
                         </tr>
                         <tr>
                             <th><span class="label">사진설명</span></th>
                             <td>
-                                <input id="photoDesc" type="text" size="10" class="photoEditItem">
+                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">촬영일시</span></th>
+                            <td>
+                                <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
                             </td>
                         </tr>
                     </table>
