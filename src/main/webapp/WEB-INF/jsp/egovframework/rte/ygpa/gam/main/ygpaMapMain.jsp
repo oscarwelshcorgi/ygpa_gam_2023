@@ -62,7 +62,7 @@
        OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
 
        jQuery(document).ready(function() {
-    	   EMD.go("${pageContext.request.contextPath}");
+    	   EMD.go("<c:url value='/'/>");
     	 });
 
     </script>
