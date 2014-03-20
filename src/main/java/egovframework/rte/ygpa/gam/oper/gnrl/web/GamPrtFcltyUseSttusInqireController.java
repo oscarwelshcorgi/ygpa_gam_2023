@@ -208,4 +208,40 @@ public class GamPrtFcltyUseSttusInqireController {
     	return map;
     }
 
+	/**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyUseSttusInqireFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectPrtFcltyUseSttusInqireFileList(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//파일목록
+    	totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireFileListTotCnt(searchVO);
+    	List assetFileList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireFileList(searchVO);
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", assetFileList);
+    	
+    	return map;
+    }
 }
