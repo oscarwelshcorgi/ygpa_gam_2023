@@ -88,10 +88,33 @@ public class GamPrtFcltyRentMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		//공시지가정보
-		GamPrtFcltyRentMngtVO gvo = new GamPrtFcltyRentMngtVO();
+		//GamPrtFcltyRentMngtVO gvo = new GamPrtFcltyRentMngtVO();
 		List olnlpList = gamPrtFcltyRentMngtService.selectOlnlpInfo();
 		
+		//코픽스 이자율
+		List cofixList = gamPrtFcltyRentMngtService.selectCofixInfo();
+		
+		//현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져와서 해당하는 코픽스 이자율 가져오기.
+		GamPrtFcltyRentMngtVO cofixVO = new GamPrtFcltyRentMngtVO();
+		GamPrtFcltyRentMngtVO cofixResultVO = new GamPrtFcltyRentMngtVO();
+		
+		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6)); 
+		cofixVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtBeforeQuarterInfo(cofixVO);
+		
+		if( cofixVO != null ) {
+			cofixResultVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtCofixInfo(cofixVO);
+			
+			if( cofixResultVO.getBlceStdrIntrrate() != null ) {
+				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
+			}
+			
+			if( cofixResultVO.getBlceStdrIntrrateShow() != null ) {
+				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
+			}
+		}
+		
 		model.addAttribute("olnlpList", olnlpList);
+		model.addAttribute("cofixList", cofixList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
@@ -253,7 +276,8 @@ public class GamPrtFcltyRentMngtController {
 			saveVO.setPayMth(form.get("payMth"));     
 			saveVO.setNticMth(form.get("nticMth"));    
 			saveVO.setRm(form.get("rm"));         
-			saveVO.setCmt(form.get("cmt")); 
+			saveVO.setCmt(form.get("cmt"));
+			saveVO.setPayinstIntrrate(form.get("payinstIntrrate"));
     		saveVO.setUpdUsr(loginVO.getId());
     		
     		log.debug("########### form.get(payMth) => "+form.get("payMth"));
@@ -1134,7 +1158,7 @@ public class GamPrtFcltyRentMngtController {
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
-    	map.put("assetFileList", assetFileList);
+    	map.put("resultList", assetFileList);
     	
     	return map;
     }
