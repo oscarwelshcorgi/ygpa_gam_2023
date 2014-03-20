@@ -119,6 +119,20 @@
         <result property="grRdcxptFee" column="GR_RDCXPT_FEE" columnIndex="5"/>
     </resultMap>
     
+    <resultMap id="gamPrtFcltyRentMngtBeforeQuarterInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO">
+        <result property="thisYear" column="THIS_YEAR" columnIndex="1"/>
+        <result property="divSt" column="DIV_ST" columnIndex="2"/>
+        <result property="divEnd" column="DIV_END" columnIndex="3"/>
+    </resultMap>
+    
+    <resultMap id="gamPrtFcltyRentMngtCofixInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO">
+        <result property="objYrmt" column="OBJ_YRMT" columnIndex="1"/>
+        <result property="blceStdrIntrrate" column="BLCE_STDR_INTRRATE" columnIndex="2"/>
+        <result property="blceStdrIntrrateShow" column="BLCE_STDR_INTRRATE_SHOW" columnIndex="3"/>    
+        <result property="newManipAmtStdrIntrrate" column="NEW_MANIP_AMT_STDR_INTRRATE" columnIndex="4"/>
+        <result property="annodt" column="ANNODT" columnIndex="5"/>
+    </resultMap>
+    
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtList_D" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -166,6 +180,7 @@
                                   , A.SANCTN_DT
                                   , A.QUAY_GROUP_CD
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
+                                  , (A.PAYINST_INTRRATE * 100) PAYINST_INTRRATE
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                             
@@ -488,6 +503,7 @@
                                    , QUAY_GROUP_CD
                                    , FRST_REQST_DT
                                    , SANCTN_STTUS
+                                   , PAYINST_INTRRATE
                                    )
                             VALUES (
                                      #prtAtCode#
@@ -523,6 +539,12 @@
                                    , 'G'
                                    , TO_DATE(#frstReqstDt:DATE:NO_ENTRY#) 
                                    , 'N'
+                                   <isEmpty property="payinstIntrrate">
+					               , 0
+					               </isEmpty>
+                                   <isNotEmpty property="payinstIntrrate">
+                                   , TO_NUMBER(#payinstIntrrate#) / 100
+                                   </isNotEmpty>
                                    )
     </insert>
     
@@ -560,6 +582,7 @@
                                    <!-- , SANCTN_DT -->
                                    , QUAY_GROUP_CD
                                    , REQST_DT
+                                   , PAYINST_INTRRATE
                                )
                          SELECT    A.PRT_AT_CODE
                                  , A.MNG_YEAR
@@ -593,6 +616,7 @@
                                  <!-- , A.SANCTN_DT -->
                                  , A.QUAY_GROUP_CD
                                  , SYSDATE
+                                 , A.PAYINST_INTRRATE
 				           FROM ASSETS_RENT_F A
 				          WHERE A.PRT_AT_CODE = #prtAtCode#
 				            AND A.MNG_YEAR    = #mngYear#
@@ -624,6 +648,12 @@
 		       , DEPTCD           = #deptcd#
 		       <!-- , PAY_MTH          = #payMth# -->
 		       , PAY_MTH          = 'Pre'
+		       <isEmpty property="payinstIntrrate">
+		       , PAYINST_INTRRATE = 0;
+		       </isEmpty>
+	           <isNotEmpty property="payinstIntrrate">
+               , PAYINST_INTRRATE = TO_NUMBER(#payinstIntrrate#) / 100
+               </isNotEmpty>
 		WHERE  PRT_AT_CODE        = #prtAtCode#
 		AND    MNG_YEAR           = #mngYear#
 		AND    MNG_NO             = #mngNo#
@@ -1215,9 +1245,9 @@
 					              , A.PHOTO_SJ
 					              , A.FILENM_PHYSICL
 					              , A.FILENM_LOGIC
-					              , A.SHOT_DT
+					              , TO_CHAR(A.SHOT_DT, 'YYYY-MM-DD') SHOT_DT
 					              , A.REG_USR
-					              , A.REGIST_DT
+					              , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
 					              , A.PRT_AT_CODE
 					              , A.MNG_YEAR
 					              , A.MNG_NO
@@ -1228,6 +1258,7 @@
 					          AND MNG_YEAR    = #mngYear#
 					          AND MNG_NO      = #mngNo#
 					          AND MNG_CNT     = #mngCnt#
+					        ORDER BY A.PHOTO_SEQ DESC
                 ) S
              ) A
         <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
@@ -1394,5 +1425,87 @@
           AND MNG_NO      = #mngNo#
           AND MNG_CNT     = #maxMngCnt#
     </update>
+    
+    <select id="gamPrtFcltyRentMngtDao.selectCofixInfo_S" resultMap="CmmCodeDetail">
+            SELECT 
+			        '' CODE_ID
+			      , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) CODE
+			      , (TO_CHAR(TO_DATE(OBJ_YRMT, 'YYYY-MM'), 'YYYY-MM') || ' : ' || (BLCE_STDR_INTRRATE * 100) || '% [' || TO_CHAR(ANNODT,'YYYY-MM-DD') || ']') CODE_NM
+			      , '' CODE_DC
+			  FROM COFIX_INTRRATE_F
+			 ORDER BY OBJ_YRMT DESC
+    </select>
+    
+    <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtBeforeQuarterInfo_S" parameterClass="gamPrtFcltyRentMngtVO" resultMap="gamPrtFcltyRentMngtBeforeQuarterInfoMap">
+        SELECT
+			    CASE
+			        WHEN CHK_DIV = 'DI_1' 
+			        THEN TO_NUMBER(C_YEAR) - 1 
+			        ELSE TO_NUMBER(C_YEAR)
+			    END THIS_YEAR
+			    , CASE
+			        WHEN CHK_DIV = 'DI_1' 
+			        THEN '10'
+			        WHEN CHK_DIV = 'DI_2' 
+			        THEN '01'
+			        WHEN CHK_DIV = 'DI_3' 
+			        THEN '04'
+			        WHEN CHK_DIV = 'DI_4' 
+			        THEN '07'
+			        ELSE CHK_DIV
+			    END DIV_ST
+			    , CASE
+			        WHEN CHK_DIV = 'DI_1' 
+			        THEN '12'
+			        WHEN CHK_DIV = 'DI_2' 
+			        THEN '03'
+			        WHEN CHK_DIV = 'DI_3' 
+			        THEN '06'
+			        WHEN CHK_DIV = 'DI_4' 
+			        THEN '09'
+			        ELSE CHK_DIV
+			    END DIV_END
+			FROM (
+			    SELECT
+			        C_YEAR
+			        , CASE 
+			            WHEN C_DIY BETWEEN '01' AND '03' 
+			            THEN 'DI_1' 
+			            WHEN C_DIY BETWEEN '04' AND '06'
+			            THEN 'DI_2' 
+			            WHEN C_DIY BETWEEN '07' AND '09'
+			            THEN 'DI_3' 
+			            WHEN C_DIY BETWEEN '10' AND '12'
+			            THEN 'DI_4' 
+			            ELSE 'NO' 
+			        END CHK_DIV
+			    FROM (
+			        SELECT
+			              SUBSTR(#cYear#,1,4) C_YEAR  
+			            , SUBSTR(#cYear#,5,2) C_DIY   
+			        FROM DUAL
+			    ) 
+			)    
+    </select>
+    
+    <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfo_S" parameterClass="gamPrtFcltyRentMngtVO" resultMap="gamPrtFcltyRentMngtCofixInfoMap">
+		   SELECT 
+                   OBJ_YRMT
+                 , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) BLCE_STDR_INTRRATE
+                 , TRIM(TO_CHAR(BLCE_STDR_INTRRATE * 100, '0.00')) BLCE_STDR_INTRRATE_SHOW
+                 , NEW_MANIP_AMT_STDR_INTRRATE
+                 , TO_CHAR(ANNODT,'YYYYMMDD') ANNODT 
+              FROM (
+                    SELECT 
+                             OBJ_YRMT
+                           , BLCE_STDR_INTRRATE
+                           , NEW_MANIP_AMT_STDR_INTRRATE
+                           , ANNODT 
+                       FROM COFIX_INTRRATE_F
+                    WHERE SUBSTR(OBJ_YRMT,1,4) = #thisYear#            
+                    AND SUBSTR(OBJ_YRMT,5,2) BETWEEN #divSt# AND #divEnd# 
+                    ORDER BY OBJ_YRMT DESC
+                  ) WHERE ROWNUM = 1
+    </select>
     
 </sqlMap>
