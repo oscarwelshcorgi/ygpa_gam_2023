@@ -36,22 +36,22 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
-					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
-					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
-					{display:'업체코드', name:'entrpscd',width:85, sortable:false,align:'center'},
-					{display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
-					{display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
-					{display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
-					{display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
-					{display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
-					{display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-					{display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-					{display:'최초신청일', name:'frstReqstDt',width:90, sortable:false,align:'center'},
-					{display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
-					{display:'신청일자', name:'reqstDt',width:70, sortable:false,align:'center'},
-					//{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
-					{display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
+					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'}, 
+                    {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'}, 
+                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'}, 
+                    {display:'업체코드', name:'entrpscd',width:85, sortable:false,align:'center'}, 
+                    {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'}, 
+                    {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
+                    {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
+                    {display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
+                    {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
+                    {display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
+                    {display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
+                    {display:'최초신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
+                    {display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
+                    {display:'신청일자', name:'reqstDt',width:70, sortable:false,align:'center'},
+                    //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
+                    {display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'} 
 					
                     /*
                     {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
@@ -112,12 +112,13 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
                     {display:'순번', name:'assetsUsageSeq',width:50, sortable:false,align:'center'},
                     {display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-                    {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
-                    {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
+                    {display:'시설코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
+                    {display:'시설명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    //{display:'시설면적', name:'gisAssetsRealRentAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
                     //{display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
@@ -165,131 +166,101 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
     });
     
     // 첨부파일 테이블 설정
-    this.$("#prtFcltyUseSttusInqireFileDetailList").flexigrid({
+    this.$("#prtFcltyUseSttusInqireFileList").flexigrid({
         module: this,
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyUseSttusInqireFileList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'순번', name:'assetsUsageSeq',width:100, sortable:false,align:'center'},
-                    {display:'제목', name:'prtAtCodeNm',width:250, sortable:false,align:'center'},
-                    {display:'파일명', name:'prtAtCode',width:250, sortable:false,align:'center'},
-                    {display:'파일설명', name:'assetsCdStr',width:300, sortable:false,align:'center'}
-                    
+                    {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+					{display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
+					{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
+					{display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
+					{display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
     });
 
-    this.$("#prtFcltyUseSttusInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        // 이벤트내에선 모듈에 대해 선택한다.
-        module.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
+    this.$("#prtFcltyUseSttusInqireList").on('onItemSelected', function(event, module, row, grid, param) {
+    	module.$('#cmd').val('modify');
+    	
+    	module.$('#gamPrtFcltyUseSttusInqireForm :input').val('');
+    	
+    	module.makeFormValues('#gamPrtFcltyUseSttusInqireForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyUseSttusInqireForm', row);
+        module._editRow=module.$('#prtFcltyUseSttusInqireList').selectedRowIds()[0];
+        
+        //해당하는 항만시설사용상세 목록과 파일목록를 불러온다.
+        module.$('#detailPrtAtCode').val(row['prtAtCode']);
+        module.$('#prtAtCodeStr').val(row['prtAtCode']);
+        module.$('#detailMngYear').val(row['mngYear']);
+        module.$('#detailMngNo').val(row['mngNo']);
+        module.$('#detailMngCnt').val(row['mngCnt']);
+        
+        if( row['prmisnYn'] == 'Y' ) {
+        	module.$('#entrpscd').attr('readonly', true);
+        	module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
+        }
 
-        if(row!=null) {
-            module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
-            module.$('#prtAtCode').val(row['prtAtCode']);
-            module.$('#prtAtCodeNm').val(row['prtAtCodeNm']);
-            module.$('#mngYear').val(row['mngYear']);
-            module.$('#mngNo').val(row['mngNo']);
-            module.$('#mngCnt').val(row['mngCnt']);
-            module.$('#entrpscd').val(row['entrpscd']);
-            module.$('#entrpsNm').val(row['entrpsNm']);
-            module.$('#dt').val(row['dt']);
-            module.$('#reqstSeCd').val(row['reqstSeCd']);
-            module.$('#grAr').val(row['grAr']);
-            module.$('#grFee').val(row['grFee']);
-            module.$('#nticMth').val(row['nticMth']);
-            module.$('#frstPrmisnDt').val(row['frstPrmisnDt']);
-            module.$('#prmisnDt').val(row['prmisnDt']);
-            module.$('#prmisnYn').val(row['prmisnYn']);
-            module.$('#grUsagePdFrom').val(row['grUsagePdFrom']);
-            module.$('#grUsagePdTo').val(row['grUsagePdTo']);
-            module.$('#docNo').val(row['docNo']);
-            module.$('#rm').val(row['rm']);
-            module.$('#cmt').val(row['cmt']);
-            module.$('#etc').val(row['etc']);
-            module.$('#grRdcxptFee').val(row['grRdcxptFee']);
-            module.$('#gisCd').val(row['gisCd']);
-            //module.$('#deptcd').val(row['deptcd']);
-            module.$('#regUsr').val(row['regUsr']);
-            module.$('#registDt').val(row['registDt']);
-            module.$('#updUsr').val(row['updUsr']);
-            module.$('#updtDt').val(row['updtDt']);
-            module.$('#payMth').val(row['payMth']);
-            module.$('#frstReqstDt').val(row['frstReqstDt']);
-            module.$('#reqstDt').val(row['reqstDt']);
-            module.$('#nticMthNm').val(row['nticMthNm']);
-            //throw 0;
-
-            // 해당하는 항만시설사용현황상세 목록을 불러온다.
-            module.$('#detailPrtAtCode').val(row['prtAtCode']);
-            module.$('#prtAtCodeStr').val(row['prtAtCode']);
-            module.$('#detailMngYear').val(row['mngYear']);
-            module.$('#detailMngNo').val(row['mngNo']);
-            module.$('#detailMngCnt').val(row['mngCnt']);
-
-            var searchOpt=module.makeFormArgs('#gamPrtFcltyUseSttusInqireForm');
-            module.$('#prtFcltyUseSttusInqireDetailList').flexOptions({params:searchOpt}).flexReload();
-            module.$('#prtFcltyUseSttusInqireFileDetailList').flexOptions({params:searchOpt}).flexReload(); 
+        var searchOpt=module.makeFormArgs('#gamPrtFcltyUseSttusInqireForm');
+        module.$('#prtFcltyUseSttusInqireDetailList').flexOptions({params:searchOpt}).flexReload();
+        module.$('#prtFcltyUseSttusInqireFileList').flexOptions({params:searchOpt}).flexReload();
+    });
+    
+    this.$("#prtFcltyUseSttusInqireDetailList").on('onItemSelected', function(event, module, row, grid, param) {
+        //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
+        module.$('#gamPrtFcltyUseSttusInqireDetailForm :input').val('');
+        
+        module.makeFormValues('#gamPrtFcltyUseSttusInqireDetailForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyUseSttusInqireDetailForm', row);
+        module._editRow=module.$('#prtFcltyUseSttusInqireDetailList').selectedRowIds()[0];
+    });
+    
+    this.$("#prtFcltyUseSttusInqireFileList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.makeFormValues('#gamPrtFcltyUseSttusInqireFileForm', row);
+        module._editDataFile=module.getFormValues('#gamPrtFcltyUseSttusInqireFileForm', row);
+        module._editRowFile=module.$('#prtFcltyUseSttusInqireFileList').selectedRowIds()[0];
+        
+        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
+            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+            var filenm=row['filenmPhysicl'];
+            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+                $imgURL = module.getImageUrl(filenm);
+                module.$("#previewImage").fadeIn(400, function() {
+                    module.$("#previewImage").attr('src', $imgURL);
+                });
+            }
+            else {
+                module.$("#previewImage").attr(src, '#');
+            }
         }
     });
 
-    this.$("#prtFcltyUseSttusInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        // 이벤트내에선 모듈에 대해 선택한다.
-        module.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
+    this.$("#prtFcltyUseSttusInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+        module.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 1});    
+        module.$('#cmd').val('modify');
+        module.$('#gamPrtFcltyUseSttusInqireForm :input').val('');
 
+        module.makeFormValues('#gamPrtFcltyUseSttusInqireForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyUseSttusInqireForm', row);
+        module._editRow=module.$('#prtFcltyUseSttusInqireList').selectedRowIds()[0];
+        
         if(row!=null) {
-            //module.$('#cmd').val('modify');  // 더블클릭한 아이템을 수정한다
+            module.$('#cmd').val('modify');  
+        }
+    });
+    
+    this.$("#prtFcltyUseSttusInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+        module.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 2});
+        module.$('#gamPrtFcltyUseSttusInqireDetailForm :input').val('');
+
+        module.makeFormValues('#gamPrtFcltyUseSttusInqireDetailForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyUseSttusInqireDetailForm', row);
+        module._editRow=module.$('#prtFcltyUseSttusInqireDetailList').selectedRowIds()[0];
+        
+        if(row!=null) {
             module.$('#detailCmd').val('modify');
-            module.$('#assetsUsageSeq').val(row['assetsUsageSeq']);
-            module.$('#detailMngYear').val(row['mngYear']);
-            module.$('#detailMngNo').val(row['mngNo']);
-            module.$('#detailMngCnt').val(row['mngCnt']);
-            module.$('#detailPrtAtCode').val(row['prtAtCode']);
-            module.$('#gisAssetsCd').val(row['gisAssetsCd']);
-            module.$('#gisAssetsSubCd').val(row['gisAssetsSubCd']);
-            module.$('#gisAssetsNm').val(row['gisAssetsNm']);
-            module.$('#usageAr').val(row['usageAr']);
-            module.$('#usagePdFrom').val(row['usagePdFrom']);
-            module.$('#usagePdTo').val(row['usagePdTo']);
-            module.$('#usagePurps').val(row['usagePurps']);
-            module.$('#usageDtls').val(row['usageDtls']);
-            module.$('#usagePrposCd').val(row['usagePrposCd']);
-            module.$('#usagePrposNm').val(row['usagePrposNm']);
-            module.$('#exemptSe').val(row['exemptSe']);
-            module.$('#exemptSeNm').val(row['exemptSeNm']);
-            module.$('#exemptRsnCd').val(row['exemptRsnCd']);
-            module.$('#exemptRsnCdNm').val(row['exemptRsnCdNm']);
-            module.$('#exemptRsn').val(row['exemptRsn']);
-            module.$('#exemptPdFrom').val(row['exemptPdFrom']);
-            module.$('#exemptPdTo').val(row['exemptPdTo']);
-            module.$('#computDtls').val(row['computDtls']);
-            module.$('#olnlp').val(row['olnlp']);
-            module.$('#applcTariff').val(row['applcTariff']);
-            module.$('#applcTariffNm').val(row['applcTariffNm']);
-            module.$('#applcTariffStr').val(row['applcTariffStr']);
-            module.$('#applcMth').val(row['applcMth']);
-            module.$('#applcMthNm').val(row['applcMthNm']);
-            module.$('#packSe').val(row['packSe']);
-            module.$('#packSeNm').val(row['packSeNm']);
-            module.$('#entrpsSe').val(row['entrpsSe']);
-            module.$('#entrpsSeNm').val(row['entrpsSeNm']);
-            module.$('#feeCalcSe').val(row['feeCalcSe']);
-            module.$('#feeCalcSeNm').val(row['feeCalcSeNm']);
-            module.$('#rdcxptFeeCalcSe').val(row['rdcxptFeeCalcSe']);
-            module.$('#rdcxptFeeCalcSeNm').val(row['rdcxptFeeCalcSeNm']);
-            module.$('#rdcxptFee').val(row['rdcxptFee']);
-            module.$('#fee').val(row['fee']);
-            module.$('#trmnatDt').val(row['trmnatDt']);
-            module.$('#trmnatRsn').val(row['trmnatRsn']);
-            module.$('#detailGisCd').val(row['gisCd']);
-            module.$('#detailUpdUsr').val(row['updUsr']);
-            module.$('#gisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
-            module.$('#quayCd').val(row['quayCd']);
-            module.$('#gisAssetsLocplc').val(row['gisAssetsLocplc']);
-            module.$('#gisAssetsLnm').val(row['gisAssetsLnm']);
-            module.$('#gisAssetsLnmSub').val(row['gisAssetsLnmSub']);
-            module.$('#gisAssetsAr').val(row['gisAssetsAr']);
-            module.$('#gisAssetsRealRentAr').val(row['gisAssetsRealRentAr']);
         }
     });
     
@@ -762,8 +733,8 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <!-- <td style="width: 350px"> -->
                                 <td colspan="3">
 	                                <!-- <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" /> -->
-	                                <input type="text" size="5" id="prtAtCodeStr" readonly/>
 	                                <input type="text" size="10" id="prtAtCodeNm" readonly/>
+	                                <input type="text" size="5" id="prtAtCode" readonly/>
                                 </td>
                                 <!-- 
                                 <th><span class="label">담당부서</span></th>
@@ -775,15 +746,15 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             <tr>
                                 <th><span class="label">관리번호</span></th>
                                 <td colspan="3">
-                                    <input type="text" size="4" id="mngYear" readonly/>
-                                    <input type="text" size="3" id="mngNo" readonly/>
+                                    <input type="text" size="4" id="mngYear" readonly/>-
+                                    <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">신청업체</span></th>
                                 <td colspan="3">
-                                    <input type="text" size="5" id="entrpscd" maxlength="10"/>
+                                    <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <!-- <button id="popupEntrpsInfoInput">업체조회</button> -->
                                 </td>
@@ -804,7 +775,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                         <option value="N">N</option>
                                     </select>
                                      -->
-                                     <input type="text" size="5" id="prmisnYn" readonly/>
+                                     <input type="text" size="5" id="prmisnYn" style="text-align:center;" readonly/>
                                 </td>
                                 <th><span class="label">승낙일자</span></th>
                                 <td><input type="text" size="10" id="prmisnDt" readonly /></td>
@@ -812,17 +783,18 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             <tr>
                                 <th><span class="label">총사용기간</span></th>
                                 <td>
-                                    <input type="text" size="10" id="grUsagePdFrom" readonly/>~
+                                    <input type="text" size="10" id="grUsagePdFrom" readonly/>
+                                    ~
                                     <input type="text" size="10" id="grUsagePdTo" readonly/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;"/></td>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" id="grFee" class="ygpaCurrency" style="text-align:right;"/></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" readonly /></td>
                                 <th style="width: 100px"><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" id="grRdcxptFee" class="ygpaCurrency" style="text-align:right;"/></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" readonly /></td>
                             </tr>
                             <tr>
                             	<!-- 
@@ -837,6 +809,10 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                     <!-- <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" /> -->
                                     <input type="text" size="10" id="nticMthNm" style="text-align:center;" readonly />
                                     
+                                </td>
+                                <th><span class="label">분납이자율</span></th>
+                                <td>
+                                	<input type="text" size="10" id="payinstIntrrate" style="text-align:right;" readonly />
                                 </td>
                             </tr>
                             <tr>
@@ -955,7 +931,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="17" id="olnlp" style="text-align:right;" /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="usageAr" style="text-align:right;" /></td>
+                                <td colspan="3"><input type="text" size="15" id="usageAr" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -972,7 +948,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th><span class="label">적용방법</span></th>
                                 <td colspan="3">
                                     <!-- <input id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" /> -->
-                                    <input type="text" size="10" id="applcMthNm" readonly />
+                                    <input type="text" size="15" id="applcMthNm" style="text-align:center;" readonly />
                                 </td>
                             </tr>
                             <tr>
@@ -992,16 +968,16 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <td colspan="5">
                                     <!-- <input id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" /> -->
                                     <!-- <input type="text" size="20" id="exemptRsnCd" readonly /> -->
-                                    <input type="text" size="23" id="exemptRsnCdNm" style="text-align:center;" readonly />
+                                    <input type="text" size="33" id="exemptRsnCdNm" style="text-align:center;" readonly />
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
-                                    <input type="text" size="70" id="exemptRsn"/>
+                                    <input type="text" size="57" id="exemptRsn"/>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="20" id="fee" style="text-align:right;" />원</td>
+                                <td><input type="text" size="20" id="fee" class="ygpaCurrency" style="text-align:right;" />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" id="rdcxptFee" style="text-align:right;" />원</td>
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="rdcxptFee" style="text-align:right;" />원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>
@@ -1039,56 +1015,46 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
             </div>
 
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-                <!-- <table id="prtFcltyUseSttusInqireFileDetailList" style="display:none"  class="fillHeight"></table> -->
-                <table id="prtFcltyUseSttusInqireFileDetailList" style="display:none"></table>
                 
-                <div class="emdControlPanel"><!-- <button id="addAssetGisPhoto">추가</button><button id="removeAssetGisPhoto">삭제</button> --></div>
-                <!-- 
-                <div class="emdPanel" style="overflow:scroll"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-                 -->
-                 
-                <div style="vertical-align: bottom; text-align: right;">
-                    <button id="xxxx">업로드</button>
-                    <button id="xxxx">다운로드</button>
-                    <button id="xxxx">삭제</button>
-                </div> 
+                <table id="prtFcltyUseSttusInqireFileList" style="display:none" class="fillHeight"></table>
+                <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
+                <form id="gamPrtFcltyUseSttusInqireFileForm">
+                    <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
+                    <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
+                    <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
+                    <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
+                    <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
                 
-                <table>
-                    <tr height="30">
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <th>
-                            제목
-                        </th>
-                        <td>
-                            <input type="text" size="130" id="xxx"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            파일설명
-                        </th>
-                        <td>
-                            <input type="text" size="130" id="xxx"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="2">
-                            <button id="xxxx">적용</button>
-                        </td>
-                    </tr>
-                </table>
-                
-                <table class="searchPanel">
-                    <tbody>
-                    <tr>
-                        <th>미리보기</th>
-                    </tr>
-                    </tbody>
-                </table> 
-                <div class="emdPanel"><img style="border: 1px solid #000; max-width:800px; max-height: 600px" src="<c:url value='images/egovframework/ygpa/gam/misc/TEST2.JPG'/>"></div>
-                
+                    <table>
+                        <tr>
+                            <th><span class="label">파일명</span></th>
+                            <td>
+                                <input id="filenmLogic" type="text" size="60" class="photoEditItem" disabled/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">제 목</span></th>
+                            <td>
+                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">사진설명</span></th>
+                            <td>
+                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="label">촬영일시</span></th>
+                            <td>
+                                <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                    <button id="btnApplyPhotoData">첨부파일 적용</button>
+                <div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+
             </div>
 
 
