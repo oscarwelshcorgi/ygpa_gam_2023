@@ -71,5 +71,25 @@ public class GamPrtFcltyUseSttusInqireDao extends YGPAAbstractDAO {
     public int selectPrtFcltyUseSttusInqireDetailListTotCnt(GamPrtFcltyUseSttusInqireVO vo) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireDetailListTotCnt_S", vo);
     }
+    
+    /**
+	 * 파일 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+    public List selectPrtFcltyUseSttusInqireFileList(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
+        return list("gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileList_D", searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리목록 총 갯수
+	 * @exception
+	 */
+    public int selectPrtFcltyUseSttusInqireFileListTotCnt(GamPrtFcltyUseSttusInqireVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileListTotCnt_S", searchVO);
+    }
 
 }
