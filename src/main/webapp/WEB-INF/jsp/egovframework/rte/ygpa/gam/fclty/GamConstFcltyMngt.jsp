@@ -58,33 +58,10 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 	
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		
-		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:row["gisPrtFcltyCd"]};
-		module.doAction('<c:url value="/fclty/gamConstFcltyView.do" />', detailInput, function(module, result) {
-
-			module.$("#cmd").val("modify");
-			module.$("#gisAssetsCd").val(result.detail.gisAssetsCd);
-			module.$("#gisAssetsPrtAtCode").val(result.detail.gisAssetsPrtAtCode);
-			module.$("#gisAssetsSubCd").val(result.detail.gisAssetsSubCd);
-			module.$("#gisPrtFcltySeq").val(result.detail.gisPrtFcltySeq);
-			module.$("#gisPrtFcltyCd").val(result.detail.gisPrtFcltyCd);
-			module.$("#prtFcltyNm").val(result.detail.prtFcltyNm);
-			module.$("#prtFcltyStndrd").val(result.detail.prtFcltyStndrd);
-			module.$("#prtFcltyUnit").val(result.detail.prtFcltyUnit);
-			module.$("#prtFcltyInstlDt").val(result.detail.prtFcltyInstlDt);
-			module.$("#prtFcltyChangeDt").val(result.detail.prtFcltyChangeDt);
-			module.$("#prtFcltyMngEntrpsCd").val(result.detail.prtFcltyMngEntrpsCd);
-			module.$("#prtFcltyMngEntrpsNm").val(result.detail.prtFcltyMngEntrpsNm);
-			module.$("#gisAssetsLocplc").val(result.detail.gisAssetsLocplc);
-			module.$("#gisAssetsLnm").val(result.detail.gisAssetsLnm);
-			module.$("#gisAssetsLnmSub").val(result.detail.gisAssetsLnmSub);
-			module.$("#gisAssetsNm").val(result.detail.gisAssetsNm);
-			module.$(".selectedGAM005").hide();
-			module.$("#gisCodePopupBtn").hide();
-			
-			// 파일 tab
-			var searchOpt = module.makeFormArgs("#fcltyManageVO");
-	        module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
-	 	});
+		module.makeFormValues("#fcltyManageVO", row);
+		module.getFormValues("#fcltyManageVO", row);
+		module.$("#fcltyMngtList").selectedRowIds()[0];
+		module.$("#cmd").val("modify");
 	});
 	
 	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
@@ -97,27 +74,22 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 	});
 	
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
-	this.$('.photoEditItem').on('change', {module: this}, function(event) {
+	this.$(".photoEditItem").on("change", {module: this}, function(event) {
+		
 		var m = event.data.module;
-		if(m._editPhotoRow==null) return;
+		
+		if(m._editPhotoRow == null) return;
+		if(m._editPhotoData == null) return;
 
-		if(m._editPhotoData==null) return;
+		if(m._editPhotoData._updt == null || m._editPhotoData._updt == "") m._editPhotoData._updt = "U";
+		else m._editPhotoData._updt = "I";
 
-		if(m._editPhotoData._updt==null || m._editPhotoData._updt=='') {
-			 m._editPhotoData._updt='U';
-		}
-		else {
-			m._editPhotoData._updt='I';
-		}
-
-		if(m.$("#photoSj")==event.target) {	// 제목 변경
+		if(m.$("#photoSj")==event.target){
 			m._editPhotoData.photoSj = $(event.target).val();
-		}
-		else {	// 날짜 시간 변경
-			var dtStr = m.$('#shotDt').val()+' '+m.$('#shotTime').val();
+		}else{
+			var dtStr = m.$("#shotDt").val()+" "+m.$("#shotTime").val();
 			m._editPhotoData.shotDt = dtStr;
 		}
-
 	});
 	
 	this.$("#fcltyPhotoList").flexigrid({
