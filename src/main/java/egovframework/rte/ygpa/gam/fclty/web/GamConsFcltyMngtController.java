@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -148,6 +145,49 @@ public class GamConsFcltyMngtController {
 	
 	
 	/**
+	 * 건축시설 파일 목록
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamConstFcltyPhotoList.do")
+	@ResponseBody Map<String, Object> selectFcltyMngtPhotoList(GamFcltyManageVO searchVO)throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		// 내역 조회
+		/** EgovPropertyService */
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		/** pageing */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		/** List Data */
+		searchVO.setPrtFcltySe(prtFcltySe);
+
+		List<ComDefaultVO> fcltyMngtPhotoList = gamFcltyMngtService.selectFcltyMngtPhotoList(searchVO);
+		int totCnt = gamFcltyMngtService.selectFcltyMngtPhotoListTotCnt(searchVO);
+		
+		paginationInfo.setTotalRecordCount(totCnt);
+		
+		map.put("resultCode", 0);			// return ok
+		map.put("totalCount", totCnt);
+		map.put("resultList", fcltyMngtPhotoList);
+		map.put("searchOption", searchVO);
+		
+		return map;
+	}
+	
+	
+	/**
 	 * 건축 시설관리 등록
 	 * @param fcltyManageVO
 	 * @param bindingResult
@@ -160,25 +200,10 @@ public class GamConsFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	List<HashMap<String,String>> insertFileList = null;
-		List<HashMap<String,String>> updateFileList = null;
-		List<HashMap<String,String>> deleteFileList = null;
-		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		//convert JSON string to Map
-		insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
-		updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),new TypeReference<List<HashMap<String,String>>>(){});
-		deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),new TypeReference<List<HashMap<String,String>>>(){});
-		
-		//System.out.println("insertFileList : "+insertFileList);
-		//System.out.println("insertFileList : "+updateFileList);
-		//System.out.println("insertFileList : "+deleteFileList);
-		
     	fcltyMngtList.put("USERID",user.getId());
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
-    	//gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
+    	gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
 
 		map.put("resultCode", 0);			// return ok
         map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -240,6 +265,7 @@ public class GamConsFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
+    	fcltyManageVO.setPrtFcltySe(prtFcltySe);
     	gamFcltyMngtService.deleteFcltyMngt(fcltyManageVO);
 
         map.put("resultCode", 0);
