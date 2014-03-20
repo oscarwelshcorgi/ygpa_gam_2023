@@ -1113,9 +1113,9 @@
 					              , A.PHOTO_SJ
 					              , A.FILENM_PHYSICL
 					              , A.FILENM_LOGIC
-					              , A.SHOT_DT
+					              , TO_CHAR(A.SHOT_DT, 'YYYY-MM-DD') SHOT_DT
 					              , A.REG_USR
-					              , A.REGIST_DT
+					              , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
 					              , A.PRT_AT_CODE
 					              , A.MNG_YEAR
 					              , A.MNG_NO
@@ -1126,6 +1126,7 @@
 					          AND MNG_YEAR    = #mngYear#
 					          AND MNG_NO      = #mngNo#
 					          AND MNG_CNT     = #mngCnt#
+					        ORDER BY A.PHOTO_SEQ DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -1146,7 +1147,7 @@
                                            , PHOTO_SJ
                                            , FILENM_PHYSICL
                                            , FILENM_LOGIC
-                                           , SHOT_DT
+                                           , SHOT_DT 
                                            , REG_USR
                                            , REGIST_DT
                                            , PRT_AT_CODE
