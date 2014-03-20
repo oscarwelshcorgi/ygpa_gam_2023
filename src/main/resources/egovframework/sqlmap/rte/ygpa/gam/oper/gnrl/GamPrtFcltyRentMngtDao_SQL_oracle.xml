@@ -151,8 +151,8 @@
                                   <!-- , TO_CHAR(A.DT, 'YYYY-MM-DD') DT -->
                                   , A.REQST_SE_CD
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
-                                  , A.GR_AR
-                                  , A.GR_FEE
+                                  , NVL(A.GR_AR,0) GR_AR
+                                  , NVL(A.GR_FEE,0) GR_FEE
                                   <!-- , TRIM(TO_CHAR(A.GR_AR, '999,999,999,999')) GR_AR
       							  , TRIM(TO_CHAR(A.GR_FEE, '999,999,999,999')) GR_FEE -->
                                   , A.NTIC_MTH
