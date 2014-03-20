@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamConstFcltyMngt.jsp
-  * @Description : 건축시설사용목록조회
+  * @Class Name : GamConstFcltyInqire.jsp
+  * @Description : 건축시설사용목록관조회
   * @Modification Information
   * 
   *   수정일         수정자                   수정내용 
@@ -49,37 +49,68 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
-		//usepager: false,
-		useRp: true,
-		rp: 24,
+		//usepager: true,
+		//useRp: true,
+		//rp: 24,
 		showTableToggleBtn: false,
 		height: "230"
+	});
+	
+	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
+		
+		module.makeFormValues("#fcltyManageVO", row);
+		module.getFormValues("#fcltyManageVO", row);
+		module.$("#fcltyMngtList").selectedRowIds()[0];
+		module.$("#cmd").val("modify");
+		
+        var searchOpt=module.makeFormArgs("#fcltyManageVO");
+        module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
 	});
 	
 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
+	});
+	
+	this.$("#fcltyPhotoList").flexigrid({
+		module: this,
+		url: '<c:url value="/fclty/gamConstFcltyPhotoList.do"/>',
+		dataType: 'json',
+		colModel : [
+				{display:"사진 순번",			name:"prtFcltyPhotoSeq",	width:80,		sortable:true,		align:"center"},
+				{display:"사진 제목",			name:"photoSj",				width:300,		sortable:true,		align:"center"},
+				{display:"파일명",			name:"filenmLogic",			width:200,		sortable:true,		align:"center"},
+				{display:"파일명",			name:"filenmPhysicl",			width:200,		sortable:true,		align:"center"},
+				{display:"파일 설명",			name:"photoDesc",			width:200,		sortable:true,		align:"center"},
+				{display:"촬영 일시",			name:"shotDt",				width:120,		sortable:true,		align:"center"}
+			],
+		showTableToggleBtn: false,
+		height: "160"
+	});
 
-		var detailInput = {gisAssetsCd:row["gisAssetsCd"], gisPrtFcltySeq:row["gisPrtFcltySeq"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"], gisPrtFcltyCd:row["gisPrtFcltyCd"]};
-		module.doAction('<c:url value="/fclty/gamConstFcltyView.do" />', detailInput, function(module, result) {
+	
+	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
+		
+		module.makeFormValues("#fcltyGisPhotoForm", row);
+		module._editDataFile = module.getFormValues("#fcltyGisPhotoForm", row);
+		module._editRowFile = module.$("#fcltyPhotoList").selectedRowIds()[0];
 
-			module.$("#gisAssetsCd").text(result.detail.gisAssetsCd);
-			module.$("#gisAssetsPrtAtCode").text(result.detail.gisAssetsPrtAtCode);
-			module.$("#gisAssetsSubCd").text(result.detail.gisAssetsSubCd);
-			module.$("#gisPrtFcltySeq").text(result.detail.gisPrtFcltySeq);
-			module.$("#gisPrtFcltyCd").text(result.detail.gisPrtFcltyCd);
-			module.$("#prtFcltyNm").text(result.detail.prtFcltyNm);
-			module.$("#prtFcltyStndrd").text(result.detail.prtFcltyStndrd);
-			module.$("#prtFcltyUnit").text(result.detail.prtFcltyUnit);
-			module.$("#prtFcltyInstlDt").text(result.detail.prtFcltyInstlDt);
-			module.$("#prtFcltyChangeDt").text(result.detail.prtFcltyChangeDt);
-			//module.$("#prtFcltyMngEntrpsCd").text(result.detail.prtFcltyMngEntrpsCd);
-			module.$("#prtFcltyMngEntrpsNm").text(result.detail.prtFcltyMngEntrpsNm);
-			module.$("#gisAssetsLocplc").text(result.detail.gisAssetsLocplc);
-			module.$("#gisAssetsLnm").text(result.detail.gisAssetsLnm);
-			module.$("#gisAssetsLnmSub").text(result.detail.gisAssetsLnmSub);
-			module.$("#gisAssetsNm").text(result.detail.gisAssetsNm);
-	 	});
+		if(row.filenmPhysicl != null || row.filenmPhysicl != "") {
+			
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm = row["filenmPhysicl"];
+			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			
+			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+			    
+				$imgURL = module.getImageUrl(filenm);
+				module.$("#previewImage").fadeIn(400, function() {
+			    	module.$("#previewImage").attr("src", $imgURL);
+			    });
+			}else{
+				module.$("#previewImage").attr(src, "#");
+			}
+		}
 	});
 };
 
@@ -97,15 +128,17 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		 	this.$("#fcltyMngtListTab").tabs("option", {active: 0});
 		 	this.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
-		// 자산코드 팝업
-		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
-		break;
 
 		// 자산코드 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+		break;
+
+		case "btnAddGisMap":
+			if(this.$("#assetCodeList").selectedRowIds().length>0) {
+				var row = this.$("#erpAssetCodeList").selectedRows();
+				this.addGisAssetsCdMap("GAC", {"gisPrtAtCode": "620", "gisAssetsCd": "LNF", "gisAssetsSubCd": "01"});
+			}
 		break;
 	}
 };
@@ -116,8 +149,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
  */
  GamFcltyMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
-		case "tabs1": break;
-		case "tabs2": break;
+	case "tabs1":
+		break;
+	case "tabs2":
+		break;
+	case "tabs3":
+		break;
 	}
 };
 
@@ -129,18 +166,6 @@ GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 	
 	switch(popupId){
 		
-		// 상세화면
-		case "searchGisCodePopup":
-			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
-			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);				// GIS SUB자산코드
-			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);					// GIS 자산코드
-			this.$("#gisAssetsNm").val(value["gisAssetsNm"]);					// GIS 자산명
-			
-			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
-			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
-			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
-		break;
-
 		// 조회화면
 		case "searchGisCodePopup2":
 			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
@@ -210,58 +235,59 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
 				<form id="fcltyManageVO">
+					<input type="hidden" id="cmd" />
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 코드</th>
 							<td colspan="3">
-								<span id="gisAssetsCd"></span>&nbsp;-&nbsp;
-								<span id="gisAssetsSubCd"></span>&nbsp;-&nbsp;
-								<span id="gisAssetsPrtAtCode"></span>
+								<input type="text" size="8" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="6" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="8" id="gisAssetsPrtAtCode" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산명</th>
-							<td colspan="3"><span id="gisAssetsNm"></span></td>
+							<td colspan="3"><input type="text" size="80" id="gisAssetsNm" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">소재지</th>
-							<td><span id="gisAssetsLocplc"></span></td>
+							<td><input id="gisAssetsLocplc" type="text" size="40" title="소재지" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">지번</th>
-							<td><span id="gisAssetsLnm"></span>&nbsp;-&nbsp;<span id="gisAssetsLnmSub"></span></td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">시설분류</th>
-							<td colspan="3">
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" onchange="alert(11);" id="selectedGAM005"/>
+							<td>
+								<input id="gisAssetsLnm" type="text" size="5" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
+								<input id="gisAssetsLnmSub" type="text" size="4" title="지번 뒷자리" disabled="disabled" />
 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">건축시설 코드</th>
 							<td colspan="3">
-								<span id="gisPrtFcltyCd"></span>&nbsp;-&nbsp;<span id="gisPrtFcltySeq"></span>
+								<input type="text" size="10" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">건축시설 명</th>
-							<td colspan="3"><span id="prtFcltyNm"></span></td>
+							<td colspan="3"><input type="text" size="80" id="prtFcltyNm" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">건축시설 규격</th>
-							<td><span id="prtFcltyStndrd"></span></td>
+							<td><input type="text" size="30" id="prtFcltyStndrd" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">단위</th>
-							<td><span id="prtFcltyUnit"></span></td>
+							<td><input type="text" size="30" id="prtFcltyUnit" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">관리 업체</th>
-							<td colspan="3"><span id="prtFcltyMngEntrpsNm"></span></td>
+							<td colspan="3">
+								<input type="text" size="10" id="prtFcltyMngEntrpsCd" disabled="disabled"/>
+								<input type="text" size="20" id="prtFcltyMngEntrpsNm" disabled="disabled"/>&nbsp;&nbsp;
+							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">설치일자</th>
-							<td colspan="3"><span id="prtFcltyInstlDt"></span></td>
+							<td colspan="3"><input id="prtFcltyInstlDt" type="text" size="20" title="설치일자" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">변경일자</th>
-							<td colspan="3"><span id="prtFcltyChangeDt"></span></td>
+							<td colspan="3"><input id="prtFcltyChangeDt" type="text" size="20" title="변경일자" disabled="disabled" /></td>
 						</tr>
 					</table>
 				</form>
@@ -272,42 +298,25 @@ var module_instance = new GamFcltyMngtModule();
 			</div>
 			
 			<!-- 건축시설 사진 -->
-			<div id="tabs3" class="emdTabPage" style="height:300px; overflow: scroll;">
-				<div class="emdControlPanel">
-					<button id="uploadPic">업로드</button>
-					<button id="uploadPicOpen">사진열기</button>
-					<button id="uploadPicDel">삭제</button>
-				</div>
-				<form id="fcltyPicManageVO">
-					<table class="searchPanel">
-						<tr>
-							<th width="20%" height="23" class="required_text">제목</th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">촬영일시</th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">사진 설명</th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
-						</tr>
-					</table>
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
+				<table id="fcltyPhotoList" style="display:none"></table>
+				<form id="fcltyGisPhotoForm">
 					<table>
 						<tr>
-							<th width="20%" height="23" class="required_text">미리보기</th>
-							<td>
-								<input type="text" size="8" id="" />
-							</td>
+							<th><span class="label">제 목</span></th>
+							<td><input id="photoSj" type="text" size="60" class="photoEditItem" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th><span class="label">촬영일자</span></th>
+							<td><input id="shotDt" type="text" size="10" class="photoEditItem" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th><span class="label">사진 설명</span></th>
+							<td><input id="photoDesc" type="text" size="60"  class="photoEditItem" disabled="disabled" /></td>
 						</tr>
 					</table>
 				</form>
+				<div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
 	</div>
