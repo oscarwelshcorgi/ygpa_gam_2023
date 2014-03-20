@@ -97,6 +97,30 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
     
     /** 부서코드 */
     private String deptcd;
+    
+    /** 항이름 */
+    private String prtAtCodeNm;
+    
+    /** 신청구분명 */
+    private String reqstSeCdNm;
+    
+    /** 결재 상태 */
+    private String sanctnSttus;	
+    
+    /** 결재자 사원 번호 */
+    private String sanctnerEmplNo;  
+    
+    /** 부두 코드 */
+    private String quayCd;	  
+    
+    /** 최초 신청 일자 */
+    private String frstReqstDt;  
+    
+    /** 결재 일시 */
+    private String sanctnDt;	
+    
+    /** 분납이자율 */
+    private String payinstIntrrate;
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -158,32 +182,14 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
     /** 관리 번호(조합) */
     private String rentMngNo;
     
-    /** 항코드명 */
-    private String prtAtCodeNm;
+    /** 요금 종류 */
+    private String chrgeKnd;	
+
+    /** 부가세 여부 */
+    private String vatYn;
     
-    /** 고지 방법명 */
-    private String nticMthNm;
-    
-    /** 사용 용도 코드명 */
-    private String usagePrposCdNm;
-    
-    /** 면제 구분명 */
-    private String exemptSeNm;
-    
-    /** 면제 사유 코드명 */
-    private String exemptRsnCdNm;
-    
-    /** 포장 구분명 */
-    private String packSeNm;
-    
-    /** 업체 구분명 */
-    private String entrpsSeNm;
-    
-    /** 사용료 계산 구분명 */
-    private String feeCalcSeNm;
-    
-    /** 감면 사용료 계산 구분명 */
-    private String rdcxptFeeCalcSeNm;
+    /** 납부방법코드 */
+    private String payMth;
     
     /** 사진 순번 */
     private String photoSeq;
@@ -202,6 +208,29 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
     
     /** 사진 설명  */
     private String photoDesc;	    
+    
+    /** 신청일자 */
+    private String reqstDt;
+    
+    private String thisYear;
+
+    private String divSt;
+
+    private String divEnd;
+    
+    private String cYear;
+    
+    private String cDiy;
+    
+    private String objYrmt;          
+    
+    private String blceStdrIntrrate;   
+    
+    private String newManipAmtStdrIntrrate;
+    
+    private String annodt;                 
+    
+    private String blceStdrIntrrateShow;
     
 	/**
 	 * @return the prtAtCode
@@ -848,6 +877,62 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
+	}
+
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
+	}
+
+	/**
+	 * @return the vatYn
+	 */
+	public String getVatYn() {
+		return vatYn;
+	}
+
+	/**
+	 * @param vatYn the vatYn to set
+	 */
+	public void setVatYn(String vatYn) {
+		this.vatYn = vatYn;
+	}
+
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
+	}
+
+	/**
 	 * @return the prtAtCodeNm
 	 */
 	public String getPrtAtCodeNm() {
@@ -862,129 +947,87 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the nticMthNm
+	 * @return the reqstSeCdNm
 	 */
-	public String getNticMthNm() {
-		return nticMthNm;
+	public String getReqstSeCdNm() {
+		return reqstSeCdNm;
 	}
 
 	/**
-	 * @param nticMthNm the nticMthNm to set
+	 * @param reqstSeCdNm the reqstSeCdNm to set
 	 */
-	public void setNticMthNm(String nticMthNm) {
-		this.nticMthNm = nticMthNm;
+	public void setReqstSeCdNm(String reqstSeCdNm) {
+		this.reqstSeCdNm = reqstSeCdNm;
 	}
 
 	/**
-	 * @return the usagePrposCdNm
+	 * @return the sanctnSttus
 	 */
-	public String getUsagePrposCdNm() {
-		return usagePrposCdNm;
+	public String getSanctnSttus() {
+		return sanctnSttus;
 	}
 
 	/**
-	 * @param usagePrposCdNm the usagePrposCdNm to set
+	 * @param sanctnSttus the sanctnSttus to set
 	 */
-	public void setUsagePrposCdNm(String usagePrposCdNm) {
-		this.usagePrposCdNm = usagePrposCdNm;
+	public void setSanctnSttus(String sanctnSttus) {
+		this.sanctnSttus = sanctnSttus;
 	}
 
 	/**
-	 * @return the exemptSeNm
+	 * @return the sanctnerEmplNo
 	 */
-	public String getExemptSeNm() {
-		return exemptSeNm;
+	public String getSanctnerEmplNo() {
+		return sanctnerEmplNo;
 	}
 
 	/**
-	 * @param exemptSeNm the exemptSeNm to set
+	 * @param sanctnerEmplNo the sanctnerEmplNo to set
 	 */
-	public void setExemptSeNm(String exemptSeNm) {
-		this.exemptSeNm = exemptSeNm;
+	public void setSanctnerEmplNo(String sanctnerEmplNo) {
+		this.sanctnerEmplNo = sanctnerEmplNo;
 	}
 
 	/**
-	 * @return the exemptRsnCdNm
+	 * @return the quayCd
 	 */
-	public String getExemptRsnCdNm() {
-		return exemptRsnCdNm;
+	public String getQuayCd() {
+		return quayCd;
 	}
 
 	/**
-	 * @param exemptRsnCdNm the exemptRsnCdNm to set
+	 * @param quayCd the quayCd to set
 	 */
-	public void setExemptRsnCdNm(String exemptRsnCdNm) {
-		this.exemptRsnCdNm = exemptRsnCdNm;
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
 	}
 
 	/**
-	 * @return the packSeNm
+	 * @return the frstReqstDt
 	 */
-	public String getPackSeNm() {
-		return packSeNm;
+	public String getFrstReqstDt() {
+		return frstReqstDt;
 	}
 
 	/**
-	 * @param packSeNm the packSeNm to set
+	 * @param frstReqstDt the frstReqstDt to set
 	 */
-	public void setPackSeNm(String packSeNm) {
-		this.packSeNm = packSeNm;
+	public void setFrstReqstDt(String frstReqstDt) {
+		this.frstReqstDt = frstReqstDt;
 	}
 
 	/**
-	 * @return the entrpsSeNm
+	 * @return the sanctnDt
 	 */
-	public String getEntrpsSeNm() {
-		return entrpsSeNm;
+	public String getSanctnDt() {
+		return sanctnDt;
 	}
 
 	/**
-	 * @param entrpsSeNm the entrpsSeNm to set
+	 * @param sanctnDt the sanctnDt to set
 	 */
-	public void setEntrpsSeNm(String entrpsSeNm) {
-		this.entrpsSeNm = entrpsSeNm;
-	}
-
-	/**
-	 * @return the feeCalcSeNm
-	 */
-	public String getFeeCalcSeNm() {
-		return feeCalcSeNm;
-	}
-
-	/**
-	 * @param feeCalcSeNm the feeCalcSeNm to set
-	 */
-	public void setFeeCalcSeNm(String feeCalcSeNm) {
-		this.feeCalcSeNm = feeCalcSeNm;
-	}
-
-	/**
-	 * @return the rdcxptFeeCalcSeNm
-	 */
-	public String getRdcxptFeeCalcSeNm() {
-		return rdcxptFeeCalcSeNm;
-	}
-
-	/**
-	 * @param rdcxptFeeCalcSeNm the rdcxptFeeCalcSeNm to set
-	 */
-	public void setRdcxptFeeCalcSeNm(String rdcxptFeeCalcSeNm) {
-		this.rdcxptFeeCalcSeNm = rdcxptFeeCalcSeNm;
-	}
-
-	/**
-	 * @return the sUsagePrposCd
-	 */
-	public String getsUsagePrposCd() {
-		return sUsagePrposCd;
-	}
-
-	/**
-	 * @param sUsagePrposCd the sUsagePrposCd to set
-	 */
-	public void setsUsagePrposCd(String sUsagePrposCd) {
-		this.sUsagePrposCd = sUsagePrposCd;
+	public void setSanctnDt(String sanctnDt) {
+		this.sanctnDt = sanctnDt;
 	}
 
 	/**
@@ -1069,6 +1112,174 @@ public class GamAssetRentSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setPhotoDesc(String photoDesc) {
 		this.photoDesc = photoDesc;
+	}
+
+	/**
+	 * @return the reqstDt
+	 */
+	public String getReqstDt() {
+		return reqstDt;
+	}
+
+	/**
+	 * @param reqstDt the reqstDt to set
+	 */
+	public void setReqstDt(String reqstDt) {
+		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the payinstIntrrate
+	 */
+	public String getPayinstIntrrate() {
+		return payinstIntrrate;
+	}
+
+	/**
+	 * @param payinstIntrrate the payinstIntrrate to set
+	 */
+	public void setPayinstIntrrate(String payinstIntrrate) {
+		this.payinstIntrrate = payinstIntrrate;
+	}
+
+	/**
+	 * @return the thisYear
+	 */
+	public String getThisYear() {
+		return thisYear;
+	}
+
+	/**
+	 * @param thisYear the thisYear to set
+	 */
+	public void setThisYear(String thisYear) {
+		this.thisYear = thisYear;
+	}
+
+	/**
+	 * @return the divSt
+	 */
+	public String getDivSt() {
+		return divSt;
+	}
+
+	/**
+	 * @param divSt the divSt to set
+	 */
+	public void setDivSt(String divSt) {
+		this.divSt = divSt;
+	}
+
+	/**
+	 * @return the divEnd
+	 */
+	public String getDivEnd() {
+		return divEnd;
+	}
+
+	/**
+	 * @param divEnd the divEnd to set
+	 */
+	public void setDivEnd(String divEnd) {
+		this.divEnd = divEnd;
+	}
+
+	/**
+	 * @return the cYear
+	 */
+	public String getcYear() {
+		return cYear;
+	}
+
+	/**
+	 * @param cYear the cYear to set
+	 */
+	public void setcYear(String cYear) {
+		this.cYear = cYear;
+	}
+
+	/**
+	 * @return the cDiy
+	 */
+	public String getcDiy() {
+		return cDiy;
+	}
+
+	/**
+	 * @param cDiy the cDiy to set
+	 */
+	public void setcDiy(String cDiy) {
+		this.cDiy = cDiy;
+	}
+
+	/**
+	 * @return the objYrmt
+	 */
+	public String getObjYrmt() {
+		return objYrmt;
+	}
+
+	/**
+	 * @param objYrmt the objYrmt to set
+	 */
+	public void setObjYrmt(String objYrmt) {
+		this.objYrmt = objYrmt;
+	}
+
+	/**
+	 * @return the blceStdrIntrrate
+	 */
+	public String getBlceStdrIntrrate() {
+		return blceStdrIntrrate;
+	}
+
+	/**
+	 * @param blceStdrIntrrate the blceStdrIntrrate to set
+	 */
+	public void setBlceStdrIntrrate(String blceStdrIntrrate) {
+		this.blceStdrIntrrate = blceStdrIntrrate;
+	}
+
+	/**
+	 * @return the newManipAmtStdrIntrrate
+	 */
+	public String getNewManipAmtStdrIntrrate() {
+		return newManipAmtStdrIntrrate;
+	}
+
+	/**
+	 * @param newManipAmtStdrIntrrate the newManipAmtStdrIntrrate to set
+	 */
+	public void setNewManipAmtStdrIntrrate(String newManipAmtStdrIntrrate) {
+		this.newManipAmtStdrIntrrate = newManipAmtStdrIntrrate;
+	}
+
+	/**
+	 * @return the annodt
+	 */
+	public String getAnnodt() {
+		return annodt;
+	}
+
+	/**
+	 * @param annodt the annodt to set
+	 */
+	public void setAnnodt(String annodt) {
+		this.annodt = annodt;
+	}
+
+	/**
+	 * @return the blceStdrIntrrateShow
+	 */
+	public String getBlceStdrIntrrateShow() {
+		return blceStdrIntrrateShow;
+	}
+
+	/**
+	 * @param blceStdrIntrrateShow the blceStdrIntrrateShow to set
+	 */
+	public void setBlceStdrIntrrateShow(String blceStdrIntrrateShow) {
+		this.blceStdrIntrrateShow = blceStdrIntrrateShow;
 	}
 	
 }
