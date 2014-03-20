@@ -60,7 +60,8 @@
                                   , A.QUAY_CD
                                   , A.SANCTN_DT
                                   , A.QUAY_GROUP_CD
-                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
+                                  , (A.PAYINST_INTRRATE * 100) PAYINST_INTRRATE
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                             
@@ -428,6 +429,7 @@
                                 , A.UPD_USR
                                 , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
                                 , A.PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
                                 , A.GIS_ASSETS_PRT_AT_CODE
                                 , A.MNG_YEAR
                                 , A.MNG_NO
@@ -445,7 +447,7 @@
 							       END APPLC_TARIFF_STR
                             FROM ASSETS_RENT_DETAIL_F A
                            WHERE 1 = 1
-                             AND A.PRT_AT_CODE = #prtAtCodeStr#
+                             AND A.PRT_AT_CODE = #prtAtCode#
                              AND A.MNG_YEAR    = #mngYear#
                              AND A.MNG_NO      = #mngNo#
                              AND A.MNG_CNT     = #mngCnt#
@@ -461,10 +463,50 @@
             SELECT COUNT(*) TOTCNT
               FROM ASSETS_RENT_DETAIL_F A
              WHERE 1 = 1
-               AND A.PRT_AT_CODE = #prtAtCodeStr#
+               AND A.PRT_AT_CODE = #prtAtCode#
                AND A.MNG_YEAR    = #mngYear#
                AND A.MNG_NO      = #mngNo#
                AND A.MNG_CNT     = #mngCnt#
-    </select>	
+    </select>
+    
+    <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileList_D" parameterClass="gamPrtFcltyUseSttusInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           
+                           SELECT 
+					                A.PHOTO_SEQ
+					              , A.PHOTO_SJ
+					              , A.FILENM_PHYSICL
+					              , A.FILENM_LOGIC
+					              , TO_CHAR(A.SHOT_DT, 'YYYY-MM-DD') SHOT_DT
+					              , A.REG_USR
+					              , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
+					              , A.PRT_AT_CODE
+					              , A.MNG_YEAR
+					              , A.MNG_NO
+					              , A.MNG_CNT
+					              , A.PHOTO_DESC
+					         FROM ASSETS_RENT_PHOTO_F A
+					        WHERE PRT_AT_CODE = #prtAtCode#
+					          AND MNG_YEAR    = #mngYear#
+					          AND MNG_NO      = #mngNo#
+					          AND MNG_CNT     = #mngCnt#
+					        ORDER BY A.PHOTO_SEQ DESC
+                ) S
+             ) A
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+        <![CDATA[ WHERE ROWNUM <= 1000 and RNUM > 0 ]]>
+    </select>
+    
+    <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileListTotCnt_S" parameterClass="gamPrtFcltyUseSttusInqireVO" resultClass="int">
+            SELECT COUNT(*) TOTCNT
+              FROM ASSETS_RENT_PHOTO_F A
+             WHERE PRT_AT_CODE = #prtAtCode#
+               AND MNG_YEAR    = #mngYear#
+               AND MNG_NO      = #mngNo#
+               AND MNG_CNT     = #mngCnt#
+    </select>
 
 </sqlMap>
