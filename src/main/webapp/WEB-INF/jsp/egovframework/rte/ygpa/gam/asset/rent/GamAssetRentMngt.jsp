@@ -541,6 +541,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             //this.$("#assetRentDetailList").flexRemove();
             this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
+            this.$("#assetRentFileList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
@@ -590,7 +591,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 return;
             }
             */
-
+            
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("항구분을 선택하십시오.");
                 return;
@@ -634,6 +635,9 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
                 inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
                 
+                if(this._deleteDataFileList == undefined ) {
+                	this._deleteDataFileList=[];
+                }
                 
                 inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
@@ -1043,7 +1047,6 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
 
         this._deleteDataList=[];    // 삭제 목록 초기화
-        this._deleteDataFileList=[];    // 파일삭제 목록 초기화
 
         break;
     case 'tabs3':
