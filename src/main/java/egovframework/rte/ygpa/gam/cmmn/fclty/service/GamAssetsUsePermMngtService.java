@@ -38,4 +38,18 @@ public interface GamAssetsUsePermMngtService {
 	 */
 	public void cancelAssetsRentUsePerm(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * 항만시설에 대해서 사용승낙을 한다.
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류)
+	 * @throws Exception
+	 */
+	public void confirmPrtFcltyUsePerm(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 항만시설에 대해서 사용 승낙을 취소 한다.
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수)
+	 * @throws Exception
+	 */
+	public void cancelPrtFcltyUsePerm(Map<String, Object> vo) throws Exception;
+
 }
