@@ -124,7 +124,7 @@ var module_instance = new GamPrtFcltyMtRentFeeSttusInqireModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamPrtFcltyMtRentFeeSttusInqireSearchForm">
-                <table class="searchPanel">
+                <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
                             <th>항코드</th>
@@ -152,7 +152,20 @@ var module_instance = new GamPrtFcltyMtRentFeeSttusInqireModule();
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="prtFcltyMtRentFeeSttusInqireList" style="display:none" class="fillHeight"></table>
+            <!-- 
+            <div class="emdControlPanel">
+                    <table style="width:100%;" >
+                        <tr>
+                            <td style="text-align: right">
+                               <form id="form1">
+                                   사용료 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                                   감면사용료 <input id="totalResultRdcCnt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+                               </form>
+                            </td>
+                        </tr>
+                     </table>
             </div>
+             -->
 		</div>
             
     </div>
