@@ -312,11 +312,13 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
                 return;
             }
 			
-			var tempDate = this.$("#shotDt").val().replace(/\-/g,"");
-			if(tempDate.length != 8) {
-                alert("날짜 입력 형식이 잘못되었습니다.");
-                return;
-            }
+			if(this.$("#shotDt").val() != ""){
+				var tempDate = this.$("#shotDt").val().replace(/\-/g,"");
+				if(tempDate.length != 8) {
+	                alert("날짜 입력 형식이 잘못되었습니다.");
+	                return;
+	            }				
+			}
 
 			
 			if(this._editDataFile == null) return;
