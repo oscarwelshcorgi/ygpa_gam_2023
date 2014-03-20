@@ -36,8 +36,10 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
 	 * 시설관리 저장
 	 * @param fcltyMngtList
 	 */
-	public void insertFclty(HashMap<String,String> form){
+	public String insertFclty(HashMap<String,String> form){
 		insert("gamFcltyMngtDao.insertFclty", form);
+		
+		return form.get("maxFcltySeq");
 	}
 	
 	
@@ -90,13 +92,36 @@ public class GamFcltyMngtDao extends YGPAAbstractDAO{
 	
 	
 	/**
-	 * 시설관리 총 갯수를 조회한다.
+	 * 시설관리 총 수
 	 * @param ComDefaultVO vo
 	 * @return int
 	 * @exception Exception
 	 */
     public int selectFcltyMngtListTotCnt(ComDefaultVO vo) throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMngtDao.selectFcltyMngtListTotCnt", vo);
+    }
+    
+    
+    /**
+     * 시설관리 파일 목록 조회
+     * @param vo ComDefaultVO
+     * @return List
+     * @exception Exception
+     */
+    @SuppressWarnings("unchecked")
+    public List<ComDefaultVO> selectFcltyMngtPhotoList(ComDefaultVO vo) throws Exception{
+    	return list("gamFcltyMngtDao.selectFcltyMngtPhotoList", vo);
+    }
+    
+    
+    /**
+     * 시설관리 파일 총 수
+     * @param ComDefaultVO vo
+     * @return int
+     * @exception Exception
+     */
+    public int selectFcltyMngtPhotoListTotCnt(ComDefaultVO vo) throws Exception {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMngtDao.selectFcltyMngtPhotoListTotCnt", vo);
     }
     
     
