@@ -1140,7 +1140,7 @@ public class GamAssetRentMngtController {
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
-    	map.put("assetFileList", assetFileList);
+    	map.put("resultList", assetFileList);
     	
     	return map;
     }
