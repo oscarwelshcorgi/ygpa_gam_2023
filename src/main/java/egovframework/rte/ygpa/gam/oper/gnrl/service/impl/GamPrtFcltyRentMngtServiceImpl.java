@@ -554,4 +554,34 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void updatePrtFcltyRentMngtQuaycd(GamPrtFcltyRentMngtVO vo) throws Exception {
 		gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtQuaycd(vo);
 	}
+	
+	/**
+   	 * 코픽스 이자율 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectCofixInfo() throws Exception {
+        return gamPrtFcltyRentMngtDao.selectCofixInfo();
+    }
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 항만시설사용목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtBeforeQuarterInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+        return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtBeforeQuarterInfo(searchVO);
+    }
+    
+    /**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 항만시설사용목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+        return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfo(searchVO);
+    }
 }

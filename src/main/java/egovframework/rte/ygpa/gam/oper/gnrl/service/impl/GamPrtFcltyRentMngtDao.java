@@ -375,4 +375,34 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtQuaycd(GamPrtFcltyRentMngtVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtQuaycd_S", vo);
 	}
+	
+	/**
+	 * 코픽스 이자율 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 공시지가 목록
+	 * @exception Exception
+	 */
+    public List selectCofixInfo() throws Exception {
+        return list("gamPrtFcltyRentMngtDao.selectCofixInfo_S", null);
+    }
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtBeforeQuarterInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtBeforeQuarterInfo_S", searchVO);
+	}
+	
+	/**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfo_S", searchVO);
+	}
 }
