@@ -91,6 +91,21 @@ public class GamFcltyManageVO extends ComDefaultVO{
     private String gisAssetsNm;
     private String gisAssetsPrtAtName;
     private String prtFcltyMngEntrpsNm;
+    private String prtFcltyPhotoSeq;
+    
+    /**
+     * @return the prtFcltyPhotoSeq
+     */
+    public String getPrtFcltyPhotoSeq() {
+    	return prtFcltyPhotoSeq;
+    }
+    
+    /**
+     * @param prtFcltyPhotoSeq the prtFcltyPhotoSeq to set
+     */
+    public void setPrtFcltyPhotoSeq(String prtFcltyPhotoSeq) {
+    	this.prtFcltyPhotoSeq = prtFcltyPhotoSeq;
+    }
     
     /**
      * @return the gisAssetsPrtAtName
