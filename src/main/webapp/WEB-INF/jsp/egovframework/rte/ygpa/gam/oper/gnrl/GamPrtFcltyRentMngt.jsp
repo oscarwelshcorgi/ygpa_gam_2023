@@ -45,12 +45,12 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
                     {display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
-                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
-                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
-                    {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
-                    {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
+                    {display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
+                    {display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
+                    {display:'최초신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
+                    {display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
                     //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
-                    {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'} 
+                    {display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'} 
                     
                     /*
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'}, 
