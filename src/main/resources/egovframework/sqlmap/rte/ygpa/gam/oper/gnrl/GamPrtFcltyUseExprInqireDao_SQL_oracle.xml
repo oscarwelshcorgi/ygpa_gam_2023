@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.asset.rent"> 
+<sqlMap namespace="ygpa.gam.oper.gnrl"> 
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
@@ -25,9 +25,7 @@
         <result property="mngNo" column="MNG_NO" columnIndex="3"/>                   
         <result property="mngCnt" column="MNG_CNT" columnIndex="4"/>   
         <result property="quayCd" column="QUAY_CD" columnIndex="5"/>
-        
     </resultMap>
-    
     
     <resultMap id="gamPrtFcltyUseExprInqireInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseExprInqireVO">
 	    <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>         
@@ -120,7 +118,6 @@
         <result property="grRdcxptFee" column="GR_RDCXPT_FEE" columnIndex="5"/>
     </resultMap>
     
-    
     <select id="gamPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireList_D" parameterClass="gamPrtFcltyUseExprInqireVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -168,7 +165,7 @@
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                              
-                             <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+                             AND A.PRMISN_YN = 'Y'
                              
                              <isNotEmpty property="sPrtAtCode">
 					             AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -228,15 +225,16 @@
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
     </select>
     
     <select id="gamPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireListTotCnt_S" parameterClass="gamPrtFcltyUseExprInqireVO" resultClass="int">
-            SELECT COUNT(*) totcnt
+            SELECT COUNT(*) TOTCNT
               FROM ASSETS_RENT_F A
              WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                              
-             <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+             AND A.PRMISN_YN = 'Y'
              
              <isNotEmpty property="sPrtAtCode">
                  AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -303,7 +301,7 @@
           FROM ASSETS_RENT_F A
          WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                              
-         <!-- AND A.PRMISN_YN = 'Y' 테스트후 이거꼭넣어!! -->
+         AND A.PRMISN_YN = 'Y'
          
          <isNotEmpty property="sPrtAtCode">
              AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -643,11 +641,12 @@
                              ORDER BY REGIST_DT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
     </select>
     
     <select id="gamPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireDetailListTotCnt_S" parameterClass="gamPrtFcltyUseExprInqireVO" resultClass="int">
-            SELECT COUNT(*) totcnt
+            SELECT COUNT(*) TOTCNT
               FROM ASSETS_RENT_DETAIL_F A
              WHERE 1=1  
                AND A.PRT_AT_CODE = #prtAtCode#
@@ -1137,11 +1136,12 @@
 					          AND MNG_CNT     = #mngCnt#
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
     </select>
     
     <select id="gamPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireFileListTotCnt_S" parameterClass="gamPrtFcltyUseExprInqireVO" resultClass="int">
-            SELECT COUNT(*) totcnt
+            SELECT COUNT(*) TOTCNT
               FROM ASSETS_RENT_PHOTO_F A
              WHERE PRT_AT_CODE = #prtAtCode#
                AND MNG_YEAR    = #mngYear#

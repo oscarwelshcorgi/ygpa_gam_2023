@@ -25,7 +25,6 @@
         <result property="mngNo" column="MNG_NO" columnIndex="3"/>                   
         <result property="mngCnt" column="MNG_CNT" columnIndex="4"/>   
         <result property="quayCd" column="QUAY_CD" columnIndex="5"/>
-        
     </resultMap>
     
     <resultMap id="gamPrtFcltyRentMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO">
