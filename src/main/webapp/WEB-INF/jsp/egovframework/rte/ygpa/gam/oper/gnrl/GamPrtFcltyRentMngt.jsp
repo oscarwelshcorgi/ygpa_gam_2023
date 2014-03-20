@@ -367,13 +367,13 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
         	return;
         } else if( applcTariffStr == '1' ) {
             applcTariff = 0.005;
-            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         } else if( applcTariffStr == '2' ) {
             applcTariff = 0.0025;
-            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         } else if( applcTariffStr == '3' ) {
             applcTariff = 0.001;
-            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 – 감면사용료');
+            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         }
         
         if( exemptSe == '1' ) {        // 일부면제
@@ -1268,9 +1268,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             <tr>
                                 <th><span class="label">총사용기간</span></th>
                                 <td>
-                                    <input type="text" class="emdcal" size="10" id="grUsagePdFrom" disabled />
+                                    <input type="text" size="10" id="grUsagePdFrom" disabled />
                                     ~
-                                    <input type="text" class="emdcal" size="10" id="grUsagePdTo" disabled />
+                                    <input type="text" size="10" id="grUsagePdTo" disabled />
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
                                 <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" disabled /></td>
@@ -1407,9 +1407,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             
                             <tr>
                                 <th><span class="label">사용기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')"/>
+                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly />
                                 ~
-                                <input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')"/></td>
+                                <input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
@@ -1444,9 +1444,9 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">면제기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom"/>
+                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" readonly />
                                 ~
-                                <input type="text" class="emdcal calcInput" size="10" id="exemptPdTo"/></td>
+                                <input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제사유</span></th>
