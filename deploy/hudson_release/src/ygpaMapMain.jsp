@@ -124,6 +124,12 @@
                                     data-prgid="PRG_0010"
                                     data-url="<c:url value='/asset/rent/gamAssetRentFeePayDtlsMngt.do'/>">자산임대료납부관리</a>
                                 </li>
+
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0011"
+                                    data-url="<c:url value='/asset/rent/gamAssetUseExprInqire.do'/>">자산임대만기도래자료조회</a>
+                                </li>
+
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
                                     data-url="<c:url value='/asset/rent/gamAssetPopupInqire.do'/>">자산정보현황알림</a>
@@ -156,7 +162,19 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
-                                    data-url="<c:url value="/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do"/>">항만시설납부현황관리</a>
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyUseExprInqire.do'/>">항만시설사용만기도래자료조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0003"
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyMtRentFeeSttusInqire.do'/>">항만시설월별사용료현황조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0003"
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyEntrpsRentFeeSttusInqire.do'/>">항만시설업체별사용료현황조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0003"
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyPdRentFeeSttusInqire.do'/>">항만시설기간별사용료현황조회</a>
                                 </li>
                                 <!--
                                 <li><a href="#" data-role="LoadModule"
