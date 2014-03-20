@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamConstFcltyInqire.jsp
-  * @Description : 건축시설사용목록관조회
+  * @Description : 건축시설사용목록조회
   * @Modification Information
   * 
   *   수정일         수정자                   수정내용 
