@@ -175,9 +175,9 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
    	 * @return list
    	 * @exception Exception
    	 */
-       public List selectOlnlpInfo() throws Exception {
-           return gamAssetRentMngtDao.selectOlnlpInfo();
-       }
+    public List selectOlnlpInfo() throws Exception {
+        return gamAssetRentMngtDao.selectOlnlpInfo();
+    }
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
@@ -555,5 +555,35 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void updateAssetRentQuaycd(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.updateAssetRentQuaycd(vo);
 	}
+	
+	/**
+   	 * 코픽스 이자율 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectCofixInfo() throws Exception {
+        return gamAssetRentMngtDao.selectCofixInfo();
+    }
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentBeforeQuarterInfo(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentBeforeQuarterInfo(searchVO);
+    }
+    
+    /**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentCofixInfo(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentCofixInfo(searchVO);
+    }
 	
 }

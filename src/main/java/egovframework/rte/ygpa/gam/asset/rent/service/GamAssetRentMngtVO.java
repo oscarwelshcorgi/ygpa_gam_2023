@@ -118,6 +118,9 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     
     /** 결재 일시 */
     private String sanctnDt;	
+    
+    /** 분납이자율 */
+    private String payinstIntrrate;
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -208,6 +211,26 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     
     /** 신청일자 */
     private String reqstDt;
+    
+    private String thisYear;
+
+    private String divSt;
+
+    private String divEnd;
+    
+    private String cYear;
+    
+    private String cDiy;
+    
+    private String objYrmt;          
+    
+    private String blceStdrIntrrate;   
+    
+    private String newManipAmtStdrIntrrate;
+    
+    private String annodt;                 
+    
+    private String blceStdrIntrrateShow;
     
 	/**
 	 * @return the prtAtCode
@@ -1103,6 +1126,160 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
 	 */
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the payinstIntrrate
+	 */
+	public String getPayinstIntrrate() {
+		return payinstIntrrate;
+	}
+
+	/**
+	 * @param payinstIntrrate the payinstIntrrate to set
+	 */
+	public void setPayinstIntrrate(String payinstIntrrate) {
+		this.payinstIntrrate = payinstIntrrate;
+	}
+
+	/**
+	 * @return the thisYear
+	 */
+	public String getThisYear() {
+		return thisYear;
+	}
+
+	/**
+	 * @param thisYear the thisYear to set
+	 */
+	public void setThisYear(String thisYear) {
+		this.thisYear = thisYear;
+	}
+
+	/**
+	 * @return the divSt
+	 */
+	public String getDivSt() {
+		return divSt;
+	}
+
+	/**
+	 * @param divSt the divSt to set
+	 */
+	public void setDivSt(String divSt) {
+		this.divSt = divSt;
+	}
+
+	/**
+	 * @return the divEnd
+	 */
+	public String getDivEnd() {
+		return divEnd;
+	}
+
+	/**
+	 * @param divEnd the divEnd to set
+	 */
+	public void setDivEnd(String divEnd) {
+		this.divEnd = divEnd;
+	}
+
+	/**
+	 * @return the cYear
+	 */
+	public String getcYear() {
+		return cYear;
+	}
+
+	/**
+	 * @param cYear the cYear to set
+	 */
+	public void setcYear(String cYear) {
+		this.cYear = cYear;
+	}
+
+	/**
+	 * @return the cDiy
+	 */
+	public String getcDiy() {
+		return cDiy;
+	}
+
+	/**
+	 * @param cDiy the cDiy to set
+	 */
+	public void setcDiy(String cDiy) {
+		this.cDiy = cDiy;
+	}
+
+	/**
+	 * @return the objYrmt
+	 */
+	public String getObjYrmt() {
+		return objYrmt;
+	}
+
+	/**
+	 * @param objYrmt the objYrmt to set
+	 */
+	public void setObjYrmt(String objYrmt) {
+		this.objYrmt = objYrmt;
+	}
+
+	/**
+	 * @return the blceStdrIntrrate
+	 */
+	public String getBlceStdrIntrrate() {
+		return blceStdrIntrrate;
+	}
+
+	/**
+	 * @param blceStdrIntrrate the blceStdrIntrrate to set
+	 */
+	public void setBlceStdrIntrrate(String blceStdrIntrrate) {
+		this.blceStdrIntrrate = blceStdrIntrrate;
+	}
+
+	/**
+	 * @return the newManipAmtStdrIntrrate
+	 */
+	public String getNewManipAmtStdrIntrrate() {
+		return newManipAmtStdrIntrrate;
+	}
+
+	/**
+	 * @param newManipAmtStdrIntrrate the newManipAmtStdrIntrrate to set
+	 */
+	public void setNewManipAmtStdrIntrrate(String newManipAmtStdrIntrrate) {
+		this.newManipAmtStdrIntrrate = newManipAmtStdrIntrrate;
+	}
+
+	/**
+	 * @return the annodt
+	 */
+	public String getAnnodt() {
+		return annodt;
+	}
+
+	/**
+	 * @param annodt the annodt to set
+	 */
+	public void setAnnodt(String annodt) {
+		this.annodt = annodt;
+	}
+
+	/**
+	 * @return the blceStdrIntrrateShow
+	 */
+	public String getBlceStdrIntrrateShow() {
+		return blceStdrIntrrateShow;
+	}
+
+	/**
+	 * @param blceStdrIntrrateShow the blceStdrIntrrateShow to set
+	 */
+	public void setBlceStdrIntrrateShow(String blceStdrIntrrateShow) {
+		this.blceStdrIntrrateShow = blceStdrIntrrateShow;
 	}
 	
 }

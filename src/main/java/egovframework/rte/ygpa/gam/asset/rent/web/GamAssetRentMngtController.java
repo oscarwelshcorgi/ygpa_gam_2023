@@ -88,10 +88,32 @@ public class GamAssetRentMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		//공시지가정보
-		GamAssetRentMngtVO gvo = new GamAssetRentMngtVO();
 		List olnlpList = gamAssetRentMngtService.selectOlnlpInfo();
 		
+		//코픽스 이자율
+		List cofixList = gamAssetRentMngtService.selectCofixInfo();
+		
+		//현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져와서 해당하는 코픽스 이자율 가져오기.
+		GamAssetRentMngtVO cofixVO = new GamAssetRentMngtVO();
+		GamAssetRentMngtVO cofixResultVO = new GamAssetRentMngtVO();
+		
+		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6)); 
+		cofixVO = gamAssetRentMngtService.selectAssetRentBeforeQuarterInfo(cofixVO);
+		
+		if( cofixVO != null ) {
+			cofixResultVO = gamAssetRentMngtService.selectAssetRentCofixInfo(cofixVO);
+			
+			if( cofixResultVO.getBlceStdrIntrrate() != null ) {
+				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
+			}
+			
+			if( cofixResultVO.getBlceStdrIntrrateShow() != null ) {
+				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
+			}
+		}
+		
 		model.addAttribute("olnlpList", olnlpList);
+		model.addAttribute("cofixList", cofixList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
@@ -262,6 +284,7 @@ public class GamAssetRentMngtController {
 			saveVO.setNticMth(form.get("nticMth"));    
 			saveVO.setRm(form.get("rm"));         
 			saveVO.setCmt(form.get("cmt")); 
+			saveVO.setPayinstIntrrate(form.get("payinstIntrrate"));
     		saveVO.setUpdUsr(loginVO.getId());
     		
     		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
