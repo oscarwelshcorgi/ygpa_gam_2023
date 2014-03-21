@@ -44,7 +44,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
                     {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
-                    {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
+                    {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
                     {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
@@ -53,6 +53,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
 
                     /*
+                    {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
                     {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
                     {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
@@ -796,7 +797,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
-
+        
+        /*    
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
 
@@ -815,10 +817,45 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             }
 
             break;
+        */
+        
+        case 'btnPrmisn': // 사용승낙
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            var row = this.$('#assetRentMngtList').selectedRows()[0];
+        
+            //if( row['prmisnYn'] == 'Y' ) {
+            //    alert("사용승낙을 할수없는 상태 입니다.");
+            //    return;
+            //}
+        
+            if(rows.length>=1) {
+                if( confirm("승낙을 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', rows[0], function(module, result) {
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        }
 
+                        alert(result.resultMsg);
+                    });
+                }
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+
+            break;
+        
         case 'btnPrmisnCancel': // 승낙취소
             var rows = this.$('#assetRentMngtList').selectedRows();
-
+            var row = this.$('#assetRentMngtList').selectedRows()[0];
+            
+            //alert(row['prmisnYn']);
+            
+            //if( row['prmisnYn'] == 'N' || row['prmisnYn'] == '' ) {
+            //    alert("승낙취소를 할수없는 상태 입니다.");
+            //    return;
+            //}
+        
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
@@ -985,11 +1022,37 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
             break;    
             
-        case 'btnSanctnReq':    //결재요청.
-
-            alert("결재요청을 합니다.");
-
+        case 'btnEApproval':    // 전자결재 테스트
+            if(this.$('#assetRentMngtList').selectedRowCount()>0) {
+                
+                //alert(EMD.context_root);
+                
+                var rows = this.$('#assetRentMngtList').selectedRows()[0];
+                
+                if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
+                	alert("결재요청을 할수없는 상태 입니다.");
+                	return;
+                }
+                
+                var opts = {
+                        type: 'ARUC',
+                        prtAtCode: rows['prtAtCode'],
+                        mngYear: rows['mngYear'],
+                        mngNo: rows['mngNo'],
+                        mngCnt: rows['mngCnt']
+                };
+                this.requestEApproval(opts);
+                
+                alert("결재요청을 하였습니다.");
+                
+                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+            } else {
+            	alert("목록에서 결제할 건을 선택하십시오.");
+            	return;
+            }
             break;
+
             
     }
 };
@@ -1194,7 +1257,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <button id="addAssetRentFirst">최초신청</button>
                                 <button id="addAssetRentRenew">연장신청</button>
                                 <button id="btnRemoveItem">신청삭제</button>
-                                <button id="btnSanctnReq">결재요청</button>
+                                <button id="btnEApproval">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
                                 <button id="btnXXX3">맵조회</button>
