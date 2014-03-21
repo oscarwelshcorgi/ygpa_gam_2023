@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.rent"> 
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamAssetRentfeePayDtlsInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentfeePayDtlsInqireVO"/>
+    
+    <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireList_D" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT
+							         L.PRT_AT_CODE
+							       , L.MNG_YEAR
+							       , L.MNG_NO
+							       , L.MNG_CNT  
+							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+							       , L.CHRGE_KND
+							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = L.CHRGE_KND AND ROWNUM = 1) CHRGE_KND_NM
+							       , L.ACCNUT_YEAR
+							       , L.NTIC_CNT
+							       , TO_CHAR(L.NTIC_DT,'YYYY-MM-DD') NTIC_DT
+							       , L.ENTRPSCD
+							       , L.ENTRPS_NM
+							       , TO_CHAR(L.PAY_TMLMT,'YYYY-MM-DD') PAY_TMLMT
+							       , L.FEE
+							       , L.NHT_PRINT_YN
+							       , L.RM
+							       , L.NTICNO
+							       , ( SELECT P.RCVD_TP FROM ERP_REV_COLL_F@YGPA_PORTMIS P WHERE P.BILL_NO = L.NTICNO AND ROWNUM = 1 ) RCVD_TP
+							       , TO_CHAR(( SELECT P.RCVD_DT FROM ERP_REV_COLL_F@YGPA_PORTMIS P WHERE P.BILL_NO = L.NTICNO AND ROWNUM = 1 ),'YYYY-MM-DD') RCVD_DT
+							       , ( SELECT P.BILL_AMNT FROM ERP_REV_COLL_F@YGPA_PORTMIS P WHERE P.BILL_NO = L.NTICNO AND ROWNUM = 1 ) BILL_AMNT
+							  FROM ASSETS_RENT_F A,
+							       LEV_REQEST_F L
+							 WHERE 1 = 1
+							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+							   AND A.MNG_YEAR = L.MNG_YEAR
+							   AND A.MNG_NO = L.MNG_NO
+							   AND A.MNG_CNT = L.MNG_CNT
+					
+							<isNotEmpty property="sPrtAtCode">
+					            AND PRT_AT_CODE = #sPrtAtCode#  
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="sMngYear">
+                                AND L.MNG_YEAR    = #sMngYear#
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="sMngNo">
+                                AND L.MNG_NO      = #sMngNo#
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="sMngCnt">
+                                AND L.MNG_CNT     = #sMngCnt#
+                            </isNotEmpty>
+							                    
+							ORDER BY L.REGIST_DT DESC
+                        ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireListTotCnt_S" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM ASSETS_RENT_F A,
+                   LEV_REQEST_F L
+             WHERE 1 = 1
+               AND A.PRT_AT_CODE = L.PRT_AT_CODE
+               AND A.MNG_YEAR = L.MNG_YEAR
+               AND A.MNG_NO = L.MNG_NO
+               AND A.MNG_CNT = L.MNG_CNT
+    
+            <isNotEmpty property="sPrtAtCode">
+                AND PRT_AT_CODE = #sPrtAtCode#  
+            </isNotEmpty>
+            
+            <isNotEmpty property="sMngYear">
+                AND L.MNG_YEAR    = #sMngYear#
+            </isNotEmpty>
+            
+            <isNotEmpty property="sMngNo">
+                AND L.MNG_NO      = #sMngNo#
+            </isNotEmpty>
+            
+            <isNotEmpty property="sMngCnt">
+                AND L.MNG_CNT     = #sMngCnt#
+            </isNotEmpty>
+    </select>
+    
+</sqlMap>
