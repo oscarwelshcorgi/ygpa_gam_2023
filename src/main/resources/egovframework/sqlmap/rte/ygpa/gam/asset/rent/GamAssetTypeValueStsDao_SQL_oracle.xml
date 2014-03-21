@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.rent"> 
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamAssetTypeValueStsVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTypeValueStsVO"/>
+    
+    <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsList_D" parameterClass="gamAssetTypeValueStsVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT 
+							        B.DEPRCTN_YEAR          
+							       ,B.ASSET_CLS     
+							       ,B.ASSET_NO          
+							       ,B.ASSET_NO_SEQ          
+							       ,B.REVAL_AMT     
+							       ,B.THIS_TERM_INCRE_AMT   
+							       ,B.BS_THIS_CUR_AMT   
+							       ,B.BS_PRE_DEPRCTN_SUM        
+							       ,B.BS_NO_DEPRCTN_BAL         
+							       ,B.PRE_END_ASSET_BUY_SUM     
+							       ,B.ASSET_BUY_AMT         
+							       ,B.GNRL_DEPRCTN_RATE         
+							       ,B.THIS_TERM_DEPRCTN_AMT     
+							       ,B.CUR_AMT   
+							  FROM GIS_ASSETS_CD_F A,
+							       YGPAERP.EGMFA2000 B
+							 WHERE A.ERP_ASSETS_CLS    = B.ASSET_CLS
+							   AND A.ERP_ASSETS_NO     = B.ASSET_NO
+							   AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
+					
+							<isNotEmpty property="sDeprctnYear">
+					            AND B.DEPRCTN_YEAR = #sDeprctnYear#  
+					        </isNotEmpty>
+                    
+							ORDER BY B.DEPRCTN_YEAR DESC
+                        ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsListTotCnt_S" parameterClass="gamAssetTypeValueStsVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM GIS_ASSETS_CD_F A,
+                   YGPAERP.EGMFA2000 B
+             WHERE A.ERP_ASSETS_CLS    = B.ASSET_CLS
+               AND A.ERP_ASSETS_NO     = B.ASSET_NO
+               AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
+    
+            <isNotEmpty property="sDeprctnYear">
+                AND B.DEPRCTN_YEAR = #sDeprctnYear#  
+            </isNotEmpty>
+    </select>
+    
+</sqlMap>
