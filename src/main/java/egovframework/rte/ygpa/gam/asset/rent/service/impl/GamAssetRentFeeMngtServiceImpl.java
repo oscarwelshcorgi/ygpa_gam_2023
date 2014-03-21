@@ -110,4 +110,13 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 		gamAssetRentFeeMngtDao.deleteAssetRentFee(vo);
 	}
 	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamAssetRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo) throws Exception {
+		gamAssetRentFeeMngtDao.insertAssetRentLevReqest(vo);
+	}
+	
 }

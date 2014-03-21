@@ -36,21 +36,31 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/gamSelectAssetRentFeeMngtList.do" />',
         dataType: 'json',
         colModel : [
+                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                    {display:'회계연도', name:'accnutYear',width:70, sortable:false,align:'center'},
+                    {display:'고지횟수', name:'nticCnt',width:70, sortable:false,align:'center'},
+                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
+                    {display:'업체코드', name:'entrpscd',width:90, sortable:false,align:'center'},
+                    {display:'고지기간FROM', name:'nticPdFrom',width:100, sortable:false,align:'center'}, 
+                    {display:'고지기간TO', name:'nticPdTo',width:100, sortable:false,align:'center'},
+                    {display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
+                    {display:'고지번호', name:'nticNo',width:100, sortable:false,align:'center'},
+                    {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'center'},
+                    {display:'사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용기간FROM', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
+                    {display:'사용기간TO', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
+                    {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
+                    
+                    /*
                     {display:'선택', name:'chkItem', width:40, sortable:false, align:'center', displayFormat:'checkbox'},
-					{display:'고지 횟수', name:'nticCnt',width:100, sortable:false,align:'center'},
 					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
 					{display:'시설 구분', name:'fcltySe',width:100, sortable:false,align:'center'},    
-					{display:'요금 종류', name:'chrgeKnd',width:100, sortable:false,align:'center'},
 					{display:'업체코드', name:'entrpscd',width:100, sortable:false,align:'center'},
-					{display:'업체 명', name:'entrpsNm',width:100, sortable:false,align:'center'},
-					{display:'고지 기간 FROM', name:'nticPdFrom',width:100, sortable:false,align:'center'}, 
-					{display:'고지 기간 TO', name:'constPerTo',width:100, sortable:false,align:'center'},
-					{display:'회계 년도', name:'accnutYear',width:100, sortable:false,align:'center'},
-					{display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},
-					{display:'고지 일자', name:'nticDt',width:100, sortable:false,align:'center'},
+					{display:'요금종류', name:'chrgeKnd',width:100, sortable:false,align:'center'},
 					{display:'납부 기한', name:'payTmlmt',width:100, sortable:false,align:'center'},
 					{display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
-					{display:'사용료', name:'fee',width:100, sortable:false,align:'center'},
 					{display:'부가세 여부', name:'vatYn',width:100, sortable:false,align:'center'},
 					{display:'부가세', name:'vat',width:100, sortable:false,align:'center'},
 					{display:'고지 금액', name:'nticAmt',width:100, sortable:false,align:'center'},
@@ -71,12 +81,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
 					{display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
 					{display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
 					{display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'}
+					*/
                     ],
-        usepager: true,
-        useRp: true,
-        rp: 24,
         showTableToggleBtn: false,
-        height: '290',
+        height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#sumFee').val(data.sumFee);
@@ -88,10 +96,22 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
         }
     });
 
+    this.$("#assetRentFeeList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.$('#cmd').val('modify');
+
+        module.$('#gamAssetRentFeeForm :input').val('');
+
+        module.makeFormValues('#gamAssetRentFeeForm', row);
+        module._editData=module.getFormValues('#gamAssetRentFeeForm', row);
+        module._editRow=module.$('#assetRentFeeList').selectedRowIds()[0];
+    });
+    
     this.$("#assetRentFeeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
         module.$("#assetRentFeeListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
-
+        this.$("#cmd").val('modify');
+        
+        /*
         if(row!=null) {
         	module.$('#nticCnt').val(row['nticCnt']);
         	module.$('#rentMngNo').val(row['rentMngNo']);
@@ -129,6 +149,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
         	module.$('#mngCnt').val(row['mngCnt']);
             //throw 0;
         }
+        */
     });
 
 };
@@ -146,9 +167,18 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
             this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
 
             break;
-
+        
+         // 추가
+        case 'btnInsertItem':
+        	module.$("#assetRentFeeListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
+            this.$('#gamAssetRentFeeForm').find(':input').val('');
+            this.$("#cmd").val('insert');
+            
+            break;     
+            
         // 저장
         case 'btnSaveItem':
+        	/*   
         	if( this.$('#prtAtCode').val() == '' ) {
         		alert("목록에서 더블클릭하여 상세로 이동하십시오.");
         	} else {
@@ -164,18 +194,54 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
 	                alert(result.resultMsg);
 	            });
         	}
+        	*/
+
+        	if( this.$('#nticCnt').val() == '' ) {
+                alert("고지횟수를 입력하십시오.");
+                return;
+            }
+        	
+        	if( this.$("#cmd").val() == 'insert' ) {
+        		var inputVO=this.makeFormArgs('#gamAssetRentFeeForm');
+                
+                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentFee.do" />', inputVO, function(module, result) {
+    
+                    if(result.resultCode=='0') {
+                        var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                        module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                    }
+    
+                    alert(result.resultMsg);
+                });
+        	} else {
+        	    var inputVO=this.makeFormArgs('#gamAssetRentFeeForm');
+                
+                this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentFee.do" />', inputVO, function(module, result) {
+    
+                    if(result.resultCode=='0') {
+                        var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                        module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                    }
+    
+                    alert(result.resultMsg);
+                });
+        	}
+        	
             break;  
             
          // 취소
         case 'btnCancelItem':
             this.$('#gamAssetRentFeeForm :input').val("");
             break;
-            
+        
+        /*    
         // 고지의뢰(목록)
         case 'saveNticListBtn':
             var filter = [{ 'col': 'chkItem', 'filter': true}];
             var reglist = this.$("#assetRentFeeList").selectFilterData(filter);
 
+            alert(reglist.length);
+            
             if(reglist.length > 0){
                 var nticCnts = "";
                 var prtAtCodes = "";
@@ -219,8 +285,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
                 alert("선택 된 항목이 없습니다.");
             }
             break;   
+        */
         
         // 고지취소(목록)
+        /*
         case 'cancelNticListBtn': 
         	var filter = [{ 'col': 'chkItem', 'filter': true}];
             var reglist = this.$("#assetRentFeeList").selectFilterData(filter);
@@ -268,7 +336,9 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
                 alert("선택 된 항목이 없습니다.");
             }
             break; 
+        */
         
+        /*
         // 고지의뢰(단건)
         case 'saveNticDetailBtn':
             if( this.$('#prtAtCode').val() == '' ) {
@@ -306,7 +376,52 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
                 });
             }
             break;  
+        */
+        
+        case 'saveNticDetailBtn':
+        	var rows = this.$('#assetRentFeeList').selectedRows();
+        	
+        	if(rows.length>=1) {
+        		if( confirm("고지의뢰를 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/asset/rent/gamInsertAssetRentFeeNticSingle.do" />', rows[0], function(module, result) {
+
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                        }
+
+                        alert(result.resultMsg);
+                    });
+                //throw 0;
+                }
+        	} else {
+                alert("목록에서 선택하십시오.");
+            }
+        	
+            break;  
             
+        case 'cancelNticDetailBtn':
+            var rows = this.$('#assetRentFeeList').selectedRows();
+            
+            if(rows.length>=1) {
+                if( confirm("고지취소를 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/asset/rent/gamDeleteAssetRentFeeNticSingle.do" />', rows[0], function(module, result) {
+
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                        }
+
+                        alert(result.resultMsg);
+                    });
+                //throw 0;
+                }
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+            
+            break;
+        
         // 팝업을 호출한다.(업체)     
         case 'popupEntrpsInfoFee': 
             var opts;
@@ -373,6 +488,25 @@ var module_instance = new GamAssetRentFeeMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
+                            <th style="width: 80px">항코드</th>
+                            <td style="width: 120px">
+                                <select id="sPrtAtCode">
+                                    <option value="" selected="selected">선택</option>
+
+                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                            <th style="width: 80px">관리번호</th>
+                            <td style="width: 200px">
+                                <input id="sMngYear" type="text" size="4">-<input id="sMngNo" type="text" size="3">-<input id="sMngCnt" type="text" size="2">
+                            </td>
+                            <td><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>    
+                        
+                        <!-- 
+                        <tr>
                             <th>항코드</th>
                             <td>
                                 <select id="sPrtAtCode">
@@ -431,39 +565,45 @@ var module_instance = new GamAssetRentFeeMngtModule();
                                 <input id="sRrArFrom" type="text" size="5">~<input id="sRrArTo" type="text" size="5">
                             </td>
                         </tr>
+                         -->
                     </tbody>
                 </table>
             </form>
         </div>
     </div>
 
-    <div class="emdPanel">
-        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
+    <div class="emdPanel fillHeight">
+        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">자산임대료고지 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">자산임대료고지 상세</a></li>
             </ul>
 
-            <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetRentFeeList" style="display:none"></table>
-                </div>
+            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+                <!-- <div style="width: 100%; height: 100%; overflow:auto">  -->
+                        <table id="assetRentFeeList" style="display:none" class="fillHeight"></table>
+                <!-- </div>  -->
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
                             <td>
                                <form id="form1">
-			                                                            합계
-			                                                            자료수 <input id="totalResultCnt" size="5" readonly>
-			                                                            사용료 <input id="sumFee" type="text" size="14" readonly>
-			                                                            연체 <input id="sumArrrgAmt" type="text" size="14" readonly>
-			                                                            부가세 <input id="sumVat" type="text" size="14" readonly>
-			                                                            고지액 <input id="sumNticAmt" type="text" size="14" readonly>
+                                  합계
+                                  자료수 <input id="totalResultCnt" class="ygpaNumber" size="5" readonly>
+                                  사용료 <input id="sumFee" type="text" class="ygpaCurrency" size="14" readonly>
+                                  연체 <input id="sumArrrgAmt" type="text" class="ygpaCurrency" size="14" readonly>
+                                  부가세 <input id="sumVat" type="text" class="ygpaCurrency" size="14" readonly>
+                                  고지액 <input id="sumNticAmt" type="text" class="ygpaCurrency" size="14" readonly>
                                </form>
                             </td>
                             <td>
+                                <!-- 
                                 <button id="saveNticListBtn">고지의뢰</button>
                                 <button id="cancelNticListBtn">고지취소</button>
+                                -->
+                                
+                                <button id="saveNticDetailBtn">고지의뢰</button>
+                                <button id="cancelNticDetailBtn">고지취소</button>
                             </td>
                         </tr>
                     </table>
@@ -473,14 +613,85 @@ var module_instance = new GamAssetRentFeeMngtModule();
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
                 <div class="emdControlPanel">
-                    <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
+                    <button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
                     <form id="gamAssetRentFeeForm">
                         <input type="hidden" id="cmd"/>
                         
                         <table>
                             <tr>
+                                <th><span class="label">항구분</span></th>
+                                <td style="width: 350px"><input type="text" size="10" id="prtAtCodeNm"/></td>
+                                <th><span class="label">고지번호</span></th>
+                                <td><input type="text" size="10" id="nticno"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">관리번호</span></th>
+                                <td><input type="text" size="12" id="rentMngNo" readonly/></td>
+                                <th><span class="label">신청업체</span></th>
+                                <td><input type="text" size="15" id="entrpsNm"/><input type="text" size="13" id="entrpscd"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">총사용기간</span></th>
+                                <td><input type="text" size="10" id="grUsagePdFrom" readonly/>~<input type="text" size="10" id="grUsagePdTo" readonly/></td>
+                                <th><span class="label">총사용료</span></th>
+                                <td><input type="text" size="15" id="grFee"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">감면사용료</span></th>
+                                <td><input type="text" size="15" id="grRdcxptFee"/></td>
+                                <th><span class="label">요금종류</span></th>
+                                <!-- <td><input type="text" size="10" id="chrgeKnd"/></td> -->
+                                <td><input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 /></td>
+                            </tr>
+
+                            <tr>
+                                <th><span class="label">고지기간</span></th>
+                                <td><input type="text" size="10" id="nticPdFrom"/>~<input type="text" size="10" id="nticPdTo"/></td>
+                                <th><span class="label">고지일자</span></th>
+                                <td><input type="text" size="10" id="nticDt"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">비고</span></th>
+                                <td colspan="3"><input type="text" size="50" id="rm"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">수납일자</span></th>
+                                <td colspan="3"><input type="text" size="10" id="rcivDt"/></td>
+                            </tr>
+                            <tr>       
+                                <th><span class="label">수납구분</span></th>
+                                <td colspan="3">
+                                    <select id="rcivSe">
+                                        <option value="">선택</option>
+                                        <c:forEach items="${rcivSeCdList}" var="rcivSeItem">
+                                            <option value="${rcivSeItem.code }">${rcivSeItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">연체 금액</span></th>
+                                <td colspan="3"><input type="text" size="15" id="arrrgAmt"/></td>
+                            </tr>
+                            
+                            
+                            <tr>
+                                <th><span class="label">등록자</span></th>
+                                <td><input type="text" size="10" id="regUsr"/></td>
+                                <th><span class="label">등록일시</span></th>
+                                <td><input type="text" size="10" id="registDt"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">수정자</span></th>
+                                <td><input type="text" size="10" id="updUsr"/></td>
+                                <th><span class="label">수정일시</span></th>
+                                <td><input type="text" size="10" id="updtDt"/></td>
+                            </tr>
+                            
+                            <!-- 
+                            <tr>
 							    <th><span class="label">고지 횟수</span></th>
-							    <td><input type="text" size="10" id="nticCnt"/></td>
+							    <td style="width: 250px"><input type="text" size="10" id="nticCnt"/></td>
 							    <th><span class="label">시설 구분</span></th>
 							    <td><input type="text" size="10" id="fcltySe"/></td>
 							</tr>
@@ -627,6 +838,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 							    <th><span class="label">관리 번호(조합)</span></th>
 							    <td><input type="text" size="10" id="rentMngNo" readonly/></td>
 							</tr>
+							 -->
                         </table>
                     </form>
 

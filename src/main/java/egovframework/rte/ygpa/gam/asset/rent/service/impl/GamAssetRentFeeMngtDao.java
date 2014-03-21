@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 
 /**
  * @Class Name : GamAssetRentFeeMngtDao.java
@@ -98,6 +99,15 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 */
 	public void deleteAssetRentFee(GamAssetRentFeeMngtVO vo){
 		delete("gamAssetRentFeeMngtDao.deleteAssetRentFee_S", vo);
+	}
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamAssetRentLevReqestVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo){
+		insert("gamAssetRentFeeMngtDao.insertAssetRentLevReqest_S", vo);
 	}
 
 }

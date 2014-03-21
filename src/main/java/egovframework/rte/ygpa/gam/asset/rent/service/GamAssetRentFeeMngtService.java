@@ -79,5 +79,12 @@ public interface GamAssetRentFeeMngtService {
 	 * @exception Exception
 	 */
 	void deleteAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception;
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamAssetRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo) throws Exception;
     
 }
