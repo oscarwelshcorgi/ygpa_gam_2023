@@ -1034,19 +1034,21 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 	return;
                 }
                 
-                var opts = {
-                        type: 'ARUC',
-                        prtAtCode: rows['prtAtCode'],
-                        mngYear: rows['mngYear'],
-                        mngNo: rows['mngNo'],
-                        mngCnt: rows['mngCnt']
-                };
-                this.requestEApproval(opts);
-                
-                alert("결재요청을 하였습니다.");
-                
-                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                if( confirm("결재요청을 하시겠습니까?") ) {
+	                var opts = {
+	                        type: 'ARUC',
+	                        prtAtCode: rows['prtAtCode'],
+	                        mngYear: rows['mngYear'],
+	                        mngNo: rows['mngNo'],
+	                        mngCnt: rows['mngCnt']
+	                };
+	                this.requestEApproval(opts);
+	                
+	                alert("결재요청을 하였습니다.");
+	                
+	                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+	                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                }
             } else {
             	alert("목록에서 결제할 건을 선택하십시오.");
             	return;
@@ -1260,7 +1262,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <button id="btnEApproval">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
-                                <button id="btnXXX3">맵조회</button>
+                                <button id="btnShowMap">맵조회</button>
                             </td>
                         </tr>
                     </table>
@@ -1400,7 +1402,7 @@ var module_instance = new GamAssetRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="btnSanctnReq">결재요청</button><button id="btnPrmisn">사용승낙</button>
+                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
                             <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>
