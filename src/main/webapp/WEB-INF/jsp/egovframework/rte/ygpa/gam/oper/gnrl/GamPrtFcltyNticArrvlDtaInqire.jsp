@@ -5,13 +5,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamPrtFcltyUseExprInqire.jsp
-  * @Description : 항만시설사용만기도래자료조회 (항만시설/일반부두/항만시설사용만기도래자료조회)
+  * @Class Name : GamPrtFcltyNticArrvlDtaInqire.jsp
+  * @Description : 항만시설고지도래현황조회 (항만시설/일반부두/항만시설고지도래현황조회)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2014.01.10  domh     최초 생성
+  *  2014.01.14  domh     최초 생성
   *
   * author domh
   * since 2014.01.10
@@ -23,17 +23,17 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamPrtFcltyUseExprInqireModule() {}
+function GamPrtFcltyNticArrvlDtaInqireModule() {}
 
-GamPrtFcltyUseExprInqireModule.prototype = new EmdModule(1100, 650);
+GamPrtFcltyNticArrvlDtaInqireModule.prototype = new EmdModule(1100, 650);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
 
     // 항만시설사용 테이블 설정
-    this.$("#prtFcltyUseExprInqireList").flexigrid({
+    this.$("#prtFcltyNticArrvlDtaInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyUseExprInqireList.do" />',
+        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyNticArrvlDtaInqireList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
@@ -87,7 +87,7 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
     // 항만시설사용상세 테이블 설정
     this.$("#assetUseExprInqireDetailList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyUseExprInqireDetailList.do" />',
+        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyNticArrvlDtaInqireDetailList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'assetsUsageSeq',width:50, sortable:false,align:'center'},
@@ -221,14 +221,14 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
         height: 'auto'
     });
 
-    this.$("#prtFcltyUseExprInqireList").on('onItemSelected', function(event, module, row, grid, param) {
+    this.$("#prtFcltyNticArrvlDtaInqireList").on('onItemSelected', function(event, module, row, grid, param) {
         module.$('#cmd').val('modify');
 
-        module.$('#gamPrtFcltyUseExprInqireForm :input').val('');
+        module.$('#gamPrtFcltyNticArrvlDtaInqireForm :input').val('');
 
-        module.makeFormValues('#gamPrtFcltyUseExprInqireForm', row);
-        module._editData=module.getFormValues('#gamPrtFcltyUseExprInqireForm', row);
-        module._editRow=module.$('#prtFcltyUseExprInqireList').selectedRowIds()[0];
+        module.makeFormValues('#gamPrtFcltyNticArrvlDtaInqireForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyNticArrvlDtaInqireForm', row);
+        module._editRow=module.$('#prtFcltyNticArrvlDtaInqireList').selectedRowIds()[0];
 
         //해당하는 항만시설사용상세 목록과 파일목록를 불러온다.
         module.$('#detailPrtAtCode').val(row['prtAtCode']);
@@ -242,7 +242,7 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
             module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
         }
         
-        var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
+        var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
         module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
         module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
     });
@@ -256,14 +256,14 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
         module._editRow=module.$('#assetUseExprInqireDetailList').selectedRowIds()[0];
     });
 
-    this.$("#prtFcltyUseExprInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 1});
+    this.$("#prtFcltyNticArrvlDtaInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+        module.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
-        module.$('#gamPrtFcltyUseExprInqireForm :input').val('');
+        module.$('#gamPrtFcltyNticArrvlDtaInqireForm :input').val('');
         
-        module.makeFormValues('#gamPrtFcltyUseExprInqireForm', row);
-        module._editData=module.getFormValues('#gamPrtFcltyUseExprInqireForm', row);
-        module._editRow=module.$('#prtFcltyUseExprInqireList').selectedRowIds()[0];
+        module.makeFormValues('#gamPrtFcltyNticArrvlDtaInqireForm', row);
+        module._editData=module.getFormValues('#gamPrtFcltyNticArrvlDtaInqireForm', row);
+        module._editRow=module.$('#prtFcltyNticArrvlDtaInqireList').selectedRowIds()[0];
 
         if(row!=null) {
             module.$('#cmd').val('modify');
@@ -271,7 +271,7 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
     });
 
     this.$("#assetUseExprInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 2});
+        module.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 2});
         module.$('#gamAssetRentDetailForm :input').val('');
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
@@ -361,7 +361,7 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
 };
 
 
-GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
     
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != '' 
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
@@ -521,13 +521,13 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
- GamPrtFcltyUseExprInqireModule.prototype.onButtonClick = function(buttonId) {
+ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
 
         // 조회
         case 'searchBtn':
-            this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 0});
+            this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 0});
             
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("만기도래기간(시작일)을 선택하십시오.");
@@ -539,15 +539,15 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
                 return;
             }
             
-            var searchOpt=this.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
-            this.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+            var searchOpt=this.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireSearchForm');
+            this.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;
 
         // 최초신청
         case 'addAssetRentFirst':
-            this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
-            this.$('#gamPrtFcltyUseExprInqireForm').find(':input').val('');
+            this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$('#gamPrtFcltyNticArrvlDtaInqireForm').find(':input').val('');
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             //this.$("#assetUseExprInqireDetailList").flexRemove();
             this.$("#assetUseExprInqireDetailList").flexAddData({resultList:[]}); //그리드 초기화
@@ -562,7 +562,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
 
         // 연장신청
         case 'addAssetRentRenew':
-            var rows = this.$('#prtFcltyUseExprInqireList').selectedRows();
+            var rows = this.$('#prtFcltyNticArrvlDtaInqireList').selectedRows();
 
             /*
             if( rows[0]['quayGroupCd'] != 'P' ) {
@@ -575,11 +575,11 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
 
                 if( confirm("연장신청을 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyUseExprInqireRenew.do" />', rows[0], function(module, result) {
+                    this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyNticArrvlDtaInqireRenew.do" />', rows[0], function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
-                            module.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+                            var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireSearchForm');
+                            module.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
                         }
 
                         alert(result.resultMsg);
@@ -652,9 +652,9 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
                 inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
                 
                 alert(inputVO);
-                //var otherForm=this.getFormValues('#gamPrtFcltyUseExprInqireForm', {});  // 폼만 있을 경우
+                //var otherForm=this.getFormValues('#gamPrtFcltyNticArrvlDtaInqireForm', {});  // 폼만 있을 경우
 
-                this._editData2=this.getFormValues('#gamPrtFcltyUseExprInqireForm', {_updtId:'I'});
+                this._editData2=this.getFormValues('#gamPrtFcltyNticArrvlDtaInqireForm', {_updtId:'I'});
                 inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
 
                 //console.log(inputVO);
@@ -662,8 +662,8 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
 
                 this.doAction('<c:url value="/oper/gnrl/gamSaveAssetRent.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
-                        module.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+                        var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
+                        module.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
                         //module.$('#assetUseExprInqireDetailList').flexReload();
                         module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
@@ -671,14 +671,14 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
                 });
 
 
-                this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
             }
 
             break;
 
         //신청삭제
         case 'btnRemoveItem':
-            var rows = this.$('#prtFcltyUseExprInqireList').selectedRows();
+            var rows = this.$('#prtFcltyNticArrvlDtaInqireList').selectedRows();
 
             /*
             if( rows[0]['quayGroupCd'] != 'P' ) {
@@ -695,20 +695,20 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
                         this.$('#detailPrmisnYn').val('N');
                     }
 
-                    var inputVO=this.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
+                    var inputVO=this.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
 
                     this.doAction('<c:url value="/oper/gnrl/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
-                            module.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+                            var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireSearchForm');
+                            module.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
                         }
 
                         alert(result.resultMsg);
                     });
 
-                    this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-                    this.$('#gamPrtFcltyUseExprInqireForm :input').val("");
+                    this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                    this.$('#gamPrtFcltyNticArrvlDtaInqireForm :input').val("");
                     this.$("#cmd").val('insert');
                 }
             }
@@ -717,12 +717,12 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
 
         //코멘트저장
         case 'btnSaveComment':
-            var inputVO=this.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
+            var inputVO=this.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
 
             this.doAction('<c:url value="/oper/gnrl/gamUpdateAssetRentComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
-                    var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
-                    module.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+                    var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireSearchForm');
+                    module.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
                 }
 
                 alert(result.resultMsg);
@@ -735,7 +735,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("선택된 항구분이 없습니다.");
             } else {
-                this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+                this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
                 this.$('#gamAssetRentDetailForm').find(':input').val('');
 
                 this.$("#detailCmd").val('insert');
@@ -787,7 +787,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
                 this.doAction('<c:url value="/oper/gnrl/gamInsertAssetRentDetail.do" />', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
 
                     if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
+                        var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
                         module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
@@ -797,7 +797,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
             else {
                 this.doAction('<c:url value="/oper/gnrl/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
+                        var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
                         module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
@@ -827,7 +827,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
             break;
 
         case 'btnPrmisn': // 사용승낙
-            var rows = this.$('#prtFcltyUseExprInqireList').selectedRows();
+            var rows = this.$('#prtFcltyNticArrvlDtaInqireList').selectedRows();
 
             if(rows.length>=1) {
                 var opts = {
@@ -846,14 +846,14 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
             break;
 
         case 'btnPrmisnCancel': // 승낙취소
-            var rows = this.$('#prtFcltyUseExprInqireList').selectedRows();
+            var rows = this.$('#prtFcltyNticArrvlDtaInqireList').selectedRows();
 
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/oper/gnrl/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamPrtFcltyUseExprInqireForm');
-                            module.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+                            var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
+                            module.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
                         }
 
                         alert(result.resultMsg);
@@ -945,7 +945,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 
-            this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
 
             break;
 
@@ -1023,24 +1023,24 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
     }
 };
 
-GamPrtFcltyUseExprInqireModule.prototype.onSubmit = function() {
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.onSubmit = function() {
     //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
     this.loadData();
 };
 
-GamPrtFcltyUseExprInqireModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadData = function() {
+    var searchOpt=this.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireSearchForm');
     //this.showAlert(searchOpt);
-    this.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+    this.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
 };
 
-GamPrtFcltyUseExprInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        var row = this.$('#prtFcltyUseExprInqireList').selectedRows();
+        var row = this.$('#prtFcltyNticArrvlDtaInqireList').selectedRows();
         if(row.length==0) {
             this.$('#cmd').val('insert');
         }
@@ -1072,7 +1072,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onTabChange = function(newTabId, oldTab
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamPrtFcltyUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
      case 'selectEntrpsInfoPopup':
          if (msg != 'cancel') {
@@ -1093,8 +1093,8 @@ GamPrtFcltyUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, v
      case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
              if( value == "0" ) {
-                 var searchOpt=this.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
-                 this.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
+                 var searchOpt=this.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireSearchForm');
+                 this.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
              }
          } else {
              alert('취소 되었습니다');
@@ -1127,7 +1127,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, v
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamPrtFcltyUseExprInqireModule();
+var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
 
 </script>
 <!-- 아래는 고정 -->
@@ -1136,7 +1136,7 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamPrtFcltyUseExprInqireSearchForm">
+            <form id="gamPrtFcltyNticArrvlDtaInqireSearchForm">
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
@@ -1172,9 +1172,9 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
                             </td>
                             -->
                             
-                            <th>사용용도</th>
+                            <th>요금종류</th>
                             <td>
-                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />
+                                <input id="xxx" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
                             </td>
                             
                             <th>만기도래기간</th>
@@ -1199,16 +1199,16 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="prtFcltyUseExprInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="prtFcltyNticArrvlDtaInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">항만시설(만기도래) 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">항만시설(만기도래) 내역</a></li>
-                <!-- <li><a href="#tabs3" class="emdTab">항만시설사용 상세내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만시설(고지도래) 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만시설(고지도래) 내역</a></li>
+                <!-- <li><a href="#tabs3" class="emdTab">항만시설 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li> -->
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="prtFcltyUseExprInqireList" style="display:none" class="fillHeight"></table>
+                <table id="prtFcltyNticArrvlDtaInqireList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">
                     <table style="width:100%;">
@@ -1245,7 +1245,7 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                 <div class="emdControlPanel"></div>
-                    <form id="gamPrtFcltyUseExprInqireForm">
+                    <form id="gamPrtFcltyNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
 
