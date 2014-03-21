@@ -100,8 +100,6 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnDelRequest':
 		break;
-	case 'btnUseConfirm':
-		break;
 	case 'btnViewMap':
 		break;
 	case 'clearForm1':
@@ -117,6 +115,31 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'addAssetCd':
 		break;
+	case 'btnUseConfirm':	// 사용승낙 테스트
+		if(this.$('#assetRentList').selectedRowCount()>0) {
+				var rows = this.$('#assetRentList').selectedRows()[0];
+				rows['chrgeKnd']='K2';	// 테스트 요금 코드
+			this.doAction('<c:url value="/sample/asset/gamAssetRentUsePerm.do" />', rows, function(module, result) {
+	            if(result.resultCode=='0') {
+	                var searchOpt=module.makeFormArgs('#searchForm');
+	                module.$('#assetRentList').flexOptions({params:searchOpt}).flexReload();
+	            }
+	            alert(result.resultMsg);
+	        });
+		}
+		break;
+	case 'btnCancelConfirm':
+		if(this.$('#assetRentList').selectedRowCount()>0) {
+			var rows = this.$('#assetRentList').selectedRows()[0];
+			this.doAction('<c:url value="/sample/asset/gamAssetRentCancelUsePerm.do" />', rows, function(module, result) {
+	            if(result.resultCode=='0') {
+	                var searchOpt=module.makeFormArgs('#searchForm');
+	                module.$('#assetRentList').flexOptions({params:searchOpt}).flexReload();
+	            }
+	            alert(result.resultMsg);
+	        });
+		}
+	break;
 	case 'removeAssetCd':
 		break;
 	case 'editAssetCd':

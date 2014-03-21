@@ -10,6 +10,17 @@
         </layout>
     </appender>
 
+	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
+		<!-- 로그 파일명 정의를 위한 parameter -->
+		<param name="File" value="/app/logs/ygpa_gam_debug.log"/>
+		<param name="Append" value="false"/>
+		<param name="MaxFileSize" value="4096KB"/>
+		<param name="MaxBackupIndex" value="2"/>
+	    <layout class="org.apache.log4j.PatternLayout">
+	        <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n" />
+	    </layout>
+	</appender>
+
     <logger name="java.sql">
     	<level value="DEBUG"/>
         <appender-ref ref="console"/>

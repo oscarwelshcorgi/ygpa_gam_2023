@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="AssetsRentConfirm">
+<sqlMap namespace="rte.ygpa.gam.cmmn.fclty">
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
-	<update id="GamAssetsUsePermMngtDao.confirmAssetsUsePerm" parameterClass="hashMap">
+	<update id="gamAssetsUsePermMngtDao.confirmAssetsUsePerm" parameterClass="hashMap">
 		<![CDATA[
 			UPDATE ASSETS_RENT_F
 			SET PRMISN_DT=SYSDATE
@@ -21,7 +21,7 @@
 		]]>
 	</update>
 
-	<update id="GamAssetsUsePermMngtDao.cancelAssetsUsePerm" parameterClass="hashMap">
+	<update id="gamAssetsUsePermMngtDao.cancelAssetsUsePerm" parameterClass="hashMap">
 		<![CDATA[
 			UPDATE ASSETS_RENT_F
 			SET PRMISN_DT=''
@@ -36,7 +36,7 @@
 		]]>
 	</update>
 
-	<delete id="GamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
+	<delete id="gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
 		<![CDATA[
 			DELETE FROM USAGE_PD_BY_STATS_F
 			WHERE PRT_AT_CODE=#prtAtCode#
@@ -46,446 +46,76 @@
 		]]>
 	</delete>
 
-	<select id="GamAssetsUsePermMngtDao.selectAssetsRent_S" parameterClass="hashMap" resultClass="egovMap">
+	<delete id="gamAssetsUsePermMngtDao.deleteLevRequest_D" parameterClass="hashMap">
 		<![CDATA[
-			SELECT
+			DELETE FROM LEV_REQEST_F
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+		]]>
+	</delete>
+
+	<select id="gamAssetsUsePermMngtDao.selectAssetRentByPk_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
 				AR.PRT_AT_CODE
-				, GAM_GETCODENAME('32',AR.PRT_AT_CODE) AS PRT_NM
 				, AR.MNG_YEAR
 				, AR.MNG_NO
 				, AR.MNG_CNT
-				, AR.REQST_ENTRPS_NO
-				, EI.FIRM_KOR_NM AS REQST_ENTRPS_NM
-				, TO_CHAR(AR.REQST_DT, 'yyyy-mm-dd') REQST_DT
-				, AR.REQST_SE
-				, GAM_GETCODENAME('15',AR.REQST_SE) AS REQST_SE_NM
+				, AR.ENTRPSCD
+				, (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE AR.ENTRPSCD=ENTRPSCD) AS ENTRPS_NM
+				, AR.REQST_SE_CD
 				, AR.GR_AR
-				, AR.GR_RNTFEE
+				, AR.GR_FEE
 				, AR.NTIC_MTH
-				, GAM_GETCODENAME('8',AR.NTIC_MTH) AS NTIC_MTH_NM
 				, TO_CHAR(AR.FRST_PRMISN_DT, 'yyyy-mm-dd') FRST_PRMISN_DT
 				, TO_CHAR(AR.PRMISN_DT, 'yyyy-mm-dd') PRMISN_DT
 				, AR.PRMISN_YN
 				, AR.RM
 				, AR.DOC_NO
-				, AR.RENT_PBLANC_YEAR
-				, AR.RENT_PBLANC_NO
-				, TO_CHAR(AR.GR_USGPD_FROM, 'yyyy-mm-dd') GR_USGPD_FROM
-				, TO_CHAR(AR.GR_USGPD_TO, 'yyyy-mm-dd') GR_USGPD_TO
-				, AR.REGISTER
-				, PF_GETUSERNAME(AR.REGISTER) AS REGISTER_NM
-				, TO_CHAR(AR.REGIST_DT, 'yyyy-mm-dd HH24:MI') AS REGIST_DT
+				, TO_CHAR(AR.GR_USAGE_PD_FROM, 'yyyy-mm-dd') GR_USAGE_PD_FROM
+				, TO_CHAR(AR.GR_USAGE_PD_TO, 'yyyy-mm-dd') GR_USAGE_PD_TO
+				, AR.REG_USR
 				, AR.UPD_USR
-				, PF_GETUSERNAME(AR.UPD_USR) AS UPD_USR_NM
-				, TO_CHAR(AR.UPDT_DT, 'yyyy-mm-dd') AS UPDT_DT
-				, EI.KOR_NM RPRSNTV_NM
-				, EI.BZ_RGST_ID BIZRNO
-				, EI.PHONE_NO AS TLPHON_NO
-				, EI.ZIP_CODE CMPNY_ZIP
-				, EI.ADDR CMPNY_ADRES
 			FROM ASSETS_RENT_F AR
-				, PAULSAN.SHP_OWOP_F@PORTMIS EI
-			WHERE AR.REQST_ENTRPS_NO = EI.AGENT_CODE
-		]]>
-				<isNotEmpty prepend="AND" property="prtAtCode">
-					PRT_AT_CODE=#prtAtCode#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="mngYear">
-					MNG_YEAR=#mngYear#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="mngNo">
-					MNG_NO=#mngNo#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="mngCnt">
-					MNG_CNT=#mngCnt#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="schPrtCd">
-					PRT_AT_CODE = #schPrtCd#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="schMngYear">
-					MNG_YEAR = #schMngYear#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="schMngNo">
-					MNG_NO = #schMngNo#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="schMngCnt">
-					MNG_CNT = #schMngCnt#
-				</isNotEmpty>
-	</select>
-
-	<select id="GamAssetsUsePermMngtDao.selectAssetsRentDetail_D"
-		parameterClass="hashMap" resultClass="egovMap">
-		SELECT
-		PFUD.PRT_AT_CODE
-		, GAM_GETCODENAME('32',PFUD.PRT_AT_CODE) AS PRT_NM
-		, PFUD.MNG_YEAR
-		, PFUD.MNG_NO
-		, PFUD.MNG_CNT
-		, PFUD.ASSETS_RENT_F_SEQ
-		, PFUD.PRT_FCLTY_CD
-		, PFUD.PRT_FCLTY_SUB_CD
-		, PFUD.AR
-		, PFUD.USE_CND
-		, PFC.PRT_FCLTY_LOCPLC
-		, PFC.LNM
-		, PFC.LNM_SUB
-		, PFC.PRT_FCLTY_AR
-		, GAM_GETCODENAME('13',PFUD.USE_CND) AS USE_CND_NM
-		, TO_CHAR(PFUD.USE_PD_FROM, 'YYYY-MM-DD') AS USE_PD_FROM
-		, TO_CHAR(PFUD.USE_PD_TO, 'YYYY-MM-DD') AS USE_PD_TO
-		, PFUD.USE_PURPS
-		, PFUD.USE_DTLS
-		, PFUD.USE_PRPOS_CD
-		, GAM_GETCODENAME('7',PFUD.USE_PRPOS_CD) AS USE_PRPOS_NM
-		, PFUD.PLOT_SE_CD
-		, GAM_GETCODENAME('6',PFUD.PLOT_SE_CD) AS PLOT_SE_NM
-		, PFUD.EXEMPT_SE
-		, GAM_GETCODENAME('12',PFUD.EXEMPT_SE) AS EXEMPT_SE_NM
-		, PFUD.EXEMPT_RSN
-		, GAM_GETCODENAME('23',PFUD.EXEMPT_RSN) AS EXEMPT_RSN_NM
-		, TO_CHAR(PFUD.EXEMPT_PD_FROM, 'YYYY-MM-DD') AS EXEMPT_PD_FROM
-		, TO_CHAR(PFUD.EXEMPT_PD_TO, 'YYYY-MM-DD') AS EXEMPT_PD_TO
-		, PFUD.COMPUT_DTLS
-		, PFUD.OLNLP
-		, PFUD.APPLC_TARIFF
-		, PFUD.APPLC_MTH
-		, GAM_GETCODENAME('19',PFUD.APPLC_MTH) AS APPLC_MTH_NM
-		, PFUD.INOUTPT_SE
-		, GAM_GETCODENAME('11',PFUD.INOUTPT_SE) AS INOUTPT_SE_NM
-		, PFUD.PACK_SE
-		, GAM_GETCODENAME('20',PFUD.PACK_SE) AS PACK_SE_NM
-		, PFUD.ENTRPS_SE
-		, PFUD.RNTFEE_CALC_SE
-		, GAM_GETCODENAME('36',PFUD.RNTFEE_CALC_SE) AS RNTFEE_CALC_SE_NM
-		, PFUD.RDCXPT_RNTFEE_CALC_SE
-		, GAM_GETCODENAME('36',PFUD.RDCXPT_RNTFEE_CALC_SE) AS
-		RDCXPT_RNTFEE_CALC_SE_NM
-		, PFUD.RDCXPT_RNTFEE_PT
-		, PFUD.RNTFEE
-		, PFUD.RDCXPT_RNTFEE
-		, TO_CHAR(PFUD.TRMNAT_DT, 'YYYY-MM-DD') AS TRMNAT_DT
-		, PFUD.TRMNAT_RSN
-		, PFUD.MAP_CENTER_LO_CRDNT
-		, PFUD.MAP_CENTER_LA_CRDNT
-		, PFUD.MAP_RELM_INFO
-		, PFUD.REGISTER
-		, PF_GETUSERNAME(PFUD.REGISTER) AS REGISTER_NM
-		, TO_CHAR(PFUD.REGIST_DT, 'YYYY-MM-DD HH24:MI') AS REGIST_DT
-		, PFUD.UPD_USR
-		, PF_GETUSERNAME(PFUD.UPD_USR) AS UPD_USR_NM
-		, TO_CHAR(PFUD.UPDT_DT, 'YYYY-MM-DD HH24:MI') AS UPDT_DT
-		, PFC.PRT_FCLTY_NM
-		, ROWNUM AS ROW_INDEX
-		FROM ASSETS_RENT_F AR
-		,ASSETS_RENT_F_DETAIL PFUD
-		, PRT_FCLTY_CD PFC
-		WHERE AR.PRT_AT_CODE=PFUD.PRT_AT_CODE
-		AND AR.MNG_YEAR=PFUD.MNG_YEAR
-		AND AR.MNG_NO=PFUD.MNG_NO
-		AND AR.MNG_CNT=PFUD.MNG_CNT
-		AND PFUD.PRT_AT_CODE = PFC.PRT_AT_CODE
-		AND PFUD.PRT_FCLTY_CD = PFC.PRT_FCLTY_CD
-		AND PFUD.PRT_FCLTY_SUB_CD = PFC.PRT_FCLTY_SUB_CD
-		<isNotEmpty prepend="AND" property="prtAtCode">
-			PFUD.PRT_AT_CODE = #prtAtCode#
-		</isNotEmpty>
-		<isNotEmpty prepend="AND" property="mngYear">
-			PFUD.MNG_YEAR = #mngYear#
-		</isNotEmpty>
-		<isNotEmpty prepend="AND" property="mngNo">
-			PFUD.MNG_NO = #mngNo#
-		</isNotEmpty>
-		<isNotEmpty prepend="AND" property="mngCnt">
-			PFUD.MNG_CNT = #mngCnt#
-		</isNotEmpty>
-				<isNotEmpty prepend="AND" property="mngCnt">
-			PFUD.ASSETS_RENT_F_SEQ = #prtFcltyUseSeq#
-		</isNotEmpty>
-		ORDER BY
-		PFUD.PRT_AT_CODE DESC
-		, PFUD.MNG_YEAR DESC
-		, PFUD.MNG_NO DESC
-		, PFUD.MNG_CNT DESC
-		, PFUD.ASSETS_RENT_F_SEQ DESC
-	</select>
-
-	<select id="GamAssetsUsePermMngtDao.selectAssetsRentDetailList_D"
-		parameterClass="hashMap" resultClass="egovMap">
-		SELECT
-		PFUD.PRT_AT_CODE
-		, GAM_GETCODENAME('32',PFUD.PRT_AT_CODE) AS PRT_NM
-		, PFUD.MNG_YEAR
-		, PFUD.MNG_NO
-		, PFUD.MNG_CNT
-		, PFUD.ASSETS_RENT_F_SEQ
-		, PFUD.PRT_FCLTY_CD
-		, PFUD.PRT_FCLTY_SUB_CD
-		, PFUD.AR
-		, PFUD.USE_CND
-		, PFC.PRT_FCLTY_LOCPLC
-		, PFC.LNM
-		, PFC.LNM_SUB
-		, PFC.PRT_FCLTY_AR
-		, GAM_GETCODENAME('13',PFUD.USE_CND) AS USE_CND_NM
-		, TO_CHAR(PFUD.USE_PD_FROM, 'YYYY-MM-DD') AS USE_PD_FROM
-		, TO_CHAR(PFUD.USE_PD_TO, 'YYYY-MM-DD') AS USE_PD_TO
-		, PFUD.USE_PURPS
-		, PFUD.USE_DTLS
-		, PFUD.USE_PRPOS_CD
-		, GAM_GETCODENAME('7',PFUD.USE_PRPOS_CD) AS USE_PRPOS_NM
-		, PFUD.PLOT_SE_CD
-		, GAM_GETCODENAME('6',PFUD.PLOT_SE_CD) AS PLOT_SE_NM
-		, PFUD.EXEMPT_SE
-		, GAM_GETCODENAME('12',PFUD.EXEMPT_SE) AS EXEMPT_SE_NM
-		, PFUD.EXEMPT_RSN
-		, GAM_GETCODENAME('23',PFUD.EXEMPT_RSN) AS EXEMPT_RSN_NM
-		, TO_CHAR(PFUD.EXEMPT_PD_FROM, 'YYYY-MM-DD') AS EXEMPT_PD_FROM
-		, TO_CHAR(PFUD.EXEMPT_PD_TO, 'YYYY-MM-DD') AS EXEMPT_PD_TO
-		, PFUD.COMPUT_DTLS
-		, PFUD.OLNLP
-		, PFUD.APPLC_TARIFF
-		, PFUD.APPLC_MTH
-		, GAM_GETCODENAME('19',PFUD.APPLC_MTH) AS APPLC_MTH_NM
-		, PFUD.INOUTPT_SE
-		, GAM_GETCODENAME('11',PFUD.INOUTPT_SE) AS INOUTPT_SE_NM
-		, PFUD.PACK_SE
-		, GAM_GETCODENAME('20',PFUD.PACK_SE) AS PACK_SE_NM
-		, PFUD.ENTRPS_SE
-		, PFUD.RNTFEE_CALC_SE
-		, GAM_GETCODENAME('36',PFUD.RNTFEE_CALC_SE) AS RNTFEE_CALC_SE_NM
-		, PFUD.RDCXPT_RNTFEE_CALC_SE
-		, GAM_GETCODENAME('36',PFUD.RDCXPT_RNTFEE_CALC_SE) AS
-		RDCXPT_RNTFEE_CALC_SE_NM
-		, PFUD.RDCXPT_RNTFEE_PT
-		, PFUD.RNTFEE
-		, PFUD.RDCXPT_RNTFEE
-		, TO_CHAR(PFUD.TRMNAT_DT, 'YYYY-MM-DD') AS TRMNAT_DT
-		, PFUD.TRMNAT_RSN
-		, PFUD.MAP_CENTER_LO_CRDNT
-		, PFUD.MAP_CENTER_LA_CRDNT
-		, PFUD.MAP_RELM_INFO
-		, PFUD.REGISTER
-		, PF_GETUSERNAME(PFUD.REGISTER) AS REGISTER_NM
-		, TO_CHAR(PFUD.REGIST_DT, 'YYYY-MM-DD HH24:MI') AS REGIST_DT
-		, PFUD.UPD_USR
-		, PF_GETUSERNAME(PFUD.UPD_USR) AS UPD_USR_NM
-		, TO_CHAR(PFUD.UPDT_DT, 'YYYY-MM-DD HH24:MI') AS UPDT_DT
-		, PFC.PRT_FCLTY_NM
-		, ROWNUM AS ROW_INDEX
-		FROM ASSETS_RENT_F AR
-		,ASSETS_RENT_F_DETAIL PFUD
-		, PRT_FCLTY_CD PFC
-		WHERE AR.PRT_AT_CODE=PFUD.PRT_AT_CODE
-		AND AR.MNG_YEAR=PFUD.MNG_YEAR
-		AND AR.MNG_NO=PFUD.MNG_NO
-		AND AR.MNG_CNT=PFUD.MNG_CNT
-		AND PFUD.PRT_AT_CODE = PFC.PRT_AT_CODE
-		AND PFUD.PRT_FCLTY_CD = PFC.PRT_FCLTY_CD
-		AND PFUD.PRT_FCLTY_SUB_CD = PFC.PRT_FCLTY_SUB_CD
-		<isNotEmpty prepend="AND" property="prtAtCode">
-			PFUD.PRT_AT_CODE = #prtAtCode#
-		</isNotEmpty>
-		<isNotEmpty prepend="AND" property="mngYear">
-			PFUD.MNG_YEAR = #mngYear#
-		</isNotEmpty>
-		<isNotEmpty prepend="AND" property="mngNo">
-			PFUD.MNG_NO = #mngNo#
-		</isNotEmpty>
-		<isNotEmpty prepend="AND" property="mngCnt">
-			PFUD.MNG_CNT = #mngCnt#
-		</isNotEmpty>
-		ORDER BY
-		PFUD.PRT_AT_CODE DESC
-		, PFUD.MNG_YEAR DESC
-		, PFUD.MNG_NO DESC
-		, PFUD.MNG_CNT DESC
-		, PFUD.ASSETS_RENT_F_SEQ DESC
-	</select>
-
-	<select id="GamAssetsUsePermMngtDao.selectAssetsRentList_D" parameterClass="hashMap" resultClass="egovMap">
-				SELECT
-								AR.PRT_AT_CODE
-								, GAM_GETCODENAME('32',AR.PRT_AT_CODE) AS PRT_NM
-								, AR.MNG_YEAR
-								, AR.MNG_NO
-								, AR.MNG_CNT
-								, AR.REQST_ENTRPS_NO
-								, EI.FIRM_KOR_NM AS REQST_ENTRPS_NM
-								, TO_CHAR(AR.REQST_DT,'yyyy-mm-dd') REQST_DT
-								, AR.REQST_SE
-								, GAM_GETCODENAME('15',AR.REQST_SE) AS REQST_SE_NM
-								, AR.GR_AR
-								, AR.GR_RNTFEE
-								, AR.NTIC_MTH
-								, GAM_GETCODENAME('8',AR.NTIC_MTH) AS NTIC_MTH_NM
-								, TO_CHAR(AR.FRST_PRMISN_DT,'yyyy-mm-dd') FRST_PRMISN_DT
-								, TO_CHAR(AR.PRMISN_DT,'yyyy-mm-dd') PRMISN_DT
-								, AR.PRMISN_YN
-								, AR.RM
-								, AR.DOC_NO
-								, AR.RENT_PBLANC_YEAR
-								, AR.RENT_PBLANC_NO
-								, TO_CHAR(AR.GR_USGPD_FROM,'yyyy-mm-dd') GR_USGPD_FROM
-								, TO_CHAR(AR.GR_USGPD_TO,'yyyy-mm-dd') GR_USGPD_TO
-								, AR.REGISTER
-								, PF_GETUSERNAME(AR.REGISTER) AS REGISTER_NM
-								, TO_CHAR(AR.REGIST_DT, 'yyyy-mm-dd HH24:MI') AS REGIST_DT
-								, AR.UPD_USR
-								, PF_GETUSERNAME(AR.UPD_USR) AS UPD_USR_NM
-								, TO_CHAR(AR.UPDT_DT, 'yyyy-mm-dd HH24:MI') AS UPDT_DT
-								, EI.KOR_NM RPRSNTV_NM
-								, EI.BZ_RGST_ID BIZRNO
-								, EI.PHONE_NO AS TLPHON_NO
-								, EI.ZIP_CODE CMPNY_ZIP
-								, EI.ADDR1 || ' ' || EI.ADDR2 CMPNY_ADRES
-							, ROWNUM AS ROW_INDEX
-				FROM ASSETS_RENT_F AR
-				, PAULSAN.SHP_OWOP_F@PORTMIS EI
-			WHERE
-				AR.REQST_ENTRPS_NO = EI.AGENT_CODE
-
-					<isNotEmpty prepend="AND" property="schPrtCd">
-						AR.PRT_AT_CODE = #schPrtCd#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schMngYear">
-						AR.MNG_YEAR = #schMngYear#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schMngNo">
-						AR.MNG_NO = #schMngNo#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schMngCnt">
-						AR.MNG_CNT = #schMngCnt#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schReqstSe">
-						AR.REQST_SE = #schReqstSe#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schNticMth">
-						AR.NTIC_MTH = #schNticMth#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schPrmisnYn">
-						AR.PRMISN_YN = #schPrmisnYn#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schReqstEntrpsNo">
-						AR.REQST_ENTRPS_NO = #schReqstEntrpsNo#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schGrUsepdFrom">
-						<![CDATA[ AR.GR_USGPD_FROM >= TO_DATE(#schGrUsepdFrom#, 'YYYY-MM-DD') ]]>
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schGrUusepdTo">
-						<![CDATA[ AR.GR_USGPD_TO <= TO_DATE(#schGrUusepdTo#, 'YYYY-MM-DD') ]]>
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schGrArFrom">
-						<![CDATA[ AR.GR_AR >= #schGrArFrom# ]]>
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="schGrArTo">
-						<![CDATA[ AR.GR_AR <= #schGrArTo# ]]>
-					</isNotEmpty>
-					ORDER BY
-							AR.PRT_AT_CODE DESC
-							, AR.MNG_YEAR DESC
-							, AR.MNG_NO DESC
-							, AR.MNG_CNT DESC
-
-	</select>
-
-	<select id="GamAssetsUsePermMngtDao.selectAssetsRentListTotCnt_S" parameterClass="hashMap" resultClass="int">
-			SELECT COUNT(*) totcnt
-			FROM ASSETS_RENT_F AR
-				, PAULSAN.SHP_OWOP_F@PORTMIS EI
-			WHERE
-				AR.REQST_ENTRPS_NO = EI.AGENT_CODE
-			<isNotEmpty prepend="AND" property="schPrtCd">
-				AR.PRT_AT_CODE = #schPrtCd#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schMngYear">
-				AR.MNG_YEAR = #schMngYear#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schMngNo">
-				AR.MNG_NO = #schMngNo#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schMngCnt">
-				AR.MNG_CNT = #schMngCnt#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schReqstSe">
-				AR.REQST_SE = #schReqstSe#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schNticMth">
-				AR.NTIC_MTH = #schNticMth#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schPrmisnYn">
-				AR.PRMISN_YN = #schPrmisnYn#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schReqstEntrpsNo">
-				AR.REQST_ENTRPS_NO = #schReqstEntrpsNo#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schGrUsepdFrom">
-				<![CDATA[ AR.GR_USGPD_FROM >= TO_DATE(#schGrUsepdFrom#, 'YYYY-MM-DD') ]]>
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schGrUusepdTo">
-				<![CDATA[ AR.GR_USGPD_TO <= TO_DATE(#schGrUusepdTo#, 'YYYY-MM-DD') ]]>
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schGrArFrom">
-				<![CDATA[ AR.GR_AR >= #schGrArFrom# ]]>
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="schGrArTo">
-				<![CDATA[ AR.GR_AR <= #schGrArTo# ]]>
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="prtAtCode">
-				AR.PRT_AT_CODE = #prtAtCode#
-			</isNotEmpty>
-			<isEmpty property="rentPblancYear">
-				<isEmpty property="rentPblancNo">
-					<isNotEmpty prepend="AND" property="mngYear">
-						AR.MNG_YEAR = #mngYear#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="mngNo">
-						AR.MNG_NO = #mngNo#
-					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="mngCnt">
-						AR.MNG_CNT = #mngCnt#
-					</isNotEmpty>
-				</isEmpty>
-			</isEmpty>
-			<isNotEmpty prepend="AND" property="rentPblancYear">
-				AR.RENT_PBLANC_YEAR = #rentPblancYear#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="rentPblancNo">
-				AR.RENT_PBLANC_NO = #rentPblancNo#
-			</isNotEmpty>
+			WHERE  PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
 	</select>
 
     <!-- 승낙 처리 (징수의뢰 일괄생성 insert) -->
-    <insert id="GamAssetsUsePermMngtDao.insertBillCreateOnce" parameterClass="hashMap">
-		INSERT INTO LEV_REQEST (
+     <insert id="gamAssetsUsePermMngtDao.insertBillCreateOnce" parameterClass="hashMap">
+		INSERT INTO LEV_REQEST_F (
 				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, CHRGE_KND, ENTRPSCD, ENTRPS_NM,
 				NTIC_PD_FROM, NTIC_PD_TO, PAY_TMLMT, ACCNUT_YEAR, NTIC_NO, NTIC_DT,
-				 OLNLP, RNTFEE, VAT, VAT_YN, NTIC_AMT, RM, NTIC_MTH, REGISTER, REGIST_DT, UPD_USR, UPDT_DT
+				 OLNLP, FEE, VAT, VAT_YN, NTIC_AMT, RM, NTIC_MTH, REG_USR, REGIST_DT
 		)
 		SELECT
 			AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT, '01',  '1',
 		  #chrgeKnd#,
 		  MAX(AR.ENTRPSCD),
-		  MAX(EI.FIRM_KOR_NM),
-		  <isEqual prepend="AND" property="payMth" compareValue="Aft">
-			  MIN(AR.GR_USGPD_FROM)-15,
-			  MAX(AR.GR_USGPD_FROM-1),
-		  MAX(AR.GR_USGPD_FROM)+15,
+		  MAX(EI.ENTRPS_NM),
+		  <isEqual property="payMth" compareValue="Aft">
+			  MIN(AR.GR_USAGE_PD_FROM)-15,
+			  MAX(AR.GR_USAGE_PD_FROM-1),
+		  MAX(AR.GR_USAGE_PD_FROM)+15,
 		  </isEqual>
-		  <isEqual prepend="AND" property="payMth" compareValue="Pre">
-			  MIN(AR.GR_USGPD_TO)-15,
-			  MAX(AR.GR_USGPD_TO-1),
-		  MAX(AR.GR_USGPD_TO)+15,
+		  <isEqual property="payMth" compareValue="Pre">
+			  MIN(AR.GR_USAGE_PD_TO)-15,
+			  MAX(AR.GR_USAGE_PD_TO-1),
+		  MAX(AR.GR_USAGE_PD_TO)+15,
 		  </isEqual>
-		  TO_CHAR(MAX(AR.GR_USGPD_TO),'YYYY'),
-		  (SELECT MAX(NTIC_NO)+1 FROM LEV_REQEST) NTIC_NO,
+		  TO_CHAR(MAX(AR.GR_USAGE_PD_TO),'YYYY'),
+		  (SELECT MAX(NTIC_NO)+1 FROM LEV_REQEST_F) NTIC_NO,
 		  '',
 		  MAX(PFUD.OLNLP),
 		  MAX(AR.GR_FEE),
-		  DECODE(SUM(PFUD.RNTFEE)/10,
+		  MAX(AR.GR_FEE)/10,
 		  'Y',
-		  TRUNC(SUM(PFUD.RNTFEE) + (SUM(PFUD.RNTFEE) / 10), -1),
+		  TRUNC(MAX(AR.GR_FEE) + (MAX(AR.GR_FEE) / 10), -1),
 		  MAX(AR.RM),
-		  MAX(AR.NTIC_MTH), #register#, SYSDATE, #updUsr#, SYSDATE
+		  MAX(AR.NTIC_MTH), #regUsr#, SYSDATE
 		FROM   ASSETS_RENT_F AR, ASSETS_RENT_DETAIL_F PFUD, ENTRPS_INFO_F EI
 		WHERE AR.PRT_AT_CODE=PFUD.PRT_AT_CODE
 			AND AR.MNG_YEAR=PFUD.MNG_YEAR
@@ -500,142 +130,48 @@
     </insert>
 
     <!-- 승낙 처리 (징수의뢰 분납생성 insert) -->
-    <insert id="GamAssetsUsePermMngtDao.insertBillCreateMore" parameterClass="hashMap">
+    <insert id="gamAssetsUsePermMngtDao.insertBillCreateMore" parameterClass="hashMap">
 		<![CDATA[
-		INSERT INTO LEV_REQEST (
-				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, CHRGE_KND, ENTRPSCD,
+		INSERT INTO LEV_REQEST_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, CHRGE_KND, ENTRPSCD,ENTRPS_NM,
 				NTIC_PD_FROM, NTIC_PD_TO,
 				NTIC_NO, PAY_TMLMT,
-				 OLNLP, RNTFEE, VAT, VAT_YN, NTIC_AMT, RM, SETOFF_YN, RCIV_SE, RCIV_DT, NHT_ISUE_YN,
-				  ACCNUT_YEAR,NTIC_MTH, REGISTER, REGIST_DT, UPD_USR, UPDT_DT
+				 OLNLP, FEE, VAT, VAT_YN, NTIC_AMT, RM, RCIV_SE, NHT_ISUE_YN,
+				  ACCNUT_YEAR,NTIC_MTH, REG_USR, REGIST_DT
 		)
 		SELECT
-		#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, LPAD(NTIC_CNT, 2, '0'), '1', #chrgeKnd#, #entrpscd# ENTRPSCD,
+		#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, LPAD(NTIC_CNT, 2, '0'), '1', FEE_TP, #entrpscd# ENTRPSCD, (SELECT ENTPRS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
 		START_DATE-15 NTIC_PD_FROM, START_DATE-1 NTIC_PD_TO,
-		(SELECT MAX(NTIC_NO)+1 FROM LEV_REQEST) NTIC_NO, END_DATE,
-		#olnlp#, RNTFEE, RNTFEE/10, #vatYn#,TRUNC(RNTFEE + (RNTFEE / 10), -1), 'Remark',
-		SUBSTR(#grUsgpdTo#, 4), #nticMth#, #register#, SYSDATE, #updUsr#, SYSDATE
+		(SELECT MAX(NTIC_NO)+1 FROM LEV_REQEST_F) NTIC_NO, END_DATE,
+		(SELECT MAX(OLNLP) FROM ASSET_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, RNTFEE/10, #vatYn#,TRUNC(RNTFEE + (RNTFEE / 10), -1), #rm#,
+		'N', 'N',
+		SUBSTR(#grUsagePdTo#, 4), #nticMth#, #regUsr#, SYSDATE
 		from (
-					SELECT ROWNUM  as NTIC_CNT,
-			  TRUNC(#grRntfee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1), -1) as RNTFEE,
-			  TRUNC(#grRntfee# - ((#grRntfee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM-1)), -1) as REFE,
-			  ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))                                                                                                                                AS START_DATE,
-			  LAG(ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM)                                                                                                     AS PREV_DUE_DATE,
-			  ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))+14                                                                                                                             AS DUE_DATE,
-			  (
-			    CASE
-			      WHEN TO_DATE(#grUsgpdTo#,'YYYY-MM-DD') < ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1 THEN
-			          TO_DATE(#grUsgpdTo#,'YYYY-MM-DD')
-			    ELSE
-			          ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1
-			     END
-			   ) as END_DATE
-			FROM CMMN_CD
-			WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)
+			SELECT A.FEE_TP, NTIC_CNT, DECODE(A.FEE_TP, #chrgeKnd#', RNTFEE, 'A3', TRUNC(REFE*(RATE_DAY)/365*A.RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
+			FROM (
+			SELECT #chrgeKnd# FEE_TP, 1 RATE FROM dual
+			UNION ALL SELECT 'A3', #payinstIntrrate# FROM dual
+			) A, (
+			SELECT ROWNUM  as NTIC_CNT,
+				  TRUNC(#grFee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1), -1) as RNTFEE,
+				  TRUNC(#grFee# - ((#grFee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM-1)), -1) as REFE,
+				  ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))                            AS START_DATE,
+	        DECODE(ROWNUM, 1, 0, ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))-ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1)-1)) AS RATE_DAY,
+	          LAG(ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM) AS PREV_DUE_DATE,
+				  ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))+14 AS DUE_DATE,
+				  (
+				    CASE
+				      WHEN TO_DATE(#grUsagePdTo#,'YYYY-MM-DD') < ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1 THEN
+				          TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')
+				    ELSE
+				          ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1
+				     END
+				   ) as END_DATE
+				FROM COMTCCMMNDETAILCODE
+				WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)
+	      ) B
 		)
 		]]>
-    </insert>
-
-    <!--
-		#prtAtCode#, #mngYear#, #mngNo#, #mngSeq#, #fclTp#,
-		       LTRIM(TO_CHAR(RNUM, '00')), FETP, #reqCompCd#, #reqCompNm#, #bzRgstId#,
-		       #ssn#, START_DATE, END_DATE, DECODE(FETP, #feeTp#, FARE, 'A3', TRUNC((TO_NUMBER(DUE_DATE-PREV_DUE_DATE)/365) * REFE * 0.06,-1)),
-		       TRUNC(DECODE(FETP, #feeTp#, FARE, 'A3', TRUNC((TO_NUMBER(DUE_DATE-PREV_DUE_DATE)/365)*REFE*0.06,-1))/10,-1),
-
-		       TRUNC(DECODE(FETP, #feeTp#, FARE, 'A3', TRUNC((TO_NUMBER(DUE_DATE-PREV_DUE_DATE)/365)*REFE*0.06,-1)) +
-		       TRUNC(DECODE(FETP, #feeTp#, FARE, 'A3', TRUNC((TO_NUMBER(DUE_DATE-PREV_DUE_DATE)/365)*REFE*0.06,-1))/10,-1),-1),
-		       '2', #offLandVal#, LTRIM(TO_CHAR(ROWNUM, '00')), #dept#,
-		       #upid#, SYSDATE
-		FROM (
-		      SELECT A.RNUM, B.FETP, A.START_DATE, A.PREV_DUE_DATE, A.DUE_DATE, A.END_DATE, A.FARE, A.REFE
-		      FROM (
-		           SELECT ROWNUM AS RNUM,
-		                  TRUNC(#grRntfee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1), -1) AS FARE,
-		      	          TRUNC(#grRntfee# - ((#grRntfee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM-1)), -1) AS REFE,
-		                  ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1)) AS START_DATE,
-		                  LAG(ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM) AS PREV_DUE_DATE,
-		                  ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1))+14 AS DUE_DATE,
-		                  (
-		                  CASE WHEN TO_DATE(#grUsgpdTo#,'YYYY-MM-DD') &lt; ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1
-		                    THEN TO_DATE(#grUsgpdTo#,'YYYY-MM-DD')
-		                    ELSE ADD_MONTHS(TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1
-		                  END
-		                  ) AS END_DATE
-		           FROM   P2MGR.FEE_TP_F
-		           WHERE  ROWNUM &lt;= (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)
-		           ) A,
-		           (
-		           SELECT ROWNUM AS RNUM,
-		                  DECODE(MOD(ROWNUM,2),1,#feeTp#,'A3') AS FETP
-		           FROM   P2MGR.FEE_TP_F WHERE ROWNUM &lt;= #interestFlag#
-		           ) B
-		      ORDER BY A.START_DATE
-		)
-		WHERE FETP &lt;&gt; 'A3' OR REFE &lt;&gt; TRUNC(#grRntfee#, -1)
-     -->
-
-    <!-- 승낙 처리 (징수의뢰 관리비생성 insert) -->
-    <insert id="GamAssetsUsePermMngtDao.insertBillCreateManage" parameterClass="hashMap">
-		INSERT INTO PF_FCL_USE_BILL (
-		        PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_SEQ, FCL_TP,
-		        BILL_SEQ, FEE_TP, COMP_CD, COMP_NM, BZ_RGST_ID,
-		        SSN, BILL_F_DT, BILL_T_DT, FARE, VAT,
-		        BILL_AMNT, VAT_YN, OFF_LAND_VAL, RMK, SQN,
-		        DEPT, UPID, UPDT
-		)
-		SELECT #prtAtCode#, #mngYear#, #mngNo#, #mngSeq#, #fclTp#,
-		       LTRIM(TO_CHAR((TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1) + ROWNUM, '00')), 'A4', #reqCompCd#, #reqCompNm#, #bzRgstId#,
-		       #ssn#, ADD_MONTHS(TO_DATE(#grUsgpdFrom#, 'YYYY-MM-DD'),(ROWNUM-1)),
-		       (
-		        CASE WHEN TO_DATE(#grUsgpdTo#, 'YYYY-MM-DD') &lt; ADD_MONTHS(TO_DATE(#grUsgpdFrom#, 'YYYY-MM-DD'), ROWNUM) - 1
-		             THEN TO_DATE(#grUsgpdTo#, 'YYYY-MM-DD')
-		             ELSE ADD_MONTHS(TO_DATE(#grUsgpdFrom#, 'YYYY-MM-DD'), ROWNUM) - 1
-		        END
-		        ), #feeA4#, #feeA4# / 10,
-		       #feeA4# + (#feeA4# / 10), '2', #offLandVal#, #spec# || '(' || TO_CHAR(TO_DATE(#grUsgpdFrom#),'YYYY-MM-DD') || '~' || TO_CHAR(TO_DATE(#grUsgpdTo#),'YYYY-MM-DD') || ')',
-		       LTRIM(TO_CHAR((((TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#,'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1) * 2) -1) + ROWNUM, '00')),
-		       #dept#, #upid#, SYSDATE
-		FROM   P2MGR.FEE_TP_F
-		WHERE ROWNUM &lt;= (MONTHS_BETWEEN(TO_DATE(#grUsgpdTo#, 'YYYY-MM-DD'), TO_DATE(#grUsgpdFrom#, 'YYYY-MM-DD'))+1)
-    </insert>
-
-    <!-- 승낙 취소 처리 (징수의뢰 delete) -->
-    <delete id="GamAssetsUsePermMngtDao.deletePFPrtFclUsePermMgtTab2ListPerm" parameterClass="hashMap">
-		DELETE
-		FROM   PF_FCL_USE_BILL
-		WHERE  PRT_AT_CODE = #prtAtCode#
-		       AND MNG_YEAR = #mngYear#
-		       AND MNG_NO = #mngNo#
-		       AND MNG_SEQ = #mngSeq#
-		       AND FCL_TP = #fclTp#
-    </delete>
-
-    <insert id="GamAssetsUsePermMngtDao.insertPFPrtFclTermFareStsCreateResult" >
-		INSERT
-		INTO   LEV_REQEST_PLOT_BY_RNTFEE(PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, CHRGE_KND,
-			FCLTY_CD, FCLTY_SUB_CD, RNTFEE, NTIC_MTH, REGISTER, REGIST_DT, UPD_USR, UPDT_DT )
-		(SELECT #prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, #nticCnt#, '1', #chrgeKnd#,
-		 #fcltyCd#, #fcltySubCd#, #rntfee#, #nticMth#, #register#, TO_DATE(#registDt#, 'YYYY-MM-DD'), #updUsr#, TO_DATE(#updtDt#, 'YYYY-MM-DD')
-
-		FROM   (
-		        SELECT TO_CHAR(DECODE(ROWNUM, 1, TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'), ROWNUM-1)),'YYYY-MM-DD') AS USE_F_DT,
-		        		   TO_CHAR(LEAST(LAST_DAY(DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1))), TO_DATE('$useTDt$', 'YYYY-MM-DD')),'YYYY-MM-DD') AS USE_T_DT,
-		        		   TRUNC(($blFee$ / TRUNC((TO_DATE('$useTDt$', 'YYYY-MM-DD') +1) - TO_DATE('$useFDt$', 'YYYY-MM-DD')))
-		               * (LEAST(LAST_DAY(DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1))), TO_DATE('$useTDt$', 'YYYY-MM-DD'))
-		               - DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1))+1)) AS MONTH_FARE,
-
-		        		   $blFee$ - SUM(TRUNC(($blFee$ / TRUNC((TO_DATE('$useTDt$', 'YYYY-MM-DD')+1) - TO_DATE('$useFDt$', 'YYYY-MM-DD')))
-		               * (LEAST(LAST_DAY(DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1))), TO_DATE('$useTDt$', 'YYYY-MM-DD'))
-		               - DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1))+1))) OVER() AS REMAIN_FARE
-		        FROM   P2MGR.FEE_TP_F
-		        WHERE ROWNUM &lt;= ROUND(MONTHS_BETWEEN(TO_DATE('$useTDt2$', 'YYYY-MM'), TO_DATE('$useFDt2$', 'YYYY-MM')))+1
-		        GROUP BY TO_CHAR(DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1)), 'YYYY-MM-DD'),
-		               TO_CHAR(LEAST(LAST_DAY(DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'),ROWNUM-1))),
-		               TO_DATE('$useTDt$', 'YYYY-MM-DD')),'YYYY-MM-DD'), TRUNC(($blFee$ / TRUNC((TO_DATE('$useTDt$', 'YYYY-MM-DD')+1)
-		               - TO_DATE('$useFDt$', 'YYYY-MM-DD'))) * (LEAST(LAST_DAY(DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'),
-		               ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'), ROWNUM-1))), TO_DATE('$useTDt$', 'YYYY-MM-DD'))
-		               - DECODE(ROWNUM,1,TO_DATE('$useFDt$', 'YYYY-MM-DD'), ADD_MONTHS(TO_DATE('$useFDt2$', 'YYYY-MM'), ROWNUM-1))+1))
-		))
     </insert>
 
 </sqlMap>

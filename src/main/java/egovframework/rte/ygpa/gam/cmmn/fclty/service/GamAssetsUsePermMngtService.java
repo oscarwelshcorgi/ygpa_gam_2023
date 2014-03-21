@@ -26,14 +26,14 @@ public interface GamAssetsUsePermMngtService {
 
 	/**
 	 * 자산에 대해서 사용 승낙을 한다.
-	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류)
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류, regUsr: 등록자 아이디)
 	 * @throws Exception
 	 */
 	public void confirmAssetsRentUsePerm(Map<String, Object> vo) throws Exception;
 
 	/**
 	 * 자산에 대해서 사용 승낙을 취소 한다.
-	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수)
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, regUsr: 등록자 아이디)
 	 * @throws Exception
 	 */
 	public void cancelAssetsRentUsePerm(Map<String, Object> vo) throws Exception;

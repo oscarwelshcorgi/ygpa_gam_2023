@@ -72,7 +72,4 @@
 
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamBupJungDongCodeMngtDao_SQL_oracle.xml"/>
 
-    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamEApprovalRequestDao_SQL_oracle.xml"/>
-    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/eap/EapGwCall_fwd_SQL.xml"/>
-
 </sqlMapConfig>

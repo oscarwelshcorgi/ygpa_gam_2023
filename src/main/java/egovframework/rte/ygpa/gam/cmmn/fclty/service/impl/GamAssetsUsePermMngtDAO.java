@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
  *
@@ -29,10 +30,31 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 @Repository("gamAssetsUsePermMngtDAO")
 public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	/**
+	 * 사용정보를 불러온다.
+	 */
+	public EgovMap selectAssetRentByPk(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamAssetsUsePermMngtDao.selectAssetRentByPk_S", vo);
+    }
+
+	/**
+	 * 사용승낙을 처리한다.
+	 */
+	public void confirmAssetUsePerm(Map<String, Object> vo) throws Exception {
+        update("gamAssetsUsePermMngtDao.confirmAssetsUsePerm", vo);
+    }
+
+	/**
+	 * 사용승낙을 취소한다.
+	 */
+	public void cancelAssetUsePerm(Map<String, Object> vo) throws Exception {
+        update("gamAssetsUsePermMngtDao.cancelAssetsUsePerm", vo);
+    }
+
+	/**
 	 * 전체 사용료를 등록한다.
 	 */
     public String insertBillCreateOnce(Map<String, Object> vo) throws Exception {
-        return (String)insert("GamAssetsUsePermMngtDAO.insertBillCreateOnce", vo);
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateOnce", vo);
     }
 
     /**
@@ -40,7 +62,7 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	 */
     public String insertBillCreatePreMonth(Map<String, Object> vo) throws Exception {
 		vo.put("blTpNum", "1");
-        return (String)insert("GamAssetsUsePermMngtDAO.insertBillCreateMore", vo);
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateMore", vo);
     }
 
     /**
@@ -48,7 +70,7 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	 */
     public String insertBillCreatePreThird(Map<String, Object> vo) throws Exception {
 		vo.put("blTpNum", "4");
-        return (String)insert("GamAssetsUsePermMngtDAO.insertBillCreateMore", vo);
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateMore", vo);
     }
 
     /**
@@ -56,7 +78,7 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	 */
     public String insertBillCreatePreQuater(Map<String, Object> vo) throws Exception {
 		vo.put("blTpNum", "3");
-        return (String)insert("GamAssetsUsePermMngtDAO.insertBillCreateMore", vo);
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateMore", vo);
     }
 
     /**
@@ -64,7 +86,7 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	 */
     public String insertBillCreatePreHalf(Map<String, Object> vo) throws Exception {
 		vo.put("blTpNum", "6");
-        return (String)insert("GamAssetsUsePermMngtDAO.insertBillCreateMore", vo);
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateMore", vo);
     }
 
     /**
@@ -72,6 +94,24 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	 */
     public String insertBillCreatePreYear(Map<String, Object> vo) throws Exception {
 		vo.put("blTpNum", "12");
-        return (String)insert("GamAssetsUsePermMngtDAO.insertBillCreateMore", vo);
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateMore", vo);
+    }
+
+    /**
+     * 사용료 정보를 삭제한다.
+     * @param vo
+     * @throws Exception
+     */
+    public void deleteLevRequest(Map<String, Object> vo) throws Exception {
+        delete("gamAssetsUsePermMngtDao.deleteLevRequest_D", vo);
+    }
+
+    /**
+     * 사용료 통계 정보를 삭제한다.
+     * @param vo
+     * @throws Exception
+     */
+    public void deleteAssetsUsagePdByStats(Map<String, Object> vo) throws Exception {
+    	delete("gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D", vo);
     }
 }

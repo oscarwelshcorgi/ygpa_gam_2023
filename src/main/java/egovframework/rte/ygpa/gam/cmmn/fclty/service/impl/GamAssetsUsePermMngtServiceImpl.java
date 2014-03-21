@@ -31,33 +31,60 @@ import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService
  * </pre>
  */
 
-@Service("gamAssetsUsePermMngtServiceImpl")
+@Service("gamAssetsUsePermMngtService")
 public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl implements
 		GamAssetsUsePermMngtService {
 
-	@Resource(name="gamAssetRentMngtDao")
-    private GamAssetRentMngtDao gamAssetRentMngtDao;
-
+	@Resource(name="gamAssetsUsePermMngtDAO")
+    private GamAssetsUsePermMngtDAO gamAssetsUsePermMngtDAO;
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#confirmAssetsRentUsePerm(java.util.Map)
 	 */
 	@Override
 	public void confirmAssetsRentUsePerm(Map<String, Object> vo)
 			throws Exception {
-		GamAssetRentMngtVO assetsRent = new GamAssetRentMngtVO();
-		assetsRent.setPrtAtCode((String) vo.get("prtAtCode"));
-		assetsRent.setMngYear((String) vo.get("mngYear"));
-		assetsRent.setMngNo((String) vo.get("mngNo"));
-		assetsRent.setMngCnt((String) vo.get("mngCnt"));
-		assetsRent = gamAssetRentMngtDao.selectAssetRentPrmisnInfo(assetsRent);
-		
-		if(assetsRent.getNticMth()==null) {
+		Map assetsRent;
+
+		assetsRent = gamAssetsUsePermMngtDAO.selectAssetRentByPk(vo);
+
+		if(!assetsRent.containsKey("nticMth")) {
 			throw processException("fail.levinsert.type");
 		}
-		if("1".equals(assetsRent.getNticMth())) {
+
+		assetsRent.put("regUsr", vo.get("regUsr"));
+		assetsRent.put("updUsr", vo.get("regUsr"));
+		assetsRent.put("chrgeKnd", vo.get("chrgeKnd"));
+		vo.putAll(assetsRent);
+
+		if("1".equals(assetsRent.get("nticMth"))) {
 			// 일괄 납부
-			
+			gamAssetsUsePermMngtDAO.insertBillCreateOnce(vo);
 		}
+		else {
+			// 분납
+			if("2".equals(assetsRent.get("nticMth"))) {
+				// 반기납
+				vo.put("blTpNum", 6);
+				gamAssetsUsePermMngtDAO.insertBillCreatePreHalf(vo);
+			}
+			else if("3".equals(assetsRent.get("nticMth"))) {
+				// 3분납
+				vo.put("blTpNum", 4);
+				gamAssetsUsePermMngtDAO.insertBillCreatePreThird(vo);
+			}
+			else if("4".equals(assetsRent.get("nticMth"))) {
+				// 분기납
+				vo.put("blTpNum", 3);
+				gamAssetsUsePermMngtDAO.insertBillCreatePreQuater(vo);
+			}
+			else if("5".equals(assetsRent.get("nticMth"))) {
+				// 월납
+				vo.put("blTpNum", 1);
+				gamAssetsUsePermMngtDAO.insertBillCreatePreMonth(vo);
+			}
+			throw processException("fail.levinsert.type");
+		}
+		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);
 	}
 
 	/* (non-Javadoc)
@@ -66,8 +93,9 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 	@Override
 	public void cancelAssetsRentUsePerm(Map<String, Object> vo)
 			throws Exception {
-		// TODO Auto-generated method stub
-
+		gamAssetsUsePermMngtDAO.cancelAssetUsePerm(vo);
+		gamAssetsUsePermMngtDAO.deleteLevRequest(vo);
+		gamAssetsUsePermMngtDAO.deleteAssetsUsagePdByStats(vo);
 	}
 
 	/* (non-Javadoc)
