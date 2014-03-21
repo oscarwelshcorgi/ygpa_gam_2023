@@ -173,6 +173,7 @@
                                   , A.PAY_MTH
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
                                   , A.SANCTN_STTUS
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM046' AND CD.CODE = A.SANCTN_STTUS AND ROWNUM = 1) SANCTN_STTUS_NM 
                                   , A.SANCTNER_EMPL_NO
                                   , A.QUAY_CD
                                   , A.SANCTN_DT
