@@ -138,21 +138,26 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//자산임대목록
+		//목록
     	totalCnt = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtList(searchVO);
     	
     	//자료수, 사용료, 부가세, 고지액
-    	GamPrtFcltyRentFeePaySttusMngtVO resultSum = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtSum(searchVO);
+    	//GamPrtFcltyRentFeePaySttusMngtVO resultSum = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtSum(searchVO);
+    	GamPrtFcltyRentFeePaySttusMngtVO resultSum = new GamPrtFcltyRentFeePaySttusMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
-    	
+    	*/
+    	map.put("sumFee", "");
+    	map.put("sumVat", "");
+    	map.put("sumNticAmt", "");
     	return map;
     }
 	
