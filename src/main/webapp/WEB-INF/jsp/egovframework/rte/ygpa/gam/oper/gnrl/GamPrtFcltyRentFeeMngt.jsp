@@ -47,7 +47,7 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
                     {display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
-                    {display:'고지번호', name:'nticNo',width:100, sortable:false,align:'center'},
+                    {display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},
                     {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'center'},
                     {display:'사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용기간FROM', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
@@ -590,11 +590,11 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
                             <td>
                                <form id="form1">
                                   합계
-                                  자료수 <input id="totalResultCnt" class="ygpaNumber" size="5" readonly>
-                                  사용료 <input id="sumFee" type="text" class="ygpaCurrency" size="14" readonly>
-                                  연체 <input id="sumArrrgAmt" type="text" class="ygpaCurrency" size="14" readonly>
-                                  부가세 <input id="sumVat" type="text" class="ygpaCurrency" size="14" readonly>
-                                  고지액 <input id="sumNticAmt" type="text" class="ygpaCurrency" size="14" readonly>
+                                  자료수 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="5" readonly>
+                                  사용료 <input id="sumFee" type="text" class="ygpaCurrency" style="text-align:right;" size="14" readonly>
+                                  연체 <input id="sumArrrgAmt" type="text" class="ygpaCurrency" style="text-align:right;" size="14" readonly>
+                                  부가세 <input id="sumVat" type="text" class="ygpaCurrency" style="text-align:right;" size="14" readonly>
+                                  고지액 <input id="sumNticAmt" type="text" class="ygpaCurrency" style="text-align:right;" size="14" readonly>
                                </form>
                             </td>
                             <td>

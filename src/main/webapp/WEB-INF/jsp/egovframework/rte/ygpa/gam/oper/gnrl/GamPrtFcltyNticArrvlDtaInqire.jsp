@@ -14,7 +14,7 @@
   *  2014.01.14  domh     최초 생성
   *
   * author domh
-  * since 2014.01.10
+  * since 2014.01.14
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
@@ -85,7 +85,7 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
     });
 
     // 항만시설사용상세 테이블 설정
-    this.$("#assetUseExprInqireDetailList").flexigrid({
+    this.$("#prtFcltyNticArrvlDtaInqireDetailList").flexigrid({
         module: this,
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyNticArrvlDtaInqireDetailList.do" />',
         dataType: 'json',
@@ -243,17 +243,17 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         }
         
         var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
-        module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
+        module.$('#prtFcltyNticArrvlDtaInqireDetailList').flexOptions({params:searchOpt}).flexReload();
         module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
     });
 
-    this.$("#assetUseExprInqireDetailList").on('onItemSelected', function(event, module, row, grid, param) {
+    this.$("#prtFcltyNticArrvlDtaInqireDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
         module.$('#gamAssetRentDetailForm :input').val('');
         
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
-        module._editRow=module.$('#assetUseExprInqireDetailList').selectedRowIds()[0];
+        module._editRow=module.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRowIds()[0];
     });
 
     this.$("#prtFcltyNticArrvlDtaInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -270,12 +270,12 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         }
     });
 
-    this.$("#assetUseExprInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    this.$("#prtFcltyNticArrvlDtaInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 2});
         module.$('#gamAssetRentDetailForm :input').val('');
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
-        module._editRow=module.$('#assetUseExprInqireDetailList').selectedRowIds()[0];
+        module._editRow=module.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRowIds()[0];
 
         if(row!=null) {
             module.$('#detailCmd').val('modify');
@@ -549,8 +549,8 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
             this.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamPrtFcltyNticArrvlDtaInqireForm').find(':input').val('');
             this.$('#gamAssetRentDetailForm').find(':input').val('');
-            //this.$("#assetUseExprInqireDetailList").flexRemove();
-            this.$("#assetUseExprInqireDetailList").flexAddData({resultList:[]}); //그리드 초기화
+            //this.$("#prtFcltyNticArrvlDtaInqireDetailList").flexRemove();
+            this.$("#prtFcltyNticArrvlDtaInqireDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
@@ -638,9 +638,9 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
 
                 //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
 
-                inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetUseExprInqireDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+                inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
-                inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetUseExprInqireDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+                inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
                 inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
                 
@@ -664,8 +664,8 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
                     if(result.resultCode == 0){
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
                         module.$('#prtFcltyNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
-                        //module.$('#assetUseExprInqireDetailList').flexReload();
-                        module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
+                        //module.$('#prtFcltyNticArrvlDtaInqireDetailList').flexReload();
+                        module.$('#prtFcltyNticArrvlDtaInqireDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
                     alert(result.resultMsg);
                 });
@@ -746,26 +746,26 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
                 this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
 
                 this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I'});
-                this._editRow=this.$('#assetUseExprInqireDetailList').flexGetData().length;
+                this._editRow=this.$('#prtFcltyNticArrvlDtaInqireDetailList').flexGetData().length;
             }
 
             break;
 
         // 항만시설사용상세 삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveItemDetail':
-            var rows = this.$('#assetUseExprInqireDetailList').selectedRows();
+            var rows = this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRows();
 
             if(rows.length == 0) {
                 alert("항만시설사용상세목록에서 삭제할 행을 선택하십시오.");
             } else {
-                if(this.$('#assetUseExprInqireDetailList').selectedRowIds().length>0) {
-                    for(var i=this.$('#assetUseExprInqireDetailList').selectedRowIds().length-1; i>=0; i--) {
-                        var row=this.$('#assetUseExprInqireDetailList').flexGetRow(this.$('#assetUseExprInqireDetailList').selectedRowIds()[i]);
+                if(this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRowIds().length>0) {
+                    for(var i=this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRowIds().length-1; i>=0; i--) {
+                        var row=this.$('#prtFcltyNticArrvlDtaInqireDetailList').flexGetRow(this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRowIds()[i]);
 
                         if(row._updtId==undefined || row._updtId!='I') {
                             this._deleteDataList[this._deleteDataList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
-                        this.$('#assetUseExprInqireDetailList').flexRemoveRow(this.$('#assetUseExprInqireDetailList').selectedRowIds()[i]);
+                        this.$('#prtFcltyNticArrvlDtaInqireDetailList').flexRemoveRow(this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRowIds()[i]);
                     }
                 }
             }
@@ -788,7 +788,7 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
-                        module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyNticArrvlDtaInqireDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -798,7 +798,7 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
                 this.doAction('<c:url value="/oper/gnrl/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamPrtFcltyNticArrvlDtaInqireForm');
-                        module.$('#assetUseExprInqireDetailList').flexOptions({params:searchOpt}).flexReload();
+                        module.$('#prtFcltyNticArrvlDtaInqireDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -935,11 +935,11 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onCalc = function() {
             
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
-                this.$('#assetUseExprInqireDetailList').flexUpdateRow(this._editRow, this._editData);
+                this.$('#prtFcltyNticArrvlDtaInqireDetailList').flexUpdateRow(this._editRow, this._editData);
                 this._editRow=null;    // 편집 저장 하였으므로 로우 편집을 종료 한다.
             }
             else {
-                this.$('#assetUseExprInqireDetailList').flexAddRow(this._editData);
+                this.$('#prtFcltyNticArrvlDtaInqireDetailList').flexAddRow(this._editData);
             }
 
             this.$('#gamAssetRentDetailForm').find(':input').val('');
@@ -1052,7 +1052,7 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onTabChange = function(newTabId, o
 
         break;
     case 'tabs3':
-        var row = this.$('#assetUseExprInqireDetailList').selectedRows();
+        var row = this.$('#prtFcltyNticArrvlDtaInqireDetailList').selectedRows();
         if(row.length==0) {
             this.$('#detailCmd').val('insert');
         }
@@ -1302,13 +1302,13 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                                     <input type="text" size="10" id="grUsagePdTo" disabled/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" disabled/></td>
                                 <th><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
@@ -1351,8 +1351,8 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                     </tbody>
                  </table>
 
-                 <!-- <table id="assetUseExprInqireDetailList" style="display:none" class="fillHeight"></table> -->
-                 <table id="assetUseExprInqireDetailList" style="display:none"></table>
+                 <!-- <table id="prtFcltyNticArrvlDtaInqireDetailList" style="display:none" class="fillHeight"></table> -->
+                 <table id="prtFcltyNticArrvlDtaInqireDetailList" style="display:none"></table>
                  
                  <!-- 
                  <table style="width:100%">
