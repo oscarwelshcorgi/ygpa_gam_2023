@@ -42,7 +42,7 @@ public class GamPrtFcltyNticArrvlDtaInqireServiceImpl  extends AbstractServiceIm
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 항만시설사용 목록을 조회한다.
+	 * 항만시설고지도래 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -52,7 +52,7 @@ public class GamPrtFcltyNticArrvlDtaInqireServiceImpl  extends AbstractServiceIm
     }
 
     /**
-	 * 항만시설사용 목록 총 갯수를 조회한다.
+	 * 항만시설고지도래 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -72,7 +72,7 @@ public class GamPrtFcltyNticArrvlDtaInqireServiceImpl  extends AbstractServiceIm
     }
 
     /**
-	 * 항만시설사용 최초 신청을 등록한다.
+	 * 항만시설고지도래 최초 신청을 등록한다.
 	 * @param vo GamPrtFcltyNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
@@ -91,7 +91,7 @@ public class GamPrtFcltyNticArrvlDtaInqireServiceImpl  extends AbstractServiceIm
     }
 
     /**
-	 * 항만시설사용 연장 신청을 등록한다.
+	 * 항만시설고지도래 연장 신청을 등록한다.
 	 * @param vo GamPrtFcltyNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
