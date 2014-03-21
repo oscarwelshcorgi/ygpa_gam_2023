@@ -929,9 +929,9 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" id="olnlp" style="text-align:right;" /></td>
+                                <td><input type="text" size="17" class="ygpaCurrency" id="olnlp" style="text-align:right;" /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="15" id="usageAr" style="text-align:right;" /></td>
+                                <td colspan="3"><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
