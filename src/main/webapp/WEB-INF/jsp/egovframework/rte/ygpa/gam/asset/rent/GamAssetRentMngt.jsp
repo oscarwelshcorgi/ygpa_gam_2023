@@ -31,7 +31,7 @@ GamAssetRentMngtModule.prototype = new EmdModule(1100, 650);
 GamAssetRentMngtModule.prototype.loadComplete = function() {
 
     // 자산임대 테이블 설정
-    this.$("#assetRentMngtList").flexigrid({
+    this.$("#assetRentMngtList").flexigrid({ 
         module: this,
         url: '<c:url value="/asset/rent/gamSelectAssetRentList.do" />',
         dataType: 'json',
