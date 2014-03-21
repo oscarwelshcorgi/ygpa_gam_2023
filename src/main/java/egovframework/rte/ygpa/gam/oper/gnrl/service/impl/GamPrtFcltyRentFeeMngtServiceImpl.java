@@ -109,4 +109,13 @@ public class GamPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl impl
 		gamPrtFcltyRentFeeMngtDao.deletePrtFcltyRentFeeMngt(vo);
 	}
 	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamPrtFcltyRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertPrtFcltyRentFeeMngtLevReqest(GamPrtFcltyRentFeeMngtVO vo) throws Exception {
+		gamPrtFcltyRentFeeMngtDao.insertPrtFcltyRentFeeMngtLevReqest(vo);
+	}
+	
 }

@@ -100,4 +100,12 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 		delete("gamPrtFcltyRentFeeMngtDao.deletePrtFcltyRentFeeMngt_S", vo);
 	}
 
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamPrtFcltyRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertPrtFcltyRentFeeMngtLevReqest(GamPrtFcltyRentFeeMngtVO vo){
+		insert("gamPrtFcltyRentFeeMngtDao.insertPrtFcltyRentFeeMngtLevReqest_S", vo);
+	}
 }
