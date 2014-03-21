@@ -795,6 +795,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
+        /*    
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#prtFcltyRentMngtList').selectedRows();
             
@@ -832,6 +833,61 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                 alert("목록에서 선택하십시오.");
             }
         
+            break;
+        */
+        
+        case 'btnPrmisn': // 사용승낙
+            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
+            var row = this.$('#prtFcltyRentMngtList').selectedRows()[0];
+        
+            //if( row['prmisnYn'] == 'Y' ) {
+            //    alert("사용승낙을 할수없는 상태 입니다.");
+            //    return;
+            //}
+        
+            if(rows.length>=1) {
+                if( confirm("승낙을 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do" />', rows[0], function(module, result) {
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+                            module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        }
+
+                        alert(result.resultMsg);
+                    });
+                }
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+
+            break;
+        
+        case 'btnPrmisnCancel': // 승낙취소
+            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
+            var row = this.$('#prtFcltyRentMngtList').selectedRows()[0];
+            
+            //alert(row['prmisnYn']);
+            
+            //if( row['prmisnYn'] == 'N' || row['prmisnYn'] == '' ) {
+            //    alert("승낙취소를 할수없는 상태 입니다.");
+            //    return;
+            //}
+        
+            if(rows.length>=1) {
+                if( confirm("승낙취소를 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+                            module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        }
+
+                        alert(result.resultMsg);
+                    });
+                }
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+
             break;
         
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
@@ -987,11 +1043,38 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 
             break;        
             
-        case 'btnSanctnReq':    //결재요청.  
-            
-            alert("결재요청을 합니다.");
-        
-            break;            
+        case 'btnEApproval':    // 전자결재 테스트
+            if(this.$('#prtFcltyRentMngtList').selectedRowCount()>0) {
+                
+                //alert(EMD.context_root);
+                
+                var rows = this.$('#prtFcltyRentMngtList').selectedRows()[0];
+                
+                if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
+                	alert("결재요청을 할수없는 상태 입니다.");
+                	return;
+                }
+                
+                if( confirm("결재요청을 하시겠습니까?") ) {
+	                var opts = {
+	                        type: 'ARUC',
+	                        prtAtCode: rows['prtAtCode'],
+	                        mngYear: rows['mngYear'],
+	                        mngNo: rows['mngNo'],
+	                        mngCnt: rows['mngCnt']
+	                };
+	                this.requestEApproval(opts);
+	                
+	                alert("결재요청을 하였습니다.");
+	                
+	                var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+	                module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                }
+            } else {
+            	alert("목록에서 결제할 건을 선택하십시오.");
+            	return;
+            }
+            break;           
     }
 };
 
@@ -1207,10 +1290,10 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 <button id="addPrtFcltyRentMngtFirst">최초신청</button>
                                 <button id="addPrtFcltyRentMngtRenew">연장신청</button>
                                 <button id="btnRemoveItem">신청삭제</button>
-                                <button id="btnSanctnReq">결재요청</button>
+                                <button id="btnEApproval">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
-                                <button id="btnXXX3">맵조회</button>
+                                <button id="btnShowMap">맵조회</button>
                             </td>
                         </tr>
                     </table>
@@ -1345,7 +1428,7 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="btnSanctnReq">결재요청</button><button id="btnPrmisn">사용승낙</button>
+                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
                             <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
                             <!-- <button id="btnCancelItem">취소</button>  -->
                         </td>

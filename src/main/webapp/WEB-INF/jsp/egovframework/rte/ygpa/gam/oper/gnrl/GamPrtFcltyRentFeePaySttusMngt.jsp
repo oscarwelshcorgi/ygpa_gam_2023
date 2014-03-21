@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamPrtFcltyRentFeePaySttusMngt.jsp
-  * @Description : 일반부두납부현황관리
+  * @Description : 항만시설납부현황관리
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
