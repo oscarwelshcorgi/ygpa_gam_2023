@@ -162,10 +162,17 @@
                                   , A.SANCTN_DT
                                   , A.QUAY_GROUP_CD
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
-                             FROM ASSETS_RENT_F A
+                                  , B.NTICNO
+                                  , TO_CHAR(B.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+                             FROM ASSETS_RENT_F A,
+                                  LEV_REQEST_F B
                             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
                              
-                             <!-- AND A.PRMISN_YN = 'Y' -->
+                             AND A.PRT_AT_CODE = B.PRT_AT_CODE
+                             AND A.MNG_YEAR    = B.MNG_YEAR
+                             AND A.MNG_NO      = B.MNG_NO
+                             AND A.MNG_CNT     = B.MNG_CNT                     
+                             AND A.PRMISN_YN = 'Y'
                              
                              <isNotEmpty property="sPrtAtCode">
 					             AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -180,11 +187,11 @@
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrUsagePdFrom"> 
-                                 AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                                 AND B.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                              </isNotEmpty>
                              
                              <isNotEmpty property="sGrUsagePdTo">
-                                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                                 AND B.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                              </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrAr">
@@ -231,63 +238,68 @@
     
     <select id="gamPrtFcltyNticArrvlDtaInqireDao.selectPrtFcltyNticArrvlDtaInqireListTotCnt_S" parameterClass="gamPrtFcltyNticArrvlDtaInqireVO" resultClass="int">
             SELECT COUNT(*) TOTCNT
-              FROM ASSETS_RENT_F A
-             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
-                             
-             <!-- AND A.PRMISN_YN = 'Y' -->
+              FROM ASSETS_RENT_F A,
+                  LEV_REQEST_F B
+            WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
              
-             <isNotEmpty property="sPrtAtCode">
-                 AND A.PRT_AT_CODE = #sPrtAtCode#  
-             </isNotEmpty>
-             
-             <isNotEmpty property="sReqstSeCd">
-                 AND A.REQST_SE_CD = #sReqstSeCd#  
-             </isNotEmpty>
-             
-             <isNotEmpty property="sEntrpscd">
-                 AND A.ENTRPSCD = #sEntrpscd#  
-             </isNotEmpty>
-             
-             <isNotEmpty property="sGrUsagePdFrom"> 
-                 AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-             </isNotEmpty>
-             
-             <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-             </isNotEmpty>
-             
-             <isNotEmpty property="sGrAr">
-                 AND A.GR_AR = #sGrAr#
-             </isNotEmpty>
-             
-             <isNotEmpty property="sMngYear">
-                 AND A.MNG_YEAR = #sMngYear#
-             </isNotEmpty>
-             
-             <isNotEmpty property="sMngNo">
-                 AND A.MNG_NO = #sMngNo#
-             </isNotEmpty>
-             
-             <isNotEmpty property="sMngCnt">
-                 AND A.MNG_CNT = #sMngCnt#
-             </isNotEmpty>
-             
-             <isNotEmpty property="sPrmisnYn">
-                 AND A.PRMISN_YN = #sPrmisnYn#
-             </isNotEmpty>
-             
-             <isNotEmpty property="sUsagePrposCd">
-                 AND (
-                       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
-                                                                     SELECT  PRT_AT_CODE
-                                                                           , MNG_YEAR
-                                                                           , MNG_NO
-                                                                           , MNG_CNT 
-                                                                       FROM ASSETS_RENT_DETAIL_F
-                                                                      WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
-                                                                   )
-                     ) 
-             </isNotEmpty>
+             AND A.PRT_AT_CODE = B.PRT_AT_CODE
+             AND A.MNG_YEAR    = B.MNG_YEAR
+             AND A.MNG_NO      = B.MNG_NO
+             AND A.MNG_CNT     = B.MNG_CNT                     
+             AND A.PRMISN_YN = 'Y'
+                       
+        <isNotEmpty property="sPrtAtCode">
+            AND A.PRT_AT_CODE = #sPrtAtCode#  
+        </isNotEmpty>
+        
+        <isNotEmpty property="sReqstSeCd">
+            AND A.REQST_SE_CD = #sReqstSeCd#  
+        </isNotEmpty>
+        
+        <isNotEmpty property="sEntrpscd">
+            AND A.ENTRPSCD = #sEntrpscd#  
+        </isNotEmpty>
+        
+        <isNotEmpty property="sGrUsagePdFrom"> 
+                           AND B.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                       </isNotEmpty>
+                       
+                       <isNotEmpty property="sGrUsagePdTo">
+                           AND B.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                       </isNotEmpty>
+        
+        <isNotEmpty property="sGrAr">
+            AND A.GR_AR = #sGrAr#
+        </isNotEmpty>
+        
+        <isNotEmpty property="sMngYear">
+            AND A.MNG_YEAR = #sMngYear#
+        </isNotEmpty>
+        
+        <isNotEmpty property="sMngNo">
+            AND A.MNG_NO = #sMngNo#
+        </isNotEmpty>
+        
+        <isNotEmpty property="sMngCnt">
+            AND A.MNG_CNT = #sMngCnt#
+        </isNotEmpty>
+        
+        <isNotEmpty property="sPrmisnYn">
+            AND A.PRMISN_YN = #sPrmisnYn#
+        </isNotEmpty>
+                       
+                       <isNotEmpty property="sUsagePrposCd">
+                           AND (
+		       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+									                         SELECT  PRT_AT_CODE
+									                               , MNG_YEAR
+									                               , MNG_NO
+									                               , MNG_CNT 
+									                           FROM ASSETS_RENT_DETAIL_F
+									                          WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+									                       )
+		     ) 
+                       </isNotEmpty>
     </select>
     
     <select id="gamPrtFcltyNticArrvlDtaInqireDao.selectPrtFcltyNticArrvlDtaInqireSum_S" parameterClass="gamPrtFcltyNticArrvlDtaInqireVO" resultMap="gamPrtFcltyNticArrvlDtaInqireSumMap">
