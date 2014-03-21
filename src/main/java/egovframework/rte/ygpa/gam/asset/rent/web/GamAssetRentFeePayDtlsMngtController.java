@@ -143,20 +143,26 @@ public class GamAssetRentFeePayDtlsMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//자산임대목록
     	totalCnt = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsListTotCnt(searchVO);
     	List resultList = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsList(searchVO);
     	
     	//자료수, 사용료, 부가세, 고지액
-    	GamAssetRentFeePayDtlsMngtVO resultSum = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsSum(searchVO);
+    	//GamAssetRentFeePayDtlsMngtVO resultSum = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsSum(searchVO);
+    	GamAssetRentFeePayDtlsMngtVO resultSum = new GamAssetRentFeePayDtlsMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	
+    	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	*/
+    	map.put("sumFee", "");
+    	map.put("sumVat", "");
+    	map.put("sumNticAmt", "");
     	
     	return map;
     }
