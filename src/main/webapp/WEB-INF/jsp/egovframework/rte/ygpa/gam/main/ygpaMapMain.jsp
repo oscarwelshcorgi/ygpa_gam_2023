@@ -139,6 +139,10 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
+                                    data-url="<c:url value='/asset/rent/gamAssetRentfeePayDtlsInqire.do'/>">사용료납부내역조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0011"
                                     data-url="<c:url value='/asset/rent/gamAssetPopupInqire.do'/>">자산정보현황알림</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
