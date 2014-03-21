@@ -4,7 +4,7 @@ import egovframework.com.cmm.ComDefaultVO;
 
 /**
  * @Class Name : GamAssetRentMngtVO.java
- * @Description : 자산임대 VO class
+ * @Description : 자산별사용료현황조회 VO class
  * @Modification Information
  *
  * @author heroine
