@@ -35,6 +35,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 
 /**
  * @Class Name : GamAssetRentMngtController.java
@@ -71,6 +72,9 @@ public class GamAssetRentMngtController {
     
     @Resource(name = "gamAssetRentMngtService")
     private GamAssetRentMngtService gamAssetRentMngtService;
+    
+    //@Resource(name = "gamAssetsUsePermMngtService")
+    //private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 	
     
     /**
@@ -1079,6 +1083,7 @@ public class GamAssetRentMngtController {
      * @return map
      * @throws Exception
      */
+    /*
     @RequestMapping(value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do") 
     public @ResponseBody Map updateAssetRentPrmisnCancel(
      	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
@@ -1130,6 +1135,97 @@ public class GamAssetRentMngtController {
          
  		return map;
      }
+     */
+    
+    /**
+     * 자산임대 승낙을 한다.
+     * @param gamAssetRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/rent/gamUpdateAssetRentPrmisn.do") 
+    public @ResponseBody Map updateAssetRentPrmisn(
+     	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
+     	   BindingResult bindingResult)
+            throws Exception {
+ 	
+     	 Map map = new HashMap();
+     	 Map paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+         
+         System.out.println("##################################### 승낙시작!!");
+         System.out.println("##################################### getPrtAtCode => " +  gamAssetRentMngtVO.getPrtAtCode());
+         System.out.println("##################################### getMngYear => " +  gamAssetRentMngtVO.getMngYear());
+         System.out.println("##################################### getMngNo => " +  gamAssetRentMngtVO.getMngNo());
+         System.out.println("##################################### getMngCnt => " +  gamAssetRentMngtVO.getMngCnt());
+         
+         //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
+         paramMap.put("prtAtCode", gamAssetRentMngtVO.getPrtAtCode());
+         paramMap.put("mngYear", gamAssetRentMngtVO.getMngYear());
+         paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
+         paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
+         paramMap.put("chrgeKnd", "");
+         
+         System.out.println("##################################### paramMap => " + paramMap);
+         
+         //승낙 서비스 클래스 호출
+         //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙  
+         
+         resultCode = 0; 
+ 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 되었습니다.
+         
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+    
+    /**
+     * 자산임대 승낙취소(허가취소)를 한다.
+     * @param gamAssetRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do") 
+    public @ResponseBody Map updateAssetRentPrmisnCancel(
+     	   @ModelAttribute("gamAssetRentMngtVO") GamAssetRentMngtVO gamAssetRentMngtVO, 
+     	   BindingResult bindingResult)
+            throws Exception {
+ 	
+     	 Map map = new HashMap();
+     	 Map paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+         
+         System.out.println("##################################### 승낙취소시작!!");
+         System.out.println("##################################### getPrtAtCode => " +  gamAssetRentMngtVO.getPrtAtCode());
+         System.out.println("##################################### getMngYear => " +  gamAssetRentMngtVO.getMngYear());
+         System.out.println("##################################### getMngNo => " +  gamAssetRentMngtVO.getMngNo());
+         System.out.println("##################################### getMngCnt => " +  gamAssetRentMngtVO.getMngCnt());
+         
+         //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
+         paramMap.put("prtAtCode", gamAssetRentMngtVO.getPrtAtCode());
+         paramMap.put("mngYear", gamAssetRentMngtVO.getMngYear());
+         paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
+         paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
+         
+         System.out.println("##################################### paramMap => " + paramMap);
+         
+         //승낙 서비스 클래스 호출
+         //gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap); //승낙취소
+         
+         resultCode = 0; 
+ 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
+         
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+         
+ 		return map;
+     }
+     
     
     /**
      * 파일목록을 조회한다. 
