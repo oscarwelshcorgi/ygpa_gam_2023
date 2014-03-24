@@ -800,7 +800,6 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         
             
         case 'btnPrmisn': // 사용승낙
-        	/*
             if( row['prmisnYn'] == 'Y' ) {
                 alert("이미 사용승낙된 상태 입니다.");
                 return;
@@ -810,7 +809,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 alert("결재완료 상태가 아닙니다.");
                 return;
             }
-            */
+
             var rows = this.$('#assetRentMngtList').selectedRows();
 
             if(rows.length>=1) {
