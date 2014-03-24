@@ -1,9 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.center.service;
 
 import java.util.List;
-import java.util.Map;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
 
 /**
  * @Class Name : GamMarineCenterRentFeeMngtService.java
@@ -11,7 +8,7 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
  * @Modification Information
  *
  * @author heroin
- * @since 2014-02-11
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
@@ -22,7 +19,7 @@ public interface GamMarineCenterRentFeeMngtService {
 	/**
 	 * 마린센터임대료관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 마린센터임대목록
+	 * @return 자산임대목록
 	 * @exception Exception
 	 */
     List selectMarineCenterRentFeeList(GamMarineCenterRentFeeMngtVO searchVO) throws Exception;
@@ -30,7 +27,7 @@ public interface GamMarineCenterRentFeeMngtService {
     /**
 	 * 마린센터임대료관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 마린센터임대 목록 총 갯수
+	 * @return 자산임대 목록 총 갯수
 	 * @exception
 	 */
     int selectMarineCenterRentFeeListTotCnt(GamMarineCenterRentFeeMngtVO searchVO) throws Exception;
@@ -38,7 +35,7 @@ public interface GamMarineCenterRentFeeMngtService {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 마린센터임대
+	 * @return 자산임대목록
 	 * @exception Exception
 	 */
     GamMarineCenterRentFeeMngtVO selectMarineCenterRentFeeSum(GamMarineCenterRentFeeMngtVO searchVO) throws Exception;
@@ -79,5 +76,12 @@ public interface GamMarineCenterRentFeeMngtService {
 	 * @exception Exception
 	 */
 	void deleteMarineCenterRentFee(GamMarineCenterRentFeeMngtVO vo) throws Exception;
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamMarineCenterRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentLevReqest(GamMarineCenterRentFeeMngtVO vo) throws Exception;
     
 }

@@ -8,7 +8,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Modification Information
  *
  * @author heroin
- * @since 2014-02-11
+ * @since 2014-01-23
  * @version 1.0
  * @see
  *  
@@ -34,6 +34,9 @@ public class GamMarineCenterRentFeeMngtVO extends ComDefaultVO {
 
     /** 고지 기간 FROM */
     private String nticPdFrom;
+    
+    /** 고지 기간 FROM */
+    private String nticPdTo;
 
     /** 공사기간 TO */
     private String constPerTo;
@@ -1396,6 +1399,20 @@ public class GamMarineCenterRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setEndDt(String endDt) {
 		this.endDt = endDt;
+	}
+
+	/**
+	 * @return the nticPdTo
+	 */
+	public String getNticPdTo() {
+		return nticPdTo;
+	}
+
+	/**
+	 * @param nticPdTo the nticPdTo to set
+	 */
+	public void setNticPdTo(String nticPdTo) {
+		this.nticPdTo = nticPdTo;
 	}
 	
 }

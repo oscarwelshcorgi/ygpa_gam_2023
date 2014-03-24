@@ -13,7 +13,7 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentFeeMngt
  * @Modification Information
  *
  * @author heroin
- * @since 2014-02-11
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
@@ -98,6 +98,15 @@ public class GamMarineCenterRentFeeMngtDao extends YGPAAbstractDAO {
 	 */
 	public void deleteMarineCenterRentFee(GamMarineCenterRentFeeMngtVO vo){
 		delete("gamMarineCenterRentFeeMngtDao.deleteMarineCenterRentFee_S", vo);
+	}
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamAssetRentLevReqestVO
+	 * @exception Exception
+	 */
+	public void insertAssetRentLevReqest(GamMarineCenterRentFeeMngtVO vo){
+		insert("gamMarineCenterRentFeeMngtDao.insertAssetRentLevReqest_S", vo);
 	}
 
 }
