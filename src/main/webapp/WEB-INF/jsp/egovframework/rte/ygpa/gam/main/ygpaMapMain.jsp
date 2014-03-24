@@ -297,9 +297,12 @@
                         </li>
                         <li><a href="#"><b>사옥관리</b></a>
                             <ul class="submenu">
-                                <li>
-                                <a href="#"
-                            data-role="LoadModule" data-prgid="PRG_0004"
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentSttusInqire.do'/>">마린센터임대현황조회</a>
+                            </li>
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
                             data-url="<c:url value='/oper/center/gamMarineCenterRentMngt.do'/>">마린센터임대목록관리</a>
                             </li>
                             <li>
