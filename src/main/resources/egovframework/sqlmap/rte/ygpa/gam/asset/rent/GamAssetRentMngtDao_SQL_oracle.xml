@@ -552,7 +552,7 @@
 		       , PAY_MTH          = #payMth#
 		       
 		       <isEmpty property="payinstIntrrate">
-		       , PAYINST_INTRRATE = 0;
+		       , PAYINST_INTRRATE = 0
 		       </isEmpty>
 		       
 	           <isNotEmpty property="payinstIntrrate">
