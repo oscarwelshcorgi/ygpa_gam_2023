@@ -798,8 +798,19 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
         
-        /*    
+            
         case 'btnPrmisn': // 사용승낙
+        	/*
+            if( row['prmisnYn'] == 'Y' ) {
+                alert("이미 사용승낙된 상태 입니다.");
+                return;
+            }
+            
+            if( row['sanctnSttus'] != '1' ) {
+                alert("결재완료 상태가 아닙니다.");
+                return;
+            }
+            */
             var rows = this.$('#assetRentMngtList').selectedRows();
 
             if(rows.length>=1) {
@@ -817,8 +828,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             }
 
             break;
-        */
         
+        /*
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
@@ -849,7 +860,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             }
 
             break;
-        
+        */
+            
         case 'btnPrmisnCancel': // 승낙취소
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];

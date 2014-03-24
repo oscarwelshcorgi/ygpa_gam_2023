@@ -1162,6 +1162,7 @@ public class GamAssetRentMngtController {
          System.out.println("##################################### getMngYear => " +  gamAssetRentMngtVO.getMngYear());
          System.out.println("##################################### getMngNo => " +  gamAssetRentMngtVO.getMngNo());
          System.out.println("##################################### getMngCnt => " +  gamAssetRentMngtVO.getMngCnt());
+         System.out.println("##################################### getChrgeKnd => " +  gamAssetRentMngtVO.getChrgeKnd());
          
          //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamAssetRentMngtVO.getPrtAtCode());
@@ -1169,7 +1170,7 @@ public class GamAssetRentMngtController {
          paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
-         paramMap.put("chrgeKnd", "K2");
+         paramMap.put("chrgeKnd", gamAssetRentMngtVO.getChrgeKnd());
          
          System.out.println("##################################### paramMap => " + paramMap);
          
