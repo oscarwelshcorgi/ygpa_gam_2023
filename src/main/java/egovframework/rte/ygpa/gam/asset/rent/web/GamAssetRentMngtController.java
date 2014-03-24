@@ -73,8 +73,8 @@ public class GamAssetRentMngtController {
     @Resource(name = "gamAssetRentMngtService")
     private GamAssetRentMngtService gamAssetRentMngtService;
     
-    //@Resource(name = "gamAssetsUsePermMngtService")
-    //private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
+    @Resource(name = "gamAssetsUsePermMngtService")
+    private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 	
     
     /**
@@ -1155,6 +1155,8 @@ public class GamAssetRentMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+         
          System.out.println("##################################### 승낙시작!!");
          System.out.println("##################################### getPrtAtCode => " +  gamAssetRentMngtVO.getPrtAtCode());
          System.out.println("##################################### getMngYear => " +  gamAssetRentMngtVO.getMngYear());
@@ -1166,15 +1168,21 @@ public class GamAssetRentMngtController {
          paramMap.put("mngYear", gamAssetRentMngtVO.getMngYear());
          paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
-         paramMap.put("chrgeKnd", "");
+         paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("chrgeKnd", "K2");
          
          System.out.println("##################################### paramMap => " + paramMap);
          
-         //승낙 서비스 클래스 호출
-         //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙  
-         
-         resultCode = 0; 
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 되었습니다.
+         if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+             resultCode = 2;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+         }
+         else {
+        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+         }
          
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
@@ -1200,6 +1208,8 @@ public class GamAssetRentMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+         
          System.out.println("##################################### 승낙취소시작!!");
          System.out.println("##################################### getPrtAtCode => " +  gamAssetRentMngtVO.getPrtAtCode());
          System.out.println("##################################### getMngYear => " +  gamAssetRentMngtVO.getMngYear());
@@ -1211,14 +1221,20 @@ public class GamAssetRentMngtController {
          paramMap.put("mngYear", gamAssetRentMngtVO.getMngYear());
          paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
+         paramMap.put("regUsr", loginVO.getId());
          
          System.out.println("##################################### paramMap => " + paramMap);
          
-         //승낙 서비스 클래스 호출
-         //gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap); //승낙취소
-         
-         resultCode = 0; 
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
+         if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+             resultCode = 2;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+         }
+         else {
+        	 gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
+
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+         }
          
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
