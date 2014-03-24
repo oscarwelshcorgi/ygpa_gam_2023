@@ -823,10 +823,15 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
         
-            //if( row['prmisnYn'] == 'Y' ) {
-            //    alert("사용승낙을 할수없는 상태 입니다.");
-            //    return;
-            //}
+            if( row['prmisnYn'] == 'Y' ) {
+                alert("이미 사용승낙된 상태 입니다.");
+                return;
+            }
+            
+            if( row['sanctnSttus'] != '1' ) {
+                alert("결재완료 상태가 아닙니다.");
+                return;
+            }
         
             if(rows.length>=1) {
                 if( confirm("승낙을 하시겠습니까?") ) {
@@ -849,13 +854,11 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
             
-            //alert(row['prmisnYn']);
+            if( row['prmisnYn'] != 'Y' ) {
+                alert("승낙된 상태가 아닙니다.");
+                return;
+            }
             
-            //if( row['prmisnYn'] == 'N' || row['prmisnYn'] == '' ) {
-            //    alert("승낙취소를 할수없는 상태 입니다.");
-            //    return;
-            //}
-        
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisnCancel.do" />', rows[0], function(module, result) {
