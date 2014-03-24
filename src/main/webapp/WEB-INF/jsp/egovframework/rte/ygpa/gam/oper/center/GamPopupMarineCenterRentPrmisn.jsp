@@ -6,15 +6,15 @@
 <%
   /**
   * @Class Name : GamPopupMarineCenterRentPrmisn.jsp
-  * @Description : 마린센터임대목록관리 승낙 팝업
+  * @Description : 마린센터임대 승낙 팝업
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2014.02.11  heroine          최초 생성
+  *  2014.01.24  heroine          최초 생성
   *
   * author heroine
-  * since 2014.02.11
+  * since 2014.01.24
   *
   * Copyright (C) 2014 by LFIT  All right reserved.
   */
@@ -25,68 +25,77 @@
  */
 function GamPopupMarineCenterRentPrmisnModule() {}
 
-GamPopupMarineCenterRentPrmisnModule.prototype = new EmdPopupModule(450, 90);
+GamPopupMarineCenterRentPrmisnModule.prototype = new EmdPopupModule(320, 100);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupMarineCenterRentPrmisnModule.prototype.loadComplete = function() {
 
-	this.resizable(true);
+    this.resizable(true);
 };
 
 // 사용자 설정 함수 추가
 
 GamPopupMarineCenterRentPrmisnModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case 'btnPrmisnExec':
-		var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
+    switch(buttonId) {
+    case 'btnPrmisnExec':
         
-        this.doAction('<c:url value="/oper/center/gamInsertMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {
-           
-            alert(result.resultMsg);
+        if( this.$('#chrgeKnd').val() == '' ) {
+            alert("요금종류를 선택하십시오.");
+            return;
+        }
+        
+        if( confirm("승낙 하시겠습니까?") ) {
+            var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
             
-            module.closeDialog('ok', result.resultCode);
-        });
-		
-		break;
-	case 'cancel':
-		this.cancelDialog();
-	}
+            //this.doAction('<c:url value="/oper/center/gamInsertMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {   
+            this.doAction('<c:url value="/oper/center/gamUpdateMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {   
+                alert(result.resultMsg);
+                
+                module.closeDialog('ok', result.resultCode);
+            });
+        }
+            
+        break;
+    case 'cancel':
+        this.cancelDialog();
+    }
 };
 
 GamPopupMarineCenterRentPrmisnModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
+    //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
+    this.loadData();
 };
 
 GamPopupMarineCenterRentPrmisnModule.prototype.loadData = function() {
-	//var searchOpt=this.makeFormArgs('#gamPopupPrmisnForm');
- 	//this.$('#grdInfoList').flexOptions({params:searchOpt}).flexReload();
+    //var searchOpt=this.makeFormArgs('#gamPopupPrmisnForm');
+    //this.$('#grdInfoList').flexOptions({params:searchOpt}).flexReload();
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupMarineCenterRentPrmisnModule();
 </script>
 <div class="dialog">
-	<div class="emdPanel">
-		<form id="gamPopupPrmisnForm">
-		    <input type="hidden" id="prtAtCode" value="<c:out value="${gamMarineCenterRentInfo.prtAtCode }"/>"/>
-		    <input type="hidden" id="mngYear" value="<c:out value="${gamMarineCenterRentInfo.mngYear }"/>"/>
-		    <input type="hidden" id="mngNo" value="<c:out value="${gamMarineCenterRentInfo.mngNo }"/>"/>
-		    <input type="hidden" id="mngCnt" value="<c:out value="${gamMarineCenterRentInfo.mngCnt }"/>"/>
+    <div class="emdPanel">
+        <form id="gamPopupPrmisnForm">
+            <input type="hidden" id="prtAtCode" value="<c:out value="${gamMarineCenterRentInfo.prtAtCode }"/>"/>
+            <input type="hidden" id="mngYear" value="<c:out value="${gamMarineCenterRentInfo.mngYear }"/>"/>
+            <input type="hidden" id="mngNo" value="<c:out value="${gamMarineCenterRentInfo.mngNo }"/>"/>
+            <input type="hidden" id="mngCnt" value="<c:out value="${gamMarineCenterRentInfo.mngCnt }"/>"/>
 
-			<table class="searchPanel">
-				<tbody>
-					<tr>
+            <table class="searchPanel">
+                <tbody>
+                    <tr>
                         <th>요금종류</th>
                         <td>
                             <select id="chrgeKnd">
                                 <option value="" selected="selected">선택</option>
 
                                 <c:forEach  items="${chrgeKndCdList}" var="chrgeKndCdItem">
-	                                <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
-	                            </c:forEach>
+                                    <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
+                                </c:forEach>
                             </select>  
                         </td>
+                        <!-- 
                         <th>부가세 여부</th>
                         <td>
                             <select id="vatYn">
@@ -95,10 +104,11 @@ var popup_instance = new GamPopupMarineCenterRentPrmisnModule();
                                 <option value="N">N</option>
                             </select>
                         </td>
+                         -->
                         <td><button id=btnPrmisnExec class="submit">승낙</button></td>
                     </tr>
-				</tbody>
-		    </table>
-		</form>
-	</div>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
