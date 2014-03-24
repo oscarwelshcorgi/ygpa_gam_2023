@@ -592,7 +592,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 return;
             }
             
-            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' ) {
+            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' && this.$('#payinstIntrrate').val() != '0' ) {
                 alert("고지방법이 일괄납부인 경우는 분납이자율을 입력하지 마십시오.");
                 return;
             }
@@ -800,20 +800,21 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         
             
         case 'btnPrmisn': // 사용승낙
-            if( row['prmisnYn'] == 'Y' ) {
-                alert("이미 사용승낙된 상태 입니다.");
-                return;
-            }
-            
-            if( row['sanctnSttus'] != '1' ) {
-                alert("결재완료 상태가 아닙니다.");
-                return;
-            }
-
             var rows = this.$('#assetRentMngtList').selectedRows();
+            var row = this.$('#assetRentMngtList').selectedRows()[0];
 
             if(rows.length>=1) {
-                var opts = {
+            	if( row['prmisnYn'] == 'Y' ) {
+                    alert("이미 사용승낙된 상태 입니다.");
+                    return;
+                }
+                
+                if( row['sanctnSttus'] != '1' ) {
+                    alert("결재완료 상태가 아닙니다.");
+                    return;
+                }
+            	
+            	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
                     'mngNo': rows[0]['mngNo'],
