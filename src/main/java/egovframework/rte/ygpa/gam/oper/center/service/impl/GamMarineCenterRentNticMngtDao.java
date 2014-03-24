@@ -9,11 +9,11 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentNticMng
 
 /**
  * @Class Name : GamMarineCenterRentNticMngtDao.java
- * @Description : 마린센터임대료납부현황관리 DAO Class
+ * @Description : 마린센터임대료납부관리 DAO Class
  * @Modification Information
  *
- * @author heroine
- * @since 2014-02-11
+ * @author heroin
+ * @since 2014-02-05
  * @version 1.0
  * @see
  *  
@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentNticMng
 public class GamMarineCenterRentNticMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 마린센터임대료납부현황관리 목록을 조회한다.
+	 * 마린센터임대료납부관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대료납부현황관리 목록
+	 * @return 마린센터임대료납부관리 목록
 	 * @exception Exception
 	 */
     public List selectMarineCenterRentNticList(GamMarineCenterRentNticMngtVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamMarineCenterRentNticMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 마린센터임대료납부현황관리 목록 총 갯수를 조회한다.
+	 * 마린센터임대료납부관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대료납부현황관리 목록 총 갯수
+	 * @return 마린센터임대료납부관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectMarineCenterRentNticListTotCnt(GamMarineCenterRentNticMngtVO searchVO) {
@@ -45,7 +45,7 @@ public class GamMarineCenterRentNticMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대료납부현황관리
+	 * @return 마린센터임대료납부관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentNticMngtVO selectMarineCenterRentNticSum(GamMarineCenterRentNticMngtVO searchVO) throws Exception {

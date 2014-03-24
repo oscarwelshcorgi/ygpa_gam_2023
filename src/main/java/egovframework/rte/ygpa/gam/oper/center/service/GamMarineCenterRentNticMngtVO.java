@@ -3,12 +3,12 @@ package egovframework.rte.ygpa.gam.oper.center.service;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamMarineCenterRentNticMngtVO.java
- * @Description : 마린센터납부현황관리 VO class
+ * @Class Name : GamAssetRentFeePayDtlsMngtVO.java
+ * @Description : 마린센터임대료납부현황관리 VO class
  * @Modification Information
  *
- * @author heroine
- * @since 2014-02-11
+ * @author heroin
+ * @since 2014-02-05
  * @version 1.0
  * @see
  *  

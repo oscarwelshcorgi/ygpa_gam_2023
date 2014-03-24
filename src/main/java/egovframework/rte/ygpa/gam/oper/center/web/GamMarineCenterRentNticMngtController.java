@@ -27,11 +27,11 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentNticMng
 
 /**
  * @Class Name : GamMarineCenterRentNticMngtController.java
- * @Description : 마린센터임대료납부현황관리
+ * @Description : 마린센터임대료납부관리
  * @Modification Information
  *
- * @author heroine
- * @since 2014-02-11
+ * @author heroin
+ * @since 2014-02-05
  * @version 1.0
  * @see
  *  
@@ -63,7 +63,7 @@ public class GamMarineCenterRentNticMngtController {
 	
     
     /**
-     * 마린센터임대료납부현황관리 화면을 로딩한다. 
+     * 마린센터임대료납부관리 화면을 로딩한다. 
      *
      * @param windowId
      * @param model the model
@@ -113,7 +113,7 @@ public class GamMarineCenterRentNticMngtController {
     }
 	
 	/**
-     * 마린센터임대료납부현황관리 목록을 조회한다. 
+     * 마린센터임대료납부관리 목록을 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -138,22 +138,26 @@ public class GamMarineCenterRentNticMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		searchVO.setsPrtAtCode("640"); //마린센터 항코드 고정:'640'
-		
-		//자산임대목록
     	totalCnt = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticListTotCnt(searchVO);
     	List resultList = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticList(searchVO);
     	
     	//자료수, 사용료, 부가세, 고지액
-    	GamMarineCenterRentNticMngtVO resultSum = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticSum(searchVO);
+    	//GamMarineCenterRentNticMngtVO resultSum = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticSum(searchVO);
+    	GamMarineCenterRentNticMngtVO resultSum = new GamMarineCenterRentNticMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	
+    	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	*/
+    	map.put("sumFee", "");
+    	map.put("sumVat", "");
+    	map.put("sumNticAmt", "");
     	
     	return map;
     }

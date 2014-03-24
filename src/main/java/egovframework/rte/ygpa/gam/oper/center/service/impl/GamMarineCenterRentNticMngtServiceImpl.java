@@ -14,11 +14,11 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentNticMng
 
 /**
  * @Class Name : GamMarineCenterRentNticMngtServiceImpl.java
- * @Description : 마린센터임대료납부현황관리 Business Implement class
+ * @Description : 마린센터임대료납부관리 Business Implement class
  * @Modification Information
  *
- * @author heroine
- * @since 2014-02-11
+ * @author heroin
+ * @since 2014-02-05
  * @version 1.0
  * @see
  *
@@ -34,7 +34,7 @@ public class GamMarineCenterRentNticMngtServiceImpl  extends AbstractServiceImpl
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 마린센터임대료납부현황관리 목록을 조회한다.
+	 * 마린센터임대료납부관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -44,7 +44,7 @@ public class GamMarineCenterRentNticMngtServiceImpl  extends AbstractServiceImpl
     }
 
     /**
-	 * 마린센터임대료납부현황관리 목록 총 갯수를 조회한다.
+	 * 마린센터임대료납부관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -56,7 +56,7 @@ public class GamMarineCenterRentNticMngtServiceImpl  extends AbstractServiceImpl
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 마린센터임대료납부현황관리목록
+	 * @return 마린센터임대료납부관리목록
 	 * @exception Exception
 	 */
     public GamMarineCenterRentNticMngtVO selectMarineCenterRentNticSum(GamMarineCenterRentNticMngtVO searchVO) throws Exception {
