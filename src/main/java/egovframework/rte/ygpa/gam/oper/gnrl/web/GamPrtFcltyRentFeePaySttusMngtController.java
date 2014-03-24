@@ -75,6 +75,7 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
+		/*
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
@@ -107,6 +108,8 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
 		model.addAttribute("quayCdList", quayCdList);
+		*/
+		
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeePaySttusMngt";

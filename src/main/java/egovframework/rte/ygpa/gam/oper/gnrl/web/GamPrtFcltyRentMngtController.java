@@ -74,8 +74,8 @@ public class GamPrtFcltyRentMngtController {
     @Resource(name = "gamPrtFcltyRentMngtService")
     private GamPrtFcltyRentMngtService gamPrtFcltyRentMngtService;
 	
-    //@Resource(name = "gamAssetsUsePermMngtService")
-    //private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
+    @Resource(name = "gamAssetsUsePermMngtService")
+    private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
     
     /**
      * 항만시설사용관리 화면을 로딩한다. 
@@ -1150,26 +1150,38 @@ public class GamPrtFcltyRentMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+         
          System.out.println("##################################### 승낙시작!!");
          System.out.println("##################################### getPrtAtCode => " +  gamPrtFcltyRentMngtVO.getPrtAtCode());
          System.out.println("##################################### getMngYear => " +  gamPrtFcltyRentMngtVO.getMngYear());
          System.out.println("##################################### getMngNo => " +  gamPrtFcltyRentMngtVO.getMngNo());
          System.out.println("##################################### getMngCnt => " +  gamPrtFcltyRentMngtVO.getMngCnt());
+         System.out.println("##################################### getChrgeKnd => " +  gamPrtFcltyRentMngtVO.getChrgeKnd());
          
          //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamPrtFcltyRentMngtVO.getPrtAtCode());
          paramMap.put("mngYear", gamPrtFcltyRentMngtVO.getMngYear());
          paramMap.put("mngNo", gamPrtFcltyRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
-         paramMap.put("chrgeKnd", "");
+         paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("chrgeKnd", gamPrtFcltyRentMngtVO.getChrgeKnd());
          
          System.out.println("##################################### paramMap => " + paramMap);
          
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙  
          
-         resultCode = 0; 
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 되었습니다.
+         if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+             resultCode = 2;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+         }
+         else {
+        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+         }
          
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
@@ -1195,6 +1207,8 @@ public class GamPrtFcltyRentMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+         
          System.out.println("##################################### 승낙취소시작!!");
          System.out.println("##################################### getPrtAtCode => " +  gamPrtFcltyRentMngtVO.getPrtAtCode());
          System.out.println("##################################### getMngYear => " +  gamPrtFcltyRentMngtVO.getMngYear());
@@ -1206,11 +1220,20 @@ public class GamPrtFcltyRentMngtController {
          paramMap.put("mngYear", gamPrtFcltyRentMngtVO.getMngYear());
          paramMap.put("mngNo", gamPrtFcltyRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
+         paramMap.put("regUsr", loginVO.getId());
          
          System.out.println("##################################### paramMap => " + paramMap);
          
-         //승낙 서비스 클래스 호출
-         //gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap); //승낙취소
+         if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+             resultCode = 2;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+         }
+         else {
+        	 gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
+
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+         }
          
          resultCode = 0; 
  		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
