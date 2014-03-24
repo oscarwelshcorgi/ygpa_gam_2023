@@ -8,7 +8,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Modification Information
  *
  * @author heroine
- * @since 2014-02-11
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
@@ -97,6 +97,30 @@ public class GamMarineCenterRentMngtVO extends ComDefaultVO {
     
     /** 부서코드 */
     private String deptcd;
+    
+    /** 항이름 */
+    private String prtAtCodeNm;
+    
+    /** 신청구분명 */
+    private String reqstSeCdNm;
+    
+    /** 결재 상태 */
+    private String sanctnSttus;	
+    
+    /** 결재자 사원 번호 */
+    private String sanctnerEmplNo;  
+    
+    /** 부두 코드 */
+    private String quayCd;	  
+    
+    /** 최초 신청 일자 */
+    private String frstReqstDt;  
+    
+    /** 결재 일시 */
+    private String sanctnDt;	
+    
+    /** 분납이자율 */
+    private String payinstIntrrate;
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -167,6 +191,46 @@ public class GamMarineCenterRentMngtVO extends ComDefaultVO {
     /** 납부방법코드 */
     private String payMth;
     
+    /** 사진 순번 */
+    private String photoSeq;
+    	    
+    /** 사진 제목 */
+    private String photoSj;	    
+    
+    /** 파일명 물리 */
+    private String filenmPhysicl;  
+    
+    /** 파일명 논리 */
+    private String filenmLogic;	
+    
+    /** 촬영 일시 */
+    private String shotDt;	        
+    
+    /** 사진 설명  */
+    private String photoDesc;	    
+    
+    /** 신청일자 */
+    private String reqstDt;
+    
+    private String thisYear;
+
+    private String divSt;
+
+    private String divEnd;
+    
+    private String cYear;
+    
+    private String cDiy;
+    
+    private String objYrmt;          
+    
+    private String blceStdrIntrrate;   
+    
+    private String newManipAmtStdrIntrrate;
+    
+    private String annodt;                 
+    
+    private String blceStdrIntrrateShow;
     
 	/**
 	 * @return the prtAtCode
@@ -867,7 +931,355 @@ public class GamMarineCenterRentMngtVO extends ComDefaultVO {
 	public void setPayMth(String payMth) {
 		this.payMth = payMth;
 	}
-	
-	
+
+	/**
+	 * @return the prtAtCodeNm
+	 */
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
+	}
+
+	/**
+	 * @param prtAtCodeNm the prtAtCodeNm to set
+	 */
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
+	}
+
+	/**
+	 * @return the reqstSeCdNm
+	 */
+	public String getReqstSeCdNm() {
+		return reqstSeCdNm;
+	}
+
+	/**
+	 * @param reqstSeCdNm the reqstSeCdNm to set
+	 */
+	public void setReqstSeCdNm(String reqstSeCdNm) {
+		this.reqstSeCdNm = reqstSeCdNm;
+	}
+
+	/**
+	 * @return the sanctnSttus
+	 */
+	public String getSanctnSttus() {
+		return sanctnSttus;
+	}
+
+	/**
+	 * @param sanctnSttus the sanctnSttus to set
+	 */
+	public void setSanctnSttus(String sanctnSttus) {
+		this.sanctnSttus = sanctnSttus;
+	}
+
+	/**
+	 * @return the sanctnerEmplNo
+	 */
+	public String getSanctnerEmplNo() {
+		return sanctnerEmplNo;
+	}
+
+	/**
+	 * @param sanctnerEmplNo the sanctnerEmplNo to set
+	 */
+	public void setSanctnerEmplNo(String sanctnerEmplNo) {
+		this.sanctnerEmplNo = sanctnerEmplNo;
+	}
+
+	/**
+	 * @return the quayCd
+	 */
+	public String getQuayCd() {
+		return quayCd;
+	}
+
+	/**
+	 * @param quayCd the quayCd to set
+	 */
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the frstReqstDt
+	 */
+	public String getFrstReqstDt() {
+		return frstReqstDt;
+	}
+
+	/**
+	 * @param frstReqstDt the frstReqstDt to set
+	 */
+	public void setFrstReqstDt(String frstReqstDt) {
+		this.frstReqstDt = frstReqstDt;
+	}
+
+	/**
+	 * @return the sanctnDt
+	 */
+	public String getSanctnDt() {
+		return sanctnDt;
+	}
+
+	/**
+	 * @param sanctnDt the sanctnDt to set
+	 */
+	public void setSanctnDt(String sanctnDt) {
+		this.sanctnDt = sanctnDt;
+	}
+
+	/**
+	 * @return the photoSeq
+	 */
+	public String getPhotoSeq() {
+		return photoSeq;
+	}
+
+	/**
+	 * @param photoSeq the photoSeq to set
+	 */
+	public void setPhotoSeq(String photoSeq) {
+		this.photoSeq = photoSeq;
+	}
+
+	/**
+	 * @return the photoSj
+	 */
+	public String getPhotoSj() {
+		return photoSj;
+	}
+
+	/**
+	 * @param photoSj the photoSj to set
+	 */
+	public void setPhotoSj(String photoSj) {
+		this.photoSj = photoSj;
+	}
+
+	/**
+	 * @return the filenmPhysicl
+	 */
+	public String getFilenmPhysicl() {
+		return filenmPhysicl;
+	}
+
+	/**
+	 * @param filenmPhysicl the filenmPhysicl to set
+	 */
+	public void setFilenmPhysicl(String filenmPhysicl) {
+		this.filenmPhysicl = filenmPhysicl;
+	}
+
+	/**
+	 * @return the filenmLogic
+	 */
+	public String getFilenmLogic() {
+		return filenmLogic;
+	}
+
+	/**
+	 * @param filenmLogic the filenmLogic to set
+	 */
+	public void setFilenmLogic(String filenmLogic) {
+		this.filenmLogic = filenmLogic;
+	}
+
+	/**
+	 * @return the shotDt
+	 */
+	public String getShotDt() {
+		return shotDt;
+	}
+
+	/**
+	 * @param shotDt the shotDt to set
+	 */
+	public void setShotDt(String shotDt) {
+		this.shotDt = shotDt;
+	}
+
+	/**
+	 * @return the photoDesc
+	 */
+	public String getPhotoDesc() {
+		return photoDesc;
+	}
+
+	/**
+	 * @param photoDesc the photoDesc to set
+	 */
+	public void setPhotoDesc(String photoDesc) {
+		this.photoDesc = photoDesc;
+	}
+
+	/**
+	 * @return the reqstDt
+	 */
+	public String getReqstDt() {
+		return reqstDt;
+	}
+
+	/**
+	 * @param reqstDt the reqstDt to set
+	 */
+	public void setReqstDt(String reqstDt) {
+		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the payinstIntrrate
+	 */
+	public String getPayinstIntrrate() {
+		return payinstIntrrate;
+	}
+
+	/**
+	 * @param payinstIntrrate the payinstIntrrate to set
+	 */
+	public void setPayinstIntrrate(String payinstIntrrate) {
+		this.payinstIntrrate = payinstIntrrate;
+	}
+
+	/**
+	 * @return the thisYear
+	 */
+	public String getThisYear() {
+		return thisYear;
+	}
+
+	/**
+	 * @param thisYear the thisYear to set
+	 */
+	public void setThisYear(String thisYear) {
+		this.thisYear = thisYear;
+	}
+
+	/**
+	 * @return the divSt
+	 */
+	public String getDivSt() {
+		return divSt;
+	}
+
+	/**
+	 * @param divSt the divSt to set
+	 */
+	public void setDivSt(String divSt) {
+		this.divSt = divSt;
+	}
+
+	/**
+	 * @return the divEnd
+	 */
+	public String getDivEnd() {
+		return divEnd;
+	}
+
+	/**
+	 * @param divEnd the divEnd to set
+	 */
+	public void setDivEnd(String divEnd) {
+		this.divEnd = divEnd;
+	}
+
+	/**
+	 * @return the cYear
+	 */
+	public String getcYear() {
+		return cYear;
+	}
+
+	/**
+	 * @param cYear the cYear to set
+	 */
+	public void setcYear(String cYear) {
+		this.cYear = cYear;
+	}
+
+	/**
+	 * @return the cDiy
+	 */
+	public String getcDiy() {
+		return cDiy;
+	}
+
+	/**
+	 * @param cDiy the cDiy to set
+	 */
+	public void setcDiy(String cDiy) {
+		this.cDiy = cDiy;
+	}
+
+	/**
+	 * @return the objYrmt
+	 */
+	public String getObjYrmt() {
+		return objYrmt;
+	}
+
+	/**
+	 * @param objYrmt the objYrmt to set
+	 */
+	public void setObjYrmt(String objYrmt) {
+		this.objYrmt = objYrmt;
+	}
+
+	/**
+	 * @return the blceStdrIntrrate
+	 */
+	public String getBlceStdrIntrrate() {
+		return blceStdrIntrrate;
+	}
+
+	/**
+	 * @param blceStdrIntrrate the blceStdrIntrrate to set
+	 */
+	public void setBlceStdrIntrrate(String blceStdrIntrrate) {
+		this.blceStdrIntrrate = blceStdrIntrrate;
+	}
+
+	/**
+	 * @return the newManipAmtStdrIntrrate
+	 */
+	public String getNewManipAmtStdrIntrrate() {
+		return newManipAmtStdrIntrrate;
+	}
+
+	/**
+	 * @param newManipAmtStdrIntrrate the newManipAmtStdrIntrrate to set
+	 */
+	public void setNewManipAmtStdrIntrrate(String newManipAmtStdrIntrrate) {
+		this.newManipAmtStdrIntrrate = newManipAmtStdrIntrrate;
+	}
+
+	/**
+	 * @return the annodt
+	 */
+	public String getAnnodt() {
+		return annodt;
+	}
+
+	/**
+	 * @param annodt the annodt to set
+	 */
+	public void setAnnodt(String annodt) {
+		this.annodt = annodt;
+	}
+
+	/**
+	 * @return the blceStdrIntrrateShow
+	 */
+	public String getBlceStdrIntrrateShow() {
+		return blceStdrIntrrateShow;
+	}
+
+	/**
+	 * @param blceStdrIntrrateShow the blceStdrIntrrateShow to set
+	 */
+	public void setBlceStdrIntrrateShow(String blceStdrIntrrateShow) {
+		this.blceStdrIntrrateShow = blceStdrIntrrateShow;
+	}
 	
 }

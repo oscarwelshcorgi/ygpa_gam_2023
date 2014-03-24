@@ -4,11 +4,11 @@ import java.util.List;
 
 /**
  * @Class Name : GamMarineCenterRentMngtService.java
- * @Description : 마린센터임대목록관리 Business class
+ * @Description : 마린센터임대관리 Business class
  * @Modification Information
  *
  * @author heroine
- * @since 2014-02-11
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
@@ -27,7 +27,7 @@ public interface GamMarineCenterRentMngtService {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자료수, 총면적, 총사용료
+	 * @return 마린센터임대목록
 	 * @exception Exception
 	 */
     GamMarineCenterRentMngtVO selectMarineCenterRentSum(GamMarineCenterRentMngtVO searchVO) throws Exception;
@@ -87,7 +87,15 @@ public interface GamMarineCenterRentMngtService {
     int selectMarineCenterRentDetailListTotCnt(GamMarineCenterRentMngtVO vo) throws Exception;
 	
     /**
-	 * 마린센터임대 징수의뢰 해당 갯수를 조회한다.
+	 * 공시지가 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectOlnlpInfo() throws Exception;
+    
+    /**
+	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param VO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -151,5 +159,119 @@ public interface GamMarineCenterRentMngtService {
 	 * @exception Exception
 	 */
 	void updateMarineCenterRentPrmisnCancel(GamMarineCenterRentLevReqestVO vo) throws Exception;
+	
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectMarineCenterRentFileList(GamMarineCenterRentMngtVO searchVO) throws Exception;
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectMarineCenterRentFileListTotCnt(GamMarineCenterRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamMarineCenterRentVO
+	 * @exception Exception
+	 */
+	void insertMarineCenterRentFile(GamMarineCenterRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 파일을 수정한다.
+	 * @param vo GamMarineCenterRentVO
+	 * @exception Exception
+	 */
+	void updateMarineCenterRentFile(GamMarineCenterRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamMarineCenterRentVO
+	 * @exception Exception
+	 */
+	void deleteMarineCenterRentPhotoSingle(GamMarineCenterRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 임대신규저장시 키값 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentMaxKey(GamMarineCenterRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 코멘트를 수정한다.
+	 * @param vo GamMarineCenterRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateMarineCenterRentComment(GamMarineCenterRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentRenewInfo(GamMarineCenterRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
+	 * @param vo GamMarineCenterRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateMarineCenterRentRenewInfo(GamMarineCenterRentMngtVO vo) throws Exception;
+	
+	/**
+	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentCurrRenewInfo(GamMarineCenterRentMngtVO searchVO) throws Exception;
+    
+    /**
+   	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return 마린센터임대목록
+   	 * @exception Exception
+   	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentDetailQuaycd(GamMarineCenterRentMngtVO searchVO) throws Exception;
+       
+       /**
+   	 * 신청저장시 임대테이블의 부두코드를 업데이트 한다.
+   	 * @param vo GamMarineCenterRentDetailVO
+   	 * @exception Exception
+   	 */
+   	public void updateMarineCenterRentQuaycd(GamMarineCenterRentMngtVO vo) throws Exception;
+   	
+   	/**
+   	 * 코픽스 이자율 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectCofixInfo() throws Exception;
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentBeforeQuarterInfo(GamMarineCenterRentMngtVO searchVO) throws Exception;
+    
+    /**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentCofixInfo(GamMarineCenterRentMngtVO searchVO) throws Exception;
     
 }

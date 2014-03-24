@@ -8,7 +8,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Modification Information
  *
  * @author heroine
- * @since 2014-02-11
+ * @since 2014-01-23
  * @version 1.0
  * @see
  *  

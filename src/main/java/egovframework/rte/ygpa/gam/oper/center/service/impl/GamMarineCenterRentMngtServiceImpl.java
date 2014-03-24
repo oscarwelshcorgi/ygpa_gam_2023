@@ -9,7 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovProperties;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
@@ -20,11 +22,11 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentMngtVO;
 
 /**
  * @Class Name : GamMarineCenterRentServiceMngtImpl.java
- * @Description : 마린센터임대목록관리 Business Implement class
+ * @Description : 마린센터임대관리 Business Implement class
  * @Modification Information
  *
  * @author heroine
- * @since 2014-02-11
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *
@@ -94,10 +96,17 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
 	 * @exception Exception
 	 */
 	public void insertMarineCenterRentRenew(GamMarineCenterRentMngtVO vo) throws Exception {
-		gamMarineCenterRentMngtDao.insertMarineCenterRentRenew(vo); //마린센터임대 복사등록
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		//마린센터임대 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamMarineCenterRentMngtDao.selectMarineCenterRentMaxMngCnt(vo);
+		
+		//마린센터임대 복사등록
+		vo.setMaxMngCnt(maxMngCnt);
+		vo.setRegUsr(loginVO.getId());
+		vo.setUpdUsr(loginVO.getId());
+		vo.setReqstSeCd("2");
+		gamMarineCenterRentMngtDao.insertMarineCenterRentRenew(vo); 
 		
 		//마린센터임대상세정보 조회
 		List detailList = gamMarineCenterRentMngtDao.selectMarineCenterRentDetailInfo(vo);
@@ -109,10 +118,25 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
 			resultVo = (GamMarineCenterRentDetailVO)detailList.get(i);
 			
 			resultVo.setMngCnt(maxMngCnt);
-			resultVo.setRegUsr("admin2");
-			resultVo.setUpdUsr("admin2");
+			resultVo.setRegUsr(loginVO.getId());
+			resultVo.setUpdUsr(loginVO.getId());
 			
-			gamMarineCenterRentMngtDao.insertMarineCenterRentDetailRenew(resultVo); //마린센터임대상세 복사등록
+			//마린센터임대상세 복사등록
+			gamMarineCenterRentMngtDao.insertMarineCenterRentDetailRenew(resultVo); 
+		}
+		
+		GamMarineCenterRentMngtVO updRentVO = new GamMarineCenterRentMngtVO();
+		
+		//총사용료, 총면적, 총사용기간 조회
+		updRentVO = gamMarineCenterRentMngtDao.selectMarineCenterRentRenewInfo(vo);
+		
+		if( updRentVO != null ) {
+			updRentVO.setPrtAtCode(vo.getPrtAtCode());
+			updRentVO.setMngYear(vo.getMngYear());
+			updRentVO.setMngNo(vo.getMngNo());
+			updRentVO.setMaxMngCnt(maxMngCnt);
+			
+			gamMarineCenterRentMngtDao.updateMarineCenterRentRenewInfo(updRentVO);
 		}
 	}
 
@@ -144,6 +168,16 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
     public int selectMarineCenterRentDetailListTotCnt(GamMarineCenterRentMngtVO vo) throws Exception {
 		return gamMarineCenterRentMngtDao.selectMarineCenterRentDetailListTotCnt(vo);
 	}
+    
+    /**
+   	 * 공시지가 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectOlnlpInfo() throws Exception {
+        return gamMarineCenterRentMngtDao.selectOlnlpInfo();
+    }
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
@@ -407,5 +441,149 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
 	public void updateMarineCenterRentPrmisnCancel(GamMarineCenterRentLevReqestVO vo) throws Exception {
 		gamMarineCenterRentMngtDao.updateMarineCenterRentPrmisnCancel(vo);
 	}
+	
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectMarineCenterRentFileList(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentFileList(searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectMarineCenterRentFileListTotCnt(GamMarineCenterRentMngtVO searchVO) throws Exception {
+		return gamMarineCenterRentMngtDao.selectMarineCenterRentFileListTotCnt(searchVO);
+	}
+    
+    /**
+	 * 파일을 등록한다.
+	 * @param vo GamMarineCenterRentVO
+	 * @exception Exception
+	 */
+	public void insertMarineCenterRentFile(GamMarineCenterRentMngtVO vo) throws Exception {
+		gamMarineCenterRentMngtDao.insertMarineCenterRentFile(vo);
+	}
+	
+	/**
+	 * 파일을 수정한다.
+	 * @param vo GamMarineCenterRentVO
+	 * @exception Exception
+	 */
+	public void updateMarineCenterRentFile(GamMarineCenterRentMngtVO vo) throws Exception {
+		gamMarineCenterRentMngtDao.updateMarineCenterRentFile(vo);
+	}
+	
+	/**
+	 * 파일을 삭제한다.
+	 * @param vo GamMarineCenterRentVO
+	 * @exception Exception
+	 */
+	public void deleteMarineCenterRentPhotoSingle(GamMarineCenterRentMngtVO vo) throws Exception {
+		gamMarineCenterRentMngtDao.deleteMarineCenterRentPhotoSingle(vo);
+	}
+	
+	/**
+	 * 임대신규저장시 키값 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentMaxKey(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentMaxKey(searchVO);
+    }
+    
+    /**
+	 * 코멘트를 수정한다.
+	 * @param vo GamMarineCenterRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateMarineCenterRentComment(GamMarineCenterRentMngtVO vo) throws Exception {
+		gamMarineCenterRentMngtDao.updateMarineCenterRentComment(vo);
+	}
+	
+	/**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentRenewInfo(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentRenewInfo(searchVO);
+    }
+    
+    /**
+	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
+	 * @param vo GamMarineCenterRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateMarineCenterRentRenewInfo(GamMarineCenterRentMngtVO vo) throws Exception {
+		gamMarineCenterRentMngtDao.updateMarineCenterRentRenewInfo(vo);
+	}
+	
+	/**
+	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentCurrRenewInfo(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentCurrRenewInfo(searchVO);
+    }
+    
+    /**
+	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentDetailQuaycd(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentDetailQuaycd(searchVO);
+    }
+    
+    /**
+	 * 신청저장시 임대테이블의 부두코드를 업데이트 한다.
+	 * @param vo GamMarineCenterRentDetailVO
+	 * @exception Exception
+	 */
+	public void updateMarineCenterRentQuaycd(GamMarineCenterRentMngtVO vo) throws Exception {
+		gamMarineCenterRentMngtDao.updateMarineCenterRentQuaycd(vo);
+	}
+	
+	/**
+   	 * 코픽스 이자율 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectCofixInfo() throws Exception {
+        return gamMarineCenterRentMngtDao.selectCofixInfo();
+    }
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentBeforeQuarterInfo(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentBeforeQuarterInfo(searchVO);
+    }
+    
+    /**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentCofixInfo(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentCofixInfo(searchVO);
+    }
 	
 }

@@ -8,7 +8,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * @Modification Information
  *
  * @author heroine
- * @since 2014-02-11
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
@@ -24,8 +24,14 @@ public class GamMarineCenterRentDetailVO extends ComDefaultVO {
     private String gisAssetsCd;                           
                                                             
     /** GIS 자산 SUB 코드 */                                                   
-    private String gisAssetsSubCd;                             
-                                                         
+    private String gisAssetsSubCd;    
+    
+    /** GIS 자산 명 */                                                   
+    private String gisAssetsNm;
+
+    /** 자산코드 */                                                   
+    private String assetsCdStr;	    
+    
     /**  사용 면적 */                                                    
     private String usageAr;                               
                                                               
@@ -45,7 +51,10 @@ public class GamMarineCenterRentDetailVO extends ComDefaultVO {
     private String usagePrposCd;                              
                                                                 
     /** 면제 구분 */                                                       
-    private String exemptSe;                                     
+    private String exemptSe;         
+    
+    /** 면제 구분 명*/                                                       
+    private String exemptSeNm;
                                                                   
     /**  면제 사유 코드 */                                                     
     private String exemptRsnCd;                                    
@@ -833,4 +842,46 @@ public class GamMarineCenterRentDetailVO extends ComDefaultVO {
 		this.maxAssetsUsageSeq = maxAssetsUsageSeq;
 	}
 
+	/**
+	 * @return the assetsCdStr
+	 */
+	public String getAssetsCdStr() {
+		return assetsCdStr;
+	}
+
+	/**
+	 * @param assetsCdStr the assetsCdStr to set
+	 */
+	public void setAssetsCdStr(String assetsCdStr) {
+		this.assetsCdStr = assetsCdStr;
+	}
+
+	/**
+	 * @return the gisAssetsNm
+	 */
+	public String getGisAssetsNm() {
+		return gisAssetsNm;
+	}
+
+	/**
+	 * @param gisAssetsNm the gisAssetsNm to set
+	 */
+	public void setGisAssetsNm(String gisAssetsNm) {
+		this.gisAssetsNm = gisAssetsNm;
+	}
+
+	/**
+	 * @return the exemptSeNm
+	 */
+	public String getExemptSeNm() {
+		return exemptSeNm;
+	}
+
+	/**
+	 * @param exemptSeNm the exemptSeNm to set
+	 */
+	public void setExemptSeNm(String exemptSeNm) {
+		this.exemptSeNm = exemptSeNm;
+	}
+	
 }
