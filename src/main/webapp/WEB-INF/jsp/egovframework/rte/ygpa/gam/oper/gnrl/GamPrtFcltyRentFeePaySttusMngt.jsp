@@ -185,8 +185,9 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th style="width: 70px">항코드</th>
-                            <td style="width: 150px">
+                            <th style="width: 70px">항구분</th>
+                            <td>
+                            	<!-- 
                                 <select id="sPrtAtCode">
                                     <option value="" selected="selected">선택</option>
 
@@ -194,8 +195,10 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                         <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
                                     </c:forEach>
                                 </select>
+                                -->
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
+                            <td style="text-align: right;"><button id="searchBtn" class="submit">조회</button>&nbsp;</td>
                         </tr>
                             
                         <!-- 

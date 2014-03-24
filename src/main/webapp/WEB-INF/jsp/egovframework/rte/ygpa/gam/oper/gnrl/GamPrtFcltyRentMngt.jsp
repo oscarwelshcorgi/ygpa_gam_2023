@@ -592,7 +592,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                 return;
             }
             
-            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' ) {
+            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' && this.$('#payinstIntrrate').val() != '0' ) {	
                 alert("고지방법이 일괄납부인 경우는 분납이자율을 입력하지 마십시오.");
                 return;
             }
@@ -795,12 +795,22 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-        /*    
         case 'btnPrmisn': // 사용승낙
-            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
-            
+        	var rows = this.$('#prtFcltyRentMngtList').selectedRows();
+            var row = this.$('#prtFcltyRentMngtList').selectedRows()[0];
+
             if(rows.length>=1) {
-                var opts = {
+            	if( row['prmisnYn'] == 'Y' ) {
+                    alert("이미 사용승낙된 상태 입니다.");
+                    return;
+                }
+                
+                if( row['sanctnSttus'] != '1' ) {
+                    alert("결재완료 상태가 아닙니다.");
+                    return;
+                }
+            	
+            	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
                     'mngNo': rows[0]['mngNo'],
@@ -808,54 +818,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                 };
 
                 this.doExecuteDialog('insertPrtFcltyRentMngtPrmisnPopup', '승낙', '<c:url value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do"/>', opts);
-                
-            } else {
-                alert("목록에서 선택하십시오.");
-            }
-        
-            break;
-        
-        case 'btnPrmisnCancel': // 승낙취소
-            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
-            
-            if(rows.length>=1) {
-                if( confirm("승낙취소를 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
-                        if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                            module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                        }
-    
-                        alert(result.resultMsg);
-                    });
-                }
-            } else {
-                alert("목록에서 선택하십시오.");
-            }
-        
-            break;
-        */
-        
-        case 'btnPrmisn': // 사용승낙
-            var rows = this.$('#prtFcltyRentMngtList').selectedRows();
-            var row = this.$('#prtFcltyRentMngtList').selectedRows()[0];
-        
-            //if( row['prmisnYn'] == 'Y' ) {
-            //    alert("사용승낙을 할수없는 상태 입니다.");
-            //    return;
-            //}
-        
-            if(rows.length>=1) {
-                if( confirm("승낙을 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do" />', rows[0], function(module, result) {
-                        if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-                            module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                        }
 
-                        alert(result.resultMsg);
-                    });
-                }
             } else {
                 alert("목록에서 선택하십시오.");
             }
@@ -866,13 +829,11 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             var rows = this.$('#prtFcltyRentMngtList').selectedRows();
             var row = this.$('#prtFcltyRentMngtList').selectedRows()[0];
             
-            //alert(row['prmisnYn']);
+            if( row['prmisnYn'] != 'Y' ) {
+                alert("승낙된 상태가 아닙니다.");
+                return;
+            }
             
-            //if( row['prmisnYn'] == 'N' || row['prmisnYn'] == '' ) {
-            //    alert("승낙취소를 할수없는 상태 입니다.");
-            //    return;
-            //}
-        
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
