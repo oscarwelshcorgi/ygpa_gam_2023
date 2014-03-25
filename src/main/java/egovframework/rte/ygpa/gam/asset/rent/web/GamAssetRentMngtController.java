@@ -230,6 +230,9 @@ public class GamAssetRentMngtController {
     	List<HashMap<String,String>> deleteFileList=null;
     	HashMap<String,String> form=null;
     	
+    	int resultCode = -1;
+    	String resultMsg = "";
+    	
     	try {
     		insertList = mapper.readValue((String)dataList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
@@ -514,15 +517,21 @@ public class GamAssetRentMngtController {
     			gamAssetRentMngtService.updateAssetRentQuaycd(quaycdVO);
     		}
     		
+    		resultCode = 0;
+        	resultMsg  = egovMessageSource.getMessage("success.common.merge");
+    		
     	} catch (Exception e) {
     		e.printStackTrace();
+    		
+    		resultCode = 1;
+    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
     	}
     	log.debug("insert list : "+insertList.size());
     	log.debug("updateList list : "+updateList.size());
     	log.debug("deleteList list : "+deleteList.size());
 
-		map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		map.put("resultCode", resultCode);			
+		map.put("resultMsg", resultMsg);
 		return map;
     }
 	
@@ -612,20 +621,27 @@ public class GamAssetRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
-    	GamAssetRentMngtVO resultVO = gamAssetRentMngtService.selectAssetRentMaxNo(gamAssetRentMngtVO);
-    	
-    	if( gamAssetRentMngtVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
-    		//키 같고 max관리번호가 같으면 연장신청 등록
-        	
-    		gamAssetRentMngtService.insertAssetRentRenew(gamAssetRentMngtVO);
+        try {
+	    	GamAssetRentMngtVO resultVO = gamAssetRentMngtService.selectAssetRentMaxNo(gamAssetRentMngtVO);
+	    	
+	    	if( gamAssetRentMngtVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
+	    		//키 같고 max관리번호가 같으면 연장신청 등록
+	        	
+	    		gamAssetRentMngtService.insertAssetRentRenew(gamAssetRentMngtVO);
+	    		
+	    		resultCode = 0; // return ok
+	    		resultMsg  = egovMessageSource.getMessage("success.common.insert");
+	    	} else {
+	    		resultCode = 1; // return fail
+	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
+	    	}
+        } catch(Exception e) {
+        	e.printStackTrace();
     		
-    		resultCode = 0; // return ok
-    		resultMsg  = egovMessageSource.getMessage("success.common.insert");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
-    	}
-    	
+    		resultCode = 1;
+    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
+        }
+        
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
         
@@ -694,29 +710,36 @@ public class GamAssetRentMngtController {
         
         int resultLevReqestCnt = -1;
         
-        if( EgovStringUtil.isEmpty(gamAssetRentMngtVO.getPrmisnYn()) || gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
-        	deleteFlag = "Y";
-        } else {
-        	/*
-        	resultLevReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO); //징수의뢰 정보 카운트
-        	
-        	if( gamAssetRentMngtVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
-            	deleteFlag = "Y";
-            }
-            */
-        	deleteFlag = "N";
-        }
-    	
-    	if("Y".equals(deleteFlag)) {
-	        gamAssetRentMngtService.deleteAssetRent(gamAssetRentMngtVO);
+        try {
+	        if( EgovStringUtil.isEmpty(gamAssetRentMngtVO.getPrmisnYn()) || gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
+	        	deleteFlag = "Y";
+	        } else {
+	        	/*
+	        	resultLevReqestCnt = gamAssetRentMngtService.selectAssetRentLevReqestCnt(gamAssetRentMngtVO); //징수의뢰 정보 카운트
+	        	
+	        	if( gamAssetRentMngtVO.getPrmisnYn().equals("Y") && resultLevReqestCnt == 0 ) { //허가여부가 Y이고 징수의뢰테이블에 정보가 없으면 삭제가능
+	            	deleteFlag = "Y";
+	            }
+	            */
+	        	deleteFlag = "N";
+	        }
 	    	
-	        resultCode = 0; // return ok
-	        resultMsg  = egovMessageSource.getMessage("success.common.delete");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
-    	}
-		
+	    	if("Y".equals(deleteFlag)) {
+		        gamAssetRentMngtService.deleteAssetRent(gamAssetRentMngtVO);
+		    	
+		        resultCode = 0; // return ok
+		        resultMsg  = egovMessageSource.getMessage("success.common.delete");
+	    	} else {
+	    		resultCode = 1; // return fail
+	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
+	    	}
+        } catch(Exception e) {
+        	e.printStackTrace();
+    		
+    		resultCode = 1;
+    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
+        }
+        
     	map.put("resultCode", resultCode);
     	map.put("resultMsg", resultMsg);
         
