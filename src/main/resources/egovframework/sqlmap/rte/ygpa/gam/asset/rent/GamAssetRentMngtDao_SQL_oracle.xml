@@ -621,6 +621,7 @@
                                 , A.EXEMPT_SE
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE AND ROWNUM = 1) EXEMPT_SE_NM
                                 , A.EXEMPT_RSN_CD
+                                , A.EXEMPT_RSN_CD AS EXEMPT_RSN_CD_STR
                                 , A.EXEMPT_RSN
                                 , TO_CHAR(A.EXEMPT_PD_FROM,'YYYY-MM-DD') EXEMPT_PD_FROM
                                 , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
@@ -760,16 +761,16 @@
                                            , #detailPrtAtCode#
 		                                   , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
                                            , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)  
-		                                   , #olnlp#
-		                                   , #applcTariff#
+		                                   , REPLACE(#olnlp#,',','') 
+		                                   , REPLACE(#applcTariff#,',','')
                                            , #applcMth#
                                            , #exemptSe#
                                            , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
                                            , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)  
                                            , #exemptRsnCd#
                                            , #exemptRsn#
-		                                   , #rdcxptFee#
-                                           , #fee#
+		                                   , REPLACE(#rdcxptFee#,',','')
+                                           , REPLACE(#fee#,',','') 
                                            , #computDtls#
                                            , #usagePurps#
                                            , #usageDtls#
@@ -781,7 +782,7 @@
                                            , #gisAssetsCd#
                                            , #gisAssetsSubCd#
                                            , #gisAssetsPrtAtCode# 
-                                           , #usageAr#
+                                           , REPLACE(#usageAr#,',','')
 		                                 )
     </insert>
     
@@ -789,30 +790,30 @@
         UPDATE ASSETS_RENT_DETAIL_F SET
 		         GIS_ASSETS_CD          = #gisAssetsCd#
 		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
-		       , USAGE_AR               = #usageAr#
+		       , USAGE_AR               = REPLACE(#usageAr#,',','')
 		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
 		       , USAGE_PD_TO            = TO_DATE(#usagePdTo:DATE:NO_ENTRY#) 
 		       , USAGE_PURPS            = #usagePurps#
 		       , USAGE_DTLS             = #usageDtls#
-		       , USAGE_PRPOS_CD         = #usagePrposCd#
+		       <!-- , USAGE_PRPOS_CD         = #usagePrposCd#  -->
 		       , EXEMPT_SE              = #exemptSe#
 		       , EXEMPT_RSN_CD          = #exemptRsnCd#
 		       , EXEMPT_RSN             = #exemptRsn#
 		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#) 
 		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo:DATE:NO_ENTRY#) 
 		       , COMPUT_DTLS            = #computDtls#
-		       , OLNLP                  = #olnlp#
-		       , APPLC_TARIFF           = #applcTariff#
+		       , OLNLP                  = REPLACE(#olnlp#,',','') 
+		       , APPLC_TARIFF           = REPLACE(#applcTariff#,',','')  
 		       , APPLC_MTH              = #applcMth#
-		       , PACK_SE                = #packSe#
-		       , ENTRPS_SE              = #entrpsSe#
-		       , FEE_CALC_SE            = #feeCalcSe#
-		       , RDCXPT_FEE_CALC_SE     = #rdcxptFeeCalcSe#
-		       , RDCXPT_FEE             = #rdcxptFee#
-		       , FEE                    = #fee#
-		       , TRMNAT_DT              = TO_DATE(#trmnatDt:DATE:NO_ENTRY#) 
-		       , TRMNAT_RSN             = #trmnatRsn#
-		       , GIS_CD                 = #detailGisCd#
+		       <!-- , PACK_SE                = #packSe# -->
+		       <!-- , ENTRPS_SE              = #entrpsSe# -->
+		       <!-- , FEE_CALC_SE            = #feeCalcSe# -->
+		       <!-- , RDCXPT_FEE_CALC_SE     = #rdcxptFeeCalcSe# -->
+		       , RDCXPT_FEE             = REPLACE(#rdcxptFee#,',','')
+		       , FEE                    = REPLACE(#fee#,',','') 
+		       <!-- , TRMNAT_DT              = TO_DATE(#trmnatDt:DATE:NO_ENTRY#)  -->
+		       <!-- , TRMNAT_RSN             = #trmnatRsn# -->
+		       <!-- , GIS_CD                 = #detailGisCd# -->
 		       , UPD_USR                = #updUsr#
 		       , UPDT_DT                = SYSDATE
 		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
