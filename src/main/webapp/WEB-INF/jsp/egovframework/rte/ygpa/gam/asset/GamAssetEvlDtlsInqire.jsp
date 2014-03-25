@@ -102,7 +102,6 @@ this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, r
     	 module.doAction('<c:url value="/asset/gamSelectAssetEvlDtlsInqireErp.do" />', inputVO, function(module, result) {
              
              if(result.resultCode=='0') {
-            	 
             	 module.$('#assetCls').val(result.assetCls); 
             	 module.$('#assetNo').val(result.assetNo); 
             	 module.$('#assetNoSeq').val(result.assetNoSeq); 
@@ -115,6 +114,18 @@ this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, r
                  module.$('#thisTermDeprctnAmt').val(result.thisTermDeprctnAmt);
                  module.$('#curAmt').val(result.curAmt);
              } else {
+                 module.$('#assetCls').val(''); 
+                 module.$('#assetNo').val(''); 
+                 module.$('#assetNoSeq').val(''); 
+                 module.$('#thisTermIncreAmt').val(''); 
+                 module.$('#bsThisCurAmt').val('');
+                 module.$('#bsPreDeprctnSum').val('');
+                 module.$('#bsNoDeprctnBal').val('');
+                 module.$('#preEndAssetBuySum').val('');
+                 module.$('#assetBuyAmt').val('');
+                 module.$('#thisTermDeprctnAmt').val('');
+                 module.$('#curAmt').val('');
+                 
                  alert(result.resultMsg);
              }
          });
