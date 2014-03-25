@@ -1321,3 +1321,14 @@ div.tree {
 div.tree ul {
 	margin-left: 1.2em;
 }
+
+.ui-button.popupButton {
+    margin: 2px;
+    font-size: 12px;
+    height: 28px;
+}
+
+table.searchPanel {
+    width: 100%;
+}
+

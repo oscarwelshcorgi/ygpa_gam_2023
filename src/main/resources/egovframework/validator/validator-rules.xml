@@ -59,8 +59,9 @@
                 var i = 0;
                 var fields = new Array();
                 oRequired = new required();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 for (x in oRequired) {
-                	var field = form[oRequired[x][0]];
+                	var field = form[window_id+oRequired[x][0]];
                 	if (typeof(field) == 'undefined') {
                 		continue;
                 	}
@@ -167,9 +168,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oMinLength = new minlength();
                 for (x in oMinLength) {
-                    var field = form[oMinLength[x][0]];
+                    var field = form[window_id+oMinLength[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea') {
@@ -212,9 +214,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oMaxLength = new maxlength();
                 for (x in oMaxLength) {
-                    var field = form[oMaxLength[x][0]];
+                    var field = form[window_id+oMaxLength[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea') {
@@ -257,9 +260,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oMasked = new mask();
                 for (x in oMasked) {
-                    var field = form[oMasked[x][0]];
+                    var field = form[window_id+oMasked[x][0]];
 
                     if ((field.type == 'text' ||
                          field.type == 'textarea') &&
@@ -308,9 +312,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oByte = new ByteValidations();
                 for (x in oByte) {
-                	var field = form[oByte[x][0]];
+                	var field = form[window_id+oByte[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -380,9 +385,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oShort = new ShortValidations();
                 for (x in oShort) {
-                	var field = form[oShort[x][0]];
+                	var field = form[window_id+oShort[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -451,9 +457,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oInteger = new IntegerValidations();
                 for (x in oInteger) {
-                	var field = form[oInteger[x][0]];
+                	var field = form[window_id+oInteger[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -554,9 +561,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oFloat = new FloatValidations();
                 for (x in oFloat) {
-                	var field = form[oFloat[x][0]];
+                	var field = form[window_id+oFloat[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -640,12 +648,13 @@
                var focusField = null;
                var i = 0;
                var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                oDate = new DateValidations();
                for (x in oDate) {
-                   var value = form[oDate[x][0]].value;
+                   var value = form[window_id+oDate[x][0]].value;
                    var datePattern = oDate[x][2]("datePatternStrict");
-                   if ((form[oDate[x][0]].type == 'text' ||
-                        form[oDate[x][0]].type == 'textarea') &&
+                   if ((form[window_id+oDate[x][0]].type == 'text' ||
+                        form[window_id+oDate[x][0]].type == 'textarea') &&
                        (value.length > 0) &&
                        (datePattern.length > 0)) {
                      var MONTH = "MM";
@@ -732,21 +741,21 @@
                          if(matched != null) {
                              if (!isValidDate(matched[3], matched[2], matched[1])) {
                                  if (i == 0) {
-                                     focusField = form[oDate[x][0]];
+                                     focusField = form[window_id+oDate[x][0]];
                                   }
                                   fields[i++] = oDate[x][1];
                                   bValid =  false;
                               }
                           } else {
                               if (i == 0) {
-                                  focusField = form[oDate[x][0]];
+                                  focusField = form[window_id+oDate[x][0]];
                               }
                               fields[i++] = oDate[x][1];
                               bValid =  false;
                           }
                      } else {
                          if (i == 0) {
-                             focusField = form[oDate[x][0]];
+                             focusField = form[window_id+oDate[x][0]];
                          }
                          fields[i++] = oDate[x][1];
                          bValid =  false;
@@ -821,9 +830,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oRange = new intRange();
                 for (x in oRange) {
-                    var field = form[oRange[x][0]];
+                    var field = form[window_id+oRange[x][0]];
 
                     if ((field.type == 'text' ||
                          field.type == 'textarea') &&
@@ -868,9 +878,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oRange = new floatRange();
                 for (x in oRange) {
-                    var field = form[oRange[x][0]];
+                    var field = form[window_id+oRange[x][0]];
 
                     if ((field.type == 'text' ||
                          field.type == 'textarea') &&
@@ -915,14 +926,15 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oCreditCard = new creditCard();
                 for (x in oCreditCard) {
-                    if ((form[oCreditCard[x][0]].type == 'text' ||
-                         form[oCreditCard[x][0]].type == 'textarea') &&
-                        (form[oCreditCard[x][0]].value.length > 0)) {
-                        if (!luhnCheck(form[oCreditCard[x][0]].value)) {
+                    if ((form[window_id+oCreditCard[x][0]].type == 'text' ||
+                         form[window_id+oCreditCard[x][0]].type == 'textarea') &&
+                        (form[window_id+oCreditCard[x][0]].value.length > 0)) {
+                        if (!luhnCheck(form[window_id+oCreditCard[x][0]].value)) {
                             if (i == 0) {
-                                focusField = form[oCreditCard[x][0]];
+                                focusField = form[window_id+oCreditCard[x][0]];
                             }
                             fields[i++] = oCreditCard[x][1];
                             bValid = false;
@@ -993,14 +1005,15 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oEmail = new email();
                 for (x in oEmail) {
-                    if ((form[oEmail[x][0]].type == 'text' ||
-                         form[oEmail[x][0]].type == 'textarea') &&
-                        (form[oEmail[x][0]].value.length > 0)) {
-                        if (!checkEmail(form[oEmail[x][0]].value)) {
+                    if ((form[window_id+oEmail[x][0]].type == 'text' ||
+                         form[window_id+oEmail[x][0]].type == 'textarea') &&
+                        (form[window_id+oEmail[x][0]].value.length > 0)) {
+                        if (!checkEmail(form[window_id+oEmail[x][0]].value)) {
                             if (i == 0) {
-                                focusField = form[oEmail[x][0]];
+                                focusField = form[window_id+oEmail[x][0]];
                             }
                             fields[i++] = oEmail[x][1];
                             bValid = false;
@@ -1090,9 +1103,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oIhidnum = new ihidnum();
                 for (x in oIhidnum) {
-                	var field = form[oIhidnum[x][0]];
+                	var field = form[window_id+oIhidnum[x][0]];
                 	if (field.type == 'text' ||
                     	field.type == 'hidden' ||
                         field.type == 'textarea') {
@@ -1164,9 +1178,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oKorean = new korean();
                 for (x in oKorean) {
-                	var field = form[oKorean[x][0]];
+                	var field = form[window_id+oKorean[x][0]];
                     if (field.type == 'text' || field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkKorean(field.value)) {
                             if (i == 0) {
@@ -1196,9 +1211,9 @@
           ]]>
           </javascript>
       </validator>
-	  
 
-     
+
+
    </global>
 
 </form-validation>

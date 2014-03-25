@@ -43,9 +43,9 @@
 
 	<global>
 
-		<!-- 패스워드 validation 
+		<!-- 패스워드 validation
 		1. password1 : 8~20자 이내
-		2. password2 : 한글,특수문자,띄어쓰기는 안됨 
+		2. password2 : 한글,특수문자,띄어쓰기는 안됨
 		3. password3 : 연속된 문자나 순차적인 문자 4개이상 사용금지
 		4. password4 : 반복문자나 숫자 연속 4개이상 사용금지 -->
 		<validator name="password1"
@@ -63,9 +63,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oPassword = new password1();
                 for (x in oPassword) {
-                    var field = form[oPassword[x][0]];
+                    var field = form[window_id+oPassword[x][0]];
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword1(field)) {
                             if (i == 0) {
@@ -113,9 +114,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+				var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oPassword = new password2();
                 for (x in oPassword) {
-                    var field = form[oPassword[x][0]];
+                    var field = form[window_id+oPassword[x][0]];
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword2(field)) {
                             if (i == 0) {
@@ -163,9 +165,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oPassword = new password3();
                 for (x in oPassword) {
-                    var field = form[oPassword[x][0]];
+                    var field = form[window_id+oPassword[x][0]];
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword3(field)) {
                             if (i == 0) {
@@ -230,9 +233,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oPassword = new password4();
                 for (x in oPassword) {
-                    var field = form[oPassword[x][0]];
+                    var field = form[window_id+oPassword[x][0]];
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword4(field)) {
                             if (i == 0) {
@@ -295,9 +299,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oInteger = new minInteger();
                 for (x in oInteger) {
-                	var field = form[oInteger[x][0]];
+                	var field = form[window_id+oInteger[x][0]];
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -365,9 +370,10 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
+           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oEnglish = new english();
                 for (x in oEnglish) {
-                	var field = form[oEnglish[x][0]];
+                	var field = form[window_id+oEnglish[x][0]];
                     if (field.type == 'text' || field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkEnglish(field.value)) {
                             if (i == 0) {

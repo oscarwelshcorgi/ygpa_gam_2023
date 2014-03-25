@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamAssetCode">
+            <field property="gisAssetsPrtAtCode" depends="required">
+                <arg0 key="GIS 자산 항코드" resource="false"/>
+            </field>
+            <field property="gisAssetsPrprtySeCd" depends="required">
+                <arg0 key="GIS 자산 재산 구분 코드" resource="false"/>
+            </field>
+            <field property="gisAssetsLocCd" depends="required">
+                <arg0 key="GIS 자산 위치 코드" resource="false"/>
+            </field>
+            <field property="gisAssetsQuayCd" depends="required">
+                <arg0 key="GIS 자산 부두 코드" resource="false"/>
+            </field>
+            <field property="gisAssetsNm" depends="required, minlength, maxlength">
+                <arg0 key="GIS 자산 명" resource="false"/>
+                <arg1 key="2" resource="false"/>
+                <arg2 key="80" resource="false"/>
+                <var>
+	                <var-name>minlength</var-name>
+	                <var-value>2</var-value>
+                </var>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>80</var-value>
+                </var>
+            </field>
+            <field property="gisAssetsLocplc" depends="maxlength">
+                <arg0 key="GIS 자산 소재지" resource="false"/>
+                <arg1 key="80" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>80</var-value>
+                </var>
+            </field>
+            <field property="gisAssetLotCode" depends="maxlength">
+                <arg0 key="GIS 자산 지번" resource="false"/>
+                <arg1 key="4" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>4</var-value>
+                </var>
+            </field>
+            <field property="gisAssetLotSubCode" depends="maxlength">
+                <arg0 key="GIS 자산 지번" resource="false"/>
+                <arg1 key="4" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>4</var-value>
+                </var>
+            </field>
+
+        </form>
+    </formset>
+
+</form-validation>

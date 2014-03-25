@@ -15,9 +15,15 @@ public class GamMainController {
     String indexMain(ModelMap model) throws Exception {
     	return "ygpa/gam/main/ygpaMapMain";
     }
-    
+
     @RequestMapping(value="/index.do")
     String index(ModelMap model) throws Exception {
     	return "ygpa/gam/main/index";
     }
+
+    @RequestMapping(value="/validator.do")
+    String validator(ModelMap model) throws Exception {
+    	return "validator";
+    }
+
 }

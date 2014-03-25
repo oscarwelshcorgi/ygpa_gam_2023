@@ -50,9 +50,9 @@ public class EgovComUtlController {
     /**
 	 * validato rule dynamic Javascript
 	 */
-	@RequestMapping("/validator.do")
-	public String validate(){
-		return "egovframework/com/cmm/validator";
-	}
+//	@RequestMapping("/validator.do")
+//	public String validate(){
+//		return "egovframework/com/cmm/validator";
+//	}
 
 }

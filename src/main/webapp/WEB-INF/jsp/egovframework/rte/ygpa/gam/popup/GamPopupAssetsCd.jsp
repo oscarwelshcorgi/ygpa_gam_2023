@@ -25,7 +25,7 @@
  */
 function GamAssetCodePopupModule() {}
 
-GamAssetCodePopupModule.prototype = new EmdPopupModule(640, 480);
+GamAssetCodePopupModule.prototype = new EmdPopupModule(700, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamAssetCodePopupModule.prototype.loadComplete = function() {
@@ -37,7 +37,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 	this.$("#assetCodeList").flexigrid({
 		module: this,
 		url: '<c:url value="/popup/selectAssetCodeList.do"/>',
-		dataType: "json",
+		//dataType: "json",
 		colModel : [
 					{display:"순번", 					name:"rnum", 				width:40, 	sortable:true, align:"center"},
 					{display:"항코드", 					name:"gisAssetsPrtAtCode",	width:60, 	sortable:true, align:"center"},
@@ -49,13 +49,13 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 					//{display:"지번", 					name:"gisAssetsLnm", 		width:40, 	sortable:true, align:"center"}
 					],
 		//usepager: false,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "300"
+		//rp: 24,
+		//showTableToggleBtn: false,
+		height: "auto"
 	});
 
 	this.$("#assetCodeList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
+
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.closeDialog("ok", row);
 	});
@@ -92,7 +92,7 @@ GamAssetCodePopupModule.prototype.loadData = function() {
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamAssetCodePopupModule();
 </script>
-<div class="dialog">
+<div class="dialog fillHeight">
 	<div class="emdPanel">
 		<form id="searchPopupGisAssetCode">
 			<table class="searchPanel">
@@ -102,6 +102,7 @@ var popup_instance = new GamAssetCodePopupModule();
 						<td><input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 						<th>자산코드</th>
 						<td><input id="gisAssetsCd" type="text" size="3" />&nbsp;-&nbsp;<input id="gisAssetsSubCd" type="text" size="2" /></td>
+						<td rowspan="2"><button id="selectGisAssetCode">조회</button></td>
 					</tr>
 					<tr>
 						<th>자산명</th>
@@ -112,11 +113,9 @@ var popup_instance = new GamAssetCodePopupModule();
 				</tbody>
 			</table>
 		</form>
-		<div class="emdControlPanel">
-			<button id="selectGisAssetCode">조회</button>
 		</div>
-
-		<table id="assetCodeList" style="display: none"></table>
+	<div class="emdPanel fillHeight">
+		<table id="assetCodeList" style="display: none" class="fillHeight"></table>
 		<div class="emdControlPanel">
 			<button id="btnOk">자산 선택</button>
 			<button id="cancel">취소</button>

@@ -225,7 +225,7 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 									<option value="w">창고</option>
 									<option value="E">기타</option>
 							</select></td>
-							<td rowSpan="2"><button id="submitButton">조회</button></td>
+							<td rowSpan="2"><button id="submitButton" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>자산명</th>
@@ -251,13 +251,13 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 			<div id="tabs1" class="emdTabPage fillHeight">
 				<table id="assetRentList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnNewRequest" class="buttonRegist">최초신청</button>
-					<button id="btnExtRequest" class="buttonExtends">연장신청</button>
-					<button id="btnDelRequest" class="buttonDelete">신청삭제</button>
-					<button id="btnEApproval" class="buttonSendRequest">결재요청</button>
-					<button id="btnUseConfirm" class="buttonOk">사용승낙</button>
-					<button id="btnCancelConfirm" class="buttonCancel">승낙취소</button>
-					<button id="btnViewMap" class="buttonViewMap">맵조회</button>
+					<button id="btnNewRequest">최초신청</button>
+					<button id="btnExtRequest">연장신청</button>
+					<button id="btnDelRequest">신청삭제</button>
+					<button id="btnEApproval">결재요청</button>
+					<button id="btnUseConfirm">사용승낙</button>
+					<button id="btnCancelConfirm">승낙취소</button>
+					<button id="btnViewMap">맵조회</button>
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage">

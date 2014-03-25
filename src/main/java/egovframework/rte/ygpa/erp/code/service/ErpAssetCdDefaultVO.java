@@ -17,6 +17,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class ErpAssetCdDefaultVO implements Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** 검색조건 */
     private String searchCondition = "";
 
@@ -45,6 +50,58 @@ public class ErpAssetCdDefaultVO implements Serializable {
     private int recordCountPerPage = 10;
 
     private String searchAssetCls;
+
+    private String searchAssetNo;
+
+    private String searchAssetNoSeq;
+
+    private String searchItemName;
+
+    private String searchStartDt;
+
+    private String searchEndDt;
+
+    private String searchDeptCd;
+
+    public String getSearchAssetNo() {
+		return searchAssetNo;
+	}
+
+	public void setSearchAssetNo(String searchAssetNo) {
+		this.searchAssetNo = searchAssetNo;
+	}
+
+	public String getSearchAssetNoSeq() {
+		return searchAssetNoSeq;
+	}
+
+	public void setSearchAssetNoSeq(String searchAssetNoSeq) {
+		this.searchAssetNoSeq = searchAssetNoSeq;
+	}
+
+	public String getSearchStartDt() {
+		return searchStartDt;
+	}
+
+	public void setSearchStartDt(String searchStartDt) {
+		this.searchStartDt = searchStartDt;
+	}
+
+	public String getSearchEndDt() {
+		return searchEndDt;
+	}
+
+	public void setSearchEndDt(String searchEndDt) {
+		this.searchEndDt = searchEndDt;
+	}
+
+	public String getSearchDeptCd() {
+		return searchDeptCd;
+	}
+
+	public void setSearchDeptCd(String searchDeptCd) {
+		this.searchDeptCd = searchDeptCd;
+	}
 
 	public int getFirstIndex() {
 		return firstIndex;
@@ -128,6 +185,14 @@ public class ErpAssetCdDefaultVO implements Serializable {
 
 	public void setSearchAssetCls(String searchAssetCls) {
 		this.searchAssetCls = searchAssetCls;
+	}
+
+	public String getSearchItemName() {
+		return searchItemName;
+	}
+
+	public void setSearchItemName(String searchItemName) {
+		this.searchItemName = searchItemName;
 	}
 
 }

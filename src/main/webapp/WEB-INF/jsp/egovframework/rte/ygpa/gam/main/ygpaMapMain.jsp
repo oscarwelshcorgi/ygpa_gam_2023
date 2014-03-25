@@ -340,7 +340,7 @@
                             <li>
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseRealloadInqire.do'/>">항만시설사용실적조회</a>
                             </li>
-                            <!-- 
+                            <!--
                             <li>
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseSttusInqire.do'/>">항만시설사용현황조회</a>
                             </li>
