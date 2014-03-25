@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamCmmnCodeMngt.jsp
-  * @Description : 공통분류코드 화면
+  * @Description : 공통코드관리 화면
   * @Modification Information
   * 
   *   수정일         수정자                   수정내용 
@@ -46,7 +46,7 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		//useRp: true,
 		//rp: 24,
 		//showTableToggleBtn: false,
-		height: "300",
+		height: "300"
 	});
 	
 	this.$("#cmmnCodeMngList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -205,7 +205,7 @@ var module_instance = new GamCmmnCodeMngtModule();
 							<td>
 								<select name="clCode" class="select" id="clCode">
 									<c:forEach var="result" items="${cmmnClCode}" varStatus="status">
-										<option value='<c:out value="${result.clCode}"/>'><c:out value="${result.clCodeNm}"/></option>
+										<option value='<c:out value="${result.clCode}"/>'><c:out value="${result.clCode}"/></option>
 									</c:forEach>			  		   
 								</select>
 							</td>
