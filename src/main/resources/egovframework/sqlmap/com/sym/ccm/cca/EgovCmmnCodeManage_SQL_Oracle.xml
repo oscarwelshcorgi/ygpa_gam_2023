@@ -62,6 +62,12 @@
 			<isEqual prepend="AND" property="searchCondition" compareValue="2">
 				<![CDATA[CODE_ID_NM LIKE '%' || #searchKeyword# || '%']]>
 			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="clCode">
+				<![CDATA[A.CL_CODE LIKE '%' || #searchKeyword# || '%']]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="clCode">
+				<![CDATA[A.USE_AT = 'Y']]>
+			</isEqual>
 			<isEqual prepend="AND" property="searchCondition" compareValue="countCode">
 				<![CDATA[CODE_ID           = #codeId#]]>
 			</isEqual>
