@@ -67,3 +67,25 @@ table .searchPanel {
   width: 1%;
 }
 
+.editPanel th {
+	background: #2FDAFF;
+	  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+  text-shadow: #fff 0 1px 1px;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.editPanel td {
+	background: #fff
+}
+
+.editPanel tr {
+  background: #06c repeat-x;
+  color: #fff;
+}
+
+.searchPanel th.shrink {
+  width: 1%;
+}

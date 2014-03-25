@@ -579,7 +579,7 @@ var module_instance = new GamAssetCodeModule();
 					<button id="btnSaveGisAssetsCode">저장</button>
 				</div>
 				<form id="editGisAssetCode" name="gisAssetCode">
-				<table style="border: 1px black;">
+				<table style="border: 1px black;" class="editPanel">
 					<tr>
 						<th><span class="label">항구분</span></th>
 						<td colspan="5">
