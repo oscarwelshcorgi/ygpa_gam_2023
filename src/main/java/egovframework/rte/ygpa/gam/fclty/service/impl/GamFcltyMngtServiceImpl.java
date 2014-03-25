@@ -105,35 +105,30 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 
     	ObjectMapper mapper = new ObjectMapper();
 
-    	try {
+		//convert JSON string to Map
+		form = mapper.readValue((String)fcltyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
+		insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
 
-    		//convert JSON string to Map
-    		form = mapper.readValue((String)fcltyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
-    		insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		// 시설관리 등록
+		form.put("prtFcltySe", (String)fcltyMngtList.get("prtFcltySe"));
+		form.put("regUsr", (String)fcltyMngtList.get("USERID"));
 
-    		// 시설관리 등록
-    		form.put("prtFcltySe", (String)fcltyMngtList.get("prtFcltySe"));
-    		form.put("regUsr", (String)fcltyMngtList.get("USERID"));
+		String insertkey = insertFclty(form);
+		// 시설관리 파일을 저장한다.
+		if(insertFileList.size() > 0){
+			for(int i = 0 ; i < insertFileList.size() ; i++) {
 
-    		String insertkey = insertFclty(form);
-    		// 시설관리 파일을 저장한다.
-			if(insertFileList.size() > 0){
-				for(int i = 0 ; i < insertFileList.size() ; i++) {
-
-					// form에서 저장한 값을 가져온다. 
-					insertFileList.get(i).put("gisPrtFcltySeq", insertkey);									// GIS 항만 시설 순번
-					insertFileList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));				// Login ID
-					insertFileList.get(i).put("prtFcltySe", (String)fcltyMngtList.get("prtFcltySe"));		// 항만시설 구분
-					insertFileList.get(i).put("gisAssetsCd", form.get("gisAssetsCd"));						// GIS 자산 코드
-					insertFileList.get(i).put("gisAssetsSubCd", form.get("gisAssetsSubCd"));				// GIS 자산 SUB 코드
-					insertFileList.get(i).put("gisAssetsPrtAtCode", form.get("gisAssetsPrtAtCode"));		// GIS 자산 항코드
-					insertFileList.get(i).put("gisPrtFcltyCd", form.get("gisPrtFcltyCd"));					// GIS 항만 시설 코드
-					insertFcltyFile(insertFileList.get(i));
-				}
+				// form에서 저장한 값을 가져온다. 
+				insertFileList.get(i).put("gisPrtFcltySeq", insertkey);									// GIS 항만 시설 순번
+				insertFileList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));				// Login ID
+				insertFileList.get(i).put("prtFcltySe", (String)fcltyMngtList.get("prtFcltySe"));		// 항만시설 구분
+				insertFileList.get(i).put("gisAssetsCd", form.get("gisAssetsCd"));						// GIS 자산 코드
+				insertFileList.get(i).put("gisAssetsSubCd", form.get("gisAssetsSubCd"));				// GIS 자산 SUB 코드
+				insertFileList.get(i).put("gisAssetsPrtAtCode", form.get("gisAssetsPrtAtCode"));		// GIS 자산 항코드
+				insertFileList.get(i).put("gisPrtFcltyCd", form.get("gisPrtFcltyCd"));					// GIS 항만 시설 코드
+				insertFcltyFile(insertFileList.get(i));
 			}
-    	}catch (Exception e){
-    		e.printStackTrace();
-    	}
+		}
 	}
 	
 	
@@ -149,66 +144,61 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
-		try {
-			
-			//convert JSON string to Map
-			form = mapper.readValue((String)fcltyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
-			insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
-			updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),new TypeReference<List<HashMap<String,String>>>(){});
-			deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		//convert JSON string to Map
+		form = mapper.readValue((String)fcltyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
+		insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),new TypeReference<List<HashMap<String,String>>>(){});
+		deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),new TypeReference<List<HashMap<String,String>>>(){});
 
-			String prtFcltySe = (String)fcltyMngtList.get("prtFcltySe");
-			
-			// 시설관리 수정
-			form.put("updUsr", (String)fcltyMngtList.get("USERID"));
-			form.put("prtFcltySe", prtFcltySe);
-			updateFclty(form);
-			
-			String gisPrtFcltySeq = form.get("gisPrtFcltySeq");
-			String gisAssetsCd = form.get("gisAssetsCd");
-			String gisAssetsSubCd = form.get("gisAssetsSubCd");
-			String gisAssetsPrtAtCode = form.get("gisAssetsPrtAtCode");
-			String gisPrtFcltyCd = form.get("gisPrtFcltyCd");
-			
-			// 파일 목록을 수정한다.
-			if(insertFileList.size() > 0){
-				for(int i = 0 ; i < insertFileList.size() ; i++) {
+		String prtFcltySe = (String)fcltyMngtList.get("prtFcltySe");
+		
+		// 시설관리 수정
+		form.put("updUsr", (String)fcltyMngtList.get("USERID"));
+		form.put("prtFcltySe", prtFcltySe);
+		updateFclty(form);
+		
+		String gisPrtFcltySeq = form.get("gisPrtFcltySeq");
+		String gisAssetsCd = form.get("gisAssetsCd");
+		String gisAssetsSubCd = form.get("gisAssetsSubCd");
+		String gisAssetsPrtAtCode = form.get("gisAssetsPrtAtCode");
+		String gisPrtFcltyCd = form.get("gisPrtFcltyCd");
+		
+		// 파일 목록을 수정한다.
+		if(insertFileList.size() > 0){
+			for(int i = 0 ; i < insertFileList.size() ; i++) {
 
-					// form에서 저장한 값을 가져온다. 
-					insertFileList.get(i).put("gisPrtFcltySeq", gisPrtFcltySeq);				// GIS 항만 시설 순번
-					insertFileList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));	// Login ID
-					insertFileList.get(i).put("prtFcltySe", prtFcltySe);						// 항만시설 구분
-					insertFileList.get(i).put("gisAssetsCd", gisAssetsCd);						// GIS 자산 코드
-					insertFileList.get(i).put("gisAssetsSubCd", gisAssetsSubCd);				// GIS 자산 SUB 코드
-					insertFileList.get(i).put("gisAssetsPrtAtCode", gisAssetsPrtAtCode);		// GIS 자산 항코드
-					insertFileList.get(i).put("gisPrtFcltyCd", gisPrtFcltyCd);					// GIS 항만 시설 코드
-					insertFcltyFile(insertFileList.get(i));
-				}
+				// form에서 저장한 값을 가져온다. 
+				insertFileList.get(i).put("gisPrtFcltySeq", gisPrtFcltySeq);				// GIS 항만 시설 순번
+				insertFileList.get(i).put("regUsr", (String)fcltyMngtList.get("USERID"));	// Login ID
+				insertFileList.get(i).put("prtFcltySe", prtFcltySe);						// 항만시설 구분
+				insertFileList.get(i).put("gisAssetsCd", gisAssetsCd);						// GIS 자산 코드
+				insertFileList.get(i).put("gisAssetsSubCd", gisAssetsSubCd);				// GIS 자산 SUB 코드
+				insertFileList.get(i).put("gisAssetsPrtAtCode", gisAssetsPrtAtCode);		// GIS 자산 항코드
+				insertFileList.get(i).put("gisPrtFcltyCd", gisPrtFcltyCd);					// GIS 항만 시설 코드
+				insertFcltyFile(insertFileList.get(i));
 			}
-			if(updateFileList.size() > 0){
-				for(int i = 0 ; i < updateFileList.size() ; i++) {
-					updateFileList.get(i).put("gisPrtFcltySeq", gisPrtFcltySeq);				// GIS 항만 시설 순번
-					updateFileList.get(i).put("prtFcltySe", prtFcltySe);						// 항만시설 구분
-					updateFileList.get(i).put("gisAssetsCd", gisAssetsCd);						// GIS 자산 코드
-					updateFileList.get(i).put("gisAssetsSubCd", gisAssetsSubCd);				// GIS 자산 SUB 코드
-					updateFileList.get(i).put("gisAssetsPrtAtCode", gisAssetsPrtAtCode);		// GIS 자산 항코드
-					updateFileList.get(i).put("gisPrtFcltyCd", gisPrtFcltyCd);					// GIS 항만 시설 코드
-					updateFcltyFile(updateFileList.get(i));
-				}
+		}
+		if(updateFileList.size() > 0){
+			for(int i = 0 ; i < updateFileList.size() ; i++) {
+				updateFileList.get(i).put("gisPrtFcltySeq", gisPrtFcltySeq);				// GIS 항만 시설 순번
+				updateFileList.get(i).put("prtFcltySe", prtFcltySe);						// 항만시설 구분
+				updateFileList.get(i).put("gisAssetsCd", gisAssetsCd);						// GIS 자산 코드
+				updateFileList.get(i).put("gisAssetsSubCd", gisAssetsSubCd);				// GIS 자산 SUB 코드
+				updateFileList.get(i).put("gisAssetsPrtAtCode", gisAssetsPrtAtCode);		// GIS 자산 항코드
+				updateFileList.get(i).put("gisPrtFcltyCd", gisPrtFcltyCd);					// GIS 항만 시설 코드
+				updateFcltyFile(updateFileList.get(i));
 			}
-			if(deleteFileList.size() > 0){
-				for(int i = 0 ; i < deleteFileList.size() ; i++) {
-					deleteFileList.get(i).put("gisPrtFcltySeq", gisPrtFcltySeq);				// GIS 항만 시설 순번
-					deleteFileList.get(i).put("prtFcltySe", prtFcltySe);						// 항만시설 구분
-					deleteFileList.get(i).put("gisAssetsCd", gisAssetsCd);						// GIS 자산 코드
-					deleteFileList.get(i).put("gisAssetsSubCd", gisAssetsSubCd);				// GIS 자산 SUB 코드
-					deleteFileList.get(i).put("gisAssetsPrtAtCode", gisAssetsPrtAtCode);		// GIS 자산 항코드
-					deleteFileList.get(i).put("gisPrtFcltyCd", gisPrtFcltyCd);					// GIS 항만 시설 코드
-					deleteFcltyFile(deleteFileList.get(i));
-				}
+		}
+		if(deleteFileList.size() > 0){
+			for(int i = 0 ; i < deleteFileList.size() ; i++) {
+				deleteFileList.get(i).put("gisPrtFcltySeq", gisPrtFcltySeq);				// GIS 항만 시설 순번
+				deleteFileList.get(i).put("prtFcltySe", prtFcltySe);						// 항만시설 구분
+				deleteFileList.get(i).put("gisAssetsCd", gisAssetsCd);						// GIS 자산 코드
+				deleteFileList.get(i).put("gisAssetsSubCd", gisAssetsSubCd);				// GIS 자산 SUB 코드
+				deleteFileList.get(i).put("gisAssetsPrtAtCode", gisAssetsPrtAtCode);		// GIS 자산 항코드
+				deleteFileList.get(i).put("gisPrtFcltyCd", gisPrtFcltyCd);					// GIS 항만 시설 코드
+				deleteFcltyFile(deleteFileList.get(i));
 			}
-		}catch (Exception e){
-			e.printStackTrace();
 		}
 	}
 	
@@ -216,22 +206,18 @@ public class GamFcltyMngtServiceImpl extends AbstractServiceImpl implements GamF
 	/**
 	 * 시설관리 삭제
 	 */
-	public void deleteFcltyMngt(GamFcltyManageVO vo) {
+	public void deleteFcltyMngt(GamFcltyManageVO vo) throws Exception {
 		
-		try{
-			Map<String,String> deleteList = new HashMap<String, String>();
-			
-			deleteList.put("gisAssetsCd", vo.getGisAssetsCd());
-			deleteList.put("gisAssetsPrtAtCode", vo.getGisAssetsPrtAtCode());
-			deleteList.put("gisAssetsSubCd", vo.getGisAssetsSubCd());
-			deleteList.put("gisPrtFcltyCd", vo.getGisPrtFcltyCd());
-			deleteList.put("gisPrtFcltySeq", vo.getGisPrtFcltySeq());
-			deleteList.put("prtFcltySe", vo.getPrtFcltySe());
-			deleteFcltyFile(deleteList);
-			deleteFclty(vo);	
-		}catch(Exception e){
-			
-		}
+		Map<String,String> deleteList = new HashMap<String, String>();
+		
+		deleteList.put("gisAssetsCd", vo.getGisAssetsCd());
+		deleteList.put("gisAssetsPrtAtCode", vo.getGisAssetsPrtAtCode());
+		deleteList.put("gisAssetsSubCd", vo.getGisAssetsSubCd());
+		deleteList.put("gisPrtFcltyCd", vo.getGisPrtFcltyCd());
+		deleteList.put("gisPrtFcltySeq", vo.getGisPrtFcltySeq());
+		deleteList.put("prtFcltySe", vo.getPrtFcltySe());
+		deleteFcltyFile(deleteList);
+		deleteFclty(vo);	
 	}
 	
 	
