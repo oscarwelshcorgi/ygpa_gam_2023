@@ -51,10 +51,8 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 					//{display:"주소",				name:"adres", 		width:60, 		sortable:true, 		align:"center"},
 					//{display:"팩스",				name:"fax", 		width:60, 		sortable:true, 		align:"center"}
 			],
-		//usepager: false,
-		rp: 24,
 		showTableToggleBtn: false,
-		height: "300"
+	    height: 'auto'
 	});
 
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -108,7 +106,7 @@ GamPopupEntrpsModule.prototype.loadData = function() {
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupEntrpsModule();
 </script>
-<div class="dialog">
+<div class="dialog fillHeight">
 	<div class="emdPanel">
 		<form id="gamPopupEntrpsForm">
 			<table class="searchPanel">
@@ -120,6 +118,7 @@ var popup_instance = new GamPopupEntrpsModule();
                         <td><input id="entrpsNm" type="text" size="10" title="업체 명" /></td>
                         <th>업체 유형</th>
                         <td><input id="bsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" size="10" /></td>
+                        <td rowspan="2"><button id="btnEntrpsSearch">조회</button></td>
 					</tr>
                     <tr>
                     	<th>사업자 구분</th>
@@ -132,6 +131,8 @@ var popup_instance = new GamPopupEntrpsModule();
 				</tbody>
 			</table>
 		</form>
+		
+		<!-- 
 		<div class="emdControlPanel">
 			<button id="btnEntrpsSearch">조회</button>
 		</div>
@@ -141,5 +142,16 @@ var popup_instance = new GamPopupEntrpsModule();
 			<button id="btnOk">업체 선택</button>
 			<button id="cancel">취소</button>
 		</div>
+		-->
+		
+		<div class="emdPanel fillHeight">
+	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
+	        <div class="emdControlPanel">
+	            <button id="btnOk">업체 선택</button>
+            <button id="cancel">취소</button>
+	        </div>
+	    </div>
+		
+		
 	</div>
 </div>
