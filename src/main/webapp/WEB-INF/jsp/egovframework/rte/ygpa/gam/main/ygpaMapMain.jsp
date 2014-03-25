@@ -380,7 +380,7 @@
                     <a href="#"><b>정보통신</b></a>
                     <ul class="submenu">
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamInfoTechFcltyMngt.do'/>">정보통신시설관리</a></li>
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamInfoTechInqire.do'/>">정보통신시설조회</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/fclty/gamInfoTechFcltyInqire.do'/>">정보통신시설조회</a></li>
                     </ul>
                 </li>
                 <li>
