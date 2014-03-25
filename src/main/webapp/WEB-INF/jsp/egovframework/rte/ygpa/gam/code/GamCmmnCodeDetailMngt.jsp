@@ -136,10 +136,11 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 
+			this.$("#codeId").val(this.$("#codeIdSelect").val());
 		 	var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
 
 			if(this.$("#cmd").val() == "insert") {
-				this.$("#codeId").val(this.$("#codeIdSelect").val());
+				
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
@@ -245,7 +246,7 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 								<input type="text" size="80" id="codeIdText" style="display:none" />
 								<select class="select" id="clCode" title="clCode">
 									<c:forEach var="result" items="${cmmnClCodeList}" varStatus="status">
-										<option value='<c:out value="${result.clCode}"/>' <c:if test="${result.clCode == cmmnCode.clCode}">selected="selected"</c:if>><c:out value="${result.clCodeNm}"/></option>
+										<option value='<c:out value="${result.clCode}"/>' <c:if test="${result.clCode == cmmnCode.clCode}">selected="selected"</c:if>><c:out value="${result.clCode}"/></option>
 									</c:forEach>
 								</select>
 								<select class="select" id="codeIdSelect"></select>
