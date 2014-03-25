@@ -38,23 +38,16 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"업체코드", 		name:"entrpscd",		width:100, 	sortable:false,		align:"center"},
 					{display:"업체명", 			name:"entrpsNm",		width:150, 	sortable:false,		align:"center"},
-					{display:"업체유형", 		name:"entrpsTyDisplay",	width:50, 	sortable:false,		align:"center"},
-					{display:"사업자구분", 		name:"bsnmSeDisplay",	width:80, 	sortable:false,		align:"center"},
 					{display:"대표자명", 		name:"rprsntvNm",		width:80, 	sortable:false,		align:"center"},
 					{display:"사업자등록번호", 	name:"bizrno",			width:120, 	sortable:false,		align:"center"},
-					{display:"법인등록번호", 		name:"cprregistno",		width:100, 	sortable:false,		align:"center"},
 					{display:"업종", 			name:"induty",			width:80, 	sortable:false,		align:"center"},
-					{display:"업태", 			name:"bizcnd",			width:80, 	sortable:false,		align:"center"},
 					{display:"전화번호", 		name:"tlphonNo",		width:100, 	sortable:false,		align:"center"},
 					{display:"팩스", 			name:"fax",				width:100, 	sortable:false,		align:"center"},
 					{display:"우편번호", 		name:"zip",				width:80, 	sortable:false,		align:"center"},
 					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
 					],
-		//usepager: true,
-		//useRp: true,
-		//rp: 13,
 		showTableToggleBtn: false,
-		height: "250"
+		height: "auto"
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -62,10 +55,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		module._editInfoData = module.getFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoRow = module.$("#cmpyInfoMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
-		module.$("#entrpscdFlag").val("Y");
 		module.$("#entrpscd").attr("disabled","disabled");
-		module.$("#checkEntrpscdBtn").hide();
-		module.$("#inputEntrpscdBtn").hide();
 	});
 	
 	// 업체정보 목록 선택
@@ -126,6 +116,15 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 	
 		// 조회
 		case "searchBtn":
+			
+			if(this.$("#searchEntrpsCd").val() == "" && this.$("#searchBizrno").val() == ""){
+				if(this.$("#searchEntrpsNm").val() == "" || this.$("#searchEntrpsNm").val().length < 2){
+					this.$("#searchEntrpsNm").focus();
+					alert("업체 명은 2자 이상 입력하십시오.");
+					return;
+				}
+			}
+			
 			var searchOpt = this.makeFormArgs("#cmpyInfoMngtForm");
 		 	this.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
 		 	this.$("#cmpyInfoMngtListTab").tabs("option", {active: 0});
@@ -142,8 +141,6 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmpyInfoMngtManageVO :input").val("");
 			this.$("#cmpyMngtList").flexAddData({resultList:[]});
 			this.$("#entrpscd").removeAttr("disabled");
-			this.$("#checkEntrpscdBtn").show();
-			this.$("#inputEntrpscdBtn").show();
 			this.$("#cmd").val("insert");
 		break;
 
@@ -160,12 +157,8 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			
-			if(this.$("#entrpscdFlag").val() != "Y"){
-				alert("입력하신 업체코드를 확인해 주십시오.");
-				return;
-			}
-
 			// Data 설정
+			/*
 			this.$("#bizrno").val(this.$("#bizrno").val().replace(/\-/g,""));
 			this.$("#cprregistno").val(this.$("#cprregistno").val().replace(/\-/g,""));
 			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
@@ -191,6 +184,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 					return;
 				}				
 			}
+			*/
 			var inputVO=[{}];
 			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
 			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -238,66 +232,6 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 			this.$("#cmpyChargerMngtManageVO :input").val("");
 			this._editData = null;
-		break;
-		
-		// 업체코드 체크
-		case "checkEntrpscdBtn":
-
-			if(this.$("#cmd").val() != "insert"){
-				alert("저장된 업체코드는 수정하실 수 없습니다.");
-				return;
-			}
-			
-			if(this.$("#entrpscd").val() == ""){
-				alert("사용하실 업체 코드를 입력하십시오.");
-				this.$("#entrpscd").focus();
-				return;
-			}
-			
-			this.doAction('<c:url value="/code/gamCheckEntrpscd.do" />', {entrpscd : this.$("#entrpscd").val()}, function(module, result) {
-
-		 		if(result.resultCode == "0" && result.codeCount == 0){
-		 			if(confirm("입력하신 코드를 업체코드로 사용하시겠습니까?")){
-		 				module.$("#entrpscd").attr("disabled","disabled");
-		 				module.$("#entrpscdFlag").val("Y");
-		 			}else{
-		 				module.$("#entrpscdFlag").val("");	
-		 				module.$("#entrpscd").val("");
-		 				module.$("#entrpscd").focus();
-		 			}
-		 		}else{
-		 			module.$("#entrpscdFlag").val("N");
-		 			module.$("#entrpscd").val("");
-		 			module.$("#entrpscd").focus();
-		 			alert("사용하실 수 없는 업체 코드 입니다. 다시 입력 하십시오.");
-		 		}
-		 	});
-			
-		break;
-		
-		// 업체 코드 입력
-		case "inputEntrpscdBtn":
-
-			if(this.$("#cmd").val() != "insert"){
-				alert("저장된 업체코드는 수정하실 수 없습니다.");
-				return;
-			}
-
-			if(this.$("#entrpscdFlag").val() == "Y"){
-				if(confirm("업체 코드를 다시 입력 하시겠습니까?")){
-					this.$("#entrpscdFlag").val("");
-					this.$("#entrpscd").val("");
-					this.$("#entrpscd").removeAttr("disabled");
-					this.$("#entrpscd").focus();
-				}else{
-					return;
-				}
-			}else{
-				this.$("#entrpscdFlag").val("");
-				this.$("#entrpscd").val("");
-				this.$("#entrpscd").focus();
-			}
-			
 		break;
 		
 		// 삭제
@@ -415,24 +349,11 @@ var module_instance = new GamCmpyInfoMngtModule();
 					<tbody>
 						<tr>
 							<th>업체 명</th>
-							<td>
-								<input type="text" size="7" id="searchEntrpsCd" />&nbsp;-&nbsp;
-								<input type="text" size="20" id="searchEntrpsNm" />&nbsp;<button id="searchEntrpsCdBtn">업체조회</button>
-							</td>
-							<th>업체유형</th>
-							<td width="10%">
-								<input id="searchEntrpsTy" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" />
-							</td>
-						</tr>
-						<tr>
+							<td><input type="text" size="20" id="searchEntrpsNm" maxlength="50" /></td>
+							<th>업체 코드</th>
+							<td><input type="text" size="10" id="searchEntrpsCd" maxlength="10" /></td>
 							<th>사업자번호</th>
-							<td>
-								<input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/>
-							</td>
-							<th>사업자구분</th>
-							<td width="10%">  		
-								<input id="searchBsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM018" />
-							</td>
+							<td><input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/></td>
 						</tr>
 					</tbody>
 				</table>
@@ -452,59 +373,38 @@ var module_instance = new GamCmpyInfoMngtModule();
 			</ul>
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
 				<table id="cmpyInfoMngtList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="addBtn">추가</button>
-					<button id="deleteBtn">삭제</button>
-				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<form id="cmpyInfoMngtManageVO">
 					<input type="hidden" id="cmd"/>
-					<input type="hidden" id="entrpscdFlag"/>
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">업체 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td>
-								<input type="text" size="30" id="entrpscd" maxlength="10" />
-								<button id="checkEntrpscdBtn">업체 코드 확인</button>
-								<button id="inputEntrpscdBtn">업체 코드 입력</button>
-							</td>
+							<th width="20%" height="23" class="required_text">업체 코드</th>
+							<td><input type="text" size="30" id="entrpscd" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">대표자 명</th>
-							<td><input type="text" size="30" id="rprsntvNm" maxlength="20" /></td>
+							<td><input type="text" size="30" id="rprsntvNm" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 명</th>
-							<td><input type="text" size="30" id="entrpsNm" maxlength="30" /></td>
+							<td><input type="text" size="30" id="entrpsNm" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">사업자등록번호</th>
-							<td><input type="text" size="12" id="bizrno" maxlength="12" /></td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">업체 유형</th>
-							<td><input id="entrpsTy" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" /></td>
-							<th width="20%" height="23" class="required_text">사업자구분</th>
-							<td><input id="bsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM018" /></td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">법인등록번호</th>
-							<td colspan="3"><input type="text" id="cprregistno" size="14" maxlength="14"  /></td>
+							<td><input type="text" size="12" id="bizrno" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업종</th>
-							<td><input type="text" id="induty" title="업종" size="30" maxlength="20" /></td>
-							<th width="20%" height="23" class="required_text">업태</th>
-							<td><input type="text" size="30" id="bizcnd" maxlength="20"/></td>
+							<td colspan="3"><input type="text" id="induty" title="업종" size="30" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">전화번호</th>
-							<td><input type="text" size="30" id="tlphonNo" maxlength="20" /></td>
+							<td><input type="text" size="30" id="tlphonNo" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">팩스</th>
-							<td><input type="text" size="30" id="fax" maxlength="20" /></td>
+							<td><input type="text" size="30" id="fax" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">우편번호</th>
-							<td><input type="text" size="30" id="zip" maxlength="7" /></td>
+							<td><input type="text" size="30" id="zip" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">주소</th>
-							<td><input type="text" size="30" id="adres" maxlength="80" /></td>
+							<td><input type="text" size="50" id="adres" disabled="disabled" /></td>
 						</tr>
 					</table>
 					<br />
@@ -512,7 +412,6 @@ var module_instance = new GamCmpyInfoMngtModule();
 				</form>
 				<div class="emdControlPanel">
 					<button id="chargerAddBtn">추가</button>
-					<button id="edieBtn">편집</button>
 					<button id="chargerDeleteBtn">삭제</button>
 					<button id="saveBtn">업체정보 저장</button>
 				</div>
