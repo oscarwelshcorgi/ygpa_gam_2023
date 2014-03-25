@@ -47,7 +47,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
 					],
 		showTableToggleBtn: false,
-		height: "auto"
+		height: "300"
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
