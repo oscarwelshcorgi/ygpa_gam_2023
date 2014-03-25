@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <%
   /**
   * @Class Name : GamPrtFcltyRentFeeMngt.jsp
@@ -503,7 +502,7 @@ var module_instance = new GamPrtFcltyRentFeeMngtModule();
                             <td style="width: 200px">
                                 <input id="sMngYear" type="text" size="4">-<input id="sMngNo" type="text" size="3">-<input id="sMngCnt" type="text" size="2">
                             </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
+                            <td style="text-align: right;"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>    
                         
                         <!-- 
