@@ -68,6 +68,7 @@
 				, AR.GR_AR
 				, AR.GR_FEE
 				, AR.NTIC_MTH
+				, AR.PAY_MTH
 				, TO_CHAR(AR.FRST_PRMISN_DT, 'yyyy-mm-dd') FRST_PRMISN_DT
 				, TO_CHAR(AR.PRMISN_DT, 'yyyy-mm-dd') PRMISN_DT
 				, AR.PRMISN_YN
