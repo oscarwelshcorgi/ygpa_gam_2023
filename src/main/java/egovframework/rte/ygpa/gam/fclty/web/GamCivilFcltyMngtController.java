@@ -203,10 +203,17 @@ public class GamCivilFcltyMngtController {
     	fcltyMngtList.put("USERID",user.getId());
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
-    	gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
+    	try {
+    		gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
 
-		map.put("resultCode", 0);			// return ok
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+    	
       	return map;
     }
 
@@ -245,12 +252,17 @@ public class GamCivilFcltyMngtController {
     	fcltyMngtList.put("USERID", user.getId());
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
     	
-		gamFcltyMngtService.updateFclty(fcltyMngtList);
-		
-		map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	try {
+    		gamFcltyMngtService.updateFclty(fcltyMngtList);
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
     	return map;
-	    	
     }
     
     
@@ -266,10 +278,19 @@ public class GamCivilFcltyMngtController {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	fcltyManageVO.setPrtFcltySe(prtFcltySe);
-    	gamFcltyMngtService.deleteFcltyMngt(fcltyManageVO);
+    	
+    	try {
+    		gamFcltyMngtService.deleteFcltyMngt(fcltyManageVO);
 
-        map.put("resultCode", 0);
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-        return map;
+            map.put("resultCode", 0);
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+    	return map;
     }
 }
