@@ -213,6 +213,46 @@
                                 </li>
                                  -->
                             </ul></li>
+                        <li><a href="#"><b>배후단지</b></a>
+                            <ul class="submenu">
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldRentSttusInqire.do'/>">배후단지임대현황조회</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldRentMngt.do'/>">배후단지임대목록관리</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldRentFeeMngt.do'/>">배후단지임대료관리</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value="/oper/htld/gamHtldRentFeePaySttusMngt.do"/>">배후단지납부현황관리</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldUseExprInqire.do'/>">배후단지임대만기도래자료조회</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldNticArrvlDtaInqire.do'/>">배후단지임대고지도래관리</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldMtRentFeeSttusInqire.do'/>">배후단지월별임대료현황조회</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldEntrpsRentFeeSttusInqire.do'/>">배후단지업체별임대료현황조회</a>
+							      </li>
+							      <li><a href="#" data-role="LoadModule"
+							          data-prgid="PRG_0003"
+							          data-url="<c:url value='/oper/htld/gamHtldPdRentFeeSttusInqire.do'/>">배후단지기간별임대료현황조회</a>
+							      </li>
+                            </ul>
+                        </li>
                         <li><a href="#"><b>컨테이너 부두</b></a>
                             <ul class="submenu">
                                 <li>
@@ -231,26 +271,6 @@
                                     <a href="#" data-role="LoadModule" data-prgid="PRG_0005"
                                     data-url="<c:url value='/oper/cntnr/gamCntnrRentFeePaySttusMngt.do'/>">컨테이너부두납부현황관리</a>
                                 </li>
-                            </ul>
-                            </li>
-                        <li><a href="#"><b>배후단지</b></a>
-                            <ul class="submenu">
-                            <li>
-                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                                data-url="<c:url value='/oper/htld/gamHtldRentSttusInqire.do'/>">배후단지임대현황조회</a>
-                            </li>
-                            <li>
-                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                                data-url="<c:url value='/oper/htld/gamHtldRentMngt.do'/>">배후단지임대목록관리</a>
-                            </li>
-                            <li>
-                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                                data-url="<c:url value='/oper/htld/gamHtldRentFeeMngt.do'/>">배후단지임대료관리</a>
-                            </li>
-                            <li>
-                                <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
-                                data-url="<c:url value='/oper/htld/gamHtldRentFeePaySttusMngt.do'/>">배후단지납부현황관리</a>
-                            </li>
                             </ul>
                         </li>
                         <li><a href="#"><b>철송장</b></a>
