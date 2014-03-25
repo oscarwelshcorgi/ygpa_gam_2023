@@ -22,6 +22,8 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
+import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCode;
 import egovframework.com.sym.ccm.ccc.service.CmmnClCodeVO;
 import egovframework.com.sym.ccm.ccc.service.EgovCcmCmmnClCodeManageService;
@@ -51,6 +53,9 @@ public class GamCmmnCodeClMngtController {
 	@Resource(name = "CmmnClCodeManageService")
     private EgovCcmCmmnClCodeManageService cmmnClCodeManageService;
 
+	@Resource(name = "CmmnCodeManageService")
+    private EgovCcmCmmnCodeManageService cmmnCodeManageService;
+	
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -240,11 +245,11 @@ public class GamCmmnCodeClMngtController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	CmmnClCodeVO vo = new CmmnClCodeVO();
-    	vo.setSearchCondition("1");
+    	CmmnCodeVO vo = new CmmnCodeVO();
+    	vo.setSearchCondition("clCode");
     	vo.setSearchKeyword(clCode);
     	
-    	int codeCheck = cmmnClCodeManageService.selectCmmnClCodeListTotCnt(vo);
+    	int codeCheck = cmmnCodeManageService.selectCmmnCodeListTotCnt(vo);
     	
     	if(codeCheck > 0){
     		map.put("resultCode", 1);
@@ -260,7 +265,7 @@ public class GamCmmnCodeClMngtController {
 
     		}catch(Exception e){
     			map.put("resultCode", 1);
-        		map.put("resultMsg", "해당 데이터는 삭제가 불가능합니다.");
+        		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
     		}
     	}
     	
