@@ -329,7 +329,19 @@
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
                             data-url="<c:url value='/oper/center/gamMarineCenterRentCmpyStsReport.do'/>">마린센터업체별사용료현황조회</a>
                             </li>
-
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/center/gamMarineCenterPdRentfeeSttusInqire.do'/>">마린센터기간별사용료현황조회</a>
+                            </li>
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentStairStsReport.do'/>">마린센터층별사용료현황조회</a>
+                            </li>
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentArStsReport.do'/>">마린센터면적별사용료현황조회</a>
+                            </li>
+                            
                             </ul>
                         </li>
                     </ul>
