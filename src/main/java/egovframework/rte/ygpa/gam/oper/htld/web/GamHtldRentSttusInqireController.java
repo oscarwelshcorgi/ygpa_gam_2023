@@ -27,7 +27,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
 
 /**
  * @Class Name : GamHtldRentSttusInqireController.java
- * @Description : 배후단지임대현황조회 (배후단지/배후단지/배후단지임대현황조회)
+ * @Description : 배후단지임대현황조회
  * @Modification Information
  *
  * @author domh
@@ -62,11 +62,11 @@ public class GamHtldRentSttusInqireController {
     private GamHtldRentSttusInqireService gamHtldRentSttusInqireService;
     
     /**
-	 * 배후단지사용현황조회 화면으로 이동한다.
+	 * 배후단지임대현황조회 화면으로 이동한다.
 	 * 
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/oper/htld/GamHtldRentSttusInqire"
+     * @return "/ygpa/gam/asset/GamHtldRentSttusInqireMngt"
      * @throws Exception the exception  
 	 */
 	@RequestMapping(value="/oper/htld/gamHtldRentSttusInqire.do")
@@ -124,7 +124,7 @@ public class GamHtldRentSttusInqireController {
     }
 
 	/**
-     * 배후단지사용현황을 조회한다. 
+     * 배후단지임대현황을 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -149,7 +149,7 @@ public class GamHtldRentSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//배후단지사용현황
+		//배후단지임대현황
     	totalCnt = gamHtldRentSttusInqireService.selectHtldRentSttusInqireListTotCnt(searchVO);
     	List resultList = gamHtldRentSttusInqireService.selectHtldRentSttusInqireList(searchVO);
     	
@@ -167,7 +167,7 @@ public class GamHtldRentSttusInqireController {
     }
 	
 	/**
-     * 배후단지사용현황 상세리스트를 조회한다. 
+     * 배후단지임대현황 상세리스트를 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -191,8 +191,12 @@ public class GamHtldRentSttusInqireController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		log.debug("##############################################");
+		log.debug("### searchVO : " + searchVO);
+		log.debug("##############################################");
 
-		// 배후단지사용현황 상세리스트 및 총건수
+		// 배후단지임대현황 상세리스트 및 총건수
 		totalCnt = gamHtldRentSttusInqireService.selectHtldRentSttusInqireDetailListTotCnt(searchVO);
 		List resultList = gamHtldRentSttusInqireService.selectHtldRentSttusInqireDetailList(searchVO);
     	
@@ -204,4 +208,40 @@ public class GamHtldRentSttusInqireController {
     	return map;
     }
 
+	/**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/gamSelectHtldRentSttusInqireFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldRentSttusInqireFileList(GamHtldRentSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//파일목록
+    	totalCnt = gamHtldRentSttusInqireService.selectHtldRentSttusInqireFileListTotCnt(searchVO);
+    	List assetFileList = gamHtldRentSttusInqireService.selectHtldRentSttusInqireFileList(searchVO);
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", assetFileList);
+    	
+    	return map;
+    }
 }

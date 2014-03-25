@@ -63,7 +63,7 @@ public class GamHtldRentFeePaySttusMngtController {
 	
     
     /**
-     * 배후단지납부현황관리 화면을 로딩한다. 
+     * 배후단지임대납부현황관리 화면을 로딩한다. 
      *
      * @param windowId
      * @param model the model
@@ -75,6 +75,7 @@ public class GamHtldRentFeePaySttusMngtController {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
+		/*
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
@@ -107,13 +108,15 @@ public class GamHtldRentFeePaySttusMngtController {
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
 		model.addAttribute("quayCdList", quayCdList);
+		*/
+		
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/htld/GamHtldRentFeePaySttusMngt";
     }
 	
 	/**
-     * 배후단지납부현황관리 목록을 조회한다. 
+     * 배후단지임대납부현황관리 목록을 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -138,21 +141,26 @@ public class GamHtldRentFeePaySttusMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//자산임대목록
+		//목록
     	totalCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtList(searchVO);
     	
     	//자료수, 사용료, 부가세, 고지액
-    	GamHtldRentFeePaySttusMngtVO resultSum = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtSum(searchVO);
+    	//GamHtldRentFeePaySttusMngtVO resultSum = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtSum(searchVO);
+    	GamHtldRentFeePaySttusMngtVO resultSum = new GamHtldRentFeePaySttusMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
-    	
+    	*/
+    	map.put("sumFee", "");
+    	map.put("sumVat", "");
+    	map.put("sumNticAmt", "");
     	return map;
     }
 	
