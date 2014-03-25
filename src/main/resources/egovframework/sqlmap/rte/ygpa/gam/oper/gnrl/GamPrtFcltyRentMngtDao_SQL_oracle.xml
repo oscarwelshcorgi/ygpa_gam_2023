@@ -537,7 +537,7 @@
                                    , #deptcd#
                                    <!-- , #payMth# -->
                                    , 'Pre'
-                                   , 'G'
+                                   , 'G'  <!-- 일반부두 -->
                                    , TO_DATE(#frstReqstDt:DATE:NO_ENTRY#) 
                                    , 'N'
                                    <isEmpty property="payinstIntrrate">
