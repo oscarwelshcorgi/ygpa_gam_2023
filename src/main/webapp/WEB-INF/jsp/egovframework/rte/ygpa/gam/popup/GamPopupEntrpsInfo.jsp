@@ -38,21 +38,13 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"업체코드",			name:"entrpscd", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"업체 명",			name:"entrpsNm", 	width:120, 		sortable:true, 		align:"center"},
-					//{display:"업체 유형",			name:"entrpsTy", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"사업자 구분",		name:"bsnmSe", 		width:100, 		sortable:true, 		align:"center"},
+					{display:"업체 명",			name:"entrpsNm", 	width:200, 		sortable:true, 		align:"center"},
 					{display:"대표자 명",			name:"rprsntvNm", 	width:60, 		sortable:true, 		align:"center"},
 					{display:"사업자등록번호",	name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
-					//{display:"법인등록번호",		name:"cprregistno", width:60, 		sortable:true, 		align:"center"},
-					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"},
-					{display:"업태",				name:"bizcnd", 		width:100, 		sortable:true, 		align:"center"}
-					//{display:"전화번호",			name:"tlphonNo", 	width:60, 		sortable:true, 		align:"center"},
-					//{display:"우편번호",			name:"zip", 		width:60, 		sortable:true, 		align:"center"},
-					//{display:"주소",				name:"adres", 		width:60, 		sortable:true, 		align:"center"},
-					//{display:"팩스",				name:"fax", 		width:60, 		sortable:true, 		align:"center"}
+					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"}
 			],
 		showTableToggleBtn: false,
-	    height: 'auto'
+		height: "auto"
 	});
 
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -75,6 +67,15 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnEntrpsSearch":
+
+		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
+			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
+				this.$("#entrpsNm").focus();
+				alert("업체 명은 2자 이상 입력하십시오.");
+				return;
+			}
+		}
+		
 		var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 	 	throw 0;
@@ -106,43 +107,25 @@ GamPopupEntrpsModule.prototype.loadData = function() {
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupEntrpsModule();
 </script>
-<div class="dialog fillHeight">
+<div class="dialog">
 	<div class="emdPanel">
 		<form id="gamPopupEntrpsForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-						<th>업체코드</th>
-                        <td><input id="entrpscd" type="text" size="7" title="업체코드" /></td>
                         <th>업체 명</th>
-                        <td><input id="entrpsNm" type="text" size="10" title="업체 명" /></td>
-                        <th>업체 유형</th>
-                        <td><input id="bsnmSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM020" size="10" /></td>
-                        <td rowspan="2"><button id="btnEntrpsSearch">조회</button></td>
-					</tr>
-                    <tr>
-                    	<th>사업자 구분</th>
-						<td><input id="entrpsTy" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM018" size="10" /></td>
-                        <th>업종</th>
-                        <td><input type="text" id="induty" title="업종" size="10" /></td>
-                        <th>업태</th>
-                        <td><input type="text" id="bizcnd" title="업태" size="10" /></td>
+                        <td><input id="entrpsNm" type="text" size="15" title="업체 명" maxlength="20" /></td>
+						<th>업체코드</th>
+                        <td><input id="entrpscd" type="text" size="12" title="업체코드" maxlength="10" /></td>
+                    	<th>사업자 번호</th>
+						<td><input id="bizrno" type="text" size="20" title="사업자 등록번호" maxlength="12" /></td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
-		
-		<!-- 
 		<div class="emdControlPanel">
 			<button id="btnEntrpsSearch">조회</button>
 		</div>
-		
-		<table id="grdInfoList" style="display: none"></table>
-		<div class="emdControlPanel">
-			<button id="btnOk">업체 선택</button>
-			<button id="cancel">취소</button>
-		</div>
-		-->
 		
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
@@ -151,7 +134,6 @@ var popup_instance = new GamPopupEntrpsModule();
             <button id="cancel">취소</button>
 	        </div>
 	    </div>
-		
-		
+
 	</div>
 </div>
