@@ -323,6 +323,10 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         }
     });
     
+    this.$('#exemptRsnCd').on('change', {module: this}, function(event) {
+        event.data.module.$('#exemptRsnCdStr').val($(this).val());
+    });
+    
     this.$('#sDateSearchGbn').on('change', {module: this}, function(event) {
 		if( $(this).val() == '' ) {
 			event.data.module.$('#sDateSearchValue').val("");
@@ -1350,11 +1354,11 @@ var module_instance = new GamHtldRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm"/></td>
+                                <td colspan="3"><input type="text" size="50" id="rm" maxlength="90" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="3"><input type="text" size="50" id="cmt" maxlength="90" /><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
                         </table>
                     </form>
@@ -1457,9 +1461,9 @@ var module_instance = new GamHtldRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" style="text-align:right;" /></td>
+                                <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" style="text-align:right;" maxlength="13" /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" style="text-align:right;" /></td>
+                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" style="text-align:right;" maxlength="8" /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -1471,7 +1475,7 @@ var module_instance = new GamHtldRentMngtModule();
                                      -->
                                     <input id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id="GAM023"/>
                                     
-                                    <input type="text" size="14" id="applcTariffStr"/>
+                                    <input type="text" size="14" id="applcTariffStr" readonly />
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
