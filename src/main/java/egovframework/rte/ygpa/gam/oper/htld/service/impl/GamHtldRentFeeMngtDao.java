@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 배후단지임대료고지관리 목록을 조회한다.
+	 * 배후단지임대관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지임대료고지관리 목록
+	 * @return 배후단지임대관리 목록
 	 * @exception Exception
 	 */
     public List selectHtldRentFeeMngtList(GamHtldRentFeeMngtVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 배후단지임대료고지관리 목록 총 갯수를 조회한다.
+	 * 배후단지임대관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지임대료고지관리 목록 총 갯수
+	 * @return 배후단지임대관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectHtldRentFeeMngtListTotCnt(GamHtldRentFeeMngtVO searchVO) {
@@ -45,7 +45,7 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 사용료, 연체, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지임대료고지관리 목록
+	 * @return 배후단지임대관리 목록
 	 * @exception Exception
 	 */
 	public GamHtldRentFeeMngtVO selectHtldRentFeeMngtSum(GamHtldRentFeeMngtVO searchVO) throws Exception {
@@ -53,7 +53,7 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 배후단지임대료고지관리정보를 수정한다.
+	 * 배후단지임대관리정보를 수정한다.
 	 * @param vo GamHtldRentFeeMngtVO
 	 * @exception Exception
 	 */
@@ -62,9 +62,9 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 배후단지임대료고지관리정보 조회.
+	 * 배후단지임대관리정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지임대료고지관리정보
+	 * @return 배후단지임대관리정보
 	 * @exception Exception
 	 */
 	public GamHtldRentFeeMngtVO selectHtldRentFeeMngtInfo(GamHtldRentFeeMngtVO searchVO) throws Exception {
@@ -100,4 +100,12 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 		delete("gamHtldRentFeeMngtDao.deleteHtldRentFeeMngt_S", vo);
 	}
 
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamHtldRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertHtldRentFeeMngtLevReqest(GamHtldRentFeeMngtVO vo){
+		insert("gamHtldRentFeeMngtDao.insertHtldRentFeeMngtLevReqest_S", vo);
+	}
 }

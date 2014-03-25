@@ -34,7 +34,7 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 배후단지납부현황관리 목록을 조회한다.
+	 * 배후단지임대납부현황관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -44,7 +44,7 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
     }
 
     /**
-	 * 배후단지납부현황관리 목록 총 갯수를 조회한다.
+	 * 배후단지임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -56,7 +56,7 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 	목록
+	 * @return 배후단지임대납부현황관리목록
 	 * @exception Exception
 	 */
     public GamHtldRentFeePaySttusMngtVO selectHtldRentFeePaySttusMngtSum(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {

@@ -25,7 +25,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
  *  Copyright (C)  All right reserved.
  */
 @Service("gamHtldRentFeeMngtService")
-public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implements GamHtldRentFeeMngtService {
+public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implements GamHtldRentFeeMngtService {
 
 	@Resource(name="gamHtldRentFeeMngtDao")
     private GamHtldRentFeeMngtDao gamHtldRentFeeMngtDao;
@@ -33,7 +33,7 @@ public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implemen
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 배후단지임대료고지관리 목록을 조회한다.
+	 * 배후단지임대고지관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -43,7 +43,7 @@ public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 배후단지임대료고지관리 목록 총 갯수를 조회한다.
+	 * 배후단지임대고지관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -55,7 +55,7 @@ public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implemen
     /**
 	 * 자료수, 사용료, 연체, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대료고지관리목록
+	 * @return 배후단지임대고지관리목록
 	 * @exception Exception
 	 */
     public GamHtldRentFeeMngtVO selectHtldRentFeeMngtSum(GamHtldRentFeeMngtVO searchVO) throws Exception {
@@ -63,7 +63,7 @@ public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 배후단지임대료고지관리정보를 수정한다.
+	 * 배후단지임대고지관리정보를 수정한다.
 	 * @param vo GamHtldRentFeeMngtVO
 	 * @exception Exception
 	 */
@@ -72,9 +72,9 @@ public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implemen
 	}
 	
 	/**
-	 * 배후단지임대료고지관리 정보 조회.
+	 * 배후단지임대고지관리 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대료고지관리정보
+	 * @return 배후단지임대고지관리정보
 	 * @exception Exception
 	 */
     public GamHtldRentFeeMngtVO selectHtldRentFeeMngtInfo(GamHtldRentFeeMngtVO searchVO) throws Exception {
@@ -107,6 +107,15 @@ public class GamHtldRentFeeMngtServiceImpl  extends AbstractServiceImpl implemen
 	 */
 	public void deleteHtldRentFeeMngt(GamHtldRentFeeMngtVO vo) throws Exception {
 		gamHtldRentFeeMngtDao.deleteHtldRentFeeMngt(vo);
+	}
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamHtldRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertHtldRentFeeMngtLevReqest(GamHtldRentFeeMngtVO vo) throws Exception {
+		gamHtldRentFeeMngtDao.insertHtldRentFeeMngtLevReqest(vo);
 	}
 	
 }

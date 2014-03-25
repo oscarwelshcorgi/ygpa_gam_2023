@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO
 public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 배후단지납부현황관리 목록을 조회한다.
+	 * 배후단지임대납부현황관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지납부현황관리 목록
+	 * @return 배후단지임대납부현황관리 목록
 	 * @exception Exception
 	 */
     public List selectHtldRentFeePaySttusMngtList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 배후단지납부현황관리 목록 총 갯수를 조회한다.
+	 * 배후단지임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지납부현황관리 목록 총 갯수
+	 * @return 배후단지임대납부현황관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectHtldRentFeePaySttusMngtListTotCnt(GamHtldRentFeePaySttusMngtVO searchVO) {
@@ -45,7 +45,7 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 배후단지납부현황관리 목록
+	 * @return 배후단지임대납부현황관리 목록
 	 * @exception Exception
 	 */
 	public GamHtldRentFeePaySttusMngtVO selectHtldRentFeePaySttusMngtSum(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {

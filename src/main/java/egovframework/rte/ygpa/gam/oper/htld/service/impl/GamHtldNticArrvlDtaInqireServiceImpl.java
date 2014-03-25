@@ -15,49 +15,50 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtDetailVO;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtLevReqestVO;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldNticArrvlDtaInqireDetailVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldNticArrvlDtaInqireLevReqestVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldNticArrvlDtaInqireService;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldNticArrvlDtaInqireVO;
 
 /**
- * @Class Name : GamHtldRentMngtServiceImpl.java
- * @Description : 배후단지임대목록관리 
+ * @Class Name : GamHtldNticArrvlDtaInqireServiceImpl.java
+ * @Description : 배후단지임대고지도래현황조회 Business Implement class
  * @Modification Information
  *
  * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
-@Service("gamHtldRentMngtService")
-public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements GamHtldRentMngtService {
-	
-	@Resource(name="gamHtldRentMngtDao")
-    private GamHtldRentMngtDao gamHtldRentMngtDao;
+@Service("gamHtldNticArrvlDtaInqireService")
+
+public class GamHtldNticArrvlDtaInqireServiceImpl  extends AbstractServiceImpl implements GamHtldNticArrvlDtaInqireService {
+
+	@Resource(name="gamHtldNticArrvlDtaInqireDao")
+    private GamHtldNticArrvlDtaInqireDao gamHtldNticArrvlDtaInqireDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 배후단지임대 목록을 조회한다.
+	 * 배후단지임대고지도래 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectHtldRentMngtList(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtList(searchVO);
+    public List selectHtldNticArrvlDtaInqireList(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireList(searchVO);
     }
 
     /**
-	 * 배후단지임대 목록 총 갯수를 조회한다.
+	 * 배후단지임대고지도래 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectHtldRentMngtListTotCnt(GamHtldRentMngtVO searchVO) throws Exception {
-		return gamHtldRentMngtDao.selectHtldRentMngtListTotCnt(searchVO);
+    public int selectHtldNticArrvlDtaInqireListTotCnt(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+		return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireListTotCnt(searchVO);
 	}
 
     /**
@@ -66,17 +67,17 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return 배후단지임대목록
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtSum(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtSum(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqireSum(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireSum(searchVO);
     }
 
     /**
-	 * 배후단지임대 최초 신청을 등록한다.
-	 * @param vo GamHtldRentMngtVO
+	 * 배후단지임대고지도래 최초 신청을 등록한다.
+	 * @param vo GamHtldNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
-	public void insertHtldRentMngtFirst(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.insertHtldRentMngtFirst(vo);
+	public void insertHtldNticArrvlDtaInqireFirst(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.insertHtldNticArrvlDtaInqireFirst(vo);
 	}
 
     /**
@@ -85,49 +86,49 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return 배후단지임대목록
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtMaxNo(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtMaxNo(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqireMaxNo(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireMaxNo(searchVO);
     }
 
     /**
-	 * 배후단지임대 연장 신청을 등록한다.
-	 * @param vo GamHtldRentMngtVO
+	 * 배후단지임대고지도래 연장 신청을 등록한다.
+	 * @param vo GamHtldNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
-    public void insertHtldRentMngtRenew(GamHtldRentMngtVO vo) throws Exception {
+	public void insertHtldNticArrvlDtaInqireRenew(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		//배후단지임대 복사등록된  MngCnt의 max값을 가져온다.
-		String maxMngCnt = gamHtldRentMngtDao.selectHtldRentMngtMaxMngCnt(vo);
+		String maxMngCnt = gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireMaxMngCnt(vo);
 		
 		//배후단지임대 복사등록
 		vo.setMaxMngCnt(maxMngCnt);
 		vo.setRegUsr(loginVO.getId());
 		vo.setUpdUsr(loginVO.getId());
 		vo.setReqstSeCd("2");
-		gamHtldRentMngtDao.insertHtldRentMngtRenew(vo); 
+		gamHtldNticArrvlDtaInqireDao.insertHtldNticArrvlDtaInqireRenew(vo); 
 		
 		//배후단지임대상세정보 조회
-		List detailList = gamHtldRentMngtDao.selectHtldRentMngtDetailInfo(vo);
+		List detailList = gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireDetailInfo(vo);
 		
-		GamHtldRentMngtDetailVO resultVo = null;
+		GamHtldNticArrvlDtaInqireDetailVO resultVo = null;
 		
 		for( int i = 0 ; i < detailList.size() ; i++ ) {
-			resultVo = new GamHtldRentMngtDetailVO();
-			resultVo = (GamHtldRentMngtDetailVO)detailList.get(i);
+			resultVo = new GamHtldNticArrvlDtaInqireDetailVO();
+			resultVo = (GamHtldNticArrvlDtaInqireDetailVO)detailList.get(i);
 			
 			resultVo.setMngCnt(maxMngCnt);
 			resultVo.setRegUsr(loginVO.getId());
 			resultVo.setUpdUsr(loginVO.getId());
 			
 			//배후단지임대상세 복사등록
-			gamHtldRentMngtDao.insertHtldRentMngtDetailRenew(resultVo); 
+			gamHtldNticArrvlDtaInqireDao.insertHtldNticArrvlDtaInqireDetailRenew(resultVo); 
 		}
 		
-		GamHtldRentMngtVO updRentVO = new GamHtldRentMngtVO();
+		GamHtldNticArrvlDtaInqireVO updRentVO = new GamHtldNticArrvlDtaInqireVO();
 		
 		//총사용료, 총면적, 총사용기간 조회
-		updRentVO = gamHtldRentMngtDao.selectHtldRentMngtRenewInfo(vo);
+		updRentVO = gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireRenewInfo(vo);
 		
 		if( updRentVO != null ) {
 			updRentVO.setPrtAtCode(vo.getPrtAtCode());
@@ -135,17 +136,17 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			updRentVO.setMngNo(vo.getMngNo());
 			updRentVO.setMaxMngCnt(maxMngCnt);
 			
-			gamHtldRentMngtDao.updateHtldRentMngtRenewInfo(updRentVO);
+			gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqireRenewInfo(updRentVO);
 		}
 	}
 
 	/**
 	 * 배후단지임대정보를 수정한다.
-	 * @param vo GamHtldRentMngtVO
+	 * @param vo GamHtldNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngt(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngt(vo);
+	public void updateHtldNticArrvlDtaInqire(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqire(vo);
 	}
 
 	/**
@@ -154,8 +155,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectHtldRentMngtDetailList(GamHtldRentMngtVO vo) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtDetailList(vo);
+    public List selectHtldNticArrvlDtaInqireDetailList(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireDetailList(vo);
     }
 
     /**
@@ -164,8 +165,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectHtldRentMngtDetailListTotCnt(GamHtldRentMngtVO vo) throws Exception {
-		return gamHtldRentMngtDao.selectHtldRentMngtDetailListTotCnt(vo);
+    public int selectHtldNticArrvlDtaInqireDetailListTotCnt(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireDetailListTotCnt(vo);
 	}
     
     /**
@@ -175,7 +176,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
    	 * @exception Exception
    	 */
        public List selectOlnlpInfo() throws Exception {
-           return gamHtldRentMngtDao.selectOlnlpInfo();
+           return gamHtldNticArrvlDtaInqireDao.selectOlnlpInfo();
        }
 
     /**
@@ -184,58 +185,58 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectHtldRentMngtLevReqestCnt(GamHtldRentMngtVO vo) throws Exception {
-		return gamHtldRentMngtDao.selectHtldRentMngtLevReqestCnt(vo);
+    public int selectHtldNticArrvlDtaInqireLevReqestCnt(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireLevReqestCnt(vo);
 	}
 
     /**
 	 * 배후단지임대 정보를 삭제한다.
-	 * @param vo GamHtldRentMngtDetailVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void deleteHtldRentMngt(GamHtldRentMngtVO vo) throws Exception {
+	public void deleteHtldNticArrvlDtaInqire(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
 
-		gamHtldRentMngtDao.deleteHtldRentMngtPhoto(vo); //배후단지임대 사진정보 삭제
+		gamHtldNticArrvlDtaInqireDao.deleteHtldNticArrvlDtaInqirePhoto(vo); //배후단지임대 사진정보 삭제
 
-		gamHtldRentMngtDao.deleteHtldRentMngtDetail(vo); //배후단지임대 상세정보 삭제
+		gamHtldNticArrvlDtaInqireDao.deleteHtldNticArrvlDtaInqireDetail(vo); //배후단지임대 상세정보 삭제
 
-		gamHtldRentMngtDao.deleteHtldRentMngt(vo); // 배후단지임대정보 삭제
+		gamHtldNticArrvlDtaInqireDao.deleteHtldNticArrvlDtaInqire(vo); // 배후단지임대정보 삭제
 	}
 
 	/**
 	 * 배후단지임대 상세정보를 삭제한다.
-	 * @param vo GamHtldRentMngtDetailVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void deleteHtldRentMngtDetail(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.deleteHtldRentMngtDetail(vo);
+	public void deleteHtldNticArrvlDtaInqireDetail(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.deleteHtldNticArrvlDtaInqireDetail(vo);
 	}
 
 	/**
 	 * 배후단지임대 상세를 등록한다.
-	 * @param vo GamHtldRentMngtDetailVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void insertHtldRentMngtDetail(GamHtldRentMngtDetailVO vo) throws Exception {
-		gamHtldRentMngtDao.insertHtldRentMngtDetail(vo);
+	public void insertHtldNticArrvlDtaInqireDetail(GamHtldNticArrvlDtaInqireDetailVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.insertHtldNticArrvlDtaInqireDetail(vo);
 	}
 
 	/**
 	 * 배후단지임대 상세를 수정한다.
-	 * @param vo GamHtldRentMngtDetailVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtDetail(GamHtldRentMngtDetailVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngtDetail(vo);
+	public void updateHtldNticArrvlDtaInqireDetail(GamHtldNticArrvlDtaInqireDetailVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqireDetail(vo);
 	}
 
 	/**
 	 * 배후단지임대 상세를 삭제한다.
-	 * @param vo GamHtldRentMngtDetailVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void deleteHtldRentMngtDetail2(GamHtldRentMngtDetailVO vo) throws Exception {
-		gamHtldRentMngtDao.deleteHtldRentMngtDetail2(vo);
+	public void deleteHtldNticArrvlDtaInqireDetail2(GamHtldNticArrvlDtaInqireDetailVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.deleteHtldNticArrvlDtaInqireDetail2(vo);
 	}
 
 	/**
@@ -244,16 +245,16 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return 배후단지임대정보
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtPrmisnInfo(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtPrmisnInfo(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqirePrmisnInfo(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqirePrmisnInfo(searchVO);
     }
 
 	/**
 	 * 배후단지임대 허가여부를 수정 및 징수의뢰를 등록한다.
-	 * @param vo GamHtldRentMngtLevReqestVO
+	 * @param vo GamHtldNticArrvlDtaInqireLevReqestVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtPrmisn(GamHtldRentMngtLevReqestVO vo) throws Exception {
+	public void updateHtldNticArrvlDtaInqirePrmisn(GamHtldNticArrvlDtaInqireLevReqestVO vo) throws Exception {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String cStartDt = EgovStringUtil.remove(vo.getGrUsagePdFrom(), '-');
@@ -272,7 +273,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
 		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
 		
-		int monthCnt = gamHtldRentMngtDao.selectUsagePdMonthCnt(vo);
+		int monthCnt = gamHtldNticArrvlDtaInqireDao.selectUsagePdMonthCnt(vo);
 		
 		log.debug("################################################ monthCnt => " + monthCnt);
 
@@ -423,22 +424,22 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 				log.debug("---------------------------------------------------------------------------------------------------");
 				
 				//징수의뢰 insert
-				gamHtldRentMngtDao.insertHtldRentMngtLevReqest(vo);
+				gamHtldNticArrvlDtaInqireDao.insertHtldNticArrvlDtaInqireLevReqest(vo);
 		    }
 			
 		}
 
 		//배후단지임대 허가여부를 수정
-		gamHtldRentMngtDao.updateHtldRentMngtPrmisn(vo);
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqirePrmisn(vo);
 	}
 
 	/**
 	 * 배후단지임대 허가여부를 취소한다.
-	 * @param vo GamHtldRentMngtLevReqestVO
+	 * @param vo GamHtldNticArrvlDtaInqireLevReqestVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtPrmisnCancel(GamHtldRentMngtLevReqestVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngtPrmisnCancel(vo);
+	public void updateHtldNticArrvlDtaInqirePrmisnCancel(GamHtldNticArrvlDtaInqireLevReqestVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqirePrmisnCancel(vo);
 	}
 	
 	/**
@@ -447,8 +448,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectHtldRentMngtFileList(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtFileList(searchVO);
+    public List selectHtldNticArrvlDtaInqireFileList(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireFileList(searchVO);
     }
 
     /**
@@ -457,131 +458,102 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectHtldRentMngtFileListTotCnt(GamHtldRentMngtVO searchVO) throws Exception {
-		return gamHtldRentMngtDao.selectHtldRentMngtFileListTotCnt(searchVO);
+    public int selectHtldNticArrvlDtaInqireFileListTotCnt(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+		return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireFileListTotCnt(searchVO);
 	}
     
     /**
 	 * 파일을 등록한다.
-	 * @param vo GamHtldRentMngtVO
+	 * @param vo GamHtldNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
-	public void insertHtldRentMngtFile(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.insertHtldRentMngtFile(vo);
+	public void insertHtldNticArrvlDtaInqireFile(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.insertHtldNticArrvlDtaInqireFile(vo);
 	}
 	
 	/**
 	 * 파일을 수정한다.
-	 * @param vo GamHtldRentMngtVO
+	 * @param vo GamHtldNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtFile(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngtFile(vo);
+	public void updateHtldNticArrvlDtaInqireFile(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqireFile(vo);
 	}
 	
 	/**
 	 * 파일을 삭제한다.
-	 * @param vo GamHtldRentMngtVO
+	 * @param vo GamHtldNticArrvlDtaInqireVO
 	 * @exception Exception
 	 */
-	public void deleteHtldRentMngtPhotoSingle(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.deleteHtldRentMngtPhotoSingle(vo);
+	public void deleteHtldNticArrvlDtaInqirePhotoSingle(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.deleteHtldNticArrvlDtaInqirePhotoSingle(vo);
 	}
 	
 	/**
-	 * 배후단지임대 신규저장시 키값 가져오기.
+	 * 임대신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대 목록
+	 * @return 배후단지임대목록
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtMaxKey(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtMaxKey(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqireMaxKey(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireMaxKey(searchVO);
     }
-	
+    
     /**
 	 * 코멘트를 수정한다.
-	 * @param vo GamHtldRentMngtVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtComment(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngtComment(vo);
+	public void updateHtldNticArrvlDtaInqireComment(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqireComment(vo);
 	}
 	
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대 목록
+	 * @return 배후단지임대목록
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtRenewInfo(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtRenewInfo(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqireRenewInfo(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireRenewInfo(searchVO);
     }
     
     /**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
-	 * @param vo GamAssetRentDetailVO
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtRenewInfo(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngtRenewInfo(vo);
+	public void updateHtldNticArrvlDtaInqireRenewInfo(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqireRenewInfo(vo);
 	}
 	
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대 목록
+	 * @return 배후단지임대목록
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtCurrRenewInfo(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtCurrRenewInfo(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqireCurrRenewInfo(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireCurrRenewInfo(searchVO);
     }
     
     /**
-	 * 신청저장시 배후단지임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 배후단지임대목록
 	 * @exception Exception
 	 */
-    public GamHtldRentMngtVO selectHtldRentMngtDetailQuaycd(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtDetailQuaycd(searchVO);
+    public GamHtldNticArrvlDtaInqireVO selectHtldNticArrvlDtaInqireDetailQuaycd(GamHtldNticArrvlDtaInqireVO searchVO) throws Exception {
+        return gamHtldNticArrvlDtaInqireDao.selectHtldNticArrvlDtaInqireDetailQuaycd(searchVO);
     }
     
     /**
-	 * 신청저장시 배후단지임대테이블의 부두코드를 업데이트 한다.
-	 * @param vo GamHtldRentMngtDetailVO
+	 * 신청저장시 임대테이블의 부두코드를 업데이트 한다.
+	 * @param vo GamHtldNticArrvlDtaInqireDetailVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngtQuaycd(GamHtldRentMngtVO vo) throws Exception {
-		gamHtldRentMngtDao.updateHtldRentMngtQuaycd(vo);
+	public void updateHtldNticArrvlDtaInqireQuaycd(GamHtldNticArrvlDtaInqireVO vo) throws Exception {
+		gamHtldNticArrvlDtaInqireDao.updateHtldNticArrvlDtaInqireQuaycd(vo);
 	}
 	
-	/**
-   	 * 코픽스 이자율 목록을 조회한다.
-   	 * @param searchVO - 조회할 정보가 담긴 VO
-   	 * @return list
-   	 * @exception Exception
-   	 */
-    public List selectCofixInfo() throws Exception {
-        return gamHtldRentMngtDao.selectCofixInfo();
-    }
-    
-    /**
-	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대목록
-	 * @exception Exception
-	 */
-    public GamHtldRentMngtVO selectHtldRentMngtBeforeQuarterInfo(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtBeforeQuarterInfo(searchVO);
-    }
-    
-    /**
-	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대목록
-	 * @exception Exception
-	 */
-    public GamHtldRentMngtVO selectHtldRentMngtCofixInfo(GamHtldRentMngtVO searchVO) throws Exception {
-        return gamHtldRentMngtDao.selectHtldRentMngtCofixInfo(searchVO);
-    }
 }
