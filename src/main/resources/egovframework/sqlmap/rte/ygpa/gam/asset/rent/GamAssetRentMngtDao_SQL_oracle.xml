@@ -167,7 +167,7 @@
                                   , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
                                   , A.UPD_USR
                                   , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
-                                  , A.GR_RDCXPT_FEE
+                                  , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , A.PAY_MTH

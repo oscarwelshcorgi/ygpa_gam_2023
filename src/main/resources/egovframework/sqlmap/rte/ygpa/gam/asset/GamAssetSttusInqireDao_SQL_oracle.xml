@@ -60,6 +60,14 @@
                                      END USAGE_RATIO
 							       , TO_CHAR(B.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
 							       , TO_CHAR(B.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
+							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+							       , A.ENTRPSCD
+                                   , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
+                                   , NVL(A.GR_FEE,0) GR_FEE
+                                   , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+                                   , B.USAGE_PRPOS_CD
+                                   , B.USAGE_PURPS
+                                   , (G.GIS_ASSETS_CD || '-' || G.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
 							  FROM ASSETS_RENT_F A
 							     , ASSETS_RENT_DETAIL_F B
 							     , GIS_ASSETS_CD_F G  
@@ -84,7 +92,7 @@
                                </isNotEmpty>
                                
                                <isNotEmpty property="sQuayCd">
-                                   AND A.QUAY_CD = #sQuayCd# 
+                                   AND B.QUAY_CD = #sQuayCd# 
                                </isNotEmpty>
                                
                                <isNotEmpty property="entrpscd">
@@ -100,11 +108,11 @@
                                </isNotEmpty>
 							   
 							   <isNotEmpty property="sUsagePdFrom">
-							       AND B.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+							       AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>
 							   
 							   <isNotEmpty property="sUsagePdTo">
-							       AND B.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+							       AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>    
 							   
 							   <!-- 
@@ -121,27 +129,58 @@
     
     <select id="gamAssetSttusInqireDao.selectAssetSttusInqireListTotCnt_S" parameterClass="gamAssetSttusInqireVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM GIS_ASSETS_CD_F G
-                 , ASSETS_RENT_DETAIL_F A
-             WHERE G.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-               AND G.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-               AND G.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+              FROM ASSETS_RENT_F A
+                 , ASSETS_RENT_DETAIL_F B
+                 , GIS_ASSETS_CD_F G  
+             WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
+               AND A.MNG_YEAR    = B.MNG_YEAR
+               AND A.MNG_NO      = B.MNG_NO
+               AND A.MNG_CNT     = B.MNG_CNT
+               AND B.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+               AND B.GIS_ASSETS_CD          = G.GIS_ASSETS_CD
+               AND B.GIS_ASSETS_SUB_CD      = G.GIS_ASSETS_SUB_CD
+               
+               <isNotEmpty property="sPrtAtCode">
+                   AND A.PRT_AT_CODE = #sPrtAtCode# 
+               </isNotEmpty>
                
                <isNotEmpty property="sGisAssetsCd">
                    AND G.GIS_ASSETS_CD = #sGisAssetsCd# 
                </isNotEmpty>
                
-               <isNotEmpty property="sGisAssetsNm">
-                   AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-               </isNotEmpty> 
+               <isNotEmpty property="sGisAssetsSubCd">
+                   AND G.GIS_ASSETS_SUB_CD = #sGisAssetsSubCd# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="sQuayCd">
+                   AND B.QUAY_CD = #sQuayCd# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="entrpscd">
+                   AND A.ENTRPSCD = #entrpscd# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="sPrmisnYn">
+                   AND A.PRMISN_YN = #sPrmisnYn# 
+               </isNotEmpty>
+               
+               <isNotEmpty property="deptcd">
+                   AND A.DEPTCD = #deptcd# 
+               </isNotEmpty>
                
                <isNotEmpty property="sUsagePdFrom">
-                   AND A.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                   AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                </isNotEmpty>
                
                <isNotEmpty property="sUsagePdTo">
-                   AND A.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                   AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                </isNotEmpty>    
+               
+               <!-- 
+               <isNotEmpty property="sGisAssetsNm">
+                   AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+               </isNotEmpty> 
+               -->
     </select>
     
 </sqlMap>

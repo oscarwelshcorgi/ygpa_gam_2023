@@ -36,9 +36,24 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamAssetSttusInqireList.do"/>',
      dataType: 'json',
      colModel : [
+                 {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                 {display:'자산코드', name:'assetsCdStr',width:100, sortable:false,align:'center'},
+                 {display:'GIS자산 재산구분코드', name:'gisAssetsPrprtySeCd',width:120, sortable:false,align:'center'},
+                 {display:'GIS자산 위치코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},    
+                 {display:'부두코드', name:'gisAssetsQuayCd',width:100, sortable:false,align:'center'},
+                 {display:'GIS자산명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
+                 {display:'사용업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
+                 {display:'업체코드', name:'entrpscd',width:90, sortable:false,align:'center'},
+                 {display:'사용시작', name:'usagePdFrom',width:100, sortable:false,align:'center'},
+                 {display:'사용종료', name:'usagePdTo',width:100, sortable:false,align:'center'},
+                 {display:'사용면적', name:'usageAr',width:100, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'감면사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'사용용도코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
+                 {display:'사용목적', name:'usagePurps',width:100, sortable:false,align:'center'}
+                 /*
                  {display:'자산코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 관리 부서 코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 운영 부서 코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
@@ -57,9 +72,7 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
                  {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
                  {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},                                  
                  {display:'GIS 자산 부두 그룹 코드', name:'gisAssetsQuayGroupCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 위치 코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},                   
                  {display:'GIS 자산 구분 코드', name:'gisAssetsSeCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 재산 구분 코드', name:'gisAssetsPrprtySeCd',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 출자 방식', name:'gisAssetsInvstmntMthd',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 GIS 코드', name:'gisAssetsGisCd',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},          
@@ -72,11 +85,8 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
                  {display:'ERP 자산 번호 순번', name:'erpAssetsNoSeq',width:100, sortable:false,align:'center'},
                  {display:'ERP 자산 폐기 등록 여부', name:'erpAssetsDisuseRegistYn',width:100, sortable:false,align:'center'},                      
                  {display:'ERP 자산 폐기 사유', name:'erpAssetsDisuseRsn',width:100, sortable:false,align:'center'},
-                 {display:'부두코드', name:'gisAssetsQuayCd',width:100, sortable:false,align:'center'},
-                 {display:'사용면적', name:'usageAr',width:100, sortable:false,align:'center'},
-                 {display:'사용율', name:'usageRatio',width:100, sortable:false,align:'center'},
-                 {display:'사용기간 FROM', name:'usagePdFrom',width:100, sortable:false,align:'center'},
-                 {display:'사용기간 TO', name:'usagePdTo',width:100, sortable:false,align:'center'}
+                 */
+                 
                  ],
      showTableToggleBtn: false,
      height: 'auto'
@@ -163,13 +173,13 @@ var module_instance = new GamAssetSttusInqireModule();
                         <tr>
                             <th style="width: 60px"><span class="label">항구분</span></th>
                             <td style="width: 230px">
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
                             
                             <th style="width: 60px"><span class="label">자산코드</span></th>
                             <td style="width: 120px">
-                                <input type="text" size="2" id="sGisAssetsCd" readonly/>-
-                                <input type="text" size="2" id="sGisAssetsSubCd" readonly/>
+                                <input type="text" size="2" id="sGisAssetsCd" />-
+                                <input type="text" size="2" id="sGisAssetsSubCd" />
                             </td>
                             
                             <th style="width: 60px"><span class="label">업체</span></th>
@@ -179,7 +189,7 @@ var module_instance = new GamAssetSttusInqireModule();
                             
                             <th style="width: 60px"><span class="label">부두</span></th>
                             <td style="width: 100px">
-                                <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM003 />
+                                <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
                             </td>
                             
                             <td rowspan="2"><button id="searchBtn" class="submit">조회</button></td>
@@ -201,7 +211,7 @@ var module_instance = new GamAssetSttusInqireModule();
                             
                             <th><span class="label">담당부서</span></th>
                             <td>
-                                <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" />
+                                <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="전체" />
                             </td>
                             
                             <td></td>
