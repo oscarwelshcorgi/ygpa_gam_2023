@@ -313,7 +313,12 @@
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
                             data-url="<c:url value='/oper/center/gamMarineCenterRentNticMngt.do'/>">마린센터납부현황관리</a>
                             </li>
-
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/center/gamMarineCenterFeeExprInqire.do'/>">마린센터임대고지도래관리</a>
+                            </li>
+                            
+                            
                             <li>
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
                             data-url="<c:url value='/prt_fclty/gamMarineCenterMonthStsReport.do'/>">마린센터월별사용료현황조회</a>
