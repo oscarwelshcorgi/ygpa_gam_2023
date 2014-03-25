@@ -178,14 +178,13 @@ public class GamCmmnCodeDetailMngtController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
 		
-    	
     	if(cmmnDetailCode.getCodeId() == null || cmmnDetailCode.getCodeId().equals("")
         		||cmmnDetailCode.getCode() == null || cmmnDetailCode.getCode().equals("")) {
         		
     		map.put("resultCode", 1);			// return ok
 			map.put("resultMsg", "분류코드가 존재하지 않습니다.");
             return map;
-    	} 
+    	}
 
         beanValidator.validate(cmmnDetailCode, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -285,10 +284,18 @@ public class GamCmmnCodeDetailMngtController {
     	cmmnDetailCode.setCode(code);
     	cmmnDetailCode.setCodeId(codeId);
     	
-    	cmmnDetailCodeManageService.deleteCmmnDetailCode(cmmnDetailCode);
+    	try {
+    		cmmnDetailCodeManageService.deleteCmmnDetailCode(cmmnDetailCode);
+    		
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+			map.put("resultCode", 1);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
     	
-    	map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	return map;
 	}
 }
