@@ -325,6 +325,10 @@
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
                             data-url="<c:url value='/oper/center/gamMarineCenterMonthStsReport.do'/>">마린센터월별사용료현황조회</a>
                             </li>
+                            <li>
+                            <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
+                            data-url="<c:url value='/oper/center/gamMarineCenterRentCmpyStsReport.do'/>">마린센터업체별사용료현황조회</a>
+                            </li>
 
                             </ul>
                         </li>
