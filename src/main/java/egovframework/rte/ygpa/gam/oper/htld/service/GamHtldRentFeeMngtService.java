@@ -2,8 +2,6 @@ package egovframework.rte.ygpa.gam.oper.htld.service;
 
 import java.util.List;
 
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
-
 /**
  * @Class Name : GamHtldRentFeeMngtService.java
  * @Description : 배후단지임대료관리 
@@ -79,4 +77,10 @@ public interface GamHtldRentFeeMngtService {
 	 */
 	void deleteHtldRentFeeMngt(GamHtldRentFeeMngtVO vo) throws Exception;
     
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamHtldRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertHtldRentFeeMngtLevReqest(GamHtldRentFeeMngtVO vo) throws Exception;
 }

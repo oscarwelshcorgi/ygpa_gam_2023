@@ -2,11 +2,9 @@ package egovframework.rte.ygpa.gam.oper.htld.service;
 
 import java.util.List;
 
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
-
 /**
  * @Class Name : GamHtldRentSttusInqireService.java
- * @Description : 배후단지임대현황조회 (배후단지/배후단지/배후단지임대현황조회)
+ * @Description : 배후단지임대현황조회 
  * @Modification Information
  *
  * @author domh
@@ -19,7 +17,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
 public interface GamHtldRentSttusInqireService {
 	
 	/**
-	 * 배후단지사용현황 목록을 조회한다.
+	 * 배후단지임대현황 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -35,7 +33,7 @@ public interface GamHtldRentSttusInqireService {
     GamHtldRentSttusInqireVO selectHtldRentSttusInqireSum(GamHtldRentSttusInqireVO searchVO) throws Exception;
     
     /**
-	 * 배후단지사용현황 목록 총 갯수를 조회한다.
+	 * 배후단지임대현황 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -43,7 +41,7 @@ public interface GamHtldRentSttusInqireService {
     int selectHtldRentSttusInqireListTotCnt(GamHtldRentSttusInqireVO searchVO) throws Exception;
     
     /**
-	 * 배후단지사용현황 상세 목록을 조회한다.
+	 * 배후단지임대현황 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -51,11 +49,27 @@ public interface GamHtldRentSttusInqireService {
     List selectHtldRentSttusInqireDetailList(GamHtldRentSttusInqireVO vo) throws Exception;
 
     /**
-	 * 배후단지사용현황 상세 목록 총 갯수를 조회한다.
+	 * 배후단지임대현황 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
     int selectHtldRentSttusInqireDetailListTotCnt(GamHtldRentSttusInqireVO vo) throws Exception;
     
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectHtldRentSttusInqireFileList(GamHtldRentSttusInqireVO searchVO) throws Exception;
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectHtldRentSttusInqireFileListTotCnt(GamHtldRentSttusInqireVO searchVO) throws Exception;
 }
+
