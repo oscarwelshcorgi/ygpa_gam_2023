@@ -1,11 +1,11 @@
-package egovframework.rte.ygpa.gam.asset.rent.service.impl;
+package egovframework.rte.ygpa.gam.asset.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTypeValueStsVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO;
 
 /**
  * @Class Name : GamAssetTypeValueStsDao.java

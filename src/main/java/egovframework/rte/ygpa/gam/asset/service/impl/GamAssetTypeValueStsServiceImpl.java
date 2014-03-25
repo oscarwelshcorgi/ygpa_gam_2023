@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.rent.service.impl;
+package egovframework.rte.ygpa.gam.asset.service.impl;
 
 import java.util.List;
 
@@ -9,9 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTypeValueStsService;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTypeValueStsVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsService;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO;
 
 /**
  * @Class Name : GamAssetTypeValueStsServiceImpl.java

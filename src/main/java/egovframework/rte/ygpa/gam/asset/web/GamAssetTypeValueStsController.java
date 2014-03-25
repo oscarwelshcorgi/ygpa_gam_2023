@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.rent.web;
+package egovframework.rte.ygpa.gam.asset.web;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +22,8 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTypeValueStsService;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTypeValueStsVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsService;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO;
 
 /**
  * @Class Name : GamAssetTypeValueStsController.java
@@ -67,7 +67,7 @@ public class GamAssetTypeValueStsController {
      *
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/oper/gnrl/GamAssetTypeValueSts"
+     * @return "/ygpa/gam/asset/GamAssetTypeValueSts"
      * @throws Exception the exception  
      */
 	@RequestMapping(value="/asset/gamAssetTypeValueSts.do") 
@@ -81,7 +81,7 @@ public class GamAssetTypeValueStsController {
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
     	
-    	return "/ygpa/gam/asset/rent/GamAssetTypeValueSts";
+    	return "/ygpa/gam/asset/GamAssetTypeValueSts";
     }
 	
 	/**
