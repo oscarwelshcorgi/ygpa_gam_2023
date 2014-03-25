@@ -123,7 +123,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 
     		// 업체정보 등록
     		form.put("regUsr", (String)cmpyMngtList.get("USERID"));
-    		insertCmpyInfo(form);
+    		//insertCmpyInfo(form);
 
     		// 업체 담당자 목록을 저장한다.
     		if(insertList.size() > 0){
@@ -164,7 +164,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 			
 			// 업체정보 등록
 			form.put("updUsr", (String)cmpyMngtList.get("USERID"));
-			updateCmpyInfo(form);
+			//updateCmpyInfo(form);
 			
 			// 업체 담당자 목록을 수정한다.
 			if(insertList.size() > 0){
@@ -211,7 +211,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 		deleteCmpyCharger(deleteList);
 		
 		// 업체정보 삭제
-		deleteCmpyInfo(entrpscd);
+		//deleteCmpyInfo(entrpscd);
 	}
 	
 	
