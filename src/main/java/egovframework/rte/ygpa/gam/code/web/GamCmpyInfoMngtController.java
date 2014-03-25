@@ -122,9 +122,8 @@ public class GamCmpyInfoMngtController {
 	 */
     @SuppressWarnings("rawtypes")
 	@RequestMapping(value="/code/gamCmpyInfoMngtList.do")
-	@ResponseBody Map<String, Object> selectCmpyInfoMngtList(GamEntrpsInfoFVO searchVO,
-			@RequestParam("searchEntrpsCd") String searchEntrpsCd, @RequestParam("searchEntrpsTy") String searchEntrpsTy,
-			@RequestParam("searchBizrno") String searchBizrno, @RequestParam("searchBsnmSe") String searchBsnmSe) throws Exception {
+	@ResponseBody Map<String, Object> selectCmpyInfoMngtList(GamEntrpsInfoFVO searchVO,@RequestParam("searchEntrpsCd") String searchEntrpsCd,
+			@RequestParam("searchEntrpsNm") String searchEntrpsNm, @RequestParam("searchBizrno") String searchBizrno) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -143,9 +142,9 @@ public class GamCmpyInfoMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		searchVO.setEntrpscd(searchEntrpsCd);
-		searchVO.setEntrpsTy(searchEntrpsTy);
+		searchVO.setEntrpsNm(searchEntrpsNm);
 		searchVO.setBizrno(searchBizrno);
-		searchVO.setBsnmSe(searchBsnmSe);
+
         List cmpyInfoMngtList = gamCmpyInfoMngtService.selectCmpyInfoMngtList(searchVO);
         int totCnt = gamCmpyInfoMngtService.selectCmpyInfoMngtListTotCnt(searchVO);
         paginationInfo.setTotalRecordCount(totCnt);
@@ -271,10 +270,17 @@ public class GamCmpyInfoMngtController {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	cmpyMngtList.put("USERID", user.getId());
-    	gamCmpyInfoMngtService.insertCmpyInfoMngt(cmpyMngtList);
-    	
-    	map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    	try {
+    		gamCmpyInfoMngtService.insertCmpyInfoMngt(cmpyMngtList);
+        	
+        	map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
 
         return map;
     }
@@ -292,10 +298,18 @@ public class GamCmpyInfoMngtController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	cmpyMngtList.put("USERID", user.getId());
-    	gamCmpyInfoMngtService.updateCmpyInfoMngt(cmpyMngtList);
+    	try {
+    		gamCmpyInfoMngtService.updateCmpyInfoMngt(cmpyMngtList);
+        	
+        	map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
     	
-    	map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	return map;
     }
     
@@ -311,10 +325,17 @@ public class GamCmpyInfoMngtController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	gamCmpyInfoMngtService.deleteCmpyInfoMngt(entrpscd);
-        
-    	map.put("resultCode", 0);
-      	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	try {
+    		gamCmpyInfoMngtService.deleteCmpyInfoMngt(entrpscd);
+    		map.put("resultCode", 0);
+          	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+          	map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+    	
     	return map;
 	}
 }

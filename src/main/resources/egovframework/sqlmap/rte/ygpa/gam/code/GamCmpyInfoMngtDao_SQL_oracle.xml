@@ -202,16 +202,13 @@
 			                FROM ENTRPS_INFO_F
 			                WHERE 1 = 1
 			                <isNotEmpty property="entrpscd">
-			                	AND ENTRPSCD = #entrpscd#
+			                	AND ENTRPSCD LIKE UPPER('%' || #entrpscd# || '%')
 			                </isNotEmpty>
-			                <isNotEmpty property="entrpsTy">
-			                	AND ENTRPS_TY = #entrpsTy#
+			                <isNotEmpty property="entrpsNm">
+			                	AND ENTRPS_NM LIKE UPPER('%' || #entrpsNm# || '%')
 			                </isNotEmpty>
 			                <isNotEmpty property="bizrno">
 			                	AND BIZRNO LIKE REPLACE(#bizrno#,'-','') || '%'
-			                </isNotEmpty>
-			                <isNotEmpty property="bsnmSe">
-			                	AND BSNM_SE = #bsnmSe#
 			                </isNotEmpty>
 			            ORDER BY ENTRPSCD DESC 
 			              )Z 
@@ -223,18 +220,15 @@
 		SELECT COUNT(*) totcnt
 			FROM ENTRPS_INFO_F
 			WHERE 1 = 1
-			<isNotEmpty property="entrpscd">
-               	AND ENTRPSCD = #entrpscd#
-            </isNotEmpty>
-            <isNotEmpty property="entrpsTy">
-              	AND ENTRPS_TY = #entrpsTy#
-            </isNotEmpty>
-            <isNotEmpty property="bizrno">
-               	AND BIZRNO LIKE REPLACE(#bizrno#,'-','') || '%'
-            </isNotEmpty>
-            <isNotEmpty property="bsnmSe">
-            	AND BSNM_SE = #bsnmSe#
-            </isNotEmpty>
+           <isNotEmpty property="entrpscd">
+           	AND ENTRPSCD LIKE UPPER('%' || #entrpscd# || '%')
+           </isNotEmpty>
+           <isNotEmpty property="entrpsNm">
+           	AND ENTRPS_NM LIKE UPPER('%' || #entrpsNm# || '%')
+           </isNotEmpty>
+           <isNotEmpty property="bizrno">
+           	AND BIZRNO LIKE REPLACE(#bizrno#,'-','') || '%'
+           </isNotEmpty>
 	</select>
 	
 	<select id="gamCmpyInfoMngtDao.checkEntrpscd" parameterClass="String" resultClass="int">

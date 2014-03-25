@@ -42,27 +42,15 @@
 			                WHERE 1=1
                              <!-- 업체 코드 -->
                              <isNotEmpty property="entrpscd">
-                                 AND ENTRPSCD = #entrpscd#  
+                                 AND ENTRPSCD LIKE UPPER('%' || #entrpscd# || '%')  
                              </isNotEmpty>
                              <!-- 업체 명 -->
                              <isNotEmpty property="entrpsNm">
-                                 AND ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+                                 AND ENTRPS_NM LIKE UPPER('%' || #entrpsNm# || '%')
                              </isNotEmpty>
-                             <!-- 사업자 구분 -->
-                             <isNotEmpty property="entrpsTy">
-                                 AND ENTRPS_TY = #entrpsTy#
-                             </isNotEmpty>
-                             <!-- 업체 유형 -->
-                             <isNotEmpty property="bsnmSe">
-                                 AND BSNM_SE = #bsnmSe#
-                             </isNotEmpty>
-                             <!-- 업종 -->
-                             <isNotEmpty property="induty">
-                                 AND INDUTY LIKE '%' || #induty# || '%'
-                             </isNotEmpty>
-                             <!-- 업태 -->
-                             <isNotEmpty property="bizcnd">
-                                 AND bizcnd LIKE '%' || #bizcnd# || '%'
+                             <!-- 사업자 등록번호 -->
+                             <isNotEmpty property="bizrno">
+                                 AND bizrno LIKE '%' || #bizrno# || '%'
                              </isNotEmpty>
                              
                              ORDER BY ENTRPS_NM
@@ -76,27 +64,15 @@
 			WHERE 1=1
         <!-- 업체 코드 -->
         <isNotEmpty property="entrpscd">
-            AND ENTRPSCD = #entrpscd#  
+            AND ENTRPSCD LIKE UPPER('%' || #entrpscd# || '%')  
         </isNotEmpty>
         <!-- 업체 명 -->
         <isNotEmpty property="entrpsNm">
-            AND ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+            AND ENTRPS_NM LIKE UPPER('%' || #entrpsNm# || '%')
         </isNotEmpty>
-        <!-- 사업자 구분 -->
-        <isNotEmpty property="entrpsTy">
-            AND ENTRPS_TY = #entrpsTy#
-        </isNotEmpty>
-        <!-- 업체 유형 -->
-        <isNotEmpty property="bsnmSe">
-            AND BSNM_SE = #bsnmSe#
-        </isNotEmpty>
-        <!-- 업종 -->
-        <isNotEmpty property="induty">
-            AND INDUTY LIKE '%' || #induty# || '%'
-        </isNotEmpty>
-        <!-- 업태 -->
-        <isNotEmpty property="bizcnd">
-            AND bizcnd LIKE '%' || #bizcnd# || '%'
+        <!-- 사업자 등록번호 -->
+        <isNotEmpty property="bizrno">
+            AND bizrno LIKE '%' || #bizrno# || '%'
         </isNotEmpty>
     </select>
 </sqlMap>
