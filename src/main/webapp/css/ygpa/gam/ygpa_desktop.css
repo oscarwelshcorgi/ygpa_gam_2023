@@ -72,7 +72,7 @@ table .searchPanel {
 	  border-left: 1px solid #fff;
   border-bottom: 1px solid #fff;
   font-weight: bold;
-  text-shadow: #fff 0 1px 1px;
+  text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
 }
