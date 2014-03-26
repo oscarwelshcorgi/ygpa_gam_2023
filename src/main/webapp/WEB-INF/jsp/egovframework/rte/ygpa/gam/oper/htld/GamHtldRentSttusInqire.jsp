@@ -626,19 +626,21 @@ var module_instance = new GamHtldRentSttusInqireModule();
                             <td>
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
+                            <!-- 
                             <th>부두구분</th>
                             <td >
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" />
                             </td>
+                             -->
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
                             <th>신청구분</th>
-                            <td >
+                            <td colspan="3" >
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2" style="text-align:right;"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                         <tr>
                         	
@@ -666,7 +668,7 @@ var module_instance = new GamHtldRentSttusInqireModule();
                             <th>승낙여부</th>
                             <td >
                                 <select id="sPrmisnYn">
-                                    <option value="" selected="selected">선택</option>
+                                    <option value="" selected="selected">전체</option>
                                     <option value="Y">Y</option>
                                     <option value="N">N</option>
                                 </select>
@@ -788,7 +790,7 @@ var module_instance = new GamHtldRentSttusInqireModule();
                                     <input type="text" size="10" id="grUsagePdTo" readonly/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" /></td>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
@@ -817,11 +819,11 @@ var module_instance = new GamHtldRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm"/></td>
+                                <td colspan="3"><input type="text" size="50" id="rm" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt"/> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
+                                <td colspan="3"><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
                             </tr>
                         </table>
                     </form>
@@ -895,7 +897,7 @@ var module_instance = new GamHtldRentSttusInqireModule();
                                 <th><span class="label">소재지</span></th>
                                 <td ><input type="text" size="50" id="gisAssetsLocplc" disabled/></td>
                                 <th><span class="label">지번</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLnm"/>-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
+                                <td><input type="text" size="5" id="gisAssetsLnm" readonly />-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
                             <!-- 
                             <tr>
@@ -929,9 +931,9 @@ var module_instance = new GamHtldRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" class="ygpaCurrency" id="olnlp" style="text-align:right;" /></td>
+                                <td><input type="text" size="17" class="ygpaCurrency" id="olnlp" style="text-align:right;" readonly /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" /></td>
+                                <td colspan="3"><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -970,26 +972,26 @@ var module_instance = new GamHtldRentSttusInqireModule();
                                     <!-- <input type="text" size="20" id="exemptRsnCd" readonly /> -->
                                     <input type="text" size="33" id="exemptRsnCdNm" style="text-align:center;" readonly />
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
-                                    <input type="text" size="57" id="exemptRsn"/>
+                                    <input type="text" size="57" id="exemptRsn" readonly />
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="20" id="fee" class="ygpaCurrency" style="text-align:right;" />원</td>
+                                <td><input type="text" size="20" id="fee" class="ygpaCurrency" style="text-align:right;" readonly />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="rdcxptFee" style="text-align:right;" />원</td>
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="rdcxptFee" style="text-align:right;" readonly />원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>
-                                <td colspan="5"><input type="text" size="100" id="computDtls"/></td>
+                                <td colspan="5"><input type="text" size="100" id="computDtls" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용목적</span></th>
-                                <td colspan="5"><input type="text" size="100" id="usagePurps"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usagePurps" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용내역</span></th>
-                                <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" ></textarea></td>
+                                <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" readonly ></textarea></td>
                             </tr>
                         </table>
                     </form>
@@ -1035,13 +1037,13 @@ var module_instance = new GamHtldRentSttusInqireModule();
                         <tr>
                             <th><span class="label">제 목</span></th>
                             <td>
-                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40" />
+                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40" readonly />
                             </td>
                         </tr>
                         <tr>
                             <th><span class="label">사진설명</span></th>
                             <td>
-                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90">
+                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90" readonly />
                             </td>
                         </tr>
                         <tr>

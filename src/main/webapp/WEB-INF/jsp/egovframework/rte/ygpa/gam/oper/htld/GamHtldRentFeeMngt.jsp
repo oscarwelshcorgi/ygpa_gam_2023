@@ -575,8 +575,8 @@ var module_instance = new GamHtldRentFeeMngtModule();
     <div class="emdPanel fillHeight">
         <div id="htldRentFeeMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">자산임대료고지 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">자산임대료고지 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">배후단지임대료고지 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">배후단지임대료고지 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">

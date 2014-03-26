@@ -91,8 +91,10 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'assetsUsageSeq',width:50, sortable:false,align:'center'},
-                    {display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    //{display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                    //{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:60, sortable:false,align:'center'},
+                    {display:'항코드', name:'gisAssetsPrtAtCode',width:60, sortable:false,align:'center'},
                     {display:'시설코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
                     {display:'시설명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
@@ -705,24 +707,20 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
 
         //배후단지임대상세추가
         case 'btnInsertItemDetail':
-            if( this.$('#prtAtCode').val() == '' ) {
-            	alert("선택된 항구분이 없습니다.");
-            } else {
-                this.$("#htldRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
-                this.$('#gamHtldRentMngtDetailForm').find(':input').val('');
+        	this.$("#htldRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+            this.$('#gamHtldRentMngtDetailForm').find(':input').val('');
 
-                this.$("#detailCmd").val('insert');
-                this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
-                //this.$('#detailPrtAtCodeNm').val( this.$('#prtAtCodeNm').val() );
-                this.$('#detailMngYear').val( this.$('#mngYear').val() );
-                this.$('#detailMngNo').val( this.$('#mngNo').val() );
-                this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
+            this.$("#detailCmd").val('insert');
+            this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
+            //this.$('#detailPrtAtCodeNm').val( this.$('#prtAtCodeNm').val() );
+            this.$('#detailMngYear').val( this.$('#mngYear').val() );
+            this.$('#detailMngNo').val( this.$('#mngNo').val() );
+            this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
 
-                this._editData=this.getFormValues('#gamHtldRentMngtDetailForm', {_updtId:'I'});
-                this._editRow=this.$('#htldRentMngtDetailList').flexGetData().length;
-            }
+            this._editData=this.getFormValues('#gamHtldRentMngtDetailForm', {_updtId:'I'});
+            this._editRow=this.$('#htldRentMngtDetailList').flexGetData().length;
 
-            break;
+           break;
 
         // 배후단지임대상세 삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveItemDetail':
@@ -1133,7 +1131,8 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
-             this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
+             //this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
+             this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#quayCd').val(value.gisAssetsQuayCd);
              
              var tpCdStr = value.gisAssetsCd  + '-' + value.gisAssetsSubCd;
@@ -1168,25 +1167,27 @@ var module_instance = new GamHtldRentMngtModule();
                             <td>
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
+                            <!-- 
                             <th>부두구분</th>
                             <td >
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" />
                             </td>
+                             -->
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
                             <th>신청구분</th>
-                            <td >
+                            <td colspan="3" >
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2" style="text-align:right;"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                         	
                             <th>업체명</th>
                             <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
+                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo" class="popupButton" >업체</button>
                             </td>
                             <th>사용기간</th>
                             <td>
@@ -1292,7 +1293,7 @@ var module_instance = new GamHtldRentMngtModule();
                                 <td colspan="3">
                                     <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
                                     <input type="text" size="25" id="entrpsNm" readonly/>
-                                    <button id="popupEntrpsInfoInput">업체조회</button>
+                                    <button id="popupEntrpsInfoInput" class="popupButton" >업체조회</button>
                                 </td>
                             </tr>
                             <tr>
@@ -1388,7 +1389,7 @@ var module_instance = new GamHtldRentMngtModule();
                  
                  <table style="width:100%">
                     <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd" >배후단지임대상세추가</button><button id="btnRemoveItemDetail">배후단지임대상세삭제</button></td>
+                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd" >배후단지임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete" >배후단지임대상세삭제</button></td>
                     </tr>
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -1417,7 +1418,8 @@ var module_instance = new GamHtldRentMngtModule();
                                 <th style="width: 100px"><span class="label">시설사용순번</span></th>
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
                                 
-                                <input type="hidden" id="prtAtCodeNm" />	<!-- 항코드명 -->
+                                <!-- <input type="hidden" id="prtAtCodeNm" /> -->	<!-- 항코드명 -->
+                                <input type="hidden" id="gisAssetsPrtAtCodeNm" />   <!-- 항코드명 -->
                                 <input type="hidden" id="quayCd" />	<!-- 부두코드 -->
                                 <input type="hidden" id="assetsCdStr" />	<!-- 시설코드 -->
                                 
