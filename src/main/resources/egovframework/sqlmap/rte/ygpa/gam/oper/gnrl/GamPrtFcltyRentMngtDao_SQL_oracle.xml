@@ -169,7 +169,7 @@
                                   , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
                                   , A.UPD_USR
                                   , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
-                                  , A.GR_RDCXPT_FEE
+								  , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , A.PAY_MTH
@@ -742,6 +742,7 @@
                                 , A.PRT_AT_CODE
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
                                 , A.GIS_ASSETS_PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
                                 , A.MNG_YEAR
                                 , A.MNG_NO
                                 , A.MNG_CNT
