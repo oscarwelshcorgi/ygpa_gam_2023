@@ -764,7 +764,8 @@
                              AND A.MNG_NO      = #mngNo#
                              AND A.MNG_CNT     = #mngCnt#
                              
-                             ORDER BY REGIST_DT DESC
+                           <!-- ORDER BY REGIST_DT DESC  -->
+                           ORDER BY ASSETS_USAGE_SEQ DESC
                 ) S
              ) A
         <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 화면에서 페이징 제거 -->

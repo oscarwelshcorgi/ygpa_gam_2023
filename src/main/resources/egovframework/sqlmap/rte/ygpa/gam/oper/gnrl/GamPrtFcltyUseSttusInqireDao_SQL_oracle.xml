@@ -55,7 +55,8 @@
                                   , A.DEPTCD
                                   , A.PAY_MTH
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
-                                  , A.SANCTN_STTUS
+                                  , NVL(A.SANCTN_STTUS,'N') SANCTN_STTUS
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM046' AND CD.CODE = A.SANCTN_STTUS AND ROWNUM = 1) SANCTN_STTUS_NM
                                   , A.SANCTNER_EMPL_NO
                                   , A.QUAY_CD
                                   , A.SANCTN_DT
@@ -452,7 +453,8 @@
                              AND A.MNG_NO      = #mngNo#
                              AND A.MNG_CNT     = #mngCnt#
                              
-                             ORDER BY REGIST_DT DESC
+                           <!-- ORDER BY REGIST_DT DESC  -->
+                           ORDER BY ASSETS_USAGE_SEQ DESC  
                 ) S
              ) A
         <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
