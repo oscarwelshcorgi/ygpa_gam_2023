@@ -82,7 +82,7 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 				vo.put("blTpNum", 1);
 				gamAssetsUsePermMngtDAO.insertBillCreatePreMonth(vo);
 			}
-			throw processException("fail.levinsert.type");
+			else throw processException("fail.levinsert.type");
 		}
 		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);
 	}
