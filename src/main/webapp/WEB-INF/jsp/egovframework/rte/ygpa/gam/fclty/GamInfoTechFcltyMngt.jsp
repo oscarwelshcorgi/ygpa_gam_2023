@@ -57,7 +57,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 	});
 	
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
-		
+		module.$("#fcltyManageVO :input").val("");
 		module.makeFormValues("#fcltyManageVO", row);
 		module.getFormValues("#fcltyManageVO", row);
 		module.$("#fcltyMngtList").selectedRowIds()[0];
@@ -300,7 +300,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			}
 
             this.$("#fcltyGisPhotoForm").find(":input").val("");
-
+            this._editDataFile = null;
 		break;
 
 		
