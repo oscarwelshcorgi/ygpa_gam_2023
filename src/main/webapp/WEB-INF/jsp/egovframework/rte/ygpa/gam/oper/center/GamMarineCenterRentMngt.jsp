@@ -92,8 +92,10 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'assetsUsageSeq',width:50, sortable:false,align:'center'},
-                    {display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    //{display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                    //{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:60, sortable:false,align:'center'},
+                    {display:'항코드', name:'gisAssetsPrtAtCode',width:60, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
@@ -557,8 +559,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         // 신청저장
         case 'btnSaveItem':
             
-        	alert( this.$("#cmd").val() );
-        	
             if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
                 return;
@@ -706,10 +706,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
         //임대상세추가
         case 'btnInsertItemDetail':
-            if( this.$('#prtAtCode').val() == '' ) {
-                alert("선택된 항구분이 없습니다.");
-            } else {
-                this.$("#assetRentListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+            this.$("#assetRentListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
                 this.$('#gamMarineCenterRentDetailForm').find(':input').val('');
 
                 this.$("#detailCmd").val('insert');
@@ -721,7 +718,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
                 this._editData=this.getFormValues('#gamMarineCenterRentDetailForm', {_updtId:'I'});
                 this._editRow=this.$('#marineCenterRentDetailList').flexGetData().length;
-            }
 
             break;
 
@@ -741,6 +737,102 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                         }
                         this.$('#marineCenterRentDetailList').flexRemoveRow(this.$('#marineCenterRentDetailList').selectedRowIds()[i]);
                     }
+                    
+                    /* 총사용료, 총면적 계산 시작 */
+                    var fee = 0;
+                    var rdcxptFee = 0;
+                    var usageAr = 0;
+                    var usagePdFrom = 0;
+                    var usagePdTo = 0;
+                    var minUsagePdFrom = 0;
+                    var maxUsagePdTo = 0;
+                    
+                    for( var i = 0 ; i < this.$('#marineCenterRentDetailList').flexGetData().length ; i++ ) {
+                        var row = this.$('#marineCenterRentDetailList').flexGetRow(i);
+                        
+                        if( row['fee'] != '' && row['fee'] != null ) {
+                            var feeStr = row['fee']+"";
+                            feeStr = feeStr.replace(/,/g,"");
+                            fee += Number(feeStr);
+                        }
+                        
+                        if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
+                            var rdcxptFeeStr = row['rdcxptFee']+"";
+                            rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
+                            rdcxptFee += Number(rdcxptFeeStr);
+                        }
+                        
+                        if( row['usageAr'] != '' && row['usageAr'] != null ) {
+                            var usageArStr = row['usageAr']+"";
+                            usageArStr = usageArStr.replace(/,/g,"");
+                            usageAr += Number(usageArStr);
+                        }
+                        
+                        if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
+                            var usagePdFromStr = row['usagePdFrom']+"";
+                            usagePdFromStr = usagePdFromStr.replace(/-/g,"");
+                            usagePdFrom = Number(usagePdFromStr);
+                            
+                            if( minUsagePdFrom == 0 ) {
+                                minUsagePdFrom = usagePdFrom;
+                            } else {
+                                if( minUsagePdFrom > usagePdFrom ) {
+                                    minUsagePdFrom = usagePdFrom;
+                                }
+                            }
+                        }
+                        
+                        if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
+                            var usagePdToStr = row['usagePdTo']+"";
+                            usagePdToStr = usagePdToStr.replace(/-/g,"");
+                            usagePdTo = Number(usagePdToStr);
+                            
+                            if( maxUsagePdTo == 0 ) {
+                                maxUsagePdTo = usagePdTo;
+                            } else {
+                                if( maxUsagePdTo < usagePdTo ) {
+                                    maxUsagePdTo = usagePdTo;
+                                }
+                            }
+                        }
+                    }
+                    
+                    this.$('#grFee').val( fee ); //총사용료
+                    this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
+                    this.$('#grAr').val( usageAr ); //총사용면적
+                    
+                    if( minUsagePdFrom > 0 ) {
+                        var minUsagePdFromStr = minUsagePdFrom+""; 
+                        
+                        if( minUsagePdFromStr.length == 8 ) {
+                            minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8); 
+                            this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
+                        } else {
+                            this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+                        }
+                    }
+                    
+                    if( maxUsagePdTo > 0 ) {
+                        var maxUsagePdToStr = maxUsagePdTo+""; 
+                        
+                        if( maxUsagePdToStr.length == 8 ) {
+                            maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8); 
+                            this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
+                        } else {
+                            this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+                        }
+                    }
+                    
+                    if( this.$('#marineCenterRentDetailList').flexGetData().length == 0 ) {
+                    	this.$('#grFee').val( "" ); //총사용료
+                        this.$('#grRdcxptFee').val( "" ); //총감면사용료
+                        this.$('#grAr').val( "" ); //총사용면적
+                    	this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+                    	this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+                    }
+                    
+                    /* 총사용료, 총면적 계산 종료 */
+                    
                 }
             }
 
@@ -971,6 +1063,102 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             this.$('#gamMarineCenterRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 
+
+			/* 총사용료, 총면적 계산 시작 */
+            var fee = 0;
+            var rdcxptFee = 0;
+            var usageAr = 0;
+            var usagePdFrom = 0;
+            var usagePdTo = 0;
+            var minUsagePdFrom = 0;
+            var maxUsagePdTo = 0;
+            
+            for( var i = 0 ; i < this.$('#marineCenterRentDetailList').flexGetData().length ; i++ ) {
+                var row = this.$('#marineCenterRentDetailList').flexGetRow(i);
+                
+                if( row['fee'] != '' && row['fee'] != null ) {
+                    var feeStr = row['fee']+"";
+                    feeStr = feeStr.replace(/,/g,"");
+                    fee += Number(feeStr);
+                }
+                
+                if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
+                    var rdcxptFeeStr = row['rdcxptFee']+"";
+                    rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
+                    rdcxptFee += Number(rdcxptFeeStr);
+                }
+                
+                if( row['usageAr'] != '' && row['usageAr'] != null ) {
+                    var usageArStr = row['usageAr']+"";
+                    usageArStr = usageArStr.replace(/,/g,"");
+                    usageAr += Number(usageArStr);
+                }
+                
+                if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
+                    var usagePdFromStr = row['usagePdFrom']+"";
+                    usagePdFromStr = usagePdFromStr.replace(/-/g,"");
+                    usagePdFrom = Number(usagePdFromStr);
+                    
+                    if( minUsagePdFrom == 0 ) {
+                        minUsagePdFrom = usagePdFrom;
+                    } else {
+                        if( minUsagePdFrom > usagePdFrom ) {
+                            minUsagePdFrom = usagePdFrom;
+                        }
+                    }
+                }
+                
+                if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
+                    var usagePdToStr = row['usagePdTo']+"";
+                    usagePdToStr = usagePdToStr.replace(/-/g,"");
+                    usagePdTo = Number(usagePdToStr);
+                    
+                    if( maxUsagePdTo == 0 ) {
+                        maxUsagePdTo = usagePdTo;
+                    } else {
+                        if( maxUsagePdTo < usagePdTo ) {
+                            maxUsagePdTo = usagePdTo;
+                        }
+                    }
+                }
+            }
+            
+            this.$('#grFee').val( fee ); //총사용료
+            this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
+            this.$('#grAr').val( usageAr ); //총사용면적
+            
+            if( minUsagePdFrom > 0 ) {
+                var minUsagePdFromStr = minUsagePdFrom+""; 
+                
+                if( minUsagePdFromStr.length == 8 ) {
+                    minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8); 
+                    this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
+                } else {
+                    this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+                }
+            }
+            
+            if( maxUsagePdTo > 0 ) {
+                var maxUsagePdToStr = maxUsagePdTo+""; 
+                
+                if( maxUsagePdToStr.length == 8 ) {
+                    maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8); 
+                    this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
+                } else {
+                    this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+                }
+            }
+            
+            if( this.$('#marineCenterRentDetailList').flexGetData().length == 0 ) {
+                this.$('#grFee').val( "" ); //총사용료
+                this.$('#grRdcxptFee').val( "" ); //총감면사용료
+                this.$('#grAr').val( "" ); //총사용면적
+                this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+                this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+            }
+            
+            /* 총사용료, 총면적 계산 종료 */
+
             this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
 
             break;
@@ -1164,7 +1352,7 @@ GamMarineCenterRentMngtModule.prototype.onClosePopup = function(popupId, msg, va
              this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
-             this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
+             this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd); 
          } else {
@@ -1317,7 +1505,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 <td colspan="3">
                                     <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="25" id="entrpsNm" readonly/>
-                                    <button id="popupEntrpsInfoInput">업체조회</button>
+                                    <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
                                 </td>
                             </tr>
                             <tr>
@@ -1380,11 +1568,11 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             
                             <tr>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm"/></td>
+                                <td colspan="3"><input type="text" size="50" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="3"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
                         </table>
                     </form>
@@ -1443,7 +1631,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 <th style="width: 80px"><span class="label">자산사용순번</span></th>
                                 <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
 
-                                <input type="hidden" id="prtAtCodeNm" />
+                                <input type="hidden" id="gisAssetsPrtAtCodeNm" />
                                 부두코드 : <input type="text" id="quayCd" readonly/>
                                 </td>
                             </tr>
@@ -1482,9 +1670,9 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')"/></td>
+                                <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" maxlength="13"/></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')"/></td>
+                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -1496,7 +1684,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                      -->
                                     <input id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id=GAM023 />
 
-                                    <input type="text" size="14" id="applcTariffStr"/>
+                                    <input type="text" size="14" id="applcTariffStr" readonly/>
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
@@ -1528,7 +1716,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 <th><span class="label">사용료</span></th>
                                 <td><input type="text" size="20" class="ygpaCurrency" id="fee" />원</td>
                                 <th><span class="label">감면사용료</span></th>
-                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency calcInput" id="rdcxptFee" onkeyup="$(this).trigger('change')"/>원</td>
+                                <td colspan="3"><input type="text" size="20" class="calcInput" id="rdcxptFee" onkeyup="$(this).trigger('change')"/>원</td>
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>
