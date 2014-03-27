@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamFcltyCode">
+            <field property="gisAssetsCd" depends="required">
+                <arg0 key="GIS 자산코드" resource="false"/>
+            </field>
+            <field property="gisPrtFcltyCd" depends="required">
+                <arg0 key="시설 분류" resource="false"/>
+            </field>
+            <field property="prtFcltyNm" depends="maxlength">
+                <arg0 key="시설 명" resource="false"/>
+                <arg1 key="80" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>80</var-value>
+                </var>
+            </field>
+            <field property="prtFcltyStndrd" depends="maxlength">
+                <arg0 key="시설 규격" resource="false"/>
+                <arg1 key="40" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>40</var-value>
+                </var>
+            </field>
+            <field property="prtFcltyUnit" depends="maxlength">
+                <arg0 key="시설 단위" resource="false"/>
+                <arg1 key="10" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>10</var-value>
+                </var>
+            </field>
+            <field property="prtFcltyInstlDt" depends="date">
+                <arg0 key="설치 일자" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="prtFcltyChangeDt" depends="date">
+                <arg0 key="변경 일자" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>
