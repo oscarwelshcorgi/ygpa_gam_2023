@@ -155,10 +155,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
+                    {display:'사진제목', name:'photoSj', width:200, sortable:true, align:'center'},
                     {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
                     {display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
-                    {display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
+                    {display:'사진설명', name:'photoDesc', width:380, sortable:true, align:'center'}
                     
                     /*
                     {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
@@ -1254,6 +1254,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 	                
 	                alert("결재요청을 하였습니다.");
 	                
+	                //재조회 안됨.. 
 	                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
 	                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
                 }
