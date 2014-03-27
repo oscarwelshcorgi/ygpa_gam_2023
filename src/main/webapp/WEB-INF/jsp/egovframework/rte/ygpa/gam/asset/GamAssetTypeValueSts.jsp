@@ -37,16 +37,17 @@ GamAssetTypeValueStsModule.prototype.loadComplete = function() {
      dataType: 'json',
      colModel : [
                  {display:'상각연도', name:'deprctnYear',width:150, sortable:false,align:'center'},
-                 {display:'자산구분', name:'assetCls',width:150, sortable:false,align:'center'},
-                 {display:'재평가금액', name:'revalAmt',width:150, sortable:false,align:'center'},
-                 {display:'당기자산증가금액', name:'thisTermIncreAmt',width:150, sortable:false,align:'center'},
-                 {display:'대차대조기말현재금액', name:'bsThisCurAmt',width:150, sortable:false,align:'center'},
-                 {display:'대차대조전기말상각누계금액', name:'bsPreDeprctnSum',width:180, sortable:false,align:'center'},
-                 {display:'대차대조미상각잔액', name:'bsNoDeprctnBal',width:150, sortable:false,align:'center'},
-                 {display:'전기말자본적지출금액누계', name:'preEndAssetBuySum',width:180, sortable:false,align:'center'},
-                 {display:'자본적지출금액', name:'assetBuyAmt',width:150, sortable:false,align:'center'},
-                 {display:'당기상각금액', name:'thisTermDeprctnAmt',width:150, sortable:false,align:'center'},
-                 {display:'잔존금액', name:'curAmt',width:150, sortable:false,align:'center'}
+                 {display:'출자구분', name:'gisAssetsInvstmntMthd',width:150, sortable:false,align:'center'},
+                 {display:'자산구분', name:'gisAssetsSeCdNm',width:180, sortable:false,align:'center'},
+                 {display:'재평가금액', name:'revalAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'당기자산증가금액', name:'thisTermIncreAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'대차대조기말현재금액', name:'bsThisCurAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'대차대조전기말상각누계금액', name:'bsPreDeprctnSum',width:180, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'대차대조미상각잔액', name:'bsNoDeprctnBal',width:150, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'전기말자본적지출금액누계', name:'preEndAssetBuySum',width:180, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'자본적지출금액', name:'assetBuyAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'당기상각금액', name:'thisTermDeprctnAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'잔존금액', name:'curAmt',width:150, sortable:false,align:'center', displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto'

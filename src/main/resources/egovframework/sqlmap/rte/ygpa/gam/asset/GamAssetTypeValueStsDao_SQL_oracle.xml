@@ -17,16 +17,19 @@
 							       ,B.ASSET_CLS     
 							       ,B.ASSET_NO          
 							       ,B.ASSET_NO_SEQ          
-							       ,B.REVAL_AMT     
-							       ,B.THIS_TERM_INCRE_AMT   
-							       ,B.BS_THIS_CUR_AMT   
-							       ,B.BS_PRE_DEPRCTN_SUM        
-							       ,B.BS_NO_DEPRCTN_BAL         
-							       ,B.PRE_END_ASSET_BUY_SUM     
-							       ,B.ASSET_BUY_AMT         
-							       ,B.GNRL_DEPRCTN_RATE         
-							       ,B.THIS_TERM_DEPRCTN_AMT     
-							       ,B.CUR_AMT   
+							       ,NVL(B.REVAL_AMT,0) REVAL_AMT
+							       ,NVL(B.THIS_TERM_INCRE_AMT,0) THIS_TERM_INCRE_AMT 
+							       ,NVL(B.BS_THIS_CUR_AMT,0) BS_THIS_CUR_AMT  
+							       ,NVL(B.BS_PRE_DEPRCTN_SUM,0)  BS_PRE_DEPRCTN_SUM      
+							       ,NVL(B.BS_NO_DEPRCTN_BAL,0) BS_NO_DEPRCTN_BAL        
+							       ,NVL(B.PRE_END_ASSET_BUY_SUM,0) PRE_END_ASSET_BUY_SUM    
+							       ,NVL(B.ASSET_BUY_AMT,0) ASSET_BUY_AMT        
+							       ,NVL(B.GNRL_DEPRCTN_RATE,0) GNRL_DEPRCTN_RATE        
+							       ,NVL(B.THIS_TERM_DEPRCTN_AMT,0) THIS_TERM_DEPRCTN_AMT    
+							       ,NVL(B.CUR_AMT,0) CUR_AMT   
+							       ,A.GIS_ASSETS_INVSTMNT_MTHD
+							       ,A.GIS_ASSETS_SE_CD
+							       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM003' AND CD.CODE = A.GIS_ASSETS_SE_CD AND ROWNUM = 1) GIS_ASSETS_SE_CD_NM
 							  FROM GIS_ASSETS_CD_F A,
 							       YGPAERP.EGMFA2000 B
 							 WHERE A.ERP_ASSETS_CLS    = B.ASSET_CLS
