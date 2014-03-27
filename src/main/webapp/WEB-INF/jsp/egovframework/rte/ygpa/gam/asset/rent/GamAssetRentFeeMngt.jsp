@@ -46,7 +46,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
                     {display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
-                    {display:'고지번호', name:'nticNo',width:100, sortable:false,align:'center'},
+                    {display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},
                     {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'center'},
                     {display:'사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'사용기간FROM', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
@@ -500,7 +500,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                             <th style="width: 80px">관리번호</th>
                             <td style="width: 200px">
-                                <input id="sMngYear" type="text" size="4">-<input id="sMngNo" type="text" size="3">-<input id="sMngCnt" type="text" size="2">
+                                <input id="sMngYear" type="text" size="3">-<input id="sMngNo" type="text" size="2">-<input id="sMngCnt" type="text" size="1">
                             </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>    

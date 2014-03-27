@@ -194,7 +194,12 @@
 								                                                               WHERE R.GR_AR BETWEEN #sRrArFrom# AND #sRrArTo#
 								                                                             )
 								       )
-	                              </isNotEmpty>
+	                           </isNotEmpty>
+	                           
+	                           <isNotEmpty property="sNhtIsueYn">
+	                               AND L.NHT_ISUE_YN = #sNhtIsueYn#
+	                           </isNotEmpty>
+	                           
                              ORDER BY L.REGIST_DT DESC
                 ) S
              ) A
@@ -292,6 +297,10 @@
                                                                                WHERE R.GR_AR BETWEEN #sRrArFrom# AND #sRrArTo# 
                                                                              )
                        )
+               </isNotEmpty>
+               
+               <isNotEmpty property="sNhtIsueYn">
+                   AND L.NHT_ISUE_YN = #sNhtIsueYn#
                </isNotEmpty>
     </select>
     
@@ -391,6 +400,10 @@
                                                                          WHERE R.GR_AR BETWEEN #sRrArFrom# AND #sRrArTo# 
                                                                        )
                  )
+         </isNotEmpty>
+         
+         <isNotEmpty property="sNhtIsueYn">
+             AND L.NHT_ISUE_YN = #sNhtIsueYn#
          </isNotEmpty>
     </select>
     

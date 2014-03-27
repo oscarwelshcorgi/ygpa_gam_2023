@@ -266,6 +266,7 @@ public class GamAssetRentFeeMngtVO extends ComDefaultVO {
     /** 종료일 */
     private String endDt;	                   
 
+    private String sNhtIsueYn;
 
 	/**
 	 * @return the nticCnt
@@ -1413,6 +1414,20 @@ public class GamAssetRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setNticPdTo(String nticPdTo) {
 		this.nticPdTo = nticPdTo;
+	}
+
+	/**
+	 * @return the sNhtIsueYn
+	 */
+	public String getsNhtIsueYn() {
+		return sNhtIsueYn;
+	}
+
+	/**
+	 * @param sNhtIsueYn the sNhtIsueYn to set
+	 */
+	public void setsNhtIsueYn(String sNhtIsueYn) {
+		this.sNhtIsueYn = sNhtIsueYn;
 	}
 	
 }
