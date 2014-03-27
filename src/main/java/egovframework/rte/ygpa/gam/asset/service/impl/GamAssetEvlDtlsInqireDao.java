@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 
 /**
@@ -41,5 +42,15 @@ public class GamAssetEvlDtlsInqireDao extends YGPAAbstractDAO {
     public int selectAssetEvlDtlsInqireListTotCnt(GamAssetEvlDtlsInqireVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireListTotCnt_S", searchVO);
     }
+    
+    /**
+	 * 자산가치평가내역 합계를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+	public GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireSum(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
+		return (GamAssetEvlDtlsInqireVO) selectByPk("gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireSum_S", searchVO);
+	}
     
 }

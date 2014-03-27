@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 
@@ -64,6 +65,16 @@ public class GamAssetEvlDtlsInqireServiceImpl  extends AbstractServiceImpl imple
 	 */
     public GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireErp(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
         return gamAssetEvlDtlsInqireErpDao.selectAssetEvlDtlsInqireErp(searchVO);
+    }
+    
+    /**
+	 * 자산가치평가내역 합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireSum(GamAssetEvlDtlsInqireVO searchVO) throws Exception {
+        return gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireSum(searchVO);
     }
     
 }

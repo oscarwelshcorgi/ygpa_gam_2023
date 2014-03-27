@@ -24,6 +24,7 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 
@@ -115,10 +116,23 @@ public class GamAssetEvlDtlsInqireController {
     	totalCnt = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireListTotCnt(searchVO);
     	List assetRentList = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireList(searchVO);
     	
+    	GamAssetEvlDtlsInqireVO resultSum = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireSum(searchVO);
+    	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumRevalAmt", resultSum.getSumRevalAmt());
+    	map.put("sumThisTermIncreAmt", resultSum.getSumThisTermIncreAmt());
+    	map.put("sumBsThisCurAmt", resultSum.getSumBsThisCurAmt());
+    	map.put("sumBsPreDeprctnSum", resultSum.getSumBsPreDeprctnSum());
+    	map.put("sumBsNoDeprctnBal", resultSum.getSumBsNoDeprctnBal());
+    	map.put("sumPreEndAssetBuySum", resultSum.getSumPreEndAssetBuySum());
+    	map.put("sumAssetBuyAmt", resultSum.getSumAssetBuyAmt());
+    	map.put("sumGnrlDeprctnRate", resultSum.getSumGnrlDeprctnRate());
+    	map.put("sumThisTermDeprctnAmt", resultSum.getSumThisTermDeprctnAmt());
+    	map.put("sumCurAmt", resultSum.getSumCurAmt());
     	
     	return map;
     }

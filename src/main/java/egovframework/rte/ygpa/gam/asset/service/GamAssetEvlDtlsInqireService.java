@@ -43,4 +43,12 @@ public interface GamAssetEvlDtlsInqireService {
 	 * @exception Exception
 	 */
     GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireErp(GamAssetEvlDtlsInqireVO searchVO) throws Exception;
+    
+    /**
+	 * 자산가치평가내역 합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    GamAssetEvlDtlsInqireVO selectAssetEvlDtlsInqireSum(GamAssetEvlDtlsInqireVO searchVO) throws Exception;
 }

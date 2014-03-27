@@ -127,6 +127,27 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 
     /** [ERP] 수정일자 */
     private String updateDate;
+    
+    private String sumRevalAmt;       
+    
+    private String sumThisTermIncreAmt; 
+    
+    private String sumBsThisCurAmt;     
+    
+    private String sumBsPreDeprctnSum;   
+    
+    private String sumBsNoDeprctnBal;  
+    
+    private String sumPreEndAssetBuySum;  
+    
+    private String sumAssetBuyAmt;        
+    
+    private String sumGnrlDeprctnRate;    
+    
+    private String sumThisTermDeprctnAmt; 
+    
+    private String sumCurAmt;             
+    
 	/**
 	 * @return the sGisAssetsCd
 	 */
@@ -643,6 +664,146 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 	 */
 	public void setGisAssetsQuayCd(String gisAssetsQuayCd) {
 		this.gisAssetsQuayCd = gisAssetsQuayCd;
+	}
+
+	/**
+	 * @return the sumRevalAmt
+	 */
+	public String getSumRevalAmt() {
+		return sumRevalAmt;
+	}
+
+	/**
+	 * @param sumRevalAmt the sumRevalAmt to set
+	 */
+	public void setSumRevalAmt(String sumRevalAmt) {
+		this.sumRevalAmt = sumRevalAmt;
+	}
+
+	/**
+	 * @return the sumThisTermIncreAmt
+	 */
+	public String getSumThisTermIncreAmt() {
+		return sumThisTermIncreAmt;
+	}
+
+	/**
+	 * @param sumThisTermIncreAmt the sumThisTermIncreAmt to set
+	 */
+	public void setSumThisTermIncreAmt(String sumThisTermIncreAmt) {
+		this.sumThisTermIncreAmt = sumThisTermIncreAmt;
+	}
+
+	/**
+	 * @return the sumBsThisCurAmt
+	 */
+	public String getSumBsThisCurAmt() {
+		return sumBsThisCurAmt;
+	}
+
+	/**
+	 * @param sumBsThisCurAmt the sumBsThisCurAmt to set
+	 */
+	public void setSumBsThisCurAmt(String sumBsThisCurAmt) {
+		this.sumBsThisCurAmt = sumBsThisCurAmt;
+	}
+
+	/**
+	 * @return the sumBsPreDeprctnSum
+	 */
+	public String getSumBsPreDeprctnSum() {
+		return sumBsPreDeprctnSum;
+	}
+
+	/**
+	 * @param sumBsPreDeprctnSum the sumBsPreDeprctnSum to set
+	 */
+	public void setSumBsPreDeprctnSum(String sumBsPreDeprctnSum) {
+		this.sumBsPreDeprctnSum = sumBsPreDeprctnSum;
+	}
+
+	/**
+	 * @return the sumBsNoDeprctnBal
+	 */
+	public String getSumBsNoDeprctnBal() {
+		return sumBsNoDeprctnBal;
+	}
+
+	/**
+	 * @param sumBsNoDeprctnBal the sumBsNoDeprctnBal to set
+	 */
+	public void setSumBsNoDeprctnBal(String sumBsNoDeprctnBal) {
+		this.sumBsNoDeprctnBal = sumBsNoDeprctnBal;
+	}
+
+	/**
+	 * @return the sumPreEndAssetBuySum
+	 */
+	public String getSumPreEndAssetBuySum() {
+		return sumPreEndAssetBuySum;
+	}
+
+	/**
+	 * @param sumPreEndAssetBuySum the sumPreEndAssetBuySum to set
+	 */
+	public void setSumPreEndAssetBuySum(String sumPreEndAssetBuySum) {
+		this.sumPreEndAssetBuySum = sumPreEndAssetBuySum;
+	}
+
+	/**
+	 * @return the sumAssetBuyAmt
+	 */
+	public String getSumAssetBuyAmt() {
+		return sumAssetBuyAmt;
+	}
+
+	/**
+	 * @param sumAssetBuyAmt the sumAssetBuyAmt to set
+	 */
+	public void setSumAssetBuyAmt(String sumAssetBuyAmt) {
+		this.sumAssetBuyAmt = sumAssetBuyAmt;
+	}
+
+	/**
+	 * @return the sumGnrlDeprctnRate
+	 */
+	public String getSumGnrlDeprctnRate() {
+		return sumGnrlDeprctnRate;
+	}
+
+	/**
+	 * @param sumGnrlDeprctnRate the sumGnrlDeprctnRate to set
+	 */
+	public void setSumGnrlDeprctnRate(String sumGnrlDeprctnRate) {
+		this.sumGnrlDeprctnRate = sumGnrlDeprctnRate;
+	}
+
+	/**
+	 * @return the sumThisTermDeprctnAmt
+	 */
+	public String getSumThisTermDeprctnAmt() {
+		return sumThisTermDeprctnAmt;
+	}
+
+	/**
+	 * @param sumThisTermDeprctnAmt the sumThisTermDeprctnAmt to set
+	 */
+	public void setSumThisTermDeprctnAmt(String sumThisTermDeprctnAmt) {
+		this.sumThisTermDeprctnAmt = sumThisTermDeprctnAmt;
+	}
+
+	/**
+	 * @return the sumCurAmt
+	 */
+	public String getSumCurAmt() {
+		return sumCurAmt;
+	}
+
+	/**
+	 * @param sumCurAmt the sumCurAmt to set
+	 */
+	public void setSumCurAmt(String sumCurAmt) {
+		this.sumCurAmt = sumCurAmt;
 	}
 	
 }
