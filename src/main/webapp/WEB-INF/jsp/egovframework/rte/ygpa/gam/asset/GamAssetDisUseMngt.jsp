@@ -36,10 +36,12 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/gamSelectAssetDisUseList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'자산명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
-                    {display:'자산소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                    {display:'자산관리부서코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
-                    {display:'자산운영부서코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
+                    {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
+                    {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'center'},
+                    //{display:'자산관리부서코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
+                    //{display:'자산운영부서코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
+                    {display:'자산관리부서', name:'gisAssetsMngDeptCdNm',width:120, sortable:false,align:'center'},
+                    {display:'자산운영부서', name:'gisAssetsOperDeptCdNm',width:120, sortable:false,align:'center'},
                     {display:'자산지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
                     {display:'자산지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
                     {display:'자산SUB코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
@@ -47,7 +49,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
                     {display:'자산항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
                     {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
                     {display:'자산사용여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                    {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
+                    {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center', displayFormat: 'number'},
                     {display:'자산규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
                     {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
                     {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
@@ -88,8 +90,10 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             module.$('#gisAssetsSubCd').val(row['gisAssetsSubCd']);
             module.$('#gisAssetsCd').val(row['gisAssetsCd']);
             module.$('#gisAssetsNm').val(row['gisAssetsNm']);   
-            module.$('#gisAssetsMngDeptCd').val(row['gisAssetsMngDeptCd']);
-            module.$('#gisAssetsOperDeptCd').val(row['gisAssetsOperDeptCd']);
+            //module.$('#gisAssetsMngDeptCd').val(row['gisAssetsMngDeptCd']);
+            //module.$('#gisAssetsOperDeptCd').val(row['gisAssetsOperDeptCd']);
+            module.$('#gisAssetsMngDeptCdNm').val(row['gisAssetsMngDeptCdNm']);
+            module.$('#gisAssetsOperDeptCdNm').val(row['gisAssetsOperDeptCdNm']);
             module.$('#gisAssetsLocplc').val(row['gisAssetsLocplc']);
             module.$('#gisAssetsLnm').val(row['gisAssetsLnm']);                
             module.$('#gisAssetsLnmSub').val(row['gisAssetsLnmSub']);             
@@ -220,12 +224,12 @@ var module_instance = new GamAssetDisUseMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>GIS 자산 코드</th>
-                            <td>
-                                <input id="sGisAssetsCd" type="text" size="5">
+                            <th style="width:80px;">자산코드</th>
+                            <td style="width:150px;">
+                                <input id="sGisAssetsCd" type="text" size="2">-<input id="sGisAssetsSubCd" type="text" size="1">
                             </td>
-                            <th>GIS 자산 명</th>
-                            <td>
+                            <th style="width:80px;">자산명</th>
+                            <td style="width:140px;">
                                 <input id="sGisAssetsNm" type="text" size="10">
                             </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
@@ -265,112 +269,118 @@ var module_instance = new GamAssetDisUseMngtModule();
                         <table>
                             <tr>
                                 <th><span class="label">GIS 자산 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsCd" readonly/></td>
                                 <th><span class="label">GIS 자산 SUB 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsSubCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsSubCd" readonly/></td>
                             </tr>
                             <tr>
+                                <!--  
                                 <th><span class="label">GIS 자산 관리 부서 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsMngDeptCd" readonly/></td>
+                                <td><input type="text" size="10" id="gisAssetsMngDeptCd" readonly/></td> 
                                 <th><span class="label">GIS 자산 운영 부서 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsOperDeptCd" readonly/></td>
+                                <td><input type="text" size="10" id="gisAssetsOperDeptCd" readonly/></td>  
+                                -->
+                                <th><span class="label">자산관리부서</span></th>
+                                <td><input type="text" size="20" id="gisAssetsMngDeptCdNm" readonly/></td> 
+                                <th><span class="label">자산운영부서</span></th>
+                                <td><input type="text" size="20" id="gisAssetsOperDeptCdNm" readonly/></td>  
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 소재지</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLocplc" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsLocplc" readonly/></td>
                                 <th><span class="label">GIS 자산 지번</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLnm" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsLnm" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 지번SUB</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLnmSub" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsLnmSub" readonly/></td>
                                 <th><span class="label">GIS 자산 항코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsPrtAtCode" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsPrtAtCode" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 면적</span></th>
-                                <td><input type="text" size="5" id="gisAssetsAr" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsAr" readonly/></td>
                                 <th><span class="label">GIS 자산 사용 여부</span></th>
-                                <td><input type="text" size="5" id="gisAssetsUsageYn" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsUsageYn" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 취득가액</span></th>
-                                <td><input type="text" size="5" id="gisAssetsAcqPri" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsAcqPri" readonly/></td>
                                 <th><span class="label">GIS 자산 규격</span></th>
-                                <td><input type="text" size="5" id="gisAssetsStndrd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsStndrd" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 준공년도</span></th>
-                                <td><input type="text" size="5" id="gisAssetsBlddate" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsBlddate" readonly/></td>
                                 <th><span class="label">GIS 자산 준공 일자</span></th>
-                                <td><input type="text" size="5" id="gisAssetsBldDt" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsBldDt" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 비고</span></th>
-                                <td><input type="text" size="5" id="gisAssetsRm" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsRm" readonly/></td>
                                 <th><span class="label">등록자</span></th>
-                                <td><input type="text" size="5" id="regUsr" readonly/></td>
+                                <td><input type="text" size="20" id="regUsr" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">등록일자</span></th>
-                                <td><input type="text" size="5" id="registdt" readonly/></td>
+                                <td><input type="text" size="20" id="registdt" readonly/></td>
                                 <th><span class="label">수정자</span></th>
-                                <td><input type="text" size="5" id="updUsr" readonly/></td>
+                                <td><input type="text" size="20" id="updUsr" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">수정일자</span></th>
-                                <td><input type="text" size="5" id="updtdt" readonly/></td>
+                                <td><input type="text" size="20" id="updtdt" readonly/></td>
                                 <th><span class="label">GIS 자산 부두 그룹 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsQuayGroupCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsQuayGroupCd" readonly/></td>
                             </tr>
                             
                             <tr>
                                 <th><span class="label">GIS 자산 위치 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsLocCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsLocCd" readonly/></td>
                                 <th><span class="label">GIS 자산 구분 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsSeCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsSeCd" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 재산 구분 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsPrprtySeCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsPrprtySeCd" readonly/></td>
                                 <th><span class="label">GIS 자산 출자 방식</span></th>
-                                <td><input type="text" size="5" id="gisAssetsInvstmntMthd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsInvstmntMthd" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 GIS 코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsGisCd" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsGisCd" readonly/></td>
                                 <th><span class="label">GIS 자산 실제 임대 면적</span></th>
-                                <td><input type="text" size="5" id="gisAssetsRealRentAr" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsRealRentAr" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">도면 목록 등록 년도</span></th>
-                                <td><input type="text" size="5" id="drwLstRegistYear" readonly/></td>
+                                <td><input type="text" size="20" id="drwLstRegistYear" readonly/></td>
                                 <th><span class="label">도면 목록 순번</span></th>
-                                <td><input type="text" size="5" id="drwLstSeq" readonly/></td>
+                                <td><input type="text" size="20" id="drwLstSeq" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">GIS 자산 가치 금액</span></th>
-                                <td><input type="text" size="5" id="gisAssetsValAmt" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsValAmt" readonly/></td>
                                 <th><span class="label">GIS 자산 가치 조회 일자</span></th>
-                                <td><input type="text" size="5" id="gisAssetsValInqireDt" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsValInqireDt" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">ERP 자산 구분 코드</span></th>
-                                <td><input type="text" size="5" id="erpAssetsSeCd" readonly/></td>
+                                <td><input type="text" size="20" id="erpAssetsSeCd" readonly/></td>
                                 <th><span class="label">ERP 자산 번호</span></th>
-                                <td><input type="text" size="5" id="erpAssetsNo" readonly/></td>
+                                <td><input type="text" size="20" id="erpAssetsNo" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">ERP 자산 번호 순번</span></th>
-                                <td><input type="text" size="5" id="erpAssetsNoSeq" readonly/></td>
+                                <td><input type="text" size="20" id="erpAssetsNoSeq" readonly/></td>
                                 <th><span class="label">ERP 자산 폐기 등록 여부</span></th>
-                                <td><input type="text" size="5" id="erpAssetsDisuseRegistYn" readonly/></td>
+                                <td><input type="text" size="20" id="erpAssetsDisuseRegistYn" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">ERP 자산 폐기 사유</span></th>
-                                <td><input type="text" size="5" id="erpAssetsDisuseRsn" readonly/></td>
+                                <td><input type="text" size="20" id="erpAssetsDisuseRsn" readonly/></td>
                                 <th><span class="label">GIS 자산 항코드</span></th>
-                                <td><input type="text" size="5" id="gisAssetsPrtAtCode" readonly/></td>
+                                <td><input type="text" size="20" id="gisAssetsPrtAtCode" readonly/></td>
                             </tr>
                         </table>
                     </form>

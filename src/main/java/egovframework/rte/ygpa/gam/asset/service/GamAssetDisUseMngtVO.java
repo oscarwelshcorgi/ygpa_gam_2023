@@ -129,7 +129,9 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
     private String sGisAssetsCd;	           
     
     /** GIS 자산 명(조회조건) */
-    private String sGisAssetsNm;	      
+    private String sGisAssetsNm;	  
+    
+    private String sGisAssetsSubCd;
     
 	/**
 	 * @return the gisAssetsSubCd
@@ -661,6 +663,20 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
 	 */
 	public void setsGisAssetsNm(String sGisAssetsNm) {
 		this.sGisAssetsNm = sGisAssetsNm;
+	}
+
+	/**
+	 * @return the sGisAssetsSubCd
+	 */
+	public String getsGisAssetsSubCd() {
+		return sGisAssetsSubCd;
+	}
+
+	/**
+	 * @param sGisAssetsSubCd the sGisAssetsSubCd to set
+	 */
+	public void setsGisAssetsSubCd(String sGisAssetsSubCd) {
+		this.sGisAssetsSubCd = sGisAssetsSubCd;
 	}
 	
 }
