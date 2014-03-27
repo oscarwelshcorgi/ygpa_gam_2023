@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%
   /**
   * @Class Name : GamConstFcltyMngt.jsp
@@ -19,6 +20,8 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamFcltyCode" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="GamFcltyPhoto" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -180,17 +183,8 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 		 	
-			if(this.$("#gisAssetsCd").val() == ""){
-				alert("GIS 자산 코드를 입력하십시오.");
-				this.$("#gisCodePopupBtn").focus();
-				return;
-			}
-			if(this.$("#gisPrtFcltyCd").val() == ""){
-				alert("시설 분류를 입력하십시오.");
-				this.$("#selectedGAM005").focus();
-				return;
-			}
-			
+			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
+
 		 	var inputVO=[{}];
 		 	
 		 	if(this._deleteDataFileList == undefined) this._deleteDataFileList=[];
@@ -456,7 +450,7 @@ var module_instance = new GamFcltyMngtModule();
 					<input type="hidden" id="prtFcltyGisCd" /> -->
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">GIS 자산 코드</th>
 							<td>
 								<input type="text" size="8" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
 								<input type="text" size="6" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
@@ -465,26 +459,26 @@ var module_instance = new GamFcltyMngtModule();
 							<td colspan="2"><button id="gisCodePopupBtn">자산코드</button></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">GIS 자산명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">GIS 자산명</th>
 							<td colspan="3"><input type="text" size="80" id="gisAssetsNm" disabled="disabled"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">소재지<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">소재지</th>
 							<td><input id="gisAssetsLocplc" type="text" size="40" title="소재지" disabled="disabled" /></td>
-							<th width="20%" height="23" class="required_text">지번<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">지번</th>
 							<td>
 								<input id="gisAssetsLnm" type="text" size="5" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
 								<input id="gisAssetsLnmSub" type="text" size="4" title="지번 뒷자리" disabled="disabled" />
 							</td>
 						</tr>
 						<tr class="selectedGAM005">
-							<th width="20%" height="23" class="required_text">시설분류<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">건축시설 코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">건축시설 코드</th>
 							<td colspan="3">
 								<input type="text" size="10" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
@@ -495,7 +489,7 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">건축시설 규격</th>
-							<td><input type="text" size="30" id="prtFcltyStndrd" maxlength="80" /></td>
+							<td><input type="text" size="30" id="prtFcltyStndrd" maxlength="40" /></td>
 							<th width="20%" height="23" class="required_text">단위</th>
 							<td><input type="text" size="30" id="prtFcltyUnit" maxlength="10" /></td>
 						</tr>
