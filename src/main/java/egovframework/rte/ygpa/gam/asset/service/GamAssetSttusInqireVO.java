@@ -36,7 +36,7 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
     private String sGisAssetsSubCd;
     
     /** 검색조건 */
-    private String entrpscd;
+    private String sEntrpscd;
     
     /** 검색조건 */
     private String sPrmisnYn;
@@ -132,17 +132,17 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the entrpscd
+	 * @return the sEntrpscd
 	 */
-	public String getEntrpscd() {
-		return entrpscd;
+	public String getsEntrpscd() {
+		return sEntrpscd;
 	}
 
 	/**
-	 * @param entrpscd the entrpscd to set
+	 * @param sEntrpscd the sEntrpscd to set
 	 */
-	public void setEntrpscd(String entrpscd) {
-		this.entrpscd = entrpscd;
+	public void setsEntrpscd(String sEntrpscd) {
+		this.sEntrpscd = sEntrpscd;
 	}
 
 	/**

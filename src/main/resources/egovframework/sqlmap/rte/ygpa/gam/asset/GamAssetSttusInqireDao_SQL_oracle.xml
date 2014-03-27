@@ -68,6 +68,10 @@
                                    , B.USAGE_PRPOS_CD
                                    , B.USAGE_PURPS
                                    , (G.GIS_ASSETS_CD || '-' || G.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
+                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM001' AND CD.CODE = G.GIS_ASSETS_PRPRTY_SE_CD AND ROWNUM = 1) GIS_ASSETS_PRPRTY_SE_CD_NM
+                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM002' AND CD.CODE = G.GIS_ASSETS_LOC_CD AND ROWNUM = 1) GIS_ASSETS_LOC_CD_NM
+                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM003' AND CD.CODE = G.GIS_ASSETS_QUAY_CD AND ROWNUM = 1) GIS_ASSETS_QUAY_CD_NM
+                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM007' AND CD.CODE = B.USAGE_PRPOS_CD AND ROWNUM = 1) USAGE_PRPOS_CD_NM
 							  FROM ASSETS_RENT_F A
 							     , ASSETS_RENT_DETAIL_F B
 							     , GIS_ASSETS_CD_F G  
@@ -95,8 +99,8 @@
                                    AND B.QUAY_CD = #sQuayCd# 
                                </isNotEmpty>
                                
-                               <isNotEmpty property="entrpscd">
-                                   AND A.ENTRPSCD = #entrpscd# 
+                               <isNotEmpty property="sEntrpscd">
+                                   AND A.ENTRPSCD = #sEntrpscd# 
                                </isNotEmpty>
                                
                                <isNotEmpty property="sPrmisnYn">
@@ -115,12 +119,6 @@
 							       AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>    
 							   
-							   <!-- 
-							   <isNotEmpty property="sGisAssetsNm">
-                                   AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-                               </isNotEmpty> 
-                                -->
-                            
                              ORDER BY G.REGISTDT DESC
                 ) S
              ) A
@@ -156,8 +154,8 @@
                    AND B.QUAY_CD = #sQuayCd# 
                </isNotEmpty>
                
-               <isNotEmpty property="entrpscd">
-                   AND A.ENTRPSCD = #entrpscd# 
+               <isNotEmpty property="sEntrpscd">
+                   AND A.ENTRPSCD = #sEntrpscd# 
                </isNotEmpty>
                
                <isNotEmpty property="sPrmisnYn">
@@ -174,13 +172,7 @@
                
                <isNotEmpty property="sUsagePdTo">
                    AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-               </isNotEmpty>    
-               
-               <!-- 
-               <isNotEmpty property="sGisAssetsNm">
-                   AND G.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-               </isNotEmpty> 
-               -->
+               </isNotEmpty>
     </select>
     
 </sqlMap>
