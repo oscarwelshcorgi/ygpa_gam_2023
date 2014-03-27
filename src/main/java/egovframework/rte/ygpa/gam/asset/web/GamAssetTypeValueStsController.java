@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsService;
@@ -78,7 +80,21 @@ public class GamAssetTypeValueStsController {
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
+		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
+		List yearList = new ArrayList();
+		Map yearMap = null;
+		
+		for( int i = year ; i >= year-10 ; i-- ) {
+			yearMap = new HashMap();
+			yearMap.put("code", i);
+			yearMap.put("codeNm", i+"년");
+			
+			yearList.add(yearMap);
+		}
+		
 		model.addAttribute("prtAtCdList", prtAtCdList);
+		model.addAttribute("thisYear", year);
+		model.addAttribute("yearList", yearList);
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/asset/GamAssetTypeValueSts";

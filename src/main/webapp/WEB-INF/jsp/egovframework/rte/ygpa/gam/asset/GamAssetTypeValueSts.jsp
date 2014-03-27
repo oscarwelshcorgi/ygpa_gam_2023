@@ -135,7 +135,16 @@ var module_instance = new GamAssetTypeValueStsModule();
                     <tbody>
                         <tr>
                             <th style="width:70px;">상각연도</th>
-                            <td style="width:100px;"><input id="sDeprctnYear" type="text" size="2"></td>
+                            <td style="width:100px;">
+                                <!-- <input id="sDeprctnYear" type="text" size="2">  -->
+                                <select id="sDeprctnYear">
+                                    <option value="">선택</option>
+                                    <c:forEach items="${yearList}" var="yearListItem">
+                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisYear}">selected</c:if> >${yearListItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
+                                
+                            </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                     </tbody>

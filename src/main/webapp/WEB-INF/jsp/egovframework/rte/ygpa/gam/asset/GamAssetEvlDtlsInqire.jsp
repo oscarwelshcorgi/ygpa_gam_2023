@@ -169,7 +169,16 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                     <tbody>
                         <tr>
                             <th>상각연도</th>
-                            <td><input id="sGisAssetsBlddate" type="text" size="5" value=""></td>
+                            <td>
+                                <!-- <input id="sGisAssetsBlddate" type="text" size="5" value="">  -->
+                                
+                                <select id="sGisAssetsBlddate">
+                                    <option value="">선택</option>
+                                    <c:forEach items="${yearList}" var="yearListItem">
+                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisYear}">selected</c:if> >${yearListItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
                             <th>재산구분</th>
                             <td><input id="sGisAssetsPrprtySeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM001 /></td>
                             <th>위치</th>
