@@ -27,7 +27,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqire
 
 /**
  * @Class Name : GamTrainPortRentSttusInqireController.java
- * @Description : 철송장임대현황조회 (철송장/철송장/철송장임대현황조회)
+ * @Description : 철송장임대현황조회
  * @Modification Information
  *
  * @author domh
@@ -62,11 +62,11 @@ public class GamTrainPortRentSttusInqireController {
     private GamTrainPortRentSttusInqireService gamTrainPortRentSttusInqireService;
     
     /**
-	 * 철송장사용현황조회 화면으로 이동한다.
+	 * 철송장임대현황조회 화면으로 이동한다.
 	 * 
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/oper/train/GamTrainPortRentSttusInqire"
+     * @return "/ygpa/gam/asset/GamTrainPortRentSttusInqireMngt"
      * @throws Exception the exception  
 	 */
 	@RequestMapping(value="/oper/train/gamTrainPortRentSttusInqire.do")
@@ -124,7 +124,7 @@ public class GamTrainPortRentSttusInqireController {
     }
 
 	/**
-     * 철송장사용현황을 조회한다. 
+     * 철송장임대현황을 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -137,8 +137,8 @@ public class GamTrainPortRentSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -149,9 +149,12 @@ public class GamTrainPortRentSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//철송장사용현황
+		//철송장임대현황
     	totalCnt = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireListTotCnt(searchVO);
     	List resultList = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//총면적, 총사용료
     	GamTrainPortRentSttusInqireVO resultSum = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireSum(searchVO);
@@ -167,7 +170,7 @@ public class GamTrainPortRentSttusInqireController {
     }
 	
 	/**
-     * 철송장사용현황 상세리스트를 조회한다. 
+     * 철송장임대현황 상세리스트를 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -180,8 +183,8 @@ public class GamTrainPortRentSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -191,10 +194,17 @@ public class GamTrainPortRentSttusInqireController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//log.debug("##############################################");
+		//log.debug("### searchVO : " + searchVO);
+		//log.debug("##############################################");
 
-		// 철송장사용현황 상세리스트 및 총건수
+		// 철송장임대현황 상세리스트 및 총건수
 		totalCnt = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireDetailListTotCnt(searchVO);
 		List resultList = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireDetailList(searchVO);
+		
+		paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -204,4 +214,44 @@ public class GamTrainPortRentSttusInqireController {
     	return map;
     }
 
+	/**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/train/gamSelectTrainPortRentSttusInqireFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectTrainPortRentSttusInqireFileList(GamTrainPortRentSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//파일목록
+    	totalCnt = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireFileListTotCnt(searchVO);
+    	List assetFileList = gamTrainPortRentSttusInqireService.selectTrainPortRentSttusInqireFileList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", assetFileList);
+    	map.put("searchOption", searchVO);
+    	
+    	return map;
+    }
 }
