@@ -21,7 +21,7 @@
   */
 %>
 <validator:javascript formName="gamFcltyCode" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="GamFcltyPhoto" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamFcltyPhoto" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
