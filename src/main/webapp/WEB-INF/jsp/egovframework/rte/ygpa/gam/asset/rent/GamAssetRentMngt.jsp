@@ -696,7 +696,12 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         //코멘트저장
         case 'btnSaveComment':
             var inputVO=this.makeFormArgs('#gamAssetRentForm');
-
+            
+            if( this.$('#quayGroupCd').val() != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 코멘트저장이 불가능합니다.");
+                return;
+            }
+            
             this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
                     var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
@@ -899,7 +904,12 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
-
+            
+            if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 사용승낙이 불가능합니다.");
+                return;
+            }
+            
             if(rows.length>=1) {
             	if( row['prmisnYn'] == 'Y' ) {
                     alert("이미 사용승낙된 상태 입니다.");
@@ -962,6 +972,11 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'btnPrmisnCancel': // 승낙취소
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
+            
+            if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 승낙취소가 불가능합니다.");
+                return;
+            }
             
             if( row['prmisnYn'] != 'Y' ) {
                 alert("승낙된 상태가 아닙니다.");
@@ -1236,6 +1251,11 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 //alert(EMD.context_root);
                 
                 var rows = this.$('#assetRentMngtList').selectedRows()[0];
+                
+                if( rows['quayGroupCd'] != 'P' ) {
+                    alert("해당 건은 자산임대관리 메뉴에서 결재가 불가능합니다.");
+                    return;
+                }
                 
                 if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
                 	alert("결재요청을 할수없는 상태 입니다.");

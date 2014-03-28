@@ -524,17 +524,14 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
+            //this.$('#prtAtCode').val("640");
+            
             break;
 
         // 연장신청
         case 'addMarineCenterRentRenew':
             var rows = this.$('#marineCenterRentMngtList').selectedRows();
 
-            if( rows[0]['quayGroupCd'] != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 연장신청이 불가능합니다.");
-                return;
-            }
-            
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
 
@@ -559,13 +556,13 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         // 신청저장
         case 'btnSaveItem':
             
-            if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
+            if( this.$('#prtAtCode').val() == '' ) {
+                alert("항구분을 선택하십시오.");
                 return;
             }
             
-            if( this.$('#prtAtCode').val() == '' ) {
-                alert("항구분을 선택하십시오.");
+            if( this.$('#prtAtCode').val() != '640' ) {
+                alert("항구분은 마린센터를 선택하십시오.");
                 return;
             }
 
@@ -655,11 +652,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         //신청삭제
         case 'btnRemoveItem':
             var rows = this.$('#marineCenterRentMngtList').selectedRows();
-
-            if( rows[0]['quayGroupCd'] != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
-                return;
-            }
 
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
@@ -1484,7 +1476,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             <tr>
                                 <th><span class="label">항구분</span></th>
                                 <td style="width: 350px">
-                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
+                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 data-value="640" />
                                     <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
                                 <th><span class="label">담당부서</span></th>
