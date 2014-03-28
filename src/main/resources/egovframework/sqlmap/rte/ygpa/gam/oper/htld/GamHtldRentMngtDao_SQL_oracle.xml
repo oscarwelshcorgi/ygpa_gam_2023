@@ -272,8 +272,8 @@
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 화면에서 페이징 제거 -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamHtldRentMngtDao.selectHtldRentMngtListTotCnt_S" parameterClass="gamHtldRentMngtVO" resultClass="int">
@@ -768,8 +768,8 @@
                            ORDER BY ASSETS_USAGE_SEQ DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 화면에서 페이징 제거 -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamHtldRentMngtDao.selectHtldRentMngtDetailListTotCnt_S" parameterClass="gamHtldRentMngtVO" resultClass="int">
@@ -1265,8 +1265,8 @@
 					        ORDER BY A.PHOTO_SEQ DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 and RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        
     </select>
     
     <select id="gamHtldRentMngtDao.selectHtldRentMngtFileListTotCnt_S" parameterClass="gamHtldRentMngtVO" resultClass="int">

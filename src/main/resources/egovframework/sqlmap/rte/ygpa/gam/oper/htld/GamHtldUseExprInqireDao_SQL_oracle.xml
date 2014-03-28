@@ -225,8 +225,8 @@
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamHtldUseExprInqireDao.selectHtldUseExprInqireListTotCnt_S" parameterClass="gamHtldUseExprInqireVO" resultClass="int">
@@ -641,8 +641,8 @@
                              ORDER BY REGIST_DT DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamHtldUseExprInqireDao.selectHtldUseExprInqireDetailListTotCnt_S" parameterClass="gamHtldUseExprInqireVO" resultClass="int">
@@ -1136,8 +1136,8 @@
 					          AND MNG_CNT     = #mngCnt#
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        
     </select>
     
     <select id="gamHtldUseExprInqireDao.selectHtldUseExprInqireFileListTotCnt_S" parameterClass="gamHtldUseExprInqireVO" resultClass="int">
