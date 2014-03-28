@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.oper.trainPort">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamTrainPortPdRentFeeSttusInqireVO" type="egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortPdRentFeeSttusInqireVO"/>
+    
+    <select id="gamTrainPortPdRentFeeSttusInqireDao.selectTrainPortPdRentFeeSttusInqireList_D" parameterClass="gamTrainPortPdRentFeeSttusInqireVO" resultClass="egovMap">
+
+		SELECT
+		    USAGE_YEAR
+		    , USAGE_QU
+		    , USAGE_MT
+		    , ASSETS_USAGE_SEQ
+		    , MNG_YEAR
+		    , MNG_NO
+		    , MNG_CNT
+		    , PRT_AT_CODE
+		    , USAGE_PRPOS_CD
+		    , REQST_ENTRPS_CD
+		    , USAGE_CND
+		    , EXEMPT_SE
+		    , FEE
+		    , RDCXPT_FEE
+		    , UPD_USR
+		    , UPDT_DT
+		    , USAGE_PD_FROM
+		    , USAGE_PD_TO
+		    , GIS_ASSETS_CD
+		    , GIS_ASSETS_SUB_CD
+		    , QUAY_CD
+		FROM USAGE_PD_BY_STATS_F
+		WHERE 1 = 1
+
+		<isNotEmpty property="sPrtAtCode">
+            AND PRT_AT_CODE = #sPrtAtCode#  
+        </isNotEmpty>
+        
+        <isNotEmpty property="sEntrpscd">
+            AND REQST_ENTRPS_CD = #sEntrpscd#  
+        </isNotEmpty>
+        
+        <isNotEmpty property="sGrUsagePdFrom"> 
+            AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+        </isNotEmpty>
+        
+        <isNotEmpty property="sGrUsagePdTo">
+            AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+        </isNotEmpty>
+		<!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
+
+		ORDER BY USAGE_YEAR, USAGE_MT DESC
+
+    </select>
+    
+</sqlMap>
