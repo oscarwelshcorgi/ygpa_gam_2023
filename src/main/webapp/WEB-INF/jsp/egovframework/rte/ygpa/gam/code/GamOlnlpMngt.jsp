@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%
   /**
   * @Class Name : GamOlnlpMngt.jsp
@@ -19,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamOlnlpCode" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -43,11 +45,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"지번", 					name:"gisAssetsLnmDisplay",	width:100,		sortable:false,		align:"center"},
 				{display:"자산명",		 			name:"gisAssetsNm",			width:140,		sortable:false,		align:"center"}
 			],
-		//usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "230"
+		height: "auto"
 	});
 
 	// 공시지가 목록
@@ -61,11 +59,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"종료일자",		 			name:"endDt",			width:120,		sortable:false,		align:"center"},
 				{display:"공시지가",		 			name:"olnlp",			width:200,		sortable:false,		align:"center"}
 			],
-		//usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "230"
+		height: "auto"
 	});
 	
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -137,10 +131,8 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			
-			// 날짜 설정
-			this.$("#beginDt").val(this.$("#beginDt").val().replace(/\-/g,""));
-			this.$("#endDt").val(this.$("#endDt").val().replace(/\-/g,""));
-
+			if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) return;
+			
 			var inputVO = this.makeFormArgs("#olnlpManageVO");
 			
 			if(this.$("#cmd").val() == "insert"){
@@ -274,22 +266,22 @@ var module_instance = new GamOlnlpMngtModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="olnlpMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="olnlpMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">공시지가등록현황목록</a></li>
 				<li><a href="#tabs2" class="emdTab">공시지가목록</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="olnlpInsertList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="insertExcel">엑셀등록</button>
 				</div>
 			</div>
 			
 			<!-- 공시지가 목록 -->
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
-				<table id="olnlpMngtList" style="display:none"></table>
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
+				<table id="olnlpMngtList" style="display:none" class="fillHeight"></table>
 				<form id="olnlpManageVO">
 				<input type="hidden" id="cmd" />
 				<input type="hidden" id="gisAssetsCd" />

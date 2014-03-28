@@ -43,11 +43,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"지번", 					name:"gisAssetsLnm",		width:80,		sortable:false,		align:"center"},
 				{display:"자산명",		 			name:"gisAssetsNm",			width:100,		sortable:false,		align:"center"}
 			],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "230"
+		height: "auto"
 	});
 
 	// 공시지가 목록
@@ -193,21 +189,21 @@ var module_instance = new GamOlnlpMngtModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="olnlpMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="olnlpMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">공시지가등록현황목록</a></li>
 				<li><a href="#tabs2" class="emdTab">공시지가목록</a></li>
 			</ul>
 			
 			<!-- 공시지가 등록현황 목록 -->
-			<div id="tabs1" class="emdTabPage">
-				<table id="olnlpInsertList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 			</div>
 			
 			<!-- 공시지가 목록 -->
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
-				<table id="olnlpMngtList" style="display:none"></table>
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
+				<table id="olnlpMngtList" style="display:none" class="fillHeight"></table>
 				<form id="olnlpManageVO">
 					<input type="hidden" id="gisAssetsCd" />
 					<input type="hidden" id="gisAssetsPrtAtCode" />
