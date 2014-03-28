@@ -6,7 +6,7 @@
 <form-validation>
 
     <formset>
-        <form name="fcltyGisPhotoForm">
+        <form name="GamFcltyPhoto">
             <field property="photoSj" depends="maxlength">
                 <arg0 key="제목" resource="false"/>
                 <arg1 key="80" resource="false"/>
