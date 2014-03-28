@@ -133,7 +133,7 @@ var module_instance = new GamAssetLndValInqireModule();
                         <form id="form1">
                         <tr>
                             <th>
-                                * 자산임대/사용 신청 건수 
+                                * 자산임대/사용신청 건수 
                             </th>
                             <td>
                                 <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
@@ -141,7 +141,7 @@ var module_instance = new GamAssetLndValInqireModule();
                         </tr>
                         <tr>
                             <th>
-                                * 고지도래 자료 건수
+                                * 고지도래자료 건수
                             </th>
                             <td>
                                 <input id="totalResultCnt2" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
@@ -149,7 +149,7 @@ var module_instance = new GamAssetLndValInqireModule();
                         </tr>                                                
                         <tr>
                             <th>
-                                * 미수납 자료 건수 
+                                * 미수납자료 건수 
                             </th>
                             <td>
                                 <input id="totalResultCnt3" size="10" readonly value="<c:out value="${nhtIsueCnt}"/>">
@@ -157,7 +157,7 @@ var module_instance = new GamAssetLndValInqireModule();
                         </tr>       
                         <tr>
                             <th>
-                                * 계약 만료 자료 건수
+                                * 계약만료자료 건수
                             </th>
                             <td>
                                 <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
