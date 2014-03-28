@@ -27,7 +27,7 @@ import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentSttusInqire
 
 /**
  * @Class Name : GamCntnrQuayRentSttusInqireController.java
- * @Description : 컨테이너부두임대현황조회 (컨테이너/컨테이너부두/컨테이너부두임대현황조회)
+ * @Description : 컨테이너부두임대현황조회
  * @Modification Information
  *
  * @author domh
@@ -62,11 +62,11 @@ public class GamCntnrQuayRentSttusInqireController {
     private GamCntnrQuayRentSttusInqireService gamCntnrQuayRentSttusInqireService;
     
     /**
-	 * 컨테이너사용현황조회 화면으로 이동한다.
+	 * 컨테이너부두임대현황조회 화면으로 이동한다.
 	 * 
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/oper/cntnr/GamCntnrQuayRentSttusInqire"
+     * @return "/ygpa/gam/asset/GamCntnrQuayRentSttusInqireMngt"
      * @throws Exception the exception  
 	 */
 	@RequestMapping(value="/oper/cntnr/gamCntnrQuayRentSttusInqire.do")
@@ -124,7 +124,7 @@ public class GamCntnrQuayRentSttusInqireController {
     }
 
 	/**
-     * 컨테이너사용현황을 조회한다. 
+     * 컨테이너부두임대현황을 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -137,8 +137,8 @@ public class GamCntnrQuayRentSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -149,9 +149,12 @@ public class GamCntnrQuayRentSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//컨테이너사용현황
+		//컨테이너부두임대현황
     	totalCnt = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireListTotCnt(searchVO);
     	List resultList = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//총면적, 총사용료
     	GamCntnrQuayRentSttusInqireVO resultSum = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireSum(searchVO);
@@ -167,7 +170,7 @@ public class GamCntnrQuayRentSttusInqireController {
     }
 	
 	/**
-     * 컨테이너사용현황 상세리스트를 조회한다. 
+     * 컨테이너부두임대현황 상세리스트를 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -180,8 +183,8 @@ public class GamCntnrQuayRentSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -191,10 +194,17 @@ public class GamCntnrQuayRentSttusInqireController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//log.debug("##############################################");
+		//log.debug("### searchVO : " + searchVO);
+		//log.debug("##############################################");
 
-		// 컨테이너사용현황 상세리스트 및 총건수
+		// 컨테이너부두임대현황 상세리스트 및 총건수
 		totalCnt = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireDetailListTotCnt(searchVO);
 		List resultList = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireDetailList(searchVO);
+		
+		paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -204,4 +214,44 @@ public class GamCntnrQuayRentSttusInqireController {
     	return map;
     }
 
+	/**
+     * 파일목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/cntnr/gamSelectCntnrQuayRentSttusInqireFileList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectCntnrQuayRentSttusInqireFileList(GamCntnrQuayRentSttusInqireVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//파일목록
+    	totalCnt = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireFileListTotCnt(searchVO);
+    	List assetFileList = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireFileList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", assetFileList);
+    	map.put("searchOption", searchVO);
+    	
+    	return map;
+    }
 }
