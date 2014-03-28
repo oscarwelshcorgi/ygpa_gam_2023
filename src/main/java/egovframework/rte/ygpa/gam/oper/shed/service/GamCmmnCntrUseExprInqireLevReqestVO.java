@@ -1,10 +1,10 @@
 package egovframework.rte.ygpa.gam.oper.shed.service;
 
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
+import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamCmmnCntrRentMngtLevReqestVO.java
- * @Description : 공컨장치장사용목록관리 징수의뢰 VO class
+ * @Class Name : GamCmmnCntrUseExprInqireLevReqestVO.java
+ * @Description : 공컨장치장임대만기도래자료조회(징수의뢰) VO class
  * @Modification Information
  *
  * @author domh
@@ -14,7 +14,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamCmmnCntrRentMngtLevReqestVO extends ErpCmmnCdDefaultVO {
+public class GamCmmnCntrUseExprInqireLevReqestVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 고지 횟수 */

@@ -1,20 +1,20 @@
 package egovframework.rte.ygpa.gam.oper.shed.service;
 
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
+import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamCmmnCntrRentMngtDetailVO.java
- * @Description : 공컨장치장사용목록관리 상세 VO class
+ * @Class Name : GamCmmnCntrUseExprInqireDetailVO.java
+ * @Description : 공컨장치장임대만기도래자료조회(상세) VO class
  * @Modification Information
  *
  * @author domh
- * @since 2014-01-14
+ * @since 2014-01-10
  * @version 1.0
  * @see
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
+public class GamCmmnCntrUseExprInqireDetailVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 자산 사용 순번 */                                               
@@ -169,7 +169,7 @@ public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
     
     /** 자산순번MAX+1 */
     private int maxAssetsUsageSeq;
-
+    
 	/**
 	 * @return the assetsUsageSeq
 	 */
@@ -210,34 +210,6 @@ public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setGisAssetsSubCd(String gisAssetsSubCd) {
 		this.gisAssetsSubCd = gisAssetsSubCd;
-	}
-
-	/**
-	 * @return the gisAssetsNm
-	 */
-	public String getGisAssetsNm() {
-		return gisAssetsNm;
-	}
-
-	/**
-	 * @param gisAssetsNm the gisAssetsNm to set
-	 */
-	public void setGisAssetsNm(String gisAssetsNm) {
-		this.gisAssetsNm = gisAssetsNm;
-	}
-
-	/**
-	 * @return the assetsCdStr
-	 */
-	public String getAssetsCdStr() {
-		return assetsCdStr;
-	}
-
-	/**
-	 * @param assetsCdStr the assetsCdStr to set
-	 */
-	public void setAssetsCdStr(String assetsCdStr) {
-		this.assetsCdStr = assetsCdStr;
 	}
 
 	/**
@@ -336,20 +308,6 @@ public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setExemptSe(String exemptSe) {
 		this.exemptSe = exemptSe;
-	}
-
-	/**
-	 * @return the exemptSeNm
-	 */
-	public String getExemptSeNm() {
-		return exemptSeNm;
-	}
-
-	/**
-	 * @param exemptSeNm the exemptSeNm to set
-	 */
-	public void setExemptSeNm(String exemptSeNm) {
-		this.exemptSeNm = exemptSeNm;
 	}
 
 	/**
@@ -773,6 +731,20 @@ public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
+	 * @return the detailPrmisnYn
+	 */
+	public String getDetailPrmisnYn() {
+		return detailPrmisnYn;
+	}
+
+	/**
+	 * @param detailPrmisnYn the detailPrmisnYn to set
+	 */
+	public void setDetailPrmisnYn(String detailPrmisnYn) {
+		this.detailPrmisnYn = detailPrmisnYn;
+	}
+
+	/**
 	 * @return the detailGisCd
 	 */
 	public String getDetailGisCd() {
@@ -843,20 +815,6 @@ public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
-	 * @return the detailPrmisnYn
-	 */
-	public String getDetailPrmisnYn() {
-		return detailPrmisnYn;
-	}
-
-	/**
-	 * @param detailPrmisnYn the detailPrmisnYn to set
-	 */
-	public void setDetailPrmisnYn(String detailPrmisnYn) {
-		this.detailPrmisnYn = detailPrmisnYn;
-	}
-
-	/**
 	 * @return the quayCd
 	 */
 	public String getQuayCd() {
@@ -883,5 +841,47 @@ public class GamCmmnCntrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
 	public void setMaxAssetsUsageSeq(int maxAssetsUsageSeq) {
 		this.maxAssetsUsageSeq = maxAssetsUsageSeq;
 	}
-    
+
+	/**
+	 * @return the assetsCdStr
+	 */
+	public String getAssetsCdStr() {
+		return assetsCdStr;
+	}
+
+	/**
+	 * @param assetsCdStr the assetsCdStr to set
+	 */
+	public void setAssetsCdStr(String assetsCdStr) {
+		this.assetsCdStr = assetsCdStr;
+	}
+
+	/**
+	 * @return the gisAssetsNm
+	 */
+	public String getGisAssetsNm() {
+		return gisAssetsNm;
+	}
+
+	/**
+	 * @param gisAssetsNm the gisAssetsNm to set
+	 */
+	public void setGisAssetsNm(String gisAssetsNm) {
+		this.gisAssetsNm = gisAssetsNm;
+	}
+
+	/**
+	 * @return the exemptSeNm
+	 */
+	public String getExemptSeNm() {
+		return exemptSeNm;
+	}
+
+	/**
+	 * @param exemptSeNm the exemptSeNm to set
+	 */
+	public void setExemptSeNm(String exemptSeNm) {
+		this.exemptSeNm = exemptSeNm;
+	}
+	
 }
