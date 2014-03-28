@@ -117,8 +117,8 @@ public class GamAssetEvlDtlsInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -131,6 +131,9 @@ public class GamAssetEvlDtlsInqireController {
 		
     	totalCnt = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireListTotCnt(searchVO);
     	List assetRentList = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	GamAssetEvlDtlsInqireVO resultSum = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireSum(searchVO);
     	
