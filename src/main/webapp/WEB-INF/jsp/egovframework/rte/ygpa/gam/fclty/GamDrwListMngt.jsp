@@ -267,15 +267,14 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 파일 적용
 		case "btnApplyPhotoData":
-
-			if(this.$("#drwFilenmLogic").val() == "") {
-                alert("첨부파일목록에서 선택하십시오.");
-                return;
-            }
-
+			
+			if(this._editDataFile == null){
+				alert("적용할 파일이 없습니다.");
+				return;
+			}
+			
 			if(!validateGamDrwListPhoto(this.$("#drwListPhotoForm")[0])) return;
 			
-			if(this._editDataFile == null) return;
             this._editDataFile = this.getFormValues("#drwListPhotoForm", this._editDataFile);
             if(this._editRowFile != null) {
                 if(this._editDataFile._updtId != "I") this._editDataFile._updtId = "U";
