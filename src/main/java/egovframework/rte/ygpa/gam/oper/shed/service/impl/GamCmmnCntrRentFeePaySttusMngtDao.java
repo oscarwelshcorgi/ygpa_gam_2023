@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeePaySttusMn
 public class GamCmmnCntrRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 공컨장치장납부현황관리 목록을 조회한다.
+	 * 공컨장치장임대납부현황관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장납부현황관리 목록
+	 * @return 공컨장치장임대납부현황관리 목록
 	 * @exception Exception
 	 */
     public List selectCmmnCntrRentFeePaySttusMngtList(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamCmmnCntrRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 공컨장치장납부현황관리 목록 총 갯수를 조회한다.
+	 * 공컨장치장임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장납부현황관리 목록 총 갯수
+	 * @return 공컨장치장임대납부현황관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectCmmnCntrRentFeePaySttusMngtListTotCnt(GamCmmnCntrRentFeePaySttusMngtVO searchVO) {
@@ -45,7 +45,7 @@ public class GamCmmnCntrRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장납부현황관리 목록
+	 * @return 공컨장치장임대납부현황관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentFeePaySttusMngtVO selectCmmnCntrRentFeePaySttusMngtSum(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
