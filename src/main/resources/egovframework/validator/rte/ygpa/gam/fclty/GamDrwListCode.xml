@@ -18,7 +18,8 @@
                 <var>
 	                <var-name>maxlength</var-name>
 	                <var-value>4</var-value>
-                </var>            </field>
+                </var>
+            </field>
             <field property="drwLstNm" depends="maxlength">
                 <arg0 key="도면 목록 명" resource="false"/>
                 <arg1 key="40" resource="false"/>
