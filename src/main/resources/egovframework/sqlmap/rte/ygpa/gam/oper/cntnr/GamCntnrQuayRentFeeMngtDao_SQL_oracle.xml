@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.oper.gnrl">
+<sqlMap namespace="ygpa.gam.oper.cntnrQuay">
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamPrtFcltyRentFeeMngtVO" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO"/>
+    <typeAlias alias="gamCntnrQuayRentFeeMngtVO" type="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeeMngtVO"/>
     
-    <resultMap id="gamPrtFcltyRentFeeMngtSumMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO">
+    <resultMap id="gamCntnrQuayRentFeeMngtSumMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeeMngtVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
         <result property="sumArrrgAmt" column="SUM_ARRRG_AMT" columnIndex="3"/>
@@ -15,7 +15,7 @@
         <result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="5"/>
     </resultMap>
     
-    <resultMap id="gamPrtFcltyRentFeeMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO">
+    <resultMap id="gamCntnrQuayRentFeeMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeeMngtVO">
         <result property="nticCnt" column="NTIC_CNT" columnIndex="1"/> 
 		<result property="fcltySe" column="FCLTY_SE" columnIndex="2"/>     
 		<result property="chrgeKnd" column="CHRGE_KND" columnIndex="3"/>    
@@ -52,7 +52,7 @@
     </resultMap>
 
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtList_D" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="egovMap">
+    <select id="gamCntnrQuayRentFeeMngtDao.selectCntnrQuayRentFeeMngtList_D" parameterClass="gamCntnrQuayRentFeeMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -102,7 +102,7 @@
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
 							  FROM ASSETS_RENT_F A,
 							       LEV_REQEST_F L
-							 WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+							 WHERE A.QUAY_GROUP_CD = 'C' <!-- 컨테이너부두 -->
 							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                                AND A.MNG_YEAR = L.MNG_YEAR
                                AND A.MNG_NO = L.MNG_NO
@@ -202,11 +202,11 @@
 
     </select>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtListTotCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int">
+    <select id="gamCntnrQuayRentFeeMngtDao.selectCntnrQuayRentFeeMngtListTotCnt_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultClass="int">
             SELECT COUNT(*) TOTCNT
             FROM ASSETS_RENT_F A
 		       , LEV_REQEST_F L
-		 	WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+		 	WHERE A.QUAY_GROUP_CD = 'C' <!-- 컨테이너부두 -->
 		   	  AND A.PRT_AT_CODE = L.PRT_AT_CODE
               AND A.MNG_YEAR = L.MNG_YEAR
               AND A.MNG_NO = L.MNG_NO
@@ -301,7 +301,7 @@
                            </isNotEmpty>
     </select>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtSum_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtSumMap">
+    <select id="gamCntnrQuayRentFeeMngtDao.selectCntnrQuayRentFeeMngtSum_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultMap="gamCntnrQuayRentFeeMngtSumMap">
          SELECT 
                <!--   NVL(COUNT(*),0) SUM_CNT
                , NVL(SUM(L.FEE),0) SUM_FEE
@@ -315,7 +315,7 @@
                , TRIM(TO_CHAR(NVL(SUM(L.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMT
           FROM ASSETS_RENT_F A,
 		       LEV_REQEST_F L
-		  WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+		  WHERE A.QUAY_GROUP_CD = 'C' <!-- 컨테이너부두 -->
 		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
            AND A.MNG_YEAR = L.MNG_YEAR
            AND A.MNG_NO = L.MNG_NO
@@ -410,7 +410,7 @@
                           </isNotEmpty>
     </select>
     
-    <update id="gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeMngt_S">
+    <update id="gamCntnrQuayRentFeeMngtDao.updateCntnrQuayRentFeeMngt_S">
         UPDATE LEV_REQEST_F SET
 		       FCLTY_SE     = #fcltySe#
 		     , CHRGE_KND    = #chrgeKnd#
@@ -445,7 +445,7 @@
 		AND    MNG_CNT      = #mngCnt#
     </update>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtInfo_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtInfoMap"> 
+    <select id="gamCntnrQuayRentFeeMngtDao.selectCntnrQuayRentFeeMngtInfo_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultMap="gamCntnrQuayRentFeeMngtInfoMap"> 
         SELECT 
                  L.NTIC_CNT
                , L.FCLTY_SE
@@ -489,7 +489,7 @@
            AND L.MNG_CNT     = #mngCnt#
     </select>
     
-    <select id="gamPrtFcltyRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int"> 
+    <select id="gamCntnrQuayRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultClass="int"> 
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
          WHERE 1=1
@@ -502,7 +502,7 @@
 		   AND MNG_CNT     = #mngCnt#
     </select>
     
-    <insert id="gamPrtFcltyRentFeeMngtDao.insertAnlrveLev_S">
+    <insert id="gamCntnrQuayRentFeeMngtDao.insertAnlrveLev_S">
         INSERT INTO ANLRVE_LEV_F (
 		                            CHRGE_KND
 		                          , ACCNUT_YEAR
@@ -615,7 +615,7 @@
 		                        )
     </insert>
     
-    <update id="gamPrtFcltyRentFeeMngtDao.deletePrtFcltyRentFeeMngt_S">
+    <update id="gamCntnrQuayRentFeeMngtDao.deleteCntnrQuayRentFeeMngt_S">
          DELETE FROM LEV_REQEST_F
           WHERE NTIC_CNT    = #nticCnt#
             AND PRT_AT_CODE = #prtAtCode#
@@ -624,7 +624,7 @@
             AND MNG_CNT     = #mngCnt#
     </update>        
 
-	<insert id="gamPrtFcltyRentFeeMngtDao.insertPrtFcltyRentFeeMngtLevReqest_S">
+	<insert id="gamCntnrQuayRentFeeMngtDao.insertCntnrQuayRentFeeMngtLevReqest_S">
         INSERT INTO LEV_REQEST_F (
                              NTIC_CNT
                            , FCLTY_SE

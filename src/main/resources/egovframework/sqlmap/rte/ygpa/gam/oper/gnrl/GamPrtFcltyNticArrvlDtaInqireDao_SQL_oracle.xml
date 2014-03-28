@@ -232,8 +232,8 @@
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamPrtFcltyNticArrvlDtaInqireDao.selectPrtFcltyNticArrvlDtaInqireListTotCnt_S" parameterClass="gamPrtFcltyNticArrvlDtaInqireVO" resultClass="int">
@@ -653,8 +653,8 @@
                              ORDER BY REGIST_DT DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        
     </select>
     
     <select id="gamPrtFcltyNticArrvlDtaInqireDao.selectPrtFcltyNticArrvlDtaInqireDetailListTotCnt_S" parameterClass="gamPrtFcltyNticArrvlDtaInqireVO" resultClass="int">
@@ -1148,8 +1148,8 @@
 					          AND MNG_CNT     = #mngCnt#
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamPrtFcltyNticArrvlDtaInqireDao.selectPrtFcltyNticArrvlDtaInqireFileListTotCnt_S" parameterClass="gamPrtFcltyNticArrvlDtaInqireVO" resultClass="int">

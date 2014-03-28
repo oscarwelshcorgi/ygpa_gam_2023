@@ -153,8 +153,8 @@
                              ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireListTotCnt_S" parameterClass="gamPrtFcltyUseSttusInqireVO" resultClass="int">
@@ -457,8 +457,8 @@
                            ORDER BY ASSETS_USAGE_SEQ DESC  
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 AND RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
     
     <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireDetailListTotCnt_S" parameterClass="gamPrtFcltyUseSttusInqireVO" resultClass="int">
@@ -498,8 +498,8 @@
 					        ORDER BY A.PHOTO_SEQ DESC
                 ) S
              ) A
-        <!-- <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
-        <![CDATA[ WHERE ROWNUM <= 1000 and RNUM > 0 ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        
     </select>
     
     <select id="gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileListTotCnt_S" parameterClass="gamPrtFcltyUseSttusInqireVO" resultClass="int">

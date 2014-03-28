@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.oper.gnrl">
+<sqlMap namespace="ygpa.gam.oper.cntnrQuay">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamPrtFcltyRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO"/>
+    <typeAlias alias="gamCntnrQuayRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO"/>
     
-    <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtList_D" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultClass="egovMap">
+    <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtList_D" parameterClass="gamCntnrQuayRentFeePaySttusMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -58,7 +58,7 @@
 							                                                         , R.MNG_NO
 							                                                         , R.MNG_CNT 
 							                                                   FROM ASSETS_RENT_F R
-							                                                   WHERE R.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+							                                                   WHERE R.QUAY_GROUP_CD = 'C' <!-- 컨테이너부두 -->
 							                                                 )
 							    ) 
 					       
@@ -72,7 +72,7 @@
 
     </select>
     
-    <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtListTotCnt_S" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultClass="int">
+    <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtListTotCnt_S" parameterClass="gamCntnrQuayRentFeePaySttusMngtVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
             FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
@@ -85,7 +85,7 @@
 			                                                         , R.MNG_NO
 			                                                         , R.MNG_CNT 
 			                                                   FROM ASSETS_RENT_F R
-			                                                   WHERE R.QUAY_GROUP_CD = 'G' <!-- 일반부두 -->
+			                                                   WHERE R.QUAY_GROUP_CD = 'C' <!-- 컨테이너부두 -->
 			                                                 )
 			    ) 
 	       
