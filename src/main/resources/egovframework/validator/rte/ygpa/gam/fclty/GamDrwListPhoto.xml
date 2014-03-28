@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamDrwListPhoto">
+            <field property="drwNo" depends="maxlength">
+                <arg0 key="도면 번호" resource="false"/>
+                <arg1 key="8" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>8</var-value>
+                </var>
+            </field>
+            <field property="drwNm" depends="maxlength">
+                <arg0 key="도면 명" resource="false"/>
+                <arg1 key="40" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>40</var-value>
+                </var>
+            </field>
+            <field property="drwWritngDt" depends="date">
+                <arg0 key="도면 작성 일자" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="drwChangedt" depends="date">
+                <arg0 key="도면 변경일" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="drwChangeDtls" depends="maxlength">
+                <arg0 key="도면 변경 내역" resource="false"/>
+                <arg1 key="200" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>200</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>

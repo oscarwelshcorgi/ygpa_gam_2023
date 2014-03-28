@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamDrwListCode">
+            <field property="drwLstRegistYear" depends="required, minlength, maxlength">
+                <arg0 key="도면 목록 등록 년도" resource="false"/>
+				<arg1 key="4" resource="false"/>
+                <arg2 key="4" resource="false"/>
+                <var>
+	                <var-name>minlength</var-name>
+	                <var-value>4</var-value>
+                </var>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>4</var-value>
+                </var>            </field>
+            <field property="drwLstNm" depends="maxlength">
+                <arg0 key="도면 목록 명" resource="false"/>
+                <arg1 key="40" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>40</var-value>
+                </var>
+            </field>
+            <field property="authnm" depends="maxlength">
+                <arg0 key="공사명" resource="false"/>
+                <arg1 key="80" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>80</var-value>
+                </var>
+            </field>
+            <field property="cnstrtr" depends="maxlength">
+                <arg0 key="시공자" resource="false"/>
+                <arg1 key="30" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>30</var-value>
+                </var>
+            </field>
+            <field property="sbmNm" depends="maxlength">
+                <arg0 key="제출자" resource="false"/>
+                <arg1 key="40" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>40</var-value>
+                </var>
+            </field>
+            <field property="exmNm" depends="maxlength">
+                <arg0 key="검토자" resource="false"/>
+                <arg1 key="40" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>40</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>
