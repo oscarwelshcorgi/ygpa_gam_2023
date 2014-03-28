@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%
   /**
   * @Class Name : GamCmmnCodeClMngt.jsp
@@ -19,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamCodeClMngt" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -41,11 +43,7 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 					{display:"분류코드명", 	name:"clCodeNm",	width:200, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:100, 	sortable:false,		align:"center"}
 					],
-		//usepager: true,
-		//useRp: true,
-		//rp: 24,
-		showTableToggleBtn: false,
-		height: "270"
+		height: "auto"
 	});
 
 	this.$("#cmmnCodeClMngList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -97,6 +95,9 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
+			
+			if(!validateGamCodeClMngt(this.$("#cmmnCodeClManageVO")[0])) return;
+			
 		 	var inputVO = this.makeFormArgs("#cmmnCodeClManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/code/gamCmmnClCodeRegist.do" />', inputVO, function(module, result) {
@@ -164,52 +165,56 @@ var module_instance = new GamCmmnCodeClMngtModule();
 					<tbody>
 						<tr>
 							<th>공통분류코드 목록</th>
-							<td width="10%">
+							<td width="10%">&nbsp;
 								<select id="searchCondition" class="select">
 									<option selected="selected">--선택하세요--</option>
 									<option value="1">분류코드</option>
 									<option value="2">분류코드명</option>
 								</select>
 							</td>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td><button id="searchBtn" class="submit">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-					<button id="addBtn">추가</button>
-				</div>
 			</form>
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="cmmnCodeClMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="cmmnCodeClMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">분류코드목록</a></li>
 				<li><a href="#tabs2" class="emdTab">분류코드상세</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="cmmnCodeClMngList" style="display:none"></table>
+			
+			<!-- 목록 탭 -->
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="cmmnCodeClMngList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="addBtn">추가</button>
+				</div>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
+			
+			<!-- 저장 및 상세 탭 -->
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmmnCodeClManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">분류코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">분류코드</th>
 							<td><input type="text" size="80" id="clCode" maxlength="3" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">분류코드명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="clCodeNm" maxlength="30" /></td>
+							<th width="20%" height="23" class="required_text">분류코드명</th>
+							<td><input type="text" size="80" id="clCodeNm" maxlength="60" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">분류코드설명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="clCodeDc" maxlength="100" /></td>
+							<th width="20%" height="23" class="required_text">분류코드설명</th>
+							<td><input type="text" size="80" id="clCodeDc" maxlength="200" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">사용여부<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">사용여부</th>
 							<td>
 								<select id="useAt">
 									<option value="N">N</option>
