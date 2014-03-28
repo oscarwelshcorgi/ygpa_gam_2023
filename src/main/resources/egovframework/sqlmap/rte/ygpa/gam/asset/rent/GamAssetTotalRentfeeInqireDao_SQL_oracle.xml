@@ -13,49 +13,73 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
 							SELECT
-							      USAGE_YEAR
-							    , USAGE_QU
-							    , USAGE_MT
-							    , ASSETS_USAGE_SEQ
-							    , MNG_YEAR
-							    , MNG_NO
-							    , MNG_CNT
-							    , PRT_AT_CODE
-							    , USAGE_PRPOS_CD
-							    , REQST_ENTRPS_CD
-							    , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = REQST_ENTRPS_CD AND ROWNUM = 1 ) REQST_ENTRPS_CD_NM
-							    , USAGE_CND
-							    , EXEMPT_SE
-							    , NVL(FEE,0) FEE
-							    , NVL(RDCXPT_FEE,0) RDCXPT_FEE
-							    , UPD_USR
-							    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
-							    , TO_CHAR(USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
-							    , TO_CHAR(USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
-							    , GIS_ASSETS_CD
-							    , GIS_ASSETS_SUB_CD
-							    , QUAY_CD
-							FROM USAGE_PD_BY_STATS_F
-							WHERE 1 = 1
+							      F.USAGE_YEAR
+							    , F.USAGE_QU
+							    , F.USAGE_MT
+							    , F.ASSETS_USAGE_SEQ
+							    , F.MNG_YEAR
+							    , F.MNG_NO
+							    , F.MNG_CNT
+							    , F.PRT_AT_CODE
+							    , F.USAGE_PRPOS_CD
+							    , F.REQST_ENTRPS_CD
+							    , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = F.REQST_ENTRPS_CD AND ROWNUM = 1 ) REQST_ENTRPS_CD_NM
+							    , F.USAGE_CND
+							    , F.EXEMPT_SE
+							    , NVL(F.FEE,0) FEE
+							    , NVL(F.RDCXPT_FEE,0) RDCXPT_FEE
+							    , F.UPD_USR
+							    , TO_CHAR(F.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
+							    , TO_CHAR(F.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
+							    , TO_CHAR(F.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
+							    , F.GIS_ASSETS_CD
+							    , F.GIS_ASSETS_SUB_CD  
+							    , F.QUAY_CD
+							FROM USAGE_PD_BY_STATS_F F
+							    ,GIS_ASSETS_CD_F G
+							WHERE F.PRT_AT_CODE       = G.GIS_ASSETS_PRT_AT_CODE
+							  AND F.GIS_ASSETS_CD     = G.GIS_ASSETS_CD
+					          AND F.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
 					
 							<isNotEmpty property="sPrtAtCode">
-					            AND PRT_AT_CODE = #sPrtAtCode#  
+					            AND F.PRT_AT_CODE = #sPrtAtCode#  
 					        </isNotEmpty>
 					        
 					        <isNotEmpty property="sEntrpscd">
-					            AND REQST_ENTRPS_CD = #sEntrpscd#  
+					            AND F.REQST_ENTRPS_CD = #sEntrpscd#  
 					        </isNotEmpty>
 					        
 					        <isNotEmpty property="sGrUsagePdFrom"> 
-					            AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+					            AND F.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
 					        </isNotEmpty>
 					        
 					        <isNotEmpty property="sGrUsagePdTo">
-					            AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+					            AND F.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 					        </isNotEmpty>
+					        
+					        <isNotEmpty property="sGisAssetsPrprtySeCd">
+					            AND G.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="sGisAssetsLocCd">
+                                AND G.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd#
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="sGisAssetsQuayCd">
+                                AND G.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="gisAssetsCd">
+                                AND G.GIS_ASSETS_CD = #gisAssetsCd#
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="gisAssetsSubCd">
+                                AND G.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+                            </isNotEmpty>
+					        
 							<!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
 							                    
-							ORDER BY USAGE_YEAR, USAGE_MT DESC
+							ORDER BY F.USAGE_YEAR, F.USAGE_MT DESC
                         ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -63,27 +87,47 @@
     
     <select id="gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireListTotCnt_S" parameterClass="gamAssetTotalRentfeeInqireVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM USAGE_PD_BY_STATS_F
-              WHERE 1 = 1
-              
-              <isNotEmpty property="sPrtAtCode">
-                  AND PRT_AT_CODE = #sPrtAtCode#  
-              </isNotEmpty>
-              
-              <isNotEmpty property="sEntrpscd">
-                  AND REQST_ENTRPS_CD = #sEntrpscd#  
-              </isNotEmpty>
-              
-              <isNotEmpty property="sGrUsagePdFrom"> 
-                  AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-              </isNotEmpty>
-              
-              <isNotEmpty property="sGrUsagePdTo">
-                  AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-              </isNotEmpty>
-              <!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
-                                  
-              ORDER BY USAGE_YEAR, USAGE_MT DESC
+              FROM USAGE_PD_BY_STATS_F F
+                  ,GIS_ASSETS_CD_F G
+             WHERE F.PRT_AT_CODE       = G.GIS_ASSETS_PRT_AT_CODE
+               AND F.GIS_ASSETS_CD     = G.GIS_ASSETS_CD
+               AND F.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
+     
+             <isNotEmpty property="sPrtAtCode">
+                 AND F.PRT_AT_CODE = #sPrtAtCode#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sEntrpscd">
+                 AND F.REQST_ENTRPS_CD = #sEntrpscd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdFrom"> 
+                 AND F.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdTo">
+                 AND F.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGisAssetsPrprtySeCd">
+                 AND G.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGisAssetsLocCd">
+                 AND G.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGisAssetsQuayCd">
+                 AND G.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="gisAssetsCd">
+                 AND G.GIS_ASSETS_CD = #gisAssetsCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="gisAssetsSubCd">
+                 AND G.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+             </isNotEmpty>
     </select>
     
 </sqlMap>

@@ -73,7 +73,15 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
     
     /** 검색 사용기간 종료 */
     private String sGrUsagePdTo;
-
+    
+    private String gisAssetsPrtAtCode;
+    
+    private String sGisAssetsPrprtySeCd;
+    
+    private String sGisAssetsQuayCd;
+    
+    private String sGisAssetsLocCd;
+    
 	/**
 	 * @return the usageYear
 	 */
@@ -423,5 +431,63 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	public void setsGrUsagePdTo(String sGrUsagePdTo) {
 		this.sGrUsagePdTo = sGrUsagePdTo;
 	}
+
+	/**
+	 * @return the gisAssetsPrtAtCode
+	 */
+	public String getGisAssetsPrtAtCode() {
+		return gisAssetsPrtAtCode;
+	}
+
+	/**
+	 * @param gisAssetsPrtAtCode the gisAssetsPrtAtCode to set
+	 */
+	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
+		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	}
+
+	/**
+	 * @return the sGisAssetsPrprtySeCd
+	 */
+	public String getsGisAssetsPrprtySeCd() {
+		return sGisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @param sGisAssetsPrprtySeCd the sGisAssetsPrprtySeCd to set
+	 */
+	public void setsGisAssetsPrprtySeCd(String sGisAssetsPrprtySeCd) {
+		this.sGisAssetsPrprtySeCd = sGisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @return the sGisAssetsQuayCd
+	 */
+	public String getsGisAssetsQuayCd() {
+		return sGisAssetsQuayCd;
+	}
+
+	/**
+	 * @param sGisAssetsQuayCd the sGisAssetsQuayCd to set
+	 */
+	public void setsGisAssetsQuayCd(String sGisAssetsQuayCd) {
+		this.sGisAssetsQuayCd = sGisAssetsQuayCd;
+	}
+
+	/**
+	 * @return the sGisAssetsLocCd
+	 */
+	public String getsGisAssetsLocCd() {
+		return sGisAssetsLocCd;
+	}
+
+	/**
+	 * @param sGisAssetsLocCd the sGisAssetsLocCd to set
+	 */
+	public void setsGisAssetsLocCd(String sGisAssetsLocCd) {
+		this.sGisAssetsLocCd = sGisAssetsLocCd;
+	}
+	
+	
 	
 }

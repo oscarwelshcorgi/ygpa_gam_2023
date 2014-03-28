@@ -80,7 +80,13 @@ GamAssetTotalRentfeeInqireModule.prototype.onButtonClick = function(buttonId) {
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;      
-	        
+	    
+	    case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
+            var opts;
+
+            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+            break;    
+            
 	}
 };
 
@@ -98,6 +104,19 @@ GamAssetTotalRentfeeInqireModule.prototype.onClosePopup = function(popupId, msg,
 	           alert('취소 되었습니다');
 	       }
 	       break;
+	       
+	   case 'selectAssetsCdRentPopup':
+           if (msg != 'cancel') {
+               this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
+               this.$('#gisAssetsCd').val(value.gisAssetsCd);
+               this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
+               this.$('#gisAssetsNm').val(value.gisAssetsNm);
+               this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd); 
+           } else {
+               alert('취소 되었습니다');
+           }
+           break;    
+	       
 	}     
 };
 
@@ -135,17 +154,30 @@ var module_instance = new GamAssetTotalRentfeeInqireModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
+                            <th style="width: 80px">항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th>업체명</th>
+                            <th style="width: 80px">업체명</th>
                             <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
-                            <th>사용기간</th>
-                            <td>
-                            	 <input id="sGrUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8">
+                            <th style="width: 80px">사용기간</th>
+                            <td><input id="sGrUsagePdFrom" type="text" class="emdcal" size="8"> ~ <input id="sGrUsagePdTo" type="text" class="emdcal" size="8"></td>
+                            <td rowSpan="3"><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>
+                        
+                        <tr>
+                            <th>재산구분</th>
+                            <td><input id="sGisAssetsPrprtySeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001" /></td>
+                            <th>위치</th>
+                            <td><input id="sGisAssetsLocCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM002" /></td>
+                            <th>부두</th>
+                            <td><input id="sGisAssetsQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" /></td>
+                        </tr>    
+                        
+                        <tr>
+                            <th>자산코드</th>
+                            <td colspan="5"><input type="hidden" id="gisAssetsPrtAtCode"/><input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
+                                <input type="hidden" id="assetsCdStr"/><input type="text" size="20" id="gisAssetsNm" disabled/>
+                                <button id="popupFcltyCd" class="popupButton">자산조회</button>
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
