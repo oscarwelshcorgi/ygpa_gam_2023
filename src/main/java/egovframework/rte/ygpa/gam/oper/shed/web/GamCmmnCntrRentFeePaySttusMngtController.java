@@ -63,7 +63,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 	
     
     /**
-     * 공컨장치장납부현황관리 화면을 로딩한다. 
+     * 공컨장치장임대납부현황관리 화면을 로딩한다. 
      *
      * @param windowId
      * @param model the model
@@ -75,6 +75,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     	
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
+		/*
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
@@ -107,13 +108,15 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
 		model.addAttribute("quayCdList", quayCdList);
+		*/
+		
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/shed/GamCmmnCntrRentFeePaySttusMngt";
     }
 	
 	/**
-     * 공컨장치장납부현황관리 목록을 조회한다. 
+     * 공컨장치장임대납부현황관리 목록을 조회한다. 
      *
      * @param searchVO
      * @return map
@@ -126,8 +129,8 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -138,21 +141,29 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		//자산임대목록
+		//목록
     	totalCnt = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtList(searchVO);
     	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
     	//자료수, 사용료, 부가세, 고지액
-    	GamCmmnCntrRentFeePaySttusMngtVO resultSum = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtSum(searchVO);
+    	//GamCmmnCntrRentFeePaySttusMngtVO resultSum = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtSum(searchVO);
+    	GamCmmnCntrRentFeePaySttusMngtVO resultSum = new GamCmmnCntrRentFeePaySttusMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
-    	
+    	*/
+    	map.put("sumFee", "");
+    	map.put("sumVat", "");
+    	map.put("sumNticAmt", "");
     	return map;
     }
 	
