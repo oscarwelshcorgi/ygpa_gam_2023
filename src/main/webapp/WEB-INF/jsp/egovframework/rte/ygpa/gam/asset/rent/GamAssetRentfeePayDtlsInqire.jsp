@@ -40,16 +40,16 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
 					{display:'회계연도', name:'accnutYear',width:70, sortable:false,align:'center'},
 					{display:'고지횟수', name:'nticCnt',width:70, sortable:false,align:'center'},
 					{display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
-					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
 					{display:'업체코드', name:'entrpscd',width:90, sortable:false,align:'center'},
+					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
 					{display:'납부기한', name:'payTmlmt',width:90, sortable:false,align:'center'},
 					{display:'수납', name:'rcvdTp',width:100, sortable:false,align:'center'},
-					{display:'수납일자', name:'rcvdDt',width:100, sortable:false,align:'center'},
-					{display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'center'},
-					{display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
 					{display:'요금', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+					{display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
+					{display:'수납일자', name:'rcvdDt',width:100, sortable:false,align:'center'},
 					{display:'고지서출력여부', name:'nhtPrintYn',width:100, sortable:false,align:'center'},
-					{display:'비고', name:'rm',width:200, sortable:false,align:'center'}
+					{display:'비고', name:'rm',width:200, sortable:false,align:'center'},
+                    {display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -391,10 +391,10 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
             break;
         
         // 팝업을 호출한다.(업체)     
-        case 'popupEntrpsInfoFee': 
+        case 'popupEntrpsInfo': 
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoFeePopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
             
     }
@@ -427,7 +427,7 @@ GamAssetRentfeePayDtlsInqireModule.prototype.onTabChange = function(newTabId, ol
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamAssetRentfeePayDtlsInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-    case 'selectEntrpsInfoFeePopup':
+    case 'selectEntrpsInfoPopup':
         if (msg != 'cancel') {
             this.$('#sEntrpscd').val(value.entrpscd);
             this.$('#sEntrpsNm').val(value.entrpsNm);
@@ -456,84 +456,22 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th style="width: 80px">항코드</th>
-                            <td style="width: 120px">
-                                <select id="sPrtAtCode">
-                                    <option value="" selected="selected">선택</option>
-
-                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th style="width: 80px">관리번호</th>
-                            <td style="width: 200px">
-                                <input id="sMngYear" type="text" size="4">-<input id="sMngNo" type="text" size="3">-<input id="sMngCnt" type="text" size="2">
-                            </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>    
+                            <th style="width: 70px">항코드</th>
+                            <td style="width: 170px"><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
+                            <th style="width: 70px">업체명</th>
+                            <td colspan="3"><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <td rowspan="2"><button id="searchBtn" class="submit">조회</button></td>
+                        </tr>   
                         
-                        <!-- 
-                        <tr>
-                            <th>항코드</th>
-                            <td>
-                                <select id="sPrtAtCode">
-                                    <option value="" selected="selected">선택</option>
-
-                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <select id="sReqstSeCd">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${reqstCdList}" var="reqstCdItem">
-                                        <option value="${reqstCdItem.code }">${reqstCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th>신청업체</th>
-                            <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfoFee">업체</button>
-                            </td>
-                            <th>사용용도</th>
-                            <td>
-                                <select id="sUsagePrposCd">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${usagePrposCdList}" var="usagePrposCdItem">
-                                        <option value="${usagePrposCdItem.code }">${usagePrposCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>
                         <tr>
                             <th>관리번호</th>
-                            <td>
-                                <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
-                            </td>
-                            <th>승낙구분</th>
-                            <td >
-                                <select id="sPrmisnYn">
-                                    <option value="" selected="selected">선택</option>
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
-                                </select>
-                            </td>
-                            <th>사용기간</th>
-                            <td>
-                            <input id="sUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sUsagePdTo" type="text"
-                                class="emdcal" size="8">
-                            </td>
-                            <th>총면적</th>
-                            <td>
-                                <input id="sRrArFrom" type="text" size="5">~<input id="sRrArTo" type="text" size="5">
-                            </td>
-                        </tr>
-                         -->
+                            <td><input id="sMngYear" type="text" size="3">-<input id="sMngNo" type="text" size="2">-<input id="sMngCnt" type="text" size="1"></td>
+                            <th>고지일자</th>
+                            <td><input id="sNticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticPdTo" type="text"class="emdcal" size="8"></td>
+                            <th>요금종류</th>
+                            <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
+                        </tr> 
+
                     </tbody>
                 </table>
             </form>

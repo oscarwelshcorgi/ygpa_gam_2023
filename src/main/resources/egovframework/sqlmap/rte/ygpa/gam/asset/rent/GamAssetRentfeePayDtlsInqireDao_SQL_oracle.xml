@@ -42,7 +42,11 @@
 							   AND A.MNG_CNT = L.MNG_CNT
 					
 							<isNotEmpty property="sPrtAtCode">
-					            AND PRT_AT_CODE = #sPrtAtCode#  
+					            AND A.PRT_AT_CODE = #sPrtAtCode#  
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="sEntrpscd">
+					            AND A.ENTRPSCD = #sEntrpscd#
 					        </isNotEmpty>
 					        
 					        <isNotEmpty property="sMngYear">
@@ -55,6 +59,18 @@
                             
                             <isNotEmpty property="sMngCnt">
                                 AND L.MNG_CNT     = #sMngCnt#
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="sNticPdFrom"> 
+                                AND L.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sNticPdFrom#||'000000','yyyy-mm-ddhh24miss')
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="sNticPdTo">
+                                AND L.NTIC_PD_TO <![CDATA[<=]]> TO_DATE(#sNticPdTo#||'235959','yyyy-mm-ddhh24miss')
+                            </isNotEmpty>
+                            
+                            <isNotEmpty property="sChrgeKnd">
+                                AND L.CHRGE_KND = #sChrgeKnd#
                             </isNotEmpty>
 							                    
 							ORDER BY L.REGIST_DT DESC
@@ -74,7 +90,11 @@
                AND A.MNG_CNT = L.MNG_CNT
     
             <isNotEmpty property="sPrtAtCode">
-                AND PRT_AT_CODE = #sPrtAtCode#  
+                AND A.PRT_AT_CODE = #sPrtAtCode#  
+            </isNotEmpty>
+            
+            <isNotEmpty property="sEntrpscd">
+                AND A.ENTRPSCD = #sEntrpscd#
             </isNotEmpty>
             
             <isNotEmpty property="sMngYear">
@@ -87,6 +107,18 @@
             
             <isNotEmpty property="sMngCnt">
                 AND L.MNG_CNT     = #sMngCnt#
+            </isNotEmpty>
+            
+            <isNotEmpty property="sNticPdFrom"> 
+                AND L.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sNticPdFrom#||'000000','yyyy-mm-ddhh24miss')
+            </isNotEmpty>
+            
+            <isNotEmpty property="sNticPdTo">
+                AND L.NTIC_PD_TO <![CDATA[<=]]> TO_DATE(#sNticPdTo#||'235959','yyyy-mm-ddhh24miss')
+            </isNotEmpty>
+            
+            <isNotEmpty property="sChrgeKnd">
+                AND L.CHRGE_KND = #sChrgeKnd#
             </isNotEmpty>
     </select>
     

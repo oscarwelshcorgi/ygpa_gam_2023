@@ -266,6 +266,11 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
     /** 종료일 */
     private String endDt;	                   
 
+    private String sNticPdFrom;
+    
+    private String sNticPdTo;
+    
+    private String sChrgeKnd;
 
 	/**
 	 * @return the nticCnt
@@ -1414,5 +1419,48 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
 	public void setNticPdTo(String nticPdTo) {
 		this.nticPdTo = nticPdTo;
 	}
+
+	/**
+	 * @return the sNticPdFrom
+	 */
+	public String getsNticPdFrom() {
+		return sNticPdFrom;
+	}
+
+	/**
+	 * @param sNticPdFrom the sNticPdFrom to set
+	 */
+	public void setsNticPdFrom(String sNticPdFrom) {
+		this.sNticPdFrom = sNticPdFrom;
+	}
+
+	/**
+	 * @return the sNticPdTo
+	 */
+	public String getsNticPdTo() {
+		return sNticPdTo;
+	}
+
+	/**
+	 * @param sNticPdTo the sNticPdTo to set
+	 */
+	public void setsNticPdTo(String sNticPdTo) {
+		this.sNticPdTo = sNticPdTo;
+	}
+
+	/**
+	 * @return the sChrgeKnd
+	 */
+	public String getsChrgeKnd() {
+		return sChrgeKnd;
+	}
+
+	/**
+	 * @param sChrgeKnd the sChrgeKnd to set
+	 */
+	public void setsChrgeKnd(String sChrgeKnd) {
+		this.sChrgeKnd = sChrgeKnd;
+	}
+	
 	
 }
