@@ -115,8 +115,8 @@ public class GamAssetFeeExprInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -130,6 +130,9 @@ public class GamAssetFeeExprInqireController {
 		//자산임대목록
     	totalCnt = gamAssetFeeExprInqireService.selectAssetFeeExprInqireListTotCnt(searchVO);
     	List assetRentList = gamAssetFeeExprInqireService.selectAssetFeeExprInqireList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//총면적, 총사용료
     	GamAssetFeeExprInqireVO resultSum = gamAssetFeeExprInqireService.selectAssetFeeExprInqireSum(searchVO);
@@ -158,8 +161,8 @@ public class GamAssetFeeExprInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -174,6 +177,9 @@ public class GamAssetFeeExprInqireController {
 		totalCnt = gamAssetFeeExprInqireService.selectAssetFeeExprInqireDetailListTotCnt(searchVO);
 		List resultList = gamAssetFeeExprInqireService.selectAssetFeeExprInqireDetailList(searchVO);
     	
+		paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -1123,8 +1129,8 @@ public class GamAssetFeeExprInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -1139,9 +1145,13 @@ public class GamAssetFeeExprInqireController {
     	totalCnt = gamAssetFeeExprInqireService.selectAssetFeeExprInqireFileListTotCnt(searchVO);
     	List assetFileList = gamAssetFeeExprInqireService.selectAssetFeeExprInqireFileList(searchVO);
     	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("assetFileList", assetFileList);
+    	map.put("searchOption", searchVO);
     	
     	return map;
     }
