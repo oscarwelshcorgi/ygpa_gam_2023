@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.oper.cntnr.service.impl.GamCntnrQuayRentSttusInqireDao;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentSttusInqireVO;
 
 /**
  * @Class Name : GamCntnrQuayRentSttusInqireServiceImpl.java
- * @Description : 컨테이너부두임대현황조회 (컨테이너부두/컨테이너부두/컨테이너부두임대현황조회)
+ * @Description : 컨테이너부두임대현황조회 
  * @Modification Information
  *
  * @author domh
@@ -29,7 +30,7 @@ public class GamCntnrQuayRentSttusInqireServiceImpl extends AbstractServiceImpl 
     private GamCntnrQuayRentSttusInqireDao gamCntnrQuayRentSttusInqireDao;
 
     /**
-	 * 컨테이너부두사용현황 목록을 조회한다.
+	 * 컨테이너부두임대현황 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -39,7 +40,7 @@ public class GamCntnrQuayRentSttusInqireServiceImpl extends AbstractServiceImpl 
     }
 
     /**
-	 * 컨테이너부두사용현황 목록 총 갯수를 조회한다.
+	 * 컨테이너부두임대현황 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -59,7 +60,7 @@ public class GamCntnrQuayRentSttusInqireServiceImpl extends AbstractServiceImpl 
     }
 
     /**
-	 * 컨테이너부두사용현황 상세 목록을 조회한다.
+	 * 컨테이너부두임대현황 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -69,7 +70,7 @@ public class GamCntnrQuayRentSttusInqireServiceImpl extends AbstractServiceImpl 
     }
 
     /**
-	 * 컨테이너부두사용현황 상세 목록 총 갯수를 조회한다.
+	 * 컨테이너부두임대현황 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -78,4 +79,23 @@ public class GamCntnrQuayRentSttusInqireServiceImpl extends AbstractServiceImpl 
 		return gamCntnrQuayRentSttusInqireDao.selectCntnrQuayRentSttusInqireDetailListTotCnt(vo);
 	}
 
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectCntnrQuayRentSttusInqireFileList(GamCntnrQuayRentSttusInqireVO searchVO) throws Exception {
+        return gamCntnrQuayRentSttusInqireDao.selectCntnrQuayRentSttusInqireFileList(searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectCntnrQuayRentSttusInqireFileListTotCnt(GamCntnrQuayRentSttusInqireVO searchVO) throws Exception {
+		return gamCntnrQuayRentSttusInqireDao.selectCntnrQuayRentSttusInqireFileListTotCnt(searchVO);
+	}
 }
