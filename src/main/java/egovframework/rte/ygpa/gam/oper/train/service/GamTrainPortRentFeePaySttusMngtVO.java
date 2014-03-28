@@ -4,7 +4,7 @@ import egovframework.com.cmm.ComDefaultVO;
 
 /**
  * @Class Name : GamTrainPortRentFeePaySttusMngtVO.java
- * @Description : 공컨장치장납부현황관리 VO class
+ * @Description : 철송장납부현황관리 VO class
  * @Modification Information
  *
  * @author domh

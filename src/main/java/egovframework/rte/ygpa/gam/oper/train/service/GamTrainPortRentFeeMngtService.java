@@ -2,8 +2,6 @@ package egovframework.rte.ygpa.gam.oper.train.service;
 
 import java.util.List;
 
-import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeeMngtVO;
-
 /**
  * @Class Name : GamTrainPortRentFeeMngtService.java
  * @Description : 철송장임대료관리 
@@ -79,4 +77,10 @@ public interface GamTrainPortRentFeeMngtService {
 	 */
 	void deleteTrainPortRentFeeMngt(GamTrainPortRentFeeMngtVO vo) throws Exception;
     
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamTrainPortRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertTrainPortRentFeeMngtLevReqest(GamTrainPortRentFeeMngtVO vo) throws Exception;
 }
