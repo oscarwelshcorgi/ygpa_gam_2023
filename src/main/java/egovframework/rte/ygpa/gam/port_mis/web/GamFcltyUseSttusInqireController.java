@@ -126,8 +126,8 @@ public class GamFcltyUseSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -141,6 +141,9 @@ public class GamFcltyUseSttusInqireController {
 		//목록
     	totalCnt = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireListTotCnt(searchVO);
     	List resultList = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//자료수, 사용료, 부가세, 고지액
     	//GamFcltyUseSttusInqireVO resultSum = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireSum(searchVO);
