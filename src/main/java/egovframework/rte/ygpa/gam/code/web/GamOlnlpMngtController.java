@@ -114,8 +114,8 @@ public class GamOlnlpMngtController {
 		}
 		// 내역 조회
 		/** EgovPropertyService */
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+		//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		//searchVO.setPageSize(propertiesService.getInt("pageSize"));
 		
 		/** pageing */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -136,6 +136,9 @@ public class GamOlnlpMngtController {
 		int totCnt = gamOlnlpMngtService.selectOlnlpInsertListTotCnt(searchVO);
 		
 		paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
+		//paginationInfo.setTotalRecordCount(totCnt);
 		
 		map.put("resultCode", 0);			// return ok
 		map.put("totalCount", totCnt);
