@@ -98,8 +98,8 @@ public class GamMarineCenterRentArStsReportController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -112,6 +112,9 @@ public class GamMarineCenterRentArStsReportController {
 		
     	totalCnt = gamMarineCenterRentArStsReportService.selectMarineCenterRentArStsReportListTotCnt(searchVO);
     	List assetRentList = gamMarineCenterRentArStsReportService.selectMarineCenterRentArStsReportList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", assetRentList);

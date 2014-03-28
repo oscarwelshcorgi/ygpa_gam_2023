@@ -126,8 +126,8 @@ public class GamMarineCenterRentNticMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -140,6 +140,9 @@ public class GamMarineCenterRentNticMngtController {
 		
     	totalCnt = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticListTotCnt(searchVO);
     	List resultList = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//자료수, 사용료, 부가세, 고지액
     	//GamMarineCenterRentNticMngtVO resultSum = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticSum(searchVO);
