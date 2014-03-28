@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%
   /**
   * @Class Name : GamCmpyInfoMngt.jsp
@@ -19,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamCmpyCode" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -46,8 +48,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"우편번호", 		name:"zip",				width:80, 	sortable:false,		align:"center"},
 					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
 					],
-		showTableToggleBtn: false,
-		height: "300"
+		height: "auto"
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -85,11 +86,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"팩스 번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
 					{display:"이메일", 			name:"chargerEmail",		width:80, 	sortable:false,		align:"center"}
 					],
-		//usepager: true,
-		//useRp: true,
-		//rp: 13,
-		showTableToggleBtn: false,
-		height: "100"
+		height: "auto"
 	});
 	
 	this.$("#cmpyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -157,34 +154,6 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			
-			// Data 설정
-			/*
-			this.$("#bizrno").val(this.$("#bizrno").val().replace(/\-/g,""));
-			this.$("#cprregistno").val(this.$("#cprregistno").val().replace(/\-/g,""));
-			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
-			
-			if(this.$("#bizrno").val() != ""){
-				if(this.$("#bizrno").val().length != 10){
-					this.$("#bizrno").focus();
-					alert("사업자 번호를 확인하십시오.");
-					return;
-				}				
-			}
-			if(this.$("#cprregistno").val() != ""){
-				if(this.$("#cprregistno").val().length != 13){
-					this.$("#cprregistno").focus();
-					alert("법인 번호를 확인하십시오.");
-					return;
-				}				
-			}
-			if(this.$("#zip").val() != ""){
-				if(this.$("#zip").val().length != 6){
-					this.$("#zip").focus();
-					alert("우편 번호를 확인하십시오.");
-					return;
-				}				
-			}
-			*/
 			var inputVO=[{}];
 			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
 			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -218,7 +187,14 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 업체담당자 정보 화면상 임시 저장
 		case "chargerSaveBtn":
-			if(this._editData == null) return;
+
+			if(this._editData == null){
+				alert("적용할 업체 담당자가 없습니다.");
+				return;
+			}
+			
+			if(!validateGamCmpyCode(this.$("#cmpyChargerMngtManageVO")[0])) return;
+
 			this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", this._editInfoData);
 			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", this._editData);
 
@@ -364,17 +340,17 @@ var module_instance = new GamCmpyInfoMngtModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="cmpyInfoMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="cmpyInfoMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">업체정보 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">업체정보 상세</a></li>
 				<li><a href="#tabs3" class="emdTab">업체담당자 정보</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-				<table id="cmpyInfoMngtList" style="display:none" class="fillHeight"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="cmpyInfoMngtList" style="display:none;" class="fillHeight"></table>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;" data-onactivate="onShowTab2Activate">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmpyInfoMngtManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
@@ -408,7 +384,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 					</table>
 					<br />
-					<table id="cmpyMngtList" style="display:none" class="fillHeight"></table>
+					<table id="cmpyMngtList" style="display:none;" class="fillHeight"></table>
 				</form>
 				<div class="emdControlPanel">
 					<button id="chargerAddBtn">추가</button>
@@ -418,19 +394,19 @@ var module_instance = new GamCmpyInfoMngtModule();
 			</div>
 			
 			<!-- 업체담당자 정보 -->
-			<div id="tabs3" class="emdTabPage" style="height:300px; overflow: scroll;">
+			<div id="tabs3" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmpyChargerMngtManageVO">
 					<input type="hidden" id="chargerEntrpscd"/>
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">담당자 명</th>
-							<td><input type="text" size="30" id="chargerNm" /></td>
+							<td><input type="text" size="30" id="chargerNm" maxlength="40" /></td>
 							<th width="20%" height="23" class="required_text">담당자 직위</th>
-							<td><input type="text" size="10" id="chargerOfcPos"/></td>
+							<td><input type="text" size="10" id="chargerOfcPos" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">부서</th>
-							<td colspan="3"><input type="text" size="10" id="chargerDept"/></td>
+							<td colspan="3"><input type="text" size="10" id="chargerDept" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">담당 업무</th>
@@ -446,15 +422,15 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">휴대폰</th>
-							<td><input type="text" size="30" id="chargerMoblphonNo" /></td>
+							<td><input type="text" size="30" id="chargerMoblphonNo" maxlength="20" /></td>
 							<th width="20%" height="23" class="required_text">전화번호</th>
-							<td><input type="text" size="30" id="chargerTlphonNo"/></td>
+							<td><input type="text" size="30" id="chargerTlphonNo" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">팩스</th>
-							<td><input type="text" size="30" id="chargerFax" /></td>
+							<td><input type="text" size="30" id="chargerFax" maxlength="20" /></td>
 							<th width="20%" height="23" class="required_text">이메일</th>
-							<td><input type="text" size="30" id="chargerEmail"/></td>
+							<td><input type="text" size="30" id="chargerEmail" maxlength="80" /></td>
 						</tr>
 					</table>
 				</form>
