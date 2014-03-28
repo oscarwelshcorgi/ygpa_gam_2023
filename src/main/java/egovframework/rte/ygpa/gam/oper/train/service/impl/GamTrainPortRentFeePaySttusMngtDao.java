@@ -9,7 +9,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttus
 
 /**
  * @Class Name : GamTrainPortRentFeePaySttusMngtDao.java
- * @Description : 공컨장치장납부현황관리 DAO Class
+ * @Description : 철송장납부현황관리 DAO Class
  * @Modification Information
  *
  * @author domh
@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttus
 public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 공컨장치장납부현황관리 목록을 조회한다.
+	 * 철송장임대납부현황관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장납부현황관리 목록
+	 * @return 철송장임대납부현황관리 목록
 	 * @exception Exception
 	 */
     public List selectTrainPortRentFeePaySttusMngtList(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 공컨장치장납부현황관리 목록 총 갯수를 조회한다.
+	 * 철송장임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장납부현황관리 목록 총 갯수
+	 * @return 철송장임대납부현황관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectTrainPortRentFeePaySttusMngtListTotCnt(GamTrainPortRentFeePaySttusMngtVO searchVO) {
@@ -45,7 +45,7 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장납부현황관리 목록
+	 * @return 철송장임대납부현황관리 목록
 	 * @exception Exception
 	 */
 	public GamTrainPortRentFeePaySttusMngtVO selectTrainPortRentFeePaySttusMngtSum(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception {

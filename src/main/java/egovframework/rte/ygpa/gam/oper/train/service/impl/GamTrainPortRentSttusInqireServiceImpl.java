@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.oper.train.service.impl.GamTrainPortRentSttusInqireDao;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqireVO;
 
 /**
  * @Class Name : GamTrainPortRentSttusInqireServiceImpl.java
- * @Description : 철송장임대현황조회 (철송장/철송장/철송장임대현황조회)
+ * @Description : 철송장임대현황조회 
  * @Modification Information
  *
  * @author domh
@@ -29,7 +30,7 @@ public class GamTrainPortRentSttusInqireServiceImpl extends AbstractServiceImpl 
     private GamTrainPortRentSttusInqireDao gamTrainPortRentSttusInqireDao;
 
     /**
-	 * 철송장사용현황 목록을 조회한다.
+	 * 철송장임대현황 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -39,7 +40,7 @@ public class GamTrainPortRentSttusInqireServiceImpl extends AbstractServiceImpl 
     }
 
     /**
-	 * 철송장사용현황 목록 총 갯수를 조회한다.
+	 * 철송장임대현황 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -59,7 +60,7 @@ public class GamTrainPortRentSttusInqireServiceImpl extends AbstractServiceImpl 
     }
 
     /**
-	 * 철송장사용현황 상세 목록을 조회한다.
+	 * 철송장임대현황 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -69,7 +70,7 @@ public class GamTrainPortRentSttusInqireServiceImpl extends AbstractServiceImpl 
     }
 
     /**
-	 * 철송장사용현황 상세 목록 총 갯수를 조회한다.
+	 * 철송장임대현황 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -78,4 +79,23 @@ public class GamTrainPortRentSttusInqireServiceImpl extends AbstractServiceImpl 
 		return gamTrainPortRentSttusInqireDao.selectTrainPortRentSttusInqireDetailListTotCnt(vo);
 	}
 
+	/**
+	 * 파일 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectTrainPortRentSttusInqireFileList(GamTrainPortRentSttusInqireVO searchVO) throws Exception {
+        return gamTrainPortRentSttusInqireDao.selectTrainPortRentSttusInqireFileList(searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectTrainPortRentSttusInqireFileListTotCnt(GamTrainPortRentSttusInqireVO searchVO) throws Exception {
+		return gamTrainPortRentSttusInqireDao.selectTrainPortRentSttusInqireFileListTotCnt(searchVO);
+	}
 }

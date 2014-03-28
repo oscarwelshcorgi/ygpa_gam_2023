@@ -9,7 +9,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqire
 
 /**
  * @Class Name : GamTrainPortRentSttusInqireDao.java
- * @Description : 철송장임대현황조회 (철송장/철송장/철송장임대현황조회)
+ * @Description : 철송장임대현황조회 
  * @Modification Information
  *
  * @author domh
@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentSttusInqire
 public class GamTrainPortRentSttusInqireDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 철송장사용현황 목록을 조회한다.
+	 * 철송장임대현황 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장사용현황 목록
+	 * @return 철송장임대현황 목록
 	 * @exception Exception
 	 */
     public List selectTrainPortRentSttusInqireList(GamTrainPortRentSttusInqireVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamTrainPortRentSttusInqireDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 철송장사용현황 목록 총 갯수를 조회한다.
+	 * 철송장임대현황 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장사용현황 목록 총 갯수
+	 * @return 철송장임대현황 목록 총 갯수
 	 * @exception
 	 */
     public int selectTrainPortRentSttusInqireListTotCnt(GamTrainPortRentSttusInqireVO searchVO) {
@@ -45,7 +45,7 @@ public class GamTrainPortRentSttusInqireDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장사용현황 목록
+	 * @return 철송장임대현황 목록
 	 * @exception Exception
 	 */
 	public GamTrainPortRentSttusInqireVO selectTrainPortRentSttusInqireSum(GamTrainPortRentSttusInqireVO searchVO) throws Exception {
@@ -53,9 +53,9 @@ public class GamTrainPortRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 철송장사용현황 상세목록을 조회한다.
+	 * 철송장임대현황 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장사용현황 목록
+	 * @return 철송장임대현황 목록
 	 * @exception Exception
 	 */
     public List selectTrainPortRentSttusInqireDetailList(GamTrainPortRentSttusInqireVO vo) throws Exception {
@@ -63,13 +63,33 @@ public class GamTrainPortRentSttusInqireDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 철송장사용현황 상세목록 총 갯수를 조회한다.
+	 * 철송장임대현황 상세목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장사용현황 목록 총 갯수
+	 * @return 철송장임대현황 목록 총 갯수
 	 * @exception
 	 */
     public int selectTrainPortRentSttusInqireDetailListTotCnt(GamTrainPortRentSttusInqireVO vo) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamTrainPortRentSttusInqireDao.selectTrainPortRentSttusInqireDetailListTotCnt_S", vo);
+    }
+    
+    /**
+	 * 파일 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 철송장임대관리 목록
+	 * @exception Exception
+	 */
+    public List selectTrainPortRentSttusInqireFileList(GamTrainPortRentSttusInqireVO searchVO) throws Exception {
+        return list("gamTrainPortRentSttusInqireDao.selectTrainPortRentSttusInqireFileList_D", searchVO);
+    }
+
+    /**
+	 * 파일 목록 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 철송장임대관리목록 총 갯수
+	 * @exception
+	 */
+    public int selectTrainPortRentSttusInqireFileListTotCnt(GamTrainPortRentSttusInqireVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamTrainPortRentSttusInqireDao.selectTrainPortRentSttusInqireFileListTotCnt_S", searchVO);
     }
 
 }

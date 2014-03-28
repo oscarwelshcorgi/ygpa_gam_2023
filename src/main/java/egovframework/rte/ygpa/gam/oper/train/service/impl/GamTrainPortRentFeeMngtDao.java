@@ -23,9 +23,9 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeeMngtVO;
 public class GamTrainPortRentFeeMngtDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 철송장임대료고지관리 목록을 조회한다.
+	 * 철송장임대관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장임대료고지관리 목록
+	 * @return 철송장임대관리 목록
 	 * @exception Exception
 	 */
     public List selectTrainPortRentFeeMngtList(GamTrainPortRentFeeMngtVO searchVO) throws Exception {
@@ -33,9 +33,9 @@ public class GamTrainPortRentFeeMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 철송장임대료고지관리 목록 총 갯수를 조회한다.
+	 * 철송장임대관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장임대료고지관리 목록 총 갯수
+	 * @return 철송장임대관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectTrainPortRentFeeMngtListTotCnt(GamTrainPortRentFeeMngtVO searchVO) {
@@ -45,7 +45,7 @@ public class GamTrainPortRentFeeMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 사용료, 연체, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장임대료고지관리 목록
+	 * @return 철송장임대관리 목록
 	 * @exception Exception
 	 */
 	public GamTrainPortRentFeeMngtVO selectTrainPortRentFeeMngtSum(GamTrainPortRentFeeMngtVO searchVO) throws Exception {
@@ -53,7 +53,7 @@ public class GamTrainPortRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 철송장임대료고지관리정보를 수정한다.
+	 * 철송장임대관리정보를 수정한다.
 	 * @param vo GamTrainPortRentFeeMngtVO
 	 * @exception Exception
 	 */
@@ -62,9 +62,9 @@ public class GamTrainPortRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 철송장임대료고지관리정보 조회.
+	 * 철송장임대관리정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 철송장임대료고지관리정보
+	 * @return 철송장임대관리정보
 	 * @exception Exception
 	 */
 	public GamTrainPortRentFeeMngtVO selectTrainPortRentFeeMngtInfo(GamTrainPortRentFeeMngtVO searchVO) throws Exception {
@@ -100,4 +100,12 @@ public class GamTrainPortRentFeeMngtDao extends YGPAAbstractDAO {
 		delete("gamTrainPortRentFeeMngtDao.deleteTrainPortRentFeeMngt_S", vo);
 	}
 
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamTrainPortRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertTrainPortRentFeeMngtLevReqest(GamTrainPortRentFeeMngtVO vo){
+		insert("gamTrainPortRentFeeMngtDao.insertTrainPortRentFeeMngtLevReqest_S", vo);
+	}
 }

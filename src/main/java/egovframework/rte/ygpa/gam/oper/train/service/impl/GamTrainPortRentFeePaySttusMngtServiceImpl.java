@@ -14,7 +14,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttus
 
 /**
  * @Class Name : GamTrainPortRentFeePaySttusMngtServiceImpl.java
- * @Description : 공컨장치장납부현황관리 Business Implement class
+ * @Description : 철송장납부현황관리 Business Implement class
  * @Modification Information
  *
  * @author domh
@@ -34,7 +34,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 공컨장치장납부현황관리 목록을 조회한다.
+	 * 철송장임대납부현황관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -44,7 +44,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
     }
 
     /**
-	 * 공컨장치장납부현황관리 목록 총 갯수를 조회한다.
+	 * 철송장임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -56,7 +56,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장납부현황관리목록
+	 * @return 철송장임대납부현황관리목록
 	 * @exception Exception
 	 */
     public GamTrainPortRentFeePaySttusMngtVO selectTrainPortRentFeePaySttusMngtSum(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception {

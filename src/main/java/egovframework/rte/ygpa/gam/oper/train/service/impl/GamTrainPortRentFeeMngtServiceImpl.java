@@ -25,7 +25,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeeMngtVO;
  *  Copyright (C)  All right reserved.
  */
 @Service("gamTrainPortRentFeeMngtService")
-public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl implements GamTrainPortRentFeeMngtService {
+public class GamTrainPortRentFeeMngtServiceImpl extends AbstractServiceImpl implements GamTrainPortRentFeeMngtService {
 
 	@Resource(name="gamTrainPortRentFeeMngtDao")
     private GamTrainPortRentFeeMngtDao gamTrainPortRentFeeMngtDao;
@@ -33,7 +33,7 @@ public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl imp
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 철송장임대료고지관리 목록을 조회한다.
+	 * 철송장임대고지관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -43,7 +43,7 @@ public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl imp
     }
 
     /**
-	 * 철송장임대료고지관리 목록 총 갯수를 조회한다.
+	 * 철송장임대고지관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -55,7 +55,7 @@ public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl imp
     /**
 	 * 자료수, 사용료, 연체, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 철송장임대료고지관리목록
+	 * @return 철송장임대고지관리목록
 	 * @exception Exception
 	 */
     public GamTrainPortRentFeeMngtVO selectTrainPortRentFeeMngtSum(GamTrainPortRentFeeMngtVO searchVO) throws Exception {
@@ -63,7 +63,7 @@ public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl imp
     }
 
     /**
-	 * 철송장임대료고지관리정보를 수정한다.
+	 * 철송장임대고지관리정보를 수정한다.
 	 * @param vo GamTrainPortRentFeeMngtVO
 	 * @exception Exception
 	 */
@@ -72,9 +72,9 @@ public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl imp
 	}
 	
 	/**
-	 * 철송장임대료고지관리 정보 조회.
+	 * 철송장임대고지관리 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 철송장임대료고지관리정보
+	 * @return 철송장임대고지관리정보
 	 * @exception Exception
 	 */
     public GamTrainPortRentFeeMngtVO selectTrainPortRentFeeMngtInfo(GamTrainPortRentFeeMngtVO searchVO) throws Exception {
@@ -107,6 +107,15 @@ public class GamTrainPortRentFeeMngtServiceImpl  extends AbstractServiceImpl imp
 	 */
 	public void deleteTrainPortRentFeeMngt(GamTrainPortRentFeeMngtVO vo) throws Exception {
 		gamTrainPortRentFeeMngtDao.deleteTrainPortRentFeeMngt(vo);
+	}
+	
+	/**
+	 * 징수의뢰를 등록한다.
+	 * @param vo GamTrainPortRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void insertTrainPortRentFeeMngtLevReqest(GamTrainPortRentFeeMngtVO vo) throws Exception {
+		gamTrainPortRentFeeMngtDao.insertTrainPortRentFeeMngtLevReqest(vo);
 	}
 	
 }
