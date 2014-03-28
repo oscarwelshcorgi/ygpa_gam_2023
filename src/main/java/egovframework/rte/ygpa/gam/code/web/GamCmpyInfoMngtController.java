@@ -127,10 +127,6 @@ public class GamCmpyInfoMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-    	/** EgovPropertyService.sample */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -147,7 +143,9 @@ public class GamCmpyInfoMngtController {
 
         List cmpyInfoMngtList = gamCmpyInfoMngtService.selectCmpyInfoMngtList(searchVO);
         int totCnt = gamCmpyInfoMngtService.selectCmpyInfoMngtListTotCnt(searchVO);
+        
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
@@ -190,10 +188,6 @@ public class GamCmpyInfoMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-    	/** EgovPropertyService.sample */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -206,7 +200,9 @@ public class GamCmpyInfoMngtController {
 		
         List cmpyMngtList = gamCmpyInfoMngtService.selectCmpyMngtList(searchVO);
         int totCnt = gamCmpyInfoMngtService.selectCmpyMngtListTotCnt(searchVO);
+        
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
