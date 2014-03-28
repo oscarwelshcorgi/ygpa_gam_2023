@@ -1,10 +1,10 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service;
 
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
+import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamCntnrQuayRentSttusInqireVO.java
- * @Description : 컨테이너부두임대현황조회 
+ * @Class Name : GamCntnrQuayNticArrvlDtaInqireVO.java
+ * @Description : 컨테이너부두임대고지도래현황조회 VO class
  * @Modification Information
  *
  * @author domh
@@ -14,7 +14,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
-public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
+public class GamCntnrQuayNticArrvlDtaInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 항코드 */
@@ -98,11 +98,26 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     /** 부서코드 */
     private String deptcd;
     
-    /**  */
-    private String detailPrtAtCode;
+    /** 항이름 */
+    private String prtAtCodeNm;
     
-    /**  */
-    private String prtAtCodeStr;
+    /** 신청구분명 */
+    private String reqstSeCdNm;
+    
+    /** 결재 상태 */
+    private String sanctnSttus;	
+    
+    /** 결재자 사원 번호 */
+    private String sanctnerEmplNo;  
+    
+    /** 부두 코드 */
+    private String quayCd;	  
+    
+    /** 최초 신청 일자 */
+    private String frstReqstDt;  
+    
+    /** 결재 일시 */
+    private String sanctnDt;	
 
     /** 검색조건 */
     private String sPrtAtCode;
@@ -114,15 +129,6 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     private String sEntrpscd;
     
     /** 검색조건 */
-    private String sMngYear;
-    
-    /** 검색조건 */
-    private String sMngNo;
-    
-    /** 검색조건 */
-    private String sMngCnt;
-    
-    /** 검색조건 */
     private String sPrmisnYn;
     
     /** 검색조건 */
@@ -132,19 +138,16 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     private String sGrUsagePdTo;
     
     /** 검색조건 */
-    private String sQuayCd;
-    
-    /** 검색조건 */
-    private String sEntrpsNm;
-    
-    /** 검색조건 */
-    private String sDateSearchGbn;
-    
-    /** 검색조건 */
-    private String sDateSearchValue;
-    
-    /** 검색조건 */
     private String sGrAr;
+    
+    /** 검색조건 */
+    private String sMngYear;
+    
+    /** 검색조건 */
+    private String sMngNo;
+    
+    /** 검색조건 */
+    private String sMngCnt;
     
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
@@ -201,11 +204,11 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     private String shotDt;	        
     
     /** 사진 설명  */
-    private String photoDesc;
+    private String photoDesc;	    
     
     /** 신청일자 */
     private String reqstDt;
-
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -725,20 +728,6 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
-	 * @return the maxMngCnt
-	 */
-	public String getMaxMngCnt() {
-		return maxMngCnt;
-	}
-
-	/**
-	 * @param maxMngCnt the maxMngCnt to set
-	 */
-	public void setMaxMngCnt(String maxMngCnt) {
-		this.maxMngCnt = maxMngCnt;
-	}
-
-	/**
 	 * @return the rPrtAtCode
 	 */
 	public String getrPrtAtCode() {
@@ -809,6 +798,20 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
+	 * @return the maxMngCnt
+	 */
+	public String getMaxMngCnt() {
+		return maxMngCnt;
+	}
+
+	/**
+	 * @param maxMngCnt the maxMngCnt to set
+	 */
+	public void setMaxMngCnt(String maxMngCnt) {
+		this.maxMngCnt = maxMngCnt;
+	}
+
+	/**
 	 * @return the entrpsNm
 	 */
 	public String getEntrpsNm() {
@@ -865,90 +868,6 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
-	 * @return the sQuayCd
-	 */
-	public String getsQuayCd() {
-		return sQuayCd;
-	}
-
-	/**
-	 * @param sQuayCd the sQuayCd to set
-	 */
-	public void setsQuayCd(String sQuayCd) {
-		this.sQuayCd = sQuayCd;
-	}
-
-	/**
-	 * @return the sEntrpsNm
-	 */
-	public String getsEntrpsNm() {
-		return sEntrpsNm;
-	}
-
-	/**
-	 * @param sEntrpsNm the sEntrpsNm to set
-	 */
-	public void setsEntrpsNm(String sEntrpsNm) {
-		this.sEntrpsNm = sEntrpsNm;
-	}
-
-	/**
-	 * @return the detailPrtAtCode
-	 */
-	public String getDetailPrtAtCode() {
-		return detailPrtAtCode;
-	}
-
-	/**
-	 * @param detailPrtAtCode the detailPrtAtCode to set
-	 */
-	public void setDetailPrtAtCode(String detailPrtAtCode) {
-		this.detailPrtAtCode = detailPrtAtCode;
-	}
-
-	/**
-	 * @return the prtAtCodeStr
-	 */
-	public String getPrtAtCodeStr() {
-		return prtAtCodeStr;
-	}
-
-	/**
-	 * @param prtAtCodeStr the prtAtCodeStr to set
-	 */
-	public void setPrtAtCodeStr(String prtAtCodeStr) {
-		this.prtAtCodeStr = prtAtCodeStr;
-	}
-
-	/**
-	 * @return the sDateSearchGbn
-	 */
-	public String getsDateSearchGbn() {
-		return sDateSearchGbn;
-	}
-
-	/**
-	 * @param sDateSearchGbn the sDateSearchGbn to set
-	 */
-	public void setsDateSearchGbn(String sDateSearchGbn) {
-		this.sDateSearchGbn = sDateSearchGbn;
-	}
-
-	/**
-	 * @return the sDateSearchValue
-	 */
-	public String getsDateSearchValue() {
-		return sDateSearchValue;
-	}
-
-	/**
-	 * @param sDateSearchValue the sDateSearchValue to set
-	 */
-	public void setsDateSearchValue(String sDateSearchValue) {
-		this.sDateSearchValue = sDateSearchValue;
-	}
-
-	/**
 	 * @return the chrgeKnd
 	 */
 	public String getChrgeKnd() {
@@ -988,6 +907,104 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setPayMth(String payMth) {
 		this.payMth = payMth;
+	}
+
+	/**
+	 * @return the prtAtCodeNm
+	 */
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
+	}
+
+	/**
+	 * @param prtAtCodeNm the prtAtCodeNm to set
+	 */
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
+	}
+
+	/**
+	 * @return the reqstSeCdNm
+	 */
+	public String getReqstSeCdNm() {
+		return reqstSeCdNm;
+	}
+
+	/**
+	 * @param reqstSeCdNm the reqstSeCdNm to set
+	 */
+	public void setReqstSeCdNm(String reqstSeCdNm) {
+		this.reqstSeCdNm = reqstSeCdNm;
+	}
+
+	/**
+	 * @return the sanctnSttus
+	 */
+	public String getSanctnSttus() {
+		return sanctnSttus;
+	}
+
+	/**
+	 * @param sanctnSttus the sanctnSttus to set
+	 */
+	public void setSanctnSttus(String sanctnSttus) {
+		this.sanctnSttus = sanctnSttus;
+	}
+
+	/**
+	 * @return the sanctnerEmplNo
+	 */
+	public String getSanctnerEmplNo() {
+		return sanctnerEmplNo;
+	}
+
+	/**
+	 * @param sanctnerEmplNo the sanctnerEmplNo to set
+	 */
+	public void setSanctnerEmplNo(String sanctnerEmplNo) {
+		this.sanctnerEmplNo = sanctnerEmplNo;
+	}
+
+	/**
+	 * @return the quayCd
+	 */
+	public String getQuayCd() {
+		return quayCd;
+	}
+
+	/**
+	 * @param quayCd the quayCd to set
+	 */
+	public void setQuayCd(String quayCd) {
+		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the frstReqstDt
+	 */
+	public String getFrstReqstDt() {
+		return frstReqstDt;
+	}
+
+	/**
+	 * @param frstReqstDt the frstReqstDt to set
+	 */
+	public void setFrstReqstDt(String frstReqstDt) {
+		this.frstReqstDt = frstReqstDt;
+	}
+
+	/**
+	 * @return the sanctnDt
+	 */
+	public String getSanctnDt() {
+		return sanctnDt;
+	}
+
+	/**
+	 * @param sanctnDt the sanctnDt to set
+	 */
+	public void setSanctnDt(String sanctnDt) {
+		this.sanctnDt = sanctnDt;
 	}
 
 	/**
@@ -1087,5 +1104,5 @@ public class GamCntnrQuayRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
 	}
-
+	
 }
