@@ -25,7 +25,7 @@
  */
 function GamPopupPrtOperRentModule() {} GamPopupPrtOperRentModule
 
-GamPopupPrtOperRentModule.prototype = new EmdPopupModule(450, 90);
+GamPopupPrtOperRentModule.prototype = new EmdPopupModule(320, 100);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupPrtOperRentModule.prototype.loadComplete = function() {
@@ -38,14 +38,21 @@ GamPopupPrtOperRentModule.prototype.loadComplete = function() {
 GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnPrmisnExec':
-		var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
-        
-        this.doAction('<c:url value="/oper/shed/popup/gamInsertCmmnCntrRentMngtPrmisn.do" />', inputVO, function(module, result) {
-           
-            alert(result.resultMsg);
-            
-            module.closeDialog('ok', result.resultCode);
-        });
+		if( this.$('#chrgeKnd').val() == '' ) {
+            alert("요금종류를 선택하십시오.");
+            return;
+        }
+		
+		if( confirm("승낙 하시겠습니까?") ) {
+			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
+	        
+	        //this.doAction('<c:url value="/oper/shed/gamInsertCmmnCntrRentMngtPrmisn.do" />', inputVO, function(module, result) {   
+	        this.doAction('<c:url value="/oper/shed/gamUpdateCmmnCntrRentMngtPrmisn.do" />', inputVO, function(module, result) {   
+	            alert(result.resultMsg);
+	            
+	            module.closeDialog('ok', result.resultCode);
+	        });
+	    }
 		
 		break;
 	case 'cancel':
@@ -87,6 +94,7 @@ var popup_instance = new GamPopupPrtOperRentModule();
 	                            </c:forEach>
                             </select>  
                         </td>
+                        <!-- 
                         <th>부가세 여부</th>
                         <td>
                             <select id="vatYn">
@@ -95,6 +103,7 @@ var popup_instance = new GamPopupPrtOperRentModule();
                                 <option value="N">N</option>
                             </select>
                         </td>
+                        -->
                         <td><button id=btnPrmisnExec class="submit">승낙</button></td>
                     </tr>
 				</tbody>
