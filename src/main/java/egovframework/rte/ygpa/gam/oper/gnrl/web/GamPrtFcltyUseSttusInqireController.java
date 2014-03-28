@@ -137,8 +137,8 @@ public class GamPrtFcltyUseSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -152,6 +152,9 @@ public class GamPrtFcltyUseSttusInqireController {
 		//항만시설사용현황
     	totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireListTotCnt(searchVO);
     	List resultList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//총면적, 총사용료
     	GamPrtFcltyUseSttusInqireVO resultSum = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireSum(searchVO);
@@ -180,8 +183,8 @@ public class GamPrtFcltyUseSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -192,13 +195,16 @@ public class GamPrtFcltyUseSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		log.debug("##############################################");
-		log.debug("### searchVO : " + searchVO);
-		log.debug("##############################################");
+		//log.debug("##############################################");
+		//log.debug("### searchVO : " + searchVO);
+		//log.debug("##############################################");
 
 		// 항만시설사용현황 상세리스트 및 총건수
 		totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireDetailListTotCnt(searchVO);
 		List resultList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireDetailList(searchVO);
+		
+		paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -222,8 +228,8 @@ public class GamPrtFcltyUseSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -238,9 +244,13 @@ public class GamPrtFcltyUseSttusInqireController {
     	totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireFileListTotCnt(searchVO);
     	List assetFileList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireFileList(searchVO);
     	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetFileList);
+    	map.put("searchOption", searchVO);
     	
     	return map;
     }
