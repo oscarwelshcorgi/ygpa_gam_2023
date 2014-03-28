@@ -181,7 +181,8 @@
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT 
                                   , (A.PAYINST_INTRRATE * 100) PAYINST_INTRRATE
                              FROM ASSETS_RENT_F A
-                            WHERE 1=1 
+                            WHERE QUAY_GROUP_CD='M'
+                              AND QUAY_CD = 'X'
                             
                              <isNotEmpty property="sPrtAtCode">
                                  AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -247,7 +248,8 @@
     <select id="gamMarineCenterRentMngtDao.selectMarineCenterRentListTotCnt_S" parameterClass="gamMarineCenterRentMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM ASSETS_RENT_F A
-             WHERE 1=1
+              WHERE QUAY_GROUP_CD='M'
+               AND QUAY_CD = 'X'
               
              <isNotEmpty property="sPrtAtCode">
                  AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -309,7 +311,8 @@
                , NVL(SUM(A.GR_AR),0) SUM_GR_AR
                , NVL(SUM(A.GR_FEE),0) SUM_GR_FEE
           FROM ASSETS_RENT_F A
-         WHERE 1=1
+          WHERE QUAY_GROUP_CD='M'
+           AND QUAY_CD = 'X'
               
          <isNotEmpty property="sPrtAtCode">
              AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -408,6 +411,7 @@
                                    , FRST_REQST_DT
                                    , SANCTN_STTUS
                                    , PAYINST_INTRRATE
+                                   , QUAY_CD
                                    )
                             VALUES (
                                      #prtAtCode#
@@ -439,7 +443,7 @@
                                    , #gisCd#  -->
                                    , #deptcd#
                                    , #payMth#
-                                   , 'P'
+                                   , 'M'
                                    , TO_DATE(#frstReqstDt:DATE:NO_ENTRY#) 
                                    , 'N'
                                    
@@ -450,6 +454,8 @@
                                    <isNotEmpty property="payinstIntrrate">
                                    , TO_NUMBER(#payinstIntrrate#) / 100
                                    </isNotEmpty>
+                                   
+                                   ,'X'
                                    )
     </insert>
     

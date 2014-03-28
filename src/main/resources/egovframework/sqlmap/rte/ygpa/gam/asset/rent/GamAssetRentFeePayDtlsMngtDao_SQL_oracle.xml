@@ -13,47 +13,49 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT 
-								 INT_SEQ             
-								,DEL_KIND           
-								,JINGSU_DATE            
-								,SUNAP_DATE         
-								,PRT_AT_CODE            
-								,FEE_TP             
-								,FISCAL_YR          
-								,BILL_NO                
-								,ACCNT_CODE         
-								,AGENT_CODE         
-								,BILL_AMNT          
-								,BILL_DT                
-								,BILL_PRT_YN            
-								,DUE_DATE           
-								,RCVD_DT                
-								,RCVD_TP                
-								,RSLT_CODE          
-								,EXMP_AMNT          
-								,OVER_AMNT          
-								,DC_AMNT                
-								,DC_CODE                
-								,DC_RATE                
-								,RECPT_EPDT         
-								,ELCT_BILL_RSLT     
-								,BULL_INFO_INQR_DTIME
-								,AMNT_RSN           
-								,BZ_RGST_ID         
-								,AGENT_NAME         
-								,LAST               
-								,VAT_YN             
-								,JIRO_NO                
-								,ELEC_PAY_NO            
-								,CUSTOMER_MNGT_NO   
-								,CUSTOMER_ADDR      
-								,PAY_NAME 
-					        FROM ERP_REV_COLL_F@YGPA_PORTMIS
-					       WHERE 1=1
+								 E.INT_SEQ             
+								,E.DEL_KIND           
+								,E.JINGSU_DATE            
+								,E.SUNAP_DATE         
+								,E.PRT_AT_CODE            
+								,E.FEE_TP             
+								,E.FISCAL_YR          
+								,E.BILL_NO                
+								,E.ACCNT_CODE         
+								,E.AGENT_CODE         
+								,E.BILL_AMNT          
+								,E.BILL_DT                
+								,E.BILL_PRT_YN            
+								,E.DUE_DATE           
+								,E.RCVD_DT                
+								,E.RCVD_TP                
+								,E.RSLT_CODE          
+								,E.EXMP_AMNT          
+								,E.OVER_AMNT          
+								,E.DC_AMNT                
+								,E.DC_CODE                
+								,E.DC_RATE                
+								,E.RECPT_EPDT         
+								,E.ELCT_BILL_RSLT     
+								,E.BULL_INFO_INQR_DTIME
+								,E.AMNT_RSN           
+								,E.BZ_RGST_ID         
+								,E.AGENT_NAME         
+								,E.LAST               
+								,E.VAT_YN             
+								,E.JIRO_NO                
+								,E.ELEC_PAY_NO            
+								,E.CUSTOMER_MNGT_NO   
+								,E.CUSTOMER_ADDR      
+								,E.PAY_NAME 
+					        FROM  ERP_REV_COLL_F@YGPA_PORTMIS E
+					             ,LEV_REQEST_F L
+					       WHERE E.BILL_NO = L.NTICNO
 					       
-					        <isNotEmpty property="sPrtAtCode">
-			                    AND PRT_AT_CODE = #sPrtAtCode#
-			                </isNotEmpty>
+					       <isNotEmpty property="sPrtAtCode">
+			                   AND L.PRT_AT_CODE = #sPrtAtCode#
+			               </isNotEmpty>
+			               
 			               ORDER BY INT_SEQ DESC
                 ) S
              ) A
@@ -62,12 +64,13 @@
     
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM ERP_REV_COLL_F@YGPA_PORTMIS
-                           WHERE 1=1
-                           
-                            <isNotEmpty property="sPrtAtCode">
-                                AND PRT_AT_CODE = #sPrtAtCode#
-                            </isNotEmpty>
+              FROM  ERP_REV_COLL_F@YGPA_PORTMIS E
+                   ,LEV_REQEST_F L
+             WHERE E.BILL_NO = L.NTICNO
+             
+             <isNotEmpty property="sPrtAtCode">
+                 AND L.PRT_AT_CODE = #sPrtAtCode#
+             </isNotEmpty>
     </select>
     
 </sqlMap>

@@ -36,7 +36,7 @@
 							    , GIS_ASSETS_SUB_CD
 							    , QUAY_CD
 							FROM USAGE_PD_BY_STATS_F
-							WHERE 1 = 1
+							WHERE QUAY_CD = 'X'
 					
 							<isNotEmpty property="sPrtAtCode">
 					            AND PRT_AT_CODE = #sPrtAtCode#  
@@ -64,7 +64,7 @@
     <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportListTotCnt_S" parameterClass="gamMarineCenterRentStairStsReportVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM USAGE_PD_BY_STATS_F
-              WHERE 1 = 1
+              WHERE QUAY_CD = 'X'
               
               <isNotEmpty property="sPrtAtCode">
                   AND PRT_AT_CODE = #sPrtAtCode#  
