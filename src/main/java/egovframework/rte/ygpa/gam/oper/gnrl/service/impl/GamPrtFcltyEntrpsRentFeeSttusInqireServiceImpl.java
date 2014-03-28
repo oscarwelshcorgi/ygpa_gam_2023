@@ -26,7 +26,7 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyEntrpsRentFeeSttu
  */
 @Service("gamPrtFcltyEntrpsRentFeeSttusInqireService")
 
-public class GamPrtFcltyEntrpsRentFeeSttusInqireImpl  extends AbstractServiceImpl implements GamPrtFcltyEntrpsRentFeeSttusInqireService {
+public class GamPrtFcltyEntrpsRentFeeSttusInqireServiceImpl  extends AbstractServiceImpl implements GamPrtFcltyEntrpsRentFeeSttusInqireService {
 
 	@Resource(name="gamPrtFcltyEntrpsRentFeeSttusInqireDao")
     private GamPrtFcltyEntrpsRentFeeSttusInqireDao gamPrtFcltyEntrpsRentFeeSttusInqireDao;
