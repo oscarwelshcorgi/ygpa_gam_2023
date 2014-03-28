@@ -114,10 +114,6 @@ public class GamCivilFcltyMngtController {
         	return map;
     	}
     	// 내역 조회
-    	/** EgovPropertyService */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -134,6 +130,7 @@ public class GamCivilFcltyMngtController {
         int totCnt = gamFcltyMngtService.selectFcltyMngtListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
@@ -156,9 +153,6 @@ public class GamCivilFcltyMngtController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 내역 조회
-		/** EgovPropertyService */
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 		
 		/** pageing */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -177,6 +171,7 @@ public class GamCivilFcltyMngtController {
 		int totCnt = gamFcltyMngtService.selectFcltyMngtPhotoListTotCnt(searchVO);
 		
 		paginationInfo.setTotalRecordCount(totCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		
 		map.put("resultCode", 0);			// return ok
 		map.put("totalCount", totCnt);
