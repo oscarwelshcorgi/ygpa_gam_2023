@@ -49,11 +49,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
-		//usepager: true,
-		//useRp: true,
-		//rp: 24,
-		showTableToggleBtn: false,
-		height: "230"
+		height: "auto"
 	});
 	
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -84,10 +80,8 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"파일 설명",			name:"photoDesc",			width:200,		sortable:true,		align:"center"},
 				{display:"촬영 일시",			name:"shotDt",				width:120,		sortable:true,		align:"center"}
 			],
-		showTableToggleBtn: false,
-		height: "160"
+		height: "auto"
 	});
-
 	
 	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
 		
@@ -218,22 +212,22 @@ var module_instance = new GamFcltyMngtModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="fcltyMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="fcltyMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">건축시설 상세</a></li>
 				<li><a href="#tabs3" class="emdTab">건축시설 사진</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="fcltyMngtList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="fcltyMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="mapSearch">맵 조회</button>
 				</div>
 			</div>
 			
 			<!-- 건축시설 상세 -->
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
 					<input type="hidden" id="cmd" />
 					<table class="searchPanel">
@@ -298,8 +292,8 @@ var module_instance = new GamFcltyMngtModule();
 			</div>
 			
 			<!-- 건축시설 사진 -->
-			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
-				<table id="fcltyPhotoList" style="display:none"></table>
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
 				<form id="fcltyGisPhotoForm">
 					<table>
 						<tr>

@@ -42,7 +42,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
 				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 				{display:"자산코드",		 			name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"정보통신시설코드", 				name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+				{display:"기계시설코드", 				name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 				{display:"시설명",	 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"center"},
 				{display:"위치",		 				name:"gisAssetsLocCd",		width:40,		sortable:false,		align:"center"},
 				{display:"구조",		 				name:"prtFcltyStndrd",		width:100,		sortable:false,		align:"center"},
@@ -52,11 +52,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
-		//usepager: true,
-		//useRp: true,
-		//rp: 24,
-		showTableToggleBtn: false,
-		height: "230"
+		height: "auto"
 	});
 	
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -111,10 +107,8 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"파일 설명",			name:"photoDesc",			width:200,		sortable:true,		align:"left"},
 				{display:"촬영 일시",			name:"shotDt",				width:120,		sortable:true,		align:"center"}
 			],
-		showTableToggleBtn: false,
-		height: "160"
+		height: "auto"
 	});
-
 	
 	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
 		
@@ -182,7 +176,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 저장
 		case "saveBtn":
-		 	
+
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 			
 		 	var inputVO=[{}];
@@ -231,7 +225,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 				return;
 			}
 			
-			if(confirm("선택 한 정보통신 시설을 삭제하시겠습니까?")){
+			if(confirm("선택 한 기계 시설을 삭제하시겠습니까?")){
 				
 				var inputVO = {gisAssetsCd:row[0]["gisAssetsCd"], gisPrtFcltySeq:row[0]["gisPrtFcltySeq"], gisAssetsPrtAtCode:row[0]["gisAssetsPrtAtCode"], gisAssetsSubCd:row[0]["gisAssetsSubCd"], gisPrtFcltyCd:row[0]["gisPrtFcltyCd"]};
 			 	this.doAction('<c:url value="/fclty/gamMechFcltyDelete.do" />', inputVO, function(module, result) {
@@ -267,9 +261,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 				});
 			}, "시설사진 업로드");
 			
-			//this._editDataFile=this.getFormValues('#fcltyGisPhotoForm', {_updtId:'I'});
-            //this._editRowFile=this.$('#fcltyPhotoList').flexGetData().length;
-            
 		break;
 		
 		case "btnRemoveFile":
@@ -407,14 +398,14 @@ var module_instance = new GamFcltyMngtModule();
 								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
 								<button id="searchPopupBtn">선택</button>
 							</td>
-							<th>정보통신시설코드</th>
+							<th>기계시설코드</th>
 							<td>
 								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
 						</tr>
 						<tr>
-							<th>정보통신시설 명</th>
+							<th>기계시설 명</th>
 							<td colspan="5"><input id="searchKeyword" type="text" size="40" maxlength="40" title="검색조건"  /></td>
 						</tr>
 					</tbody>
@@ -426,15 +417,15 @@ var module_instance = new GamFcltyMngtModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="fcltyMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="fcltyMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
-				<li><a href="#tabs1" class="emdTab">정보통신시설 목록</a></li>
-				<li><a href="#tabs2" class="emdTab">정보통신시설 상세</a></li>
-				<li><a href="#tabs3" class="emdTab">정보통신시설 사진</a></li>
+				<li><a href="#tabs1" class="emdTab">기계시설 목록</a></li>
+				<li><a href="#tabs2" class="emdTab">기계시설 상세</a></li>
+				<li><a href="#tabs3" class="emdTab">기계시설 사진</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="fcltyMngtList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="fcltyMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="addBtn">시설 추가</button>
 					<button id="deleteBtn">시설 삭제</button>
@@ -442,8 +433,8 @@ var module_instance = new GamFcltyMngtModule();
 				</div>
 			</div>
 			
-			<!-- 정보통신시설 상세 -->
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
+			<!-- 기계시설 상세 -->
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
 					<input type="hidden" id="cmd" />
 					<!-- 신경 쓸 필요 없다 함.2014-03-07 					
@@ -478,17 +469,17 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">정보통신시설 코드</th>
+							<th width="20%" height="23" class="required_text">기계시설 코드</th>
 							<td colspan="3">
 								<input type="text" size="10" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;<input type="text" size="20" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">정보통신시설 명</th>
+							<th width="20%" height="23" class="required_text">기계시설 명</th>
 							<td colspan="3"><input type="text" size="80" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">정보통신시설 규격</th>
+							<th width="20%" height="23" class="required_text">기계시설 규격</th>
 							<td><input type="text" size="30" id="prtFcltyStndrd" maxlength="80" /></td>
 							<th width="20%" height="23" class="required_text">단위</th>
 							<td><input type="text" size="30" id="prtFcltyUnit" maxlength="10" /></td>
@@ -520,9 +511,9 @@ var module_instance = new GamFcltyMngtModule();
 				</div>
 			</div>
 			
-			<!-- 정보통신시설 사진 -->
-			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
-				<table id="fcltyPhotoList" style="display:none"></table>
+			<!-- 기계시설 사진 -->
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>

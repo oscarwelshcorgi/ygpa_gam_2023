@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%
   /**
   * @Class Name : GamDrwListMngt.jsp
@@ -19,6 +20,8 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamDrwListCode" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamDrwListPhoto" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -162,11 +165,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 		 	
-			if(this.$("#drwLstRegistYear").val() == ""){
-				alert("도면 목록 등록 년도를 입력하십시오.");
-				this.$("#drwLstRegistYear").focus();
-				return;
-			}
+			if(!validateGamDrwListCode(this.$("#drwListManageVO")[0])) return;
 			
 		 	var inputVO=[{}];
 		 	
@@ -273,21 +272,8 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
                 alert("첨부파일목록에서 선택하십시오.");
                 return;
             }
-			
-			if(this.$("#drwWritngDt").val() != ""){
-				var tempDate = this.$("#drwWritngDt").val().replace(/\-/g,"");
-				if(tempDate.length != 8) {
-	                alert("도명 작성일자 입력 형식이 잘못되었습니다.");
-	                return;
-	            }
-			}
-			if(this.$("#drwChangedt").val() != ""){
-				var tempDate = this.$("#drwChangedt").val().replace(/\-/g,"");
-				if(tempDate.length != 8) {
-	                alert("도명 변경일자 입력 형식이 잘못되었습니다.");
-	                return;
-	            }
-			}
+
+			if(!validateGamDrwListPhoto(this.$("#drwListPhotoForm")[0])) return;
 			
 			if(this._editDataFile == null) return;
             this._editDataFile = this.getFormValues("#drwListPhotoForm", this._editDataFile);
