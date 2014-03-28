@@ -140,8 +140,8 @@ public class GamHtldRentMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -155,6 +155,9 @@ public class GamHtldRentMngtController {
 		//배후단지임대목록
     	totalCnt = gamHtldRentMngtService.selectHtldRentMngtListTotCnt(searchVO);
     	List assetRentList = gamHtldRentMngtService.selectHtldRentMngtList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//총면적, 총사용료
     	GamHtldRentMngtVO resultSum = gamHtldRentMngtService.selectHtldRentMngtSum(searchVO);
@@ -183,8 +186,8 @@ public class GamHtldRentMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -199,6 +202,9 @@ public class GamHtldRentMngtController {
 		totalCnt = gamHtldRentMngtService.selectHtldRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamHtldRentMngtService.selectHtldRentMngtDetailList(searchVO);
     	
+		paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -1280,8 +1286,8 @@ public class GamHtldRentMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -1296,9 +1302,13 @@ public class GamHtldRentMngtController {
     	totalCnt = gamHtldRentMngtService.selectHtldRentMngtFileListTotCnt(searchVO);
     	List assetFileList = gamHtldRentMngtService.selectHtldRentMngtFileList(searchVO);
     	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetFileList);
+    	map.put("searchOption", searchVO);
     	
     	return map;
     }

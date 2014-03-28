@@ -129,8 +129,8 @@ public class GamHtldRentFeePaySttusMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -144,6 +144,9 @@ public class GamHtldRentFeePaySttusMngtController {
 		//목록
     	totalCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtList(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//자료수, 사용료, 부가세, 고지액
     	//GamHtldRentFeePaySttusMngtVO resultSum = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtSum(searchVO);
