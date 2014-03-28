@@ -208,10 +208,18 @@ public class GamOlnlpMngtController {
 
 		}else{
 
-			olnlpVO.setRegUsr(user.getId());
-			gamOlnlpMngtService.insertOlnlpMngt(olnlpVO);
-			map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			try {
+
+				olnlpVO.setRegUsr(user.getId());
+				gamOlnlpMngtService.insertOlnlpMngt(olnlpVO);
+				map.put("resultCode", 0);
+				map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			}
 		}
 
         return map;
@@ -238,10 +246,17 @@ public class GamOlnlpMngtController {
 
 		}else{
 
-			olnlpVO.setUpdUsr(user.getId());
-			gamOlnlpMngtService.updateOlnlpMngt(olnlpVO);
-			map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+			try {
+				olnlpVO.setUpdUsr(user.getId());
+				gamOlnlpMngtService.updateOlnlpMngt(olnlpVO);
+				map.put("resultCode", 0);
+				map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+			}
 		}
 
         return map;
@@ -259,10 +274,19 @@ public class GamOlnlpMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	gamOlnlpMngtService.deleteOlnlpMngt(olnlpVO);
+    	try {
+    		gamOlnlpMngtService.deleteOlnlpMngt(olnlpVO);
 
-        map.put("resultCode", 0);
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-        return map;
+	        map.put("resultCode", 0);
+	        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+	        map.put("resultCode", 1);
+	        map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+    	
+    	return map;
     }
 }

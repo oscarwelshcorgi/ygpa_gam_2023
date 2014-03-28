@@ -96,9 +96,6 @@ public class GamCmmnCodeClMngtController {
 	@ResponseBody Map<String, Object> selectCmmnClCodeList (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("searchVO") CmmnClCodeVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-    	/** EgovPropertyService.sample */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -112,7 +109,9 @@ public class GamCmmnCodeClMngtController {
 		
         List<?> CmmnCodeList = cmmnClCodeManageService.selectCmmnClCodeList(searchVO);
         int totCnt = cmmnClCodeManageService.selectCmmnClCodeListTotCnt(searchVO);
+        
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
@@ -158,19 +157,6 @@ public class GamCmmnCodeClMngtController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	if(cmmnClCode.getClCode() == null || cmmnClCode.getClCode().equals("")) {
-    		map.put("resultCode", 1);			// return ok
-			map.put("resultMsg", "분류코드가 존재하지 않습니다.");
-    		return map;
-    	}
-
-        beanValidator.validate(cmmnClCode, bindingResult);
-		if (bindingResult.hasErrors()){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "입력값을 확인하세요.");
-			return map;
-		}
-		
 		if(cmmnClCode.getClCode() != null){
 			CmmnClCode vo = cmmnClCodeManageService.selectCmmnClCodeDetail(cmmnClCode);
 			if(vo != null){
@@ -179,11 +165,19 @@ public class GamCmmnCodeClMngtController {
 				return map;
 			}
 		}
-		
-		cmmnClCode.setFrstRegisterId(user.getId());
-		cmmnClCodeManageService.insertCmmnClCode(cmmnClCode);
-		map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+
+		try {
+			cmmnClCode.setFrstRegisterId(user.getId());
+			cmmnClCodeManageService.insertCmmnClCode(cmmnClCode);
+			map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
 		return map;
     }
     
@@ -220,11 +214,19 @@ public class GamCmmnCodeClMngtController {
         		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
         		return map;
     		}
-    		cmmnClCode.setLastUpdusrId(user.getId());
-	    	cmmnClCodeManageService.updateCmmnClCode(cmmnClCode);
+    		
+    		try {
+    			cmmnClCode.setLastUpdusrId(user.getId());
+    	    	cmmnClCodeManageService.updateCmmnClCode(cmmnClCode);
 
-	    	map.put("resultCode", 0);
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	    	map.put("resultCode", 0);
+    	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				map.put("resultCode", 1);
+    	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+			}
 
 	    	return map;
     	} else {

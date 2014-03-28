@@ -1,6 +1,3 @@
-/**
- * 
- */
 package egovframework.rte.ygpa.gam.code.web;
 
 import java.util.HashMap;
@@ -31,7 +28,6 @@ import egovframework.com.sym.ccm.ccc.service.EgovCcmCmmnClCodeManageService;
 import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
 import egovframework.com.sym.ccm.cde.service.EgovCcmCmmnDetailCodeManageService;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -110,10 +106,6 @@ public class GamCmmnCodeDetailMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		/** EgovPropertyService.sample */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -126,7 +118,9 @@ public class GamCmmnCodeDetailMngtController {
 		
         List<?> CmmnCodeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchVO);
         int totCnt = cmmnDetailCodeManageService.selectCmmnDetailCodeListTotCnt(searchVO);
+        
 		paginationInfo.setTotalRecordCount(totCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
@@ -178,37 +172,27 @@ public class GamCmmnCodeDetailMngtController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
 		
-    	if(cmmnDetailCode.getCodeId() == null || cmmnDetailCode.getCodeId().equals("")
-        		||cmmnDetailCode.getCode() == null || cmmnDetailCode.getCode().equals("")) {
-        		
-    		map.put("resultCode", 1);			// return ok
-			map.put("resultMsg", "분류코드가 존재하지 않습니다.");
+		CmmnDetailCode vo = cmmnDetailCodeManageService.selectCmmnDetailCodeDetail(cmmnDetailCode);
+    	
+		if(vo != null){
+			map.put("resultCode", 1);
+			map.put("resultMsg", "이미 등록된 코드가 존재합니다.");
             return map;
     	}
-
-        beanValidator.validate(cmmnDetailCode, bindingResult);
-		if (bindingResult.hasErrors()){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "입력값을 확인하세요.");
-            return map;
-		}
 		
-    	if(cmd.equals("insert")){
-
-			CmmnDetailCode vo = cmmnDetailCodeManageService.selectCmmnDetailCodeDetail(cmmnDetailCode);
-	    	
-			if(vo != null){
-				map.put("resultCode", 1);
-				map.put("resultMsg", "이미 등록된 코드가 존재합니다.");
-	            return map;
-	    	}
-			
-	    	cmmnDetailCode.setFrstRegisterId(user.getId());
+		try {
+			cmmnDetailCode.setFrstRegisterId(user.getId());
 	    	cmmnDetailCodeManageService.insertCmmnDetailCode(cmmnDetailCode);
 	    	
 	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-    	}
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+    	
     	return map;
     }
 
@@ -237,10 +221,20 @@ public class GamCmmnCodeDetailMngtController {
         		return map;
     		}
 
-    		cmmnDetailCode.setLastUpdusrId(user.getId());
-	    	cmmnDetailCodeManageService.updateCmmnDetailCode(cmmnDetailCode);
-	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    		try {
+			
+    			cmmnDetailCode.setLastUpdusrId(user.getId());
+    	    	cmmnDetailCodeManageService.updateCmmnDetailCode(cmmnDetailCode);
+    	    	map.put("resultCode", 0);			// return ok
+    			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    			
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				
+				map.put("resultCode", 1);
+    			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+			}
     	}
     	return map;
     }

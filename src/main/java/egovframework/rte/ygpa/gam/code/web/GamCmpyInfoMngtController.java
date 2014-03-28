@@ -274,7 +274,7 @@ public class GamCmpyInfoMngtController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			map.put("resultCode", 1);			// return ok
+			map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
@@ -302,7 +302,7 @@ public class GamCmpyInfoMngtController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			map.put("resultCode", 1);			// return ok
+			map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
     	

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package egovframework.rte.ygpa.gam.code.web;
 
 import java.util.HashMap;
@@ -100,9 +97,6 @@ public class GamCmmnCodeMngtController {
 	@ResponseBody Map<String, Object> selectCmmnCodeList(@ModelAttribute("searchVO") CmmnCodeVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-    	/** EgovPropertyService.sample */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -116,7 +110,9 @@ public class GamCmmnCodeMngtController {
 		
         List<?> CmmnCodeList = cmmnCodeManageService.selectCmmnCodeList(searchVO);
         int totCnt = cmmnCodeManageService.selectCmmnCodeListTotCnt(searchVO);
+
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
@@ -178,11 +174,19 @@ public class GamCmmnCodeMngtController {
 			map.put("resultMsg", "등록된 코드가 존재합니다.");
 		}else{
 
-			cmmnCode.setFrstRegisterId(user.getId());
 
-	    	cmmnCodeManageService.insertCmmnCode(cmmnCode);
-	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			try {
+				cmmnCode.setFrstRegisterId(user.getId());
+		    	cmmnCodeManageService.insertCmmnCode(cmmnCode);
+		    	map.put("resultCode", 0);			// return ok
+				map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			}
+			
 		}
 
         return map;
@@ -223,11 +227,19 @@ public class GamCmmnCodeMngtController {
     		}
     		
 
-   			cmmnCode.setLastUpdusrId(user.getId());
-	    	cmmnCodeManageService.updateCmmnCode(cmmnCode);
-	    	
-	    	map.put("resultCode", 0);
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    		try {
+    			cmmnCode.setLastUpdusrId(user.getId());
+    	    	cmmnCodeManageService.updateCmmnCode(cmmnCode);
+    	    	
+    	    	map.put("resultCode", 0);
+    	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				map.put("resultCode", 1);
+    	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+			}
+   			
 	        return map;
     	} else {
     		return map;
@@ -252,7 +264,7 @@ public class GamCmmnCodeMngtController {
           	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	}catch(Exception e){
     		map.put("resultCode", 1);
-    		map.put("resultMsg", "해당 데이터는 삭제가 불가능합니다.");
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
     	}
         
     	
