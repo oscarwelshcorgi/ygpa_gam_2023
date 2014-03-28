@@ -43,7 +43,6 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 					{display:"사업자등록번호",	name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
 					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"}
 			],
-		showTableToggleBtn: false,
 		height: "auto"
 	});
 

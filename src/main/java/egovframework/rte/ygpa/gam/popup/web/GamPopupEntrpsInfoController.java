@@ -89,9 +89,6 @@ public class GamPopupEntrpsInfoController {
 		int totalCnt;
     	Map map = new HashMap();
 
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -104,6 +101,9 @@ public class GamPopupEntrpsInfoController {
 		List resultList = gamPopupEntrpsInfoService.selectEntrpsInfoList(searchVO);
     	totalCnt = gamPopupEntrpsInfoService.selectEntrpsInfoListTotCnt(searchVO);
     	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
