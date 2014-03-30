@@ -58,7 +58,7 @@
 
 			depends="" msg="errors.password1">
 			<javascript><![CDATA[
-           function validatePassword1(form) {
+           function validatePassword1(form, password1) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -109,7 +109,7 @@
 
 			depends="" msg="errors.password2">
 			<javascript><![CDATA[
-           function validatePassword2(form) {
+           function validatePassword2(form, password2) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -160,7 +160,7 @@
 
 			depends="" msg="errors.password3">
 			<javascript><![CDATA[
-           function validatePassword3(form) {
+           function validatePassword3(form, password3) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -228,7 +228,7 @@
 
 			depends="" msg="errors.password4">
 			<javascript><![CDATA[
-           function validatePassword4(form) {
+           function validatePassword4(form, password4) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -294,7 +294,7 @@
                        org.springframework.validation.Errors"
 			msg="errors.minInteger">
 			<javascript><![CDATA[
-          function validateMinInteger(form){
+          function validateMinInteger(form, minInteger){
                var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -365,7 +365,7 @@
                        org.springframework.validation.Errors"
 			msg="errors.english">
 			<javascript><![CDATA[
-          function validateEnglish(form){
+          function validateEnglish(form, english){
                 var bValid = true;
                 var focusField = null;
                 var i = 0;

@@ -40,17 +40,19 @@
 	                <var-value>80</var-value>
                 </var>
             </field>
-            <field property="gisAssetLotCode" depends="maxlength">
+            <field property="gisAssetsLnm" depends="maxlength,short">
                 <arg0 key="GIS 자산 지번" resource="false"/>
                 <arg1 key="4" resource="false"/>
+                <arg2 key="숫자" resource="false"/>
                 <var>
 	                <var-name>maxlength</var-name>
 	                <var-value>4</var-value>
                 </var>
             </field>
-            <field property="gisAssetLotSubCode" depends="maxlength">
+            <field property="gisAssetsLnmSub" depends="maxlength,short">
                 <arg0 key="GIS 자산 지번" resource="false"/>
                 <arg1 key="4" resource="false"/>
+                <arg2 key="숫자" resource="false"/>
                 <var>
 	                <var-name>maxlength</var-name>
 	                <var-value>4</var-value>

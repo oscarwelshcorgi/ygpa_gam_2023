@@ -53,7 +53,7 @@
                   msg="errors.required">
 
          <javascript><![CDATA[
-            function validateRequired(form) {
+            function validateRequired(form, required) {
                 var isValid = true;
                 var focusField = null;
                 var i = 0;
@@ -163,7 +163,7 @@
                   msg="errors.minlength">
 
          <javascript><![CDATA[
-            function validateMinLength(form) {
+            function validateMinLength(form, minlength) {
                 var isValid = true;
                 var focusField = null;
                 var i = 0;
@@ -209,7 +209,7 @@
                   msg="errors.maxlength">
 
          <javascript><![CDATA[
-            function validateMaxLength(form) {
+            function validateMaxLength(form, maxlength) {
                 var isValid = true;
                 var focusField = null;
                 var i = 0;
@@ -255,7 +255,7 @@
                   msg="errors.invalid">
 
          <javascript><![CDATA[
-            function validateMask(form) {
+            function validateMask(form, mask) {
                 var isValid = true;
                 var focusField = null;
                 var i = 0;
@@ -307,7 +307,7 @@
        jsFunctionName="ByteValidations">
 
          <javascript><![CDATA[
-            function validateByte(form) {
+            function validateByte(form, ByteValidations) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -380,7 +380,7 @@
        jsFunctionName="ShortValidations">
 
          <javascript><![CDATA[
-            function validateShort(form) {
+            function validateShort(form, ShortValidations) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -452,7 +452,7 @@
        jsFunctionName="IntegerValidations">
 
          <javascript><![CDATA[
-            function validateInteger(form) {
+            function validateInteger(form, IntegerValidations) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -556,7 +556,7 @@
        jsFunctionName="FloatValidations">
 
          <javascript><![CDATA[
-            function validateFloat(form) {
+            function validateFloat(form, FloatValidations) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -643,7 +643,7 @@
        jsFunctionName="DateValidations">
 
          <javascript><![CDATA[
-            function validateDate(form) {
+            function validateDate(form, DateValidations) {
                var bValid = true;
                var focusField = null;
                var i = 0;
@@ -806,8 +806,8 @@
                   msg="errors.range">
 
          <javascript><![CDATA[
-            function validateRange(form) {
-                return validateIntRange(form);
+            function validateRange(form, intRange) {
+                return validateIntRange(form, intRange);
             }]]>
          </javascript>
 
@@ -825,7 +825,7 @@
                   msg="errors.range">
 
          <javascript><![CDATA[
-            function validateIntRange(form) {
+            function validateIntRange(form, intRange) {
                 var isValid = true;
                 var focusField = null;
                 var i = 0;
@@ -873,7 +873,7 @@
                   msg="errors.range">
 
          <javascript><![CDATA[
-            function validateFloatRange(form) {
+            function validateFloatRange(form, floatRange) {
                 var isValid = true;
                 var focusField = null;
                 var i = 0;
@@ -921,7 +921,7 @@
                   msg="errors.creditcard">
 
          <javascript><![CDATA[
-            function validateCreditCard(form) {
+            function validateCreditCard(form, creditCard) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -1000,7 +1000,7 @@
                   msg="errors.email">
 
          <javascript><![CDATA[
-            function validateEmail(form) {
+            function validateEmail(form, email) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -1098,7 +1098,7 @@
               depends=""
                   msg="errors.ihidnum">
            <javascript><![CDATA[
-           function validateIhIdNum(form) {
+           function validateIhIdNum(form, ihidnum) {
                 var bValid = true;
                 var focusField = null;
                 var i = 0;
@@ -1173,7 +1173,7 @@
                        org.springframework.validation.Errors"
                   msg="errors.korean">
           <javascript><![CDATA[
-          function validateKorean(form){
+          function validateKorean(form, korean){
                 var bValid = true;
                 var focusField = null;
                 var i = 0;

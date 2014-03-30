@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamAssetCodeMngt.jsp
@@ -618,7 +618,7 @@ var module_instance = new GamAssetCodeModule();
 						<th><span class="label">자산소재지</span></th>
 						<td colspan="3"><input type="text" size="60" id="gisAssetsLocplc"></td>
 						<th><span class="label">지번</span></th>
-						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="GisAssetsLnmSub"></td>
+						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="gisAssetsLnmSub"></td>
 					</tr>
 					<tr>
 					</tr>
