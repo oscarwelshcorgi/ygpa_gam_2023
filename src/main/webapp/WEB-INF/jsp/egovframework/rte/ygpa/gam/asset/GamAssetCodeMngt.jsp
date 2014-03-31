@@ -40,7 +40,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		url: '<c:url value="/asset/selectErpAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'등록1', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
+			{display:'등록', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
 			{display:'ERP자산코드', name:'erpAssetCode', width:80, sortable:true, align:'left'},
 			{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'right'},
 			{display:'품목', name:'itemCls', width:32, sortable:true, align:'center'},
