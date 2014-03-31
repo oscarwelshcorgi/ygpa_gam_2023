@@ -392,6 +392,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		row=module.getFormValues('#editAssetGisPhotoForm', row);
 		rownum=module.$('#assetCodeList').selectedRowIds()[0];
 
+		
+		
 		this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
 		break;
 

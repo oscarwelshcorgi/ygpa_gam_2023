@@ -24,7 +24,7 @@
 	                <var-value>80</var-value>
                 </var>
             </field>
-            <field property="shotDt" depends="date">
+            <field property="shotDate" depends="date">
                 <arg0 key="촬영일시" resource="false"/>
                 <var>
                 	<var-name>datePatternStrict</var-name>
