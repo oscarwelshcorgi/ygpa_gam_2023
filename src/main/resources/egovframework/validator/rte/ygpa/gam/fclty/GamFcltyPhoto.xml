@@ -22,6 +22,14 @@
                 	<var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
+            <field property="photoDest" depends="maxlength">
+                <arg0 key="제목" resource="false"/>
+                <arg1 key="200" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>200</var-value>
+                </var>
+            </field>
         </form>
     </formset>
 
