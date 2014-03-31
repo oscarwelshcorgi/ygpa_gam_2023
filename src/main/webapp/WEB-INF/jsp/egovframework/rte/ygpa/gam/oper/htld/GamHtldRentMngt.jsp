@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
+
 <%
   /**
   * @Class Name : GamHtldRentMngt.jsp
@@ -19,6 +21,11 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+
+<validator:javascript formName="gamHtldRentMngtVld" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamHtldRentMngtDetailVld" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamHtldRentMngtPhotoVld" staticJavascript="false" xhtml="true" cdata="false" />
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -566,7 +573,12 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
 
         // 저장
         case 'btnSaveItem':
+        	
+        	if( !validateGamHtldRentMngtVld(this.$('#gamHtldRentMngtForm')[0]) ) {
+            	return;
+            }
 
+        	/*
         	if( this.$('#prtAtCode').val() == '' ) {
             	alert("항구분을 선택하십시오.");
             	return;
@@ -587,16 +599,18 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
                 return;
             }
             
+            if( this.$('#nticMth').val() == '' ) {
+                alert("고지방법을 선택하십시오.");
+                return;
+            }
+            */
+            
             /*
             if( this.$('#payMth').val() == '' ) {
                 alert("납부방법을 선택하십시오.");
                 return;
             }
             */
-            if( this.$('#nticMth').val() == '' ) {
-                alert("고지방법을 선택하십시오.");
-                return;
-            }
             
             if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' && this.$('#payinstIntrrate').val() != '0' ) {	
                 alert("고지방법이 일괄납부인 경우는 분납이자율을 입력하지 마십시오.");
@@ -956,6 +970,11 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
             
         case 'btnRentDetailApply': //배후단지임대상세적용
         
+        	if( !validateGamHtldRentMngtDetailVld(this.$('#gamHtldRentMngtDetailForm')[0]) ) {
+            	return;
+            }
+        
+        	/*
         	if( this.$('#gisAssetsCd').val() == '' ) {
                 alert("자산을 조회하여 선택하십시오.");
                 return;
@@ -995,6 +1014,7 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
                 alert("면제구분을 선택하십시오.");
                 return;
             } 
+        	*/
         	
         	if( this.$('#exemptSe').val() == '1' ) {
             	if( this.$('#exemptPdFrom').val() == '' ) {
@@ -1148,6 +1168,11 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
             break;
         
         case 'btnApplyPhotoData':
+        	
+        	if(!validateGamHtldRentMngtPhotoVld( this.$('#gamHtldRentMngtFileForm')[0]) ) {
+    			return;
+    		}
+        	
         	/*
         	if( this.$('#filenmLogic').val() == '' ) {
                 alert("첨부파일목록에서 선택하십시오.");
@@ -1460,7 +1485,7 @@ var module_instance = new GamHtldRentMngtModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                 <div class="emdControlPanel"></div>
-                    <form id="gamHtldRentMngtForm">
+                    <form id="gamHtldRentMngtForm" commandName="gamHtldRentMngtVld" >
                         <input type="hidden" id="cmd"/>
                         <!-- <input type="hidden" id="quayGroupCd"/> 확인필요. -->
 
@@ -1597,7 +1622,7 @@ var module_instance = new GamHtldRentMngtModule();
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 
                 <!-- <div class="emdControlPanel"><button id="btnSaveItemDetail">저장</button></div>  -->
-                    <form id="gamHtldRentMngtDetailForm">
+                    <form id="gamHtldRentMngtDetailForm" commandName="gamHtldRentMngtDetailVld" >
                         <input type="hidden" id="detailCmd"/>
                         <input type="hidden" id="detailPrtAtCode" data-column-id="prtAtCode"/>
                         <input type="hidden" id="detailMngYear" data-column-id="mngYear"/>
@@ -1844,7 +1869,7 @@ var module_instance = new GamHtldRentMngtModule();
                 
                 <table id="htldRentMngtFileList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
-                <form id="gamHtldRentMngtFileForm">
+                <form id="gamHtldRentMngtFileForm" commandName="gamHtldRentMngtPhotoVld" >
                     <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
                     <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
                     <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
@@ -1861,13 +1886,13 @@ var module_instance = new GamHtldRentMngtModule();
                         <tr>
                             <th><span class="label">제 목</span></th>
                             <td>
-                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40" />
+                                <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="80" />
                             </td>
                         </tr>
                         <tr>
                             <th><span class="label">사진설명</span></th>
                             <td>
-                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90">
+                                <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="100" />
                             </td>
                         </tr>
                         <tr>
