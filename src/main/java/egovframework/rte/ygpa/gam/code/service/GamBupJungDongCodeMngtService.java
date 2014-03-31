@@ -29,6 +29,6 @@ public interface GamBupJungDongCodeMngtService {
 	 * @return lis t
 	 * @throws Exception
 	 */
-	List<GamBupJungDongCodeVO> selectBupJungDongCodeList(GamBupJungDongCodeDefaultVO vo) throws Exception;
+	List selectBupJungDongCodeList(GamBupJungDongCodeDefaultVO vo) throws Exception;
 
 }

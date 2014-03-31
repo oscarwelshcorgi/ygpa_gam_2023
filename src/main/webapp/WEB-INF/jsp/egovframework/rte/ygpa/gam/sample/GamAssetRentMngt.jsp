@@ -154,7 +154,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		            mngNo: rows['mngNo'],
 		            mngCnt: rows['mngCnt']
 			};
-			this.requestEApproval(opts);
+			this.requestEApproval(opts, function(){alert('결재완료');});
 		}
 		break;
 	}

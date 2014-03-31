@@ -38,7 +38,7 @@ public class GamBupJungDongCodeMngtDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<GamBupJungDongCodeVO> selectBupJungDongCodeList(GamBupJungDongCodeDefaultVO vo) throws Exception{
+	public List selectBupJungDongCodeList(GamBupJungDongCodeDefaultVO vo) throws Exception{
 		return list("gamBupJungDongCodeMngtDao.selectBupJungDongCodeList", vo);
 	}
 

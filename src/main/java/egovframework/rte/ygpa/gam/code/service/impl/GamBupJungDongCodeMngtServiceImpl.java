@@ -40,7 +40,7 @@ public class GamBupJungDongCodeMngtServiceImpl extends AbstractServiceImpl imple
 	 * @see egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeService#selectOlnlpInsertList(egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeVO)
 	 */
 	@Override
-	public List<GamBupJungDongCodeVO> selectBupJungDongCodeList(
+	public List selectBupJungDongCodeList(
 			GamBupJungDongCodeDefaultVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return gamBupJungDongCodeMngtDao.selectBupJungDongCodeList(vo);

@@ -20,8 +20,8 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<validator:javascript formName="gamAssetCode" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetPhoto" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetCode" method="validateGamAssetCode" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetPhoto" method="gamAssetPhoto" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.

@@ -197,7 +197,7 @@
       </validator>
 
 
-      <validator name="maxlength"
+      <validator name="maxlength"  jsFunctionName="checkMaxLength"
             classname="org.springmodules.validation.commons.FieldChecks"
                method="validateMaxLength"
          methodParams="java.lang.Object,

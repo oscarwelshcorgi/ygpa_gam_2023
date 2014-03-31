@@ -25,7 +25,7 @@ public class GamCmmnCodeListController {
 	 /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
 	@RequestMapping(value="/cmmn/selectGamCmmnCodeList.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
@@ -62,19 +62,19 @@ public class GamCmmnCodeListController {
 		item.put("name","마케팅팀");
 		list.add(item);
 		*/
-		
+
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
 		vo.setTableNm("COMTNORGNZTINFO");
 		List<CmmnDetailCode> DeptCode = cmmUseService.selectOgrnztIdDetail(vo);
-		
+
 		for(CmmnDetailCode DeptList : DeptCode){
 			Map item = new HashMap();
 			item.put("value", DeptList.getCode());
 			item.put("name", DeptList.getCodeNm());
 			list.add(item);
 		}
-		
-				
+
+
 		optMap.put("resultList", list);
 
 		return optMap;
@@ -109,10 +109,10 @@ public class GamCmmnCodeListController {
 		item.put("name","창고");
 		list.add(item);
 		*/
-		
-		
+
+
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		codeVo.setCodeId(cmd);  
+		codeVo.setCodeId(cmd);
 		List<CmmnDetailCode> Cd = cmmUseService.selectCmmCodeDetail(codeVo);
 		List list = new ArrayList();
 		for(CmmnDetailCode CmnCdList : Cd){
@@ -121,7 +121,7 @@ public class GamCmmnCodeListController {
 			item.put("name", CmnCdList.getCodeNm());
 			list.add(item);
 		}
-		
+
 		optMap.put("resultList", list);
 
 		return optMap;

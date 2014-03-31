@@ -54,6 +54,10 @@
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
     <script src="<c:url value='/js/jquery.sidr.min.js'/>"></script>
 
+	<script src="<c:url value='/js/Proj4js/proj4js.js'/>"></script>
+	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
+	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
+
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
@@ -62,7 +66,7 @@
        OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
 
        jQuery(document).ready(function() {
-    	   EMD.go("<c:url value='/'/>");
+    	   EMD.go("<c:url value='/'/>", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
 
     </script>
@@ -419,7 +423,7 @@
                             <a href="#" data-role="LoadModule" data-prgid="PRG_0004"
                             data-url="<c:url value='/oper/center/gamMarineCenterRentArStsReport.do'/>">마린센터면적별사용료현황조회</a>
                             </li>
-                            
+
                             </ul>
                         </li>
                     </ul>
