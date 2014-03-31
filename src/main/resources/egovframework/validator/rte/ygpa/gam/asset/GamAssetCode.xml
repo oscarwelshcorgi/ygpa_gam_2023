@@ -21,8 +21,8 @@
             </field>
             <field property="gisAssetsNm" depends="required, minlength, maxlength">
                 <arg0 key="GIS 자산 명" resource="false"/>
-                <arg1 key="2" resource="false"/>
-                <arg2 key="80" resource="false"/>
+                <arg1 name="minlength" key="2" resource="false"/>
+                <arg1 name="maxlength" key="80" resource="false"/>
                 <var>
 	                <var-name>minlength</var-name>
 	                <var-value>2</var-value>
