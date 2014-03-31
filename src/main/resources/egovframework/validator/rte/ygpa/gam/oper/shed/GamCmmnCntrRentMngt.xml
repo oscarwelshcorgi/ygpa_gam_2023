@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamCmmnCntrRentMngtVld">
+            <field property="prtAtCode" depends="required">
+                <arg0 key="항구분" resource="false"/>
+            </field>
+            <field property="entrpscd" depends="required">
+                <arg0 key="신청업체" resource="false"/>
+            </field>
+            <field property="frstReqstDt" depends="required, date">
+                <arg0 key="최초신청일자" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="reqstDt" depends="required, date">
+                <arg0 key="신청일자" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="nticMth" depends="required">
+                <arg0 key="고지방법" resource="false"/>
+            </field>
+        </form>
+        
+    </formset>
+
+</form-validation>
