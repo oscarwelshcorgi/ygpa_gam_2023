@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamAssetRentDetail">
+            <field property="gisAssetsCd" depends="required">
+                <arg0 key="자산코드" resource="false"/>
+            </field>
+            <field property="usagePdFrom" depends="required, date">
+                <arg0 key="사용기간(시작)" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="usagePdTo" depends="required, date">
+                <arg0 key="사용기간(종료)" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="olnlp" depends="required">
+                <arg0 key="공시지가" resource="false"/>
+                <arg1 key="13" resource="false"/>
+                <var>
+                <var-name>maxlength</var-name>
+                <var-value>13</var-value>
+                </var>
+            </field>   
+            <field property="usageAr" depends="required">
+                <arg0 key="사용면적" resource="false"/>
+                <arg1 key="8" resource="false"/>
+                <var>
+                <var-name>maxlength</var-name>
+                <var-value>8</var-value>
+                </var>
+            </field>  
+            <field property="applcTariff" depends="required">
+                <arg0 key="적용요율" resource="false"/>
+            </field>
+            <field property="applcMth" depends="required">
+                <arg0 key="적용방법" resource="false"/>
+            </field>
+            <field property="exemptSe" depends="required">
+                <arg0 key="면제구분" resource="false"/>
+            </field>
+            <field property="fee" depends="required">
+                <arg0 key="사용료" resource="false"/>
+                <arg1 key="13" resource="false"/>
+                <var>
+                <var-name>maxlength</var-name>
+                <var-value>13</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+
+</form-validation>
