@@ -278,4 +278,12 @@ public interface GamPrtFcltyRentMngtService {
 	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception;
     
+    /**
+   	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return 항만시설사용목록
+   	 * @exception Exception
+   	 */
+    public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfoMax(GamPrtFcltyRentMngtVO searchVO) throws Exception;
+    
 }

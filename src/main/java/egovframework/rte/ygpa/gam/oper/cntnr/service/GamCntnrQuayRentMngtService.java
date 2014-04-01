@@ -274,4 +274,12 @@ public interface GamCntnrQuayRentMngtService {
 	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtCofixInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
     
+    /**
+   	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return 컨테이너부두임대목록
+   	 * @exception Exception
+   	 */
+    public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtCofixInfoMax(GamCntnrQuayRentMngtVO searchVO) throws Exception;
+    
 }

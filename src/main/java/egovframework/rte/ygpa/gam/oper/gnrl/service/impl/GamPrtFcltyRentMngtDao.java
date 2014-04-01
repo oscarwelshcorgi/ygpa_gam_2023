@@ -405,4 +405,14 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfo_S", searchVO);
 	}
+	
+	/**
+	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설사용관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfoMax(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfoMax_S", searchVO);
+	}
 }

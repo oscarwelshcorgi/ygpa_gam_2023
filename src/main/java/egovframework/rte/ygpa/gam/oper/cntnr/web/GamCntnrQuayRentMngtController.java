@@ -107,6 +107,10 @@ public class GamCntnrQuayRentMngtController {
 		if( cofixVO != null ) {
 			cofixResultVO = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtCofixInfo(cofixVO);
 			
+			if( cofixResultVO == null ) {
+				cofixResultVO = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtCofixInfoMax(cofixVO);
+			}
+			
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}
