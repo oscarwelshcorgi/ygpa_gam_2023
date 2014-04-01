@@ -405,4 +405,14 @@ public class GamTrainPortRentMngtDao extends YGPAAbstractDAO {
 	public GamTrainPortRentMngtVO selectTrainPortRentMngtCofixInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
 		return (GamTrainPortRentMngtVO) selectByPk("gamTrainPortRentMngtDao.selectTrainPortRentMngtCofixInfo_S", searchVO);
 	}
+	
+	/**
+	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 철송장임대관리 목록
+	 * @exception Exception
+	 */
+	public GamTrainPortRentMngtVO selectTrainPortRentMngtCofixInfoMax(GamTrainPortRentMngtVO searchVO) throws Exception {
+		return (GamTrainPortRentMngtVO) selectByPk("gamTrainPortRentMngtDao.selectTrainPortRentMngtCofixInfoMax_S", searchVO);
+	}
 }

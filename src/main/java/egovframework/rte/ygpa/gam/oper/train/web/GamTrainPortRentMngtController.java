@@ -107,6 +107,10 @@ public class GamTrainPortRentMngtController {
 		if( cofixVO != null ) {
 			cofixResultVO = gamTrainPortRentMngtService.selectTrainPortRentMngtCofixInfo(cofixVO);
 			
+			if( cofixResultVO == null ) {
+				cofixResultVO = gamTrainPortRentMngtService.selectTrainPortRentMngtCofixInfoMax(cofixVO);
+			}
+			
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}
