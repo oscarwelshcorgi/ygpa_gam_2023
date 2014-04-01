@@ -6,10 +6,10 @@
 <form-validation>
     <formset>
         <form name="gamCodeClMngt">
-        	<field property="clCode" depends="required, minlength, maxlength">
+            <field property="clCode" depends="required, minlength, maxlength">
                 <arg0 key="분류코드" resource="false"/>
-                <arg1 name="minlength" key="3" resource="false"/>
-                <arg1 name="maxlength" key="3" resource="false"/>
+                <arg1 key="3" resource="false"/>
+                <arg2 key="3" resource="false"/>
                 <var>
 	                <var-name>minlength</var-name>
 	                <var-value>3</var-value>
