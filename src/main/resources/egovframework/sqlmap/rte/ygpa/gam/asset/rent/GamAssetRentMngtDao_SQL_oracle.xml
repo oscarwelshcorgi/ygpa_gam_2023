@@ -1412,4 +1412,15 @@
                   ) WHERE ROWNUM = 1
     </select>
     
+    <select id="gamAssetRentMngtDao.selectAssetRentCofixInfoMax_S" parameterClass="gamAssetRentMngtVO" resultMap="gamAssetRentCofixInfoMap">
+        SELECT 
+		        A.OBJ_YRMT
+		      , TRIM(TO_CHAR(A.BLCE_STDR_INTRRATE, '0.0000')) BLCE_STDR_INTRRATE
+		      , TRIM(TO_CHAR(A.BLCE_STDR_INTRRATE * 100, '0.00')) BLCE_STDR_INTRRATE_SHOW
+		      , A.NEW_MANIP_AMT_STDR_INTRRATE
+		      , TO_CHAR(A.ANNODT,'YYYYMMDD') ANNODT 
+		  FROM COFIX_INTRRATE_F A
+		 WHERE A.OBJ_YRMT = ( SELECT MAX(B.OBJ_YRMT) FROM COFIX_INTRRATE_F B )
+    </select>
+    
 </sqlMap>

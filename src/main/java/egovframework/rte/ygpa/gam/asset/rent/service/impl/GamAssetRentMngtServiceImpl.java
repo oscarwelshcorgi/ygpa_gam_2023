@@ -585,5 +585,15 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCofixInfo(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCofixInfo(searchVO);
     }
+    
+    /**
+	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectAssetRentCofixInfoMax(searchVO);
+    }
 	
 }

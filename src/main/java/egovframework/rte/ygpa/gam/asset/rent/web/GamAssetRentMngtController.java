@@ -107,6 +107,10 @@ public class GamAssetRentMngtController {
 		if( cofixVO != null ) {
 			cofixResultVO = gamAssetRentMngtService.selectAssetRentCofixInfo(cofixVO);
 			
+			if( cofixResultVO == null ) {
+				cofixResultVO = gamAssetRentMngtService.selectAssetRentCofixInfoMax(cofixVO);
+			}
+			
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}
