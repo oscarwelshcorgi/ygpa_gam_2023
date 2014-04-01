@@ -107,6 +107,10 @@ public class GamMarineCenterRentMngtController {
 		if( cofixVO != null ) {
 			cofixResultVO = gamMarineCenterRentMngtService.selectMarineCenterRentCofixInfo(cofixVO);
 			
+			if( cofixResultVO == null ) {
+				cofixResultVO = gamMarineCenterRentMngtService.selectMarineCenterRentCofixInfoMax(cofixVO);
+			}
+			
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}

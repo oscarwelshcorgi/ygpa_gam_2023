@@ -585,5 +585,15 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
     public GamMarineCenterRentMngtVO selectMarineCenterRentCofixInfo(GamMarineCenterRentMngtVO searchVO) throws Exception {
         return gamMarineCenterRentMngtDao.selectMarineCenterRentCofixInfo(searchVO);
     }
+    
+    /**
+	 * 마지막 데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 마린센터임대목록
+	 * @exception Exception
+	 */
+    public GamMarineCenterRentMngtVO selectMarineCenterRentCofixInfoMax(GamMarineCenterRentMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentMngtDao.selectMarineCenterRentCofixInfoMax(searchVO);
+    }
 	
 }
