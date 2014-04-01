@@ -107,11 +107,11 @@ public class GamHtldRentMngtController {
 		if( cofixVO != null ) {
 			cofixResultVO = gamHtldRentMngtService.selectHtldRentMngtCofixInfo(cofixVO);
 			
-			if( cofixResultVO.getBlceStdrIntrrate() != null ) {
+			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}
 			
-			if( cofixResultVO.getBlceStdrIntrrateShow() != null ) {
+			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrateShow() != null ) {
 				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
 			}
 		}
