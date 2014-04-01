@@ -8,7 +8,7 @@
         <form name="gamCodeClMngt">
             <field property="clCode" depends="required, maxlength">
                 <arg0 key="분류코드" resource="false"/>
-                <arg2 key="3" resource="false"/>
+                <arg1 key="3" resource="false"/>
                 <var>
 	                <var-name>maxlength</var-name>
 	                <var-value>3</var-value>
