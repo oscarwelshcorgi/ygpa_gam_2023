@@ -274,4 +274,12 @@ public interface GamCmmnCntrRentMngtService {
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
     
+    /**
+   	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return 공컨장치장임대목록
+   	 * @exception Exception
+   	 */
+    public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfoMax(GamCmmnCntrRentMngtVO searchVO) throws Exception;
+    
 }

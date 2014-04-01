@@ -405,4 +405,14 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 		return (GamCmmnCntrRentMngtVO) selectByPk("gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCofixInfo_S", searchVO);
 	}
+	
+	/**
+	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 공컨장치장임대관리 목록
+	 * @exception Exception
+	 */
+	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfoMax(GamCmmnCntrRentMngtVO searchVO) throws Exception {
+		return (GamCmmnCntrRentMngtVO) selectByPk("gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCofixInfoMax_S", searchVO);
+	}
 }
