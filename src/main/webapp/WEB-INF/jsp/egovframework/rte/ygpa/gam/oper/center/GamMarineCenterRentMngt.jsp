@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamMarineCenterRentMngt.jsp
@@ -19,6 +20,14 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamMarineCenterRent" method="validateGamMarineCenterRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamMarineCenterRentDetail" method="validateGamMarineCenterRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamMarineCenterRentFile" method="validateGamMarineCenterRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<!-- 
+<validator:javascript formName="gamAssetRent" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentDetail" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentFile" staticJavascript="false" xhtml="true" cdata="false" />
+ -->
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -556,6 +565,10 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         // 신청저장
         case 'btnSaveItem':
             
+            if(!validateGamMarineCenterRent(this.$('#gamMarineCenterRentForm')[0])) {
+                return;
+            }
+            
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("항구분을 선택하십시오.");
                 return;
@@ -981,7 +994,11 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             break;
 
         case 'btnRentDetailApply': //임대상세적용
-
+			
+			if(!validateGamMarineCenterRentDetail(this.$('#gamMarineCenterRentDetailForm')[0])) {
+                return;
+            }
+			
             if( this.$('#gisAssetsCd').val() == '' ) {
                 alert("자산을 조회하여 선택하십시오.");
                 return;
@@ -1173,7 +1190,11 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             break;
         
         case 'btnApplyPhotoData':
-
+			
+			if(!validateGamMarineCenterRentFile(this.$('#gamMarineCenterRentFileForm')[0])) {
+                return;
+            }
+			
             if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editDataFile=this.getFormValues('#gamMarineCenterRentFileForm', this._editDataFile);
             
