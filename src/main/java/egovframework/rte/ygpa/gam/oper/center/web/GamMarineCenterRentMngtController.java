@@ -240,6 +240,9 @@ public class GamMarineCenterRentMngtController {
     	List<HashMap<String,String>> deleteFileList=null;
     	HashMap<String,String> form=null;
     	
+    	int resultCode = -1;
+    	String resultMsg = "";
+    	
     	try {
     		insertList = mapper.readValue((String)dataList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
@@ -524,15 +527,21 @@ public class GamMarineCenterRentMngtController {
     			gamMarineCenterRentMngtService.updateMarineCenterRentQuaycd(quaycdVO);
     		}
     		
+    		resultCode = 0;
+        	resultMsg  = egovMessageSource.getMessage("success.common.merge");
+    		
     	} catch (Exception e) {
     		e.printStackTrace();
+    		
+    		resultCode = 1;
+    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
     	}
     	log.debug("insert list : "+insertList.size());
     	log.debug("updateList list : "+updateList.size());
     	log.debug("deleteList list : "+deleteList.size());
 
-		map.put("resultCode", 0);			// return ok
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+    	map.put("resultCode", resultCode);			
+		map.put("resultMsg", resultMsg);
 		return map;
     }
 	
