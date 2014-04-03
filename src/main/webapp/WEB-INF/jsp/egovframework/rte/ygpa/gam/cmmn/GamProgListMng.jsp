@@ -36,17 +36,13 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamProgramListManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'left'},
+					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'center'},
 					{display:'프로그램명', 		name:'progrmKoreanNm',	width:160, 		sortable:false,		align:'center'},
-					{display:'프로그램경로', 		name:'progrmStrePath',	width:100, 		sortable:false,		align:'left'},
-					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'left'},
+					{display:'프로그램경로', 		name:'progrmStrePath',	width:100, 		sortable:false,		align:'center'},
+					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'center'},
 					{display:'프로그램설명',		name:'progrmDc',		width:160,		sortable:false,		align:'center'}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: '300'
+		height: "auto"
 	});
 
 	this.$("#progListMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -165,28 +161,28 @@ var module_instance = new GamProgListMngModule();
 					<tbody>
 						<tr>
 							<th>프로그램 명</th>
-							<td><input id="searchKeyword" name="searchKeyword" type="text" size="60" /></td>
+							<td>&nbsp;<input id="searchKeyword" name="searchKeyword" type="text" size="60" /></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-					<button id="addBtn">추가</button>
-				</div>
 			</form>
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="programListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="programListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">프로그램목록</a></li>
 				<li><a href="#tabs2" class="emdTab">프로그램상세</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="progListMngList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="progListMngList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="addBtn">추가</button>
+				</div>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="progrmManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">

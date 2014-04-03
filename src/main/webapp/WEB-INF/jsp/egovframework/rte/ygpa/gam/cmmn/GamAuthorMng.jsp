@@ -41,11 +41,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 					{display:"설명", 	name:"authorDc",		width:200, 	sortable:false,		align:"center"},
 					{display:"등록일자", name:"authorCreatDe",	width:100, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "260",
+		height: "auto",
 	});
 	
 	this.$("#authorMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -167,28 +163,28 @@ var module_instance = new GamAuthorMngModule();
 					<tbody>
 						<tr>
 							<th>권한 명</th>
-							<td><input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td>&nbsp;<input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-					<button id="addBtn">추가</button>
-				</div>
 			</form>
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="authorMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="authorMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">권한목록</a></li>
 				<li><a href="#tabs2" class="emdTab">권한상세</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage">
-				<table id="authorMngList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="authorMngList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="addBtn">추가</button>
+				</div>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="authorManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">

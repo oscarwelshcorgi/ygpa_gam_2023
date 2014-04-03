@@ -45,11 +45,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 					{display:'관련이미지명',		name:'relateImageNm',	width:0,		sortable:false,		align:'center'},
 					{display:'상위메뉴ID',		name:'upperMenuId',		width:80,		sortable:false,		align:'center'}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: '280'
+		height: 'auto'
 	});
 
 	this.$("#menuMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -209,28 +205,28 @@ var module_instance = new GamMenuMngModule();
 					<tbody>
 						<tr>
 							<th>메뉴 명</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="<c:out value="${searchVO.searchKeyword}" />"  maxlength="60" title="검색조건" /></td>
+							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-					<button id="addBtn">추가</button>
-				</div>
 			</form>
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="menuMngListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="menuMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">메뉴목록</a></li>
 				<li><a href="#tabs2" class="emdTab">메뉴상세</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage" style="overflow: auto;">
-				<table id="menuMngList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="menuMngList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="addBtn">추가</button>
+				</div>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="menuManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
