@@ -44,17 +44,8 @@ GamSearchZipPopupModule.prototype.loadComplete = function() {
 					{display:"우편번호",		name:"zip",			width:80, 	sortable:false,		align:"center"},
 					{display:"주소",			name:"address",		width:240, 	sortable:false,		align:"center"},
 					{display:"번지주소",		name:"lnbrDongHo",	width:140, 	sortable:false,		align:"center"}
-					/*{display:"시",	 		name:"ctprvnNm",	width:300, 	sortable:false,		align:"center"},
-					{display:"군구", 		name:"signguNm",	width:300, 	sortable:false,		align:"center"},
-					{display:"동읍면", 		name:"emdNm",		width:300, 	sortable:false,		align:"center"},
-					{display:"주소", 		name:"liBuldNm",	width:300, 	sortable:false,		align:"center"},
-					{display:"주소", 		name:"lnbrDongHo",	width:300, 	sortable:false,		align:"center"}*/
 					],
-		usepager: true,
-		useRp: true,
-		//rp: 24,
-		showTableToggleBtn: false,
-		height: "315"
+		height: "auto"
 	});
 
 	this.$("#searchZipPopupList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -137,9 +128,11 @@ function selectDisplay(){
 		</div>
 	</div>
 	
-	<div class="emdPanel">
-		<div style="width: 100%; height: 100%; overflow: auto">
-			<table id="searchZipPopupList" style="display:none"></table>
+	<div class="emdPanel fillHeight">
+		<div class="emdTabPanel fillHeight">
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="searchZipPopupList" style="display:none" class="fillHeight"></table>
+			</div>
 		</div>
 	</div>
 </div>
