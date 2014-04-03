@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamUserMng">
+            <field property="emplyrId" depends="required, maxlength">
+                <arg0 key="사용자 ID" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="emplyrNm" depends="required, maxlength">
+                <arg0 key="사용자 이름" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+            <field property="password" depends="required, maxlength">
+                <arg0 key="비밀번호" resource="false"/>
+                <arg1 key="200" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>200</var-value>
+                </var>
+            </field>
+            <field property="password2" depends="required, maxlength">
+                <arg0 key="비밀번호 확인" resource="false"/>
+                <arg1 key="200" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>200</var-value>
+                </var>
+            </field>
+            <field property="homeadres" depends="required, maxlength">
+                <arg0 key="자택 주소" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="passwordHint" depends="required, maxlength">
+                <arg0 key="비밀번호 힌트" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="passwordCnsr" depends="required, maxlength">
+                <arg0 key="비밀번호 답변" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="areaNo" depends="required, maxlength">
+                <arg0 key="집 전화번호" resource="false"/>
+                <arg1 key="4" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>4</var-value>
+                </var>
+            </field>
+            <field property="homemiddleTelno" depends="required, maxlength">
+                <arg0 key="집 전화번호" resource="false"/>
+                <arg1 key="4" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>4</var-value>
+                </var>
+            </field>
+            <field property="homeendTelno" depends="required, maxlength">
+                <arg0 key="집 전화번호" resource="false"/>
+                <arg1 key="4" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>4</var-value>
+                </var>
+            </field>
+            <field property="zip" depends="required, maxlength">
+                <arg0 key="우편번호" resource="false"/>
+                <arg1 key="6" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>6</var-value>
+                </var>
+            </field>
+            <field property="emplyrSttusCode" depends="required, maxlength">
+                <arg0 key="사용자 상태코드" resource="false"/>
+                <arg1 key="1" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>1</var-value>
+                </var>
+            </field>
+            <field property="emplNo" depends="maxlength">
+                <arg0 key="사번" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="brth" depends="maxlength">
+                <arg0 key="생일" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="fxnum" depends="maxlength">
+                <arg0 key="팩스번호" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="detailAdres" depends="maxlength">
+                <arg0 key="상세주소" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="offmTelno" depends="maxlength">
+                <arg0 key="사무실 전화번호" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="emailAdres" depends="maxlength">
+                <arg0 key="이메일" resource="false"/>
+                <arg1 key="50" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>50</var-value>
+                </var>
+            </field>
+            <field property="ofcpsNm" depends="maxlength">
+                <arg0 key="직위명" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>
