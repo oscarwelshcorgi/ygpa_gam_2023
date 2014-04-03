@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamProgListMng.jsp
@@ -19,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamProgListMng" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -91,6 +93,9 @@ GamProgListMngModule.prototype.loadComplete = function() {
 
 		// 저장
 		case "saveBtn":
+			
+			if(!validateGamProgListMng(this.$("#progrmManageVO")[0])) return;
+			
 			var inputVO = this.makeFormArgs("#progrmManageVO");
 			
 			// insert
@@ -187,24 +192,24 @@ var module_instance = new GamProgListMngModule();
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />프로그램파일명</th>
-							<td><input type="text" size="80" id="progrmFileNm" /></td>
+							<th width="20%" height="23" class="required_text">프로그램파일명</th>
+							<td><input type="text" size="80" id="progrmFileNm" maxlength="60" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />한글명</th>
-							<td><input type="text" size="80" id="progrmKoreanNm"/></td>
+							<th width="20%" height="23" class="required_text">한글명</th>
+							<td><input type="text" size="80" id="progrmKoreanNm" maxlength="60" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />프로그램경로</th>
-							<td><input type="text" size="80" id="progrmStrePath" /></td>
+							<th width="20%" height="23" class="required_text">프로그램경로</th>
+							<td><input type="text" size="80" id="progrmStrePath" maxlength="100" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text"><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />URL</th>
-							<td><input type="text" size="80" id="URL"/></td>
+							<th width="20%" height="23" class="required_text">URL</th>
+							<td><input type="text" size="80" id="URL" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램설명</th>
-							<td><textarea cols="80" rows="10" id="progrmDc"></textarea></td>
+							<td><textarea cols="80" rows="10" id="progrmDc" maxlength="200"></textarea></td>
 						</tr>
 					</table>
 				</form>

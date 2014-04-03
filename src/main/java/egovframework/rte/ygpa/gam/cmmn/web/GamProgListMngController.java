@@ -19,7 +19,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
 import egovframework.com.sym.prm.service.ProgrmManageVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -97,35 +96,20 @@ public class GamProgListMngController {
      * @throws Exception
      */
     @RequestMapping(value="/cmmn/gamInsertProgramListRegist.do")
-    public @ResponseBody Map<String, Object> insertProgrmList(
-    		@RequestParam("cmd") String cmd,
-    		@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,
-			BindingResult bindingResult)
-            throws Exception {
+    public @ResponseBody Map<String, Object> insertProgrmList(@RequestParam("cmd") String cmd, @ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO)throws Exception {
+    	
     	Map<String, Object> map = new HashMap<String, Object>();
-        String resultMsg = "";
 
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-        if("insert".equals(cmd)) {
-	        beanValidator.validate(progrmManageVO, bindingResult);
-			if (bindingResult.hasErrors()){
-				map.put("resultCode", 1);			// return error
-				map.put("resultMsg", "입력 값에 오류가 있습니다.");
-				map.put("resultObject", bindingResult.getAllErrors());
-				return map;
-			}
-			if(progrmManageVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
-	    	progrmManageService.insertProgrm(progrmManageVO);
-			resultMsg = egovMessageSource.getMessage("success.common.insert");
-        }
-        map.put("resultCode", 0);			// return ok
-        map.put("resultMsg", resultMsg);
+		try {
+			progrmManageService.insertProgrm(progrmManageVO);
+	    	map.put("resultCode", 0);
+	        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);
+	        map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));	
+		}
+        
 		return map;
     }
 
@@ -143,26 +127,17 @@ public class GamProgListMngController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
 		
-    	// 0. Spring Security 사용자권한 처리
-   	    Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		try {
+			progrmManageService.updateProgrm(progrmManageVO);
 
-        beanValidator.validate(progrmManageVO, bindingResult);
-		if (bindingResult.hasErrors()){
-	        map.put("resultCode", 1);
-			map.put("resultMsg", "입력 값에 오류가 있습니다.");
-			map.put("resultObject", bindingResult.getAllErrors());
-			return map;
+	        map.put("resultCode", 0);			// return ok
+	        map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);
+	        map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
-		if(progrmManageVO.getProgrmDc()==null || progrmManageVO.getProgrmDc().equals("")){progrmManageVO.setProgrmDc(" ");}
-		progrmManageService.updateProgrm(progrmManageVO);
-
-        map.put("resultCode", 0);			// return ok
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		
 		return map;
     }
 
@@ -177,20 +152,18 @@ public class GamProgListMngController {
     public @ResponseBody Map<String, Object> deleteProgrmList(ProgrmManageVO progrmManageVO)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
-        // 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
         
     	// DATA 삭제
-    	progrmManageService.deleteProgrm(progrmManageVO);
-        
-    	map.put("resultCode", 0);			// return ok
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	try {
+    		progrmManageService.deleteProgrm(progrmManageVO);
+            
+        	map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));			
+		} catch (Exception e) {
+	    	map.put("resultCode", 1);
+	        map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+			// TODO: handle exception
+		}
 
         return map;
     }

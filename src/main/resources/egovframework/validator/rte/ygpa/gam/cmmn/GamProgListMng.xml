@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamProgListMng">
+            <field property="progrmFileNm" depends="required, maxlength">
+                <arg0 key="프로그램 파일명" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+            <field property="progrmStrePath" depends="required, maxlength">
+                <arg0 key="프로그램 경로" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="URL" depends="required, maxlength">
+                <arg0 key="URL" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="progrmKoreanNm" depends="maxlength">
+                <arg0 key="한글명" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+            <field property="progrmDc" depends="maxlength">
+                <arg0 key="프로그램 설명" resource="false"/>
+                <arg1 key="200" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>200</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>
