@@ -46,8 +46,8 @@
         padding: 0px
       }
  */    </style>
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ko"></script>
-
+<!--     <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ko"></script>
+ -->
     <script src="<c:url value='/js/OpenLayers.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
@@ -64,6 +64,7 @@
 
     <script type="text/javascript">
        OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
+       OpenLayers.theme = "<c:url value='/css/'/>";
 
        jQuery(document).ready(function() {
     	   EMD.go("<c:url value='/'/>", "${pageContext.request.scheme}://${pageContext.request.serverName}");
@@ -75,7 +76,7 @@
     <div class="abs" id="wrapper">
         <div id="desktop" class="abs mapdesk">
         </div>
-        <div id="sideMenu">
+        <div id="slideMenu">
           <ul>
             <li><a href="#">주소 찾기</a></li>
             <li class="active"><a href="#">메뉴2</a></li>
