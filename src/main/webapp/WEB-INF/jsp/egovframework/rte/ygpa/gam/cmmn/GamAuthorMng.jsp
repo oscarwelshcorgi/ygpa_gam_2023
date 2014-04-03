@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamAuthorMng.jsp
@@ -19,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamAuthorMng" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -38,8 +40,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"권한 ID", 	name:"authorCode",		width:250, 	sortable:false,		align:"left"},
 					{display:"권한명", 	name:"authorNm",		width:150, 	sortable:false,		align:"center"},
-					{display:"설명", 	name:"authorDc",		width:200, 	sortable:false,		align:"center"},
-					{display:"등록일자", name:"authorCreatDe",	width:100, 	sortable:false,		align:"center"}
+					{display:"설명", 	name:"authorDc",		width:200, 	sortable:false,		align:"center"}
 					],
 		height: "auto",
 	});
@@ -57,7 +58,6 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 			module.$("#authorCreatDe").val(row["authorCreatDe"]);			// 등록일자
 			
 			module.$("#authorCode").attr("disabled","disabled");			// 수정불가능
-			module.$("#displayDate").show();								// 등록일자 show
 			throw 0;
 		}
 	});
@@ -84,7 +84,6 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 추가
 		case "addBtn":
-			this.$("#displayDate").hide();
 			this.$("#authorCode").removeAttr("disabled");
 			this.$("#authorMngListTab").tabs("option", {active: 1});
 			this.$("#authorManageVO :input").val("");
@@ -93,6 +92,8 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 저장
 		case "saveBtn":
+			if(!validateGamAuthorMng(this.$("#authorManageVO")[0])) return;
+			
 		 	var inputVO = this.makeFormArgs("#authorManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamAuthorInsert.do" />', inputVO, function(module, result) {
@@ -189,20 +190,16 @@ var module_instance = new GamAuthorMngModule();
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23" class="required_text">권한코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="authorCode"/></td>
+							<th width="20%" height="23" class="required_text">권한코드</th>
+							<td><input type="text" size="80" id="authorCode" maxlength="30" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">권한명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="80" id="authorNm"/></td>
+							<th width="20%" height="23" class="required_text">권한명</th>
+							<td><input type="text" size="80" id="authorNm" maxlength="60" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">설명</th>
-							<td><input type="text" size="80" id="authorDc"/></td>
-						</tr>
-						<tr id="displayDate">
-							<th width="20%" height="23" class="required_text">등록일자</th>
-							<td><input type="text" size="80" id="authorCreatDe" disabled="disabled" /></td>
+							<td><input type="text" size="80" id="authorDc" maxlength="200" /></td>
 						</tr>
 					</table>
 				</form>

@@ -109,23 +109,21 @@ public class GamAuthorMngController {
 	 * @throws Exception
 	 */
     @RequestMapping(value="/cmmn/gamAuthorInsert.do")
-    @ResponseBody Map<String, Object> insertAuthor(@ModelAttribute("authorManage") AuthorManage authorManage,BindingResult bindingResult) throws Exception {
+    @ResponseBody Map<String, Object> insertAuthor(@ModelAttribute("authorManage") AuthorManage authorManage) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	beanValidator.validate(authorManage, bindingResult); //validation 수행
-    	
-		if (bindingResult.hasErrors()) { 
-	        map.put("resultCode", 1);
-			map.put("resultMsg", "입력 값에 오류가 있습니다.");
-			map.put("resultObject", bindingResult.getAllErrors());
-			
-		} else {
-	    	egovAuthorManageService.insertAuthor(authorManage);
+    	try {
+    		egovAuthorManageService.insertAuthor(authorManage);
 
-	        map.put("resultCode", 0);	// return ok
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+            map.put("resultCode", 0);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
+    	
 		return map;
     }
     
@@ -139,22 +137,20 @@ public class GamAuthorMngController {
      * @throws Exception
      */
     @RequestMapping(value="/cmmn/gamAuthorUpdate.do")
-    @ResponseBody Map<String, Object> updateAuthor(@ModelAttribute("authorManage") AuthorManage authorManage,BindingResult bindingResult,SessionStatus status) throws Exception {
+    @ResponseBody Map<String, Object> updateAuthor(@ModelAttribute("authorManage") AuthorManage authorManage) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	beanValidator.validate(authorManage, bindingResult); //validation 수행
-    	
-    	if (bindingResult.hasErrors()) { 
-	        map.put("resultCode", 1);
-			map.put("resultMsg", "입력 값에 오류가 있습니다.");
-			map.put("resultObject", bindingResult.getAllErrors());
 			
-		} else {
-	    	egovAuthorManageService.updateAuthor(authorManage);
-	        status.setComplete();
+		try {
+			egovAuthorManageService.updateAuthor(authorManage);
 	        map.put("resultCode", 0);	// return ok
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);
+	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
+	    	
     	return map;
     }
     
@@ -166,14 +162,21 @@ public class GamAuthorMngController {
 	 * @exception Exception
 	 */  
     @RequestMapping(value="/cmmn/gamAuthorDelete.do")
-    @ResponseBody Map<String, Object> deleteAuthor(@ModelAttribute("authorManage") AuthorManage authorManage,SessionStatus status) throws Exception {
+    @ResponseBody Map<String, Object> deleteAuthor(@ModelAttribute("authorManage") AuthorManage authorManage) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	egovAuthorManageService.deleteAuthor(authorManage);
-    	status.setComplete();
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	try {
+        	egovAuthorManageService.deleteAuthor(authorManage);
+        	map.put("resultCode", 0);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+        	map.put("resultCode", 1);
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+
+		}
         
     	return map;
     }   
