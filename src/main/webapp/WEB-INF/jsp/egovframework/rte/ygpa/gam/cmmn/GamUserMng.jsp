@@ -39,7 +39,6 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"No", 			name:"rn",				width:30, 	sortable:false,		align:"center"},
-//					{display:"hidden",		name:"uniqId",			width:1, 	sortable:false,		align:'center'},
 					{display:"아이디", 		name:"userId",			width:100, 	sortable:false,		align:"center"},
 					{display:"사용자이름", 	name:"userNm",			width:80, 	sortable:false,		align:"center"},
 					{display:"사용자이메일", 	name:"emailAdres",		width:210, 	sortable:false,		align:"center"},
@@ -47,11 +46,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 					{display:"등록일", 		name:"sbscrbDe",		width:100, 	sortable:false,		align:"center"},
 					{display:"가입상태",		name:"sttus",			width:140,	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "260"
+		height: "auto"
 	});
 
 	this.$("#userMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -282,30 +277,23 @@ var module_instance = new GamUserMngListModule();
 					<tbody>
 						<tr>
 							<td>
-				                <div>
-					                <label for="sbscrbSttus" >
-						                <select id="sbscrbSttus" title="검색조건선택1">
-						                    <option value="0" selected="selected">상태(전체)</option>
-						                    <option value="A">가입신청</option>
-						                    <option value="D">삭제</option>
-						                    <option value="P">승인</option>
-						                </select>
-						                <select id="searchCondition" title="검색조건선택2">
-						                    <option value="0">ID</option>
-						                    <option value="1">Name</option>
-						                </select>
-						                <input id="searchKeyword" type="text" title="검색단어입력" />
-					                </label>
-				                </div>
+				                <select id="sbscrbSttus" title="검색조건선택1">
+				                    <option value="0" selected="selected">상태(전체)</option>
+				                    <option value="A">가입신청</option>
+				                    <option value="D">삭제</option>
+				                    <option value="P">승인</option>
+				                </select>&nbsp;
+				                <select id="searchCondition" title="검색조건선택2">
+				                    <option value="0">ID</option>
+				                    <option value="1">Name</option>
+				                </select>&nbsp;
+				                <input id="searchKeyword" type="text" title="검색단어입력" />
 							</td>
+							<td><button id="searchBtn" class="submit">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</form>
-			<div class="emdControlPanel">
-				<button id="searchBtn">조회</button>
-				<button id="addBtn">추가</button>
-			</div>
 		</div>
 	</div>
 
@@ -315,11 +303,13 @@ var module_instance = new GamUserMngListModule();
 			<li><a href="#tabs1" class="emdTab">사용자목록</a></li>
 			<li><a href="#tabs2" class="emdTab">사용자상세</a></li>
 		</ul>
-			<div id="tabs1" class="emdTabPage fillHeight">
-				<table id="userMngList" style="display:none"></table>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="userMngList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="addBtn">추가</button>
+				</div>
 			</div>
-			<div id="tabs2" class="emdTabPage fillHeight">
-				<div class="emdPanel fillHeight" style="overflow:scroll;">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="userManageVO">
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" id="checkId"/>
@@ -513,7 +503,6 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 					</table>
 				</form>
-				</div>
 				<div class="emdControlPanel">
 					<button id="saveBtn">저장</button>
 					<button id="listBtn">목록</button>
