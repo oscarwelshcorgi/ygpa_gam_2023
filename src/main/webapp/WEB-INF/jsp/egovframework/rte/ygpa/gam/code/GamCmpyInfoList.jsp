@@ -46,8 +46,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"우편번호", 		name:"zip",				width:80, 	sortable:false,		align:"center"},
 					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
 					],
-		showTableToggleBtn: false,
-		height: "300"
+		height: "auto"
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -85,11 +84,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"팩스 번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
 					{display:"이메일", 			name:"chargerEmail",		width:80, 	sortable:false,		align:"center"}
 					],
-		//usepager: true,
-		//useRp: true,
-		//rp: 13,
-		showTableToggleBtn: false,
-		height: "100"
+		height: "auto"
 	});
 	
 	this.$("#cmpyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -360,16 +355,16 @@ var module_instance = new GamCmpyInfoMngtModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<div id="cmpyInfoMngtListTab" class="emdTabPanel" data-onchange="onTabChange">
+	<div class="emdPanel fillHeight">
+		<div id="cmpyInfoMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">업체정보 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">업체정보 상세</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="cmpyInfoMngtList" style="display:none" class="fillHeight"></table>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;" data-onactivate="onShowTab2Activate">
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmpyInfoMngtManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
