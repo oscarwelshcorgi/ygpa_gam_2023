@@ -163,27 +163,16 @@ public class GamUserMngController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	if("insert".equals(cmd)) {
-
-	    	beanValidator.validate(userManageVO, bindingResult);
-			if (bindingResult.hasErrors()){
-		        map.put("resultCode", 1);
-				map.put("resultMsg", bindingResult.getAllErrors());
-//				map.put("resultObject", bindingResult.getAllErrors());
-				return map;
-			}
-
-			if(userManageVO.getOrgnztId().equals("")){
-				userManageVO.setOrgnztId(null);
-			}
-			if(userManageVO.getGroupId().equals("")){
-				userManageVO.setGroupId(null);
-			}
-
+		try {
 			userManageService.insertUser(userManageVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-    	}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
     	return map;
     }
 
