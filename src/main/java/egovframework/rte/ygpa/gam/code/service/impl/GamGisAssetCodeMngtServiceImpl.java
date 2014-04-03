@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service.impl;
+package egovframework.rte.ygpa.gam.code.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeMngtService;
-import egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 @Service("gamGisAssetCodeMngtService")
 public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implements GamGisAssetCodeMngtService {

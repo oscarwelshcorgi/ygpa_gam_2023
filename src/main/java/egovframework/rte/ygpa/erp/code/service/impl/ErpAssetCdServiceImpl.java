@@ -22,7 +22,7 @@ import egovframework.rte.ygpa.erp.code.service.impl.ErpAssetCdDAO;
  * @since 2013-12-20
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 
@@ -32,9 +32,9 @@ public class ErpAssetCdServiceImpl extends AbstractServiceImpl implements
 
     @Resource(name="erpAssetCdDAO")
     private ErpAssetCdDAO erpAssetCdDAO;
-    
+
     /** ID Generation */
-    //@Resource(name="{egovErpAssetCdIdGnrService}")    
+    //@Resource(name="{egovErpAssetCdIdGnrService}")
     //private EgovIdGnrService egovIdGnrService;
 
 	/**
@@ -45,15 +45,15 @@ public class ErpAssetCdServiceImpl extends AbstractServiceImpl implements
 	 */
     public String insertErpAssetCd(ErpAssetCdVO vo) throws Exception {
     	log.debug(vo.toString());
-    	
+
     	/** ID Generation Service */
     	//TODO 해당 테이블 속성에 따라 ID 제너레이션 서비스 사용
     	//String id = egovIdGnrService.getNextStringId();
     	//vo.setId(id);
     	log.debug(vo.toString());
-    	
+
     	erpAssetCdDAO.insertErpAssetCd(vo);
-    	//TODO 해당 테이블 정보에 맞게 수정    	
+    	//TODO 해당 테이블 정보에 맞게 수정
         return null;
     }
 
@@ -70,7 +70,7 @@ public class ErpAssetCdServiceImpl extends AbstractServiceImpl implements
     /**
 	 * ERP_ASSET_CD을 삭제한다.
 	 * @param vo - 삭제할 정보가 담긴 ErpAssetCdVO
-	 * @return void형 
+	 * @return void형
 	 * @exception Exception
 	 */
     public void deleteErpAssetCd(ErpAssetCdVO vo) throws Exception {
@@ -109,5 +109,13 @@ public class ErpAssetCdServiceImpl extends AbstractServiceImpl implements
     public int selectErpAssetCdListTotCnt(ErpAssetCdDefaultVO searchVO) {
 		return erpAssetCdDAO.selectErpAssetCdListTotCnt(searchVO);
 	}
-    
+
+    public List selectErpAssetCdPopupList(ErpAssetCdDefaultVO searchVO) throws Exception {
+        return erpAssetCdDAO.selectErpAssetCdPopupList(searchVO);
+    }
+
+    public int selectErpAssetCdPopupListTotCnt(ErpAssetCdDefaultVO searchVO) {
+		return erpAssetCdDAO.selectErpAssetCdPopupListTotCnt(searchVO);
+	}
+
 }

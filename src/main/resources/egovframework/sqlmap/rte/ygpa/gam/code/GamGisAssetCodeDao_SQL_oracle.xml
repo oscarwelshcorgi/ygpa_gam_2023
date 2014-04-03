@@ -5,7 +5,7 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamGisAssetCodeVO" type="egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeVO"/>
+    <typeAlias alias="gamGisAssetCodeVO" type="egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO"/>
 
 	<insert id="gamGisAssetCodeDao.insertAssetCode_S">
 		<![CDATA[
@@ -113,16 +113,19 @@
 		]]>
 	</delete>
 
-	<select id="gamGisAssetCodeDaoselectAssetCode_S" resultClass="egovMap">
+	<select id="gamGisAssetCodeDao.selectAssetCode_S" resultClass="egovMap">
 		<![CDATA[
 			SELECT
 					GIS_ASSETS_PRT_AT_CODE,
 					GIS_ASSETS_SUB_CD,
 					GIS_ASSETS_CD,
+					GIS_ASSETS_PRPRTY_SE_CD,
+					GIS_ASSETS_LOC_CD,
+					GIS_ASSETS_QUAY_CD,
 					GIS_ASSETS_NM,
+					GIS_ASSETS_LOCPLC,
 					GIS_ASSETS_MNG_DEPT_CD,
 					GIS_ASSETS_OPER_DEPT_CD,
-					GIS_ASSETS_LOCPLC,
 					GIS_ASSETS_LNM,
 					GIS_ASSETS_LNM_SUB,
 					GIS_ASSETS_AR,
@@ -132,14 +135,8 @@
 					GIS_ASSETS_BLDDATE,
 					GIS_ASSETS_BLD_DT,
 					GIS_ASSETS_RM,
-					REG_USR,
-					REGISTDT,
-					UPD_USR,
-					UPDTDT,
 					GIS_ASSETS_QUAY_GROUP_CD,
-					GIS_ASSETS_LOC_CD,
 					GIS_ASSETS_SE_CD,
-					GIS_ASSETS_PRPRTY_SE_CD,
 					GIS_ASSETS_INVSTMNT_MTHD,
 					GIS_ASSETS_GIS_CD,
 					GIS_ASSETS_REAL_RENT_AR,
@@ -152,12 +149,14 @@
 					ERP_ASSETS_NO_SEQ,
 					ERP_ASSETS_DISUSE_REGIST_YN,
 					ERP_ASSETS_DISUSE_RSN,
-					GIS_ASSETS_QUAY_CD
-					FROM GIS_ASSETS_CD_F
+					REG_USR,
+					REGISTDT,
+					UPD_USR,
+					UPDTDT
 			FROM GIS_ASSETS_CD_F
 			WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
-				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 				AND GIS_ASSETS_CD=#gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 
 		]]>
 	</select>
@@ -168,61 +167,77 @@
 		       SELECT  ROWNUM RNUM, S.* FROM (
 		       	SELECT
 					GIS_ASSETS_PRT_AT_CODE,
-					GIS_ASSETS_SUB_CD,
-					GIS_ASSETS_CD,
-					GIS_ASSETS_NM,
-					GIS_ASSETS_MNG_DEPT_CD,
-					GIS_ASSETS_OPER_DEPT_CD,
-					GIS_ASSETS_LOCPLC,
-					GIS_ASSETS_LNM,
-					GIS_ASSETS_LNM_SUB,
-					GIS_ASSETS_AR,
-					GIS_ASSETS_USAGE_YN,
-					GIS_ASSETS_ACQ_PRI,
-					GIS_ASSETS_STNDRD,
-					GIS_ASSETS_BLDDATE,
-					GIS_ASSETS_BLD_DT,
-					GIS_ASSETS_RM,
-					REG_USR,
-					REGISTDT,
-					UPD_USR,
-					UPDTDT,
-					GIS_ASSETS_QUAY_GROUP_CD,
-					GIS_ASSETS_LOC_CD,
-					GIS_ASSETS_SE_CD,
-					GIS_ASSETS_PRPRTY_SE_CD,
-					GIS_ASSETS_INVSTMNT_MTHD,
-					GIS_ASSETS_GIS_CD,
-					GIS_ASSETS_REAL_RENT_AR,
-					DRW_LST_REGIST_YEAR,
-					DRW_LST_SEQ,
-					GIS_ASSETS_VAL_AMT,
-					GIS_ASSETS_VAL_INQIRE_DT,
-					ERP_ASSETS_SE_CD,
-					ERP_ASSETS_NO,
-					ERP_ASSETS_NO_SEQ,
-					ERP_ASSETS_DISUSE_REGIST_YN,
-					ERP_ASSETS_DISUSE_RSN,
-					GIS_ASSETS_QUAY_CD
+					GAM_GETCODENAME('GAM019', GIS_ASSETS_PRT_AT_CODE) PRT_AT_CODE_NM,
+						GIS_ASSETS_CD,
+						GIS_ASSETS_SUB_CD,
+						GIS_ASSETS_NM,
+						GIS_ASSETS_PRPRTY_SE_CD,
+						GAM_GETCODENAME('GAM001', GIS_ASSETS_PRPRTY_SE_CD) GIS_ASSETS_PRPRTY_NM,
+						GIS_ASSETS_LOC_CD,
+						GAM_GETCODENAME('GAM002', GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM,
+						GIS_ASSETS_QUAY_CD,
+						GAM_GETCODENAME('GAM003', GIS_ASSETS_QUAY_CD) GIS_ASSETS_QUAY_NM,
+						GIS_ASSETS_LOCPLC,
+						GIS_ASSETS_LNM,
+						GIS_ASSETS_LNM_SUB,
+						GIS_ASSETS_AR,
+						GIS_ASSETS_REAL_RENT_AR,
+						GIS_ASSETS_ACQ_PRI,
+						GIS_ASSETS_STNDRD,
+						GIS_ASSETS_BLDDATE,
+						GIS_ASSETS_BLD_DT,
+						GIS_ASSETS_MNG_DEPT_CD,
+						GAM_GETDEPTNAME(GIS_ASSETS_MNG_DEPT_CD) MNG_DEPT_NM,
+						GIS_ASSETS_OPER_DEPT_CD,
+						GAM_GETDEPTNAME(GIS_ASSETS_OPER_DEPT_CD) OPER_DEPT_NM,
+						GIS_ASSETS_SE_CD,
+						GAM_GETCODENAME('GAM013', GIS_ASSETS_SE_CD) GIS_ASSETS_SE_NM,
+						GIS_ASSETS_USAGE_YN,
+						ERP_ASSETS_SE_CD,
+						ERP_ASSETS_NO,
+						ERP_ASSETS_NO_SEQ,
+						ERP_ASSETS_DISUSE_REGIST_YN,
+						ERP_ASSETS_DISUSE_RSN
 					FROM GIS_ASSETS_CD_F
 					WHERE 1=1
-				<isNotNull prepend="AND" property="gisAssetsPrtAtCode">
+				<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
 					GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
-				</isNotNull>
-				<isNotNull prepend="AND" property="gisAssetsCd">
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsCd">
 					GIS_ASSETS_CD=#gisAssetsCd#
-				</isNotNull>
-				<isNotNull prepend="AND" property="gisAssetsSubCd">
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsSubCd">
 					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
-				</isNotNull>
-				<isNotEmpty prepend="AND" property="searchErpAssetsSeCd">
-					ERP_ASSETS_SE_CD=#searchErpAssetsSeCd#
 				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="searchErpAssetsNo">
-					ERP_ASSETS_NO=#searchErpAssetsNo#
+				<isNotEmpty prepend="AND" property="gisAssetsNm">
+					GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="searchErpAssetsNoSeq">
-					ERP_ASSETS_NO_SEQ=#searchErpAssetsNoSeq#
+				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
+					GIS_ASSETS_CD=#gisAssetsPrprtySeCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
+					GIS_ASSETS_CD=#gisAssetsLocCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
+					GIS_ASSETS_CD=#gisAssetsQuayCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLocplc">
+					GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLnm">
+					GIS_ASSETS_LNM=#gisAssetsLnm#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
+					GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="erpAssetsSeCd">
+					ERP_ASSETS_SE_CD=#erpAssetsSeCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="erpAssetsNo">
+					ERP_ASSETS_NO=#erpAssetsNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="erpAssetsNoSeq">
+					ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
 				</isNotEmpty>
 				ORDER BY GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_CD, GIS_ASSETS_SUB_CD
 				) S
@@ -235,23 +250,44 @@
 			SELECT COUNT(*) totcnt
 			FROM GIS_ASSETS_CD_F
 				WHERE 1=1
-				<isNotNull prepend="AND" property="gisAssetsPrtAtCode">
+				<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
 					GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
-				</isNotNull>
-				<isNotNull prepend="AND" property="gisAssetsCd">
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsCd">
 					GIS_ASSETS_CD=#gisAssetsCd#
-				</isNotNull>
-				<isNotNull prepend="AND" property="gisAssetsSubCd">
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsSubCd">
 					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
-				</isNotNull>
-				<isNotEmpty prepend="AND" property="searchErpAssetsSeCd">
-					ERP_ASSETS_SE_CD=#searchErpAssetsSeCd#
 				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="searchErpAssetsNo">
-					ERP_ASSETS_NO=#searchErpAssetsNo#
+				<isNotEmpty prepend="AND" property="gisAssetsNm">
+					GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="searchErpAssetsNoSeq">
-					ERP_ASSETS_NO_SEQ=#searchErpAssetsNoSeq#
+				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
+					GIS_ASSETS_CD=#gisAssetsPrprtySeCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
+					GIS_ASSETS_CD=#gisAssetsLocCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
+					GIS_ASSETS_CD=#gisAssetsQuayCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLocplc">
+					GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLnm">
+					GIS_ASSETS_LNM=#gisAssetsLnm#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
+					GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="erpAssetsSeCd">
+					ERP_ASSETS_SE_CD=#erpAssetsSeCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="erpAssetsNo">
+					ERP_ASSETS_NO=#erpAssetsNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="erpAssetsNoSeq">
+					ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
 				</isNotEmpty>
 	</select>
 

@@ -7,6 +7,8 @@ table .searchPanel {
 }
 
 .emdPanel {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
   width: 100%;
 	padding: 4px;
 }
@@ -46,7 +48,8 @@ table .searchPanel {
 }
 
 .searchPanel td {
-	background: #fff
+	background: #fff;
+	padding: 2px;
 }
 
 
@@ -65,6 +68,12 @@ table .searchPanel {
 
 .searchPanel th.shrink {
   width: 1%;
+}
+
+.buttonSearch {
+width: 100%;
+height: 100%;
+vertical-align: middle;
 }
 
 .editPanel th {
@@ -88,4 +97,8 @@ table .searchPanel {
 
 .searchPanel th.shrink {
   width: 1%;
+}
+
+.dialog {
+overflow: hidden;
 }

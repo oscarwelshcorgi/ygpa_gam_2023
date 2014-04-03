@@ -1,6 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service;
-
-import egovframework.com.cmm.ComDefaultVO;
+package egovframework.rte.ygpa.gam.code.service;
 
 /**
  * @Class Name : GamAssetDisUseMngtVO.java
@@ -79,6 +77,9 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 
     /** GIS 자산 부두 그룹 코드 */
     private String gisAssetsQuayGroupCd;
+
+    /** GIS 자산 부두 코드 */
+    private String gisAssetsQuayCd;
 
     /** GIS 자산 위치 코드 */
     private String gisAssetsLocCd;
@@ -661,6 +662,14 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 	 */
 	public void setsGisAssetsNm(String sGisAssetsNm) {
 		this.sGisAssetsNm = sGisAssetsNm;
+	}
+
+	public String getGisAssetsQuayCd() {
+		return gisAssetsQuayCd;
+	}
+
+	public void setGisAssetsQuayCd(String gisAssetsQuayCd) {
+		this.gisAssetsQuayCd = gisAssetsQuayCd;
 	}
 
 }

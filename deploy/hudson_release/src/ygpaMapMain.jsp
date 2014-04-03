@@ -91,7 +91,7 @@
                             <ul class="submenu">
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0001"
-                                    data-url="<c:url value='/asset/gamGisAssetCodeMngt.do'/>">자산코드정보관리</a>
+                                    data-url="<c:url value='/asset/gamErpGisAssetCodeMngt.do'/>">자산취득관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0002"
@@ -437,10 +437,26 @@
                 <li>
                     <a href="#"><b>공통코드 관리</b></a>
                         <ul class="submenu">
-                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamAssetCodeMngt.do'/>">자산코드관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeClMngt.do'/>">공통코드분류</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeMngt.do'/>">공통코드관리</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmmnCodeDetailMngt.do'/>">공통코드상세 관리</a></li>
+                        </ul>
+                </li>
+                  <li>
+                    <a href="#"><b>기본코드 관리</b></a>
+                        <ul class="submenu">
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/assets/gamAssetCodeMngt.do'/>">자산코드관리</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpMngt.do'/>">공시지가 관리</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoMngt.do'/>">업체정보 관리</a></li>
+                        </ul>
+                </li>
+                  <li>
+                    <a href="#"><b>기본코드 조회</b></a>
+                        <ul class="submenu">
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/assets/gamAssetCodeList.do'/>">자산코드조회</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpList.do'/>">공시지가 조회</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoList.do'/>">업체정보 조회</a></li>
+                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamBupJungDongCodeMngt.do'/>">법정동 조회</a></li>
                         </ul>
                 </li>
             </ul>

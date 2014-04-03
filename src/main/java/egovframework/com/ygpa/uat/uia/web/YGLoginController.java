@@ -1,6 +1,7 @@
 package egovframework.com.ygpa.uat.uia.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -208,8 +209,11 @@ public class YGLoginController {
     	user.setPasswordCnsr("");
     	user.setPasswordHint("");
 
+    	List authorities = EgovUserDetailsHelper.getAuthorities();
+
 		map.put("resultCode", 0);
     	map.put("userInfo", user);
+    	map.put("authorities", authorities);
 
     	return map;
 	}

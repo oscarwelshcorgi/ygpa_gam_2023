@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
-  * @Class Name : GamAssetCodeMngt.jsp
-  * @Description : 자산코드관리
+  * @Class Name : GamErpAssetCodeMngt.jsp
+  * @Description : 자산취득 관리 프로그램
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -392,8 +392,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		row=module.getFormValues('#editAssetGisPhotoForm', row);
 		rownum=module.$('#assetCodeList').selectedRowIds()[0];
 
-		
-		
+
+
 		this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
 		break;
 

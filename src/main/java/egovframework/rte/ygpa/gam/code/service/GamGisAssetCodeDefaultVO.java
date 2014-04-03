@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.asset.service;
+package egovframework.rte.ygpa.gam.code.service;
 
 import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -75,36 +75,6 @@ public class GamGisAssetCodeDefaultVO implements Serializable {
 
     /** recordCountPerPage */
     private int recordCountPerPage = 10;
-
-    private String searchErpAssetsSeCd ="";
-
-    private String searchErpAssetsNo ="";
-
-    private String searchErpAssetsNoSeq ="";
-
-	public String getSearchErpAssetsSeCd() {
-		return searchErpAssetsSeCd;
-	}
-
-	public void setSearchErpAssetsSeCd(String searchErpAssetsSeCd) {
-		this.searchErpAssetsSeCd = searchErpAssetsSeCd;
-	}
-
-	public String getSearchErpAssetsNo() {
-		return searchErpAssetsNo;
-	}
-
-	public void setSearchErpAssetsNo(String searchErpAssetsNo) {
-		this.searchErpAssetsNo = searchErpAssetsNo;
-	}
-
-	public String getSearchErpAssetsNoSeq() {
-		return searchErpAssetsNoSeq;
-	}
-
-	public void setSearchErpAssetsNoSeq(String searchErpAssetsNoSeq) {
-		this.searchErpAssetsNoSeq = searchErpAssetsNoSeq;
-	}
 
 	public int getFirstIndex() {
 		return firstIndex;

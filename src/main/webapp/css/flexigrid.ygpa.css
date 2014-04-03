@@ -36,7 +36,7 @@
 
 .flexigrid div.hDivBox {
 	float: left;
-	padding-right: 40px;
+	padding-right: 30px;
 }
 
 .flexigrid div.cDiv {
@@ -644,5 +644,5 @@ div.pGroup {
 .flexigrid .scroll-bar-wrap { /* clear: both; */ position: absolute; padding: 0 4px 0 2px; margin: 29px 0px 14px -1px; right: 0; top: 0px; width: 16px; border-left: 1px solid gray; /* height: 100%; */ bottom: 0px;}
 .flexigrid .scroll-bar-wrap .ui-slider { background: none; border:0; height: 100%; margin: 0 auto;  }
 .flexigrid .scroll-bar-wrap .ui-handle-helper-parent { position: relative; width: 100%;}
-.flexigrid .scroll-bar-wrap .ui-slider-handle { height: 1.5em; }
+.flexigrid .scroll-bar-wrap .ui-slider-handle { margin-bottom: -2px; margin-left: 1px; }
 .flexigrid .scroll-bar-wrap .ui-slider-handle .ui-icon { margin: -8px auto 0; position: relative; top: 50%; }

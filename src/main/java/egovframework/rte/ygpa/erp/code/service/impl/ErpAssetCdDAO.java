@@ -18,7 +18,7 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
  * @since 2013-12-20
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 
@@ -48,7 +48,7 @@ public class ErpAssetCdDAO extends YGPAErpAbstractDAO {
     /**
 	 * ERP_ASSET_CD을 삭제한다.
 	 * @param vo - 삭제할 정보가 담긴 ErpAssetCdVO
-	 * @return void형 
+	 * @return void형
 	 * @exception Exception
 	 */
     public void deleteErpAssetCd(ErpAssetCdVO vo) throws Exception {
@@ -83,6 +83,26 @@ public class ErpAssetCdDAO extends YGPAErpAbstractDAO {
 	 */
     public int selectErpAssetCdListTotCnt(ErpAssetCdDefaultVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("erpAssetCdDAO.selectErpAssetCdListTotCnt_S", searchVO);
+    }
+
+    /**
+	 * ERP_ASSET_CD 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return ERP_ASSET_CD 목록
+	 * @exception Exception
+	 */
+    public List selectErpAssetCdPopupList(ErpAssetCdDefaultVO searchVO) throws Exception {
+        return list("erpAssetCdDAO.selectErpAssetCdPopupList_D", searchVO);
+    }
+
+    /**
+	 * ERP_ASSET_CD 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return ERP_ASSET_CD 총 갯수
+	 * @exception
+	 */
+    public int selectErpAssetCdPopupListTotCnt(ErpAssetCdDefaultVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("erpAssetCdDAO.selectErpAssetCdPopupListTotCnt_S", searchVO);
     }
 
 }

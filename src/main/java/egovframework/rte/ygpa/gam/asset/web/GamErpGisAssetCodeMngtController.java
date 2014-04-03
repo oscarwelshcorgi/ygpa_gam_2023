@@ -34,15 +34,15 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdService;
-import egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeMngtService;
-import egovframework.rte.ygpa.gam.asset.service.GamGisAssetCodeVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @author eunsungj
  *
  */
 @Controller
-public class GamGisAssetCodeMngtController {
+public class GamErpGisAssetCodeMngtController {
 
     @Resource(name = "erpCmmnCdService")
     private ErpCmmnCdService erpCmmnCdService;
@@ -67,7 +67,7 @@ public class GamGisAssetCodeMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    @RequestMapping(value="/asset/gamGisAssetCodeMngt.do")
+    @RequestMapping(value="/asset/gamErpGisAssetCodeMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
     	model.addAttribute("windowId", windowId);
@@ -123,7 +123,7 @@ public class GamGisAssetCodeMngtController {
 //        codeList = cmmnDetailCodeManageService.selectCmmnDetailCodeList(searchCodeVO);
 //    	model.addAttribute("assetsInvstmntMthdList", codeList);
 
-    	return "/ygpa/gam/asset/GamAssetCodeMngt";
+    	return "/ygpa/gam/asset/GamErpAssetCodeMngt";
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

@@ -282,4 +282,96 @@ SELECT * FROM (
 					</isNotEmpty>
 	</select>
 
+		<select id="erpAssetCdDAO.selectErpAssetCdPopupList_D" parameterClass="erpAssetCdSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								ASSET_CLS,
+								ASSET_NO,
+								ASSET_NO_SEQ,
+								ASSET_MNGT_NO,
+								ITEM_CLS,
+								ITEM_NAME_ASSET,
+								PUR_PUPORSE,
+								BUY_DATE,
+								BUY_QTY,
+								BUY_PRICE,
+								BUY_AMT,
+								PLACE_CD,
+								DEPT_CD,
+								EMP_NO,
+								MODEL_NAME,
+								ASSET_SIZE
+						FROM EGMFA1000
+				WHERE 1=1
+					<isNotEmpty prepend="AND" property="searchAssetCls">
+						ASSET_CLS = #searchAssetCls#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchAssetNo">
+						ASSET_NO = #searchAssetNo#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchAssetNoSeq">
+						ASSET_NO_SEQ = #searchAssetNoSeq#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchItemName">
+						ITEM_NAME_ASSET LIKE '%' || #searchItemName# || '%' OR PUR_PURPOSE LIKE '%' || #searchItemName# || '%'
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchStartDt">
+						<![CDATA[
+						BUY_DATE  > TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchEndDt">
+						<![CDATA[
+						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchDeptCd">
+						<![CDATA[
+						DEPT_CD  = #searchDeptCd#
+						]]>
+					</isNotEmpty>
+					ORDER BY
+						ASSET_CLS
+							, ASSET_NO
+							, ASSET_NO_SEQ
+
+					<![CDATA[
+			) A WHERE ROWNUM <= #lastIndex#
+		)WHERE RNUM > #firstIndex#
+					]]>
+	</select>
+	<select id="erpAssetCdDAO.selectErpAssetCdPopupListTotCnt_S" parameterClass="erpAssetCdSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM EGMFA1000
+			WHERE 1=1
+					<isNotEmpty prepend="AND" property="searchAssetCls">
+						ASSET_CLS = #searchAssetCls#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchAssetNo">
+						ASSET_NO = #searchAssetNo#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchAssetNoSeq">
+						ASSET_NO_SEQ = #searchAssetNoSeq#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchItemName">
+						ITEM_NAME_ASSET LIKE '%' || #searchItemName# || '%' OR PUR_PURPOSE LIKE '%' || #searchItemName# || '%'
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchStartDt">
+						<![CDATA[
+						BUY_DATE  > TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchEndDt">
+						<![CDATA[
+						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchDeptCd">
+						<![CDATA[
+						DEPT_CD  = #searchDeptCd#
+						]]>
+					</isNotEmpty>
+	</select>
+
 </sqlMap>
