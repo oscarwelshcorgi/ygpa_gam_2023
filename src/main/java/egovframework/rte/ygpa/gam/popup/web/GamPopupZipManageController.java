@@ -96,9 +96,6 @@ public class GamPopupZipManageController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -125,7 +122,8 @@ public class GamPopupZipManageController {
 			CmmnCodeList = rdnmadZipService.selectZipList(searchVO);
 			totCnt = rdnmadZipService.selectZipListTotCnt(searchVO);
 		}
-		paginationInfo.setTotalRecordCount(totCnt);    	
+		paginationInfo.setTotalRecordCount(totCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		
 		map.put("resultList", CmmnCodeList);
 	    map.put("totalCount", totCnt);
