@@ -84,6 +84,9 @@ public class GamAuthorGrpMngController {
 		authorGroupVO.setAuthorGroupList(egovAuthorGroupService.selectAuthorGroupList(authorGroupVO));
 		int totCnt = egovAuthorGroupService.selectAuthorGroupListTotCnt(authorGroupVO);
 		
+		paginationInfo.setTotalRecordCount(totCnt);
+		authorGroupVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", authorGroupVO.getAuthorGroupList());

@@ -88,8 +88,6 @@ public class GamGroupMngController {
         	return map;
     	}
     	// 내역 조회
-    	/** EgovPropertyService */
-
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -105,6 +103,7 @@ public class GamGroupMngController {
         int totCnt = egovGroupManageService.selectGroupListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);

@@ -108,10 +108,6 @@ public class GamUserMngController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	/** EgovPropertyService */
-        userSearchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-        userSearchVO.setPageSize(propertiesService.getInt("pageSize"));
-
         /** pageing */
         PaginationInfo paginationInfo = new PaginationInfo();
         paginationInfo.setCurrentPageNo(userSearchVO.getPageIndex());
@@ -125,7 +121,9 @@ public class GamUserMngController {
         /** List Data */
         List<UserDefaultVO> userList = userManageService.selectUserList(userSearchVO);
         int totCnt = userManageService.selectUserListTotCnt(userSearchVO);
+        
         paginationInfo.setTotalRecordCount(totCnt);
+        userSearchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
         map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totCnt);

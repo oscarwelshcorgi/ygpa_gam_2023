@@ -69,6 +69,7 @@ public class GamAuthorRoleMngController {
         int totCnt = egovAuthorRoleManageService.selectAuthorRoleListTotCnt(authorRoleManageVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
+        authorRoleManageVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
         map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totCnt);

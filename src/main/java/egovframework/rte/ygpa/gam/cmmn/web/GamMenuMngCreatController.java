@@ -73,10 +73,6 @@ public class GamMenuMngCreatController {
         	return map;
     	}
 
-		// 내역 조회
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
 		/** pageing */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -104,6 +100,7 @@ public class GamMenuMngCreatController {
 		int totCnt = menuCreateManageService.selectMenuCreatManagTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
