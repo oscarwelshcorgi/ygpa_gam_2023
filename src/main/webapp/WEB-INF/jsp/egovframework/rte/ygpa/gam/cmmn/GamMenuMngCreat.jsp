@@ -42,11 +42,7 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 					{display:'메뉴생성여부', 		name:'chkYeoBu',		width:100, 		sortable:false,		align:'center'},
 					{display:'메뉴생성', 		name:'regYn',			width:80, 		sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'메뉴생성', className:'selectRoleButton'}}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		height: "352"	// 테이블의 크기 pager를 사용하면 30픽셀 증가한다. (그만큰 감소 시킬것)
+		height: "auto"
 	});
 
 	this.$("#menuMngCreateList").on("onButtonClicked", function(event, module, colId, row, grid, param) {
@@ -115,7 +111,7 @@ var module_instance = new GamMenuMngCreateModule();
 					<tbody>
 						<tr>
 							<th>보안설정대상ID</th>
-							<td><input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td>&nbsp;<input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
@@ -124,7 +120,7 @@ var module_instance = new GamMenuMngCreateModule();
 		</div>
 	</div>
 
-	<div class="emdPanel">
-		<table id="menuMngCreateList" style="display:none"></table>
+	<div class="emdTabPage fillHeight" style="overflow: hidden;">
+		<table id="menuMngCreateList" style="display:none" class="fillHeight"></table>
 	</div>
 </div>

@@ -50,16 +50,7 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
 					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		width: "830",
-		height: "315"
-	});
-
-	this.$("#authorRoleMngList").on("onSelectChanged", function(event, module, row, grid, param) {
-		
+		height: "auto"
 	});
 };
 
@@ -134,19 +125,18 @@ var module_instance = new GamAuthorRoleMngModule();
 					<tbody>
 						<tr>
 							<th>권한코드</th>
-							<td><input id="searchKeyword" type="text" size="30" title="검색"  /></td>
+							<td>&nbsp;<input id="searchKeyword" type="text" size="30" title="검색"  /></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-					<button id="saveBtn">저장</button>
-				</div>
 			</form>
 		</div>
 	</div>
-
-	<div class="emdPanel">
-		<table id="authorRoleMngList" style="display:none"></table>
+	<div class="emdTabPage fillHeight" style="overflow: hidden;">
+		<table id="authorRoleMngList" style="display:none" class="fillHeight"></table>
+	</div>
+	<div class="emdControlPanel">
+		<button id="saveBtn">저장</button>
 	</div>
 </div>

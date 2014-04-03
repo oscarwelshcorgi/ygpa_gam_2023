@@ -44,18 +44,11 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 					{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
 					{display:"사용자 ID", 	name:"userId",		width:100, 	sortable:false,		align:"center"},
 					{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"center"},
-					//{display:"hidden", 		name:"mberTyCode",	width:1, 	sortable:false,		align:"center"},
 					{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"center"},
-					//{display:"hidden", 		name:"uniqId",		width:1, 	sortable:false,		align:"center"},
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
 					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 24,
-		showTableToggleBtn: false,
-		width: "730",
-		height: "315"
+		height: "auto"
 	});
 };
 
@@ -188,18 +181,18 @@ var module_instance = new GamAuthorGrpMngModule();
 				                </select>
 								<input id="searchKeyword" type="text" size="30" title="검색" />&nbsp;&nbsp;<button id="popupBtn">그룹조회 팝업</button>
 							</td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-					<button id="saveBtn">등록</button>
-					<button id="deleteBtn">삭제</button>
-				</div>
 			</form>
 		</div>
 	</div>
-	<div class="emdTabPage">
-		<table id="authorGrpMngList" style="display:none"></table>
+	<div class="emdTabPage fillHeight" style="overflow: hidden;">
+		<table id="authorGrpMngList" style="display:none" class="fillHeight"></table>
+	</div>
+	<div class="emdControlPanel">
+		<button id="saveBtn">등록</button>
+		<button id="deleteBtn">삭제</button>
 	</div>
 </div>
