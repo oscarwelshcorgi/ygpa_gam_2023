@@ -4,6 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamUserMng.jsp
@@ -20,7 +21,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<validator:javascript formName="gamUserMng" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -170,12 +171,14 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-			
+
 			if(this.$("#checkId").val() == ""){
 				alert("아이디 체크를 해주세요.");
 				return;
 			}
-			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
+			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));			
+			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
+			
 			var inputVO = this.makeFormArgs("#userManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
@@ -316,7 +319,7 @@ var module_instance = new GamUserMngListModule();
 					<input type="hidden" id="uniqId" />
 					<table class="searchPanel">
 			            <tr>
-			                <th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+			                <th width="20%" height="23" class="required_text">사용자아이디</th>
 			                <td width="80%" >
 			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />
 			                    &nbsp;&nbsp;<button id="checkUserId">중복아이디 검색</button>
@@ -325,15 +328,15 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text"  >
-			                    사용자이름<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    사용자이름
 			                </th>
 			                <td width="80%" >
-			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" value="" maxlength="60" />
+			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" maxlength="60" />
 			                </td>
 			            </tr>
 			            <tr class="displayPassword">
 			                <th width="20%" height="23" class="required_text">
-			                    비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    비밀번호
 			                </th>
 			                <td width="80%" >
 			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
@@ -341,7 +344,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr class="displayPassword">
 			                <th width="20%" height="23" class="required_text"  >
-			                    비밀번호확인<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    비밀번호확인
 			                </th>
 			                <td width="80%" >
 			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20" />
@@ -349,7 +352,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text"  >
-			                    비밀번호힌트<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    비밀번호힌트
 			                </th>
 			                <td width="80%" >
 			                    <select id="passwordHint" title="비밀번호힌트">
@@ -361,7 +364,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text" >
-			                    비밀번호정답<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    비밀번호정답
 			                </th>
 			                <td width="80%" >
 			                    <input id="passwordCnsr" title="비밀번호정답"  size="50" maxlength="100" />
@@ -388,7 +391,7 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text"  >직위명&nbsp;&nbsp;</th>
+			                <th width="20%" height="23" class="required_text">직위명&nbsp;&nbsp;</th>
 			                <td width="80%" >
 			                    <input id="ofcpsNm" title="직위명" size="20" maxlength="50" />
 			                </td>
@@ -417,7 +420,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text">
-			                    집전화번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    집전화번호
 			                </th>
 			                <td width="80%" >
 			                    <input id="areaNo" title="areaNo" size="4" maxlength="4" />
@@ -445,7 +448,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text">
-			                    이메일주소<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    이메일주소
 			                </th>
 			                <td width="80%">
 			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50" />
@@ -453,7 +456,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text">
-			                    우편번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    우편번호
 			                </th>
 			                <td width="80%" >
 			                    <input id="zip" type="text" title="우편번호" size="20" disabled="disabled"/>&nbsp;&nbsp;<button id="searchZipBtn">우편번호 검색</button>
@@ -461,7 +464,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text">
-			                    주소<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    주소
 			                </th>
 			                <td width="80%" >
 			                    <input id="homeadres" title="주소" size="40" maxlength="100" />
@@ -475,7 +478,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text">
-			                    그룹아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    그룹아이디
 			                </th>
 			                <td width="80%" >
 			                    <select id="groupId" title="그룹아이디">
@@ -487,7 +490,7 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th width="20%" height="23" class="required_text">
-			                    사용자상태코드<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />
+			                    사용자상태코드
 			                </th>
 			                <td width="80%" >
 			                    <select id="emplyrSttusCode" title="사용자상태코드">
