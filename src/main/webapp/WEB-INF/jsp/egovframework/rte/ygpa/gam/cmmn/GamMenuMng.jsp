@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamMenuMng.jsp
@@ -19,6 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamMenuMng" staticJavascript="false" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -56,7 +58,6 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			
 			module.$("#menuNo").attr("disabled","disabled");
 			module.$("#upperMenuId").attr("disabled","disabled");
-			module.$("#progrmFileNm").attr("disabled","disabled");
 			
 			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
 			module.$("#menuNo").val(row["menuNo"]);						// 메뉴No
@@ -94,7 +95,6 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		case "addBtn":
 			this.$("#menuNo").removeAttr("disabled");
 			this.$("#upperMenuId").removeAttr("disabled");
-			this.$("#progrmFileNm").removeAttr("disabled");
 			this.$("#menuMngListTab").tabs("option", {active: 1});
 			this.$("#menuManageVO :input").val("");
 			this.$("#cmd").val("insert");
@@ -107,6 +107,9 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		
 		// 저장
 		case "saveBtn":
+			
+			if(!validateGamMenuMng(this.$("#menuManageVO")[0])) return;
+			
 		 	var inputVO = this.makeFormArgs("#menuManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(module, result) {
@@ -237,33 +240,33 @@ var module_instance = new GamMenuMngModule();
 							<col />
 						</colgroup>
 						<tr>
-							<th width="20%" height="23" class="required_text">메뉴No<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="menuNo" /></td>
-							<th width="20%" height="23" class="required_text">메뉴순서<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="menuOrdr"/></td>
+							<th width="20%" height="23" class="required_text">메뉴No</th>
+							<td><input type="text" size="25" id="menuNo" maxlength="20" /></td>
+							<th width="20%" height="23" class="required_text">메뉴순서</th>
+							<td><input type="text" size="25" id="menuOrdr" maxlength="5" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">메뉴명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="menuNm"/></td>
-							<th width="20%" height="23" class="required_text">상위메뉴No<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="upperMenuId"/></td>
+							<th width="20%" height="23" class="required_text">메뉴명</th>
+							<td><input type="text" size="25" id="menuNm" maxlength="60" /></td>
+							<th width="20%" height="23" class="required_text">상위메뉴No</th>
+							<td><input type="text" size="25" id="upperMenuId" maxlength="20" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">파일명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<th width="20%" height="23" class="required_text">파일명</th>
 							<td colspan="3">
-								<input type="text" size="40" id="progrmFileNm" />&nbsp;&nbsp;
+								<input type="text" size="40" id="progrmFileNm" maxlength="60" disabled="disabled" />&nbsp;&nbsp;
 								<button id="popupBtn">프로그램파일명 검색</button>
 							</td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">관련이미지명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="relateImageNm"/></td>
-							<th width="20%" height="23" class="required_text">관련이미지경로<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="relateImagePath"/></td>
+							<th width="20%" height="23" class="required_text">관련이미지명</th>
+							<td><input type="text" size="25" id="relateImageNm" maxlength="60" /></td>
+							<th width="20%" height="23" class="required_text">관련이미지경로</th>
+							<td><input type="text" size="25" id="relateImagePath" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴설명</th>
-							<td colspan="3"><textarea cols="76" rows="10" id="menuDc"></textarea></td>
+							<td colspan="3"><textarea cols="76" rows="10" id="menuDc" maxlength="250"></textarea></td>
 						</tr>
 					</table>
 				</form>
