@@ -81,11 +81,6 @@ public class GamMenuMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	// 내역 조회
-    	/** EgovPropertyService */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -101,6 +96,7 @@ public class GamMenuMngController {
         int totCnt = menuManageService.selectMenuManageListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);

@@ -69,10 +69,6 @@ public class GamAuthorMngController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-    	/** EgovPropertyService */
-    	authorManageVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	authorManageVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
     	/** paging */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(authorManageVO.getPageIndex());
@@ -91,6 +87,9 @@ public class GamAuthorMngController {
 		/** List Data */
         List<AuthorManageVO> AuthorList = egovAuthorManageService.selectAuthorList(authorManageVO);
         int totCnt = egovAuthorManageService.selectAuthorListTotCnt(authorManageVO);
+        
+        paginationInfo.setTotalRecordCount(totCnt);
+        authorManageVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		
         map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totCnt);
