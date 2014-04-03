@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamMenuMng">
+            <field property="menuNo" depends="required, maxlength">
+                <arg0 key="메뉴 번호" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="menuOrdr" depends="required, maxlength">
+                <arg0 key="메뉴 순서" resource="false"/>
+                <arg1 key="5" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>5</var-value>
+                </var>
+            </field>
+            <field property="menuNm" depends="required, maxlength">
+                <arg0 key="메뉴 명" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+            <field property="upperMenuId" depends="maxlength">
+                <arg0 key="상위메뉴 번호" resource="false"/>
+                <arg1 key="20" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>20</var-value>
+                </var>
+            </field>
+            <field property="progrmFileNm" depends="required, maxlength">
+                <arg0 key="파일명" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+            <field property="relateImageNm" depends="maxlength">
+                <arg0 key="관련이미지 명" resource="false"/>
+                <arg1 key="60" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>60</var-value>
+                </var>
+            </field>
+            <field property="relateImagePath" depends="maxlength">
+                <arg0 key="관련이미지경로" resource="false"/>
+                <arg1 key="100" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>100</var-value>
+                </var>
+            </field>
+            <field property="menuDc" depends="maxlength">
+                <arg0 key="메뉴설명" resource="false"/>
+                <arg1 key="250" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>250</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>
