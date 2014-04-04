@@ -314,7 +314,7 @@ SELECT * FROM (
 						ASSET_NO_SEQ = #searchAssetNoSeq#
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchItemName">
-						ITEM_NAME_ASSET LIKE '%' || #searchItemName# || '%' OR PUR_PURPOSE LIKE '%' || #searchItemName# || '%'
+						(ITEM_NAME_ASSET LIKE '%' || #searchItemName# || '%' OR PUR_PURPOSE LIKE '%' || #searchItemName# || '%')
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchStartDt">
 						<![CDATA[
@@ -326,9 +326,9 @@ SELECT * FROM (
 						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
 						]]>
 					</isNotEmpty>
-					<isNotEmpty prepend="AND" property="searchDeptCd">
+					<isNotEmpty prepend="AND" property="searchAssetSize">
 						<![CDATA[
-						DEPT_CD  = #searchDeptCd#
+						ASSET_SIZE LIKE '%' || #searchAssetSize# || '%'
 						]]>
 					</isNotEmpty>
 					ORDER BY

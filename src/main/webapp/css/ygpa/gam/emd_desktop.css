@@ -1332,3 +1332,10 @@ table.searchPanel {
     width: 100%;
 }
 
+.dialog {
+  background: #fff;
+/*   margin: 0 0 0 173px;  Disable #### */
+  min-height: 100%;
+  padding: 0 8px 0 0;
+}
+

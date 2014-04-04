@@ -95,6 +95,26 @@ vertical-align: middle;
   color: #fff;
 }
 
+.editForm th {
+	background: #2FDAFF;
+	  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+  text-shadow: #000 0 1px 1px;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.editForm td {
+	background: #fff;
+	color: #615E5E;
+}
+
+.editForm tr {
+  background: #06c repeat-x;
+  color: #fff;
+}
+
 .searchPanel th.shrink {
   width: 1%;
 }
@@ -102,3 +122,6 @@ vertical-align: middle;
 .dialog {
 overflow: hidden;
 }
+
+input[type="text"]:disabled { color: #000; background-color: white; border-style: none none solid; }
+select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; border-style: dotted; }
