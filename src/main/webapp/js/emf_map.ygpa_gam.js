@@ -313,10 +313,9 @@ var EMD = function($, window, document, undefined) {
     strokeWidth:1, fillColor:"#303294", fillOpacity:0.5, pointRadius:6, pointerEvents:"visiblePainted", fontColor:"black", fontSize:"12px", fontFamily:"Courier New, monospace", fontWeight:"bold", labelAlign:"cm", labelXOffset:"2px", labelYOffset:"2px", labelOutlineColor:"white", labelOutlineWidth:3}, "select":{strokeColor:"#00FF00", strokeOpacity:1, strokeWidth:3, fillColor:"#303294", fillOpacity:1, pointRadius:6, pointerEvents:"visiblePainted", fontSize:"12px", fontFamily:"Courier New, monospace", 
     fontWeight:"bold", labelAlign:"cm", labelXOffset:"2px", labelYOffset:"2px", labelOutlineColor:"black", labelOutlineWidth:3}})});
     EMD.wfs.setVisibility(true);
-    EMD.userLayer.gisAssetsCd.setVisibility(true);
     EMD.userLayer.prtFclty.setVisibility(true);
     EMD.lotarea.setVisibility(true);
-    EMD.map.addLayers([basemap, EMD.lotarea, EMD.userLayer.gisAssetsCd, EMD.wfs]);
+    EMD.map.addLayers([basemap, EMD.lotarea, EMD.wfs]);
     EMD.map.addControl(EMD.selectControl);
     EMD.selectControl.activate();
     EMD.map.addControl(new OpenLayers.Control.LayerSwitcher);
@@ -3105,7 +3104,12 @@ if (!Array.prototype.indexOf) {
         var th = $(t).height();
         if (th > ch) {
           var mt = Math.round((100 - ui.value) / 100 * (ch - th));
-          $(t).css("margin-top", mt + "px");
+          if (browser.msie) {
+            $(t).css("marginTop", mt + "px");
+            $(t).css("top", mt + "px");
+          } else {
+            $(t).css("margin-top", mt + "px");
+          }
         } else {
           $(t).css("margin-top", 0);
         }
