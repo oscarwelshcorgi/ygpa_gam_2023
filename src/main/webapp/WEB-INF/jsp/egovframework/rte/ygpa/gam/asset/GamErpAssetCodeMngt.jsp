@@ -605,7 +605,7 @@ GamAssetCodeModule.prototype.clearCodePage = function() {
 
 GamAssetCodeModule.prototype.clearPhotoPage = function() {
 	this.$('#assetCodePhotoList').flexEmptyData();
-	this.$('#editAssetGisPhotoForm').val('');
+	this.$('#editAssetGisPhotoForm :input').val('');
 	this.$('#previewImage').attr('src', '');
 };
 
@@ -792,7 +792,7 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">사용여부</span></th>
-						<td>
+						<td colspan="5">
 							<select id="gisAssetsUsageYn">
 									<option value="" selected="selected">선택</option>
 									<option value="Y">사용</option>
