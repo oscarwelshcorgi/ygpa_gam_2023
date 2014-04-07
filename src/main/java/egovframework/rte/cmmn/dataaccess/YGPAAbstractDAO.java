@@ -44,21 +44,21 @@ public class YGPAAbstractDAO extends EgovAbstractDAO {
 
         //삭제처리
         for (int i=0; i<hmD.length; i++) {
-            hmD[i].put("updtId", hmUSER.get("id"));
+            hmD[i].put("updUsr", hmUSER.get("id"));
             cntD += this.delete(deleteQuery, hmD[i]);
         }
 
         logger.debug("Create update length = " + hmCU.length + " (delete "+ cntD + " records)");
         //수정처리 & 입력처리
         for (int i=0; i<hmCU.length; i++) {
-            if ("update".equals(hmCU[i].get("setRowStatus"))) {
+            if ("U".equals(hmCU[i].get("_updtId"))) {
                 logger.debug("update data : "+i);
-                hmCU[i].put("upid", hmUSER.get("id"));
+                hmCU[i].put("updUsr", hmUSER.get("id"));
                 cntU += this.update(updateQuery, hmCU[i]);
 
-            } else if ("insert".equals(hmCU[i].get("setRowStatus"))) {
+            } else if ("I".equals(hmCU[i].get("_updtId"))) {
                 logger.debug("insert data : "+i);
-                hmCU[i].put("upid", hmUSER.get("id"));
+                hmCU[i].put("regUsr", hmUSER.get("id"));
                 logger.debug("columns : "+hmCU[i].keySet().toString());
                 logger.debug("action : " + hmCU[i].values().toString());
                 insert(insertQuery, hmCU[i]);
@@ -66,7 +66,7 @@ public class YGPAAbstractDAO extends EgovAbstractDAO {
                 cntC++;
             }
             else {
-                logger.debug("unknown RowStatus ["+i+"] : "+hmCU[i].get("setRowStatus"));
+                logger.debug("unknown RowStatus ["+i+"] : "+hmCU[i].get("_updtId"));
             }
         }
 

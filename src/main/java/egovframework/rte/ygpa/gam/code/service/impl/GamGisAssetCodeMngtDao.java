@@ -28,6 +28,10 @@ public class GamGisAssetCodeMngtDao extends YGPAAbstractDAO {
         return (EgovMap) selectByPk("gamGisAssetCodeDao.selectAssetCode_S", vo);
     }
 
+    public EgovMap selectGetNewAssetCode(Map vo) throws Exception {
+    	return (EgovMap) selectByPk("gamGisAssetCodeDao.selectGetNewAssetCode_S", vo);
+    }
+
 	public List selectGamAssetCodeList(GamGisAssetCodeVO searchOpt) {
 		// TODO Auto-generated method stub
 		 return list("gamGisAssetCodeDao.selectAssetCodeList_D", searchOpt);

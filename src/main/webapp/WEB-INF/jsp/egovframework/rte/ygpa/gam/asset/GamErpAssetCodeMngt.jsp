@@ -21,7 +21,7 @@
   */
 %>
 <validator:javascript formName="gamAssetCode" method="validateGamAssetCode" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetPhoto" method="gamAssetPhoto" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetPhoto" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -146,11 +146,11 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodePhotoList").flexigrid({
 		module: this,
-		dataType: 'json',
+		url: '<c:url value="/asset/selectGisAssetPhotoList.do"/>',
 		colModel : [
 				{display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
 				{display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
-				{display:'파일명', name:'filenmLogical', width:200, sortable:true, align:'left'},
+				{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
 				{display:'촬영 일시', name:'shotDt', width:120, sortable:true, align:'center'},
 				{display:'등록자', name:'regUse', width:160, sortable:true, align:'center'}
 			],
@@ -162,9 +162,9 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module._editPhotoData=module.getFormValues('#editAssetGisPhotoForm', row);
 		module._editPhotoRow=module.$('#assetCodePhotoList').selectedRowIds()[0];
 
-		if(row.filenmPhyicl!=null || row.filenmPhyicl!='') {
+		if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm=row['filenmPhyicl'];
+			var filenm=row['filenmPhysicl'];
 			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
 			    $imgURL = module.getImageUrl(filenm);
@@ -178,6 +178,12 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		}
 //		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
+
+	this.$("#assetCodePhotoList").on('onLoadDataComplete', function(event, module, data, grid, param) {
+		module._editPhotoRow=null;
+		module._deletePhotoList=[];
+	});
+
 
 	this.$('#gisAssetsLocCd').on('change', function() {
 		//alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
@@ -254,10 +260,40 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
 
-	    this.doAction('<c:url value="/asset/mergeGamErpAssetCodeMngt.do" />', inputVO, function(module, result) {
+	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetCodeMngt.do" />', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	            var searchOpt=module.makeFormArgs('#searchGisAssetCode');
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	        }
+	        alert(result.resultMsg);
+	    });
+	}
+};
+
+GamAssetCodeModule.prototype.removeGisAssetPhotoItem = function() {
+	if(this.$('#assetCodePhotoList').selectedRowIds().length>0) {
+		for(var i=this.$('#assetCodePhotoList').selectedRowIds().length-1; i>=0; i--) {
+			var row=this.$('#assetCodePhotoList').flexGetRow(this.$('#assetCodePhotoList').selectedRowIds()[i]);
+			if(row._updtId==undefined || row._updtId!='I')  this._deletePhotoList[this._deletePhotoList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			this.$('#assetCodePhotoList').flexRemoveRow(this.$('#assetCodePhotoList').selectedRowIds()[i]);
+		}
+	}
+};
+
+GamAssetCodeModule.prototype.saveGisAssetPhotoItem = function() {
+	if( confirm("사진 목록을 저장하시겠습니까?") ) {
+	    // 변경된 자료를 저장한다.
+	    var inputVO=[];
+	    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodePhotoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+
+	    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodePhotoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+
+	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deletePhotoList) };
+
+	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetPhotoMngt.do" />', inputVO, function(module, result) {
+	        if(result.resultCode == 0){
+	            var searchOpt=module.makeFormArgs('#searchGisAssetPhoto');
+	            module.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 	        }
 	        alert(result.resultMsg);
 	    });
@@ -307,7 +343,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#searchPrtAtCode').removeClass('ui-state-error');
 		}
 		if(this.$('#searchGisErpAssetCls').val()=='' || this.$('#searchGisErpAssetNo').val()=='' ) {
-			alert('ERP 자산코드를 입력하거나 이전 탭에서 선택 하세요.');
+			alert('ERP 자산코드를 입력하거나 이전 탭에서 자산 항목을 선택 하세요.');
 			this.$('#searchGisErpAssetCls').addClass('ui-state-error');
 			this.$('#searchGisErpAssetNo').addClass('ui-state-error');
 			this.$('#searchGisErpAssetNoSeq').addClass('ui-state-error');
@@ -319,7 +355,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#searchGisErpAssetNoSeq').removeClass('ui-state-error');
 		}
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+	 	this.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'addAssetGisCd':	// gis 자산 추가
 		if(this.$('#erpAssetCodeList').selectedRowIds()>0) {
@@ -389,30 +425,69 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 	case 'btnUploadFile':
+		var selectRow = this.$('#assetCodeList').selectedRows();
+		if(selectRow.length > 0) {
+			var row=selectRow[0];
+			if(row['gisAssetsPrtAtCode']==null || row['gisAssetsCd']==null || row['gisAssetsSubCd']==null) {
+				alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
+				return;
+			}
+			if(row['gisAssetsPrtAtCode'].length!=3 || row['gisAssetsCd'].length!=3 || row['gisAssetsSubCd'].length!=2) {
+				alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
+				return;
+			}
+			this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
+			this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
+			this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
+
+			this._tempGisPrtAtCd=row['gisAssetsPrtAtCode'];
+			this._tempGisAssetsCd=row['gisAssetsCd'];
+			this._tempGisAssetsSubCd=row['gisAssetsSubCd'];
+		}
+		else {
+			alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요.');
+			return;
+		}
+
 		// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 		this.uploadFile('uploadPhoto', function(module, result) {
-// 			var userid=EMD.util.getLoginUserVO().userNm; 임시
-			var userid='admin';
+ 			var userid=EMD.util.getLoginUserVO().userNm;
+
+//			var userid='admin';
 			$.each(result, function(){
-				module.$('#assetCodePhotoList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()});	// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+				module.$('#assetCodePhotoList').flexAddRow({
+					_updtId:'I',
+					gisAssetsPrtAtCode: module._tempGisPrtAtCd,
+					gisAssetsCd: module._tempGisAssetsCd,
+					gisAssetsSubCd: module._tempGisAssetsSubCd,
+					photoSj: '',
+					filenmLogic: this.logicalFileNm,
+					filenmPhysicl: this.physcalFileNm,
+					regUsr: userid,
+					registDt:  EMD.util.getTimeStamp()});	// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 			});
 		}, '시설사진 업로드');
 		break;
 
 	case 'btnApplyPhotoData':
+		var selectRow = this.$('#assetCodePhotoList').selectedRows();
+		if(selectRow.length==0) return;
 		if(!validateGamAssetPhoto(this.$('#editAssetGisPhotoForm')[0])) {
 			return;
 		}
 		var rownum;
 		var row = {};
-		row=module.getFormValues('#editAssetGisPhotoForm', row);
-		rownum=module.$('#assetCodeList').selectedRowIds()[0];
-
-
+		row=this.getFormValues('#editAssetGisPhotoForm', selectRow[0]);
+		rownum=this.$('#assetCodePhotoList').selectedRowIds()[0];
 
 		this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
 		break;
-
+	case 'removeAssetGisPhoto':
+		this.removeGisAssetPhotoItem();
+		break;
+	case 'saveAssetGisPhoto':
+		this.saveGisAssetPhotoItem();
+		break;
 	case 'popupFcltyCd':
         var opts;
 
@@ -515,16 +590,23 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
 			this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
 
-			// 해당하는 자산 사진 목록을 불러온다/
-			var searchOpt=this.makeFormArgs('#searchGisAssetPhoto');
-			//this.showAlert(searchOpt);
-		 	this.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
+			this.selectPhotoList();
 		}
 		else {
 			this.$('#assetCodePhotoList').flexEmptyData();
+			alert('선택된 GIS 자산이 없습니다.');
 		}
 		break;
 	}
+};
+
+GamAssetCodeModule.prototype.selectPhotoList = function() {
+	// 해당하는 자산 사진 목록을 불러온다/
+	var searchOpt=this.makeFormArgs('#searchGisAssetPhoto');
+	//this.showAlert(searchOpt);
+	this.$('#assetCodePhotoList').flexEmptyData();
+
+ 	this.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamAssetCodeModule.prototype.onSubmit = function() {
@@ -718,7 +800,12 @@ var module_instance = new GamAssetCodeModule();
 			</div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
 				<table id="assetCodePhotoList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="removeAssetGisPhoto">삭제</button></div>
+				<div class="emdControlPanel">
+					<button id="btnUploadFile">업로드</button>
+					<button id="btnDownloadFile">다운로드</button>
+					<button id="removeAssetGisPhoto">삭제</button>
+					<button id="saveAssetGisPhoto">저장</button>
+				</div>
 				<form id="editAssetGisPhotoForm">
 					<table>
 						<tr>

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
@@ -34,8 +40,12 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdService;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
+import egovframework.rte.ygpa.gam.asset.service.GamErpGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetPhotoMngtService;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetPhotoVO;
 
 /**
  * @author eunsungj
@@ -43,6 +53,8 @@ import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
  */
 @Controller
 public class GamErpGisAssetCodeMngtController {
+
+    protected Log log = LogFactory.getLog(this.getClass());
 
     @Resource(name = "erpCmmnCdService")
     private ErpCmmnCdService erpCmmnCdService;
@@ -56,8 +68,14 @@ public class GamErpGisAssetCodeMngtController {
     @Resource(name = "gamGisAssetCodeMngtService")
     private GamGisAssetCodeMngtService gamGisAssetCodeMngtService;
 
+    @Resource(name = "gamGisAssetPhotoMngtService")
+    private GamGisAssetPhotoMngtService gamGisAssetPhotoMngtService;
+
 	@Resource(name = "CmmnDetailCodeManageService")
     private EgovCcmCmmnDetailCodeManageService cmmnDetailCodeManageService;
+
+	@Resource(name = "gamErpGisAssetCodeMngtService")
+	private GamErpGisAssetCodeMngtService gamErpGisAssetCodeMngtService;
 
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -170,7 +188,7 @@ public class GamErpGisAssetCodeMngtController {
 
 
     @RequestMapping(value="/asset/selectGisAssetCodeList.do")
-    @ResponseBody Map selectAssetList(GamGisAssetCodeVO searchVO) throws Exception {
+    @ResponseBody Map selectGisAssetCodeList(GamGisAssetCodeVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
@@ -202,23 +220,190 @@ public class GamErpGisAssetCodeMngtController {
     	return map;
     }
 
-//    protected void initBinder(HttpServletRequest request,  ServletRequestDataBinder binder) throws Exception{
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-//        binder.registerCustomEditor(Date.class, editor);
-//}
-//
-//@Override
-//protected Object formBackingObject(HttpServletRequest request)
-//                throws Exception {
-//        SpringJsonForm bean = new SpringJsonForm();
-//        bean.setBirthday(new Date());
-//        bean.setPlaceofbirth("Sydney");
-//        return bean;
-//}
-//
-//public void onSubmitAction(Object command, BindException errors) {
-//        SpringJsonForm bean = (SpringJsonForm) command;
-//}
+	@RequestMapping(value="/asset/mergeGamErpGisAssetCodeMngt.do")
+	@ResponseBody Map<String, Object> mergeGamErpGisAssetCodeMngt(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		gamErpGisAssetCodeMngtService.mergeErpGisAssetCodeMngt(mergeMap);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+
+		return map;
+	}
+
+	@RequestMapping(value="/asset/mergeGamErpGisAssetPhotoMngt.do")
+	@ResponseBody Map<String, Object> mergeGamErpGisAssetPhotoMngt(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+
+		return map;
+	}
+
+    @RequestMapping(value="/asset/selectGisAssetPhotoList.do")
+    @ResponseBody Map selectGisAssetPhotoList(GamGisAssetPhotoVO searchVO) throws Exception {
+    	int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+    	totalCnt = gamGisAssetPhotoMngtService.selectAssetPhotoListTotCnt(searchVO);
+
+    	List gamAssetList = gamGisAssetPhotoMngtService.selectAssetPhotoList(searchVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", gamAssetList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+	@RequestMapping(value="/asset/mergeGamGisAssetPhotoMngt.do")
+	@ResponseBody Map<String, Object> mergeGamGisAssetPhotoMngt(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+
+		return map;
+	}
 
 }

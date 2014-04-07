@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="gamAssetPhotoDao.insertAssetPhoto_S">
+		<![CDATA[
+			INSERT INTO GIS_ASSETS_PHOTO_F
+				( GIS_ASSETS_SUB_CD,
+				GIS_ASSETS_CD,
+				GIS_ASSETS_PRT_AT_CODE,
+				PHOTO_SEQ,
+				PHOTO_SJ,
+				FILENM_PHYSICL,
+				FILENM_LOGIC,
+				SHOT_DT,
+				REG_USR,
+				REGIST_DT
+				 )
+			VALUES ( #gisAssetsSubCd#,
+				#gisAssetsCd#,
+				#gisAssetsPrtAtCode#,
+				(SELECT LPAD(NVL(MAX(PHOTO_SEQ), 1),2,'0')
+					FROM GIS_ASSETS_PHOTO_F
+				WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD = #gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD	= #gisAssetsSubCd#),
+				#photoSj#,
+				#filenmPhysicl#,
+				#filenmLogic#,
+				TO_DATE(#shotDt#, 'YYYY-MM-DD'),
+				#regUsr#,
+				SYSDATE
+	 		)
+		]]>
+	</insert>
+
+	<update id="gamAssetPhotoDao.updateAssetPhoto_S">
+		<![CDATA[
+			UPDATE GIS_ASSETS_PHOTO_F
+			SET PHOTO_SJ=#id#
+				, SHOT_DT=#shotDt#
+			WHERE
+				GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD = #gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD	= #gisAssetsSubCd#
+				AND PHOTO_SEQ = #photoSeq#
+		]]>
+	</update>
+
+	<delete id="gamAssetPhotoDao.deleteAssetPhoto_S">
+		<![CDATA[
+			DELETE FROM GIS_ASSETS_PHOTO_F
+			WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD = #gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD	= #gisAssetsSubCd#
+				AND PHOTO_SEQ = #photoSeq#
+
+		]]>
+	</delete>
+
+	<select id="gamAssetDao.selectAssetPhoto_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				GIS_ASSETS_SUB_CD,
+				GIS_ASSETS_CD,
+				GIS_ASSETS_PRT_AT_CODE,
+				PHOTO_SEQ,
+				PHOTO_SJ,
+				FILENM_PHYSICL,
+				FILENM_LOGIC,
+				SHOT_DT,
+				REG_USR,
+				REGIST_DT
+			FROM GIS_ASSETS_PHOTO_F
+			WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD = #gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD	= #gisAssetsSubCd#
+				AND PHOTO_SEQ = #photoSeq#
+
+		]]>
+	</select>
+
+	<select id="gamAssetPhotoDao.selectAssetPhotoList_D" parameterClass="hashMap" resultClass="egovMap">
+	       SELECT A.*
+	       FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						GIS_ASSETS_SUB_CD,
+				GIS_ASSETS_CD,
+				GIS_ASSETS_PRT_AT_CODE,
+				PHOTO_SEQ,
+				PHOTO_SJ,
+				FILENM_PHYSICL,
+				FILENM_LOGIC,
+				SHOT_DT,
+				REG_USR,
+				REGIST_DT
+					FROM GIS_ASSETS_PHOTO_F
+					WHERE 1=1
+				<isNotNull prepend="AND" property="prtAtCode">
+					PRT_AT_CODE=#prtAtCode#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsCd">
+					GIS_ASSETS_PHOTO_F=#gisAssetsCd#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsSubCd">
+					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+				</isNotNull>
+				<isNotNull prepend="AND" property="photoSeq">
+					PHOTO_SEQ=#photoSeq#
+				</isNotNull>
+				ORDER BY PRT_AT_CODE, GIS_ASSETS_PHOTO_F, GIS_ASSETS_SUB_CD, PHOTO_SEQ
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+
+	<select id="gamAssetPhotoDao.selectAssetPhotoListTotCnt_S" parameterClass="hashMap" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM GIS_ASSETS_PHOTO_F
+				WHERE 1=1
+				<isNotNull prepend="AND" property="prtAtCode">
+					PRT_AT_CODE=#prtAtCode#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsCd">
+					GIS_ASSETS_PHOTO_F=#gisAssetsCd#
+				</isNotNull>
+				<isNotNull prepend="AND" property="gisAssetsSubCd">
+					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+				</isNotNull>
+				<isNotNull prepend="AND" property="photoSeq">
+					PHOTO_SEQ=#photoSeq#
+				</isNotNull>
+	</select>
+
+</sqlMap>
