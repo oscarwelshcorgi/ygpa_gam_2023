@@ -605,6 +605,8 @@ GamAssetCodeModule.prototype.selectPhotoList = function() {
 	var searchOpt=this.makeFormArgs('#searchGisAssetPhoto');
 	//this.showAlert(searchOpt);
 	this.$('#assetCodePhotoList').flexEmptyData();
+	this.$('#editAssetGisPhotoForm').val('');
+	this.$('#previewImage').attr('src', '');
 
  	this.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 };
