@@ -28,10 +28,13 @@
  */
 function GamAssetCodeModule() {}
 
-GamAssetCodeModule.prototype = new EmdModule(915, 700);
+GamAssetCodeModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetCodeModule.prototype.loadComplete = function() {
+
+	this._edited=false;	// 편집 상태를 저장 한다.
+
 	this.$('#prtAtCode').val('620');	// 기본 항코드 설정s
 
 	// 테이블 설정
@@ -119,7 +122,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 					{display:'준공 일자', name:'gisAssetsBldDt', width:128, sortable:true, align:'center'},
 					{display:'사용', name:'gisAssetsUsageYn', width:30, sortable:true, align:'center'}
 			],
-		height: '140',
+		height: '110',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.assetCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
@@ -221,7 +224,9 @@ GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
 };
 
 GamAssetCodeModule.prototype.addGisAssetItem = function() {
-	this.clearCodePage();
+	this._edited=true;
+
+	this.$('#editGisAssetCode :input').val('');
 
 	this.$('#erpAssetsCls').val(this.$('#searchGisAssetErpAssetsCls').val());
 	this.$('#erpAssetsNo').val(this.$('#searchGisAssetErpAssetsNo').val());
@@ -246,6 +251,7 @@ GamAssetCodeModule.prototype.removeGisAssetItem = function() {
 			var row=this.$('#assetCodeList').flexGetRow(this.$('#assetCodeList').selectedRowIds()[i]);
 			if(row._updtId==undefined || row._updtId!='I')  this._deleteDataList[this._deleteDataList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			this.$('#assetCodeList').flexRemoveRow(this.$('#assetCodeList').selectedRowIds()[i]);
+			this._edited=true;
 		}
 	}
 };
@@ -266,6 +272,7 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	        }
 	        alert(result.resultMsg);
+	    	this._edited=false;
 	    });
 	}
 };
@@ -277,6 +284,8 @@ GamAssetCodeModule.prototype.removeGisAssetPhotoItem = function() {
 			if(row._updtId==undefined || row._updtId!='I')  this._deletePhotoList[this._deletePhotoList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			this.$('#assetCodePhotoList').flexRemoveRow(this.$('#assetCodePhotoList').selectedRowIds()[i]);
 		}
+
+		this._edited=true;
 	}
 };
 
@@ -296,6 +305,7 @@ GamAssetCodeModule.prototype.saveGisAssetPhotoItem = function() {
 	            module.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 	        }
 	        alert(result.resultMsg);
+	    	this._edited=false;
 	    });
 	}
 };
@@ -387,6 +397,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnApplyGisAssetsCode':
 		if(this._editRow==null && (this._editData==null || this._editData._updtId!='I')) {
+
 			return;	// no action;
 		}
 		if(!validateGamAssetCode(this.$('#editGisAssetCode')[0])) {
@@ -404,7 +415,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			}
 		}
 		this._editData={};
-		this.clearCodePage();
+//		this.clearCodePage();
+		this.$('#editGisAssetCode :input').val('');
+
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
 		break;
 	case 'btnCancelGisAssetsCode':
@@ -443,6 +456,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this._tempGisPrtAtCd=row['gisAssetsPrtAtCode'];
 			this._tempGisAssetsCd=row['gisAssetsCd'];
 			this._tempGisAssetsSubCd=row['gisAssetsSubCd'];
+
+			this._edited=true;
+
 		}
 		else {
 			alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요.');
@@ -481,6 +497,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		rownum=this.$('#assetCodePhotoList').selectedRowIds()[0];
 
 		this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
+
+		this._edited=true;
+
 		break;
 	case 'removeAssetGisPhoto':
 		this.removeGisAssetPhotoItem();
@@ -550,6 +569,12 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
      }
 };
 
+GamAssetCodeModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	if(this._edited) {
+		return confirm('탭을 이동 하면 편집 한 내용이 저장 되지 않습니다. 계속 하시겠습니까?');
+	}
+}
+
 /*
 GamAssetCodeModule.prototype.onUploadFileDone = function(uploadId, result) {
 	$.each(result, function() {
@@ -558,6 +583,7 @@ GamAssetCodeModule.prototype.onUploadFileDone = function(uploadId, result) {
 }
 */
 GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	this._edited=false;
 	switch(newTabId) {
 	case 'tabs1':
 		this.$('#searchViewStack')[0].changePanelId(0);
@@ -695,7 +721,7 @@ var module_instance = new GamAssetCodeModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="assetManageTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="assetManageTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">ERP자산정보</a></li>
 				<li><a href="#tabs2" class="emdTab">GIS자산목록</a></li>
@@ -716,21 +742,32 @@ var module_instance = new GamAssetCodeModule();
 				</div>
 				<form id="editGisAssetCode" name="gisAssetCode">
 				<table class="editForm">
+					<colGroup>
+						<col width="120" />
+						<col width="200" />
+						<col width="120" />
+						<col width="200" />
+						<col width="120" />
+						<col width="200" />
+					</colGroup>
+
 					<tr>
 						<th><span class="label">항구분</span></th>
-						<td colspan="5">
-							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-required='true' data-code-id='GAM019' data-column-label-id='prtAtCodeNm'' data-display-value='N'  disabled="disabled"/>
+						<td>
+							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-required='true' data-code-id='GAM019' data-column-label-id='prtAtCodeNm'' data-display-value='N'  disabled="disabled" size="3"/>
 						</td>
+						<th><span class="label">자산코드</span></th>
+						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
 					</tr>
 					<tr>
-						<th><span class="label">자산코드</span></th>
-						<td colspan="5"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
 					</tr>
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
 						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd" readonly="readonly">-<input type="text" size="8" id="erpAssetsNo" readonly="readonly">-<input type="text" size="2" id="erpAssetsNoSeq" readonly="readonly"></td>
 						<th><span class="label">ERP자산명</span></th>
-						<td colspan="5"><input type="text" size="40" id="itemName" data-column-id="itemName" readonly="readonly"></td>
+						<td><input type="text" size="32" id="itemName" data-column-id="itemName" readonly="readonly""></td>
+						<th><span class="label">ERP구매용도</span></th>
+						<td><input type="text" size="32" id="purPurpose" data-column-id="purPurpose" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<th><span class="label">재산구분</span></th>
@@ -778,27 +815,23 @@ var module_instance = new GamAssetCodeModule();
 						<th><span class="label">관리부서</span></th>
 						<td><input type="text" id="gisAssetsMngDeptCd" class="ygpaDeptSelect" data-default-prompt="없음" data-column-label-id="mngDeptNm"></td>
 						<th><span class="label">운영부서</span></th>
-						<td colspan="3"><input type="text" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" data-default-prompt="없음" data-column-label-id="operDeptNm"></td>
-					</tr>
-					<tr>
-						<th><span class="label">준공년도</span></th>
-						<td><input type="text" size="4" id="gisAssetsBlddate"></td>
+						<td><input type="text" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" data-default-prompt="없음" data-column-label-id="operDeptNm"></td>
 						<th><span class="label">준공일자</span></th>
-						<td colspan="3"><input type="text" size="16" class="emdcal" id="gisAssetsBldDt"></td>
+						<td ><input type="text" size="16" class="emdcal" id="gisAssetsBldDt"></td>
 					</tr>
 					<tr>
 						<th><span class="label">비고</span></th>
-						<td colspan="5"><textarea cols="60" rows="4" id="gisAssetsRm"></textarea></td>
-					</tr>
-					<tr>
+						<td colspan="3"><textarea cols="60" rows="1" id="gisAssetsRm"></textarea></td>
 						<th><span class="label">사용여부</span></th>
-						<td colspan="5">
+						<td>
 							<select id="gisAssetsUsageYn">
 									<option value="" selected="selected">선택</option>
 									<option value="Y">사용</option>
 									<option value="N">사용안함</option>
 							</select>
 						</td>
+					</tr>
+					<tr>
 					</tr>
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
@@ -807,7 +840,7 @@ var module_instance = new GamAssetCodeModule();
 				</div>
 				</form>
 			</div>
-			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
+			<div id="tabs3" class="emdTabPage" data-onactivate="onShowTab3Activate">
 				<table id="assetCodePhotoList" style="display:none"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>
@@ -816,22 +849,28 @@ var module_instance = new GamAssetCodeModule();
 					<button id="saveAssetGisPhoto">저장</button>
 				</div>
 				<form id="editAssetGisPhotoForm">
-					<table>
+					<table class="editForm">
+						<colGroup>
+							<col width="120" />
+							<col width="200" />
+							<col width="120" />
+							<col width="200" />
+							<col width="120" />
+							<col width="200" />
+						</colGroup>
 						<tr>
 							<th><span class="label">제 목</span></th>
-							<td>
+							<td colspan="3">
 								<input id="photoSj" type="text" size="60" class="photoEditItem" />
 							</td>
-						</tr>
-						<tr>
 							<th><span class="label">촬영일자</span></th>
 							<td>
-                            	<input id="shotDate" type="text" size="10"  class="emdcal photoEditItem">&nbsp;<input id="shotTime" type="text" size="5"  class="photoEditItem emdTime"/>
+                            	<input id="shotDate" type="text" size="10"  class="emdcal photoEditItem">
+			   					<button id="btnApplyPhotoData">적용</button>
 							</td>
 						</tr>
 					</table>
 				</form>
-   					<button id="btnApplyPhotoData">적용</button>
 				<div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
