@@ -133,7 +133,6 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
-		module.$('#editGisAssetCode :input').val('');
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
@@ -222,7 +221,8 @@ GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
 };
 
 GamAssetCodeModule.prototype.addGisAssetItem = function() {
-	this.$('#editGisAssetCode').find(':input').val('');
+	this.clearCodePage();
+
 	this.$('#erpAssetsCls').val(this.$('#searchGisAssetErpAssetsCls').val());
 	this.$('#erpAssetsNo').val(this.$('#searchGisAssetErpAssetsNo').val());
 	this.$('#erpAssetsNoSeq').val(this.$('#searchGisAssetErpAssetsNoSeq').val());
@@ -313,7 +313,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		} */
 		var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	 	this.$('#erpAssetCodeList').flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
+	 	// throw 0;
 		break;
 
 	case 'selectGisAssetCode':
@@ -331,7 +331,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
+	 	// throw 0;
 		break;
 	case 'selectGisAssetPhoto':	// 자산 사진 조회
 		if(this.$('#searchGisAssetPrtAtCode').val()=='') {
@@ -404,11 +404,11 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			}
 		}
 		this._editData={};
-		this.$('#editGisAssetCode').find(':input').val('');
+		this.clearCodePage();
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
 		break;
 	case 'btnCancelGisAssetsCode':
-		this.$('#editGisAssetCode').find(':input').val('');
+		this.clearCodePage();
 		// this.$('#btnApplyGisAssetCode').removeAttr('disabled');
 		break;
 	case 'removeAssetCdItem':
@@ -545,7 +545,7 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
 
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         throw 0;
+         // throw 0;
          break;
      }
 };
@@ -565,6 +565,7 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	case 'tabs2':
 		this.$('#searchViewStack')[0].changePanelId(1);	// 조회 조건 변경
 		var selectRow = this.$('#erpAssetCodeList').selectedRows();
+		this.clearCodePage();
 		if(selectRow.length > 0) {
 			var row=selectRow[0];
 			this.$('#searchGisAssetErpAssetsCls').val(row['assetCls']);
@@ -577,13 +578,11 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			//this.showAlert(searchOpt);
 		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 		}
-		else {
-			this.$('#assetCodeList').flexEmptyData();
-		}
 		break;
 	case 'tabs3':
 		this.$('#searchViewStack')[0].changePanelId(2);	// 조회 조건 변경
 		var selectRow = this.$('#assetCodeList').selectedRows();
+		this.clearPhotoPage();
 		if(selectRow.length > 0) {
 			var row=selectRow[0];
 			this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
@@ -593,20 +592,28 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			this.selectPhotoList();
 		}
 		else {
-			this.$('#assetCodePhotoList').flexEmptyData();
 			alert('선택된 GIS 자산이 없습니다.');
 		}
 		break;
 	}
 };
 
+GamAssetCodeModule.prototype.clearCodePage = function() {
+	this.$('#editGisAssetCode :input').val('');
+	this.$('#assetCodeList').flexEmptyData();
+};
+
+GamAssetCodeModule.prototype.clearPhotoPage = function() {
+	this.$('#assetCodePhotoList').flexEmptyData();
+	this.$('#editAssetGisPhotoForm').val('');
+	this.$('#previewImage').attr('src', '');
+};
+
 GamAssetCodeModule.prototype.selectPhotoList = function() {
 	// 해당하는 자산 사진 목록을 불러온다/
 	var searchOpt=this.makeFormArgs('#searchGisAssetPhoto');
 	//this.showAlert(searchOpt);
-	this.$('#assetCodePhotoList').flexEmptyData();
-	this.$('#editAssetGisPhotoForm').val('');
-	this.$('#previewImage').attr('src', '');
+	this.clearPhotoPage();
 
  	this.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 };
