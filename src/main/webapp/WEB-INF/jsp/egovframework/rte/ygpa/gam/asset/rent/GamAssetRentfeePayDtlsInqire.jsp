@@ -460,7 +460,7 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
                             <td style="width: 170px"><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th style="width: 70px">업체명</th>
                             <td colspan="3"><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20" readonly> <button id="popupEntrpsInfo">업체</button></td>
-                            <td rowspan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowspan="2"><button id="searchBtn" *class="submit" class="buttonSearch">조회</button></td>
                         </tr>   
                         
                         <tr>

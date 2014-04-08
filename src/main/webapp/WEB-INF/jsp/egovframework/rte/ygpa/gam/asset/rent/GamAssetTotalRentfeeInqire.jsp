@@ -160,7 +160,7 @@ var module_instance = new GamAssetTotalRentfeeInqireModule();
                             <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
                             <th style="width: 80px">사용기간</th>
                             <td><input id="sGrUsagePdFrom" type="text" class="emdcal" size="8"> ~ <input id="sGrUsagePdTo" type="text" class="emdcal" size="8"></td>
-                            <td rowSpan="3"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="3"><button id="searchBtn" *class="submit" class="buttonSearch">조회</button></td>
                         </tr>
                         
                         <tr>

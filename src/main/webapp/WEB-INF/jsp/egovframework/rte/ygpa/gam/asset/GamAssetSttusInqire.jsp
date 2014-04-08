@@ -196,7 +196,7 @@ var module_instance = new GamAssetSttusInqireModule();
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
                             </td>
                             
-                            <td rowspan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowspan="2"><button id="searchBtn" *class="submit" class="buttonSearch">조회</button></td>
                          </tr>
                          <tr>   
                             <th>기준일자</th>
