@@ -25,26 +25,26 @@
  */
 function GamOlnlpMngtModule() {}
 
-GamOlnlpMngtModule.prototype = new EmdModule(800,600);	// 초기 시작 창크기 지정
+GamOlnlpMngtModule.prototype = new EmdModule(800, 600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamOlnlpMngtModule.prototype.loadComplete = function() {
 
 	// 공시지가 등록현황 목록
-	 this.$("#olnlpInsertList").flexigrid({
+	this.$("#olnlpInsertList").flexigrid({
 		module: this,
 		url: '<c:url value="/code/gamOlnlpInsertList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
-				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
-				{display:"자산코드",		 			name:"gisAssetsCd",			width:80,		sortable:false,		align:"center"},
-				{display:"소재지",		 			name:"gisAssetsLocplc",		width:180,		sortable:false,		align:"center"},
+				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:50,		sortable:false,		align:"center"},
+				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:70,		sortable:false,		align:"center"},
+				{display:"자산코드",		 			name:"gisAssetsCd",			width:70,		sortable:false,		align:"center"},
+				{display:"소재지",		 			name:"gisAssetsLocplc",		width:210,		sortable:false,		align:"center"},
 				{display:"지번", 					name:"gisAssetsLnm",		width:80,		sortable:false,		align:"center"},
-				{display:"자산명",		 			name:"gisAssetsNm",			width:220,		sortable:false,		align:"center"}
+				{display:"자산명",		 			name:"gisAssetsNm",			width:130,		sortable:false,		align:"center"}
 			],
 		height: "auto"
-	}); 
+	});
 
 	// 공시지가 목록
 	this.$("#olnlpMngtList").flexigrid({
@@ -52,10 +52,10 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpMngtList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"순번", 					name:"olnlpSeq",		width:80,		sortable:false,		align:"center"},
-				{display:"시작일자",	 				name:"beginDt",			width:120,		sortable:false,		align:"center"},
-				{display:"종료일자",		 			name:"endDt",			width:120,		sortable:false,		align:"center"},
-				{display:"공시지가",		 			name:"olnlp",			width:200,		sortable:false,		align:"center"}
+				{display:"순번", 					name:"olnlpSeq",		width:100,		sortable:false,		align:"center"},
+				{display:"시작일자",	 				name:"beginDt",			width:140,		sortable:false,		align:"center"},
+				{display:"종료일자",		 			name:"endDt",			width:140,		sortable:false,		align:"center"},
+				{display:"공시지가",		 			name:"olnlp",			width:230,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
