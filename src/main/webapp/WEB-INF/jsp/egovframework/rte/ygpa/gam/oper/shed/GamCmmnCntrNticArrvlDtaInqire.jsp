@@ -1154,7 +1154,7 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             <td>
                                 <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>관리번호</th>

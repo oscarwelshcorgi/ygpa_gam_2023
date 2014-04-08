@@ -1410,7 +1410,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             <td>
                                 <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM007 />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>관리번호</th>
