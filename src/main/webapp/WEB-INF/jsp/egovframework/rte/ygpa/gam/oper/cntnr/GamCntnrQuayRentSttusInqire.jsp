@@ -641,7 +641,7 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             <td colspan="3" >
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
                             </td>
-                            <td rowSpan="2" style="text-align:right;"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2" style="text-align:right;"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                         	
