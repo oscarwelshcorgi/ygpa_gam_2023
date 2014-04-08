@@ -42,7 +42,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
 				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 				{display:"자산코드",		 			name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"정보통신시설코드", 				name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+				{display:"정보통신시설코드", 				name:"gisPrtFcltyDisplay",	width:100,		sortable:false,		align:"center"},
 				{display:"시설명",	 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"center"},
 				{display:"위치",		 				name:"gisAssetsLocCd",		width:40,		sortable:false,		align:"center"},
 				{display:"구조",		 				name:"prtFcltyStndrd",		width:100,		sortable:false,		align:"center"},
