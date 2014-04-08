@@ -170,7 +170,7 @@ var module_instance = new GamOlnlpMngtModule();
 								<button id="searchPopupBtn">자산코드</button>
 							</td>
 							<td rowspan="2">
-								<button id="searchBtn">조회</button>
+								<button id="searchBtn" class="buttonSearch">조회</button>
 							</td>
 						<tr>
 							<th>소재지</th>
