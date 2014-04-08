@@ -27,7 +27,7 @@
  */
 function GamCmmnCodeClMngtModule() {}
 
-GamCmmnCodeClMngtModule.prototype = new EmdModule(840, 540);
+GamCmmnCodeClMngtModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
@@ -39,9 +39,9 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
-					{display:"분류코드", 	name:"clCode",		width:100, 	sortable:false,		align:"center"},
-					{display:"분류코드명", 	name:"clCodeNm",	width:200, 	sortable:false,		align:"center"},
-					{display:"사용여부", 	name:"useAt",		width:100, 	sortable:false,		align:"center"}
+					{display:"분류코드", 	name:"clCode",		width:150, 	sortable:false,		align:"center"},
+					{display:"분류코드명", 	name:"clCodeNm",	width:330, 	sortable:false,		align:"center"},
+					{display:"사용여부", 	name:"useAt",		width:130, 	sortable:false,		align:"center"}
 					],
 		height: "auto"
 	});
@@ -165,7 +165,7 @@ var module_instance = new GamCmmnCodeClMngtModule();
 					<tbody>
 						<tr>
 							<th>공통분류코드 목록</th>
-							<td width="10%">&nbsp;
+							<td>&nbsp;
 								<select id="searchCondition" class="select">
 									<option selected="selected">--선택하세요--</option>
 									<option value="1">분류코드</option>

@@ -25,13 +25,13 @@
  */
 function GamOlnlpMngtModule() {}
 
-GamOlnlpMngtModule.prototype = new EmdModule(840,510);	// 초기 시작 창크기 지정
+GamOlnlpMngtModule.prototype = new EmdModule(800,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamOlnlpMngtModule.prototype.loadComplete = function() {
 
 	// 공시지가 등록현황 목록
-	this.$("#olnlpInsertList").flexigrid({
+	 this.$("#olnlpInsertList").flexigrid({
 		module: this,
 		url: '<c:url value="/code/gamOlnlpInsertList.do" />',
 		dataType: "json",
@@ -41,10 +41,10 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"자산코드",		 			name:"gisAssetsCd",			width:80,		sortable:false,		align:"center"},
 				{display:"소재지",		 			name:"gisAssetsLocplc",		width:180,		sortable:false,		align:"center"},
 				{display:"지번", 					name:"gisAssetsLnm",		width:80,		sortable:false,		align:"center"},
-				{display:"자산명",		 			name:"gisAssetsNm",			width:100,		sortable:false,		align:"center"}
+				{display:"자산명",		 			name:"gisAssetsNm",			width:220,		sortable:false,		align:"center"}
 			],
 		height: "auto"
-	});
+	}); 
 
 	// 공시지가 목록
 	this.$("#olnlpMngtList").flexigrid({

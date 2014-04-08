@@ -27,7 +27,7 @@
  */
 function GamCmmnCodeDetailMngtModule() {}
 
-GamCmmnCodeDetailMngtModule.prototype = new EmdModule(840, 540);
+GamCmmnCodeDetailMngtModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {

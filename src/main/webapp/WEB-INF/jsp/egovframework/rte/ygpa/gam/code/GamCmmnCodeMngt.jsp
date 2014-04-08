@@ -27,7 +27,7 @@
  */
 function GamCmmnCodeMngtModule() {}
 
-GamCmmnCodeMngtModule.prototype = new EmdModule(840, 540);
+GamCmmnCodeMngtModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmmnCodeMngtModule.prototype.loadComplete = function() {
@@ -39,9 +39,9 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
-					{display:"분류명",		name:"clCodeNm",	width:250, 	sortable:false,		align:"center"},
+					{display:"분류명",		name:"clCodeNm",	width:300, 	sortable:false,		align:"center"},
 					{display:"코드ID", 		name:"codeId",		width:100, 	sortable:false,		align:"center"},
-					{display:"코드ID명", 	name:"codeIdNm",	width:150, 	sortable:false,		align:"center"},
+					{display:"코드ID명", 	name:"codeIdNm",	width:120, 	sortable:false,		align:"center"},
 					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
 					],
 		height: "auto"
