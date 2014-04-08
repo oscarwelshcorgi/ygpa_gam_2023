@@ -28,7 +28,7 @@
  */
 function GamFcltyMngtModule() {}
 
-GamFcltyMngtModule.prototype = new EmdModule(840,510);	// 초기 시작 창크기 지정
+GamFcltyMngtModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyMngtModule.prototype.loadComplete = function() {
@@ -101,8 +101,8 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/fclty/gamConstFcltyPhotoList.do"/>',
 		dataType: 'json',
 		colModel : [
-				{display:"사진 순번",			name:"prtFcltyPhotoSeq",	width:80,		sortable:true,		align:"center"},
-				{display:"사진 제목",			name:"photoSj",				width:300,		sortable:true,		align:"center"},
+				{display:"사진 순번",			name:"prtFcltyPhotoSeq",	width:60,		sortable:true,		align:"center"},
+				{display:"사진 제목",			name:"photoSj",				width:280,		sortable:true,		align:"center"},
 				{display:"파일명",			name:"filenmLogic",			width:200,		sortable:true,		align:"left"},
 				{display:"파일 설명",			name:"photoDesc",			width:200,		sortable:true,		align:"left"},
 				{display:"촬영 일시",			name:"shotDt",				width:120,		sortable:true,		align:"center"}
@@ -403,6 +403,7 @@ var module_instance = new GamFcltyMngtModule();
 								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
+							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>건축시설 명</th>
@@ -410,9 +411,9 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</div>

@@ -28,7 +28,7 @@
  */
 function GamFcltyDrwListMngtModule() {}
 
-GamFcltyDrwListMngtModule.prototype = new EmdModule(800,600);	// 초기 시작 창크기 지정
+GamFcltyDrwListMngtModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
@@ -41,9 +41,9 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 		colModel : [
 				{display:"도면목록번호",			name:"drawListNumber",		width:80,		sortable:false,		align:"center"},
 				{display:"도면 목록 명", 			name:"drwLstNm",			width:250,		sortable:false,		align:"center"},
-				{display:"공사 명",				name:"authnm",				width:200,		sortable:false,		align:"center"},
+				{display:"공사 명",				name:"authnm",				width:230,		sortable:false,		align:"center"},
 				{display:"시공자", 				name:"cnstrtr",				width:150,		sortable:false,		align:"center"},
-				{display:"도면 관리 부서 명",		name:"drwLstMngDeptNm",		width:110,		sortable:false,		align:"center"}
+				{display:"도면 관리 부서 명",		name:"drwLstMngDeptNm",		width:150,		sortable:false,		align:"center"}
 			],
 		showTableToggleBtn: false,
 		height: "auto"
@@ -323,7 +323,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 							<td><input id="searchDrwLstRegistYear" type="text" size="4" maxlength="4" title="등록년도" />-<input id="searchDrwLstSeq" type="text" size="4" maxlength="4" title="등록순번" /></td>
 							<th>도면 명</th>
 							<td><input id="searchDrwLstNm" type="text" size="40" title="도면명" /></td>
-							<td rowspan="2"><button id="searchBtn">조회</button></td>
+							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>공사 명</th>
