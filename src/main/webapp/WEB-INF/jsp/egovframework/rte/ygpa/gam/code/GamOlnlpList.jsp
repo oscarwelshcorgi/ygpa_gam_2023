@@ -40,7 +40,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 				{display:"자산코드",		 			name:"gisAssetsCd",			width:80,		sortable:false,		align:"center"},
 				{display:"소재지",		 			name:"gisAssetsLocplc",		width:220,		sortable:false,		align:"center"},
-				{display:"지번", 					name:"gisAssetsLnm",		width:100,		sortable:false,		align:"center"},
+				{display:"지번", 					name:"gisAssetsLnm",		width:60,		sortable:false,		align:"center"},
 				{display:"자산명",		 			name:"gisAssetsNm",			width:150,		sortable:false,		align:"center"}
 			],
 		height: "auto"

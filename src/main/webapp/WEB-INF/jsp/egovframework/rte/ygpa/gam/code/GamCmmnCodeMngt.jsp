@@ -42,7 +42,7 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 					{display:"분류명",		name:"clCodeNm",	width:300, 	sortable:false,		align:"center"},
 					{display:"코드ID", 		name:"codeId",		width:100, 	sortable:false,		align:"center"},
 					{display:"코드ID명", 	name:"codeIdNm",	width:120, 	sortable:false,		align:"center"},
-					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
+					{display:"사용여부", 	name:"useAt",		width:70, 	sortable:false,		align:"center"}
 					],
 		height: "auto"
 	});
@@ -202,7 +202,7 @@ var module_instance = new GamCmmnCodeMngtModule();
 			
 			<!-- 저장 및 상세 탭 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<form id="cmmnCodeManageVO">
+				<form id="cmmnCodeManageVO" style="height:370px;">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
 						<tr>

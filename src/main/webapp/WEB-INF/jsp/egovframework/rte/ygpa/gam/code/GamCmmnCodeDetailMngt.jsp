@@ -39,10 +39,10 @@ GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
-					{display:"코드ID", 		name:"codeId",		width:200, 	sortable:false,		align:"center"},
+					{display:"코드ID", 		name:"codeId",		width:170, 	sortable:false,		align:"center"},
 					{display:"코드", 		name:"code",		width:100, 	sortable:false,		align:"center"},
 					{display:"코드명", 		name:"codeNm",		width:250, 	sortable:false,		align:"center"},
-					{display:"사용여부", 	name:"useAt",		width:80, 	sortable:false,		align:"center"}
+					{display:"사용여부", 	name:"useAt",		width:70, 	sortable:false,		align:"center"}
 					],
 		height: "auto"
 	});
@@ -241,7 +241,7 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 			
 			<!-- 저장 및 상세 탭 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<form id="cmmnCodeDetailManageVO">
+				<form id="cmmnCodeDetailManageVO" style="height:370px;">
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" id="codeId" />
 					<table class="searchPanel">

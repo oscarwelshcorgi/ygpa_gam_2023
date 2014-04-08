@@ -352,7 +352,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 				<table id="cmpyInfoMngtList" style="display:none;" class="fillHeight"></table>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<form id="cmpyInfoMngtManageVO">
+				<form id="cmpyInfoMngtManageVO" class="fillHeight">
 					<input type="hidden" id="cmd"/>
 					<table class="searchPanel">
 						<tr>
@@ -385,7 +385,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 					</table>
 					<br />
-					<table id="cmpyMngtList" style="display:none;" class="fillHeight"></table>
+					<table id="cmpyMngtList" style="display:none;"></table>
 				</form>
 				<div class="emdControlPanel">
 					<button id="chargerAddBtn">추가</button>
@@ -396,7 +396,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 			
 			<!-- 업체담당자 정보 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: hidden;">
-				<form id="cmpyChargerMngtManageVO">
+				<form id="cmpyChargerMngtManageVO" class="fillHeight">
 					<input type="hidden" id="chargerEntrpscd"/>
 					<table class="searchPanel">
 						<tr>

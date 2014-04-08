@@ -545,7 +545,15 @@ var module_instance = new GamAssetCodeModule();
 						<th><span class="label">관리부서</span></th>
 						<td><input type="text" size="16" id="gisAssetsMngDeptCd" class="ygpaDeptSelect" data-default-prompt="없음"></td>
 						<th><span class="label">운영부서</span></th>
-						<td colspan="3"><input type="text" size="16" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" data-default-prompt="없음"></td>
+						<td><input type="text" size="16" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" data-default-prompt="없음"></td>
+						<th><span class="label">사용여부</span></th>
+						<td>
+							<select id="gisAssetsUsageYn">
+									<option value="" selected="selected">선택</option>
+									<option value="Y">사용</option>
+									<option value="N">사용안함</option>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<th><span class="label">자산 가치 금액</span></th>
@@ -557,15 +565,7 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">비고</span></th>
-						<td colspan="3"><textarea cols="85" rows="3" id="gisAssetsRm"></textarea></td>
-						<th><span class="label">사용여부</span></th>
-						<td colspan="5">
-							<select id="gisAssetsUsageYn">
-									<option value="" selected="selected">선택</option>
-									<option value="Y">사용</option>
-									<option value="N">사용안함</option>
-							</select>
-						</td>
+						<td colspan="5"><textarea cols="133" rows="3" id="gisAssetsRm"></textarea></td>
 					</tr>
 					<!-- <tr>
 						<th><span class="label">사용여부</span></th>

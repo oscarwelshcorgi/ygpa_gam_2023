@@ -109,7 +109,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 		usepager: true,
 		useRp: true,
 		showTableToggleBtn: false,
-		height: "200"
+		height: "150"
 	});
 	
 	this.$("#drwListPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -355,7 +355,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 			
 			<!-- 도면시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
-				<form id="drwListManageVO">
+				<form id="drwListManageVO" style="height:350px;">
 					<input type="hidden" id="cmd" />
 					<table class="searchPanel">
 						<tr>
@@ -401,7 +401,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 
 			<!-- 도면시설 사진 -->
 			<div id="tabs3" class="emdTabPage" style="height:300px; overflow: scroll;">
-				<table id="drwListPhotoList" style="display:none"></table>
+				<table id="drwListPhotoList" style="display:none;"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
