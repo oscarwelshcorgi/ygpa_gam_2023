@@ -25,7 +25,7 @@
  */
 function GamBupJungDongModule() {}
 
-GamBupJungDongModule.prototype = new EmdModule(530, 400);
+GamBupJungDongModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamBupJungDongModule.prototype.loadComplete = function() {
@@ -36,9 +36,9 @@ GamBupJungDongModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/selectBupJungDongCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'선택', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
-			{display:'법정동 코드', name:'bupjungdongCd', width:120, sortable:true, align:'left'},
-			{display:'법정동 명', name:'bupjungdongNm', width:200, sortable:true, align:'right'}
+			{display:'선택', name:'regYn', width:50, sortable:true, align:'left', displayFormat: 'checkbox'},
+			{display:'법정동 코드', name:'bupjungdongCd', width:200, sortable:true, align:'center'},
+			{display:'법정동 명', name:'bupjungdongNm', width:480, sortable:true, align:'center'}
 			],
 		height: 'auto',
 	});

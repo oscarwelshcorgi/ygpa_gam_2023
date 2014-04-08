@@ -37,11 +37,11 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:50,		sortable:false,		align:"center"},
-				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:70,		sortable:false,		align:"center"},
-				{display:"자산코드",		 			name:"gisAssetsCd",			width:70,		sortable:false,		align:"center"},
-				{display:"소재지",		 			name:"gisAssetsLocplc",		width:210,		sortable:false,		align:"center"},
-				{display:"지번", 					name:"gisAssetsLnm",		width:80,		sortable:false,		align:"center"},
-				{display:"자산명",		 			name:"gisAssetsNm",			width:130,		sortable:false,		align:"center"}
+				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+				{display:"자산코드",		 			name:"gisAssetsCd",			width:80,		sortable:false,		align:"center"},
+				{display:"소재지",		 			name:"gisAssetsLocplc",		width:220,		sortable:false,		align:"center"},
+				{display:"지번", 					name:"gisAssetsLnm",		width:100,		sortable:false,		align:"center"},
+				{display:"자산명",		 			name:"gisAssetsNm",			width:150,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -53,9 +53,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 				{display:"순번", 					name:"olnlpSeq",		width:100,		sortable:false,		align:"center"},
-				{display:"시작일자",	 				name:"beginDt",			width:140,		sortable:false,		align:"center"},
-				{display:"종료일자",		 			name:"endDt",			width:140,		sortable:false,		align:"center"},
-				{display:"공시지가",		 			name:"olnlp",			width:230,		sortable:false,		align:"center"}
+				{display:"시작일자",	 				name:"beginDt",			width:170,		sortable:false,		align:"center"},
+				{display:"종료일자",		 			name:"endDt",			width:170,		sortable:false,		align:"center"},
+				{display:"공시지가",		 			name:"olnlp",			width:260,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -169,6 +169,9 @@ var module_instance = new GamOlnlpMngtModule();
 								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
 								<button id="searchPopupBtn">자산코드</button>
 							</td>
+							<td rowspan="2">
+								<button id="searchBtn">조회</button>
+							</td>
 						<tr>
 							<th>소재지</th>
 							<td>
@@ -182,9 +185,9 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</div>
