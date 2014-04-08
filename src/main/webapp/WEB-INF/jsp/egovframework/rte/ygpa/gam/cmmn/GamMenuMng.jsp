@@ -38,10 +38,10 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamMenuManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'메뉴ID', 			name:'menuNo',			width:80, 		sortable:false,		align:'center'},
-					{display:'메뉴한글명', 		name:'menuNm',			width:80, 		sortable:false,		align:'center'},
+					{display:'메뉴ID', 			name:'menuNo',			width:70, 		sortable:false,		align:'center'},
+					{display:'메뉴한글명', 		name:'menuNm',			width:70, 		sortable:false,		align:'center'},
 					{display:'프로그램파일명', 	name:'progrmFileNm',	width:200, 		sortable:false,		align:'center'},
-					{display:'메뉴설명',			name:'menuDc',			width:120,		sortable:false,		align:'center'},
+					{display:'메뉴설명',			name:'menuDc',			width:100,		sortable:false,		align:'center'},
 					{display:'메뉴순서',			name:'menuOrdr',		width:0,		sortable:false,		align:'center'},
 					{display:'관련이미지경로',	name:'relateImagePath',	width:0,		sortable:false,		align:'center'},
 					{display:'관련이미지명',		name:'relateImageNm',	width:0,		sortable:false,		align:'center'},

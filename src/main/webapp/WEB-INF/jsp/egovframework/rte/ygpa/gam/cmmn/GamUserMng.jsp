@@ -319,168 +319,122 @@ var module_instance = new GamUserMngListModule();
 					<input type="hidden" id="uniqId" />
 					<table class="searchPanel">
 			            <tr>
-			                <th width="20%" height="23" class="required_text">사용자아이디</th>
-			                <td width="80%" >
+			                <th width="15%" height="23" class="required_text">사용자 아아디</th>
+			                <td colspan="3">
 			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />
 			                    &nbsp;&nbsp;<button id="checkUserId">중복아이디 검색</button>
 			                    &nbsp;&nbsp;<button id="inputUserId">아이디 입력</button>
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text"  >
-			                    사용자이름
-			                </th>
-			                <td width="80%" >
+			                <th width="15%" height="23" class="required_text">사용자이름</th>
+			                <td width="35%">
 			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" maxlength="60" />
 			                </td>
-			            </tr>
-			            <tr class="displayPassword">
-			                <th width="20%" height="23" class="required_text">
-			                    비밀번호
-			                </th>
-			                <td width="80%" >
-			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
-			                </td>
-			            </tr>
-			            <tr class="displayPassword">
-			                <th width="20%" height="23" class="required_text"  >
-			                    비밀번호확인
-			                </th>
-			                <td width="80%" >
-			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20" />
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text"  >
-			                    비밀번호힌트
-			                </th>
-			                <td width="80%" >
-			                    <select id="passwordHint" title="비밀번호힌트">
-			                    	<c:forEach varStatus="var" items="${passwordHint_result}" var="result">
-				                    	<option value="${result.code}" label="${result.codeNm}"/>
-			                    	</c:forEach>
-			                    </select>
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text" >
-			                    비밀번호정답
-			                </th>
-			                <td width="80%" >
-			                    <input id="passwordCnsr" title="비밀번호정답"  size="50" maxlength="100" />
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text">소속기관코드&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <select id="insttCode" title="소속기관코드">
-				                    <c:forEach varStatus="var" items="${insttCode_result}" var="result">
-				                    	<option value="${result.code}" label="${result.codeNm}"/>
-			                    	</c:forEach>
-			                    </select>
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text"  >조직아이디&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <select id="orgnztId" title="조직아이디">
-			                   		<c:forEach varStatus="var" items="${orgnztId_result}" var="result">
-				                    	<option value="${result.code}" label="${result.codeNm}"/>
-			                    	</c:forEach>
-			                    </select>
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text">직위명&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <input id="ofcpsNm" title="직위명" size="20" maxlength="50" />
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text">사번&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <input id="emplNo" title="사번" size="20" maxlength="20" />
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text">성별구분코드&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <select id="sexdstnCode" title="성별구분코드">
-			                       	<c:forEach varStatus="var" items="${sexdstnCode_result}" var="result">
-				                    	<option value="${result.code}" label="${result.codeNm}"/>
-			                    	</c:forEach>
-			                    </select>
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text">생일&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <input id="brth" title="생일" size="20" maxlength="8" />
-			                </td>
-			            </tr>
-			            <tr>
-			                <th width="20%" height="23" class="required_text">
-			                    집전화번호
-			                </th>
-			                <td width="80%" >
+			                <th width="15%" height="23" class="required_text">집전화번호</th>
+			                <td width="35%">
 			                    <input id="areaNo" title="areaNo" size="4" maxlength="4" />
 			                    - <input title="homemiddleTelno" id="homemiddleTelno" size="4" maxlength="4" />
 			                    - <input title="homeendTelno" id="homeendTelno" size="4" maxlength="4" />
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">사무실전화번호&nbsp;&nbsp;</th>
-			                <td width="80%" >
+			                <th width="15%" height="23" class="required_text">비밀번호</th>
+			                <td width="35%" >
+			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
+			                </td>
+			                <th width="15%" height="23" class="required_text">사무실전화번호&nbsp;&nbsp;</th>
+			                <td width="35%" >
 			                    <input id="offmTelno" title="사무실전화번호" size="20" maxlength="15" />
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">팩스번호&nbsp;&nbsp;</th>
-			                <td width="80%" >
-			                    <input id="fxnum" title="팩스번호" size="20" maxlength="15" />
+			                <th width="15%" height="23" class="required_text">비밀번호확인</th>
+			                <td width="35%" >
+			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20" />
 			                </td>
+			                <th width="15%" height="23" class="required_text">팩스번호&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <input id="fxnum" title="팩스번호" size="20" maxlength="15" />
+			                </td>			                
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">핸드폰번호&nbsp;&nbsp;</th>
-			                <td width="80%" >
+			                <th width="15%" height="23" class="required_text">비밀번호힌트</th>
+			                <td width="35%" >
+			                    <select id="passwordHint" title="비밀번호힌트">
+			                    	<c:forEach varStatus="var" items="${passwordHint_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			                <th width="15%" height="23" class="required_text">핸드폰번호&nbsp;&nbsp;</th>
+			                <td width="35%" >
 			                    <input id="moblphonNo" title="핸드폰번호" size="20" maxlength="15" />
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">
+			                <th width="15%" height="23" class="required_text">비밀번호정답</th>
+			                <td width="35%" >
+			                    <input id="passwordCnsr" title="비밀번호정답" size="50" maxlength="100" />
+			                </td>
+			                <th width="15%" height="23" class="required_text">
 			                    이메일주소
 			                </th>
-			                <td width="80%">
+			                <td width="35%">
 			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">
+			                <th width="15%" height="23" class="required_text">소속기관코드&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <select id="insttCode" title="소속기관코드">
+				                    <c:forEach varStatus="var" items="${insttCode_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			                <th width="15%" height="23" class="required_text">
 			                    우편번호
 			                </th>
-			                <td width="80%" >
+			                <td width="35%" >
 			                    <input id="zip" type="text" title="우편번호" size="20" disabled="disabled"/>&nbsp;&nbsp;<button id="searchZipBtn">우편번호 검색</button>
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">
+			                <th width="15%" height="23" class="required_text">조직아이디&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <select id="orgnztId" title="조직아이디">
+			                   		<c:forEach varStatus="var" items="${orgnztId_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			                <th width="15%" height="23" class="required_text">
 			                    주소
 			                </th>
-			                <td width="80%" >
+			                <td width="35%" >
 			                    <input id="homeadres" title="주소" size="40" maxlength="100" />
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">상세주소&nbsp;&nbsp;</th>
-			                <td width="80%" >
+			                <th width="15%" height="23" class="required_text">직위명&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <input id="ofcpsNm" title="직위명" size="20" maxlength="50" />
+			                </td>
+			                <th width="15%" height="23" class="required_text">상세주소&nbsp;&nbsp;</th>
+			                <td width="35%" >
 			                    <input id="detailAdres" title="상세주소" size="40" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">
+			                <th width="15%" height="23" class="required_text">사번&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <input id="emplNo" title="사번" size="20" maxlength="20" />
+			                </td>
+			                <th width="15%" height="23" class="required_text">
 			                    그룹아이디
 			                </th>
-			                <td width="80%" >
+			                <td width="35%" >
 			                    <select id="groupId" title="그룹아이디">
 			                        <c:forEach varStatus="var" items="${groupId_result}" var="result">
 				                    	<option value="${result.code}" label="${result.codeNm}"/>
@@ -489,10 +443,18 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">
+			                <th width="15%" height="23" class="required_text">성별구분코드&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <select id="sexdstnCode" title="성별구분코드">
+			                       	<c:forEach varStatus="var" items="${sexdstnCode_result}" var="result">
+				                    	<option value="${result.code}" label="${result.codeNm}"/>
+			                    	</c:forEach>
+			                    </select>
+			                </td>
+			                <th width="15%" height="23" class="required_text">
 			                    사용자상태코드
 			                </th>
-			                <td width="80%" >
+			                <td width="35%" >
 			                    <select id="emplyrSttusCode" title="사용자상태코드">
 			                        <c:forEach varStatus="var" items="${emplyrSttusCode_result}" var="result">
 				                    	<option value="${result.code}" label="${result.codeNm}"/>
@@ -501,8 +463,12 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="20%" height="23" class="required_text">사용자DN&nbsp;&nbsp;</th>
-			                <td width="80%" ><input id="subDn" title="사용자DN" size="40" maxlength="100" /></td>
+			                <th width="15%" height="23" class="required_text">생일&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <input id="brth" title="생일" size="20" maxlength="8" />
+			                </td>
+			                <th width="15%" height="23" class="required_text">사용자DN&nbsp;&nbsp;</th>
+			                <td width="35%" ><input id="subDn" title="사용자DN" size="40" maxlength="100" /></td>
 			            </tr>
 					</table>
 				</form>

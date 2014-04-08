@@ -42,7 +42,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 					{display:'프로그램명', 		name:'progrmKoreanNm',	width:160, 		sortable:false,		align:'center'},
 					{display:'프로그램경로', 		name:'progrmStrePath',	width:150, 		sortable:false,		align:'center'},
 					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'center'},
-					{display:'프로그램설명',		name:'progrmDc',		width:210,		sortable:false,		align:'center'}
+					{display:'프로그램설명',		name:'progrmDc',		width:180,		sortable:false,		align:'center'}
 					],
 		height: "auto"
 	});
