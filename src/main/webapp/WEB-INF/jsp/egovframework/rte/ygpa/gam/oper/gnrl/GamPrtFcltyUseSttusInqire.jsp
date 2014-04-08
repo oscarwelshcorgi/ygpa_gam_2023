@@ -639,7 +639,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             <td >
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                         	

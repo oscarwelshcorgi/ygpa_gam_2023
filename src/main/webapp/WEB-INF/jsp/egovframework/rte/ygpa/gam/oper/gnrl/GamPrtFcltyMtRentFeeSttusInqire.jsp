@@ -137,7 +137,7 @@ var module_instance = new GamPrtFcltyMtRentFeeSttusInqireModule();
                                 size="8"> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8">
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
