@@ -28,7 +28,7 @@
  */
 function GamUserMngListModule() {}
 
-GamUserMngListModule.prototype = new EmdModule(900, 540);
+GamUserMngListModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamUserMngListModule.prototype.loadComplete = function() {
@@ -41,9 +41,9 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"No", 			name:"rn",				width:30, 	sortable:false,		align:"center"},
 					{display:"아이디", 		name:"userId",			width:100, 	sortable:false,		align:"center"},
-					{display:"사용자이름", 	name:"userNm",			width:80, 	sortable:false,		align:"center"},
-					{display:"사용자이메일", 	name:"emailAdres",		width:210, 	sortable:false,		align:"center"},
-					{display:"전화번호", 	name:"allTelno",		width:120, 	sortable:false,		align:"center"},
+					{display:"사용자이름", 	name:"userNm",			width:90, 	sortable:false,		align:"center"},
+					{display:"사용자이메일", 	name:"emailAdres",		width:220, 	sortable:false,		align:"center"},
+					{display:"전화번호", 	name:"allTelno",		width:150, 	sortable:false,		align:"center"},
 					{display:"등록일", 		name:"sbscrbDe",		width:100, 	sortable:false,		align:"center"},
 					{display:"가입상태",		name:"sttus",			width:140,	sortable:false,		align:"center"}
 					],

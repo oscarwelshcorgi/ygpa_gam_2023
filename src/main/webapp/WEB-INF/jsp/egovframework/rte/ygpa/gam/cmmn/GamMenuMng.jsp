@@ -27,7 +27,7 @@
  */
 function GamMenuMngModule() {}
 
-GamMenuMngModule.prototype = new EmdModule(840, 540);
+GamMenuMngModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMenuMngModule.prototype.loadComplete = function() {
@@ -40,7 +40,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'메뉴ID', 			name:'menuNo',			width:80, 		sortable:false,		align:'center'},
 					{display:'메뉴한글명', 		name:'menuNm',			width:80, 		sortable:false,		align:'center'},
-					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'center'},
+					{display:'프로그램파일명', 	name:'progrmFileNm',	width:200, 		sortable:false,		align:'center'},
 					{display:'메뉴설명',			name:'menuDc',			width:120,		sortable:false,		align:'center'},
 					{display:'메뉴순서',			name:'menuOrdr',		width:0,		sortable:false,		align:'center'},
 					{display:'관련이미지경로',	name:'relateImagePath',	width:0,		sortable:false,		align:'center'},

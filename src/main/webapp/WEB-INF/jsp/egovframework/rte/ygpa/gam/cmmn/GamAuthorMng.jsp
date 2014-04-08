@@ -27,7 +27,7 @@
  */
 function GamAuthorMngModule() {}
 
-GamAuthorMngModule.prototype = new EmdModule(840, 540);
+GamAuthorMngModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorMngModule.prototype.loadComplete = function() {
@@ -40,7 +40,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"권한 ID", 	name:"authorCode",		width:250, 	sortable:false,		align:"left"},
 					{display:"권한명", 	name:"authorNm",		width:150, 	sortable:false,		align:"center"},
-					{display:"설명", 	name:"authorDc",		width:200, 	sortable:false,		align:"center"}
+					{display:"설명", 	name:"authorDc",		width:300, 	sortable:false,		align:"center"}
 					],
 		height: "auto",
 	});

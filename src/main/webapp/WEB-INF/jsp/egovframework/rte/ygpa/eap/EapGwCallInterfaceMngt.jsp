@@ -25,7 +25,7 @@
  */
 function EapGwCallInterfaceModule() {}
 
-EapGwCallInterfaceModule.prototype = new EmdModule(730, 600);
+EapGwCallInterfaceModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 EapGwCallInterfaceModule.prototype.loadComplete = function() {
@@ -39,8 +39,8 @@ EapGwCallInterfaceModule.prototype.loadComplete = function() {
 			{display:'사원코드', name:'empCd', width:80, sortable:true, align:'center'},
 			{display:'시스템', name:'sysId', width:60, sortable:true, align:'center'},
 			{display:'문서아이디', name:'docId', width:75, sortable:true, align:'center'},
-			{display:'연동키값', name:'miskey', width:175, sortable:true, align:'center'},
-			{display:'결재요청자IP', name:'ip', width:100, sortable:true, align:'center'},
+			{display:'연동키값', name:'miskey', width:195, sortable:true, align:'center'},
+			{display:'결재요청자IP', name:'ip', width:110, sortable:true, align:'center'},
 			{display:'결재상태', name:'testEa', width:70, sortable:true, align:'center'}
 			],
 		height: 'auto'

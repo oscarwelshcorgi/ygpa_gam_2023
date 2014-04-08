@@ -26,7 +26,7 @@
  */
 function GamAuthorRoleMngModule() {}
 
-GamAuthorRoleMngModule.prototype = new EmdModule(840, 475);
+GamAuthorRoleMngModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorRoleMngModule.prototype.loadComplete = function() {
@@ -46,7 +46,7 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 					{display:"롤 명", 		name:"roleNm",		width:120, 	sortable:false,		align:"center"},
 					{display:"롤 타입", 		name:"roleTyp",		width:60, 	sortable:false,		align:"center"},
 					{display:"롤 Sort", 		name:"roleSort",	width:80, 	sortable:false,		align:"center"},
-					{display:"롤 설명", 		name:"roleDc",		width:200, 	sortable:false,		align:"center"},
+					{display:"롤 설명", 		name:"roleDc",		width:160, 	sortable:false,		align:"center"},
 					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
 					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],

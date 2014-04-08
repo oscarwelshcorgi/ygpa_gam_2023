@@ -27,7 +27,7 @@
  */
 function GamProgListMngModule() {}
 
-GamProgListMngModule.prototype = new EmdModule(840, 540);
+GamProgListMngModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamProgListMngModule.prototype.loadComplete = function() {
@@ -40,9 +40,9 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'center'},
 					{display:'프로그램명', 		name:'progrmKoreanNm',	width:160, 		sortable:false,		align:'center'},
-					{display:'프로그램경로', 		name:'progrmStrePath',	width:100, 		sortable:false,		align:'center'},
+					{display:'프로그램경로', 		name:'progrmStrePath',	width:150, 		sortable:false,		align:'center'},
 					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'center'},
-					{display:'프로그램설명',		name:'progrmDc',		width:160,		sortable:false,		align:'center'}
+					{display:'프로그램설명',		name:'progrmDc',		width:210,		sortable:false,		align:'center'}
 					],
 		height: "auto"
 	});

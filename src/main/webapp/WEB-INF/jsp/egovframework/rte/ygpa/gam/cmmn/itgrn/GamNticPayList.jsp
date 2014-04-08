@@ -25,7 +25,7 @@
  */
 function GamNticPayListModule() {}
 
-GamNticPayListModule.prototype = new EmdModule(840,500);	// 초기 시작 창크기 지정
+GamNticPayListModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamNticPayListModule.prototype.loadComplete = function() {
@@ -93,7 +93,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "270"
+		height: "350"
 	});
 	
 	this.$("#nticPayList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -239,6 +239,9 @@ var module_instance = new GamNticPayListModule();
 								<input id="entrpsNm" type="text" size="15" title="검색조건" disabled="disabled"/>
 								<button id="searchEntrpsCdBtn">선택</button>
 							</td>
+							<td rowspan="2">
+								<button id="searchBtn">조회</button>
+							</td>
 						<tr>
 							<th>수납구분</th>
 							<td>
@@ -250,7 +253,7 @@ var module_instance = new GamNticPayListModule();
                                 </select>
 							</td>
 							<th>요금종류</th>
-							<td>
+							<td0>
 								<select id="chrgeKnd">
                                     <option value="">선택</option>
                                     <c:forEach items="${chrgeKndCdList}" var="chrgeKndItem">
@@ -261,9 +264,9 @@ var module_instance = new GamNticPayListModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-				</div>
+				</div>-->
 			</form>
 		</div>
 	</div>
@@ -277,7 +280,7 @@ var module_instance = new GamNticPayListModule();
 			<div id="tabs1" class="emdTabPage">
 				<table id="nticPayList" style="display:none"></table>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
+			<div id="tabs2" class="emdTabPage" style="height:350px; overflow: scroll;">
 				<form id="nticPayListVO">
 					<table class="searchPanel">
 						<tr>

@@ -25,7 +25,7 @@
  */
 function GamMenuMngCreateModule() {}
 
-GamMenuMngCreateModule.prototype = new EmdModule(680,482);	// 초기 시작 창크기 지정
+GamMenuMngCreateModule.prototype = new EmdModule(800,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMenuMngCreateModule.prototype.loadComplete = function() {
@@ -37,8 +37,8 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:'권한코드',			name:'authorCode',		width:220,		sortable:false,		align:'left'},
-					{display:'권한명', 			name:'authorNm',		width:140, 		sortable:false,		align:'center'},
-					{display:'권한 설명', 		name:'authorDc',		width:80, 		sortable:false,		align:'center'},
+					{display:'권한명', 			name:'authorNm',		width:220, 		sortable:false,		align:'center'},
+					{display:'권한 설명', 		name:'authorDc',		width:110, 		sortable:false,		align:'center'},
 					{display:'메뉴생성여부', 		name:'chkYeoBu',		width:100, 		sortable:false,		align:'center'},
 					{display:'메뉴생성', 		name:'regYn',			width:80, 		sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'메뉴생성', className:'selectRoleButton'}}
 					],
