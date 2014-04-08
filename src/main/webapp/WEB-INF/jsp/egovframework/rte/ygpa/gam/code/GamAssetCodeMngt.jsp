@@ -472,14 +472,16 @@ var module_instance = new GamAssetCodeModule();
 				<table class="editForm">
 					<tr>
 						<th><span class="label">항구분</span></th>
-						<td colspan="5">
+						<td>
 							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-code='P' />
 						</td>
+						<th><span class="label">자산코드</span></th>
+						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th><span class="label">자산코드</span></th>
 						<td colspan="5"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
-					</tr>
+					</tr> -->
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
 						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd">-<input type="text" size="8" id="erpAssetsNo">-<input type="text" size="2" id="erpAssetsNoSeq">
@@ -508,7 +510,7 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">자산소재지</span></th>
-						<td colspan="3"><input type="text" size="60" id="gisAssetsLocplc"></td>
+						<td colspan="3"><input type="text" size="80" id="gisAssetsLocplc"></td>
 						<th><span class="label">지번</span></th>
 						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="GisAssetsLnmSub"></td>
 					</tr>
@@ -555,9 +557,7 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">비고</span></th>
-						<td colspan="5"><textarea cols="60" rows="4" id="gisAssetsRm"></textarea></td>
-					</tr>
-					<tr>
+						<td colspan="3"><textarea cols="85" rows="3" id="gisAssetsRm"></textarea></td>
 						<th><span class="label">사용여부</span></th>
 						<td colspan="5">
 							<select id="gisAssetsUsageYn">
@@ -567,6 +567,16 @@ var module_instance = new GamAssetCodeModule();
 							</select>
 						</td>
 					</tr>
+					<!-- <tr>
+						<th><span class="label">사용여부</span></th>
+						<td colspan="5">
+							<select id="gisAssetsUsageYn">
+									<option value="" selected="selected">선택</option>
+									<option value="Y">사용</option>
+									<option value="N">사용안함</option>
+							</select>
+						</td>
+					</tr> -->
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
 					<button id="btnAddGisMap">위치등록</button>

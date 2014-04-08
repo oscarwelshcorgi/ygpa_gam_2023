@@ -172,7 +172,7 @@ var module_instance = new GamCmmnCodeClMngtModule();
 									<option value="2">분류코드명</option>
 								</select>
 							</td>
-							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
+							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="70" maxlength="60" title="검색조건" /></td>
 							<td><button id="searchBtn" class="submit">조회</button></td>
 						</tr>
 					</tbody>
