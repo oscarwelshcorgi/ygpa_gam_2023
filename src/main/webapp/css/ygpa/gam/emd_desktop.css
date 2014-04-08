@@ -124,10 +124,10 @@ div.ui-resizable-handle {
   -webkit-background-clip: padding-box;
   color: #000;
   display: none;
-  width: 900px;  	/* �� 700px */
-  height: 600px; 	/* �� 300px */
-  top: 30px;		/* �� 30px */
-  left: 220px;		/* ���� 120px */
+  width: 900px;  	/* ������ 700px */
+  height: 600px; 	/* ������ 300px */
+  top: 30px;		/* ������ 30px */
+  left: 220px;		/* ������������ 120px */
   z-index: 902;
 }
 
@@ -570,7 +570,7 @@ ul.submenu li:hover ul {
   min-height: 500px;
 }
 
-/* -------------------------------------------------------------------- #Lee# �߰� */
+/* -------------------------------------------------------------------- #Lee# �������� */
 .map {
 	width: 250px;
 	height: 250px;
