@@ -240,7 +240,7 @@ var module_instance = new GamNticPayListModule();
 								<button id="searchEntrpsCdBtn">선택</button>
 							</td>
 							<td rowspan="2">
-								<button id="searchBtn">조회</button>
+								<button id="searchBtn" class="buttonSearch">조회</button>
 							</td>
 						<tr>
 							<th>수납구분</th>
