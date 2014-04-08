@@ -169,7 +169,7 @@ var module_instance = new GamCmmnCodeMngtModule();
 					<tbody>
 						<tr>
 							<th>공통코드 목록</th>
-							<td width="10%">&nbsp;
+							<td>&nbsp;
 								<select id="searchCondition" class="select">
 									<option selected="selected">--선택하세요--</option>
 									<option value="1">코드ID</option>

@@ -27,7 +27,7 @@
  */
 function GamCmpyInfoMngtModule() {}
 
-GamCmpyInfoMngtModule.prototype = new EmdModule(840, 540);
+GamCmpyInfoMngtModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmpyInfoMngtModule.prototype.loadComplete = function() {
@@ -330,12 +330,13 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<td><input type="text" size="10" id="searchEntrpsCd" maxlength="10" /></td>
 							<th>사업자번호</th>
 							<td><input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</div>

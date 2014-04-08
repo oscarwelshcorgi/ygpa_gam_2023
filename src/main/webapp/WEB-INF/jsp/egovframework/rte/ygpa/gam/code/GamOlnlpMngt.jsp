@@ -27,7 +27,7 @@
  */
 function GamOlnlpMngtModule() {}
 
-GamOlnlpMngtModule.prototype = new EmdModule(840,510);	// 초기 시작 창크기 지정
+GamOlnlpMngtModule.prototype = new EmdModule(800,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamOlnlpMngtModule.prototype.loadComplete = function() {
@@ -55,9 +55,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 				{display:"순번", 					name:"olnlpSeq",		width:80,		sortable:false,		align:"center"},
-				{display:"시작일자",	 				name:"beginDt",			width:120,		sortable:false,		align:"center"},
-				{display:"종료일자",		 			name:"endDt",			width:120,		sortable:false,		align:"center"},
-				{display:"공시지가",		 			name:"olnlp",			width:200,		sortable:false,		align:"center"}
+				{display:"시작일자",	 				name:"beginDt",			width:150,		sortable:false,		align:"center"},
+				{display:"종료일자",		 			name:"endDt",			width:150,		sortable:false,		align:"center"},
+				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -246,6 +246,7 @@ var module_instance = new GamOlnlpMngtModule();
 								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
 								<button id="searchPopupBtn">자산코드</button>
 							</td>
+							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						<tr>
 							<th>소재지</th>
 							<td>
@@ -259,9 +260,9 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="searchBtn">조회</button>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</div>
