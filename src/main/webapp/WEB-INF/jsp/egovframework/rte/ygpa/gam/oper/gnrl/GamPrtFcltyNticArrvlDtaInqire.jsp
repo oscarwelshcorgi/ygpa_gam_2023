@@ -25,7 +25,7 @@
  */
 function GamPrtFcltyNticArrvlDtaInqireModule() {}
 
-GamPrtFcltyNticArrvlDtaInqireModule.prototype = new EmdModule(1100, 650);
+GamPrtFcltyNticArrvlDtaInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
@@ -1154,7 +1154,7 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                             <td>
                                 <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>관리번호</th>

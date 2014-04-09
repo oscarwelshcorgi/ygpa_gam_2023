@@ -25,7 +25,7 @@
  */
 function GamCmmnCntrRentFeeMngtModule() {}
 
-GamCmmnCntrRentFeeMngtModule.prototype = new EmdModule(1000, 550);
+GamCmmnCntrRentFeeMngtModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmmnCntrRentFeeMngtModule.prototype.loadComplete = function() {

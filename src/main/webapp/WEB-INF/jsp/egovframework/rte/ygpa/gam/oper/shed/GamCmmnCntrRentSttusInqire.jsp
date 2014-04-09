@@ -25,7 +25,7 @@
  */
 function GamCmmnCntrRentSttusInqireModule() {}
 
-GamCmmnCntrRentSttusInqireModule.prototype = new EmdModule(1100, 650);
+GamCmmnCntrRentSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmmnCntrRentSttusInqireModule.prototype.loadComplete = function() {
@@ -649,14 +649,24 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
                             <td>
                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
-                            <th>사용기간</th>
+                            <th>승낙여부</th>
+                            <td colspan="3">
+                                <select id="sPrmisnYn">
+                                    <option value="" selected="selected">전체</option>
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<th>사용기간</th>
                             <td>
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8"> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8">
                             </td>
                             <th>신청/허가일자</th>
-                            <td>
+                            <td colspan="3">
                             	<select id="sDateSearchGbn" onchange="$(this).trigger('change')">
                                     <option value="" selected="selected">선택</option>
                                     <option value="1">최초신청일</option>
@@ -665,14 +675,6 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
                                     <option value="4">허가일자</option>
                                 </select>
                                 <input id="sDateSearchValue" type="text" class="emdcal" size="10" >
-                            </td>
-                            <th>승낙여부</th>
-                            <td >
-                                <select id="sPrmisnYn">
-                                    <option value="" selected="selected">전체</option>
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
-                                </select>
                             </td>
                         </tr>
                     </tbody>

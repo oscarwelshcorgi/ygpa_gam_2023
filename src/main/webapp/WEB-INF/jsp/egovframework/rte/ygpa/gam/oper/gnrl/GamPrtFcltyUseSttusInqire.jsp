@@ -25,7 +25,7 @@
  */
 function GamPrtFcltyUseSttusInqireModule() {}
 
-GamPrtFcltyUseSttusInqireModule.prototype = new EmdModule(1100, 650);
+GamPrtFcltyUseSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
@@ -635,34 +635,16 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             <td>
                                 <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
-                            <th>신청구분</th>
+                            <td rowSpan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+                        </tr>
+                        <tr>
+                        	<th>신청구분</th>
                             <td >
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
-                        </tr>
-                        <tr>
-                        	
                             <th>업체명</th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
-                            </td>
-                            <th>사용기간</th>
-                            <td>
-                            <input id="sGrUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8">
-                            </td>
-                            <th>신청/허가일자</th>
-                            <td>
-                            	<select id="sDateSearchGbn" onchange="$(this).trigger('change')">
-                                    <option value="" selected="selected">선택</option>
-                                    <option value="1">최초신청일</option>
-                                    <option value="2">최초허가일</option>
-                                    <option value="3">신청일자</option>
-                                    <option value="4">허가일자</option>
-                                </select>
-                                <input id="sDateSearchValue" type="text" class="emdcal" size="10" >
                             </td>
                             <th>승낙여부</th>
                             <td >
@@ -671,6 +653,25 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                     <option value="Y">Y</option>
                                     <option value="N">N</option>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<th>사용기간</th>
+                            <td>
+                            <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8">
+                            </td>
+                            <th>신청/허가일자</th>
+                            <td colspan="3">
+                            	<select id="sDateSearchGbn" onchange="$(this).trigger('change')">
+                                    <option value="" selected="selected">선택</option>
+                                    <option value="1">최초신청일</option>
+                                    <option value="2">최초허가일</option>
+                                    <option value="3">신청일자</option>
+                                    <option value="4">허가일자</option>
+                                </select>
+                                <input id="sDateSearchValue" type="text" class="emdcal" size="10" >
                             </td>
                         </tr>
                     </tbody>

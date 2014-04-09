@@ -25,7 +25,7 @@
  */
 function GamTrainPortEntrpsRentFeeSttusInqireModule() {}
 
-GamTrainPortEntrpsRentFeeSttusInqireModule.prototype = new EmdModule(1100, 650);
+GamTrainPortEntrpsRentFeeSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamTrainPortEntrpsRentFeeSttusInqireModule.prototype.loadComplete = function() {
