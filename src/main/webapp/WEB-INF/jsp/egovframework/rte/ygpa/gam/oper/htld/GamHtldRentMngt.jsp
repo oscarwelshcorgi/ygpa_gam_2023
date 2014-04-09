@@ -1398,7 +1398,7 @@ var module_instance = new GamHtldRentMngtModule();
                             <td>
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM011" />
                             </td>
-                            <td rowSpan="2" style="text-align:right;"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td rowSpan="3" style="text-align:right;"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>업체명</th>
