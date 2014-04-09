@@ -25,7 +25,7 @@
  */
 function GamAssetSttusInqireModule() {}
 
-GamAssetSttusInqireModule.prototype = new EmdModule(1100, 520);
+GamAssetSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetSttusInqireModule.prototype.loadComplete = function() {
@@ -175,23 +175,23 @@ var module_instance = new GamAssetSttusInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
-                            <th style="width: 60px"><span class="label">항구분</span></th>
+                            <th style="width: 40px"><span class="label">항구분</span></th>
                             <td style="width: 230px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
                             
-                            <th style="width: 60px"><span class="label">자산코드</span></th>
+                            <th style="width: 40px"><span class="label">자산코드</span></th>
                             <td style="width: 120px">
                                 <input type="text" size="2" id="sGisAssetsCd" />-
                                 <input type="text" size="2" id="sGisAssetsSubCd" />
                             </td>
                             
-                            <th style="width: 60px"><span class="label">업체</span></th>
+                            <th style="width: 40px"><span class="label">업체</span></th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
                             
-                            <th style="width: 60px"><span class="label">부두</span></th>
+                            <th style="width: 40px"><span class="label">부두</span></th>
                             <td style="width: 100px">
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
                             </td>

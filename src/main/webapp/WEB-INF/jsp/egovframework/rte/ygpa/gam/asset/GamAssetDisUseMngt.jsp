@@ -25,7 +25,7 @@
  */
 function GamAssetDisUseMngtModule() {}
 
-GamAssetDisUseMngtModule.prototype = new EmdModule(910, 550);
+GamAssetDisUseMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetDisUseMngtModule.prototype.loadComplete = function() {

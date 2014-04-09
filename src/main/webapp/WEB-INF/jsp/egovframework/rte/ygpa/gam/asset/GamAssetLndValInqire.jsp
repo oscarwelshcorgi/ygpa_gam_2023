@@ -25,7 +25,7 @@
  */
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(900, 500);
+GamAssetLndValInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {

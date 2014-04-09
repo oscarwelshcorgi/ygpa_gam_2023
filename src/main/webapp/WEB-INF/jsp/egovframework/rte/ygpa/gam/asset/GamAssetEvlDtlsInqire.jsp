@@ -25,7 +25,7 @@
  */
 function GamAssetEvlDtlsInqireModule() {}
 
-GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1150, 580);
+GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
@@ -206,11 +206,11 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                     <table style="width:100%;">
                         <tr>
                             <td style="width:50px;">합계 :</td>
-                            <td style="width:95px;">재평가금액</td>
+                            <td style="width:120px;">재평가금액</td>
                             <td style="width:200px;"><input id="sumRevalAmt" size="23" class="ygpaCurrency" readonly>원</td>
-                            <td style="width:110px;">당기자산증가금액</td>
+                            <td style="width:130px;">당기자산증가금액</td>
                             <td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
-                            <td style="width:135px;">대차대조기말현재금액</td>
+                            <td style="width:165px;">대차대조기말현재금액</td>
                             <td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
                         </tr>
                         <tr>
