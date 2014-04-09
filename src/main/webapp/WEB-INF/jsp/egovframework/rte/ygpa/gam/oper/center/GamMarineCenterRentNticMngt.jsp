@@ -25,7 +25,7 @@
  */
 function GamMarineCenterRentNticMngtModule() {}
 
-GamMarineCenterRentNticMngtModule.prototype = new EmdModule(1000, 550);
+GamMarineCenterRentNticMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {

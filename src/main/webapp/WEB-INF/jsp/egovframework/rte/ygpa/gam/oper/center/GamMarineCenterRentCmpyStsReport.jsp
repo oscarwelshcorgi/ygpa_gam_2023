@@ -25,7 +25,7 @@
  */
 function GamMarineCenterRentCmpyStsReportModule() {}
 
-GamMarineCenterRentCmpyStsReportModule.prototype = new EmdModule(1100, 650);
+GamMarineCenterRentCmpyStsReportModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamMarineCenterRentCmpyStsReportModule.prototype.loadComplete = function() {
