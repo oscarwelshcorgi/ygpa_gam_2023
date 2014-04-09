@@ -25,7 +25,7 @@
  */
 function GamAssetUseExprInqireModule() {}
 
-GamAssetUseExprInqireModule.prototype = new EmdModule(1100, 650);
+GamAssetUseExprInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetUseExprInqireModule.prototype.loadComplete = function() {
@@ -94,12 +94,12 @@ GamAssetUseExprInqireModule.prototype.loadComplete = function() {
                     {display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
-                    {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
+                    {display:'자산명', name:'gisAssetsNm',width:130, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
+                    {display:'사용료', name:'fee',width:100, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:100, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'적용요율', name:'applcTariffNm',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
                     /*

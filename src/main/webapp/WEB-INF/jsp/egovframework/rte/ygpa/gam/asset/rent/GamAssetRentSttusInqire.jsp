@@ -25,7 +25,7 @@
  */
 function GamAssetRentSttusInqireModule() {}
 
-GamAssetRentSttusInqireModule.prototype = new EmdModule(1100, 650);
+GamAssetRentSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
@@ -151,11 +151,11 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/gamSelectAssetRentSttusInqireFileList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
-                    {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
-                    {display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
-                    {display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
+                    {display:'순번', name:'photoSeq', width:70, sortable:true, align:'center'},
+                    {display:'사진제목', name:'photoSj', width:250, sortable:true, align:'center'},
+                    {display:'파일명', name:'filenmLogic', width:180, sortable:true, align:'center'},
+                    {display:'촬영일시', name:'shotDt', width:110, sortable:true, align:'center'},
+                    {display:'사진설명', name:'photoDesc', width:230, sortable:true, align:'center'}
                     
                     /*
                     {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
