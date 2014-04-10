@@ -7,69 +7,164 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamCustTpSalesSttutsCreatVO" type="egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatVO"/>
 	
-	<select id="gamCustTpSalesSttutsCreatDao.selectFcltyUseSttusInqireList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
+	<procedure id="gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts" parameterClass="gamCustTpSalesSttutsCreatVO">
+		
+	</procedure>
+	
+	<select id="gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT 
-							     PO.INT_SEQ             
-							    , PO.DEL_KIND           
-							    , PO.JINGSU_DATE            
-							    , PO.SUNAP_DATE         
-							    , PO.PRT_AT_CODE            
-							    , PO.FEE_TP             
-							    , PO.FISCAL_YR          
-							    , PO.BILL_NO                
-							    , PO.ACCNT_CODE         
-							    , PO.AGENT_CODE         
-							    , PO.BILL_AMNT          
-							    , PO.BILL_DT                
-							    , PO.BILL_PRT_YN            
-							    , PO.DUE_DATE           
-							    , PO.RCVD_DT                
-							    , PO.RCVD_TP                
-							    , PO.RSLT_CODE          
-							    , PO.EXMP_AMNT          
-							    , PO.OVER_AMNT          
-							    , PO.DC_AMNT                
-							    , PO.DC_CODE                
-							    , PO.DC_RATE                
-							    , PO.RECPT_EPDT         
-							    , PO.ELCT_BILL_RSLT     
-							    , PO.BULL_INFO_INQR_DTIME
-							    , PO.AMNT_RSN           
-							    , PO.BZ_RGST_ID         
-							    , PO.AGENT_NAME         
-							    , PO.LAST               
-							    , PO.VAT_YN             
-							    , PO.JIRO_NO                
-							    , PO.ELEC_PAY_NO            
-							    , PO.CUSTOMER_MNGT_NO   
-							    , PO.CUSTOMER_ADDR      
-							    , PO.PAY_NAME 
-							FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
-							WHERE 1 = 1
-					       
-					        <isNotEmpty property="sPrtAtCode">
-			                    AND PO.PRT_AT_CODE = #sPrtAtCode#
-			                </isNotEmpty>
-							ORDER BY PO.INT_SEQ DESC
+                           	SELECT 
+                           		T1.PRTCD
+                           		, T1.ENTRPSCD
+                           		, T1.YRMT
+                           		, T1.CHRGEKNDCD
+                           		, T1.COSTVAL
+                           		, T4.PRT_KOR_NM
+                           		, T2.FIRM_KOR_NM
+                           		, T3.FEE_TP_KOR_NM
+  								FROM PORT_MIS_COSTVAL_STATS_F T1
+								LEFT OUTER JOIN 
+									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+										ON (T1.PRTCD=T4.PRT_AT_CODE)
+								LEFT OUTER JOIN 
+									PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+										ON (T1.PRTCD=T3.PRT_AT_CODE AND T1.CHRGEKNDCD=T3.FEE_TP)
+								LEFT OUTER JOIN 
+									P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 ON (T1.ENTRPSCD=T2.AGENT_CODE)
+								WHERE 1 = 1 					       
+					        		<isNotEmpty property="prtAtCode">
+			                    		AND T1.PRTCD = #prtAtCode#
+			                		</isNotEmpty>
+					        		<isNotEmpty property="startYrMt">
+			                    		<![CDATA[AND T1.YRMT >= #startYrMt#]]>
+			                    		<isNotEmpty property="endYrMt">
+			                    			<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+			                    		</isNotEmpty>
+			                		</isNotEmpty>
+					        		<isNotEmpty property="chrgeKndCd">
+			                    		AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                		</isNotEmpty>
+					        		<isNotEmpty property="entrpsCd">
+			                    		AND T1.ENTRPSCD = #entrpsCd#
+			                		</isNotEmpty>			                		
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-
     </select>
     
-    <select id="gamCustTpSalesSttutsCreatDao.selectFcltyUseSttusInqireListTotCnt_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="int">
+    <select id="gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsListTotCnt_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
-            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
-			WHERE 1 = 1
-	       
-	        <isNotEmpty property="sPrtAtCode">
-                   AND PO.PRT_AT_CODE = #sPrtAtCode#
-               </isNotEmpty>
+            FROM PORT_MIS_COSTVAL_STATS_F T1
+				LEFT OUTER JOIN 
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+						ON (T1.PRTCD=T4.PRT_AT_CODE)
+				LEFT OUTER JOIN 
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+						ON (T1.PRTCD=T3.PRT_AT_CODE AND T1.CHRGEKNDCD=T3.FEE_TP)
+				LEFT OUTER JOIN 
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+						ON (T1.ENTRPSCD=T2.AGENT_CODE)
+			WHERE 1 = 1 					       
+				<isNotEmpty property="prtAtCode">
+			    	AND T1.PRTCD = #prtAtCode#
+			    </isNotEmpty>
+				<isNotEmpty property="startYrMt">
+			        <![CDATA[AND T1.YRMT >= #startYrMt#]]>
+			    	<isNotEmpty property="endYrMt">
+			        	<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+			    	</isNotEmpty>
+			    </isNotEmpty>
+				<isNotEmpty property="chrgeKndCd">
+			        AND T1.CHRGEKNDCD = #chrgeKndCd#
+			    </isNotEmpty>
+				<isNotEmpty property="entrpsCd">
+			       	AND T1.ENTRPSCD = #entrpsCd#
+			    </isNotEmpty>			                		
+    </select>
+
+	<select id="gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+						SELECT T1.PRTCD
+							,T1.ENTRPSCD
+							,T1.YRMT
+							,T1.CHRGEKNDCD
+							,T1.COSTVAL
+							,T4.PRT_KOR_NM
+							,T2.FIRM_KOR_NM
+							,T3.FEE_TP_KOR_NM
+  						FROM PORT_MIS_COSTVAL_STATS_F T1
+							LEFT OUTER JOIN 
+								P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+									ON (T1.PRTCD=T4.PRT_AT_CODE)
+							LEFT OUTER JOIN 
+								PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+									ON (T1.PRTCD=T3.PRT_AT_CODE AND T1.CHRGEKNDCD=T3.FEE_TP)
+							LEFT OUTER JOIN 
+								P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+									ON (T1.ENTRPSCD=T2.AGENT_CODE)
+						WHERE 1 = 1 
+					        <isNotEmpty property="prtAtCode">
+			                    AND T1.PRTCD = #prtAtCode#
+			                </isNotEmpty>
+			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
+                      								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
+                    								WHERE CSTMR_TP IN ('11','12','43')) 					       
+					        <isNotEmpty property="startYrMt">
+			                    <![CDATA[AND T1.YRMT >= #startYrMt#]]>
+			                    <isNotEmpty property="endYrMt">
+			                    	<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+			                    </isNotEmpty>
+			                </isNotEmpty>
+					        <isNotEmpty property="chrgeKndCd">
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                </isNotEmpty>
+					        <isNotEmpty property="entrpsCd">
+			                    AND T1.ENTRPSCD = #entrpsCd#
+			                </isNotEmpty>			                		
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamCustTpSalesSttutsCreatDao.selectCustTpSalesSttutsListTotCnt_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="int">
+            SELECT 
+            	COUNT(*) TOTCNT
+  						FROM PORT_MIS_COSTVAL_STATS_F T1
+							LEFT OUTER JOIN 
+								P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+									ON (T1.PRTCD=T4.PRT_AT_CODE)
+							LEFT OUTER JOIN 
+								PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+									ON (T1.PRTCD=T3.PRT_AT_CODE AND T1.CHRGEKNDCD=T3.FEE_TP)
+							LEFT OUTER JOIN 
+								P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+									ON (T1.ENTRPSCD=T2.AGENT_CODE)
+						WHERE 1 = 1 
+					        <isNotEmpty property="prtAtCode">
+			                    AND T1.PRTCD = #prtAtCode#
+			                </isNotEmpty>
+			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
+                      								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
+                    								WHERE CSTMR_TP IN ('11','12','43')) 					       
+					        <isNotEmpty property="startYrMt">
+			                    <![CDATA[AND T1.YRMT >= #startYrMt#]]>
+			                    <isNotEmpty property="endYrMt">
+			                    	<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+			                    </isNotEmpty>
+			                </isNotEmpty>
+					        <isNotEmpty property="chrgeKndCd">
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                </isNotEmpty>
+					        <isNotEmpty property="entrpsCd">
+			                    AND T1.ENTRPSCD = #entrpsCd#
+			                </isNotEmpty>			                		
     </select>
 
 </sqlMap>
