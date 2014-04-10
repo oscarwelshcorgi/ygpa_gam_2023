@@ -4,5 +4,5 @@
 
 <sqlMapConfig>
 
-
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/port_mis/GamCustTpSalesSttutsCreatDao_SQL_oracle.xml"/>
 </sqlMapConfig>
