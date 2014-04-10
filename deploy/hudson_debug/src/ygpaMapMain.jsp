@@ -610,6 +610,7 @@
     <div id="progress_dialog" title="로딩중...">
 	<p><img alt="로딩중 입니다." style="width:100%; height:10px;" src="<c:url value='/images/egovframework/rte/progress.gif' />" /></p>
 </div>
+<div id="__templateXls" style="display:none;"></div>
 <div id="file_upload_dialog" title="업로드 파일">
 <form id="fileupload" action="<c:url value='/upload/genericMulti.do'/>" method="POST" enctype="multipart/form-data">
 	<input name="type" type="hidden" value="genericFileMulti"/>
@@ -659,15 +660,15 @@
             <strong class="error"></strong>
         </td>
         <td>
-            <p class="size">Processing...</p>
+            <p class="size">전송중...</p>
             <div class="progress"></div>
         </td>
         <td>
             {% if (!i && !o.options.autoUpload) { %}
-                <button class="start" disabled>Start</button>
+                <button class="start" disabled>전송시작</button>
             {% } %}
             {% if (!i) { %}
-                <button class="cancel">Cancel</button>
+                <button class="cancel">취소</button>
             {% } %}
         </td>
     </tr>

@@ -326,6 +326,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'editAssetCd':
 		break;
+	case 'btnShowGisCode':
+		EMD.gis.selectAssetCode('622', 'LGT', '02');
+		break;
 	case 'btnAddGisMap':
 		if(this.$('#assetCodeList').selectedRowIds().length>0) {
 			var row = this.$('#erpAssetCodeList').selectedRows();
@@ -502,7 +505,7 @@ var module_instance = new GamAssetCodeModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 								<table id="assetCodeList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap">지도보기</button>
+					<button id="btnShowGisCode">지도보기</button>
 					<button id="btnAddGisMap">위치등록</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>

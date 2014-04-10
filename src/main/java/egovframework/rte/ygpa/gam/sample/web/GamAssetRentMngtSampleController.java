@@ -17,9 +17,11 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.log.clg.service.EgovLoginLogService;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtService;
 
 @Controller
 public class GamAssetRentMngtSampleController {
@@ -31,6 +33,15 @@ public class GamAssetRentMngtSampleController {
     @Resource(name="gamAssetsUsePermMngtService")
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 
+	/** SMS 아이디 생성 서비스 */
+	@Resource(name="gamSmsIdGnrService")
+	private EgovIdGnrService gamSmsIdGnrService;
+
+	/**
+	 * SMS 전송 서비스
+	 */
+	@Resource(name="gamSmsMngtService")
+	private GamSmsMngtService gamSmsMngtService;
 
 	@RequestMapping(value="/sample/gamAssetRentMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -71,6 +82,20 @@ public class GamAssetRentMngtSampleController {
         	 vo.put("regUsr", loginVo.getId());
 
 	         gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(vo);
+
+	         // 메시지를 전송 합니다.
+
+	         Map<String, Object> sms = new HashMap<String, Object>();
+	         sms.put("smsSeq", gamSmsIdGnrService.getNextLongId());	// 아이디를 가져온다.
+	         sms.put("recptnNo", "01047630145");		// 테스트
+	         sms.put("replyNo", "01047630145");		// 테스트
+	         sms.put("prtAtCode", vo.get("prtAtCode"));
+	         sms.put("mngYear", vo.get("mngYear"));
+	         sms.put("mngNo", vo.get("mngNo"));
+	         sms.put("mngCnt", vo.get("mngCnt"));
+	         sms.put("cn", egovMessageSource.getMessage("gam.asset.rent.sms.confirm"));	// 메시지 내용
+
+	         gamSmsMngtService.sendSmsMessage(sms);
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");

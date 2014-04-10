@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+    <insert id="gamSmsMngtDAO.sendSmsMessage_S">
+        INSERT INTO SMS_TRNSMIS_DTLS_F (
+            SMS_SEQ,
+			RECPTN_NO,
+         <isNotEmpty property="replyNo">
+			REPLY_NO,
+			</isNotEmpty>
+			CN,
+			TRNSMIS_STTUS,
+			REG_USR,
+			REGIST_DT,
+         <isNotEmpty property="prtAtCode">
+			PRT_AT_CODE,
+			</isNotEmpty>
+        <isNotEmpty property="mngYear">
+			MNG_YEAR,
+		</isNotEmpty>
+        <isNotEmpty property="mngNo">
+			MNG_NO,
+		</isNotEmpty>
+        <isNotEmpty property="mngCnt">
+			MNG_CNT
+		</isNotEmpty>
+		)
+        VALUES (
+            #smsSeq#,
+			#recptnNo#,
+         <isNotEmpty property="replyNo">
+			#replyNo#,
+			</isNotEmpty>
+			#cn#,
+			'0',
+			#regUsr#,
+			#registDt#,
+         <isNotEmpty property="prtAtCode">
+			#prtAtCode#,
+			</isNotEmpty>
+        <isNotEmpty property="mngYear">
+			#mngYear#,
+		</isNotEmpty>
+        <isNotEmpty property="mngNo">
+			#mngNo#,
+		</isNotEmpty>
+        <isNotEmpty property="mngCnt">
+			#mngCnt#
+		</isNotEmpty>
+		)
+    </insert>
+
+</sqlMap>

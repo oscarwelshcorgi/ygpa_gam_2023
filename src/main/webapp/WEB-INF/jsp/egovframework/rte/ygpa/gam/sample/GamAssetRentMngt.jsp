@@ -54,7 +54,6 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'허가 여부',name:'prmisnYn',width:100,sortable:false,align:'center'},
 			{display:'결재일시',name:'sanctnDt',width:100,sortable:false,align:'center'}
 			],
-		showTableToggleBtn: false,
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.mngNumber = this.mngYear+'-'+this.mngNo+'-'+this.mngCnt;	// 관리 코드를 지정
@@ -242,13 +241,13 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value)
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id='' class="emdTabPanel">
+		<div class="emdTabPanel fillHeight">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">자산임대 관리</a></li>
 				<li><a href="#tabs2" class="emdTab">자산상세</a></li>
 				<li><a href="#tabs3" class="emdTab">자산사진</a></li>
 			</ul>
-			<div id="tabs1" class="emdTabPage fillHeight">
+			<div id="tabs1" class="emdTabPage">
 				<table id="assetRentList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnNewRequest">최초신청</button>

@@ -385,6 +385,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			alert('추가할 자산의 ERP 코드를 선택 하세요');
 		}
 		break;
+	case 'btnErpAssetCodeListExcelDownload':	// 엑셀 다운로드
+		this.$('#erpAssetCodeList').flexExcelDown();
+		break;
 	case 'addAssetGisCdItem':
 		this.addGisAssetItem();
 		break;
@@ -729,7 +732,10 @@ var module_instance = new GamAssetCodeModule();
 			</ul>
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
 				<table id="erpAssetCodeList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel"><button id="addAssetGisCd">자산등록</button></div>
+				<div class="emdControlPanel">
+					<button id="addAssetGisCd">자산등록</button>
+					<button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 								<table id="assetCodeList" style="display:none"></table>

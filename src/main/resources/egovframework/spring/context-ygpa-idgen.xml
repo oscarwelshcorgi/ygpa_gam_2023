@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- SMS 문자메시지 -->
+	<bean name="gamSmsIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="SMS_TRNSMIS_DTLS_F"/>
+	</bean>
+
+</beans>
