@@ -668,7 +668,7 @@ var module_instance = new GamAssetCodeModule();
 	<div class="emdPanel">
 			<div id="searchViewStack" class="viewStack">
 				<div class="viewPanel">
-		<form id="searchErpAssetCode">
+					<form id="searchErpAssetCode">
 					<table style="width:100%;" class="searchPanel">
 						<tbody>
 							<tr>
@@ -689,7 +689,7 @@ var module_instance = new GamAssetCodeModule();
 						</tbody>
 					</table>
 					</form>
-					</div>
+				</div>
 				<div class="viewPanel">
 					<form id="searchGisAssetCode">
 						<table class="searchPanel">

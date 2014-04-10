@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.port_mis.web;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -27,7 +28,7 @@ import egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatVO;
 
 /**
  * @Class Name : GamCustTpSalesSttutsCreatController.java
- * @Description : 고객군들통계(포트미스정보) DAO Class
+ * @Description : 고객군별통계(포트미스정보) DAO Class
  * @Modification Information
  *
  * @author lsl
@@ -63,7 +64,7 @@ public class GamCustTpSalesSttutsCreatController {
 	
     
     /**
-     * 항만시설납부현황관리 화면을 로딩한다. 
+     * 고객군별통계관리 화면을 로딩한다. 
      *
      * @param windowId
      * @param model the model
@@ -77,6 +78,8 @@ public class GamCustTpSalesSttutsCreatController {
 		
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		
 		
 		codeVo.setCodeId("GAM011"); //신청구분코드 
 		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
@@ -99,6 +102,9 @@ public class GamCustTpSalesSttutsCreatController {
 		codeVo.setCodeId("GAM003"); //부두코드 
 		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
+		List yearsList = this.getYears(); // 조회연도
+		List monthsList = this.getMonths(); // 조회월
+		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("reqstCdList", reqstCdList);
 		model.addAttribute("nticMthCdList", nticMthCdList);
@@ -108,60 +114,92 @@ public class GamCustTpSalesSttutsCreatController {
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
 		model.addAttribute("quayCdList", quayCdList);
 		model.addAttribute("windowId", windowId);
+		
+		model.addAttribute("yearsList", yearsList);
+		model.addAttribute("monthsList", monthsList);
     	
     	return "/ygpa/gam/port_mis/GamCustTpSalesSttutsCreat";
     }
 	
 	/**
-     * 항만시설납부현황관리 목록을 조회한다. 
+     * 조회기간 연도를 가져온다
+     *
+     */
+	public List getYears(){
+
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		
+   		for (int i = 2000; i <= currentYear; i++) {
+   			
+   			result.add(String.valueOf(i));
+   		}
+
+   		return result;
+   	}
+	
+	/**
+     * 조회기간 월을 가져온다
+     *
+     */
+	public List getMonths(){
+
+		List result = new ArrayList();
+   		
+   		for (int i=1; i<=12; i++) {
+   			
+   			result.add(String.valueOf(i));
+   		}
+
+   		return result;
+   	}
+	
+	/**
+     * 매출액통계생성 목록을 조회한다. 
      *
      * @param searchVO
      * @return map
      * @throws Exception the exception  
      */
-//	@SuppressWarnings({ "rawtypes", "unchecked" })
-//    @RequestMapping(value="/port_mis/gamCustTpSalesSttutsCreatList.do", method=RequestMethod.POST)
-//	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
-//
-//		int totalCnt, page, firstIndex;
-//    	Map map = new HashMap();
-//
-//    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-//    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-//    	
-//    	PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-//		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-//		paginationInfo.setPageSize(searchVO.getPageSize());
-//		
-//		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-//		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-//		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-//		
-//		//목록
-//    	totalCnt = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireListTotCnt(searchVO);
-//    	List resultList = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireList(searchVO);
-//    	
-//    	paginationInfo.setTotalRecordCount(totalCnt);
-//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-//    	
-//    	//자료수, 사용료, 부가세, 고지액
-//    	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);
-//        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
-//    	
-//    	map.put("resultCode", 0);	// return ok
-//    	map.put("totalCount", totalCnt);
-//    	map.put("resultList", resultList);
-//    	map.put("searchOption", searchVO);
-//    	/*
-//    	map.put("sumFee", resultSum.getSumFee());
-//    	map.put("sumVat", resultSum.getSumVat());
-//    	map.put("sumNticAmt", resultSum.getSumNticAmt());
-//    	*/
-//    	map.put("sumFee", "");
-//    	map.put("sumVat", "");
-//    	map.put("sumNticAmt", "");
-//    	return map;
-//    }
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/port_mis/selectstatisticsList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//목록
+    	totalCnt = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsListTotCnt(searchVO);
+    	List resultList = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsList(searchVO);
+    	
+    	System.out.print("test : ##################" + resultList);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
+    	//자료수, 사용료, 부가세, 고지액
+    	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);
+        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+  
+    	return map;
+    }
 	
 }
