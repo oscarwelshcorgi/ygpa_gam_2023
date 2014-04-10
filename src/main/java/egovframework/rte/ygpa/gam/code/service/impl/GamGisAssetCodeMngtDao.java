@@ -41,4 +41,8 @@ public class GamGisAssetCodeMngtDao extends YGPAAbstractDAO {
 		return  (Integer)getSqlMapClientTemplate().queryForObject("gamGisAssetCodeDao.selectAssetCodeListTotCnt_S", searchOpt);
 	}
 
+    public EgovMap selectAssetCodeOlnlp(Map vo) throws Exception {
+    	return (EgovMap) selectByPk("gamGisAssetCodeDao.selectAssetCodeOlnlp_S", vo);
+    }
+
 }

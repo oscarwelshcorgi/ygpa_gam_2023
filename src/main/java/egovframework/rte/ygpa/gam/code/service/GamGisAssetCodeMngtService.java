@@ -20,4 +20,6 @@ public interface GamGisAssetCodeMngtService {
 	List selectAssetCodeList(GamGisAssetCodeVO searchOpt);
 
 	int selectAssetCodeListTotCnt(GamGisAssetCodeVO searchOpt);
+
+	EgovMap selectAssetCodeOlnlp(Map vo) throws Exception;
 }

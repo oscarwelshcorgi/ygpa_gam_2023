@@ -300,4 +300,31 @@
 				</isNotEmpty>
 	</select>
 
+	<select id="gamGisAssetCodeDao.selectAssetCodeOlnlp_S" resultClass="egovMap">
+			SELECT
+					GIS_ASSETS_PRT_AT_CODE,
+					GIS_ASSETS_SUB_CD,
+					GIS_ASSETS_CD,
+					GIS_ASSETS_NM,
+					GIS_ASSETS_LOCPLC,
+					GIS_ASSETS_LNM,
+					GIS_ASSETS_LNM_SUB,
+					GIS_ASSETS_AR
+			FROM GIS_ASSETS_CD_F
+			WHERE 1=1
+				<isNotEmpty prepend="AND" property="siGuGun">
+					GIS_ASSETS_LOCPLC LIKE '%' || #siGuGun# || '%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="eupMyunDong">
+					GIS_ASSETS_LOCPLC LIKE '%' || #eupMyunDong# || '%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="lnm">
+					GIS_ASSETS_LNM = #lnm#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="lnmSub">
+					GIS_ASSETS_LNM_SUB = #lnmSub#
+				</isNotEmpty>
+	</select>
+
+
 </sqlMap>

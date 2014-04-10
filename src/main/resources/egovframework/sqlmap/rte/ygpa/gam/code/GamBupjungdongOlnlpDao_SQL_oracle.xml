@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="olnlpBatchInsert">
+	<typeAlias alias="gamBupjungdongOlnlpVO" type="egovframework.rte.ygpa.gam.code.service.GamBupjungdongOlnlpVO" />
+	<insert id="insertGamBupjungdongOlnlpVO" parameterClass="gamBupjungdongOlnlpVO">
+		<![CDATA[
+			insert into BUPJUNGDONG_OLNLP_F (
+				OLNLP_APPLC_YEAR,
+				BUPJUNGDONG_CD,
+				MT,
+				LNM,
+				BEGIN_DT,
+				END_DT,
+				OLNLP,
+				REG_USR,
+				REGIST_DT
+			) values (
+				#olnlpApplcYear#,
+				#bupjungdongCd#,
+				#mt#,
+				#lnm#,
+				#beginDt#,
+				#endDt#,
+				#olnlp#,
+				#regUsr#,
+				#registDt#
+			)
+		]]>
+	</insert>
+</sqlMap>

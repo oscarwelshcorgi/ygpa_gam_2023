@@ -61,4 +61,13 @@ public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implemen
 		return gamGisAssetCodeMngtDao.selectGamAssetCodeListTotCnt(searchOpt);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService#selectAssetCodeOlnlp(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectAssetCodeOlnlp(Map vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamGisAssetCodeMngtDao.selectAssetCodeOlnlp(vo);
+	}
+
 }
