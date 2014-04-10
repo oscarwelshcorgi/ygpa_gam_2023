@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.port_mis">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamCustTpSalesSttutsCreatVO" type="egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatVO"/>
+	
+	<select id="gamCustTpSalesSttutsCreatDao.selectFcltyUseSttusInqireList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+							     PO.INT_SEQ             
+							    , PO.DEL_KIND           
+							    , PO.JINGSU_DATE            
+							    , PO.SUNAP_DATE         
+							    , PO.PRT_AT_CODE            
+							    , PO.FEE_TP             
+							    , PO.FISCAL_YR          
+							    , PO.BILL_NO                
+							    , PO.ACCNT_CODE         
+							    , PO.AGENT_CODE         
+							    , PO.BILL_AMNT          
+							    , PO.BILL_DT                
+							    , PO.BILL_PRT_YN            
+							    , PO.DUE_DATE           
+							    , PO.RCVD_DT                
+							    , PO.RCVD_TP                
+							    , PO.RSLT_CODE          
+							    , PO.EXMP_AMNT          
+							    , PO.OVER_AMNT          
+							    , PO.DC_AMNT                
+							    , PO.DC_CODE                
+							    , PO.DC_RATE                
+							    , PO.RECPT_EPDT         
+							    , PO.ELCT_BILL_RSLT     
+							    , PO.BULL_INFO_INQR_DTIME
+							    , PO.AMNT_RSN           
+							    , PO.BZ_RGST_ID         
+							    , PO.AGENT_NAME         
+							    , PO.LAST               
+							    , PO.VAT_YN             
+							    , PO.JIRO_NO                
+							    , PO.ELEC_PAY_NO            
+							    , PO.CUSTOMER_MNGT_NO   
+							    , PO.CUSTOMER_ADDR      
+							    , PO.PAY_NAME 
+							FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
+							WHERE 1 = 1
+					       
+					        <isNotEmpty property="sPrtAtCode">
+			                    AND PO.PRT_AT_CODE = #sPrtAtCode#
+			                </isNotEmpty>
+							ORDER BY PO.INT_SEQ DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
+    </select>
+    
+    <select id="gamCustTpSalesSttutsCreatDao.selectFcltyUseSttusInqireListTotCnt_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="int">
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
+			WHERE 1 = 1
+	       
+	        <isNotEmpty property="sPrtAtCode">
+                   AND PO.PRT_AT_CODE = #sPrtAtCode#
+               </isNotEmpty>
+    </select>
+
+</sqlMap>
