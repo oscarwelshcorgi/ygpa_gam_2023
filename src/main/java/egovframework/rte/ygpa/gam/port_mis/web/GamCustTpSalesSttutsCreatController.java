@@ -163,7 +163,7 @@ public class GamCustTpSalesSttutsCreatController {
      * @throws Exception the exception  
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/port_mis/selectstatisticsList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/port_mis/selectgamCustTpSalesSttutsCreatList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -182,8 +182,8 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		//목록
-    	totalCnt = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsListTotCnt(searchVO);
-    	List resultList = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsList(searchVO);
+    	totalCnt = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsListTotCnt(searchVO);
+    	List resultList = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsList(searchVO);
     	
     	System.out.print("test : ##################" + resultList);
     	

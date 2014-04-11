@@ -38,9 +38,9 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 	this.$('#prtAtCode').val('620');	// 기본 항코드 설정s
 
 	// 테이블 설정
-	this.$("#statisticsList").flexigrid({
+	this.$("#gamCustTpSalesSttutsCreatList").flexigrid({
 		module: this,
-		url: '<c:url value="/port_mis/selectstatisticsList.do"/>',
+		url: '<c:url value="/port_mis/selectgamCustTpSalesSttutsCreatList.do"/>',
 		dataType: 'json',
 		colModel : [
 			{display:'항코드', name:'erpAssetCode', width:80, sortable:true, align:'left'},
@@ -57,29 +57,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		}
 	});
 
-	this.$("#statisticsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		/* if(row['assetCls']==null || row['assetCls'].length==0) {
-			alert('자산코드에 오류가 있습니다.');
-			return;
-		}
-		if(row['assetNo']==null || row['assetNo'].length==0) {
-			alert('자산코드에 오류가 있습니다.');
-			return;
-		}
-		if(row['assetNoSeq']==null || row['assetNoSeq'].length==0) {
-			alert('자산코드에 오류가 있습니다.');
-			return;
-		}
 
-		module.$("#portMisManageTab").tabs("option", {active: 1});	// 탭을 전환 한다. */
-	});
-
-	this.$("#statisticsList").on('onItemSelected', function(event, module, row, grid, param) {
+	this.$("#gamCustTpSalesSttutsCreatList").on('onItemSelected', function(event, module, row, grid, param) {
 		//module.$('#addAssetGisCd').attr('disabled', 'disabled');
 		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
-	this.$("#erpStatisticsList").flexigrid({
+	this.$("#gamCustTpEnpSalesSttutsList").flexigrid({
 		module: this,
 		url: '<c:url value="/port_mis/selectErpStatisticsList.do"/>',
 		colModel : [
@@ -102,18 +86,18 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		}
 	});
 
-	this.$("#erpStatisticsList").on('onItemSelected', function(event, module, row, grid, param) {
+	this.$("#gamCustTpEnpSalesSttutsList").on('onItemSelected', function(event, module, row, grid, param) {
 		/* module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
-		module._editRow=module.$('#erpStatisticsList').selectedRowIds()[0]; */
+		module._editRow=module.$('#gamCustTpEnpSalesSttutsList').selectedRowIds()[0]; */
 	});
 
-	this.$("#erpStatisticsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
+	this.$("#gamCustTpEnpSalesSttutsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
 		/* module._editRow=null;
 		module._deleteDataList=[]; */
 	});
 
-	this.$("#shipErpStatisticsList").flexigrid({
+	this.$("#gamCustTpShipEnpSalesSttutsList").flexigrid({
 		module: this,
 		url: '<c:url value="/asset/selectShipErpStatisticsList.do"/>',
 		colModel : [
@@ -126,10 +110,10 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		height: '120'
 	});
 
-	this.$("#shipErpStatisticsList").on('onItemSelected', function(event, module, row, grid, param) {
+	this.$("#gamCustTpShipEnpSalesSttutsList").on('onItemSelected', function(event, module, row, grid, param) {
 		/* module.makeFormValues('#editAssetGisPhotoForm', row);
 		module._editPhotoData=module.getFormValues('#editAssetGisPhotoForm', row);
-		module._editPhotoRow=module.$('#shipErpStatisticsList').selectedRowIds()[0];
+		module._editPhotoRow=module.$('#gamCustTpShipEnpSalesSttutsList').selectedRowIds()[0];
 
 		if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
@@ -148,7 +132,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 //		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
-	this.$("#shipErpStatisticsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
+	this.$("#gamCustTpShipEnpSalesSttutsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
 		/* module._editPhotoRow=null;
 		module._deletePhotoList=[]; */
 	});
@@ -192,308 +176,42 @@ GamCustTpSalesSttutsCreat.prototype.showModuleAlert = function(msg) {
 	this.$('#prtCode').val(msg);
 };
 
-GamCustTpSalesSttutsCreat.prototype.addGisAssetItem = function() {
-	this._edited=true;
-
-	this.$('#editGisAssetCode :input').val('');
-
-	this.$('#erpAssetsCls').val(this.$('#searchGisAssetErpAssetsCls').val());
-	this.$('#erpAssetsNo').val(this.$('#searchGisAssetErpAssetsNo').val());
-	this.$('#erpAssetsNoSeq').val(this.$('#searchGisAssetErpAssetsNoSeq').val());
-	this.$('#erpAssetsCls').readonly(false);
-	this.$('#erpAssetsNo').readonly(false);
-	this.$('#erpAssetsNoSeq').readonly(false)
-
-	this.$('#itemName').val(this._itemNameAsset);
-	this.$('#itemName').disable();
-
-	this.$('#gisAssetsPrtAtCode').enable();
-
-	this._editData=this.getFormValues('#editGisAssetCode', {_updtId:'I'});	// 데이터 추가
-	this._editRow=null;
-	// this.$('#btnApplyGisAssetCode').removeAttr('disabled');
-};
-
-GamCustTpSalesSttutsCreat.prototype.removeGisAssetItem = function() {
-	if(this.$('#erpStatisticsList').selectedRowIds().length>0) {
-		for(var i=this.$('#erpStatisticsList').selectedRowIds().length-1; i>=0; i--) {
-			var row=this.$('#erpStatisticsList').flexGetRow(this.$('#erpStatisticsList').selectedRowIds()[i]);
-			if(row._updtId==undefined || row._updtId!='I')  this._deleteDataList[this._deleteDataList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-			this.$('#erpStatisticsList').flexRemoveRow(this.$('#erpStatisticsList').selectedRowIds()[i]);
-			this._edited=true;
-		}
-	}
-};
-
-GamCustTpSalesSttutsCreat.prototype.saveGisAssetItem = function() {
-	if( confirm("저장하시겠습니까?") ) {
-	    // 변경된 자료를 저장한다.
-	    var inputVO=[];
-	    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#erpStatisticsList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
-	    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#erpStatisticsList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
-	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-
-	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetCodeMngt.do" />', inputVO, function(module, result) {
-	        if(result.resultCode == 0){
-	            var searchOpt=module.makeFormArgs('#searchGisAssetCode');
-	            module.$('#erpStatisticsList').flexOptions({params:searchOpt}).flexReload();
-	        }
-	        alert(result.resultMsg);
-	    	this._edited=false;
-	    });
-	}
-};
-
-GamCustTpSalesSttutsCreat.prototype.removeGisAssetPhotoItem = function() {
-	if(this.$('#shipErpStatisticsList').selectedRowIds().length>0) {
-		for(var i=this.$('#shipErpStatisticsList').selectedRowIds().length-1; i>=0; i--) {
-			var row=this.$('#shipErpStatisticsList').flexGetRow(this.$('#shipErpStatisticsList').selectedRowIds()[i]);
-			if(row._updtId==undefined || row._updtId!='I')  this._deletePhotoList[this._deletePhotoList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-			this.$('#shipErpStatisticsList').flexRemoveRow(this.$('#shipErpStatisticsList').selectedRowIds()[i]);
-		}
-
-		this._edited=true;
-	}
-};
-
-GamCustTpSalesSttutsCreat.prototype.saveGisAssetPhotoItem = function() {
-	if( confirm("사진 목록을 저장하시겠습니까?") ) {
-	    // 변경된 자료를 저장한다.
-	    var inputVO=[];
-	    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#shipErpStatisticsList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
-	    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#shipErpStatisticsList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
-	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deletePhotoList) };
-
-	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetPhotoMngt.do" />', inputVO, function(module, result) {
-	        if(result.resultCode == 0){
-	            var searchOpt=module.makeFormArgs('#searchGisAssetPhoto');
-	            module.$('#shipErpStatisticsList').flexOptions({params:searchOpt}).flexReload();
-	        }
-	        alert(result.resultMsg);
-	    	this._edited=false;
-	    });
-	}
-};
 
 GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case 'selectErpAssetCode':
-		/* if(this.$('#searchAssetCls').val()=='') {
-			alert('자산구분을 선택 하세요');
-			this.$('#searchAssetCls').addClass('ui-state-error');
-			return;
-		}
-		else {
-			this.$('#searchAssetCls').removeClass('ui-state-error');
-		} */
-		var searchOpt=this.makeFormArgs('#searchErpAssetCode');
-	 	this.$('#statisticsList').flexOptions({params:searchOpt}).flexReload();
-	 	// throw 0;
-		break;
 		
-	case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
-        /*
-        var opts = {
-            'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
-            'gisAssetsCd': this.$('#gisAssetsCd').val(),
-            'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
-        };
-        */
-        var opts;
-		
-        this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-        break;
+        case 'gamCustTpSalesSttutsCreatSearchForm':
+        	alert('a');
+            var searchOpt=this.makeFormArgs('#gamCustTpSalesSttutsCreatSearchForm');
+            this.$('#gamCustTpSalesSttutsCreatList').flexOptions({params:searchOpt}).flexReload();
 
-	case 'selectGisAssetCode':
-		if(this.$('#searchGisErpAssetCls').val()=='' || this.$('#searchGisErpAssetNo').val()=='' ) {
-			alert('ERP 자산코드를 입력하거나 이전 탭에서 선택 하세요.');
-			this.$('#searchGisErpAssetCls').addClass('ui-state-error');
-			this.$('#searchGisErpAssetNo').addClass('ui-state-error');
-			this.$('#searchGisErpAssetNoSeq').addClass('ui-state-error');
-			this.$('#searchGisErpAssetCls').focus();
-		}
-		else {
-			this.$('#searchGisErpAssetCls').removeClass('ui-state-error');
-			this.$('#searchGisErpAssetNo').removeClass('ui-state-error');
-			this.$('#searchGisErpAssetNoSeq').removeClass('ui-state-error');
-		}
-		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-	 	this.$('#erpStatisticsList').flexOptions({params:searchOpt}).flexReload();
-	 	// throw 0;
-		break;
-	case 'selectGisAssetPhoto':	// 자산 사진 조회
-		if(this.$('#searchGisAssetPrtAtCode').val()=='') {
-			alert('항구분을 선택 하세요.');
-			this.$('#searchPrtAtCode').addClass('ui-state-error');
-			this.$('#searchPrtAtCode').focus();
-		}
-		else {
-			this.$('#searchPrtAtCode').removeClass('ui-state-error');
-		}
-		if(this.$('#searchGisErpAssetCls').val()=='' || this.$('#searchGisErpAssetNo').val()=='' ) {
-			alert('ERP 자산코드를 입력하거나 이전 탭에서 자산 항목을 선택 하세요.');
-			this.$('#searchGisErpAssetCls').addClass('ui-state-error');
-			this.$('#searchGisErpAssetNo').addClass('ui-state-error');
-			this.$('#searchGisErpAssetNoSeq').addClass('ui-state-error');
-			this.$('#searchGisErpAssetCls').focus();
-		}
-		else {
-			this.$('#searchGisErpAssetCls').removeClass('ui-state-error');
-			this.$('#searchGisErpAssetNo').removeClass('ui-state-error');
-			this.$('#searchGisErpAssetNoSeq').removeClass('ui-state-error');
-		}
-		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-	 	this.$('#shipErpStatisticsList').flexOptions({params:searchOpt}).flexReload();
-		break;
-	case 'addAssetGisCd':	// gis 자산 추가
-		if(this.$('#statisticsList').selectedRowIds()>0) {
-			var row = this.$('#statisticsList').selectedRows()[0];
-			this.$("#portMisManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
-			this.$('#searchGisErpAssetCls').val(row['assetCls']);
-			this.$('#searchGisErpAssetNo').val(row['assetNo']);
-			this.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
-			// 해당하는 자산 목록을 불러온다/
-			var searchOpt=this.makeFormArgs('#searchForm');
-			//this.showAlert(searchOpt);
-		 	this.$('#erpStatisticsList').flexOptions({params:searchOpt}).flexReload();
-			this._itemNameAsset = row['itemNameAsset'];// 자산명 저장
-		 	this.addGisAssetItem();
-		}
-		else {
-			alert('추가할 자산의 ERP 코드를 선택 하세요');
-		}
-		break;
-	case 'addAssetGisCdItem':
-		this.addGisAssetItem();
-		break;
-	case 'removeAssetGisCdItem':
-		this.removeGisAssetItem();
-		break;
-	case 'btnSaveGisAssetsCode':
-		// 변경된 자료를 저장한다.
-		this.saveGisAssetItem();
-		break;
-	case 'btnApplyGisAssetsCode':
-		if(this._editRow==null && (this._editData==null || this._editData._updtId!='I')) {
+            break;
+            
+        case 'gamCustTpEnpSalesSttutsSearchForm':
+            var searchOpt=this.makeFormArgs('#gamCustTpEnpSalesSttutsSearchForm');
+            this.$('#gamCustTpEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
 
-			return;	// no action;
-		}
-		if(!validateGamAssetCode(this.$('#editGisAssetCode')[0])) {
-			return;
-		}
-		this._editData=this.getFormValues('#editGisAssetCode', this._editData);
-		if(this._editRow!=null) {
-			if(this._editData._updtId!='I') this._editData._updtId='U';	// 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
-			this.$('#erpStatisticsList').flexUpdateRow(this._editRow, this._editData);
-			this._editRow=null;	// 편집 저장 하였으므로 로우 편집을 종료 한다.
-		}
-		else {
-			if(this._editData._updtId=='I') {
-				this.$('#erpStatisticsList').flexAddRow(this._editData);	// 추가 모드인 경우 데이터 추가
-			}
-		}
-		this._editData={};
-//		this.clearCodePage();
-		this.$('#editGisAssetCode :input').val('');
+            break;
+            
+        case 'gamCustTpShipEnpSalesSttutsSearchForm':
+            var searchOpt=this.makeFormArgs('#gamCustTpShipEnpSalesSttutsSearchForm');
+            this.$('#gamCustTpShipEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
 
-//		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
-		break;
-	case 'btnCancelGisAssetsCode':
-		this.clearCodePage();
-		// this.$('#btnApplyGisAssetCode').removeAttr('disabled');
-		break;
-	case 'removeAssetCdItem':
-		break;
-	case 'editAssetCd':
-		break;
-	case 'btnAddGisMap':
-		if(this.$('#erpStatisticsList').selectedRowIds().length>0) {
-			var row = this.$('#statisticsList').selectedRows();
-			// test
-			this.addGisAssetsCdMap('GAC', {'gisPrtAtCode': '620', 'gisAssetsCd': 'LNF', 'gisAssetsSubCd': '01'});
-//			this.btnAddGisMap('GAC', {row.gisAssetsCd, row.gisAssetsSubCd});
-		}
-		break;
-
-	case 'btnUploadFile':
-		var selectRow = this.$('#erpStatisticsList').selectedRows();
-		if(selectRow.length > 0) {
-			var row=selectRow[0];
-			if(row['gisAssetsPrtAtCode']==null || row['gisAssetsCd']==null || row['gisAssetsSubCd']==null) {
-				alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
-				return;
-			}
-			if(row['gisAssetsPrtAtCode'].length!=3 || row['gisAssetsCd'].length!=3 || row['gisAssetsSubCd'].length!=2) {
-				alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
-				return;
-			}
-			this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
-			this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
-			this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
-
-			this._tempGisPrtAtCd=row['gisAssetsPrtAtCode'];
-			this._tempGisAssetsCd=row['gisAssetsCd'];
-			this._tempGisAssetsSubCd=row['gisAssetsSubCd'];
-
-			this._edited=true;
-
-		}
-		else {
-			alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요.');
-			return;
-		}
-
-		// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-		this.uploadFile('uploadPhoto', function(module, result) {
- 			var userid=EMD.util.getLoginUserVO().userNm;
-
-//			var userid='admin';
-			$.each(result, function(){
-				module.$('#shipErpStatisticsList').flexAddRow({
-					_updtId:'I',
-					gisAssetsPrtAtCode: module._tempGisPrtAtCd,
-					gisAssetsCd: module._tempGisAssetsCd,
-					gisAssetsSubCd: module._tempGisAssetsSubCd,
-					photoSj: '',
-					filenmLogic: this.logicalFileNm,
-					filenmPhysicl: this.physcalFileNm,
-					regUsr: userid,
-					registDt:  EMD.util.getTimeStamp()});	// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-			});
-		}, '시설사진 업로드');
-		break;
-
-	case 'btnApplyPhotoData':
-		var selectRow = this.$('#shipErpStatisticsList').selectedRows();
-		if(selectRow.length==0) return;
-		if(!validateGamAssetPhoto(this.$('#editAssetGisPhotoForm')[0])) {
-			return;
-		}
-		var rownum;
-		var row = {};
-		row=this.getFormValues('#editAssetGisPhotoForm', selectRow[0]);
-		rownum=this.$('#shipErpStatisticsList').selectedRowIds()[0];
-
-		this.$('#shipErpStatisticsList').flexUpdateRow(rownum, row);
-
-		this._edited=true;
-
-		break;
-	case 'removeAssetGisPhoto':
-		this.removeGisAssetPhotoItem();
-		break;
-	case 'saveAssetGisPhoto':
-		this.saveGisAssetPhotoItem();
-		break;
-	case 'popupFcltyCd':
-        var opts;
-
-        this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
-		break;
+            break;
+			
+		case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
+	        /*
+	        var opts = {
+	            'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+	            'gisAssetsCd': this.$('#gisAssetsCd').val(),
+	            'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+	        };
+	        */
+	        var opts;
+			
+	        this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+	        break;
+	
 	}
 };
 
@@ -572,7 +290,7 @@ GamCustTpSalesSttutsCreat.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 	case 'tabs2':
 		this.$('#searchViewStack')[0].changePanelId(1);	// 조회 조건 변경
-		var selectRow = this.$('#statisticsList').selectedRows();
+		var selectRow = this.$('#gamCustTpSalesSttutsCreatList').selectedRows();
 		this.clearCodePage();
 		if(selectRow.length > 0) {
 			var row=selectRow[0];
@@ -584,12 +302,12 @@ GamCustTpSalesSttutsCreat.prototype.onTabChange = function(newTabId, oldTabId) {
 			// 해당하는 자산 목록을 불러온다/
 			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 			//this.showAlert(searchOpt);
-		 	this.$('#erpStatisticsList').flexOptions({params:searchOpt}).flexReload();
+		 	this.$('#gamCustTpEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
 		}
 		break;
 	case 'tabs3':
 		this.$('#searchViewStack')[0].changePanelId(2);	// 조회 조건 변경
-		var selectRow = this.$('#erpStatisticsList').selectedRows();
+		var selectRow = this.$('#gamCustTpEnpSalesSttutsList').selectedRows();
 		this.clearPhotoPage();
 		if(selectRow.length > 0) {
 			var row=selectRow[0];
@@ -606,25 +324,11 @@ GamCustTpSalesSttutsCreat.prototype.onTabChange = function(newTabId, oldTabId) {
 	}
 };
 
-GamCustTpSalesSttutsCreat.prototype.clearCodePage = function() {
+/* GamCustTpSalesSttutsCreat.prototype.clearCodePage = function() {
 	this.$('#editGisAssetCode :input').val('');
-	this.$('#erpStatisticsList').flexEmptyData();
-};
+	this.$('#gamCustTpEnpSalesSttutsList').flexEmptyData();
+}; */
 
-GamCustTpSalesSttutsCreat.prototype.clearPhotoPage = function() {
-	this.$('#shipErpStatisticsList').flexEmptyData();
-	this.$('#editAssetGisPhotoForm :input').val('');
-	this.$('#previewImage').attr('src', '');
-};
-
-GamCustTpSalesSttutsCreat.prototype.selectPhotoList = function() {
-	// 해당하는 자산 사진 목록을 불러온다/
-	var searchOpt=this.makeFormArgs('#searchGisAssetPhoto');
-	//this.showAlert(searchOpt);
-	this.clearPhotoPage();
-
- 	this.$('#shipErpStatisticsList').flexOptions({params:searchOpt}).flexReload();
-};
 
 GamCustTpSalesSttutsCreat.prototype.onSubmit = function() {
 	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
@@ -634,7 +338,7 @@ GamCustTpSalesSttutsCreat.prototype.onSubmit = function() {
 GamCustTpSalesSttutsCreat.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	//this.showAlert(searchOpt);
- 	this.$('#erpStatisticsList').flexOptions({params:searchOpt}).flexReload();
+ 	this.$('#gamCustTpEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
 //	this.$('#assetList').flexOptions(searchOpt).flexReload();
 };
 
@@ -678,7 +382,7 @@ var module_instance = new GamCustTpSalesSttutsCreat();
 		                                    </c:forEach>
 		                                </select>
 		                            </td>
-		                            <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+		                            <td rowspan="2"><button id="gamCustTpSalesSttutsCreatSearchForm" class="submit buttonSearch">조회</button></td>
 		                        </tr>
 		                    </tbody>
 		                </table>
@@ -731,7 +435,7 @@ var module_instance = new GamCustTpSalesSttutsCreat();
 		                                    </c:forEach>
 		                                </select>
 		                            </td>
-		                            <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+		                            <td rowspan="2"><button id="gamCustTpEnpSalesSttutsSearchForm" class="submit buttonSearch">조회</button></td>
 		                        </tr>
 								<tr>
 									<th>요금종류</th>
@@ -794,7 +498,7 @@ var module_instance = new GamCustTpSalesSttutsCreat();
 		                                    </c:forEach>
 		                                </select>
 		                            </td>
-		                            <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+		                            <td rowspan="2"><button id="gamCustTpShipEnpSalesSttutsSearchForm" class="submit buttonSearch">조회</button></td>
 		                        </tr>
 								<tr>
 									<th>요금종류</th>
@@ -821,7 +525,7 @@ var module_instance = new GamCustTpSalesSttutsCreat();
 				<li><a href="#tabs3" class="emdTab">선사별매출액통계</a></li>
 			</ul>
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-				<table id="statisticsList" style="display:none" class="fillHeight"></table>
+				<table id="gamCustTpSalesSttutsCreatList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<form id="gamCustTpShipEnpSalesSttutsCreatForm">
 		                <table style="width:100%;" class="searchPanel">
@@ -862,11 +566,11 @@ var module_instance = new GamCustTpSalesSttutsCreat();
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
-				<table id="erpStatisticsList" style="display:none;" class="fillHeight"></table>
+				<table id="gamCustTpEnpSalesSttutsList" style="display:none;" class="fillHeight"></table>
 				
 			</div>
 			<div id="tabs3" class="emdTabPage" data-onactivate="onShowTab3Activate">
-				<table id="shipErpStatisticsList" style="display:none" class="fillHeight"></table>
+				<table id="gamCustTpShipEnpSalesSttutsList" style="display:none" class="fillHeight"></table>
 				
 			</div>
 		</div>
