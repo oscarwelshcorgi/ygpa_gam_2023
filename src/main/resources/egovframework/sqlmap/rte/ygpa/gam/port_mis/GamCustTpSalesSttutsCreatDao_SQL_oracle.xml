@@ -27,8 +27,8 @@
 					        		<isNotEmpty property="prtAtCode">
 			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
-					        		<isNotEmpty property="startYrMt">
-			                    		AND T1.YRMT = #startYrMt#
+					        		<isNotEmpty property="grStartYr">
+			                    		AND T1.YRMT = CONCAT(#grStartYr#, #grStartMn#)
 			                		</isNotEmpty>
                 ) S
              ) A
@@ -50,9 +50,9 @@
 					        		<isNotEmpty property="prtAtCode">
 			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
-					        		<isNotEmpty property="startYrMt">
-			                    		AND T1.YRMT = #startYrMt#
-			                		</isNotEmpty>            
+					        		<isNotEmpty property="grStartYr">
+			                    		AND T1.YRMT = CONCAT(#grStartYr#, #grStartMn#)
+			                		</isNotEmpty>
             )
     </select>
 	
@@ -83,10 +83,10 @@
 					        		<isNotEmpty property="prtAtCode">
 			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
-					        		<isNotEmpty property="startYrMt">
-			                    		<![CDATA[AND T1.YRMT >= #startYrMt#]]>
-			                    		<isNotEmpty property="endYrMt">
-			                    			<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+					        		<isNotEmpty property="eGrStartYr">
+			                    		<![CDATA[AND T1.YRMT >= CONCAT(#eGrStartYr#, #eGrStartMn#)]]>
+			                    		<isNotEmpty property="eGrEndYr">
+			                    			<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
 			                    		</isNotEmpty>
 			                		</isNotEmpty>
 					        		<isNotEmpty property="chrgeKndCd">
@@ -117,12 +117,12 @@
 				<isNotEmpty property="prtAtCode">
 			    	AND T1.PRTCD = #prtAtCode#
 			    </isNotEmpty>
-				<isNotEmpty property="startYrMt">
-			        <![CDATA[AND T1.YRMT >= #startYrMt#]]>
-			    	<isNotEmpty property="endYrMt">
-			        	<![CDATA[AND T1.YRMT <= #endYrMt#]]>
-			    	</isNotEmpty>
-			    </isNotEmpty>
+        		<isNotEmpty property="eGrStartYr">
+                  		<![CDATA[AND T1.YRMT >= CONCAT(#eGrStartYr#, #eGrStartMn#)]]>
+                  		<isNotEmpty property="eGrEndYr">
+                  			<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
+                  		</isNotEmpty>
+              		</isNotEmpty>
 				<isNotEmpty property="chrgeKndCd">
 			        AND T1.CHRGEKNDCD = #chrgeKndCd#
 			    </isNotEmpty>
@@ -161,10 +161,10 @@
 			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
                     								WHERE CSTMR_TP IN ('11','12','43')) 					       
-					        <isNotEmpty property="startYrMt">
-			                    <![CDATA[AND T1.YRMT >= #startYrMt#]]>
-			                    <isNotEmpty property="endYrMt">
-			                    	<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+					        <isNotEmpty property="sEgrStartYr">
+			                    <![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>
+			                    <isNotEmpty property="sEgrEndYr">
+			                    	<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
@@ -198,10 +198,10 @@
 			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
                     								WHERE CSTMR_TP IN ('11','12','43')) 					       
-					        <isNotEmpty property="startYrMt">
-			                    <![CDATA[AND T1.YRMT >= #startYrMt#]]>
-			                    <isNotEmpty property="endYrMt">
-			                    	<![CDATA[AND T1.YRMT <= #endYrMt#]]>
+					        <isNotEmpty property="sEgrStartYr">
+			                    <![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>
+			                    <isNotEmpty property="sEgrEndYr">
+			                    	<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
