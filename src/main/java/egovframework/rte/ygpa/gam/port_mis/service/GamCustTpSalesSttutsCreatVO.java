@@ -41,11 +41,35 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
     /** 통계 생성 리턴 값 */
     private String result;
 
-    /** 조회 시작년월 */
-    private String startYrMt;
+    /** 매출액 통계생성 조회 년 */
+    private String grStartYr;
     
-    /** 조회 끝년월 */
-    private String endYrMt;
+    /** 매출액 통계생성 조회 월 */
+    private String grStartMn;
+    
+    /** 업체별 매출액 통계 조회 시작년 */
+    private String eGrStartYr;
+    
+    /** 업체별 매출액 통계 조회 시작월 */
+    private String eGrStartMn;
+    
+    /** 업체별 매출액 통계 조회 끝년 */
+    private String eGrEndYr;
+    
+    /** 업체별 매출액 통계 조회 끝월 */
+    private String eGrEndMn;
+    
+    /** 선사별 매출액 통계 조회 시작년 */
+    private String sEgrStartYr;
+    
+    /** 선사별 매출액 통계 조회 시작월 */
+    private String sEgrStartMn;
+    
+    /** 선사별 매출액 통계 조회 끝년 */
+    private String sEgrEndYr;
+    
+    /** 선사별 매출액 통계 조회 끝월 */
+    private String sEgrEndMn;
     
 	/**
 	 * @return the prtAtCode
@@ -160,30 +184,144 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
-	 * @return the startYrMt
+	 * @return the grStartYr
 	 */
-	public String getStartYrMt() {
-		return startYrMt;
+	public String getGrStartYr() {
+		return grStartYr;
 	}
 
 	/**
-	 * @param startYrMt the startYrMt to set
+	 * @param grStartYr the grStartYr to set
 	 */
-	public void setStartYrMt(String startYrMt) {
-		this.startYrMt = startYrMt;
+	public void setGrStartYr(String grStartYr) {
+		this.grStartYr = grStartYr;
 	}
 
 	/**
-	 * @return the endYrMt
+	 * @return the grStartMn
 	 */
-	public String getEndYrMt() {
-		return endYrMt;
+	public String getGrStartMn() {
+		return grStartMn;
 	}
 
 	/**
-	 * @param endYrMt the endYrMt to set
+	 * @param grStartMn the grStartMn to set
 	 */
-	public void setEndYrMt(String endYrMt) {
-		this.endYrMt = endYrMt;
+	public void setGrStartMn(String grStartMn) {
+		this.grStartMn = grStartMn;
 	}
+
+	/**
+	 * @return the eGrStartYr
+	 */
+	public String geteGrStartYr() {
+		return eGrStartYr;
+	}
+
+	/**
+	 * @param eGrStartYr the eGrStartYr to set
+	 */
+	public void seteGrStartYr(String eGrStartYr) {
+		this.eGrStartYr = eGrStartYr;
+	}
+
+	/**
+	 * @return the eGrStartMn
+	 */
+	public String geteGrStartMn() {
+		return eGrStartMn;
+	}
+
+	/**
+	 * @param eGrStartMn the eGrStartMn to set
+	 */
+	public void seteGrStartMn(String eGrStartMn) {
+		this.eGrStartMn = eGrStartMn;
+	}
+
+	/**
+	 * @return the eGrEndYr
+	 */
+	public String geteGrEndYr() {
+		return eGrEndYr;
+	}
+
+	/**
+	 * @param eGrEndYr the eGrEndYr to set
+	 */
+	public void seteGrEndYr(String eGrEndYr) {
+		this.eGrEndYr = eGrEndYr;
+	}
+
+	/**
+	 * @return the eGrEndMn
+	 */
+	public String geteGrEndMn() {
+		return eGrEndMn;
+	}
+
+	/**
+	 * @param eGrEndMn the eGrEndMn to set
+	 */
+	public void seteGrEndMn(String eGrEndMn) {
+		this.eGrEndMn = eGrEndMn;
+	}
+
+	/**
+	 * @return the sEgrStartYr
+	 */
+	public String getsEgrStartYr() {
+		return sEgrStartYr;
+	}
+
+	/**
+	 * @param sEgrStartYr the sEgrStartYr to set
+	 */
+	public void setsEgrStartYr(String sEgrStartYr) {
+		this.sEgrStartYr = sEgrStartYr;
+	}
+
+	/**
+	 * @return the sEgrStartMn
+	 */
+	public String getsEgrStartMn() {
+		return sEgrStartMn;
+	}
+
+	/**
+	 * @param sEgrStartMn the sEgrStartMn to set
+	 */
+	public void setsEgrStartMn(String sEgrStartMn) {
+		this.sEgrStartMn = sEgrStartMn;
+	}
+
+	/**
+	 * @return the sEgrEndYr
+	 */
+	public String getsEgrEndYr() {
+		return sEgrEndYr;
+	}
+
+	/**
+	 * @param sEgrEndYr the sEgrEndYr to set
+	 */
+	public void setsEgrEndYr(String sEgrEndYr) {
+		this.sEgrEndYr = sEgrEndYr;
+	}
+
+	/**
+	 * @return the sEgrEndMn
+	 */
+	public String getsEgrEndMn() {
+		return sEgrEndMn;
+	}
+
+	/**
+	 * @param sEgrEndMn the sEgrEndMn to set
+	 */
+	public void setsEgrEndMn(String sEgrEndMn) {
+		this.sEgrEndMn = sEgrEndMn;
+	}
+
+	
 }
