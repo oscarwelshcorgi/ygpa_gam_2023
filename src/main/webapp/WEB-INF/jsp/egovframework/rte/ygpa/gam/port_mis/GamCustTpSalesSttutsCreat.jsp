@@ -70,11 +70,11 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		module: this,
 		url: '<c:url value="/port_mis/selectErpStatisticsList.do"/>',
 		colModel : [
-					{display:'항코드', name:'gisAssetsPrtAtCode', width:80, sortable:true, align:'center'},
-					{display:'업체명', name:'prtAtCodeNm', width:210, sortable:true, align:'center'},
-					{display:'년월', name:'assetCode', width:150, sortable:true, align:'center'},
-					{display:'요금종류', name:'gisAssetsNm', width:120, sortable:true, align:'center'},
-					{display:'매출액', name:'gisAssetsPrprtyNm', width:100, sortable:true, align:'center'}
+					{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
+					{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
+					{display:'년월', name:'yrmt', width:150, sortable:true, align:'center'},
+					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
+					{display:'매출액', name:'costval', width:100, sortable:true, align:'center'}
 			],
 		height: '110',
 		preProcess: function(module, data) {
@@ -102,13 +102,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 
 	this.$("#gamCustTpShipEnpSalesSttutsList").flexigrid({
 		module: this,
-		url: '<c:url value="/asset/selectShipErpStatisticsList.do"/>',
+		url: '<c:url value="/port_mis/selectShipErpStatisticsList.do"/>',
 		colModel : [
-				{display:'항코드', name:'photoSeq', width:80, sortable:true, align:'center'},
-				{display:'업체명', name:'photoSj', width:210, sortable:true, align:'center'},
-				{display:'년월', name:'filenmLogic', width:150, sortable:true, align:'left'},
-				{display:'요금종류', name:'shotDt', width:120, sortable:true, align:'center'},
-				{display:'매출액', name:'regUse', width:100, sortable:true, align:'center'}
+				{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
+				{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
+				{display:'년월', name:'yrmt', width:150, sortable:true, align:'left'},
+				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
+				{display:'매출액', name:'costval', width:100, sortable:true, align:'center'}
 			],
 		height: '120'
 	});
@@ -185,35 +185,42 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		
         case 'gamCustTpSalesSttutsCreatSearchForm':
 
-        	//var varFrom = document.getElementById("gamCustTpSalesSttutsCreatSearchForm");
-        	//if(!gamCustTpSalesSttutsCreatSearchForm())
-        	
-/* 			if (!gamCustTpSalesSttutsCreatSearchForm(varFrom)) {
-				return;
-				
-			} else {
- */				
-	            if( this.$('#sGrSearchYrPdFrom').val() == '' ) {
+	            if( this.$('#grStartYr').val() == '' ) {
 	                alert("조회 년을 선택하십시오.");
 	                return;
 	            }
-	            if( this.$('#sGrSearchMonPdFrom').val() == '' ) {
+	            if( this.$('#grStartMn').val() == '' ) {
 	                alert("조회 월을 선택하십시오.");
 	                return;
 	            }
-
-	            
-				
 
 				var searchOpt = this
 						.makeFormArgs('#gamCustTpSalesSttutsCreatSearchForm');
 				this.$('#gamCustTpSalesSttutsCreatList').flexOptions({
 					params : searchOpt
 				}).flexReload();
-	/* 		} */
-			break;
 
+			break;
+			
 		case 'gamCustTpEnpSalesSttutsSearchForm':
+			
+			/* if( this.$('#eGrStartYr').val() == '' ) {
+                alert("조회시작 년을 선택하십시오.");
+                return;
+            }
+            if( this.$('#eGrStartMn').val() == '' ) {
+                alert("조회시작 월을 선택하십시오.");
+                return;
+            }
+            if( this.$('#sEntrpscd').val() == '' ) {
+                alert("업체코드를 입력하십시오.");
+                return;
+            }
+            if( this.$('#sEntrpsNm').val() == '' ) {
+                alert("업체명을 입력하십시오.");
+                return;
+            } */
+			
 			var searchOpt = this
 					.makeFormArgs('#gamCustTpEnpSalesSttutsSearchForm');
 			this.$('#gamCustTpEnpSalesSttutsList').flexOptions({
@@ -223,6 +230,24 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case 'gamCustTpShipEnpSalesSttutsSearchForm':
+
+			/* if( this.$('#sEgrStartYr').val() == '' ) {
+                alert("조회시작 년을 선택하십시오.");
+                return;
+            }
+            if( this.$('#sEgrStartMn').val() == '' ) {
+                alert("조회시작 월을 선택하십시오.");
+                return;
+            }
+            if( this.$('#sEntrpscd').val() == '' ) {
+                alert("업체코드를 입력하십시오.");
+                return;
+            }
+            if( this.$('#sEntrpsNm').val() == '' ) {
+                alert("업체명을 입력하십시오.");
+                return;
+            } */
+			
 			var searchOpt = this
 					.makeFormArgs('#gamCustTpShipEnpSalesSttutsSearchForm');
 			this.$('#gamCustTpShipEnpSalesSttutsList').flexOptions({
@@ -402,7 +427,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="sPrtAtCode">
+		                                <select id="prtAtCode">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -412,14 +437,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>조회년월</th>
 		                            <td>
-		                            	<select id="sGrSearchYrPdFrom">
+		                            	<select id="grStartYr">
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
 		                                        <option value="${yearItem }">${yearItem }</option>
 		                                    </c:forEach>
 		                                </select>
-		                                <select id="sGrSearchMonPdFrom">
+		                                <select id="grStartMn">
 		                                    <option value="" selected="selected">월</option>
 		
 		                                    <c:forEach  items="${monthsList}" var="monthsItem">
@@ -440,7 +465,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="sPrtAtCode">
+		                                <select id="prtAtCode">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -450,14 +475,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>조회기간</th>
 		                            <td>
-		                            	<select id="sGrSearchYrPdFrom">
+		                            	<select id="eGrStartYr">
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
 		                                        <option value="${yearItem }">${yearItem }</option>
 		                                    </c:forEach>
 		                                </select>
-		                                <select id="sGrSearchMonPdFrom">
+		                                <select id="eGrStartMn">
 		                                    <option value="" selected="selected">월</option>
 		
 		                                    <c:forEach  items="${monthsList}" var="monthsItem">
@@ -465,14 +490,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                                    </c:forEach>
 		                                </select>
 		                                 ~ 
-		                                <select id="sGrSearchYrPdTo">
+		                                <select id="eGrEndYr">
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
 		                                        <option value="${yearItem }">${yearItem }</option>
 		                                    </c:forEach>
 		                                </select>
-		                                <select id="sGrSearchMonPdTo">
+		                                <select id="eGrEndMn">
 		                                    <option value="" selected="selected">월</option>
 		
 		                                    <c:forEach  items="${monthsList}" var="monthsItem">
@@ -485,11 +510,11 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                                <input id="sPayKind" type="text" size="10">
+		                                <input id="chrgeKndCd" type="text" size="10">
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
-		                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+		                                <input id="entrpsCd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -503,7 +528,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="sPrtAtCode">
+		                                <select id="prtAtCode">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -513,14 +538,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>조회기간</th>
 		                            <td>
-		                            	<select id="sGrSearchYrPdFrom">
+		                            	<select id="sEgrStartYr">
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
 		                                        <option value="${yearItem }">${yearItem }</option>
 		                                    </c:forEach>
 		                                </select>
-		                                <select id="sGrSearchMonPdFrom">
+		                                <select id="sEgrStartMn">
 		                                    <option value="" selected="selected">월</option>
 		
 		                                    <c:forEach  items="${monthsList}" var="monthsItem">
@@ -528,14 +553,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                                    </c:forEach>
 		                                </select>
 		                                 ~ 
-		                                <select id="sGrSearchYrPdTo">
+		                                <select id="sEgrEndYr">
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
 		                                        <option value="${yearItem }">${yearItem }</option>
 		                                    </c:forEach>
 		                                </select>
-		                                <select id="sGrSearchMonPdTo">
+		                                <select id="sEgrEndMn">
 		                                    <option value="" selected="selected">월</option>
 		
 		                                    <c:forEach  items="${monthsList}" var="monthsItem">
@@ -548,11 +573,11 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                                <input id="sPayKind" type="text" size="10">
+		                                <input id="chrgeKndCd" type="text" size="10">
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
-		                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+		                                <input id="entrpsCd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -588,14 +613,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>생성연월</th>
 		                            <td>
-		                            	<select id="sGrSearchYrPdFrom">
+		                            	<select id="grCreatYr">
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
 		                                        <option value="${yearItem }">${yearItem }</option>
 		                                    </c:forEach>
 		                                </select>
-		                                <select id="sGrSearchMonPdFrom">
+		                                <select id="grCreatMn">
 		                                    <option value="" selected="selected">월</option>
 		
 		                                    <c:forEach  items="${monthsList}" var="monthsItem">

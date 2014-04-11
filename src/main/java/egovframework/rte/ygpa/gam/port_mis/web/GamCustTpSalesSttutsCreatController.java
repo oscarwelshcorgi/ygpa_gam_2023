@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -164,7 +168,7 @@ public class GamCustTpSalesSttutsCreatController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/port_mis/selectgamCustTpSalesSttutsCreatList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO, HttpServletRequest request) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -181,12 +185,25 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
+
+		String grStartMn = ServletRequestUtils.getStringParameter(request, "grStartMn", "");
+		if(grStartMn != null){
+			Integer monFrom = Integer.parseInt(grStartMn);
+			if(monFrom < 10){
+				grStartMn = "0" + String.valueOf(monFrom);
+			}else{
+				grStartMn = String.valueOf(monFrom);
+			}
+			
+			searchVO.setGrStartMn(grStartMn);
+		}
+		
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsList(searchVO);
 
     	
-//    	System.out.print("test : ##################" + resultList.get(0));
+//    	System.out.print("test : ##################" + resultList);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -213,7 +230,7 @@ public class GamCustTpSalesSttutsCreatController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/port_mis/selectErpStatisticsList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+	public @ResponseBody Map selectErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO, HttpServletRequest request) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -230,12 +247,36 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
+		String eGrStartMn = ServletRequestUtils.getStringParameter(request, "eGrStartMn", "");
+		if(eGrStartMn != null){
+			Integer monFrom = Integer.parseInt(eGrStartMn);
+			if(monFrom < 10){
+				eGrStartMn = "0" + String.valueOf(monFrom);
+			}else{
+				eGrStartMn = String.valueOf(monFrom);
+			}
+			
+			searchVO.seteGrStartMn(eGrStartMn);
+		}
+		String eGrEndMn = ServletRequestUtils.getStringParameter(request, "eGrEndMn","");
+
+		if(eGrEndMn != null){
+			Integer monTo = Integer.parseInt(eGrEndMn);
+			if(monTo < 10){
+				eGrEndMn = "0" + String.valueOf(monTo);
+			}else{
+				eGrEndMn = String.valueOf(monTo);
+			}
+			
+			searchVO.seteGrEndMn(eGrEndMn);
+		}
+		
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsList(searchVO);
 
     	
-//    	System.out.print("test : ##################" + resultList.get(0));
+//    	System.out.print("test : ##################" + resultList);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -262,7 +303,7 @@ public class GamCustTpSalesSttutsCreatController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/port_mis/selectShipErpStatisticsList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectShipErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+	public @ResponseBody Map selectShipErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO, HttpServletRequest request) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -279,12 +320,37 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
+		String sEgrStartMn = ServletRequestUtils.getStringParameter(request, "sEgrStartMn", "");
+		if(sEgrStartMn != null){
+			Integer monFrom = Integer.parseInt(sEgrStartMn);
+			if(monFrom < 10){
+				sEgrStartMn = "0" + String.valueOf(monFrom);
+			}else{
+				sEgrStartMn = String.valueOf(monFrom);
+			}
+			
+			searchVO.setsEgrStartMn(sEgrStartMn);
+		}
+		String sEgrEndMn = ServletRequestUtils.getStringParameter(request, "sEgrEndMn","");
+
+		if(sEgrEndMn != null){
+			Integer monTo = Integer.parseInt(sEgrEndMn);
+			if(monTo < 10){
+				sEgrEndMn = "0" + String.valueOf(monTo);
+			}else{
+				sEgrEndMn = String.valueOf(monTo);
+			}
+			
+			searchVO.setsEgrEndMn(sEgrEndMn);
+		}
+		
+		
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsList(searchVO);
 
     	
-//    	System.out.print("test : ##################" + resultList.get(0));
+    	System.out.print("test : ##################" + resultList);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
