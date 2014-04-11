@@ -8,7 +8,7 @@
     <typeAlias alias="gamCustTpSalesSttutsCreatVO" type="egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatVO"/>
 	
 	<procedure id="gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts" parameterClass="gamCustTpSalesSttutsCreatVO">
-		
+		{ call SP_CREATE_COSTVAL_STATS(#prtAtCode#, #yrMt#, #updUsr#, #result#)}
 	</procedure>
 
 	<select id="gamCustTpSalesSttutsCreatDao.selectPortMisCostvalStatsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
