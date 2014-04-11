@@ -46,6 +46,12 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
     
     /** 매출액 통계생성 조회 월 */
     private String grStartMn;
+
+	/** 매출액 통계생성 년 */
+    private String grCreatYr;
+    
+    /** 매출액 통계생성 월 */
+    private String grCreatMn;
     
     /** 업체별 매출액 통계 조회 시작년 */
     private String eGrStartYr;
@@ -209,6 +215,34 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setGrStartMn(String grStartMn) {
 		this.grStartMn = grStartMn;
+	}
+
+	/**
+	 * @return the grCreatYr
+	 */
+	public String getGrCreatYr() {
+		return grCreatYr;
+	}
+
+	/**
+	 * @param grCreatYr the grCreatYr to set
+	 */
+	public void setGrCreatYr(String grCreatYr) {
+		this.grCreatYr = grCreatYr;
+	}
+
+	/**
+	 * @return the grCreatMn
+	 */
+	public String getGrCreatMn() {
+		return grCreatMn;
+	}
+
+	/**
+	 * @param grCreatMn the grCreatMn to set
+	 */
+	public void setGrCreatMn(String grCreatMn) {
+		this.grCreatMn = grCreatMn;
 	}
 
 	/**
