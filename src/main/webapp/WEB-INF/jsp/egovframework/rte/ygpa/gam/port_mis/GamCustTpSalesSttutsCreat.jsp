@@ -204,7 +204,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			
 		case 'gamCustTpEnpSalesSttutsSearchForm':
 			
-			/* if( this.$('#eGrStartYr').val() == '' ) {
+			if( this.$('#eGrStartYr').val() == '' ) {
                 alert("조회시작 년을 선택하십시오.");
                 return;
             }
@@ -219,7 +219,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
             if( this.$('#sEntrpsNm').val() == '' ) {
                 alert("업체명을 입력하십시오.");
                 return;
-            } */
+            }
 			
 			var searchOpt = this
 					.makeFormArgs('#gamCustTpEnpSalesSttutsSearchForm');
@@ -231,7 +231,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 
 		case 'gamCustTpShipEnpSalesSttutsSearchForm':
 
-			/* if( this.$('#sEgrStartYr').val() == '' ) {
+			if( this.$('#sEgrStartYr').val() == '' ) {
                 alert("조회시작 년을 선택하십시오.");
                 return;
             }
@@ -246,7 +246,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
             if( this.$('#sEntrpsNm').val() == '' ) {
                 alert("업체명을 입력하십시오.");
                 return;
-            } */
+            }
 			
 			var searchOpt = this
 					.makeFormArgs('#gamCustTpShipEnpSalesSttutsSearchForm');

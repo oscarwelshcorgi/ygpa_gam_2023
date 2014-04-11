@@ -248,7 +248,7 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		String eGrStartMn = ServletRequestUtils.getStringParameter(request, "eGrStartMn", "");
-		if(eGrStartMn != null){
+		if(eGrStartMn != null && !eGrStartMn.equals("")){
 			Integer monFrom = Integer.parseInt(eGrStartMn);
 			if(monFrom < 10){
 				eGrStartMn = "0" + String.valueOf(monFrom);
@@ -258,9 +258,9 @@ public class GamCustTpSalesSttutsCreatController {
 			
 			searchVO.seteGrStartMn(eGrStartMn);
 		}
-		String eGrEndMn = ServletRequestUtils.getStringParameter(request, "eGrEndMn","");
+		String eGrEndMn = ServletRequestUtils.getStringParameter(request, "eGrEndMn", "");
 
-		if(eGrEndMn != null){
+		if(eGrEndMn != null && !eGrEndMn.equals("")){
 			Integer monTo = Integer.parseInt(eGrEndMn);
 			if(monTo < 10){
 				eGrEndMn = "0" + String.valueOf(monTo);
@@ -321,7 +321,7 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		String sEgrStartMn = ServletRequestUtils.getStringParameter(request, "sEgrStartMn", "");
-		if(sEgrStartMn != null){
+		if(sEgrStartMn != null && !sEgrStartMn.equals("")){
 			Integer monFrom = Integer.parseInt(sEgrStartMn);
 			if(monFrom < 10){
 				sEgrStartMn = "0" + String.valueOf(monFrom);
@@ -331,9 +331,9 @@ public class GamCustTpSalesSttutsCreatController {
 			
 			searchVO.setsEgrStartMn(sEgrStartMn);
 		}
-		String sEgrEndMn = ServletRequestUtils.getStringParameter(request, "sEgrEndMn","");
+		String sEgrEndMn = ServletRequestUtils.getStringParameter(request, "sEgrEndMn");
 
-		if(sEgrEndMn != null){
+		if(sEgrEndMn != null && !sEgrEndMn.equals("")){
 			Integer monTo = Integer.parseInt(sEgrEndMn);
 			if(monTo < 10){
 				sEgrEndMn = "0" + String.valueOf(monTo);
