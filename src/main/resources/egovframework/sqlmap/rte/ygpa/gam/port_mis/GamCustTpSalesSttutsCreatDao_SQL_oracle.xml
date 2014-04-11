@@ -10,6 +10,51 @@
 	<procedure id="gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts" parameterClass="gamCustTpSalesSttutsCreatVO">
 		
 	</procedure>
+
+	<select id="gamCustTpSalesSttutsCreatDao.selectPortMisCostvalStatsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           	SELECT 
+                           		T1.PRTCD
+                           		, T1.YRMT
+                           		, MAX(T1.UPDT_DT)
+                           		, COUNT(*)
+  								FROM PORT_MIS_COSTVAL_STATS_F T1
+  								GROUP BY T1.PRTCD, T1.YRMT
+								HAVING 1 = 1 					       
+					        		<isNotEmpty property="prtAtCode">
+			                    		AND T1.PRTCD = #prtAtCode#
+			                		</isNotEmpty>
+					        		<isNotEmpty property="startYrMt">
+			                    		AND T1.YRMT = #startYrMt#
+			                		</isNotEmpty>
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamCustTpSalesSttutsCreatDao.selectPortMisCostvalStatsListTotCnt_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="int">
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM (
+                           	SELECT 
+                           		T1.PRTCD
+                           		, T1.YRMT
+                           		, MAX(T1.UPDT_DT)
+                           		, COUNT(*)
+  								FROM PORT_MIS_COSTVAL_STATS_F T1
+  								GROUP BY T1.PRTCD, T1.YRMT
+								HAVING 1 = 1 					       
+					        		<isNotEmpty property="prtAtCode">
+			                    		AND T1.PRTCD = #prtAtCode#
+			                		</isNotEmpty>
+					        		<isNotEmpty property="startYrMt">
+			                    		AND T1.YRMT = #startYrMt#
+			                		</isNotEmpty>            
+            )
+    </select>
 	
 	<select id="gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
            SELECT A.*
@@ -86,7 +131,7 @@
 			    </isNotEmpty>			                		
     </select>
 
-	<select id="gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
+	<select id="gamCustTpSalesSttutsCreatDao.selectCustTpSalesSttutsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

@@ -18,12 +18,28 @@ public interface GamCustTpSalesSttutsCreatService {
 	
 	/**
 	 * 매출액 통계 생성
-	 * @param createVO - 조회할 정보가 담긴 VO
+	 * @param createVO - 통계 생성 정보가 담긴 VO
 	 * @return 매출액 통계 생성 항목
 	 * @exception Exception
 	 */
 	GamCustTpSalesSttutsCreatVO createCustTpSalesSttuts(GamCustTpSalesSttutsCreatVO createVO) throws Exception;
-	
+
+    /**
+	 * PORT-MIS 매출액 통계 목록 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return PORT-MIS 매출액 통계 목록
+	 * @exception
+	 */
+    List selectPortMisCostvalStatsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception;
+
+    /**
+	 * PORT-MIS 매출액 통계 목록 레코드수 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return PORT-MIS 매출액 통계 목록 레코드 수
+	 * @exception
+	 */
+	public int selectPortMisCostvalStatsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) throws Exception;
+
     /**
 	 * 업체별 매출액 통계
 	 * @param searchVO - 조회할 정보가 담긴 VO

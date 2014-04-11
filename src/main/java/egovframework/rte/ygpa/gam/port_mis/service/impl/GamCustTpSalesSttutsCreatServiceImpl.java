@@ -43,6 +43,26 @@ public class GamCustTpSalesSttutsCreatServiceImpl extends AbstractServiceImpl im
 	}
 
     /**
+	 * PORT-MIS 매출액 통계 목록 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return PORT-MIS 매출액 통계 목록
+	 * @exception
+	 */
+	public List selectPortMisCostvalStatsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+    	return gamCustTpSalesSttutsCreatDao.selectPortMisCostvalStatsList(searchVO);
+    }
+	
+    /**
+	 * PORT-MIS 매출액 통계 목록 레코드수 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return PORT-MIS 매출액 통계 목록 레코드 수
+	 * @exception
+	 */
+	public int selectPortMisCostvalStatsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+    	return gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsListTotCnt(searchVO);
+    }
+	
+    /**
 	 * 업체별 매출액 통계
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 업체별 매출액 통계 목록

@@ -30,7 +30,27 @@ public class GamCustTpSalesSttutsCreatDao extends YGPAAbstractDAO {
 	GamCustTpSalesSttutsCreatVO createCustTpSalesSttuts(GamCustTpSalesSttutsCreatVO createVO) {
 		return null;
 	}
-	
+
+    /**
+	 * PORT-MIS 매출액 통계 목록 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return PORT-MIS 매출액 통계 목록
+	 * @exception
+	 */
+    List selectPortMisCostvalStatsList(GamCustTpSalesSttutsCreatVO searchVO) {
+    	return list("gamCustTpSalesSttutsCreatDao.selectPortMisCostvalStatsList_D", searchVO);
+    }
+
+    /**
+	 * PORT-MIS 매출액 통계 목록 레코드 수
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return PORT-MIS 매출액 통계 목록 레코드 수
+	 * @exception
+	 */
+    int selectPortMisCostvalStatsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamCustTpSalesSttutsCreatDao.selectPortMisCostvalStatsListTotCnt_S", searchVO);
+    }
+
     /**
 	 * 업체별 매출액 통계
 	 * @param searchVO - 조회할 정보가 담긴 VO
