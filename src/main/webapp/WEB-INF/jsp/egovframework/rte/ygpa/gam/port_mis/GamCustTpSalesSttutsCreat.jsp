@@ -43,10 +43,10 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		url: '<c:url value="/port_mis/selectgamCustTpSalesSttutsCreatList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'항코드', name:'erpAssetCode', width:80, sortable:true, align:'left'},
-			{display:'년월', name:'assetMngtNo', width:180, sortable:true, align:'right'},
-			{display:'max(생성일자)', name:'itemCls', width:180, sortable:true, align:'center'},
-			{display:'count(*)(항코드,년월일,그룹바이)', name:'itemNameAsset', width:250, sortable:true, align:'center'}
+			{display:'항코드', name:'prtcd', width:80, sortable:true, align:'left'},
+			{display:'년월', name:'yrmt', width:180, sortable:true, align:'right'},
+			{display:'max(생성일자)', name:'maxupdt', width:180, sortable:true, align:'center'},
+			{display:'count(*)(항코드,년월일,그룹바이)', name:'cnt', width:250, sortable:true, align:'center'}
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
@@ -181,7 +181,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		
         case 'gamCustTpSalesSttutsCreatSearchForm':
-        	alert('a');
+
             var searchOpt=this.makeFormArgs('#gamCustTpSalesSttutsCreatSearchForm');
             this.$('#gamCustTpSalesSttutsCreatList').flexOptions({params:searchOpt}).flexReload();
 
