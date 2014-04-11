@@ -19,8 +19,8 @@
                            	SELECT 
                            		T1.PRTCD
                            		, T1.YRMT
-                           		, MAX(T1.UPDT_DT)
-                           		, COUNT(*)
+                           		, MAX(T1.UPDT_DT) MAXUPDT
+                           		, COUNT(*) CNT
   								FROM PORT_MIS_COSTVAL_STATS_F T1
   								GROUP BY T1.PRTCD, T1.YRMT
 								HAVING 1 = 1 					       
@@ -42,8 +42,8 @@
                            	SELECT 
                            		T1.PRTCD
                            		, T1.YRMT
-                           		, MAX(T1.UPDT_DT)
-                           		, COUNT(*)
+                           		, MAX(T1.UPDT_DT) MAXUPDT
+                           		, COUNT(*) CNT
   								FROM PORT_MIS_COSTVAL_STATS_F T1
   								GROUP BY T1.PRTCD, T1.YRMT
 								HAVING 1 = 1 					       
