@@ -184,8 +184,107 @@ public class GamCustTpSalesSttutsCreatController {
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsList(searchVO);
+
     	
-    	System.out.print("test : ##################" + resultList);
+//    	System.out.print("test : ##################" + resultList.get(0));
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
+    	//자료수, 사용료, 부가세, 고지액
+    	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);
+        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+  
+    	return map;
+    }
+	
+	
+	/**
+     * 업체별매출액통계 목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/port_mis/selectErpStatisticsList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//목록
+    	totalCnt = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsListTotCnt(searchVO);
+    	List resultList = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsList(searchVO);
+
+    	
+//    	System.out.print("test : ##################" + resultList.get(0));
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	
+    	//자료수, 사용료, 부가세, 고지액
+    	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);
+        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
+    	
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+  
+    	return map;
+    }
+	
+	
+	/**
+     * 선사별매출액통계 목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/port_mis/selectShipErpStatisticsList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectShipErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//목록
+    	totalCnt = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsListTotCnt(searchVO);
+    	List resultList = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsList(searchVO);
+
+    	
+//    	System.out.print("test : ##################" + resultList.get(0));
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());

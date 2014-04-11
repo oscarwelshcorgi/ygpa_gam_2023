@@ -20,8 +20,11 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<validator:javascript formName="gamAssetCode" method="validateGamAssetCode" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetPhoto" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<%-- <validator:javascript formName="gamAssetCode" method="validateGamAssetCode" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetPhoto" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
+<script type="text/javascript" src="<c:url value='/validator.do'/>"></script>
+<validator:javascript formName="gamCustTpSalesSttutsCreatSearchForm" method="gamCustTpSalesSttutsCreatSearchForm" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -182,168 +185,210 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		
         case 'gamCustTpSalesSttutsCreatSearchForm':
 
-            var searchOpt=this.makeFormArgs('#gamCustTpSalesSttutsCreatSearchForm');
-            this.$('#gamCustTpSalesSttutsCreatList').flexOptions({params:searchOpt}).flexReload();
+        	//var varFrom = document.getElementById("gamCustTpSalesSttutsCreatSearchForm");
+        	//if(!gamCustTpSalesSttutsCreatSearchForm())
+        	
+/* 			if (!gamCustTpSalesSttutsCreatSearchForm(varFrom)) {
+				return;
+				
+			} else {
+ */				
+	            if( this.$('#sGrSearchYrPdFrom').val() == '' ) {
+	                alert("조회 년을 선택하십시오.");
+	                return;
+	            }
+	            if( this.$('#sGrSearchMonPdFrom').val() == '' ) {
+	                alert("조회 월을 선택하십시오.");
+	                return;
+	            }
 
-            break;
-            
-        case 'gamCustTpEnpSalesSttutsSearchForm':
-            var searchOpt=this.makeFormArgs('#gamCustTpEnpSalesSttutsSearchForm');
-            this.$('#gamCustTpEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
+	            
+				
 
-            break;
-            
-        case 'gamCustTpShipEnpSalesSttutsSearchForm':
-            var searchOpt=this.makeFormArgs('#gamCustTpShipEnpSalesSttutsSearchForm');
-            this.$('#gamCustTpShipEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
+				var searchOpt = this
+						.makeFormArgs('#gamCustTpSalesSttutsCreatSearchForm');
+				this.$('#gamCustTpSalesSttutsCreatList').flexOptions({
+					params : searchOpt
+				}).flexReload();
+	/* 		} */
+			break;
 
-            break;
-			
+		case 'gamCustTpEnpSalesSttutsSearchForm':
+			var searchOpt = this
+					.makeFormArgs('#gamCustTpEnpSalesSttutsSearchForm');
+			this.$('#gamCustTpEnpSalesSttutsList').flexOptions({
+				params : searchOpt
+			}).flexReload();
+
+			break;
+
+		case 'gamCustTpShipEnpSalesSttutsSearchForm':
+			var searchOpt = this
+					.makeFormArgs('#gamCustTpShipEnpSalesSttutsSearchForm');
+			this.$('#gamCustTpShipEnpSalesSttutsList').flexOptions({
+				params : searchOpt
+			}).flexReload();
+
+			break;
+
 		case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
-	        /*
-	        var opts = {
-	            'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
-	            'gisAssetsCd': this.$('#gisAssetsCd').val(),
-	            'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
-	        };
-	        */
-	        var opts;
-			
-	        this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-	        break;
-	
-	}
-};
+			/*
+			var opts = {
+			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
+			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+			};
+			 */
+			var opts;
 
-GamCustTpSalesSttutsCreat.prototype.onClosePopup = function(popupId, msg, value) {
-    switch (popupId) {
-     case 'selectEntrpsInfoPopup':
-         if (msg != 'cancel') {
-             this.$('#sEntrpscd').val(value.entrpscd);
-             this.$('#sEntrpsNm').val(value.entrpsNm);
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'insertEntrpsInfoPopup':
-         if (msg != 'cancel') {
-             this.$('#entrpscd').val(value.entrpscd);
-             this.$('#entrpsNm').val(value.entrpsNm);
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'insertAssetRentPrmisnPopup':
-         if (msg != 'cancel') {
-             if( value == "0" ) {
-                 var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-                 this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-             }
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'selectAssetsCdPopup':
-         if (msg != 'cancel') {
-             this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
-             this.$('#gisAssetsCd').val(value.gisAssetsCd);
-             this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
-             this.$('#gisAssetsNm').val(value.gisAssetsNm);
-             this.$('#gisAssetsLocplc').val(value.gisAssetsLocplc);
-             this.$('#gisAssetsLnm').val(value.gisAssetsLnm);
-             this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
-             this.$('#gisAssetsAr').val(value.gisAssetsAr);
-             this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
-             this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-             this.$('#quayCd').val(value.gisAssetsQuayCd);
-             this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
+			this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택',
+					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+			break;
 
-     default:
-         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         // throw 0;
-         break;
-     }
-};
-
-GamCustTpSalesSttutsCreat.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-	if(this._edited) {
-		return confirm('탭을 이동 하면 편집 한 내용이 저장 되지 않습니다. 계속 하시겠습니까?');
-	}
-}
-
-/*
-GamCustTpSalesSttutsCreat.prototype.onUploadFileDone = function(uploadId, result) {
-	$.each(result, function() {
-		this.$)
-	});
-}
-*/
-GamCustTpSalesSttutsCreat.prototype.onTabChange = function(newTabId, oldTabId) {
-	this._edited=false;
-	switch(newTabId) {
-	case 'tabs1':
-		this.$('#searchViewStack')[0].changePanelId(0);
-		break;
-	case 'tabs2':
-		this.$('#searchViewStack')[0].changePanelId(1);	// 조회 조건 변경
-		var selectRow = this.$('#gamCustTpSalesSttutsCreatList').selectedRows();
-		this.clearCodePage();
-		if(selectRow.length > 0) {
-			var row=selectRow[0];
-			this.$('#searchGisAssetErpAssetsCls').val(row['assetCls']);
-			this.$('#searchGisAssetErpAssetsNo').val(row['assetNo']);
-			this.$('#searchGisAssetErpAssetsNoSeq').val(row['assetNoSeq']);
-			this._itemNameAsset = row['itemNameAsset'];// 자산명 저장
-
-			// 해당하는 자산 목록을 불러온다/
-			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
-			//this.showAlert(searchOpt);
-		 	this.$('#gamCustTpEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
 		}
-		break;
-	case 'tabs3':
-		this.$('#searchViewStack')[0].changePanelId(2);	// 조회 조건 변경
-		var selectRow = this.$('#gamCustTpEnpSalesSttutsList').selectedRows();
-		this.clearPhotoPage();
-		if(selectRow.length > 0) {
-			var row=selectRow[0];
-			this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
-			this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
-			this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
+	};
 
-			this.selectPhotoList();
+	GamCustTpSalesSttutsCreat.prototype.onClosePopup = function(popupId, msg,
+			value) {
+		switch (popupId) {
+		case 'selectEntrpsInfoPopup':
+			if (msg != 'cancel') {
+				this.$('#sEntrpscd').val(value.entrpscd);
+				this.$('#sEntrpsNm').val(value.entrpsNm);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+		case 'insertEntrpsInfoPopup':
+			if (msg != 'cancel') {
+				this.$('#entrpscd').val(value.entrpscd);
+				this.$('#entrpsNm').val(value.entrpsNm);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+		case 'insertAssetRentPrmisnPopup':
+			if (msg != 'cancel') {
+				if (value == "0") {
+					var searchOpt = this
+							.makeFormArgs('#gamAssetRentMngtSearchForm');
+					this.$('#assetRentMngtList').flexOptions({
+						params : searchOpt
+					}).flexReload();
+				}
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+		case 'selectAssetsCdPopup':
+			if (msg != 'cancel') {
+				this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
+				this.$('#gisAssetsCd').val(value.gisAssetsCd);
+				this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
+				this.$('#gisAssetsNm').val(value.gisAssetsNm);
+				this.$('#gisAssetsLocplc').val(value.gisAssetsLocplc);
+				this.$('#gisAssetsLnm').val(value.gisAssetsLnm);
+				this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
+				this.$('#gisAssetsAr').val(value.gisAssetsAr);
+				this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
+				this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
+				this.$('#quayCd').val(value.gisAssetsQuayCd);
+				this.$('#assetsCdStr').val(
+						value.gisAssetsCd + "-" + value.gisAssetsSubCd);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+
+		default:
+			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+			// throw 0;
+			break;
 		}
-		else {
-			//alert('선택된 GIS 자산이 없습니다.');
+	};
+
+	GamCustTpSalesSttutsCreat.prototype.onTabChangeBefore = function(newTabId,
+			oldTabId) {
+		if (this._edited) {
+			return confirm('탭을 이동 하면 편집 한 내용이 저장 되지 않습니다. 계속 하시겠습니까?');
 		}
-		break;
 	}
-};
 
-/* GamCustTpSalesSttutsCreat.prototype.clearCodePage = function() {
-	this.$('#editGisAssetCode :input').val('');
-	this.$('#gamCustTpEnpSalesSttutsList').flexEmptyData();
-}; */
+	/*
+	 GamCustTpSalesSttutsCreat.prototype.onUploadFileDone = function(uploadId, result) {
+	 $.each(result, function() {
+	 this.$)
+	 });
+	 }
+	 */
+	GamCustTpSalesSttutsCreat.prototype.onTabChange = function(newTabId,
+			oldTabId) {
+		this._edited = false;
+		switch (newTabId) {
+		case 'tabs1':
+			this.$('#searchViewStack')[0].changePanelId(0);
+			break;
+		case 'tabs2':
+			this.$('#searchViewStack')[0].changePanelId(1); // 조회 조건 변경
+			var selectRow = this.$('#gamCustTpSalesSttutsCreatList')
+					.selectedRows();
+			this.clearCodePage();
+			if (selectRow.length > 0) {
+				var row = selectRow[0];
+				this.$('#searchGisAssetErpAssetsCls').val(row['assetCls']);
+				this.$('#searchGisAssetErpAssetsNo').val(row['assetNo']);
+				this.$('#searchGisAssetErpAssetsNoSeq').val(row['assetNoSeq']);
+				this._itemNameAsset = row['itemNameAsset'];// 자산명 저장
 
+				// 해당하는 자산 목록을 불러온다/
+				var searchOpt = this.makeFormArgs('#searchGisAssetCode');
+				//this.showAlert(searchOpt);
+				this.$('#gamCustTpEnpSalesSttutsList').flexOptions({
+					params : searchOpt
+				}).flexReload();
+			}
+			break;
+		case 'tabs3':
+			this.$('#searchViewStack')[0].changePanelId(2); // 조회 조건 변경
+			var selectRow = this.$('#gamCustTpEnpSalesSttutsList')
+					.selectedRows();
+			this.clearPhotoPage();
+			if (selectRow.length > 0) {
+				var row = selectRow[0];
+				this.$('#searchGisAssetsPrtAtCode').val(
+						row['gisAssetsPrtAtCode']);
+				this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
+				this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
 
-GamCustTpSalesSttutsCreat.prototype.onSubmit = function() {
-	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-	this.loadData();
-};
+				this.selectPhotoList();
+			} else {
+				//alert('선택된 GIS 자산이 없습니다.');
+			}
+			break;
+		}
+	};
 
-GamCustTpSalesSttutsCreat.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#searchErpAssetCode');
-	//this.showAlert(searchOpt);
- 	this.$('#gamCustTpEnpSalesSttutsList').flexOptions({params:searchOpt}).flexReload();
-//	this.$('#assetList').flexOptions(searchOpt).flexReload();
-};
+	/* GamCustTpSalesSttutsCreat.prototype.clearCodePage = function() {
+	 this.$('#editGisAssetCode :input').val('');
+	 this.$('#gamCustTpEnpSalesSttutsList').flexEmptyData();
+	 }; */
 
-// 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamCustTpSalesSttutsCreat();
+	GamCustTpSalesSttutsCreat.prototype.onSubmit = function() {
+		//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
+		this.loadData();
+	};
+
+	GamCustTpSalesSttutsCreat.prototype.loadData = function() {
+		var searchOpt = this.makeFormArgs('#searchErpAssetCode');
+		//this.showAlert(searchOpt);
+		this.$('#gamCustTpEnpSalesSttutsList').flexOptions({
+			params : searchOpt
+		}).flexReload();
+		//	this.$('#assetList').flexOptions(searchOpt).flexReload();
+	};
+
+	// 다음 변수는 고정 적으로 정의 해야 함
+	var module_instance = new GamCustTpSalesSttutsCreat();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId }'/>
