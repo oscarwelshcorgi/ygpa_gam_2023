@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.port_mis.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -25,10 +26,12 @@ public class GamCustTpSalesSttutsCreatDao extends YGPAAbstractDAO {
 	 * 매출액 통계 생성
 	 * @param createVO - 조회할 정보가 담긴 VO
 	 * @return 매출액 통계 생성 항목
+	 * @throws Exception 
 	 * @exception Exception
 	 */
-	GamCustTpSalesSttutsCreatVO createCustTpSalesSttuts(GamCustTpSalesSttutsCreatVO createVO) {
-		return null;
+	GamCustTpSalesSttutsCreatVO createCustTpSalesSttuts(GamCustTpSalesSttutsCreatVO createVO) throws Exception {
+		getSqlMapClient().queryForObject("gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts", createVO);
+		return createVO;
 	}
 
     /**

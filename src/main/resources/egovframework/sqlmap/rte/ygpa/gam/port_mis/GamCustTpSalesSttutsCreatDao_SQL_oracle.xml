@@ -19,7 +19,7 @@
                            	SELECT 
                            		T1.PRTCD
                            		, T1.YRMT
-                           		, MAX(T1.UPDT_DT) MAXUPDT
+                           		, TO_CHAR(MAX(T1.UPDT_DT), 'YYYY-MM-DD') MAXUPDT
                            		, COUNT(*) CNT
   								FROM PORT_MIS_COSTVAL_STATS_F T1
   								GROUP BY T1.PRTCD, T1.YRMT
@@ -42,7 +42,7 @@
                            	SELECT 
                            		T1.PRTCD
                            		, T1.YRMT
-                           		, MAX(T1.UPDT_DT) MAXUPDT
+                           		, TO_CHAR(MAX(T1.UPDT_DT), 'YYYY-MM-DD') MAXUPDT
                            		, COUNT(*) CNT
   								FROM PORT_MIS_COSTVAL_STATS_F T1
   								GROUP BY T1.PRTCD, T1.YRMT
