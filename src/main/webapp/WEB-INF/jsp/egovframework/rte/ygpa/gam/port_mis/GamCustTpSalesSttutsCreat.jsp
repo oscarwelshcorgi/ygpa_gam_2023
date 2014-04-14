@@ -48,8 +48,8 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		colModel : [
 			{display:'항코드', name:'prtcd', width:80, sortable:true, align:'left'},
 			{display:'년월', name:'yrmt', width:180, sortable:true, align:'right'},
-			{display:'max(생성일자)', name:'maxupdt', width:180, sortable:true, align:'center'},
-			{display:'count(*)(항코드,년월일,그룹바이)', name:'cnt', width:250, sortable:true, align:'center'}
+			{display:'생성일자', name:'maxupdt', width:180, sortable:true, align:'center'},
+			{display:'건수', name:'cnt', width:250, sortable:true, align:'center'}
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
@@ -75,7 +75,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 					{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
 					{display:'년월', name:'yrmt', width:150, sortable:true, align:'center'},
 					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
-					{display:'매출액', name:'costval', width:100, sortable:true, align:'right'}
+					{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
 		height: '110',
 		preProcess: function(module, data) {
@@ -109,7 +109,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 				{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
 				{display:'년월', name:'yrmt', width:150, sortable:true, align:'left'},
 				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
-				{display:'매출액', name:'costval', width:100, sortable:true, align:'right'}
+				{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
 		height: '120'
 	});
@@ -295,6 +295,21 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
 			break;
 
+		
+		case 'popupEntrpsInfo2': // 팝업을 호출한다.(조회)
+			/*
+			var opts = {
+			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
+			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+			};
+			 */
+			var opts;
+
+			this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택',
+					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+			break;
+
 		}
 	};
 
@@ -305,6 +320,14 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			if (msg != 'cancel') {
 				this.$('#sEntrpscd').val(value.entrpscd);
 				this.$('#sEntrpsNm').val(value.entrpsNm);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+		case 'selectEntrpsInfoPopup2':
+			if (msg != 'cancel') {
+				this.$('#sEntrpscd2').val(value.entrpscd);
+				this.$('#sEntrpsNm2').val(value.entrpsNm);
 			} else {
 				alert('취소 되었습니다');
 			}
@@ -539,7 +562,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
-		                                <input id="entrpsCd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+		                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -602,7 +625,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
-		                                <input id="entrpsCd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+		                                 <input id="sEntrpscd2" type="text" size="10" data-column-id="sEntrpscd"><input id="sEntrpsNm2" type="text" size="10" readonly> <button id="popupEntrpsInfo2">업체</button>
 		                            </td>
 								</tr>
 		                    </tbody>
