@@ -261,8 +261,12 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
                 this.doAction("<c:url value='/port_mis/insertGamCustTpSalesSttutsCreatList.do'/>", opts, function(module, result) {
 
                     if(result.resultMsg=='OK') {
+                    	alert("성공했습니다.");
+                    	
                         var searchOpt=module.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
                         module.$('#gamCustTpSalesSttutsCreatList').flexOptions({params:searchOpt}).flexReload();
+                    }else{
+                    	alert("실패했습니다.\n" +  result.resultMsg);
                     }
 
                     //alert(result.resultMsg);

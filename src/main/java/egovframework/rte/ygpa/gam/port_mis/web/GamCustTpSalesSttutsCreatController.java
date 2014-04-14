@@ -229,7 +229,6 @@ public class GamCustTpSalesSttutsCreatController {
 
     	Map map = new HashMap();
 
-		// 생성버튼 클릭 확인시 입력 처리후 아래 로직 처리
 		String grCreatYr = searchVO.getGrCreatYr();
 		String grCreatMn = searchVO.getGrCreatMn();
 		
@@ -255,7 +254,7 @@ public class GamCustTpSalesSttutsCreatController {
 			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
 			resultMsg = searchVO.getResult();
 			
-			System.out.print("result : ##################" + resultMsg);
+//			System.out.print("result : ##################" + resultMsg);
 		}
 		map.put("resultMsg", resultMsg);
     	return map;
@@ -392,7 +391,7 @@ public class GamCustTpSalesSttutsCreatController {
     	List resultList = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsList(searchVO);
 
     	
-    	System.out.print("test : ##################" + resultList);
+//    	System.out.print("test : ##################" + resultList);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
