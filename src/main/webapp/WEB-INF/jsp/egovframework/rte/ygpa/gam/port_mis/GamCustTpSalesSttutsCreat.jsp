@@ -269,7 +269,6 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택',
 					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
 			break;
-
 		}
 	};
 
@@ -617,7 +616,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                                    <option value="" selected="selected">년도</option>
 		
 		                                    <c:forEach  items="${yearsList}" var="yearItem">
-		                                        <option value="${yearItem }">${yearItem }</option>
+		                                        <option value="${yearItem}">${yearItem}</option>
 		                                    </c:forEach>
 		                                </select>
 		                                <select id="grCreatMn">
