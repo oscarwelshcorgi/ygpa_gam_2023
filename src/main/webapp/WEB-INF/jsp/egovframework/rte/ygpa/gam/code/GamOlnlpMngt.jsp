@@ -9,14 +9,14 @@
   * @Class Name : GamOlnlpMngt.jsp
   * @Description : 공시지가 관리
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.03.07  kok          최초 생성
   *
   * author kok
   * since 2014.03.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -61,7 +61,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 			],
 		height: "auto"
 	});
-	
+
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#olnlpMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
@@ -78,9 +78,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 			if(result.totalCount == 0) alert("등록된 공시지가 목록이 없습니다.");
 	 	});
 	});
-	
+
 	this.$("#olnlpMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
+
 		module.$("#beginDt").val(row["beginDt"]);			// 시작일자
 		module.$("#endDt").val(row["endDt"]);				// 종료일자
 		module.$("#olnlp").val(row["olnlp"]);				// 공지시가
@@ -94,12 +94,12 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
 GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
-			
+
 			if(this.$("#gisAssetsLnmSub").val() != ""){
 				if(this.$("#gisAssetsLnm").val() == ""){
 					this.$("#gisAssetsLnm").focus();
@@ -107,12 +107,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 					return;
 				}
 			}
-			
+
 			var searchOpt = this.makeFormArgs("#olnlpForm");
 		 	this.$("#olnlpMngtListTab").tabs("option", {active: 0});
 		 	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 		// 추가
 		case "addBtn":
 			this.$("#olnlpMngtListTab").tabs("option", {active: 1});
@@ -127,58 +127,58 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "searchPopupBtn":
 			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
 		break;
-			
+
 		// 저장
 		case "saveBtn":
-			
+
 			if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) return;
-			
+
 			var inputVO = this.makeFormArgs("#olnlpManageVO");
-			
+
 			if(this.$("#cmd").val() == "insert"){
 				this.doAction('<c:url value="/code/insertOlnlpMngt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#olnlpForm");
 						module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#olnlpMngtListTab").tabs("option", {active: 0}); 
+						module.$("#olnlpMngtListTab").tabs("option", {active: 0});
 						module.$("#olnlpManageVO :input").val("");
-						
+
 						// 저장 후 input text가 비어있으므로 입력형태 insert로 설정
 						module.$("#cmd").val("insert");
 			 		}
 			 		alert(result.resultMsg);
-			 	});	
+			 	});
 			}else{
 				this.doAction('<c:url value="/code/updateOlnlpMngt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#olnlpForm");
 						module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#olnlpMngtListTab").tabs("option", {active: 0}); 
+						module.$("#olnlpMngtListTab").tabs("option", {active: 0});
 						module.$("#olnlpManageVO :input").val("");
-						
+
 						// 저장 후 input text가 비어있으므로 입력형태 insert로 설정
 						module.$("#cmd").val("insert");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}
-		 	
+
 		break;
-		
+
 		// 삭제
 		case "deleteBtn":
 			if(confirm("선택 한 공시지가를 삭제하시겠습니까?")){
 
 				var row = this.$("#olnlpMngtList").selectedRows();
-				
+
 				var inputVO = {gisAssetsCd:row[0]["gisAssetsCd"], gisAssetsPrtAtCode:row[0]["gisAssetsPrtAtCode"], gisAssetsSubCd:row[0]["gisAssetsSubCd"], olnlpSeq:row[0]["olnlpSeq"]};
 			 	this.doAction('<c:url value="/code/gamOlnlpDelete.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#olnlpForm");
 						module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#olnlpMngtListTab").tabs("option", {active: 0}); 
+						module.$("#olnlpMngtListTab").tabs("option", {active: 0});
 						module.$("#olnlpManageVO :input").val("");
-						
+
 						// 삭제 후 input text가 비어있으므로 입력형태 insert로 설정
 						module.$("#cmd").val("insert");
 			 		}
@@ -186,6 +186,13 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 			 	});
 			}
 		break;
+
+		case 'insertExcel':
+			this.uploadXlsFile('xlsUpload', function(module, result) {
+				var searchOpt = module.makeFormArgs("#olnlpManageVO");
+				module.$('#olnlpInsertList').flexOptions({params:searchOpt}).flexReload();
+			}, '공시지가 엑셀파일 업로드', '/code/GamExcelOlnlpRegist.do');
+			break;
 	}
 };
 
@@ -210,9 +217,9 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
  * 팝업 close 이벤트
  */
 GamOlnlpMngtModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
-		
+
 		// 자산코드 조회
 		case "searchGisCodePopup":
 			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
@@ -279,7 +286,7 @@ var module_instance = new GamOlnlpMngtModule();
 					<button id="insertExcel">엑셀등록</button>
 				</div>
 			</div>
-			
+
 			<!-- 공시지가 목록 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpMngtList" style="display:none" class="fillHeight"></table>
@@ -287,8 +294,8 @@ var module_instance = new GamOlnlpMngtModule();
 				<input type="hidden" id="cmd" />
 				<input type="hidden" id="gisAssetsCd" />
 				<input type="hidden" id="gisAssetsPrtAtCode" />
-				<input type="hidden" id="gisAssetsSubCd" />	
-				<input type="hidden" id="olnlpSeq" />	
+				<input type="hidden" id="gisAssetsSubCd" />
+				<input type="hidden" id="olnlpSeq" />
 				<table class="searchPanel">
 					<tbody>
 						<tr>

@@ -3,7 +3,7 @@
 
 <sqlMap namespace="olnlpBatchInsert">
 	<typeAlias alias="gamBupjungdongOlnlpVO" type="egovframework.rte.ygpa.gam.code.service.GamBupjungdongOlnlpVO" />
-	<insert id="insertGamBupjungdongOlnlpVO" parameterClass="gamBupjungdongOlnlpVO">
+	<insert id="gamBupjungdongOlnlpDAO.insertGamBupjungdongOlnlp_S" parameterClass="gamBupjungdongOlnlpVO">
 		<![CDATA[
 			insert into BUPJUNGDONG_OLNLP_F (
 				OLNLP_APPLC_YEAR,

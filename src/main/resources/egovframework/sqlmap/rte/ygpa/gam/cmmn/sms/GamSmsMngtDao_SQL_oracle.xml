@@ -15,8 +15,8 @@
 			</isNotEmpty>
 			CN,
 			TRNSMIS_STTUS,
-			REG_USR,
-			REGIST_DT,
+			ENTRPS_CD,
+			CHARGER_NO,
          <isNotEmpty property="prtAtCode">
 			PRT_AT_CODE,
 			</isNotEmpty>
@@ -27,8 +27,10 @@
 			MNG_NO,
 		</isNotEmpty>
         <isNotEmpty property="mngCnt">
-			MNG_CNT
+			MNG_CNT,
 		</isNotEmpty>
+			REG_USR,
+			REGIST_DT
 		)
         VALUES (
             #smsSeq#,
@@ -38,8 +40,8 @@
 			</isNotEmpty>
 			#cn#,
 			'0',
-			#regUsr#,
-			#registDt#,
+			#entrpsCd#,
+			#chargerNo#,
          <isNotEmpty property="prtAtCode">
 			#prtAtCode#,
 			</isNotEmpty>
@@ -50,9 +52,82 @@
 			#mngNo#,
 		</isNotEmpty>
         <isNotEmpty property="mngCnt">
-			#mngCnt#
+			#mngCnt#,
 		</isNotEmpty>
+					#regUsr#,
+			SYSDATE
 		)
     </insert>
+
+    <insert id="gamSmsMngtDAO.sendSmsMessageServer_S">
+        INSERT INTO SMSDATA@SMS_SERVER (
+	        SEQNO
+		  , INDATE
+		  , INTIME
+		  , MEMBER
+		  , SENDID
+		  , SENDNAME
+		  , RPHONE1
+		  , RPHONE2
+		  , RPHONE3
+		  , RECVNAME
+		  , SPHONE1
+		  , SPHONE2
+		  , SPHONE3
+		  , MSG
+		  , URL
+		  , RDATE
+		  , RTIME
+		  , RESULT
+		  , KIND
+		  , ERRCODE
+		  , TARGET_ID
+		  , TARGET_LOGIN
+		)
+        VALUES (
+        	SMSDATA_SEQNO.NEXTVAL,
+        	TO_CHAR(SYSDATE, 'YYYYMMDD'),
+        	TO_CHAR(SYSDATE, 'HH24MISS'),
+        	77,
+        	'kctasms',
+        	#recptnNm#,
+			#recptnNo1#,
+			#recptnNo2#,
+			#recptnNo3#,
+			#sendNm#,
+			#replyNo1#,
+			#replyNo2#,
+			#replyNo3#,
+			#cn#,
+			null,
+			#rdate#
+            #rtime#,
+            '',
+            'S',
+            0,
+            NULL,
+            NULL)
+    </insert>
+
+    	<select id="gamSmsMngtDAO.selectChargerInfo_S" parameterClass="hashMap" resultClass="egovMap">
+		<![CDATA[
+			SELECT CHARGER_NM DISP_NM,
+			       CHARGER_MOBLPHON_NO PHONE_NO,
+			       CHARGER_DEPT DEPT_NM
+			  FROM ENTRPS_CHARGER_F
+			 WHERE ENTRPSCD = #entrpscd#
+			       AND CHARGER_NO = #chargerNo#
+		]]>
+	</select>
+
+    	<select id="gamSmsMngtDAO.selectEmployInfo_S" parameterClass="java.lang.String" resultClass="egovMap">
+		<![CDATA[
+			SELECT USER_NM DISP_NM,
+			       MBTLNUM PHONE_NO,
+			       (SELECT ORGNZT_NM FROM COMTNORGNZTINFO WHERE ORGNZT_ID=A.ORGNZT_ID) DEPT_NM
+			  FROM COMTNEMPLYRINFO A
+			 WHERE EMPLYR_ID=#emplyrId#
+		]]>
+	</select>
 
 </sqlMap>

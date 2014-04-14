@@ -49,18 +49,19 @@ public class GamOlnlpExcelMapping extends EgovExcelMapping {
     	HSSFCell cell5 = row.getCell((int) 5);
     	HSSFCell cell6 = row.getCell((int) 6);
     	HSSFCell cell7 = row.getCell((int) 7);
+    	HSSFCell cell8 = row.getCell((int) 8);
 
     	GamBupjungdongOlnlpVO vo = new GamBupjungdongOlnlpVO();
 
 
     	vo.setOlnlpApplcYear(EgovExcelUtil.getValue(cell0));
     	vo.setBupjungdongCd(EgovExcelUtil.getValue(cell1));	// 법정동 코드
-    	vo.setMt(EgovExcelUtil.getValue(cell3)=="산"?"Y":"N");	// 산
-		vo.setLnm(EgovExcelUtil.getValue(cell4));	// 지번
+    	vo.setMt(EgovExcelUtil.getValue(cell4)=="산"?"Y":"N");	// 산
+		vo.setLnm(EgovExcelUtil.getValue(cell5));	// 지번
 
-		vo.setBeginDt(EgovExcelUtil.getValue(cell5));	// 적용시작일자
-		vo.setEndDt(EgovExcelUtil.getValue(cell6));	// 적용종료일자
-		vo.setOlnlp(Integer.parseInt(EgovExcelUtil.getValue(cell7)));		// 공시지가
+		vo.setBeginDt(EgovExcelUtil.getValue(cell6));	// 적용시작일자
+		vo.setEndDt(EgovExcelUtil.getValue(cell7));	// 적용종료일자
+		vo.setOlnlp(Integer.parseInt(EgovExcelUtil.getValue(cell8)));		// 공시지가
 
 		return vo;
 	}
