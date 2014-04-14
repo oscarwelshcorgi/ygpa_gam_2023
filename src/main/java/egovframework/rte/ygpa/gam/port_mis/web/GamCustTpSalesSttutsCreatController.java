@@ -152,7 +152,6 @@ public class GamCustTpSalesSttutsCreatController {
 		List result = new ArrayList();
    		
    		for (int i=1; i<=12; i++) {
-   			
    			result.add(String.valueOf(i));
    		}
 
