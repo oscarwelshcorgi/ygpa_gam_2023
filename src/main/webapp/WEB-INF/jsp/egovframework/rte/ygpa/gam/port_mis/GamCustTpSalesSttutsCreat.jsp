@@ -258,7 +258,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
             
             $.ajax({
     			type:"POST",
-    			url:"<c:url value="/port_mis/selectShipErpStatisticsList.do"/>",
+    			url:"<c:url value='/port_mis/insertGamCustTpSalesSttutsCreatList.do'/>",
     			data:$("#gamCustTpSalesSttutsCreatForm").serialize(),
     			success:function(data){
     				alert(data);
