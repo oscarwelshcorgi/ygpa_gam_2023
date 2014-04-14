@@ -74,7 +74,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 					{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
 					{display:'년월', name:'yrmt', width:150, sortable:true, align:'center'},
 					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
-					{display:'매출액', name:'costval', width:100, sortable:true, align:'center'}
+					{display:'매출액', name:'costval', width:100, sortable:true, align:'right'}
 			],
 		height: '110',
 		preProcess: function(module, data) {
@@ -108,7 +108,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 				{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
 				{display:'년월', name:'yrmt', width:150, sortable:true, align:'left'},
 				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
-				{display:'매출액', name:'costval', width:100, sortable:true, align:'center'}
+				{display:'매출액', name:'costval', width:100, sortable:true, align:'right'}
 			],
 		height: '120'
 	});
@@ -183,6 +183,7 @@ GamCustTpSalesSttutsCreat.prototype.showModuleAlert = function(msg) {
 GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		
+		// 매출액통계생성 조회버튼 클릭
         case 'gamCustTpSalesSttutsCreatSearchForm':
 
 	            if( this.$('#grStartYr').val() == '' ) {
@@ -201,7 +202,8 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 				}).flexReload();
 
 			break;
-			
+		
+		// 업체별매출액통계 조회버튼 클릭
 		case 'gamCustTpEnpSalesSttutsSearchForm':
 			
 			if( this.$('#eGrStartYr').val() == '' ) {
@@ -229,6 +231,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 
 			break;
 
+		// 선사별 매출액통계 조회버튼 클릭
 		case 'gamCustTpShipEnpSalesSttutsSearchForm':
 
 			if( this.$('#sEgrStartYr').val() == '' ) {
@@ -255,6 +258,27 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			}).flexReload();
 
 			break;
+			
+		// 매출액통계생성 생성버튼 클릭
+		case 'createBtn':
+
+			if( this.$('#grCreatYr').val() == '' ) {
+                alert("생성 년을 선택하십시오.");
+                return;
+            }
+            if( this.$('#grCreatMn').val() == '' ) {
+                alert("생성 월을 선택하십시오.");
+                return;
+            }
+            
+			var searchOpt = this
+					.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
+			this.$('#gamCustTpSalesSttutsCreatList').flexOptions({
+				params : searchOpt
+			}).flexReload();
+
+			break;
+		
 
 		case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
 			/*
@@ -269,6 +293,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택',
 					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
 			break;
+
 		}
 	};
 
@@ -596,7 +621,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
 				<table id="gamCustTpSalesSttutsCreatList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<form id="gamCustTpShipEnpSalesSttutsCreatForm">
+					<form id="gamCustTpSalesSttutsCreatForm">
 		                <table style="width:100%;" class="searchPanel">
 		                    <tbody>
 		                        <tr>

@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -152,6 +150,7 @@ public class GamCustTpSalesSttutsCreatController {
 		List result = new ArrayList();
    		
    		for (int i=1; i<=12; i++) {
+   			
    			result.add(String.valueOf(i));
    		}
 
@@ -167,7 +166,7 @@ public class GamCustTpSalesSttutsCreatController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/port_mis/selectgamCustTpSalesSttutsCreatList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO, HttpServletRequest request) throws Exception {
+	public @ResponseBody Map selectGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -185,7 +184,7 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 
-		String grStartMn = ServletRequestUtils.getStringParameter(request, "grStartMn", "");
+		String grStartMn = searchVO.geteGrStartMn();
 		if(grStartMn != null){
 			Integer monFrom = Integer.parseInt(grStartMn);
 			if(monFrom < 10){
@@ -196,6 +195,18 @@ public class GamCustTpSalesSttutsCreatController {
 			
 			searchVO.setGrStartMn(grStartMn);
 		}
+		
+		// 생성버튼 클릭 확인시 입력 처리후 아래 로직 처리
+		String grCreatYr = searchVO.getGrCreatYr();
+		String grCreatMn = searchVO.getGrCreatMn();
+		
+		if(grCreatYr != null && grCreatMn != null){
+			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
+			String resultMsg = searchVO.getResult();
+			
+			System.out.print("result : ##################" + resultMsg);
+		}
+		
 		
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsListTotCnt(searchVO);
@@ -229,7 +240,7 @@ public class GamCustTpSalesSttutsCreatController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/port_mis/selectErpStatisticsList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO, HttpServletRequest request) throws Exception {
+	public @ResponseBody Map selectErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -246,7 +257,8 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		String eGrStartMn = ServletRequestUtils.getStringParameter(request, "eGrStartMn", "");
+
+		String eGrStartMn = searchVO.geteGrStartMn();
 		if(eGrStartMn != null && !eGrStartMn.equals("")){
 			Integer monFrom = Integer.parseInt(eGrStartMn);
 			if(monFrom < 10){
@@ -257,8 +269,8 @@ public class GamCustTpSalesSttutsCreatController {
 			
 			searchVO.seteGrStartMn(eGrStartMn);
 		}
-		String eGrEndMn = ServletRequestUtils.getStringParameter(request, "eGrEndMn", "");
 
+		String eGrEndMn = searchVO.geteGrEndMn();
 		if(eGrEndMn != null && !eGrEndMn.equals("")){
 			Integer monTo = Integer.parseInt(eGrEndMn);
 			if(monTo < 10){
@@ -302,7 +314,7 @@ public class GamCustTpSalesSttutsCreatController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/port_mis/selectShipErpStatisticsList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectShipErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO, HttpServletRequest request) throws Exception {
+	public @ResponseBody Map selectShipErpStatisticsList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -319,7 +331,7 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		String sEgrStartMn = ServletRequestUtils.getStringParameter(request, "sEgrStartMn", "");
+		String sEgrStartMn = searchVO.getsEgrStartMn();
 		if(sEgrStartMn != null && !sEgrStartMn.equals("")){
 			Integer monFrom = Integer.parseInt(sEgrStartMn);
 			if(monFrom < 10){
@@ -330,8 +342,8 @@ public class GamCustTpSalesSttutsCreatController {
 			
 			searchVO.setsEgrStartMn(sEgrStartMn);
 		}
-		String sEgrEndMn = ServletRequestUtils.getStringParameter(request, "sEgrEndMn");
 
+		String sEgrEndMn = searchVO.getsEgrEndMn();
 		if(sEgrEndMn != null && !sEgrEndMn.equals("")){
 			Integer monTo = Integer.parseInt(sEgrEndMn);
 			if(monTo < 10){
