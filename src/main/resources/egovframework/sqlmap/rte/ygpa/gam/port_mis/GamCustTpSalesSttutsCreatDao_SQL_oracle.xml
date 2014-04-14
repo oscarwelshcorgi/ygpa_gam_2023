@@ -28,7 +28,9 @@
 			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
 					        		<isNotEmpty property="grStartYr">
-			                    		AND T1.YRMT = CONCAT(#grStartYr#, #grStartMn#)
+					        			<isNotEmpty property="grStartMn">
+			                    			AND T1.YRMT = CONCAT(#grStartYr#, #grStartMn#)
+			                    		</isNotEmpty>
 			                		</isNotEmpty>
                 ) S
              ) A
@@ -51,7 +53,9 @@
 			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
 					        		<isNotEmpty property="grStartYr">
-			                    		AND T1.YRMT = CONCAT(#grStartYr#, #grStartMn#)
+					        			<isNotEmpty property="grStartMn">
+			                    			AND T1.YRMT = CONCAT(#grStartYr#, #grStartMn#)
+			                    		</isNotEmpty>
 			                		</isNotEmpty>
             )
     </select>
@@ -84,9 +88,13 @@
 			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
 					        		<isNotEmpty property="eGrStartYr">
-			                    		<![CDATA[AND T1.YRMT >= CONCAT(#eGrStartYr#, #eGrStartMn#)]]>
-			                    		<isNotEmpty property="eGrEndYr">
-			                    			<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
+					        			<isNotEmpty property="eGrStartMn">
+			                    			<![CDATA[AND T1.YRMT >= CONCAT(#eGrStartYr#, #eGrStartMn#)]]>
+			                    			<isNotEmpty property="eGrEndYr">
+			                    				<isNotEmpty property="eGrEndMn">
+			                    					<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
+			                    				</isNotEmpty>
+			                    			</isNotEmpty>
 			                    		</isNotEmpty>
 			                		</isNotEmpty>
 					        		<isNotEmpty property="chrgeKndCd">
@@ -118,11 +126,16 @@
 			    	AND T1.PRTCD = #prtAtCode#
 			    </isNotEmpty>
         		<isNotEmpty property="eGrStartYr">
+        			<isNotEmpty property="eGrStartMn">
                   		<![CDATA[AND T1.YRMT >= CONCAT(#eGrStartYr#, #eGrStartMn#)]]>
                   		<isNotEmpty property="eGrEndYr">
-                  			<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
+                  			<isNotEmpty property="eGrEndMn">
+                  				<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
+                  			</isNotEmpty>
                   		</isNotEmpty>
-              		</isNotEmpty>
+                  	</isNotEmpty>
+              	</isNotEmpty>
+       
 				<isNotEmpty property="chrgeKndCd">
 			        AND T1.CHRGEKNDCD = #chrgeKndCd#
 			    </isNotEmpty>
@@ -162,9 +175,13 @@
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
                     								WHERE CSTMR_TP IN ('11','12','43')) 					       
 					        <isNotEmpty property="sEgrStartYr">
-			                    <![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>
-			                    <isNotEmpty property="sEgrEndYr">
-			                    	<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
+					        	<isNotEmpty property="sEgrStartMn">
+			                    	<![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>			                
+				                    <isNotEmpty property="sEgrEndYr">
+				                    	<isNotEmpty property="sEgrEndMn">
+				                    		<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
+				                    	</isNotEmpty>
+				                    </isNotEmpty>
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
@@ -199,9 +216,13 @@
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
                     								WHERE CSTMR_TP IN ('11','12','43')) 					       
 					        <isNotEmpty property="sEgrStartYr">
-			                    <![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>
-			                    <isNotEmpty property="sEgrEndYr">
-			                    	<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
+					        	<isNotEmpty property="sEgrStartMn">
+			                    	<![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>			                
+				                    <isNotEmpty property="sEgrEndYr">
+				                    	<isNotEmpty property="sEgrEndMn">
+				                    		<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
+				                    	</isNotEmpty>
+				                    </isNotEmpty>
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
