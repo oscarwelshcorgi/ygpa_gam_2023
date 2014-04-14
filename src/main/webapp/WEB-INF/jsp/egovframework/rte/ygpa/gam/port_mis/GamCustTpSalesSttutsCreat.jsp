@@ -51,19 +51,12 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 			{display:'생성일자', name:'maxupdt', width:180, sortable:true, align:'center'},
 			{display:'건수', name:'cnt', width:250, sortable:true, align:'center'}
 			],
-		height: 'auto',
-		preProcess: function(module, data) {
-			/* $.each(data.resultList, function() {
-				this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq;
-			}); */
-			return data;
-		}
+		height: 'auto'
 	});
 
 
 	this.$("#gamCustTpSalesSttutsCreatList").on('onItemSelected', function(event, module, row, grid, param) {
-		//module.$('#addAssetGisCd').attr('disabled', 'disabled');
-		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+
 	});
 	
 
@@ -77,28 +70,15 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
 					{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
-		height: '110',
-		preProcess: function(module, data) {
-			/* $.each(data.resultList, function() {
-				this.assetCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
-				this.lotcode = this.gisAssetsLnm;
-				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length>0) {
-					this.lotcode += "-"+this.gisAssetsLnmSub;
-				}
-			}); */
-			return data;
-		}
+		height: '110'
 	});
 
 	this.$("#gamCustTpEnpSalesSttutsList").on('onItemSelected', function(event, module, row, grid, param) {
-		/* module.makeFormValues('#editGisAssetCode', row);
-		module._editData=module.getFormValues('#editGisAssetCode', row);
-		module._editRow=module.$('#gamCustTpEnpSalesSttutsList').selectedRowIds()[0]; */
+
 	});
 
 	this.$("#gamCustTpEnpSalesSttutsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
-		/* module._editRow=null;
-		module._deleteDataList=[]; */
+
 	});
 
 	this.$("#gamCustTpShipEnpSalesSttutsList").flexigrid({
@@ -115,60 +95,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 	});
 
 	this.$("#gamCustTpShipEnpSalesSttutsList").on('onItemSelected', function(event, module, row, grid, param) {
-		/* module.makeFormValues('#editAssetGisPhotoForm', row);
-		module._editPhotoData=module.getFormValues('#editAssetGisPhotoForm', row);
-		module._editPhotoRow=module.$('#gamCustTpShipEnpSalesSttutsList').selectedRowIds()[0];
-
-		if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm=row['filenmPhysicl'];
-			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-			    $imgURL = module.getImageUrl(filenm);
-			    module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr('src', $imgURL);
-			    });
-			}
-			else {
-				module.$("#previewImage").attr(src, '#');
-			}
-		} */
-//		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+		
 	});
 
 	this.$("#gamCustTpShipEnpSalesSttutsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
-		/* module._editPhotoRow=null;
-		module._deletePhotoList=[]; */
+
 	});
 
-
-	/* this.$('#gisAssetsLocCd').on('change', function() {
-		//alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
-	}); */
-
-	// 사진 정보 속성이 변경 된 경우 이벤트 실행
-	/* this.$('.photoEditItem').on('change', {module: this}, function(event) {
-		var m = event.data.module;
-		if(m._editPhotoRow==null) return;
-
-		if(m._editPhotoData==null) return;
-
-		if(m._editPhotoData._updt==null || m._editPhotoData._updt=='') {
-			 m._editPhotoData._updt='U';
-		}
-		else {
-			m._editPhotoData._updt='I';
-		}
-
-		if(m.$('#photoSj')==event.target) {	// 제목 변경
-			m._editPhotoData.photoSj = $(event.target).val();
-		}
-		else {	// 날짜 시간 변경
-			var dtStr = m.$('#shotDate').val()+' '+m.$('#shotTime').val();
-			m._editPhotoData.shotDt = dtStr;
-		}
-
-	}); */
 };
 
 
