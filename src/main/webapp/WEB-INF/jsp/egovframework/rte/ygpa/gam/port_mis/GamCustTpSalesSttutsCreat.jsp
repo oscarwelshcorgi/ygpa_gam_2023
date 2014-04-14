@@ -65,6 +65,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		//module.$('#addAssetGisCd').attr('disabled', 'disabled');
 		//alert('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
+	
 
 	this.$("#gamCustTpEnpSalesSttutsList").flexigrid({
 		module: this,
@@ -214,14 +215,6 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
                 alert("조회시작 월을 선택하십시오.");
                 return;
             }
-            if( this.$('#sEntrpscd').val() == '' ) {
-                alert("업체코드를 입력하십시오.");
-                return;
-            }
-            if( this.$('#sEntrpsNm').val() == '' ) {
-                alert("업체명을 입력하십시오.");
-                return;
-            }
 			
 			var searchOpt = this
 					.makeFormArgs('#gamCustTpEnpSalesSttutsSearchForm');
@@ -240,14 +233,6 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
             }
             if( this.$('#sEgrStartMn').val() == '' ) {
                 alert("조회시작 월을 선택하십시오.");
-                return;
-            }
-            if( this.$('#sEntrpscd').val() == '' ) {
-                alert("업체코드를 입력하십시오.");
-                return;
-            }
-            if( this.$('#sEntrpsNm').val() == '' ) {
-                alert("업체명을 입력하십시오.");
                 return;
             }
 			
@@ -271,11 +256,27 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
                 return;
             }
             
-			var searchOpt = this
-					.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
-			this.$('#gamCustTpSalesSttutsCreatList').flexOptions({
-				params : searchOpt
-			}).flexReload();
+            $.ajax({
+    			type:"POST",
+    			url:"<c:url value="/port_mis/selectShipErpStatisticsList.do"/>",
+    			data:$("#gamCustTpSalesSttutsCreatForm").serialize(),
+    			success:function(data){
+    				alert(data);
+    				/* if(data == 'ok'){
+    					alert('매출액통계생성이 성공적으로 처리되었습니다.');
+    					
+    					var searchOpt = this.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
+		    			this.$('#selectgamCustTpSalesSttutsCreatList').flexOptions({
+		    				params : searchOpt
+		    			}).flexReload();
+		    			
+    				}else{
+    					alert('매출액통계생성이 실패하였습니다.');
+    				} */
+    				
+    			}
+    		});
+            
 
 			break;
 		

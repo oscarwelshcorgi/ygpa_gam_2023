@@ -196,18 +196,7 @@ public class GamCustTpSalesSttutsCreatController {
 			searchVO.setGrStartMn(grStartMn);
 		}
 		
-		// 생성버튼 클릭 확인시 입력 처리후 아래 로직 처리
-		String grCreatYr = searchVO.getGrCreatYr();
-		String grCreatMn = searchVO.getGrCreatMn();
-		
-		if(grCreatYr != null && grCreatMn != null){
-			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
-			String resultMsg = searchVO.getResult();
-			
-			System.out.print("result : ##################" + resultMsg);
-		}
-		
-		
+
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectPortMisCostvalStatsList(searchVO);
@@ -227,6 +216,47 @@ public class GamCustTpSalesSttutsCreatController {
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
   
+    	return map;
+    }
+	
+	/**
+     * 매출액통계를 생성한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/port_mis/insertGamCustTpSalesSttutsCreatList.do", method=RequestMethod.POST)
+	public @ResponseBody Map insertGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+
+    	Map map = new HashMap();
+
+		// 생성버튼 클릭 확인시 입력 처리후 아래 로직 처리
+		String grCreatYr = searchVO.getGrCreatYr();
+		String grCreatMn = searchVO.getGrCreatMn();
+		
+		String resultMsg = null;
+		
+		if(grCreatYr != null && grCreatMn != null){
+
+			if(grCreatMn != null){
+				Integer monFrom = Integer.parseInt(grCreatMn);
+				if(monFrom < 10){
+					grCreatMn = "0" + String.valueOf(monFrom);
+				}else{
+					grCreatMn = String.valueOf(monFrom);
+				}
+				
+				searchVO.setGrStartMn(grCreatMn);
+			}
+			
+			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
+			resultMsg = searchVO.getResult();
+			
+			System.out.print("result : ##################" + resultMsg);
+		}
+		map.put("resultMsg", resultMsg);
     	return map;
     }
 	
