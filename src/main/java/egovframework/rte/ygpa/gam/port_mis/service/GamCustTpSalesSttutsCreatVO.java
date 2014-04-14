@@ -26,9 +26,7 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
     /** 업체코드 */
     private String sEntrpscd;
     
-    /** 업체코드2 */
-    private String sEntrpscd2;
-    
+       
     /** 생성년월 */
     private String yrMt;
     
@@ -126,19 +124,6 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 		this.sEntrpscd = sEntrpscd;
 	}
 
-	/**
-	 * @return the sEntrpscd2
-	 */
-	public String getsEntrpscd2() {
-		return sEntrpscd2;
-	}
-
-	/**
-	 * @param sEntrpscd2 the sEntrpscd2 to set
-	 */
-	public void setsEntrpscd2(String sEntrpscd2) {
-		this.sEntrpscd2 = sEntrpscd2;
-	}
 
 	/**
 	 * @return the yrMt

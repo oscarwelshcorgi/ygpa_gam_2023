@@ -181,7 +181,7 @@ public class GamCustTpSalesSttutsCreatController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 
-		String grStartMn = searchVO.geteGrStartMn();
+		String grStartMn = searchVO.getGrStartMn();
 		if(grStartMn != null){
 			Integer monFrom = Integer.parseInt(grStartMn);
 			if(monFrom < 10){

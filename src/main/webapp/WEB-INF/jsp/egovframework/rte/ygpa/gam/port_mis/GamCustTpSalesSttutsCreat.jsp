@@ -46,8 +46,8 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		url: '<c:url value="/port_mis/selectgamCustTpSalesSttutsCreatList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'항코드', name:'prtcd', width:80, sortable:true, align:'left'},
-			{display:'년월', name:'yrmt', width:180, sortable:true, align:'right'},
+			{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
+			{display:'년월', name:'yrmt', width:180, sortable:true, align:'center'},
 			{display:'생성일자', name:'maxupdt', width:180, sortable:true, align:'center'},
 			{display:'건수', name:'cnt', width:250, sortable:true, align:'center'}
 			],
@@ -107,7 +107,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		colModel : [
 				{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
 				{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
-				{display:'년월', name:'yrmt', width:150, sortable:true, align:'left'},
+				{display:'년월', name:'yrmt', width:150, sortable:true, align:'center'},
 				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
 				{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
@@ -551,7 +551,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                                <input id="chrgeKndCd" type="text" size="10">
+		                                <input id="chrgeKndCd" type="text" size="10"> <button id="popupchrgeKndCd">요금</button>
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
@@ -614,7 +614,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                                <input id="chrgeKndCd" type="text" size="10">
+		                                <input id="chrgeKndCd" type="text" size="10"> <button id="popupchrgeKndCd2">요금</button>
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
