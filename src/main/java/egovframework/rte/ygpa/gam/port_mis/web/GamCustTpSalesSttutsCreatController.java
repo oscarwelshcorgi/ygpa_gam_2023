@@ -245,7 +245,8 @@ public class GamCustTpSalesSttutsCreatController {
 					grCreatMn = String.valueOf(monFrom);
 				}
 				
-				searchVO.setGrStartMn(grCreatMn);
+				searchVO.setGrCreatMn(grCreatMn);
+				searchVO.setYrMt(grCreatYr + grCreatMn);
 			}
 			
 			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
