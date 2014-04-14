@@ -248,6 +248,9 @@ public class GamCustTpSalesSttutsCreatController {
 				searchVO.setGrCreatMn(grCreatMn);
 				searchVO.setYrMt(grCreatYr + grCreatMn);
 			}
+			// 관리자 아이디 임의로 생성
+			// TODO : 로그인 처리완료 시 향후 삭제...
+			searchVO.setUpdUsr("admin");
 			
 			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
 			resultMsg = searchVO.getResult();

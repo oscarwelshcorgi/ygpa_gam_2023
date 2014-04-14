@@ -8,7 +8,7 @@
     <typeAlias alias="gamCustTpSalesSttutsCreatVO" type="egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatVO"/>
 	
 	<parameterMap id="mapGamCustTpSalesSttutsCreatVO" class="gamCustTpSalesSttutsCreatVO">
-		<parameter property="prtAtCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="sPrtAtCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
 		<parameter property="yrMt" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="updUsr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="result" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
