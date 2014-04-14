@@ -201,8 +201,8 @@ public class GamCustTpSalesSttutsCreatController {
     	
 //    	System.out.print("test : ##################" + resultList);
     	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+//    	paginationInfo.setTotalRecordCount(totalCnt);
+//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//자료수, 사용료, 부가세, 고지액
     	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);

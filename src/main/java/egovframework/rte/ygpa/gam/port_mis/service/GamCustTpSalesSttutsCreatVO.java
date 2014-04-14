@@ -20,8 +20,14 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
     /** 항코드  */
     private String prtAtCode;
     
+    /** 생성항코드  */
+    private String sPrtAtCode;
+    
     /** 업체코드 */
-    private String entrpsCd;
+    private String sEntrpscd;
+    
+    /** 업체코드2 */
+    private String sEntrpscd2;
     
     /** 생성년월 */
     private String yrMt;
@@ -92,17 +98,46 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
-	 * @return the entrpsCd
+	 * @return the sPrtAtCode
 	 */
-	public String getEntrpsCd() {
-		return entrpsCd;
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
 	}
 
 	/**
-	 * @param entRpsCd the entrpsCd to set
+	 * @param sPrtAtCode the sPrtAtCode to set
 	 */
-	public void setEntrpsCd(String entrpsCd) {
-		this.entrpsCd = entrpsCd;
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+
+	/**
+	 * @return the sEntrpscd
+	 */
+	public String getsEntrpscd() {
+		return sEntrpscd;
+	}
+
+	/**
+	 * @param sEntrpscd the sEntrpscd to set
+	 */
+	public void setsEntrpscd(String sEntrpscd) {
+		this.sEntrpscd = sEntrpscd;
+	}
+
+	/**
+	 * @return the sEntrpscd2
+	 */
+	public String getsEntrpscd2() {
+		return sEntrpscd2;
+	}
+
+	/**
+	 * @param sEntrpscd2 the sEntrpscd2 to set
+	 */
+	public void setsEntrpscd2(String sEntrpscd2) {
+		this.sEntrpscd2 = sEntrpscd2;
 	}
 
 	/**

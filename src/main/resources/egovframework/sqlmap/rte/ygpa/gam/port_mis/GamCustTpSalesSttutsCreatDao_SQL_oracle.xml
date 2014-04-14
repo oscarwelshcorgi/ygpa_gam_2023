@@ -107,8 +107,8 @@
 					        		<isNotEmpty property="chrgeKndCd">
 			                    		AND T1.CHRGEKNDCD = #chrgeKndCd#
 			                		</isNotEmpty>
-					        		<isNotEmpty property="entrpsCd">
-			                    		AND T1.ENTRPSCD = #entrpsCd#
+					        		<isNotEmpty property="sEntrpscd">
+			                    		AND T1.ENTRPSCD = #sEntrpscd#
 			                		</isNotEmpty>			                		
                 ) S
              ) A
@@ -146,8 +146,8 @@
 				<isNotEmpty property="chrgeKndCd">
 			        AND T1.CHRGEKNDCD = #chrgeKndCd#
 			    </isNotEmpty>
-				<isNotEmpty property="entrpsCd">
-			       	AND T1.ENTRPSCD = #entrpsCd#
+				<isNotEmpty property="sEntrpscd">
+			       	AND T1.ENTRPSCD = #sEntrpscd#
 			    </isNotEmpty>			                		
     </select>
 
@@ -194,8 +194,8 @@
 					        <isNotEmpty property="chrgeKndCd">
 			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
 			                </isNotEmpty>
-					        <isNotEmpty property="entrpsCd">
-			                    AND T1.ENTRPSCD = #entrpsCd#
+					        <isNotEmpty property="sEntrpscd2">
+			                    AND T1.ENTRPSCD = #sEntrpscd2#
 			                </isNotEmpty>			                		
                 ) S
              ) A
@@ -233,10 +233,10 @@
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd2#
 			                </isNotEmpty>
-					        <isNotEmpty property="entrpsCd">
-			                    AND T1.ENTRPSCD = #entrpsCd#
+					        <isNotEmpty property="sEntrpscd">
+			                    AND T1.ENTRPSCD = #sEntrpscd2#
 			                </isNotEmpty>			                		
     </select>
 

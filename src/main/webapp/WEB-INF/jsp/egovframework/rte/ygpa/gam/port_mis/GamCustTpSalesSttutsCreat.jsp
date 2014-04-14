@@ -256,26 +256,19 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
                 return;
             }
             
-            $.ajax({
-    			type:"POST",
-    			url:"<c:url value='/port_mis/insertGamCustTpSalesSttutsCreatList.do'/>",
-    			data:$("#gamCustTpSalesSttutsCreatForm").serialize(),
-    			success:function(data){
-    				alert(data);
-    				/* if(data == 'ok'){
-    					alert('매출액통계생성이 성공적으로 처리되었습니다.');
-    					
-    					var searchOpt = this.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
-		    			this.$('#selectgamCustTpSalesSttutsCreatList').flexOptions({
-		    				params : searchOpt
-		    			}).flexReload();
-		    			
-    				}else{
-    					alert('매출액통계생성이 실패하였습니다.');
-    				} */
-    				
-    			}
-    		});
+            var opts = this.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
+            if( confirm("매출액통계생성 하시겠습니까?") ) {
+                this.doAction("<c:url value='/port_mis/insertGamCustTpSalesSttutsCreatList.do'/>", opts, function(module, result) {
+
+                    if(result.resultMsg=='OK') {
+                        var searchOpt=module.makeFormArgs('#gamCustTpSalesSttutsCreatForm');
+                        module.$('#gamCustTpSalesSttutsCreatList').flexOptions({params:searchOpt}).flexReload();
+                    }
+
+                    //alert(result.resultMsg);
+                });
+            //throw 0;
+            }
             
 
 			break;
