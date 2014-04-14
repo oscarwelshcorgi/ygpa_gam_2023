@@ -53,9 +53,9 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
-			$.each(data.resultList, function() {
+			/* $.each(data.resultList, function() {
 				this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq;
-			});
+			}); */
 			return data;
 		}
 	});
@@ -79,13 +79,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 			],
 		height: '110',
 		preProcess: function(module, data) {
-			$.each(data.resultList, function() {
+			/* $.each(data.resultList, function() {
 				this.assetCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
 				this.lotcode = this.gisAssetsLnm;
 				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length>0) {
 					this.lotcode += "-"+this.gisAssetsLnmSub;
 				}
-			});
+			}); */
 			return data;
 		}
 	});

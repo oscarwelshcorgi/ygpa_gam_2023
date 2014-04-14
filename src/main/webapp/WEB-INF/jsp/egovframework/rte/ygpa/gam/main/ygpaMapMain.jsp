@@ -443,8 +443,11 @@
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseSttusInqire.do'/>">항만시설사용현황조회</a>
                             </li>
                              -->
-                            <li>
+                            <%-- <li>
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/port_mis/gamFcltyUseSttusInqire.do'/>">항만시설사용현황조회</a>
+                            </li> --%>
+                            <li>
+                                <a href="#" data-role="LoadModule" data-url="<c:url value='/port_mis/gamFcltyUseSttusInqire.do'/>">항만시설별사용료현황</a>
                             </li>
                             <li>
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseFeePayDtlsInqire.do'/>">항만시설사용료납부현황조회</a>
