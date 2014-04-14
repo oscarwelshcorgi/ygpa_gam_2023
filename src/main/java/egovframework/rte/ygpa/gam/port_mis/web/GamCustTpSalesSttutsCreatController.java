@@ -63,7 +63,6 @@ public class GamCustTpSalesSttutsCreatController {
     
     @Resource(name = "gamCustTpSalesSttutsCreatService")
     private GamCustTpSalesSttutsCreatService gamCustTpSalesSttutsCreatService;
-	
     
     /**
      * 고객군별통계관리 화면을 로딩한다. 
@@ -80,8 +79,6 @@ public class GamCustTpSalesSttutsCreatController {
 		
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		
 		
 		codeVo.setCodeId("GAM011"); //신청구분코드 
 		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
