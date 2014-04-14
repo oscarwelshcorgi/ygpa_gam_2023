@@ -7,7 +7,13 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamCustTpSalesSttutsCreatVO" type="egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatVO"/>
 	
-	<procedure id="gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts" parameterClass="gamCustTpSalesSttutsCreatVO">
+	<parameterMap id="mapGamCustTpSalesSttutsCreatVO" class="gamCustTpSalesSttutsCreatVO">
+		<parameter property="prtAtCode" jdbcType="varchar" javaType="java.lang.String" mode="IN"/>
+		<parameter property="yrMt" jdbcType="varchar" javaType="java.lang.String" mode="IN" />
+		<parameter property="updUsr" jdbcType="varchar" javaType="java.lang.String" mode="IN" />
+		<parameter property="result" jdbcType="varchar" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	<procedure id="gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts" parameterMap="mapGamCustTpSalesSttutsCreatVO">
 		{ call SP_CREATE_COSTVAL_STATS(#prtAtCode#, #yrMt#, #updUsr#, #result#)}
 	</procedure>
 
