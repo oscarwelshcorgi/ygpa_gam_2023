@@ -564,6 +564,11 @@
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
                     </ul>
                 </li>
+                <li><a href="#"><b>메세지</b></a>
+                    <ul class="submenu">
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/GamSendMesgListMngt.do'/>">SMS 메시지 목록 관리</a></li>
+                    </ul>
+                </li>
    				<li><a href="#"><b>테스트</b></a>
 					<ul class="submenu">
 						<li><a href="#" data-role="LoadModule" data-url="<c:url value='/eap/showEapGwCallInterfaceView.do'/>">전자결재 테스트</a></li>
