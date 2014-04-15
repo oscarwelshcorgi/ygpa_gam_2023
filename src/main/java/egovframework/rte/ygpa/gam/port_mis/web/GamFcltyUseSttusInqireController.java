@@ -142,6 +142,8 @@ public class GamFcltyUseSttusInqireController {
     	totalCnt = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireListTotCnt(searchVO);
     	List resultList = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireList(searchVO);
     	
+    	System.out.print("result **************************** : " + resultList);
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	

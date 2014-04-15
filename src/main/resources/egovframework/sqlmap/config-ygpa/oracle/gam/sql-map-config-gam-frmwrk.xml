@@ -6,5 +6,5 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamEApprovalRequestDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamAssetsUsePermMngtDao_SQL_Oracle.xml" />
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/eap/EapGwCall_fwd_SQL.xml"/>
-    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/sms/GamSmsMngtDao_SQL_Oracle.xml" />
-</sqlMapConfig>
+    
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/sms/GamSmsMngtDao_SQL_oracle.xml" /></sqlMapConfig>

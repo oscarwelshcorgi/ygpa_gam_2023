@@ -13,48 +13,53 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT 
-							     PO.INT_SEQ             
-							    , PO.DEL_KIND           
-							    , PO.JINGSU_DATE            
-							    , PO.SUNAP_DATE         
-							    , PO.PRT_AT_CODE            
-							    , PO.FEE_TP             
-							    , PO.FISCAL_YR          
-							    , PO.BILL_NO                
-							    , PO.ACCNT_CODE         
-							    , PO.AGENT_CODE         
-							    , PO.BILL_AMNT          
-							    , PO.BILL_DT                
-							    , PO.BILL_PRT_YN            
-							    , PO.DUE_DATE           
-							    , PO.RCVD_DT                
-							    , PO.RCVD_TP                
-							    , PO.RSLT_CODE          
-							    , PO.EXMP_AMNT          
-							    , PO.OVER_AMNT          
-							    , PO.DC_AMNT                
-							    , PO.DC_CODE                
-							    , PO.DC_RATE                
-							    , PO.RECPT_EPDT         
-							    , PO.ELCT_BILL_RSLT     
-							    , PO.BULL_INFO_INQR_DTIME
-							    , PO.AMNT_RSN           
-							    , PO.BZ_RGST_ID         
-							    , PO.AGENT_NAME         
-							    , PO.LAST               
-							    , PO.VAT_YN             
-							    , PO.JIRO_NO                
-							    , PO.ELEC_PAY_NO            
-							    , PO.CUSTOMER_MNGT_NO   
-							    , PO.CUSTOMER_ADDR      
-							    , PO.PAY_NAME 
-							FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
-							WHERE 1 = 1
-					       
-					        <isNotEmpty property="sPrtAtCode">
-			                    AND PO.PRT_AT_CODE = #sPrtAtCode#
-			                </isNotEmpty>
-							ORDER BY PO.INT_SEQ DESC
+							T1.PRT_AT_CODE
+							,TO_CHAR(TO_DATE(T1.PRCT_DT,'yyyymmdd'), 'YYYY-MM-DD') AS PRCT_DT
+							,T1.FAC_CODE||T1.FAC_SUB_CODE AS FAC_CODE
+							,T1.FEE_TP
+							,NVL(T1.BILL_AMNT,0) AS BILL_AMNT 
+							,NVL(T1.EXMP_AMNT,0) AS EXMP_AMNT 
+							,NVL(T1.DC_AMNT,0) AS DC_AMNT 
+							,T4.PRT_KOR_NM
+							,T3.FEE_TP_KOR_NM
+							,T2.FAC_KOR_NM
+						FROM 
+							P2MGR.PORT_PRODUCTION_FEE@YGPA_P2MGR T1
+						LEFT OUTER JOIN 
+							P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+						ON 
+							(
+							T1.PRT_AT_CODE=T4.PRT_AT_CODE
+							)
+						LEFT OUTER JOIN 
+							PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+						ON 
+							(
+							T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+							AND T1.FEE_TP=T3.FEE_TP
+							)
+						LEFT OUTER JOIN 
+							P2MGR.FACIL_NM_F@YGPA_P2MGR T2 
+						ON 
+							(
+							T1.PRT_AT_CODE=T2.PRT_AT_CODE 
+							AND T1.FAC_CODE=T2.FAC_CODE 
+							AND T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
+							)
+						WHERE 1 = 1 
+						
+						<isNotEmpty property="prtAtCode">
+		                    AND T1.PRT_AT_CODE = #prtAtCode#
+		                </isNotEmpty>
+		                
+		                <isNotEmpty property="sGrUsagePdFrom">
+	                  		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+	                  		<isNotEmpty property="sGrUsagePdTo">
+	                  			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+	                  		</isNotEmpty>
+	                  	</isNotEmpty>
+						
+						ORDER BY T1.PRT_AT_CODE DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -64,12 +69,19 @@
     <select id="gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseSttusInqireVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
-            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
+            FROM P2MGR.PORT_PRODUCTION_FEE@YGPA_P2MGR T1
 			WHERE 1 = 1
 	       
-	        <isNotEmpty property="sPrtAtCode">
-                   AND PO.PRT_AT_CODE = #sPrtAtCode#
+	        <isNotEmpty property="prtAtCode">
+                   AND T1.PRT_AT_CODE = #prtAtCode#
                </isNotEmpty>
+            
+           <isNotEmpty property="sGrUsagePdFrom">
+            		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+            		<isNotEmpty property="sGrUsagePdTo">
+            			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+            		</isNotEmpty>
+            	</isNotEmpty>
     </select>
 
 </sqlMap>

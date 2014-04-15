@@ -42,14 +42,6 @@ public class GamFcltyUseSttusInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireListTotCnt_S", searchVO);
     }
     
-    /**
-	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
-	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 항만시설납부현황관리 목록
-	 * @exception Exception
-	 */
-	public GamFcltyUseSttusInqireVO selectFcltyUseSttusInqireSum(GamFcltyUseSttusInqireVO searchVO) throws Exception {
-		return (GamFcltyUseSttusInqireVO) selectByPk("gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireSum_S", searchVO);
-	}
+    
 
 }

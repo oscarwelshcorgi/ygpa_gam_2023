@@ -104,6 +104,6 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamGisAssetCodeDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamGisAssetPhotoDao_SQL_oracle.xml"/>
 
-    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/sms/GamSmsMngtDao_SQL_oracle.xml"/>
+    
 
 </sqlMapConfig>

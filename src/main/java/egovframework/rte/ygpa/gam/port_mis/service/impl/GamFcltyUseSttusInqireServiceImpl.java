@@ -52,13 +52,5 @@ public class GamFcltyUseSttusInqireServiceImpl extends AbstractServiceImpl imple
 		return gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireListTotCnt(searchVO);
 	}
 
-    /**
-	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 항만시설납부현황관리목록
-	 * @exception Exception
-	 */
-    public GamFcltyUseSttusInqireVO selectFcltyUseSttusInqireSum(GamFcltyUseSttusInqireVO searchVO) throws Exception {
-        return gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireSum(searchVO);
-    }
+    
 }

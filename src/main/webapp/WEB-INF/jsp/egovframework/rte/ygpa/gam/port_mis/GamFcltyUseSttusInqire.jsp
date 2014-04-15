@@ -37,42 +37,19 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         url: '<c:url value="/port_mis/gamSelectFcltyUseSttusInqireList.do" />',
         dataType: 'json',
         colModel : [      
-					{display:'청코드', name:'prtAtCode',width:100, sortable:false,align:'center'},         
-					{display:'선석코드', name:'fac_sub_code',width:100, sortable:false,align:'center'},                
-					{display:'선석명', name:'fac_kor_nm',width:100, sortable:false,align:'center'},         
-					{display:'요금종류코드', name:'fee_tp',width:100, sortable:false,align:'center'},  
-					{display:'면제금액', name:'exmpAmnt',width:100, sortable:false,align:'center'},
-					{display:'할인금액', name:'dcAmnt',width:100, sortable:false,align:'center'},               
-					{display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'center'},         
-					{display:'생성일자', name:'prct_dt',width:120, sortable:false,align:'center'}
+					{display:'청코드', name:'prtAtCode',width:50, sortable:false,align:'center'},         
+					{display:'선석코드', name:'facCode',width:60, sortable:false,align:'center'},                
+					{display:'선석명', name:'facKorNm',width:190, sortable:false,align:'center'},         
+					{display:'요금종류코드', name:'feeTp',width:100, sortable:false,align:'center'},  
+					{display:'면제금액', name:'exmpAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'},
+					{display:'할인금액', name:'dcAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'},               
+					{display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'},         
+					{display:'생성일자', name:'prctDt',width:120, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
-        preProcess: function(module,data) {
-            /* module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#sumFee').val(data.sumFee);
-            module.$('#sumVat').val(data.sumVat);
-            module.$('#sumNticAmt').val(data.sumNticAmt); */
-            
-            return data;
-        }
+        height: 'auto'
     });
 
-    this.$("#fcltyUseSttusInqireList").on('onItemSelected', function(event, module, row, grid, param) {
-        /* module.$('#cmd').val('modify');
-
-        module.$('#gamFcltyUseSttusInqireForm :input').val('');
-
-        module.makeFormValues('#gamFcltyUseSttusInqireForm', row);
-        module._editData=module.getFormValues('#gamFcltyUseSttusInqireForm', row);
-        module._editRow=module.$('#fcltyUseSttusInqireList').selectedRowIds()[0]; */
-    });
-    
-    this.$("#fcltyUseSttusInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        // 이벤트내에선 모듈에 대해 선택한다.
-       // module.$("#fcltyUseSttusInqireListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
-        
-    });
 
 };
 
@@ -85,6 +62,12 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	
+        	if( this.$('#sGrUsagePdFrom').val() == '' ) {
+                alert("사용기간 시작일을 선택하십시오.");
+                return;
+            }
+        	
             var searchOpt=this.makeFormArgs('#gamFcltyUseSttusInqireSearchForm');
             this.$('#fcltyUseSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
@@ -107,26 +90,6 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
     }
 };
 
-GamFcltyUseSttusInqireModule.prototype.onSubmit = function() {
-    //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-
-    this.loadData();
-};
-
-GamFcltyUseSttusInqireModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamFcltyUseSttusInqireSearchForm');
-    //this.showAlert(searchOpt);
-    this.$('#fcltyUseSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-};
-
-GamFcltyUseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
-    }
-};
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
 //popupId : 팝업 대화상자 아이디
@@ -165,7 +128,7 @@ var module_instance = new GamFcltyUseSttusInqireModule();
                         <tr>
                             <th style="width: 70px">항코드</th>
                             <td style="width: 400px">
-                                <select id="sPrtAtCode">
+                                <select id="prtAtCode">
                                     <option value="" selected="selected">선택</option>
 
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -176,8 +139,8 @@ var module_instance = new GamFcltyUseSttusInqireModule();
                             <th>사용기간</th>
                             <td>
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8">
+                                size="10"> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="10">
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
@@ -186,12 +149,13 @@ var module_instance = new GamFcltyUseSttusInqireModule();
                             <td>
                                 <input id="fac_code" type="text" size="10"> 
                                 <input id="fac_sub_code" type="text" size="10"> 
-                                <input id="fac_kor_nm" type="text" size="10"> 
+                                <input id="fac_sub_kor_nm" type="text" size="10"> 
                                 <button id="popupBerthCd">선석</button>
                             </td>
                             <th>요금종류</th>
                             <td>
                                 <input id="chrgeKndCd" type="text" size="10"> 
+                                <input id="chrgeKndNm" type="text" size="10"> 
                                 <button id="popupChrgeKndCd">요금</button>
                             </td>
 						</tr>
