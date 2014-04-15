@@ -436,7 +436,7 @@
             <a href="#"><b>포트미스 정보조회</b></a>
                 <ul class="submenu">
                             <li>
-                                <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseRealloadInqire.do'/>">항만시설사용실적조회</a>
+<%--                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseRealloadInqire.do'/>">항만시설사용실적조회</a> --%>
                             </li>
                             <!--
                             <li>
@@ -450,7 +450,7 @@
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/port_mis/gamFcltyUseSttusInqire.do'/>">항만시설별사용료현황</a>
                             </li>
                             <li>
-                                <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseFeePayDtlsInqire.do'/>">항만시설사용료납부현황조회</a>
+<%--                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/portmis/gamFcltyUseFeePayDtlsInqire.do'/>">항만시설사용료납부현황조회</a> --%>
                             </li>
                             <li>
                                 <a href="#" data-role="LoadModule" data-url="<c:url value='/port_mis/gamCustTpSalesSttutsCreat.do'/>">고객군별통계</a>
