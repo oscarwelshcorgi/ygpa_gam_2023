@@ -26,7 +26,7 @@
  */
 function GamFcltyUseSttusInqireModule() {}
 
-GamFcltyUseSttusInqireModule.prototype = new EmdModule(1000, 550);
+GamFcltyUseSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
