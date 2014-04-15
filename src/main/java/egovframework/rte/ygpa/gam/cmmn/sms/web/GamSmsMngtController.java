@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import egovframework.com.cmm.service.EgovCmmUseService;
 
 @Controller
-public class GamSendMesgListMngtController {
+public class GamSmsMngtController {
 
 	 /** cmmUseService */
     @Resource(name="EgovCmmUseService")
