@@ -569,7 +569,7 @@
                 </li>
                 <li><a href="#"><b>메세지</b></a>
                     <ul class="submenu">
-                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/GamSendMesgListMngt.do'/>">SMS 메시지 목록 관리</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/sms/GamSendMesgListMngt.do'/>">SMS 메시지 목록 관리</a></li>
                     </ul>
                 </li>
    				<li><a href="#"><b>테스트</b></a>

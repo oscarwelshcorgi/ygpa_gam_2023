@@ -16,7 +16,7 @@ public class GamSendMesgListMngtController {
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
 
-	@RequestMapping(value="/cmmn/GamSendMesgListMngt.do")
+	@RequestMapping(value="/cmmn/sms/GamSendMesgListMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/sms/GamSendMesgListMngt";
