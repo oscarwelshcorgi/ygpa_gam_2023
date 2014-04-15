@@ -142,27 +142,16 @@ public class GamFcltyUseSttusInqireController {
     	totalCnt = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireListTotCnt(searchVO);
     	List resultList = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireList(searchVO);
     	
-    	System.out.print("result **************************** : " + resultList);
+//    	System.out.print("result **************************** : " + resultList);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
-    	//자료수, 사용료, 부가세, 고지액
-    	//GamFcltyUseSttusInqireVO resultSum = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireSum(searchVO);
-    	GamFcltyUseSttusInqireVO resultSum = new GamFcltyUseSttusInqireVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-    	/*
-    	map.put("sumFee", resultSum.getSumFee());
-    	map.put("sumVat", resultSum.getSumVat());
-    	map.put("sumNticAmt", resultSum.getSumNticAmt());
-    	*/
-    	map.put("sumFee", "");
-    	map.put("sumVat", "");
-    	map.put("sumNticAmt", "");
+
     	return map;
     }
 	
