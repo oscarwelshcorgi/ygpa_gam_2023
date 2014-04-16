@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtVO;
 
+
 @Repository("gamSmsMngtDAO")
 public class GamSmsMngtDAO extends YGPAAbstractDAO {
 	public List selectSmsMngtList(GamSmsMngtVO vo) {

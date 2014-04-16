@@ -18,6 +18,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *  Copyright (C)  All right reserved.
  */
 
+
 public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
     private static final long serialVersionUID = 1L;
     

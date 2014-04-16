@@ -12,6 +12,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtService;
 import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtVO;
 
+
 @Service("gamSmsMngtService")
 public class GamSmsMngtServiceImpl extends AbstractServiceImpl
 		implements GamSmsMngtService {
