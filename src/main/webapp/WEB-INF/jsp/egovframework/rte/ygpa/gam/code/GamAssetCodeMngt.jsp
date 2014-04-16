@@ -82,6 +82,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	 			module.$('#editGisAssetCode :input').val('');	// 폼의 값을 모두 지운다.
 	 			module.makeFormValues('#editGisAssetCode', result.result);	// 결과값을 채운다.
 				module.$("#assetCodeTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+				module._editData=result.result;
 	 		}
 	 		else {
 	 			alert(result.resultMsg);
@@ -194,6 +195,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this._editData=null;
 		}
 		break;
+	case 'storeAutoMapGenerate':	// 지도 위치 자동 등록
+//		EMD.storeAutoMapGenerate
+		break;
 	case 'btnSaveGisAssetsCode':
 		// 변경된 자료를 저장한다.
 			if(!validateGamAssetCode(this.$("#editGisAssetCode")[0])) return;
@@ -207,14 +211,14 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 						module.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
 						switch(module._params.action) {
 						case 'addLotcodeFeature':
-							module.addAssetsCodeByLotcode(this._params.feature, result.assetsCode);
+							module.modifyAssetCdFeature(result.assetsCode, this._params.feature);
 					 		alert(result.resultMsg);
 							// 창을 닫는다.
 							module.closeWindow();
 							return;
 						case 'addFeature':
 						case 'modifyFeature':
-							module.modifyAssetsCodeFeature(this._params.feature, result.assetsCode);
+							module.modifyAssetsCodeFeature(result.assetsCode, this._params.feature);
 							break;
 						}
 			 		}
@@ -229,7 +233,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 						module.$("#cmmnCodeClManageVO :input").val("");
 						switch(module._params.action) {
 						case 'addLotcodeFeature':
-							module.addAssetsCodeByLotcode(this._params.feature, result.assetsCode);
+							module.modifyAssetCdFeature(result.assetsCode, this._params.feature);
 					 		alert(result.resultMsg);
 							// 창을 닫는다.
 							module.closeWindow();
@@ -268,7 +272,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnAddGisMap':
 		if(this._params.action=='addLotcodeFeature') {
-			alert('지번 정보를 등록 중입니다.');
+			if( confirm('선택한 자산의 위치로 등록 하시겠습니까?') ) {
+					this.modifyAssetsCodeFeature(this._editData, this._params.feature);
+			}
 			return;
 		}
 		if(this._editData.gisPrtAtCode==null || this._editData.gisAssetsCd==null || this._editData.gisAssetsSubCd==null
@@ -422,7 +428,7 @@ var module_instance = new GamAssetCodeModule();
 								<th>항구분</th>
 								<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 								<th>ERP 자산코드</th>
-								<td><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
+								<td colspan="3"><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
 								<th>자산코드</th>
 								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
 								<td rowSpan="3"><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
@@ -434,14 +440,18 @@ var module_instance = new GamAssetCodeModule();
 								<td><input id="searchGisAssetsLocCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsLocCd" data-code-id="GAM002" data-default-prompt="전체"/></td>
 								<th>부두</th>
 								<td><input id="searchGisAssetsQuayCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsQuayCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
-							</tr>
-							<tr>
-								<th>자산명</th>
-								<td><input id="searchGisAssetsNm" data-column-id="gisAssetsNm" type="text" size="36"></td>
 								<th>관리부서</th>
 								<td>
 									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" />
 								</td>
+							</tr>
+							<tr>
+								<th>자산명</th>
+								<td><input id="searchGisAssetsNm" data-column-id="gisAssetsNm" type="text" size="16"></td>
+								<th>소재지</th>
+								<td><input id="searchGisAssetsLocPlc" data-column-id="gisAssetsLocplc" type="text" size="20"></td>
+								<th>지번</th>
+								<td><input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
 								<th>운영부서</th>
 								<td>
 									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" />
@@ -465,6 +475,7 @@ var module_instance = new GamAssetCodeModule();
 					<button id="loadMap">지도보기</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
+					<button id="storeAutoMapGenerate">위치등록(배치)</button>	<!-- 빌드 시 -->
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll">

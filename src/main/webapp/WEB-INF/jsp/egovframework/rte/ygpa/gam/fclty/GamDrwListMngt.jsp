@@ -54,31 +54,31 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 			return data;
 		}*/
 	});
-	
+
 	this.$("#drwListMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 
 		module.$("#drwListManageVO :input").val("");
-		
+
 		module.makeFormValues("#drwListManageVO", row);
 		module._editInfoData = module.getFormValues("#drwListManageVO", row);
 		module._editInfoRow = module.$("#drwListMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
 		module.$("#drwLstRegistYear").attr("disabled","disabled");
-		
+
 		var searchOpt = module.makeFormArgs("#drwListManageVO");
         module.$("#drwListPhotoList").flexOptions({params:searchOpt}).flexReload();
 	});
-	
+
 	this.$("#drwListMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#drwListMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
-	
+
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
 	this.$(".photoEditItem").on("change", {module: this}, function(event) {
-		
+
 		var m = event.data.module;
-		
+
 		if(m._editPhotoRow == null) return;
 		if(m._editPhotoData == null) return;
 
@@ -92,7 +92,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 			m._editPhotoData.shotDt = dtStr;
 		}
 	});
-	
+
 	this.$("#drwListPhotoList").flexigrid({
 		module: this,
 		url: '<c:url value="/fclty/gamDrwListPhotoList.do" />',
@@ -111,22 +111,22 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: "150"
 	});
-	
+
 	this.$("#drwListPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
-		
+
 		module.$("#drwListPhotoForm :input").val("");
 		module.makeFormValues("#drwListPhotoForm", row);
 		module._editDataFile = module.getFormValues("#drwListPhotoForm", row);
 		module._editRowFile = module.$("#drwListPhotoList").selectedRowIds()[0];
 
 	/*	if(row.filenmPhysicl != null || row.filenmPhysicl != "") {
-			
+
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
 			var filenm = row["filenmPhysicl"];
 			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			
+
 			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-			    
+
 				$imgURL = module.getImageUrl(filenm);
 				module.$("#previewImage").fadeIn(400, function() {
 			    	module.$("#previewImage").attr("src", $imgURL);
@@ -164,13 +164,13 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-		 	
+
 			if(!validateGamDrwListCode(this.$("#drwListManageVO")[0])) return;
-			
+
 		 	var inputVO=[{}];
-		 	
+
 		 	if(this._deleteDataFileList == undefined) this._deleteDataFileList=[];
-		 	
+
 			inputVO[inputVO.length]={name: "insertFileList", value: JSON.stringify(this.$("#drwListPhotoList").selectFilterData([{col: "_updtId", filter: "I"}])) };
 			inputVO[inputVO.length]={name: "updateFileList", value :JSON.stringify(this.$("#drwListPhotoList").selectFilterData([{col: "_updtId", filter: "U"}])) };
 			inputVO[inputVO.length]={name: "deleteFileList", value: JSON.stringify(this._deleteDataFileList) };
@@ -181,7 +181,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListMngtListTab").tabs("option", {active: 0});
 						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -191,14 +191,14 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListMngtListTab").tabs("option", {active: 0});
 						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}
 		break;
-		
+
 		// 삭제
 		case "deleteBtn":
 			var row = this.$("#drwListMngtList").selectedRows();
@@ -207,51 +207,51 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 				alert("삭제할 도면을 선택 하십시오.");
 				return;
 			}
-			
+
 			if(confirm("선택 한 건축 시설을 삭제하시겠습니까?")){
-				
+
 				var inputVO = {drwLstRegistYear:row[0]["drwLstRegistYear"], drwLstSeq:row[0]["drwLstSeq"]};
 			 	this.doAction('<c:url value="/fclty/gamDrwListMngDelete.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#drwListMngtListTab").tabs("option", {active: 0}); 
+						module.$("#drwListMngtListTab").tabs("option", {active: 0});
 						module.$("#drwListManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}
 		break;
-		
+
 		// 파일 업로드
 		case "btnUploadFile":
-			
+
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 			this.uploadFile("uploadPhoto", function(module, result) {
-				
+
 				var userid = "admin";
-				
+
 				$.each(result, function(){
 					module.$("#drwListPhotoList").flexAddRow({_updtId:"I", drwDtaCd: "", drwNm: "", drwFilenmLogic: this.logicalFileNm, drwFilenmPhysicl: this.physcalFileNm, drwSeCd: "", drwNo: "", drwWritngDt:"", drwChangedt:"", drwChangeDtls : ""});
 				});
 			}, "도면파일 업로드");
-            
+
 		break;
-		
+
 		case "btnRemoveFile":
-        	
+
             var rows = this.$("#drwListPhotoList").selectedRows();
 
             if(rows.length == 0){
                 alert("파일목록에서 삭제할 행을 선택하십시오.");
                 return;
             }
-            
+
             if(this.$("#drwListPhotoList").selectedRowIds().length>0) {
             	for(var i=this.$("#drwListPhotoList").selectedRowIds().length-1; i>=0; i--) {
 
             		var row = this.$("#drwListPhotoList").flexGetRow(this.$("#drwListPhotoList").selectedRowIds()[i]);
-                       
+
                     if(row._updtId == undefined || row._updtId != "I") {
                     	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 					}
@@ -264,17 +264,17 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
             this._editDataFile = null;
 		break;
 
-		
+
 		// 파일 적용
 		case "btnApplyPhotoData":
-			
+
 			if(this._editDataFile == null){
 				alert("적용할 파일이 없습니다.");
 				return;
 			}
-			
+
 			if(!validateGamDrwListPhoto(this.$("#drwListPhotoForm")[0])) return;
-			
+
             this._editDataFile = this.getFormValues("#drwListPhotoForm", this._editDataFile);
             if(this._editRowFile != null) {
                 if(this._editDataFile._updtId != "I") this._editDataFile._updtId = "U";
@@ -286,7 +286,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 
             this.$("#drwListPhotoForm :input").val("");
             this._editDataFile = null;
-            
+
 		break;
 	}
 };
@@ -352,11 +352,13 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<button id="deleteBtn">삭제</button>
 				</div>
 			</div>
-			
+
 			<!-- 도면시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="height:300px; overflow: scroll;">
 				<form id="drwListManageVO" style="height:350px;">
 					<input type="hidden" id="cmd" />
+					<input type="hidden" id="laCrdnt" />
+					<input type="hidden" id="loCrdnt" />
 					<table class="searchPanel">
 						<tr>
 							<th width="150" height="23" class="required_text">도면 목록 등록 년도<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>

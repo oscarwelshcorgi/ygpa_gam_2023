@@ -6,6 +6,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<bean id="gridExcelView" class="egovframework.rte.cmmn.excel.FlexiGridExcelView" />
+
+<!-- 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+ -->
 	<bean id="excelOlnlpService"	class="egovframework.rte.fdl.excel.impl.EgovExcelServiceImpl">
 		<!-- <property name="propertyPath" value="excelInfo.xml" /> -->
 		<property name="mapClass" value="egovframework.rte.ygpa.gam.code.service.impl.GamOlnlpExcelMapping" />

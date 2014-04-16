@@ -688,20 +688,48 @@
                 <a href="{%=EMD.context_root%}/cmm/getImage.do?physicalFileNm={%=file.fileName%}" title="{%=file.orizinalFileName%}" download="{%=EMD.context_root%}/cmm/getImage.do?physicalFileNm={%=file.fileName%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.orizinalFileName%}</a>
             </p>
             {% if (file.error) { %}
-                <div><span class="error">Error</span> {%=file.error%}</div>
+                <div><span class="error">에러</span> {%=file.error%}</div>
             {% } %}
         </td>
         <td>
             <span class="size">{%=o.formatFileSize(file.fileSize)%}</span>
         </td>
         <td>
-            <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>Delete</button>
+            <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>삭제</button>
             <input type="checkbox" name="delete" value="1" class="toggle">
         </td>
     </tr>
 {% } %}
 </script>
 
+</form>
+
+</div>
+<div id="xlsfile_upload_dialog" title="엑셀 업로드 파일">
+<form id="xlsfileupload" action="<c:url value='/code/GamExcelOlnlpRegist.do'/>" method="POST" enctype="multipart/form-data">
+	<input name="type" type="hidden" value="genericFileMulti"/>
+    <div class="fileupload-buttonbar">
+        <div class="fileupload-buttons">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+            <span class="fileinput-button">
+                <span>파일 업로드...</span>
+                <input type="file" name="files[]" multiple>
+            </span>
+            <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button>
+            <button type="button" class="delete">삭제</button>
+            <input type="checkbox" class="toggle">
+            <!-- The global file processing state -->
+            <span class="fileupload-process"></span>
+        </div>
+        <!-- The global progress state -->
+        <div class="fileupload-progress fade" style="display:none">
+            <!-- The global progress bar -->
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+            <!-- The extended global progress state -->
+            <div class="progress-extended">&nbsp;</div>
+        </div>
+    </div>
 </form>
 
 </div>

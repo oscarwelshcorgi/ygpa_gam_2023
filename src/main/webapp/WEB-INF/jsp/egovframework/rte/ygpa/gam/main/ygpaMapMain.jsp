@@ -707,7 +707,7 @@
             <span class="size">{%=o.formatFileSize(file.fileSize)%}</span>
         </td>
         <td>
-            <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>Delete</button>
+            <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>삭제</button>
             <input type="checkbox" name="delete" value="1" class="toggle">
         </td>
     </tr>

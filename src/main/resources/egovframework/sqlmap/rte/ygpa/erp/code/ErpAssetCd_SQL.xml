@@ -207,9 +207,9 @@ SELECT * FROM (
 								ASSET_SALE_DATE,
 								ASSET_SALE_AMT,
 								INPUT_EMP_NO,
-								INPUT_DATE,
+								TO_CHAR(INPUT_DATE, 'YYYY-MM-DD') INPUT_DATE,
 								UPDATE_EMP_NO,
-								UPDATE_DATE
+								TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD') UPDATE_DATE
 						FROM EGMFA1000
 				WHERE 1=1
 					<isNotEmpty prepend="AND" property="searchAssetCls">
@@ -226,12 +226,12 @@ SELECT * FROM (
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchStartDt">
 						<![CDATA[
-						BUY_DATE  > TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						BUY_DATE  >= REPLACE(#searchStartDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchEndDt">
 						<![CDATA[
-						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						BUY_DATE  < REPLACE(#searchEndDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchDeptCd">
@@ -267,12 +267,12 @@ SELECT * FROM (
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchStartDt">
 						<![CDATA[
-						BUY_DATE  > TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						BUY_DATE  > REPLACE(#searchStartDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchEndDt">
 						<![CDATA[
-						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						BUY_DATE  < REPLACE(#searchEndDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchDeptCd">
@@ -318,12 +318,12 @@ SELECT * FROM (
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchStartDt">
 						<![CDATA[
-						BUY_DATE  > TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						BUY_DATE  > REPLACE(#searchStartDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchEndDt">
 						<![CDATA[
-						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						BUY_DATE  < REPLACE(#searchEndDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchAssetSize">
@@ -359,12 +359,12 @@ SELECT * FROM (
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchStartDt">
 						<![CDATA[
-						BUY_DATE  > TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						BUY_DATE  > REPLACE(#searchStartDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchEndDt">
 						<![CDATA[
-						BUY_DATE  < TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						BUY_DATE  < REPLACE(#searchEndDt#, '-', '')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchDeptCd">

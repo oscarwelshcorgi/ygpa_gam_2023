@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	   <select id="gamMapsFcltyMngtDao.selectMapsFcltyMngtList" parameterClass="hashMap" resultClass="egovMap">
+			SELECT
+				F.GIS_ASSETS_PRT_AT_CODE
+				, F.GIS_ASSETS_CD
+				, F.GIS_ASSETS_SUB_CD
+				, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND
+				CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+				, F.GIS_PRT_FCLTY_CD
+				, F.GIS_PRT_FCLTY_SEQ
+				, F.PRT_FCLTY_SE
+				, F.PRT_FCLTY_NM
+				, F.PRT_FCLTY_STNDRD
+				, F.PRT_FCLTY_UNIT
+				, F.LA_CRDNT
+				, F.LO_CRDNT
+				, A.GIS_ASSETS_NM
+				, A.GIS_ASSETS_LOCPLC
+				, A.GIS_ASSETS_LNM
+				, A.GIS_ASSETS_LNM_SUB
+			FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
+			WHERE 1 = 1
+			AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+			AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+			AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+			AND LA_CRDNT IS NOT NULL
+			AND LO_CRDNT IS NOT NULL
+		</select>
+
+	   <select id="gamMapsFcltyMngtDao.selectMapsFcltyMngtInfo" parameterClass="hashMap" resultClass="egovMap">
+			SELECT
+				F.GIS_ASSETS_PRT_AT_CODE
+				, F.GIS_ASSETS_CD
+				, F.GIS_ASSETS_SUB_CD
+				, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND
+				CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+				, F.GIS_PRT_FCLTY_CD
+				, F.GIS_PRT_FCLTY_SEQ
+				, F.PRT_FCLTY_SE
+				, F.PRT_FCLTY_NM
+				, F.PRT_FCLTY_STNDRD
+				, F.PRT_FCLTY_UNIT
+				, F.LA_CRDNT
+				, F.LO_CRDNT
+				, A.GIS_ASSETS_NM
+				, A.GIS_ASSETS_LOCPLC
+				, A.GIS_ASSETS_LNM
+				, A.GIS_ASSETS_LNM_SUB
+				, PHOTO.PHOTO_SJ
+				, PHOTO.FILENM_PHYSICL
+				, PHOTO.FILENM_LOGIC
+			FROM GIS_PRT_FCLTY_CD_F F LEFT JOIN PRT_FCLTY_PHOTO_F PHOTO ON F.GIS_ASSETS_PRT_AT_CODE = PHOTO.GIS_ASSETS_PRT_AT_CODE
+			AND F.GIS_ASSETS_CD          = PHOTO.GIS_ASSETS_CD
+			AND F.GIS_ASSETS_SUB_CD      = PHOTO.GIS_ASSETS_SUB_CD
+			AND F.PRT_FCLTY_SE           = PHOTO.PRT_FCLTY_SE,
+			  GIS_ASSETS_CD_F A
+			WHERE 1                      = 1
+				AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+				AND F.GIS_ASSETS_CD          = A.GIS_ASSETS_CD
+				AND F.GIS_ASSETS_SUB_CD      = A.GIS_ASSETS_SUB_CD
+				AND F.GIS_ASSETS_CD = #gisAssetsCd#
+		       AND F.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       AND F.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		       AND F.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		       AND F.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		       AND F.PRT_FCLTY_SE = #prtFcltySe#
+		       AND ROWNUM=1
+		</select>
+
+</sqlMap>

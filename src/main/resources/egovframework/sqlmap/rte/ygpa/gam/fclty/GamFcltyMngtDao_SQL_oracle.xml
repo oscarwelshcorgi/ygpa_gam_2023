@@ -7,15 +7,15 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="fcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO"/>
-    
+
     <insert id="gamFcltyMngtDao.insertFclty">
    		<selectKey keyProperty="maxFcltySeq" resultClass="String">
-	       	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0') 
-				FROM GIS_PRT_FCLTY_CD_F  
-		   	WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-				AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-				AND GIS_ASSETS_CD = #gisAssetsCd# 
-				AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
+	       	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0')
+				FROM GIS_PRT_FCLTY_CD_F
+		   	WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+				AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD = #gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 				AND PRT_FCLTY_SE = #prtFcltySe#
 	    </selectKey>
 		<![CDATA[
@@ -35,8 +35,10 @@
 			, GIS_ASSETS_PRT_AT_CODE
 			, GIS_ASSETS_CD
 			, GIS_ASSETS_SUB_CD
+			, LA_CRDNT
+			, LO_CRDNT
 			)
-			VALUES 
+			VALUES
 			( #gisPrtFcltyCd#
 			, #maxFcltySeq#
 			, #prtFcltyNm#
@@ -51,42 +53,46 @@
 			, #prtFcltyGisCd#
 			, #gisAssetsPrtAtCode#
 			, #gisAssetsCd#
-			, #gisAssetsSubCd# 
+			, #gisAssetsSubCd#
+			, #laCrdnt#
+			, #loCrdnt#
 			)
 		]]>
 	</insert>
-    
+
     <select id="gamFcltyMngtDao.selectFcltyMngtList" parameterClass="comDefaultVO" resultClass="egovMap">
-         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.selectList */ 
-		SELECT * 
-		  FROM 
-		       (SELECT Z.*, 
-		              ROWNUM AS RNUM 
-		         FROM 
+         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.selectList */
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
 		              (
-		              	SELECT 
+		              	SELECT
 		              			F.GIS_ASSETS_CD
 		              			, F.GIS_ASSETS_CD ||'-'|| F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY
 		              			, GIS_PRT_FCLTY_CD ||'-'|| GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY
-			                    , F.GIS_ASSETS_PRT_AT_CODE  
+			                    , F.GIS_ASSETS_PRT_AT_CODE
 			                    , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
-			                    , F.GIS_ASSETS_SUB_CD  
-			                    , GIS_PRT_FCLTY_CD 
-			                    , GIS_PRT_FCLTY_SEQ 
-			                    , PRT_FCLTY_NM 
+			                    , F.GIS_ASSETS_SUB_CD
+			                    , GIS_PRT_FCLTY_CD
+			                    , GIS_PRT_FCLTY_SEQ
+			                    , PRT_FCLTY_NM
 			                    , A.GIS_ASSETS_LOC_CD
-			                    , PRT_FCLTY_STNDRD 
-			                    , PRT_FCLTY_UNIT 
+			                    , PRT_FCLTY_STNDRD
+			                    , PRT_FCLTY_UNIT
 			                    , TO_CHAR(TO_DATE(PRT_FCLTY_INSTL_DT) , 'yyyy-mm-dd')  PRT_FCLTY_INSTL_DT
-                                , TO_CHAR(TO_DATE(PRT_FCLTY_CHANGE_DT) , 'yyyy-mm-dd')  PRT_FCLTY_CHANGE_DT 
-			                    , PRT_FCLTY_SE 
+                                , TO_CHAR(TO_DATE(PRT_FCLTY_CHANGE_DT) , 'yyyy-mm-dd')  PRT_FCLTY_CHANGE_DT
+			                    , PRT_FCLTY_SE
 			                    , (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = F.PRT_FCLTY_MNG_ENTRPS_CD) PRT_FCLTY_MNG_ENTRPS_NM
-			                    , PRT_FCLTY_MNG_ENTRPS_CD 
-			                    , PRT_FCLTY_GIS_CD  
+			                    , PRT_FCLTY_MNG_ENTRPS_CD
+			                    , PRT_FCLTY_GIS_CD
 								, A.GIS_ASSETS_NM
-                                , A.GIS_ASSETS_LOCPLC 
-		       					, A.GIS_ASSETS_LNM 
+                                , A.GIS_ASSETS_LOCPLC
+		       					, A.GIS_ASSETS_LNM
 		       					, A.GIS_ASSETS_LNM_SUB
+   								, F.LA_CRDNT
+								, F.LO_CRDNT
 		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
 		                WHERE 1 = 1
                         AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
@@ -109,16 +115,16 @@
 		                <isNotEmpty property="searchKeyword">
 	           				AND PRT_FCLTY_NM = #searchKeyword#
 	           			</isNotEmpty>
-		            ORDER BY F.GIS_ASSETS_CD DESC , 
-		                     F.GIS_ASSETS_PRT_AT_CODE DESC , 
-		                     F.GIS_ASSETS_SUB_CD DESC , 
-		                     F.GIS_PRT_FCLTY_CD DESC , 
-		                     F.GIS_PRT_FCLTY_SEQ DESC 
+		            ORDER BY F.GIS_ASSETS_CD DESC ,
+		                     F.GIS_ASSETS_PRT_AT_CODE DESC ,
+		                     F.GIS_ASSETS_SUB_CD DESC ,
+		                     F.GIS_PRT_FCLTY_CD DESC ,
+		                     F.GIS_PRT_FCLTY_SEQ DESC
 		              )Z
-		       ) 
+		       )
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamFcltyMngtDao.selectFcltyMngtListTotCnt" parameterClass="comDefaultVO" resultClass="int">
             SELECT COUNT(*) totcnt
              FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
@@ -144,213 +150,215 @@
            		AND PRT_FCLTY_NM = #searchKeyword#
            	</isNotEmpty>
     </select>
-    
+
     <select id="gamFcltyMngtDao.selectFcltyMngtPhotoList" parameterClass="fcltyManageVO" resultClass="egovMap">
-		SELECT * 
-		  FROM 
-		       (SELECT Z.*, 
-		              ROWNUM AS RNUM 
-		         FROM 
-		              (SELECT GIS_ASSETS_CD, 
-		                     GIS_ASSETS_PRT_AT_CODE, 
-		                     GIS_ASSETS_SUB_CD, 
-		                     GIS_PRT_FCLTY_CD, 
-		                     GIS_PRT_FCLTY_SEQ, 
-		                     PRT_FCLTY_PHOTO_SEQ, 
-		                     PRT_FCLTY_SE, 
-		                     PHOTO_SJ, 
-		                     FILENM_PHYSICL, 
-		                     FILENM_LOGIC, 
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (SELECT GIS_ASSETS_CD,
+		                     GIS_ASSETS_PRT_AT_CODE,
+		                     GIS_ASSETS_SUB_CD,
+		                     GIS_PRT_FCLTY_CD,
+		                     GIS_PRT_FCLTY_SEQ,
+		                     PRT_FCLTY_PHOTO_SEQ,
+		                     PRT_FCLTY_SE,
+		                     PHOTO_SJ,
+		                     FILENM_PHYSICL,
+		                     FILENM_LOGIC,
 		                     TO_CHAR(SHOT_DT,'YYYY-MM-DD') AS SHOT_DT,
-		                     REG_USR, 
-		                     REGIST_DT, 
-		                     PHOTO_DESC 
-		                FROM PRT_FCLTY_PHOTO_F 
-		                WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-                     	AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
-                     	AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-                     	AND GIS_ASSETS_CD = #gisAssetsCd# 
-                     	AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-                     	AND PRT_FCLTY_SE = #prtFcltySe#   
-		            ORDER BY GIS_ASSETS_CD DESC , 
-		                     GIS_ASSETS_PRT_AT_CODE DESC , 
-		                     GIS_ASSETS_SUB_CD DESC , 
-		                     GIS_PRT_FCLTY_CD DESC , 
-		                     GIS_PRT_FCLTY_SEQ DESC , 
-		                     PRT_FCLTY_PHOTO_SEQ DESC , 
-		                     PRT_FCLTY_SE DESC 
-		              )Z 
+		                     REG_USR,
+		                     REGIST_DT,
+		                     PHOTO_DESC
+		                FROM PRT_FCLTY_PHOTO_F
+		                WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+                     	AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+                     	AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+                     	AND GIS_ASSETS_CD = #gisAssetsCd#
+                     	AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+                     	AND PRT_FCLTY_SE = #prtFcltySe#
+		            ORDER BY GIS_ASSETS_CD DESC ,
+		                     GIS_ASSETS_PRT_AT_CODE DESC ,
+		                     GIS_ASSETS_SUB_CD DESC ,
+		                     GIS_PRT_FCLTY_CD DESC ,
+		                     GIS_PRT_FCLTY_SEQ DESC ,
+		                     PRT_FCLTY_PHOTO_SEQ DESC ,
+		                     PRT_FCLTY_SE DESC
+		              )Z
 		       )
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamFcltyMngtDao.selectFcltyMngtPhotoListTotCnt" parameterClass="fcltyManageVO" resultClass="int">
             SELECT COUNT(*) totcnt
              FROM PRT_FCLTY_PHOTO_F
-             WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-           	 AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
-           	 AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-           	 AND GIS_ASSETS_CD = #gisAssetsCd# 
-           	 AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-           	 AND PRT_FCLTY_SE = #prtFcltySe# 
+             WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+           	 AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+           	 AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+           	 AND GIS_ASSETS_CD = #gisAssetsCd#
+           	 AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+           	 AND PRT_FCLTY_SE = #prtFcltySe#
     </select>
 
     <select id="gamFcltyMngtDao.insertFcltyGetSeq" resultClass="String">
-    	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0') GIS_PRT_FCLTY_SEQ 
+    	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0') GIS_PRT_FCLTY_SEQ
   			FROM GIS_PRT_FCLTY_CD_F
     </select>
-    
+
 	<select id="gamFcltyMngtDao.fcltyMngSelectView" resultClass="fcltyManageVO" parameterClass="fcltyManageVO" >
-	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.select */ 
-		SELECT C.GIS_ASSETS_CD AS gisAssetsCd , 
-		       C.GIS_ASSETS_PRT_AT_CODE AS gisAssetsPrtAtCode , 
-		       C.GIS_ASSETS_SUB_CD AS gisAssetsSubCd , 
-		       C.GIS_PRT_FCLTY_CD AS gisPrtFcltyCd , 
-		       C.GIS_PRT_FCLTY_SEQ AS gisPrtFcltySeq , 
-		       C.PRT_FCLTY_NM AS prtFcltyNm , 
-		       C.PRT_FCLTY_STNDRD AS prtFcltyStndrd , 
-		       C.PRT_FCLTY_UNIT AS prtFcltyUnit , 
-		       TO_CHAR(TO_DATE(C.PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') AS prtFcltyInstlDt , 
-		       TO_CHAR(TO_DATE(C.PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') AS prtFcltyChangeDt , 
-		       C.REG_USR AS regUsr , 
-		       TO_CHAR(TO_DATE(C.REGIST_DT), 'YYYY-MM-DD') AS registDt , 
-		       C.UPD_USR AS updUsr , 
-		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS updtDt , 
-		       C.PRT_FCLTY_SE AS prtFcltySe , 
+	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.select */
+		SELECT C.GIS_ASSETS_CD AS gisAssetsCd ,
+		       C.GIS_ASSETS_PRT_AT_CODE AS gisAssetsPrtAtCode ,
+		       C.GIS_ASSETS_SUB_CD AS gisAssetsSubCd ,
+		       C.GIS_PRT_FCLTY_CD AS gisPrtFcltyCd ,
+		       C.GIS_PRT_FCLTY_SEQ AS gisPrtFcltySeq ,
+		       C.PRT_FCLTY_NM AS prtFcltyNm ,
+		       C.PRT_FCLTY_STNDRD AS prtFcltyStndrd ,
+		       C.PRT_FCLTY_UNIT AS prtFcltyUnit ,
+		       TO_CHAR(TO_DATE(C.PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') AS prtFcltyInstlDt ,
+		       TO_CHAR(TO_DATE(C.PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') AS prtFcltyChangeDt ,
+		       C.REG_USR AS regUsr ,
+		       TO_CHAR(TO_DATE(C.REGIST_DT), 'YYYY-MM-DD') AS registDt ,
+		       C.UPD_USR AS updUsr ,
+		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS updtDt ,
+		       C.PRT_FCLTY_SE AS prtFcltySe ,
 		       C.PRT_FCLTY_MNG_ENTRPS_CD AS prtFcltyMngEntrpsCd ,
-		       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = C.PRT_FCLTY_MNG_ENTRPS_CD) AS prtFcltyMngEntrpsNm , 
-		       C.PRT_FCLTY_GIS_CD AS prtFcltyGisCd, 
-		       P.GIS_ASSETS_LOCPLC AS gisAssetsLocplc, 
-		       P.GIS_ASSETS_LNM AS gisAssetsLnm, 
+		       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = C.PRT_FCLTY_MNG_ENTRPS_CD) AS prtFcltyMngEntrpsNm ,
+		       C.PRT_FCLTY_GIS_CD AS prtFcltyGisCd,
+		       P.GIS_ASSETS_LOCPLC AS gisAssetsLocplc,
+		       P.GIS_ASSETS_LNM AS gisAssetsLnm,
 		       P.GIS_ASSETS_LNM_SUB AS gisAssetsLnmSub,
-		       P.GIS_ASSETS_NM AS gisAssetsNm 
-		  FROM GIS_PRT_FCLTY_CD_F C, 
-		       GIS_ASSETS_CD_F P 
-		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE 
-		       AND P.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD 
-		       AND P.GIS_ASSETS_CD = C.GIS_ASSETS_CD 
-		 	   AND C.GIS_ASSETS_CD = #gisAssetsCd# 
-		       AND C.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-		       AND C.GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-		       AND C.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
+		       P.GIS_ASSETS_NM AS gisAssetsNm
+		  FROM GIS_PRT_FCLTY_CD_F C,
+		       GIS_ASSETS_CD_F P
+		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
+		       AND P.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD
+		       AND P.GIS_ASSETS_CD = C.GIS_ASSETS_CD
+		 	   AND C.GIS_ASSETS_CD = #gisAssetsCd#
+		       AND C.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       AND C.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		       AND C.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		       AND C.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
   	</select>
-  	
+
   	<insert id="gamFcltyMngtDao.insertFcltyFile">
   		<selectKey keyProperty="maxFcltyFileSeq" resultClass="String">
-	       	SELECT LPAD(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1,'2','0') 
-			  FROM PRT_FCLTY_PHOTO_F 
-			 WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
-			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-			       AND GIS_ASSETS_CD = #gisAssetsCd# 
-			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-			       AND PRT_FCLTY_SE = #prtFcltySe#       
+	       	SELECT LPAD(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1,'2','0')
+			  FROM PRT_FCLTY_PHOTO_F
+			 WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+			       AND GIS_ASSETS_CD = #gisAssetsCd#
+			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+			       AND PRT_FCLTY_SE = #prtFcltySe#
 	    </selectKey>
         <![CDATA[
-		INSERT 
-		  INTO PRT_FCLTY_PHOTO_F 
-		       ( 
-		           GIS_ASSETS_CD , 
-		           GIS_ASSETS_PRT_AT_CODE , 
-		           GIS_ASSETS_SUB_CD , 
-		           GIS_PRT_FCLTY_CD , 
-		           GIS_PRT_FCLTY_SEQ , 
-		           PRT_FCLTY_PHOTO_SEQ , 
-		           PRT_FCLTY_SE , 
-		           PHOTO_SJ , 
-		           FILENM_PHYSICL , 
-		           FILENM_LOGIC , 
-		           SHOT_DT , 
-		           REG_USR , 
-		           REGIST_DT , 
-		           PHOTO_DESC  
-		       ) 
-		       VALUES 
-		       ( 
-		           #gisAssetsCd# , 
-		           #gisAssetsPrtAtCode# , 
-		           #gisAssetsSubCd# , 
-		           #gisPrtFcltyCd# , 
-		           #gisPrtFcltySeq# , 
-		           #maxFcltyFileSeq# , 
-		           #prtFcltySe# , 
-		           #photoSj# , 
-		           #filenmPhysicl# , 
-		           #filenmLogic# , 
-		           #shotDt# , 
-		           #regUsr# , 
-		           SYSDATE , 
+		INSERT
+		  INTO PRT_FCLTY_PHOTO_F
+		       (
+		           GIS_ASSETS_CD ,
+		           GIS_ASSETS_PRT_AT_CODE ,
+		           GIS_ASSETS_SUB_CD ,
+		           GIS_PRT_FCLTY_CD ,
+		           GIS_PRT_FCLTY_SEQ ,
+		           PRT_FCLTY_PHOTO_SEQ ,
+		           PRT_FCLTY_SE ,
+		           PHOTO_SJ ,
+		           FILENM_PHYSICL ,
+		           FILENM_LOGIC ,
+		           SHOT_DT ,
+		           REG_USR ,
+		           REGIST_DT ,
+		           PHOTO_DESC
+		       )
+		       VALUES
+		       (
+		           #gisAssetsCd# ,
+		           #gisAssetsPrtAtCode# ,
+		           #gisAssetsSubCd# ,
+		           #gisPrtFcltyCd# ,
+		           #gisPrtFcltySeq# ,
+		           #maxFcltyFileSeq# ,
+		           #prtFcltySe# ,
+		           #photoSj# ,
+		           #filenmPhysicl# ,
+		           #filenmLogic# ,
+		           #shotDt# ,
+		           #regUsr# ,
+		           SYSDATE ,
 		           #photoDesc#
 		        )
         ]]>
     </insert>
-    
+
   	<update id="gamFcltyMngtDao.updateFclty">
         <![CDATA[
             UPDATE GIS_PRT_FCLTY_CD_F
-            SET 
-		       PRT_FCLTY_NM = #prtFcltyNm#, 
-		       PRT_FCLTY_STNDRD = #prtFcltyStndrd#, 
-		       PRT_FCLTY_UNIT = #prtFcltyUnit#, 
-		       PRT_FCLTY_INSTL_DT = #prtFcltyInstlDt#, 
-		       PRT_FCLTY_CHANGE_DT = #prtFcltyChangeDt#, 
-		       UPD_USR = #updUsr#, 
-		       UPDT_DT = SYSDATE, 
-		       PRT_FCLTY_MNG_ENTRPS_CD = #prtFcltyMngEntrpsCd#, 
-		       PRT_FCLTY_GIS_CD = #prtFcltyGisCd# 
-		 WHERE GIS_ASSETS_CD = #gisAssetsCd# 
-		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-		       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-		       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
-		       AND PRT_FCLTY_SE = #prtFcltySe# 
+            SET
+		       PRT_FCLTY_NM = #prtFcltyNm#,
+		       PRT_FCLTY_STNDRD = #prtFcltyStndrd#,
+		       PRT_FCLTY_UNIT = #prtFcltyUnit#,
+		       PRT_FCLTY_INSTL_DT = #prtFcltyInstlDt#,
+		       PRT_FCLTY_CHANGE_DT = #prtFcltyChangeDt#,
+		       UPD_USR = #updUsr#,
+		       UPDT_DT = SYSDATE,
+		       PRT_FCLTY_MNG_ENTRPS_CD = #prtFcltyMngEntrpsCd#,
+		       PRT_FCLTY_GIS_CD = #prtFcltyGisCd#,
+		       LA_CRDNT = #laCrdnt#,
+		       LO_CRDNT = #loCrdnt#
+		 WHERE GIS_ASSETS_CD = #gisAssetsCd#
+		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		       AND PRT_FCLTY_SE = #prtFcltySe#
         ]]>
     </update>
-    
+
   	<delete id="gamFcltyMngtDao.deleteFcltyFile">
         <![CDATA[
-            DELETE 
-			  FROM PRT_FCLTY_PHOTO_F 
-			 WHERE GIS_ASSETS_CD = #gisAssetsCd# 
-			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-			       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
+            DELETE
+			  FROM PRT_FCLTY_PHOTO_F
+			 WHERE GIS_ASSETS_CD = #gisAssetsCd#
+			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+			       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
 			       AND PRT_FCLTY_SE = #prtFcltySe#
         ]]>
         <isNotEmpty property="prtFcltyPhotoSeq">
 			AND PRT_FCLTY_PHOTO_SEQ = #prtFcltyPhotoSeq#
 	    </isNotEmpty>
     </delete>
-    
+
   	<update id="gamFcltyMngtDao.updateFcltyFile">
         <![CDATA[
-            UPDATE PRT_FCLTY_PHOTO_F 
-			       SET PHOTO_SJ = #photoSj#, 
-			       SHOT_DT = #shotDt#, 
-			       PHOTO_DESC = #photoDesc# 
-			WHERE GIS_ASSETS_CD = #gisAssetsCd# 
-			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-			       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
-			       AND PRT_FCLTY_PHOTO_SEQ = #prtFcltyPhotoSeq# 
-			       AND PRT_FCLTY_SE = #prtFcltySe# 
+            UPDATE PRT_FCLTY_PHOTO_F
+			       SET PHOTO_SJ = #photoSj#,
+			       SHOT_DT = #shotDt#,
+			       PHOTO_DESC = #photoDesc#
+			WHERE GIS_ASSETS_CD = #gisAssetsCd#
+			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+			       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+			       AND PRT_FCLTY_PHOTO_SEQ = #prtFcltyPhotoSeq#
+			       AND PRT_FCLTY_SE = #prtFcltySe#
         ]]>
     </update>
-    
-    
+
+
     <delete id="gamFcltyMngtDao.deleteFclty">
         <![CDATA[
-			DELETE 
-			  	FROM GIS_PRT_FCLTY_CD_F 
-			 WHERE GIS_ASSETS_CD = #gisAssetsCd# 
-			    AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode# 
-			    AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd# 
-			    AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd# 
-			    AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq# 
-			    AND PRT_FCLTY_SE = #prtFcltySe# 
+			DELETE
+			  	FROM GIS_PRT_FCLTY_CD_F
+			 WHERE GIS_ASSETS_CD = #gisAssetsCd#
+			    AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+			    AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+			    AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+			    AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+			    AND PRT_FCLTY_SE = #prtFcltySe#
         ]]>
     </delete>
 </sqlMap>

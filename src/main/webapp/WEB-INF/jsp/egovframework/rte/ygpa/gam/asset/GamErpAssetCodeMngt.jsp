@@ -209,7 +209,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			m._editPhotoData.photoSj = $(event.target).val();
 		}
 		else {	// 날짜 시간 변경
-			var dtStr = m.$('#shotDate').val()+' '+m.$('#shotTime').val();
+			var dtStr = m.$('#shotDt').val();
 			m._editPhotoData.shotDt = dtStr;
 		}
 
@@ -386,7 +386,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'btnErpAssetCodeListExcelDownload':	// 엑셀 다운로드
-		this.$('#erpAssetCodeList').flexExcelDown();
+		this.$('#erpAssetCodeList').flexExcelDown('<c:url value="/asset/selectErpAssetCodeListExcel.do"/>');
 		break;
 	case 'addAssetGisCdItem':
 		this.addGisAssetItem();
@@ -871,7 +871,7 @@ var module_instance = new GamAssetCodeModule();
 							</td>
 							<th><span class="label">촬영일자</span></th>
 							<td>
-                            	<input id="shotDate" type="text" size="10"  class="emdcal photoEditItem">
+                            	<input id="shotDt" type="text" size="10"  class="emdcal photoEditItem">
 			   					<button id="btnApplyPhotoData">적용</button>
 							</td>
 						</tr>

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
@@ -28,14 +28,14 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
 
 /**
- * 
+ *
  * @author kok
  * @since 2014. 2. 3.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 2. 3.		kok		최초 생성
@@ -50,22 +50,20 @@ public class GamConsFcltyMngtController {
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	@Resource(name = "gamFcltyMngtService")
 	protected GamFcltyMngtService gamFcltyMngtService;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-	
+
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
-    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    
+
     private final static String prtFcltySe = "C";
-    
+
 	/**
      * 건축시설 관리화면호출
      * @param windowId
@@ -78,8 +76,8 @@ public class GamConsFcltyMngtController {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fclty/GamConstFcltyMngt";
     }
-	
-	
+
+
 	/**
 	 * 건축시설 조회화면호출
 	 * @param windowId
@@ -92,9 +90,9 @@ public class GamConsFcltyMngtController {
 		model.addAttribute("windowId", windowId);
 		return "/ygpa/gam/fclty/GamConstFcltyInqire";
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 건축시설목록 조회
 	 * @param searchVO
@@ -105,7 +103,7 @@ public class GamConsFcltyMngtController {
 	@ResponseBody Map<String, Object> selectFcltyMngtList(GamFcltyManageVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -131,7 +129,7 @@ public class GamConsFcltyMngtController {
 
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-		
+
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", fcltyMngtList);
@@ -139,8 +137,8 @@ public class GamConsFcltyMngtController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 건축시설 파일 목록
 	 * @param searchVO
@@ -149,7 +147,7 @@ public class GamConsFcltyMngtController {
 	 */
 	@RequestMapping(value="/fclty/gamConstFcltyPhotoList.do")
 	@ResponseBody Map<String, Object> selectFcltyMngtPhotoList(GamFcltyManageVO searchVO)throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 내역 조회
@@ -158,29 +156,29 @@ public class GamConsFcltyMngtController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 
 		List<ComDefaultVO> fcltyMngtPhotoList = gamFcltyMngtService.selectFcltyMngtPhotoList(searchVO);
 		int totCnt = gamFcltyMngtService.selectFcltyMngtPhotoListTotCnt(searchVO);
-		
+
 		paginationInfo.setTotalRecordCount(totCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-		
+
 		map.put("resultCode", 0);			// return ok
 		map.put("totalCount", totCnt);
 		map.put("resultList", fcltyMngtPhotoList);
 		map.put("searchOption", searchVO);
-		
+
 		return map;
 	}
-	
-	
+
+
 	/**
 	 * 건축 시설관리 등록
 	 * @param fcltyManageVO
@@ -193,7 +191,16 @@ public class GamConsFcltyMngtController {
     @ResponseBody Map<String, Object> insertFclty(@RequestParam Map<String, Object> fcltyMngtList) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
     	fcltyMngtList.put("USERID",user.getId());
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
@@ -201,7 +208,7 @@ public class GamConsFcltyMngtController {
     		gamFcltyMngtService.insertFcltyManage(fcltyMngtList);
 
     		map.put("resultCode", 0);			// return ok
-            map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -212,26 +219,34 @@ public class GamConsFcltyMngtController {
       	return map;
     }
 
-	
+
 	/**
 	 * 건축 시설관리 상세
 	 * @param fcltyManageVO
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamConstFcltyView.do")
-    @ResponseBody Map<String, Object> fcltyMngSelectView(@ModelAttribute("fcltyManageVO") GamFcltyManageVO fcltyManageVO) throws Exception {
+	@RequestMapping(value="/fclty/gamConstFcltyDetail.do")
+    @ResponseBody Map<String, Object> fcltyMngSelectView(@RequestParam GamFcltyManageVO fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
-    	fcltyManageVO = gamFcltyMngtService.fcltyMngSelectView(fcltyManageVO);
 
-        map.put("detail", fcltyManageVO);
+    	try {
+        	fcltyManageVO = gamFcltyMngtService.fcltyMngSelectView(fcltyManageVO);
+    	}
+    	catch(Exception e) {
+            map.put("resultCode", 2);
+            map.put("resultMsg", e.getMessage());
+            return map;
+    	}
+
+        map.put("resultCode", 0);
+        map.put("result", fcltyManageVO);
 
         return map;
     }
 
-	
+
 	/**
 	 * 건축 시설관리 수정
 	 * @param fcltyManageVO
@@ -244,9 +259,18 @@ public class GamConsFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
     	fcltyMngtList.put("USERID", user.getId());
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
-    	
+
     	try {
     		gamFcltyMngtService.updateFclty(fcltyMngtList);
     		map.put("resultCode", 0);			// return ok
@@ -260,8 +284,8 @@ public class GamConsFcltyMngtController {
 
     	return map;
     }
-    
-    
+
+
     /**
      * 건축 시설관리 삭제
      * @param fcltyManageVO

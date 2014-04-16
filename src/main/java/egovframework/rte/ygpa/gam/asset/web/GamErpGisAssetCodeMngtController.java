@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -186,6 +187,39 @@ public class GamErpGisAssetCodeMngtController {
     	return map;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/selectErpAssetCodeListExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+    	// 환경설정
+    	/** EgovPropertyService */
+		ErpAssetCdDefaultVO searchVO= new ErpAssetCdDefaultVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, ErpAssetCdDefaultVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+
+    	List gamAssetList = erpAssetCdService.selectErpAssetCdList(searchVO);
+
+    	map.put("resultList", gamAssetList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
 
     @RequestMapping(value="/asset/selectGisAssetCodeList.do")
     @ResponseBody Map selectGisAssetCodeList(GamGisAssetCodeVO searchVO) throws Exception {

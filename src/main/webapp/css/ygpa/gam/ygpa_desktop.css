@@ -129,3 +129,42 @@ overflow: hidden;
 
 input[type="text"]:disabled { color: #000; background-color: white; border-style: none none solid; }
 select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; border-style: dotted; }
+
+.prtFcltyInfo div {
+	  width: 100%;
+  white-space: nowrap;
+}
+
+.prtFcltyInfo h2 {
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 3px;
+  text-shadow: #000 0 1px 1px;
+}
+
+.prtFcltyInfo table {
+	  width: 100%;
+  white-space: nowrap;
+}
+
+.prtFcltyInfo th {
+	background: #2FDAFF;
+	  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+  text-shadow: #000 0 1px 1px;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.prtFcltyInfo td {
+	background: #fff;
+	color: #615E5E;
+}
+
+.prtFcltyInfo tr {
+  background: #06c repeat-x;
+  color: #fff;
+}
+
+.ui-icon-excel-down { width: 30px; height: 32px; background-image: url(../../../images/egovframework/ygpa/gam/icons/excel_icon.png); }

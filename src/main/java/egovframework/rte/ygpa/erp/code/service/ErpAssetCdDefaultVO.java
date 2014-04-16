@@ -3,6 +3,8 @@ package egovframework.rte.ygpa.erp.code.service;
 import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @Class Name : ErpAssetCdDefaultVO.java
  * @Description : ErpAssetCd Default VO class
@@ -15,6 +17,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  *
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ErpAssetCdDefaultVO implements Serializable {
 
 	/**
