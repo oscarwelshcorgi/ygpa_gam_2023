@@ -27,13 +27,14 @@ function GamSendMesgListMngtModule() {}
 
 GamSendMesgListMngtModule.prototype = new EmdModule(1000, 600);
 
+var g_seqNum;
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSendMesgListMngtModule.prototype.loadComplete = function() {
 
     // SMS 메세지 목록 테이블 설정
     this.$("#sendMesgMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/cmmn/gamSelectSendMesgList.do" />',
+        url: '<c:url value="/cmmn/sms/gamSelectSendMesgList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'SMS순번', name:'smsSeq',width:50, sortable:false,align:'center'},
@@ -45,7 +46,7 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
                     {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'mngNo',width:50, sortable:false,align:'center'},
                     {display:'관리횟수', name:'mngCnt',width:50, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center', displayFormat: 'number'}
+                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -55,6 +56,8 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
     });
 
     this.$("#sendMesgMngtList").on('onItemSelected', function(event, module, row, grid, param) {
+        if(row==null) return;
+       		g_seqNum = row['smsSeq'];
     });
     
     
@@ -73,12 +76,43 @@ GamSendMesgListMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
     	// 조회
         case 'searchBtn':
+        	
+        	/*if( this.$('#searchDTFrom').val() == '' ) {
+                alert("전송조회시작일을 선택하십시오.");
+                return;
+            }
+        	if( this.$('#searchDTTo').val() == '' ) {
+                alert("전송조회종료일을 선택하십시오.");
+                return;
+            }*/
+        	var id, ret='';
+        	id = '#transmisSttus';
+        	ret = '';
+        	for(var i=0; i<4; i++) {
+       			var idseq = id + i;
+       			if(this.$(idseq).is(':checked')) {
+       				ret = ret + this.$(idseq).val() + ', ';
+       			}
+        	}
+        	this.$(id).val(ret);
             var searchOpt=this.makeFormArgs('#GamSendMesgListMngtSearchForm');
             this.$('#sendMesgMngtList').flexOptions({params:searchOpt}).flexReload();
             break;
-
+            
         // 재전송
         case 'retransmitBtn':
+        	this.$('#smsSeq').val(g_seqNum);
+        	var searchOpt = this.makeFormArgs('#GemSmsRetransmitForm');
+        	var thisObj = this;
+        	this.doAction('<c:url value="/cmmn/sms/smsRetransmit.do" />', searchOpt, function(module, result) {
+        		if(result.resultCode == "0"){
+        			searchOpt = thisObj.makeFormArgs('#GamSendMesgListMngtSearchForm');
+        			thisObj.$('#sendMesgMngtList').flexOptions({params:searchOpt}).flexReload();
+    	 		}
+    	 		else {
+    	 			alert(result.resultMsg);
+    	 		}
+    	 	});
             break;
     }
 };
@@ -112,8 +146,8 @@ var module_instance = new GamSendMesgListMngtModule();
                             </td>
                             <th>전송기간</th>
                             <td>
-                                <input id="trnsmisDtFrom" type="text" class="emdcal"
-                                	size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="trnsmisDtTo" type="text"
+                                <input id="searchDTFrom" type="text" class="emdcal"
+                                	size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="searchDTTo" type="text"
                                 	class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
                             </td>
                             <th>관리년도</th>
@@ -133,11 +167,12 @@ var module_instance = new GamSendMesgListMngtModule();
                         <tr>
                             <th>전송상태</th>
                             <td colspan="9">
-                                	<span>전송중</span> <input id="transmitContChk" type="checkbox" value="chkCont">
-                                	<span>전송완료</span> <input id="transmitCompChk" type="checkbox" value="chkComp">
-                                	<span>전송실패</span> <input id="transmitFailChk" type="checkbox" value="chkFail">
-                                	<span>전송취소</span> <input id="transmitCcelChk" type="checkbox" value="chkCcel">
-                            </td>                         
+                            	<input type="hidden" id="transmisSttus">
+                                <span>전송중</span> <input id="transmisSttus0" type="checkbox" value="0"> 
+                                <span>전송완료</span> <input id="transmisSttus1" type="checkbox" value="1">
+                                <span>전송실패</span> <input id="transmisSttus2" type="checkbox" value="4">
+                                <span>전송취소</span> <input id="transmisSttus3" type="checkbox" value="9">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -152,7 +187,8 @@ var module_instance = new GamSendMesgListMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="sendMesgMngtList" style="display:none" class="fillHeight"></table>
+                <table id="sendMesgMngtList" style="display:none" class="fillHeight">
+                </table>
 
                 <div class="emdControlPanel">
                     <table style="width:100%;">
@@ -163,9 +199,10 @@ var module_instance = new GamSendMesgListMngtModule();
                         </tr>
                     </table>
                 </div>
+               	<form id="GemSmsRetransmitForm">
+        			<input type="hidden" id="smsSeq" />
+        		</form>
             </div>
-
-
         </div>
     </div>
 </div>
