@@ -95,7 +95,7 @@ public class GamAssetRentMngtSampleController {
 	         sms.put("mngCnt", vo.get("mngCnt"));
 	         sms.put("cn", egovMessageSource.getMessage("gam.asset.rent.sms.confirm"));	// 메시지 내용
 
-	         gamSmsMngtService.sendSmsMessage(sms);
+	         //gamSmsMngtService.sendSmsMessage(sms);
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");

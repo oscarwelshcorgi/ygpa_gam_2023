@@ -25,7 +25,7 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
     private String smsSeq;
     
     /** 재전송 SMS순번*/
-    private int newSmsSeq;
+    private String newSmsSeq;
 
     /** 수신번호 */
     private String recptnNo;
@@ -41,6 +41,9 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
     
     /** 전송상태 */
     private String transmisSttus;
+
+    /** 전송상태배열 */
+    private String[] transmisSttusArray;
     
     /** 등록자 */
     private String regUsr;
@@ -60,6 +63,12 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
     /** 관리횟수 */
     private String mngCnt;
 
+    /** 조회 from 날짜 */
+    private String searchDTFrom;
+    
+    /** 조회 to 날짜 */
+    private String searchDTTo;
+    
 	/**
 	 * @return the smsSeq
 	 */
@@ -77,14 +86,14 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
 	/**
 	 * @return the newSmsSeq
 	 */
-	public int getNewSmsSeq() {
+	public String getNewSmsSeq() {
 		return newSmsSeq;
 	}
 
 	/**
 	 * @param newSmsSeq the newSmsSeq to set
 	 */
-	public void setNewSmsSeq(int newSmsSeq) {
+	public void setNewSmsSeq(String newSmsSeq) {
 		this.newSmsSeq = newSmsSeq;
 	}
 
@@ -243,10 +252,52 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
 	}
 
 	/**
+	 * @return the searchDTFrom
+	 */
+	public String getSearchDTFrom() {
+		return searchDTFrom;
+	}
+
+	/**
+	 * @param searchDTFrom the searchDTFrom to set
+	 */
+	public void setSearchDTFrom(String searchDTFrom) {
+		this.searchDTFrom = searchDTFrom;
+	}
+
+	/**
+	 * @return the searchDTTo
+	 */
+	public String getSearchDTTo() {
+		return searchDTTo;
+	}
+
+	/**
+	 * @param searchDTTo the searchDTTo to set
+	 */
+	public void setSearchDTTo(String searchDTTo) {
+		this.searchDTTo = searchDTTo;
+	}
+
+	/**
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return the transmisSttusArray
+	 */
+	public String[] getTransmisSttusArray() {
+		return transmisSttusArray;
+	}
+
+	/**
+	 * @param transmisSttusArray the transmisSttusArray to set
+	 */
+	public void setTransmisSttusArray(String[] transmisSttusArray) {
+		this.transmisSttusArray = transmisSttusArray;
 	}
 
 }
