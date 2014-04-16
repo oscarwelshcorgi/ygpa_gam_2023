@@ -58,6 +58,18 @@
 	                  			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
 	                  		</isNotEmpty>
 	                  	</isNotEmpty>
+	                  	
+	                  	<isNotEmpty property="fac_code">
+		                    AND T1.FAC_CODE = #fac_code#                    
+		                </isNotEmpty>
+		                
+		                <isNotEmpty property="fac_sub_code">
+		                    AND T1.FAC_SUB_CODE = #fac_sub_code#
+		                </isNotEmpty>
+		                
+		                <isNotEmpty property="chrgeKndCd">
+		                    AND T1.FEE_TP = #chrgeKndCd#
+		                </isNotEmpty>
 						
 						ORDER BY T1.PRT_AT_CODE DESC
                 ) S
@@ -77,11 +89,23 @@
                </isNotEmpty>
             
            <isNotEmpty property="sGrUsagePdFrom">
-            		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
-            		<isNotEmpty property="sGrUsagePdTo">
-            			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
-            		</isNotEmpty>
-            	</isNotEmpty>
+          		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+          		<isNotEmpty property="sGrUsagePdTo">
+          			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+          		</isNotEmpty>
+          	</isNotEmpty>
+          
+          <isNotEmpty property="fac_code">
+              AND T1.FAC_CODE = #fac_code#                    
+          </isNotEmpty>
+          
+          <isNotEmpty property="fac_sub_code">
+              AND T1.FAC_SUB_CODE = #fac_sub_code#
+          </isNotEmpty>
+          
+          <isNotEmpty property="chrgeKndCd">
+              AND T1.FEE_TP = #chrgeKndCd#
+          </isNotEmpty>
     </select>
 
 </sqlMap>

@@ -22,11 +22,11 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListService;
-import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO;
+import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListService_;
+import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO_;
 
 @Controller
-public class GamNticPayListController {
+public class GamNticPayListController_ {
 
 	/** Validator */
 	@Autowired
@@ -37,8 +37,8 @@ public class GamNticPayListController {
     protected EgovPropertyService propertiesService;
 
     /** EgovProgrmManageService */
-	@Resource(name = "gamNticPayListService")
-    private GamNticPayListService gamNticPayListService;
+	@Resource(name = "gamNticPayListService_")
+    private GamNticPayListService_ gamNticPayListService_;
 
 	/** cmmUseService */
     @Resource(name="EgovCmmUseService")
@@ -47,15 +47,13 @@ public class GamNticPayListController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
 
-	@RequestMapping(value="/cmmn/itgrn/gamNticPayList.do")
+	@RequestMapping(value="/cmmn/itgrn/gamNticPayList_.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+    	
+		model.addAttribute("windowId", windowId);
 		
-		codeVo.setCodeId("GAM019"); //항코드 
-		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		
 		codeVo.setCodeId("GAM024"); //요금종류
 		List<?> chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
@@ -63,12 +61,10 @@ public class GamNticPayListController {
 		codeVo.setCodeId("GAM025"); //수납구분 
 		List<?> rcivSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		model.addAttribute("windowId", windowId);
-		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
 		
-    	return "/ygpa/gam/cmmn/itgrn/GamNticPayList";
+    	return "/ygpa/gam/cmmn/itgrn/GamNticPayList_";
     }
 
 
@@ -78,8 +74,8 @@ public class GamNticPayListController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/cmmn/itgrn/gamNticPayListSelect.do")
-    @ResponseBody Map<String, Object> selectNticPayList(GamNticPayListVO searchVO) throws Exception {
+    @RequestMapping(value="/cmmn/itgrn/gamNticPayListSelect_.do")
+    @ResponseBody Map<String, Object> selectNticPayList(GamNticPayListVO_ searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -106,8 +102,8 @@ public class GamNticPayListController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<ComDefaultVO> nticPayList = gamNticPayListService.selectNticPayList(searchVO);
-        int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
+		List<ComDefaultVO> nticPayList = gamNticPayListService_.selectNticPayList(searchVO);
+        int totCnt = gamNticPayListService_.selectNticPayListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
@@ -126,12 +122,12 @@ public class GamNticPayListController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/cmmn/itgrn/gamNticPayListSelectView.do")
-    @ResponseBody Map<String, Object> gamNticPayListSelectView(@ModelAttribute("GamNticPayListVO") GamNticPayListVO nticPayListVO) throws Exception {
+	@RequestMapping(value="/cmmn/itgrn/gamNticPayListSelectView_.do")
+    @ResponseBody Map<String, Object> gamNticPayListSelectView(@ModelAttribute("GamNticPayListVO") GamNticPayListVO_ nticPayListVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	nticPayListVO = gamNticPayListService.gamNticPayListSelectView(nticPayListVO);
+    	nticPayListVO = gamNticPayListService_.gamNticPayListSelectView(nticPayListVO);
 
         map.put("detail", nticPayListVO);
 
