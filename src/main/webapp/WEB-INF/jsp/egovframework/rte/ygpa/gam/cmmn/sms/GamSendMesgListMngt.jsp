@@ -27,7 +27,9 @@ function GamSendMesgListMngtModule() {}
 
 GamSendMesgListMngtModule.prototype = new EmdModule(1000, 600);
 
+//선택한 순번을 저장하는 전역 변수
 var g_seqNum;
+
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSendMesgListMngtModule.prototype.loadComplete = function() {
 
@@ -46,7 +48,7 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
                     {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'mngNo',width:50, sortable:false,align:'center'},
                     {display:'관리횟수', name:'mngCnt',width:50, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
+                    {display:'등록자', name:'regUsr',width:80, sortable:false,align:'center'},
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -76,15 +78,14 @@ GamSendMesgListMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
     	// 조회
         case 'searchBtn':
-        	
-        	/*if( this.$('#searchDTFrom').val() == '' ) {
+        	if( this.$('#searchDTFrom').val() == '' ) {
                 alert("전송조회시작일을 선택하십시오.");
                 return;
             }
         	if( this.$('#searchDTTo').val() == '' ) {
                 alert("전송조회종료일을 선택하십시오.");
                 return;
-            }*/
+            }
         	var id, ret='';
         	id = '#transmisSttus';
         	ret = '';
@@ -101,12 +102,17 @@ GamSendMesgListMngtModule.prototype.onButtonClick = function(buttonId) {
             
         // 재전송
         case 'retransmitBtn':
+        	if(g_seqNum == '') { 
+        		return;  
+        	}
         	this.$('#smsSeq').val(g_seqNum);
+        	g_seqNum = '';
         	var searchOpt = this.makeFormArgs('#GemSmsRetransmitForm');
         	var thisObj = this;
         	this.doAction('<c:url value="/cmmn/sms/smsRetransmit.do" />', searchOpt, function(module, result) {
         		if(result.resultCode == "0"){
-        			searchOpt = thisObj.makeFormArgs('#GamSendMesgListMngtSearchForm');
+        			alert('재전송 신청이 완료되었습니다.');
+        			searchOpt = thisObj.makeFormArgs('#GamSendMesgListMngtSearchForm');        			
         			thisObj.$('#sendMesgMngtList').flexOptions({params:searchOpt}).flexReload();
     	 		}
     	 		else {
@@ -167,8 +173,8 @@ var module_instance = new GamSendMesgListMngtModule();
                         <tr>
                             <th>전송상태</th>
                             <td colspan="9">
-                            	<input type="hidden" id="transmisSttus">
-                                <span>전송중</span> <input id="transmisSttus0" type="checkbox" value="0"> 
+                            	<input type="hidden" id="transmisSttus"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            	<span>전송중</span> <input id="transmisSttus0" type="checkbox" value="0"> 
                                 <span>전송완료</span> <input id="transmisSttus1" type="checkbox" value="1">
                                 <span>전송실패</span> <input id="transmisSttus2" type="checkbox" value="4">
                                 <span>전송취소</span> <input id="transmisSttus3" type="checkbox" value="9">
