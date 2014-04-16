@@ -539,7 +539,7 @@
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/assets/gamAssetCodeList.do'/>">자산코드조회</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamOlnlpList.do'/>">공시지가 조회</a></li>
                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamCmpyInfoList.do'/>">업체정보 조회</a></li>
-                            <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamBupJungDongCodeMngt.do'/>">법정동 조회</a></li>
+<%--                             <li><a href="#" data-role="LoadModule" data-url="<c:url value='/code/gamBupJungDongCodeMngt.do'/>">법정동 조회</a></li> --%>
                         </ul>
                 </li>
             </ul>
