@@ -1,133 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.fclty">
+<sqlMap namespace="ygpa.gam.cmmn.sms">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSmsMngtVO" type="egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtVO"/>
 
-    <insert id="gamSmsMngtDAO.sendSmsMessage_S">
-        INSERT INTO SMS_TRNSMIS_DTLS_F (
-            SMS_SEQ,
-			RECPTN_NO,
-         <isNotEmpty property="replyNo">
-			REPLY_NO,
-			</isNotEmpty>
-			CN,
-			TRNSMIS_STTUS,
-			ENTRPS_CD,
-			CHARGER_NO,
-         <isNotEmpty property="prtAtCode">
-			PRT_AT_CODE,
-			</isNotEmpty>
-        <isNotEmpty property="mngYear">
-			MNG_YEAR,
-		</isNotEmpty>
-        <isNotEmpty property="mngNo">
-			MNG_NO,
-		</isNotEmpty>
-        <isNotEmpty property="mngCnt">
-			MNG_CNT,
-		</isNotEmpty>
-			REG_USR,
-			REGIST_DT
-		)
-        VALUES (
-            #smsSeq#,
-			#recptnNo#,
-         <isNotEmpty property="replyNo">
-			#replyNo#,
-			</isNotEmpty>
-			#cn#,
-			'0',
-			#entrpsCd#,
-			#chargerNo#,
-         <isNotEmpty property="prtAtCode">
-			#prtAtCode#,
-			</isNotEmpty>
-        <isNotEmpty property="mngYear">
-			#mngYear#,
-		</isNotEmpty>
-        <isNotEmpty property="mngNo">
-			#mngNo#,
-		</isNotEmpty>
-        <isNotEmpty property="mngCnt">
-			#mngCnt#,
-		</isNotEmpty>
-					#regUsr#,
-			SYSDATE
-		)
-    </insert>
-
-    <insert id="gamSmsMngtDAO.sendSmsMessageServer_S">
-        INSERT INTO SMSDATA@SMS_SERVER (
-	        SEQNO
-		  , INDATE
-		  , INTIME
-		  , MEMBER
-		  , SENDID
-		  , SENDNAME
-		  , RPHONE1
-		  , RPHONE2
-		  , RPHONE3
-		  , RECVNAME
-		  , SPHONE1
-		  , SPHONE2
-		  , SPHONE3
-		  , MSG
-		  , URL
-		  , RDATE
-		  , RTIME
-		  , RESULT
-		  , KIND
-		  , ERRCODE
-		  , TARGET_ID
-		  , TARGET_LOGIN
-		)
-        VALUES (
-        	SMSDATA_SEQNO.NEXTVAL,
-        	TO_CHAR(SYSDATE, 'YYYYMMDD'),
-        	TO_CHAR(SYSDATE, 'HH24MISS'),
-        	77,
-        	'kctasms',
-        	#recptnNm#,
-			#recptnNo1#,
-			#recptnNo2#,
-			#recptnNo3#,
-			#sendNm#,
-			#replyNo1#,
-			#replyNo2#,
-			#replyNo3#,
-			#cn#,
-			null,
-			#rdate#
-            #rtime#,
-            '',
-            'S',
-            0,
-            NULL,
-            NULL)
-    </insert>
-
-    	<select id="gamSmsMngtDAO.selectChargerInfo_S" parameterClass="hashMap" resultClass="egovMap">
-		<![CDATA[
-			SELECT CHARGER_NM DISP_NM,
-			       CHARGER_MOBLPHON_NO PHONE_NO,
-			       CHARGER_DEPT DEPT_NM
-			  FROM ENTRPS_CHARGER_F
-			 WHERE ENTRPSCD = #entrpscd#
-			       AND CHARGER_NO = #chargerNo#
-		]]>
+	<select id="gamSmsMngtDAO.selectSmsMngtList_S" parameterClass="gamSmsMngtVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+						SELECT 	 T1.SMS_SEQ
+							    ,T1.RECPTN_NO
+							    ,T1.REPLY_NO
+							    ,T1.CN
+							    ,TO_CHAR(T1.TRNSMIS_DT, 'YYYY-MM-DD') TRNSMIS_DT
+							    ,
+				       			  (CASE WHEN T1.TRNSMIS_STTUS='0' THEN '전송중'
+				            			WHEN T1.TRNSMIS_STTUS='1' THEN '전송완료'
+				             			WHEN T1.TRNSMIS_STTUS='4' THEN '전송실패'
+				             			WHEN T1.TRNSMIS_STTUS='9' THEN '전송취소'
+				             			ELSE '전송대기' END) AS TRNSMIS_STTUS
+				             	,T1.REG_USR
+				             	,T1.REGIST_DT
+				             	,T1.PRT_AT_CODE
+				             	,T1.MNG_YEAR
+				             	,T1.MNG_NO
+				             	,T1.MNG_CNT
+				  		FROM SMS_TRNSMIS_DTLS_F T1
+				  		WHERE 1 = 1
+				  				<isNotEmpty property="prtAtCode">
+				  					AND T1.PRT_AT_CODE = #prtAtCode#
+				  				</isNotEmpty>
+				  				<isNotEmpty property="searchDTFrom">
+				  					<isNotEmpty property="searchDTTo">
+				  						<![CDATA[AND T1.TRNSMIS_DT >= TO_DATE(#searchDTFrom#, 'YYYY-MM-DD')
+				  							AND T1.TRNSMIS_DT <= TO_DATE(#searchDTTo#, 'YYYY-MM-DD')]]> 
+				  					</isNotEmpty>
+				  				</isNotEmpty>
+				  				<isNotEmpty property="mngYear">
+				  					AND T1.MNG_YEAR = #mngYear#
+				  				</isNotEmpty>		
+				  				<isNotEmpty property="mngNo">
+				  					AND T1.MNG_NO = #mngNo#
+				  				</isNotEmpty>		
+				  				<isNotEmpty property="mngCnt">
+				  					AND T1.MNG_CNT = #mngCnt#
+				  				</isNotEmpty>
+  								<isNotEmpty property="transmisSttus">
+  									AND T1.TRNSMIS_STTUS IN $transmisSttus$
+  								</isNotEmpty>
+                ) S
+             ) A
 	</select>
 
-    	<select id="gamSmsMngtDAO.selectEmployInfo_S" parameterClass="java.lang.String" resultClass="egovMap">
-		<![CDATA[
-			SELECT USER_NM DISP_NM,
-			       MBTLNUM PHONE_NO,
-			       (SELECT ORGNZT_NM FROM COMTNORGNZTINFO WHERE ORGNZT_ID=A.ORGNZT_ID) DEPT_NM
-			  FROM COMTNEMPLYRINFO A
-			 WHERE EMPLYR_ID=#emplyrId#
-		]]>
-	</select>
-
+    <select id="gamSmsMngtDAO.selectSmsMngtListTotCnt_S" parameterClass="gamSmsMngtVO" resultClass="int">
+			SELECT 
+            	COUNT(*) TOTCNT
+            FROM SMS_TRNSMIS_DTLS_F T1
+			WHERE 1 = 1
+	       
+	        <isNotEmpty property="prtAtCode">
+  					AND T1.PRT_AT_CODE = #prtAtCode#
+  				</isNotEmpty>
+  				<isNotEmpty property="searchDTFrom">
+  					<isNotEmpty property="searchDTTo">
+  						<![CDATA[AND T1.TRNSMIS_DT >= TO_DATE(#searchDTFrom#, 'YYYY-MM-DD')
+  							AND T1.TRNSMIS_DT <= TO_DATE(#searchDTTo#, 'YYYY-MM-DD')]]> 
+  					</isNotEmpty>
+  				</isNotEmpty>
+  				<isNotEmpty property="mngYear">
+  					AND T1.MNG_YEAR = #mngYear#
+  				</isNotEmpty>		
+  				<isNotEmpty property="mngNo">
+  					AND T1.MNG_NO = #mngNo#
+  				</isNotEmpty>		
+  				<isNotEmpty property="mngCnt">
+  					AND T1.MNG_CNT = #mngCnt#
+  				</isNotEmpty>
+  				<isNotEmpty property="transmisSttus">
+  					AND T1.TRNSMIS_STTUS IN $transmisSttus$
+  				</isNotEmpty>
+    </select>
+	
+	<insert id="gamSmsMngtDAO.smsRetransmit_S" parameterClass="gamSmsMngtVO">
+			INSERT INTO 
+				SMS_TRNSMIS_DTLS_F
+					(SMS_SEQ
+					,RECPTN_NO
+					,REPLY_NO
+					,CN
+					,TRNSMIS_DT
+					,TRNSMIS_STTUS
+					,REG_USR
+					,REGIST_DT
+					,PRT_AT_CODE
+					,MNG_YEAR
+					,MNG_NO
+					,MNG_CNT)
+					SELECT TO_NUMBER(#newSmsSeq#)
+						,T1.RECPTN_NO
+       					,T1.REPLY_NO
+       					,T1.CN
+       					,NULL
+       					,'0'
+       					,#regUsr#
+       					,SYSDATE
+       					,T1.PRT_AT_CODE
+       					,T1.MNG_YEAR
+       					,T1.MNG_NO
+       					,T1.MNG_CNT
+  					FROM SMS_TRNSMIS_DTLS_F T1
+					WHERE T1.SMS_SEQ=TO_NUMBER(#smsSeq#)	
+	</insert>
 </sqlMap>
