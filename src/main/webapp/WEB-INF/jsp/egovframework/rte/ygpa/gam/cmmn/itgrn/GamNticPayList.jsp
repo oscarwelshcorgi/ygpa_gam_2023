@@ -11,9 +11,9 @@
   * 
   *   수정일         수정자                   수정내용 
   *  -------    --------    ---------------------------
-  *  2014.02.07  kok          최초 생성
+  *  2014.04.16  lsl          최초 생성
   *
-  * author kok
+  * author lsl
   * since 2014.02.07
   *  
   * Copyright (C) 2013 by LFIT  All right reserved.
@@ -36,58 +36,39 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"요금 종류",					name:"chrgeKndNm",				width:100,		sortable:false,		align:"center"},
-				{display:"회계 년도",	 				name:"accnutYear",				width:60,		sortable:false,		align:"center"},
-				{display:"고지번호", 				name:"nticno",					width:80,		sortable:false,		align:"center"},
-				{display:"수납 구분명",				name:"rcivSeNm",				width:80,		sortable:false,		align:"center"},
-				{display:"업체코드", 	 			name:"entrpscd",				width:80,		sortable:false,		align:"center"},
-				{display:"고지금액",					name:"nticAmt",					width:80,		sortable:false,		align:"center"},
-				{display:"시작일",					name:"beginDt",					width:80,		sortable:false,		align:"center"},
-				{display:"종료일",					name:"endDt",					width:80,		sortable:false,		align:"center"},
-				{display:"납부기한",					name:"payTmlmt",				width:100,		sortable:false,		align:"center"},
-				{display:"고지일자",					name:"nticDt",					width:80,		sortable:false,		align:"center"},
-				{display:"산출내역",					name:"computDtls",				width:80,		sortable:false,		align:"center"},
-				{display:"금융기관 수납 일자",			name:"fnncInsttRcivDt",			width:80,		sortable:false,		align:"center"},
-				{display:"등록일시",					name:"registDt",				width:80,		sortable:false,		align:"center"},
-				{display:"관리 횟수",					name:"mngCnt",					width:1,		sortable:false,		align:"center"},
-				{display:"관리 번호",					name:"mngNo",					width:1,		sortable:false,		align:"center"},
-				{display:"관리 년도",					name:"mngYear",					width:1,		sortable:false,		align:"center"},
-				{display:"고지 횟수",					name:"nticCnt",					width:1,		sortable:false,		align:"center"},
-				{display:"수납구분",					name:"rcivSe",					width:1,		sortable:false,		align:"center"},
-				{display:"항코드",					name:"prtAtCode",				width:1,		sortable:false,		align:"center"}
-//				{display:"고지서 발부 여부",			name:"nhtIsueYn",				width:80,		sortable:false,		align:"center"},
-//				{display:"회계 구분 코드",			name:"accnutSeCd",				width:100,		sortable:false,		align:"center"},
-//				{display:"수납 이체 상태 코드"			name:"RCIV_TRANSFRSTTUSCD",		width:1,		sortable:false,		align:"center"},
-//				{display:"최초 고지 일자" 			name:"gisAssetsCd",			width:1,		sortable:false,		align:"center"},
-//				{display:"수납 일자"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"불능 코드"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"과오납 금액"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"임시 발행 번호"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"할인 금액"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"할인 사유"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"할인 코드"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"우편 고지 유무"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"불납 사유 코드"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"전자 고지 결과"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"전자 고지 정보 조회 일자"	name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"정산 여부"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"부가세"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"부가세 여부"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"징수관 구분"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"원고지 요금 종류"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"원고지 회계 년도"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"원고지 번호"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"전자 세금 계산서 발행 여부"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"고지 방법"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"등록자"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"관리 년도"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"지로 수납처"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"지로 수납 구분"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"수수료"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"마감 여부"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"부서코드"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"담당자"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"작업 구분"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
+				{display:"일련번호",					name:"intSeq",				width:100,		sortable:false,		align:"center"},
+				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
+				{display:"청코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
+				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
+				{display:"회계년도",					name:"fiscalYr",			width:80,		sortable:false,		align:"center"},
+				{display:"고지번호",					name:"billNo",				width:80,		sortable:false,		align:"center"},
+				{display:"업체코드",					name:"agentCode",			width:80,		sortable:false,		align:"center"},
+				{display:"사업자등록번호",				name:"bzRgstId",			width:80,		sortable:false,		align:"center"},
+				{display:"사업장명",					name:"agentName",			width:80,		sortable:false,		align:"center"},
+				{display:"고지금액",					name:"billAmnt",			width:80,		sortable:false,		align:"center"},
+				{display:"부가세",					name:"vat",					width:80,		sortable:false,		align:"center"},
+				{display:"고지일자",					name:"billDt",				width:80,		sortable:false,		align:"center"},
+				{display:"고지서발부여부",				name:"billPrtYn",			width:80,		sortable:false,		align:"center"},
+				{display:"산출내역",					name:"amntRsn",				width:80,		sortable:false,		align:"center"},
+				{display:"납부기한일자",				name:"dueDate",				width:80,		sortable:false,		align:"center"},
+				{display:"부가세구분",					name:"vatYn",				width:80,		sortable:false,		align:"center"},
+				{display:"최초고지일자",				name:"firstBillDt",			width:80,		sortable:false,		align:"center"},
+				{display:"수납구분",					name:"rcvdTp",				width:80,		sortable:false,		align:"center"},
+				{display:"수납일자",					name:"rcvdDt",				width:80,		sortable:false,		align:"center"},
+				{display:"면제(보전)금액",				name:"exmpAmnt",			width:80,		sortable:false,		align:"center"},
+				{display:"할인금액",					name:"dcAmnt",				width:80,		sortable:false,		align:"center"},
+				{display:"할인사유코드",				name:"dcCode",				width:80,		sortable:false,		align:"center"},
+				{display:"할인율코드",					name:"dcRate",				width:80,		sortable:false,		align:"center"},
+				{display:"금융기관수납일자",				name:"recptEpdt",			width:80,		sortable:false,		align:"center"},
+				{display:"정산여부",					name:"last",				width:80,		sortable:false,		align:"center"},
+				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
+				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
+				{display:"시설코드",					name:"facCode",				width:80,		sortable:false,		align:"center"},
+				{display:"시설부코드",					name:"facSubCode",			width:80,		sortable:false,		align:"center"},
+				{display:"고지횟수",					name:"billCount",			width:80,		sortable:false,		align:"center"},
+				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
+				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
+				{display:"선석명",					name:"facKorNm",			width:80,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -102,58 +83,29 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"요금 종류",					name:"chrgeKndNm",				width:100,		sortable:false,		align:"center"},
-				{display:"회계 년도",	 				name:"accnutYear",				width:60,		sortable:false,		align:"center"},
-				{display:"고지번호", 				name:"nticno",					width:80,		sortable:false,		align:"center"},
-				{display:"수납 구분명",				name:"rcivSeNm",				width:80,		sortable:false,		align:"center"},
-				{display:"업체코드", 	 			name:"entrpscd",				width:80,		sortable:false,		align:"center"},
-				{display:"고지금액",					name:"nticAmt",					width:80,		sortable:false,		align:"center"},
-				{display:"시작일",					name:"beginDt",					width:80,		sortable:false,		align:"center"},
-				{display:"종료일",					name:"endDt",					width:80,		sortable:false,		align:"center"},
-				{display:"납부기한",					name:"payTmlmt",				width:100,		sortable:false,		align:"center"},
-				{display:"고지일자",					name:"nticDt",					width:80,		sortable:false,		align:"center"},
-				{display:"산출내역",					name:"computDtls",				width:80,		sortable:false,		align:"center"},
-				{display:"금융기관 수납 일자",			name:"fnncInsttRcivDt",			width:80,		sortable:false,		align:"center"},
-				{display:"등록일시",					name:"registDt",				width:80,		sortable:false,		align:"center"},
-				{display:"관리 횟수",					name:"mngCnt",					width:1,		sortable:false,		align:"center"},
-				{display:"관리 번호",					name:"mngNo",					width:1,		sortable:false,		align:"center"},
-				{display:"관리 년도",					name:"mngYear",					width:1,		sortable:false,		align:"center"},
-				{display:"고지 횟수",					name:"nticCnt",					width:1,		sortable:false,		align:"center"},
-				{display:"수납구분",					name:"rcivSe",					width:1,		sortable:false,		align:"center"},
-				{display:"항코드",					name:"prtAtCode",				width:1,		sortable:false,		align:"center"}
-//				{display:"고지서 발부 여부",			name:"nhtIsueYn",				width:80,		sortable:false,		align:"center"},
-//				{display:"회계 구분 코드",			name:"accnutSeCd",				width:100,		sortable:false,		align:"center"},
-//				{display:"수납 이체 상태 코드"			name:"RCIV_TRANSFRSTTUSCD",		width:1,		sortable:false,		align:"center"},
-//				{display:"최초 고지 일자" 			name:"gisAssetsCd",			width:1,		sortable:false,		align:"center"},
-//				{display:"수납 일자"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"불능 코드"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"과오납 금액"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"임시 발행 번호"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"할인 금액"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"할인 사유"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"할인 코드"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"우편 고지 유무"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"불납 사유 코드"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"전자 고지 결과"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"전자 고지 정보 조회 일자"	name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"정산 여부"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"부가세"					name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"부가세 여부"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"징수관 구분"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"원고지 요금 종류"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"원고지 회계 년도"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"},
-//				{display:"원고지 번호"				name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"전자 세금 계산서 발행 여부"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"고지 방법"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"등록자"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"관리 년도"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"지로 수납처"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"지로 수납 구분"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"수수료"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"마감 여부"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"부서코드"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"담당자"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
-//				{display:"작업 구분"			name:"gisAssetsSubCd",		width:1,		sortable:false,		align:"center"}
+				{display:"일련번호",					name:"intSeq",				width:100,		sortable:false,		align:"center"},
+				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
+				{display:"청코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
+				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
+				{display:"회계년도",					name:"fiscalYr",			width:80,		sortable:false,		align:"center"},
+				{display:"고지번호",					name:"billNo",				width:80,		sortable:false,		align:"center"},
+				{display:"연체횟수",					name:"dlySerNo",			width:80,		sortable:false,		align:"center"},
+				{display:"업체코드",					name:"agentCode",			width:80,		sortable:false,		align:"center"},
+				{display:"사업자등록번호",				name:"bzRgstId",			width:80,		sortable:false,		align:"center"},
+				{display:"연체고지금액",				name:"dlyBillAmnt",			width:80,		sortable:false,		align:"center"},
+				{display:"연체고지일자",				name:"dlyBillDt",			width:80,		sortable:false,		align:"center"},
+				{display:"연체고지서발부여부",			name:"dlyBillPrtYn",		width:80,		sortable:false,		align:"center"},
+				{display:"산출내역",					name:"dlyBillRsn",			width:80,		sortable:false,		align:"center"},
+				{display:"연체납부기한일자",				name:"dlyDueDt",			width:80,		sortable:false,		align:"center"},
+				{display:"최초고지일자",				name:"firstBillDt",			width:80,		sortable:false,		align:"center"},
+				{display:"연체수납일자",				name:"dlyRcvdDt",			width:80,		sortable:false,		align:"center"},
+				{display:"할인율코드",					name:"dcRate",				width:80,		sortable:false,		align:"center"},
+				{display:"금융기관수납일자",				name:"recptEpdt",			width:80,		sortable:false,		align:"center"},
+				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
+				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
+				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
+				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
+				{display:"업체명",					name:"firmKorNm",			width:80,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
