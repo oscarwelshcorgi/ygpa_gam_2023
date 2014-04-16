@@ -42,9 +42,6 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
     
     /** 전송상태 */
     private String transmisSttus;
-
-    /** 전송상태배열 */
-    private String[] transmisSttusArray;
     
     /** 등록자 */
     private String regUsr;
@@ -286,19 +283,4 @@ public class GamSmsMngtVO extends ErpCmmnCdDefaultVO {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	/**
-	 * @return the transmisSttusArray
-	 */
-	public String[] getTransmisSttusArray() {
-		return transmisSttusArray;
-	}
-
-	/**
-	 * @param transmisSttusArray the transmisSttusArray to set
-	 */
-	public void setTransmisSttusArray(String[] transmisSttusArray) {
-		this.transmisSttusArray = transmisSttusArray;
-	}
-
 }

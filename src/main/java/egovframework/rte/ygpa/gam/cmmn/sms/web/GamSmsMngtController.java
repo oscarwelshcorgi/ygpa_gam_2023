@@ -22,7 +22,18 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtService;
 import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtVO;
 
-
+/**
+ * @Class Name : GamSmsMngtController.java
+ * @Description : SMS목록 관리 컨트롤러
+ * @Modification Information
+ *
+ * @author 김종민
+ * @since 2014-04-15
+ * @version 1.0
+ * @see
+ *  
+ *  Copyright (C)  All right reserved.
+ */
 
 @Controller
 public class GamSmsMngtController {
@@ -37,12 +48,27 @@ public class GamSmsMngtController {
     @Resource(name="gamSmsIdGnrService")
     private EgovIdGnrService gamSmsIdGnrService;
     
+    /**
+     * SMS목록관리 화면을 로딩한다. 
+     *
+     * @param windowId
+     * @param model the model
+     * @return "/ygpa/gam/cmmn/sms/GamSendMesgListMngt"
+     * @throws Exception the exception  
+     */
 	@RequestMapping(value="/cmmn/sms/GamSendMesgListMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/sms/GamSendMesgListMngt";
     }
 	
+	/**
+     * SMS 관리 목록을 조회한다. 
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception  
+     */
 	@RequestMapping(value="/cmmn/sms/gamSelectSendMesgList.do", method=RequestMethod.POST)
     public @ResponseBody Map selectGamSendMesgList(GamSmsMngtVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
@@ -50,12 +76,19 @@ public class GamSmsMngtController {
 
     	String sttus = searchVO.getTransmisSttus();
     	String[] array = sttus.split(",");
-    	String[] sttusArray = null;
+
+    	String temp = null;
     	if(array.length - 1 > 0) {
-    		sttusArray = new String[array.length - 1];
-    		System.arraycopy(array, 0, sttusArray, 0, array.length - 1);
+    		temp = "( ";
+    		for(int i=0; i<array.length-1; i++) {
+    			if(i != array.length - 2)
+    				temp = temp + array[i] + ", ";
+    			else 
+    				temp = temp + array[i] + " )";
+    		}
     	}
-    	searchVO.setTransmisSttusArray(sttusArray);
+    	searchVO.setTransmisSttus(temp);
+    	
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -69,8 +102,8 @@ public class GamSmsMngtController {
 		//목록
     	totalCnt = gamSmsMngtService.selectSmsMngtListTotCnt(searchVO);
 		List resultList = gamSmsMngtService.selectSmsMngtList(searchVO);
-    	System.out.print("test ****************************************** : " + resultList);
-    	map.put("resultCode", 0);	// return ok
+
+		map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
@@ -78,16 +111,23 @@ public class GamSmsMngtController {
     	return map;
     }
 	
+	/**
+     * 재전송 데이터를 처리한다. 
+     *
+     * @param createVO
+     * @return map
+     * @throws Exception the exception  
+     */
 	@RequestMapping(value="/cmmn/sms/smsRetransmit.do", method=RequestMethod.POST)
-    public @ResponseBody Map smsRetransmit(GamSmsMngtVO searchVO) throws Exception {
+    public @ResponseBody Map smsRetransmit(GamSmsMngtVO createVO) throws Exception {
     	Map map = new HashMap();
 
-    	searchVO.setNewSmsSeq(String.valueOf(gamSmsIdGnrService.getNextLongId()));
+    	createVO.setNewSmsSeq(String.valueOf(gamSmsIdGnrService.getNextLongId()));
     	
-    	gamSmsMngtService.smsRetransmit(searchVO);
+    	gamSmsMngtService.smsRetransmit(createVO);
     	
     	map.put("resultCode", 0);	// return ok
-    	map.put("searchOption", searchVO); 
+    	map.put("searchOption", createVO); 
     	return map;
     }
 	
