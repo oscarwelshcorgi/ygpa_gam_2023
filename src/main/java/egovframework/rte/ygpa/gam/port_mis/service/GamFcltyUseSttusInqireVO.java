@@ -6,7 +6,11 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  * @Class Name : GamFcltyUseSttusInqireVO.java
  * @Description : 항만시설사용현황조회(포트미스정보)
  * @Modification Information
- *
+ *   수정일          수정자                   수정내용 
+  *  -------    --------    ---------------------------
+  *  2014.01.14  domh          최초 생성
+  *  2014.04.14  lsl          선석별 사용현황 조회처리 -- 기존 파일은 _처리 백업
+  *
  * @author domh
  * @since 2014-01-14
  * @version 1.0

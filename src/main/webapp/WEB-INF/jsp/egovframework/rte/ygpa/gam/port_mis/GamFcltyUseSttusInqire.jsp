@@ -12,7 +12,7 @@
   *   수정일          수정자                   수정내용 
   *  -------    --------    ---------------------------
   *  2014.01.14  domh          최초 생성
-  *  2014.04.14  domh          선석별 사용현황 조회처리 -- 기존 파일은 _처리 백업
+  *  2014.04.14  lsl          선석별 사용현황 조회처리 -- 기존 파일은 _처리 백업
   *
   * author domh
   * since 2014.01.14
@@ -37,14 +37,14 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         url: '<c:url value="/port_mis/gamSelectFcltyUseSttusInqireList.do" />',
         dataType: 'json',
         colModel : [      
-					{display:'청코드', name:'prtAtCode',width:50, sortable:false,align:'center'},         
-					{display:'선석코드', name:'facCode',width:60, sortable:false,align:'center'},                
-					{display:'선석명', name:'facKorNm',width:190, sortable:false,align:'center'},         
-					{display:'요금종류코드', name:'feeTp',width:100, sortable:false,align:'center'},  
-					{display:'면제금액', name:'exmpAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-					{display:'할인금액', name:'dcAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'},               
-					{display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'},         
-					{display:'생성일자', name:'prctDt',width:120, sortable:false,align:'center'}
+					{display:'청코드', name:'prtAtCode',width:50, sortable:true,align:'center'},         
+					{display:'선석코드', name:'facCode',width:60, sortable:true,align:'center'},                
+					{display:'선석명', name:'facKorNm',width:190, sortable:true,align:'center'},         
+					{display:'요금종류코드', name:'feeTp',width:100, sortable:true,align:'center'},  
+					{display:'면제금액', name:'exmpAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},
+					{display:'할인금액', name:'dcAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},               
+					{display:'고지금액', name:'billAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},         
+					{display:'생성일자', name:'prctDt',width:120, sortable:true,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
