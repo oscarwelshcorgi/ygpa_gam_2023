@@ -154,7 +154,7 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 연체세입리스트 엑셀 다운로드
 		case 'btnDelayNticPayListExcelDownload':
-			this.$('#delayNticPayList').flexExcelDown();
+			this.$('#delayNticPayList').flexExcelDown('<c:url value="/cmmn/itgrn/gamDelayNticPayListSelectExcel.do"/>');
 		break;
 		
 		// 업체조회 팝업

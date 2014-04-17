@@ -1,7 +1,10 @@
 package egovframework.rte.ygpa.gam.cmmn.itgrn.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	private static final long serialVersionUID = 1L;
 

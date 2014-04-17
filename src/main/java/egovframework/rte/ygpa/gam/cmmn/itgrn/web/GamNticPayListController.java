@@ -25,7 +25,6 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListService;
 import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO;
 
@@ -126,6 +125,12 @@ public class GamNticPayListController {
     	return map;
     }
     
+    /**
+	 * 세입목록을 엑셀로 다운로드한다.
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/cmmn/itgrn/gamNticPayListSelectExcel.do", method=RequestMethod.POST)
     @ResponseBody ModelAndView selectNticPayListListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
@@ -205,5 +210,45 @@ public class GamNticPayListController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+    
+    
+    /**
+	 * 연체세입목록을 엑셀로 다운로드한다.
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/cmmn/itgrn/gamDelayNticPayListSelectExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectDelayNticPayListListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+    	// 환경설정
+    	/** EgovPropertyService */
+		GamNticPayListVO searchVO= new GamNticPayListVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamNticPayListVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+		int totCnt = gamNticPayListService.selectDelayNticPayListTotCnt(searchVO);
+		List nticPayList = gamNticPayListService.selectDelayNticPayList(searchVO);
+
+    	map.put("resultList", nticPayList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
 }
