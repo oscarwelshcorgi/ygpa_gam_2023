@@ -29,6 +29,9 @@ public class GamNticPayListVO extends ComDefaultVO{
 	/** 고지 번호 */
 	private String nticno;
 
+	/** 레코드 번호 */
+	private String intSeq;
+	
 	/**
 	 * @return the prtAtCode
 	 */
@@ -139,6 +142,20 @@ public class GamNticPayListVO extends ComDefaultVO{
 	 */
 	public void setNticno(String nticno) {
 		this.nticno = nticno;
+	}
+
+	/**
+	 * @return the intSeq
+	 */
+	public String getIntSeq() {
+		return intSeq;
+	}
+
+	/**
+	 * @param intSeq the intSeq to set
+	 */
+	public void setIntSeq(String intSeq) {
+		this.intSeq = intSeq;
 	}
 
 	/**
