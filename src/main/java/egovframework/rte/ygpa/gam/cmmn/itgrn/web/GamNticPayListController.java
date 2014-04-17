@@ -9,21 +9,26 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.ComDefaultCodeVO;
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListService;
 import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO;
+
 
 @Controller
 public class GamNticPayListController {
@@ -78,7 +83,7 @@ public class GamNticPayListController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/cmmn/itgrn/gamNticPayListSelect.do")
+    @RequestMapping(value="/cmmn/itgrn/gamNticPayListSelect.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> selectNticPayList(GamNticPayListVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -92,8 +97,8 @@ public class GamNticPayListController {
     	}
     	// 내역 조회
     	/** EgovPropertyService */
-    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+//    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+//    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -106,9 +111,11 @@ public class GamNticPayListController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
+		int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
 		List nticPayList = gamNticPayListService.selectNticPayList(searchVO);
-        int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
-
+		
+//		System.out.print("test *************************** : " + nticPayList);
+        
         paginationInfo.setTotalRecordCount(totCnt);
 		
 		map.put("resultCode", 0);			// return ok
@@ -119,6 +126,39 @@ public class GamNticPayListController {
     	return map;
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/cmmn/itgrn/gamNticPayListSelectExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectNticPayListListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+    	// 환경설정
+    	/** EgovPropertyService */
+		GamNticPayListVO searchVO= new GamNticPayListVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamNticPayListVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+		int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
+		List nticPayList = gamNticPayListService.selectNticPayList(searchVO);
+
+    	map.put("resultList", nticPayList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+    
     
     /**
 	 * 연체세입목록을 조회한다.
@@ -126,7 +166,7 @@ public class GamNticPayListController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/cmmn/itgrn/gamDelayNticPayListSelect.do")
+    @RequestMapping(value="/cmmn/itgrn/gamDelayNticPayListSelect.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> selectDelayNticPayList(GamNticPayListVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();

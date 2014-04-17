@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.fclty">
+<sqlMap namespace="ygpa.gam.cmmn">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="nticPayListVO" type="egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO"/>
     
-    <select id="gamNticPayListDao.selectNticPayList" parameterClass="comDefaultVO" resultClass="egovMap">
-			SELECT * 
+    <select id="gamNticPayListDao.selectNticPayList" parameterClass="nticPayListVO" resultClass="egovMap">
+			SELECT A.* 
 				  FROM 
 				       (
 				       SELECT Z.*, 
@@ -33,27 +33,27 @@
 								,T1.AGENT_NAME
 								,T1.BILL_AMNT
 								,T1.VAT
-								,T1.BILL_DT
+								,TO_CHAR(T1.BILL_DT,'YYYY-MM-DD') AS BILL_DT
 								,T1.BILL_PRT_YN
 								,T1.AMNT_RSN
-								,T1.DUE_DATE
+								,TO_CHAR(T1.DUE_DATE,'YYYY-MM-DD') AS DUE_DATE
 								,(
 									CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세'
 									WHEN T1.VAT_YN='1' THEN '영세'
 									WHEN T1.VAT_YN='2' THEN '과세'
 									WHEN T1.VAT_YN='3' THEN '교부면제영세' END
 								) AS VAT_YN
-								,T1.FIRST_BILL_DT
+								,TO_CHAR(T1.FIRST_BILL_DT,'YYYY-MM-DD') AS FIRST_BILL_DT
 								,T1.RCVD_TP
-								,T1.RCVD_DT
+								,TO_CHAR(T1.RCVD_DT,'YYYY-MM-DD') AS RCVD_DT
 								,T1.EXMP_AMNT
 								,T1.DC_AMNT
 								,T1.DC_CODE
 								,T1.DC_RATE
 								,T1.RECPT_EPDT
 								,T1.LAST
-								,T1.STR_DATE
-								,T1.END_DATE
+								,TO_CHAR(T1.STR_DATE,'YYYY-MM-DD') AS STR_DATE
+								,TO_CHAR(T1.END_DATE,'YYYY-MM-DD') AS END_DATE
 								,T1.FAC_CODE
 								,T1.FAC_SUB_CODE
 								,T1.BILL_COUNT
@@ -89,23 +89,39 @@
 				                </isNotEmpty>
 
 								<isNotEmpty property="sGrUsagePdFrom">
-			                		<![CDATA[ AND T1.BILL_DT>=TO_DATE(#sGrUsagePdFrom#,'YYYYMMDD') ]]>
+			                		<![CDATA[ AND T1.BILL_DT>=TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD') ]]>
 			                		<isNotEmpty property="sGrUsagePdTo">
-			                			<![CDATA[ AND T1.BILL_DT<=TO_DATE(#sGrUsagePdTo#,'YYYYMMDD') ]]>
+			                			<![CDATA[ AND T1.BILL_DT<=TO_DATE(#sGrUsagePdTo#,'YYYY-MM-DD') ]]>
 			                		</isNotEmpty>
 			                	</isNotEmpty>
+			                	
+			                	<isNotEmpty property="chrgeKndCd">
+				                    AND T1.FEE_TP = #chrgeKndCd#
+				                </isNotEmpty>
+				                
+				                <isNotEmpty property="rcivSe">
+				                    AND T1.RCVD_TP = #rcivSe#
+				                </isNotEmpty>
+				                
+				                <isNotEmpty property="fiscalYr">
+				                    AND T1.FISCAL_YR = #fiscalYr#
+				                </isNotEmpty>
+				                
+				                <isNotEmpty property="nticno">
+				                    AND T1.BILL_NO = #nticno#
+				                </isNotEmpty>
 
-								T1.SYSTEM_GUBUN='02'
+								AND T1.SYSTEM_GUBUN='02'
 								
 							ORDER BY 
-								T1.DLY_BILL_DT
+								T1.BILL_DT
 							)Z 
-				       )
+				       )A
 				       
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamNticPayListDao.selectNticPayListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamNticPayListDao.selectNticPayListTotCnt" parameterClass="nticPayListVO" resultClass="int">
             SELECT 
             	COUNT(*) totcnt
 			FROM 
@@ -137,18 +153,34 @@
                 </isNotEmpty>
 
 				<isNotEmpty property="sGrUsagePdFrom">
-               		<![CDATA[ AND T1.BILL_DT>=TO_DATE(#sGrUsagePdFrom#,'YYYYMMDD') ]]>
+               		<![CDATA[ AND T1.BILL_DT>=TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD') ]]>
                		<isNotEmpty property="sGrUsagePdTo">
-               			<![CDATA[ AND T1.BILL_DT<=TO_DATE(#sGrUsagePdTo#,'YYYYMMDD') ]]>
+               			<![CDATA[ AND T1.BILL_DT<=TO_DATE(#sGrUsagePdTo#,'YYYY-MM-DD') ]]>
                		</isNotEmpty>
                	</isNotEmpty>
+               	
+               	<isNotEmpty property="chrgeKndCd">
+                    AND T1.FEE_TP = #chrgeKndCd#
+                </isNotEmpty>
+                
+                <isNotEmpty property="rcivSe">
+                    AND T1.RCVD_TP = #rcivSe#
+                </isNotEmpty>
+                
+                <isNotEmpty property="fiscalYr">
+                    AND T1.FISCAL_YR = #fiscalYr#
+                </isNotEmpty>
+                
+                <isNotEmpty property="nticno">
+                    AND T1.BILL_NO = #nticno#
+                </isNotEmpty>
 
-				T1.SYSTEM_GUBUN='02'
+				AND T1.SYSTEM_GUBUN='02'
     </select>
     
     
-    <select id="gamNticPayListDao.selectDelayNticPayList" parameterClass="comDefaultVO" resultClass="egovMap">
-			SELECT * 
+    <select id="gamNticPayListDao.selectDelayNticPayList" parameterClass="nticPayListVO" resultClass="egovMap">
+			SELECT A.* 
 				  FROM 
 				       (SELECT Z.*, 
 				              ROWNUM AS RNUM 
@@ -206,7 +238,7 @@
 									)
 								WHERE 1=1 
 								
-									<isNotEmpty property="prtAtCode">
+									<isNotEmpty property="intSeq">
 					                    AND T1.INT_SEQ = #intSeq#
 					                </isNotEmpty>
 
@@ -215,12 +247,12 @@
 								ORDER BY 
 									T1.DLY_BILL_DT
 				              )Z 
-				       )
+				       )A
 				       
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamNticPayListDao.selectDelayNticPayListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamNticPayListDao.selectDelayNticPayListTotCnt" parameterClass="nticPayListVO" resultClass="int">
     
             SELECT COUNT(*) totcnt
 				FROM 
@@ -246,7 +278,7 @@
 					)
 				WHERE 1=1 
 				
-					<isNotEmpty property="prtAtCode">
+					<isNotEmpty property="intSeq">
 	                    AND T1.INT_SEQ = #intSeq#
 	                </isNotEmpty>
 

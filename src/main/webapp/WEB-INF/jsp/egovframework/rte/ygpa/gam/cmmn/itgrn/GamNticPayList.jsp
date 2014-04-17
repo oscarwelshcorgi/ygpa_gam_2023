@@ -37,30 +37,30 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"일련번호",					name:"intSeq",				width:100,		sortable:false,		align:"center"},
+				{display:"일련번호",					name:"intSeq",				width:60,		sortable:false,		align:"center"},
 				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
-				{display:"청코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
-				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
-				{display:"회계년도",					name:"fiscalYr",			width:80,		sortable:false,		align:"center"},
-				{display:"고지번호",					name:"billNo",				width:80,		sortable:false,		align:"center"},
-				{display:"업체코드",					name:"agentCode",			width:80,		sortable:false,		align:"center"},
-				{display:"사업자등록번호",				name:"bzRgstId",			width:80,		sortable:false,		align:"center"},
-				{display:"사업장명",					name:"agentName",			width:80,		sortable:false,		align:"center"},
-				{display:"고지금액",					name:"billAmnt",			width:80,		sortable:false,		align:"center"},
-				{display:"부가세",					name:"vat",					width:80,		sortable:false,		align:"center"},
+				{display:"청코드", 	 				name:"prtAtCode",			width:50,		sortable:false,		align:"center"},
+				{display:"요금종류",					name:"feeTp",				width:60,		sortable:false,		align:"center"},
+				{display:"회계년도",					name:"fiscalYr",			width:60,		sortable:false,		align:"center"},
+				{display:"고지번호",					name:"billNo",				width:60,		sortable:false,		align:"center"},
+				{display:"업체코드",					name:"agentCode",			width:60,		sortable:false,		align:"center"},
+				{display:"사업자등록번호",				name:"bzRgstId",			width:90,		sortable:false,		align:"center"},
+				{display:"사업장명",					name:"agentName",			width:150,		sortable:false,		align:"center"},
+				{display:"고지금액",					name:"billAmnt",			width:80,		sortable:false,		align:'right' , displayFormat: 'number'},
+				{display:"부가세",					name:"vat",					width:80,		sortable:false,		align:'right' , displayFormat: 'number'},
 				{display:"고지일자",					name:"billDt",				width:80,		sortable:false,		align:"center"},
-				{display:"고지서발부여부",				name:"billPrtYn",			width:80,		sortable:false,		align:"center"},
+				{display:"고지서발부여부",				name:"billPrtYn",			width:90,		sortable:false,		align:"center"},
 				{display:"산출내역",					name:"amntRsn",				width:80,		sortable:false,		align:"center"},
 				{display:"납부기한일자",				name:"dueDate",				width:80,		sortable:false,		align:"center"},
 				{display:"부가세구분",					name:"vatYn",				width:80,		sortable:false,		align:"center"},
 				{display:"최초고지일자",				name:"firstBillDt",			width:80,		sortable:false,		align:"center"},
 				{display:"수납구분",					name:"rcvdTp",				width:80,		sortable:false,		align:"center"},
-				{display:"수납일자",					name:"rcvdDt",				width:80,		sortable:false,		align:"center"},
-				{display:"면제(보전)금액",				name:"exmpAmnt",			width:80,		sortable:false,		align:"center"},
-				{display:"할인금액",					name:"dcAmnt",				width:80,		sortable:false,		align:"center"},
+				{display:"수납일자",					name:"rcvdDt",				width:60,		sortable:false,		align:"center"},
+				{display:"면제(보전)금액",				name:"exmpAmnt",			width:90,		sortable:false,		align:'right' , displayFormat: 'number'},
+				{display:"할인금액",					name:"dcAmnt",				width:80,		sortable:false,		align:'right' , displayFormat: 'number'},
 				{display:"할인사유코드",				name:"dcCode",				width:80,		sortable:false,		align:"center"},
 				{display:"할인율코드",					name:"dcRate",				width:80,		sortable:false,		align:"center"},
-				{display:"금융기관수납일자",				name:"recptEpdt",			width:80,		sortable:false,		align:"center"},
+				{display:"금융기관수납일자",				name:"recptEpdt",			width:90,		sortable:false,		align:"center"},
 				{display:"정산여부",					name:"last",				width:80,		sortable:false,		align:"center"},
 				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
 				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
@@ -120,62 +120,12 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#nticPayListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
-		var detailInput = {accnutYear:row["accnutYear"],mngCnt:row["mngCnt"],mngNo:row["mngNo"],mngYear:row["mngYear"],nticno:row["nticno"],nticCnt:row["nticCnt"],prtAtCode:row["prtAtCode"]};
-		module.doAction('<c:url value="/cmmn/itgrn/gamNticPayListSelectView_.do" />', detailInput, function(module, result) {
+		var detailInput = {intSeq:row["intSeq"]};
+		module.doAction('<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />', detailInput, function(module, result) {
 			
-			module.$("#chrgeKndNm").val(result.detail.chrgeKndNm);
-			module.$("#accnutYear").val(result.detail.accnutYear);
-			module.$("#nticno").val(result.detail.nticno);
-			module.$("#accnutSeCd").val(result.detail.accnutSeCd);
-			module.$("#displayEntrpscd").val(result.detail.entrpscd);
-			module.$("#nticAmt").val(result.detail.nticAmt);
-			module.$("#nticDt").val(result.detail.nticDt);
-			module.$("#nhtIsueYn").val(result.detail.nhtIsueYn);
-			module.$("#computDtls").val(result.detail.computDtls);
-			module.$("#payTmlmt").val(result.detail.payTmlmt);
-			module.$("#frstNticDt").val(result.detail.frstNticDt);
-			module.$("#rcivTransfrSttusCd").val(result.detail.rcivTransfrSttusCd);
-			module.$("#rcivDt").val(result.detail.rcivDt);
-			module.$("#displayRcivSe").val(result.detail.rcivSe);
-			module.$("#incpctyCd").val(result.detail.incpctyCd);
-			module.$("#overrpayAmt").val(result.detail.overrpayAmt);
-			module.$("#tmprIsuNo").val(result.detail.tmprIsuNo);
-			module.$("#dscntAmt").val(result.detail.dscntAmt);
-			module.$("#dscntRsn").val(result.detail.dscntRsn);
-			module.$("#dscntCd").val(result.detail.dscntCd);
-			module.$("#rcivSeNm").val(result.detail.rcivSeNm);
-			module.$("#fnncInsttRcivDt").val(result.detail.fnncInsttRcivDt);
-			module.$("#postNticEnnc").val(result.detail.postNticEnnc);
-			module.$("#npymnRsnCd").val(result.detail.npymnRsnCd);
-			module.$("#elctrnNticResult").val(result.detail.elctrnNticResult);
-			module.$("#elctrnNticInfoInqireDt").val(result.detail.elctrnNticInfoInqireDt);
-			module.$("#excclcYn").val(result.detail.excclcYn);
-			module.$("#vat").val(result.detail.vat);
-			module.$("#vatYn").val(result.detail.vatYn);
-			module.$("#prcepturSe").val(result.detail.prcepturSe);
-			module.$("#giroRcivPlace").val(result.detail.giroRcivPlace);
-			module.$("#giroRcivSe").val(result.detail.giroRcivSe);
-			module.$("#cmsn").val(result.detail.cmsn);
-			module.$("#closYn").val(result.detail.closYn);
-			module.$("#deptcd").val(result.detail.deptcd);
-			module.$("#charger").val(result.detail.charger);
-			module.$("#opertSe").val(result.detail.opertSe);
-			module.$("#orginlNticChrgeKnd").val(result.detail.orginlNticChrgeKnd);
-			module.$("#orginlNticAccnutYear").val(result.detail.orginlNticAccnutYear);
-			module.$("#orginlNticNo").val(result.detail.orginlNticNo);
-			module.$("#elctrnTaxbilIsuYn").val(result.detail.elctrnTaxbilIsuYn);	
-			module.$("#displayBeginDt").val(result.detail.beginDt);
-			module.$("#displayEndDt").val(result.detail.endDt);
-			module.$("#nticMth").val(result.detail.nticMth);
-			module.$("#regUsr").val(result.detail.regUsr);
-			module.$("#registDt").val(result.detail.registDt);
-			module.$("#updUsr").val(result.detail.updUsr);
-			module.$("#updtDt").val(result.detail.updtDt);
-			module.$("#nticCnt").val(result.detail.nticCnt);
-			module.$("#prtAtCode").val(result.detail.prtAtCode);
-			module.$("#mngYear").val(result.detail.mngYear);
-			module.$("#mngNo").val(result.detail.mngNo);
-			module.$("#mngCnt").val(result.detail.mngCnt);
+			this.$('#delayNticPayList').flexOptions({params:detailInput}).flexReload();
+		 	throw 0;
+			
 	 	});
 	});
 };
@@ -190,13 +140,16 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 	
 		// 조회
 		case "searchBtn":
+			
+			this.$("#nticPayListTab").tabs("option", {active: 0});		// 탭을 전환 한다.
+			
 			var searchOpt = this.makeFormArgs("#nticPayListForm");
 		 	this.$("#nticPayList").flexOptions({params:searchOpt}).flexReload(); 
 		break;
 		
 		// 세입리스트 엑셀 다운로드
 		case 'btnNticPayListExcelDownload':
-			this.$('#nticPayList').flexExcelDown();
+			this.$('#nticPayList').flexExcelDown('<c:url value="/cmmn/itgrn/gamNticPayListSelectExcel.do"/>');
 		break;
 		
 		// 연체세입리스트 엑셀 다운로드
@@ -313,9 +266,9 @@ var module_instance = new GamNticPayListModule();
 				<table id="nticPayList" style="display:none"></table>
 				<div class="emdControlPanel">
 					<button id="btnNticPayListExcelDownload">엑셀</button>
-					<form id="delayNticPayListForm">
+					<%-- <form id="delayNticPayListForm">
 						<input type="hidden" id="intSeq">
-					</form>
+					</form> --%>
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage">

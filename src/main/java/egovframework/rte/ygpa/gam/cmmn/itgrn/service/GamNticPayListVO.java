@@ -1,8 +1,8 @@
 package egovframework.rte.ygpa.gam.cmmn.itgrn.service;
 
-import egovframework.com.cmm.ComDefaultVO;
+import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
-public class GamNticPayListVO extends ComDefaultVO{
+public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	private static final long serialVersionUID = 1L;
 
 	/** 항코드 */
