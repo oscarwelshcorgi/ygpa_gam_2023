@@ -747,38 +747,29 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">관리번호</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
+                                <th style="width: 100px"><span class="label">최초신청일자</span></th>
+                                <td style="width: 350px"><input type="text" size="10" id="frstReqstDt" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">신청업체</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <!-- <button id="popupEntrpsInfoInput">업체조회</button> -->
                                 </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 100px"><span class="label">최초신청일자</span></th>
-                                <td style="width: 350px"><input type="text" size="10" id="frstReqstDt" readonly /></td>
-                                <th ><span class="label">신청일자</span></th>
-                                <td><input type="text" size="10" id="reqstDt" readonly /></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">승낙여부</span></th>
                                 <td>
-                                	<!-- 
-                                    <select id="prmisnYn">
-                                        <option value="" selected="selected">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N">N</option>
-                                    </select>
-                                     -->
                                      <input type="text" size="5" id="prmisnYn" style="text-align:center;" readonly/>
                                 </td>
+                            </tr>
+                            <tr>
+                                <th ><span class="label">신청일자</span></th>
+                                <td><input type="text" size="10" id="reqstDt" readonly /></td>
                                 <th><span class="label">승낙일자</span></th>
                                 <td><input type="text" size="10" id="prmisnDt" readonly /></td>
                             </tr>
@@ -809,21 +800,18 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                                 <th><span class="label">고지 방법</span></th>
                                 <td>
                                     <!-- <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" /> -->
-                                    <input type="text" size="10" id="nticMthNm" style="text-align:center;" readonly />
-                                    
+                                    <input type="text" size="10" id="nticMthNm" style="text-align:center;" readonly />                                    
                                 </td>
+                                <th><span class="label">비고</span></th>
+                                <td><input type="text" size="50" id="rm" readonly /></td>
+                            </tr>
+                            <tr>
                                 <th><span class="label">분납이자율</span></th>
                                 <td>
                                 	<input type="text" size="10" id="payinstIntrrate" style="text-align:right;" readonly />
                                 </td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm" readonly /></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
+                                <td><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
                             </tr>
                         </table>
                     </form>
@@ -837,7 +825,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
 
                  <table>
                     <tr>
-                        <td height="30"></td>
+                        <td height="20"></td>
                     </tr>
                  </table>
                  <table class="searchPanel">
@@ -883,21 +871,21 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                         <table >
                             <tr>
                                 <th style="width: 100px"><span class="label">시설사용순번</span></th>
-                                <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">시설코드 </span></th>
+                                <td><input type="text" size="10" id="assetsUsageSeq" readonly/></td>
+                                <th><span class="label">시설명</span></th>
+                                <td><input type="text" size="20" id="gisAssetsNm" disabled/></td>
+                                <th><span class="label">시설코드</span></th>
                                 <td><input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>-<input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <!-- <button id="popupFcltyCd" class="popupButton">자산조회</button> -->
-                                    </td>
-                                <th><span class="label">시설명</span></th>
-                                <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
+                                </td>
                             </tr>
                             <tr>
                                 <th><span class="label">소재지</span></th>
                                 <td ><input type="text" size="50" id="gisAssetsLocplc" disabled/></td>
                                 <th><span class="label">지번</span></th>
                                 <td><input type="text" size="5" id="gisAssetsLnm" readonly />-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
+                                <th><span class="label">시설면적</span></th>
+                                <td><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
                             </tr>
                             <!-- 
                             <tr>
@@ -908,32 +896,12 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </tr>
                              -->
                             <tr>
-                                <th><span class="label">시설면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
-                                <!-- 
-                                <th style="width: 100px"><span class="label">공시지가목록</span></th>
-                                <td colspan="3" style="text-align: left;">
-                                	
-                                    <select id="olnlpList">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${olnlpList}" var="olnlpItem">
-                                            <option value="${olnlpItem.code }">${olnlpItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                     
-                                     &nbsp;
-                                </td>
-                                -->
-                            </tr>
-                            <tr>
-                                <th><span class="label">사용기간</span></th>
-                                <td colspan="5"><input type="text" size="10" id="usagePdFrom" readonly />~<input type="text" size="10" id="usagePdTo" readonly /></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="17" class="ygpaCurrency" id="olnlp" style="text-align:right;" readonly /></td>
+                                <th><span class="label">사용기간</span></th>
+                                <td><input type="text" size="10" id="usagePdFrom" readonly />~<input type="text" size="10" id="usagePdTo" readonly /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" readonly /></td>
+                                <td><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -955,15 +923,13 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">면제구분</span></th>
-                                <td colspan="5">
+                                <td>
                                     <!-- <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM009" /> -->
                                     <input type="text" size="20" id="exemptSeNm" style="text-align:center;" readonly/>
                                     <!-- <input type="text" size="17" id="exemptSeStr" readonly/> -->
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">면제기간</span></th>
-                                <td colspan="5"><input type="text" size="10" id="exemptPdFrom" readonly />~<input type="text" size="10" id="exemptPdTo" readonly /></td>
+                                <td colspan="3"><input type="text" size="10" id="exemptPdFrom" readonly />~<input type="text" size="10" id="exemptPdTo" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제사유</span></th>
@@ -991,7 +957,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용내역</span></th>
-                                <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" readonly ></textarea></td>
+                                <td colspan="4"><textarea cols="99" rows="3" size="100" id="usageDtls" readonly ></textarea></td>
                             </tr>
                         </table>
                     </form>
@@ -1002,18 +968,18 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                         type="submit" value="저장" class="input_1">
                 </div>
                 -->
-
+                
                 <table style="width:100%">
                     <tr>
-                        <td><!-- <button id="xxxx">GIS 등록</button> --><button id="xxxx">위치조회</button></td>
+                        <td><button id="xxxx">위치조회</button></td>
                         <td width="100"></td>
                         <td style="text-align:right">
-                        <!-- <button id="xxxx">취소</button><button id="xxxx">항만시설상세적용</button> -->
                         &nbsp;
                         </td>
                     </tr>
                  </table>
-
+				
+                
             </div>
 
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
@@ -1033,8 +999,6 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             <td>
                                 <input id="filenmLogic" type="text" size="60" class="photoEditItem" disabled/>
                             </td>
-                        </tr>
-                        <tr>
                             <th><span class="label">제 목</span></th>
                             <td>
                                 <input id="photoSj" type="text" size="60" class="photoEditItem" maxlength="40" readonly />
@@ -1045,8 +1009,6 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             <td>
                                 <input id="photoDesc" type="text" size="60" class="photoEditItem" maxlength="90" readonly />
                             </td>
-                        </tr>
-                        <tr>
                             <th><span class="label">촬영일시</span></th>
                             <td>
                                 <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
@@ -1055,7 +1017,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                     </table>
                 </form>
                     <button id="btnApplyPhotoData">첨부파일 적용</button>
-                <div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+                <div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 300px" src=""></div>
 
             </div>
 
