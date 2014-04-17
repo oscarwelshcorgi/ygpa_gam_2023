@@ -122,7 +122,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 					{display:'준공 일자', name:'gisAssetsBldDt', width:128, sortable:true, align:'center'},
 					{display:'사용', name:'gisAssetsUsageYn', width:30, sortable:true, align:'center'}
 			],
-		height: '110',
+		height: 'auto',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.assetCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
