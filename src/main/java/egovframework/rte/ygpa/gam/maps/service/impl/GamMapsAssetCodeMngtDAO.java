@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
  *
@@ -50,6 +51,16 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List selectAssetRentInfoList(Map vo) throws Exception{
 		return list("gamMapsAssetCodeMngtDAO.selectAssetRentByAssetsCodeList_D", vo);
+	}
+
+	/**
+	 * 자산정보 팝업 조회
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectMapsAssetsCodeInfo(Map vo) throws Exception{
+		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeInfo", vo);
 	}
 
 }

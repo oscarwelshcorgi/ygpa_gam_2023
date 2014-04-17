@@ -222,13 +222,13 @@
 					GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
-					GIS_ASSETS_CD=#gisAssetsPrprtySeCd#
+					GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
-					GIS_ASSETS_CD=#gisAssetsLocCd#
+					GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
-					GIS_ASSETS_CD=#gisAssetsQuayCd#
+					GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocplc">
 					GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
@@ -272,13 +272,13 @@
 					GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
-					GIS_ASSETS_CD=#gisAssetsPrprtySeCd#
+					GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
-					GIS_ASSETS_CD=#gisAssetsLocCd#
+					GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
-					GIS_ASSETS_CD=#gisAssetsQuayCd#
+					GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocplc">
 					GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'

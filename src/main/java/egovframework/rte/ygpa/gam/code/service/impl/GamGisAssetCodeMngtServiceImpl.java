@@ -22,6 +22,11 @@ public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implemen
 	@Override
 	public String insertAssetCode(Map vo) throws Exception {
 		// TODO Auto-generated method stub
+		Map result=gamGisAssetCodeMngtDao.selectGetNewAssetCode(vo);
+		vo.put("gisAssetsCd", result.get("gisAssetsCd"));
+		vo.put("gisAssetsSubCd", result.get("gisAssetsSubCd"));
+    	log.debug("insert new gisAssetscd : "+result.get("gisAssetsCd")+"-"+result.get("gisAssetsSubCd"));
+
 		return gamGisAssetCodeMngtDao.insertAssetCode(vo);
 	}
 

@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService;
 
 /**
@@ -53,6 +54,15 @@ public class GamMapsAssetCodeMngtServiceImpl extends AbstractServiceImpl
 	public List selectAssetRentInfoList(Map vo) throws Exception {
 		// TODO Auto-generated method stub
 		return gamMapsAssetCodeMngtDAO.selectAssetRentInfoList(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsAssetsCodeInfo(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectMapsAssetsCodeInfo(Map vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeInfo(vo);
 	}
 
 }

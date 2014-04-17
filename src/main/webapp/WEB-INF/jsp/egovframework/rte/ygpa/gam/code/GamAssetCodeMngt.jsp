@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamAssetMngt.jsp
@@ -19,6 +20,8 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<validator:javascript formName="gamAssetCode" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetPhoto" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -159,6 +162,17 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 	switch(this._params.action) {
 	case 'addLotcodeFeature': 	// 지번코드로부터 자산정보를 추가하여 저장한다.
+		var lnm, lnmSub;
+		lnm=parseInt(this._params.feature.attributes.BONBUN);
+		lnmSub=parseInt(this._params.feature.attributes.BUBUN);
+		//this.$('#searchGisAssetsPrprtySeCd').val('L');	// 자산 정보 주소가 토지로 검색한다.
+		// 주소는 동이름으로 검색한다.
+		var locplc=this._params.feature.data.locplc.split(' ');
+		this.$('#searchGisAssetsLocPlc').val(locplc[locplc.length-1]);
+		this.$('#searchGisAssetsLnm').val(lnm);
+		this.$('#searchGisAssetsLnmSub').val(isNaN(lnmSub)?'':lnmSub);
+		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
+	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'modifyFeature':	// 기존 자산에 GIS 정보를 추가한다.
 		break;
@@ -184,6 +198,20 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this._regMode="I";
 		this.$("#assetCodeTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 		this.$('#editGisAssetCode :input').val('');
+		if(this._params.action=="addLotcodeFeature") {
+			// 지번 주소를 저장한다.
+			var lnm, lnmSub;
+			lnm=parseInt(this._params.feature.attributes.BONBUN);
+			lnmSub=parseInt(this._params.feature.attributes.BUBUN);
+			this.$('#gisAssetsLocplc').val(this._params.feature.data.locplc);
+			this.$('#gisAssetsLnm').val(lnm);
+			this.$('#gisAssetsLnmSub').val(isNaN(lnmSub)?'':lnmSub);
+			this.$('#gisAssetsBupjungdongCd').val(this._params.feature.attributes.PNU.substring(10));
+			//this._params.feature.attributes.PNU
+			//this._params.feature.attributes.BONBUN
+			//this._params.feature.attributes.BUBUN
+			//this._params.data.addr
+		}
 		break;
 	case 'removeAssetGisCdItem':
 		if(this.$('#assetCodeList').selectedRowIds().length>0) {
@@ -204,7 +232,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 
 		 	var inputVO = this.makeFormArgs("#editGisAssetCode");
 			if(this._regMode=="I") {
-			 	this.doAction('<c:url value="/code/assets/insertGamAssetsCode.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/code/assets/insertGamGisAssetCode.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#searchForm");
 						module.$("#assetCodeTab").tabs("option", {active: 0});
@@ -214,7 +242,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 							module.modifyAssetCdFeature(result.assetsCode, this._params.feature);
 					 		alert(result.resultMsg);
 							// 창을 닫는다.
-							module.closeWindow();
+							//module.closeWindow();
 							return;
 						case 'addFeature':
 						case 'modifyFeature':
@@ -277,9 +305,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			}
 			return;
 		}
-		if(this._editData.gisPrtAtCode==null || this._editData.gisAssetsCd==null || this._editData.gisAssetsSubCd==null
-				|| this._editData.gisPrtAtCode.length!=3 || this._editData.gisAssetsCd.length!=3 || this._editData.gisAssetsSubCd.length!=2) {
-			alert('먼저 자료를 등록 하세요.');
+		if(this._editData.gisAssetsPrtAtCode==null || this._editData.gisAssetsCd==null || this._editData.gisAssetsSubCd==null
+				|| this._editData.gisAssetsPrtAtCode.length!=3 || this._editData.gisAssetsCd.length!=3 || this._editData.gisAssetsSubCd.length!=2) {
+			alert('먼저 자료를 저장 하세요.');
 			return;
 		}
 		this.addGisAssetsCdMap('AC', this._editData);
@@ -324,9 +352,9 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
     case 'selectSearchErpAssetsCdPopup':
         if (msg != 'cancel') {
-            this.$('#erpAssetsCls').val(value.erpAssetsCls);
-            this.$('#erpAssetsNo').val(value.erpAssetsNo);
-            this.$('#erpAssetsNoSeq').val(value.erpAssetsNoSeq);
+            this.$('#erpAssetsCls').val(value.assetCls);
+            this.$('#erpAssetsNo').val(value.assetNo);
+            this.$('#erpAssetsNoSeq').val(value.assetNoSeq);
             this.$('#itemName').val(value.itemNameAsset);
         } else {
             alert('취소 되었습니다');
@@ -504,7 +532,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-								<input id="gisAssetsPrtPtySeCd" class="ygpaCmmnCd" data-code-id='GAM001'>
+								<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001'>
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
@@ -521,9 +549,9 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">자산소재지</span></th>
-						<td colspan="3"><input type="text" size="80" id="gisAssetsLocplc"></td>
+						<td colspan="3"><input type="text" size="80" id="gisAssetsLocplc"><input type="hidden" id="gisAssetsBupjungdongCd" /></td>
 						<th><span class="label">지번</span></th>
-						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="GisAssetsLnmSub"></td>
+						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="gisAssetsLnmSub"></td>
 					</tr>
 					<tr>
 					</tr>

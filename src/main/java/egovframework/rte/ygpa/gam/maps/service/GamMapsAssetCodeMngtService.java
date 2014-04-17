@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.maps.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  *
  * @author EUNSUNGJ
@@ -31,6 +33,9 @@ public interface GamMapsAssetCodeMngtService {
 	 * @throws Exception
 	 */
 	List selectAssetCodeInfoList(Map vo) throws Exception;
+
+	EgovMap selectMapsAssetsCodeInfo(Map vo) throws Exception;
+
 	/**
 	 * 자산 임대 정보
 	 * @param vo

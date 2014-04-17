@@ -132,4 +132,24 @@ public class GamAssetCodeMngtController {
     	return map;
     }
 
+	@RequestMapping(value="/code/assets/insertGamGisAssetCode.do")
+	@ResponseBody Map<String, Object> insertGamGisAssetCode(@RequestParam Map<String, Object> insertVO) throws Exception {
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+
+    	gamGisAssetCodeMngtService.insertAssetCode(insertVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+
+    	return map;
+	}
+
 }
