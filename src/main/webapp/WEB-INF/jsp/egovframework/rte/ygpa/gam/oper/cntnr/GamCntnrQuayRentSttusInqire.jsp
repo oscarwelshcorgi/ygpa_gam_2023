@@ -736,7 +736,7 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             <tr>
                                 <th><span class="label">항구분</span></th>
                                 <!-- <td style="width: 350px"> -->
-                                <td colspan="3">
+                                <td>
 	                                <!-- <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" /> -->
 	                                <input type="text" size="10" id="prtAtCodeNm" readonly/>
 	                                <input type="text" size="5" id="prtAtCode" readonly/>
@@ -747,10 +747,8 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" />
                                 </td>
                                  -->
-                            </tr>
-                            <tr>
                                 <th><span class="label">관리번호</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
@@ -822,11 +820,9 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm" readonly /></td>
-                            </tr>
-                            <tr>
+                                <td><input type="text" size="50" id="rm" readonly /></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
+                                <td><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
                             </tr>
                         </table>
                     </form>
@@ -840,7 +836,7 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
 
                  <table>
                     <tr>
-                        <td height="30"></td>
+                        <td height="20"></td>
                     </tr>
                  </table>
                  <table class="searchPanel">
@@ -886,21 +882,21 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                         <table >
                             <tr>
                                 <th style="width: 100px"><span class="label">시설사용순번</span></th>
-                                <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/></td>
-                            </tr>
-                            <tr>
+                                <td><input type="text" size="10" id="assetsUsageSeq" readonly/></td>
+                                <th><span class="label">시설명</span></th>
+                                <td><input type="text" size="20" id="gisAssetsNm" disabled/></td>
                                 <th><span class="label">시설코드 </span></th>
                                 <td><input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>-<input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <!-- <button id="popupFcltyCd" class="popupButton">자산조회</button> -->
-                                    </td>
-                                <th><span class="label">시설명</span></th>
-                                <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
+                                </td>
                             </tr>
                             <tr>
                                 <th><span class="label">소재지</span></th>
-                                <td ><input type="text" size="50" id="gisAssetsLocplc" disabled/></td>
+                                <td><input type="text" size="50" id="gisAssetsLocplc" disabled/></td>
                                 <th><span class="label">지번</span></th>
                                 <td><input type="text" size="5" id="gisAssetsLnm" readonly />-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
+                                <th><span class="label">시설면적</span></th>
+                                <td><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
                             </tr>
                             <!-- 
                             <tr>
@@ -911,8 +907,6 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             </tr>
                              -->
                             <tr>
-                                <th><span class="label">시설면적</span></th>
-                                <td colspan="3"><input type="text" size="17" id="gisAssetsRealRentAr" disabled/></td>
                                 <!-- 
                                 <th style="width: 100px"><span class="label">공시지가목록</span></th>
                                 <td colspan="3" style="text-align: left;">
@@ -929,14 +923,12 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                                 -->
                             </tr>
                             <tr>
-                                <th><span class="label">사용기간</span></th>
-                                <td colspan="5"><input type="text" size="10" id="usagePdFrom" readonly />~<input type="text" size="10" id="usagePdTo" readonly /></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="17" class="ygpaCurrency" id="olnlp" style="text-align:right;" readonly /></td>
+                                <th><span class="label">사용기간</span></th>
+                                <td><input type="text" size="10" id="usagePdFrom" readonly />~<input type="text" size="10" id="usagePdTo" readonly /></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" readonly /></td>
+                                <td><input type="text" size="15" class="ygpaCurrency" id="usageAr" style="text-align:right;" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
@@ -958,15 +950,13 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">면제구분</span></th>
-                                <td colspan="5">
+                                <td>
                                     <!-- <input id="exemptSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM009" /> -->
                                     <input type="text" size="20" id="exemptSeNm" style="text-align:center;" readonly/>
                                     <!-- <input type="text" size="17" id="exemptSeStr" readonly/> -->
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">면제기간</span></th>
-                                <td colspan="5"><input type="text" size="10" id="exemptPdFrom" readonly />~<input type="text" size="10" id="exemptPdTo" readonly /></td>
+                                <td colspan="3"><input type="text" size="10" id="exemptPdFrom" readonly />~<input type="text" size="10" id="exemptPdTo" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제사유</span></th>
@@ -994,7 +984,7 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용내역</span></th>
-                                <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" readonly ></textarea></td>
+                                <td colspan="5"><textarea cols="99" rows="3" size="100" id="usageDtls" readonly ></textarea></td>
                             </tr>
                         </table>
                     </form>
