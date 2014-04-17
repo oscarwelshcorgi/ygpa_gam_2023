@@ -5,7 +5,6 @@ package egovframework.rte.ygpa.gam.cmmn.itgrn.service;
 
 import java.util.List;
 
-import egovframework.com.cmm.ComDefaultVO;
 
 
 /**
@@ -28,28 +27,37 @@ import egovframework.com.cmm.ComDefaultVO;
 public interface GamNticPayListService {
 
 	/**
-	 * 납부현황목록조회
+	 * 세입목록조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */
-	List<ComDefaultVO> selectNticPayList(ComDefaultVO vo) throws Exception;
+	List selectNticPayList(GamNticPayListVO vo) throws Exception;
 	
 	
 	/**
-	 * 납부현황목록조회 총 수
+	 * 세입목록조회 총 수
 	 * @param vo
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectNticPayListTotCnt(ComDefaultVO vo) throws Exception;
+	int selectNticPayListTotCnt(GamNticPayListVO vo) throws Exception;
 	
 	
-	/** 
-	 * 시납부현황목록조회 상세화면
-	 * @param emplyrId
-	 * @return GamNticPayListVO
+	/**
+	 * 연체세입목록조회
+	 * @param vo
+	 * @return list
 	 * @throws Exception
 	 */
-	public GamNticPayListVO gamNticPayListSelectView(GamNticPayListVO nticPayListVO) throws Exception;
+	List selectDelayNticPayList(GamNticPayListVO vo) throws Exception;
+	
+	
+	/**
+	 * 연체세입목록조회 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectDelayNticPayListTotCnt(GamNticPayListVO vo) throws Exception;
 }

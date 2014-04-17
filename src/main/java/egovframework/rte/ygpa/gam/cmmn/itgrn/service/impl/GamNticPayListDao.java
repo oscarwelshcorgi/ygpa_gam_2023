@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO;
 
@@ -38,28 +37,36 @@ public class GamNticPayListDao extends YGPAAbstractDAO{
 	 * @exception Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComDefaultVO> selectNticPayList(ComDefaultVO vo) throws Exception{
-		return list("gamNticPayListDao.selectFcltyMngtList", vo);
+	
+	/**
+	 * 세입목록조회
+	 */
+	public List selectNticPayList(GamNticPayListVO vo) throws Exception{
+		return list("gamNticPayListDao.selectNticPayList", vo);
 	}
 	
 	
 	/**
-	 * 납부현황목록조회 총 수
-	 * @param ComDefaultVO vo
-	 * @return int
-	 * @exception Exception
+	 * 세입목록조회 총 수
 	 */
-    public int selectNticPayListTotCnt(ComDefaultVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamNticPayListDao.selectFcltyMngtListTotCnt", vo);
+    public int selectNticPayListTotCnt(GamNticPayListVO vo) throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamNticPayListDao.selectNticPayListTotCnt", vo);
     }
     
     
     /**
-     * 납부현황목록조회
-     * @param vo
-     * @return GamFcltyManageVO
-     */
-    public GamNticPayListVO gamNticPayListSelectView(GamNticPayListVO vo){
-        return (GamNticPayListVO) selectByPk("gamNticPayListDao.gamNticPayListSelectView", vo);
+	 * 연체세입목록조회
+	 */
+	public List selectDelayNticPayList(GamNticPayListVO vo) throws Exception{
+		return list("gamNticPayListDao.selectDelayNticPayList", vo);
+	}
+	
+	
+	/**
+	 * 연체세입목록조회 총 수
+	 */
+    public int selectDelayNticPayListTotCnt(GamNticPayListVO vo) throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamNticPayListDao.selectDelayNticPayListTotCnt", vo);
     }
+
 }

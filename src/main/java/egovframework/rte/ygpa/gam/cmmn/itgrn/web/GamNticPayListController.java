@@ -48,7 +48,7 @@ public class GamNticPayListController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-
+    
 	@RequestMapping(value="/cmmn/itgrn/gamNticPayList.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -73,7 +73,7 @@ public class GamNticPayListController {
 
 
 	/**
-	 * 납부현황목록조회을 조회한다.
+	 * 세입목록을 조회한다.
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
@@ -106,7 +106,7 @@ public class GamNticPayListController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<ComDefaultVO> nticPayList = gamNticPayListService.selectNticPayList(searchVO);
+		List nticPayList = gamNticPayListService.selectNticPayList(searchVO);
         int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
@@ -120,21 +120,50 @@ public class GamNticPayListController {
     }
     
     
-	/**
-	 * 납부현황목록조회 상세화면
-	 * @param fcltyManageVO
+    /**
+	 * 연체세입목록을 조회한다.
+	 * @param searchVO
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/cmmn/itgrn/gamNticPayListSelectView.do")
-    @ResponseBody Map<String, Object> gamNticPayListSelectView(@ModelAttribute("GamNticPayListVO") GamNticPayListVO nticPayListVO) throws Exception {
+    @RequestMapping(value="/cmmn/itgrn/gamDelayNticPayListSelect.do")
+    @ResponseBody Map<String, Object> selectDelayNticPayList(GamNticPayListVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+		
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** EgovPropertyService */
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
-    	nticPayListVO = gamNticPayListService.gamNticPayListSelectView(nticPayListVO);
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
 
-        map.put("detail", nticPayListVO);
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-        return map;
+		/** List Data */
+		List nticPayList = gamNticPayListService.selectDelayNticPayList(searchVO);
+        int totCnt = gamNticPayListService.selectDelayNticPayListTotCnt(searchVO);
+
+        paginationInfo.setTotalRecordCount(totCnt);
+		
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", nticPayList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
     }
 }

@@ -29,7 +29,8 @@ GamNticPayListModule.prototype = new EmdModule(1000,600);	// 초기 시작 창�
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamNticPayListModule.prototype.loadComplete = function() {
-
+	
+	// 세입
 	// 테이블 설정
 	this.$("#nticPayList").flexigrid({
 		module: this,
@@ -77,10 +78,11 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		height: "350"
 	});
 	
+	// 연체세입
 	// 테이블 설정
 	this.$("#delayNticPayList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
+		url: '<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
 				{display:"일련번호",					name:"intSeq",				width:100,		sortable:false,		align:"center"},
@@ -311,6 +313,9 @@ var module_instance = new GamNticPayListModule();
 				<table id="nticPayList" style="display:none"></table>
 				<div class="emdControlPanel">
 					<button id="btnNticPayListExcelDownload">엑셀</button>
+					<form id="delayNticPayListForm">
+						<input type="hidden" id="intSeq">
+					</form>
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage">
