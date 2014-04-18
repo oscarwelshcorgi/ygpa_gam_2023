@@ -1495,17 +1495,23 @@ var module_instance = new GamMarineCenterRentMngtModule();
 
                         <table>
                             <tr>
-                                <th><span class="label">항구분</span></th>
-                                <td style="width: 350px">
+                                <th style="width:100px"><span class="label">항구분</span></th>
+                                <td style="width:400px">
                                     <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 data-value="640" />
                                     <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
-                                <th><span class="label">담당부서</span></th>
-                                <td>
+                                <th style="width:100px"><span class="label">담당부서</span></th>
+                                <td colspan="3">
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
                             </tr>
                             <tr>
+                                <th><span class="label">신청업체</span></th>
+                                <td>
+                                    <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
+                                    <input type="text" size="25" id="entrpsNm" readonly/>
+                                    <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
+                                </td>
                                 <th><span class="label">관리번호</span></th>
                                 <td colspan="3">
                                     <input type="text" size="4" id="mngYear" readonly/>-
@@ -1514,28 +1520,10 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="label">신청업체</span></th>
-                                <td colspan="3">
-                                    <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
-                                    <input type="text" size="25" id="entrpsNm" readonly/>
-                                    <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
-                                </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">최초신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly/></td>
                                 <th><span class="label">신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="reqstDt" readonly/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">승낙여부</span></th>
-                                <td>
-                                    <select id="prmisnYn" disabled>
-                                        <option value="" selected="selected">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N">N</option>
-                                    </select>
-                                </td>
                                 <th><span class="label">승낙일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled></td>
                             </tr>
@@ -1547,6 +1535,14 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
                                 <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
+                                <th><span class="label">승낙여부</span></th>
+                                <td>
+                                    <select id="prmisnYn" disabled>
+                                        <option value="" selected="selected">선택</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
@@ -1556,16 +1552,15 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
                                 </td>
-                            </tr>
-                            
-                            <tr>
                                 <th><span class="label">고지 방법</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
                                 </td>
+                            </tr>
+                            <tr>
                                 <th><span class="label">분납이자율</span></th>
                                 <td>
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
@@ -1576,16 +1571,12 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                         </c:forEach>
                                     </select>
                                 </td>
-                            </tr>
-                            
-                            
-                            <tr>
                                 <th><span class="label">비고</span></th>
                                 <td colspan="3"><input type="text" size="50" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="5"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
                         </table>
                     </form>
@@ -1599,7 +1590,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
 
                  <table>
                     <tr>
-                        <td height="30"></td>
+                        <td height="5"></td>
                     </tr>
                  </table>
                  <table class="searchPanel">
@@ -1641,11 +1632,15 @@ var module_instance = new GamMarineCenterRentMngtModule();
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table>
                             <tr>
-                                <th style="width: 80px"><span class="label">자산사용순번</span></th>
-                                <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
-
-                                <input type="hidden" id="gisAssetsPrtAtCodeNm" />
-                                부두코드 : <input type="text" id="quayCd" readonly/>
+                                <th style="width:100px"><span class="label">자산사용순번</span></th>
+                                <td>
+                                	<input type="text" size="10" id="assetsUsageSeq" readonly/>
+                                	<input type="hidden" id="gisAssetsPrtAtCodeNm" />
+                                	<!--부두코드 : <input type="text" id="quayCd" readonly/>-->
+                                </td>
+                                <th><span class="label">부두코드</span></th>
+                                <td colspan="3">
+                                	<input type="text" id="quayCd" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -1679,17 +1674,15 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/></td>
-                            </tr>
-                            <tr>
+                                <td><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/></td>
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" maxlength="13"/></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
+                                <td><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
-                                <td>
+                                <td colspan="3">
                                     <!--
                                     <select id="applcTariff">
                                         <option value="" selected="selected">선택</option>
@@ -1701,20 +1694,18 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM014 />
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제구분</span></th>
-                                <td colspan="5">
+                                <td>
                                     <input id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM009  data-column-label-id='exemptSeNm'/>
                                     <input type="text" size="17" id="exemptSeStr" readonly/>
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">면제기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" readonly/></td>
+                                <td colspan="3"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제사유</span></th>
