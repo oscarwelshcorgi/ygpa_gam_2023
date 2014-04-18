@@ -976,7 +976,7 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용내역</span></th>
-                                <td colspan="5"><textarea cols="99" rows="3" size="100" id="usageDtls" readonly ></textarea></td>
+                                <td colspan="5"><textarea cols="99" rows="4" size="100" id="usageDtls" readonly ></textarea></td>
                             </tr>
                         </table>
                     </form>
@@ -1040,7 +1040,7 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
                     </table>
                 </form>
                     <button id="btnApplyPhotoData">첨부파일 적용</button>
-                <div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+                <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>
 

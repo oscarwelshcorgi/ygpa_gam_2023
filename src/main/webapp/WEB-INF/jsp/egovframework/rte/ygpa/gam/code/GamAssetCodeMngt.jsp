@@ -644,7 +644,7 @@ var module_instance = new GamAssetCodeModule();
 					</table>
 				</form>
    					<button id="btnApplyPhotoData">적용</button>
-				<div class="emdPanel fillHeight" style="overflow:scroll"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
 	</div>
