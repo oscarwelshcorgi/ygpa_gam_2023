@@ -154,7 +154,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: '200'
+        height: 'auto'
     });
 
     // 첨부파일 테이블 설정
@@ -1539,10 +1539,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td>
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">관리번호</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
@@ -1550,13 +1548,11 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">신청업체</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">최초신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly/></td>
                                 <th><span class="label">신청일자</span></th>
@@ -1573,17 +1569,15 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
                                 <th><span class="label">승낙일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">총사용기간</span></th>
                                 <td>
                                     <input type="text" size="10" id="grUsagePdFrom" disabled/>~
                                     <input type="text" size="10" id="grUsagePdTo" disabled/>
                                 </td>
-                                <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                             </tr>
                             <tr>
+                                <th><span class="label">총사용면적</span></th>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                                 <th><span class="label">총사용료</span></th>
                                 <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
                                 <th><span class="label">총감면사용료</span></th>
@@ -1591,18 +1585,11 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
                                 </td>
-                            </tr>
-
-                            <tr>
-                                <th><span class="label">고지 방법</span></th>
-                                <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
-                                </td>
                                 <th><span class="label">분납이자율</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
                                     <select id="cofixList">
                                         <option value="">선택</option>
@@ -1612,15 +1599,17 @@ var module_instance = new GamAssetRentMngtModule();
                                     </select>
                                 </td>
                             </tr>
-
-
                             <tr>
+                                <th><span class="label">고지 방법</span></th>
+                                <td>
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                </td>
                                 <th><span class="label">비고</span></th>
                                 <td colspan="3"><input type="text" size="50" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="5"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
                         </table>
                     </form>
@@ -1676,20 +1665,18 @@ var module_instance = new GamAssetRentMngtModule();
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table>
                             <tr>
-                                <th style="width: 80px"><span class="label">자산사용순번</span></th>
-                                <td colspan="5"><input type="text" size="10" id="assetsUsageSeq" readonly/>
-
-                                <input type="hidden" id="gisAssetsPrtAtCodeNm" />
-                                부두코드 : <input type="text" id="quayCd" readonly/>
+                                <th style="width: 100px"><span class="label">자산사용순번</span></th>
+                                <td style="width: 230px">
+                                	<input type="text" size="10" id="assetsUsageSeq" readonly/>
+	                                <input type="hidden" id="gisAssetsPrtAtCodeNm" />
+	                                부두코드 : <input type="text" id="quayCd" size="5" readonly/>
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">자산코드 </span></th>
                                 <td><input type="hidden" id="gisAssetsPrtAtCode"/><input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <input type="hidden" id="assetsCdStr"/>
                                     <button id="popupFcltyCd" class="popupButton">자산조회</button></td>
                                 <th><span class="label">자산명</span></th>
-                                <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
+                                <td><input type="text" size="20" id="gisAssetsNm" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">소재지</span></th>
@@ -1699,10 +1686,10 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">자산면적</span></th>
-                                <td style="width: 230px"><input type="text" size="17" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
-                                <th style="width: 80px"><span class="label">실제임대면적</span></th>
-                                <td style="width: 170px"><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
-                                <th style="width: 120px"><span class="label">공시지가목록</span></th>
+                                <td><input type="text" size="17" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
+                                <th><span class="label">실제임대면적</span></th>
+                                <td><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
+                                <th><span class="label">공시지가목록</span></th>
                                 <td>
                                     <select id="olnlpList">
                                         <option value="">선택</option>
@@ -1714,17 +1701,15 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">사용기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/></td>
-                            </tr>
-                            <tr>
+                                <td><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/></td>
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="17" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" maxlength="13"/></td>
                                 <th><span class="label">사용면적</span></th>
-                                <td colspan="3"><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
+                                <td><input type="text" size="17" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">적용요율</span></th>
-                                <td>
+                                <td colspan="3">
                                     <!--
                                     <select id="applcTariff">
                                         <option value="" selected="selected">선택</option>
@@ -1736,20 +1721,18 @@ var module_instance = new GamAssetRentMngtModule();
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
                                 <th><span class="label">적용방법</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM014 />
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제구분</span></th>
-                                <td colspan="5">
+                                <td>
                                     <input id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM009  data-column-label-id='exemptSeNm'/>
                                     <input type="text" size="17" id="exemptSeStr" readonly/>
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">면제기간</span></th>
-                                <td colspan="5"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" readonly/></td>
+                                <td colspan="3"><input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" readonly/>~<input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" readonly/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">면제사유</span></th>

@@ -300,36 +300,32 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                         
                         <table>
                             <tr>
+                            	<th><span class="label">청코드</span></th>
+                                <td style="width: 180px"><input type="text" size="10" id="prtAtCode"/></td>
                                 <th><span class="label">일련번호</span></th>
-                                <td style="width: 200px"><input type="text" size="10" id="intSeq"/></td>
+                                <td style="width: 180px"><input type="text" size="10" id="intSeq"/></td>
                                 <th><span class="label">처리구분</span></th>
                                 <td><input type="text" size="10" id="delKind"/></td>
                             </tr>
                             <tr>
+                            	<th><span class="label">요금종류</span></th>
+                                <td><input type="text" size="10" id="feeTp"/></td>
                                 <th><span class="label">징수일자</span></th>
                                 <td><input type="text" size="10" id="jingsuDate"/></td>
                                 <th><span class="label">수납일자</span></th>
                                 <td><input type="text" size="10" id="sunapDate"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">청코드</span></th>
-                                <td><input type="text" size="10" id="prtAtCode"/></td>
-                                <th><span class="label">요금종류</span></th>
-                                <td><input type="text" size="10" id="feeTp"/></td>
-                            </tr>
-                            <tr>
+                            	<th><span class="label">업체코드</span></th>
+                                <td><input type="text" size="10" id="agentCode"/></td>
                                 <th><span class="label">회계년도</span></th>
                                 <td><input type="text" size="10" id="fiscalYr"/></td>
-                                <th><span class="label">고지번호</span></th>
-                                <td><input type="text" size="10" id="billNo"/></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">회계구분코드</span></th>
                                 <td><input type="text" size="10" id="accntCode"/></td>
-                                <th><span class="label">업체코드</span></th>
-                                <td><input type="text" size="10" id="agentCode"/></td>
                             </tr>
                             <tr>
+                            	<th><span class="label">고지번호</span></th>
+                                <td><input type="text" size="10" id="billNo"/></td>
                                 <th><span class="label">고지금액</span></th>
                                 <td><input type="text" size="20" id="billAmnt"/></td>
                                 <th><span class="label">고지일자</span></th>
@@ -340,50 +336,44 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                                 <td><input type="text" size="10" id="billPrtYn"/></td>
                                 <th><span class="label">납부기한일자</span></th>
                                 <td><input type="text" size="10" id="dueDate"/></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">수납일자</span></th>
                                 <td><input type="text" size="10" id="rcvdDt"/></td>
-                                <th><span class="label">수납구분</span></th>
-                                <td><input type="text" size="10" id="rcvdTp"/></td>
                             </tr>
                             <tr>
+                                <th><span class="label">수납구분</span></th>
+                                <td><input type="text" size="10" id="rcvdTp"/></td>
                                 <th><span class="label">불능코드</span></th>
                                 <td><input type="text" size="10" id="rsltCode"/></td>
                                 <th><span class="label">면제(보전)금액</span></th>
                                 <td><input type="text" size="20" id="exmpAmnt"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">과오납금액</span></th>
-                                <td><input type="text" size="20" id="overAmnt"/></td>
-                                <th><span class="label">할인금액</span></th>
+                            	<th><span class="label">할인금액</span></th>
                                 <td><input type="text" size="20" id="dcAmnt"/></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">할인사유</span></th>
                                 <td><input type="text" size="10" id="dcCode"/></td>
                                 <th><span class="label">할인코드</span></th>
                                 <td><input type="text" size="10" id="dcRate"/></td>
                             </tr>
                             <tr>
+                            	<th><span class="label">과오납금액</span></th>
+                                <td><input type="text" size="20" id="overAmnt"/></td>
                                 <th><span class="label">금융기관 수납일자</span></th>
                                 <td><input type="text" size="10" id="recptEpdt"/></td>
                                 <th><span class="label">전자고지 결과</span></th>
                                 <td><input type="text" size="10" id="elctBillRslt"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">전자고지 정보조회일자</span></th>
-                                <td><input type="text" size="10" id="bullInfoInqrDtime"/></td>
-                                <th><span class="label">산출내역</span></th>
-                                <td><input type="text" size="10" id="amntRsn"/></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">사업자등록번호</span></th>
                                 <td><input type="text" size="10" id="bzRgstId"/></td>
                                 <th><span class="label">사업장명</span></th>
                                 <td><input type="text" size="10" id="agentName"/></td>
+                                <th><span class="label">산출내역</span></th>
+                                <td><input type="text" size="10" id="amntRsn"/></td>
                             </tr>
                             <tr>
+                            	<th><span class="label">전자고지 정보조회일자</span></th>
+                                <td><input type="text" size="10" id="bullInfoInqrDtime"/></td>
                                 <th><span class="label">정산여부</span></th>
                                 <td><input type="text" size="10" id="last"/></td>
                                 <th><span class="label">부가세</span></th>
@@ -393,17 +383,15 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                                 <th><span class="label">지로번호</span></th>
                                 <td><input type="text" size="10" id="jiroNo"/></td>
                                 <th><span class="label">전자납부번호</span></th>
-                                <td><input type="text" size="10" id="elecPayNo"/></td>
+                                <td colspan="3"><input type="text" size="10" id="elecPayNo"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">고객관리번호</span></th>
                                 <td><input type="text" size="10" id="customerMngtNo"/></td>
+                                <th><span class="label">납부자성명</span></th>
+                                <td><input type="text" size="10" id="payName"/></td>
                                 <th><span class="label">고객주소</span></th>
                                 <td><input type="text" size="40" id="customerAddr"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">납부자성명</span></th>
-                                <td colspan="3"><input type="text" size="10" id="payName"/></td>
                             </tr>
                         </table>
                     </form>
