@@ -95,8 +95,16 @@
                                     data-url="<c:url value='/asset/gamErpGisAssetCodeMngt.do'/>">자산취득관리</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0005"
+                                    data-url="<c:url value='/asset/gamAssetSttusInqire.do'/>">자산정보현황조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0002"
                                     data-url="<c:url value='/asset/gamAssetEvlDtlsInqire.do'/>">자산가치평가내역조회</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0005"
+                                    data-url="<c:url value='/asset/gamAssetTypeValueSts.do'/>">자산종류별자산가치통계조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
@@ -104,26 +112,18 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0005"
-                                    data-url="<c:url value='/asset/gamAssetSttusInqire.do'/>">자산정보현황조회</a>
-                                </li>
-                                <li><a href="#" data-role="LoadModule"
-                                    data-prgid="PRG_0005"
                                     data-url="<c:url value='/asset/gamAssetLndValInqire.do'/>">자산부지공시지가조회</a>
-                                </li>
-                                <li><a href="#" data-role="LoadModule"
-                                    data-prgid="PRG_0005"
-                                    data-url="<c:url value='/asset/gamAssetTypeValueSts.do'/>">자산종류별자산가치통계조회</a>
                                 </li>
                             </ul></li>
                         <li><a href="#"><b>자산운영</b></a>
                             <ul class="submenu">
                                 <li><a href="#" data-role="LoadModule"
-                                    data-prgid="PRG_0007"
-                                    data-url="<c:url value='/asset/rent/gamAssetRentSttusInqire.do'/>">자산임대현황조회</a>
-                                </li>
-                                <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0008"
                                     data-url="<c:url value='/asset/rent/gamAssetRentMngt.do'/>">자산임대관리</a>
+                                </li>
+                                <li><a href="#" data-role="LoadModule"
+                                    data-prgid="PRG_0007"
+                                    data-url="<c:url value='/asset/rent/gamAssetRentSttusInqire.do'/>">자산임대현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0009"
@@ -135,7 +135,7 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
-                                    data-url="<c:url value='/asset/rent/gamAssetUseExprInqire.do'/>">자산임대만기도래자료조회</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetTotalRentfeeInqire.do'/>">자산별사용료현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
@@ -143,7 +143,7 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
-                                    data-url="<c:url value='/asset/rent/gamAssetTotalRentfeeInqire.do'/>">자산별사용료현황조회</a>
+                                    data-url="<c:url value='/asset/rent/gamAssetUseExprInqire.do'/>">자산임대만기도래자료조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0011"
@@ -185,11 +185,11 @@
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
-                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyUseExprInqire.do'/>">항만시설사용만기도래자료조회</a>
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyNticArrvlDtaInqire.do'/>">항만시설고지도래현황조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
-                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyNticArrvlDtaInqire.do'/>">항만시설고지도래현황조회</a>
+                                    data-url="<c:url value='/oper/gnrl/gamPrtFcltyUseExprInqire.do'/>">항만시설사용만기도래자료조회</a>
                                 </li>
                                 <li><a href="#" data-role="LoadModule"
                                     data-prgid="PRG_0003"
