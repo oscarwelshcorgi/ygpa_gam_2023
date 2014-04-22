@@ -602,7 +602,7 @@
 </div>
 <div id="__templateXls" style="display:none;"></div>
 <div id="file_upload_dialog" title="업로드 파일">
-<form id="fileupload" action="<c:url value='/upload/genericMulti.do'/>" method="POST" enctype="multipart/form-data">
+<form id="fileupload" method="POST" enctype="multipart/form-data">
 	<input name="type" type="hidden" value="genericFileMulti"/>
     <div class="fileupload-buttonbar">
         <div class="fileupload-buttons">
