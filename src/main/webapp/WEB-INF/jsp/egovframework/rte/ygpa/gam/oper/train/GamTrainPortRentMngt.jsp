@@ -161,12 +161,12 @@ GamTrainPortRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/train/gamSelectTrainPortRentMngtFileList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+					{display:'순번', name:'rnum', width:80, sortable:true, align:'center'},
 					{display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
 					{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
 					{display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
 					{display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
-					
+					//2014-4-22 rnum추가
 					/*
 					{display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
 					{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -1151,14 +1151,19 @@ GamTrainPortRentMngtModule.prototype.onCalc = function() {
             break;
             
         case 'btnUploadFile':
+        	var thisObj = this; //2014-4-22추가 목록추가를 위한 클로저 변수
             // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
+                //순번지정 처리 안됨
                 $.each(result, function(){
                     //module.$('#trainPortRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#trainPortRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    module.$('#trainPortRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    //module.$('#trainPortRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+             		module.$('#trainPortRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: thisObj.$('#photoPrtAtCode').val(), mngYear: thisObj.$('#photoMngYear').val(), mngNo: thisObj.$('#photoMngNo').val(), mngCnt: thisObj.$('#photoMngCnt').val(), 
+																		photoSeq: '', photoSj: thisObj.$('#photoSj').val(), filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: thisObj.$('#shotDt').val(), photoDesc: thisObj.$('#photoDesc').val(), regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+					//2014-4-22 변경
                 });
             }, '첨부파일 업로드');
             
@@ -1204,6 +1209,7 @@ GamTrainPortRentMngtModule.prototype.onCalc = function() {
             if(rows.length == 0) {
                 alert("파일목록에서 삭제할 행을 선택하십시오.");
             } else {
+            	if(!confirm('삭제를 하시겠습니까?')) return; //2014-4-22 추가
                 if(this.$('#trainPortRentMngtFileList').selectedRowIds().length>0) {
                     for(var i=this.$('#trainPortRentMngtFileList').selectedRowIds().length-1; i>=0; i--) {
                         var row=this.$('#trainPortRentMngtFileList').flexGetRow(this.$('#trainPortRentMngtFileList').selectedRowIds()[i]);
@@ -1214,6 +1220,8 @@ GamTrainPortRentMngtModule.prototype.onCalc = function() {
                             this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
                         this.$('#trainPortRentMngtFileList').flexRemoveRow(this.$('#trainPortRentMngtFileList').selectedRowIds()[i]);
+                        this.$("#previewImage").attr('src', ''); //2014-4-22 삭제시 preview이미지 지움
+                    	alert('삭제가 완료되었습니다.'); //2014-4-22 추가
                     }
                 }
             }

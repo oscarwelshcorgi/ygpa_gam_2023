@@ -163,6 +163,8 @@ GamMarineCenterRentFeeMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	module.$("#marineCenterRentFeeListTab").tabs("option", {active: 0}); //2014-4-22 추가
+        	
             var searchOpt=this.makeFormArgs('#gamMarineCenterRentFeeSearchForm');
             this.$('#marineCenterRentFeeList').flexOptions({params:searchOpt}).flexReload();
 
