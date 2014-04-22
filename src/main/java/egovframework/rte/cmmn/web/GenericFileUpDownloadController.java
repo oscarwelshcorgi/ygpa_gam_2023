@@ -122,6 +122,83 @@ public class GenericFileUpDownloadController {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/upload/genericMultiIE.do")
+	public @ResponseBody Map multipartIEProcess(final HttpServletRequest request, HttpServletResponse response, Model model)
+			throws Exception {
+
+	    response.setCharacterEncoding("UTF-8");
+	    response.setContentType("text/html; charset=UTF-8");
+
+		Map map = new HashMap();
+		final long startTime = System.nanoTime();
+
+		/*
+		 * validate request type
+		 */
+		Assert.state(request instanceof MultipartHttpServletRequest,
+				"request !instanceof MultipartHttpServletRequest");
+		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+		/*
+		 * validate text input
+		 */
+		Assert.state(request.getParameter("type").equals("genericFileMulti"),
+				"type != genericFileMulti");
+
+		/*
+		 * extract files
+		 */
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+		Assert.notNull(files, "files is null");
+		Assert.state(files.size() > 0, "0 files exist");
+
+		/*
+		 * process files
+		 */
+		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath");
+		File saveFolder = new File(uploadPath);
+
+		// 디렉토리 생성
+		if (!saveFolder.exists() || saveFolder.isFile()) {
+			saveFolder.mkdirs();
+		}
+
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet()
+				.iterator();
+		MultipartFile file;
+		List fileInfoList = new ArrayList();
+		String filePath;
+
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+//			System.out.println("[" + entry.getKey() + "]");
+
+			file = entry.getValue();
+			String[] tokens = file.getOriginalFilename().split("\\.(?=[^\\.]+$)");
+			if (!"".equals(file.getOriginalFilename())) {
+				FileInfoVO fileInfoVO = new FileInfoVO();
+				fileInfoVO.setFileName(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
+				fileInfoVO.setOrizinalFileName(file.getOriginalFilename());
+				filePath = uploadPath + "\\" + fileInfoVO.getFileName();
+				file.transferTo(new File(filePath));
+
+				fileInfoVO.setFilePath("");
+				fileInfoVO.setFileSize(file.getSize());
+				fileInfoList.add(fileInfoVO);
+			}
+		}
+
+		final long estimatedTime = System.nanoTime() - startTime;
+//		System.out.println(estimatedTime + " " + getClass().getSimpleName());
+
+		map.put("result", fileInfoList);
+//		map.put("uploadPath", fileInfoList);
+
+		return map;
+
+	}
+
 	@RequestMapping(value = "/download/downloadFile.do")
 	public void downloadFile(
 			@RequestParam(value = "requestedFile") String requestedFile,

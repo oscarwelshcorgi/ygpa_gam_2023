@@ -20,4 +20,7 @@ public interface GamGisAssetPhotoMngtService {
 	List selectAssetPhotoList(GamGisAssetPhotoVO searchOpt);
 
 	int selectAssetPhotoListTotCnt(GamGisAssetPhotoVO searchOpt);
+
+	List mergeAssetPhotoMngt(Map mergeMap) throws Exception;
+
 }

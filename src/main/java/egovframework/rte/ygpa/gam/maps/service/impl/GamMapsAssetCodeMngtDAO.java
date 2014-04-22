@@ -63,4 +63,12 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeInfo", vo);
 	}
 
+	public EgovMap selectMapsAssetsCodeUseSummary(Map vo) throws Exception{
+		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseSummary", vo);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List selectMapsAssetsCodeUseInfo(Map vo) throws Exception{
+		return list("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseInfo", vo);
+	}
 }

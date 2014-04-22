@@ -44,5 +44,4 @@ public class GamGisAssetCodeMngtDao extends YGPAAbstractDAO {
     public EgovMap selectAssetCodeOlnlp(Map vo) throws Exception {
     	return (EgovMap) selectByPk("gamGisAssetCodeDao.selectAssetCodeOlnlp_S", vo);
     }
-
 }

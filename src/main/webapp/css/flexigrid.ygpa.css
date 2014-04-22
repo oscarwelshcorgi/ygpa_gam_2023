@@ -308,6 +308,7 @@
 
 .flexigrid div.bDiv table {
 	border-bottom: 1px solid #ccc;
+	width: 100%;
 }
 
 .flexigrid div.hGrip {

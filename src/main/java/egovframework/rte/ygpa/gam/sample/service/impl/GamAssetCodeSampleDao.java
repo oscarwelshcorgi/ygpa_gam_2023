@@ -13,37 +13,37 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 public class GamAssetCodeSampleDao extends EgovAbstractDAO {
 
     public String insertAssetCode(Map vo) throws Exception {
-        return (String)insert("gamAssetCodeDAO.insertAssetCode_S", vo);
+        return (String)insert("gamGisAssetPhotoDao.insertAssetPhoto_S", vo);
     }
 
     public void updateAssetCode(Map vo) throws Exception {
-        update("gamAssetCodeDAO.updateAssetCode_S", vo);
+        update("gamGisAssetPhotoDao.updateAssetPhoto_S", vo);
     }
 
     public void deleteAssetCode(Map vo) throws Exception {
-        delete("AssetCodeDAO.deleteAssetCode_S", vo);
+        delete("gamGisAssetPhotoDao.deleteAssetPhoto_S", vo);
     }
 
     public EgovMap selectAssetCode(Map vo) throws Exception {
-        return (EgovMap) selectByPk("AssetCodeDAO.selectAssetCode_S", vo);
+        return (EgovMap) selectByPk("gamGisAssetPhotoDao.selectAssetPhoto_S", vo);
     }
 
 	public List selectGamAssetCodeList(Map searchOpt) {
 		// TODO Auto-generated method stub
-		 return list("gamAssetCodeDao.selectAssetCodeList_D", searchOpt);
+		 return list("gamGisAssetPhotoDao.selectAssetPhotoList_D", searchOpt);
 	}
 
 	public int selectGamAssetCodeListTotCnt(Map searchOpt) {
-		return  (Integer)getSqlMapClientTemplate().queryForObject("gamAssetCodeDao.selectAssetCodeListTotCnt_S", searchOpt);
+		return  (Integer)getSqlMapClientTemplate().queryForObject("gamGisAssetPhotoDao.selectAssetPhotoListTotCnt_S", searchOpt);
 	}
 
 	public List selectGamAssetCodePhotoList(Map searchOpt) {
 		// TODO Auto-generated method stub
-		 return list("gamAssetCodeDao.selectAssetCodePhotoList_D", searchOpt);
+		 return list("gamGisAssetPhotoDao.selectAssetPhotoList_D", searchOpt);
 	}
 
 	public int selectGamAssetCodePhotoListTotCnt(Map searchOpt) {
-		return  (Integer)getSqlMapClientTemplate().queryForObject("gamAssetCodeDao.selectAssetCodePhotoListTotCnt_S", searchOpt);
+		return  (Integer)getSqlMapClientTemplate().queryForObject("gamGisAssetPhotoDao.selectAssetPhotoListTotCnt_S", searchOpt);
 	}
 
 }

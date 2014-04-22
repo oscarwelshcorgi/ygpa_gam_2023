@@ -145,41 +145,51 @@ public class GamMapsAssetCodeMngtController {
     		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     	}
     	else {
+    		String auth="";
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
 
-			String auth="";
 			for(int i=0; i<EgovUserDetailsHelper.getAuthorities().size(); i++) {
 				String author = EgovUserDetailsHelper.getAuthorities().get(i);
 				// 권한별 조회 메뉴 설정
 				if(auth.length()!=0) auth+=",";
+				if("role_admin".equalsIgnoreCase(author)) {
+					auth+="roleAdmin";
+					break;
+				}
 				if("role_asset_mngt".equalsIgnoreCase(author)) {
 					auth+="roleAssetMngt";
-//					searchVO.put("roleAssetMngt", true);
 				}
 				if("role_fclty_mngt".equalsIgnoreCase(author)) {
-					if(auth.length()>0) auth+=",";
-					auth+="roleFcltyMngt";
-//					searchVO.put("roleFcltyMngt", true);
+					auth+="roleAssetMngt";
 				}
 				if("role_pfuse_mngt".equalsIgnoreCase(author)) {
-					if(auth.length()>0) auth+=",";
 					auth+="rolePfuseMngt";
-//					searchVO.put("rolePfuseMngt", true);
 				}
 				if("role_cntrq_mngt".equalsIgnoreCase(author)) {
-					if(auth.length()>0) auth+=",";
 					auth+="roleCntrqMngt";
-//					searchVO.put("roleCntrqMngt", true);
 				}
 			}
+
+			try {
+				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
+
+				model.addAttribute("assetCd", assetCodeInfo);
+	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
+					model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseInfo(searchVO));
+	//			}
+	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
+					model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
+	//			}
+				model.addAttribute("auth", auth);
+				model.addAttribute("resultCode", 0);
+			}
+			catch(Exception e) {
+				model.addAttribute("resultCode", -1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+			}
     	}
-
-		Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
-
-		model.addAttribute("resultCode", 0);
-		model.addAttribute("assetCd", assetCodeInfo);
 
     	return "ygpa/gam/maps/GamAssetCdInfo";
     }
