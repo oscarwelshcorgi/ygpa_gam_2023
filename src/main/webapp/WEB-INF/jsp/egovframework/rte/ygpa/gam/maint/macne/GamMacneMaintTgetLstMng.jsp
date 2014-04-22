@@ -156,7 +156,7 @@ var module_instance = new GamAssetCodeModule();
 			</ul>
 			<div id="tabs1" class="emdTabPage">
 				<table id="assetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="addAssetCd">자산추가</button><button id="removeAssetCd">삭제</button><button id="editAssetCd">편집</button><button id="toExcel">엑셀(XLS)</button><button id="loadMap">지도보기</button></div>
+				<div class="emdControlPanel"><button id="addAssetCd">자산추가</button><button id="removeAssetCd">삭제</button><button id="editAssetCd">편집</button><button id="toExcel">엑셀(XLS)</button><button id="loadMap">맵조회</button></div>
 			</div>
 			<div id="tabs2" class="emdTabPage">
 				<table>

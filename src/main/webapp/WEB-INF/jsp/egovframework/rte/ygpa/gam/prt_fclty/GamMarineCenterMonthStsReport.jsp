@@ -151,6 +151,6 @@ var module_instance = new GamAssetEvlDtlsInqiryModule();
 				<table id="assetEvlDtlsList" style="display:none"></table>
 				<div class="emdSummaryPanel"><div class="summaryLabel">조회 갯수 : </div><div id="totalCnt" class="summaryResult">0 개 로드 됨</div><div class="summaryLabel">자산가액 합계 : </div><div id="totalValAmount" class="summaryResult">0 원</div><div class="summaryLabel">취득가액 합계 : </div><div id="totalRecAmount" class="summaryResult">0 원</div></div>
 
-				<div class="emdControlPanel"><button id="toExcel">엑셀(XLS) 저장</button><button id="loadMap">지도보기</button></div>
+				<div class="emdControlPanel"><button id="toExcel">엑셀(XLS) 저장</button><button id="loadMap">맵조회</button></div>
 	</div>
 </div>

@@ -740,7 +740,7 @@ var module_instance = new GamAssetCodeModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 								<table id="assetCodeList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap">지도보기</button>
+					<button id="loadMap">맵조회</button>
 					<button id="btnAddGisMap">위치등록</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>

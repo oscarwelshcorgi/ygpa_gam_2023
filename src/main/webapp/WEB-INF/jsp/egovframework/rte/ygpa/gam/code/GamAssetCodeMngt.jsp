@@ -630,7 +630,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			<div id="tabs1" class="emdTabPage fillHeight" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap">지도보기</button>
+					<button id="loadMap">맵조회</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
 					<button id="storeAutoMapGenerate">위치등록(배치)</button>	<!-- 빌드 시 -->

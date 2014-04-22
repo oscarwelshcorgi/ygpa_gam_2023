@@ -162,7 +162,7 @@ var module_instance = new GamAssetCodeListModule();
 			</ul>
 			<div id="tabs1" class="emdTabPage">
 				<table id="assetCodeList" style="display:none"></table>
-				<div class="emdControlPanel"><button id="loadMap">지도보기</button></div>
+				<div class="emdControlPanel"><button id="loadMap">맵조회</button></div>
 			</div>
 			<div id="tabs2" class="emdTabPage">
 				<table>
