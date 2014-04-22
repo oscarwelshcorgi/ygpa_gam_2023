@@ -497,6 +497,14 @@ GamMarineCenterRentSttusInqireModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
+        	if( this.$('#sGrUsagePdFrom').val() == '' ) {
+                alert("사용기간을 입력하세요.");
+                return;
+            }
+        	if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 입력하세요.");
+                return;
+            }
             this.$("#assetRentListTab").tabs("option", {active: 0});
 
             var searchOpt=this.makeFormArgs('#gamMarineCenterRentSttusInqireSearchForm');

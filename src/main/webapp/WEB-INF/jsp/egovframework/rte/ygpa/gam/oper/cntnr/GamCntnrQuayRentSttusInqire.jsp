@@ -281,6 +281,17 @@ GamCntnrQuayRentSttusInqireModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	//2014-4-22 추가
+        	if( this.$('#sGrUsagePdFrom').val() == '' ) {
+                alert("사용기간을 입력하세요.");
+                return;
+            }
+        	if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 입력하세요.");
+                return;
+            }
+			//
+			this.$("#cntnrQuayRentSttusInqireListTab").tabs("option", {active: 0});
             var searchOpt=this.makeFormArgs('#gamCntnrQuayRentSttusInqireSearchForm');
             this.$('#cntnrQuayRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
