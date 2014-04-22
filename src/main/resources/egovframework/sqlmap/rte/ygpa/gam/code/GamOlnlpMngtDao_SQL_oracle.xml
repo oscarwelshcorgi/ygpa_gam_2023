@@ -14,7 +14,9 @@
 		       (SELECT Z.*, 
 		              ROWNUM AS RNUM 
 		         FROM 
-		              (SELECT GIS_ASSETS_CD, 
+		              (SELECT 
+		              		 CONCAT(CONCAT(GIS_ASSETS_CD,'-'),GIS_ASSETS_SUB_CD) AS GIS_ASSETS_TOT_CD,
+		              		 GIS_ASSETS_CD, 
 		                     GIS_ASSETS_PRT_AT_CODE, 
 		                     (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_NAME,
 		                     GIS_ASSETS_SUB_CD, 

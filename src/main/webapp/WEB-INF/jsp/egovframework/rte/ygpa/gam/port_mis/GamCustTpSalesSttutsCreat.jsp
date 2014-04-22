@@ -64,9 +64,10 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		module: this,
 		url: '<c:url value="/port_mis/selectErpStatisticsList.do"/>',
 		colModel : [
-					{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
-					{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
-					{display:'년월', name:'yrmt', width:150, sortable:true, align:'center'},
+					{display:'항코드', name:'prtcd', width:60, sortable:true, align:'center'},
+					{display:'업체명', name:'firmKorNm', width:190, sortable:true, align:'center'},
+					{display:'년월', name:'yrmt', width:70, sortable:true, align:'center'},
+					{display:'요금종류코드', name:'chrgekndcd', width:100, sortable:true, align:'center'},
 					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
 					{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
@@ -85,9 +86,10 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		module: this,
 		url: '<c:url value="/port_mis/selectShipErpStatisticsList.do"/>',
 		colModel : [
-				{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
-				{display:'업체명', name:'firmKorNm', width:210, sortable:true, align:'center'},
-				{display:'년월', name:'yrmt', width:150, sortable:true, align:'center'},
+				{display:'항코드', name:'prtcd', width:60, sortable:true, align:'center'},
+				{display:'업체명', name:'firmKorNm', width:190, sortable:true, align:'center'},
+				{display:'년월', name:'yrmt', width:70, sortable:true, align:'center'},
+				{display:'요금종류코드', name:'chrgekndcd', width:100, sortable:true, align:'center'},
 				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
 				{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
@@ -101,6 +103,29 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 	this.$("#gamCustTpShipEnpSalesSttutsList").on('onLoadDataComplete', function(event, module, data, grid, param) {
 
 	});
+	
+	// 전월로 셀렉트박스 날짜 정의
+	var today = new Date();
+	
+	var toMonth = today.getMonth();
+	today.setDate(1);
+	today.setMonth(toMonth - 1);
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+
+	this.$("#grStartYr").val(serchYr);
+	this.$("#grStartMn").val(serchMn);
+	this.$("#eGrStartYr").val(serchYr);
+	this.$("#eGrStartMn").val(serchMn);
+	this.$("#eGrEndYr").val(serchYr);
+	this.$("#eGrEndMn").val(serchMn);
+	this.$("#sEgrStartYr").val(serchYr);
+	this.$("#sEgrStartMn").val(serchMn);
+	this.$("#sEgrEndYr").val(serchYr);
+	this.$("#sEgrEndMn").val(serchMn);
+	this.$("#grCreatYr").val(serchYr);
+	this.$("#grCreatMn").val(serchMn);
 
 };
 
@@ -488,7 +513,8 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                                <input id="chrgeKndCd" type="text" size="10"> <button id="popupchrgeKndCd">요금</button>
+		                            	<input id="chrgeKndCd" type="text" size="4"> 
+		                                <input id="chrgeKndNm" type="text" size="10"> <button id="popupchrgeKndCd">요금</button>
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
@@ -551,7 +577,8 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                                <input id="chrgeKndCd" type="text" size="10"> <button id="popupchrgeKndCd2">요금</button>
+		                            	<input id="chrgeKndCd" type="text" size="4"> 
+		                                <input id="chrgeKndNm" type="text" size="10"> <button id="popupchrgeKndCd2">요금</button>
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>

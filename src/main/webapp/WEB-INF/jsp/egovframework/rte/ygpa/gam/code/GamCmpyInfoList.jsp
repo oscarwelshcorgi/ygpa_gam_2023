@@ -112,13 +112,13 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			
-			if(this.$("#searchEntrpsCd").val() == "" && this.$("#searchBizrno").val() == ""){
+			/* if(this.$("#searchEntrpsCd").val() == "" && this.$("#searchBizrno").val() == ""){
 				if(this.$("#searchEntrpsNm").val() == "" || this.$("#searchEntrpsNm").val().length < 2){
 					this.$("#searchEntrpsNm").focus();
 					alert("업체 명은 2자 이상 입력하십시오.");
 					return;
 				}
-			}
+			} */
 			
 			var searchOpt = this.makeFormArgs("#cmpyInfoMngtForm");
 		 	this.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();

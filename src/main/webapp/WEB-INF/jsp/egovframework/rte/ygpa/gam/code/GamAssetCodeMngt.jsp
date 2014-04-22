@@ -242,7 +242,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			// 변경된 자료를 저장한다.
 			if (!validateGamAssetCode(this.$("#editGisAssetCode")[0]))
 				return;
-
+			//alert(this._regMode);
 			var inputVO = this.makeFormArgs("#editGisAssetCode");
 			if (this._regMode == "I") {
 				this
@@ -718,7 +718,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						<th><span class="label">사용여부</span></th>
 						<td>
 							<select id="gisAssetsUsageYn">
-									<option value="" selected="selected">선택</option>
+									<!-- <option value="" selected="selected">선택</option> -->
 									<option value="Y">사용</option>
 									<option value="N">사용안함</option>
 							</select>

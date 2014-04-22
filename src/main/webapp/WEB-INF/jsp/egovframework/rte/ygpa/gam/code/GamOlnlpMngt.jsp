@@ -40,7 +40,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		colModel : [
 				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
 				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-				{display:"자산코드",		 			name:"gisAssetsCd",			width:60,		sortable:false,		align:"center"},
+				{display:"자산코드",		 			name:"gisAssetsTotCd",			width:60,		sortable:false,		align:"center"},
 				{display:"소재지",		 			name:"gisAssetsLocplc",		width:220,		sortable:false,		align:"center"},
 				{display:"지번", 					name:"gisAssetsLnmDisplay",	width:100,		sortable:false,		align:"center"},
 				{display:"자산명",		 			name:"gisAssetsNm",			width:140,		sortable:false,		align:"center"}
@@ -54,7 +54,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpMngtList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"순번", 					name:"olnlpSeq",		width:80,		sortable:false,		align:"center"},
+				{display:"순번", 					name:"rnum",		width:80,		sortable:false,		align:"center"},
 				{display:"시작일자",	 				name:"beginDt",			width:150,		sortable:false,		align:"center"},
 				{display:"종료일자",		 			name:"endDt",			width:150,		sortable:false,		align:"center"},
 				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"center"}
@@ -75,7 +75,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 
 			var searchOpt = module.makeFormArgs("#olnlpManageVO");
 			module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
-			if(result.totalCount == 0) alert("등록된 공시지가 목록이 없습니다.");
+			//if(result.totalCount == 0) alert("등록된 공시지가 목록이 없습니다.");
 	 	});
 	});
 
@@ -115,12 +115,28 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 추가
 		case "addBtn":
+			
+			//if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) return;
+			/* var selectRow = this.$('#olnlpMngtList').selectedRows();
+			var child = this.$('#olnlpMngtList').flexGetData();
+			var childCnt = child.length;
+			var arrayNo = childCnt - 1;
+			var addRnum = rnum++;
+			
+			this.$("#rnum").val(addRnum); */
+			
+			this._editData = this.getFormValues("#olnlpManageVO");
+			
 			this.$("#olnlpMngtListTab").tabs("option", {active: 1});
 			this.$("#olnlpSeq").val("");
 			this.$("#beginDt").val("");
 			this.$("#endDt").val("");
 			this.$("#olnlp").val("");
 			this.$("#cmd").val("insert");
+			/* this.$("#rnum").val(""); */
+			
+			this.$("#olnlpMngtList").flexAddRow(this._editData);
+			
 		break;
 
 		// 자산코드 팝업
@@ -131,12 +147,10 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 
-			if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) return;
-
 			var inputVO = this.makeFormArgs("#olnlpManageVO");
-
 			if(this.$("#cmd").val() == "insert"){
 				this.doAction('<c:url value="/code/insertOlnlpMngt.do" />', inputVO, function(module, result) {
+
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#olnlpForm");
 						module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -296,6 +310,7 @@ var module_instance = new GamOlnlpMngtModule();
 				<input type="hidden" id="gisAssetsPrtAtCode" />
 				<input type="hidden" id="gisAssetsSubCd" />
 				<input type="hidden" id="olnlpSeq" />
+				<input type="hidden" id="rnum" />
 				<table class="searchPanel">
 					<tbody>
 						<tr>

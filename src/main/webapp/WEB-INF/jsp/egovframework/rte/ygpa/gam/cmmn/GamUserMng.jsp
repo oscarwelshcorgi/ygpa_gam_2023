@@ -103,6 +103,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#userMngForm");
+			this.$("#userMngListTab").tabs("option", {active: 0});
 		 	this.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
 		 	throw 0;
 		break;

@@ -148,6 +148,8 @@ public class GamOlnlpMngtController {
 		/** List Data */
 		List<GisAssetsCodeVO> OlnlpMngtList = gamOlnlpMngtService.selectOlnlpInsertList(searchVO);
 		int totCnt = gamOlnlpMngtService.selectOlnlpInsertListTotCnt(searchVO);
+		
+		System.out.print("result ******************************** : " + OlnlpMngtList);
 
 		paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -193,6 +195,8 @@ public class GamOlnlpMngtController {
 		/** List Data */
 		List<GamOlnlpFVO> olnlpMngtList = gamOlnlpMngtService.selectOlnlpMngtList(searchVO);
         int totCnt = gamOlnlpMngtService.selectOlnlpMngtListTotCnt(searchVO);
+        
+        
 
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());

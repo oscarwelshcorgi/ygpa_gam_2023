@@ -76,6 +76,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#cmmnCodeClMngtForm");
+			this.$("#cmmnCodeClMngListTab").tabs("option", {active: 0});
 		 	this.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
 		 	throw 0;
 		break;
@@ -217,8 +218,8 @@ var module_instance = new GamCmmnCodeClMngtModule();
 							<th width="20%" height="23" class="required_text">사용여부</th>
 							<td>
 								<select id="useAt">
-									<option value="N">N</option>
 									<option value="Y">Y</option>
+									<option value="N">N</option>
 								</select>
 							</td>
 						</tr>

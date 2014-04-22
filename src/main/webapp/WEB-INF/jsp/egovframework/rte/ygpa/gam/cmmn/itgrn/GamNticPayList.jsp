@@ -41,6 +41,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
 				{display:"청코드", 	 				name:"prtAtCode",			width:50,		sortable:false,		align:"center"},
 				{display:"요금종류",					name:"feeTp",				width:60,		sortable:false,		align:"center"},
+				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"회계년도",					name:"fiscalYr",			width:60,		sortable:false,		align:"center"},
 				{display:"고지번호",					name:"billNo",				width:60,		sortable:false,		align:"center"},
 				{display:"업체코드",					name:"agentCode",			width:60,		sortable:false,		align:"center"},
@@ -68,7 +69,6 @@ GamNticPayListModule.prototype.loadComplete = function() {
 				{display:"시설부코드",					name:"facSubCode",			width:80,		sortable:false,		align:"center"},
 				{display:"고지횟수",					name:"billCount",			width:80,		sortable:false,		align:"center"},
 				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"선석명",					name:"facKorNm",			width:80,		sortable:false,		align:"center"}
 			],
 		usepager: true,
@@ -89,6 +89,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
 				{display:"청코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
 				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
+				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"회계년도",					name:"fiscalYr",			width:80,		sortable:false,		align:"center"},
 				{display:"고지번호",					name:"billNo",				width:80,		sortable:false,		align:"center"},
 				{display:"연체횟수",					name:"dlySerNo",			width:80,		sortable:false,		align:"center"},
@@ -106,7 +107,6 @@ GamNticPayListModule.prototype.loadComplete = function() {
 				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
 				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
 				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"업체명",					name:"firmKorNm",			width:80,		sortable:false,		align:"center"}
 			],
 		usepager: true,

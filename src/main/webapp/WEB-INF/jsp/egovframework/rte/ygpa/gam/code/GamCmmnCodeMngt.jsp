@@ -80,6 +80,7 @@ GamCmmnCodeMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#cmmnCodeMngtForm");
+			this.$("#cmmnCodeMngListTab").tabs("option", {active: 0});
 		 	this.$("#cmmnCodeMngList").flexOptions({params:searchOpt}).flexReload(); 
 		break;
 		
@@ -188,8 +189,8 @@ var module_instance = new GamCmmnCodeMngtModule();
 	<div class="emdPanel fillHeight">
 		<div id="cmmnCodeMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
-				<li><a href="#tabs1" class="emdTab">관리코드목록</a></li>
-				<li><a href="#tabs2" class="emdTab">관리코드상세</a></li>
+				<li><a href="#tabs1" class="emdTab">공통코드목록</a></li>
+				<li><a href="#tabs2" class="emdTab">공통코드상세</a></li>
 			</ul>
 			
 			<!-- 목록 탭 -->
@@ -231,8 +232,8 @@ var module_instance = new GamCmmnCodeMngtModule();
 							<th width="20%" height="23" class="required_text">사용여부</th>
 							<td>
 								<select id="useAt">
-									<option value="N">N</option>
 									<option value="Y">Y</option>
+									<option value="N">N</option>
 								</select>
 							</td>
 						</tr>
