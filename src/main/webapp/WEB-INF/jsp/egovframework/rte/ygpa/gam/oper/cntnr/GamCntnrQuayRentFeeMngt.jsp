@@ -163,6 +163,8 @@ GamCntnrQuayRentFeeMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	module.$("#cntnrQuayRentFeeMngtListTab").tabs("option", {active: 0}); //2014-4-22 추가
+        	
             var searchOpt=this.makeFormArgs('#gamCntnrQuayRentFeeMngtSearchForm');
             this.$('#cntnrQuayRentFeeMngtList').flexOptions({params:searchOpt}).flexReload();
 
