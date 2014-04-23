@@ -85,10 +85,6 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 
 	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
 
-		module.makeFormValues("#fcltyGisPhotoForm", row);
-		module._editDataFile = module.getFormValues("#fcltyGisPhotoForm", row);
-		module._editRowFile = module.$("#fcltyPhotoList").selectedRowIds()[0];
-
 		if(row.filenmPhysicl != null || row.filenmPhysicl != "") {
 
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
@@ -289,7 +285,6 @@ var module_instance = new GamFcltyMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="insertGIS">GIS 등록</button>
 					<button id="searchPosition">위치조회</button>
 				</div>
 			</div>
@@ -297,22 +292,6 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 정보통신시설 사진 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
-				<form id="fcltyGisPhotoForm">
-					<table>
-						<tr>
-							<th><span class="label">제 목</span></th>
-							<td><input id="photoSj" type="text" size="60" class="photoEditItem" disabled="disabled" /></td>
-						</tr>
-						<tr>
-							<th><span class="label">촬영일자</span></th>
-							<td><input id="shotDt" type="text" size="10" class="photoEditItem" disabled="disabled" /></td>
-						</tr>
-						<tr>
-							<th><span class="label">사진 설명</span></th>
-							<td><input id="photoDesc" type="text" size="60"  class="photoEditItem" disabled="disabled" /></td>
-						</tr>
-					</table>
-				</form>
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>

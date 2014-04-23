@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.fclty.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -19,6 +21,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltyManageVO extends ComDefaultVO{
 
 	private static final long serialVersionUID = 1L;
@@ -28,49 +31,49 @@ public class GamFcltyManageVO extends ComDefaultVO{
 
 	/** GIS 항만 시설 순번 */
     private String gisPrtFcltySeq;
-    
+
     /** 항만시설 명 */
     private String prtFcltyNm;
-    
+
     /** 항만시설 규격 */
     private String prtFcltyStndrd;
-    
+
     /** 항만시설 단위 */
     private String prtFcltyUnit;
-    
+
     /** 항만시설 설치 일자 */
     private String prtFcltyInstlDt;
-    
+
     /** 항만시설 변경 일자 */
     private String prtFcltyChangeDt;
-    
+
     /** 등록자 */
     private String regUsr;
-    
+
     /** 등록일시 */
     private String registDt;
-    
+
     /** 수정자 */
     private String updUsr;
-    
+
     /** 수정일시 */
     private String updtDt;
-    
+
     /** 항만시설 구분 */
     private String prtFcltySe;
-    
+
     /** 항만시설 관리 업체 코드 */
     private String prtFcltyMngEntrpsCd;
-    
+
     /** 항만시설 GIS 코드 */
     private String prtFcltyGisCd;
-    
+
     /** GIS 자산 항코드 */
     private String gisAssetsPrtAtCode;
 
     /** GIS 자산 코드 */
     private String gisAssetsCd;
-    
+
     /** GIS 자산 SUB 코드 */
     private String gisAssetsSubCd;
 
@@ -92,63 +95,63 @@ public class GamFcltyManageVO extends ComDefaultVO{
     private String gisAssetsPrtAtName;
     private String prtFcltyMngEntrpsNm;
     private String prtFcltyPhotoSeq;
-    
+
     /**
      * @return the prtFcltyPhotoSeq
      */
     public String getPrtFcltyPhotoSeq() {
     	return prtFcltyPhotoSeq;
     }
-    
+
     /**
      * @param prtFcltyPhotoSeq the prtFcltyPhotoSeq to set
      */
     public void setPrtFcltyPhotoSeq(String prtFcltyPhotoSeq) {
     	this.prtFcltyPhotoSeq = prtFcltyPhotoSeq;
     }
-    
+
     /**
      * @return the gisAssetsPrtAtName
      */
     public String getGisAssetsPrtAtName() {
     	return gisAssetsPrtAtName;
     }
-    
+
     /**
      * @param gisAssetsPrtAtName the gisAssetsPrtAtName to set
      */
     public void setGisAssetsPrtAtName(String gisAssetsPrtAtName) {
     	this.gisAssetsPrtAtName = gisAssetsPrtAtName;
     }
-    
+
     /**
      * @return the prtFcltyMngEntrpsNm
      */
     public String getPrtFcltyMngEntrpsNm() {
     	return prtFcltyMngEntrpsNm;
     }
-    
+
     /**
      * @param prtFcltyMngEntrpsNm the prtFcltyMngEntrpsNm to set
      */
     public void setPrtFcltyMngEntrpsNm(String prtFcltyMngEntrpsNm) {
     	this.prtFcltyMngEntrpsNm = prtFcltyMngEntrpsNm;
     }
-    
+
     /**
      * @return the gisAssetsNm
      */
     public String getGisAssetsNm() {
     	return gisAssetsNm;
     }
-    
+
     /**
      * @param gisAssetsNm the gisAssetsNm to set
      */
     public void setGisAssetsNm(String gisAssetsNm) {
     	this.gisAssetsNm = gisAssetsNm;
     }
-    
+
     /**
 	 * @return the gisAssetsLocCd
 	 */
@@ -162,14 +165,14 @@ public class GamFcltyManageVO extends ComDefaultVO{
 	public void setGisAssetsLocCd(String gisAssetsLocCd) {
 		this.gisAssetsLocCd = gisAssetsLocCd;
 	}
-	
+
 	/**
 	 * @return the gisAssetsLocplc
 	 */
 	public String getGisAssetsLocplc() {
 		return gisAssetsLocplc;
 	}
-	
+
 	/**
 	 * @param gisAssetsLocplc the gisAssetsLocplc to set
 	 */
@@ -204,7 +207,7 @@ public class GamFcltyManageVO extends ComDefaultVO{
 	public void setGisAssetsLnmSub(String gisAssetsLnmSub) {
 		this.gisAssetsLnmSub = gisAssetsLnmSub;
 	}
-	
+
     /**
 	 * @return the searchPrtAtCode
 	 */
@@ -275,7 +278,7 @@ public class GamFcltyManageVO extends ComDefaultVO{
 		this.searchFcltySeq = searchFcltySeq;
 	}
 
-	
+
     /**
 	 * @return the gisPrtFcltyDisplay
 	 */

@@ -521,6 +521,7 @@ var module_instance = new GamFcltyMngtModule();
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
 					<button id="btnRemoveFile">삭제</button>
+					<button id="btnSaveFile">저장</button>
 				</div>
 				<form id="fcltyGisPhotoForm">
 					<table>

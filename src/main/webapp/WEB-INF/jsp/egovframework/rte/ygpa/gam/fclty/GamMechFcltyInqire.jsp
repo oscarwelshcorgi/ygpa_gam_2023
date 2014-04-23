@@ -8,14 +8,14 @@
   * @Class Name : GamMechFcltyInqire.jsp
   * @Description : 기계시설사용목록조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.05  kok          최초 생성
   *
   * author kok
   * since 2014.02.05
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -51,23 +51,23 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 			],
 		height: "auto"
 	});
-	
+
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.$("#fcltyManageVO :input").val("");
 		module.makeFormValues("#fcltyManageVO", row);
 		module.getFormValues("#fcltyManageVO", row);
 		module.$("#fcltyMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
-		
+
         var searchOpt=module.makeFormArgs("#fcltyManageVO");
         module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
 	});
-	
+
 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
-	
+
 	this.$("#fcltyPhotoList").flexigrid({
 		module: this,
 		url: '<c:url value="/fclty/gamMechFcltyPhotoList.do"/>',
@@ -82,21 +82,17 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 			],
 		height: "auto"
 	});
-	
+
 	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
-		
-		module.makeFormValues("#fcltyGisPhotoForm", row);
-		module._editDataFile = module.getFormValues("#fcltyGisPhotoForm", row);
-		module._editRowFile = module.$("#fcltyPhotoList").selectedRowIds()[0];
 
 		if(row.filenmPhysicl != null || row.filenmPhysicl != "") {
-			
+
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
 			var filenm = row["filenmPhysicl"];
 			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			
+
 			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-			    
+
 				$imgURL = module.getImageUrl(filenm);
 				module.$("#previewImage").fadeIn(400, function() {
 			    	module.$("#previewImage").attr("src", $imgURL);
@@ -113,9 +109,9 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
 GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
 			var searchOpt=this.makeFormArgs("#fcltyForm");
@@ -157,9 +153,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
  * 팝업 close 이벤트
  */
 GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
-		
+
 		// 조회화면
 		case "searchGisCodePopup2":
 			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
@@ -226,7 +222,7 @@ var module_instance = new GamFcltyMngtModule();
 					<button id="mapSearch">맵 조회</button>
 				</div>
 			</div>
-			
+
 			<!-- 기계시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
@@ -287,30 +283,13 @@ var module_instance = new GamFcltyMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="insertGIS">GIS 등록</button>
 					<button id="searchPosition">위치조회</button>
 				</div>
 			</div>
-			
+
 			<!-- 기계시설 사진 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
-				<form id="fcltyGisPhotoForm">
-					<table>
-						<tr>
-							<th><span class="label">제 목</span></th>
-							<td><input id="photoSj" type="text" size="60" class="photoEditItem" disabled="disabled" /></td>
-						</tr>
-						<tr>
-							<th><span class="label">촬영일자</span></th>
-							<td><input id="shotDt" type="text" size="10" class="photoEditItem" disabled="disabled" /></td>
-						</tr>
-						<tr>
-							<th><span class="label">사진 설명</span></th>
-							<td><input id="photoDesc" type="text" size="60"  class="photoEditItem" disabled="disabled" /></td>
-						</tr>
-					</table>
-				</form>
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>

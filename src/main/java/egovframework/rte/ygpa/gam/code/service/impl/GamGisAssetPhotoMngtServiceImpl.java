@@ -68,8 +68,6 @@ public class GamGisAssetPhotoMngtServiceImpl extends AbstractServiceImpl impleme
 	 */
 	@Override
 	public List mergeAssetPhotoMngt(Map mergeMap) throws Exception {
-		// TODO Auto-generated method stub
-
         ArrayList arraylistCU = (ArrayList)mergeMap.get("CU");
         HashMap[] hmCU = (HashMap[])arraylistCU.toArray(new HashMap[arraylistCU.size()]);
         Map result;

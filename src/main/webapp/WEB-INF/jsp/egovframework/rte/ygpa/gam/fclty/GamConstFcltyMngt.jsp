@@ -95,7 +95,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
-			if(row['gisPrtFcltySubCd']==null || row['gisPrtFcltySubCd'].length==0) {
+			if(row['gisPrtFcltySeq']==null || row['gisPrtFcltySeq'].length==0) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
@@ -103,6 +103,8 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
+
+			this._cmd="modify";
 
 			module.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
@@ -176,10 +178,10 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 	switch(this._params.action) {
 	case 'prtFcltyMngt': 	// 선택한 시설을 조회한다.
-		this.$("#fcltyManageVO :input").val("");
-		this.makeFormValues("#fcltyManageVO", row);
-		this.getFormValues("#fcltyManageVO", row);
-		this.$("#fcltyMngtList").selectedRowIds()[0];
+/* 		this.$("#fcltyManageVO :input").val("");
+		this.makeFormValues("#fcltyManageVO", this._params);
+//		this.getFormValues("#fcltyManageVO", row);
+//		this.$("#fcltyMngtList").selectedRowIds()[0];
 		this.$("#cmd").val("modify");
 		this.$("#gisCodePopupBtn").hide();
 		this.$(".selectedGAM005").hide();
@@ -188,6 +190,13 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
         module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
 
         module._fcltyItem = row;
+*/
+
+		console.log("select from map");
+		this._cmd="modify";
+
+		this.$("#fcltyMngtListTab").tabs("option", {active: 1});
+
 		break;
 	}
 
@@ -213,7 +222,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
 			this.$("#fcltyManageVO :input").val("");
-			this.$("#cmd").val("insert");
+			this._cmd="insert";
 			this.$(".selectedGAM005").show();
 			this.$("#gisCodePopupBtn").show();
 		break;
@@ -238,20 +247,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 
-		 	var inputVO=[{}];
-
-		 	if(this._deleteDataFileList == undefined) this._deleteDataFileList=[];
-
-			inputVO[inputVO.length]={name: "insertFileList", value: JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: "_updtId", filter: "I"}])) };
-			inputVO[inputVO.length]={name: "updateFileList", value :JSON.stringify(this.$("#fcltyPhotoList").selectFilterData([{col: "_updtId", filter: "U"}])) };
-			inputVO[inputVO.length]={name: "deleteFileList", value: JSON.stringify(this._deleteDataFileList) };
-			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this.getFormValues("#fcltyManageVO", {})) };
-
+			var inputVO = this.makeFormArgs("#fcltyManageVO");
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
 
-		 	if(this.$("#cmd").val() == "insert") {
+		 	if(this._cmd == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamConstFcltyInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
@@ -262,7 +263,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-
 			 	this.doAction('<c:url value="/fclty/gamConstFcltyUpdate.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
@@ -305,10 +305,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 				this.addGisAssetsCdMap("GAC", {"gisPrtAtCode": "620", "gisAssetsCd": "LNF", "gisAssetsSubCd": "01"});
 			}
 		break;
-
-		case "mapSearch":	// 맵 조회
-
-			break;
 		case "registLocation":	// 위치 등록
 			var module=this;
 			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
@@ -361,8 +357,24 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
             this.$("#fcltyGisPhotoForm").find(":input").val("");
             this._editDataFile = null;
 		break;
+		case 'btnSaveFile':	// 저장
+			if( confirm("사진 목록을 저장하시겠습니까?") ) {
+			    // 변경된 자료를 저장한다.
+			    var inputVO=[];
+			    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyPhotoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
+			    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyPhotoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
+			    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+
+			    this.doAction('<c:url value="/code/assets/mergeGamGisAssetPhotoMngt.do" />', inputVO, function(module, result) {
+			        if(result.resultCode == 0){
+				    	module.loadPhotoList();
+			        }
+			        alert(result.resultMsg);
+			    });
+			}
+			break;
 		// 파일 적용
 		case "btnApplyPhotoData":
 
@@ -416,31 +428,98 @@ GamFcltyMngtModule.prototype.clearPhotoPage = function() {
 	case "tabs1":
 		break;
 	case "tabs2":
-		var row = this.$('#fcltyMngtList').selectedRows();
-		if(row.length <= 0) {
-	 		this.clearCodePage();
-			return;
+		if(this._cmd!="insert") {
+			var row = this.$('#fcltyMngtList').selectedRows();
+			if(row.length <= 0) {
+		 		this.clearCodePage();
+		 		if(this._params.action!=null || this._params.action=='prtFcltyMngt') {
+		 			var prtFclty = [
+		 			                { name: 'gisAssetsPrtAtCode', value: this._params.gisPrtAtCode },
+		 			                { name: 'gisAssetsCd', value: this._params.gisAssetsCd },
+		 			                { name: 'gisAssetsSubCd', value: this._params.gisAssetsSubCd },
+		 			                { name: 'gisPrtFcltyCd', value: this._params.gisPrtFcltyCd },
+		 			                { name: 'gisPrtFcltySeq', value: this._params.gisPrtFcltySeq },
+		 			                { name: 'prtFcltySe', value: this._params.prtFcltySe }
+		 			              ];
+		 	     	 	this.doAction('<c:url value="/fclty/gamConstFcltyDetail.do" />', prtFclty, function(module, result) {
+		 	     	 		if(result.resultCode == "0"){
+		 	     	 			module.clearCodePage();
+		 	     	 			module._fcltyItem=result.result;
+		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+		 	     	 		}
+		 	     	 		else {
+		 	     	 			alert(result.resultMsg);
+		 	     	 		}
+		 	     	 	});
+	 	     	 	}
+				return;
+			}
+			row=row[0];
+			var prtFclty = [
+			                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
+			                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
+			                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
+			                { name: 'gisPrtFcltyCd', value: row['gisPrtFcltyCd'] },
+			                { name: 'gisPrtFcltySeq', value: row['gisPrtFcltySeq'] },
+			                { name: 'prtFcltySe', value: row['prtFcltySe'] }
+			              ];
+	     	 	this.doAction('<c:url value="/fclty/gamConstFcltyDetail.do" />', prtFclty, function(module, result) {
+	     	 		if(result.resultCode == "0"){
+	     	 			module.clearCodePage();
+	     	 			module._fcltyItem=result.result;
+	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	     	 		}
+	     	 		else {
+	     	 			alert(result.resultMsg);
+	     	 		}
+	     	 	});
 		}
-		var prtFclty = [
-		                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
-		                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
-		                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
-		                { name: 'gisPrtFcltyCd', value: row['gisPrtFcltyCd'] },
-		                { name: 'gisPrtFcltySubCd', value: row['gisPrtFcltySubCd'] },
-		                { name: 'prtFcltySe', value: row['prtFcltySe'] }
-		              ];
-     	 	this.doAction('<c:url value="/fclty/gamConstFcltyDetail.do" />', prtFclty, function(module, result) {
-     	 		if(result.resultCode == "0"){
-     	 			module.clearCodePage();
-     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
-     				module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
-     	 		}
-     	 		else {
-     	 			alert(result.resultMsg);
-     	 		}
-     	 	});
+		else if(this._cmd=="insert") {
+	 			module.clearCodePage();
+		}
 		break;
 	case "tabs3":
+		this._deleteDataFileList=[];
+		if(this._cmd!="insert") {
+			var row = this.$('#fcltyMngtList').selectedRows();
+			if(row.length <= 0) {
+		 		this.clearPhotoPage();
+		 		if(this._params.action!=null || this._params.action=='prtFcltyMngt') {
+		 			var prtFclty = [
+		 			                { name: 'gisAssetsPrtAtCode', value: this._params.gisPrtAtCode },
+		 			                { name: 'gisAssetsCd', value: this._params.gisAssetsCd },
+		 			                { name: 'gisAssetsSubCd', value: this._params.gisAssetsSubCd },
+		 			                { name: 'gisPrtFcltyCd', value: this._params.gisPrtFcltyCd },
+		 			                { name: 'gisPrtFcltySeq', value: this._params.gisPrtFcltySeq },
+		 			                { name: 'prtFcltySe', value: this._params.prtFcltySe }
+		 			              ];
+		 		 	this.$('#fcltyPhotoList').flexOptions({params:prtFclty}).flexReload();
+	 	     	 	}
+				return;
+			}
+			row=row[0];
+			var prtFclty = [
+			                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
+			                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
+			                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
+			                { name: 'gisPrtFcltyCd', value: row['gisPrtFcltyCd'] },
+			                { name: 'gisPrtFcltySeq', value: row['gisPrtFcltySeq'] },
+			                { name: 'prtFcltySe', value: row['prtFcltySe'] }
+			              ];
+	     	 	this.doAction('<c:url value="/fclty/gamConstFcltyDetail.do" />', prtFclty, function(module, result) {
+	     	 		if(result.resultCode == "0"){
+	     	 			module.clearPhotoPage();
+	     	 			module._fcltyItem=result.result;
+	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	     	 		}
+	     	 		else {
+	     	 			alert(result.resultMsg);
+	     	 		}
+	     	 	});
+		}
+		else if(this._cmd=="insert") {
+	 			module.clearPhotoPage();
+		}
 		var row = this.$('#fcltyMngtList').selectedRows();
 		if(row.length <= 0) {
 	 		this.clearPhotoPage();
@@ -556,7 +635,7 @@ var module_instance = new GamFcltyMngtModule();
 				<div class="emdControlPanel">
 					<button id="addBtn">시설 추가</button>
 					<button id="deleteBtn">시설 삭제</button>
-					<button id="mapSearch">맵 조회</button>
+					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
 				</div>
 			</div>
 
@@ -564,7 +643,6 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
-					<input type="hidden" id="cmd" />
 					<input type="hidden" id="laCrdnt" />
 					<input type="hidden" id="loCrdnt" />
 					<!-- 신경 쓸 필요 없다 함.2014-03-07
@@ -648,6 +726,7 @@ var module_instance = new GamFcltyMngtModule();
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
 					<button id="btnRemoveFile">삭제</button>
+					<button id="btnSaveFile">저장</button>
 				</div>
 				<form id="fcltyGisPhotoForm">
 					<table>

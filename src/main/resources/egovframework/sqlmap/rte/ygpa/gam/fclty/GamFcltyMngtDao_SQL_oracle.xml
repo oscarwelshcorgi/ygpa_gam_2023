@@ -206,30 +206,30 @@
   			FROM GIS_PRT_FCLTY_CD_F
     </select>
 
-	<select id="gamFcltyMngtDao.fcltyMngSelectView" resultClass="fcltyManageVO" parameterClass="fcltyManageVO" >
+	<select id="gamFcltyMngtDao.fcltyMngSelectView" resultClass="egovMap" parameterClass="hashMap" >
 	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtDao_SQL_oracle.select */
-		SELECT C.GIS_ASSETS_CD AS gisAssetsCd ,
-		       C.GIS_ASSETS_PRT_AT_CODE AS gisAssetsPrtAtCode ,
-		       C.GIS_ASSETS_SUB_CD AS gisAssetsSubCd ,
-		       C.GIS_PRT_FCLTY_CD AS gisPrtFcltyCd ,
-		       C.GIS_PRT_FCLTY_SEQ AS gisPrtFcltySeq ,
-		       C.PRT_FCLTY_NM AS prtFcltyNm ,
-		       C.PRT_FCLTY_STNDRD AS prtFcltyStndrd ,
-		       C.PRT_FCLTY_UNIT AS prtFcltyUnit ,
-		       TO_CHAR(TO_DATE(C.PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') AS prtFcltyInstlDt ,
-		       TO_CHAR(TO_DATE(C.PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') AS prtFcltyChangeDt ,
-		       C.REG_USR AS regUsr ,
-		       TO_CHAR(TO_DATE(C.REGIST_DT), 'YYYY-MM-DD') AS registDt ,
-		       C.UPD_USR AS updUsr ,
-		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS updtDt ,
-		       C.PRT_FCLTY_SE AS prtFcltySe ,
-		       C.PRT_FCLTY_MNG_ENTRPS_CD AS prtFcltyMngEntrpsCd ,
-		       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = C.PRT_FCLTY_MNG_ENTRPS_CD) AS prtFcltyMngEntrpsNm ,
-		       C.PRT_FCLTY_GIS_CD AS prtFcltyGisCd,
-		       P.GIS_ASSETS_LOCPLC AS gisAssetsLocplc,
-		       P.GIS_ASSETS_LNM AS gisAssetsLnm,
-		       P.GIS_ASSETS_LNM_SUB AS gisAssetsLnmSub,
-		       P.GIS_ASSETS_NM AS gisAssetsNm
+		SELECT C.GIS_ASSETS_CD,
+		       C.GIS_ASSETS_PRT_AT_CODE ,
+		       C.GIS_ASSETS_SUB_CD ,
+		       C.GIS_PRT_FCLTY_CD ,
+		       C.GIS_PRT_FCLTY_SEQ ,
+		       C.PRT_FCLTY_NM ,
+		       C.PRT_FCLTY_STNDRD ,
+		       C.PRT_FCLTY_UNIT ,
+		       TO_CHAR(TO_DATE(C.PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') AS PRT_FCLTY_INSTL_DT ,
+		       TO_CHAR(TO_DATE(C.PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') AS PRT_FCLTY_CHANGE_DT ,
+		       C.REG_USR ,
+		       TO_CHAR(TO_DATE(C.REGIST_DT), 'YYYY-MM-DD') AS REGIST_DT ,
+		       C.UPD_USR ,
+		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS UPDT_DT ,
+		       C.PRT_FCLTY_SE ,
+		       C.PRT_FCLTY_MNG_ENTRPS_CD ,
+		       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = C.PRT_FCLTY_MNG_ENTRPS_CD) AS PRT_FCLTY_MNG_ENTRPS_NM ,
+		       C.PRT_FCLTY_GIS_CD,
+		       P.GIS_ASSETS_LOCPLC,
+		       P.GIS_ASSETS_LNM,
+		       P.GIS_ASSETS_LNM_SUB,
+		       P.GIS_ASSETS_NM
 		  FROM GIS_PRT_FCLTY_CD_F C,
 		       GIS_ASSETS_CD_F P
 		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
@@ -361,4 +361,10 @@
 			    AND PRT_FCLTY_SE = #prtFcltySe#
         ]]>
     </delete>
+
+      <select id="gamFcltyMngtDao.selectFcltyPhotoMaxSeq" resultClass="Integer">
+    	SELECT LPAD(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1,'2','0') PRT_FCLTY_PHOTO_SEQ
+  			FROM PRT_FCLTY_PHOTO_F
+    </select>
+
 </sqlMap>
