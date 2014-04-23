@@ -71,6 +71,15 @@ GamTrainPortMtRentFeeSttusInqireModule.prototype.onButtonClick = function(button
 	
 	    // 조회
 	    case 'searchBtn':
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            	alert("사용기간을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
 	        var searchOpt=this.makeFormArgs('#gamTrainPortMtRentFeeSttusInqireSearchForm');
 	        this.$('#trainPortMtRentFeeSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 	

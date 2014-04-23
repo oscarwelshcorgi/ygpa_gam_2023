@@ -171,6 +171,15 @@ GamCntnrQuayRentFeeMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':        	
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            	alert("사용기간을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
             var searchOpt=this.makeFormArgs('#gamCntnrQuayRentFeeMngtSearchForm');
         	this.$("#cntnrQuayRentFeeMngtListTab").tabs("option", {active: 0}); //2014-4-22 추가
             this.$('#cntnrQuayRentFeeMngtList').flexOptions({params:searchOpt}).flexReload();

@@ -517,6 +517,15 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':            
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            	alert("사용기간을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
             var searchOpt=this.makeFormArgs('#gamPrtFcltyRentMngtSearchForm');
             this.$("#prtFcltyRentMngtListTab").tabs("option", {active: 0});
             this.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();

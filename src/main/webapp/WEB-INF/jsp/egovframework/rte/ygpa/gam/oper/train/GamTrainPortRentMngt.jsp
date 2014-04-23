@@ -517,9 +517,18 @@ GamTrainPortRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
-            this.$("#trainPortRentMngtListTab").tabs("option", {active: 0});
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            	alert("사용기간을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
             
             var searchOpt=this.makeFormArgs('#gamTrainPortRentMngtSearchForm');
+            this.$("#trainPortRentMngtListTab").tabs("option", {active: 0});
             this.$('#trainPortRentMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;

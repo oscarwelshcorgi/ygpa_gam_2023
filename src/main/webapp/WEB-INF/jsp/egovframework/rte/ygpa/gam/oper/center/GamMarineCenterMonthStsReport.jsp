@@ -80,6 +80,16 @@ GamMarineCenterMonthStsReportModule.prototype.onButtonClick = function(buttonId)
 	
 	    // 조회
 	    case 'searchBtn':
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            	alert("사용기간을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
+
 	        var searchOpt=this.makeFormArgs('#gamMarineCenterMonthStsReportSearchForm');
 	        this.$('#marineCenterMonthStsReportList').flexOptions({params:searchOpt}).flexReload();
 	

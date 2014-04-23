@@ -72,6 +72,15 @@ GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(but
 	
 	    // 조회
 	    case 'searchBtn':
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            	alert("사용기간을 선택하십시오.");
+            	return;
+            }
+            
+            if( this.$('#sGrUsagePdTo').val() == '' ) {
+                alert("사용기간을 선택하십시오.");
+                return;
+            }
 	        var searchOpt=this.makeFormArgs('#gamCmmnCntrEntrpsRentFeeSttusInqireSearchForm');
 	        this.$('#cmmnCntrEntrpsRentFeeSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 	
