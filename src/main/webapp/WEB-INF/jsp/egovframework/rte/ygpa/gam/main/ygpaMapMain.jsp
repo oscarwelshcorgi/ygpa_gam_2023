@@ -67,7 +67,7 @@
        OpenLayers.theme = "<c:url value='/css/'/>";
 
        jQuery(document).ready(function() {
-    	   EMD.go("<c:url value='/'/>", "${pageContext.request.scheme}://${pageContext.request.serverName}");
+    	   EMD.go("${pageContext.request.contextPath}", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
 
     </script>
