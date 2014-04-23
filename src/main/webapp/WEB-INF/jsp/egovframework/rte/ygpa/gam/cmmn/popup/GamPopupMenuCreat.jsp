@@ -94,7 +94,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
 
 	this.doAction('<c:url value="/cmmn/gamMenuCreatSelect.do" />', {authorCode: this.$('#authorCode').val()}, function(module, result) {
  		if(result.resultCode == 0){
- 			var tree = $("#menuTreeList");
+ 			var tree = module.$("#menuTreeList");
  			for(var i=0; i<result.listMenulist.length; i++) {
  				var obj = result.listMenulist[i];
  				console.log("obj.chkYeoBu : "+obj.chkYeoBu);
