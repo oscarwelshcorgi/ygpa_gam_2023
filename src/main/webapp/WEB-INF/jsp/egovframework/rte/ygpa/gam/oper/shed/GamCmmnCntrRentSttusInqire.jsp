@@ -291,8 +291,8 @@ GamCmmnCntrRentSttusInqireModule.prototype.loadComplete = function() {
                 return;
             }
 			//
-        	this.$("#cmmnCntrRentSttusInqireListTab").tabs("option", {active: 0});
             var searchOpt=this.makeFormArgs('#gamCmmnCntrRentSttusInqireSearchForm');
+        	this.$("#cmmnCntrRentSttusInqireListTab").tabs("option", {active: 0});
             this.$('#cmmnCntrRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

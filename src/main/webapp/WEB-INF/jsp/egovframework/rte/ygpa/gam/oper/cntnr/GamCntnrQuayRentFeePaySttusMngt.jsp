@@ -115,6 +115,7 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
             var searchOpt=this.makeFormArgs('#gamCntnrQuayRentFeePaySttusMngtSearchForm');
+           	this.$("#cntnrQuayRentFeePaySttusMngtListTab").tabs("option", {active: 0});
             this.$('#cntnrQuayRentFeePaySttusMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;

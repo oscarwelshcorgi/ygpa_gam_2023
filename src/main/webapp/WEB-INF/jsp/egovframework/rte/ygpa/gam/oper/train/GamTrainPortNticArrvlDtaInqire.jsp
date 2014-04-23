@@ -528,9 +528,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.onCalc = function() {
     switch(buttonId) {
 
         // 조회
-        case 'searchBtn':
-            this.$("#trainPortNticArrvlDtaInqireListTab").tabs("option", {active: 0});
-            
+        case 'searchBtn':            
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("만기도래기간(시작일)을 선택하십시오.");
             	return;
@@ -542,6 +540,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.onCalc = function() {
             }
             
             var searchOpt=this.makeFormArgs('#gamTrainPortNticArrvlDtaInqireSearchForm');
+            this.$("#trainPortNticArrvlDtaInqireListTab").tabs("option", {active: 0});
             this.$('#trainPortNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

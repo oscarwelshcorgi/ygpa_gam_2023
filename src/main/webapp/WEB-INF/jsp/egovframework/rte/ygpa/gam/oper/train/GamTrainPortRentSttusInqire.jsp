@@ -289,8 +289,8 @@ GamTrainPortRentSttusInqireModule.prototype.loadComplete = function() {
                 alert("사용기간을 입력하세요.");
                 return;
             }        	
-        	this.$("#trainPortRentSttusInqireListTab").tabs("option", {active: 0});
             var searchOpt=this.makeFormArgs('#gamTrainPortRentSttusInqireSearchForm');
+        	this.$("#trainPortRentSttusInqireListTab").tabs("option", {active: 0});
             this.$('#trainPortRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

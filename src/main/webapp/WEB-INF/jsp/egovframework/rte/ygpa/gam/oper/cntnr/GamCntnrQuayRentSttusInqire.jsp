@@ -291,10 +291,9 @@ GamCntnrQuayRentSttusInqireModule.prototype.loadComplete = function() {
                 return;
             }
 			//
-			this.$("#cntnrQuayRentSttusInqireListTab").tabs("option", {active: 0});
             var searchOpt=this.makeFormArgs('#gamCntnrQuayRentSttusInqireSearchForm');
+			this.$("#cntnrQuayRentSttusInqireListTab").tabs("option", {active: 0});
             this.$('#cntnrQuayRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-
             break;
 
         // 최초신청

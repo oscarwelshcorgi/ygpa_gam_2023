@@ -165,7 +165,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 					{display:'사진제목', name:'photoSj', width:300, sortable:true, align:'center'},
 					{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
 					{display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
-					{display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'}
+					{display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'},
+                    {display:'seq', name:'photoSeq', width:0, sortable:true, align:'center'}
 					//2014-4-22 rrum추가
 					/*
 					{display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
@@ -508,11 +509,9 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
-            this.$("#htldRentMngtListTab").tabs("option", {active: 0});
-            
             var searchOpt=this.makeFormArgs('#gamHtldRentMngtSearchForm');
+            this.$("#htldRentMngtListTab").tabs("option", {active: 0});
             this.$('#htldRentMngtList').flexOptions({params:searchOpt}).flexReload();
-
             break;
 
         // 최초신청

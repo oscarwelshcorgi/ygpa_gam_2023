@@ -526,9 +526,7 @@ GamTrainPortUseExprInqireModule.prototype.onCalc = function() {
     switch(buttonId) {
 
         // 조회
-        case 'searchBtn':
-            this.$("#trainPortUseExprInqireListTab").tabs("option", {active: 0});
-            
+        case 'searchBtn':            
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("만기도래기간(시작일)을 선택하십시오.");
             	return;
@@ -540,6 +538,7 @@ GamTrainPortUseExprInqireModule.prototype.onCalc = function() {
             }
             
             var searchOpt=this.makeFormArgs('#gamTrainPortUseExprInqireSearchForm');
+            this.$("#trainPortUseExprInqireListTab").tabs("option", {active: 0});
             this.$('#trainPortUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

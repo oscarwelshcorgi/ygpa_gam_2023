@@ -526,9 +526,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
     switch(buttonId) {
 
         // 조회
-        case 'searchBtn':
-            this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 0});
-            
+        case 'searchBtn':            
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("만기도래기간(시작일)을 선택하십시오.");
             	return;
@@ -540,6 +538,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onCalc = function() {
             }
             
             var searchOpt=this.makeFormArgs('#gamPrtFcltyUseExprInqireSearchForm');
+            this.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 0});
             this.$('#prtFcltyUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

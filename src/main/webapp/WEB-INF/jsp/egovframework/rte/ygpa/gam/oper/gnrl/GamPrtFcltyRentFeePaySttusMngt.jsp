@@ -114,7 +114,9 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+
             var searchOpt=this.makeFormArgs('#gamPrtFcltyRentFeePaySttusMngtSearchForm');
+            this.$("#prtFcltyRentFeePaySttusMngtListTab").tabs("option", {active: 0}); //2014-4-23 추가
             this.$('#prtFcltyRentFeePaySttusMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;

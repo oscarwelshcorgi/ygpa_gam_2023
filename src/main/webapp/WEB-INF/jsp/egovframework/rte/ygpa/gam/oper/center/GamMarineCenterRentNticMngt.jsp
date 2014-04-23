@@ -115,7 +115,8 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
             var searchOpt=this.makeFormArgs('#gamMarineCenterRentNticSearchForm');
-            this.$('#marineCenterRentNticList').flexOptions({params:searchOpt}).flexReload();
+            this.$('#marineCenterRentNticListTab').tabs("option", {active: 0});
+          	this.$('#marineCenterRentNticList').flexOptions({params:searchOpt}).flexReload();
 
             break;
 

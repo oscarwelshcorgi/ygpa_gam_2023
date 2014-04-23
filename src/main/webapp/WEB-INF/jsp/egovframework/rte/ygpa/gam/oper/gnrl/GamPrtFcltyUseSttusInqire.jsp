@@ -289,9 +289,8 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
                 alert("사용기간을 입력하세요.");
                 return;
             }        	
-
-        	this.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 0});
             var searchOpt=this.makeFormArgs('#gamPrtFcltyUseSttusInqireSearchForm');
+        	this.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 0});
             this.$('#prtFcltyUseSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

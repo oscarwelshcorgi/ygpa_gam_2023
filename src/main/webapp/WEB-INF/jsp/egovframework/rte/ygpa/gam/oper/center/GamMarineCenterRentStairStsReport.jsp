@@ -71,6 +71,7 @@ GamMarineCenterRentStairStsReportModule.prototype.onButtonClick = function(butto
 	    // 조회
 	    case 'searchBtn':
 	        var searchOpt=this.makeFormArgs('#gamMarineCenterRentStairStsReportSearchForm');
+	        
 	        this.$('#marineCenterRentStairStsReportList').flexOptions({params:searchOpt}).flexReload();
 	
 	        break;

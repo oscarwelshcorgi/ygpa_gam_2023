@@ -529,8 +529,6 @@ GamHtldNticArrvlDtaInqireModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
-            this.$("#htldNticArrvlDtaInqireListTab").tabs("option", {active: 0});
-            
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("만기도래기간(시작일)을 선택하십시오.");
             	return;
@@ -542,6 +540,7 @@ GamHtldNticArrvlDtaInqireModule.prototype.onCalc = function() {
             }
             
             var searchOpt=this.makeFormArgs('#gamHtldNticArrvlDtaInqireSearchForm');
+            this.$("#htldNticArrvlDtaInqireListTab").tabs("option", {active: 0});
             this.$('#htldNticArrvlDtaInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

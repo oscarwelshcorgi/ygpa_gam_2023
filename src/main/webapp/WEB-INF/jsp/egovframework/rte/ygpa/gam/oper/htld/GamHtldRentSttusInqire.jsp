@@ -289,8 +289,8 @@ GamHtldRentSttusInqireModule.prototype.loadComplete = function() {
                 alert("사용기간을 입력하세요.");
                 return;
             }
-        	this.$("#htldRentSttusInqireListTab").tabs("option", {active: 0});
             var searchOpt=this.makeFormArgs('#gamHtldRentSttusInqireSearchForm');
+        	this.$("#htldRentSttusInqireListTab").tabs("option", {active: 0});
             this.$('#htldRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

@@ -163,9 +163,8 @@ GamTrainPortRentFeeMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-        	module.$("#trainPortRentFeeMngtListTab").tabs("option", {active: 0}); //2014-4-22 추가
-            
         	var searchOpt=this.makeFormArgs('#gamTrainPortRentFeeMngtSearchForm');
+        	this.$("#trainPortRentFeeMngtListTab").tabs("option", {active: 0}); //2014-4-22 추가
             this.$('#trainPortRentFeeMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;

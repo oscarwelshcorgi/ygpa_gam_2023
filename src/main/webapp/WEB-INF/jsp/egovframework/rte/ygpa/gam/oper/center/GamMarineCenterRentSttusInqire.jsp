@@ -505,9 +505,9 @@ GamMarineCenterRentSttusInqireModule.prototype.onCalc = function() {
                 alert("사용기간을 입력하세요.");
                 return;
             }
-            this.$("#assetRentListTab").tabs("option", {active: 0});
 
             var searchOpt=this.makeFormArgs('#gamMarineCenterRentSttusInqireSearchForm');
+            this.$('#assetRentListTab').tabs("option", {active: 0});
             this.$('#marineCenterRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
             break;

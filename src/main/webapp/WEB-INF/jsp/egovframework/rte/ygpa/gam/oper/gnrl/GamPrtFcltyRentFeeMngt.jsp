@@ -163,8 +163,8 @@ GamPrtFcltyRentFeeMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-        	module.$("#prtFcltyRentFeeMngtListTab").tabs("option", {active: 0}); //2014-4-22 추가
-            var searchOpt=this.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+        	var searchOpt=this.makeFormArgs('#gamPrtFcltyRentFeeMngtSearchForm');
+        	this.$("#prtFcltyRentFeeMngtListTab").tabs("option", {active: 0}); //2014-4-22 추가
             this.$('#prtFcltyRentFeeMngtList').flexOptions({params:searchOpt}).flexReload();
 
             break;
