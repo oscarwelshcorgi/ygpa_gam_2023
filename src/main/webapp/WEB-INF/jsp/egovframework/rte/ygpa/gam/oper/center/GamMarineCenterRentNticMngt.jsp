@@ -102,7 +102,7 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
         module.$("#marineCenterRentNticListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
         
     });
-
+    
 };
 
 /**

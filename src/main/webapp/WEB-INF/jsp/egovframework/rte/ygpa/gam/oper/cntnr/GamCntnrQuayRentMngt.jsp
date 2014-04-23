@@ -166,7 +166,6 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
 					{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
 					{display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
 					{display:'사진설명', name:'photoDesc', width:280, sortable:true, align:'center'},
-                    {display:'seq', name:'photoSeq', width:0, sortable:true, align:'center'}
 					//2014-4-22 rnum추가
 					/*
 					{display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
@@ -342,7 +341,15 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
 			event.data.module.$('#sDateSearchValue').val("");
 		}
     });
+
+    //로드될 때 사용기간에 오늘날짜 처리
+ 	var today = new Date();
+ 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
+ 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
+ 	var sToday = today.getFullYear() + '-' + month + '-' + date;
     
+    this.$('#sGrUsagePdFrom').val(sToday);
+    this.$('#sGrUsagePdTo').val(sToday);
 };
 
 GamCntnrQuayRentMngtModule.prototype.onCalc = function() {

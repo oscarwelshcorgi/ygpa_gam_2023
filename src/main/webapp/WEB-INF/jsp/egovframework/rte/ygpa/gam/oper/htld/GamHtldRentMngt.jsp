@@ -343,6 +343,15 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 		}
     });
     
+    //로드될 때 사용기간에 오늘날짜 처리
+ 	var today = new Date();
+ 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
+ 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
+ 	var sToday = today.getFullYear() + '-' + month + '-' + date;
+    
+    this.$('#sGrUsagePdFrom').val(sToday);
+    this.$('#sGrUsagePdTo').val(sToday);    
+
 };
 
 GamHtldRentMngtModule.prototype.onCalc = function() {
