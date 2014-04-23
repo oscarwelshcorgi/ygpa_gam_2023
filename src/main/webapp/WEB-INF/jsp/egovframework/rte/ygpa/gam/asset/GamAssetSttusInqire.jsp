@@ -95,6 +95,24 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
      showTableToggleBtn: false,
      height: 'auto'
  });
+ 
+ 
+	// 오늘날짜로 기준일자 설정 처리
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sUsagePdFrom").val(displayDate);
+	this.$("#sUsagePdTo").val(displayDate);
 };
      
 /**
@@ -106,6 +124,12 @@ GamAssetSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
      // 조회
      case 'searchBtn':
+    	 
+    	 if(this.$("#sUsagePdFrom").val() == ""){
+    		 alert("기준일자 시작일을 선택하세요.");
+    		 return;
+    	 }
+    	 
          var searchOpt=this.makeFormArgs('#gamAssetSttusInqireSearchForm');
          this.$('#assetSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 

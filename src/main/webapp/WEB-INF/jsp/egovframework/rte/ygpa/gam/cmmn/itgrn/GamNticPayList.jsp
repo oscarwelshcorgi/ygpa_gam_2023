@@ -128,6 +128,24 @@ GamNticPayListModule.prototype.loadComplete = function() {
 			
 	 	});
 	});
+	
+	
+	// 현재날짜로 고지기간 설정
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sGrUsagePdFrom").val(displayDate);
+	this.$("#sGrUsagePdTo").val(displayDate);
 };
 
 

@@ -83,6 +83,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		// 조회
 		case "searchBtn":
 			var searchOpt=this.makeFormArgs("#menuMngForm");
+			this.$("#menuMngListTab").tabs("option", {active: 0}); 
 		 	this.$("#menuMngList").flexOptions({params:searchOpt}).flexReload(); 
 		break;
 

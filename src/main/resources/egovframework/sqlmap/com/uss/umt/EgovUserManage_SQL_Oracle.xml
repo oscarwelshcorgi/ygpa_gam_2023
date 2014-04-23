@@ -124,8 +124,8 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
     
     <delete id="userManageDAO.deleteUser_S">
         <![CDATA[
-            DELETE FROM COMTNEMPLYRINFO 
-            WHERE ESNTL_ID=#delId#
+        	DELETE FROM COMTNEMPLYRINFO 
+        	WHERE ESNTL_ID = #delId#
         ]]>
     </delete>
     

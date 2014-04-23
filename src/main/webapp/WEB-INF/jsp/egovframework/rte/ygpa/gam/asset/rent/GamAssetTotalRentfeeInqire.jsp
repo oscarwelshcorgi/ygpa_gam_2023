@@ -52,13 +52,28 @@ GamAssetTotalRentfeeInqireModule.prototype.loadComplete = function() {
      showTableToggleBtn: false,
      height: 'auto'
  });
+ 
+	//오늘 날짜로 사용기간 설정 처리
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sGrUsagePdFrom").val(displayDate);
+	this.$("#sGrUsagePdTo").val(displayDate);
 };
 
 this.$("#assetTotalRentfeeInqireList").on("onItemSelected", function(event, module, row, grid, param) {
     //alert("row " + row["erpAssetsSeCd"]+"-"+row["erpAssetsNo"]+"-"+row["erpAssetsNoSeq"]+" is selected");
-    
-     
-    
+
 });
 
 /**
@@ -70,6 +85,12 @@ GamAssetTotalRentfeeInqireModule.prototype.onButtonClick = function(buttonId) {
 	
 	    // 조회
 	    case 'searchBtn':
+	    	
+	    	if(this.$("#sGrUsagePdFrom").val() == ""){
+	    		alert("사용기간 시작일을 입력하세요.");
+	    		return;
+	    	}
+	    	
 	        var searchOpt=this.makeFormArgs('#gamAssetTotalRentfeeInqireSearchForm');
 	        this.$('#assetTotalRentfeeInqireList').flexOptions({params:searchOpt}).flexReload();
 	

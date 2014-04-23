@@ -202,6 +202,10 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 				this._editData._updtId = "U";
 				this.$("#cmpyMngtList").flexUpdateRow(this._editRow, this._editData);
 			}else{
+				var cnt = this.$('#cmpyMngtList').flexRowCount();
+				var addSeq = cnt + 1;
+				this._editData.rnum = addSeq;
+
 				this.$("#cmpyMngtList").flexAddRow(this._editData);
 			}
 			

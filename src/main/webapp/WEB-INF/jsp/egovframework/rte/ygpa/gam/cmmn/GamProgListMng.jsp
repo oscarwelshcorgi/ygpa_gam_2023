@@ -74,6 +74,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#progListMngForm");
+			this.$("#programListTab").tabs("option", {active: 0});
 		 	this.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
 

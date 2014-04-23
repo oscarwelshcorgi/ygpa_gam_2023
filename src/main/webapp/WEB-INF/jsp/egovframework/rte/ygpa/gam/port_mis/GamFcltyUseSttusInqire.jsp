@@ -41,16 +41,32 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 					{display:'선석코드', name:'facCode',width:60, sortable:true,align:'center'},                
 					{display:'선석명', name:'facKorNm',width:190, sortable:true,align:'center'},         
 					{display:'요금종류코드', name:'feeTp',width:100, sortable:true,align:'center'},  
+					{display:'요금종류명', name:'feeTpKorNm',width:120, sortable:true,align:'center'},  
 					{display:'면제금액', name:'exmpAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},
 					{display:'할인금액', name:'dcAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},               
-					{display:'고지금액', name:'billAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},         
-					{display:'생성일자', name:'prctDt',width:120, sortable:true,align:'center'}
+					{display:'고지금액', name:'billAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
     });
 
+ 	// 오늘로 텍스트박스 날짜 정의
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
 
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sGrUsagePdFrom").val(displayDate);
+	this.$("#sGrUsagePdTo").val(displayDate);
+	
 };
 
 /**

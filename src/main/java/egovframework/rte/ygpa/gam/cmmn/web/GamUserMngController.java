@@ -315,11 +315,17 @@ public class GamUserMngController {
     		  					 @ModelAttribute("userManageVO") UserManageVO userManageVO)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+    	String resultCode = "";
     	
-    	String oldPassword = (String)commandMap.get("oldPassword");
-        String newPassword = (String)commandMap.get("newPassword");
-        String newPassword2 = (String)commandMap.get("newPassword2");
-        String uniqId = (String)commandMap.get("uniqId");
+//    	String oldPassword = (String)commandMap.get("oldPassword");
+//        String newPassword = (String)commandMap.get("newPassword");
+//        String newPassword2 = (String)commandMap.get("newPassword2");
+//        String uniqId = (String)commandMap.get("uniqId");
+    	
+    	String oldPassword = userManageVO.getOldPassword();
+        String newPassword = userManageVO.getNewPassword();
+        String newPassword2 = userManageVO.getNewPassword2();
+        String uniqId = userManageVO.getUniqId();
 
         boolean isCorrectPassword=false;
         UserManageVO resultVO = new UserManageVO();
@@ -337,22 +343,26 @@ public class GamUserMngController {
         	}else{
         		isCorrectPassword = false;
         		resultMsg="fail.user.passwordUpdate2";
+        		resultCode = "1";
         	}
     	}else{
     		isCorrectPassword = false;
     		resultMsg="fail.user.passwordUpdate1";
+    		resultCode = "1";
     	}
 
     	if (isCorrectPassword){
-    		userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword));
+//    		userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword));
     		userManageService.updatePassword(userManageVO);
             map.put("userManageVO", userManageVO);
             resultMsg = "success.common.update";
+            resultCode = "0";
         }else{
         	map.put("userManageVO", userManageVO);
         }
     	map.put("userSearchVO", userSearchVO);
     	map.put("resultMsg", resultMsg);
+    	map.put("resultCode", resultCode);
 
         return map;
     }

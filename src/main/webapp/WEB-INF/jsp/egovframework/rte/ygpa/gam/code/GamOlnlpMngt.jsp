@@ -116,15 +116,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 추가
 		case "addBtn":
 			
-			//if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) return;
-			/* var selectRow = this.$('#olnlpMngtList').selectedRows();
-			var child = this.$('#olnlpMngtList').flexGetData();
-			var childCnt = child.length;
-			var arrayNo = childCnt - 1;
-			var addRnum = rnum++;
+			if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) return;
+						
+			var cnt = this.$('#olnlpMngtList').flexRowCount();
+			var addSeq = cnt + 1;
 			
-			this.$("#rnum").val(addRnum); */
-			
+			this.$("#rnum").val(addSeq);
 			this._editData = this.getFormValues("#olnlpManageVO");
 			
 			this.$("#olnlpMngtListTab").tabs("option", {active: 1});
@@ -133,7 +130,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#endDt").val("");
 			this.$("#olnlp").val("");
 			this.$("#cmd").val("insert");
-			/* this.$("#rnum").val(""); */
+			this.$("#rnum").val("");
 			
 			this.$("#olnlpMngtList").flexAddRow(this._editData);
 			

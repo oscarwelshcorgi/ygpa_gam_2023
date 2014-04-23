@@ -115,6 +115,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
             var searchOpt=this.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
+            this.$("#assetRentFeePayListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             this.$('#assetRentFeePayList').flexOptions({params:searchOpt}).flexReload();
 
             break;

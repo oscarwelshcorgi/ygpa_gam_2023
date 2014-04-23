@@ -119,6 +119,24 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
         }
         */
     });
+    
+    
+ 	// 오늘 날짜로 고지기간 설정 처리
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sNticPdFrom").val(displayDate);
+	this.$("#sNticPdTo").val(displayDate);
 
 };
 
@@ -131,6 +149,12 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	
+        	if(this.$("#sNticPdFrom").val() == ""){
+        		alert("고지일자 시작일을 선택하세요.");
+        		return;
+        	}
+        	
             var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
             this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
 
@@ -481,7 +505,7 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">자산임대료고지 목록</a></li>
+                <li><a href="#tabs1" class="emdTab">사용료납부내역조회 목록</a></li>
                 <!-- <li><a href="#tabs2" class="emdTab">자산임대료고지 상세</a></li>  -->
             </ul>
 

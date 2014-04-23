@@ -56,9 +56,27 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
                  {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
                  {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'}                                  
                  ],
-    showTableToggleBtn: false,
+    showTableToggleBtn: true,
     height: 'auto'
  });
+ 
+	
+	// 오늘 날짜로 시작(종료)일 설정처리
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sBeginDt").val(displayDate);
+	this.$("#sEndDt").val(displayDate);
 };
      
 /**
@@ -70,6 +88,12 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 
      // 조회
      case 'searchBtn':
+    	 
+    	 if(this.$("#sBeginDt").val() == ""){
+    		 alert("시작일을 선택하세요.");
+    		 return;
+    	 }
+    	 
          var searchOpt=this.makeFormArgs('#gamAssetLndValInqireSearchForm');
          this.$('#assetLndValInqireList').flexOptions({params:searchOpt}).flexReload();
 

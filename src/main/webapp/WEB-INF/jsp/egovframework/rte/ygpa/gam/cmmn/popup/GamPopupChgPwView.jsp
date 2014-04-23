@@ -66,7 +66,8 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 
 		// 수정
 		case "changeBtn":
-			if(this.$('newPassword').val()!=this.$('newPasswor2').val()) {
+
+			if(this.$('#newPassword').val()!=this.$('#newPassword2').val()) {
 				alert('입력한 암호가 서로 다릅니다.');
 				return;
 			}
@@ -74,7 +75,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 				var inputVO = this.makeFormArgs("#passwordChgPopupForm");
 				this.doAction('<c:url value="/cmmn/popup/gamUserPasswordUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			alert(result.resultMsg);
+			 			//alert(result.resultMsg);
 			 			module.closeDialog(); 			
 			 		}
 			 		else {
@@ -111,7 +112,7 @@ var popup_instance = new GamPassWordChgPopupModule();
 					<tbody>
 						<tr>
 							<th width="20%" height="23" class="required_text">사용자아이디<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td width="80%"><input id="uniqId" title="사용자아이디" size="20" maxlength="20" value="<c:out value="${emplyrId}" />"  disabled="disabled"/></td>
+							<td width="80%"><input id="emplyrId" title="사용자아이디" size="20" maxlength="20" value="<c:out value="${emplyrId}" />"  disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">기존비밀번호<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
@@ -123,7 +124,7 @@ var popup_instance = new GamPassWordChgPopupModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">비밀번호확인<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td width="80%"><input id="newPasswor2" title="비밀번호확인" type="password" size="20" maxlength="20" /></td>
+							<td width="80%"><input id="newPassword2" title="비밀번호확인" type="password" size="20" maxlength="20" /></td>
 						</tr>
 					</tbody>
 				</table>

@@ -141,6 +141,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
             var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
+            this.$("#assetDisUseListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
 
             break;

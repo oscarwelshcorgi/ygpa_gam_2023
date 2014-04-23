@@ -74,6 +74,7 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt=this.makeFormArgs("#authorForm");
+			this.$("#authorMngListTab").tabs("option", {active: 0}); 
 		 	this.$("#authorMngList").flexOptions({params:searchOpt}).flexReload(); 
 		break;
 		

@@ -21,6 +21,12 @@ public class UserManageVO extends UserDefaultVO{
 	/** 이전비밀번호 - 비밀번호 변경시 사용*/
     private String oldPassword = "";
     
+    /** 새비밀번호 - 비밀번호 변경시 사용*/
+    private String newPassword = "";
+    
+    /** 새비밀번호중복체크 - 비밀번호 변경시 사용*/
+    private String newPassword2 = "";
+    
     /**
 	 * 가입일
 	 */
@@ -158,6 +164,30 @@ public class UserManageVO extends UserDefaultVO{
 	 */
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
+	}
+	/**
+	 * @return the newPassword
+	 */
+	public String getNewPassword() {
+		return newPassword;
+	}
+	/**
+	 * @param newPassword the newPassword to set
+	 */
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	/**
+	 * @return the newPassword2
+	 */
+	public String getNewPassword2() {
+		return newPassword2;
+	}
+	/**
+	 * @param newPassword2 the newPassword2 to set
+	 */
+	public void setNewPassword2(String newPassword2) {
+		this.newPassword2 = newPassword2;
 	}
 	/**
 	 * sbscrbDe attribute 값을  리턴한다.
