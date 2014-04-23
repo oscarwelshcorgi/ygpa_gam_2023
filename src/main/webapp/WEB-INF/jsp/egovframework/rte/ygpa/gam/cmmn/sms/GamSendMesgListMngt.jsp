@@ -68,6 +68,24 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
         event.data.module.$('#prtAtCodeStr').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
     });
+    
+    
+ 	// 오늘 날짜로 전송기간 설정 처리
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	
+	var serchday = today.getDate();
+	
+	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#searchDTFrom").val(displayDate);
+	this.$("#searchDTTo").val(displayDate);
      
 };
 
