@@ -149,21 +149,26 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//자료수, 사용료, 부가세, 고지액
-    	//GamCntnrQuayRentFeePaySttusMngtVO resultSum = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtSum(searchVO);
-    	GamCntnrQuayRentFeePaySttusMngtVO resultSum = new GamCntnrQuayRentFeePaySttusMngtVO();
+    	GamCntnrQuayRentFeePaySttusMngtVO resultSum = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtSum(searchVO);
+    	//GamCntnrQuayRentFeePaySttusMngtVO resultSum = new GamCntnrQuayRentFeePaySttusMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+
     	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
-    	map.put("sumNticAmt", resultSum.getSumNticAmt());
     	*/
+    	map.put("sumCnt", resultSum.getSumCnt());
+    	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	
+    	/*
     	map.put("sumFee", "");
     	map.put("sumVat", "");
     	map.put("sumNticAmt", "");
+    	*/
     	return map;
     }
 	
