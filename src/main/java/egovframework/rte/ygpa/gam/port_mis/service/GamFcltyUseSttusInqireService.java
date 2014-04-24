@@ -37,5 +37,12 @@ public interface GamFcltyUseSttusInqireService {
     int selectFcltyUseSttusInqireListTotCnt(GamFcltyUseSttusInqireVO searchVO) throws Exception;
     
     
+    /**
+	 * 면제금액합계, 할인금액합계, 고지금액합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamFcltyUseSttusInqireVO selectFcltyUseSttusInqireSum(GamFcltyUseSttusInqireVO searchVO) throws Exception;
     
 }

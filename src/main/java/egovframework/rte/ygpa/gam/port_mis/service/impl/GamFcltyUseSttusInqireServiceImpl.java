@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
 import egovframework.rte.ygpa.gam.port_mis.service.GamFcltyUseSttusInqireService;
 import egovframework.rte.ygpa.gam.port_mis.service.GamFcltyUseSttusInqireVO;
 
@@ -56,5 +57,14 @@ public class GamFcltyUseSttusInqireServiceImpl extends AbstractServiceImpl imple
 		return gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireListTotCnt(searchVO);
 	}
 
+    /**
+	 * 면제금액합계, 할인금액합계, 고지금액합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public GamFcltyUseSttusInqireVO selectFcltyUseSttusInqireSum(GamFcltyUseSttusInqireVO searchVO) throws Exception {
+		return gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireSum(searchVO);
+	}
     
 }

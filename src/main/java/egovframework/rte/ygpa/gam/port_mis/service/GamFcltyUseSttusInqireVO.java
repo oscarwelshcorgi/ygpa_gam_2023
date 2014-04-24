@@ -44,6 +44,18 @@ public class GamFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
     
     /** 요금명 */
     private String chrgeKndNm;
+    
+    /** 면제금액합계 */
+    private String sumExmpAmnt;
+    
+    /** 할인금액합계 */
+    private String sumDcAmnt;
+    
+    /** 고지금액합계 */
+    private String sumBillAmnt;
+    
+    /** totalcount 천단위 표시 */
+    private String dpTotCnt;
 
 	/**
 	 * @return the prtAtCode
@@ -157,6 +169,62 @@ public class GamFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setChrgeKndNm(String chrgeKndNm) {
 		this.chrgeKndNm = chrgeKndNm;
+	}
+
+	/**
+	 * @return the sumExmpAmnt
+	 */
+	public String getSumExmpAmnt() {
+		return sumExmpAmnt;
+	}
+
+	/**
+	 * @param sumExmpAmnt the sumExmpAmnt to set
+	 */
+	public void setSumExmpAmnt(String sumExmpAmnt) {
+		this.sumExmpAmnt = sumExmpAmnt;
+	}
+
+	/**
+	 * @return the sumDcAmnt
+	 */
+	public String getSumDcAmnt() {
+		return sumDcAmnt;
+	}
+
+	/**
+	 * @param sumDcAmnt the sumDcAmnt to set
+	 */
+	public void setSumDcAmnt(String sumDcAmnt) {
+		this.sumDcAmnt = sumDcAmnt;
+	}
+
+	/**
+	 * @return the sumBillAmnt
+	 */
+	public String getSumBillAmnt() {
+		return sumBillAmnt;
+	}
+
+	/**
+	 * @param sumBillAmnt the sumBillAmnt to set
+	 */
+	public void setSumBillAmnt(String sumBillAmnt) {
+		this.sumBillAmnt = sumBillAmnt;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
 	}
     
 }

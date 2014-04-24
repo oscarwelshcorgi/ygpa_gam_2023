@@ -22,6 +22,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
 import egovframework.rte.ygpa.gam.port_mis.service.GamFcltyUseSttusInqireService;
 import egovframework.rte.ygpa.gam.port_mis.service.GamFcltyUseSttusInqireVO;
 
@@ -118,7 +119,9 @@ public class GamFcltyUseSttusInqireController {
     	totalCnt = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireListTotCnt(searchVO);
     	List resultList = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireList(searchVO);
     	
-//    	System.out.print("result **************************** : " + resultList);
+    	//면제금액합계, 할인금액합계, 고지금액합계(Map)list.get(i)
+    	GamFcltyUseSttusInqireVO resultSum = gamFcltyUseSttusInqireService.selectFcltyUseSttusInqireSum(searchVO);
+
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -127,6 +130,12 @@ public class GamFcltyUseSttusInqireController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
+    	map.put("sumDcAmnt", resultSum.getSumDcAmnt());
+    	map.put("sumExmpAmnt", resultSum.getSumExmpAmnt());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
+
 
     	return map;
     }

@@ -47,7 +47,15 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 					{display:'고지금액', name:'billAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '350',
+        preProcess: function(module,data) {
+            module.$('#totalResultCnt').val(data.dpTotCnt);
+            module.$('#totalExmpAmnt').val(data.sumExmpAmnt);
+            module.$('#totalDcAmnt').val(data.sumDcAmnt);
+            module.$('#totalBillAmnt').val(data.sumBillAmnt);
+      
+            return data;
+        }
     });
 
  	// 오늘로 텍스트박스 날짜 정의
@@ -188,8 +196,24 @@ var module_instance = new GamFcltyUseSttusInqireModule();
                 <li><a href="#tabs1" class="emdTab">항만시설사용현황조회</a></li>
             </ul>
 
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-				<table id="fcltyUseSttusInqireList" style="display:none" class="fillHeight"></table>
+            <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+				<table id="fcltyUseSttusInqireList" style="display:none"></table>
+				
+				<div class="emdControlPanel">
+                    <table style="width:100%;">
+                        <tr>
+                            <td>
+                               <form id="form1">
+                                   합계 : 
+                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+                                   면제금액합계 <input id="totalExmpAmnt" type="text" size="15" style="text-align:right;" readonly>
+                                   할인금액합계 <input id="totalDcAmnt" type="text" size="15" style="text-align:right;" readonly>원
+								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
+                               </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
     </div>

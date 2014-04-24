@@ -6,6 +6,13 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyUseSttusInqireVO" type="egovframework.rte.ygpa.gam.port_mis.service.GamFcltyUseSttusInqireVO"/>
+    
+    <resultMap id="gamFcltyUseSttusInqireSumMap" class="gamFcltyUseSttusInqireVO">
+        <result property="sumBillAmnt" column="SUM_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumDcAmnt" column="SUM_DC_AMNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="4" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
 	
 	<select id="gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireList_D" parameterClass="gamFcltyUseSttusInqireVO" resultClass="egovMap">
            SELECT A.*
@@ -81,6 +88,61 @@
     <select id="gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseSttusInqireVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
+            FROM 
+				P2MGR.PORT_PRODUCTION_FEE@YGPA_P2MGR T1
+			LEFT OUTER JOIN 
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+			ON 
+				(
+				T1.PRT_AT_CODE=T4.PRT_AT_CODE
+				)
+			LEFT OUTER JOIN 
+				PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+			ON 
+				(
+				T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+				AND T1.FEE_TP=T3.FEE_TP
+				)
+			LEFT OUTER JOIN 
+				P2MGR.FACIL_NM_F@YGPA_P2MGR T2 
+			ON 
+				(
+				T1.PRT_AT_CODE=T2.PRT_AT_CODE 
+				AND T1.FAC_CODE=T2.FAC_CODE 
+				AND T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
+				)
+			WHERE 1 = 1 
+			
+			<isNotEmpty property="prtAtCode">
+                   AND T1.PRT_AT_CODE = #prtAtCode#
+               </isNotEmpty>
+               
+               <isNotEmpty property="sGrUsagePdFrom">
+                		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+                		<isNotEmpty property="sGrUsagePdTo">
+                			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+                		</isNotEmpty>
+                	</isNotEmpty>
+                	
+                	<isNotEmpty property="fac_code">
+                   AND T1.FAC_CODE = #fac_code#                    
+               </isNotEmpty>
+               
+               <isNotEmpty property="fac_sub_code">
+                   AND T1.FAC_SUB_CODE = #fac_sub_code#
+               </isNotEmpty>
+               
+               <isNotEmpty property="chrgeKndCd">
+                   AND T1.FEE_TP = #chrgeKndCd#
+               </isNotEmpty>
+    </select>
+    
+    <select id="gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireSum_S" parameterClass="gamFcltyUseSttusInqireVO" resultMap="gamFcltyUseSttusInqireSumMap">
+            SELECT 
+            	TRIM(TO_CHAR(NVL(SUM(T1.BILL_AMNT),0), '999,999,999,999')) AS SUM_BILL_AMNT 
+            	,TRIM(TO_CHAR(NVL(SUM(T1.EXMP_AMNT),0), '999,999,999,999')) AS SUM_EXMP_AMNT 
+            	,TRIM(TO_CHAR(NVL(SUM(T1.DC_AMNT),0), '999,999,999,999')) AS SUM_DC_AMNT 
+            	,TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
             FROM 
 				P2MGR.PORT_PRODUCTION_FEE@YGPA_P2MGR T1
 			LEFT OUTER JOIN 

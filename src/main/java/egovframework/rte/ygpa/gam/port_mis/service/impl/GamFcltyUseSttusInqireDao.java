@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentSttusInqireVO;
 import egovframework.rte.ygpa.gam.port_mis.service.GamFcltyUseSttusInqireVO;
 
 /**
@@ -46,6 +47,16 @@ public class GamFcltyUseSttusInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireListTotCnt_S", searchVO);
     }
     
+    /**
+	 * 면제금액합계, 할인금액합계, 고지금액합계 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설납부현황관리 목록 총 갯수
+	 * @exception
+	 */
+    public GamFcltyUseSttusInqireVO selectFcltyUseSttusInqireSum(GamFcltyUseSttusInqireVO searchVO) {
+    	return (GamFcltyUseSttusInqireVO) selectByPk("gamFcltyUseSttusInqireDao.selectFcltyUseSttusInqireSum_S", searchVO);
+    }
+
     
 
 }
