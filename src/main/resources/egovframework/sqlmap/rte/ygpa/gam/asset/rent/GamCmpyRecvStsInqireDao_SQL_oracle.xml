@@ -6,6 +6,11 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamCmpyRecvStsInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamCmpyRecvStsInqireVO"/>
+
+    <resultMap id="gamCmpyRecvStsInqireSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamCmpyRecvStsInqireVO">
+        <result property="totSumCnt" column="TOT_SUM_CNT" columnIndex="1"/>
+        <result property="totSumFee" column="TOT_SUM_FEE" columnIndex="2"/>
+    </resultMap>
     
     <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireList_D" parameterClass="gamCmpyRecvStsInqireVO" resultClass="egovMap">
            SELECT A.*
@@ -48,6 +53,31 @@
 	            
 	            GROUP BY L.ENTRPSCD
 	           )
+    </select>
+
+    <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireSum_S" parameterClass="gamCmpyRecvStsInqireVO" resultMap="gamCmpyRecvStsInqireSumMap">
+            SELECT
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) TOT_SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(FEE),0), '999,999,999,999')) TOT_SUM_FEE
+              FROM (           
+                           SELECT 
+							       L.ENTRPSCD
+							     , SUM(NVL(L.FEE,0)) FEE
+							     , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E 
+							          WHERE E.ENTRPSCD = L.ENTRPSCD ) ENTRPS_NM
+							     , ( SELECT E.INDUTY FROM ENTRPS_INFO_F E 
+							          WHERE E.ENTRPSCD = L.ENTRPSCD ) INDUTY
+							     , ( SELECT E.BIZCND FROM ENTRPS_INFO_F E 
+							          WHERE E.ENTRPSCD = L.ENTRPSCD ) BIZCND
+							  FROM LEV_REQEST_F L
+							 WHERE 1=1 
+							 
+							 <isNotEmpty property="sRcivDtFrom">
+                                 AND TO_CHAR(L.RCIV_DT, 'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
+                             </isNotEmpty>
+							
+							GROUP BY L.ENTRPSCD
+				)
     </select>
     
 </sqlMap>

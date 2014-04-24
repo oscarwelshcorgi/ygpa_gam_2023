@@ -53,4 +53,14 @@ public class GamCmpyRecvStsInqireServiceImpl  extends AbstractServiceImpl implem
 		return gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireListTotCnt(searchVO);
 	}
 
+    /**
+	 * 업체별수입현황조회 자료수 총금액 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 통계자료 VO
+	 * @exception
+	 */
+	public GamCmpyRecvStsInqireVO selectCmpyRecvStsInqireSum(GamCmpyRecvStsInqireVO searchVO) throws Exception {
+		return gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireSum(searchVO);
+	}
+
 }

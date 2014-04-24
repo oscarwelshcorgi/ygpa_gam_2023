@@ -34,5 +34,12 @@ public interface GamRecvTpRecvStsInqireService {
 	 * @exception
 	 */
     int selectCmpyRecvStsInqireListTotCnt(GamRecvTpRecvStsInqireVO searchVO) throws Exception;
-    
+
+    /**
+	 * 수입종류별수입현황조회 자료수, 총금액, 총할인금액
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 통계할 정보가 담긴 VO
+	 * @exception
+	 */
+    GamRecvTpRecvStsInqireVO selectCmpyRecvStsInqireSum(GamRecvTpRecvStsInqireVO searchVO) throws Exception;
 }

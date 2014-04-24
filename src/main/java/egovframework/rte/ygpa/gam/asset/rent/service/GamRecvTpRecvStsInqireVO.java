@@ -26,6 +26,54 @@ public class GamRecvTpRecvStsInqireVO extends ComDefaultVO {
     /** 업체코드 */
     private String sEntrpscd;
 
+    private String totSumCnt;
+    
+    private String totSumNickAmt;
+    
+    private String totSumDscntAmt;
+    
+	/**
+	 * @return the totSumCnt
+	 */
+	public String getTotSumCnt() {
+		return totSumCnt;
+	}
+
+	/**
+	 * @param totSumCnt the totSumCnt to set
+	 */
+	public void setTotSumCnt(String totSumCnt) {
+		this.totSumCnt = totSumCnt;
+	}
+
+	/**
+	 * @return the totSumNickAmt
+	 */
+	public String getTotSumNickAmt() {
+		return totSumNickAmt;
+	}
+
+	/**
+	 * @param totSumNickAmt the totSumNickAmt to set
+	 */
+	public void setTotSumNickAmt(String totSumNickAmt) {
+		this.totSumNickAmt = totSumNickAmt;
+	}
+
+	/**
+	 * @return the totSumDscntAmt
+	 */
+	public String getTotSumDscntAmt() {
+		return totSumDscntAmt;
+	}
+
+	/**
+	 * @param totSumDscntAmt the totSumDscntAmt to set
+	 */
+	public void setTotSumDscntAmt(String totSumDscntAmt) {
+		this.totSumDscntAmt = totSumDscntAmt;
+	}
+
 	/**
 	 * @return the sRcivDtFrom
 	 */

@@ -42,4 +42,7 @@ public class GamCmpyRecvStsInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireListTotCnt_S", searchVO);
     }
     
+    public GamCmpyRecvStsInqireVO selectCmpyRecvStsInqireSum(GamCmpyRecvStsInqireVO searchVO){
+    	return (GamCmpyRecvStsInqireVO) selectByPk("gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireSum_S", searchVO);
+    }
 }

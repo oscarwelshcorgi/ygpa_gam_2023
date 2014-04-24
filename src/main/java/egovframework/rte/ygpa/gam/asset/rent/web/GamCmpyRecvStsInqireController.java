@@ -106,6 +106,8 @@ public class GamCmpyRecvStsInqireController {
     	totalCnt = gamCmpyRecvStsInqireService.selectCmpyRecvStsInqireListTotCnt(searchVO);
     	List assetRentList = gamCmpyRecvStsInqireService.selectCmpyRecvStsInqireList(searchVO);
     	
+    	GamCmpyRecvStsInqireVO resultSum = gamCmpyRecvStsInqireService.selectCmpyRecvStsInqireSum(searchVO);
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
@@ -113,6 +115,9 @@ public class GamCmpyRecvStsInqireController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("totSumCnt", resultSum.getTotSumCnt());
+    	map.put("totSumFee", resultSum.getTotSumFee());
     	
     	return map;
     }

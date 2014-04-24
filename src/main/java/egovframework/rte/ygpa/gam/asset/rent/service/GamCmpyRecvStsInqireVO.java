@@ -23,6 +23,38 @@ public class GamCmpyRecvStsInqireVO extends ComDefaultVO {
     /** 수납일 to */
     private String sRcivDtTo;
 
+    private String totSumCnt;
+    
+    private String totSumFee;
+    
+	/**
+	 * @return the totSumCnt
+	 */
+	public String getTotSumCnt() {
+		return totSumCnt;
+	}
+
+	/**
+	 * @param totSumCnt the totSumCnt to set
+	 */
+	public void setTotSumCnt(String totSumCnt) {
+		this.totSumCnt = totSumCnt;
+	}
+
+	/**
+	 * @return the totSumFee
+	 */
+	public String getTotSumFee() {
+		return totSumFee;
+	}
+
+	/**
+	 * @param totSumFee the totSumFee to set
+	 */
+	public void setTotSumFee(String totSumFee) {
+		this.totSumFee = totSumFee;
+	}
+
 	/**
 	 * @return the sRcivDtFrom
 	 */
