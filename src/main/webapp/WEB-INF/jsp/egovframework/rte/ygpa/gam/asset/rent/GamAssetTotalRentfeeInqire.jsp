@@ -50,7 +50,13 @@ GamAssetTotalRentfeeInqireModule.prototype.loadComplete = function() {
                  {display:'수정일시', name:'updtDt',width:150, sortable:false,align:'center'}
                  ],
      showTableToggleBtn: false,
-     height: 'auto'
+     height: '300',
+     preProcess: function(module,data) {
+         module.$('#totalResultCnt').val(data.dpTotCnt);
+         module.$('#totalFee').val(data.sumFee);
+   
+         return data;
+     }
  });
  
 	//오늘 날짜로 사용기간 설정 처리
@@ -207,26 +213,27 @@ var module_instance = new GamAssetTotalRentfeeInqireModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="assetRentFeeListTab" class="emdTabPanel" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">자산별사용료현황</a></li>
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
-            <table id="assetTotalRentfeeInqireList" style="display:none" class="fillHeight"></table>
-            <!-- 
-            <div class="emdControlPanel">
-                    <table style="width:100%;" >
+            	<table id="assetTotalRentfeeInqireList" style="display:none"></table>
+            	<div class="emdControlPanel">
+                    <table style="width:100%;">
                         <tr>
-                            <td style="text-align: right">
+                            <td>
                                <form id="form1">
-                                   사용료 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                                   감면사용료 <input id="totalResultRdcCnt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+                                   합계 : 
+                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+                                   사용료합계 <input id="totalFee" type="text" size="15" style="text-align:right;" readonly>원
                                </form>
                             </td>
                         </tr>
-                     </table>
+                    </table>
+                </div>
             </div>
-             -->
+            
 		</div>
             
     </div>

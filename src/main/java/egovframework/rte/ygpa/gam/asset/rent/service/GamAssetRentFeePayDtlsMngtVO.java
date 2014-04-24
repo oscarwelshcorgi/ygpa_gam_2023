@@ -174,6 +174,16 @@ public class GamAssetRentFeePayDtlsMngtVO extends ComDefaultVO {
     private String sNticMth;
     
     
+    /** 고지금액(합계) */
+    private String sumBillAmnt;
+    
+    /** 수납금액(합계) */
+    private String sumRcvdAmnt;   
+    
+    /** 디스플레이 전체 자료수 */
+    private String dpTotCnt;
+    
+    
     /******* 세입징수 ********/
 
     /** 회계 구분 코드 */
@@ -1497,6 +1507,48 @@ public class GamAssetRentFeePayDtlsMngtVO extends ComDefaultVO {
 	 */
 	public void setsNticDtTo(String sNticDtTo) {
 		this.sNticDtTo = sNticDtTo;
+	}
+
+	/**
+	 * @return the sumBillAmnt
+	 */
+	public String getSumBillAmnt() {
+		return sumBillAmnt;
+	}
+
+	/**
+	 * @param sumBillAmnt the sumBillAmnt to set
+	 */
+	public void setSumBillAmnt(String sumBillAmnt) {
+		this.sumBillAmnt = sumBillAmnt;
+	}
+
+	/**
+	 * @return the sumRcvdAmnt
+	 */
+	public String getSumRcvdAmnt() {
+		return sumRcvdAmnt;
+	}
+
+	/**
+	 * @param sumRcvdAmnt the sumRcvdAmnt to set
+	 */
+	public void setSumRcvdAmnt(String sumRcvdAmnt) {
+		this.sumRcvdAmnt = sumRcvdAmnt;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
 	}
 	
 }

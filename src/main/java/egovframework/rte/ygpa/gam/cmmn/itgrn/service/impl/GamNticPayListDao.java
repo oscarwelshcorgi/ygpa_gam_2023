@@ -55,6 +55,14 @@ public class GamNticPayListDao extends YGPAAbstractDAO{
     
     
     /**
+	 * 자료수와 고지금액합계,수납금액(수납구분이 2나 3)합계
+	 */
+    public GamNticPayListVO selectNticPayListSum(GamNticPayListVO vo) throws Exception {
+    	return (GamNticPayListVO) selectByPk("gamNticPayListDao.selectNticPayListSum_S", vo);
+    }
+    
+    
+    /**
 	 * 연체세입목록조회
 	 */
 	public List selectDelayNticPayList(GamNticPayListVO vo) throws Exception{
@@ -67,6 +75,14 @@ public class GamNticPayListDao extends YGPAAbstractDAO{
 	 */
     public int selectDelayNticPayListTotCnt(GamNticPayListVO vo) throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamNticPayListDao.selectDelayNticPayListTotCnt", vo);
+    }
+    
+    
+    /**
+	 * 자료수와 미납고지금액합계
+	 */
+    public GamNticPayListVO selectDelayNticPayListSum(GamNticPayListVO vo) throws Exception {
+    	return (GamNticPayListVO) selectByPk("gamNticPayListDao.selectDelayNticPayListSum_S", vo);
     }
 
 }

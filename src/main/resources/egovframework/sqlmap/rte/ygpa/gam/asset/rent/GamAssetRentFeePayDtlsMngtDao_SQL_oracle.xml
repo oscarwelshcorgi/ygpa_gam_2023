@@ -7,6 +7,12 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetRentFeePayDtlsMngtVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO"/>
     
+    <resultMap id="gamAssetRentFeePayDtlsMngtSumMap" class="gamAssetRentFeePayDtlsMngtVO">
+        <result property="sumBillAmnt" column="SUM_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumRcvdAmnt" column="SUM_RCVD_AMNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+    
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsList_D" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -64,6 +70,23 @@
     
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
+              FROM  ERP_REV_COLL_F@YGPA_PORTMIS E
+                   ,LEV_REQEST_F L
+             WHERE E.BILL_NO = L.NTICNO
+             
+             <isNotEmpty property="sPrtAtCode">
+                 AND L.PRT_AT_CODE = #sPrtAtCode#
+             </isNotEmpty>
+    </select>
+    
+    
+    <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultMap="gamAssetRentFeePayDtlsMngtSumMap">
+            SELECT 
+            
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
+            	,TRIM(TO_CHAR(NVL(SUM(E.BILL_AMNT),0), '999,999,999,999')) AS SUM_BILL_AMNT 
+            	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN E.RCVD_TP = 2 OR E.RCVD_TP = 3 THEN E.BILL_AMNT END),0), '999,999,999,999')) AS SUM_RCVD_AMNT 
+            	
               FROM  ERP_REV_COLL_F@YGPA_PORTMIS E
                    ,LEV_REQEST_F L
              WHERE E.BILL_NO = L.NTICNO

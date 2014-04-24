@@ -54,5 +54,16 @@ public class GamAssetTotalRentfeeInqireServiceImpl  extends AbstractServiceImpl 
    		//return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
     	   return gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireListTotCnt(searchVO);
    	}
+       
+       
+       /**
+   	 * 사용료합계
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return vo
+   	 * @exception Exception
+   	 */
+       public GamAssetTotalRentfeeInqireVO selectAssetTotalRentfeeInqireSum(GamAssetTotalRentfeeInqireVO searchVO) throws Exception {
+           return gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireSum(searchVO);
+       }
     
 }

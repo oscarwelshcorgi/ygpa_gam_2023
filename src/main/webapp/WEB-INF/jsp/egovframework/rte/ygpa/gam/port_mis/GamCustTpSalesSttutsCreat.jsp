@@ -71,7 +71,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
 					{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
-		height: '110'
+		height: '350',
+		preProcess: function(module,data) {
+            module.$('#totalResultCnt').val(data.dpTotCnt);
+            module.$('#totalCostval').val(data.sumCostval);
+      
+            return data;
+        }
 	});
 
 	this.$("#gamCustTpEnpSalesSttutsList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -93,7 +99,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
 				{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
-		height: '120'
+		height: '350',
+		preProcess: function(module,data) {
+            module.$('#totalResultCnt1').val(data.dpTotCnt);
+            module.$('#totalCostval1').val(data.sumCostval);
+      
+            return data;
+        }
 	});
 
 	this.$("#gamCustTpShipEnpSalesSttutsList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -641,13 +653,39 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
-				<table id="gamCustTpEnpSalesSttutsList" style="display:none;" class="fillHeight"></table>
-				
+				<table id="gamCustTpEnpSalesSttutsList" style="display:none;"></table>
+				<div class="emdControlPanel">
+                 <table style="width:100%;">
+                     <tr>
+                         <td>
+                            <form id="form1">
+                                합계 : 
+                                자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+                                매출액합계 <input id="totalCostval" type="text" size="15" style="text-align:right;" readonly>
+                            </form>
+                         </td>
+                     </tr>
+                 </table>
+             </div>
 			</div>
 			<div id="tabs3" class="emdTabPage" data-onactivate="onShowTab3Activate">
-				<table id="gamCustTpShipEnpSalesSttutsList" style="display:none" class="fillHeight"></table>
-				
+				<table id="gamCustTpShipEnpSalesSttutsList" style="display:none"></table>
+				<div class="emdControlPanel">
+                 <table style="width:100%;">
+                     <tr>
+                         <td>
+                            <form id="form1">
+                                합계 : 
+                                자료수 <input id="totalResultCnt1" size="15" style="text-align:right;" readonly>
+                                매출액합계 <input id="totalCostval1" type="text" size="15" style="text-align:right;" readonly>
+                            </form>
+                         </td>
+                     </tr>
+                 </table>
+             </div>
 			</div>
+			
+			
 		</div>
 	</div>
 </div>

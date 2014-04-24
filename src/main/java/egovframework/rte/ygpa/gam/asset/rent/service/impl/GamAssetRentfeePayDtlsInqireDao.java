@@ -42,4 +42,15 @@ public class GamAssetRentfeePayDtlsInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireListTotCnt_S", searchVO);
     }
     
+    
+    /**
+	 * 요금합계, 고지금액합계
+	 * @param vo
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamAssetRentfeePayDtlsInqireVO selectAssetRentfeePayDtlsInqireSum(GamAssetRentfeePayDtlsInqireVO searchVO) throws Exception {
+    	return (GamAssetRentfeePayDtlsInqireVO) selectByPk("gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireSum_S", searchVO);
+    }
+    
 }

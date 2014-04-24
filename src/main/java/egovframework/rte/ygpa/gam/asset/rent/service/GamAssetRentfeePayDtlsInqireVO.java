@@ -271,6 +271,14 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
     private String sNticPdTo;
     
     private String sChrgeKnd;
+    
+    /** 고지금액 */
+    private String sumBillAmnt;	               
+
+    /** 디스플레이 토탈 자료수 */
+    private String dpTotCnt;	  
+    
+    
 
 	/**
 	 * @return the nticCnt
@@ -1460,6 +1468,34 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
 	 */
 	public void setsChrgeKnd(String sChrgeKnd) {
 		this.sChrgeKnd = sChrgeKnd;
+	}
+
+	/**
+	 * @return the sumBillAmnt
+	 */
+	public String getSumBillAmnt() {
+		return sumBillAmnt;
+	}
+
+	/**
+	 * @param sumBillAmnt the sumBillAmnt to set
+	 */
+	public void setSumBillAmnt(String sumBillAmnt) {
+		this.sumBillAmnt = sumBillAmnt;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
 	}
 	
 	

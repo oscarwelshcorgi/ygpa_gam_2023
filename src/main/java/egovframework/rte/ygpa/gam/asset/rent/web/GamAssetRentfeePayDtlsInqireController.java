@@ -113,12 +113,20 @@ public class GamAssetRentfeePayDtlsInqireController {
     	totalCnt = gamAssetRentfeePayDtlsInqireService.selectAssetRentfeePayDtlsInqireListTotCnt(searchVO);
     	List assetRentList = gamAssetRentfeePayDtlsInqireService.selectAssetRentfeePayDtlsInqireList(searchVO);
     	
+    	//요금합계, 고지금액합계
+    	GamAssetRentfeePayDtlsInqireVO resultSum = gamAssetRentfeePayDtlsInqireService.selectAssetRentfeePayDtlsInqireSum(searchVO);
+    	
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
+    	map.put("sumFee", resultSum.getSumFee());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
     	
     	return map;
     }

@@ -113,6 +113,9 @@ public class GamNticPayListController {
 		int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
 		List nticPayList = gamNticPayListService.selectNticPayList(searchVO);
 		
+		//자료수와 고지금액합계,수납금액(수납구분이 2나 3)합계
+		GamNticPayListVO resultSum = gamNticPayListService.selectNticPayListSum(searchVO);
+		
 //		System.out.print("test *************************** : " + nticPayList);
         
         paginationInfo.setTotalRecordCount(totCnt);
@@ -121,6 +124,10 @@ public class GamNticPayListController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", nticPayList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
+    	map.put("sumRcvdAmnt", resultSum.getSumRcvdAmnt());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
 
     	return map;
     }
@@ -201,6 +208,10 @@ public class GamNticPayListController {
 		/** List Data */
 		List nticPayList = gamNticPayListService.selectDelayNticPayList(searchVO);
         int totCnt = gamNticPayListService.selectDelayNticPayListTotCnt(searchVO);
+        
+        //자료수와 미납고지금액합계
+        GamNticPayListVO resultSum = gamNticPayListService.selectDelayNticPayListSum(searchVO);
+        
 
         paginationInfo.setTotalRecordCount(totCnt);
 		
@@ -208,6 +219,10 @@ public class GamNticPayListController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", nticPayList);
     	map.put("searchOption", searchVO);
+    	
+    	
+    	map.put("sumDlyBillAmnt", resultSum.getSumDlyBillAmnt());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
 
     	return map;
     }

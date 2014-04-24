@@ -7,6 +7,11 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetTotalRentfeeInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetTotalRentfeeInqireVO"/>
     
+    <resultMap id="gamAssetTotalRentfeeInqireSumMap" class="gamAssetTotalRentfeeInqireVO">
+        <result property="sumFee" column="SUM_FEE" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+    
     <select id="gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireList_D" parameterClass="gamAssetTotalRentfeeInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
@@ -87,6 +92,56 @@
     
     <select id="gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireListTotCnt_S" parameterClass="gamAssetTotalRentfeeInqireVO" resultClass="int">
             SELECT COUNT(*) totcnt
+              FROM USAGE_PD_BY_STATS_F F
+                  ,GIS_ASSETS_CD_F G
+             WHERE F.PRT_AT_CODE       = G.GIS_ASSETS_PRT_AT_CODE
+               AND F.GIS_ASSETS_CD     = G.GIS_ASSETS_CD
+               AND F.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
+     
+             <isNotEmpty property="sPrtAtCode">
+                 AND F.PRT_AT_CODE = #sPrtAtCode#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sEntrpscd">
+                 AND F.REQST_ENTRPS_CD = #sEntrpscd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdFrom"> 
+                 AND F.USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdTo">
+                 AND F.USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGisAssetsPrprtySeCd">
+                 AND G.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGisAssetsLocCd">
+                 AND G.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGisAssetsQuayCd">
+                 AND G.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="gisAssetsCd">
+                 AND G.GIS_ASSETS_CD = #gisAssetsCd#
+             </isNotEmpty>
+             
+             <isNotEmpty property="gisAssetsSubCd">
+                 AND G.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+             </isNotEmpty>
+    </select>
+    
+    
+    <select id="gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireSum_S" parameterClass="gamAssetTotalRentfeeInqireVO" resultMap="gamAssetTotalRentfeeInqireSumMap">
+            SELECT 
+            
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
+            	,TRIM(TO_CHAR(NVL(SUM(F.FEE),0), '999,999,999,999')) AS SUM_FEE 
+            
               FROM USAGE_PD_BY_STATS_F F
                   ,GIS_ASSETS_CD_F G
              WHERE F.PRT_AT_CODE       = G.GIS_ASSETS_PRT_AT_CODE

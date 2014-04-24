@@ -52,13 +52,11 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
                     {display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '350',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#sumFee').val(data.sumFee);
-            module.$('#sumArrrgAmt').val(data.sumArrrgAmt);
-            module.$('#sumVat').val(data.sumVat);
-            module.$('#sumNticAmt').val(data.sumNticAmt);
+            module.$('#totalResultCnt').val(data.dpTotCnt);
+            module.$('#totalFee').val(data.sumFee);
+            module.$('#totalBillAmnt').val(data.sumBillAmnt);
             
             return data;
         }
@@ -509,32 +507,22 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
                 <!-- <li><a href="#tabs2" class="emdTab">자산임대료고지 상세</a></li>  -->
             </ul>
 
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <!-- <div style="width: 100%; height: 100%; overflow:auto">  -->
-                        <table id="assetRentFeeList" style="display:none" class="fillHeight"></table>
-                <!-- </div>  -->
-                <!-- 
+            <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <div class="emdControlPanel">
-                    <table style="width:100%;" >
+                	<table id="assetRentFeeList" style="display:none"></table>
+                    <table style="width:100%;">
                         <tr>
                             <td>
                                <form id="form1">
-                                  합계
-                                  자료수 <input id="totalResultCnt" class="ygpaNumber" size="5" readonly>
-                                  사용료 <input id="sumFee" type="text" class="ygpaCurrency" size="14" readonly>
-                                  연체 <input id="sumArrrgAmt" type="text" class="ygpaCurrency" size="14" readonly>
-                                  부가세 <input id="sumVat" type="text" class="ygpaCurrency" size="14" readonly>
-                                  고지액 <input id="sumNticAmt" type="text" class="ygpaCurrency" size="14" readonly>
+                                   합계 : 
+                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+                                   요금합계 <input id="totalFee" type="text" size="15" style="text-align:right;" readonly>원
+								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
                                </form>
-                            </td>
-                            <td>
-                                <button id="saveNticDetailBtn">고지의뢰</button>
-                                <button id="cancelNticDetailBtn">고지취소</button>
                             </td>
                         </tr>
                     </table>
                 </div>
-                -->
             </div>
             
             <!-- 

@@ -76,12 +76,11 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
 					*/
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '350',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#sumFee').val(data.sumFee);
-            module.$('#sumVat').val(data.sumVat);
-            module.$('#sumNticAmt').val(data.sumNticAmt);
+            module.$('#totalResultCnt').val(data.dpTotCnt);
+            module.$('#totalBillAmnt').val(data.sumBillAmnt);
+            module.$('#totalRcvdAmnt').val(data.sumRcvdAmnt);
             
             return data;
         }
@@ -266,31 +265,22 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                 <li><a href="#tabs2" class="emdTab">자산임대료납부 상세</a></li>
             </ul>
 
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <!-- <div style="width: 100%; height: 100%; overflow:auto">  -->
-                        <table id="assetRentFeePayList" style="display:none" class="fillHeight"></table>
-                <!-- </div>  -->
-                
-                <!-- 
+            <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+            	<table id="assetRentFeePayList" style="display:none"></table>
                 <div class="emdControlPanel">
-                    <table style="width:100%;" >
+                    <table style="width:100%;">
                         <tr>
                             <td>
                                <form id="form1">
-                                    합계
-                                    자료수 <input id="totalResultCnt" size="5" readonly>
-                                    사용료 <input id="sumFee" type="text" size="14" readonly>
-                                    부가세 <input id="sumVat" type="text" size="14" readonly>
-                                    고지액 <input id="sumNticAmt" type="text" size="14" readonly>
+                                   합계 : 
+                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
+								   수납금액합계 <input id="totalRcvdAmnt" type="text" size="15" style="text-align:right;" readonly>원
                                </form>
-                            </td>
-                            <td>
-                                <button id="mapInfoBtn">맵정보</button>
                             </td>
                         </tr>
                     </table>
                 </div>
-                 -->
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">

@@ -14,6 +14,11 @@
 		<parameter property="result" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
 	</parameterMap>
 	
+	<resultMap id="gamCustTpSalesSttutsCreatSumMap" class="gamCustTpSalesSttutsCreatVO">
+        <result property="sumCostval" column="SUM_COSTVAL" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+	
 	<procedure id="gamCustTpSalesSttutsCreatDao.createCustTpSalesSttuts" parameterMap="mapGamCustTpSalesSttutsCreatVO">
 		{ call SP_CREATE_COSTVAL_STATS(?, ?, ?, ?)}
 	</procedure>
@@ -150,6 +155,43 @@
 			       	AND T1.ENTRPSCD = #sEntrpscd#
 			    </isNotEmpty>			                		
     </select>
+    
+    <select id="gamCustTpSalesSttutsCreatDao.selectErpStatisticsListSum_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultMap="gamCustTpSalesSttutsCreatSumMap">
+            SELECT 
+            	TRIM(TO_CHAR(NVL(SUM(T1.COSTVAL),0), '999,999,999,999')) AS SUM_COSTVAL 
+            	,TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT
+            FROM PORT_MIS_COSTVAL_STATS_F T1
+				LEFT OUTER JOIN 
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+						ON (T1.PRTCD=T4.PRT_AT_CODE)
+				LEFT OUTER JOIN 
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+						ON (T1.PRTCD=T3.PRT_AT_CODE AND T1.CHRGEKNDCD=T3.FEE_TP)
+				LEFT OUTER JOIN 
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+						ON (T1.ENTRPSCD=T2.AGENT_CODE)
+			WHERE 1 = 1 					       
+				<isNotEmpty property="prtAtCode">
+			    	AND T1.PRTCD = #prtAtCode#
+			    </isNotEmpty>
+        		<isNotEmpty property="eGrStartYr">
+        			<isNotEmpty property="eGrStartMn">
+                  		<![CDATA[AND T1.YRMT >= CONCAT(#eGrStartYr#, #eGrStartMn#)]]>
+                  		<isNotEmpty property="eGrEndYr">
+                  			<isNotEmpty property="eGrEndMn">
+                  				<![CDATA[AND T1.YRMT <= CONCAT(#eGrEndYr#, #eGrEndMn#)]]>
+                  			</isNotEmpty>
+                  		</isNotEmpty>
+                  	</isNotEmpty>
+              	</isNotEmpty>
+       
+				<isNotEmpty property="chrgeKndCd">
+			        AND T1.CHRGEKNDCD = #chrgeKndCd#
+			    </isNotEmpty>
+				<isNotEmpty property="sEntrpscd">
+			       	AND T1.ENTRPSCD = #sEntrpscd#
+			    </isNotEmpty>			                		
+    </select>
 
 	<select id="gamCustTpSalesSttutsCreatDao.selectCustTpSalesSttutsList_D" parameterClass="gamCustTpSalesSttutsCreatVO" resultClass="egovMap">
            SELECT A.*
@@ -206,6 +248,46 @@
             SELECT 
             	COUNT(*) TOTCNT
   						FROM PORT_MIS_COSTVAL_STATS_F T1
+							LEFT OUTER JOIN 
+								P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+									ON (T1.PRTCD=T4.PRT_AT_CODE)
+							LEFT OUTER JOIN 
+								PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+									ON (T1.PRTCD=T3.PRT_AT_CODE AND T1.CHRGEKNDCD=T3.FEE_TP)
+							LEFT OUTER JOIN 
+								P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+									ON (T1.ENTRPSCD=T2.AGENT_CODE)
+						WHERE 1 = 1 
+					        <isNotEmpty property="prtAtCode">
+			                    AND T1.PRTCD = #prtAtCode#
+			                </isNotEmpty>
+			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
+                      								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
+                    								WHERE CSTMR_TP IN ('11','12','43')) 					       
+					        <isNotEmpty property="sEgrStartYr">
+					        	<isNotEmpty property="sEgrStartMn">
+			                    	<![CDATA[AND T1.YRMT >= CONCAT(#sEgrStartYr#, #sEgrStartMn#)]]>			                
+				                    <isNotEmpty property="sEgrEndYr">
+				                    	<isNotEmpty property="sEgrEndMn">
+				                    		<![CDATA[AND T1.YRMT <= CONCAT(#sEgrEndYr#, #sEgrEndMn#)]]>
+				                    	</isNotEmpty>
+				                    </isNotEmpty>
+			                    </isNotEmpty>
+			                </isNotEmpty>
+					        <isNotEmpty property="chrgeKndCd">
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd2#
+			                </isNotEmpty>
+					        <isNotEmpty property="sEntrpscd">
+			                    AND T1.ENTRPSCD = #sEntrpscd#
+			                </isNotEmpty>			                		
+    </select>
+    
+    
+    <select id="gamCustTpSalesSttutsCreatDao.selectShipErpStatisticsListSum_S" parameterClass="gamCustTpSalesSttutsCreatVO" resultMap="gamCustTpSalesSttutsCreatSumMap">
+            SELECT 
+            	TRIM(TO_CHAR(NVL(SUM(T1.COSTVAL),0), '999,999,999,999')) AS SUM_COSTVAL 
+            	,TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT
+            FROM PORT_MIS_COSTVAL_STATS_F T1
 							LEFT OUTER JOIN 
 								P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 									ON (T1.PRTCD=T4.PRT_AT_CODE)

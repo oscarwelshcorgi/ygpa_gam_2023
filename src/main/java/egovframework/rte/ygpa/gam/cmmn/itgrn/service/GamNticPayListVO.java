@@ -35,6 +35,18 @@ public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	/** 레코드 번호 */
 	private String intSeq;
 	
+	/** 디스플레이 자료갯수 */
+	private String dpTotCnt;
+
+	/** 고지금액 */
+	private String sumBillAmnt;
+	
+	/** 수납금액 */
+	private String sumRcvdAmnt;
+	
+	/** 연체고지금액 */
+	private String sumDlyBillAmnt;
+	
 	/**
 	 * @return the prtAtCode
 	 */
@@ -166,5 +178,61 @@ public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
+	}
+
+	/**
+	 * @return the sumBillAmnt
+	 */
+	public String getSumBillAmnt() {
+		return sumBillAmnt;
+	}
+
+	/**
+	 * @param sumBillAmnt the sumBillAmnt to set
+	 */
+	public void setSumBillAmnt(String sumBillAmnt) {
+		this.sumBillAmnt = sumBillAmnt;
+	}
+
+	/**
+	 * @return the sumRcvdAmnt
+	 */
+	public String getSumRcvdAmnt() {
+		return sumRcvdAmnt;
+	}
+
+	/**
+	 * @param sumRcvdAmnt the sumRcvdAmnt to set
+	 */
+	public void setSumRcvdAmnt(String sumRcvdAmnt) {
+		this.sumRcvdAmnt = sumRcvdAmnt;
+	}
+
+	/**
+	 * @return the sumDlyBillAmnt
+	 */
+	public String getSumDlyBillAmnt() {
+		return sumDlyBillAmnt;
+	}
+
+	/**
+	 * @param sumDlyBillAmnt the sumDlyBillAmnt to set
+	 */
+	public void setSumDlyBillAmnt(String sumDlyBillAmnt) {
+		this.sumDlyBillAmnt = sumDlyBillAmnt;
 	}
 }

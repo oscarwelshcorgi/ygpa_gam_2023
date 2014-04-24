@@ -7,39 +7,49 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetRentfeePayDtlsInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentfeePayDtlsInqireVO"/>
     
+	<resultMap id="gamAssetRentfeePayDtlsInqireSumMap" class="gamAssetRentfeePayDtlsInqireVO">
+        <result property="sumBillAmnt" column="SUM_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumFee" column="SUM_FEE" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+    
     <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireList_D" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
 							SELECT
-							         L.PRT_AT_CODE
-							       , L.MNG_YEAR
-							       , L.MNG_NO
-							       , L.MNG_CNT  
-							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
-							       , L.CHRGE_KND
-							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = L.CHRGE_KND AND ROWNUM = 1) CHRGE_KND_NM
-							       , L.ACCNUT_YEAR
-							       , L.NTIC_CNT
-							       , TO_CHAR(L.NTIC_DT,'YYYY-MM-DD') NTIC_DT
-							       , L.ENTRPSCD
-							       , L.ENTRPS_NM
-							       , TO_CHAR(L.PAY_TMLMT,'YYYY-MM-DD') PAY_TMLMT
-							       , L.FEE
-							       , L.NHT_PRINT_YN
-							       , L.RM
-							       , L.NTICNO
-							       , ( SELECT P.RCVD_TP FROM ERP_REV_COLL_F@YGPA_PORTMIS P WHERE P.BILL_NO = L.NTICNO AND ROWNUM = 1 ) RCVD_TP
-							       , TO_CHAR(( SELECT P.RCVD_DT FROM ERP_REV_COLL_F@YGPA_PORTMIS P WHERE P.BILL_NO = L.NTICNO AND ROWNUM = 1 ),'YYYY-MM-DD') RCVD_DT
-							       , ( SELECT P.BILL_AMNT FROM ERP_REV_COLL_F@YGPA_PORTMIS P WHERE P.BILL_NO = L.NTICNO AND ROWNUM = 1 ) BILL_AMNT
-							  FROM ASSETS_RENT_F A,
-							       LEV_REQEST_F L
-							 WHERE 1 = 1
-							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
-							   AND A.MNG_YEAR = L.MNG_YEAR
-							   AND A.MNG_NO = L.MNG_NO
-							   AND A.MNG_CNT = L.MNG_CNT
+								L.PRT_AT_CODE
+								, L.MNG_YEAR
+								, L.MNG_NO
+								, L.MNG_CNT 
+								, (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+								, L.CHRGE_KND
+								, (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = L.CHRGE_KND AND ROWNUM = 1) CHRGE_KND_NM
+								, L.ACCNUT_YEAR
+								, L.NTIC_CNT
+								, TO_CHAR(L.NTIC_DT,'YYYY-MM-DD') NTIC_DT
+								, L.ENTRPSCD
+								, L.ENTRPS_NM
+								, TO_CHAR(L.PAY_TMLMT,'YYYY-MM-DD') PAY_TMLMT
+								, L.FEE
+								, L.NHT_PRINT_YN
+								, L.RM
+								, L.NTICNO
+								, P.RCVD_TP
+								, TO_CHAR(P.RCVD_DT,'YYYY-MM-DD') RCVD_DT
+								, L.NTIC_AMT BILL_AMNT
+							FROM 
+								ASSETS_RENT_F A
+							LEFT OUTER JOIN 
+								LEV_REQEST_F L 
+							ON 
+								(L.PRT_AT_CODE = A.PRT_AT_CODE AND L.MNG_YEAR = A.MNG_YEAR AND L.MNG_NO = A.MNG_NO AND L.MNG_CNT = A.MNG_CNT)
+							LEFT OUTER JOIN 
+								PAYEOSU.REV_COLL_F@YGPA_PORTMIS P 
+							ON 
+								(P.PRT_AT_CODE = L.PRT_AT_CODE AND P.FEE_TP = L.CHRGE_KND AND P.FISCAL_YR = L.ACCNUT_YEAR AND P.BILL_NO = L.NTICNO)
+							WHERE 1 = 1; 
 					
 							<isNotEmpty property="sPrtAtCode">
 					            AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -80,46 +90,106 @@
     </select>
     
     <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireListTotCnt_S" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM ASSETS_RENT_F A,
-                   LEV_REQEST_F L
-             WHERE 1 = 1
-               AND A.PRT_AT_CODE = L.PRT_AT_CODE
-               AND A.MNG_YEAR = L.MNG_YEAR
-               AND A.MNG_NO = L.MNG_NO
-               AND A.MNG_CNT = L.MNG_CNT
-    
-            <isNotEmpty property="sPrtAtCode">
-                AND A.PRT_AT_CODE = #sPrtAtCode#  
-            </isNotEmpty>
-            
-            <isNotEmpty property="sEntrpscd">
-                AND A.ENTRPSCD = #sEntrpscd#
-            </isNotEmpty>
-            
-            <isNotEmpty property="sMngYear">
-                AND L.MNG_YEAR    = #sMngYear#
-            </isNotEmpty>
-            
-            <isNotEmpty property="sMngNo">
-                AND L.MNG_NO      = #sMngNo#
-            </isNotEmpty>
-            
-            <isNotEmpty property="sMngCnt">
-                AND L.MNG_CNT     = #sMngCnt#
-            </isNotEmpty>
-            
-            <isNotEmpty property="sNticPdFrom"> 
-                AND L.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sNticPdFrom#||'000000','yyyy-mm-ddhh24miss')
-            </isNotEmpty>
-            
-            <isNotEmpty property="sNticPdTo">
-                AND L.NTIC_PD_TO <![CDATA[<=]]> TO_DATE(#sNticPdTo#||'235959','yyyy-mm-ddhh24miss')
-            </isNotEmpty>
-            
-            <isNotEmpty property="sChrgeKnd">
-                AND L.CHRGE_KND = #sChrgeKnd#
-            </isNotEmpty>
+            SELECT 
+            		COUNT(*) totcnt
+              FROM 
+					ASSETS_RENT_F A
+				LEFT OUTER JOIN 
+					LEV_REQEST_F L 
+				ON 
+					(L.PRT_AT_CODE = A.PRT_AT_CODE AND L.MNG_YEAR = A.MNG_YEAR AND L.MNG_NO = A.MNG_NO AND L.MNG_CNT = A.MNG_CNT)
+				LEFT OUTER JOIN 
+					PAYEOSU.REV_COLL_F@YGPA_PORTMIS P 
+				ON 
+					(P.PRT_AT_CODE = L.PRT_AT_CODE AND P.FEE_TP = L.CHRGE_KND AND P.FISCAL_YR = L.ACCNUT_YEAR AND P.BILL_NO = L.NTICNO)
+				WHERE 1 = 1; 
+		
+				<isNotEmpty property="sPrtAtCode">
+		            AND A.PRT_AT_CODE = #sPrtAtCode#  
+		        </isNotEmpty>
+		        
+		        <isNotEmpty property="sEntrpscd">
+		            AND A.ENTRPSCD = #sEntrpscd#
+		        </isNotEmpty>
+		        
+		        <isNotEmpty property="sMngYear">
+                    AND L.MNG_YEAR    = #sMngYear#
+                </isNotEmpty>
+                
+                <isNotEmpty property="sMngNo">
+                    AND L.MNG_NO      = #sMngNo#
+                </isNotEmpty>
+                
+                <isNotEmpty property="sMngCnt">
+                    AND L.MNG_CNT     = #sMngCnt#
+                </isNotEmpty>
+                
+                <isNotEmpty property="sNticPdFrom"> 
+                    AND L.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sNticPdFrom#||'000000','yyyy-mm-ddhh24miss')
+                </isNotEmpty>
+                
+                <isNotEmpty property="sNticPdTo">
+                    AND L.NTIC_PD_TO <![CDATA[<=]]> TO_DATE(#sNticPdTo#||'235959','yyyy-mm-ddhh24miss')
+                </isNotEmpty>
+                
+                <isNotEmpty property="sChrgeKnd">
+                    AND L.CHRGE_KND = #sChrgeKnd#
+                </isNotEmpty>
+							                    
+							
     </select>
+    
+    <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireSum_S" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultMap="gamAssetRentfeePayDtlsInqireSumMap">
+            SELECT 
+            
+            	TRIM(TO_CHAR(NVL(SUM(L.NTIC_AMT),0), '999,999,999,999')) AS SUM_BILL_AMNT
+            	,TRIM(TO_CHAR(NVL(SUM(L.FEE),0), '999,999,999,999')) AS SUM_FEE 
+            	,TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
+            	
+              FROM 
+					ASSETS_RENT_F A
+				LEFT OUTER JOIN 
+					LEV_REQEST_F L 
+				ON 
+					(L.PRT_AT_CODE = A.PRT_AT_CODE AND L.MNG_YEAR = A.MNG_YEAR AND L.MNG_NO = A.MNG_NO AND L.MNG_CNT = A.MNG_CNT)
+				LEFT OUTER JOIN 
+					PAYEOSU.REV_COLL_F@YGPA_PORTMIS P 
+				ON 
+					(P.PRT_AT_CODE = L.PRT_AT_CODE AND P.FEE_TP = L.CHRGE_KND AND P.FISCAL_YR = L.ACCNUT_YEAR AND P.BILL_NO = L.NTICNO)
+				WHERE 1 = 1; 
+		
+				<isNotEmpty property="sPrtAtCode">
+		            AND A.PRT_AT_CODE = #sPrtAtCode#  
+		        </isNotEmpty>
+		        
+		        <isNotEmpty property="sEntrpscd">
+		            AND A.ENTRPSCD = #sEntrpscd#
+		        </isNotEmpty>
+		        
+		        <isNotEmpty property="sMngYear">
+                    AND L.MNG_YEAR    = #sMngYear#
+                </isNotEmpty>
+                
+                <isNotEmpty property="sMngNo">
+                    AND L.MNG_NO      = #sMngNo#
+                </isNotEmpty>
+                
+                <isNotEmpty property="sMngCnt">
+                    AND L.MNG_CNT     = #sMngCnt#
+                </isNotEmpty>
+                
+                <isNotEmpty property="sNticPdFrom"> 
+                    AND L.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sNticPdFrom#||'000000','yyyy-mm-ddhh24miss')
+                </isNotEmpty>
+                
+                <isNotEmpty property="sNticPdTo">
+                    AND L.NTIC_PD_TO <![CDATA[<=]]> TO_DATE(#sNticPdTo#||'235959','yyyy-mm-ddhh24miss')
+                </isNotEmpty>
+                
+                <isNotEmpty property="sChrgeKnd">
+                    AND L.CHRGE_KND = #sChrgeKnd#
+                </isNotEmpty>
+    </select>
+    
     
 </sqlMap>

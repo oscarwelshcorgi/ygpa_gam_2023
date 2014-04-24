@@ -43,4 +43,16 @@ public class GamAssetTotalRentfeeInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireListTotCnt_S", searchVO);
     }
     
+    
+    
+    /**
+	 * 사용료합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamAssetTotalRentfeeInqireVO selectAssetTotalRentfeeInqireSum(GamAssetTotalRentfeeInqireVO searchVO) throws Exception {
+    	return (GamAssetTotalRentfeeInqireVO) selectByPk("gamAssetTotalRentfeeInqireDao.selectAssetTotalRentfeeInqireSum_S", searchVO);
+    }
+    
 }

@@ -62,5 +62,16 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
     public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum(searchVO);
     }
+    
+    
+    /**
+	 * 고지금액합계, 수납금액합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum(searchVO);
+    }
 
 }

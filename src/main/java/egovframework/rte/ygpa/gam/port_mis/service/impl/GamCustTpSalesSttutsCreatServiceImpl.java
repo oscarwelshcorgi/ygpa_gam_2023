@@ -81,6 +81,16 @@ public class GamCustTpSalesSttutsCreatServiceImpl extends AbstractServiceImpl im
 	public int selectCustAgentSalesSttutsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 		return gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsListTotCnt(searchVO);
 	}
+	
+	/**
+	 * 업체별 매출액 합계, 자료
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 업체별 매출액 통계 레코드 수
+	 * @exception
+	 */
+	public GamCustTpSalesSttutsCreatVO selectErpStatisticsListSum(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+		return gamCustTpSalesSttutsCreatDao.selectErpStatisticsListSum(searchVO);
+	}
 
 	/**
 	 * 선사별 매출액 통계
@@ -101,5 +111,16 @@ public class GamCustTpSalesSttutsCreatServiceImpl extends AbstractServiceImpl im
 	 */
 	public int selectCustTpSalesSttutsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 		return gamCustTpSalesSttutsCreatDao.selectCustTpSalesSttutsListTotCnt(searchVO);
+	}
+	
+	
+	/**
+	 * 선사별 매출액 합계, 자료
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 업체별 매출액 통계 레코드 수
+	 * @exception
+	 */
+	public GamCustTpSalesSttutsCreatVO selectShipErpStatisticsListSum(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
+		return gamCustTpSalesSttutsCreatDao.selectShipErpStatisticsListSum(searchVO);
 	}
 }

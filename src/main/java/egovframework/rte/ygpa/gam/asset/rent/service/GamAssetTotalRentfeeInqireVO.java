@@ -82,6 +82,14 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
     
     private String sGisAssetsLocCd;
     
+    
+    /** 사용료 합계 */
+    private String sumFee;
+    
+    /** 디스플레이 자료수 */
+    private String dpTotCnt;
+    
+    
 	/**
 	 * @return the usageYear
 	 */
@@ -486,6 +494,34 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	 */
 	public void setsGisAssetsLocCd(String sGisAssetsLocCd) {
 		this.sGisAssetsLocCd = sGisAssetsLocCd;
+	}
+
+	/**
+	 * @return the sumFee
+	 */
+	public String getSumFee() {
+		return sumFee;
+	}
+
+	/**
+	 * @param sumFee the sumFee to set
+	 */
+	public void setSumFee(String sumFee) {
+		this.sumFee = sumFee;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
 	}
 	
 	

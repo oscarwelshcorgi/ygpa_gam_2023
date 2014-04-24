@@ -52,4 +52,15 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 		return (GamAssetRentFeePayDtlsMngtVO) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum_S", searchVO);
 	}
 	
+	
+	/**
+	 * 고지금액합계, 수납금액합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+	public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (GamAssetRentFeePayDtlsMngtVO) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum_S", searchVO);
+	}
+	
 }

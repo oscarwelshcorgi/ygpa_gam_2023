@@ -8,6 +8,17 @@
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="nticPayListVO" type="egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO"/>
     
+    <resultMap id="gamNticPayListSumMap" class="nticPayListVO">
+        <result property="sumBillAmnt" column="SUM_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumRcvdAmnt" column="SUM_RCVD_AMNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <resultMap id="gamDlyNticPayListSumMap" class="nticPayListVO">
+        <result property="sumDlyBillAmnt" column="SUM_DLY_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+    
     <select id="gamNticPayListDao.selectNticPayList" parameterClass="nticPayListVO" resultClass="egovMap">
 			SELECT A.* 
 				  FROM 
@@ -179,6 +190,66 @@
     </select>
     
     
+    <select id="gamNticPayListDao.selectNticPayListSum_S" parameterClass="nticPayListVO" resultMap="gamNticPayListSumMap">
+            SELECT 
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
+            	,TRIM(TO_CHAR(NVL(SUM(T1.BILL_AMNT),0), '999,999,999,999')) AS SUM_BILL_AMNT 
+            	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN T1.RCVD_TP = 2 OR T1.RCVD_TP = 3 THEN T1.BILL_AMNT END),0), '999,999,999,999')) AS SUM_RCVD_AMNT 
+			FROM 
+				PAYEOSU.ERP_REV_COLL_F@YGPA_PORTMIS T1
+			LEFT OUTER JOIN 
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+			ON 
+				(
+					T1.PRT_AT_CODE=T4.PRT_AT_CODE
+				)
+			LEFT OUTER JOIN 
+				PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+			ON 
+				(
+					T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.FEE_TP=T3.FEE_TP
+				)
+			LEFT OUTER JOIN 
+				P2MGR.FACIL_NM_F@YGPA_P2MGR T2 
+			ON 
+				(
+					T1.PRT_AT_CODE=T2.PRT_AT_CODE AND 
+					T1.FAC_CODE=T2.FAC_CODE AND 
+					T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
+				)
+			WHERE 1 = 1 
+			
+				<isNotEmpty property="prtAtCode">
+                    AND T1.PRT_AT_CODE = #prtAtCode#
+                </isNotEmpty>
+
+				<isNotEmpty property="sGrUsagePdFrom">
+               		<![CDATA[ AND T1.BILL_DT>=TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD') ]]>
+               		<isNotEmpty property="sGrUsagePdTo">
+               			<![CDATA[ AND T1.BILL_DT<=TO_DATE(#sGrUsagePdTo#,'YYYY-MM-DD') ]]>
+               		</isNotEmpty>
+               	</isNotEmpty>
+               	
+               	<isNotEmpty property="chrgeKndCd">
+                    AND T1.FEE_TP = #chrgeKndCd#
+                </isNotEmpty>
+                
+                <isNotEmpty property="rcivSe">
+                    AND T1.RCVD_TP = #rcivSe#
+                </isNotEmpty>
+                
+                <isNotEmpty property="fiscalYr">
+                    AND T1.FISCAL_YR = #fiscalYr#
+                </isNotEmpty>
+                
+                <isNotEmpty property="nticno">
+                    AND T1.BILL_NO = #nticno#
+                </isNotEmpty>
+
+				AND T1.SYSTEM_GUBUN='02'
+    </select>
+    
+    
     <select id="gamNticPayListDao.selectDelayNticPayList" parameterClass="nticPayListVO" resultClass="egovMap">
 			SELECT A.* 
 				  FROM 
@@ -284,6 +355,40 @@
 
 					AND T1.SYSTEM_GUBUN='02'
 
+    </select>
+    
+    <select id="gamNticPayListDao.selectDelayNticPayListSum_S" parameterClass="nticPayListVO" resultMap="gamDlyNticPayListSumMap">
+            SELECT 
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
+            	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT 
+			FROM 
+					PAYEOSU.ERP_UNPAIN_F@YGPA_PORTMIS T1
+				LEFT OUTER JOIN 
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+				ON 
+					(
+					T1.PRT_AT_CODE=T4.PRT_AT_CODE
+					)
+				LEFT OUTER JOIN 
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+				ON 
+					(
+					T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+					AND T1.FEE_TP=T3.FEE_TP
+					)
+				LEFT OUTER JOIN 
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+				ON 
+					(
+					T1.AGENT_CODE=T2.AGENT_CODE
+					)
+				WHERE 1=1 
+				
+					<isNotEmpty property="intSeq">
+	                    AND T1.INT_SEQ = #intSeq#
+	                </isNotEmpty>
+
+					AND T1.SYSTEM_GUBUN='02'
     </select>
 
     

@@ -45,6 +45,15 @@ public interface GamNticPayListService {
 	
 	
 	/**
+	 * 자료수와 고지금액합계,수납금액(수납구분이 2나 3)합계
+	 * @param vo
+	 * @return vo
+	 * @throws Exception
+	 */
+	GamNticPayListVO selectNticPayListSum(GamNticPayListVO vo) throws Exception;
+	
+	
+	/**
 	 * 연체세입목록조회
 	 * @param vo
 	 * @return list
@@ -60,4 +69,13 @@ public interface GamNticPayListService {
 	 * @throws Exception
 	 */
 	int selectDelayNticPayListTotCnt(GamNticPayListVO vo) throws Exception;
+	
+	
+	/**
+	 * 자료수와 미납고지금액합계
+	 * @param vo
+	 * @return vo
+	 * @throws Exception
+	 */
+	GamNticPayListVO selectDelayNticPayListSum(GamNticPayListVO vo) throws Exception;
 }

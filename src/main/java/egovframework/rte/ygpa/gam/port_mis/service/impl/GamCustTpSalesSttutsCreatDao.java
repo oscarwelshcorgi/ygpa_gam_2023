@@ -73,6 +73,16 @@ public class GamCustTpSalesSttutsCreatDao extends YGPAAbstractDAO {
     int selectCustAgentSalesSttutsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) {
     	return (Integer)getSqlMapClientTemplate().queryForObject("gamCustTpSalesSttutsCreatDao.selectCustAgentSalesSttutsListTotCnt_S", searchVO);
     }
+    
+    /**
+	 * 업체별 매출액 합계, 자료
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 업체별 매출액 통계 레코드 수
+	 * @exception
+	 */
+    GamCustTpSalesSttutsCreatVO selectErpStatisticsListSum(GamCustTpSalesSttutsCreatVO searchVO) {
+    	return (GamCustTpSalesSttutsCreatVO) selectByPk("gamCustTpSalesSttutsCreatDao.selectErpStatisticsListSum_S", searchVO);
+    }
 
     /**
 	 * 선사별 매출액 통계
@@ -92,5 +102,15 @@ public class GamCustTpSalesSttutsCreatDao extends YGPAAbstractDAO {
 	 */
     int selectCustTpSalesSttutsListTotCnt(GamCustTpSalesSttutsCreatVO searchVO) {
     	return (Integer)getSqlMapClientTemplate().queryForObject("gamCustTpSalesSttutsCreatDao.selectCustTpSalesSttutsListTotCnt_S", searchVO);
+    }
+    
+    /**
+	 * 선사별 매출액 합계, 자료
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 업체별 매출액 통계 레코드 수
+	 * @exception
+	 */
+    GamCustTpSalesSttutsCreatVO selectShipErpStatisticsListSum(GamCustTpSalesSttutsCreatVO searchVO) {
+    	return (GamCustTpSalesSttutsCreatVO) selectByPk("gamCustTpSalesSttutsCreatDao.selectShipErpStatisticsListSum_S", searchVO);
     }
 }

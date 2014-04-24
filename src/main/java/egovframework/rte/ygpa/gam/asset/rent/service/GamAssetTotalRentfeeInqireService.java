@@ -31,4 +31,13 @@ public interface GamAssetTotalRentfeeInqireService {
    	 * @exception
    	 */
     int selectAssetTotalRentfeeInqireListTotCnt(GamAssetTotalRentfeeInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 사용료합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamAssetTotalRentfeeInqireVO selectAssetTotalRentfeeInqireSum(GamAssetTotalRentfeeInqireVO searchVO) throws Exception;
 }

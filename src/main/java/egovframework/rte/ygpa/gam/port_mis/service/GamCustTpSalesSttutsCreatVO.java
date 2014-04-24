@@ -81,6 +81,12 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
     /** 선사별 매출액 통계 조회 끝월 */
     private String sEgrEndMn;
     
+    /**  자료수 천단위 화면단 */
+    private String dpTotCnt;
+    
+    /** 매출액합계금액 */
+    private String sumCostval;
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -375,6 +381,34 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 	 */
 	public void setsEgrEndMn(String sEgrEndMn) {
 		this.sEgrEndMn = sEgrEndMn;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
+	}
+
+	/**
+	 * @return the sumCostval
+	 */
+	public String getSumCostval() {
+		return sumCostval;
+	}
+
+	/**
+	 * @param sumCostval the sumCostval to set
+	 */
+	public void setSumCostval(String sumCostval) {
+		this.sumCostval = sumCostval;
 	}
 
 	

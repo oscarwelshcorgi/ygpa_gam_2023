@@ -286,6 +286,9 @@ public class GamCustTpSalesSttutsCreatController {
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectCustAgentSalesSttutsList(searchVO);
+    	
+    	//자료수, 매출액합계
+    	GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectErpStatisticsListSum(searchVO);
 
     	
 //    	System.out.print("test : ##################" + resultList);
@@ -293,14 +296,14 @@ public class GamCustTpSalesSttutsCreatController {
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
-    	//자료수, 사용료, 부가세, 고지액
-    	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);
-        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumCostval", resultSum.getSumCostval());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
   
     	return map;
     }
@@ -360,6 +363,9 @@ public class GamCustTpSalesSttutsCreatController {
 		//목록
     	totalCnt = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsListTotCnt(searchVO);
     	List resultList = gamCustTpSalesSttutsCreatService.selectCustTpSalesSttutsList(searchVO);
+    	
+    	//자료수, 매출액합계
+    	GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectShipErpStatisticsListSum(searchVO);
 
     	
 //    	System.out.print("test : ##################" + resultList);
@@ -369,12 +375,15 @@ public class GamCustTpSalesSttutsCreatController {
     	
     	//자료수, 사용료, 부가세, 고지액
     	//GamCustTpSalesSttutsCreatVO resultSum = gamCustTpSalesSttutsCreatService.selectFcltyUseSttusInqireSum(searchVO);
-        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
+//        GamCustTpSalesSttutsCreatVO resultSum = new GamCustTpSalesSttutsCreatVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumCostval", resultSum.getSumCostval());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
   
     	return map;
     }

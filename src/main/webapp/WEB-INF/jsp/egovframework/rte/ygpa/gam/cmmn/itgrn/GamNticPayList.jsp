@@ -75,7 +75,14 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "350"
+		height: "350",
+		preProcess: function(module,data) {
+            module.$('#totalResultCnt').val(data.dpTotCnt);
+            module.$('#totalRcvdAmnt').val(data.sumRcvdAmnt);
+            module.$('#totalBillAmnt').val(data.sumBillAmnt);
+      
+            return data;
+        }
 	});
 	
 	// 연체세입
@@ -113,7 +120,13 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		useRp: true,
 		rp: 24,
 		showTableToggleBtn: false,
-		height: "350"
+		height: "350",
+		preProcess: function(module,data) {
+            module.$('#totalResultCnt1').val(data.dpTotCnt);
+            module.$('#totalDlyBillAmnt').val(data.sumDlyBillAmnt);
+      
+            return data;
+        }
 	});
 	
 	this.$("#nticPayList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -283,7 +296,22 @@ var module_instance = new GamNticPayListModule();
 			<div id="tabs1" class="emdTabPage">
 				<table id="nticPayList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="btnNticPayListExcelDownload">엑셀</button>
+					<table style="width:100%;">
+                        <tr>
+                            <td>
+                               <form id="form1">
+                                   합계 : 
+                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
+								   수납금액합계 <input id="totalRcvdAmnt" type="text" size="15" style="text-align:right;" readonly>원
+                               </form>
+                            </td>
+                            <td>
+                            	<button id="btnNticPayListExcelDownload">엑셀</button>
+                            </td>
+                        </tr>
+                    </table>
+					
 					<%-- <form id="delayNticPayListForm">
 						<input type="hidden" id="intSeq">
 					</form> --%>
@@ -292,7 +320,21 @@ var module_instance = new GamNticPayListModule();
 			<div id="tabs2" class="emdTabPage">
 				<table id="delayNticPayList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="btnDelayNticPayListExcelDownload">엑셀</button>
+					<table style="width:100%;">
+                        <tr>
+                            <td>
+                               <form id="form1">
+                                   합계 : 
+                                   자료수 <input id="totalResultCnt1" size="15" style="text-align:right;" readonly>
+								   연체고지금액합계 <input id="totalDlyBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
+                               </form>
+                            </td>
+                            <td>
+                            	<button id="btnDelayNticPayListExcelDownload">엑셀</button>
+                            </td>
+                        </tr>
+                    </table>
+					
 				</div>
 			</div>
 		</div>
