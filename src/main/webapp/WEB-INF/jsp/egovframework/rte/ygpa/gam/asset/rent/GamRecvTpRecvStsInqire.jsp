@@ -44,7 +44,16 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
      useRp: true,
      rp: 24,
      showTableToggleBtn: false,
-     height: '290'
+     height: '290',
+     preProcess: function(module,data) {
+         module.$('#totSumCnt').val(data.totSumCnt);
+         module.$('#totSumNickAmt').val(data.totSumNickAmt);
+         module.$('#totSumDscntAmt').val(data.totSumDscntAmt);
+
+         module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+         
+         return data;
+ 	}
  });
 };
      
@@ -167,28 +176,26 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="recvTpRecvStsInqireList" style="display:none" class="fillHeight"></table>
                
-                <!-- 
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
                             <td>
                                <form id="form1">
-                                                                        합계
-                                                                        자료수 <input id="totalResultCnt" size="5" readonly>
-                                                                        사용료 <input id="sumFee" type="text" size="14" readonly>
-                                                                        연체 <input id="sumArrrgAmt" type="text" size="14" readonly>
-                                                                        부가세 <input id="sumVat" type="text" size="14" readonly>
-                                                                        고지액 <input id="sumNticAmt" type="text" size="14" readonly>
+                                                   합계
+                       				자료수 <input id="totSumCnt" size="15" style="text-align:right;" readonly>
+					                        총금액 <input id="totSumNickAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                       				총할인금액 <input id="totSumDscntAmt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
                                </form>
                             </td>
+                            <!-- 
                             <td>
                                 <button id="saveNticListBtn">고지의뢰</button>
                                 <button id="cancelNticListBtn">고지취소</button>
                             </td>
+                            -->
                         </tr>
                     </table>
                 </div>
-                 -->
             </div>
             
             <!-- 
