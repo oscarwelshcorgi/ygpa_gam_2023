@@ -7,6 +7,11 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamPrtFcltyRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO"/>
     
+    <resultMap id="gamPrtFcltyRentFeePaySttusMngtSumMap" class="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumNticAmt" column="SUM_BILL_AMNT" columnIndex="2"/>
+    </resultMap>
+    
     <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtList_D" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -75,6 +80,29 @@
     <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtListTotCnt_S" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
+            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
+			    , LEV_REQEST_F LE
+			WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->
+			AND (
+			        (LE.PRT_AT_CODE, LE.MNG_YEAR, LE.MNG_NO, LE.MNG_CNT) IN (
+			                                                  SELECT   R.PRT_AT_CODE
+			                                                         , R.MNG_YEAR
+			                                                         , R.MNG_NO
+			                                                         , R.MNG_CNT 
+			                                                   FROM ASSETS_RENT_F R
+			                                                   WHERE R.QUAY_GROUP_CD = 'G' <!-- 일반부두 -->
+			                                                 )
+			    ) 
+	       
+	        <isNotEmpty property="sPrtAtCode">
+                   AND PO.PRT_AT_CODE = #sPrtAtCode#
+             </isNotEmpty>
+    </select>
+
+    <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtSum_S" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultMap="gamPrtFcltyRentFeePaySttusMngtSumMap">
+            SELECT 
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(PO.BILL_AMNT),0), '999,999,999,999')) SUM_BILL_AMNT
             FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
 			    , LEV_REQEST_F LE
 			WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->

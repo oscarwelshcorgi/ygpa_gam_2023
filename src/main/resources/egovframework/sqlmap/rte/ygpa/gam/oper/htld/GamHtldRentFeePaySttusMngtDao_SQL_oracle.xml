@@ -6,6 +6,11 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamHtldRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO"/>
+
+    <resultMap id="gamHtldRentFeePaySttusMngtSumMap" class="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumNticAmt" column="SUM_BILL_AMNT" columnIndex="2"/>
+    </resultMap>
     
     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtList_D" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
            SELECT A.*
@@ -94,4 +99,27 @@
              </isNotEmpty>
     </select>
     
+     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtSum_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultMap="gamHtldRentFeePaySttusMngtSumMap">
+            SELECT 
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(PO.BILL_AMNT),0), '999,999,999,999')) SUM_BILL_AMNT
+            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
+			    , LEV_REQEST_F LE
+			WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->
+			AND (
+			        (LE.PRT_AT_CODE, LE.MNG_YEAR, LE.MNG_NO, LE.MNG_CNT) IN (
+			                                                  SELECT   R.PRT_AT_CODE
+			                                                         , R.MNG_YEAR
+			                                                         , R.MNG_NO
+			                                                         , R.MNG_CNT 
+			                                                   FROM ASSETS_RENT_F R
+			                                                   WHERE R.QUAY_GROUP_CD = 'H' <!-- 배후단지 -->
+			                                                 )
+			    ) 
+	       
+	        <isNotEmpty property="sPrtAtCode">
+                   AND PO.PRT_AT_CODE = #sPrtAtCode#
+             </isNotEmpty>
+    </select>
+
 </sqlMap>

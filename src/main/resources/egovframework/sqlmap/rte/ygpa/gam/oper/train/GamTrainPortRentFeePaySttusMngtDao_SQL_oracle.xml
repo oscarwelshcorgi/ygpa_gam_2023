@@ -6,6 +6,11 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamTrainPortRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO"/>
+
+    <resultMap id="gamTrainPortRentFeePaySttusMngtSumMap" class="egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumNticAmt" column="SUM_BILL_AMNT" columnIndex="2"/>
+    </resultMap>
     
     <select id="gamTrainPortRentFeePaySttusMngtDao.selectTrainPortRentFeePaySttusMngtList_D" parameterClass="gamTrainPortRentFeePaySttusMngtVO" resultClass="egovMap">
            SELECT A.*
@@ -93,5 +98,28 @@
                    AND PO.PRT_AT_CODE = #sPrtAtCode#
              </isNotEmpty>
     </select>
-    
+ 
+    <select id="gamTrainPortRentFeePaySttusMngtDao.selectTrainPortRentFeePaySttusMngtSum_S" parameterClass="gamTrainPortRentFeePaySttusMngtVO" resultMap="gamTrainPortRentFeePaySttusMngtSumMap">
+            SELECT 
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(PO.BILL_AMNT),0), '999,999,999,999')) SUM_BILL_AMNT
+            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
+			    , LEV_REQEST_F LE
+			WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->
+			AND (
+			        (LE.PRT_AT_CODE, LE.MNG_YEAR, LE.MNG_NO, LE.MNG_CNT) IN (
+			                                                  SELECT   R.PRT_AT_CODE
+			                                                         , R.MNG_YEAR
+			                                                         , R.MNG_NO
+			                                                         , R.MNG_CNT 
+			                                                   FROM ASSETS_RENT_F R
+			                                                   WHERE R.QUAY_GROUP_CD = 'T' <!-- 철송장 -->
+			                                                 )
+			    ) 
+	       
+	        <isNotEmpty property="sPrtAtCode">
+                   AND PO.PRT_AT_CODE = #sPrtAtCode#
+             </isNotEmpty>
+    </select>
+       
 </sqlMap>

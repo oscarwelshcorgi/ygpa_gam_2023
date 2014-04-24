@@ -273,7 +273,6 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                         <table id="htldRentFeePaySttusMngtList" style="display:none" class="fillHeight"></table>
                 <!-- </div>  -->
                 
-                <!-- 
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
@@ -281,18 +280,21 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                                <form id="form1">
                                     합계
                                     자료수 <input id="totalResultCnt" size="5" readonly>
+                        <!-- 
                                     사용료 <input id="sumFee" type="text" size="14" readonly>
                                     부가세 <input id="sumVat" type="text" size="14" readonly>
+                        -->
                                     고지액 <input id="sumNticAmt" type="text" size="14" readonly>
                                </form>
                             </td>
+                            <!--
                             <td>
                                 <button id="mapInfoBtn">맵정보</button>
                             </td>
+                            -->
                         </tr>
                     </table>
                 </div>
-                 -->
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
