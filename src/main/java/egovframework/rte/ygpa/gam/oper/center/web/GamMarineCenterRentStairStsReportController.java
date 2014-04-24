@@ -113,6 +113,8 @@ public class GamMarineCenterRentStairStsReportController {
     	totalCnt = gamMarineCenterRentStairStsReportService.selectMarineCenterRentStairStsReportListTotCnt(searchVO);
     	List assetRentList = gamMarineCenterRentStairStsReportService.selectMarineCenterRentStairStsReportList(searchVO);
     	
+    	GamMarineCenterRentStairStsReportVO resultSum = gamMarineCenterRentStairStsReportService.selectMarineCenterRentStairStsReportSum(searchVO);
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
@@ -120,6 +122,9 @@ public class GamMarineCenterRentStairStsReportController {
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
     	
+    	map.put("sumCnt", resultSum.getSumCnt());
+    	map.put("sumFee", resultSum.getSumFee());
+    	map.put("sumRdcxptFee", resultSum.getSumRdcxptFee());    	
     	return map;
     }
 	

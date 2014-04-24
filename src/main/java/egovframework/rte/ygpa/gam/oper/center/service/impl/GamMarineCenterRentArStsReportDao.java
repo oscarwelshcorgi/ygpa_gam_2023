@@ -41,5 +41,14 @@ public class GamMarineCenterRentArStsReportDao extends YGPAAbstractDAO {
     public int selectMarineCenterRentArStsReportListTotCnt(GamMarineCenterRentArStsReportVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamMarineCenterRentArStsReportDao.selectMarineCenterRentArStsReportListTotCnt_S", searchVO);
     }
-    
+
+    /**
+	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 마린센터층별사용료현황 목록
+	 * @exception Exception
+	 */
+	public GamMarineCenterRentArStsReportVO selectMarineCenterRentArStsReportSum(GamMarineCenterRentArStsReportVO searchVO) throws Exception {
+		return (GamMarineCenterRentArStsReportVO) selectByPk("gamMarineCenterRentArStsReportDao.selectMarineCenterRentArStsReportSum_S", searchVO);
+	}
 }

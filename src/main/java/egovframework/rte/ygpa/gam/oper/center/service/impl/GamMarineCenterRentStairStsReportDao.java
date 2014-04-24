@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentNticMngtVO;
 import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentStairStsReportVO;
 
 /**
@@ -41,5 +42,15 @@ public class GamMarineCenterRentStairStsReportDao extends YGPAAbstractDAO {
     public int selectMarineCenterRentStairStsReportListTotCnt(GamMarineCenterRentStairStsReportVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportListTotCnt_S", searchVO);
     }
-    
+
+    /**
+	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 마린센터층별사용료현황 목록
+	 * @exception Exception
+	 */
+	public GamMarineCenterRentStairStsReportVO selectMarineCenterRentStairStsReportSum(GamMarineCenterRentStairStsReportVO searchVO) throws Exception {
+		return (GamMarineCenterRentStairStsReportVO) selectByPk("gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportSum_S", searchVO);
+	}
+
 }

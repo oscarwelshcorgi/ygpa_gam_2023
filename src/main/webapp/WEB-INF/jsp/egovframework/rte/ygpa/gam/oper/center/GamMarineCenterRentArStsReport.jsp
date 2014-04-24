@@ -50,7 +50,16 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
                  {display:'수정일시', name:'updtDt',width:150, sortable:false,align:'center'}
                  ],
      showTableToggleBtn: false,
-     height: 'auto'
+     height: 'auto',
+     preProcess: function(module,data) {
+             module.$('#totalCnt').val(data.sumCnt);
+             module.$('#totalFee').val(data.sumFee);
+             module.$('#totalRdcFee').val(data.sumRdcxptFee);
+
+             module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+             
+             return data;
+     }
  });
 
  //로드될 때 사용기간에 오늘날짜 처리
@@ -178,20 +187,20 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="marineCenterRentArStsReportList" style="display:none" class="fillHeight"></table>
-            <!-- 
             <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
-                            <td style="text-align: right">
+                            <td>
                                <form id="form1">
-                                   사용료 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                                   감면사용료 <input id="totalResultRdcCnt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+                       합계
+                       자료수 <input id="totalCnt" size="15" style="text-align:right;" readonly>
+                       사용료 <input id="totalFee" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                       감면사용료 <input id="totalRdcFee" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
                                </form>
                             </td>
                         </tr>
                      </table>
             </div>
-             -->
 		</div>
             
     </div>

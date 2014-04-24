@@ -53,5 +53,16 @@ public class GamMarineCenterRentStairStsReportServiceImpl  extends AbstractServi
    		//return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
     	   return gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportListTotCnt(searchVO);
    	}
+
+    
+       /**
+      	 * 마린센터층별사용료현황 자료수, 사용료, 감면사용료 합계 
+      	 * @param searchVO - 조회할 정보가 담긴 VO
+      	 * @return 총 합계 정보
+      	 * @exception
+      	 */
+	public GamMarineCenterRentStairStsReportVO selectMarineCenterRentStairStsReportSum(GamMarineCenterRentStairStsReportVO searchVO) throws Exception {
+		return gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportSum(searchVO);
+	}
     
 }

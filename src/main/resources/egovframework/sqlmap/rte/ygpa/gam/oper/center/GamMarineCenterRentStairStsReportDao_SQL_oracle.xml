@@ -6,6 +6,12 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamMarineCenterRentStairStsReportVO" type="egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentStairStsReportVO"/>
+ 
+    <resultMap id="gamMarineCenterRentStairStsReportSumMap" class="egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentStairStsReportVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
+        <result property="sumRdcxptFee" column="SUM_RDCXPT_FEE" columnIndex="3"/>
+    </resultMap>
     
     <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportList_D" parameterClass="gamMarineCenterRentStairStsReportVO" resultClass="egovMap">
         SELECT A.*
@@ -63,6 +69,34 @@
     
     <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportListTotCnt_S" parameterClass="gamMarineCenterRentStairStsReportVO" resultClass="int">
             SELECT COUNT(*) totcnt
+              FROM USAGE_PD_BY_STATS_F
+              WHERE QUAY_CD = 'X'
+              
+              <isNotEmpty property="sPrtAtCode">
+                  AND PRT_AT_CODE = #sPrtAtCode#  
+              </isNotEmpty>
+              
+              <isNotEmpty property="sEntrpscd">
+                  AND REQST_ENTRPS_CD = #sEntrpscd#  
+              </isNotEmpty>
+              
+              <isNotEmpty property="sGrUsagePdFrom"> 
+                  AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+              </isNotEmpty>
+              
+              <isNotEmpty property="sGrUsagePdTo">
+                  AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+              </isNotEmpty>
+              <!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
+                                  
+              ORDER BY USAGE_YEAR, USAGE_MT DESC
+    </select>
+
+    <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportSum_S" parameterClass="gamMarineCenterRentStairStsReportVO" resultMap="gamMarineCenterRentStairStsReportSumMap">
+            SELECT
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(FEE),0), '999,999,999,999')) SUM_FEE
+               , TRIM(TO_CHAR(NVL(SUM(RDCXPT_FEE),0), '999,999,999,999')) SUM_RDCXPT_FEE
               FROM USAGE_PD_BY_STATS_F
               WHERE QUAY_CD = 'X'
               

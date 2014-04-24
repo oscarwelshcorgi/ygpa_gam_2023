@@ -31,4 +31,13 @@ public interface GamMarineCenterRentStairStsReportService {
    	 * @exception
    	 */
     int selectMarineCenterRentStairStsReportListTotCnt(GamMarineCenterRentStairStsReportVO searchVO) throws Exception;
+
+    /**
+   	 * 마린센터층별사용료현황 자료수, 사용료, 감면사용료.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return cnt
+   	 * @exception
+   	 */
+    GamMarineCenterRentStairStsReportVO selectMarineCenterRentStairStsReportSum(GamMarineCenterRentStairStsReportVO searchVO) throws Exception;
+    
 }

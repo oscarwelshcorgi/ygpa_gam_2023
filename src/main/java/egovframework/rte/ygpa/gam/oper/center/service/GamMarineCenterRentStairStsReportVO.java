@@ -62,6 +62,12 @@ public class GamMarineCenterRentStairStsReportVO extends ComDefaultVO {
     
     private String quayCd;
     
+    private String sumCnt;
+    
+    private String sumFee;
+    
+    private String sumRdcxptFee;
+    
     /** 검색 항코드 */
     private String sPrtAtCode;
     
@@ -73,6 +79,48 @@ public class GamMarineCenterRentStairStsReportVO extends ComDefaultVO {
     
     /** 검색 사용기간 종료 */
     private String sGrUsagePdTo;
+
+	/**
+	 * @return the sumCnt
+	 */
+	public String getSumCnt() {
+		return sumCnt;
+	}
+
+	/**
+	 * @param sumCnt the sumCnt to set
+	 */
+	public void setSumCnt(String sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+
+	/**
+	 * @return the sumFee
+	 */
+	public String getSumFee() {
+		return sumFee;
+	}
+
+	/**
+	 * @param sumFee the sumFee to set
+	 */
+	public void setSumFee(String sumFee) {
+		this.sumFee = sumFee;
+	}
+
+	/**
+	 * @return the sumRdcxptFee
+	 */
+	public String getSumRdcxptFee() {
+		return sumRdcxptFee;
+	}
+
+	/**
+	 * @param sumRdcxptFee the sumRdcxptFee to set
+	 */
+	public void setSumRdcxptFee(String sumRdcxptFee) {
+		this.sumRdcxptFee = sumRdcxptFee;
+	}
 
 	/**
 	 * @return the usageYear

@@ -145,8 +145,8 @@ public class GamMarineCenterRentNticMngtController {
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	//자료수, 사용료, 부가세, 고지액
-    	//GamMarineCenterRentNticMngtVO resultSum = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticSum(searchVO);
-    	GamMarineCenterRentNticMngtVO resultSum = new GamMarineCenterRentNticMngtVO();
+    	GamMarineCenterRentNticMngtVO resultSum = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticSum(searchVO);
+    	//GamMarineCenterRentNticMngtVO resultSum = new GamMarineCenterRentNticMngtVO();
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -156,12 +156,15 @@ public class GamMarineCenterRentNticMngtController {
     	/*
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
-    	map.put("sumNticAmt", resultSum.getSumNticAmt());
     	*/
+    	map.put("sumCnt", resultSum.getSumCnt());
+    	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	
+    	/*
     	map.put("sumFee", "");
     	map.put("sumVat", "");
     	map.put("sumNticAmt", "");
-    	
+    	*/    	
     	return map;
     }
 	

@@ -115,7 +115,7 @@ public class GamMarineCenterRentCmpyStsReportController {
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+        
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
