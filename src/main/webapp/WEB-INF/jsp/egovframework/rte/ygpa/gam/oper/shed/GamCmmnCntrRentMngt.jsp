@@ -10,14 +10,14 @@
   * @Class Name : GamCmmnCntrRentMngt.jsp
   * @Description : 공컨장치장임대목록관리
   * @Modification Information
-  *
-  *   수정일          수정자                   수정내용
+  * 
+  *   수정일          수정자                   수정내용 
   *  -------    --------    ---------------------------
   *  2014.01.14  domh          최초 생성
   *
   * author domh
   * since 2014.01.14
-  *
+  *  
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -43,24 +43,24 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/shed/gamSelectCmmnCntrRentMngtList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
-                    {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
-                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
-                    {display:'업체코드', name:'entrpscd',width:85, sortable:false,align:'center'},
-                    {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
-                    {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
-                    {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
+                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'}, 
+                    {display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'}, 
+                    {display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'}, 
+                    {display:'업체코드', name:'entrpscd',width:85, sortable:false,align:'center'}, 
+                    {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'}, 
+                    {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'}, 
+                    {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'}, 
                     {display:'승낙여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
-                    {display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'최초신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
-                    {display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
+                    {display:'총사용금액', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
+                    {display:'총사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'}, 
+                    {display:'최초신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'}, 
+                    {display:'최초승낙일', name:'frstPrmisnDt',width:90, sortable:false,align:'center'}, 
                     //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
-                    {display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
-
+                    {display:'승낙일자', name:'prmisnDt',width:70, sortable:false,align:'center'} 
+                    
                     /*
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'}, 
                     {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
                     {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
                     {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
@@ -112,7 +112,7 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
                     {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
                     //{display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
-
+                    
                     /*
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
@@ -154,7 +154,7 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto'
     });
-
+    
     // 첨부파일 테이블 설정
     this.$("#cmmnCntrRentMngtFileList").flexigrid({
         module: this,
@@ -181,23 +181,23 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto'
     });
-
+    
     this.$("#cmmnCntrRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
-
+    	
     	module.$('#gamCmmnCntrRentMngtForm :input').val('');
-
+    	
     	module.makeFormValues('#gamCmmnCntrRentMngtForm', row);
         module._editData=module.getFormValues('#gamCmmnCntrRentMngtForm', row);
         module._editRow=module.$('#cmmnCntrRentMngtList').selectedRowIds()[0];
-
+        
         //해당하는 공컨장치장임대상세 목록과 파일목록를 불러온다.
         module.$('#detailPrtAtCode').val(row['prtAtCode']);
         module.$('#prtAtCodeStr').val(row['prtAtCode']);
         module.$('#detailMngYear').val(row['mngYear']);
         module.$('#detailMngNo').val(row['mngNo']);
         module.$('#detailMngCnt').val(row['mngCnt']);
-
+        
         if( row['prmisnYn'] == 'Y' ) {
         	module.$('#entrpscd').attr('readonly', true);
         	module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
@@ -207,21 +207,21 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
         module.$('#cmmnCntrRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
         module.$('#cmmnCntrRentMngtFileList').flexOptions({params:searchOpt}).flexReload();
     });
-
+    
     this.$("#cmmnCntrRentMngtDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
         module.$('#gamCmmnCntrRentMngtDetailForm :input').val('');
-
+        
         module.makeFormValues('#gamCmmnCntrRentMngtDetailForm', row);
         module._editData=module.getFormValues('#gamCmmnCntrRentMngtDetailForm', row);
         module._editRow=module.$('#cmmnCntrRentMngtDetailList').selectedRowIds()[0];
     });
-
+    
     this.$("#cmmnCntrRentMngtFileList").on('onItemSelected', function(event, module, row, grid, param) {
         module.makeFormValues('#gamCmmnCntrRentMngtFileForm', row);
         module._editDataFile=module.getFormValues('#gamCmmnCntrRentMngtFileForm', row);
         module._editRowFile=module.$('#cmmnCntrRentMngtFileList').selectedRowIds()[0];
-
+        
         if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
             // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
             var filenm=row['filenmPhysicl'];
@@ -239,19 +239,19 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$("#cmmnCntrRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 1});
+        module.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 1});    
         module.$('#cmd').val('modify');
         module.$('#gamCmmnCntrRentMngtForm :input').val('');
 
         module.makeFormValues('#gamCmmnCntrRentMngtForm', row);
         module._editData=module.getFormValues('#gamCmmnCntrRentMngtForm', row);
         module._editRow=module.$('#cmmnCntrRentMngtList').selectedRowIds()[0];
-
+        
         if(row!=null) {
-            module.$('#cmd').val('modify');
+            module.$('#cmd').val('modify');  
         }
     });
-
+    
     this.$("#cmmnCntrRentMngtDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 2});
         module.$('#gamCmmnCntrRentMngtDetailForm :input').val('');
@@ -259,104 +259,104 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
         module.makeFormValues('#gamCmmnCntrRentMngtDetailForm', row);
         module._editData=module.getFormValues('#gamCmmnCntrRentMngtDetailForm', row);
         module._editRow=module.$('#cmmnCntrRentMngtDetailList').selectedRowIds()[0];
-
+        
         if(row!=null) {
             module.$('#detailCmd').val('modify');
         }
     });
-
+    
     // 컴포넌트 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
  	this.$('#prtAtCode').on('change', {module: this}, function(event) {
         event.data.module.$('#prtAtCodeStr').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
     });
-
+    
     this.$('#olnlpList').on('change', {module: this}, function(event) {
         event.data.module.$('#olnlp').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
     });
-
+	 
     this.$('#applcTariff').on('change', {module: this}, function(event) {
     	if( $(this).val() == '1' ) {
-    		event.data.module.$('#applcTariffStr').val("0.05");
+    		event.data.module.$('#applcTariffStr').val("0.005");
     	} else if( $(this).val() == '2' ) {
-    		event.data.module.$('#applcTariffStr').val("0.025");
+    		event.data.module.$('#applcTariffStr').val("0.0025");
     	} else if( $(this).val() == '3' ) {
-    		event.data.module.$('#applcTariffStr').val("0.01");
+    		event.data.module.$('#applcTariffStr').val("0.001");
     	} else {
     		event.data.module.$('#applcTariffStr').val("");
     	}
-
+    	
     	if( $(this).val() == '' ) {
     		event.data.module.$('#applcTariffNm').val("");
     	} else {
     		event.data.module.$('#applcTariffNm').val($(this).getSelectedCodeLabel());
     	}
     });
-
+    
     this.$('#exemptSe').on('change', {module: this}, function(event) {
     	event.data.module.$('#exemptSeStr').val($(this).val());
-
+    	
     	if( $(this).val() != '1' ) {
             event.data.module.$('#exemptPdFrom').val("");
             event.data.module.$('#exemptPdTo').val("");
         }
     });
-
+    
     this.$('.calcInput').on('change', {module: this}, function(event) {
         var m = event.data.module;
         m.onCalc();
     });
-
+    
     this.$('#nticMth').on('change', {module: this}, function(event) {
         if( $(this).val() != '' && $(this).val() != '1' ) {
         	event.data.module.$('#cofixList').val( event.data.module.$('#blceStdrIntrrate').val() );
-        	event.data.module.$('#payinstIntrrate').val(Number(event.data.module.$('#cofixList').val()) * 100);
+        	event.data.module.$('#payinstIntrrate').val(Number(event.data.module.$('#cofixList').val()) * 100); 
         } else {
         	event.data.module.$('#cofixList').val("");
         	event.data.module.$('#payinstIntrrate').val("");
         }
     });
-
+    
     this.$('#cofixList').on('change', {module: this}, function(event) {
         if( $(this).val() == '' ) {
         	event.data.module.$('#payinstIntrrate').val("");
         } else {
         	var payinstIntrrateCal = (Number($(this).val()) * 100) + "";
-
+        	
         	if(payinstIntrrateCal.length > 4) {
         		payinstIntrrateCal = payinstIntrrateCal.substring(0,5);
         		payinstIntrrateCal = Number(payinstIntrrateCal).toFixed(2);
         	}
-
+        	
         	event.data.module.$('#payinstIntrrate').val( payinstIntrrateCal );
         }
     });
-
+    
     this.$('#exemptRsnCd').on('change', {module: this}, function(event) {
         event.data.module.$('#exemptRsnCdStr').val($(this).val());
     });
-
+    
     this.$('#sDateSearchGbn').on('change', {module: this}, function(event) {
 		if( $(this).val() == '' ) {
 			event.data.module.$('#sDateSearchValue').val("");
 		}
     });
-
+    
     //로드될 때 사용기간에 오늘날짜 처리
-/*  	var today = new Date();
- 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1);
- 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate();
+ 	var today = new Date();
+ 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
+ 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
  	var sToday = today.getFullYear() + '-' + month + '-' + date;
-
+    
     this.$('#sGrUsagePdFrom').val(sToday);
-    this.$('#sGrUsagePdTo').val(sToday);
- */
+    this.$('#sGrUsagePdTo').val(sToday);    
+
 };
 
 GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
-
-    if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
+    
+    if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != '' 
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
     ) {
 
@@ -373,7 +373,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
         var exemptPdTo = "";      // 면제기간
         var exemptCnt   = 0;      // 면제일수
         var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
-
+        
         olnlp = Number(this.$('#olnlp').val());
         usageAr = Number(this.$('#usageAr').val());
         //applcTariff = Number(this.$('#applcTariff').val());
@@ -384,21 +384,21 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
         exemptPdFrom = this.$('#exemptPdFrom').val();
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
-
+        
         if( applcTariffStr == '0' ) {
         	this.$('#computDtls').val('');
         	return;
         } else if( applcTariffStr == '1' ) {
-            applcTariff = 0.05;
+            applcTariff = 0.005;
             this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         } else if( applcTariffStr == '2' ) {
-            applcTariff = 0.025;
+            applcTariff = 0.0025;
             this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         } else if( applcTariffStr == '3' ) {
-            applcTariff = 0.01;
+            applcTariff = 0.001;
             this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         }
-
+        
         if( exemptSe == '1' ) {        // 일부면제
               if( this.$('#exemptPdFrom').val() == '' ) {
             	  alert("일부 면제의 경우 면제기간(시작)을 선택하십시오.");
@@ -409,82 +409,82 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                   return;
               }
         }
-
+        
         if( exemptSe == '0' ) {               // 면제없음.
             rdcxptFee = 0;
         } else if( exemptSe == '1' ) {   // 일부면제
-
+            
             /* 면제 일수 계산 */
             var year3 = exemptPdFrom.substring(0,4);
             var month3 = exemptPdFrom.substring(5,7);
             var day3 = exemptPdFrom.substring(8,10);
-
+            
             var year4 = exemptPdTo.substring(0,4);
             var month4 = exemptPdTo.substring(5,7);
             var day4 = exemptPdTo.substring(8,10);
-
+            
             var e_st_day = new Date(year3, (month3-1), day3, 0, 0, 0);
             var e_mt_day = new Date(year4, (month4-1), day4, 0, 0, 0);
-
+            
             var e_take1 = e_mt_day.getTime();
             var e_take2 = e_st_day.getTime();
-
+            
             var e_how_day = Math.ceil((e_take1-e_take2)/24/60/60/1000); // 두 날짜 사이의 일수
-
+            
             //exemptCnt = Number(e_how_day) + 1;
             exemptCnt = Number(e_how_day);
-
+        
             rdcxptFee = olnlp * (exemptCnt / 365) * usageAr * applcTariff;
-
+            
             //alert("감면사용료 => " + rdcxptFee);
-
+            
         } else if( exemptSe == '2' ) {        // 전체면제
             //this.$('#rdcxptFee').val('0');
             rdcxptFee = 0;
         }
-
+        
         /* 날짜계산 */
         var year = usagePdFrom.substring(0,4);
         var month = usagePdFrom.substring(5,7);
         var day = usagePdFrom.substring(8,10);
-
+        
         var year2 = usagePdTo.substring(0,4);
         var month2 = usagePdTo.substring(5,7);
         var day2 = usagePdTo.substring(8,10);
 
         var st_day = new Date(year, (month-1), day, 0, 0, 0);
         var mt_day = new Date(year2, (month2-1), day2, 0, 0, 0);
-
+        
         var take1 = mt_day.getTime();
         var take2 = st_day.getTime();
-
+        
         var how_day = Math.ceil((take1-take2)/24/60/60/1000); // 두 날짜 사이의 일수
-
+        
         //dayUseCnt = parseInt(how_day) + 1;
         dayUseCnt = parseInt(how_day);
-
+        
         var cur_day = new Date(year, (month-1), day, 0, 0, 0); // 입력받은 첫번째 날짜
         //cur_day.setDate( cur_day.getDate() - 1 );
         cur_day.setYear( cur_day.getFullYear() + 1 );
-
+        
         //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
         //if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
             //calFee = 0;
         //} else {
             calFee = olnlp*((dayUseCnt/365)*usageAr)*applcTariff - rdcxptFee;
         //}
-
+        
         //alert("계산후 => " + calFee);
         var calFeeStr = "" + calFee;
-
+        
         if( calFeeStr.indexOf('.') >= 0 ) {
             calFeeStr = calFeeStr.substring(0,calFeeStr.indexOf('.'));
         } else {
             calFeeStr = calFeeStr;
         }
-
+        
         this.$('#fee').val(calFeeStr);
-
+        
         if( exemptSe == '0' ) {
             this.$('#rdcxptFee').val('0');
         } else if( exemptSe == '1' ) {
@@ -495,18 +495,18 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             } else {
                 rdcxptFeeStr = rdcxptFeeStr;
             }
-
+            
             this.$('#rdcxptFee').val(rdcxptFeeStr);
         } else if( exemptSe == '2' ) {
             this.$('#rdcxptFee').val(calFeeStr);
             this.$('#fee').val('0');
         }
-
+        
     } else {
-        this.$('#fee').val('');
+        this.$('#fee').val(''); 
         this.$('#rdcxptFee').val('');
     }
-
+    
 };
 
 /**
@@ -518,15 +518,15 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
-/*             if( this.$('#sGrUsagePdFrom').val() == '' ) {
+            if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("사용기간을 선택하십시오.");
             	return;
             }
-
+            
             if( this.$('#sGrUsagePdTo').val() == '' ) {
                 alert("사용기간을 선택하십시오.");
                 return;
-            } */
+            }
             var searchOpt=this.makeFormArgs('#gamCmmnCntrRentMngtSearchForm');
             this.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 0});
             this.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();
@@ -543,7 +543,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
-
+            
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
             */
@@ -551,7 +551,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             this.$('#gamCmmnCntrRentMngtForm').find(':input').val('');
             this.$('#gamCmmnCntrRentMngtDetailForm').find(':input').val('');
             this.$('#gamCmmnCntrRentMngtFileForm').find(':input').val('');
-
+            
             //this.$("#cmmnCntrRentMngtDetailList").flexRemove();
             this.$("#cmmnCntrRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmmnCntrRentMngtFileList").flexAddData({resultList:[]}); //그리드 초기화
@@ -567,18 +567,18 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
         // 연장신청
         case 'addCmmnCntrRentMngtRenew':
             var rows = this.$('#cmmnCntrRentMngtList').selectedRows();
-
+            
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
-
+                
                 if( confirm("연장신청을 하시겠습니까?") ) {
                     this.doAction('<c:url value="/oper/shed/gamInsertCmmnCntrRentMngtRenew.do" />', rows[0], function(module, result) {
-
+    
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamCmmnCntrRentMngtSearchForm');
                             module.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();
                         }
-
+    
                         alert(result.resultMsg);
                     });
                 //throw 0;
@@ -591,7 +591,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 
         // 저장
         case 'btnSaveItem':
-
+        	
         	if( !validateGamCmmnCntrRentMngtVld(this.$('#gamCmmnCntrRentMngtForm')[0]) ) {
             	return;
             }
@@ -601,76 +601,76 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             	alert("항구분을 선택하십시오.");
             	return;
             }
-
+            
             if( this.$('#entrpscd').val() == '' ) {
                 alert("신청업체를 선택하십시오.");
                 return;
             }
-
+            
             if( this.$('#frstReqstDt').val() == '' ) {
                 alert("최초신청일자가 없습니다..");
                 return;
             }
-
+            
             if( this.$('#reqstDt').val() == '' ) {
                 alert("신청일자가 없습니다..");
                 return;
             }
-
+            
             if( this.$('#nticMth').val() == '' ) {
                 alert("고지방법을 선택하십시오.");
                 return;
             }
             */
-
+            
             /*
             if( this.$('#payMth').val() == '' ) {
                 alert("납부방법을 선택하십시오.");
                 return;
             }
             */
-
-            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' && this.$('#payinstIntrrate').val() != '0' ) {
+            
+            if( this.$('#nticMth').val() == '1' && this.$('#payinstIntrrate').val() != '' && this.$('#payinstIntrrate').val() != '0' ) {	
                 alert("고지방법이 일괄납부인 경우는 분납이자율을 입력하지 마십시오.");
                 return;
             }
-
+            
             if( this.$('#nticMth').val() != '1' && this.$('#payinstIntrrate').val() == '' ) {
                 alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
                 return;
             }
-
+            
             if( confirm("저장하시겠습니까?") ) {
 	            // 변경된 자료를 저장한다.
 	            var inputVO=[{name: 'test', value:'test hello'}];
 	        	//var inputVO=[{}];
-
+	        	
 	        	//this._editData=this.getFormValues('#gamCmmnCntrRentMngtDetailForm', this._editData);
-
+	        	
 	            inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#cmmnCntrRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
+	            
 	            inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#cmmnCntrRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
+	            
 	            inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-
+	            
 	            if(this._deleteDataFileList == undefined ) {
                     this._deleteDataFileList=[];
                 }
-
+	            
 	            inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#cmmnCntrRentMngtFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
+	            
                 inputVO[inputVO.length]={name: 'insertFileList', value: JSON.stringify(this.$('#cmmnCntrRentMngtFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
+                
                 inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
-
+	            
 	            //var otherForm=this.getFormValues('#gamCmmnCntrRentMngtForm', {});  // 폼만 있을 경우
-
+	            
 	            this._editData2=this.getFormValues('#gamCmmnCntrRentMngtForm', {_updtId:'I'});
 	            inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
-
+	            
 	            //console.log(inputVO);
 	            // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-
+	
 	            this.doAction('<c:url value="/oper/shed/gamSaveCmmnCntrRentMngt.do" />', inputVO, function(module, result) {
 	            	if(result.resultCode == 0){
 	                	var searchOpt=module.makeFormArgs('#gamCmmnCntrRentMngtForm');
@@ -684,47 +684,47 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 
 	            this.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
 	        }
-
+            
             break;
 
         //신청삭제
         case 'btnRemoveItem':
         	var rows = this.$('#cmmnCntrRentMngtList').selectedRows();
-
+            
             if(rows.length == 0) {
                 alert("공컨장치장임대목록에서 신청삭제할 행을 선택하십시오.");
             } else {
-            	if( confirm("신청삭제를 하시겠습니까?") ) {
+            	if( confirm("신청삭제를 하시겠습니까?") ) {   
 		        	if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
 		        		this.$('#detailPrmisnYn').val('N');
-
+		        		
 		        		alert( this.$('#detailPrmisnYn').val() );
 		        	}
-
+		        	
 		        	var inputVO=this.makeFormArgs('#gamCmmnCntrRentMngtForm');
-
+		            
 	                this.doAction('<c:url value="/oper/shed/gamDeleteCmmnCntrRentMngt.do" />', inputVO, function(module, result) {
-
+	
 	                    if(result.resultCode=='0') {
 	                        var searchOpt=module.makeFormArgs('#gamCmmnCntrRentMngtSearchForm');
 	                        module.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	                    }
-
+	
 	                    alert(result.resultMsg);
 	                });
-
+	
 	                this.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
 	                this.$('#gamCmmnCntrRentMngtForm :input').val("");
 	                this.$("#cmd").val('insert');
             	}
             }
-
+            
             break;
-
+            
           //코멘트저장
-        case 'btnSaveComment':
+        case 'btnSaveComment':     
         	var inputVO=this.makeFormArgs('#gamCmmnCntrRentMngtForm');
-
+        	
         	this.doAction('<c:url value="/oper/shed/gamUpdateCmmnCntrRentMngtComment.do" />', inputVO, function(module, result) {
 
                 if(result.resultCode=='0') {
@@ -734,8 +734,8 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 
                 alert(result.resultMsg);
             });
-
-        	break;
+        	
+        	break;    
 
         //공컨장치장임대상세추가
         case 'btnInsertItemDetail':
@@ -764,13 +764,13 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                 if(this.$('#cmmnCntrRentMngtDetailList').selectedRowIds().length>0) {
                     for(var i=this.$('#cmmnCntrRentMngtDetailList').selectedRowIds().length-1; i>=0; i--) {
                         var row=this.$('#cmmnCntrRentMngtDetailList').flexGetRow(this.$('#cmmnCntrRentMngtDetailList').selectedRowIds()[i]);
-
+                        
                         if(row._updtId==undefined || row._updtId!='I') {
                             this._deleteDataList[this._deleteDataList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
                         this.$('#cmmnCntrRentMngtDetailList').flexRemoveRow(this.$('#cmmnCntrRentMngtDetailList').selectedRowIds()[i]);
                     }
-
+                    
                     /* 총사용료, 총면적 계산 시작 */
                     var fee = 0;
                     var rdcxptFee = 0;
@@ -779,33 +779,33 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                     var usagePdTo = 0;
                     var minUsagePdFrom = 0;
                     var maxUsagePdTo = 0;
-
+                    
                     for( var i = 0 ; i < this.$('#cmmnCntrRentMngtDetailList').flexGetData().length ; i++ ) {
                         var row = this.$('#cmmnCntrRentMngtDetailList').flexGetRow(i);
-
+                        
                         if( row['fee'] != '' && row['fee'] != null ) {
                             var feeStr = row['fee']+"";
                             feeStr = feeStr.replace(/,/g,"");
                             fee += Number(feeStr);
                         }
-
+                        
                         if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
                             var rdcxptFeeStr = row['rdcxptFee']+"";
                             rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
                             rdcxptFee += Number(rdcxptFeeStr);
                         }
-
+                        
                         if( row['usageAr'] != '' && row['usageAr'] != null ) {
                             var usageArStr = row['usageAr']+"";
                             usageArStr = usageArStr.replace(/,/g,"");
                             usageAr += Number(usageArStr);
                         }
-
+                        
                         if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
                             var usagePdFromStr = row['usagePdFrom']+"";
                             usagePdFromStr = usagePdFromStr.replace(/-/g,"");
                             usagePdFrom = Number(usagePdFromStr);
-
+                            
                             if( minUsagePdFrom == 0 ) {
                                 minUsagePdFrom = usagePdFrom;
                             } else {
@@ -814,12 +814,12 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                                 }
                             }
                         }
-
+                        
                         if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
                             var usagePdToStr = row['usagePdTo']+"";
                             usagePdToStr = usagePdToStr.replace(/-/g,"");
                             usagePdTo = Number(usagePdToStr);
-
+                            
                             if( maxUsagePdTo == 0 ) {
                                 maxUsagePdTo = usagePdTo;
                             } else {
@@ -829,33 +829,33 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                             }
                         }
                     }
-
+                    
                     this.$('#grFee').val( fee ); //총사용료
                     this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
                     this.$('#grAr').val( usageAr ); //총사용면적
-
+                    
                     if( minUsagePdFrom > 0 ) {
-                        var minUsagePdFromStr = minUsagePdFrom+"";
-
+                        var minUsagePdFromStr = minUsagePdFrom+""; 
+                        
                         if( minUsagePdFromStr.length == 8 ) {
-                            minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8);
+                            minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8); 
                             this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
                         } else {
                             this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
                         }
                     }
-
+                    
                     if( maxUsagePdTo > 0 ) {
-                        var maxUsagePdToStr = maxUsagePdTo+"";
-
+                        var maxUsagePdToStr = maxUsagePdTo+""; 
+                        
                         if( maxUsagePdToStr.length == 8 ) {
-                            maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8);
+                            maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8); 
                             this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
                         } else {
                             this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
                         }
                     }
-
+                    
                     if( this.$('#cmmnCntrRentMngtDetailList').flexGetData().length == 0 ) {
                     	this.$('#grFee').val( "" ); //총사용료
                         this.$('#grRdcxptFee').val( "" ); //총감면사용료
@@ -863,11 +863,11 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                     	this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
                     	this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
                     }
-
+                    
                     /* 총사용료, 총면적 계산 종료 */
                 }
             }
-
+            
             this.$('#gamCmmnCntrRentMngtDetailForm').find(':input').val('');
             this.$("#detailCmd").val('insert');
 
@@ -878,8 +878,8 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
         case 'btnSaveItemDetail':
 
             var inputVO=this.makeFormArgs('#gamCmmnCntrRentMngtDetailForm');
-
-
+            
+            
             if(this.$("#detailCmd").val()=='insert') {
 
                 this.doAction('<c:url value="/oper/shed/gamInsertCmmnCntrRentMngtDetail.do" />', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
@@ -904,7 +904,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             }
             break;
         */
-
+        
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             /*
             var opts = {
@@ -933,12 +933,12 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                     alert("이미 사용승낙된 상태 입니다.");
                     return;
                 }
-
+                
                 if( row['sanctnSttus'] != '1' ) {
                     alert("결재완료 상태가 아닙니다.");
                     return;
                 }
-
+            	
             	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
@@ -953,16 +953,16 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             }
 
             break;
-
+        
         case 'btnPrmisnCancel': // 승낙취소
             var rows = this.$('#cmmnCntrRentMngtList').selectedRows();
             var row = this.$('#cmmnCntrRentMngtList').selectedRows()[0];
-
+            
             if( row['prmisnYn'] != 'Y' ) {
                 alert("승낙된 상태가 아닙니다.");
                 return;
             }
-
+            
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/oper/shed/gamUpdateCmmnCntrRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
@@ -979,66 +979,66 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             }
 
             break;
-
+        
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
-
+            
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
-            break;
-
+            break;    
+            
         case 'btnRentDetailApply': //공컨장치장임대상세적용
-
+        
         	if( !validateGamCmmnCntrRentMngtDetailVld(this.$('#gamCmmnCntrRentMngtDetailForm')[0]) ) {
             	return;
             }
-
+        
         	/*
         	if( this.$('#gisAssetsCd').val() == '' ) {
                 alert("자산을 조회하여 선택하십시오.");
                 return;
             }
-
+        
         	if( this.$('#usagePdFrom').val() == '' ) {
         		alert("사용기간(시작)을 선택하십시오.");
                 return;
-            }
-
+            } 
+        	
         	if( this.$('#usagePdTo').val() == '' ) {
         		alert("사용기간(종료)을 선택하십시오.");
                 return;
             }
-
+        	
         	if( this.$('#olnlp').val() == '' ) {
                 alert("공시지가를 입력하십시오.");
                 return;
-            }
-
+            } 
+        	
         	if( this.$('#usageAr').val() == '' ) {
                 alert("사용면적를 입력하십시오.");
                 return;
-            }
-
+            } 
+        	
         	if( this.$('#applcTariff').val() == '' ) {
                 alert("적용요율을 선택하십시오.");
                 return;
-            }
-
+            } 
+        	
         	if( this.$('#applcMth').val() == '' ) {
                 alert("적용방법을 선택하십시오.");
                 return;
-            }
-
+            } 
+        	
         	if( this.$('#exemptSe').val() == '' ) {
                 alert("면제구분을 선택하십시오.");
                 return;
-            }
-
+            } 
+        	
         	if( this.$('#fee').val() == '' ) {
                 alert("사용료를 입력하십시오.");
                 return;
-            }
+            } 
         	*/
-
+        	
         	if( this.$('#exemptSe').val() == '1' ) {
             	if( this.$('#exemptPdFrom').val() == '' ) {
             		alert("면제기간(시작)을 선택하십시오.");
@@ -1049,11 +1049,11 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                     return;
                 }
             }
-
+        	
         	if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editData=this.getFormValues('#gamCmmnCntrRentMngtDetailForm', this._editData);
             //this._editData=this.getFormValues('#gamCmmnCntrRentMngtDetailForm', this._editData);
-
+            
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#cmmnCntrRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
@@ -1062,11 +1062,11 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             else {
                 this.$('#cmmnCntrRentMngtDetailList').flexAddRow(this._editData);
             }
-
+            
             this.$('#gamCmmnCntrRentMngtDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-
-
+            
+            
             /* 총사용료, 총면적 계산 시작 */
             var fee = 0;
             var rdcxptFee = 0;
@@ -1075,33 +1075,33 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             var usagePdTo = 0;
             var minUsagePdFrom = 0;
             var maxUsagePdTo = 0;
-
+            
             for( var i = 0 ; i < this.$('#cmmnCntrRentMngtDetailList').flexGetData().length ; i++ ) {
                 var row = this.$('#cmmnCntrRentMngtDetailList').flexGetRow(i);
-
+                
                 if( row['fee'] != '' && row['fee'] != null ) {
                     var feeStr = row['fee']+"";
                     feeStr = feeStr.replace(/,/g,"");
                     fee += Number(feeStr);
                 }
-
+                
                 if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
                     var rdcxptFeeStr = row['rdcxptFee']+"";
                     rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
                     rdcxptFee += Number(rdcxptFeeStr);
                 }
-
+                
                 if( row['usageAr'] != '' && row['usageAr'] != null ) {
                     var usageArStr = row['usageAr']+"";
                     usageArStr = usageArStr.replace(/,/g,"");
                     usageAr += Number(usageArStr);
                 }
-
+                
                 if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
                     var usagePdFromStr = row['usagePdFrom']+"";
                     usagePdFromStr = usagePdFromStr.replace(/-/g,"");
                     usagePdFrom = Number(usagePdFromStr);
-
+                    
                     if( minUsagePdFrom == 0 ) {
                         minUsagePdFrom = usagePdFrom;
                     } else {
@@ -1110,12 +1110,12 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                         }
                     }
                 }
-
+                
                 if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
                     var usagePdToStr = row['usagePdTo']+"";
                     usagePdToStr = usagePdToStr.replace(/-/g,"");
                     usagePdTo = Number(usagePdToStr);
-
+                    
                     if( maxUsagePdTo == 0 ) {
                         maxUsagePdTo = usagePdTo;
                     } else {
@@ -1125,33 +1125,33 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                     }
                 }
             }
-
+            
             this.$('#grFee').val( fee ); //총사용료
             this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
             this.$('#grAr').val( usageAr ); //총사용면적
-
+            
             if( minUsagePdFrom > 0 ) {
-                var minUsagePdFromStr = minUsagePdFrom+"";
-
+                var minUsagePdFromStr = minUsagePdFrom+""; 
+                
                 if( minUsagePdFromStr.length == 8 ) {
-                    minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8);
+                    minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8); 
                     this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
                 } else {
                     this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
                 }
             }
-
+            
             if( maxUsagePdTo > 0 ) {
-                var maxUsagePdToStr = maxUsagePdTo+"";
-
+                var maxUsagePdToStr = maxUsagePdTo+""; 
+                
                 if( maxUsagePdToStr.length == 8 ) {
-                    maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8);
+                    maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8); 
                     this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
                 } else {
                     this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
                 }
             }
-
+            
             if( this.$('#cmmnCntrRentMngtDetailList').flexGetData().length == 0 ) {
                 this.$('#grFee').val( "" ); //총사용료
                 this.$('#grRdcxptFee').val( "" ); //총감면사용료
@@ -1159,18 +1159,23 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                 this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
                 this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
             }
-
+            
             /* 총사용료, 총면적 계산 종료 */
-
-
+            
+        
             this.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
-
-
+            
+            
             break;
-
+            
         case 'btnUploadFile':
-        	var thisObj = this; //2014-4-22추가 목록추가를 위한 클로저 변수
             // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
+            
+            this._tempPhotoSj = this.$('#photoSj').val();
+            this._tempPhotoDesc = this.$('#photoDesc').val();
+            this._tempShotDt = this.$('#shotDt').val();
+            this._tempRnum = this.$("#prtFcltyRentMngtFileList").flexGetData().length + 1;
+
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
@@ -1179,23 +1184,34 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                     //module.$('#cmmnCntrRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#cmmnCntrRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#cmmnCntrRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-             		module.$('#cmmnCntrRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: thisObj.$('#photoPrtAtCode').val(), mngYear: thisObj.$('#photoMngYear').val(), mngNo: thisObj.$('#photoMngNo').val(), mngCnt: thisObj.$('#photoMngCnt').val(),
-																		photoSeq: '', photoSj: thisObj.$('#photoSj').val(), filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: thisObj.$('#shotDt').val(), photoDesc: thisObj.$('#photoDesc').val(), regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+             		module.$('#cmmnCntrRentMngtFileList').flexAddRow({_updtId:'I', 
+             			prtAtCode: '', 
+             			mngYear: '', 
+             			mngNo: '', 
+             			mngCnt: '', 
+						photoSeq: '', 
+						rnum: module._tempRnum,
+						photoSj: module._tempPhotoSj, 
+						filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, 
+						shotDt: module._tempShortDt, 
+						photoDesc: module._tempPhotoDesc, 
+						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+					//2014-4-22 변경
 					//2014-4-22 변경
                 });
             }, '첨부파일 업로드');
-
+            
             //this._editDataFile=this.getFormValues('#gamCmmnCntrRentMngtFileForm', {_updtId:'I'});
             //this._editRowFile=this.$('#cmmnCntrRentMngtFileList').flexGetData().length;
-
+            
             break;
-
+        
         case 'btnApplyPhotoData':
-
+        	
         	if(!validateGamCmmnCntrRentMngtPhotoVld( this.$('#gamCmmnCntrRentMngtFileForm')[0]) ) {
     			return;
     		}
-
+        	
         	/*
         	if( this.$('#filenmLogic').val() == '' ) {
                 alert("첨부파일목록에서 선택하십시오.");
@@ -1204,7 +1220,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
         	*/
         	if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
             this._editDataFile=this.getFormValues('#gamCmmnCntrRentMngtFileForm', this._editDataFile);
-
+            
             if(this._editRowFile!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRowFile 로 변경 2014-03-14.001
                 if(this._editDataFile._updtId!='I') this._editDataFile._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
                 this.$('#cmmnCntrRentMngtFileList').flexUpdateRow(this._editRowFile, this._editDataFile);
@@ -1216,9 +1232,9 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 
             this.$('#gamCmmnCntrRentMngtFileForm').find(':input').val('');
             this._editDataFile=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-
+        	
         	break;
-
+        
         // 파일 삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveFile':
 
@@ -1231,9 +1247,9 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
                 if(this.$('#cmmnCntrRentMngtFileList').selectedRowIds().length>0) {
                     for(var i=this.$('#cmmnCntrRentMngtFileList').selectedRowIds().length-1; i>=0; i--) {
                         var row=this.$('#cmmnCntrRentMngtFileList').flexGetRow(this.$('#cmmnCntrRentMngtFileList').selectedRowIds()[i]);
-
+                        
                         //alert( row._updtId );
-
+                        
                         if(row._updtId==undefined || row._updtId!='I') {
                             this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
@@ -1247,20 +1263,20 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             this.$('#gamCmmnCntrRentMngtFileForm').find(':input').val('');
             this._editDataFile = null;
 
-            break;
-
+            break;        
+            
         case 'btnEApproval':    // 전자결재 테스트
             if(this.$('#cmmnCntrRentMngtList').selectedRowCount()>0) {
-
+                
                 //alert(EMD.context_root);
-
+                
                 var rows = this.$('#cmmnCntrRentMngtList').selectedRows()[0];
-
+                
                 if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
                 	alert("결재요청을 할수없는 상태 입니다.");
                 	return;
                 }
-
+                
                 if( confirm("결재요청을 하시겠습니까?") ) {
 	                var opts = {
 	                        type: 'ARUC',
@@ -1270,9 +1286,9 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 	                        mngCnt: rows['mngCnt']
 	                };
 	                this.requestEApproval(opts);
-
+	                
 	                alert("결재요청을 하였습니다.");
-
+	                
 	                var searchOpt=module.makeFormArgs('#gamCmmnCntrRentMngtForm');
 	                module.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();
                 }
@@ -1280,7 +1296,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             	alert("목록에서 결제할 건을 선택하십시오.");
             	return;
             }
-            break;
+            break;           
     }
 };
 
@@ -1308,10 +1324,10 @@ GamCmmnCntrRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         else {
             this.$('#cmd').val('modify');
         }
-
+        
         this._deleteDataList=[];    // 삭제 목록 초기화
         //this._deleteDataFileList=[];    // 파일삭제 목록 초기화
-
+        
         break;
     case 'tabs3':
         var row = this.$('#cmmnCntrRentMngtDetailList').selectedRows();
@@ -1322,12 +1338,12 @@ GamCmmnCntrRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
             this.$('#detailCmd').val('modify');
         }
         break;
-
+        
     case 'tabs4':
     	this._deleteDataFileList=[];    // 삭제 목록 초기화
-
+        
     	break;
-
+    	
     }
 };
 
@@ -1353,11 +1369,11 @@ GamCmmnCntrRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
              alert('취소 되었습니다');
          }
          break;
-     case 'insertCmmnCntrRentMngtPrmisnPopup':
+     case 'insertCmmnCntrRentMngtPrmisnPopup':    
          if (msg != 'cancel') {
              if( value == "0" ) {
                  var searchOpt=this.makeFormArgs('#gamCmmnCntrRentMngtSearchForm');
-                 this.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                 this.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();                  
              }
          } else {
              alert('취소 되었습니다');
@@ -1377,15 +1393,15 @@ GamCmmnCntrRentMngtModule.prototype.onClosePopup = function(popupId, msg, value)
              //this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#quayCd').val(value.gisAssetsQuayCd);
-
+             
              var tpCdStr = value.gisAssetsCd  + '-' + value.gisAssetsSubCd;
              this.$('#assetsCdStr').val(tpCdStr);	// 시설코드
-
+             
          } else {
              alert('취소 되었습니다');
          }
-         break;
-
+         break;  
+         
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -1410,7 +1426,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                             <td>
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <!--
+                            <!-- 
                             <th>부두구분</th>
                             <td >
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" />
@@ -1427,7 +1443,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                             <td rowSpan="2" style="text-align:right;"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
-
+                        	
                             <th>업체명</th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo" class="popupButton" >업체</button>
@@ -1435,9 +1451,9 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                             <th>승낙여부</th>
                             <td colspan="3">
                                 <select id="sPrmisnYn">
-                                    <option value="">선택</option>
+                                    <option value="" selected="selected">선택</option>
                                     <option value="Y">Y</option>
-                                    <option value="N" selected="selected">N</option>
+                                    <option value="N">N</option>
                                 </select>
                             </td>
                         </tr>
@@ -1483,11 +1499,11 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                         <tr>
                             <td>
                                <form id="form1">
-                                   합계 :
+                                   합계 : 
                                    자료수 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
                                    총면적 <input id="totalArea" type="text" class="ygpaNumber" style="text-align:right;" size="15" readonly>
                                    총사용료 <input id="totalUse" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>원
-
+                                   
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
                                    <input id="currentDateStr" type="hidden" value="<c:out value="${currentDateStr}"/>"/>
@@ -1579,7 +1595,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                                     <input type="text" size="10" id="grUsagePdFrom" disabled />
                                     ~
                                     <input type="text" size="10" id="grUsagePdTo" disabled />
-                                </td>
+                                </td>                        
                                 <th><span class="label">총사용료</span></th>
                                 <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" disabled /></td>
                                 <th><span class="label">총감면사용료</span></th>
@@ -1618,7 +1634,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
 
                  <!-- <table id="cmmnCntrRentMngtDetailList" style="display:none" class="fillHeight"></table> -->
                  <table id="cmmnCntrRentMngtDetailList" style="display:none"></table>
-
+                 
                  <table style="width:100%">
                     <tr>
                         <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd" >공컨장치장임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete" >공컨장치장임대상세삭제</button></td>
@@ -1643,7 +1659,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                         <input type="hidden" id="detailMngYear" data-column-id="mngYear"/>
                         <input type="hidden" id="detailMngNo" data-column-id="mngNo"/>
                         <input type="hidden" id="detailMngCnt" data-column-id="mngCnt"/>
-
+                        
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table>
                             <tr>
@@ -1668,11 +1684,11 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                                 <th><span class="label">지번</span></th>
                                 <td><input type="text" size="5" id="gisAssetsLnm" disabled />-<input type="text" size="3" id="gisAssetsLnmSub" disabled/></td>
                             </tr>
-
+                            
                             <tr>
                                 <th><span class="label">시설면적</span></th>
                                 <td ><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
-
+                                
                                 <th style="width: 100px"><span class="label">공시지가목록</span></th>
                                 <td colspan="3" style="text-align: left;">
                                     <select id="olnlpList">
@@ -1683,7 +1699,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                                     </select>
                                 </td>
                             </tr>
-
+                            
                             <tr>
                                 <th><span class="label">사용기간</span></th>
                                 <td><input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly />
@@ -1697,13 +1713,13 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                             <tr>
                                 <th><span class="label">적용요율</span></th>
                                 <td>
-                                    <!--
-                                    <select id="applcTariff">
+                                    <!-- 
+                                    <select id="applcTariff">  
                                         <option value="" selected="selected">선택</option>
                                     </select>
                                      -->
                                     <input id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id="GAM023"/>
-
+                                    
                                     <input type="text" size="14" id="applcTariffStr" readonly />
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
@@ -1731,7 +1747,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                                 <th><span class="label">면제사유</span></th>
                                 <td colspan="5">
                                     <input id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" />
-
+                                    
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
                                     <input type="text" size="70" id="exemptRsn"/>
                                 </td>
@@ -1752,7 +1768,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                                 <td colspan="5"><textarea cols="99" rows="3" size="100" id="usageDtls" ></textarea></td>
                             </tr>
 
-                            <!--
+                            <!-- 
                             <tr>
                                 <th><span class="label">사용 용도 코드</span></th>
                                 <td>
@@ -1810,10 +1826,10 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                                         </c:forEach>
                                     </select>
                                 </td>
-
+                                
                             </tr>
                             <tr>
-
+                                
                                 <th><span class="label">해지 일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="trmnatDt"/></td>
                             </tr>
@@ -1854,14 +1870,14 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                             -->
                         </table>
                     </form>
-
-                <!--
+                    
+                <!-- 
                 <div style="vertical-align: bottom; text-align: right;">
                     <input type="reset" value="취소" class="input_1"> <input
                         type="submit" value="저장" class="input_1">
                 </div>
                 -->
-
+                
                 <table style="width:100%">
                     <tr>
                         <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
@@ -1872,9 +1888,9 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                  </table>
 
             </div>
-
+            
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-
+                
                 <table id="cmmnCntrRentMngtFileList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
                 <form id="gamCmmnCntrRentMngtFileForm" commandName="gamCmmnCntrRentMngtPhotoVld" >
@@ -1883,7 +1899,7 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                     <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
                     <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
                     <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
-
+                
                     <table>
                         <tr>
                             <th><span class="label">파일명</span></th>
@@ -1915,8 +1931,8 @@ var module_instance = new GamCmmnCntrRentMngtModule();
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>
-
-
+            
+            
         </div>
     </div>
 </div>
