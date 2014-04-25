@@ -44,12 +44,12 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
 					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
 					{display:'납부기한', name:'payTmlmt',width:90, sortable:false,align:'center'},
 					{display:'수납', name:'rcvdTp',width:100, sortable:false,align:'center'},
-					{display:'요금', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+					{display:'요금', name:'fee',width:120, sortable:false,align:'right' , displayFormat: 'number'},
 					{display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
 					{display:'수납일자', name:'rcvdDt',width:100, sortable:false,align:'center'},
 					{display:'고지서출력여부', name:'nhtPrintYn',width:100, sortable:false,align:'center'},
 					{display:'비고', name:'rm',width:200, sortable:false,align:'center'},
-                    {display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'center'}
+                    {display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'right' , displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: '350',

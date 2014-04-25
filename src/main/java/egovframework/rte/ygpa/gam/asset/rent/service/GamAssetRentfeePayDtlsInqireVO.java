@@ -141,6 +141,9 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
     private String sEntrpscd;
     
     /** 검색조건 */
+    private String sEntrpsNm;
+    
+    /** 검색조건 */
     private String sUsagePrposCd;
     
     /** 검색조건 */
@@ -334,6 +337,20 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
 	 */
 	public void setEntrpscd(String entrpscd) {
 		this.entrpscd = entrpscd;
+	}
+
+	/**
+	 * @return the sEntrpsNm
+	 */
+	public String getsEntrpsNm() {
+		return sEntrpsNm;
+	}
+
+	/**
+	 * @param sEntrpsNm the sEntrpsNm to set
+	 */
+	public void setsEntrpsNm(String sEntrpsNm) {
+		this.sEntrpsNm = sEntrpsNm;
 	}
 
 	/**

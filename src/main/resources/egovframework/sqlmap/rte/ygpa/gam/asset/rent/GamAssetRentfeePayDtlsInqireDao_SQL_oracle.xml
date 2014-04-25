@@ -49,7 +49,7 @@
 								PAYEOSU.REV_COLL_F@YGPA_PORTMIS P 
 							ON 
 								(P.PRT_AT_CODE = L.PRT_AT_CODE AND P.FEE_TP = L.CHRGE_KND AND P.FISCAL_YR = L.ACCNUT_YEAR AND P.BILL_NO = L.NTICNO)
-							WHERE 1 = 1; 
+							WHERE 1 = 1 
 					
 							<isNotEmpty property="sPrtAtCode">
 					            AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -102,7 +102,7 @@
 					PAYEOSU.REV_COLL_F@YGPA_PORTMIS P 
 				ON 
 					(P.PRT_AT_CODE = L.PRT_AT_CODE AND P.FEE_TP = L.CHRGE_KND AND P.FISCAL_YR = L.ACCNUT_YEAR AND P.BILL_NO = L.NTICNO)
-				WHERE 1 = 1; 
+				WHERE 1 = 1 
 		
 				<isNotEmpty property="sPrtAtCode">
 		            AND A.PRT_AT_CODE = #sPrtAtCode#  
@@ -156,7 +156,7 @@
 					PAYEOSU.REV_COLL_F@YGPA_PORTMIS P 
 				ON 
 					(P.PRT_AT_CODE = L.PRT_AT_CODE AND P.FEE_TP = L.CHRGE_KND AND P.FISCAL_YR = L.ACCNUT_YEAR AND P.BILL_NO = L.NTICNO)
-				WHERE 1 = 1; 
+				WHERE 1 = 1 
 		
 				<isNotEmpty property="sPrtAtCode">
 		            AND A.PRT_AT_CODE = #sPrtAtCode#  
