@@ -126,12 +126,11 @@ GamSendMesgListMngtModule.prototype.onButtonClick = function(buttonId) {
         	this.$('#smsSeq').val(g_seqNum);
         	g_seqNum = '';
         	var searchOpt = this.makeFormArgs('#GemSmsRetransmitForm');
-        	var thisObj = this;
         	this.doAction('<c:url value="/cmmn/sms/smsRetransmit.do" />', searchOpt, function(module, result) {
         		if(result.resultCode == "0"){
         			alert('재전송 신청이 완료되었습니다.');
-        			searchOpt = thisObj.makeFormArgs('#GamSendMesgListMngtSearchForm');        			
-        			thisObj.$('#sendMesgMngtList').flexOptions({params:searchOpt}).flexReload();
+        			searchOpt = module.makeFormArgs('#GamSendMesgListMngtSearchForm');        			
+        			module.$('#sendMesgMngtList').flexOptions({params:searchOpt}).flexReload();
     	 		}
     	 		else {
     	 			alert(result.resultMsg);
