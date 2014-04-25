@@ -30,56 +30,42 @@ GamAssetDisUseMngtModule.prototype = new EmdModule(1000, 600);
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetDisUseMngtModule.prototype.loadComplete = function() {
 
-	// 테이블 설정 //       
+	// 테이블 설정 //
     this.$("#assetDisUseList").flexigrid({
         module: this,
         url: '<c:url value="/asset/gamSelectAssetDisUseList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
-                    {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'center'},
-                    //{display:'자산관리부서코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
-                    //{display:'자산운영부서코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
-                    {display:'자산관리부서', name:'gisAssetsMngDeptCdNm',width:120, sortable:false,align:'center'},
-                    {display:'자산운영부서', name:'gisAssetsOperDeptCdNm',width:120, sortable:false,align:'center'},
-                    {display:'자산지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                    {display:'자산지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                    {display:'자산SUB코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
-                    {display:'자산코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                    {display:'자산항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                    {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                    {display:'자산사용여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                    {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'자산규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                    {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                    {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                    {display:'자산비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},          
-                    
-                    /*
-                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
-                    {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
-                    {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
-                    {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},                                  
-                    {display:'자산부두그룹코드', name:'gisAssetsQuayGroupCd',width:100, sortable:false,align:'center'},
-                    {display:'자산위치코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},                   
-                    {display:'GIS 자산 구분 코드', name:'gisAssetsSeCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 재산 구분 코드', name:'gisAssetsPrprtySeCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 출자 방식', name:'gisAssetsInvstmntMthd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 GIS 코드', name:'gisAssetsGisCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},          
-                    {display:'도면 목록 등록 년도', name:'drwLstRegistYear',width:100, sortable:false,align:'center'},         
-                    {display:'도면 목록 순번', name:'drwLstSeq',width:100, sortable:false,align:'center'},
-                    */
-                    {display:'GIS 자산 가치 금액', name:'gisAssetsValAmt',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 가치 조회 일자', name:'gisAssetsValInqireDt',width:100, sortable:false,align:'center'},
-                    {display:'ERP 자산 구분 코드', name:'erpAssetsSeCd',width:100, sortable:false,align:'center'},           
-                    {display:'ERP 자산 번호', name:'erpAssetsNo',width:100, sortable:false,align:'center'},
-                    {display:'ERP 자산 번호 순번', name:'erpAssetsNoSeq',width:100, sortable:false,align:'center'},
-                    {display:'ERP 자산 폐기 등록 여부', name:'erpAssetsDisuseRegistYn',width:100, sortable:false,align:'center'},                      
-                    {display:'ERP 자산 폐기 사유', name:'erpAssetsDisuseRsn',width:100, sortable:false,align:'center'}
+                    {display:'항코드', name:'gisAssetsPrtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'자산코드', name:'gisAssetsCode',width:66, sortable:false,align:'center'},
+                    {display:'ERP 자산코드', name:'erpAssetCode',width:90, sortable:false,align:'center'},
+                    {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'center'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'center'},
+                    {display:'지번', name:'gisAssetsLnmCode',width:58, sortable:false,align:'center'},
+                    {display:'면적', name:'gisAssetsAr',width:64, sortable:false,align:'center'},
+                    {display:'규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
+                    {display:'관리부서', name:'gisAssetsMngDeptCdNm',width:100, sortable:false,align:'center'},
+                    {display:'운영부서', name:'gisAssetsOperDeptCdNm',width:100, sortable:false,align:'center'},
+                    {display:'취득가액', name:'gisAssetsAcqPri',width:110, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'사용여부', name:'gisAssetsUsageYn',width:64, sortable:false,align:'center'},
+                    {display:'준공년도', name:'gisAssetsBlddate',width:64, sortable:false,align:'center'},
+                    {display:'준공일자', name:'gisAssetsBldDt',width:80, sortable:false,align:'center'},
+                    {display:'폐기등록여부', name:'erpAssetsDisuseRegistYn',width:80, sortable:false,align:'center'},
+                    {display:'폐기사유', name:'erpAssetsDisuseRsn',width:200, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: 'auto',
+        preProcess: function(module, data) {
+        	$.each(data.resultList, function() {
+        		this.gisAssetsCode=this.gisAssetsCd+"-"+this.gisAssetsSubCd;
+        		this.erpAssetCode=this.erpAssetsSeCd+"-"+this.erpAssetsNo+"-"+this.erpAssetsNoSeq;
+        		this.gisAssetsLnmCode = this.gisAssetsLnm;
+        		if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
+        			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
+        		}
+        	});
+        	return data;
+        }
     });
 
     this.$("#assetDisUseList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -89,42 +75,42 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         if(row!=null) {
             module.$('#gisAssetsSubCd').val(row['gisAssetsSubCd']);
             module.$('#gisAssetsCd').val(row['gisAssetsCd']);
-            module.$('#gisAssetsNm').val(row['gisAssetsNm']);   
+            module.$('#gisAssetsNm').val(row['gisAssetsNm']);
             //module.$('#gisAssetsMngDeptCd').val(row['gisAssetsMngDeptCd']);
             //module.$('#gisAssetsOperDeptCd').val(row['gisAssetsOperDeptCd']);
             module.$('#gisAssetsMngDeptCdNm').val(row['gisAssetsMngDeptCdNm']);
             module.$('#gisAssetsOperDeptCdNm').val(row['gisAssetsOperDeptCdNm']);
             module.$('#gisAssetsLocplc').val(row['gisAssetsLocplc']);
-            module.$('#gisAssetsLnm').val(row['gisAssetsLnm']);                
-            module.$('#gisAssetsLnmSub').val(row['gisAssetsLnmSub']);             
-            module.$('#gisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);                        
-            module.$('#gisAssetsAr').val(row['gisAssetsAr']);                 
-            module.$('#gisAssetsUsageYn').val(row['gisAssetsUsageYn']);            
-            module.$('#gisAssetsAcqPri').val(row['gisAssetsAcqPri']);                      
-            module.$('#gisAssetsStndrd').val(row['gisAssetsStndrd']);             
-            module.$('#gisAssetsBlddate').val(row['gisAssetsBlddate']);            
-            module.$('#gisAssetsBldDt').val(row['gisAssetsBldDt']);              
-            module.$('#gisAssetsRm').val(row['gisAssetsRm']);                 
-            module.$('#regUsr').val(row['regUsr']);                       
-            module.$('#registdt').val(row['registdt']);                   
-            module.$('#updUsr').val(row['updUsr']);                   
-            module.$('#updtdt').val(row['updtdt']);                   
-            module.$('#gisAssetsQuayGroupCd').val(row['gisAssetsQuayGroupCd']);    
-            module.$('#gisAssetsLocCd').val(row['gisAssetsLocCd']);       
-            module.$('#gisAssetsSeCd').val(row['gisAssetsSeCd']);           
-            module.$('#gisAssetsPrprtySeCd').val(row['gisAssetsPrprtySeCd']);     
-            module.$('#gisAssetsInvstmntMthd').val(row['gisAssetsInvstmntMthd']);   
-            module.$('#gisAssetsGisCd').val(row['gisAssetsGisCd']);          
-            module.$('#gisAssetsRealRentAr').val(row['gisAssetsRealRentAr']);     
-            module.$('#drwLstRegistYear').val(row['drwLstRegistYear']);       
-            module.$('#drwLstSeq').val(row['drwLstSeq']);               
-            module.$('#gisAssetsValAmt').val(row['gisAssetsValAmt']);         
-            module.$('#gisAssetsValInqireDt').val(row['gisAssetsValInqireDt']);    
-            module.$('#erpAssetsSeCd').val(row['erpAssetsSeCd']);             
-            module.$('#erpAssetsNo').val(row['erpAssetsNo']);             
-            module.$('#erpAssetsNoSeq').val(row['erpAssetsNoSeq']);          
-            module.$('#erpAssetsDisuseRegistYn').val(row['erpAssetsDisuseRegistYn']); 
-            module.$('#erpAssetsDisuseRsn').val(row['erpAssetsDisuseRsn']); 
+            module.$('#gisAssetsLnm').val(row['gisAssetsLnm']);
+            module.$('#gisAssetsLnmSub').val(row['gisAssetsLnmSub']);
+            module.$('#gisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
+            module.$('#gisAssetsAr').val(row['gisAssetsAr']);
+            module.$('#gisAssetsUsageYn').val(row['gisAssetsUsageYn']);
+            module.$('#gisAssetsAcqPri').val(row['gisAssetsAcqPri']);
+            module.$('#gisAssetsStndrd').val(row['gisAssetsStndrd']);
+            module.$('#gisAssetsBlddate').val(row['gisAssetsBlddate']);
+            module.$('#gisAssetsBldDt').val(row['gisAssetsBldDt']);
+            module.$('#gisAssetsRm').val(row['gisAssetsRm']);
+            module.$('#regUsr').val(row['regUsr']);
+            module.$('#registdt').val(row['registdt']);
+            module.$('#updUsr').val(row['updUsr']);
+            module.$('#updtdt').val(row['updtdt']);
+            module.$('#gisAssetsQuayGroupCd').val(row['gisAssetsQuayGroupCd']);
+            module.$('#gisAssetsLocCd').val(row['gisAssetsLocCd']);
+            module.$('#gisAssetsSeCd').val(row['gisAssetsSeCd']);
+            module.$('#gisAssetsPrprtySeCd').val(row['gisAssetsPrprtySeCd']);
+            module.$('#gisAssetsInvstmntMthd').val(row['gisAssetsInvstmntMthd']);
+            module.$('#gisAssetsGisCd').val(row['gisAssetsGisCd']);
+            module.$('#gisAssetsRealRentAr').val(row['gisAssetsRealRentAr']);
+            module.$('#drwLstRegistYear').val(row['drwLstRegistYear']);
+            module.$('#drwLstSeq').val(row['drwLstSeq']);
+            module.$('#gisAssetsValAmt').val(row['gisAssetsValAmt']);
+            module.$('#gisAssetsValInqireDt').val(row['gisAssetsValInqireDt']);
+            module.$('#erpAssetsSeCd').val(row['erpAssetsSeCd']);
+            module.$('#erpAssetsNo').val(row['erpAssetsNo']);
+            module.$('#erpAssetsNoSeq').val(row['erpAssetsNoSeq']);
+            module.$('#erpAssetsDisuseRegistYn').val(row['erpAssetsDisuseRegistYn']);
+            module.$('#erpAssetsDisuseRsn').val(row['erpAssetsDisuseRsn']);
             //throw 0;
         }
     });
@@ -149,21 +135,21 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         // 자산폐기
         case 'disUseAssetBtn': // 팝업을 호출한다.
             var rows = this.$('#assetDisUseList').selectedRows();
-            
+
             if(rows.length>=1) {
             	var opts = {
                         'gisAssetsCd': rows[0]['gisAssetsCd'],
                         'gisAssetsSubCd': rows[0]['gisAssetsSubCd'],
                         'gisAssetsPrtAtCode': rows[0]['gisAssetsPrtAtCode']
                 };
-            	
+
             	this.doExecuteDialog('updateDisUseAssetPopup', '자산폐기', '<c:url value="/asset/popup/showAssetDisUse.do"/>', opts);
             } else {
             	alert("목록에서 선택하십시오.");
             };
-            
-            break;    
-         
+
+            break;
+
     }
 };
 
@@ -194,17 +180,17 @@ GamAssetDisUseMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'updateDisUseAssetPopup':    
+     case 'updateDisUseAssetPopup':
          if (msg != 'cancel') {
              if( value == "0" ) {
                  var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
-                 this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();                  
+                 this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
              }
          } else {
              alert('취소 되었습니다');
          }
          break;
-         
+
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -266,7 +252,7 @@ var module_instance = new GamAssetDisUseMngtModule();
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
                     <form id="gamAssetDisUseForm">
                         <input type="hidden" id="cmd"/>
-                        
+
                         <table>
                             <tr>
                                 <th><span class="label">GIS 자산 코드</span></th>
@@ -274,17 +260,17 @@ var module_instance = new GamAssetDisUseMngtModule();
                                 <th><span class="label">GIS 자산 SUB 코드</span></th>
                                 <td><input type="text" size="20" id="gisAssetsSubCd" readonly/></td>
                                 <th><span class="label">자산관리부서</span></th>
-                                <td><input type="text" size="20" id="gisAssetsMngDeptCdNm" readonly/></td> 
+                                <td><input type="text" size="20" id="gisAssetsMngDeptCdNm" readonly/></td>
                             </tr>
                             <tr>
-                                <!--  
+                                <!--
                                 <th><span class="label">GIS 자산 관리 부서 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsMngDeptCd" readonly/></td> 
+                                <td><input type="text" size="10" id="gisAssetsMngDeptCd" readonly/></td>
                                 <th><span class="label">GIS 자산 운영 부서 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsOperDeptCd" readonly/></td>  
+                                <td><input type="text" size="10" id="gisAssetsOperDeptCd" readonly/></td>
                                 -->
                                 <th><span class="label">자산운영부서</span></th>
-                                <td><input type="text" size="20" id="gisAssetsOperDeptCdNm" readonly/></td>  
+                                <td><input type="text" size="20" id="gisAssetsOperDeptCdNm" readonly/></td>
                                 <th><span class="label">GIS 자산 소재지</span></th>
                                 <td><input type="text" size="20" id="gisAssetsLocplc" readonly/></td>
                                 <th><span class="label">GIS 자산 지번</span></th>

@@ -6,28 +6,28 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetEvlDtlsInqireVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO"/>
-    
+
     <resultMap id="gamAssetEvlDtlsInqireSumMap" class="egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO">
-        <result property="sumRevalAmt" column="SUM_REVAL_AMT" columnIndex="1"/>                      
-		<result property="sumThisTermIncreAmt" column="SUM_THIS_TERM_INCRE_AMT" columnIndex="2"/>  
-		<result property="sumBsThisCurAmt" column="SUM_BS_THIS_CUR_AMT" columnIndex="3"/>      
-		<result property="sumBsPreDeprctnSum" column="SUM_BS_PRE_DEPRCTN_SUM" columnIndex="4"/>   
-		<result property="sumBsNoDeprctnBal" column="SUM_BS_NO_DEPRCTN_BAL" columnIndex="5"/>    
+        <result property="sumRevalAmt" column="SUM_REVAL_AMT" columnIndex="1"/>
+		<result property="sumThisTermIncreAmt" column="SUM_THIS_TERM_INCRE_AMT" columnIndex="2"/>
+		<result property="sumBsThisCurAmt" column="SUM_BS_THIS_CUR_AMT" columnIndex="3"/>
+		<result property="sumBsPreDeprctnSum" column="SUM_BS_PRE_DEPRCTN_SUM" columnIndex="4"/>
+		<result property="sumBsNoDeprctnBal" column="SUM_BS_NO_DEPRCTN_BAL" columnIndex="5"/>
 		<result property="sumPreEndAssetBuySum" column="SUM_PRE_END_ASSET_BUY_SUM" columnIndex="6"/>
-		<result property="sumAssetBuyAmt" column="SUM_ASSET_BUY_AMT" columnIndex="7"/>        
-		<result property="sumGnrlDeprctnRate" column="SUM_GNRL_DEPRCTN_RATE" columnIndex="8"/>    
+		<result property="sumAssetBuyAmt" column="SUM_ASSET_BUY_AMT" columnIndex="7"/>
+		<result property="sumGnrlDeprctnRate" column="SUM_GNRL_DEPRCTN_RATE" columnIndex="8"/>
 		<result property="sumThisTermDeprctnAmt" column="SUM_THIS_TERM_DEPRCTN_AMT" columnIndex="9"/>
-		<result property="sumCurAmt" column="SUM_CUR_AMT" columnIndex="10"/> 
+		<result property="sumCurAmt" column="SUM_CUR_AMT" columnIndex="10"/>
     </resultMap>
-    
+
     <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireList_D" parameterClass="gamAssetEvlDtlsInqireVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT 
+                           SELECT
 							       A.GIS_ASSETS_PRT_AT_CODE
-							     , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM  
+							     , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
 							     , A.GIS_ASSETS_CD
 							     , A.GIS_ASSETS_SUB_CD
 							     , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) GIS_ASSETS_CD_STR
@@ -56,90 +56,90 @@
 							     , E.INPUT_DATE
 							     , E.UPDATE_EMP_NO
 							     , E.UPDATE_DATE
-							FROM GIS_ASSETS_CD_F A,
-							     YGPAERP.EGMFA2000 E
-						   WHERE A.ERP_ASSETS_CLS    = E.ASSET_CLS
+							FROM GIS_ASSETS_CD_F A LEFT JOIN
+							     YGPAERP.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
-							   
-							   <!-- 
+ 						   WHERE 1=1
+
+							   <!--
 							   <isNotEmpty property="sGisAssetsCd">
-							       AND A.GIS_ASSETS_CD = #sGisAssetsCd# 
+							       AND A.GIS_ASSETS_CD = #sGisAssetsCd#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sGisAssetsNm">
 							       AND A.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-							   </isNotEmpty> 
-							   
+							   </isNotEmpty>
+
 							   <isNotEmpty property="sGisAssetsValInqireDtFrom">
 							       AND A.GIS_ASSETS_VAL_INQIRE_DT BETWEEN TO_DATE(#sGisAssetsValInqireDtFrom#||'000000','yyyy-mm-ddhh24miss') AND TO_DATE(#sGisAssetsValInqireDtTo#||'235959','yyyy-mm-ddhh24miss')
 							   </isNotEmpty>
                                -->
-                               
+
                                <isNotEmpty property="sGisAssetsBlddate">
-                                   AND E.DEPRCTN_YEAR = #sGisAssetsBlddate# 
+                                   AND E.DEPRCTN_YEAR = #sGisAssetsBlddate#
                                </isNotEmpty>
-                               
+
                                <isNotEmpty property="sGisAssetsPrprtySeCd">
-                                   AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd# 
+                                   AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
                                </isNotEmpty>
-                               
+
                                <isNotEmpty property="sGisAssetsLocCd">
-                                   AND A.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd# 
+                                   AND A.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd#
                                </isNotEmpty>
-                               
+
                                <isNotEmpty property="sGisAssetsQuayCd">
-                                   AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd# 
+                                   AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
                                </isNotEmpty>
-                               
-                               
+
+
                              ORDER BY A.REGISTDT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireListTotCnt_S" parameterClass="gamAssetEvlDtlsInqireVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM GIS_ASSETS_CD_F A,
-                   YGPAERP.EGMFA2000 E
-             WHERE A.ERP_ASSETS_CLS    = E.ASSET_CLS
-               AND A.ERP_ASSETS_NO     = E.ASSET_NO
-               AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
-                 
-              <!-- 
+							FROM GIS_ASSETS_CD_F A LEFT JOIN
+							     YGPAERP.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
+							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
+							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
+ 						   WHERE 1=1
+
+              <!--
               <isNotEmpty property="sGisAssetsCd">
-                  AND A.GIS_ASSETS_CD = #sGisAssetsCd# 
+                  AND A.GIS_ASSETS_CD = #sGisAssetsCd#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsNm">
                   AND A.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-              </isNotEmpty> 
-              
+              </isNotEmpty>
+
               <isNotEmpty property="sGisAssetsValInqireDtFrom">
                   AND A.GIS_ASSETS_VAL_INQIRE_DT BETWEEN TO_DATE(#sGisAssetsValInqireDtFrom#||'000000','yyyy-mm-ddhh24miss') AND TO_DATE(#sGisAssetsValInqireDtTo#||'235959','yyyy-mm-ddhh24miss')
               </isNotEmpty>
               -->
-              
+
               <isNotEmpty property="sGisAssetsBlddate">
-                  AND E.DEPRCTN_YEAR = #sGisAssetsBlddate# 
+                  AND E.DEPRCTN_YEAR = #sGisAssetsBlddate#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsPrprtySeCd">
-                  AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd# 
+                  AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsLocCd">
-                  AND A.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd# 
+                  AND A.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsQuayCd">
-                  AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd# 
+                  AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
               </isNotEmpty>
     </select>
-    
+
     <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireSum_S" parameterClass="gamAssetEvlDtlsInqireVO" resultMap="gamAssetEvlDtlsInqireSumMap">
-        SELECT 
+        SELECT
 		        SUM(NVL(E.REVAL_AMT,0)) SUM_REVAL_AMT
 		      , SUM(NVL(E.THIS_TERM_INCRE_AMT,0)) SUM_THIS_TERM_INCRE_AMT
 		      , SUM(NVL(E.BS_THIS_CUR_AMT,0)) SUM_BS_THIS_CUR_AMT
@@ -150,41 +150,40 @@
 		      , SUM(NVL(E.GNRL_DEPRCTN_RATE,0)) SUM_GNRL_DEPRCTN_RATE
 		      , SUM(NVL(E.THIS_TERM_DEPRCTN_AMT,0)) SUM_THIS_TERM_DEPRCTN_AMT
 		      , SUM(NVL(E.CUR_AMT,0)) SUM_CUR_AMT
-		  FROM GIS_ASSETS_CD_F A,
-		       YGPAERP.EGMFA2000 E
-		 WHERE A.ERP_ASSETS_CLS    = E.ASSET_CLS
-               AND A.ERP_ASSETS_NO     = E.ASSET_NO
-               AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
-                 
-              <!-- 
+							FROM GIS_ASSETS_CD_F A LEFT JOIN
+							     YGPAERP.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
+							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
+							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
+ 						   WHERE 1=1
+              <!--
               <isNotEmpty property="sGisAssetsCd">
-                  AND A.GIS_ASSETS_CD = #sGisAssetsCd# 
+                  AND A.GIS_ASSETS_CD = #sGisAssetsCd#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsNm">
                   AND A.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
-              </isNotEmpty> 
-              
+              </isNotEmpty>
+
               <isNotEmpty property="sGisAssetsValInqireDtFrom">
                   AND A.GIS_ASSETS_VAL_INQIRE_DT BETWEEN TO_DATE(#sGisAssetsValInqireDtFrom#||'000000','yyyy-mm-ddhh24miss') AND TO_DATE(#sGisAssetsValInqireDtTo#||'235959','yyyy-mm-ddhh24miss')
               </isNotEmpty>
               -->
-              
+
               <isNotEmpty property="sGisAssetsBlddate">
-                  AND E.DEPRCTN_YEAR = #sGisAssetsBlddate# 
+                  AND E.DEPRCTN_YEAR = #sGisAssetsBlddate#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsPrprtySeCd">
-                  AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd# 
+                  AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsLocCd">
-                  AND A.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd# 
+                  AND A.GIS_ASSETS_LOC_CD = #sGisAssetsLocCd#
               </isNotEmpty>
-              
+
               <isNotEmpty property="sGisAssetsQuayCd">
-                  AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd# 
+                  AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
               </isNotEmpty>
     </select>
-    
+
 </sqlMap>

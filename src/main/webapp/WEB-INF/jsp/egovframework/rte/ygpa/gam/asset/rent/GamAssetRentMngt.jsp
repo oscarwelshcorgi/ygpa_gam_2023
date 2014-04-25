@@ -281,15 +281,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$('#applcTariff').on('change', {module: this}, function(event) {
-        if( $(this).val() == '1' ) {
-            event.data.module.$('#applcTariffStr').val("0.005");
-        } else if( $(this).val() == '2' ) {
-            event.data.module.$('#applcTariffStr').val("0.0025");
-        } else if( $(this).val() == '3' ) {
-            event.data.module.$('#applcTariffStr').val("0.001");
-        } else {
-            event.data.module.$('#applcTariffStr').val("");
-        }
+    	if( $(this).val() == '1' ) {
+    		event.data.module.$('#applcTariffStr').val("0.05");
+    	} else if( $(this).val() == '2' ) {
+    		event.data.module.$('#applcTariffStr').val("0.025");
+    	} else if( $(this).val() == '3' ) {
+    		event.data.module.$('#applcTariffStr').val("0.01");
+    	} else {
+    		event.data.module.$('#applcTariffStr').val("");
+    	}
 
         if( $(this).val() == '' ) {
             event.data.module.$('#applcTariffNm').val("");
@@ -383,13 +383,13 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             this.$('#computDtls').val('');
             return;
         } else if( applcTariffStr == '1' ) {
-            applcTariff = 0.005;
+            applcTariff = 0.05;
             this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         } else if( applcTariffStr == '2' ) {
-            applcTariff = 0.0025;
+            applcTariff = 0.025;
             this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         } else if( applcTariffStr == '3' ) {
-            applcTariff = 0.001;
+            applcTariff = 0.01;
             this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
         }
 
@@ -1562,9 +1562,9 @@ var module_instance = new GamAssetRentMngtModule();
                                 <th><span class="label">승낙여부</span></th>
                                 <td>
                                     <select id="prmisnYn" disabled>
-                                        <option value="" selected="selected">선택</option>
+                                        <option value="">선택</option>
                                         <option value="Y">Y</option>
-                                        <option value="N">N</option>
+                                        <option value="N" selected="selected">N</option>
                                     </select>
                                 </td>
                                 <th><span class="label">승낙일자</span></th>

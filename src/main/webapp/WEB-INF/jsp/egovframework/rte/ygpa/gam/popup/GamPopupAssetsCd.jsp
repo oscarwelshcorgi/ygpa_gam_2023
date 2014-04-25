@@ -51,7 +51,16 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		//usepager: false,
 		//rp: 24,
 		//showTableToggleBtn: false,
-		height: "auto"
+		height: "auto",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.gisAssetsLocplc = this.gisAssetsLocplc+" "+this.gisAssetsLnm;
+				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
+					this.gisAssetsLocplc = this.gisAssetsLocplc+"-"+this.gisAssetsLnmSub;
+				}
+			});
+			return data;
+		}
 	});
 
 	this.$("#assetCodeList").on("onItemDoubleClick", function(event, module, row, grid, param) {

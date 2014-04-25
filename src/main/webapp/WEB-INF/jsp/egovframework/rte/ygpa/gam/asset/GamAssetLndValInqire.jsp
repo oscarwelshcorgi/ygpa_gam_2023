@@ -8,14 +8,14 @@
   * @Class Name : GamAssetLndValInqire.jsp
   * @Description : 자산부지공시지가조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.07  heroine          최초 생성
   *
   * author heroine
   * since 2014.02.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,56 +29,56 @@ GamAssetLndValInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
      url: '<c:url value="/asset/gamSelectAssetLndValInqireList.do"/>',
      dataType: 'json',
      colModel : [
+                 {display:'자산코드', name:'gisAssetsCode',width:100, sortable:false,align:'center'},
+                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
                  {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
+                 {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'center'},
+                 {display:'자산지번', name:'gisAssetsLnmCode',width:80, sortable:false,align:'center'},
                  {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center', displayFormat: 'number'},
                  {display:'면적대비 공시지가', name:'arOlnlp',width:130, sortable:false,align:'center', displayFormat: 'number'},
-                 //{display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCdStr',width:100, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
-                 {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'center'},
-                 {display:'자산지번', name:'gisAssetsLnm',width:80, sortable:false,align:'center'},
-                 {display:'자산사용여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
                  {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center', displayFormat: 'number'},
                  {display:'자산규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                 {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                 {display:'자산비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},     
-                 {display:'자산실제임대면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
-                 {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
-                 {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
-                 {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'}                                  
+                 {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},
+                 {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'}
                  ],
     showTableToggleBtn: true,
-    height: 'auto'
+    height: 'auto',
+    preProcess: function(module, data) {
+    	$.each(data.resultList, function() {
+    		this.gisAssetsCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
+    		this.gisAssetsLnmCode = this.gisAssetsLnm;
+    		if(this.gisAssetsLnm!=null && this.gisAssetsLnmSub) this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
+    	});
+    	return data;
+    }
  });
- 
-	
+
+
 	// 오늘 날짜로 시작(종료)일 설정처리
 	var today = new Date();
-	
+
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
-	
+
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
-	
+
 	var serchday = today.getDate();
-	
+
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 
 	this.$("#sBeginDt").val(displayDate);
 	this.$("#sEndDt").val(displayDate);
 };
-     
+
 /**
 * 정의 된 버튼 클릭 시
 */
@@ -88,12 +88,12 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 
      // 조회
      case 'searchBtn':
-    	 
+
     	 if(this.$("#sBeginDt").val() == ""){
     		 alert("시작일을 선택하세요.");
     		 return;
     	 }
-    	 
+
          var searchOpt=this.makeFormArgs('#gamAssetLndValInqireSearchForm');
          this.$('#assetLndValInqireList').flexOptions({params:searchOpt}).flexReload();
 
@@ -145,7 +145,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 class="emdcal" size="8"></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
-                        <!-- 
+                        <!--
                         <tr>
                             <th>관리부서</th>
                             <td><select id="mngDeptCd"></select></td>
@@ -162,18 +162,18 @@ var module_instance = new GamAssetLndValInqireModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <!-- 
+                <!--
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">자산정보현황 상세</a></li>
                  -->
-                 
+
                 <li><a href="#tabs1" class="emdTab">자산부지공시지가</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="assetLndValInqireList" style="display:none" class="fillHeight"></table>
-               
-                <!-- 
+
+                <!--
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
@@ -196,15 +196,15 @@ var module_instance = new GamAssetLndValInqireModule();
                 </div>
                  -->
             </div>
-            
-            <!-- 
+
+            <!--
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
                 <div class="emdControlPanel">
                     <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
                     <form id="gamAssetRentFeeForm">
                         <input type="hidden" id="cmd"/>
-                        
+
                         <table>
                             <tr>
                                 <th><span class="label">고지 횟수</span></th>
@@ -231,14 +231,14 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <th><span class="label">고지 일자</span></th>
                                 <td><input type="text" size="10" id="nticDt"/></td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">납부 기한</span></th>
                                 <td><input type="text" size="10" id="payTmlmt"/></td>
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="10" id="olnlp"/></td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">사용료</span></th>
                                 <td><input type="text" size="10" id="fee"/></td>
@@ -251,14 +251,14 @@ var module_instance = new GamAssetLndValInqireModule();
                                     </select>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">부가세</span></th>
                                 <td><input type="text" size="10" id="vat"/></td>
                                 <th><span class="label">고지 금액</span></th>
                                 <td><input type="text" size="10" id="nticAmt"/></td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">비고</span></th>
                                 <td><input type="text" size="10" id="rm"/></td>

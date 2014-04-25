@@ -6,7 +6,7 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetRentFeePayDtlsMngtVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO"/>
-    
+
     <resultMap id="gamAssetRentFeePayDtlsMngtSumMap" class="gamAssetRentFeePayDtlsMngtVO">
         <result property="sumBillAmnt" column="SUM_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
         <result property="sumRcvdAmnt" column="SUM_RCVD_AMNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
@@ -18,67 +18,88 @@
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT 
-								 E.INT_SEQ             
-								,E.DEL_KIND           
-								,E.JINGSU_DATE            
-								,E.SUNAP_DATE         
-								,E.PRT_AT_CODE            
-								,E.FEE_TP             
-								,E.FISCAL_YR          
-								,E.BILL_NO                
-								,E.ACCNT_CODE         
-								,E.AGENT_CODE         
-								,E.BILL_AMNT          
-								,E.BILL_DT                
-								,E.BILL_PRT_YN            
-								,E.DUE_DATE           
-								,E.RCVD_DT                
-								,E.RCVD_TP                
-								,E.RSLT_CODE          
-								,E.EXMP_AMNT          
-								,E.OVER_AMNT          
-								,E.DC_AMNT                
-								,E.DC_CODE                
-								,E.DC_RATE                
-								,E.RECPT_EPDT         
-								,E.ELCT_BILL_RSLT     
-								,E.BULL_INFO_INQR_DTIME
-								,E.AMNT_RSN           
-								,E.BZ_RGST_ID         
-								,E.AGENT_NAME         
-								,E.LAST               
-								,E.VAT_YN             
-								,E.JIRO_NO                
-								,E.ELEC_PAY_NO            
-								,E.CUSTOMER_MNGT_NO   
-								,E.CUSTOMER_ADDR      
-								,E.PAY_NAME 
-					        FROM  ERP_REV_COLL_F@YGPA_PORTMIS E
+                           SELECT
+								E.PRT_AT_CODE,
+								E.FEE_TP,
+								E.FISCAL_YR,
+								E.BILL_NO,
+								E.BZ_RGST_ID,
+								E.SSN,
+								E.RCVD_TP,
+								E.BILL_DT,
+								E.DUE_DATE,
+								E.RCVD_DT,
+								E.BILL_PRT_YN,
+								E.VSSL_KEY,
+								E.BILL_AMNT,
+								E.AMNT_RSN,
+								E.AGENT_NAME,
+								E.UPDT_UID,
+								E.UPDT_DATE,
+								E.SALIMI_NO,
+								E.AGENT_CODE,
+								E.DC_CODE,
+								E.DC_RATE,
+								E.ACCNT_CODE,
+								E.ICHE_STATUS,
+								E.RSLT_CODE,
+								E.IO_TP,
+								E.EXMP_AMNT,
+								E.OVER_AMNT,
+								E.DC_AMNT,
+								E.RECPT_EPDT,
+								E.POST_BILL_YN,
+								E.NOPAY_LOSS_REAS_CD,
+								E.ELCT_BILL_RSLT,
+								E.BULL_INFO_INQR_DTIME,
+								E.LAST,
+								E.FIRST_BILL_DT,
+								E.RCVD_NM,
+								E.IN_RQ_YN,
+								E.BUL_MTH_CD,
+								E.VAT_YN,
+								E.VAT,
+								E.BILL_AMNT_BF,
+								E.SMALL_BILL_YN,
+								E.BOK_CAA_DT,
+								E.STR_DATE,
+								E.END_DATE,
+								E.CALL_LETTER,
+								E.NOCHENAP_REAS,
+								E.CNV_YN,
+								E.EPAY_NO,
+								E.MW_PRINT_ID,
+								E.MW_PRINT_DATE,
+								E.MW_PRINT_CNT
+					        FROM  REV_COLL_F@YGPA_PORTMIS E
 					             ,LEV_REQEST_F L
-					       WHERE E.BILL_NO = L.NTICNO
-					       
+					       WHERE E.PRT_AT_CODE=L.PRT_AT_CODE
+					       	AND E.FISCAL_YR = L.ACCNUT_YEAR
+					       	AND E.FEE_TP = L.CHRGE_KND
+					       	AND E.BILL_NO = L.NTICNO
 					       <isNotEmpty property="sPrtAtCode">
 			                   AND L.PRT_AT_CODE = #sPrtAtCode#
 			               </isNotEmpty>
-			               
+
 			               ORDER BY INT_SEQ DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM  ERP_REV_COLL_F@YGPA_PORTMIS E
+              FROM  REV_COLL_F@YGPA_PORTMIS E
                    ,LEV_REQEST_F L
-             WHERE E.BILL_NO = L.NTICNO
-             
-             <isNotEmpty property="sPrtAtCode">
-                 AND L.PRT_AT_CODE = #sPrtAtCode#
-             </isNotEmpty>
+		       WHERE E.PRT_AT_CODE=L.PRT_AT_CODE
+		       	AND E.FISCAL_YR = L.ACCNUT_YEAR
+		       	AND E.FEE_TP = L.CHRGE_KND
+		       	AND E.BILL_NO = L.NTICNO
+		       <isNotEmpty property="sPrtAtCode">
+                   AND L.PRT_AT_CODE = #sPrtAtCode#
+               </isNotEmpty>
     </select>
-    
+
     
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultMap="gamAssetRentFeePayDtlsMngtSumMap">
             SELECT 

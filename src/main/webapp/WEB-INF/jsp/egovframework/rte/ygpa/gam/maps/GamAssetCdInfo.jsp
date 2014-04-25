@@ -5,6 +5,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<fmt:requestEncoding/>
+<fmt:setLocale value="ko"/>
+
 <c:if test="${resultCode!=0 }">
 	<h2><c:out value="${resultMsg }" /></h2>
 </c:if>
@@ -27,7 +30,7 @@
 			<tr><th>업체명</th><td><c:out value="${rentItem.entrpsNm }" /> ()<c:out value="${rentItem.entrpsCd }" /></td></tr>
 			<tr><th>사용기간</th><td><c:out value="${rentItem.usePdFrom }" />~<c:out value="${rentItem.usePdTo }" /></td></tr>
 			<tr><th>사용면적</th><td><fmt:formatNumber value="${rentItem.usageAr }" maxIntegerDigits="3" maxFractionDigits="2" /> (단위:m²)</td></tr>
-			<tr><th>사용금액</th><td><fmt:formatNumber value="${rentItem.fee }" type="currency" /> 원</td></tr>
+			<tr><th>사용금액</th><td><fmt:formatNumber value="${rentItem.fee }" type="number"/> 원</td></tr>
 			<tr><th>사용목적</th><td><c:out value="${rentItem.usagePurps }" /></td></tr>
 		</tbody></table>
 		</c:forEach>
@@ -38,7 +41,7 @@
 			<tr><th>총사용면적</th><td><fmt:formatNumber value="${assetRentSummary.usageAr }" maxIntegerDigits="3" maxFractionDigits="2" /> (단위:m²)</td></tr>
 			<tr><th>미사용면적</th><td><fmt:formatNumber value="${assetRentSummary.unUsageAr }" maxIntegerDigits="3" maxFractionDigits="2" /> (단위:m²)</td></tr>
 			<tr><th>총면적</th><td><fmt:formatNumber value="${assetRentSummary.totalAr }" maxIntegerDigits="3" maxFractionDigits="2" /> (단위:m²)</td></tr>
-			<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totalFee }" type="currency" /> 원</td></tr>
+			<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totalFee }" type="number" /> 원</td></tr>
 		</tbody></table>
 		</c:if>
 	</div>

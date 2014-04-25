@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
-  * @Description : 맵 조회 화면 (DEBUG)
+  * @Description : 맵 조회 화면 (TEST)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -588,6 +588,12 @@
                 </li>
                 <li>
                     <a href="#" data-role="MinimizeAllWindow">모든창 최소화</a>
+                </li>
+                <li>
+                	<hr />
+                </li>
+                <li>
+                    <a href="#" data-role="logout">로그아웃</a>
                 </li>
             </ul>
         </li>

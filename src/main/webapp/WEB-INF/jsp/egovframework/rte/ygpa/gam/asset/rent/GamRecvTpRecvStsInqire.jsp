@@ -8,14 +8,14 @@
   * @Class Name : GamRecvTpRecvStsInqire.jsp
   * @Description : 수입종류별수입현황조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.07  heroine          최초 생성
   *
   * author heroine
   * since 2014.02.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,8 +29,8 @@ GamRecvTpRecvStsInqireModule.prototype = new EmdModule(800, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#recvTpRecvStsInqireList").flexigrid({
      module: this,
      url: '<c:url value="/asset/rent/gamSelectRecvTpRecvStsInqireList.do"/>',
@@ -56,7 +56,7 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
  	}
  });
 };
-     
+
 /**
 * 정의 된 버튼 클릭 시
 */
@@ -70,7 +70,7 @@ GamRecvTpRecvStsInqireModule.prototype.onButtonClick = function(buttonId) {
          this.$('#recvTpRecvStsInqireList').flexOptions({params:searchOpt}).flexReload();
 
          break;
-         
+
      case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
          var opts;
 
@@ -114,7 +114,7 @@ GamRecvTpRecvStsInqireModule.prototype.onClosePopup = function(popupId, msg, val
            alert('취소 되었습니다');
        }
        break;
-       
+
    default:
        alert('알수없는 팝업 이벤트가 호출 되었습니다.');
        throw 0;
@@ -143,19 +143,17 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
                             <th>업체</th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="5">
-                                <input id="sEntrpsNm" type="text" size="8" readonly> 
+                                <input id="sEntrpsNm" type="text" size="8" readonly>
                                 <button id="popupEntrpsInfo">업체</button>
                             </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
-                        <!-- 
                         <tr>
                             <th>관리부서</th>
-                            <td><select id="mngDeptCd"></select></td>
+                            <td><input id="mngDeptCd" class="ygpaDeptSelect"></select></td>
                             <th>운영부서</th>
-                            <td><select id="operDeptCd"></select></td>
+                            <td><input id="operDeptCd" class="ygpaDeptSelect"></select></td>
                         </tr>
-                         -->
                     </tbody>
                 </table>
             </form>
@@ -165,18 +163,14 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <!-- 
-                <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">자산정보현황 상세</a></li>
-                 -->
-                 
                 <li><a href="#tabs1" class="emdTab">수입종류별수입현황</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="recvTpRecvStsInqireList" style="display:none" class="fillHeight"></table>
-               
-                <div class="emdControlPanel">
+<<<<<<< .mine
+=======               
+>>>>>>> .theirs                <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
                             <td>
@@ -195,89 +189,9 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
                             -->
                         </tr>
                     </table>
+                       <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+                       <button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
                 </div>
             </div>
-            
-            <!-- 
-            <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-
-                <div class="emdControlPanel">
-                    <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
-                    <form id="gamAssetRentFeeForm">
-                        <input type="hidden" id="cmd"/>
-                        
-                        <table>
-                            <tr>
-                                <th><span class="label">고지 횟수</span></th>
-                                <td><input type="text" size="10" id="nticCnt"/></td>
-                                <th><span class="label">시설 구분</span></th>
-                                <td><input type="text" size="10" id="fcltySe"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">요금 종류</span></th>
-                                <td>
-                                    <select id="chrgeKnd">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${chrgeKndCdList}" var="chrgeKndItem">
-                                            <option value="${chrgeKndItem.code }">${chrgeKndItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <th><span class="label">업체코드</span></th>
-                                <td><input type="text" size="10" id="entrpscd"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">고지번호</span></th>
-                                <td><input type="text" size="10" id="nticno"/></td>
-                                <th><span class="label">고지 일자</span></th>
-                                <td><input type="text" size="10" id="nticDt"/></td>
-                            </tr>
-                            
-                            <tr>
-                                <th><span class="label">납부 기한</span></th>
-                                <td><input type="text" size="10" id="payTmlmt"/></td>
-                                <th><span class="label">공시지가</span></th>
-                                <td><input type="text" size="10" id="olnlp"/></td>
-                            </tr>
-                            
-                            <tr>
-                                <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="10" id="fee"/></td>
-                                <th><span class="label">부가세 여부</span></th>
-                                <td>
-                                    <select id="vatYn">
-                                        <option value="" selected="selected">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N">N</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <th><span class="label">부가세</span></th>
-                                <td><input type="text" size="10" id="vat"/></td>
-                                <th><span class="label">고지 금액</span></th>
-                                <td><input type="text" size="10" id="nticAmt"/></td>
-                            </tr>
-                            
-                            <tr>
-                                <th><span class="label">비고</span></th>
-                                <td><input type="text" size="10" id="rm"/></td>
-                                <th><span class="label">수납 구분</span></th>
-                                <td>
-                                    <select id="rcivSe">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${rcivSeCdList}" var="rcivSeItem">
-                                            <option value="${rcivSeItem.code }">${rcivSeItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-            </div>
-
-        </div>
-        -->
     </div>
 </div>

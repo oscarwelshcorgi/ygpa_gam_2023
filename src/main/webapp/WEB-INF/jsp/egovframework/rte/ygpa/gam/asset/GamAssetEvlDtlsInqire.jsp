@@ -8,14 +8,14 @@
   * @Class Name : GamAssetEvlDtlsInqire.jsp
   * @Description : 자산가치평가내역조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.07  heroine          최초 생성
   *
   * author heroine
   * since 2014.02.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,8 +29,8 @@ GamAssetEvlDtlsInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#assetEvlDtlsInqireList").flexigrid({
      module: this,
      url: '<c:url value="/asset/gamSelectAssetEvlDtlsInqireList.do"/>',
@@ -42,25 +42,28 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
                  {display:'위치', name:'gisAssetsLocCdNm',width:150, sortable:false,align:'center'},
                  {display:'부두', name:'gisAssetsQuayCdNm',width:150, sortable:false,align:'center'},
                  {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
-                 {display:'재평가금액', name:'revalAmt',width:140, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'당기자산증가금액', name:'thisTermIncreAmt',width:140, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'대차대조기말현재금액', name:'bsThisCurAmt',width:140, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'대차대조전기말상각누계금액', name:'bsPreDeprctnSum',width:180, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'대차대조미상각잔액', name:'bsNoDeprctnBal',width:140, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'전기말자본적지출금액누계', name:'preEndAssetBuySum',width:180, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'자본적지출금액', name:'assetBuyAmt',width:140, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'당기상각금액', name:'thisTermDeprctnAmt',width:140, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'재평가금액', name:'revalAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당기자산증가금액', name:'thisTermIncreAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조기말현재금액', name:'bsThisCurAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조전기말상각누계금액', name:'bsPreDeprctnSum',width:180, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조미상각잔액', name:'bsNoDeprctnBal',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'전기말자본적지출금액누계', name:'preEndAssetBuySum',width:180, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'자본적지출금액', name:'assetBuyAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당기상각금액', name:'thisTermDeprctnAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'잔존금액', name:'curAmt',width:140, sortable:false,align:'center', displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',
      preProcess: function(module,data) {
-         module.$('#sumRevalAmt').val(data.sumRevalAmt);
-         module.$('#sumThisTermIncreAmt').val(data.sumThisTermIncreAmt);
-         module.$('#sumBsThisCurAmt').val(data.sumBsThisCurAmt);
-         module.$('#sumAssetBuyAmt').val(data.sumAssetBuyAmt);
-         module.$('#sumThisTermDeprctnAmt').val(data.sumThisTermDeprctnAmt);
-         module.$('#sumCurAmt').val(data.sumCurAmt);
+         module.$('#sumRevalAmt').val($.number(data.sumRevalAmt));
+         module.$('#sumThisTermIncreAmt').val($.number(data.sumThisTermIncreAmt));
+         module.$('#sumBsThisCurAmt').val($.number(data.sumBsThisCurAmt));
+         module.$('#sumBsPreDeprctnSum').val($.number(data.sumBsPreDeprctnSum));
+         module.$('#sumBsNoDeprctnBal').val($.number(data.sumBsNoDeprctnBal));
+         module.$('#sumPreEndAssetBuySum').val($.number(data.sumPreEndAssetBuySum));
+         module.$('#sumAssetBuyAmt').val($.number(data.sumAssetBuyAmt));
+         module.$('#sumThisTermDeprctnAmt').val($.number(data.sumThisTermDeprctnAmt));
+         module.$('#sumCurAmt').val($.number(data.sumCurAmt));
 
          return data;
      }
@@ -74,20 +77,20 @@ this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, r
          var erpAssetsSeCd = "";
          var erpAssetsNo = "";
          var erpAssetsNoSeq = "";
-         
+
          erpAssetsSeCd = row['erpAssetsSeCd'];
          erpAssetsNo = row['erpAssetsNo'];
          erpAssetsNoSeq = row['erpAssetsNoSeq'];
-         
+
          var inputVO = {erpAssetsSeCd: erpAssetsSeCd, erpAssetsNo: erpAssetsNo, erpAssetsNoSeq: erpAssetsNoSeq};
-    	 
+
     	 module.doAction('<c:url value="/asset/gamSelectAssetEvlDtlsInqireErp.do" />', inputVO, function(module, result) {
-             
+
              if(result.resultCode=='0') {
-            	 module.$('#assetCls').val(result.assetCls); 
-            	 module.$('#assetNo').val(result.assetNo); 
-            	 module.$('#assetNoSeq').val(result.assetNoSeq); 
-                 module.$('#thisTermIncreAmt').val(result.thisTermIncreAmt); 
+            	 module.$('#assetCls').val(result.assetCls);
+            	 module.$('#assetNo').val(result.assetNo);
+            	 module.$('#assetNoSeq').val(result.assetNoSeq);
+                 module.$('#thisTermIncreAmt').val(result.thisTermIncreAmt);
                  module.$('#bsThisCurAmt').val(result.bsThisCurAmt);
                  module.$('#bsPreDeprctnSum').val(result.bsPreDeprctnSum);
                  module.$('#bsNoDeprctnBal').val(result.bsNoDeprctnBal);
@@ -96,10 +99,10 @@ this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, r
                  module.$('#thisTermDeprctnAmt').val(result.thisTermDeprctnAmt);
                  module.$('#curAmt').val(result.curAmt);
              } else {
-                 module.$('#assetCls').val(''); 
-                 module.$('#assetNo').val(''); 
-                 module.$('#assetNoSeq').val(''); 
-                 module.$('#thisTermIncreAmt').val(''); 
+                 module.$('#assetCls').val('');
+                 module.$('#assetNo').val('');
+                 module.$('#assetNoSeq').val('');
+                 module.$('#thisTermIncreAmt').val('');
                  module.$('#bsThisCurAmt').val('');
                  module.$('#bsPreDeprctnSum').val('');
                  module.$('#bsNoDeprctnBal').val('');
@@ -107,7 +110,7 @@ this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, r
                  module.$('#assetBuyAmt').val('');
                  module.$('#thisTermDeprctnAmt').val('');
                  module.$('#curAmt').val('');
-                 
+
                  alert(result.resultMsg);
              }
          });
@@ -171,7 +174,7 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                             <th>상각연도</th>
                             <td>
                                 <!-- <input id="sGisAssetsBlddate" type="text" size="5" value="">  -->
-                                
+
                                 <select id="sGisAssetsBlddate">
                                     <option value="">선택</option>
                                     <c:forEach items="${yearList}" var="yearListItem">
@@ -201,38 +204,48 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="assetEvlDtlsInqireList" style="display:none" class="fillHeight"></table>
-                
+
                 <div class="emdControlPanel">
                     <table style="width:100%;">
                         <tr>
                             <td style="width:50px;">합계 :</td>
                             <td style="width:120px;">재평가금액</td>
-                            <td style="width:200px;"><input id="sumRevalAmt" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td style="width:200px;"><input id="sumRevalAmt" size="23" class="ygpaCurrency" readonly >원</td>
                             <td style="width:130px;">당기자산증가금액</td>
-                            <td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
                             <td style="width:165px;">대차대조기말현재금액</td>
-                            <td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>대차대조전기말상각누계금액</td>
+                            <td><input id="sumBsPreDeprctnSum" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td>대차대조미상각잔액</td>
+                            <td><input id="sumBsNoDeprctnBal" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td>전기말자본적지출금액 누계</td>
+                            <td><input id="sumPreEndAssetBuySum" type="text" size="23" class="ygpaCurrency" readonly >원</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td>자본적지출금액</td>
-                            <td><input id="sumAssetBuyAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td><input id="sumAssetBuyAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
                             <td>당기상각금액</td>
-                            <td><input id="sumThisTermDeprctnAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td><input id="sumThisTermDeprctnAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
                             <td>잔존금액</td>
-                            <td><input id="sumCurAmt" type="text" size="23" class="ygpaCurrency" readonly>원</td>
+                            <td><input id="sumCurAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
                         </tr>
                         <tr>
                             <td colspan="7" style="text-align: right">
-                                <button id="btnXXX3">맵조회</button>
-                                <button id="btnXXX3">인쇄</button>
+                                <button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button>
+								<button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+<!--                                 <button id="printGrid" data-flexi-grid="assetEvlDtlsInqireList">인쇄</button> -->
                             </td>
                         </tr>
-                        
+
                     </table>
                 </div>
-                
+
             </div>
-            
+
     </div>
 </div>

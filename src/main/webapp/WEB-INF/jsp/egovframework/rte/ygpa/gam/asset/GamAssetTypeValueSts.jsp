@@ -8,14 +8,14 @@
   * @Class Name : GamAssetTypeValueSts.jsp
   * @Description : 자산종류별자산가치통계조회
   * @Modification heroine
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.14  heroine          최초 생성
   *
   * author heroine
   * since 2014.01.14
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,25 +29,26 @@ GamAssetTypeValueStsModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetTypeValueStsModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#assetTypeValueStsList").flexigrid({
      module: this,
      url: '<c:url value="/asset/gamSelectAssetTypeValueStsList.do"/>',
      dataType: 'json',
      colModel : [
                  {display:'상각연도', name:'deprctnYear',width:150, sortable:false,align:'center'},
-                 {display:'출자구분', name:'gisAssetsInvstmntMthd',width:150, sortable:false,align:'center'},
-                 {display:'자산구분', name:'gisAssetsSeCdNm',width:180, sortable:false,align:'center'},
-                 {display:'재평가금액', name:'revalAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'당기자산증가금액', name:'thisTermIncreAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'대차대조기말현재금액', name:'bsThisCurAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'대차대조전기말상각누계금액', name:'bsPreDeprctnSum',width:180, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'대차대조미상각잔액', name:'bsNoDeprctnBal',width:150, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'전기말자본적지출금액누계', name:'preEndAssetBuySum',width:180, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'자본적지출금액', name:'assetBuyAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'당기상각금액', name:'thisTermDeprctnAmt',width:150, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'잔존금액', name:'curAmt',width:150, sortable:false,align:'center', displayFormat: 'number'}
+                 {display:'재산종류', name:'gisAssetsPrprtySeNm',width:150, sortable:false,align:'center'},
+                 {display:'자산구분', name:'gisAssetsSeNm',width:180, sortable:false,align:'center'},
+                 {display:'부두명', name:'gisAssetsQuayNm',width:180, sortable:false,align:'center'},
+                 {display:'재평가금액', name:'sumRevalAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당기자산증가금액', name:'sumThisTermIncreAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조기말현재금액', name:'sumBsThisCurAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조전기말상각누계금액', name:'sumBsPreDeprctnSum',width:180, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조미상각잔액', name:'sumBsNoDeprctnBal',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'전기말자본적지출금액누계', name:'sumPreEndAssetBuySum',width:180, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'자본적지출금액', name:'sumAssetBuyAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당기상각금액', name:'sumThisTermDeprctnAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'잔존금액', name:'sumCurAmt',width:150, sortable:false,align:'right', displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto'
@@ -56,9 +57,9 @@ GamAssetTypeValueStsModule.prototype.loadComplete = function() {
 
 this.$("#assetTypeValueStsList").on("onItemSelected", function(event, module, row, grid, param) {
     //alert("row " + row["erpAssetsSeCd"]+"-"+row["erpAssetsNo"]+"-"+row["erpAssetsNoSeq"]+" is selected");
-    
-     
-    
+
+
+
 });
 
 /**
@@ -67,20 +68,20 @@ this.$("#assetTypeValueStsList").on("onItemSelected", function(event, module, ro
 GamAssetTypeValueStsModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
-	
+
 	    // 조회
 	    case 'searchBtn':
 	        var searchOpt=this.makeFormArgs('#gamAssetTypeValueStsSearchForm');
 	        this.$('#assetTypeValueStsList').flexOptions({params:searchOpt}).flexReload();
-	
+
 	        break;
-	        
+
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-            break;      
-	        
+            break;
+
 	}
 };
 
@@ -98,7 +99,7 @@ GamAssetTypeValueStsModule.prototype.onClosePopup = function(popupId, msg, value
 	           alert('취소 되었습니다');
 	       }
 	       break;
-	}     
+	}
 };
 
 GamAssetTypeValueStsModule.prototype.onSubmit = function() {
@@ -144,7 +145,7 @@ var module_instance = new GamAssetTypeValueStsModule();
                                         <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisYear}">selected</c:if> >${yearListItem.codeNm }</option>
                                     </c:forEach>
                                 </select>
-                                
+
                             </td>
                             <td><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
@@ -161,7 +162,7 @@ var module_instance = new GamAssetTypeValueStsModule();
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="assetTypeValueStsList" style="display:none" class="fillHeight"></table>
-            <!-- 
+            <!--
             <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
@@ -176,6 +177,6 @@ var module_instance = new GamAssetTypeValueStsModule();
             </div>
              -->
 		</div>
-            
+
     </div>
 </div>

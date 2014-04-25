@@ -25,7 +25,7 @@
  */
 function GamPopupAssetDisUseModule() {}
 
-GamPopupAssetDisUseModule.prototype = new EmdPopupModule(450, 90);
+GamPopupAssetDisUseModule.prototype = new EmdPopupModule(450, 110);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupAssetDisUseModule.prototype.loadComplete = function() {
@@ -39,18 +39,18 @@ GamPopupAssetDisUseModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnDisUseExec':
 		var inputVO=this.makeFormArgs('#gamPopupDisUseForm');
-        
+
 		if( this.$('#erpAssetsDisuseRsn').val() == '' ) {
             alert("자산폐기사유를 입력하십시오.");
         } else {
         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', inputVO, function(module, result) {
-                
+
                 alert(result.resultMsg);
-                
+
                 module.closeDialog('ok', result.resultCode);
             });
         }
-		
+
 		break;
 	case 'cancel':
 		this.cancelDialog();
@@ -84,7 +84,7 @@ var popup_instance = new GamPopupAssetDisUseModule();
                         <td>
                             <input type="text" size="30" id="erpAssetsDisuseRsn"/>
                         </td>
-                        <td><button id=btnDisUseExec class="submit">자산폐기</button></td>
+                        <td><button id=btnDisUseExec class="submit">폐기</button></td>
                     </tr>
 				</tbody>
 		    </table>

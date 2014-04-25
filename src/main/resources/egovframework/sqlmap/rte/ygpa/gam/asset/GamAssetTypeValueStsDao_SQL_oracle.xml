@@ -6,46 +6,47 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetTypeValueStsVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO"/>
-    
+
     <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsList_D" parameterClass="gamAssetTypeValueStsVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-							SELECT 
-							        B.DEPRCTN_YEAR          
-							       ,B.ASSET_CLS     
-							       ,B.ASSET_NO          
-							       ,B.ASSET_NO_SEQ          
-							       ,NVL(B.REVAL_AMT,0) REVAL_AMT
-							       ,NVL(B.THIS_TERM_INCRE_AMT,0) THIS_TERM_INCRE_AMT 
-							       ,NVL(B.BS_THIS_CUR_AMT,0) BS_THIS_CUR_AMT  
-							       ,NVL(B.BS_PRE_DEPRCTN_SUM,0)  BS_PRE_DEPRCTN_SUM      
-							       ,NVL(B.BS_NO_DEPRCTN_BAL,0) BS_NO_DEPRCTN_BAL        
-							       ,NVL(B.PRE_END_ASSET_BUY_SUM,0) PRE_END_ASSET_BUY_SUM    
-							       ,NVL(B.ASSET_BUY_AMT,0) ASSET_BUY_AMT        
-							       ,NVL(B.GNRL_DEPRCTN_RATE,0) GNRL_DEPRCTN_RATE        
-							       ,NVL(B.THIS_TERM_DEPRCTN_AMT,0) THIS_TERM_DEPRCTN_AMT    
-							       ,NVL(B.CUR_AMT,0) CUR_AMT   
-							       ,A.GIS_ASSETS_INVSTMNT_MTHD
-							       ,A.GIS_ASSETS_SE_CD
-							       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM003' AND CD.CODE = A.GIS_ASSETS_SE_CD AND ROWNUM = 1) GIS_ASSETS_SE_CD_NM
-							  FROM GIS_ASSETS_CD_F A,
+						select * FROM(
+							SELECT
+							        B.DEPRCTN_YEAR
+							               ,a.gis_assets_prprty_se_cd
+							               ,a.gis_assets_se_cd
+							               ,a.gis_assets_quay_cd
+							       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM001' AND CD.CODE = A.gis_assets_prprty_se_cd AND ROWNUM = 1) gis_assets_prprty_se_NM
+							       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM013' AND CD.CODE = A.gis_assets_se_cd AND ROWNUM = 1) GIS_ASSETS_SE_NM
+							       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM003' AND CD.CODE = A.gis_assets_quay_cd AND ROWNUM = 1) gis_assets_quay_nm
+							       ,SUM(NVL(B.THIS_TERM_INCRE_AMT,0)) SUM_THIS_TERM_INCRE_AMT
+							       ,SUM(NVL(B.BS_THIS_CUR_AMT,0)) SUM_BS_THIS_CUR_AMT
+							       ,SUM(NVL(B.REVAL_AMT,0)) SUM_REVAL_AMT
+							       ,SUM(NVL(B.BS_PRE_DEPRCTN_SUM,0))  SUM_BS_PRE_DEPRCTN_SUM
+							       ,SUM(NVL(B.BS_NO_DEPRCTN_BAL,0)) SUM_BS_NO_DEPRCTN_BAL
+							       ,SUM(NVL(B.PRE_END_ASSET_BUY_SUM,0)) SUM_PRE_END_ASSET_BUY_SUM
+							       ,SUM(NVL(B.ASSET_BUY_AMT,0)) SUM_ASSET_BUY_AMT
+							       ,SUM(NVL(B.GNRL_DEPRCTN_RATE,0)) SUM_GNRL_DEPRCTN_RATE
+							       ,SUM(NVL(B.THIS_TERM_DEPRCTN_AMT,0)) SUM_THIS_TERM_DEPRCTN_AMT
+							       ,SUM(NVL(B.CUR_AMT,0)) SUM_CUR_AMT
+							  FROM GIS_ASSETS_CD_F A LEFT JOIN
 							       YGPAERP.EGMFA2000 B
-							 WHERE A.ERP_ASSETS_CLS    = B.ASSET_CLS
+							              on A.ERP_ASSETS_CLS    = B.ASSET_CLS
 							   AND A.ERP_ASSETS_NO     = B.ASSET_NO
 							   AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
-					
-							<isNotEmpty property="sDeprctnYear">
-					            AND B.DEPRCTN_YEAR = #sDeprctnYear#  
-					        </isNotEmpty>
-                    
-							ORDER BY B.DEPRCTN_YEAR DESC
+							 WHERE 1=1
+								<isNotEmpty property="sDeprctnYear">
+						            AND B.DEPRCTN_YEAR = #sDeprctnYear#
+						        </isNotEmpty>
+							          GROUP BY B.DEPRCTN_YEAR, a.gis_assets_prprty_se_cd, a.gis_assets_se_cd, a.gis_assets_quay_cd
+						) order by DEPRCTN_YEAR, gis_assets_prprty_se_NM, GIS_ASSETS_SE_NM, gis_assets_quay_nm
                         ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsListTotCnt_S" parameterClass="gamAssetTypeValueStsVO" resultClass="int">
             SELECT COUNT(*) totcnt
               FROM GIS_ASSETS_CD_F A,
@@ -53,10 +54,10 @@
              WHERE A.ERP_ASSETS_CLS    = B.ASSET_CLS
                AND A.ERP_ASSETS_NO     = B.ASSET_NO
                AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
-    
+
             <isNotEmpty property="sDeprctnYear">
-                AND B.DEPRCTN_YEAR = #sDeprctnYear#  
+                AND B.DEPRCTN_YEAR = #sDeprctnYear#
             </isNotEmpty>
     </select>
-    
+
 </sqlMap>

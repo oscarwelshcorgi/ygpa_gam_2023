@@ -8,14 +8,14 @@
   * @Class Name : GamMarineCenterMonthStsReport.jsp
   * @Description : 마린센터월별사용료현황조회
   * @Modification heroine
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.14  heroine          최초 생성
   *
   * author heroine
   * since 2014.01.14
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,8 +29,8 @@ GamMarineCenterMonthStsReportModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamMarineCenterMonthStsReportModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#marineCenterMonthStsReportList").flexigrid({
      module: this,
      url: '<c:url value="/oper/center/gamSelectMarineCenterMonthStsReportList.do"/>',
@@ -52,23 +52,23 @@ GamMarineCenterMonthStsReportModule.prototype.loadComplete = function() {
      showTableToggleBtn: false,
      height: 'auto'
  });
- 
+
  //로드될 때 사용기간에 오늘날짜 처리
  var today = new Date();
- var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
- var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
+ var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1);
+ var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate();
  var sToday = today.getFullYear() + '-' + month + '-' + date;
- 
+
  this.$('#sGrUsagePdFrom').val(sToday);
- this.$('#sGrUsagePdTo').val(sToday);    
+ this.$('#sGrUsagePdTo').val(sToday);
 
 };
 
 this.$("#marineCenterMonthStsReportList").on("onItemSelected", function(event, module, row, grid, param) {
     //alert("row " + row["erpAssetsSeCd"]+"-"+row["erpAssetsNo"]+"-"+row["erpAssetsNoSeq"]+" is selected");
-    
-     
-    
+
+
+
 });
 
 /**
@@ -77,14 +77,14 @@ this.$("#marineCenterMonthStsReportList").on("onItemSelected", function(event, m
 GamMarineCenterMonthStsReportModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
-	
+
 	    // 조회
 	    case 'searchBtn':
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("사용기간을 선택하십시오.");
             	return;
             }
-            
+
             if( this.$('#sGrUsagePdTo').val() == '' ) {
                 alert("사용기간을 선택하십시오.");
                 return;
@@ -92,15 +92,15 @@ GamMarineCenterMonthStsReportModule.prototype.onButtonClick = function(buttonId)
 
 	        var searchOpt=this.makeFormArgs('#gamMarineCenterMonthStsReportSearchForm');
 	        this.$('#marineCenterMonthStsReportList').flexOptions({params:searchOpt}).flexReload();
-	
+
 	        break;
-	        
+
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-            break;      
-	        
+            break;
+
 	}
 };
 
@@ -118,7 +118,7 @@ GamMarineCenterMonthStsReportModule.prototype.onClosePopup = function(popupId, m
 	           alert('취소 되었습니다');
 	       }
 	       break;
-	}     
+	}
 };
 
 GamMarineCenterMonthStsReportModule.prototype.onSubmit = function() {
@@ -180,7 +180,7 @@ var module_instance = new GamMarineCenterMonthStsReportModule();
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="marineCenterMonthStsReportList" style="display:none" class="fillHeight"></table>
-            <!-- 
+            <!--
             <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
@@ -194,7 +194,11 @@ var module_instance = new GamMarineCenterMonthStsReportModule();
                      </table>
             </div>
              -->
+                <div class="emdControlPanel">
+                       <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+                       <button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
+                </div>
 		</div>
-            
+
     </div>
 </div>

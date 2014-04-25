@@ -97,15 +97,13 @@
 		  #chrgeKnd#,
 		  MAX(AR.ENTRPSCD),
 		  MAX(EI.ENTRPS_NM),
+			  MIN(AR.GR_USAGE_PD_FROM),
+			  MAX(AR.GR_USAGE_PD_TO),
 		  <isEqual property="payMth" compareValue="Aft">
-			  MIN(AR.GR_USAGE_PD_FROM)-15,
-			  MAX(AR.GR_USAGE_PD_FROM-1),
-		  MAX(AR.GR_USAGE_PD_FROM)+15,
+		  	MAX(AR.GR_USAGE_PD_TO),
 		  </isEqual>
 		  <isEqual property="payMth" compareValue="Pre">
-			  MIN(AR.GR_USAGE_PD_TO)-15,
-			  MAX(AR.GR_USAGE_PD_TO-1),
-		  MAX(AR.GR_USAGE_PD_TO)+15,
+		  	MIN(AR.GR_USAGE_PD_FROM),
 		  </isEqual>
 		  TO_CHAR(MAX(AR.GR_USAGE_PD_TO),'YYYY'),
 		  (SELECT MAX(NTICNO)+1 FROM LEV_REQEST_F) NTICNO,
@@ -142,8 +140,16 @@
 		)
 		SELECT
 		#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, LPAD(NTIC_CNT, 2, '0'), '1', FEE_TP, #entrpscd# ENTRPSCD, (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
-		START_DATE-15 NTIC_PD_FROM, START_DATE-1 NTIC_PD_TO,
-		(SELECT MAX(NTICNO)+1 FROM LEV_REQEST_F) NTICNO, END_DATE,
+		START_DATE NTIC_PD_FROM, END_DATE NTIC_PD_TO,
+		(SELECT MAX(NTICNO)+1 FROM LEV_REQEST_F) NTICNO,
+		]]>
+		  <isEqual property="payMth" compareValue="Pre">
+			START_DATE,
+			</isEqual>
+		  <isEqual property="payMth" compareValue="Aft">
+			END_DATE,
+			</isEqual>
+		<![CDATA[
 		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, RNTFEE/10, 'Y',TRUNC(RNTFEE + (RNTFEE / 10), -1), #rm#,
 		'N', 'N',
 		SUBSTR(#grUsagePdTo#, 1, 4), #nticMth#, #regUsr#, SYSDATE
