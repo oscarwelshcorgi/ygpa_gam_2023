@@ -29,7 +29,6 @@ GamMarineCenterMonthStsReportModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamMarineCenterMonthStsReportModule.prototype.loadComplete = function() {
-
  // 테이블 설정 //
  this.$("#marineCenterMonthStsReportList").flexigrid({
      module: this,
@@ -37,30 +36,33 @@ GamMarineCenterMonthStsReportModule.prototype.loadComplete = function() {
      dataType: 'json',
      colModel : [
                  {display:'사용년도', name:'usageYear',width:150, sortable:false,align:'center'},
-                 {display:'관리번호', name:'mngNo',width:150, sortable:false,align:'center'},
-                 {display:'횟수', name:'mngCnt',width:150, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCd',width:150, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsCdNm',width:150, sortable:false,align:'center'},
+                 {display:'사용월', name:'usageMt',width:150, sortable:false,align:'center'},
+                 {display:'관리번호', name:'mngCode',width:150, sortable:false,align:'center'},
                  {display:'업체코드', name:'reqstEntrpsCd',width:150, sortable:false,align:'center'},
                  {display:'업체명', name:'reqstEntrpsCdNm',width:150, sortable:false,align:'center'},
-                 {display:'사용시작일', name:'usagePdFrom',width:150, sortable:false,align:'center'},
-                 {display:'사용료', name:'fee',width:150, sortable:false,align:'center'},
-                 {display:'면제', name:'exemptSe',width:150, sortable:false,align:'center'},
-                 {display:'수정자', name:'updUsr',width:150, sortable:false,align:'center'},
-                 {display:'수정일시', name:'updtDt',width:150, sortable:false,align:'center'}
+                 {display:'사용기간', name:'usagePd',width:150, sortable:false,align:'center'},
+                 {display:'사용료', name:'fee',width:100, sortable:false,align:'center'},
+                 {display:'면제', name:'exemptSe',width:100, sortable:false,align:'center'},
                  ],
      showTableToggleBtn: false,
-     height: 'auto'
+     height: 'auto',
+     preProcess: function(module, data) {
+    	 $.each(data.resultList, function(){
+    		this.mngCode=this.mngYear+"-"+this.mngNo+"-"+this.mngCnt;
+    		this.usagePd=this.usagePdFrom+'~'+this.usagePdTo;
+    	 });
+    	 return data;
+     }
  });
 
- //로드될 때 사용기간에 오늘날짜 처리
- var today = new Date();
+ //로드될 때 사용기간에
+/*  var today = new Date();
  var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1);
  var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate();
  var sToday = today.getFullYear() + '-' + month + '-' + date;
 
  this.$('#sGrUsagePdFrom').val(sToday);
- this.$('#sGrUsagePdTo').val(sToday);
+ this.$('#sGrUsagePdTo').val(sToday); */
 
 };
 
@@ -80,7 +82,7 @@ GamMarineCenterMonthStsReportModule.prototype.onButtonClick = function(buttonId)
 
 	    // 조회
 	    case 'searchBtn':
-            if( this.$('#sGrUsagePdFrom').val() == '' ) {
+/*             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("사용기간을 선택하십시오.");
             	return;
             }
@@ -88,7 +90,7 @@ GamMarineCenterMonthStsReportModule.prototype.onButtonClick = function(buttonId)
             if( this.$('#sGrUsagePdTo').val() == '' ) {
                 alert("사용기간을 선택하십시오.");
                 return;
-            }
+            } */
 
 	        var searchOpt=this.makeFormArgs('#gamMarineCenterMonthStsReportSearchForm');
 	        this.$('#marineCenterMonthStsReportList').flexOptions({params:searchOpt}).flexReload();
