@@ -1206,7 +1206,6 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-<<<<<<< .mine
              		module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', 
              			prtAtCode: '', 
              			mngYear: '', 
@@ -1219,10 +1218,6 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 						shotDt: module._tempShortDt, 
 						photoDesc: module._tempPhotoDesc, 
 						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-=======
-             		module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: thisObj.$('#photoPrtAtCode').val(), mngYear: thisObj.$('#photoMngYear').val(), mngNo: thisObj.$('#photoMngNo').val(), mngCnt: thisObj.$('#photoMngCnt').val(),
-										photoSeq: '', photoSj: thisObj.$('#photoSj').val(), filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: thisObj.$('#shotDt').val(), photoDesc: thisObj.$('#photoDesc').val(), regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
->>>>>>> .r1001
 					//2014-4-22 변경
                 });
             }, '첨부파일 업로드');

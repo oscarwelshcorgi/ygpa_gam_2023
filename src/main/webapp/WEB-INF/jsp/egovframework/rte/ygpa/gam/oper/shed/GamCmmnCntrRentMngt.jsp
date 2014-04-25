@@ -1174,7 +1174,7 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
             this._tempPhotoSj = this.$('#photoSj').val();
             this._tempPhotoDesc = this.$('#photoDesc').val();
             this._tempShotDt = this.$('#shotDt').val();
-            this._tempRnum = this.$("#prtFcltyRentMngtFileList").flexGetData().length + 1;
+            this._tempRnum = this.$("#cmmnCntrRentMngtFileList").flexGetData().length + 1;
 
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
@@ -1196,7 +1196,6 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 						shotDt: module._tempShortDt, 
 						photoDesc: module._tempPhotoDesc, 
 						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-					//2014-4-22 변경
 					//2014-4-22 변경
                 });
             }, '첨부파일 업로드');

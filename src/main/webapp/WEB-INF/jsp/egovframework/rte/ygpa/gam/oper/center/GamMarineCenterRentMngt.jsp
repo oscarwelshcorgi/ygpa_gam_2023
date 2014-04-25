@@ -1183,29 +1183,17 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             this._tempPhotoSj = this.$('#photoSj').val();
             this._tempPhotoDesc = this.$('#photoDesc').val();
             this._tempShotDt = this.$('#shotDt').val();
-            this._tempRnum = this.$("#prtFcltyRentMngtFileList").flexGetData().length + 1;
+            this._tempRnum = this.$("#marineCenterRentFileList").flexGetData().length + 1;
 
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
-<<<<<<< .mine
-
-
-=======
-
->>>>>>> .r1001
-                //순번지정 처리 안됨
-                //if(thisObj.$('#photoSeq').val() == '')
-                //	thisObj.$('#photoSeq').val('1');
-                //else thisObj.$('#photoSeq').val(parseInt(thisObj.$('#photoSeq').val()) + 1);
-                var seq = module.$('#marineCenterRentFileList').flexRowCount() + 1;
 
                 $.each(result, function(){
                     //module.$('#marineCenterRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#marineCenterRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-<<<<<<< .mine
-             		module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', 
+             		module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', 
              			prtAtCode: '', 
              			mngYear: '', 
              			mngNo: '', 
@@ -1218,12 +1206,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 						photoDesc: module._tempPhotoDesc, 
 						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 					//2014-4-22 변경
-             		module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '',
-=======
-             		module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '',
->>>>>>> .r1001
-                        									rnum:seq, photoSeq: '', photoSj: thisObj.$('#photoSj').val(), filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: thisObj.$('#shotDt').val(), photoDesc: thisObj.$('#photoDesc').val(), regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    //2014-4-22 변경
                 });
             }, '첨부파일 업로드');
 
