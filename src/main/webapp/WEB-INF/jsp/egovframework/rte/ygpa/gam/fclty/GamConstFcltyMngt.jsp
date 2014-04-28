@@ -334,28 +334,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 		case "btnRemoveFile":
-
-            var rows = this.$("#fcltyPhotoList").selectedRows();
-
-            if(rows.length == 0){
-                alert("파일목록에서 삭제할 행을 선택하십시오.");
-                return;
-            }
-
-            if(this.$("#fcltyPhotoList").selectedRowIds().length>0) {
-            	for(var i=this.$("#fcltyPhotoList").selectedRowIds().length-1; i>=0; i--) {
-
-            		var row = this.$("#fcltyPhotoList").flexGetRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
-
-                    if(row._updtId == undefined || row._updtId != "I") {
-                    	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-					}
-                	this.$("#fcltyPhotoList").flexRemoveRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
-				}
-			}
-
-            this.$("#fcltyGisPhotoForm").find(":input").val("");
-            this._editDataFile = null;
+			this.removeGisAssetPhotoItem();
 		break;
 		case 'btnSaveFile':	// 저장
 			if( confirm("사진 목록을 저장하시겠습니까?") ) {
@@ -408,6 +387,37 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	}
 };
+
+GamFcltyMngtModule.prototype.removeGisAssetPhotoItem = function() {
+	var rows = this.$("#fcltyPhotoList").selectedRows();
+
+    if(rows.length == 0){
+        alert("파일목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+
+    if(this.$("#fcltyPhotoList").selectedRowIds().length>0) {
+    	for(var i=this.$("#fcltyPhotoList").selectedRowIds().length-1; i>=0; i--) {
+
+    		var row = this.$("#fcltyPhotoList").flexGetRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
+
+            if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			}
+        	this.$("#fcltyPhotoList").flexRemoveRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
+        	
+        	this._edited=true;
+		}
+    	
+    	this.$("#previewImage").attr("src","");
+    	alert("삭제되었습니다.");
+	}
+    
+    this.$("#fcltyGisPhotoForm").find(":input").val("");
+    this._editDataFile = null;
+};
+
+
 
 GamFcltyMngtModule.prototype.clearCodePage = function() {
 	this.$('#fcltyManageVO :input').val('');
@@ -539,6 +549,9 @@ GamFcltyMngtModule.prototype.clearPhotoPage = function() {
 		break;
 	}
 };
+
+
+
 
 
 /**
