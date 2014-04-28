@@ -202,6 +202,7 @@ public class GenericFileUpDownloadController {
 	@RequestMapping(value = "/download/downloadFile.do")
 	public void downloadFile(
 			@RequestParam(value = "requestedFile") String requestedFile,
+			@RequestParam(value = "downloadFileName") String downloadFileName,
 			HttpServletResponse response) throws Exception {
 
 		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath");
@@ -219,7 +220,7 @@ public class GenericFileUpDownloadController {
 			response.setBufferSize(fSize);
 			response.setContentType(mimetype);
 			response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ requestedFile + "\"");
+					+ downloadFileName + "\"");
 			response.setContentLength(fSize);
 
 			FileCopyUtils.copy(in, response.getOutputStream());

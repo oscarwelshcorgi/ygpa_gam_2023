@@ -76,14 +76,8 @@
     <div class="abs" id="wrapper">
         <div id="desktop" class="abs mapdesk">
         </div>
-        <div id="slideMenu">
-          <ul>
-            <li><a href="#">주소 찾기</a></li>
-            <li class="active"><a href="#">메뉴2</a></li>
-            <li><a href="#">메뉴3</a></li>
-          </ul>
-        </div>
       <div class="abs" id="bar_top">
+    	<span class="float_right" id="logUserName">로그인 정보 없음</span>
     <span class="float_right" id="clock"></span>
     <ul>    <!-- 메뉴 -->
                 <li><a class="menu_trigger" href="#">자산 정보</a>
@@ -579,7 +573,18 @@
 				</li>
             </ul>
         </li>
-
+        <li><a class="menu_trigger" href="#">샘플</a>
+            <ul class="menu">
+                <li><a href="#"><b>자산정보 관리</b></a>
+                    <ul class="submenu">
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리(샘플)</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리(샘플)</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리(샘플)</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리(샘플)</a></li>
+                        <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/mnu/gamMenuList.do'/>">메뉴리스트(샘플)</a></li>
+                    </ul>
+            </ul>
+        </li>
         <li>
             <a class="menu_trigger" href="#">창관리</a>
             <ul class="menu">
@@ -597,19 +602,6 @@
                 </li>
             </ul>
         </li>
-
-                <li><a class="menu_trigger" href="#">샘플</a>
-                    <ul class="menu">
-                        <li><a href="#"><b>자산정보 관리</b></a>
-                            <ul class="submenu">
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리(샘플)</a></li>
-                                <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/mnu/gamMenuList.do'/>">메뉴리스트(샘플)</a></li>
-                            </ul>
-                    </ul>
-                </li>
         </ul>
   </div>
     <div class="abs" id="bar_bottom">

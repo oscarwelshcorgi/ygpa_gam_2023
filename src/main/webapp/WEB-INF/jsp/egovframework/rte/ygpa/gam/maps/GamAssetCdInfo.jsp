@@ -23,17 +23,31 @@
 				<tr><td colspan="2"><img id="imgPreview" src="<c:url value='cmm/getImage.do?physicalFileNm=${assetCd.filenmPhysicl }' />" style='width:300px;' /></td></tr>
 			</c:if>
 		</tbody></table>
-		<c:if test="${assetRent!=null && fn:length(assetRent)>0 }">
-		<h2>사용현황</h2>
-		<c:forEach var="rentItem" items="${assetRent }" varStatus="status">
-		<table class='prtFcltyInfo'><tbody>
-			<tr><th>업체명</th><td><c:out value="${rentItem.entrpsNm }" /> ()<c:out value="${rentItem.entrpsCd }" /></td></tr>
-			<tr><th>사용기간</th><td><c:out value="${rentItem.usePdFrom }" />~<c:out value="${rentItem.usePdTo }" /></td></tr>
-			<tr><th>사용면적</th><td><fmt:formatNumber value="${rentItem.usageAr }" maxIntegerDigits="3" maxFractionDigits="2" /> (단위:m²)</td></tr>
-			<tr><th>사용금액</th><td><fmt:formatNumber value="${rentItem.fee }" type="number"/> 원</td></tr>
-			<tr><th>사용목적</th><td><c:out value="${rentItem.usagePurps }" /></td></tr>
-		</tbody></table>
-		</c:forEach>
+		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN') }">
+			<c:if test="${assetRent!=null && fn:length(assetRent)>0 }">
+			<h2>사용현황</h2>
+			<table class='prtFcltyInfo'>
+				<thead>
+					<tr>
+					<th>업체명</th>
+					<th>사용기간</th>
+					<th>사용면적</th>
+					<th>사용금액</th>
+					<th>사용목적</th>
+					</tr>
+				</thead>
+			<tbody>
+				<c:forEach var="rentItem" items="${assetRent }" varStatus="status">
+					<tr>
+						<td><c:out value="${rentItem.entrpsNm }" /> (<c:out value="${rentItem.entrpsCd }" /></td>
+						<td><c:out value="${rentItem.usagePdFrom }" />~<c:out value="${rentItem.usagePdTo }" /></td>
+						<td><fmt:formatNumber value="${rentItem.usageAr }" maxIntegerDigits="3" maxFractionDigits="2" /> (단위:m²)</td>
+						<td><fmt:formatNumber value="${rentItem.fee }" type="number"/> 원</td>
+						<td><c:out value="${rentItem.usagePurps }" /></td>
+					</tr>
+				</c:forEach>
+			</tbody></table>
+			</c:if>
 		</c:if>
 		<c:if test="${assetRentSummary!=null }">
 		<h2>총사용현황</h2>
@@ -44,11 +58,11 @@
 			<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totalFee }" type="number" /> 원</td></tr>
 		</tbody></table>
 		</c:if>
+		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN') }">
+			<button data-role="assetMngt" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산코드 관리</button>
+			<button data-role="assetInqire" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산정보 조회</button>
+		</c:if>
 	</div>
-	<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN') }">
-		<button data-role="assetMngt" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산코드 관리</button>
-		<button data-role="assetInqire" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산정보 조회</button>
-	</c:if>
 	<script>
 	throw 0;
 		console.log("script running...");

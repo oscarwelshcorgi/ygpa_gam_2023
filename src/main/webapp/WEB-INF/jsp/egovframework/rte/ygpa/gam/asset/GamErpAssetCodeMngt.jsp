@@ -283,7 +283,7 @@ GamAssetCodeModule.prototype.removeGisAssetPhotoItem = function() {
 			var row=this.$('#assetCodePhotoList').flexGetRow(this.$('#assetCodePhotoList').selectedRowIds()[i]);
 			if(row._updtId==undefined || row._updtId!='I')  this._deletePhotoList[this._deletePhotoList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			this.$('#assetCodePhotoList').flexRemoveRow(this.$('#assetCodePhotoList').selectedRowIds()[i]);
-			
+
 			this.$("#previewImage").attr("src","");
 	    	alert("삭제되었습니다.");
 		}
@@ -470,7 +470,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요.');
 			return;
 		}
-		
+
 		var photoSj = this.$("#photoSj").val();
 		var shotDt = this.$("#shotDt").val();
 		var photoSeq = this.$("#assetCodePhotoList").flexGetData().length + 1;
@@ -478,7 +478,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 		this.uploadFile('uploadPhoto', function(module, result) {
  			var userid=EMD.util.getLoginUserVO().userNm;
- 			
+
 //			var userid='admin';
 			$.each(result, function(){
 				module.$('#assetCodePhotoList').flexAddRow({
@@ -495,12 +495,19 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 					registDt:  EMD.util.getTimeStamp()});	// 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 			});
 		}, '시설사진 업로드');
-		
+
 		this.$("#photoSj").val("");
 		this.$("#shotDt").val("");
-		
+
 		break;
 
+	case 'btnDownloadFile':
+		var selectRow = this.$('#assetCodePhotoList').selectedRows();
+		if(selectRow.length > 0) {
+			var row=selectRow[0];
+			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+		}
+		break;
 	case 'btnApplyPhotoData':
 		var selectRow = this.$('#assetCodePhotoList').selectedRows();
 		if(selectRow.length==0) return;
