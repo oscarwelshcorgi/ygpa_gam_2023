@@ -344,13 +344,13 @@ GamCmmnCntrRentMngtModule.prototype.loadComplete = function() {
     });
     
     //로드될 때 사용기간에 오늘날짜 처리
- 	var today = new Date();
- 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
- 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
- 	var sToday = today.getFullYear() + '-' + month + '-' + date;
+//  	var today = new Date();
+//  	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
+//  	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
+//  	var sToday = today.getFullYear() + '-' + month + '-' + date;
     
-    this.$('#sGrUsagePdFrom').val(sToday);
-    this.$('#sGrUsagePdTo').val(sToday);    
+//     this.$('#sGrUsagePdFrom').val(sToday);
+//     this.$('#sGrUsagePdTo').val(sToday);    
 
 };
 
@@ -518,15 +518,15 @@ GamCmmnCntrRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
-            if( this.$('#sGrUsagePdFrom').val() == '' ) {
-            	alert("사용기간을 선택하십시오.");
-            	return;
-            }
+//             if( this.$('#sGrUsagePdFrom').val() == '' ) {
+//             	alert("사용기간을 선택하십시오.");
+//             	return;
+//             }
             
-            if( this.$('#sGrUsagePdTo').val() == '' ) {
-                alert("사용기간을 선택하십시오.");
-                return;
-            }
+//             if( this.$('#sGrUsagePdTo').val() == '' ) {
+//                 alert("사용기간을 선택하십시오.");
+//                 return;
+//             }
             var searchOpt=this.makeFormArgs('#gamCmmnCntrRentMngtSearchForm');
             this.$("#cmmnCntrRentMngtListTab").tabs("option", {active: 0});
             this.$('#cmmnCntrRentMngtList').flexOptions({params:searchOpt}).flexReload();

@@ -526,7 +526,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 									<th>요금종류</th>
 		                            <td>
 		                            	<input id="chrgeKndCd" type="text" size="4"> 
-		                                <input id="chrgeKndNm" type="text" size="10"> <button id="popupchrgeKndCd">요금</button>
+		                                <input id="chrgeKndNm" type="text" size="10"> <!-- <button id="popupchrgeKndCd">요금</button> -->
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>
@@ -590,7 +590,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 									<th>요금종류</th>
 		                            <td>
 		                            	<input id="chrgeKndCd" type="text" size="4"> 
-		                                <input id="chrgeKndNm" type="text" size="10"> <button id="popupchrgeKndCd2">요금</button>
+		                                <input id="chrgeKndNm" type="text" size="10"><!--  <button id="popupchrgeKndCd2">요금</button> -->
 		                            </td>
 		                            <th>업체명</th>
 		                            <td>

@@ -444,10 +444,10 @@ public class GamMarineCenterRentMngtController {
     			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());      
     			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
     			
-    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
-    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
-    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
+    			insertFileVO.setPhotoSj((String)resultMap.get("photoSj"));
+    			insertFileVO.setFilenmLogic((String)resultMap.get("filenmLogic"));
+    			insertFileVO.setFilenmPhysicl((String)resultMap.get("filenmPhysicl"));
+    			insertFileVO.setShotDt((String)resultMap.get("shotDt"));
     			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
     			insertFileVO.setRegUsr(loginVO.getId());
     			

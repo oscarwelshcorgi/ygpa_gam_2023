@@ -439,11 +439,11 @@ public class GamTrainPortRentMngtController {
     			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());      
     			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
     			
-    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
-    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
-    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
-    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			insertFileVO.setPhotoSj((String)resultMap.get("photoSj"));
+    			insertFileVO.setFilenmLogic((String)resultMap.get("filenmLogic"));
+    			insertFileVO.setFilenmPhysicl((String)resultMap.get("filenmPhysicl"));
+    			insertFileVO.setShotDt((String)resultMap.get("shotDt"));
+    			insertFileVO.setPhotoDesc((String)resultMap.get("photoDesc"));
     			insertFileVO.setRegUsr(loginVO.getId());
     			
     			System.out.println("############################################### insertFileVO => " + insertFileVO);
