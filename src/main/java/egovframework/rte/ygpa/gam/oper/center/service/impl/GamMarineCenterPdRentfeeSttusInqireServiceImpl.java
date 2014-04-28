@@ -53,5 +53,16 @@ public class GamMarineCenterPdRentfeeSttusInqireServiceImpl  extends AbstractSer
    		//return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
     	   return gamMarineCenterPdRentfeeSttusInqireDao.selectMarineCenterPdRentfeeSttusInqireListTotCnt(searchVO);
    	}
+       
+       
+     /**
+   	 * 사용료합계, 감면사용료 합계
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return vo
+   	 * @exception Exception
+   	 */
+   public GamMarineCenterPdRentfeeSttusInqireVO selectMarineCenterPdRentfeeSttusInqireSum(GamMarineCenterPdRentfeeSttusInqireVO searchVO) throws Exception {
+   		return gamMarineCenterPdRentfeeSttusInqireDao.selectMarineCenterPdRentfeeSttusInqireSum(searchVO);
+   }
     
 }

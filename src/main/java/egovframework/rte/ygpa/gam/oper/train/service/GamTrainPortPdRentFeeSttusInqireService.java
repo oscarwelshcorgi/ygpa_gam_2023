@@ -28,4 +28,22 @@ public interface GamTrainPortPdRentFeeSttusInqireService {
 	 */
     List selectTrainPortPdRentFeeSttusInqireList(GamTrainPortPdRentFeeSttusInqireVO searchVO) throws Exception;
     
+    
+    /**
+	 * 철송장임대기간별사용료현황 전체목록수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return int
+	 * @exception Exception
+	 */
+    int selectTrainPortPdRentFeeSttusInqireListTotCnt(GamTrainPortPdRentFeeSttusInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamTrainPortPdRentFeeSttusInqireVO selectTrainPortPdRentFeeSttusInqireSum(GamTrainPortPdRentFeeSttusInqireVO searchVO) throws Exception;
+    
 }

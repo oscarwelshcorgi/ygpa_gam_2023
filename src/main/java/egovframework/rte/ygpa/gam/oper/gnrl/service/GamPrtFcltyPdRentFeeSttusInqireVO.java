@@ -62,17 +62,71 @@ public class GamPrtFcltyPdRentFeeSttusInqireVO extends ComDefaultVO {
     
     private String quayCd;
     
+    
+    /** 디스플레이 자료수 */
+    private String dpTotCnt;
+    
+    /** 사용료합계 */
+    private String sumTotalFeeSum;
+    
+    /** 감면사용료 합계 */
+    private String sumTotalRdcxptFeeSumSum;
+    
+    /** 검색시작년 */
+    private String serchStartYr;
+    
+    /** 검색시작월 */
+    private String serchStartMn;
+    
+    /** 검색종료년 */
+    private String serchEndYr;
+    
+    /** 검색종료월 */
+    private String serchEndMn;
+    
+    
+    /**
+	 * @return the searchAssetsCd
+	 */
+	public String getSearchAssetsCd() {
+		return searchAssetsCd;
+	}
+
+	/**
+	 * @param searchAssetsCd the searchAssetsCd to set
+	 */
+	public void setSearchAssetsCd(String searchAssetsCd) {
+		this.searchAssetsCd = searchAssetsCd;
+	}
+
+	/**
+	 * @return the searchAssetsSubCd
+	 */
+	public String getSearchAssetsSubCd() {
+		return searchAssetsSubCd;
+	}
+
+	/**
+	 * @param searchAssetsSubCd the searchAssetsSubCd to set
+	 */
+	public void setSearchAssetsSubCd(String searchAssetsSubCd) {
+		this.searchAssetsSubCd = searchAssetsSubCd;
+	}
+
+	/** 자산코드 검색 */
+    private String searchAssetsCd;
+    
+    /** 자산부코드 검색 */
+    private String searchAssetsSubCd;
+    
+    
     /** 검색 항코드 */
     private String sPrtAtCode;
     
     /** 검색 업체명 */
     private String sEntrpscd;
     
-    /** 검색 사용기간 시작 */
-    private String sGrUsagePdFrom;
-    
-    /** 검색 사용기간 종료 */
-    private String sGrUsagePdTo;
+
 
 	/**
 	 * @return the usageYear
@@ -396,32 +450,111 @@ public class GamPrtFcltyPdRentFeeSttusInqireVO extends ComDefaultVO {
 		this.sEntrpscd = sEntrpscd;
 	}
 
+	
+
 	/**
-	 * @return the sGrUsagePdFrom
+	 * @return the dpTotCnt
 	 */
-	public String getsGrUsagePdFrom() {
-		return sGrUsagePdFrom;
+	public String getDpTotCnt() {
+		return dpTotCnt;
 	}
 
 	/**
-	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
+	 * @param dpTotCnt the dpTotCnt to set
 	 */
-	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
-		this.sGrUsagePdFrom = sGrUsagePdFrom;
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
 	}
 
 	/**
-	 * @return the sGrUsagePdTo
+	 * @return the sumTotalFeeSum
 	 */
-	public String getsGrUsagePdTo() {
-		return sGrUsagePdTo;
+	public String getSumTotalFeeSum() {
+		return sumTotalFeeSum;
 	}
 
 	/**
-	 * @param sGrUsagePdTo the sGrUsagePdTo to set
+	 * @param sumTotalFeeSum the sumTotalFeeSum to set
 	 */
-	public void setsGrUsagePdTo(String sGrUsagePdTo) {
-		this.sGrUsagePdTo = sGrUsagePdTo;
+	public void setSumTotalFeeSum(String sumTotalFeeSum) {
+		this.sumTotalFeeSum = sumTotalFeeSum;
+	}
+
+	/**
+	 * @return the sumTotalRdcxptFeeSumSum
+	 */
+	public String getSumTotalRdcxptFeeSumSum() {
+		return sumTotalRdcxptFeeSumSum;
+	}
+
+	/**
+	 * @param sumTotalRdcxptFeeSumSum the sumTotalRdcxptFeeSumSum to set
+	 */
+	public void setSumTotalRdcxptFeeSumSum(String sumTotalRdcxptFeeSumSum) {
+		this.sumTotalRdcxptFeeSumSum = sumTotalRdcxptFeeSumSum;
+	}
+
+	/**
+	 * @return the serchStartYr
+	 */
+	public String getSerchStartYr() {
+		return serchStartYr;
+	}
+
+	/**
+	 * @param serchStartYr the serchStartYr to set
+	 */
+	public void setSerchStartYr(String serchStartYr) {
+		this.serchStartYr = serchStartYr;
+	}
+
+	/**
+	 * @return the serchStartMn
+	 */
+	public String getSerchStartMn() {
+		
+		return serchStartMn;
+	}
+
+	/**
+	 * @param serchStartMn the serchStartMn to set
+	 */
+	public void setSerchStartMn(String serchStartMn) {
+		if(Integer.parseInt(serchStartMn) < 10){
+			serchStartMn = "0" + serchStartMn;
+		}
+		this.serchStartMn = serchStartMn;
+	}
+
+	/**
+	 * @return the serchEndYr
+	 */
+	public String getSerchEndYr() {
+		return serchEndYr;
+	}
+
+	/**
+	 * @param serchEndYr the serchEndYr to set
+	 */
+	public void setSerchEndYr(String serchEndYr) {
+		this.serchEndYr = serchEndYr;
+	}
+
+	/**
+	 * @return the serchEndMn
+	 */
+	public String getSerchEndMn() {
+		return serchEndMn;
+	}
+
+	/**
+	 * @param serchEndMn the serchEndMn to set
+	 */
+	public void setSerchEndMn(String serchEndMn) {
+		if(Integer.parseInt(serchEndMn) < 10){
+			serchEndMn = "0" + serchEndMn;
+		}
+		this.serchEndMn = serchEndMn;
 	}
     
 }

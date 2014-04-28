@@ -32,4 +32,27 @@ public class GamCntnrQuayEntrpsRentFeeSttusInqireDao extends YGPAAbstractDAO {
         return list("gamCntnrQuayEntrpsRentFeeSttusInqireDao.selectCntnrQuayEntrpsRentFeeSttusInqireList_D", searchVO);
     }
     
+    
+    /**
+   	 * 컨테이너부두임대업체별사용료현황 전체목록수를 조회한다.
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return 목록
+   	 * @exception Exception
+   	 */
+       public int selectCntnrQuayEntrpsRentFeeSttusInqireListTotCnt(GamCntnrQuayEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+       	return (Integer)getSqlMapClientTemplate().queryForObject("gamCntnrQuayEntrpsRentFeeSttusInqireDao.selectCntnrQuayEntrpsRentFeeSttusInqireListTotCnt_S", searchVO);
+       }
+       
+       
+       /**
+   	 * 전체사용료합계
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return vo
+   	 * @exception Exception
+   	 */
+       public GamCntnrQuayEntrpsRentFeeSttusInqireVO selectCntnrQuayEntrpsRentFeeSttusInqireSum(GamCntnrQuayEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+       	return (GamCntnrQuayEntrpsRentFeeSttusInqireVO) selectByPk("gamCntnrQuayEntrpsRentFeeSttusInqireDao.selectCntnrQuayEntrpsRentFeeSttusInqireSum_S", searchVO);
+       }
+
+    
 }

@@ -31,4 +31,12 @@ public interface GamMarineCenterPdRentfeeSttusInqireService {
    	 * @exception
    	 */
     int selectMarineCenterPdRentfeeSttusInqireListTotCnt(GamMarineCenterPdRentfeeSttusInqireVO searchVO) throws Exception;
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamMarineCenterPdRentfeeSttusInqireVO selectMarineCenterPdRentfeeSttusInqireSum(GamMarineCenterPdRentfeeSttusInqireVO searchVO) throws Exception;
 }

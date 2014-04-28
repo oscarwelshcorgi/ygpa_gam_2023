@@ -32,4 +32,26 @@ public class GamCmmnCntrPdRentFeeSttusInqireDao extends YGPAAbstractDAO {
         return list("gamCmmnCntrPdRentFeeSttusInqireDao.selectCmmnCntrPdRentFeeSttusInqireList_D", searchVO);
     }
     
+    
+    /**
+	 * 공컨장치장임대기간별사용료현황 전체목록수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 목록
+	 * @exception Exception
+	 */
+    public int selectCmmnCntrPdRentFeeSttusInqireListTotCnt(GamCmmnCntrPdRentFeeSttusInqireVO searchVO) throws Exception {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyPdRentFeeSttusInqireDao.selectCmmnCntrPdRentFeeSttusInqireListTotCnt_S", searchVO);
+    }
+    
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamCmmnCntrPdRentFeeSttusInqireVO selectCmmnCntrPdRentFeeSttusInqireSum(GamCmmnCntrPdRentFeeSttusInqireVO searchVO) throws Exception {
+    	return (GamCmmnCntrPdRentFeeSttusInqireVO) selectByPk("gamPrtFcltyPdRentFeeSttusInqireDao.selectCmmnCntrPdRentFeeSttusInqireSum_D", searchVO);
+    }
+    
 }

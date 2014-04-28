@@ -43,4 +43,26 @@ public class GamCmmnCntrPdRentFeeSttusInqireServiceImpl  extends AbstractService
         return gamCmmnCntrPdRentFeeSttusInqireDao.selectCmmnCntrPdRentFeeSttusInqireList(searchVO);
     }
     
+    
+    /**
+	 * 공컨장치장임대기간별사용료현황 전체목록수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return int
+	 * @exception Exception
+	 */
+    public int selectCmmnCntrPdRentFeeSttusInqireListTotCnt(GamCmmnCntrPdRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamCmmnCntrPdRentFeeSttusInqireDao.selectCmmnCntrPdRentFeeSttusInqireListTotCnt(searchVO);
+    }
+    
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamCmmnCntrPdRentFeeSttusInqireVO selectCmmnCntrPdRentFeeSttusInqireSum(GamCmmnCntrPdRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamCmmnCntrPdRentFeeSttusInqireDao.selectCmmnCntrPdRentFeeSttusInqireSum(searchVO);
+    }
+    
 }

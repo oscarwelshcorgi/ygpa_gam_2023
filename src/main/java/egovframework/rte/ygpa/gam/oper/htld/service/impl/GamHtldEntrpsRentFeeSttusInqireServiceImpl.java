@@ -43,4 +43,26 @@ public class GamHtldEntrpsRentFeeSttusInqireServiceImpl  extends AbstractService
         return gamHtldEntrpsRentFeeSttusInqireDao.selectHtldEntrpsRentFeeSttusInqireList(searchVO);
     }
     
+    
+    /**
+	 * 배후단지임대업체별사용료현황 전체목록수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return int
+	 * @exception Exception
+	 */
+    public int selectHtldEntrpsRentFeeSttusInqireListTotCnt(GamHtldEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamHtldEntrpsRentFeeSttusInqireDao.selectHtldEntrpsRentFeeSttusInqireListTotCnt(searchVO);
+    }
+    
+    
+    /**
+	 * 전체사용료합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamHtldEntrpsRentFeeSttusInqireVO selectHtldEntrpsRentFeeSttusInqireSum(GamHtldEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamHtldEntrpsRentFeeSttusInqireDao.selectHtldEntrpsRentFeeSttusInqireSum(searchVO);
+    }
+    
 }

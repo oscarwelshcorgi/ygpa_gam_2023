@@ -43,4 +43,26 @@ public class GamPrtFcltyEntrpsRentFeeSttusInqireServiceImpl  extends AbstractSer
         return gamPrtFcltyEntrpsRentFeeSttusInqireDao.selectPrtFcltyEntrpsRentFeeSttusInqireList(searchVO);
     }
     
+    
+    /**
+	 * 항만시설업체별사용료현황 전체목록수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return int
+	 * @exception Exception
+	 */
+    public int selectPrtFcltyEntrpsRentFeeSttusInqireListTotCnt(GamPrtFcltyEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamPrtFcltyEntrpsRentFeeSttusInqireDao.selectPrtFcltyEntrpsRentFeeSttusInqireListTotCnt(searchVO);
+    }
+    
+    
+    /**
+	 * 전체사용료합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamPrtFcltyEntrpsRentFeeSttusInqireVO selectPrtFcltyEntrpsRentFeeSttusInqireSum(GamPrtFcltyEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamPrtFcltyEntrpsRentFeeSttusInqireDao.selectPrtFcltyEntrpsRentFeeSttusInqireSum(searchVO);
+    }
+    
 }

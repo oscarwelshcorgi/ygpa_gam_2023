@@ -32,4 +32,26 @@ public class GamTrainPortPdRentFeeSttusInqireDao extends YGPAAbstractDAO {
         return list("gamTrainPortPdRentFeeSttusInqireDao.selectTrainPortPdRentFeeSttusInqireList_D", searchVO);
     }
     
+    
+    /**
+	 * 철송장임대기간별사용료현황 전체목록수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 목록
+	 * @exception Exception
+	 */
+    public int selectTrainPortPdRentFeeSttusInqireListTotCnt(GamTrainPortPdRentFeeSttusInqireVO searchVO) throws Exception {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyPdRentFeeSttusInqireDao.selectTrainPortPdRentFeeSttusInqireListTotCnt_S", searchVO);
+    }
+    
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamTrainPortPdRentFeeSttusInqireVO selectTrainPortPdRentFeeSttusInqireSum(GamTrainPortPdRentFeeSttusInqireVO searchVO) throws Exception {
+    	return (GamTrainPortPdRentFeeSttusInqireVO) selectByPk("gamPrtFcltyPdRentFeeSttusInqireDao.selectTrainPortPdRentFeeSttusInqireSum_S", searchVO);
+    }
+    
 }

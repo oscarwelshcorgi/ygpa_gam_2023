@@ -28,4 +28,22 @@ public interface GamCmmnCntrEntrpsRentFeeSttusInqireService {
 	 */
     List selectCmmnCntrEntrpsRentFeeSttusInqireList(GamCmmnCntrEntrpsRentFeeSttusInqireVO searchVO) throws Exception;
     
+    
+    /**
+	 * 공컨장치장임대업체별사용료현황 전체목록수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return int
+	 * @exception Exception
+	 */
+    int selectCmmnCntrEntrpsRentFeeSttusInqireListTotCnt(GamCmmnCntrEntrpsRentFeeSttusInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 전체사용료합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamCmmnCntrEntrpsRentFeeSttusInqireVO selectCmmnCntrEntrpsRentFeeSttusInqireSum(GamCmmnCntrEntrpsRentFeeSttusInqireVO searchVO) throws Exception;
+    
 }

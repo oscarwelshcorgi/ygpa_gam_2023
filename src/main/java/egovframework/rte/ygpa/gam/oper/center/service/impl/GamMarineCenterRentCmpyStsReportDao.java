@@ -42,4 +42,15 @@ public class GamMarineCenterRentCmpyStsReportDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamMarineCenterRentCmpyStsReportDao.selectMarineCenterRentCmpyStsReportListTotCnt_S", searchVO);
     }
     
+    
+    /**
+   	 * 전체사용료합계
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return vo
+   	 * @exception Exception
+   	 */
+       public GamMarineCenterRentCmpyStsReportVO selectMarineCenterRentCmpyStsReportSum(GamMarineCenterRentCmpyStsReportVO searchVO) throws Exception {
+       	return (GamMarineCenterRentCmpyStsReportVO) selectByPk("gamMarineCenterRentCmpyStsReportDao.selectMarineCenterRentCmpyStsReportSum_S", searchVO);
+       }
+    
 }

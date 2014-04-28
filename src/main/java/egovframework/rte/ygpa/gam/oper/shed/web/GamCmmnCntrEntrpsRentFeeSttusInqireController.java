@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.shed.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,12 +80,52 @@ public class GamCmmnCntrEntrpsRentFeeSttusInqireController {
 		
 		codeVo.setCodeId("GAM019"); //항코드 
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		List yearsList = this.getYears(); // 조회연도
+		List monthsList = this.getMonths(); // 조회월
+
+
+		model.addAttribute("yearsList", yearsList);
+		model.addAttribute("monthsList", monthsList);
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/shed/GamCmmnCntrEntrpsRentFeeSttusInqire"; 
     }
+	
+	/**
+     * 조회기간 연도를 가져온다
+     *
+     */
+	public List getYears(){
+
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		
+   		for (int i = 2000; i <= currentYear; i++) {
+   			
+   			result.add(String.valueOf(i));
+   		}
+
+   		return result;
+   	}
+	
+	/**
+     * 조회기간 월을 가져온다
+     *
+     */
+	public List getMonths(){
+
+		List result = new ArrayList();
+   		
+   		for (int i=1; i<=12; i++) {
+   			
+   			result.add(String.valueOf(i));
+   		}
+
+   		return result;
+   	}
 	
 	/**
      * 공컨장치장임대업체별사용료현황 목록을 조회한다. 
@@ -100,11 +141,35 @@ public class GamCmmnCntrEntrpsRentFeeSttusInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 		
-    	List assetRentList = gamCmmnCntrEntrpsRentFeeSttusInqireService.selectCmmnCntrEntrpsRentFeeSttusInqireList(searchVO);
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+
+		//목록
+		totalCnt = gamCmmnCntrEntrpsRentFeeSttusInqireService.selectCmmnCntrEntrpsRentFeeSttusInqireListTotCnt(searchVO);
+    	List resultList = gamCmmnCntrEntrpsRentFeeSttusInqireService.selectCmmnCntrEntrpsRentFeeSttusInqireList(searchVO);
     	
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultList", assetRentList);
+    	//전체사용료합계
+    	GamCmmnCntrEntrpsRentFeeSttusInqireVO resultSum = gamCmmnCntrEntrpsRentFeeSttusInqireService.selectCmmnCntrEntrpsRentFeeSttusInqireSum(searchVO);
+
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+        
+        map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
+    	
+    	map.put("sumTotalFeeSum", resultSum.getSumTotalFeeSum());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
     	
     	return map;
     }

@@ -53,5 +53,16 @@ public class GamMarineCenterRentCmpyStsReportServiceImpl  extends AbstractServic
    		//return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
     	   return gamMarineCenterRentCmpyStsReportDao.selectMarineCenterRentCmpyStsReportListTotCnt(searchVO);
    	}
+       
+       
+       /**
+   	 * 전체사용료합계
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return vo
+   	 * @exception Exception
+   	 */
+       public GamMarineCenterRentCmpyStsReportVO selectMarineCenterRentCmpyStsReportSum(GamMarineCenterRentCmpyStsReportVO searchVO) throws Exception {
+       	return gamMarineCenterRentCmpyStsReportDao.selectMarineCenterRentCmpyStsReportSum(searchVO);
+       }
     
 }

@@ -43,4 +43,26 @@ public class GamCntnrQuayEntrpsRentFeeSttusInqireServiceImpl  extends AbstractSe
         return gamCntnrQuayEntrpsRentFeeSttusInqireDao.selectCntnrQuayEntrpsRentFeeSttusInqireList(searchVO);
     }
     
+    
+    /**
+	 * 컨테이너부두임대업체별사용료현황 전체목록수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return int
+	 * @exception Exception
+	 */
+    public int selectCntnrQuayEntrpsRentFeeSttusInqireListTotCnt(GamCntnrQuayEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamCntnrQuayEntrpsRentFeeSttusInqireDao.selectCntnrQuayEntrpsRentFeeSttusInqireListTotCnt(searchVO);
+    }
+    
+    
+    /**
+	 * 전체사용료합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamCntnrQuayEntrpsRentFeeSttusInqireVO selectCntnrQuayEntrpsRentFeeSttusInqireSum(GamCntnrQuayEntrpsRentFeeSttusInqireVO searchVO) throws Exception {
+    	return gamCntnrQuayEntrpsRentFeeSttusInqireDao.selectCntnrQuayEntrpsRentFeeSttusInqireSum(searchVO);
+    }
+    
 }

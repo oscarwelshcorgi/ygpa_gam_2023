@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
 import java.util.List;
 import java.util.Map;
+
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.impl.GamPrtFcltyEntrpsRentFeeSttusInqireDao;
@@ -27,5 +28,23 @@ public interface GamPrtFcltyEntrpsRentFeeSttusInqireService {
 	 * @exception Exception
 	 */
     List selectPrtFcltyEntrpsRentFeeSttusInqireList(GamPrtFcltyEntrpsRentFeeSttusInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 항만시설업체별사용료현황 전체목록수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return int
+	 * @exception Exception
+	 */
+    int selectPrtFcltyEntrpsRentFeeSttusInqireListTotCnt(GamPrtFcltyEntrpsRentFeeSttusInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 전체사용료합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamPrtFcltyEntrpsRentFeeSttusInqireVO selectPrtFcltyEntrpsRentFeeSttusInqireSum(GamPrtFcltyEntrpsRentFeeSttusInqireVO searchVO) throws Exception;
     
 }

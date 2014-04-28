@@ -42,4 +42,15 @@ public class GamMarineCenterPdRentfeeSttusInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamMarineCenterPdRentfeeSttusInqireDao.selectMarineCenterPdRentfeeSttusInqireListTotCnt_S", searchVO);
     }
     
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
+    public GamMarineCenterPdRentfeeSttusInqireVO selectMarineCenterPdRentfeeSttusInqireSum(GamMarineCenterPdRentfeeSttusInqireVO searchVO) throws Exception {
+    	return (GamMarineCenterPdRentfeeSttusInqireVO) selectByPk("gamPrtFcltyPdRentFeeSttusInqireDao.selectMarineCenterPdRentfeeSttusInqireSum_S", searchVO);
+    }
+    
 }

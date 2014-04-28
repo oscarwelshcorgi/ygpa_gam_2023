@@ -32,4 +32,27 @@ public class GamHtldPdRentFeeSttusInqireDao extends YGPAAbstractDAO {
         return list("gamHtldPdRentFeeSttusInqireDao.selectHtldPdRentFeeSttusInqireList_D", searchVO);
     }
     
+    
+    
+    /**
+   	 * 배후단지임대기간별사용료현황 전체목록수를 조회한다.
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return 목록
+   	 * @exception Exception
+   	 */
+       public int selectHtldPdRentFeeSttusInqireListTotCnt(GamHtldPdRentFeeSttusInqireVO searchVO) throws Exception {
+       	return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldPdRentFeeSttusInqireDao.selectHtldPdRentFeeSttusInqireListTotCnt_S", searchVO);
+       }
+       
+       
+       /**
+   	 * 사용료합계, 감면사용료 합계
+   	 * @param searchMap - 조회할 정보가 담긴 Map
+   	 * @return vo
+   	 * @exception Exception
+   	 */
+       public GamHtldPdRentFeeSttusInqireVO selectHtldPdRentFeeSttusInqireSum(GamHtldPdRentFeeSttusInqireVO searchVO) throws Exception {
+       	return (GamHtldPdRentFeeSttusInqireVO) selectByPk("gamHtldPdRentFeeSttusInqireDao.selectHtldPdRentFeeSttusInqireSum_S", searchVO);
+       }
+    
 }

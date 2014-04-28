@@ -28,4 +28,22 @@ public interface GamCntnrQuayPdRentFeeSttusInqireService {
 	 */
     List selectCntnrQuayPdRentFeeSttusInqireList(GamCntnrQuayPdRentFeeSttusInqireVO searchVO) throws Exception;
     
+    
+    /**
+	 * 컨테이너부두임대기간별사용료현황 전체목록수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return int
+	 * @exception Exception
+	 */
+    int selectCntnrQuayPdRentFeeSttusInqireListTotCnt(GamCntnrQuayPdRentFeeSttusInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 사용료합계, 감면사용료 합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamCntnrQuayPdRentFeeSttusInqireVO selectCntnrQuayPdRentFeeSttusInqireSum(GamCntnrQuayPdRentFeeSttusInqireVO searchVO) throws Exception;
+    
 }
