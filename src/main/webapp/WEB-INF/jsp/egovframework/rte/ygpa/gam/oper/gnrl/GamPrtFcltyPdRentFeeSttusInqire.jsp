@@ -37,13 +37,20 @@ GamPrtFcltyPdRentFeeSttusInqireModule.prototype.loadComplete = function() {
      dataType: 'json',
      colModel : [
                  {display:'사용년도', name:'usageYear',width:150, sortable:false,align:'center'},
-                 {display:'시설분기', name:'',width:150, sortable:false,align:'center'},
-                 {display:'사용월', name:'',width:150, sortable:false,align:'center'},
-                 {display:'사용료', name:'',width:150, sortable:false,align:'center'},
-                 {display:'감면사용료', name:'',width:200, sortable:false,align:'center'}
+                 {display:'시설분기', name:'usageQu',width:150, sortable:false,align:'center'},
+                 {display:'사용월', name:'usageMt',width:150, sortable:false,align:'center'},
+                 {display:'사용료', name:'sumTotalFee',width:150, sortable:false,align:'right' , displayFormat: 'number'},
+                 {display:'감면사용료', name:'sumTotalRdcxptFee',width:200, sortable:false,align:'right' , displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
-     height: 'auto'
+     height: '350',
+     preProcess: function(module,data) {
+         module.$('#totalResultCnt').val(data.dpTotCnt);
+         module.$('#sumTotalFeeSum').val(data.sumTotalFeeSum);
+         module.$('#sumTotalRdcxptFeeSum').val(data.sumTotalRdcxptFeeSumSum);
+   
+         return data;
+     }
  });
  //로드될 때 사용기간에 오늘날짜 처리
 	var today = new Date();
@@ -86,6 +93,11 @@ GamPrtFcltyPdRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
 	
 	        break;
 	        
+	     // 자산코드 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+		break;
+	        
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
@@ -101,6 +113,13 @@ GamPrtFcltyPdRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamPrtFcltyPdRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
+	
+		// 자산코드 조회
+		case "searchGisCodePopup":
+			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
+			this.$("#searchAssetsSubCd").val(value["gisAssetsSubCd"]);
+		break;
+	
 	   case 'selectEntrpsInfoPopup':
 	       if (msg != 'cancel') {
 	           this.$('#sEntrpscd').val(value.entrpscd);
@@ -150,13 +169,21 @@ var module_instance = new GamPrtFcltyPdRentFeeSttusInqireModule();
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th>업체명</th>
                             <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+                        </tr>
+                        <tr>
+                            <th>자산코드</th>
+							<td>
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<button id="searchPopupBtn">자산코드</button>
+							</td>
                             <th>사용기간</th>
                             <td>
                             	 <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8"> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8">
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -170,15 +197,17 @@ var module_instance = new GamPrtFcltyPdRentFeeSttusInqireModule();
                 <li><a href="#tabs1" class="emdTab">항만시설기간별사용료 고지현황</a></li>
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
-            <table id="prtFcltyPdRentFeeSttusInqireList" style="display:none" class="fillHeight"></table>
+            <table id="prtFcltyPdRentFeeSttusInqireList" style="display:none"></table>
             
             <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
-                            <td style="text-align: right">
+                            <td>
                                <form id="form1">
-                                   사용료 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                                   감면사용료 <input id="totalResultRdcCnt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+                               	   합계 : 
+                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly> 
+                                   사용료 <input id="sumTotalFeeSum" class="ygpaNumber" style="text-align:right;" size="15" readonly>원 
+                                   감면사용료 <input id="sumTotalRdcxptFeeSum" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>원
                                </form>
                             </td>
                         </tr>
