@@ -6,53 +6,184 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamCntnrQuayMtRentFeeSttusInqireVO" type="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayMtRentFeeSttusInqireVO"/>
+ 
+    <resultMap id="gamCntnrQuayMtRentFeeSttusInqireSumMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayMtRentFeeSttusInqireVO">
+        <result property="totSumCnt" column="TOT_SUM_CNT" columnIndex="1"/>
+        <result property="totSumFee" column="TOT_SUM_FEE" columnIndex="2"/>
+    </resultMap>
     
     <select id="gamCntnrQuayMtRentFeeSttusInqireDao.selectCntnrQuayMtRentFeeSttusInqireList_D" parameterClass="gamCntnrQuayMtRentFeeSttusInqireVO" resultClass="egovMap">
+	       SELECT A.*
+	       FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT T1.PRT_AT_CODE,
+					       T1.USAGE_YEAR,
+					       T1.GIS_ASSETS_CD,
+					       T1.GIS_ASSETS_SUB_CD,
+					       MIN(T3.CODE_NM) AS PRT_KOR_NM,
+					       MIN(T2.GIS_ASSETS_NM) AS PRT_FCLTY_NM,
+					       NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,     						
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='01' THEN T1.FEE END),0) AS SUM_01_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='02' THEN T1.FEE END),0) AS SUM_02_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='03' THEN T1.FEE END),0) AS SUM_03_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='04' THEN T1.FEE END),0) AS SUM_04_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='05' THEN T1.FEE END),0) AS SUM_05_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='06' THEN T1.FEE END),0) AS SUM_06_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='07' THEN T1.FEE END),0) AS SUM_07_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='08' THEN T1.FEE END),0) AS SUM_08_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='09' THEN T1.FEE END),0) AS SUM_09_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='10' THEN T1.FEE END),0) AS SUM_10_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='11' THEN T1.FEE END),0) AS SUM_11_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='12' THEN T1.FEE END),0) AS SUM_12_FEE
+					FROM USAGE_PD_BY_STATS_F T1
+					LEFT OUTER JOIN GIS_ASSETS_CD_F T2 ON (T1.PRT_AT_CODE=T2.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T2.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T2.GIS_ASSETS_SUB_CD)
+					LEFT OUTER JOIN COMTCCMMNDETAILCODE T3 ON ('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+					WHERE 1 = 1
+						<isNotEmpty property="sPrtAtCode">
+							AND T1.PRT_AT_CODE=#sPrtAtCode#
+						</isNotEmpty>
+						<isNotEmpty property="sStartYr">
+							<isNotEmpty property="sStartMn">
+								<![CDATA[ AND T1.USAGE_YEARMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="sEndYr">
+							<isNotEmpty property="sEndMn">						
+								<![CDATA[ AND T1.USAGE_YEARMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="sEntrpscd">													         
+							AND T1.REQST_ENTRPS_CD=#sEntrpscd#
+						</isNotEmpty>
+						<isNotEmpty property="sAssetsCd">
+							AND T1.GIS_ASSETS_CD=#sAssetsCd#
+						</isNotEmpty>
+						<isNotEmpty property="sAssetsSubCd">						               
+							AND T1.GIS_ASSETS_SUB_CD=#sAssetsSubCd#
+						</isNotEmpty>            
+						AND T1.QUAY_GROUP_CD='C'                 
+					GROUP BY T1.PRT_AT_CODE,
+					         T1.USAGE_YEAR,
+					         T1.GIS_ASSETS_CD,
+					         T1.GIS_ASSETS_SUB_CD
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
 
-		SELECT
-		    USAGE_YEAR
-		    , USAGE_QU
-		    , USAGE_MT
-		    , ASSETS_USAGE_SEQ
-		    , MNG_YEAR
-		    , MNG_NO
-		    , MNG_CNT
-		    , PRT_AT_CODE
-		    , USAGE_PRPOS_CD
-		    , REQST_ENTRPS_CD
-		    , USAGE_CND
-		    , EXEMPT_SE
-		    , FEE
-		    , RDCXPT_FEE
-		    , UPD_USR
-		    , UPDT_DT
-		    , USAGE_PD_FROM
-		    , USAGE_PD_TO
-		    , GIS_ASSETS_CD
-		    , GIS_ASSETS_SUB_CD
-		    , QUAY_CD
-		FROM USAGE_PD_BY_STATS_F
-		WHERE 1 = 1
+    <select id="gamCntnrQuayMtRentFeeSttusInqireDao.selectCntnrQuayMtRentFeeSttusInqireListTotCnt_S" parameterClass="gamCntnrQuayMtRentFeeSttusInqireVO" resultClass="int">
+		       SELECT  COUNT(*)  TOTCNT
+			   FROM (
+					SELECT T1.PRT_AT_CODE,
+					       T1.USAGE_YEAR,
+					       T1.GIS_ASSETS_CD,
+					       T1.GIS_ASSETS_SUB_CD,
+					       MIN(T3.CODE_NM) AS PRT_KOR_NM,
+					       MIN(T2.GIS_ASSETS_NM) AS PRT_FCLTY_NM,
+					       NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,     						
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='01' THEN T1.FEE END),0) AS SUM_01_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='02' THEN T1.FEE END),0) AS SUM_02_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='03' THEN T1.FEE END),0) AS SUM_03_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='04' THEN T1.FEE END),0) AS SUM_04_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='05' THEN T1.FEE END),0) AS SUM_05_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='06' THEN T1.FEE END),0) AS SUM_06_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='07' THEN T1.FEE END),0) AS SUM_07_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='08' THEN T1.FEE END),0) AS SUM_08_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='09' THEN T1.FEE END),0) AS SUM_09_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='10' THEN T1.FEE END),0) AS SUM_10_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='11' THEN T1.FEE END),0) AS SUM_11_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='12' THEN T1.FEE END),0) AS SUM_12_FEE
+					FROM USAGE_PD_BY_STATS_F T1
+					LEFT OUTER JOIN GIS_ASSETS_CD_F T2 ON (T1.PRT_AT_CODE=T2.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T2.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T2.GIS_ASSETS_SUB_CD)
+					LEFT OUTER JOIN COMTCCMMNDETAILCODE T3 ON ('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+					WHERE 1 = 1
+						<isNotEmpty property="sPrtAtCode">
+							AND T1.PRT_AT_CODE=#sPrtAtCode#
+						</isNotEmpty>
+						<isNotEmpty property="sStartYr">
+							<isNotEmpty property="sStartMn">
+								<![CDATA[ AND T1.USAGE_YEARMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="sEndYr">
+							<isNotEmpty property="sEndMn">						
+								<![CDATA[ AND T1.USAGE_YEARMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="sEntrpscd">													         
+							AND T1.REQST_ENTRPS_CD=#sEntrpscd#
+						</isNotEmpty>
+						<isNotEmpty property="sAssetsCd">
+							AND T1.GIS_ASSETS_CD=#sAssetsCd#
+						</isNotEmpty>
+						<isNotEmpty property="sAssetsSubCd">						               
+							AND T1.GIS_ASSETS_SUB_CD=#sAssetsSubCd#
+						</isNotEmpty>            
+						AND T1.QUAY_GROUP_CD='C'                 
+					GROUP BY T1.PRT_AT_CODE,
+					         T1.USAGE_YEAR,
+					         T1.GIS_ASSETS_CD,
+					         T1.GIS_ASSETS_SUB_CD
+				)
+    </select>
 
-		<isNotEmpty property="sPrtAtCode">
-            AND PRT_AT_CODE = #sPrtAtCode#  
-        </isNotEmpty>
-        
-        <isNotEmpty property="sEntrpscd">
-            AND REQST_ENTRPS_CD = #sEntrpscd#  
-        </isNotEmpty>
-        
-        <isNotEmpty property="sGrUsagePdFrom"> 
-            AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-        </isNotEmpty>
-        
-        <isNotEmpty property="sGrUsagePdTo">
-            AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-        </isNotEmpty>
-		<!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
-		                    
-		ORDER BY USAGE_YEAR, USAGE_MT DESC
-
+    <select id="gamCntnrQuayMtRentFeeSttusInqireDao.selectCntnrQuayMtRentFeeSttusInqireSum_S" parameterClass="gamCntnrQuayMtRentFeeSttusInqireVO" resultMap="gamCntnrQuayMtRentFeeSttusInqireSumMap">
+    		SELECT
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) TOT_SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(SUM_TOTAL_FEE),0), '999,999,999,999')) TOT_SUM_FEE
+			   FROM (
+					SELECT T1.PRT_AT_CODE,
+					       T1.USAGE_YEAR,
+					       T1.GIS_ASSETS_CD,
+					       T1.GIS_ASSETS_SUB_CD,
+					       MIN(T3.CODE_NM) AS PRT_KOR_NM,
+					       MIN(T2.GIS_ASSETS_NM) AS PRT_FCLTY_NM,
+					       NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,     						
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='01' THEN T1.FEE END),0) AS SUM_01_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='02' THEN T1.FEE END),0) AS SUM_02_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='03' THEN T1.FEE END),0) AS SUM_03_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='04' THEN T1.FEE END),0) AS SUM_04_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='05' THEN T1.FEE END),0) AS SUM_05_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='06' THEN T1.FEE END),0) AS SUM_06_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='07' THEN T1.FEE END),0) AS SUM_07_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='08' THEN T1.FEE END),0) AS SUM_08_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='09' THEN T1.FEE END),0) AS SUM_09_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='10' THEN T1.FEE END),0) AS SUM_10_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='11' THEN T1.FEE END),0) AS SUM_11_FEE,
+					       NVL(SUM(CASE WHEN T1.USAGE_MT='12' THEN T1.FEE END),0) AS SUM_12_FEE
+					FROM USAGE_PD_BY_STATS_F T1
+					LEFT OUTER JOIN GIS_ASSETS_CD_F T2 ON (T1.PRT_AT_CODE=T2.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T2.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T2.GIS_ASSETS_SUB_CD)
+					LEFT OUTER JOIN COMTCCMMNDETAILCODE T3 ON ('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+					WHERE 1 = 1
+						<isNotEmpty property="sPrtAtCode">
+							AND T1.PRT_AT_CODE=#sPrtAtCode#
+						</isNotEmpty>
+						<isNotEmpty property="sStartYr">
+							<isNotEmpty property="sStartMn">
+								<![CDATA[ AND T1.USAGE_YEARMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="sEndYr">
+							<isNotEmpty property="sEndMn">						
+								<![CDATA[ AND T1.USAGE_YEARMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="sEntrpscd">													         
+							AND T1.REQST_ENTRPS_CD=#sEntrpscd#
+						</isNotEmpty>
+						<isNotEmpty property="sAssetsCd">
+							AND T1.GIS_ASSETS_CD=#sAssetsCd#
+						</isNotEmpty>
+						<isNotEmpty property="sAssetsSubCd">						               
+							AND T1.GIS_ASSETS_SUB_CD=#sAssetsSubCd#
+						</isNotEmpty>            
+						AND T1.QUAY_GROUP_CD='C'                 
+					GROUP BY T1.PRT_AT_CODE,
+					         T1.USAGE_YEAR,
+					         T1.GIS_ASSETS_CD,
+					         T1.GIS_ASSETS_SUB_CD
+				)
     </select>
     
 </sqlMap>

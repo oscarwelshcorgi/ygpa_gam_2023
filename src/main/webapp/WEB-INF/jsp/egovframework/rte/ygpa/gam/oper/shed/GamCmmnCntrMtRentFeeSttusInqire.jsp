@@ -36,22 +36,43 @@ GamCmmnCntrMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/oper/shed/gamSelectCmmnCntrMtRentFeeSttusInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'사용년도', name:'usageYear',width:150, sortable:false,align:'center'},
-                 {display:'시설코드', name:'',width:150, sortable:false,align:'center'},
-                 {display:'총금액', name:'',width:150, sortable:false,align:'center'},
-                 {display:'조회기간별임대료(월별)', name:'',width:200, sortable:false,align:'center'}
+                 {display:'항코드', name:'prtAtCode',width:70, sortable:false,align:'center'},
+                 {display:'항코드명', name:'prtKorNm',width:120, sortable:false,align:'center'},
+                 {display:'사용년도', name:'usageYear',width:70, sortable:false,align:'center'},
+                 {display:'자산코드', name:'gisAssetsCd',width:70, sortable:false,align:'center'},
+                 {display:'자산부코드', name:'gisAssetsSubCd',width:70, sortable:false,align:'center'},
+                 {display:'자산명', name:'prtFcltyNm',width:170, sortable:false,align:'center'},
+                 {display:'전체사용료', name:'sumTotalFee',width:200, sortable:false,align:'center'},
+                 {display:'1월사용료', name:'sum01Fee',width:150, sortable:false,align:'center'},
+                 {display:'2월사용료', name:'sum02Fee',width:150, sortable:false,align:'center'},
+                 {display:'3월사용료', name:'sum03Fee',width:150, sortable:false,align:'center'},
+                 {display:'4월사용료', name:'sum04Fee',width:150, sortable:false,align:'center'},
+                 {display:'5월사용료', name:'sum05Fee',width:150, sortable:false,align:'center'},
+                 {display:'6월사용료', name:'sum06Fee',width:150, sortable:false,align:'center'},
+                 {display:'7월사용료', name:'sum07Fee',width:150, sortable:false,align:'center'},
+                 {display:'8월사용료', name:'sum08Fee',width:150, sortable:false,align:'center'},
+                 {display:'9월사용료', name:'sum09Fee',width:150, sortable:false,align:'center'},
+                 {display:'10월사용료', name:'sum10Fee',width:150, sortable:false,align:'center'},
+                 {display:'11월사용료', name:'sum11Fee',width:150, sortable:false,align:'center'},
+                 {display:'12월사용료', name:'sum12Fee',width:150, sortable:false,align:'center'}
                  ],
      showTableToggleBtn: false,
-     height: 'auto'
+     height: 'auto',
+     preProcess: function(module,data) {
+         module.$('#totSumCnt').val(data.totalCount);
+         module.$('#totSumFee').val(data.totSumFee);         
+         return data;
+     }
+
  });
  //로드될 때 사용기간에 오늘날짜 처리
 	var today = new Date();
-	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
-	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
-	var sToday = today.getFullYear() + '-' + month + '-' + date;
- 
- this.$('#sGrUsagePdFrom').val(sToday);
- this.$('#sGrUsagePdTo').val(sToday);    
+	var tomonth = ((today.getMonth() + 1) >= 10) ? '' + (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
+	var toyear =  '' + today.getFullYear(); 
+	this.$('#sStartYr').val(toyear);
+	this.$('#sStartMn').val(tomonth);    
+	this.$('#sEndYr').val(toyear);
+	this.$('#sEndMn').val(tomonth);
 
 };
 
@@ -90,6 +111,12 @@ GamCmmnCntrMtRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;      
+      	     // 자산코드 팝업
+
+	    case "searchPopupBtn":
+			this.doExecuteDialog("searchGisAssetsCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+		break;
+
 	        
 	}
 };
@@ -100,6 +127,11 @@ GamCmmnCntrMtRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamCmmnCntrMtRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
+	// 자산코드 조회
+	case "searchGisAsetsCodePopup":
+		this.$("#sAsssetsCd").val(value["gisAssetsCd"]);
+		this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
+		break;
 	   case 'selectEntrpsInfoPopup':
 	       if (msg != 'cancel') {
 	           this.$('#sEntrpscd').val(value.entrpscd);
@@ -149,13 +181,53 @@ var module_instance = new GamCmmnCntrMtRentFeeSttusInqireModule();
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th>업체명</th>
                             <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
-                            <th>사용기간</th>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+                        </tr>
+                        <tr>
+                            <th>자산코드</th>
+							<td>
+								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<button id="searchPopupBtn">자산코드</button>
+							</td>
+                            <th>조회기간</th>
                             <td>
-                            	 <input id="sGrUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8">
+		                       	<select id="sStartYr">
+                                    <option value="" selected="selected">년도</option>
+                                    <c:forEach  items="${yearsList}" var="yearItem">
+                                        <option value="${yearItem }">${yearItem }</option>
+                                    </c:forEach>
+                                </select>
+                                <select id="sStartMn">
+                                    <option value="" selected="selected">월</option>
+                                    <c:forEach  items="${monthsList}" var="monthsItem">
+                                    	<c:if test="${monthsItem >= 10}">
+                                        	<option value="${monthsItem }">${monthsItem}</option>
+                                        </c:if>
+                                    	<c:if test="${monthsItem < 10}">
+                                        	<option value="0${monthsItem }">${monthsItem}</option>
+                                        </c:if>                                        
+                                    </c:forEach>
+                                </select>
+                                &nbsp;~&nbsp;
+		                       	<select id="sEndYr">
+                                    <option value="" selected="selected">년도</option>
+                                    <c:forEach  items="${yearsList}" var="yearItem">
+                                        <option value="${yearItem}">${yearItem}</option>
+                                    </c:forEach>
+                                </select>
+                                <select id="sEndMn">
+                                    <option value="" selected="selected">월</option>
+                                    <c:forEach  items="${monthsList}" var="monthsItem">
+                                    	<c:if test="${monthsItem >= 10}">
+                                        	<option value="${monthsItem}">${monthsItem}</option>
+                                        </c:if>
+                                    	<c:if test="${monthsItem < 10}">
+                                        	<option value="0${monthsItem}">${monthsItem}</option>
+                                        </c:if>         
+                                    </c:forEach>
+                                </select>
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -170,20 +242,18 @@ var module_instance = new GamCmmnCntrMtRentFeeSttusInqireModule();
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="cmmnCntrMtRentFeeSttusInqireList" style="display:none" class="fillHeight"></table>
-            <!-- 
             <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
-                            <td style="text-align: right">
+                            <td>
                                <form id="form1">
-                                   사용료 <input id="totalResultCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                                   감면사용료 <input id="totalResultRdcCnt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+                                   자료수 <input id="totSumCnt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                                   전체 사용료 <input id="totSumFee" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
                                </form>
                             </td>
                         </tr>
                      </table>
             </div>
-             -->
 		</div>
             
     </div>
