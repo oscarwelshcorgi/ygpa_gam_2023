@@ -1192,7 +1192,41 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 
         case 'btnUploadFile':
             // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
+			var selectRow = this.$('#prtFcltyRentMngtList').selectedRows();
+			if(selectRow.length > 0) {
+				var row=selectRow[0];
+				if(row['prtAtCode']==null || row['gisAssetsCd']==null || row['gisAssetsSubCd']==null) {
+					alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
+					return;
+				}
+				if(row['gisAssetsPrtAtCode'].length!=3 || row['gisAssetsCd'].length!=3 || row['gisAssetsSubCd'].length!=2) {
+					alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
+					return;
+				}
+				this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
+				this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
+				this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
+	
+				this._tempGisPrtAtCd=row['gisAssetsPrtAtCode'];
+				this._tempGisAssetsCd=row['gisAssetsCd'];
+				this._tempGisAssetsSubCd=row['gisAssetsSubCd'];
+	
+				this._edited=true;
+	
+			}
+			else {
+				alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요.');
+				return;
+			}
+            var selectRow = this.$('#prtFcltyRentMngtList').selectedRows();
+            var row = null;
             
+            if(selectRow.length > 0) {
+            	row = selectRow[0];
+            		
+            }
+            
+         	 
             this._tempPhotoSj = this.$('#photoSj').val();
             this._tempPhotoDesc = this.$('#photoDesc').val();
             this._tempShotDt = this.$('#shotDt').val();
@@ -1201,7 +1235,6 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
-              	//순번지정 처리 안됨
                 $.each(result, function(){
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
@@ -1215,7 +1248,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 						rnum: module._tempRnum,
 						photoSj: module._tempPhotoSj, 
 						filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, 
-						shotDt: module._tempShortDt, 
+						shotDt: module._tempShotDt, 
 						photoDesc: module._tempPhotoDesc, 
 						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 					//2014-4-22 변경
