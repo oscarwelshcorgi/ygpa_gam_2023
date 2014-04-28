@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,8 @@ public class GamPrtFcltyPdRentFeeSttusInqireController {
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
-    	
+    	model.addAttribute("yearsList", getYears());
+    	model.addAttribute("monthsList", getMonths());
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyPdRentFeeSttusInqire"; 
     }
 	
@@ -108,5 +110,21 @@ public class GamPrtFcltyPdRentFeeSttusInqireController {
     	
     	return map;
     }
-	
+
+	public List getYears(){
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		for (int i = 2000; i <= currentYear; i++) {
+   			result.add(String.valueOf(i));
+   		}
+   		return result;
+   	}
+	public List getMonths(){
+		List result = new ArrayList();
+   		for (int i=1; i<=12; i++) {
+   			result.add(new Integer(i));
+   		}
+   		return result;
+   	}
 }
