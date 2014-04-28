@@ -23,6 +23,10 @@ import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireVO;
 @Repository("gamErpGisAssetPhotoMngtDao")
 public class GamErpGisAssetPhotoMngtDao extends YGPAAbstractDAO {
 
+	public Integer selectGamAssetPhotoMaxSeq(Map vo) throws Exception {
+    	return (Integer) selectByPk("gamGisAssetPhotoDao.selectGetNewAssetPhotoSeq_S", vo);
+    }
+
 	public List mergeGisAssetPhoto(Map map) throws Exception {
 		return this.merge(map, "gamGisAssetPhotoDao.insertAssetPhoto_S", "gamGisAssetPhotoDao.updateAssetPhoto_S", "gamGisAssetPhotoDao.deleteAssetPhoto_S");
 	}

@@ -121,21 +121,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
 	this.$(".photoEditItem").on("change", {module: this}, function(event) {
-
-		var m = event.data.module;
-
-		if(m._editPhotoRow == null) return;
-		if(m._editPhotoData == null) return;
-
-		if(m._editPhotoData._updt == null || m._editPhotoData._updt == "") m._editPhotoData._updt = "U";
-		else m._editPhotoData._updt = "I";
-
-		if(m.$("#photoSj")==event.target){
-			m._editPhotoData.photoSj = $(event.target).val();
-		}else{
-			var dtStr = m.$("#shotDt").val()+" "+m.$("#shotTime").val();
-			m._editPhotoData.shotDt = dtStr;
-		}
+		event.data.module.applyPhotoChanged(event.target);
 	});
 
 	this.$("#fcltyPhotoList").flexigrid({
@@ -202,6 +188,34 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 };
 
+GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
+	var changed=false;
+	var row={};
+	console.log("change event occur");
+
+	var selectRow = this.$('#fcltyPhotoList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#photoSj').is(target)) {
+			row['photoSj'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#shotDt').is(target)) {
+			row['shotDt'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#photoDesc').is(target)) {
+			row['photoDesc'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#fcltyPhotoList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#fcltyPhotoList').flexUpdateRow(rowid, row);
+	}
+};
 
 /**
  * 정의 된 버튼 클릭 시
@@ -327,11 +341,18 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 				var userid = "admin";
 
 				$.each(result, function(){
-					module.$("#fcltyPhotoList").flexAddRow({_updtId:'I', prtFcltyPhotoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
+					module.$("#fcltyPhotoList").flexAddRow({_updtId:'I', gisAssetsPrtAtCode: module._fcltyItem.gisAssetsPrtAtCode, gisAssetsCd: module._fcltyItem.gisAssetsCd, gisAssetsSubCd: module._fcltyItem.gisAssetsSubCd, prtFcltySe:'C', gisPrtFcltyCd: module._fcltyItem.gisPrtFcltyCd, gisPrtFcltySeq: module._fcltyItem.gisPrtFcltySeq, prtFcltyPhotoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
 				});
 			}, "시설사진 업로드");
 
 		break;
+		case 'btnDownloadFile':
+			var selectRow = this.$('#fcltyPhotoList').selectedRows();
+			if(selectRow.length > 0) {
+				var row=selectRow[0];
+				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+			}
+			break;
 
 		case "btnRemoveFile":
 			this.removeGisAssetPhotoItem();
@@ -346,7 +367,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 			    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
 
-			    this.doAction('<c:url value="/code/assets/mergeGamGisAssetPhotoMngt.do" />', inputVO, function(module, result) {
+			    this.doAction('<c:url value="/fclty/mergeGamConstFcltyPhotoMngt.do" />', inputVO, function(module, result) {
 			        if(result.resultCode == 0){
 				    	module.loadPhotoList();
 			        }
@@ -405,14 +426,14 @@ GamFcltyMngtModule.prototype.removeGisAssetPhotoItem = function() {
             	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			}
         	this.$("#fcltyPhotoList").flexRemoveRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
-        	
+
         	this._edited=true;
 		}
-    	
+
     	this.$("#previewImage").attr("src","");
     	alert("삭제되었습니다.");
 	}
-    
+
     this.$("#fcltyGisPhotoForm").find(":input").val("");
     this._editDataFile = null;
 };
@@ -429,7 +450,25 @@ GamFcltyMngtModule.prototype.clearPhotoPage = function() {
 	this.$('#previewImage').attr('src', '');
 };
 
+GamFcltyMngtModule.prototype.loadPhotoList = function() {
+	var row = this.$('#fcltyMngtList').selectedRows();
+	if(row.length <= 0) {
+ 		this.clearPhotoPage();
+		return;
+	}
+	row=row[0];
+	var searchOpt = [
+	                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
+	                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
+	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
+	                { name: 'gisPrtFcltyCd', value: row['gisPrtFcltyCd'] },
+	                { name: 'gisPrtFcltySeq', value: row['gisPrtFcltySeq'] },
+	                { name: 'prtFcltySe', value: row['prtFcltySe'] }
+	              ];
+	this.clearPhotoPage();
 
+ 	this.$('#fcltyPhotoList').flexOptions({params:searchOpt}).flexReload();
+};
 /**
  * 탭 변경시 실행 이벤트
  */
@@ -530,29 +569,10 @@ GamFcltyMngtModule.prototype.clearPhotoPage = function() {
 		else if(this._cmd=="insert") {
 	 			module.clearPhotoPage();
 		}
-		var row = this.$('#fcltyMngtList').selectedRows();
-		if(row.length <= 0) {
-	 		this.clearPhotoPage();
-			return;
-		}
-		var searchOpt = [
-		                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
-		                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
-		                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
-		                { name: 'gisPrtFcltyCd', value: row['gisPrtFcltyCd'] },
-		                { name: 'gisPrtFcltySubCd', value: row['gisPrtFcltySubCd'] },
-		                { name: 'prtFcltySe', value: row['prtFcltySe'] }
-		              ];
-		this.clearPhotoPage();
-
-	 	this.$('#fcltyPhotoList').flexOptions({params:searchOpt}).flexReload();
+		this.loadPhotoList();
 		break;
 	}
 };
-
-
-
-
 
 /**
  * 팝업 close 이벤트
@@ -757,8 +777,8 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 					</table>
 				</form>
-				<button id="btnApplyPhotoData">적용</button>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+<!-- 				<button id="btnApplyPhotoData">적용</button>
+ -->				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
 	</div>

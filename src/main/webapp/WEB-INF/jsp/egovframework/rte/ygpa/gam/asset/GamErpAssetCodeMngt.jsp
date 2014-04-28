@@ -159,6 +159,11 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		height: '120'
 	});
 
+	this.$("#assetCodePhotoList").on('onLoadDataComplete', function(event, module, data, grid, param) {
+		module._edited=false;
+		module._deleteDataList=[];
+	});
+
 	this.$("#assetCodePhotoList").on('onItemSelected', function(event, module, row, grid, param) {
 		module.makeFormValues('#editAssetGisPhotoForm', row);
 		module._editPhotoData=module.getFormValues('#editAssetGisPhotoForm', row);
@@ -193,7 +198,8 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
 	this.$('.photoEditItem').on('change', {module: this}, function(event) {
-		var m = event.data.module;
+		event.data.module.applyPhotoItem();
+/* 		var m = event.data.module;
 		if(m._editPhotoRow==null) return;
 
 		if(m._editPhotoData==null) return;
@@ -212,7 +218,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			var dtStr = m.$('#shotDt').val();
 			m._editPhotoData.shotDt = dtStr;
 		}
-
+ */
 	});
 };
 
@@ -308,7 +314,7 @@ GamAssetCodeModule.prototype.saveGisAssetPhotoItem = function() {
 	            module.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 	        }
 	        alert(result.resultMsg);
-	    	this._edited=false;
+	        module._edited=false;
 	    });
 	}
 };
@@ -367,7 +373,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#searchGisErpAssetNo').removeClass('ui-state-error');
 			this.$('#searchGisErpAssetNoSeq').removeClass('ui-state-error');
 		}
-		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
+		var searchOpt=this.makeFormArgs('#searchGisAssetPhoto');
 	 	this.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'addAssetGisCd':	// gis 자산 추가
@@ -509,20 +515,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'btnApplyPhotoData':
-		var selectRow = this.$('#assetCodePhotoList').selectedRows();
-		if(selectRow.length==0) return;
-		if(!validateGamAssetPhoto(this.$('#editAssetGisPhotoForm')[0])) {
-			return;
-		}
-		var rownum;
-		var row = {};
-		row=this.getFormValues('#editAssetGisPhotoForm', selectRow[0]);
-		rownum=this.$('#assetCodePhotoList').selectedRowIds()[0];
-
-		this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
-
-		this._edited=true;
-
+		this.applyPhotoItem();
 		break;
 	case 'removeAssetGisPhoto':
 		this.removeGisAssetPhotoItem();
@@ -536,6 +529,25 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
         this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
 		break;
 	}
+};
+
+GamAssetCodeModule.prototype.applyPhotoItem = function() {
+	var selectRow = this.$('#assetCodePhotoList').selectedRows();
+	if(selectRow.length==0) return;
+	if(!validateGamAssetPhoto(this.$('#editAssetGisPhotoForm')[0])) {
+		return;
+	}
+	var rownum;
+	var row = {};
+	row=this.getFormValues('#editAssetGisPhotoForm', selectRow[0]);
+	rownum=this.$('#assetCodePhotoList').selectedRowIds()[0];
+
+	if(row["_updtId"]!='I') row["_updtId"]='U';
+	this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
+
+	console.log('_updtId : ' + row["_updtId"]);
+
+	this._edited=true;
 };
 
 GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
@@ -892,7 +904,7 @@ var module_instance = new GamAssetCodeModule();
 							<th><span class="label">촬영일자</span></th>
 							<td>
                             	<input id="shotDt" type="text" size="10"  class="emdcal photoEditItem">
-			   					<button id="btnApplyPhotoData">적용</button>
+			   					<!-- <button id="btnApplyPhotoData">적용</button> -->
 							</td>
 						</tr>
 					</table>

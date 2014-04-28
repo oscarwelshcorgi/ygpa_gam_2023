@@ -67,8 +67,6 @@ public class GamMechFcltyMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     private final static String prtFcltySe = "M";
 
 	/**
@@ -232,7 +230,7 @@ public class GamMechFcltyMngtController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamMechFcltyView.do")
+	@RequestMapping(value="/fclty/gamMechFcltyDetail.do")
     @ResponseBody Map<String, Object> fcltyMngSelectView(@RequestParam Map fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -304,7 +302,7 @@ public class GamMechFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	fcltyManageVO.put("PrtFcltySe",prtFcltySe);
+    	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
     		gamFcltyMngtService.deleteFclty(fcltyManageVO);
@@ -360,6 +358,8 @@ public class GamMechFcltyMngtController {
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		insertList.addAll(updateList);
 
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);

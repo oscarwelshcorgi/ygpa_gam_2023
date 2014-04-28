@@ -231,7 +231,7 @@ public class GamCivilFcltyMngtController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamCivilFcltyView.do")
+	@RequestMapping(value="/fclty/gamCivilFcltyDetail.do")
     @ResponseBody Map<String, Object> fcltyMngSelectView(@RequestParam Map fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -302,7 +302,7 @@ public class GamCivilFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	fcltyManageVO.put("PrtFcltySe",prtFcltySe);
+    	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
     		gamFcltyMngtService.deleteFclty(fcltyManageVO);
@@ -358,6 +358,8 @@ public class GamCivilFcltyMngtController {
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		insertList.addAll(updateList);
 
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);

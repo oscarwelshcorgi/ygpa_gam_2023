@@ -27,8 +27,4 @@ public class GamErpGisAssetCodeMngtDao extends YGPAAbstractDAO {
 		return this.merge(map, "gamGisAssetCodeDao.insertAssetCode_S", "gamGisAssetCodeDao.updateAssetCode_S", "gamGisAssetCodeDao.deleteAssetCode_S");
 	}
 
-	public List mergeGisAssetPhoto(Map map) throws Exception {
-		return this.merge(map, "gamGisAssetPhotoDao.insertAssetPhoto_S", "gamGisAssetPhotoDao.updateAssetPhoto_S", "gamGisAssetPhotoDao.deleteAssetPhoto_S");
-	}
-
 }

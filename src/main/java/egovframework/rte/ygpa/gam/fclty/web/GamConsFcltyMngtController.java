@@ -303,7 +303,7 @@ public class GamConsFcltyMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	fcltyManageVO.put("PrtFcltySe",prtFcltySe);
+    	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
     		gamFcltyMngtService.deleteFclty(fcltyManageVO);
@@ -359,6 +359,8 @@ public class GamConsFcltyMngtController {
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		insertList.addAll(updateList);
 
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
