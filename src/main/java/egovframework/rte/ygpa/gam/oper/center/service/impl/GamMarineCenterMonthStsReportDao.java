@@ -42,4 +42,8 @@ public class GamMarineCenterMonthStsReportDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamMarineCenterMonthStsReportDao.selectMarineCenterMonthStsReportListTotCnt_S", searchVO);
     }
     
+    public GamMarineCenterMonthStsReportVO selectMarineCenterMonthStsReportSum(GamMarineCenterMonthStsReportVO searchVO) {
+        return (GamMarineCenterMonthStsReportVO) selectByPk("gamMarineCenterMonthStsReportDao.selectMarineCenterMonthStsReportSum_S", searchVO);
+    }
+    
 }

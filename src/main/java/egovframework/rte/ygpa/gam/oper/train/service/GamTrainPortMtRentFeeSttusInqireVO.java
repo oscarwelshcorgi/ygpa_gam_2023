@@ -68,6 +68,26 @@ public class GamTrainPortMtRentFeeSttusInqireVO extends ComDefaultVO {
     /** 검색 업체명 */
     private String sEntrpscd;
     
+
+	/** 검색 자산 코드 */
+    private String sAssetsCd;
+    
+    private String sAssetsSubCd;
+    
+    /** 검색 년 월*/
+    private String sStartYr;
+    
+    private String sStartMn;
+    
+    private String sEndYr;
+    
+    private String sEndMn;
+    
+    /** 자료수, 합계 */
+    private String totSumCnt;
+    
+    private String totSumFee;
+    
     /** 검색 사용기간 시작 */
     private String sGrUsagePdFrom;
     
@@ -415,6 +435,118 @@ public class GamTrainPortMtRentFeeSttusInqireVO extends ComDefaultVO {
 	 */
 	public String getsGrUsagePdTo() {
 		return sGrUsagePdTo;
+	}
+
+	/**
+	 * @return the sAssetsCd
+	 */
+	public String getsAssetsCd() {
+		return sAssetsCd;
+	}
+
+	/**
+	 * @param sAssetsCd the sAssetsCd to set
+	 */
+	public void setsAssetsCd(String sAssetsCd) {
+		this.sAssetsCd = sAssetsCd;
+	}
+
+	/**
+	 * @return the sAssetsSubCd
+	 */
+	public String getsAssetsSubCd() {
+		return sAssetsSubCd;
+	}
+
+	/**
+	 * @param sAssetsSubCd the sAssetsSubCd to set
+	 */
+	public void setsAssetsSubCd(String sAssetsSubCd) {
+		this.sAssetsSubCd = sAssetsSubCd;
+	}
+
+	/**
+	 * @return the sStartYr
+	 */
+	public String getsStartYr() {
+		return sStartYr;
+	}
+
+	/**
+	 * @param sStartYr the sStartYr to set
+	 */
+	public void setsStartYr(String sStartYr) {
+		this.sStartYr = sStartYr;
+	}
+
+	/**
+	 * @return the sStartMn
+	 */
+	public String getsStartMn() {
+		return sStartMn;
+	}
+
+	/**
+	 * @param sStartMn the sStartMn to set
+	 */
+	public void setsStartMn(String sStartMn) {
+		this.sStartMn = sStartMn;
+	}
+
+	/**
+	 * @return the sEndYr
+	 */
+	public String getsEndYr() {
+		return sEndYr;
+	}
+
+	/**
+	 * @param sEndYr the sEndYr to set
+	 */
+	public void setsEndYr(String sEndYr) {
+		this.sEndYr = sEndYr;
+	}
+
+	/**
+	 * @return the sEndMn
+	 */
+	public String getsEndMn() {
+		return sEndMn;
+	}
+
+	/**
+	 * @param sEndMn the sEndMn to set
+	 */
+	public void setsEndMn(String sEndMn) {
+		this.sEndMn = sEndMn;
+	}
+
+	/**
+	 * @return the totSumCnt
+	 */
+	public String getTotSumCnt() {
+		return totSumCnt;
+	}
+
+	/**
+	 * @param totSumCnt the totSumCnt to set
+	 */
+	public void setTotSumCnt(String totSumCnt) {
+		this.totSumCnt = totSumCnt;
+	}
+
+	/**
+	 * @return the totSumFee
+	 */
+	public String getTotSumFee() {
+		return totSumFee;
+	}
+
+	/**
+	 * @param totSumFee the totSumFee to set
+	 */
+	public void setTotSumFee(String totSumFee) {
+		this.totSumFee = totSumFee;
 	}
 
 	/**

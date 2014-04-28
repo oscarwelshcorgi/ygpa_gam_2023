@@ -28,4 +28,19 @@ public interface GamPrtFcltyMtRentFeeSttusInqireService {
 	 */
     List selectPrtFcltyMtRentFeeSttusInqireList(GamPrtFcltyMtRentFeeSttusInqireVO searchVO) throws Exception;
     
+    /**
+	 * 항만시설월별사용료현황 목록 자료수 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return int - 자료수
+	 * @exception Exception
+	 */
+    int selectPrtFcltyMtRentFeeSttusInqireListTotCnt(GamPrtFcltyMtRentFeeSttusInqireVO searchVO) throws Exception;
+
+    /**
+	 * 항만시설월별사용료현황 자료수, 합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return resultVO - 합계정보가 담긴 VO
+	 * @exception Exception
+	 */
+    GamPrtFcltyMtRentFeeSttusInqireVO selectPrtFcltyMtRentFeeSttusInqireSum(GamPrtFcltyMtRentFeeSttusInqireVO searchVO) throws Exception;
 }

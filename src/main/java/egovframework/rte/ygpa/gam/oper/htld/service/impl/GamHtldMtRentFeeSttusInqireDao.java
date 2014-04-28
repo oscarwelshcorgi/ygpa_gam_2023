@@ -31,5 +31,25 @@ public class GamHtldMtRentFeeSttusInqireDao extends YGPAAbstractDAO {
     public List selectHtldMtRentFeeSttusInqireList(GamHtldMtRentFeeSttusInqireVO searchVO) throws Exception {
         return list("gamHtldMtRentFeeSttusInqireDao.selectHtldMtRentFeeSttusInqireList_D", searchVO);
     }
-    
+
+    /**
+	 * 항만시설월별사용료현황 목록 자료수 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return int - 자료수
+	 * @exception Exception
+	 */
+    int selectPrtFcltyMtRentFeeSttusInqireListTotCnt(GamHtldMtRentFeeSttusInqireVO searchVO) throws Exception{
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldMtRentFeeSttusInqireDao.selectHtldMtRentFeeSttusInqireListTotCnt_S", searchVO);    
+    }
+
+    /**
+	 * 항만시설월별사용료현황 자료수, 합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return resultVO - 합계정보가 담긴 VO
+	 * @exception Exception
+	 */
+    GamHtldMtRentFeeSttusInqireVO selectPrtFcltyMtRentFeeSttusInqireSum(GamHtldMtRentFeeSttusInqireVO searchVO) throws Exception {
+    	return (GamHtldMtRentFeeSttusInqireVO) selectByPk("gamHtldMtRentFeeSttusInqireDao.selectHtldMtRentFeeSttusInqireSum_S", searchVO);
+    }
+
 }

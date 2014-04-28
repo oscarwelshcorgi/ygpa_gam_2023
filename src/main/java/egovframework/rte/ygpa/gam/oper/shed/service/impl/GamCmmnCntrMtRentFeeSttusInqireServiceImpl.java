@@ -42,5 +42,13 @@ public class GamCmmnCntrMtRentFeeSttusInqireServiceImpl  extends AbstractService
     public List selectCmmnCntrMtRentFeeSttusInqireList(GamCmmnCntrMtRentFeeSttusInqireVO searchVO) throws Exception {
         return gamCmmnCntrMtRentFeeSttusInqireDao.selectCmmnCntrMtRentFeeSttusInqireList(searchVO);
     }
+
+	public int selectCmmnCntrMtRentFeeSttusInqireListTotCnt(GamCmmnCntrMtRentFeeSttusInqireVO searchVO) throws Exception {
+		return gamCmmnCntrMtRentFeeSttusInqireDao.selectCmmnCntrMtRentFeeSttusInqireListTotCnt(searchVO);
+	}
+
+	public GamCmmnCntrMtRentFeeSttusInqireVO selectCmmnCntrMtRentFeeSttusInqireSum(GamCmmnCntrMtRentFeeSttusInqireVO searchVO) throws Exception {
+		return gamCmmnCntrMtRentFeeSttusInqireDao.selectCmmnCntrMtRentFeeSttusInqireSum(searchVO);
+	}
     
 }

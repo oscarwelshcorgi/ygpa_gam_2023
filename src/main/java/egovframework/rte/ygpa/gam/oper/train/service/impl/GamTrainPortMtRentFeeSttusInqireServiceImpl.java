@@ -42,5 +42,13 @@ public class GamTrainPortMtRentFeeSttusInqireServiceImpl  extends AbstractServic
     public List selectTrainPortMtRentFeeSttusInqireList(GamTrainPortMtRentFeeSttusInqireVO searchVO) throws Exception {
         return gamTrainPortMtRentFeeSttusInqireDao.selectTrainPortMtRentFeeSttusInqireList(searchVO);
     }
+
+	public int selectTrainPortMtRentFeeSttusInqireListTotCnt(GamTrainPortMtRentFeeSttusInqireVO searchVO) throws Exception {
+		return gamTrainPortMtRentFeeSttusInqireDao.selectTrainPortMtRentFeeSttusInqireListTotCnt(searchVO);
+	}
+
+	public GamTrainPortMtRentFeeSttusInqireVO selectTrainPortMtRentFeeSttusInqireSum(GamTrainPortMtRentFeeSttusInqireVO searchVO) throws Exception {
+		return gamTrainPortMtRentFeeSttusInqireDao.selectTrainPortMtRentFeeSttusInqireSum(searchVO);
+	}
     
 }

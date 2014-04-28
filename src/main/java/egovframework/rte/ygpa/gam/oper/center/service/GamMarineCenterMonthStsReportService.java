@@ -31,4 +31,6 @@ public interface GamMarineCenterMonthStsReportService {
    	 * @exception
    	 */
     int selectMarineCenterMonthStsReportListTotCnt(GamMarineCenterMonthStsReportVO searchVO) throws Exception;
+    
+    GamMarineCenterMonthStsReportVO selectMarineCenterMonthStsReportSum(GamMarineCenterMonthStsReportVO searchVO) throws Exception;
 }

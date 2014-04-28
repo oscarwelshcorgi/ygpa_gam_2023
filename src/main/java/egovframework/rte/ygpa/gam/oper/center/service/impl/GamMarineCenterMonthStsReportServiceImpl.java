@@ -53,5 +53,9 @@ public class GamMarineCenterMonthStsReportServiceImpl  extends AbstractServiceIm
    		//return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
     	   return gamMarineCenterMonthStsReportDao.selectMarineCenterMonthStsReportListTotCnt(searchVO);
    	}
+
+	public GamMarineCenterMonthStsReportVO selectMarineCenterMonthStsReportSum(GamMarineCenterMonthStsReportVO searchVO) throws Exception {
+		return gamMarineCenterMonthStsReportDao.selectMarineCenterMonthStsReportSum(searchVO);
+	}
     
 }

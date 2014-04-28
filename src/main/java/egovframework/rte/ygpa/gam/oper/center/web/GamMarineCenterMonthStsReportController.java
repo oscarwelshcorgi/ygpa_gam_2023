@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.center.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,9 +81,33 @@ public class GamMarineCenterMonthStsReportController {
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
+		model.addAttribute("yearsList", this.getYears());
+		model.addAttribute("monthsList", this.getMonths());
     	
     	return "/ygpa/gam/oper/center/GamMarineCenterMonthStsReport";
     }
+	public List getYears(){
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		for (int i = 2000; i <= currentYear; i++) {
+   			result.add(String.valueOf(i));
+   		}
+   		return result;
+   	}
+	
+	/**
+     * 조회기간 월을 가져온다
+     *
+     */
+	public List getMonths(){
+		List result = new ArrayList();
+   		for (int i=1; i<=12; i++) {
+   			result.add(new Integer(i));
+   		}
+   		return result;
+   	}
+
 	
 	/**
      * 마린센터월별사용료현황 목록을 조회한다. 
@@ -98,9 +123,6 @@ public class GamMarineCenterMonthStsReportController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -111,15 +133,20 @@ public class GamMarineCenterMonthStsReportController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
     	totalCnt = gamMarineCenterMonthStsReportService.selectMarineCenterMonthStsReportListTotCnt(searchVO);
-    	List assetRentList = gamMarineCenterMonthStsReportService.selectMarineCenterMonthStsReportList(searchVO);
-    	
+    	List resultList = gamMarineCenterMonthStsReportService.selectMarineCenterMonthStsReportList(searchVO);
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
+        GamMarineCenterMonthStsReportVO resultVO = gamMarineCenterMonthStsReportService.selectMarineCenterMonthStsReportSum(searchVO);
+        
     	map.put("resultCode", 0);	// return ok
-    	map.put("resultList", assetRentList);
+    	map.put("resultList", resultList);
+    	map.put("totalCount", totalCnt);
     	map.put("searchOption", searchVO);
-    	
+    	map.put("totSumCnt", resultVO.getTotSumCnt());
+    	map.put("totSumFee", resultVO.getTotSumFee());
+
     	return map;
     }
 	

@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.shed.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,10 +83,34 @@ public class GamCmmnCntrMtRentFeeSttusInqireController {
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
+		model.addAttribute("yearsList", this.getYears());
+		model.addAttribute("monthsList", this.getMonths());
     	
     	return "/ygpa/gam/oper/shed/GamCmmnCntrMtRentFeeSttusInqire"; 
     }
+
+	public List getYears(){
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		for (int i = 2000; i <= currentYear; i++) {
+   			result.add(String.valueOf(i));
+   		}
+   		return result;
+   	}
 	
+	/**
+     * 조회기간 월을 가져온다
+     *
+     */
+	public List getMonths(){
+		List result = new ArrayList();
+   		for (int i=1; i<=12; i++) {
+   			result.add(new Integer(i));
+   		}
+   		return result;
+   	}
+
 	/**
      * 공컨장치장임대월별사용료현황 목록을 조회한다. 
      *
@@ -95,16 +120,33 @@ public class GamCmmnCntrMtRentFeeSttusInqireController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/shed/gamSelectCmmnCntrMtRentFeeSttusInqireList.do", method=RequestMethod.POST)
-	@ResponseBody Map selectCmmnCntrMtRentFeeSttusInqireList(GamCmmnCntrMtRentFeeSttusInqireVO searchVO) throws Exception {
-
+	@ResponseBody Map selectCmmnCntrMtRentFeeSttusInqireList(GamCmmnCntrMtRentFeeSttusInqireVO searchVO) throws Exception {		
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-		
-    	List assetRentList = gamCmmnCntrMtRentFeeSttusInqireService.selectCmmnCntrMtRentFeeSttusInqireList(searchVO);
-    	
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		totalCnt = gamCmmnCntrMtRentFeeSttusInqireService.selectCmmnCntrMtRentFeeSttusInqireListTotCnt(searchVO);
+    	List resultList = gamCmmnCntrMtRentFeeSttusInqireService.selectCmmnCntrMtRentFeeSttusInqireList(searchVO);
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+        GamCmmnCntrMtRentFeeSttusInqireVO resultVO = gamCmmnCntrMtRentFeeSttusInqireService.selectCmmnCntrMtRentFeeSttusInqireSum(searchVO);
+        
     	map.put("resultCode", 0);	// return ok
-    	map.put("resultList", assetRentList);
+    	map.put("resultList", resultList);
+    	map.put("totalCount", totalCnt);
     	map.put("searchOption", searchVO);
+    	map.put("totSumCnt", resultVO.getTotSumCnt());
+    	map.put("totSumFee", resultVO.getTotSumFee());
     	
     	return map;
     }
