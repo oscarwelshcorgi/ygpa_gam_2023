@@ -1018,7 +1018,7 @@ var module_instance = new GamHtldRentSttusInqireModule();
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
                 
                 <table id="htldRentSttusInqireFileList" style="display:none" class="fillHeight"></table>
-                <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
+                <div class="emdControlPanel"><button id="btnDownloadFile">다운로드</button></div>
                 <form id="gamHtldRentSttusInqireFileForm">
                     <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
                     <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
@@ -1053,7 +1053,6 @@ var module_instance = new GamHtldRentSttusInqireModule();
                         </tr>
                     </table>
                 </form>
-                    <button id="btnApplyPhotoData">첨부파일 적용</button>
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>

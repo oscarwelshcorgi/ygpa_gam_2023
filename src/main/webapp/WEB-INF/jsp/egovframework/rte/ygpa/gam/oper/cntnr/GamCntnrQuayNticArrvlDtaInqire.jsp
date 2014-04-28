@@ -537,12 +537,12 @@ GamCntnrQuayNticArrvlDtaInqireModule.prototype.onCalc = function() {
         // 조회
         case 'searchBtn':            
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
-            	alert("만기도래기간(시작일)을 선택하십시오.");
+            	alert("고지도래기간(시작일)을 선택하십시오.");
             	return;
             }
             
             if( this.$('#sGrUsagePdTo').val() == '' ) {
-                alert("만기도래기간(종료일)을 선택하십시오.");
+                alert("고지도래기간(종료일)을 선택하십시오.");
                 return;
             }
             
@@ -1185,7 +1185,7 @@ var module_instance = new GamCntnrQuayNticArrvlDtaInqireModule();
                                 <input id="xxx" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
                             </td>
                             
-                            <th>만기도래기간</th>
+                            <th>고지도래기간</th>
                             <td>
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"

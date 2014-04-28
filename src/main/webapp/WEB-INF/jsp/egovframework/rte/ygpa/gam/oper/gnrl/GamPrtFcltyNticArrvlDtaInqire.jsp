@@ -1186,7 +1186,7 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                                 <input id="xxx" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
                             </td>
                             
-                            <th>만기도래기간</th>
+                            <th>고지도래기간</th>
                             <td>
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"

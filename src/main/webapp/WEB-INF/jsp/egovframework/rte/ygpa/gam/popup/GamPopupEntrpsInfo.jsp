@@ -66,15 +66,15 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnEntrpsSearch":
-
+		/* 
 		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
 			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
 				this.$("#entrpsNm").focus();
 				alert("업체 명은 2자 이상 입력하십시오.");
 				return;
-			}
+			}	
 		}
-		
+		 */
 		var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 	 	throw 0;

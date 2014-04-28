@@ -539,12 +539,12 @@ GamMarineCenterFeeExprInqireModule.prototype.onCalc = function() {
         case 'searchBtn':
             
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
-            	alert("만기도래기간(시작일)을 선택하십시오.");
+            	alert("고지도래기간(시작일)을 선택하십시오.");
             	return;
             }
             
             if( this.$('#sGrUsagePdTo').val() == '' ) {
-                alert("만기도래기간(종료일)을 선택하십시오.");
+                alert("고지도래기간(종료일)을 선택하십시오.");
                 return;
             }
             
