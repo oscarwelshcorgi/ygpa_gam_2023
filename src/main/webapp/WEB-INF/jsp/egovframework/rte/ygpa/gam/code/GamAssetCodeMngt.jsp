@@ -227,10 +227,17 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				for ( var i = this.$('#assetCodeList').selectedRowIds().length - 1; i >= 0; i--) {
 					var row = this.$('#assetCodeList').flexGetRow(
 							this.$('#assetCodeList').selectedRowIds()[i]);
-					if (row._updtId == undefined || row._updtId != 'I')
-						this._deleteDataList[this._deleteDataList.length] = row; // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-					this.$('#assetCodeList').flexRemoveRow(
-							this.$('#assetCodeList').selectedRowIds()[i]);
+					if (row._updtId == undefined || row._updtId != 'I') {
+						this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', row, function(module, result) {
+							module.$('#assetCodeList').flexRemoveRow(
+									module.$('#assetCodeList').selectedRowIds()[i]);
+						});
+//						this._deleteDataList[this._deleteDataList.length] = row; // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+					}
+					else 							{
+						this.$('#assetCodeList').flexRemoveRow(
+								module.$('#assetCodeList').selectedRowIds()[i]);
+					}
 				}
 				this._editData = null;
 			}
