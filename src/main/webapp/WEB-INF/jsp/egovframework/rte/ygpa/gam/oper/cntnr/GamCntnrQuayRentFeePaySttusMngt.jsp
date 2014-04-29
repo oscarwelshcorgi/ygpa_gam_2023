@@ -257,9 +257,9 @@ var module_instance = new GamCntnrQuayRentFeePaySttusMngtModule();
                             <td>
                                <form id="form1">
                                     합계
-                                    자료수 <input id="totalResultCnt" size="5" readonly>
-                                    고지금액 <input id="sumNticAmt" type="text" size="14" readonly>원 
-                                    수납금액 <input id="sumRcvdAmt" type="text" size="14" readonly>원 
+                                    자료수 <input id="totalResultCnt" size="5" style="text-align:right;" readonly>
+                                    고지금액 <input id="sumNticAmt" type="text" size="14" style="text-align:right;" readonly>원 
+                                    수납금액 <input id="sumRcvdAmt" type="text" size="14" style="text-align:right;" readonly>원 
                                </form>
                             </td>
                         </tr>
