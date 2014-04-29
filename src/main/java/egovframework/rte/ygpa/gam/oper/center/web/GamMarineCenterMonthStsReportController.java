@@ -146,7 +146,6 @@ public class GamMarineCenterMonthStsReportController {
     	map.put("searchOption", searchVO);
     	map.put("totSumCnt", resultVO.getTotSumCnt());
     	map.put("totSumFee", resultVO.getTotSumFee());
-
     	return map;
     }
 	
