@@ -107,7 +107,7 @@
                AND A.QUAY_CD = 'X'
                 
                <isNotEmpty property="sPrtAtCode">
-                   AND A.PRT_AT_CODE = #sPrtAtCode#
+                   AND A.PRT_AT_CODE = #sPrtAtCode# 
                </isNotEmpty>
     </select>
      
