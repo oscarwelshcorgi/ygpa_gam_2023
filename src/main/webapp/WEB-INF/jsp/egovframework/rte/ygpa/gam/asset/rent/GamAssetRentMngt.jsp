@@ -1517,7 +1517,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <button id="btnEApproval">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
-                                <button id="btnShowMap">맵조회</button>
+                                <!-- <button id="btnShowMap">맵조회</button> -->
                             </td>
                         </tr>
                     </table>
@@ -1644,7 +1644,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
                     </tr>
                     <tr>
-                        <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
+                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
                         <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
                             <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
@@ -1877,7 +1877,7 @@ var module_instance = new GamAssetRentMngtModule();
 
                 <table style="width:100%">
                     <tr>
-                        <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
+                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
                         <td style="text-align:right"><button id="xxxx">취소</button><button id="btnRentDetailApply">임대상세적용</button>
                         </td>
