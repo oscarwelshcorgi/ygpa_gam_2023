@@ -60,7 +60,7 @@ GamCntnrQuayMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
      height: 'auto',
      preProcess: function(module,data) {
          module.$('#totSumCnt').val(data.totalCount);
-         module.$('#totSumFee').val(data.totSumFee);         
+         module.$('#totSumFee').val(data.totSumFee);
          return data;
      }
 
