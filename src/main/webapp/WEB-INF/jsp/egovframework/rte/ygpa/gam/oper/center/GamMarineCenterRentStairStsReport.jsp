@@ -57,7 +57,6 @@ GamMarineCenterRentStairStsReportModule.prototype.loadComplete = function() {
 	var today = new Date();
 	
 	var toMonth = today.getMonth();
-	today.setDate(1);
 	
 	// 이번달로 셀렉트박스 날짜 정의
 	var endYr = today.getFullYear();
