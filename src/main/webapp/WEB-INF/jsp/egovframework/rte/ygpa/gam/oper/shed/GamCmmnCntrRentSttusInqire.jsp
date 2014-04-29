@@ -532,6 +532,13 @@ GamCmmnCntrRentSttusInqireModule.prototype.loadComplete = function() {
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
             break;
 
+        case 'btnDownloadFile':
+    		var selectRow = this.$('#cmmnCntrRentSttusInqireFileList').selectedRows();
+    		if(selectRow.length > 0) {
+    			var row=selectRow[0];
+    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+    		}
+    		break;
     }
 };
 

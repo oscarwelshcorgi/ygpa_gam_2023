@@ -1351,7 +1351,19 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             	return;
             }
             break;
+            
+        case 'btnDownloadFile':
+    		var selectRow = this.$('#prtFcltyRentMngtFileList').selectedRows();
+    		if(selectRow.length > 0) {
+    			var row=selectRow[0];
+    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+    		}
+    		break;
+            
+            
     }
+    
+    
 };
 
 GamPrtFcltyRentMngtModule.prototype.onSubmit = function() {
