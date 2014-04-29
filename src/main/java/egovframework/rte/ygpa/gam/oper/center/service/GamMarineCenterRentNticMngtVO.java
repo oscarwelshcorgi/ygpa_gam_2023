@@ -170,12 +170,18 @@ public class GamMarineCenterRentNticMngtVO extends ComDefaultVO {
     /** 고지액(합계) */
     private String sumNticAmt;   
 
-
 	/** 수납액(합계) */
     private String sumRcvdAmt;
 
     /** 자료수 */
     private String dpTotCnt;
+
+    /** 검색조건 */
+    private String sGrUsagePdFrom;
+    
+    /** 검색조건 */
+    private String sGrUsagePdTo;
+
 
     /** 고지방법 */
     private String sNticMth;
@@ -1532,6 +1538,34 @@ public class GamMarineCenterRentNticMngtVO extends ComDefaultVO {
 	 */
 	public void setDpTotCnt(String dpTotCnt) {
 		this.dpTotCnt = dpTotCnt;
+	}
+
+	/**
+	 * @return the sGrUsagePdFrom
+	 */
+	public String getsGrUsagePdFrom() {
+		return sGrUsagePdFrom;
+	}
+
+	/**
+	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
+	 */
+	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
+		this.sGrUsagePdFrom = sGrUsagePdFrom;
+	}
+
+	/**
+	 * @return the sGrUsagePdTo
+	 */
+	public String getsGrUsagePdTo() {
+		return sGrUsagePdTo;
+	}
+
+	/**
+	 * @param sGrUsagePdTo the sGrUsagePdTo to set
+	 */
+	public void setsGrUsagePdTo(String sGrUsagePdTo) {
+		this.sGrUsagePdTo = sGrUsagePdTo;
 	}
 
 }

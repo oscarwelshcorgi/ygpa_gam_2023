@@ -156,7 +156,7 @@
             SELECT 
                TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) DP_TOT_CNT
                , TRIM(TO_CHAR(NVL(SUM(T1.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMNT
-               , TRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END), '999,999,999,999')) SUM_RCVD_AMNT
+               , TRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.RCVD_TP IN ('2','3') THEN S.NTIC_AMT END),0), '999,999,999,999')) SUM_RCVD_AMNT
               FROM (
                            SELECT T1.PRT_AT_CODE
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
@@ -181,7 +181,7 @@
                                   , T2.RCVD_DT
                                   , T2.DUE_DATE
                             FROM LEV_REQEST_F T1
-                            LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
+                            LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
                             WHERE 1 = 1
                              AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                              AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
@@ -219,6 +219,7 @@
 
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY T1.NTIC_DT
+                             ) S
     </select>
 
 </sqlMap>
