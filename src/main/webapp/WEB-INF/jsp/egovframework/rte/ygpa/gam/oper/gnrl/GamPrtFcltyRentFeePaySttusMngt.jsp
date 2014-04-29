@@ -200,12 +200,12 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
                             <th>고지기간</th>
-                            <td  colspan="3">
+                            <td colspan="3">
                             	<input id="sGrUsagePdFrom" type="text" class="emdcal" size="10">
                             	 ~ 
                             	<input id="sGrUsagePdTo" type="text" class="emdcal" size="10">
                             </td>
-                            <td rowspan="3" style="text-align: right;"><button id="searchBtn" class="submit buttonSearch">조회</button>&nbsp;</td>
+                            <td rowspan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                         	<th>요금종류</th>
@@ -215,7 +215,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                 <button id="popupChrgeKndCd">요금</button>
                             </td>
                         	<th>고지업체</th>
-                            <td  colspan="3">
+                            <td colspan="3">
                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
                         </tr>
@@ -233,8 +233,6 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                 <input id="sMngCnt" type="text" size="10"> 
                             </td>
                         </tr>
-                            
-                        
                     </tbody>
                 </table>
             </form>
