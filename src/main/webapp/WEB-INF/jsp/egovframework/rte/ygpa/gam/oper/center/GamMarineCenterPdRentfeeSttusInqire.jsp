@@ -104,7 +104,7 @@ GamMarineCenterPdRentfeeSttusInqireModule.prototype.onButtonClick = function(but
 	        break;
 	        
 	        
-	     // 자산코드 팝업
+	    // 자산코드 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
 		break;

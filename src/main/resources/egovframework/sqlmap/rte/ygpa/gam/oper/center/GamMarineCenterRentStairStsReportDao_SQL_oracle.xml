@@ -7,10 +7,10 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamMarineCenterRentStairStsReportVO" type="egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentStairStsReportVO"/>
  
-    <resultMap id="gamMarineCenterRentStairStsReportSumMap" class="egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentStairStsReportVO">
-        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
-        <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
-        <result property="sumRdcxptFee" column="SUM_RDCXPT_FEE" columnIndex="3"/>
+    <resultMap id="gamMarineCenterRentStairStsReportSumMap" class="gamMarineCenterRentStairStsReportVO">
+    	<result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumTotalFeeSum" column="SUM_TOTAL_FEE_SUM" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumTotalRdcxptFeeSum" column="SUM_TOTAL_RDCXPT_FEE_SUM" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
     </resultMap>
     
     <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportList_D" parameterClass="gamMarineCenterRentStairStsReportVO" resultClass="egovMap">
@@ -18,106 +18,216 @@
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-							SELECT
-							      USAGE_YEAR
-							    , USAGE_QU
-							    , USAGE_MT
-							    , ASSETS_USAGE_SEQ
-							    , MNG_YEAR
-							    , MNG_NO
-							    , MNG_CNT
-							    , PRT_AT_CODE
-							    , USAGE_PRPOS_CD
-							    , REQST_ENTRPS_CD
-							    , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = REQST_ENTRPS_CD AND ROWNUM = 1 ) REQST_ENTRPS_CD_NM
-							    , USAGE_CND
-							    , EXEMPT_SE
-							    , NVL(FEE,0) FEE
-							    , NVL(RDCXPT_FEE,0) RDCXPT_FEE
-							    , UPD_USR
-							    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
-							    , TO_CHAR(USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
-							    , TO_CHAR(USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
-							    , GIS_ASSETS_CD
-							    , GIS_ASSETS_SUB_CD
-							    , QUAY_CD
-							FROM USAGE_PD_BY_STATS_F
-							WHERE QUAY_CD = 'X'
+							SELECT T1.PRT_AT_CODE,
+							       NVL(T2.GIS_ASSETS_STNDRD,'기타') AS GIS_ASSETS_STNDRD,
+							       MIN(T3.CODE_NM) AS PRT_KOR_NM,
+							       NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,
+							       NVL(SUM(T1.RDCXPT_FEE),0) AS SUM_TOTAL_RDCXPT_FEE
+							FROM 
+								ASSETS_RENT_DETAIL_F T1 
+							LEFT OUTER JOIN 
+								GIS_ASSETS_CD_F T2 
+							ON 
+								(
+								T1.GIS_ASSETS_PRT_AT_CODE=T2.GIS_ASSETS_PRT_AT_CODE 
+								AND T1.GIS_ASSETS_CD=T2.GIS_ASSETS_CD 
+								AND T1.GIS_ASSETS_SUB_CD=T2.GIS_ASSETS_SUB_CD
+								)
+							LEFT OUTER JOIN 
+								COMTCCMMNDETAILCODE T3 
+							ON 
+								('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+							WHERE 1 = 1
 					
 							<isNotEmpty property="sPrtAtCode">
-					            AND PRT_AT_CODE = #sPrtAtCode#  
+					            AND T1.PRT_AT_CODE = #sPrtAtCode#  
 					        </isNotEmpty>
 					        
-					        <isNotEmpty property="sEntrpscd">
-					            AND REQST_ENTRPS_CD = #sEntrpscd#  
+					        <isNotEmpty property="serchStartYr">
+			        			<isNotEmpty property="serchStartMn">
+	                    			<![CDATA[AND T1.USAGE_PD_FROM>=TO_DATE(CONCAT(#serchStartYr#, #serchStartMn#) || '01','YYYYMMDD')]]>
+	                    			<isNotEmpty property="serchEndYr">
+	                    				<isNotEmpty property="serchEndMn">
+	                    					<![CDATA[AND T1.USAGE_PD_FROM<LAST_DAY(TO_DATE(CONCAT(#serchEndYr#, #serchEndMn#),'YYYYMM')) + 1]]>
+	                    				</isNotEmpty>
+	                    			</isNotEmpty>
+	                    		</isNotEmpty>
+	                		</isNotEmpty>
+
+					        <isNotEmpty property="searchAssetsCd">
+					            AND T1.GIS_ASSETS_CD = #searchAssetsCd# 
 					        </isNotEmpty>
 					        
-					        <isNotEmpty property="sGrUsagePdFrom"> 
-					            AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+					        <isNotEmpty property="searchAssetsSubCd">
+					            AND T1.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#  
 					        </isNotEmpty>
 					        
-					        <isNotEmpty property="sGrUsagePdTo">
-					            AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-					        </isNotEmpty>
-							<!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
-							                    
-							ORDER BY USAGE_YEAR, USAGE_MT DESC
+					        AND EXISTS (
+					        			SELECT 'Y'
+										FROM ASSETS_RENT_F 
+										WHERE 
+											PRT_AT_CODE = T1.PRT_AT_CODE
+											AND MNG_YEAR = T1.MNG_YEAR
+											AND MNG_NO = T1.MNG_NO
+											AND MNG_CNT = T1.MNG_CNT
+											AND PRMISN_YN='Y'
+											AND QUAY_GROUP_CD='M'
+											<isNotEmpty property="sEntrpscd">
+									            AND ENTRPSCD = #sEntrpscd#  
+									        </isNotEmpty>
+										)
+					        
+					        GROUP BY T1.PRT_AT_CODE,
+									T2.GIS_ASSETS_STNDRD
+									ORDER BY T1.PRT_AT_CODE,
+									NVL(T2.GIS_ASSETS_STNDRD,'기타')
                         ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
     <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportListTotCnt_S" parameterClass="gamMarineCenterRentStairStsReportVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM USAGE_PD_BY_STATS_F
-              WHERE QUAY_CD = 'X'
-              
-              <isNotEmpty property="sPrtAtCode">
-                  AND PRT_AT_CODE = #sPrtAtCode#  
-              </isNotEmpty>
-              
-              <isNotEmpty property="sEntrpscd">
-                  AND REQST_ENTRPS_CD = #sEntrpscd#  
-              </isNotEmpty>
-              
-              <isNotEmpty property="sGrUsagePdFrom"> 
-                  AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-              </isNotEmpty>
-              
-              <isNotEmpty property="sGrUsagePdTo">
-                  AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-              </isNotEmpty>
-              <!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
-                                  
-              ORDER BY USAGE_YEAR, USAGE_MT DESC
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM 
+				(
+                   SELECT T1.PRT_AT_CODE,
+							       NVL(T2.GIS_ASSETS_STNDRD,'기타') AS GIS_ASSETS_STNDRD,
+							       MIN(T3.CODE_NM) AS PRT_KOR_NM,
+							       NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,
+							       NVL(SUM(T1.RDCXPT_FEE),0) AS SUM_TOTAL_RDCXPT_FEE
+							FROM 
+								ASSETS_RENT_DETAIL_F T1 
+							LEFT OUTER JOIN 
+								GIS_ASSETS_CD_F T2 
+							ON 
+								(
+								T1.GIS_ASSETS_PRT_AT_CODE=T2.GIS_ASSETS_PRT_AT_CODE 
+								AND T1.GIS_ASSETS_CD=T2.GIS_ASSETS_CD 
+								AND T1.GIS_ASSETS_SUB_CD=T2.GIS_ASSETS_SUB_CD
+								)
+							LEFT OUTER JOIN 
+								COMTCCMMNDETAILCODE T3 
+							ON 
+								('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+							WHERE 1 = 1
+					
+							<isNotEmpty property="sPrtAtCode">
+					            AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="serchStartYr">
+			        			<isNotEmpty property="serchStartMn">
+	                    			<![CDATA[AND T1.USAGE_PD_FROM>=TO_DATE(CONCAT(#serchStartYr#, #serchStartMn#) || '01','YYYYMMDD')]]>
+	                    			<isNotEmpty property="serchEndYr">
+	                    				<isNotEmpty property="serchEndMn">
+	                    					<![CDATA[AND T1.USAGE_PD_FROM<LAST_DAY(TO_DATE(CONCAT(#serchEndYr#, #serchEndMn#),'YYYYMM')) + 1]]>
+	                    				</isNotEmpty>
+	                    			</isNotEmpty>
+	                    		</isNotEmpty>
+	                		</isNotEmpty>
+
+					        <isNotEmpty property="searchAssetsCd">
+					            AND T1.GIS_ASSETS_CD = #searchAssetsCd# 
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="searchAssetsSubCd">
+					            AND T1.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#  
+					        </isNotEmpty>
+					        
+					        AND EXISTS (
+					        			SELECT 'Y'
+										FROM ASSETS_RENT_F 
+										WHERE 
+											PRT_AT_CODE = T1.PRT_AT_CODE
+											AND MNG_YEAR = T1.MNG_YEAR
+											AND MNG_NO = T1.MNG_NO
+											AND MNG_CNT = T1.MNG_CNT
+											AND PRMISN_YN='Y'
+											AND QUAY_GROUP_CD='M'
+											<isNotEmpty property="sEntrpscd">
+									            AND ENTRPSCD = #sEntrpscd#  
+									        </isNotEmpty>
+										)
+					        
+					        GROUP BY T1.PRT_AT_CODE,
+									T2.GIS_ASSETS_STNDRD
+									ORDER BY T1.PRT_AT_CODE,
+									NVL(T2.GIS_ASSETS_STNDRD,'기타')
+                ) S
     </select>
 
     <select id="gamMarineCenterRentStairStsReportDao.selectMarineCenterRentStairStsReportSum_S" parameterClass="gamMarineCenterRentStairStsReportVO" resultMap="gamMarineCenterRentStairStsReportSumMap">
-            SELECT
-               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
-               , TRIM(TO_CHAR(NVL(SUM(FEE),0), '999,999,999,999')) SUM_FEE
-               , TRIM(TO_CHAR(NVL(SUM(RDCXPT_FEE),0), '999,999,999,999')) SUM_RDCXPT_FEE
-              FROM USAGE_PD_BY_STATS_F
-              WHERE QUAY_CD = 'X'
-              
-              <isNotEmpty property="sPrtAtCode">
-                  AND PRT_AT_CODE = #sPrtAtCode#  
-              </isNotEmpty>
-              
-              <isNotEmpty property="sEntrpscd">
-                  AND REQST_ENTRPS_CD = #sEntrpscd#  
-              </isNotEmpty>
-              
-              <isNotEmpty property="sGrUsagePdFrom"> 
-                  AND USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-              </isNotEmpty>
-              
-              <isNotEmpty property="sGrUsagePdTo">
-                  AND USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-              </isNotEmpty>
-              <!-- GROUP BY USAGE_YEAR, USAGE_MT __Query Change!!!__ -->
-                                  
-              ORDER BY USAGE_YEAR, USAGE_MT DESC
+            SELECT 
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT  
+            	,TRIM(TO_CHAR(NVL(SUM(S.SUM_TOTAL_FEE),0), '999,999,999,999')) AS SUM_TOTAL_FEE_SUM 
+            	,TRIM(TO_CHAR(NVL(SUM(S.SUM_TOTAL_RDCXPT_FEE),0), '999,999,999,999')) AS SUM_TOTAL_RDCXPT_FEE_SUM 
+            FROM 
+				(
+                   SELECT T1.PRT_AT_CODE,
+							       NVL(T2.GIS_ASSETS_STNDRD,'기타') AS GIS_ASSETS_STNDRD,
+							       MIN(T3.CODE_NM) AS PRT_KOR_NM,
+							       NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,
+							       NVL(SUM(T1.RDCXPT_FEE),0) AS SUM_TOTAL_RDCXPT_FEE
+							FROM 
+								ASSETS_RENT_DETAIL_F T1 
+							LEFT OUTER JOIN 
+								GIS_ASSETS_CD_F T2 
+							ON 
+								(
+								T1.GIS_ASSETS_PRT_AT_CODE=T2.GIS_ASSETS_PRT_AT_CODE 
+								AND T1.GIS_ASSETS_CD=T2.GIS_ASSETS_CD 
+								AND T1.GIS_ASSETS_SUB_CD=T2.GIS_ASSETS_SUB_CD
+								)
+							LEFT OUTER JOIN 
+								COMTCCMMNDETAILCODE T3 
+							ON 
+								('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+							WHERE 1 = 1
+					
+							<isNotEmpty property="sPrtAtCode">
+					            AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="serchStartYr">
+			        			<isNotEmpty property="serchStartMn">
+	                    			<![CDATA[AND T1.USAGE_PD_FROM>=TO_DATE(CONCAT(#serchStartYr#, #serchStartMn#) || '01','YYYYMMDD')]]>
+	                    			<isNotEmpty property="serchEndYr">
+	                    				<isNotEmpty property="serchEndMn">
+	                    					<![CDATA[AND T1.USAGE_PD_FROM<LAST_DAY(TO_DATE(CONCAT(#serchEndYr#, #serchEndMn#),'YYYYMM')) + 1]]>
+	                    				</isNotEmpty>
+	                    			</isNotEmpty>
+	                    		</isNotEmpty>
+	                		</isNotEmpty>
+
+					        <isNotEmpty property="searchAssetsCd">
+					            AND T1.GIS_ASSETS_CD = #searchAssetsCd# 
+					        </isNotEmpty>
+					        
+					        <isNotEmpty property="searchAssetsSubCd">
+					            AND T1.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#  
+					        </isNotEmpty>
+					        
+					        AND EXISTS (
+					        			SELECT 'Y'
+										FROM ASSETS_RENT_F 
+										WHERE 
+											PRT_AT_CODE = T1.PRT_AT_CODE
+											AND MNG_YEAR = T1.MNG_YEAR
+											AND MNG_NO = T1.MNG_NO
+											AND MNG_CNT = T1.MNG_CNT
+											AND PRMISN_YN='Y'
+											AND QUAY_GROUP_CD='M'
+											<isNotEmpty property="sEntrpscd">
+									            AND ENTRPSCD = #sEntrpscd#  
+									        </isNotEmpty>
+										)
+					        
+					        GROUP BY T1.PRT_AT_CODE,
+									T2.GIS_ASSETS_STNDRD
+									ORDER BY T1.PRT_AT_CODE,
+									NVL(T2.GIS_ASSETS_STNDRD,'기타')
+                ) S
     </select>
     
 </sqlMap>
