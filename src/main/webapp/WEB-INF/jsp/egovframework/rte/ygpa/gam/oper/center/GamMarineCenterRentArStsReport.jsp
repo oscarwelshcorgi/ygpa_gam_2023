@@ -36,40 +36,30 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
      url: '<c:url value="/oper/center/gamSelectMarineCenterRentArStsReportList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'사용년도', name:'usageYear',width:150, sortable:false,align:'center'},
-                 {display:'관리번호', name:'mngNo',width:150, sortable:false,align:'center'},
-                 {display:'횟수', name:'mngCnt',width:150, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCd',width:150, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsCdNm',width:150, sortable:false,align:'center'},
-                 {display:'업체코드', name:'reqstEntrpsCd',width:150, sortable:false,align:'center'},
-                 {display:'업체명', name:'reqstEntrpsCdNm',width:150, sortable:false,align:'center'},
-                 {display:'사용시작일', name:'usagePdFrom',width:150, sortable:false,align:'center'},
-                 {display:'사용료', name:'fee',width:150, sortable:false,align:'center'},
-                 {display:'면제', name:'exemptSe',width:150, sortable:false,align:'center'},
-                 {display:'수정자', name:'updUsr',width:150, sortable:false,align:'center'},
-                 {display:'수정일시', name:'updtDt',width:150, sortable:false,align:'center'}
+                 {display:'항코드', name:'prtAtCode',width:70, sortable:false,align:'center'},
+                 {display:'항코드명', name:'prtKorNm',width:120, sortable:false,align:'center'},
+                 {display:'면적구분', name:'areaClass',width:150, sortable:false,align:'center'},
+                 {display:'사용료', name:'sumTotalFee',width:150, sortable:false,align:'right'},
+                 {display:'감면사용료', name:'sumTotalRocxptFee',width:150, sortable:false,align:'right'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',
      preProcess: function(module,data) {
-             module.$('#totalCnt').val(data.sumCnt);
-             module.$('#totalFee').val(data.sumFee);
-             module.$('#totalRdcFee').val(data.sumRdcxptFee);
-
-             module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-             
-             return data;
+         module.$('#totSumCnt').val(data.totalCount);
+         module.$('#totSumFee').val(data.totSumFee);
+         module.$('#totSumRocxptFee').val(data.totSumRocxptFee);
+         return data;
      }
  });
 
  //로드될 때 사용기간에 오늘날짜 처리
- var today = new Date();
- var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
- var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
- var sToday = today.getFullYear() + '-' + month + '-' + date;
- 
- this.$('#sGrUsagePdFrom').val(sToday);
- this.$('#sGrUsagePdTo').val(sToday);    
+	var today = new Date();
+	var tomonth = ((today.getMonth() + 1) >= 10) ? '' + (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
+	var toyear =  '' + today.getFullYear(); 
+	this.$('#sStartYr').val(toyear);
+	this.$('#sStartMn').val(tomonth);    
+	this.$('#sEndYr').val(toyear);
+	this.$('#sEndMn').val(tomonth);
 };
 
 this.$("#marineCenterRentArStsReportList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -86,17 +76,23 @@ GamMarineCenterRentArStsReportModule.prototype.onButtonClick = function(buttonId
 
 	switch(buttonId) {
 	
-	    // 조회
 	    case 'searchBtn':
-            if( this.$('#sGrUsagePdFrom').val() == '' ) {
-            	alert("사용기간을 선택하십시오.");
-            	return;
-            }
-            
-            if( this.$('#sGrUsagePdTo').val() == '' ) {
-                alert("사용기간을 선택하십시오.");
-                return;
-            }
+	        if( this.$('#sStartYr').val() == '' ) {
+	        	alert("조회시작년을 선택하십시오.");
+	        	return;
+	        }
+	        if( this.$('#sStartMn').val() == '' ) {
+	        	alert("조회시작월을 선택하십시오.");
+	        	return;
+	        }
+	        if( this.$('#sEndYr').val() == '' ) {
+	        	alert("조회끝년을 선택하십시오.");
+	        	return;
+	        }
+	        if( this.$('#sEndMn').val() == '' ) {
+	        	alert("조회끝월을 선택하십시오.");
+	        	return;
+	        }
 	        var searchOpt=this.makeFormArgs('#gamMarineCenterRentArStsReportSearchForm');
 			this.$('#marineCenterRentArStsReportList').flexOptions({params:searchOpt}).flexReload();
 	
@@ -107,6 +103,9 @@ GamMarineCenterRentArStsReportModule.prototype.onButtonClick = function(buttonId
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;      
+     	     // 자산코드 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("searchGisAssetsCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
 	        
 	}
 };
@@ -117,6 +116,11 @@ GamMarineCenterRentArStsReportModule.prototype.onButtonClick = function(buttonId
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamMarineCenterRentArStsReportModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
+	// 자산코드 조회
+	   case "searchGisAssetsCodePopup":
+		this.$("#sAssetsCd").val(value["gisAssetsCd"]);
+		this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
+		break;
 	   case 'selectEntrpsInfoPopup':
 	       if (msg != 'cancel') {
 	           this.$('#sEntrpscd').val(value.entrpscd);
@@ -166,13 +170,53 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th>업체명</th>
                             <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
-                            <th>사용기간</th>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+                        </tr>
+                        <tr>
+                            <th>자산코드</th>
+							<td>
+								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<button id="searchPopupBtn">자산코드</button>
+							</td>
+                            <th>조회기간</th>
                             <td>
-                            	 <input id="sGrUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8">
+		                       	<select id="sStartYr">
+                                    <option value="" selected="selected">년도</option>
+                                    <c:forEach  items="${yearsList}" var="yearItem">
+                                        <option value="${yearItem }">${yearItem }</option>
+                                    </c:forEach>
+                                </select>
+                                <select id="sStartMn">
+                                    <option value="" selected="selected">월</option>
+                                    <c:forEach  items="${monthsList}" var="monthsItem">
+                                    	<c:if test="${monthsItem >= 10}">
+                                        	<option value="${monthsItem }">${monthsItem}</option>
+                                        </c:if>
+                                    	<c:if test="${monthsItem < 10}">
+                                        	<option value="0${monthsItem }">${monthsItem}</option>
+                                        </c:if>                                        
+                                    </c:forEach>
+                                </select>
+                                &nbsp;~&nbsp;
+		                       	<select id="sEndYr">
+                                    <option value="" selected="selected">년도</option>
+                                    <c:forEach  items="${yearsList}" var="yearItem">
+                                        <option value="${yearItem}">${yearItem}</option>
+                                    </c:forEach>
+                                </select>
+                                <select id="sEndMn">
+                                    <option value="" selected="selected">월</option>
+                                    <c:forEach  items="${monthsList}" var="monthsItem">
+                                    	<c:if test="${monthsItem >= 10}">
+                                        	<option value="${monthsItem}">${monthsItem}</option>
+                                        </c:if>
+                                    	<c:if test="${monthsItem < 10}">
+                                        	<option value="0${monthsItem}">${monthsItem}</option>
+                                        </c:if>         
+                                    </c:forEach>
+                                </select>
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -193,9 +237,9 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
                             <td>
                                <form id="form1">
                        합계
-                       자료수 <input id="totalCnt" size="15" style="text-align:right;" readonly>
-                       사용료 <input id="totalFee" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                       감면사용료 <input id="totalRdcFee" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+                       자료수 <input id="totSumCnt" size="15" style="text-align:right;" readonly>
+                       사용료 <input id="totSumFee" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+                       감면사용료 <input id="totSumRocxptFee" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
                                </form>
                             </td>
                         </tr>
