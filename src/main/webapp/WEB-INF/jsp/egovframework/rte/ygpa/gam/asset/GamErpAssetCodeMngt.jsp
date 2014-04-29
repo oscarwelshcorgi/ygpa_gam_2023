@@ -69,12 +69,12 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'변동구분', name:'changeCls', width:8, sortable:true, align:'center'}
 			],
 		height: 'auto',
-		preProcess: function(module, data) {
+/* 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq;
 			});
 			return data;
-		}
+		} */
 	});
 
 	this.$("#erpAssetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {

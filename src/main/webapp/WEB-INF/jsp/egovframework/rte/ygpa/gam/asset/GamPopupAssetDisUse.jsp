@@ -43,12 +43,20 @@ GamPopupAssetDisUseModule.prototype.onButtonClick = function(buttonId) {
 		if( this.$('#erpAssetsDisuseRsn').val() == '' ) {
             alert("자산폐기사유를 입력하십시오.");
         } else {
-        	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', inputVO, function(module, result) {
+        	var result = {
+        			gisAssetsPrtAtCode.$('#gisAssetsPrtAtCode').val(),
+        			gisAssetsCd.$('#gisAssetsCd').val(),
+        			gisAssetsSubCd.$('#gisAssetsSubCd').val(),
+        			erpAssetsDisuseRsn:this.$('#erpAssetsDisuseRsn').val(),
+        	};
+
+        	this.closeDialog('ok', {result:this.$('#erpAssetsDisuseRsn').val()});
+/*         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', inputVO, function(module, result) {
 
                 alert(result.resultMsg);
 
                 module.closeDialog('ok', result.resultCode);
-            });
+            }); */
         }
 
 		break;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetDisUseMngtServiceImpl.java
@@ -39,17 +40,17 @@ public class GamAssetDisUseMngtServiceImpl  extends AbstractServiceImpl implemen
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetDisUseList(GamAssetDisUseMngtVO searchVO) throws Exception {
+    public List selectAssetDisUseList(GamGisAssetCodeVO searchVO) throws Exception {
         return gamAssetDisUseMngtDao.selectAssetDisUseList(searchVO);
     }
-    
+
     /**
 	 * GIS자산코드 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetDisUseListTotCnt(GamAssetDisUseMngtVO searchVO) throws Exception {
+    public int selectAssetDisUseListTotCnt(GamGisAssetCodeVO searchVO) throws Exception {
 		return gamAssetDisUseMngtDao.selectAssetDisUseListTotCnt(searchVO);
 	}
 
@@ -58,7 +59,7 @@ public class GamAssetDisUseMngtServiceImpl  extends AbstractServiceImpl implemen
 	 * @param vo GamAssetDisUseMngtVO
 	 * @exception Exception
 	 */
-	public void updateAssetDisUse(GamAssetDisUseMngtVO vo) throws Exception {
+	public void updateAssetDisUse(GamGisAssetCodeVO vo) throws Exception {
 		gamAssetDisUseMngtDao.updateAssetDisUse(vo);
 	}
 

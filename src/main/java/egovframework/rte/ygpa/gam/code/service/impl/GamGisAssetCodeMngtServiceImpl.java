@@ -75,4 +75,16 @@ public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implemen
 		return gamGisAssetCodeMngtDao.selectAssetCodeOlnlp(vo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService#deleteAssetCodes(java.util.List)
+	 */
+	@Override
+	public void deleteAssetCodes(List vo) throws Exception {
+		Map item;
+		for(int i=0; i<vo.size(); i++) {
+			item = (Map)vo.get(i);
+			gamGisAssetCodeMngtDao.deleteAssetCode(item);
+		}
+	}
+
 }

@@ -21,11 +21,14 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetDisUseMngtController.java
@@ -36,112 +39,112 @@ import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
  * @since 2014-01-29
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamAssetDisUseMngtController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
     @Resource(name = "gamAssetDisUseMngtService")
     private GamAssetDisUseMngtService gamAssetDisUseMngtService;
-	
-    
+
+
     /**
-     * 자산폐기등록 화면을 로딩한다. 
+     * 자산폐기등록 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/asset/GamAssetDisUseMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/asset/gamAssetDisUseMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
+
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		
-		codeVo.setCodeId("GAM019"); //항코드 
+
+		codeVo.setCodeId("GAM019"); //항코드
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
+
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
-    	
-    	return "/ygpa/gam/asset/GamAssetDisUseMngt"; 
+
+    	return "/ygpa/gam/asset/GamAssetDisUseMngt";
     }
-	
+
 	/**
-     * GIS자산코드 목록을 조회한다. 
+     * GIS자산코드 목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/asset/gamSelectAssetDisUseList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetDisUseList(GamAssetDisUseMngtVO searchVO) throws Exception {
+	public @ResponseBody Map selectAssetDisUseList(GamGisAssetCodeVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
     	totalCnt = gamAssetDisUseMngtService.selectAssetDisUseListTotCnt(searchVO);
     	List assetRentList = gamAssetDisUseMngtService.selectAssetDisUseList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
-    	
+
     	return map;
     }
-	
+
 	/**
-     * 자산폐기 팝업화면을 로딩한다. 
+     * 자산폐기 팝업화면을 로딩한다.
      *
      * @param gamAssetDisUseMngtVO
      * @param model the model
      * @return "/ygpa/gam/asset/GamPopupAssetRentPrmisn"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/asset/popup/showAssetDisUse.do")
     String showAssetDisUse(GamAssetDisUseMngtVO gamAssetDisUseMngtVO, ModelMap model) throws Exception {
-    	
+
 		model.addAttribute("gamAssetDisUseMngtVO", gamAssetDisUseMngtVO);
 
     	return "/ygpa/gam/asset/GamPopupAssetDisUse";
     }
-	
+
     /**
      * ERP 자산 폐기 정보를 수정한다.
      * @param String
@@ -150,28 +153,29 @@ public class GamAssetDisUseMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/asset/gamUpdateAssetDisUse.do") 
+    @RequestMapping(value="/asset/gamUpdateAssetDisUse.do")
     public @ResponseBody Map updateAssetDisUse(
-    	   @ModelAttribute("gamAssetDisUseMngtVO") GamAssetDisUseMngtVO gamAssetDisUseMngtVO, 
+    	   @ModelAttribute("gamAssetDisUseMngtVO") GamGisAssetCodeVO gamAssetDisUseMngtVO,
     	   BindingResult bindingResult)
            throws Exception {
-	
+
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
-        gamAssetDisUseMngtVO.setErpAssetsDisuseRegistYn("Y");
-        gamAssetDisUseMngtVO.setUpdUsr("admin1"); // 추후세션 처리
-        
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+        gamAssetDisUseMngtVO.setUpdUsr(loginVO.getId());
+
         gamAssetDisUseMngtService.updateAssetDisUse(gamAssetDisUseMngtVO);
-    	
+
         resultCode = 0; // return ok
         resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-        
+
     	map.put("resultCode", resultCode);
     	map.put("resultMsg", resultMsg);
-        
+
 		return map;
     }
-    
+
 }

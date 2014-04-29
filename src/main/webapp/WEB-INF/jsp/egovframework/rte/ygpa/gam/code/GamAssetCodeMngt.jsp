@@ -224,21 +224,11 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			break;
 		case 'removeAssetGisCdItem':
 			if (this.$('#assetCodeList').selectedRowIds().length > 0) {
-				for ( var i = this.$('#assetCodeList').selectedRowIds().length - 1; i >= 0; i--) {
-					var row = this.$('#assetCodeList').flexGetRow(
-							this.$('#assetCodeList').selectedRowIds()[i]);
-					if (row._updtId == undefined || row._updtId != 'I') {
-						this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', row, function(module, result) {
-							module.$('#assetCodeList').flexRemoveRow(
-									module.$('#assetCodeList').selectedRowIds()[i]);
-						});
-//						this._deleteDataList[this._deleteDataList.length] = row; // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-					}
-					else 							{
-						this.$('#assetCodeList').flexRemoveRow(
-								module.$('#assetCodeList').selectedRowIds()[i]);
-					}
-				}
+				var row = this.$('#assetCodeList').selectedRows();
+				var inputVO=[{name: 'deleteList', value :JSON.stringify(row) }];
+				this.doAction('<c:url value="/code/assets/deleteGamGisAssetCodes.do" />', inputVO, function(module, result) {
+					module.loadData();
+				});
 				this._editData = null;
 			}
 			break;
@@ -344,7 +334,16 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.$('#editGisAssetCode').find(':input').val('');
 			this.$('#btnApplyGisAssetCode').removeAttr('disabled');
 			break;
-		case 'removeAssetCdItem':
+		case 'removeAssetGisCdDetailItem':
+			if (this._editData._updtId==null || this._editData._updtId!='I') {
+				this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', this._editData, function(module, result) {
+					module.loadData();
+					module.$("#assetCodeTab").tabs("option", {
+						active : 0
+					});
+				});
+				this._editData = null;
+			}
 			break;
 		case 'editAssetCd':
 			break;
@@ -568,7 +567,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	};
 
 	GamAssetCodeModule.prototype.loadData = function() {
-		var searchOpt = this.makeFormArgs('#searchErpAssetCode');
+		var searchOpt = this.makeFormArgs('#searchGisAssetCode');
 		//this.showAlert(searchOpt);
 		this.$('#assetCodeList').flexOptions({
 			params : searchOpt
@@ -640,7 +639,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
-					<button id="storeAutoMapGenerate">위치등록(배치)</button>	<!-- 빌드 시 -->
+					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll">
@@ -755,9 +754,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr> -->
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<button id="btnAddGisMap">위치등록</button>
+<!-- 					<button id="btnAddGisMap">위치등록</button> -->
 					<button id="btnCancelGisAssetsCode">취소</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
+					<button id="removeAssetGisCdDetailItem">삭제</button>
 				</div>
 				</form>
 							</div>

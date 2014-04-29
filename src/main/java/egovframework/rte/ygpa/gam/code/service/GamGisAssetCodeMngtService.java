@@ -13,6 +13,8 @@ public interface GamGisAssetCodeMngtService {
 
     void deleteAssetCode(Map vo) throws Exception;
 
+    void deleteAssetCodes(List vo) throws Exception;
+
     EgovMap selectAssetCode(Map vo) throws Exception;
 
     void updateAssetCodeGis(Map vo) throws Exception;

@@ -219,6 +219,39 @@ public class GamAssetCodeMngtController {
     	return map;
 	}
 
+	@RequestMapping(value="/code/assets/deleteGamGisAssetCodes.do")
+	@ResponseBody Map<String, Object> deleteGamGisAssetCodes(@RequestParam Map deleteItems) throws Exception {
+    	Map map = new HashMap();
+    	List<HashMap<String,String>> deleteList=null;
+		ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+    		deleteList = mapper.readValue((String)deleteItems.get("deleteList"),
+        		    new TypeReference<List<HashMap<String,String>>>(){});
+
+
+        	gamGisAssetCodeMngtService.deleteAssetCodes(deleteList);
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+
+        	return map;
+    	}
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+
+    	return map;
+	}
+
     @RequestMapping(value="/code/assets/selectGisAssetPhotoList.do")
     @ResponseBody Map selectGisAssetPhotoList(GamGisAssetPhotoVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;

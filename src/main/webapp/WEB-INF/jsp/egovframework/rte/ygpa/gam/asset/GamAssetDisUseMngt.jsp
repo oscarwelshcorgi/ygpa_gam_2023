@@ -43,15 +43,15 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
                     {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'center'},
                     {display:'지번', name:'gisAssetsLnmCode',width:58, sortable:false,align:'center'},
                     {display:'면적', name:'gisAssetsAr',width:64, sortable:false,align:'center'},
+                    {display:'폐기', name:'erpAssetsDisuseRegistYn',width:44, sortable:false,align:'center'},
+                    {display:'폐기사유', name:'erpAssetsDisuseRsn',width:200, sortable:false,align:'center'},
                     {display:'규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
                     {display:'관리부서', name:'gisAssetsMngDeptCdNm',width:100, sortable:false,align:'center'},
                     {display:'운영부서', name:'gisAssetsOperDeptCdNm',width:100, sortable:false,align:'center'},
                     {display:'취득가액', name:'gisAssetsAcqPri',width:110, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'사용여부', name:'gisAssetsUsageYn',width:64, sortable:false,align:'center'},
                     {display:'준공년도', name:'gisAssetsBlddate',width:64, sortable:false,align:'center'},
-                    {display:'준공일자', name:'gisAssetsBldDt',width:80, sortable:false,align:'center'},
-                    {display:'폐기등록여부', name:'erpAssetsDisuseRegistYn',width:80, sortable:false,align:'center'},
-                    {display:'폐기사유', name:'erpAssetsDisuseRsn',width:200, sortable:false,align:'center'}
+                    {display:'준공일자', name:'gisAssetsBldDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -130,6 +130,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             this.$("#assetDisUseListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
 
+            console.log('select disuse assets list');
             break;
 
         // 자산폐기
@@ -137,6 +138,10 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             var rows = this.$('#assetDisUseList').selectedRows();
 
             if(rows.length>=1) {
+            	if(rows[0].erpAssetsDisuseRegistYn=='Y') {
+            		alert('이미 폐기된 자산입니다.');
+            		return;
+            	}
             	var opts = {
                         'gisAssetsCd': rows[0]['gisAssetsCd'],
                         'gisAssetsSubCd': rows[0]['gisAssetsSubCd'],
@@ -148,6 +153,33 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             	alert("목록에서 선택하십시오.");
             };
 
+            break;
+        case 'cancelDisUseAssetBtn':	// 자산 폐기를 취소한다.
+            var rows = this.$('#assetDisUseList').selectedRows();
+
+            if(rows.length>=1) {
+            	if(rows[0].erpAssetsDisuseRegistYn!='Y') {
+            		alert('폐기된 자산을 선택 하십시요.');
+            		return;
+            	}
+            	var opts = {
+                        'gisAssetsCd': rows[0]['gisAssetsCd'],
+                        'gisAssetsSubCd': rows[0]['gisAssetsSubCd'],
+                        'gisAssetsPrtAtCode': rows[0]['gisAssetsPrtAtCode'],
+                        'erpAssetsDisuseRsn': '',
+                        'erpAssetsDisuseRegistYn': 'N'
+                };
+
+            	if(confirm('폐기 처리를 취소 하시겠습니까?')) {
+                  	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', opts, function(module, result) {
+                        alert(result.resultMsg);
+                        var searchOpt=module.makeFormArgs('#gamAssetDisUseSearchForm');
+                        module.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
+                    });
+            	}
+            } else {
+            	alert("목록에서 선택하십시오.");
+            };
             break;
 
     }
@@ -182,15 +214,20 @@ GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) 
     switch (popupId) {
      case 'updateDisUseAssetPopup':
          if (msg != 'cancel') {
-             if( value == "0" ) {
-                 var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
-                 this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
-             }
+         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', [{name: 'erpAssetsDisuseRsn', value:value.erpAssetsDisuseRsn}
+         			, {name: 'erpAssetsDisuseRegistYn', value:'Y'}
+         			, {name: 'gisAssetsPrtAtCode', value:value.gisAssetsPrtAtCode}
+         			, {name: 'gisAssetsCd', value:value.gisAssetsCd}
+         			, {name: 'gisAssetsSubCd', value:value.gisAssetsSubCd}
+         			], function(module, result) {
+                alert(result.resultMsg);
+                var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
+                this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
+            });
          } else {
              alert('취소 되었습니다');
          }
          break;
-
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -208,21 +245,45 @@ var module_instance = new GamAssetDisUseMngtModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamAssetDisUseSearchForm">
-                <table style="width:100%;" class="searchPanel">
-                    <tbody>
-                        <tr>
-                            <th style="width:80px;">자산코드</th>
-                            <td style="width:150px;">
-                                <input id="sGisAssetsCd" type="text" size="2">-<input id="sGisAssetsSubCd" type="text" size="1">
-                            </td>
-                            <th style="width:80px;">자산명</th>
-                            <td style="width:140px;">
-                                <input id="sGisAssetsNm" type="text" size="10">
-                            </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+						<table class="searchPanel">
+							<tbody>
+							<tr>
+								<th>항구분</th>
+								<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
+								<th>ERP 자산코드</th>
+								<td><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
+								<th>폐기여부</th>
+								<td><input id="searchErpAssetsDisuseRegistYn" data-column-id="erpAssetsDisuseRegistYn" type="text" class="ygpaYnSelect" data-default-prompt='전체' /></td>
+								<th>자산코드</th>
+								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
+								<td rowSpan="3"><button id="searchBtn" class="submit">조회</button></td>
+							</tr>
+							<tr>
+								<th>재산</th>
+								<td><input id="searchGisAssetsPrprtySeCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrprtySeCd" data-code-id="GAM001" data-default-prompt="전체"/></td>
+								<th>위치</th>
+								<td><input id="searchGisAssetsLocCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsLocCd" data-code-id="GAM002" data-default-prompt="전체"/></td>
+								<th>부두</th>
+								<td><input id="searchGisAssetsQuayCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsQuayCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
+								<th>관리부서</th>
+								<td>
+									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" />
+								</td>
+							</tr>
+							<tr>
+								<th>자산명</th>
+								<td><input id="searchGisAssetsNm" data-column-id="gisAssetsNm" type="text" size="16"></td>
+								<th>소재지</th>
+								<td><input id="searchGisAssetsLocPlc" data-column-id="gisAssetsLocplc" type="text" size="20"></td>
+								<th>지번</th>
+								<td><input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
+								<th>운영부서</th>
+								<td>
+									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
             </form>
         </div>
     </div>
@@ -241,6 +302,7 @@ var module_instance = new GamAssetDisUseMngtModule();
                         <tr>
                             <td>
                                 <button id="disUseAssetBtn">자산폐기</button>
+                                <button id="cancelDisUseAssetBtn">폐기취소</button>
                             </td>
                         </tr>
                     </table>
