@@ -36,11 +36,11 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
      url: '<c:url value="/oper/center/gamSelectMarineCenterRentArStsReportList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'항코드', name:'prtAtCode',width:70, sortable:false,align:'center'},
-                 {display:'항코드명', name:'prtKorNm',width:120, sortable:false,align:'center'},
+                 {display:'항코드', name:'prtAtCode',width:150, sortable:false,align:'center'},
+                 {display:'항코드명', name:'prtKorNm',width:150, sortable:false,align:'center'},
                  {display:'면적구분', name:'areaClass',width:150, sortable:false,align:'center'},
-                 {display:'사용료', name:'sumTotalFee',width:150, sortable:false,align:'right'},
-                 {display:'감면사용료', name:'sumTotalRocxptFee',width:150, sortable:false,align:'right'}
+                 {display:'사용료', name:'sumTotalFee',width:200, sortable:false,align:'right'},
+                 {display:'감면사용료', name:'sumTotalRocxptFee',width:200, sortable:false,align:'right'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',
@@ -54,12 +54,23 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
 
  //로드될 때 사용기간에 오늘날짜 처리
 	var today = new Date();
-	var tomonth = ((today.getMonth() + 1) >= 10) ? '' + (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
-	var toyear =  '' + today.getFullYear(); 
-	this.$('#sStartYr').val(toyear);
-	this.$('#sStartMn').val(tomonth);    
-	this.$('#sEndYr').val(toyear);
-	this.$('#sEndMn').val(tomonth);
+ 	
+ 	var toMonth = today.getMonth();
+ 	//이번탈로 셀렉트박스 날짜 입력
+ 	var endYr = today.getFullYear();
+ 	var endMn = today.getMonth() + 1;
+ 	endMn = (endMn >= 10) ? '' + endMn : '0' + endMn;
+ 	
+ 	//전월로 셀렉트박스 날짜 이력
+ 	today.setMonth(toMonth - 1);
+ 	var startYr = today.getFullYear();
+ 	var startMn = today.getMonth() + 1;
+ 	startMn = (startMn >= 10) ? '' + startMn : '0' + startMn;
+ 	
+	this.$('#sStartYr').val(startYr);
+	this.$('#sStartMn').val(startMn);    
+	this.$('#sEndYr').val(endYr);
+	this.$('#sEndMn').val(endMn);
 };
 
 this.$("#marineCenterRentArStsReportList").on("onItemSelected", function(event, module, row, grid, param) {
