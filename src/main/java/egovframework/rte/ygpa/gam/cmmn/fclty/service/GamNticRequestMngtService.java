@@ -45,4 +45,11 @@ public interface GamNticRequestMngtService {
 	 */
 	public void sendUnpaidRequest(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * 고지서 출력 여부를 업데이트 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateNticPrintYn(Map<String, Object> vo) throws Exception;
+
 }

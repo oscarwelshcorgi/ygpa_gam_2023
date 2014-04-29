@@ -105,4 +105,93 @@ E.PRT_AT_CODE,
              </isNotEmpty>
     </select>
 
+
+    <select id="gamAssetRentFeePayDtlsMngtDao.selectNticArrrgList_D" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+E.PRT_AT_CODE,
+      E.FEE_TP,
+      E.FISCAL_YR,
+      E.BILL_NO,
+      E.BZ_RGST_ID,
+      E.SSN,
+      E.RCVD_TP,
+      E.BILL_DT,
+      E.DUE_DATE,
+      E.RCVD_DT,
+      E.BILL_PRT_YN,
+      E.VSSL_KEY,
+      E.BILL_AMNT,
+      E.AMNT_RSN,
+      E.AGENT_NAME,
+      E.UPDT_UID,
+      E.UPDT_DATE,
+      E.SALIMI_NO,
+      E.AGENT_CODE,
+      E.DC_CODE,
+      E.DC_RATE,
+      E.ACCNT_CODE,
+      E.ICHE_STATUS,
+      E.RSLT_CODE,
+      E.IO_TP,
+      E.EXMP_AMNT,
+      E.OVER_AMNT,
+      E.DC_AMNT,
+      E.RECPT_EPDT,
+      E.POST_BILL_YN,
+      E.NOPAY_LOSS_REAS_CD,
+      E.ELCT_BILL_RSLT,
+      E.BULL_INFO_INQR_DTIME,
+      E.LAST,
+      E.FIRST_BILL_DT,
+      E.RCVD_NM,
+      E.VAT_YN,
+      E.VAT,
+      E.STR_DATE,
+      E.END_DATE,
+      E.CALL_LETTER,
+      E.CNV_YN
+					        FROM  REV_COLL_F@YGPA_PORTMIS E
+					             ,LEV_REQEST_F L
+					       WHERE E.PRT_AT_CODE=L.PRT_AT_CODE
+					       	AND E.FISCAL_YR = L.ACCNUT_YEAR
+					       	AND E.FEE_TP = L.CHRGE_KND
+					       	AND E.BILL_NO = L.NTICNO
+					       	<![CDATA[
+					       	AND L.PAY_TMLMT < SYSDATE
+					       	]]>
+					       	AND L.RCIV_SE = 'N'
+					       <isNotEmpty property="sPrtAtCode">
+			                   AND L.PRT_AT_CODE = #sPrtAtCode#
+			               </isNotEmpty>
+
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamAssetRentFeePayDtlsMngtDao.selectNticArrrgListTotCnt_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="int">
+            SELECT COUNT(*) totcnt
+              FROM  REV_COLL_F@YGPA_PORTMIS E
+                   ,LEV_REQEST_F L
+		       WHERE E.PRT_AT_CODE=L.PRT_AT_CODE
+		       	AND E.FISCAL_YR = L.ACCNUT_YEAR
+		       	AND E.FEE_TP = L.CHRGE_KND
+		       	AND E.BILL_NO = L.NTICNO
+		       	<![CDATA[
+		       	AND L.PAY_TMLMT < SYSDATE
+		       	]]>
+		       	AND L.RCIV_SE = 'N'
+		       <isNotEmpty property="sPrtAtCode">
+                   AND L.PRT_AT_CODE = #sPrtAtCode#
+               </isNotEmpty>
+    </select>
+
+    <insert id="gamAssetRentFeePayDtlsMngtDao.insertUnpaidArrrg_S" parameterClass="hashMap">
+
+    </insert>
+
 </sqlMap>

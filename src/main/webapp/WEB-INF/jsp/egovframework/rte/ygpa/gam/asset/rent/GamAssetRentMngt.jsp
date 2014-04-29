@@ -343,6 +343,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         event.data.module.$('#exemptRsnCdStr').val($(this).val());
     });
 
+    this.$(".photoEditItem").bind("keyup change", {module: this}, function(event) {
+    	console.log("keyup or change event occur");
+    	event.data.module.applyPhotoData();
+    });
 
 };
 
@@ -1216,28 +1220,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             break;
 
         case 'btnApplyPhotoData':
-
-        	if(!validateGamAssetRentFile(this.$('#gamAssetRentFileForm')[0])) {
-                return;
-            }
-
-            if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
-            this._editDataFile=this.getFormValues('#gamAssetRentFileForm', this._editDataFile);
-
-            //alert(this._editDataFile._updtId);
-
-            if(this._editRowFile!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRowFile 로 변경 2014-03-14.001
-                if(this._editDataFile._updtId!='I') this._editDataFile._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
-                this.$('#assetRentFileList').flexUpdateRow(this._editRowFile, this._editDataFile);
-                this._editRowFile=null;    // 편집 저장 하였으므로 로우 편집을 종료 한다.
-            }
-            else {
-                this.$('#assetRentFileList').flexAddRow(this._editDataFile);
-            }
-
-            this.$('#gamAssetRentFileForm').find(':input').val('');
-            this._editDataFile=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-
+			this.applyPhotoData();
             break;
 
         // 파일 삭제 (Grid상에서만 삭제됨)
@@ -1309,6 +1292,25 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             break;
 
 
+    }
+};
+
+GamAssetRentMngtModule.prototype.applyPhotoData = function() {
+
+	if(!validateGamAssetRentFile(this.$('#gamAssetRentFileForm')[0])) {
+        return;
+    }
+
+	var selectRow = this.$('#assetRentFileList').selectedRows();
+	if(selectRow.length > 0) {
+
+    var row=selectRow[0];
+	  		var rowid=this.$("#assetRentFileList").selectedRowIds()[0];
+	  		row=this.getFormValues('#gamAssetRentFileForm', row);
+        if(row["_updtId"]!='I') row["_updtId"]='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
+        this.$('#assetRentFileList').flexUpdateRow(rowid, row);
+    }
+    else {
     }
 };
 
@@ -1922,7 +1924,7 @@ var module_instance = new GamAssetRentMngtModule();
                         </tr>
                     </table>
                 </form>
-                    <button id="btnApplyPhotoData">첨부파일 적용</button>
+                    <!-- <button id="btnApplyPhotoData">첨부파일 적용</button> -->
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>

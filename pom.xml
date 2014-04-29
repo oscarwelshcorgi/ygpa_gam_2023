@@ -723,6 +723,74 @@
 				</plugins>
 			</build>
 			</profile>
+						<profile>
+			<id>ygpa_release</id>
+			<properties>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webResources>
+									<resource>
+										<directory>deploy/ygpa_release/config</directory>
+										<targetPath>config</targetPath>
+										<targetPath>config</targetPath>
+										<includes>
+											<include> **/*.xml </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/ygpa_release/spring-config</directory>
+										<targetPath>WEB-INF/classes/egovframework/spring</targetPath>
+										<includes>
+											<include> **/*.xml </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/ygpa_release/</directory>
+										<targetPath>WEB-INF</targetPath>
+										<includes>
+											<include> web.xml </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/ygpa_release/</directory>
+										<targetPath>WEB-INF/classes</targetPath>
+										<includes>
+											<include> log4j.xml </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/ygpa_release/egovProps/</directory>
+										<targetPath>WEB-INF/classes/egovframework/egovProps</targetPath>
+										<includes>
+											<include> *.properties </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/ygpa_release/src/</directory>
+										<targetPath>WEB-INF/jsp/egovframework/rte/ygpa/gam/main</targetPath>
+										<includes>
+											<include> ygpaMapMain.jsp </include>
+										</includes>
+									</resource>
+									<resource>
+										<directory>deploy/ygpa_release/src/</directory>
+										<targetPath>/</targetPath>
+										<includes>
+											<include> index.jsp </include>
+										</includes>
+									</resource>
+
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			</profile>
 					</profiles>
 		<build>
 		<defaultGoal>install</defaultGoal>

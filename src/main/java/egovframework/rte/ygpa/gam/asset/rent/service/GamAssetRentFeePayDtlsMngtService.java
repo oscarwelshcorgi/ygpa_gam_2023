@@ -14,11 +14,11 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public interface GamAssetRentFeePayDtlsMngtService {
-	
+
     /**
 	 * 자산임대료납부관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -26,7 +26,7 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @exception Exception
 	 */
     List selectAssetRentFeePayDtlsList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-    
+
     /**
 	 * 자산임대료납부관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -34,7 +34,7 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @exception
 	 */
     int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-    
+
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -42,8 +42,8 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @exception Exception
 	 */
     GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-    
-    
+
+
     /**
 	 * 고지금액합계, 수납금액합계
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -51,5 +51,29 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @exception Exception
 	 */
     GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-    
+
+	/**
+	 * 연체 세입 목록을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List<?> selectNticArrrgList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체세입 건수 조회
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	int selectNticArrrgListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체 세입을 등록한다.
+	 * @param mergeMap
+	 * @return
+	 * @throws Exception
+	 */
+	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
+
 }

@@ -1,6 +1,12 @@
 package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 
 /**
  * @Class Name : GamAssetRentFeePayDtlsMngtServiceImpl.java
@@ -27,6 +34,12 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtV
 @Service("gamAssetRentFeePayDtlsMngtService")
 
 public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl implements GamAssetRentFeePayDtlsMngtService {
+
+    public static final int TERM_FOR_PAYMENT15 = 15;
+
+
+	@Resource(name="gamNticRequestMngtService")
+    private GamNticRequestMngtService gamNticRequestMngtService;
 
 	@Resource(name="gamAssetRentFeePayDtlsMngtDao")
     private GamAssetRentFeePayDtlsMngtDao gamAssetRentFeePayDtlsMngtDao;
@@ -62,8 +75,8 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
     public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum(searchVO);
     }
-    
-    
+
+
     /**
 	 * 고지금액합계, 수납금액합계
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -73,5 +86,58 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
     public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum(searchVO);
     }
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public List<?> selectNticArrrgList(GamAssetRentFeePayDtlsMngtVO searchVO)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgListTotCnt(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public int selectNticArrrgListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgListTotCnt(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#mergeErpGisAssetCodeMngt(java.util.Map)
+	 */
+	@Override
+	public List mergeNticArrrgListMngt(Map mergeMap) throws Exception {
+
+        ArrayList arraylistCU = (ArrayList)mergeMap.get("CU");
+        HashMap[] hmCU = (HashMap[])arraylistCU.toArray(new HashMap[arraylistCU.size()]);
+        Map result;
+
+//        Integer photoSeq=1;
+
+//		if(hmCU.length>0) photoSeq=gamErpGisAssetPhotoMngtDao.selectGamAssetPhotoMaxSeq(hmCU[0]);
+        //수정처리 & 입력처리
+        for (int i=0; i<hmCU.length; i++) {
+        	if ("I".equals(hmCU[i].get("_updtId"))) {
+//            	log.debug("#photoeq : "+photoSeq.toString());
+            }
+        	else if("U".equals(hmCU[i].get("_updtId"))){
+        		// 연체 세입 선택 목록
+
+        	}
+            else {
+            	log.debug("unknown RowStatus ["+i+"] : "+hmCU[i].get("_updtId"));
+            }
+        }
+
+
+
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.mergeNticArrrgList(mergeMap);
+	}
 
 }

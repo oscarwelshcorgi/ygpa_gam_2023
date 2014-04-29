@@ -33,7 +33,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
     // 테이블 설정 //
     this.$("#assetRentFeePayList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetRentFeePayDtlsMngtList.do" />',
+        url: '<c:url value="/asset/rent/selectNticArrrgList.do" />',
         dataType: 'json',
         colModel : [
 					{display:'일련번호', name:'intSeq',width:100, sortable:false,align:'center'},
@@ -127,6 +127,10 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
             this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
+        case 'btnNticArrrg':
+            this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '<c:url value="/asset/rent/showNticArrrgPopup.do"/>', opts);
+        	break;
+
     }
 };
 
@@ -165,7 +169,8 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onClosePopup = function(popupId, msg,
             alert('취소 되었습니다');
         }
         break;
-
+    case 'nticArrrgPopup':
+    	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -273,7 +278,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                 <!-- <div style="width: 100%; height: 100%; overflow:auto">  -->
                         <table id="assetRentFeePayList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
-					<button id="mapInfoBtn">연체고지</button>
+					<button id="btnNticArrrg">연체고지</button>
                 </div>
                 <!-- </div>  -->
 

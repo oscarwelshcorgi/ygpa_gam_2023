@@ -3,367 +3,271 @@
 
 <sqlMap namespace="rte.ygpa.gam.cmmn.fclty">
 
-	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+  <typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+  <typeAlias alias="hashMap" type="java.util.HashMap"/>
 
-	<select id="gamNticRequestMngtDAO.selectLevRequestByPk_S" parameterClass="hashMap" resultClass="egovMap">
-		SELECT
-			NTIC_CNT,
-			PRT_AT_CODE,
-			MNG_YEAR,
-			MNG_NO,
-			MNG_CNT,
-			CHRGE_KND,
-			FCLTY_SE,
-			ENTRPSCD,
-			ENTRPS_NM,
-			NTIC_PD_FROM,
-			NTIC_PD_TO,
-			ACCNUT_YEAR,
-			NTIC_NO,
-			NTIC_DT,
-			PAY_TMLMT,
-			SANCTN_STTUS,
-			SANCTNER_EMPL_NO,
-			SANCTN_DT,
-			OLNLP,
-			FEE,
-			VAT_YN,
-			VAT,
-			NTIC_AMT,
-			RM,
-			RCIV_SE,
-			RCIV_DT,
-			NHT_ISUE_YN,
-			ARRRG_NO,
-			ARRRG_AMT,
-			REQEST_SEQ,
-			DEPTCD,
-			NTIC_MTH,
-			NHT_PRINT_YN,
-			REG_USR,
-			REGIST_DT,
-			UPD_USR,
-			UPDT_DT
-			FROM LEV_REQEST_PD_BY_STATS_F
-			WHERE  PRT_AT_CODE=#prtAtCode#
-				AND MNG_YEAR=#mngYear#
-				AND MNG_NO=#mngNo#
-				AND MNG_CNT=#mngCnt#
-				AND NTIC_CNT=#nticCnt#
-				AND CHRGE_KND=#chrgeKnd#
-	</select>
+  <select id="gamNticRequestMngtDAO.selectLevRequestByPk_S" parameterClass="hashMap" resultClass="egovMap">
+    SELECT
+      NTIC_CNT,
+      PRT_AT_CODE,
+      MNG_YEAR,
+      MNG_NO,
+      MNG_CNT,
+      CHRGE_KND,
+      FCLTY_SE,
+      ENTRPSCD,
+      ENTRPS_NM,
+      NTIC_PD_FROM,
+      NTIC_PD_TO,
+      ACCNUT_YEAR,
+      NTIC_NO,
+      NTIC_DT,
+      PAY_TMLMT,
+      SANCTN_STTUS,
+      SANCTNER_EMPL_NO,
+      SANCTN_DT,
+      OLNLP,
+      FEE,
+      VAT_YN,
+      VAT,
+      NTIC_AMT,
+      RM,
+      RCIV_SE,
+      RCIV_DT,
+      NHT_ISUE_YN,
+      ARRRG_NO,
+      ARRRG_AMT,
+      REQEST_SEQ,
+      DEPTCD,
+      NTIC_MTH,
+      NHT_PRINT_YN,
+      REG_USR,
+      REGIST_DT,
+      UPD_USR,
+      UPDT_DT
+      FROM LEV_REQEST_PD_BY_STATS_F
+      WHERE  PRT_AT_CODE=#prtAtCode#
+        AND MNG_YEAR=#mngYear#
+        AND MNG_NO=#mngNo#
+        AND MNG_CNT=#mngCnt#
+        AND NTIC_CNT=#nticCnt#
+        AND CHRGE_KND=#chrgeKnd#
+  </select>
 
-	<select id="gamNticRequestMngtDAO.selectLevRequestList_D" parameterClass="hashMap" resultClass="egovMap">
-		SELECT
-			NTIC_CNT,
-			PRT_AT_CODE,
-			MNG_YEAR,
-			MNG_NO,
-			MNG_CNT,
-			CHRGE_KND,
-			FCLTY_SE,
-			ENTRPSCD,
-			ENTRPS_NM,
-			NTIC_PD_FROM,
-			NTIC_PD_TO,
-			ACCNUT_YEAR,
-			NTIC_NO,
-			NTIC_DT,
-			PAY_TMLMT,
-			SANCTN_STTUS,
-			SANCTNER_EMPL_NO,
-			SANCTN_DT,
-			OLNLP,
-			FEE,
-			VAT_YN,
-			VAT,
-			NTIC_AMT,
-			RM,
-			RCIV_SE,
-			RCIV_DT,
-			NHT_ISUE_YN,
-			ARRRG_NO,
-			ARRRG_AMT,
-			REQEST_SEQ,
-			DEPTCD,
-			NTIC_MTH,
-			NHT_PRINT_YN,
-			REG_USR,
-			REGIST_DT,
-			UPD_USR,
-			UPDT_DT
-			FROM LEV_REQEST_PD_BY_STATS_F
-			WHERE  PRT_AT_CODE=#prtAtCode#
-				AND MNG_YEAR=#mngYear#
-				AND MNG_NO=#mngNo#
-				AND MNG_CNT=#mngCnt#
-				AND NTIC_CNT=#nticCnt#
-				<isNotEmpty prepend="AND" property="chrgeKnd">
-					CHRGE_KND=#chrgeKnd#
-				</isNotEmpty>
-	</select>
+  <select id="gamNticRequestMngtDAO.selectLevRequestList_D" parameterClass="hashMap" resultClass="egovMap">
+    SELECT
+      NTIC_CNT,
+      PRT_AT_CODE,
+      MNG_YEAR,
+      MNG_NO,
+      MNG_CNT,
+      CHRGE_KND,
+      FCLTY_SE,
+      ENTRPSCD,
+      ENTRPS_NM,
+      NTIC_PD_FROM,
+      NTIC_PD_TO,
+      ACCNUT_YEAR,
+      NTIC_NO,
+      NTIC_DT,
+      PAY_TMLMT,
+      SANCTN_STTUS,
+      SANCTNER_EMPL_NO,
+      SANCTN_DT,
+      OLNLP,
+      FEE,
+      VAT_YN,
+      VAT,
+      NTIC_AMT,
+      RM,
+      RCIV_SE,
+      RCIV_DT,
+      NHT_ISUE_YN,
+      ARRRG_NO,
+      ARRRG_AMT,
+      REQEST_SEQ,
+      DEPTCD,
+      NTIC_MTH,
+      NHT_PRINT_YN,
+      REG_USR,
+      REGIST_DT,
+      UPD_USR,
+      UPDT_DT
+      FROM LEV_REQEST_PD_BY_STATS_F
+      WHERE  PRT_AT_CODE=#prtAtCode#
+        AND MNG_YEAR=#mngYear#
+        AND MNG_NO=#mngNo#
+        AND MNG_CNT=#mngCnt#
+        AND NTIC_CNT=#nticCnt#
+        <isNotEmpty prepend="AND" property="chrgeKnd">
+          CHRGE_KND=#chrgeKnd#
+        </isNotEmpty>
+  </select>
 
-    <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollF">
+    <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollF" parameterClass="hashMap" >
         INSERT INTO REV_COLL_F@YGPA_PORTMIS (
-			PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
-			AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
-			BILL_DT, DUE_DATE,
-			BILL_PRT_YN,
-			BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+      PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
+      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
+      BILL_DT, DUE_DATE, BILL_PRT_YN,
+      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
 
-			UPDT_UID,
-			UPDT_DATE,
-			ACCNT_CODE,
-			ICHE_STATUS,
-			RSLT_CODE,
-			IO_TP,
-			RECPT_EPDT,
-			POST_BILL_YN,
-			NOPAY_LOSS_REAS_CD,
-			ELCT_BILL_RSLT,
-			BULL_INFO_INQR_DTIME,
-			LAST,
-			FIRST_BILL_DT,
-			RCVD_NM,
-			IN_RQ_YN,
-			BUL_MTH_CD,
-			VAT_YN,
-			VAT,
-			SMALL_BILL_NO,
-			SMALL_FISCAL_YR,
-			BILL_AMNT_BF,
-			SMALL_BILL_YN,
-			BOK_CAA_DT,
-			STR_DATE,
-			END_DATE,
-			CALL_LETTER,
-			FAC_CODE,
-			FAC_SUB_CODE,
-			NOCHENAP_REAS,
-			CNV_YN,
-			EPAY_NO,
-			MW_PRINT_ID,
-			MW_PRINT_DATE,
-			MW_PRINT_CNT
-		)
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
+      )
+
         SELECT
-			PRT_AT_CODE,
-			MNG_YEAR,
-			MNG_NO
-			CHRGE_KND FEE_TP,
-			ACCNUT_YEAR FISCAL_YR,
-			NTIC_NO BILL_NO,
-			(SELECT BZ_RGST_ID FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID,
-			(SELECT SSN FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
-			RCVD_TP,
-			BILL_DT,
-			DUE_DATE,
-			RCVD_DT,
-			BILL_PRT_YN,
-			VSSL_KEY,
-			BILL_AMNT,
-			BILL_AMNT_R1,
-			BILL_AMNT_R2,
-			BILL_AMNT_R3,
-			AMNT_RSN,
-			AGENT_NAME,
-			VSSL_KOR_NM,
-			UPDT_UID,
-			UPDT_DATE,
-			YR,
-			SER_NO,
-			IO_DT,
-			SALIMI_NO,
-			AGENT_CODE,
-			DC_CODE,
-			DC_RATE,
-			ACCNT_CODE,
-			ICHE_STATUS,
-			RSLT_CODE,
-			IO_TP,
-			EXMP_AMNT,
-			OVER_AMNT,
-			DC_AMNT,
-			RECPT_EPDT,
-			POST_BILL_YN,
-			NOPAY_LOSS_REAS_CD,
-			ELCT_BILL_RSLT,
-			BULL_INFO_INQR_DTIME,
-			LAST,
-			FIRST_BILL_DT,
-			RCVD_NM,
-			IN_RQ_YN,
-			BUL_MTH_CD,
-			VAT_YN,
-			VAT,
-			SMALL_BILL_NO,
-			SMALL_FISCAL_YR,
-			BILL_AMNT_BF,
-			SMALL_BILL_YN,
-			BOK_CAA_DT,
-			STR_DATE,
-			END_DATE,
-			CALL_LETTER,
-			FAC_CODE,
-			FAC_SUB_CODE,
-			NOCHENAP_REAS,
-			CNV_YN,
-			EPAY_NO,
-			MW_PRINT_ID,
-			MW_PRINT_DATE,
-			MW_PRINT_CNT
-		)
+      PRT_AT_CODE, CHRGE_KND FEE_TP, ACCNUT_YEAR FISCAL_YR, NTIC_NO BILL_NO,
+      ENTRPSCD, (SELECT BZ_RGST_ID FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
+      SYS_DATE, PAY_TMLMT, NHT_PRINT_YN,
+      NTIC_AMT, RDCXPT_FEE, 0, 0,
+
+      #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO
+      FROM LEV_REQEST
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
+    )
     </insert>
 
-	    <insert id="gamNticRequestMngtDAO.insertCancelNticRequestRevCollF">
-        INSERT INTO GWCALL_FWD_IF (
-            T_NO,
-            EMP_CD,
-			SYS_ID,
-			DOC_ID,
-			MISKEY,
-			M_CNT,
-			M_DATA_VALUE1,
-			M_DATA_VALUE2,
-			M_DATA_VALUE3,
-			IP,
-			TEST_EA
-		)
-        VALUES (
-        	TO_CHAR(SYSDATE, 'YYYYMMDDHHMISS'),
-             #empCd#,
-             'GAM',
-             #docId#,
-             #misKeyValue# || #prtAtCode# ||  #mngYear# || #mngNo# || #mngCnt#,
-             #mCnt#,
-             (SELECT #docNm# || '|' ||  ENTRPSCD || '|' || (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=A.ENTRPSCD) || '|' || TO_CHAR(REQST_DT, 'YYYY-MM-DD') || '|' || DEPTCD || '|' ||
-             	(SELECT ORGNZT_NM FROM COMTNORGNZTINFO WHERE ORGNZT_ID=A.DEPTCD) || '|' ||   DECODE(REQST_SE_CD, '1', '최초', '2', '연장') || '|' || GR_AR || '|' || GR_FEE || '|' ||  DECODE(NTIC_MTH, '1', '일괄', '2', '반기납', '3', '3분납', '4', '분기납', '5', '월납') || '|' ||
-             	TO_CHAR(FRST_PRMISN_DT, 'YYYY-MM-DD') || TO_CHAR(GR_USAGE_PD_FROM, 'YYYY-MM-DD') || '|' || TO_CHAR(GR_USAGE_PD_TO, 'YYYY-MM-DD') || DOC_NO
-             		FROM ASSETS_RENT_F A WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
-             (SELECT RM || '|' ||  CMT FROM ASSETS_RENT_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
-             (SELECT ETC || '|' ||  CMT FROM ASSETS_RENT_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
-             #regIp#,
-             ''
-		)
+      <insert id="gamNticRequestMngtDAO.insertCancelNticRequestRevCollF">
+        INSERT INTO REV_COLL_F@YGPA_PORTMIS (
+      PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
+      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
+      BILL_DT, DUE_DATE, BILL_PRT_YN,
+      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
+      )
+
+        SELECT
+      PRT_AT_CODE, CHRGE_KND FEE_TP, ACCNUT_YEAR FISCAL_YR, NTIC_NO BILL_NO,
+      ENTRPSCD, (SELECT BZ_RGST_ID FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
+      SYS_DATE, PAY_TMLMT, NHT_PRINT_YN,
+      NTIC_AMT, RDCXPT_FEE, 0, 0,
+
+      #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO
+      FROM LEV_REQEST
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
+    )
     </insert>
 
     <update id="gamNticRequestMngtDAO.updateLevReqestIssueYn" parameterClass="hashMap">
-		<![CDATA[
-			UPDATE ASSETS_RENT_F
-			SET PRMISN_DT=SYSDATE
-				, PRMISN_YN='Y'
-				, PRMISN_USR=#updUsr#
-				, UPD_USR=#updUsr#
-				, UPDT_DT=SYSDATE
-			WHERE PRT_AT_CODE=#prtAtCode#
-				AND MNG_YEAR=#mngYear#
-				AND MNG_NO=#mngNo#
-				AND MNG_CNT=#mngCnt#
-		]]>
-	</update>
+        UPDATE LEV_REQEST SET
+      		NHT_ISUE_YN=#nhtIsueYn#
+      		WHERE
+			PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
+  </update>
 
-	<update id="gamNticRequestMngtDAO.updateLevReqestNhtPrintYn" parameterClass="hashMap">
-		<![CDATA[
-			UPDATE ASSETS_RENT_F
-			SET PRMISN_DT=''
-				, PRMISN_USR=''
-				, PRMISN_YN='N'
-				, UPD_USR=#updUsr#
-				, UPDT_DT=SYSDATE
-			WHERE PRT_AT_CODE=#prtAtCode#
-				AND MNG_YEAR=#mngYear#
-				AND MNG_NO=#mngNo#
-				AND MNG_CNT=#mngCnt#
-		]]>
-	</update>
+  <update id="gamNticRequestMngtDAO.updateLevReqestNhtPrintYn" parameterClass="hashMap">
+        UPDATE LEV_REQEST SET
+      		NHT_PRINT_YN=#nhtPrintYn#
+      		WHERE
+			PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
+  </update>
 
-	<delete id="gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
-		<![CDATA[
-			DELETE FROM USAGE_PD_BY_STATS_F
-			WHERE PRT_AT_CODE=#prtAtCode#
-				AND MNG_YEAR=#mngYear#
-				AND MNG_NO=#mngNo#
-				AND MNG_CNT=#mngCnt#
-		]]>
-	</delete>
+  <delete id="gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
+    <![CDATA[
+      DELETE FROM USAGE_PD_BY_STATS_F
+      WHERE PRT_AT_CODE=#prtAtCode#
+        AND MNG_YEAR=#mngYear#
+        AND MNG_NO=#mngNo#
+        AND MNG_CNT=#mngCnt#
+    ]]>
+  </delete>
 
-	    <insert id="gamNticRequestMngtDAO.insertLevReqestPdByStats">
-		<![CDATA[
+      <insert id="gamNticRequestMngtDAO.insertLevReqestPdByStats">
+    <![CDATA[
         INSERT INTO LEV_REQEST_PD_BY_STATS_F (
-			NTIC_YEAR,
-			NTIC_QU,
-			NTIC_MT,
-			NTIC_CNT,
-			PRT_AT_CODE,
-			MNG_YEAR,
-			MNG_NO,
-			MNG_CNT,
-			CHRGE_KND,
-			ENTRPSCD,
-			ACCNUT_YEAR,
-			NTICNO,
-			NTIC_DT,
-			NTIC_PD_FROM,
-			NTIC_PD_TO,
-			FEE,
-			RDCXPT_FEE,
-			DEPTCD,
-			REG_USR,
-			REGIST_DT,
-			UPD_USR,
-			UPDT_DT
-		)
-		SELECT
-		TO_CHAR(START_DATE, 'YYYY'),
-		DECODE(TO_CHAR(START_DATE, 'MM'),'01','1','02','1','03','1','04','2','05','2','06','2','07','3','08','3', '09','3','4'),
-		 TO_CHAR(START_DATE, 'MM'),
-		 LPAD(NTIC_CNT, 2, '0'),
-		#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, FEE_TP, #entrpscd# ENTRPSCD, ACCNUT_YEAR,
-		NTICNO,NTIC_DT,NTIC_PD_FROM,NTIC_PD_TO,
-		RNTFEE,
-		0,
-		#deptcd#,
-		#regUsr#,
-		#registDt#,
-		#updUsr#, SYSDATE
-		from (
-			SELECT A.FEE_TP, NTIC_CNT, DECODE(A.FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(RATE_DAY)/365*A.RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
-			FROM (
-			SELECT #chrgeKnd# FEE_TP, 1 RATE FROM dual
-			UNION ALL SELECT 'A3', TO_NUMBER(#payinstIntrrate#, '0.0000') FROM dual
-			) A, (
-			SELECT ROWNUM                                                                                                                                                     AS NTIC_CNT,
-				  TRUNC(#fee#                                                                    / (TRUNC(MONTHS_BETWEEN(TO_DATE(#nticPdTo#,'YYYY-MM-DD'), TO_DATE(#nticPdFrom#,'YYYY-MM-DD')) / 1)+1), -1)                          AS RNTFEE,
-				  TRUNC(#fee#                                                                    - ((#fee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#nticPdTo#,'YYYY-MM-DD'), TO_DATE(#nticPdFrom#,'YYYY-MM-DD')) / 1)+1)) * (ROWNUM-1)), -1) AS REFE,
-				  ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1                      * (ROWNUM-1))                                                                                                                                     AS START_DATE,
-				  DECODE(ROWNUM, 1, 0, ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * (ROWNUM-1))-ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * (ROWNUM-1)-1))                                                        AS RATE_DAY,
-				  LAG(ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1                  * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM)                                                                                                          AS PREV_DUE_DATE,
-				  ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1                      * (ROWNUM-1))+14                                                                                                                                  AS DUE_DATE,
-				  (
-				  CASE
-				    WHEN TO_DATE(#nticPdTo#,'YYYY-MM-DD') < ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * ROWNUM) - 1
-				    THEN TO_DATE(#nticPdTo#,'YYYY-MM-DD')
-				    ELSE ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * ROWNUM) - 1
-				  END ) AS END_DATE
-				FROM COMTCCMMNDETAILCODE
-				WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(TO_DATE(#nticPdTo#,'YYYY-MM-DD'), TO_DATE(#nticPdFrom#,'YYYY-MM-DD')) / 1)+1)
-				 ) B
-		)
-		WHERE RNTFEE<>0
-		]]>
+      NTIC_YEAR,
+      NTIC_QU,
+      NTIC_MT,
+      NTIC_CNT,
+      PRT_AT_CODE,
+      MNG_YEAR,
+      MNG_NO,
+      MNG_CNT,
+      CHRGE_KND,
+      ENTRPSCD,
+      ACCNUT_YEAR,
+      NTICNO,
+      NTIC_DT,
+      NTIC_PD_FROM,
+      NTIC_PD_TO,
+      FEE,
+      RDCXPT_FEE,
+      DEPTCD,
+      REG_USR,
+      REGIST_DT,
+      UPD_USR,
+      UPDT_DT
+    )
+    SELECT
+    TO_CHAR(START_DATE, 'YYYY'),
+    DECODE(TO_CHAR(START_DATE, 'MM'),'01','1','02','1','03','1','04','2','05','2','06','2','07','3','08','3', '09','3','4'),
+     TO_CHAR(START_DATE, 'MM'),
+     LPAD(NTIC_CNT, 2, '0'),
+    #prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, FEE_TP, #entrpscd# ENTRPSCD, ACCNUT_YEAR,
+    NTICNO,NTIC_DT,NTIC_PD_FROM,NTIC_PD_TO,
+    RNTFEE,
+    0,
+    #deptcd#,
+    #regUsr#,
+    #registDt#,
+    #updUsr#, SYSDATE
+    from (
+      SELECT A.FEE_TP, NTIC_CNT, DECODE(A.FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(RATE_DAY)/365*A.RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
+      FROM (
+      SELECT #chrgeKnd# FEE_TP, 1 RATE FROM dual
+      UNION ALL SELECT 'A3', TO_NUMBER(#payinstIntrrate#, '0.0000') FROM dual
+      ) A, (
+      SELECT ROWNUM                                                                                                                                                     AS NTIC_CNT,
+          TRUNC(#fee#                                                                    / (TRUNC(MONTHS_BETWEEN(TO_DATE(#nticPdTo#,'YYYY-MM-DD'), TO_DATE(#nticPdFrom#,'YYYY-MM-DD')) / 1)+1), -1)                          AS RNTFEE,
+          TRUNC(#fee#                                                                    - ((#fee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#nticPdTo#,'YYYY-MM-DD'), TO_DATE(#nticPdFrom#,'YYYY-MM-DD')) / 1)+1)) * (ROWNUM-1)), -1) AS REFE,
+          ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1                      * (ROWNUM-1))                                                                                                                                     AS START_DATE,
+          DECODE(ROWNUM, 1, 0, ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * (ROWNUM-1))-ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * (ROWNUM-1)-1))                                                        AS RATE_DAY,
+          LAG(ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1                  * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM)                                                                                                          AS PREV_DUE_DATE,
+          ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1                      * (ROWNUM-1))+14                                                                                                                                  AS DUE_DATE,
+          (
+          CASE
+            WHEN TO_DATE(#nticPdTo#,'YYYY-MM-DD') < ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * ROWNUM) - 1
+            THEN TO_DATE(#nticPdTo#,'YYYY-MM-DD')
+            ELSE ADD_MONTHS(TO_DATE(#nticPdFrom#,'YYYY-MM-DD'), 1 * ROWNUM) - 1
+          END ) AS END_DATE
+        FROM COMTCCMMNDETAILCODE
+        WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(TO_DATE(#nticPdTo#,'YYYY-MM-DD'), TO_DATE(#nticPdFrom#,'YYYY-MM-DD')) / 1)+1)
+         ) B
+    )
+    WHERE RNTFEE<>0
+    ]]>
 
     </insert>
 
-	<delete id="gamNticRequestMngtDAO.deleteLevReqestPdByStats" parameterClass="hashMap">
-		<![CDATA[
-			DELETE FROM LEV_REQEST_PD_BY_STATS_F
-			WHERE PRT_AT_CODE=#prtAtCode#
-				AND MNG_YEAR=#mngYear#
-				AND MNG_NO=#mngNo#
-				AND MNG_CNT=#mngCnt#
-		]]>
-	</delete>
+  <delete id="gamNticRequestMngtDAO.deleteLevReqestPdByStats" parameterClass="hashMap">
+    <![CDATA[
+      DELETE FROM LEV_REQEST_PD_BY_STATS_F
+      WHERE PRT_AT_CODE=#prtAtCode#
+        AND MNG_YEAR=#mngYear#
+        AND MNG_NO=#mngNo#
+        AND MNG_CNT=#mngCnt#
+    ]]>
+  </delete>
 
 </sqlMap>
 

@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 
@@ -71,7 +73,7 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	public void updateAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception {
 		gamAssetRentFeeMngtDao.updateAssetRentFee(vo);
 	}
-	
+
 	/**
 	 * 자산임대료고지관리 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -81,7 +83,7 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
     public GamAssetRentFeeMngtVO selectAssetRentFeeInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
         return gamAssetRentFeeMngtDao.selectAssetRentFeeInfo(searchVO);
     }
-    
+
     /**
 	 * 세입징수 등록건수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -91,7 +93,7 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
     public int selectAnlrveLevCnt(GamAssetRentFeeMngtVO searchVO) throws Exception {
 		return gamAssetRentFeeMngtDao.selectAnlrveLevCnt(searchVO);
 	}
-    
+
     /**
 	 * 세입징수를 등록한다.
 	 * @param vo GamAssetRentFeeMngtVO
@@ -100,7 +102,7 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	public void insertAnlrveLev(GamAssetRentFeeMngtVO vo) throws Exception {
 		gamAssetRentFeeMngtDao.insertAnlrveLev(vo);
 	}
-	
+
 	/**
 	 * 징수의뢰를 삭제한다.
 	 * @param vo GamAssetRentFeeMngtVO
@@ -109,7 +111,7 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	public void deleteAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception {
 		gamAssetRentFeeMngtDao.deleteAssetRentFee(vo);
 	}
-	
+
 	/**
 	 * 징수의뢰를 등록한다.
 	 * @param vo GamAssetRentFeeMngtVO
@@ -118,5 +120,14 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo) throws Exception {
 		gamAssetRentFeeMngtDao.insertAssetRentLevReqest(vo);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectNpticPrintInfo(java.util.Map)
+	 */
+	@Override
+	public List selectNpticPrintInfo(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeeMngtDao.selectNpticPrintInfo(searchVO);
+	}
+
 }

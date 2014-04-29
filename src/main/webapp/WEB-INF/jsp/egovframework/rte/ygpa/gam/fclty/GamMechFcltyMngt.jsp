@@ -120,7 +120,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 	});
 
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
-	this.$(".photoEditItem").on("change", {module: this}, function(event) {
+	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyPhotoChanged(event.target);
 	});
 
@@ -258,7 +258,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 
 			var inputVO = this.makeFormArgs("#fcltyManageVO");

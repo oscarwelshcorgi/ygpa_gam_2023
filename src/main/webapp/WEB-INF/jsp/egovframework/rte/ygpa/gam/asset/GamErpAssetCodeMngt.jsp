@@ -197,7 +197,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	});
 
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
-	this.$('.photoEditItem').on('change', {module: this}, function(event) {
+	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyPhotoItem();
 /* 		var m = event.data.module;
 		if(m._editPhotoRow==null) return;
@@ -278,7 +278,7 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	        }
 	        alert(result.resultMsg);
-	    	this._edited=false;
+	        module._edited=false;
 	    });
 	}
 };
@@ -442,9 +442,16 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnAddGisMap':
 		if(this.$('#assetCodeList').selectedRowIds().length>0) {
-			var row = this.$('#erpAssetCodeList').selectedRows();
+			var row = this.$('#assetCodeList').selectedRows()[0];
 			// test
-			this.addGisAssetsCdMap('GAC', {'gisPrtAtCode': '620', 'gisAssetsCd': 'LNF', 'gisAssetsSubCd': '01'});
+			if(row['gisAssetsPrtAtCode']!=null && row['gisAssetsCd']!=null && row['gisAssetsSubCd']!=null
+					&& row['gisAssetsPrtAtCode'].length==3 && row['gisAssetsCd'].length==3 && row['gisAssetsSubCd'].length==2) {
+				this.addGisAssetsCdMap('GAC', {'gisPrtAtCode': row['gisPrtAtCode'], 'gisAssetsCd': row['gisAssetsCd'], 'gisAssetsSubCd': row['gisAssetsSubCd']});
+			}
+			else {
+				alert('저장된 시설에만 위치 등록이 가능합니다.');
+				console.log("error add gis feature");
+			}
 //			this.btnAddGisMap('GAC', {row.gisAssetsCd, row.gisAssetsSubCd});
 		}
 		break;
@@ -772,7 +779,7 @@ var module_instance = new GamAssetCodeModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 								<table id="assetCodeList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap">맵조회</button>
+					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
 					<button id="btnAddGisMap">위치등록</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
