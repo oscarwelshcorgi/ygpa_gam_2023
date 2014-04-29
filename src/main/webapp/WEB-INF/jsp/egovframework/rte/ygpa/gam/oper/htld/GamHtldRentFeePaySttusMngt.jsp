@@ -25,7 +25,7 @@
  */
 function GamHtldRentFeePaySttusMngtModule() {}
 
-GamHtldRentFeePaySttusMngtModule.prototype = new EmdModule(800, 600);
+GamHtldRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function() {

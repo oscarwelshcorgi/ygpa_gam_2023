@@ -25,7 +25,7 @@
  */
 function GamTrainPortRentFeePaySttusMngtModule() {}
 
-GamTrainPortRentFeePaySttusMngtModule.prototype = new EmdModule(800, 600);
+GamTrainPortRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamTrainPortRentFeePaySttusMngtModule.prototype.loadComplete = function() {
