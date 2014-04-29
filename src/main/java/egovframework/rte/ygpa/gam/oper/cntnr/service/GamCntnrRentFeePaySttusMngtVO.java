@@ -169,7 +169,13 @@ public class GamCntnrRentFeePaySttusMngtVO extends ComDefaultVO {
     
     /** 고지액(합계) */
     private String sumNticAmt;   
-    
+
+    /** 수납액(합계) */
+    private String sumRcvdAmt;
+
+    /** 자료수 */
+    private String dpTotCnt;
+
     /** 고지방법 */
     private String sNticMth;
     
@@ -1497,6 +1503,34 @@ public class GamCntnrRentFeePaySttusMngtVO extends ComDefaultVO {
 	 */
 	public void setsNticDtTo(String sNticDtTo) {
 		this.sNticDtTo = sNticDtTo;
+	}
+
+	/**
+	 * @return the sumRcvdAmt
+	 */
+	public String getSumRcvdAmt() {
+		return sumRcvdAmt;
+	}
+
+	/**
+	 * @param sumRcvdAmt the sumRcvdAmt to set
+	 */
+	public void setSumRcvdAmt(String sumRcvdAmt) {
+		this.sumRcvdAmt = sumRcvdAmt;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
 	}
 	
 }

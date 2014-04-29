@@ -8,69 +8,77 @@
     <typeAlias alias="gamCmmnCntrRentFeePaySttusMngtVO" type="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeePaySttusMngtVO"/>
 
     <resultMap id="gamCmmnCntrRentFeePaySttusMngtSumMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeePaySttusMngtVO">
-        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
-        <result property="sumNticAmt" column="SUM_BILL_AMNT" columnIndex="2"/>
-    </resultMap>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="1"/>
+        <result property="sumNticAmt" column="SUM_NTIC_AMNT" columnIndex="2"/>
+        <result property="sumRcvdAmt" column="SUM_RCVD_AMNT" columnIndex="3"/>
+   </resultMap>
     
     <select id="gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtList_D" parameterClass="gamCmmnCntrRentFeePaySttusMngtVO" resultClass="egovMap">
-           SELECT A.*
-           FROM (
+ 			SELECT A.*
+           		FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT 
-							     PO.INT_SEQ             
-							    , PO.DEL_KIND           
-							    , PO.JINGSU_DATE            
-							    , PO.SUNAP_DATE         
-							    , PO.PRT_AT_CODE            
-							    , PO.FEE_TP             
-							    , PO.FISCAL_YR          
-							    , PO.BILL_NO                
-							    , PO.ACCNT_CODE         
-							    , PO.AGENT_CODE         
-							    , PO.BILL_AMNT          
-							    , PO.BILL_DT                
-							    , PO.BILL_PRT_YN            
-							    , PO.DUE_DATE           
-							    , PO.RCVD_DT                
-							    , PO.RCVD_TP                
-							    , PO.RSLT_CODE          
-							    , PO.EXMP_AMNT          
-							    , PO.OVER_AMNT          
-							    , PO.DC_AMNT                
-							    , PO.DC_CODE                
-							    , PO.DC_RATE                
-							    , PO.RECPT_EPDT         
-							    , PO.ELCT_BILL_RSLT     
-							    , PO.BULL_INFO_INQR_DTIME
-							    , PO.AMNT_RSN           
-							    , PO.BZ_RGST_ID         
-							    , PO.AGENT_NAME         
-							    , PO.LAST               
-							    , PO.VAT_YN             
-							    , PO.JIRO_NO                
-							    , PO.ELEC_PAY_NO            
-							    , PO.CUSTOMER_MNGT_NO   
-							    , PO.CUSTOMER_ADDR      
-							    , PO.PAY_NAME 
-							FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
-							    , LEV_REQEST_F LE
-							WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->
-							AND (
-							        (LE.PRT_AT_CODE, LE.MNG_YEAR, LE.MNG_NO, LE.MNG_CNT) IN (
-							                                                  SELECT   R.PRT_AT_CODE
-							                                                         , R.MNG_YEAR
-							                                                         , R.MNG_NO
-							                                                         , R.MNG_CNT 
-							                                                   FROM ASSETS_RENT_F R
-							                                                   WHERE R.QUAY_GROUP_CD = 'E' <!-- 공컨장치장 -->
-							                                                 )
-							    ) 
-					       
-					        <isNotEmpty property="sPrtAtCode">
-			                    AND PO.PRT_AT_CODE = #sPrtAtCode#
-			                </isNotEmpty>
-							ORDER BY PO.INT_SEQ DESC
+                           SELECT T1.PRT_AT_CODE
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
+                                  , T1.NTIC_CNT
+                                  , T1.CHRGE_KND
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , T1.ACCNUT_YEAR
+                                  , T1.NTICNO
+                                  , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
+                                  , TO_CHAR(T1.NTIC_PD_FROM, 'YYYY-MM-DD') AS NTIC_PD_FROM
+                                  , TO_CHAR(T1.NTIC_PD_TO, 'YYYY-MM-DD') AS NTIC_PD_TO
+                                  , T1.FEE
+                                  , T1.VAT
+                                  , (CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세' WHEN T1.VAT_YN='1' THEN '영세' WHEN T1.VAT_YN='2' THEN '과세' WHEN T1.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
+                                  , T1.NTIC_AMT
+                                  , T1.MNG_YEAR
+                                  , T1.MNG_NO
+                                  , T1.MNG_CNT
+                                  , T1.MNG_YEAR || '-' || T1.MNG_NO || '-' || T1.MNG_CNT AS RENT_MNG_NO
+                                  , (CASE WHEN T2.ROWID IS NULL THEN '미고지' WHEN T2.RCVD_TP='0' THEN '미납' WHEN T2.RCVD_TP='1' THEN '연체' WHEN T2.RCVD_TP='2' THEN '연체수납' WHEN T2.RCVD_TP='3' THEN '수납' WHEN T2.RCVD_TP='4' THEN '불납' END) AS RCVD_TP
+                                  , T2.BILL_PRT_YN
+                                  , T2.RCVD_DT
+                                  , T2.DUE_DATE
+                            FROM LEV_REQEST_F T1
+                            LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
+                            WHERE 1 = 1
+                             AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND EXISTS (SELECT 'Y'
+                                           FROM ASSETS_RENT_F
+                                         WHERE PRT_AT_CODE = T1.PRT_AT_CODE
+                                          AND MNG_YEAR = T1.MNG_YEAR
+                                          AND MNG_NO = T1.MNG_NO
+                                          AND MNG_CNT = T1.MNG_CNT
+                                          AND QUAY_GROUP_CD = 'E')
+
+                             <isNotEmpty property="sPrtAtCode">
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sEntrpscd">
+					         AND T1.ENTRPSCD = #sEntrpscd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngYear">
+					         AND T1.MNG_YEAR = #sMngYear#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngNo">
+					         AND T1.MNG_NO = #sMngNo#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngCnt">
+					         AND T1.MNG_CNT = #sMngCnt#
+					         </isNotEmpty>
+
+					         <isNotEmpty property="sChrgeKnd">
+					         AND T1.CHRGE_KND = #sChrgeKnd#
+					         </isNotEmpty>
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY T1.NTIC_DT
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -78,48 +86,140 @@
     </select>
     
     <select id="gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtListTotCnt_S" parameterClass="gamCmmnCntrRentFeePaySttusMngtVO" resultClass="int">
-            SELECT 
-            	COUNT(*) TOTCNT
-            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
-			    , LEV_REQEST_F LE
-			WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->
-			AND (
-			        (LE.PRT_AT_CODE, LE.MNG_YEAR, LE.MNG_NO, LE.MNG_CNT) IN (
-			                                                  SELECT   R.PRT_AT_CODE
-			                                                         , R.MNG_YEAR
-			                                                         , R.MNG_NO
-			                                                         , R.MNG_CNT 
-			                                                   FROM ASSETS_RENT_F R
-			                                                   WHERE R.QUAY_GROUP_CD = 'E' <!-- 공컨장치장 -->
-			                                                 )
-			    ) 
-	       
-	        <isNotEmpty property="sPrtAtCode">
-                   AND PO.PRT_AT_CODE = #sPrtAtCode#
-             </isNotEmpty>
+            SELECT COUNT(*) totcnt
+              FROM (
+                           SELECT T1.PRT_AT_CODE
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
+                                  , T1.NTIC_CNT
+                                  , T1.CHRGE_KND
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , T1.ACCNUT_YEAR
+                                  , T1.NTICNO
+                                  , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
+                                  , TO_CHAR(T1.NTIC_PD_FROM, 'YYYY-MM-DD') AS NTIC_PD_FROM
+                                  , TO_CHAR(T1.NTIC_PD_TO, 'YYYY-MM-DD') AS NTIC_PD_TO
+                                  , T1.FEE
+                                  , T1.VAT
+                                  , (CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세' WHEN T1.VAT_YN='1' THEN '영세' WHEN T1.VAT_YN='2' THEN '과세' WHEN T1.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
+                                  , T1.NTIC_AMT
+                                  , T1.MNG_YEAR
+                                  , T1.MNG_NO
+                                  , T1.MNG_CNT
+                                  , T1.MNG_YEAR || '-' || T1.MNG_NO || '-' || T1.MNG_CNT AS RENT_MNG_NO
+                                  , (CASE WHEN T2.ROWID IS NULL THEN '미고지' WHEN T2.RCVD_TP='0' THEN '미납' WHEN T2.RCVD_TP='1' THEN '연체' WHEN T2.RCVD_TP='2' THEN '연체수납' WHEN T2.RCVD_TP='3' THEN '수납' WHEN T2.RCVD_TP='4' THEN '불납' END) AS RCVD_TP
+                                  , T2.BILL_PRT_YN
+                                  , T2.RCVD_DT
+                                  , T2.DUE_DATE
+                            FROM LEV_REQEST_F T1
+                            LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
+                            WHERE 1 = 1
+                             AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND EXISTS (SELECT 'Y'
+                                           FROM ASSETS_RENT_F
+                                         WHERE PRT_AT_CODE = T1.PRT_AT_CODE
+                                          AND MNG_YEAR = T1.MNG_YEAR
+                                          AND MNG_NO = T1.MNG_NO
+                                          AND MNG_CNT = T1.MNG_CNT
+                                          AND QUAY_GROUP_CD = 'E')
+
+                             <isNotEmpty property="sPrtAtCode">
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sEntrpscd">
+					         AND T1.ENTRPSCD = #sEntrpscd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngYear">
+					         AND T1.MNG_YEAR = #sMngYear#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngNo">
+					         AND T1.MNG_NO = #sMngNo#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngCnt">
+					         AND T1.MNG_CNT = #sMngCnt#
+					         </isNotEmpty>
+
+					         <isNotEmpty property="sChrgeKnd">
+					         AND T1.CHRGE_KND = #sChrgeKnd#
+					         </isNotEmpty>
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY T1.NTIC_DT
+                        )
     </select>
     
          <select id="gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtSum_S" parameterClass="gamCmmnCntrRentFeePaySttusMngtVO" resultMap="gamCmmnCntrRentFeePaySttusMngtSumMap">
             SELECT 
-               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
-               , TRIM(TO_CHAR(NVL(SUM(PO.BILL_AMNT),0), '999,999,999,999')) SUM_BILL_AMNT
-            FROM ERP_REV_COLL_F@YGPA_PORTMIS PO
-			    , LEV_REQEST_F LE
-			WHERE LE.NTICNO = PO.BILL_NO	<!-- 고지 번호 -->
-			AND (
-			        (LE.PRT_AT_CODE, LE.MNG_YEAR, LE.MNG_NO, LE.MNG_CNT) IN (
-			                                                  SELECT   R.PRT_AT_CODE
-			                                                         , R.MNG_YEAR
-			                                                         , R.MNG_NO
-			                                                         , R.MNG_CNT 
-			                                                   FROM ASSETS_RENT_F R
-			                                                   WHERE R.QUAY_GROUP_CD = 'E' <!-- 공컨장치장 -->
-			                                                 )
-			    ) 
-	       
-	        <isNotEmpty property="sPrtAtCode">
-                   AND PO.PRT_AT_CODE = #sPrtAtCode#
-             </isNotEmpty>
-    </select>
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) DP_TOT_CNT
+               , TRIM(TO_CHAR(NVL(SUM(T1.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMNT
+               , TRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END), '999,999,999,999')) SUM_RCVD_AMNT
+              FROM (
+                           SELECT T1.PRT_AT_CODE
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
+                                  , T1.NTIC_CNT
+                                  , T1.CHRGE_KND
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , T1.ACCNUT_YEAR
+                                  , T1.NTICNO
+                                  , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
+                                  , TO_CHAR(T1.NTIC_PD_FROM, 'YYYY-MM-DD') AS NTIC_PD_FROM
+                                  , TO_CHAR(T1.NTIC_PD_TO, 'YYYY-MM-DD') AS NTIC_PD_TO
+                                  , T1.FEE
+                                  , T1.VAT
+                                  , (CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세' WHEN T1.VAT_YN='1' THEN '영세' WHEN T1.VAT_YN='2' THEN '과세' WHEN T1.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
+                                  , T1.NTIC_AMT
+                                  , T1.MNG_YEAR
+                                  , T1.MNG_NO
+                                  , T1.MNG_CNT
+                                  , T1.MNG_YEAR || '-' || T1.MNG_NO || '-' || T1.MNG_CNT AS RENT_MNG_NO
+                                  , (CASE WHEN T2.ROWID IS NULL THEN '미고지' WHEN T2.RCVD_TP='0' THEN '미납' WHEN T2.RCVD_TP='1' THEN '연체' WHEN T2.RCVD_TP='2' THEN '연체수납' WHEN T2.RCVD_TP='3' THEN '수납' WHEN T2.RCVD_TP='4' THEN '불납' END) AS RCVD_TP
+                                  , T2.BILL_PRT_YN
+                                  , T2.RCVD_DT
+                                  , T2.DUE_DATE
+                            FROM LEV_REQEST_F T1
+                            LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
+                            WHERE 1 = 1
+                             AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND EXISTS (SELECT 'Y'
+                                           FROM ASSETS_RENT_F
+                                         WHERE PRT_AT_CODE = T1.PRT_AT_CODE
+                                          AND MNG_YEAR = T1.MNG_YEAR
+                                          AND MNG_NO = T1.MNG_NO
+                                          AND MNG_CNT = T1.MNG_CNT
+                                          AND QUAY_GROUP_CD = 'E')
+
+                             <isNotEmpty property="sPrtAtCode">
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sEntrpscd">
+					         AND T1.ENTRPSCD = #sEntrpscd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngYear">
+					         AND T1.MNG_YEAR = #sMngYear#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngNo">
+					         AND T1.MNG_NO = #sMngNo#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngCnt">
+					         AND T1.MNG_CNT = #sMngCnt#
+					         </isNotEmpty>
+
+					         <isNotEmpty property="sChrgeKnd">
+					         AND T1.CHRGE_KND = #sChrgeKnd#
+					         </isNotEmpty>
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY T1.NTIC_DT
+                     )
+	</select>
     
 </sqlMap>

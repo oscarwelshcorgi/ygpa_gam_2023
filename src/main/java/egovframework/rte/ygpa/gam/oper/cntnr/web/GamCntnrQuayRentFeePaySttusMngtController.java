@@ -161,8 +161,10 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("sumVat", resultSum.getSumVat());
     	*/
-    	map.put("sumCnt", resultSum.getSumCnt());
+    	/*map.put("sumCnt", resultSum.getSumCnt());*/
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	map.put("sumRcvdAmt", resultSum.getSumRcvdAmt());
     	
     	/*
     	map.put("sumFee", "");
