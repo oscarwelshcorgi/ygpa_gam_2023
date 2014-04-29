@@ -1195,14 +1195,14 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 			var selectRow = this.$('#prtFcltyRentMngtList').selectedRows();
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
-				if(row['prtAtCode']==null || row['gisAssetsCd']==null || row['gisAssetsSubCd']==null) {
-					alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
-					return;
-				}
-				if(row['gisAssetsPrtAtCode'].length!=3 || row['gisAssetsCd'].length!=3 || row['gisAssetsSubCd'].length!=2) {
-					alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
-					return;
-				}
+// 				if(row['prtAtCode']==null || row['gisAssetsCd']==null || row['gisAssetsSubCd']==null) {
+// 					alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
+// 					return;
+// 				}
+// 				if(row['gisAssetsPrtAtCode'].length!=3 || row['gisAssetsCd'].length!=3 || row['gisAssetsSubCd'].length!=2) {
+// 					alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요');
+// 					return;
+// 				}
 				this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
 				this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
 				this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
