@@ -36,51 +36,31 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentFeePaySttusMngtList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'일련번호', name:'intSeq',width:100, sortable:false,align:'center'},              
-					{display:'처리구분', name:'delKind',width:100, sortable:false,align:'center'},              
-					{display:'징수일자(ERP)', name:' jingsuDate',width:100, sortable:false,align:'center'},         
-					{display:'수납일자(ERP)', name:'sunapDate',width:100, sortable:false,align:'center'},           
-					{display:'청코드', name:'prtAtCode',width:100, sortable:false,align:'center'},         
-					{display:'요금종류', name:'feeTp',width:100, sortable:false,align:'center'},                
-					{display:'회계년도', name:'fiscalYr',width:100, sortable:false,align:'center'},         
-					{display:'고지번호', name:'billNo',width:100, sortable:false,align:'center'},               
-					{display:'회계구분코드', name:'accntCode',width:100, sortable:false,align:'center'},          
-					{display:'업체코드', name:'agentCode',width:100, sortable:false,align:'center'},            
-					{display:'고지금액', name:'billAmnt',width:100, sortable:false,align:'center'},         
-					{display:'고지일자', name:'billDt',width:100, sortable:false,align:'center'},               
-					{display:'고지서발부여부', name:'billPrtYn',width:100, sortable:false,align:'center'},         
-					{display:'납부기한일자', name:'dueDate',width:100, sortable:false,align:'center'},                
-					{display:'수납일자', name:'rcvdDt',width:100, sortable:false,align:'center'},               
-					{display:'수납구분', name:'rcvdTp',width:100, sortable:false,align:'center'},               
-					{display:'불능코드', name:'rsltCode',width:100, sortable:false,align:'center'},         
-					{display:'면제 ( 보전 ) 금액', name:'exmpAmnt',width:100, sortable:false,align:'center'},         
-					{display:'과오납금액', name:'overAmnt',width:100, sortable:false,align:'center'},            
-					{display:'할인금액', name:'dcAmnt',width:100, sortable:false,align:'center'},               
-					{display:'할인사유', name:'dcCode',width:100, sortable:false,align:'center'},               
-					{display:'할인코드', name:'dcRate',width:100, sortable:false,align:'center'},               
-					{display:'금융기관 수납일자', name:'recptEpdt',width:100, sortable:false,align:'center'},           
-					{display:'전자고지 결과', name:'elctBillRslt',width:100, sortable:false,align:'center'},      
-					{display:'전자고지 정보조회일자', name:'bullInfoInqrDtime',width:100, sortable:false,align:'center'}
-					
-					/*
-					{display:'산출내역', name:'amntRsn',width:100, sortable:false,align:'center'},              
-					{display:'사업자등록번호', name:'bzRgstId',width:100, sortable:false,align:'center'},          
-					{display:'사업장명', name:'agentName',width:100, sortable:false,align:'center'},            
-					{display:'정산여부', name:'last',width:100, sortable:false,align:'center'},             
-					{display:'부가세여부', name:'vatYn',width:100, sortable:false,align:'center'},               
-					{display:'지로번호', name:'jiroNo',width:100, sortable:false,align:'center'},               
-					{display:'전자납부번호', name:'elecPayNo',width:100, sortable:false,align:'center'},          
-					{display:'고객관리번호', name:'customerMngtNo',width:100, sortable:false,align:'center'},     
-					{display:'고객주소', name:'customerAddr',width:100, sortable:false,align:'center'},     
-					{display:'납부자성명', name:'payName',width:100, sortable:false,align:'center'}
-					*/
+					{display:'항코드', name:'prtAtCode',width:100, sortable:false,align:'center'},              
+					{display:'항코드명', name:'prtAtcodeNm',width:100, sortable:false,align:'center'},              
+					{display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},         
+					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'center'},           
+					{display:'회계년도', name:'accnutYear',width:100, sortable:false,align:'center'},         
+					{display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},                          
+					{display:'고지횟수', name:'nticCnt',width:100, sortable:false,align:'center'},          
+					{display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},            
+					{display:'사용시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},         
+					{display:'사용종료일', name:'nticPdTo',width:100, sortable:false,align:'center'},               
+					{display:'사용료', name:'fee',width:100, sortable:false,align:'center'},         
+					{display:'부가세', name:'vat',width:100, sortable:false,align:'center'},                
+					{display:'과세구분', name:'vatYn',width:100, sortable:false,align:'center'},               
+					{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'center'},               
+					{display:'수납구분', name:'rcvdTp',width:100, sortable:false,align:'center'},         
+					{display:'수납일자', name:'rcvdDt',width:100, sortable:false,align:'center'},         
+					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},            
+					{display:'고지서출력여부', name:'billPrtYn',width:100, sortable:false,align:'center'},               
+					{display:'납부기한', name:'dueDate',width:100, sortable:false,align:'center'}
                     ],
-        showTableToggleBtn: false,
-        height: 'auto',
+        showTableToggleBtn: true,
+        height: '350',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#sumFee').val(data.sumFee);
-            module.$('#sumVat').val(data.sumVat);
+            module.$('#totalResultCnt').val(data.dpTotCnt);
+            module.$('#sumRcvdAmt').val(data.sumRcvdAmt);
             module.$('#sumNticAmt').val(data.sumNticAmt);
             
             return data;
@@ -93,8 +73,8 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         module.$('#gamPrtFcltyRentFeePaySttusMngtForm :input').val('');
 
         module.makeFormValues('#gamPrtFcltyRentFeePaySttusMngtForm', row);
-        module._editData=module.getFormValues('#gamPrtFcltyRentFeePaySttusMngtForm', row);
-        module._editRow=module.$('#prtFcltyRentFeePaySttusMngtList').selectedRowIds()[0];
+        //module._editData=module.getFormValues('#gamPrtFcltyRentFeePaySttusMngtForm', row);
+        //module._editRow=module.$('#prtFcltyRentFeePaySttusMngtList').selectedRowIds()[0];
     });
     
     this.$("#prtFcltyRentFeePaySttusMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -282,7 +262,8 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                <form id="form1">
                                     합계
                                     자료수 <input id="totalResultCnt" size="5" readonly>
-                                    고지액 <input id="sumNticAmt" type="text" size="14" readonly>
+                                    고지금액 <input id="sumNticAmt" type="text" size="14" readonly>원 
+                                    수납금액 <input id="sumRcvdAmt" type="text" size="14" readonly>원 
                                </form>
                             </td>
                             <!-- 
@@ -303,99 +284,74 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                         
                         <table>
                             <tr>
-                                <th><span class="label">일련번호</span></th>
-                                <td style="width: 200px"><input type="text" size="10" id="intSeq"/></td>
-                                <th><span class="label">처리구분</span></th>
-                                <td colspan="3"><input type="text" size="10" id="delKind"/></td>
+                                <th style="width:150px;"><span class="label">항코드</span></th>
+                                <td style="width:250px;"><input type="text" size="10" id="prtAtCode"/></td>
+                                <th style="width:150px;"><span class="label">항코드명</span></th>
+                                <td><input type="text" size="10" id="prtAtCodeNm"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">징수일자</span></th>
-                                <td><input type="text" size="10" id="jingsuDate"/></td>
-                                <th><span class="label">수납일자</span></th>
-                                <td><input type="text" size="10" id="sunapDate"/></td>
-                                <th><span class="label">청코드</span></th>
-                                <td><input type="text" size="10" id="prtAtCode"/></td>
+                                <th><span class="label">요금종류코드</span></th>
+                                <td><input type="text" size="10" id="chrgeKnd"/></td>
+                                <th><span class="label">요금종류명</span></th>
+                                <td><input type="text" size="10" id="chrgeKndNm"/></td>
+
                             </tr>
                             <tr>
-                                <th><span class="label">요금종류</span></th>
-                                <td><input type="text" size="10" id="feeTp"/></td>
                                 <th><span class="label">회계년도</span></th>
-                                <td><input type="text" size="10" id="fiscalYr"/></td>
+                                <td><input type="text" size="10" id="accnutYear"/></td>
                                 <th><span class="label">고지번호</span></th>
-                                <td><input type="text" size="10" id="billNo"/></td>
+                                <td><input type="text" size="10" id="nticno"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">회계구분코드</span></th>
-                                <td><input type="text" size="10" id="accntCode"/></td>
-                                <th><span class="label">업체코드</span></th>
-                                <td><input type="text" size="10" id="agentCode"/></td>
-                                <th><span class="label">고지금액</span></th>
-                                <td><input type="text" size="20" id="billAmnt"/></td>
-                            </tr>
-                            <tr>
+                                <th><span class="label">고지횟수</span></th>
+                                <td><input type="text" size="10" id="nticCnt"/></td>
                                 <th><span class="label">고지일자</span></th>
-                                <td><input type="text" size="10" id="billDt"/></td>
-                                <th><span class="label">고지서발부여부</span></th>
-                                <td><input type="text" size="10" id="billPrtYn"/></td>
-                                <th><span class="label">납부기한일자</span></th>
-                                <td><input type="text" size="10" id="dueDate"/></td>
+                                <td><input type="text" size="10" id="nticDt"/></td>
+                                
                             </tr>
                             <tr>
-                                <th><span class="label">수납일자</span></th>
-                                <td><input type="text" size="10" id="rcvdDt"/></td>
-                                <th><span class="label">수납구분</span></th>
-                                <td><input type="text" size="10" id="rcvdTp"/></td>
-                                <th><span class="label">불능코드</span></th>
-                                <td><input type="text" size="10" id="rsltCode"/></td>
+                            	<th><span class="label">사용시작일</span></th>
+                                <td><input type="text" size="20" id="nticPdFrom"/></td>
+                                <th><span class="label">사용종료일</span></th>
+                                <td><input type="text" size="10" id="nticPdTo"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">면제(보전)금액</span></th>
-                                <td><input type="text" size="20" id="exmpAmnt"/></td>
-                                <th><span class="label">과오납금액</span></th>
-                                <td><input type="text" size="20" id="overAmnt"/></td>
-                                <th><span class="label">할인금액</span></th>
-                                <td><input type="text" size="20" id="dcAmnt"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">할인사유</span></th>
-                                <td><input type="text" size="10" id="dcCode"/></td>
-                                <th><span class="label">할인코드</span></th>
-                                <td><input type="text" size="10" id="dcRate"/></td>
-                                <th><span class="label">금융기관 수납일자</span></th>
-                                <td><input type="text" size="10" id="recptEpdt"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">전자고지 결과</span></th>
-                                <td><input type="text" size="10" id="elctBillRslt"/></td>
-                                <th><span class="label">전자고지 정보조회일자</span></th>
-                                <td><input type="text" size="10" id="bullInfoInqrDtime"/></td>
-                                <th><span class="label">산출내역</span></th>
-                                <td><input type="text" size="10" id="amntRsn"/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">사업자등록번호</span></th>
-                                <td><input type="text" size="10" id="bzRgstId"/></td>
-                                <th><span class="label">사업장명</span></th>
-                                <td><input type="text" size="10" id="agentName"/></td>
-                                <th><span class="label">정산여부</span></th>
-                                <td><input type="text" size="10" id="last"/></td>
-                            </tr>
-                            <tr>
+                                <th><span class="label">사용료</span></th>
+                                <td><input type="text" size="10" id="fee"/></td>
                                 <th><span class="label">부가세</span></th>
-                                <td><input type="text" size="10" id="vatYn"/></td>
-                                <th><span class="label">지로번호</span></th>
-                                <td><input type="text" size="10" id="jiroNo"/></td>
-                                <th><span class="label">전자납부번호</span></th>
-                                <td><input type="text" size="10" id="elecPayNo"/></td>
+                                <td><input type="text" size="10" id="vat"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">고객관리번호</span></th>
-                                <td><input type="text" size="10" id="customerMngtNo"/></td>
-                                <th><span class="label">고객주소</span></th>
-                                <td><input type="text" size="40" id="customerAddr"/></td>
-                                <th><span class="label">납부자성명</span></th>
-                                <td colspan="3"><input type="text" size="10" id="payName"/></td>
+                                <th><span class="label">과세구분</span></th>
+                                <td><input type="text" size="10" id="vatYn"/></td>
+                                <th><span class="label">고지금액</span></th>
+                                <td><input type="text" size="10" id="nticAmt"/></td>
+                                
                             </tr>
+                            <tr>
+                            	<th><span class="label">수납구분</span></th>
+                                <td><input type="text" size="10" id="rcvdTp"/></td>
+                                <th><span class="label">수납일자</span></th>
+                                <td><input type="text" size="20" id="rcvdDt"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">관리번호</span></th>
+                                <td><input type="text" size="20" id="rentMngNo"/></td>
+                                <th><span class="label">고지서출력여부</span></th>
+                                <td><input type="text" size="20" id="billPrtYn"/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">납부기한</span></th>
+                                <td colspan="3"><input type="text" size="10" id="dueDate"/></td>
+                            </tr>
+                            <!-- <tr>
+                            	<th><span class="label">관리년도</span></th>
+                                <td><input type="text" size="10" id="mngYear"/></td>
+                                <th><span class="label">관리번호</span></th>
+                                <td><input type="text" size="10" id="mngNo"/></td>
+                                <th><span class="label">관리횟수</span></th>
+                                <td><input type="text" size="10" id="mngCnt"/></td>
+                            </tr> -->
                         </table>
                     </form>
 
