@@ -38,9 +38,9 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
      colModel : [
                  {display:'항코드', name:'prtAtCode',width:150, sortable:false,align:'center'},
                  {display:'항코드명', name:'prtKorNm',width:150, sortable:false,align:'center'},
-                 {display:'면적구분', name:'areaClass',width:150, sortable:false,align:'left'},
-                 {display:'사용료', name:'sumTotalFee',width:200, sortable:false,align:'right' ,displayFormat: 'number' },
-                 {display:'감면사용료', name:'sumTotalRocxptFee',width:200, sortable:false,align:'right' ,displayFormat: 'number'}
+                 {display:'면적구분', name:'areaClass',width:150, sortable:false,align:'center'},
+                 {display:'사용료', name:'sumTotalFee',width:200, sortable:false,align:'right' ,displayFormat: 'number'},
+                 {display:'감면사용료', name:'sumTotalRdcxptFee',width:200, sortable:false,align:'right' ,displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',
