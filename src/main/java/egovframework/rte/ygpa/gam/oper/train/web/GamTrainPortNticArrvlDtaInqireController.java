@@ -141,8 +141,9 @@ public class GamTrainPortNticArrvlDtaInqireController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
-    	map.put("sumGrAr", resultSum.getSumGrAr());
-    	map.put("sumGrFee", resultSum.getSumGrFee());
+    	//map.put("sumGrAr", resultSum.getSumGrAr());
+    	//map.put("sumGrFee", resultSum.getSumGrFee());
+    	map.put("totalNticAmt", resultSum.getSumNticAmt());
     	
     	return map;
     }

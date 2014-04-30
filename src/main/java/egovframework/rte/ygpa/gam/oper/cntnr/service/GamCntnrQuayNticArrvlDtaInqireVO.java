@@ -151,7 +151,13 @@ public class GamCntnrQuayNticArrvlDtaInqireVO extends ComDefaultVO {
     
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
-    
+
+    /** 검색조건 */
+    private String sChrgeKnd;
+
+    /** 총 고지금액 */
+    private String sumNticAmt;
+
     /** 자료수 */
     private String sumCnt;
     
@@ -1103,6 +1109,34 @@ public class GamCntnrQuayNticArrvlDtaInqireVO extends ComDefaultVO {
 	 */
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the sChrgeKnd
+	 */
+	public String getsChrgeKnd() {
+		return sChrgeKnd;
+	}
+
+	/**
+	 * @param sChrgeKnd the sChrgeKnd to set
+	 */
+	public void setsChrgeKnd(String sChrgeKnd) {
+		this.sChrgeKnd = sChrgeKnd;
+	}
+
+	/**
+	 * @return the sumNticAmt
+	 */
+	public String getSumNticAmt() {
+		return sumNticAmt;
+	}
+
+	/**
+	 * @param sumNticAmt the sumNticAmt to set
+	 */
+	public void setSumNticAmt(String sumNticAmt) {
+		this.sumNticAmt = sumNticAmt;
 	}
 	
 }

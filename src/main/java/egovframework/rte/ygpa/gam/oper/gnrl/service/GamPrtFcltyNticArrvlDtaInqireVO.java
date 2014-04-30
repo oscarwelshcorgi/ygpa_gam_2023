@@ -149,6 +149,9 @@ public class GamPrtFcltyNticArrvlDtaInqireVO extends ComDefaultVO {
     /** 검색조건 */
     private String sMngCnt;
     
+    /** 검색조건 */
+    private String sChrgeKnd;
+    
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
     
@@ -160,6 +163,9 @@ public class GamPrtFcltyNticArrvlDtaInqireVO extends ComDefaultVO {
     
     /** 총사용료 */
     private String sumGrFee;
+    
+    /** 총 고지금액 */
+    private String sumNticAmt;
     
     /** 관리번호(MAX) */
     private String maxMngCnt; 
@@ -630,6 +636,20 @@ public class GamPrtFcltyNticArrvlDtaInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sChrgeKnd
+	 */
+	public String getsChrgeKnd() {
+		return sChrgeKnd;
+	}
+
+	/**
+	 * @param sChrgeKnd the sChrgeKnd to set
+	 */
+	public void setsChrgeKnd(String sChrgeKnd) {
+		this.sChrgeKnd = sChrgeKnd;
+	}
+
+	/**
 	 * @return the sPrmisnYn
 	 */
 	public String getsPrmisnYn() {
@@ -725,6 +745,20 @@ public class GamPrtFcltyNticArrvlDtaInqireVO extends ComDefaultVO {
 	 */
 	public void setSumGrFee(String sumGrFee) {
 		this.sumGrFee = sumGrFee;
+	}
+
+	/**
+	 * @return the sumNticAmt
+	 */
+	public String getSumNticAmt() {
+		return sumNticAmt;
+	}
+
+	/**
+	 * @param sumNticAmt the sumNticAmt to set
+	 */
+	public void setSumNticAmt(String sumNticAmt) {
+		this.sumNticAmt = sumNticAmt;
 	}
 
 	/**
