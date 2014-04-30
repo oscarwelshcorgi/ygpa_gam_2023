@@ -8,76 +8,163 @@
     <typeAlias alias="gamCmpyRecvStsInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamCmpyRecvStsInqireVO"/>
 
     <resultMap id="gamCmpyRecvStsInqireSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamCmpyRecvStsInqireVO">
-        <result property="totSumCnt" column="TOT_SUM_CNT" columnIndex="1"/>
-        <result property="totSumFee" column="TOT_SUM_FEE" columnIndex="2"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="1"/>
+        <result property="sumRcvdAmtSum" column="SUM_RCVD_AMT_SUM" columnIndex="2"/>
+        <result property="sumNticAmtSum" column="SUM_NTIC_AMT_SUM" columnIndex="3"/>
+        <result property="sumNotRcvdAmtSum" column="SUM_NOT_RCVD_AMT_SUM" columnIndex="4"/>
     </resultMap>
     
     <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireList_D" parameterClass="gamCmpyRecvStsInqireVO" resultClass="egovMap">
            SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                           SELECT 
-							       L.ENTRPSCD
-							     , SUM(NVL(L.FEE,0)) FEE
-							     , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E 
-							          WHERE E.ENTRPSCD = L.ENTRPSCD ) ENTRPS_NM
-							     , ( SELECT E.INDUTY FROM ENTRPS_INFO_F E 
-							          WHERE E.ENTRPSCD = L.ENTRPSCD ) INDUTY
-							     , ( SELECT E.BIZCND FROM ENTRPS_INFO_F E 
-							          WHERE E.ENTRPSCD = L.ENTRPSCD ) BIZCND
-							  FROM LEV_REQEST_F L
-							 WHERE 1=1 
-							 
-							 <isNotEmpty property="sRcivDtFrom">
-                                 AND TO_CHAR(L.RCIV_DT, 'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
-                             </isNotEmpty>
-							
-							GROUP BY L.ENTRPSCD
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+				FROM
+				  (SELECT ROWNUM RNUM,
+				    S.*
+					  FROM
+					    (
+	                      SELECT T1.ENTRPSCD
+	                             , MIN(T2.ENTRPS_NM) AS ENTRPS_NM
+	                             , SUM(T1.FEE) AS SUM_FEE
+	                             , SUM(T1.VAT) AS SUM_VAT
+	                             , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
+	                             , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
+	                             , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+	                        FROM 
+	                        	LEV_REQEST_F T1
+	                        LEFT OUTER JOIN 
+	                        	ENTRPS_INFO_F T2 
+	                        ON 
+	                        	(T1.ENTRPSCD=T2.ENTRPSCD)
+	                        LEFT OUTER JOIN 
+	                        	PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 
+	                        ON 
+	                        	(
+	                        	T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+	                        	AND T1.CHRGE_KND=T3.FEE_TP 
+	                        	AND T1.ACCNUT_YEAR=T3.FISCAL_YR 
+	                        	AND T1.NTICNO=T3.BILL_NO
+	                        	)
+	                        WHERE 1 = 1
+	                        
+		                        AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+		                        AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+		
+		                         <isNotEmpty property="sPrtAtCode">
+						         	AND T1.PRT_AT_CODE = #sPrtAtCode#  
+						         </isNotEmpty>
+						         
+						         <isNotEmpty property="sEntrpscd">
+						            AND T1.ENTRPSCD = #sEntrpscd#  
+						         </isNotEmpty>
+						
+						         <isNotEmpty property="sChrgeKnd">
+						            AND T1.CHRGE_KND = #sChrgeKnd#
+						         </isNotEmpty>
+	
+	                        GROUP BY T1.ENTRPSCD
+	                        ORDER BY MIN(T2.ENTRPS_NM)
+					    ) S
+				  ) A
+				WHERE ROWNUM <![CDATA[<=]]> 30
+				AND RNUM      <![CDATA[>]]> 0
     </select>
     
     <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireListTotCnt_S" parameterClass="gamCmpyRecvStsInqireVO" resultClass="int">
             
         SELECT COUNT(*) totcnt
           FROM (
-	            SELECT L.ENTRPSCD
-	              FROM LEV_REQEST_F L
-	             WHERE 1=1 
-	             
-	             <isNotEmpty property="sRcivDtFrom">
-	                 AND TO_CHAR(L.RCIV_DT, 'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
-	             </isNotEmpty>
-	            
-	            GROUP BY L.ENTRPSCD
+	            SELECT T1.ENTRPSCD
+                      , MIN(T2.ENTRPS_NM) AS ENTRPS_NM
+                      , SUM(T1.FEE) AS SUM_FEE
+                      , SUM(T1.VAT) AS SUM_VAT
+                      , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
+                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
+                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                 FROM 
+                 	LEV_REQEST_F T1
+                 LEFT OUTER JOIN 
+                 	ENTRPS_INFO_F T2 
+                 ON 
+                 	(T1.ENTRPSCD=T2.ENTRPSCD)
+                 LEFT OUTER JOIN 
+                 	PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 
+                 ON 
+                 	(
+                 	T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+                 	AND T1.CHRGE_KND=T3.FEE_TP 
+                 	AND T1.ACCNUT_YEAR=T3.FISCAL_YR 
+                 	AND T1.NTICNO=T3.BILL_NO
+                 	)
+                 WHERE 1 = 1
+                 
+                  AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                  AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+
+                   <isNotEmpty property="sPrtAtCode">
+			       		AND T1.PRT_AT_CODE = #sPrtAtCode#  
+			       </isNotEmpty>
+			       
+			       <isNotEmpty property="sEntrpscd">
+			          AND T1.ENTRPSCD = #sEntrpscd#  
+			       </isNotEmpty>
+			
+			       <isNotEmpty property="sChrgeKnd">
+			          AND T1.CHRGE_KND = #sChrgeKnd#
+			       </isNotEmpty>
+
+                 GROUP BY T1.ENTRPSCD
+                 ORDER BY MIN(T2.ENTRPS_NM)
 	           )
     </select>
 
     <select id="gamCmpyRecvStsInqireDao.selectCmpyRecvStsInqireSum_S" parameterClass="gamCmpyRecvStsInqireVO" resultMap="gamCmpyRecvStsInqireSumMap">
             SELECT
-               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) TOT_SUM_CNT
-               , TRIM(TO_CHAR(NVL(SUM(FEE),0), '999,999,999,999')) TOT_SUM_FEE
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) DP_TOT_CNT
+               , TRIM(TO_CHAR(NVL(SUM(S.SUM_NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMT_SUM
+               , TRIM(TO_CHAR(NVL(SUM(S.SUM_RCVD_AMT),0), '999,999,999,999')) SUM_RCVD_AMT_SUM
+               , TRIM(TO_CHAR(NVL(SUM(S.SUM_NOT_RCVD_AMT),0), '999,999,999,999')) SUM_NOT_RCVD_AMT_SUM
               FROM (           
-                           SELECT 
-							       L.ENTRPSCD
-							     , SUM(NVL(L.FEE,0)) FEE
-							     , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E 
-							          WHERE E.ENTRPSCD = L.ENTRPSCD ) ENTRPS_NM
-							     , ( SELECT E.INDUTY FROM ENTRPS_INFO_F E 
-							          WHERE E.ENTRPSCD = L.ENTRPSCD ) INDUTY
-							     , ( SELECT E.BIZCND FROM ENTRPS_INFO_F E 
-							          WHERE E.ENTRPSCD = L.ENTRPSCD ) BIZCND
-							  FROM LEV_REQEST_F L
-							 WHERE 1=1 
-							 
-							 <isNotEmpty property="sRcivDtFrom">
-                                 AND TO_CHAR(L.RCIV_DT, 'YYYYMMDD') BETWEEN REPLACE(#sRcivDtFrom#,'-','') AND REPLACE(#sRcivDtTo#,'-','')
-                             </isNotEmpty>
-							
-							GROUP BY L.ENTRPSCD
-				)
+                    SELECT T1.ENTRPSCD
+                      , MIN(T2.ENTRPS_NM) AS ENTRPS_NM
+                      , SUM(T1.FEE) AS SUM_FEE
+                      , SUM(T1.VAT) AS SUM_VAT
+                      , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
+                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
+                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                 FROM 
+                 	LEV_REQEST_F T1
+                 LEFT OUTER JOIN 
+                 	ENTRPS_INFO_F T2 
+                 ON 
+                 	(T1.ENTRPSCD=T2.ENTRPSCD)
+                 LEFT OUTER JOIN 
+                 	PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 
+                 ON 
+                 	(
+                 	T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+                 	AND T1.CHRGE_KND=T3.FEE_TP 
+                 	AND T1.ACCNUT_YEAR=T3.FISCAL_YR 
+                 	AND T1.NTICNO=T3.BILL_NO
+                 	)
+                 WHERE 1 = 1
+                 
+                  AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                  AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+
+                   <isNotEmpty property="sPrtAtCode">
+			       		AND T1.PRT_AT_CODE = #sPrtAtCode#  
+			       </isNotEmpty>
+			       
+			       <isNotEmpty property="sEntrpscd">
+			          AND T1.ENTRPSCD = #sEntrpscd#  
+			       </isNotEmpty>
+			
+			       <isNotEmpty property="sChrgeKnd">
+			          AND T1.CHRGE_KND = #sChrgeKnd#
+			       </isNotEmpty>
+
+                 GROUP BY T1.ENTRPSCD
+                 ORDER BY MIN(T2.ENTRPS_NM)
+				) S
     </select>
     
 </sqlMap>

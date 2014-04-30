@@ -25,7 +25,7 @@
  */
 function GamCmpyRecvStsInqireModule() {}
 
-GamCmpyRecvStsInqireModule.prototype = new EmdModule(800, 600);
+GamCmpyRecvStsInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
@@ -36,10 +36,13 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/rent/gamSelectCmpyRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-				 {display:'업종', name:'induty',width:142, sortable:false,align:'center'},
-				 {display:'업체명', name:'entrpsNm',width:280, sortable:false,align:'center'},
-                 {display:'업체코드', name:'entrpscd',width:110, sortable:false,align:'center'},
-				 {display:'금액', name:'fee',width:160, sortable:false,align:'right', displayFormat:'number'},
+				 {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
+				 {display:'업체명', name:'entrpsNm',width:150, sortable:false,align:'center'},
+				 {display:'사용료', name:'sumFee',width:120, sortable:false,align:'right', displayFormat:'number'},
+				 {display:'부가세', name:'sumVat',width:120, sortable:false,align:'right', displayFormat:'number'},
+				 {display:'고지금액', name:'sumNticAmt',width:120, sortable:false,align:'right', displayFormat:'number'},
+				 {display:'수납금액', name:'sumRcvdAmt',width:120, sortable:false,align:'right', displayFormat:'number'},
+				 {display:'미수납금액', name:'sumNotRcvdAmt',width:120, sortable:false,align:'right', displayFormat:'number'}
                  ],
      usepager: true,
      useRp: true,
@@ -47,14 +50,44 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
      showTableToggleBtn: false,
      height: '290',
      preProcess: function(module,data) {
-         module.$('#totSumCnt').val(data.totSumCnt);
-         module.$('#totSumFee').val(data.totSumFee);
+    	 module.$('#totalResultCnt').val(data.dpTotCnt);
+         module.$('#sumRcvdAmtSum').val(data.sumRcvdAmtSum);
+         module.$('#sumNticAmtSum').val(data.sumNticAmtSum);
+         module.$('#sumNotRcvdAmtSum').val(data.sumNotRcvdAmtSum);
 
          module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
          
          return data;
 	 }
  });
+ 
+ 
+//오늘로 텍스트박스 날짜 정의
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+
+	var serchday = today.getDate();
+	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
+	
+	today.setMonth(today.getMonth() - 1);
+	
+	serchYr = today.getFullYear();
+	serchMn = today.getMonth() + 1;
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	serchday = today.getDate();
+	
+	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sGrUsagePdFrom").val(searchStartDate);
+	this.$("#sGrUsagePdTo").val(searchEndDate);
 };
 
 /**
@@ -66,11 +99,52 @@ GamCmpyRecvStsInqireModule.prototype.onButtonClick = function(buttonId) {
 
      // 조회
      case 'searchBtn':
+    	 
+    	 if(this.$("#sGrUsagePdFrom").val() == ""){
+    		 alert("고지기간 시작일을 입력하세요.");
+    		 return;
+    	 }
+    	 
+    	 if(this.$("#sGrUsagePdTo").val() == ""){
+    		 alert("고지기간 종료일을 입력하세요.");
+    		 return;
+    	 }
+    	 
          var searchOpt=this.makeFormArgs('#gamCmpyRecvStsInqireSearchForm');
          this.$('#cmpyRecvStsInqireList').flexOptions({params:searchOpt}).flexReload();
 
          break;
+         
+      // 팝업을 호출한다.(업체)     
+         
+     case 'popupEntrpsInfo': 
+         var opts;
+
+         this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+         break;
  }
+};
+
+//팝업이 종료 될때 리턴 값이 오출 된다.
+//popupId : 팝업 대화상자 아이디
+//msg : 팝업에서 전송한 메시지 (취소는 cancel)
+//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+GamCmpyRecvStsInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
+  switch (popupId) {
+  case 'selectEntrpsInfoFeePayPopup':
+      if (msg != 'cancel') {
+          this.$('#sEntrpscd').val(value.entrpscd);
+          this.$('#sEntrpsNm').val(value.entrpsNm);
+      } else {
+          alert('취소 되었습니다');
+      }
+      break;
+       
+   default:
+       alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+       throw 0;
+       break;
+   }
 };
 
 GamCmpyRecvStsInqireModule.prototype.onSubmit = function() {
@@ -107,21 +181,30 @@ var module_instance = new GamCmpyRecvStsInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>수납일</th>
-                            <td>
-                                <input id="sRcivDtFrom" type="text" size="10" class="emdcal"> ~
-                                <input id="sRcivDtTo" type="text" size="10" class="emdcal">
+                            <th style="width: 70px">항구분</th>
+                            <td style="width: 320px">
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
+                            <th>요금종류</th>
+                            <td>
+                                <input id="sChrgeKnd" type="text" size="10"> 
+                                <input id="sChrgeKndNm" type="text" size="10"> 
+                                <button id="popupChrgeKndCd">요금</button>
+                            </td>
+                            <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
-                        <!--
                         <tr>
-                            <th>관리부서</th>
-                            <td><select id="mngDeptCd"></select></td>
-                            <th>운영부서</th>
-                            <td><select id="operDeptCd"></select></td>
+                        	<th>고지업체</th>
+                            <td>
+                                <input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20" readonly> <button id="popupEntrpsInfo">업체</button>
+                            </td>
+                            <th>고지기간</th>
+                            <td>
+                            	<input id="sGrUsagePdFrom" type="text" class="emdcal" size="10">
+                            	 ~ 
+                            	<input id="sGrUsagePdTo" type="text" class="emdcal" size="10">
+                            </td>
                         </tr>
-                         -->
                     </tbody>
                 </table>
             </form>
@@ -141,28 +224,25 @@ var module_instance = new GamCmpyRecvStsInqireModule();
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="cmpyRecvStsInqireList" style="display:none" class="fillHeight"></table>
-<<<<<<< .mine
-=======               
->>>>>>> .theirs                <div class="emdControlPanel">
+                <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
                             <td>
                                <form id="form1">
-                       합계
-                       자료수 <input id="totSumCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
-                       사용료 <input id="totSumFee" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+			                        합계
+			                        자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
+			                        고지금액 <input id="sumNticAmtSum" type="text" size="14" style="text-align:right;" readonly>원 
+                                    수납금액 <input id="sumRcvdAmtSum" type="text" size="14" style="text-align:right;" readonly>원 
+                                    수납금액 <input id="sumNotRcvdAmtSum" type="text" size="14" style="text-align:right;" readonly>원 
                                </form>
                             </td>
-                            <!-- 
                             <td>
-                                <button id="saveNticListBtn">고지의뢰</button>
-                                <button id="cancelNticListBtn">고지취소</button>
+                                <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+                       			<button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
                             </td>
-                            -->
                         </tr>
                     </table>
-                       <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
-                       <button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
+                       
                 </div>
             </div>
     </div>

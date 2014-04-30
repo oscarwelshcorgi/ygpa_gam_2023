@@ -17,70 +17,159 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamCmpyRecvStsInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
-    /** 수납일from */
-    private String sRcivDtFrom;
+    /** 항코드 */
+    private String sPrtAtCode;
 	
-    /** 수납일 to */
-    private String sRcivDtTo;
-
-    private String totSumCnt;
+    /** 고지업체 */
+    private String sEntrpscd;
     
-    private String totSumFee;
+    /** 요금종류 */
+    private String sChrgeKnd;
     
+    /** 고지기간 시작일 */
+    private String sGrUsagePdFrom;
+    
+    /** 고지기간 종료일 */
+    private String sGrUsagePdTo;
+    
+    /** 디스플레이 자료수 */
+    private String dpTotCnt;
+    
+    /** 고지금액합계 */
+    private String sumNticAmtSum;
+    
+    /** 수납금액합계 */
+    private String sumRcvdAmtSum;
+    
+    /** 미수납금액합계 */
+    private String sumNotRcvdAmtSum;
+
 	/**
-	 * @return the totSumCnt
+	 * @return the sPrtAtCode
 	 */
-	public String getTotSumCnt() {
-		return totSumCnt;
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
 	}
 
 	/**
-	 * @param totSumCnt the totSumCnt to set
+	 * @param sPrtAtCode the sPrtAtCode to set
 	 */
-	public void setTotSumCnt(String totSumCnt) {
-		this.totSumCnt = totSumCnt;
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
 	}
 
 	/**
-	 * @return the totSumFee
+	 * @return the sEntrpscd
 	 */
-	public String getTotSumFee() {
-		return totSumFee;
+	public String getsEntrpscd() {
+		return sEntrpscd;
 	}
 
 	/**
-	 * @param totSumFee the totSumFee to set
+	 * @param sEntrpscd the sEntrpscd to set
 	 */
-	public void setTotSumFee(String totSumFee) {
-		this.totSumFee = totSumFee;
+	public void setsEntrpscd(String sEntrpscd) {
+		this.sEntrpscd = sEntrpscd;
 	}
 
 	/**
-	 * @return the sRcivDtFrom
+	 * @return the sChrgeKnd
 	 */
-	public String getsRcivDtFrom() {
-		return sRcivDtFrom;
+	public String getsChrgeKnd() {
+		return sChrgeKnd;
 	}
 
 	/**
-	 * @param sRcivDtFrom the sRcivDtFrom to set
+	 * @param sChrgeKnd the sChrgeKnd to set
 	 */
-	public void setsRcivDtFrom(String sRcivDtFrom) {
-		this.sRcivDtFrom = sRcivDtFrom;
+	public void setsChrgeKnd(String sChrgeKnd) {
+		this.sChrgeKnd = sChrgeKnd;
 	}
 
 	/**
-	 * @return the sRcivDtTo
+	 * @return the sGrUsagePdFrom
 	 */
-	public String getsRcivDtTo() {
-		return sRcivDtTo;
+	public String getsGrUsagePdFrom() {
+		return sGrUsagePdFrom;
 	}
 
 	/**
-	 * @param sRcivDtTo the sRcivDtTo to set
+	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
 	 */
-	public void setsRcivDtTo(String sRcivDtTo) {
-		this.sRcivDtTo = sRcivDtTo;
+	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
+		this.sGrUsagePdFrom = sGrUsagePdFrom;
 	}
+
+	/**
+	 * @return the sGrUsagePdTo
+	 */
+	public String getsGrUsagePdTo() {
+		return sGrUsagePdTo;
+	}
+
+	/**
+	 * @param sGrUsagePdTo the sGrUsagePdTo to set
+	 */
+	public void setsGrUsagePdTo(String sGrUsagePdTo) {
+		this.sGrUsagePdTo = sGrUsagePdTo;
+	}
+
+	/**
+	 * @return the dpTotCnt
+	 */
+	public String getDpTotCnt() {
+		return dpTotCnt;
+	}
+
+	/**
+	 * @param dpTotCnt the dpTotCnt to set
+	 */
+	public void setDpTotCnt(String dpTotCnt) {
+		this.dpTotCnt = dpTotCnt;
+	}
+
+	/**
+	 * @return the sumNticAmtSum
+	 */
+	public String getSumNticAmtSum() {
+		return sumNticAmtSum;
+	}
+
+	/**
+	 * @param sumNticAmtSum the sumNticAmtSum to set
+	 */
+	public void setSumNticAmtSum(String sumNticAmtSum) {
+		this.sumNticAmtSum = sumNticAmtSum;
+	}
+
+	/**
+	 * @return the sumRcvdAmtSum
+	 */
+	public String getSumRcvdAmtSum() {
+		return sumRcvdAmtSum;
+	}
+
+	/**
+	 * @param sumRcvdAmtSum the sumRcvdAmtSum to set
+	 */
+	public void setSumRcvdAmtSum(String sumRcvdAmtSum) {
+		this.sumRcvdAmtSum = sumRcvdAmtSum;
+	}
+
+	/**
+	 * @return the sumNotRcvdAmtSum
+	 */
+	public String getSumNotRcvdAmtSum() {
+		return sumNotRcvdAmtSum;
+	}
+
+	/**
+	 * @param sumNotRcvdAmtSum the sumNotRcvdAmtSum to set
+	 */
+	public void setSumNotRcvdAmtSum(String sumNotRcvdAmtSum) {
+		this.sumNotRcvdAmtSum = sumNotRcvdAmtSum;
+	}
+    
+	
     
 }

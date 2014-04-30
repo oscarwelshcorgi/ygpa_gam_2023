@@ -116,8 +116,10 @@ public class GamCmpyRecvStsInqireController {
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
     	
-    	map.put("totSumCnt", resultSum.getTotSumCnt());
-    	map.put("totSumFee", resultSum.getTotSumFee());
+    	map.put("dpTotCnt", resultSum.getDpTotCnt());
+    	map.put("sumRcvdAmtSum", resultSum.getSumRcvdAmtSum());
+    	map.put("sumNticAmtSum", resultSum.getSumNticAmtSum());
+    	map.put("sumNotRcvdAmtSum", resultSum.getSumNotRcvdAmtSum());
     	
     	return map;
     }
