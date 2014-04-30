@@ -37,7 +37,7 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'항코드', name:'prtAtCode',width:100, sortable:false,align:'center'},              
-					{display:'항코드명', name:'prtAtcodeNm',width:100, sortable:false,align:'center'},              
+					{display:'항코드명', name:'prtAtCodeNm',width:100, sortable:false,align:'center'},              
 					{display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},         
 					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'center'},           
 					{display:'회계년도', name:'accnutYear',width:100, sortable:false,align:'center'},         

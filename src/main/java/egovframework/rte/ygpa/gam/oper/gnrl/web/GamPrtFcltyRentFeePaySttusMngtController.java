@@ -145,8 +145,9 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
     	totalCnt = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtList(searchVO);
     	
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList()); 
     	
     	//자료수, 사용료, 부가세, 고지액
     	GamPrtFcltyRentFeePaySttusMngtVO resultSum = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtSum(searchVO);
