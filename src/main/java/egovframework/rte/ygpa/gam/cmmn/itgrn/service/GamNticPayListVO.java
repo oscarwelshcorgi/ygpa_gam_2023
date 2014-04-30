@@ -47,6 +47,10 @@ public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	/** 연체고지금액 */
 	private String sumDlyBillAmnt;
 	
+	private String feeTp;
+	
+	private String billNo;
+	
 	/**
 	 * @return the prtAtCode
 	 */
@@ -234,5 +238,33 @@ public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	 */
 	public void setSumDlyBillAmnt(String sumDlyBillAmnt) {
 		this.sumDlyBillAmnt = sumDlyBillAmnt;
+	}
+
+	/**
+	 * @return the feeTp
+	 */
+	public String getFeeTp() {
+		return feeTp;
+	}
+
+	/**
+	 * @param feeTp the feeTp to set
+	 */
+	public void setFeeTp(String feeTp) {
+		this.feeTp = feeTp;
+	}
+
+	/**
+	 * @return the billNo
+	 */
+	public String getBillNo() {
+		return billNo;
+	}
+
+	/**
+	 * @param billNo the billNo to set
+	 */
+	public void setBillNo(String billNo) {
+		this.billNo = billNo;
 	}
 }

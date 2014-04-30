@@ -37,8 +37,6 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"일련번호",					name:"intSeq",				width:60,		sortable:false,		align:"center"},
-				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
 				{display:"청코드", 	 				name:"prtAtCode",			width:50,		sortable:false,		align:"center"},
 				{display:"요금종류",					name:"feeTp",				width:60,		sortable:false,		align:"center"},
 				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
@@ -92,8 +90,6 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"일련번호",					name:"intSeq",				width:100,		sortable:false,		align:"center"},
-				{display:"처리구분",	 				name:"delKind",				width:60,		sortable:false,		align:"center"},
 				{display:"청코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
 				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
 				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
@@ -133,7 +129,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#nticPayListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
-		var detailInput = {intSeq:row["intSeq"]};
+		var detailInput = {prtAtCode:row["prtAtCode"],feeTp:row["feeTp"],fiscalYr:row["fiscalYr"],billNo:row["billNo"]};
 		module.doAction('<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />', detailInput, function(module, result) {
 			
 			this.$('#delayNticPayList').flexOptions({params:detailInput}).flexReload();

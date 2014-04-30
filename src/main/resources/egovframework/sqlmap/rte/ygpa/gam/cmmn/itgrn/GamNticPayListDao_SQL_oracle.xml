@@ -28,14 +28,7 @@
 				       FROM 
 							(
 							SELECT 
-								T1.INT_SEQ
-								,(
-									CASE WHEN T1.DEL_KIND='1' THEN '고지'
-									WHEN T1.DEL_KIND='2' THEN '고지취소'
-									WHEN T1.DEL_KIND='3' THEN '수납'
-									WHEN T1.DEL_KIND='4' THEN '수납취소' END
-								) AS DEL_KIND
-								,T1.PRT_AT_CODE
+								T1.PRT_AT_CODE
 								,T1.FEE_TP
 								,T1.FISCAL_YR
 								,T1.BILL_NO
@@ -44,27 +37,31 @@
 								,T1.AGENT_NAME
 								,T1.BILL_AMNT
 								,T1.VAT
-								,TO_CHAR(T1.BILL_DT,'YYYY-MM-DD') AS BILL_DT
+								,T1.BILL_DT
 								,T1.BILL_PRT_YN
 								,T1.AMNT_RSN
-								,TO_CHAR(T1.DUE_DATE,'YYYY-MM-DD') AS DUE_DATE
-								,(
-									CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세'
-									WHEN T1.VAT_YN='1' THEN '영세'
-									WHEN T1.VAT_YN='2' THEN '과세'
-									WHEN T1.VAT_YN='3' THEN '교부면제영세' END
+								,T1.DUE_DATE
+								,(CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세'
+								       WHEN T1.VAT_YN='1' THEN '영세'
+								       WHEN T1.VAT_YN='2' THEN '과세'
+								       WHEN T1.VAT_YN='3' THEN '교부면제영세' END
 								) AS VAT_YN
-								,TO_CHAR(T1.FIRST_BILL_DT,'YYYY-MM-DD') AS FIRST_BILL_DT
-								,T1.RCVD_TP
-								,TO_CHAR(T1.RCVD_DT,'YYYY-MM-DD') AS RCVD_DT
+								,T1.FIRST_BILL_DT
+								,T1.RCVD_DT
 								,T1.EXMP_AMNT
 								,T1.DC_AMNT
 								,T1.DC_CODE
 								,T1.DC_RATE
 								,T1.RECPT_EPDT
 								,T1.LAST
-								,TO_CHAR(T1.STR_DATE,'YYYY-MM-DD') AS STR_DATE
-								,TO_CHAR(T1.END_DATE,'YYYY-MM-DD') AS END_DATE
+								,(CASE WHEN T1.RCVD_TP='0' THEN '미납'
+								       WHEN T1.RCVD_TP='1' THEN '연체'
+								       WHEN T1.RCVD_TP='2' THEN '연체수납'
+								       WHEN T1.RCVD_TP='3' THEN '수납'
+								       WHEN T1.RCVD_TP='4' THEN '불납' END
+								) AS RCVD_TP
+								,T1.STR_DATE
+								,T1.END_DATE
 								,T1.FAC_CODE
 								,T1.FAC_SUB_CODE
 								,T1.BILL_COUNT
@@ -72,26 +69,25 @@
 								,T3.FEE_TP_KOR_NM
 								,T2.FAC_KOR_NM
 							FROM 
-								PAYEOSU.ERP_REV_COLL_F@YGPA_PORTMIS T1
+								PAYEOSU.REV_COLL_F@YGPA_PORTMIS T1
 							LEFT OUTER JOIN 
 								P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 							ON 
-								(
-									T1.PRT_AT_CODE=T4.PRT_AT_CODE
-								)
+								(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
 							LEFT OUTER JOIN 
 								PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
 							ON 
 								(
-									T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.FEE_TP=T3.FEE_TP
+								T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+								AND T1.FEE_TP=T3.FEE_TP
 								)
 							LEFT OUTER JOIN 
 								P2MGR.FACIL_NM_F@YGPA_P2MGR T2 
 							ON 
 								(
-									T1.PRT_AT_CODE=T2.PRT_AT_CODE AND 
-									T1.FAC_CODE=T2.FAC_CODE AND 
-									T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
+								T1.PRT_AT_CODE=T2.PRT_AT_CODE 
+								AND T1.FAC_CODE=T2.FAC_CODE 
+								AND T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
 								)
 							WHERE 1 = 1 
 							
@@ -121,8 +117,6 @@
 				                <isNotEmpty property="nticno">
 				                    AND T1.BILL_NO = #nticno#
 				                </isNotEmpty>
-
-								AND T1.SYSTEM_GUBUN='02'
 								
 							ORDER BY 
 								T1.BILL_DT
@@ -136,26 +130,25 @@
             SELECT 
             	COUNT(*) totcnt
 			FROM 
-				PAYEOSU.ERP_REV_COLL_F@YGPA_PORTMIS T1
+				PAYEOSU.REV_COLL_F@YGPA_PORTMIS T1
 			LEFT OUTER JOIN 
 				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 			ON 
-				(
-					T1.PRT_AT_CODE=T4.PRT_AT_CODE
-				)
+				(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
 			LEFT OUTER JOIN 
 				PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
 			ON 
 				(
-					T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.FEE_TP=T3.FEE_TP
+				T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+				AND T1.FEE_TP=T3.FEE_TP
 				)
 			LEFT OUTER JOIN 
 				P2MGR.FACIL_NM_F@YGPA_P2MGR T2 
 			ON 
 				(
-					T1.PRT_AT_CODE=T2.PRT_AT_CODE AND 
-					T1.FAC_CODE=T2.FAC_CODE AND 
-					T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
+				T1.PRT_AT_CODE=T2.PRT_AT_CODE 
+				AND T1.FAC_CODE=T2.FAC_CODE 
+				AND T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
 				)
 			WHERE 1 = 1 
 			
@@ -186,7 +179,6 @@
                     AND T1.BILL_NO = #nticno#
                 </isNotEmpty>
 
-				AND T1.SYSTEM_GUBUN='02'
     </select>
     
     
@@ -196,26 +188,25 @@
             	,TRIM(TO_CHAR(NVL(SUM(T1.BILL_AMNT),0), '999,999,999,999')) AS SUM_BILL_AMNT 
             	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN T1.RCVD_TP = 2 OR T1.RCVD_TP = 3 THEN T1.BILL_AMNT END),0), '999,999,999,999')) AS SUM_RCVD_AMNT 
 			FROM 
-				PAYEOSU.ERP_REV_COLL_F@YGPA_PORTMIS T1
+				PAYEOSU.REV_COLL_F@YGPA_PORTMIS T1
 			LEFT OUTER JOIN 
 				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 			ON 
-				(
-					T1.PRT_AT_CODE=T4.PRT_AT_CODE
-				)
+				(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
 			LEFT OUTER JOIN 
 				PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
 			ON 
 				(
-					T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.FEE_TP=T3.FEE_TP
+				T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+				AND T1.FEE_TP=T3.FEE_TP
 				)
 			LEFT OUTER JOIN 
 				P2MGR.FACIL_NM_F@YGPA_P2MGR T2 
 			ON 
 				(
-					T1.PRT_AT_CODE=T2.PRT_AT_CODE AND 
-					T1.FAC_CODE=T2.FAC_CODE AND 
-					T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
+				T1.PRT_AT_CODE=T2.PRT_AT_CODE 
+				AND T1.FAC_CODE=T2.FAC_CODE 
+				AND T1.FAC_SUB_CODE=T2.FAC_SUB_CODE
 				)
 			WHERE 1 = 1 
 			
@@ -246,7 +237,6 @@
                     AND T1.BILL_NO = #nticno#
                 </isNotEmpty>
 
-				AND T1.SYSTEM_GUBUN='02'
     </select>
     
     
@@ -258,14 +248,7 @@
 				         FROM 
 				              (
 								SELECT 
-									T1.INT_SEQ
-									,(
-										CASE WHEN T1.DEL_KIND='1' THEN '고지'
-										WHEN T1.DEL_KIND='2' THEN '고지취소'
-										WHEN T1.DEL_KIND='3' THEN '수납'
-										WHEN T1.DEL_KIND='4' THEN '수납취소' END
-									) AS DEL_KIND
-									,T1.PRT_AT_CODE
+									T1.PRT_AT_CODE
 									,T1.FEE_TP
 									,T1.FISCAL_YR
 									,T1.BILL_NO
@@ -291,9 +274,7 @@
 								LEFT OUTER JOIN 
 									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 								ON 
-									(
-									T1.PRT_AT_CODE=T4.PRT_AT_CODE
-									)
+									(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
 								LEFT OUTER JOIN 
 									PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
 								ON 
@@ -304,16 +285,24 @@
 								LEFT OUTER JOIN 
 									P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 								ON 
-									(
-									T1.AGENT_CODE=T2.AGENT_CODE
-									)
+									(T1.AGENT_CODE=T2.AGENT_CODE)
 								WHERE 1=1 
 								
-									<isNotEmpty property="intSeq">
-					                    AND T1.INT_SEQ = #intSeq#
+									<isNotEmpty property="prtAtCode">
+					                    AND T1.PRT_AT_CODE = #prtAtCode#
 					                </isNotEmpty>
-
-									AND T1.SYSTEM_GUBUN='02'
+					                
+					                <isNotEmpty property="feeTp">
+					                    AND T1.FEE_TP = #feeTp#
+					                </isNotEmpty>
+					                
+					                <isNotEmpty property="fiscalYr">
+					                    AND T1.FISCAL_YR = #fiscalYr#
+					                </isNotEmpty>
+					                
+					                <isNotEmpty property="billNo">
+					                    AND T1.BILL_NO = #billNo#
+					                </isNotEmpty>
 									
 								ORDER BY 
 									T1.DLY_BILL_DT
@@ -331,9 +320,7 @@
 				LEFT OUTER JOIN 
 					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 				ON 
-					(
-					T1.PRT_AT_CODE=T4.PRT_AT_CODE
-					)
+					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
 				LEFT OUTER JOIN 
 					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
 				ON 
@@ -344,16 +331,24 @@
 				LEFT OUTER JOIN 
 					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 				ON 
-					(
-					T1.AGENT_CODE=T2.AGENT_CODE
-					)
+					(T1.AGENT_CODE=T2.AGENT_CODE)
 				WHERE 1=1 
 				
-					<isNotEmpty property="intSeq">
-	                    AND T1.INT_SEQ = #intSeq#
+					<isNotEmpty property="prtAtCode">
+	                    AND T1.PRT_AT_CODE = #prtAtCode#
 	                </isNotEmpty>
-
-					AND T1.SYSTEM_GUBUN='02'
+	                
+	                <isNotEmpty property="feeTp">
+	                    AND T1.FEE_TP = #feeTp#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="fiscalYr">
+	                    AND T1.FISCAL_YR = #fiscalYr#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="billNo">
+	                    AND T1.BILL_NO = #billNo#
+	                </isNotEmpty>
 
     </select>
     
@@ -366,9 +361,7 @@
 				LEFT OUTER JOIN 
 					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 				ON 
-					(
-					T1.PRT_AT_CODE=T4.PRT_AT_CODE
-					)
+					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
 				LEFT OUTER JOIN 
 					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
 				ON 
@@ -379,16 +372,24 @@
 				LEFT OUTER JOIN 
 					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 				ON 
-					(
-					T1.AGENT_CODE=T2.AGENT_CODE
-					)
+					(T1.AGENT_CODE=T2.AGENT_CODE)
 				WHERE 1=1 
 				
-					<isNotEmpty property="intSeq">
-	                    AND T1.INT_SEQ = #intSeq#
+					<isNotEmpty property="prtAtCode">
+	                    AND T1.PRT_AT_CODE = #prtAtCode#
 	                </isNotEmpty>
-
-					AND T1.SYSTEM_GUBUN='02'
+	                
+	                <isNotEmpty property="feeTp">
+	                    AND T1.FEE_TP = #feeTp#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="fiscalYr">
+	                    AND T1.FISCAL_YR = #fiscalYr#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="billNo">
+	                    AND T1.BILL_NO = #billNo#
+	                </isNotEmpty>
     </select>
 
     
