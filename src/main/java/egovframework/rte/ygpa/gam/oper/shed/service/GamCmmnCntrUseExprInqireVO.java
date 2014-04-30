@@ -209,6 +209,17 @@ public class GamCmmnCntrUseExprInqireVO extends ComDefaultVO {
     /** 신청일자 */
     private String reqstDt;
     
+    /** 검색조건 */
+    private String searchAssetsCd;
+    
+    /** 검색조건 */
+    private String searchAssetsSubCd;
+
+
+    /** 총감면사용료 */
+    private String sumGrRdcxptFee;
+    
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -1103,6 +1114,48 @@ public class GamCmmnCntrUseExprInqireVO extends ComDefaultVO {
 	 */
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the searchAssetsCd
+	 */
+	public String getSearchAssetsCd() {
+		return searchAssetsCd;
+	}
+
+	/**
+	 * @param searchAssetsCd the searchAssetsCd to set
+	 */
+	public void setSearchAssetsCd(String searchAssetsCd) {
+		this.searchAssetsCd = searchAssetsCd;
+	}
+
+	/**
+	 * @return the searchAssetsSubCd
+	 */
+	public String getSearchAssetsSubCd() {
+		return searchAssetsSubCd;
+	}
+
+	/**
+	 * @param searchAssetsSubCd the searchAssetsSubCd to set
+	 */
+	public void setSearchAssetsSubCd(String searchAssetsSubCd) {
+		this.searchAssetsSubCd = searchAssetsSubCd;
+	}
+
+	/**
+	 * @return the sumGrRdcxptFee
+	 */
+	public String getSumGrRdcxptFee() {
+		return sumGrRdcxptFee;
+	}
+
+	/**
+	 * @param sumGrRdcxptFee the sumGrRdcxptFee to set
+	 */
+	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
+		this.sumGrRdcxptFee = sumGrRdcxptFee;
 	}
 	
 }
