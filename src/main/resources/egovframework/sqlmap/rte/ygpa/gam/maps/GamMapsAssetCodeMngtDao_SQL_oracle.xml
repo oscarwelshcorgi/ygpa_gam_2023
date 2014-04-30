@@ -139,9 +139,9 @@
 		</select>
 
 	   <select id="gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseSummary" parameterClass="hashMap" resultClass="egovMap">
-				SELECT MAX(GAC.GIS_ASSETS_AR) GIS_ASSETS_AR ,
-				  SUM(ARD.USAGE_AR) TOTAL_AR ,
-				  SUM(ARD.FEE)
+				SELECT MAX(nvl(GAC.GIS_ASSETS_AR, 0)) GIS_ASSETS_AR ,
+				  SUM(nvl(ARD.USAGE_AR, 0)) TOTAL_AR ,
+				  SUM(nvl(ARD.FEE, 0)) TOTAL_FEE
 				FROM GIS_ASSETS_CD_F GAC ,
 				  ASSETS_RENT_DETAIL_F ARD
 				WHERE 1                        = 1
