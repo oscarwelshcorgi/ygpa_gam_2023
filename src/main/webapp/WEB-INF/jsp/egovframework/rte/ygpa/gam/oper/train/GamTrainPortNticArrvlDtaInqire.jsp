@@ -36,52 +36,40 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/train/gamSelectTrainPortNticArrvlDtaInqireList.do" />',
         dataType: 'json',
         colModel : [
+					{display:'항코드', name:'prtAtCode',width:70, sortable:false,align:'center'},
+					{display:'항명', name:'prtAtCodeNm',width:90, sortable:false,align:'center'},
+					{display:'관리번호', name:'rentMngNo',width:90, sortable:false,align:'center'},
+					{display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},
+					{display:'요금종류명', name:'chrgeKndNm',width:150, sortable:false,align:'center'},
+					{display:'회계년도', name:'accnutYear',width:70, sortable:false,align:'center'},
 					{display:'고지번호', name:'nticno',width:70, sortable:false,align:'center'},
-					{display:'고지시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},
-					{display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
-					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},
-					{display:'업체명', name:'entrpsNm',width:170, sortable:false,align:'center'},
-					{display:'업체코드', name:'entrpscd',width:90, sortable:false,align:'center'},
-					{display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
-					{display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
-					{display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
-					{display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
-					{display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
-					{display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-					{display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-					{display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
-					{display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
-					//{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
-					{display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
-
-                    /*
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-                    {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                    {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
-                    {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
-                    {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},
-                    {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},
-                    {display:'문서 번호', name:'docNo',width:60, sortable:false,align:'center'},
-                    {display:'비고', name:'rm',width:60, sortable:false,align:'center'},
-                    {display:'코멘트', name:'cmt',width:60, sortable:false,align:'center'},
-                    {display:'기타', name:'etc',width:60, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:60, sortable:false,align:'center'},
-                    {display:'등록일시', name:'registDt',width:60, sortable:false,align:'center'},
-                    {display:'수정자', name:'updUsr',width:60, sortable:false,align:'center'},
-                    {display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},
-                    {display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},
-                    {display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},
-                    {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'},
-                    {display:'납부방법', name:'payMth',width:60, sortable:false,align:'center'}
-                    */
+					{display:'고지횟수', name:'nticCnt',width:70, sortable:false,align:'center'},
+					{display:'사용로', name:'fee',width:150, sortable:false,align:'right'},
+					{display:'부가세', name:'vat',width:100, sortable:false,align:'right'},
+					{display:'과세구분', name:'vatYn',width:60, sortable:false,align:'center'},
+					{display:'고지금액', name:'nticAmt',width:150, sortable:false,align:'right'},
+					{display:'고지업체코드', name:'entrpscd',width:100, sortable:false,align:'center'},
+					{display:'고지업체명', name:'entrpsNm',width:100, sortable:false,align:'center'},
+					{display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
+					{display:'사용시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},
+					{display:'사용종료일', name:'nticPdTo',width:100, sortable:false,align:'center'},
+					{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
+					{display:'신청구분', name:'reqstSeCdNm',width:70, sortable:false,align:'center'},
+					{display:'총면적', name:'grAr',width:100, sortable:false,align:'center'},
+					{display:'총사용료', name:'grFee',width:150, sortable:false,align:'right'},
+					{display:'신청일자', name:'reqstDt',width:100, sortable:false,align:'center'},
+					{display:'최초신청일자', name:'frstReqstDt',width:100, sortable:false,align:'center'},
+					{display:'최초승낙일자', name:'frstPrmisnDt',width:100, sortable:false,align:'center'},
+					{display:'승낙일자', name:'prmisnDt',width:100, sortable:false,align:'center'},
+					{display:'총사용시작일', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
+					{display:'총사용종료일', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
+					{display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#totalArea').val(data.sumGrAr);
-            module.$('#totalUse').val(data.sumGrFee);
-
+            module.$('#totalNticAmt').val(data.totalNticAmt);
             return data;
         }
     });
@@ -1153,21 +1141,21 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             <td>
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
+                            <th>관리번호</th>
+                            <td>
+                                <!-- <input id="sMngYear" type="text" style="width:30px">-<input id="sMngNo" type="text" style="width:23px">-<input id="sMngCnt" type="text" style="width:15px"> -->
+                                <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
                             </td>
                             <th>신청업체</th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
-                            <th>관리번호</th>
-                            <td>
-                                <!-- <input id="sMngYear" type="text" style="width:30px">-<input id="sMngNo" type="text" style="width:23px">-<input id="sMngCnt" type="text" style="width:15px"> -->
-                                <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="3"> <input id="sMngCnt" type="text" size="2">
+                            <th>신청구분</th>
+                            <td width="100px">
+                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
                             </td>
                             
                             <!-- 
@@ -1183,7 +1171,10 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             
                             <th>요금종류</th>
                             <td>
-                                <input id="xxx" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
+                                <!--<input id="xxx" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />-->
+                                <input id="sChrgeKnd" type="text" size="3"> 
+                                <input id="sChrgeKndNm" type="text" size="8"> 
+                                <button id="popupChrgeKndCd">요금</button>         
                             </td>
                             
                             <th>고지도래기간</th>
@@ -1211,7 +1202,7 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
         <div id="trainPortNticArrvlDtaInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">철송장임대(고지도래) 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">철송장임대(고지도래) 내역</a></li>
+                <li><a href="#tabs2" class="emdTab">철송장임대 내역</a></li>
                 <!-- <li><a href="#tabs3" class="emdTab">철송장임대 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li> -->
             </ul>
@@ -1226,8 +1217,7 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                                <form id="form1">
                                    합계 :
                                    자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
-                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" style="text-align:right;" readonly>
-                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" style="text-align:right;" readonly>원
+                                   고지금액 <input id="totalNticAmt" type="text" size="15" class="ygpaCurrency" style="text-align:right;" readonly>원
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
