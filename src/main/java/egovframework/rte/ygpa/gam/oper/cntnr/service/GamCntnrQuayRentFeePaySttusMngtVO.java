@@ -179,6 +179,11 @@ public class GamCntnrQuayRentFeePaySttusMngtVO extends ComDefaultVO {
     /** 고지방법 */
     private String sNticMth;
     
+	/** 검색조건 */
+    private String sGrUsagePdFrom;
+    
+    /** 검색조건 */
+    private String sGrUsagePdTo;
     
     /******* 세입징수 ********/
 
@@ -1531,6 +1536,34 @@ public class GamCntnrQuayRentFeePaySttusMngtVO extends ComDefaultVO {
 	 */
 	public void setDpTotCnt(String dpTotCnt) {
 		this.dpTotCnt = dpTotCnt;
+	}
+
+	/**
+	 * @return the sGrUsagePdFrom
+	 */
+	public String getsGrUsagePdFrom() {
+		return sGrUsagePdFrom;
+	}
+
+	/**
+	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
+	 */
+	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
+		this.sGrUsagePdFrom = sGrUsagePdFrom;
+	}
+
+	/**
+	 * @return the sGrUsagePdTo
+	 */
+	public String getsGrUsagePdTo() {
+		return sGrUsagePdTo;
+	}
+
+	/**
+	 * @param sGrUsagePdTo the sGrUsagePdTo to set
+	 */
+	public void setsGrUsagePdTo(String sGrUsagePdTo) {
+		this.sGrUsagePdTo = sGrUsagePdTo;
 	}
 	
 }
