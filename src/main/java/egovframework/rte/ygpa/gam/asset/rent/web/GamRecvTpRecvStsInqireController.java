@@ -117,8 +117,9 @@ public class GamRecvTpRecvStsInqireController {
     	map.put("searchOption", searchVO);
     	
     	map.put("totSumCnt", resultSum.getTotSumCnt());
-    	map.put("totSumNickAmt", resultSum.getTotSumNickAmt());
-    	map.put("totSumDscntAmt", resultSum.getTotSumDscntAmt());
+    	map.put("totSumNticAmt", resultSum.getTotSumNticAmt());
+    	map.put("totSumRcvdAmt", resultSum.getTotSumRcvdAmt());
+    	map.put("totSumNotRcvdAmt", resultSum.getTotSumNotRcvdAmt());
     	return map;
     }
 }

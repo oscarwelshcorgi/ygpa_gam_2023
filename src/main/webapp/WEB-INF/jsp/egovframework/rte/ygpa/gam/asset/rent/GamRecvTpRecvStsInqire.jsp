@@ -25,7 +25,7 @@
  */
 function GamRecvTpRecvStsInqireModule() {}
 
-GamRecvTpRecvStsInqireModule.prototype = new EmdModule(800, 600);
+GamRecvTpRecvStsInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
@@ -36,9 +36,13 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/rent/gamSelectRecvTpRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'center'},
-				 {display:'금액', name:'sumNticAmt',width:150, sortable:false,align:'center'},
-				 {display:'할인금액', name:'sumDscntAmt',width:150, sortable:false,align:'center'}
+                 {display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},
+                 {display:'요금종류명', name:'chrgeKndNm',width:120, sortable:false,align:'center'},
+                 {display:'사용료', name:'sumFee',width:120, sortable:false,align:'right'},
+                 {display:'부가세', name:'sumVat',width:120, sortable:false,align:'right'},
+                 {display:'고지금액', name:'sumNticAmt',width:120, sortable:false,align:'right'},
+                 {display:'수납금액', name:'sumRcvdAmt',width:120, sortable:false,align:'right'},
+                 {display:'미수납금액', name:'sumNotRcvdAmt',width:120, sortable:false,align:'right'}
                  ],
      usepager: true,
      useRp: true,
@@ -47,14 +51,40 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
      height: '290',
      preProcess: function(module,data) {
          module.$('#totSumCnt').val(data.totSumCnt);
-         module.$('#totSumNickAmt').val(data.totSumNickAmt);
-         module.$('#totSumDscntAmt').val(data.totSumDscntAmt);
-
-         module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-         
+         module.$('#totSumNticAmt').val(data.totSumNticAmt);
+         module.$('#totSumRcvdAmt').val(data.totSumRcvdAmt);
+         module.$('#totSumNotRcvdAmt').val(data.totSumNotRcvdAmt);
          return data;
  	}
  });
+ 
+//오늘로 텍스트박스 날짜 정의
+	var today = new Date();
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+
+	var serchday = today.getDate();
+	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
+	
+	today.setMonth(today.getMonth() - 1);
+	
+	serchYr = today.getFullYear();
+	serchMn = today.getMonth() + 1;
+	if(serchMn < 10){
+		serchMn = "0" + serchMn;
+	}
+	serchday = today.getDate();
+	
+	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
+
+	this.$("#sGrUsagePdFrom").val(searchStartDate);
+	this.$("#sGrUsagePdTo").val(searchEndDate);
+
 };
 
 /**
@@ -135,24 +165,31 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>수납일</th>
+                            <th>항구분</th>
                             <td>
-                                <input id="sRcivDtFrom" type="text" class="emdcal" size="5"> ~
-                                <input id="sRcivDtTo" type="text" class="emdcal" size="5">
+                            	<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
-                            <th>업체</th>
+                            <th>고지업체</th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="5">
                                 <input id="sEntrpsNm" type="text" size="8" readonly>
                                 <button id="popupEntrpsInfo">업체</button>
                             </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
-                            <th>관리부서</th>
-                            <td><input id="mngDeptCd" class="ygpaDeptSelect"></select></td>
-                            <th>운영부서</th>
-                            <td><input id="operDeptCd" class="ygpaDeptSelect"></select></td>
+                            <th>요금종류</th>
+                            <td>
+                                <input id="sChrgeKnd" type="text" size="3"> 
+                                <input id="sChrgeKndNm" type="text" size="8"> 
+                                <button id="popupChrgeKndCd">요금</button>         
+                            </td>
+                            <th>고지기간</th>
+                            <td>
+                                <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                                size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -168,29 +205,27 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="recvTpRecvStsInqireList" style="display:none" class="fillHeight"></table>
-<<<<<<< .mine
-=======               
->>>>>>> .theirs                <div class="emdControlPanel">
+             	<div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
                             <td>
                                <form id="form1">
                                                    합계
                        				자료수 <input id="totSumCnt" size="15" style="text-align:right;" readonly>
-					                        총금액 <input id="totSumNickAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                       				총할인금액 <input id="totSumDscntAmt" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
+					                        고지금액 <input id="totSumNticAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+					                        수납금액 <input id="totSumRcvdAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
+					                        미수납금액 <input id="totSumNotRcvdAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
                                </form>
                             </td>
-                            <!-- 
+                            
                             <td>
-                                <button id="saveNticListBtn">고지의뢰</button>
-                                <button id="cancelNticListBtn">고지취소</button>
+                                <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+                       			<button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
                             </td>
-                            -->
+                            
                         </tr>
                     </table>
-                       <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
-                       <button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
+                       
                 </div>
             </div>
     </div>
