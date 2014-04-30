@@ -155,8 +155,8 @@
      <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtSum_S" parameterClass="gamCntnrQuayRentFeePaySttusMngtVO" resultMap="gamCntnrQuayRentFeePaySttusMngtSumMap">
             SELECT 
                TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) DP_TOT_CNT
-               , TRIM(TO_CHAR(NVL(SUM(T1.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMNT
-               , TRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.RCVD_TP IN ('2','3') THEN S.NTIC_AMT END),0), '999,999,999,999')) SUM_RCVD_AMNT
+               , TRIM(TO_CHAR(NVL(SUM(S.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMNT
+               , TRIM(TO_CHAR(NVL(SUM(CASE WHEN S.RCVD_TP IN ('2','3') THEN S.NTIC_AMT END),0), '999,999,999,999')) SUM_RCVD_AMNT
               FROM (
                            SELECT T1.PRT_AT_CODE
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
