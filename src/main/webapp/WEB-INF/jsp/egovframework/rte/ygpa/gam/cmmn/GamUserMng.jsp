@@ -57,7 +57,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', {uniqId: row["uniqId"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
-			var zipSet = result.userManageVO.zip.substring(0,3) + "-" + result.userManageVO.zip.substring(3); 
+			var zipSet = result.userManageVO.zip.substring(0,3) + "-" + result.userManageVO.zip.substring(3);
 
 			module.$("#uniqId").val(result.userManageVO.uniqId);													// 사용자 고유 ID
 			module.$("#emplyrId").val(result.userManageVO.emplyrId);												// 사용자 ID
@@ -86,7 +86,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			module.$("#insttCode").val(result.userManageVO.insttCode).attr("selected","selected");					// 소속기관 코드
 			module.$("#emplyrSttusCode").val(result.userManageVO.emplyrSttusCode).attr("selected","selected");		// 사용자상태 코드
 			module.$("#subDn").val(result.userManageVO.subDn);														// 사용자 DN
-			
+
 			module.$("#checkId").val("ok");
 	 	});
 	});
@@ -123,7 +123,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#emplyrId").focus();
 			this.$("#checkId").val("");
 		break;
-			
+
 		// 중복아이디 검색
 		case "checkUserId":
 			if(this.$("#emplyrId").val() == ""){
@@ -177,9 +177,9 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 				alert("아이디 체크를 해주세요.");
 				return;
 			}
-			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));			
+			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
 			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
-			
+
 			var inputVO = this.makeFormArgs("#userManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
@@ -216,10 +216,10 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 					 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
 			 		alert(result.resultMsg);
-			 	});				
+			 	});
 			}
 		break;
-		
+
 		// 우편번호 검색
 		case "searchZipBtn":
 			this.doExecuteDialog("searcpZipcodePopup", "우편번호조회팝업", '<c:url value="/cmmn/popup/gamPopupSearchZipView.do"/>', {});
@@ -248,19 +248,19 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
  * 팝업 close 이벤트
  */
  GamUserMngListModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
 		case "searcpZipcodePopup":
 			this.$("#homeadres").val(value["address"]);
 			this.$("#zip").val(value["zip"]);
 		break;
-	
+
 		case "changePassWordPopup":
 			if(msg != "cancel"){
-				alert("변경되었습니다.");	
+				alert("변경되었습니다.");
 			}
 		break;
-	
+
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			throw 0;
@@ -320,7 +320,7 @@ var module_instance = new GamUserMngListModule();
 					<input type="hidden" id="uniqId" />
 					<table class="searchPanel">
 			            <tr>
-			                <th width="15%" height="23" class="required_text">사용자 아아디</th>
+			                <th width="15%" height="23">사용자 아아디</th>
 			                <td colspan="3">
 			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />
 			                    &nbsp;&nbsp;<button id="checkUserId">중복아이디 검색</button>
@@ -328,11 +328,11 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="15%" height="23" class="required_text">사용자이름</th>
+			                <th width="15%" height="23">사용자이름</th>
 			                <td width="35%">
-			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" maxlength="60" />
+			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" maxlength="60"  data-required="true" />
 			                </td>
-			                <th width="15%" height="23" class="required_text">집전화번호</th>
+			                <th width="15%" height="23">집전화번호</th>
 			                <td width="35%">
 			                    <input id="areaNo" title="areaNo" size="4" maxlength="4" />
 			                    - <input title="homemiddleTelno" id="homemiddleTelno" size="4" maxlength="4" />
@@ -340,9 +340,9 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="15%" height="23" class="required_text">비밀번호</th>
+			                <th width="15%" height="23">비밀번호</th>
 			                <td width="35%" >
-			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" />
+			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" data-required="true"/>
 			                </td>
 			                <th width="15%" height="23" class="required_text">사무실전화번호&nbsp;&nbsp;</th>
 			                <td width="35%" >
@@ -352,17 +352,17 @@ var module_instance = new GamUserMngListModule();
 			            <tr>
 			                <th width="15%" height="23" class="required_text">비밀번호확인</th>
 			                <td width="35%" >
-			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20" />
+			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20"  data-required="true" />
 			                </td>
-			                <th width="15%" height="23" class="required_text">팩스번호&nbsp;&nbsp;</th>
+			                <th width="15%" height="23">팩스번호&nbsp;&nbsp;</th>
 			                <td width="35%" >
 			                    <input id="fxnum" title="팩스번호" size="20" maxlength="15" />
-			                </td>			                
+			                </td>
 			            </tr>
 			            <tr>
-			                <th width="15%" height="23" class="required_text">비밀번호힌트</th>
+			                <th width="15%" height="23">비밀번호힌트</th>
 			                <td width="35%" >
-			                    <select id="passwordHint" title="비밀번호힌트">
+			                    <select id="passwordHint" title="비밀번호힌트"  data-required="true">
 			                    	<c:forEach varStatus="var" items="${passwordHint_result}" var="result">
 				                    	<option value="${result.code}" label="${result.codeNm}"/>
 			                    	</c:forEach>
@@ -374,21 +374,21 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			            </tr>
 			            <tr>
-			                <th width="15%" height="23" class="required_text">비밀번호정답</th>
+			                <th width="15%" height="23">비밀번호정답</th>
 			                <td width="35%" >
-			                    <input id="passwordCnsr" title="비밀번호정답" size="50" maxlength="100" />
+			                    <input id="passwordCnsr" title="비밀번호정답" size="50" maxlength="100"  data-required="true" />
 			                </td>
-			                <th width="15%" height="23" class="required_text">
+			                <th width="15%" height="23">
 			                    이메일주소
 			                </th>
 			                <td width="35%">
-			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50" />
+			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50"   data-required="true"/>
 			                </td>
 			            </tr>
 			            <tr>
 			                <th width="15%" height="23" class="required_text">소속기관코드&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <select id="insttCode" title="소속기관코드">
+			                    <select id="insttCode" title="소속기관코드"  data-required="true">
 				                    <c:forEach varStatus="var" items="${insttCode_result}" var="result">
 				                    	<option value="${result.code}" label="${result.codeNm}"/>
 			                    	</c:forEach>

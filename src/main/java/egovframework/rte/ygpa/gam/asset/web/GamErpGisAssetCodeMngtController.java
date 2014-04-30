@@ -211,7 +211,7 @@ public class GamErpGisAssetCodeMngtController {
 		searchVO.setRecordCountPerPage(9999);
 
 		/** List Data */
-    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+//    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
 
     	List gamAssetList = erpAssetCdService.selectErpAssetCdList(searchVO);
 

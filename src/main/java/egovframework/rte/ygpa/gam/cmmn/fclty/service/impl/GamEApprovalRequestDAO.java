@@ -10,6 +10,10 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 @Repository("gamEApprovalRequestDAO")
 public class GamEApprovalRequestDAO extends YGPAAbstractDAO {
 
+	public String selectEApprovalTno() {
+        return (String)selectByPk("gamEApprovalRequestDAO.selectEApprovalTno_S", null);
+	}
+
 	public String sendEApprovalAssetUsePermRequest(Map<String, Object> vo) {
         return (String)insert("gamEApprovalRequestDAO.sendEApprovalAssetUsePermRequest_S", vo);
 	}

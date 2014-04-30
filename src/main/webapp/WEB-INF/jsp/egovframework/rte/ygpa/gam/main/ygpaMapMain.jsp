@@ -621,6 +621,7 @@
 	<p><img alt="로딩중 입니다." style="width:100%; height:10px;" src="<c:url value='/images/egovframework/rte/progress.gif' />" /></p>
 </div>
 <div id="__templateXls" style="display:none;"></div>
+<div id="__tempDiv" style="display:none;"></div>
 <div id="file_upload_dialog" title="업로드 파일">
 <form id="fileupload" method="POST" enctype="multipart/form-data">
 	<input name="type" type="hidden" value="genericFileMulti"/>

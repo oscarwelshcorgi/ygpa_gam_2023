@@ -54,6 +54,7 @@ public class GamEAprovalRequestController {
      */
     @RequestMapping(value="/cmmn/fclty/openApprovalRequest.do")
     String showAssetsCd(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String tNo;
     	model.addAttribute("searchOpt", approvalOpt);
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -70,14 +71,11 @@ public class GamEAprovalRequestController {
 	    		approvalOpt.put("misKeyValue", "GAMARCNF");
 	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
 	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
-	    		if(loginVo.getIp()==null) {
-	    			approvalOpt.put("regIp", "127.0.0.1");
-	    		}
-	    		else {
-	    			approvalOpt.put("regIp", loginVo.getIp());
-	    		}
+    			approvalOpt.put("regIp", loginVo.getIp());
 
-	    		gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+	    		tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+	    		model.addAttribute("tNo", tNo);
+	    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
 	    		model.addAttribute("resultCode", 0);
 	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
 	    	}
@@ -91,7 +89,9 @@ public class GamEAprovalRequestController {
 	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
 	    		approvalOpt.put("regIp", loginVo.getIp());
 
-	    		gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+	    		tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+	    		model.addAttribute("tNo", tNo);
+	    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
 	    		model.addAttribute("resultCode", 0);
 	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
 	    	}

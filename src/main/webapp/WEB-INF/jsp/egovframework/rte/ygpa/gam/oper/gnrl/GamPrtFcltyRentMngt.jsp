@@ -1206,13 +1206,13 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 				this.$('#searchGisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
 				this.$('#searchGisAssetsCd').val(row['gisAssetsCd']);
 				this.$('#searchGisAssetsSubCd').val(row['gisAssetsSubCd']);
-	
+
 				this._tempGisPrtAtCd=row['gisAssetsPrtAtCode'];
 				this._tempGisAssetsCd=row['gisAssetsCd'];
 				this._tempGisAssetsSubCd=row['gisAssetsSubCd'];
-	
+
 				this._edited=true;
-	
+
 			}
 			else {
 				alert('파일을 업로드 하기 전에 저장된 GIS 자산 목록을 선택 하십시요.');
@@ -1220,18 +1220,18 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 			}
             var selectRow = this.$('#prtFcltyRentMngtList').selectedRows();
             var row = null;
-            
+
             if(selectRow.length > 0) {
             	row = selectRow[0];
-            		
+
             }
-            
-         	 
+
+
             this._tempPhotoSj = this.$('#photoSj').val();
             this._tempPhotoDesc = this.$('#photoDesc').val();
             this._tempShotDt = this.$('#shotDt').val();
             this._tempRnum = this.$("#prtFcltyRentMngtFileList").flexGetData().length + 1;
-            
+
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
@@ -1239,17 +1239,17 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-             		module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I', 
-             			prtAtCode: '', 
-             			mngYear: '', 
-             			mngNo: '', 
-             			mngCnt: '', 
-						photoSeq: '', 
+             		module.$('#prtFcltyRentMngtFileList').flexAddRow({_updtId:'I',
+             			prtAtCode: '',
+             			mngYear: '',
+             			mngNo: '',
+             			mngCnt: '',
+						photoSeq: '',
 						rnum: module._tempRnum,
-						photoSj: module._tempPhotoSj, 
-						filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, 
-						shotDt: module._tempShotDt, 
-						photoDesc: module._tempPhotoDesc, 
+						photoSj: module._tempPhotoSj,
+						filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm,
+						shotDt: module._tempShotDt,
+						photoDesc: module._tempPhotoDesc,
 						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 					//2014-4-22 변경
                 });
@@ -1333,25 +1333,25 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 
                 if( confirm("결재요청을 하시겠습니까?") ) {
 	                var opts = {
-	                        type: 'ARUC',
+	                        type: 'PFUC',
 	                        prtAtCode: rows['prtAtCode'],
 	                        mngYear: rows['mngYear'],
 	                        mngNo: rows['mngNo'],
 	                        mngCnt: rows['mngCnt']
 	                };
-	                this.requestEApproval(opts);
+	                this.requestEApproval(opts, function(module, data) {
+	                	alert("결재요청을 하였습니다.");
+		                var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
+		                module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	                });
 
-	                alert("결재요청을 하였습니다.");
-
-	                var searchOpt=module.makeFormArgs('#gamPrtFcltyRentMngtForm');
-	                module.$('#prtFcltyRentMngtList').flexOptions({params:searchOpt}).flexReload();
                 }
             } else {
             	alert("목록에서 결제할 건을 선택하십시오.");
             	return;
             }
             break;
-            
+
         case 'btnDownloadFile':
     		var selectRow = this.$('#prtFcltyRentMngtFileList').selectedRows();
     		if(selectRow.length > 0) {
@@ -1359,11 +1359,11 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
     			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
     		}
     		break;
-            
-            
+
+
     }
-    
-    
+
+
 };
 
 GamPrtFcltyRentMngtModule.prototype.onSubmit = function() {

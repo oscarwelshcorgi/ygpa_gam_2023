@@ -74,6 +74,10 @@
 		AND    MNG_CNT            = #mngCnt#
     </update>
 
+    <select id="gamEApprovalRequestDAO.selectEApprovalTno_S" resultClass="java.lang.String">
+    	select TO_CHAR(SYSDATE, 'YYYYMMDDHHMISS') T_NO from dual
+    </select>
+
     <insert id="gamEApprovalRequestDAO.sendEApprovalAssetUsePermRequest_S">
         INSERT INTO GWCALL_FWD_IF (
             T_NO,
@@ -89,7 +93,7 @@
 			TEST_EA
 		)
         VALUES (
-        	TO_CHAR(SYSDATE, 'YYYYMMDDHHMISS'),
+        	#tNo#,
              #empCd#,
              'GAM',
              #docId#,

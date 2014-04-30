@@ -29,6 +29,6 @@ public interface GamEApprovalRequestService {
 	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류)
 	 * @throws Exception
 	 */
-	public void sendEApprovalAssetUsePermRequest(Map<String, Object> vo) throws Exception;
+	public String sendEApprovalAssetUsePermRequest(Map<String, Object> vo) throws Exception;
 
 }

@@ -100,10 +100,10 @@
 		<property name="defaultErrorView" value="egovframework/com/cmm/error/egovError"/>
 		<property name="exceptionMappings">
 			<props>
-				<prop key="org.springframework.dao.DataAccessException">egovframework/com/cmm/error/dataAccessFailure</prop>
-				<prop key="org.springframework.transaction.TransactionException">egovframework/com/cmm/error/dataAccessFailure</prop>
-				<prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">egovframework/com/cmm/error/egovBizException</prop>
-				<prop key="org.springframework.web.HttpSessionRequiredException">egovframework/com/uat/uia/EgovLoginUsr</prop>
+				<prop key="org.springframework.dao.DataAccessException">ygpa/cmm/error/dataAccessFailure</prop>
+				<prop key="org.springframework.transaction.TransactionException">ygpa/cmm/error/dataAccessFailure</prop>
+				<prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">ygpa/cmm/error/egovBizException</prop>
+				<prop key="org.springframework.web.HttpSessionRequiredException">ygpa/cmm/error/egovHttpSessionException</prop>
 			</props>
 		</property>
 	</bean>

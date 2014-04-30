@@ -19,11 +19,14 @@ public class GamEApprovalRequestServiceImpl extends AbstractServiceImpl
     private GamEApprovalRequestDAO gamEApprovalRequestDAO;
 
 	@Override
-	public void sendEApprovalAssetUsePermRequest(Map<String, Object> vo)
+	public String sendEApprovalAssetUsePermRequest(Map<String, Object> vo)
 			throws Exception {
+		String tNo=gamEApprovalRequestDAO.selectEApprovalTno();
+		vo.put("tNo", tNo);
 		gamEApprovalRequestDAO.sendEApprovalAssetUsePermRequest(vo);	// 결재 정보를 입력 한다.
 		vo.put("sanctnSttus", "2");
 		gamEApprovalRequestDAO.updateAssetRentSanctn(vo);	// 결재 요청 중 코드 삽입
+		return tNo;
 	}
 
 }

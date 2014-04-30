@@ -773,7 +773,7 @@ var module_instance = new GamAssetCodeModule();
 				<table id="erpAssetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="addAssetGisCd">자산등록</button>
-					<button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+					<button class="buttonExcel" data-flexi-grid="erpAssetCodeList" data-url="<c:url value='/asset/selectErpAssetCodeListExcel.do' />">엑셀</button>
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">

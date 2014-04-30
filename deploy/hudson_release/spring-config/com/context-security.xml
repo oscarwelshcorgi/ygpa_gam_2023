@@ -92,11 +92,12 @@
 		<intercept-url pattern="\A/image/.*\Z" filters="none" />
 		<intercept-url pattern="\A/css/.*\Z" filters="none" />
 		<intercept-url pattern="\A/common/.*\Z" filters="none" />
+		<intercept-url pattern="\A/uat/uia/.*\Z" filters="none" />
 	    <!-- debug -->
 		<intercept-url pattern="\A/ygpa/sym/mpm/.*\Z" filters="none" />
         <form-login login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/uat/uia/YGLoginUsr.do?login_error=1"
-                    default-target-url="/uat/uia/YGActionLogin.do"
+                    default-target-url="/main/gamMain.do"
                     login-page="/uat/uia/YGLoginUsr.do" />
         <anonymous/>
         <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/YGLoginUsr.do" />

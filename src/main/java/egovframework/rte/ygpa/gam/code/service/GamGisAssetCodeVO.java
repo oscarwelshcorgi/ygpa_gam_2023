@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.code.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @Class Name : GamAssetDisUseMngtVO.java
  * @Description : 자산폐기등록 VO class
@@ -12,6 +14,7 @@ package egovframework.rte.ygpa.gam.code.service;
  *
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
     private static final long serialVersionUID = 1L;
 
