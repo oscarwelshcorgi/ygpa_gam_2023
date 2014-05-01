@@ -145,7 +145,7 @@ GamOlnlpInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) 
 		}
 		else {
 			this.$('#lbGisAssetsPrtAtCode').text(row[0].gisAssetsPrtAtCode);
-			this.$('#lbGisAssetsPrtAtNm').text(row[0].gisAssetsPrtAtName);
+			this.$('#lbGisAssetsPrtAtCodeNm').text(row[0].gisAssetsPrtAtName);
 			this.$('#lbGisAssetsTotCd').text(row[0].gisAssetsTotCd);
 			this.$('#lbGisAssetsNm').text(row[0].gisAssetsNm);
 			this.$('#lbGisAssetsLocplc').text(row[0].gisAssetsLocplc);
