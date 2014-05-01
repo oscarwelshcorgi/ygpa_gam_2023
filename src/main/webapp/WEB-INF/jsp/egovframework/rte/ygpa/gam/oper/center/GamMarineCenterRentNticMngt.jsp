@@ -44,6 +44,8 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
 					{display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},                          
 					{display:'고지횟수', name:'nticCnt',width:100, sortable:false,align:'center'},          
 					{display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},            
+					{display:'고지업체코드', name:'entrpscd',width:100, sortable:false,align:'center'},
+					{display:'고지업체명', name:'entrpsNm',width:100, sortable:false,align:'center'},
 					{display:'사용시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},         
 					{display:'사용종료일', name:'nticPdTo',width:100, sortable:false,align:'center'},               
 					{display:'사용료', name:'fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},         
@@ -95,6 +97,9 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
 	}
 
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
 	
 	today.setMonth(today.getMonth() - 1);
@@ -105,6 +110,9 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
 		serchMn = "0" + serchMn;
 	}
 	serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
 

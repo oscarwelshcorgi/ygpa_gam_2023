@@ -153,8 +153,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
                     */
                     ],
-        showTableToggleBtn: false,
-        height: 'auto'
+        showTableToggleBtn: true,
+        height: '120'
     });
 
     // 첨부파일 테이블 설정
@@ -1524,16 +1524,16 @@ var module_instance = new GamAssetRentMngtModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+            <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
                 <div class="emdControlPanel"></div>
                     <form id="gamAssetRentForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
 
-                        <table>
+                        <table border=1>
                             <tr>
                                 <th><span class="label">항구분</span></th>
-                                <td style="width: 350px">
+                                <td style="width: 350px"  colspan="3">
                                     <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
                                     <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
@@ -1550,7 +1550,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">신청업체</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
@@ -1562,7 +1562,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
-                                <td>
+                                <td  colspan="3">
                                     <select id="prmisnYn" disabled>
                                         <option value="">선택</option>
                                         <option value="Y">Y</option>
@@ -1579,7 +1579,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
+                                <td colspan="3"><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                                 <th><span class="label">총사용료</span></th>
                                 <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
                                 <th><span class="label">총감면사용료</span></th>
@@ -1587,8 +1587,12 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
-                                <td>
+                                <td style="width: 100px">
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                </td>
+                                <th style="width: 80px"><span class="label">고지 방법</span></th>
+                                <td style="width: 230px">
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
                                 </td>
                                 <th><span class="label">분납이자율</span></th>
                                 <td colspan="3">
@@ -1602,32 +1606,17 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="label">고지 방법</span></th>
-                                <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
-                                </td>
+                                <th><span class="label">코멘트</span></th>
+                                <td colspan="3"><input type="text" size="40" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm" maxlength="90"/></td>
+                                <td colspan="3"><input type="text" size="40" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
-                                <th><span class="label">코멘트</span></th>
-                                <td colspan="5"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
+                                
                             </tr>
                         </table>
                     </form>
 
-                <!--
-                <div style="vertical-align: bottom; text-align: right;">
-                    <input type="reset" value="취소" class="input_1"> <input
-                        type="submit" value="저장" class="input_1">
-                </div>
-                 -->
-
-                 <table>
-                    <tr>
-                        <td height="30"></td>
-                    </tr>
-                 </table>
                  <table class="searchPanel">
                     <tbody>
                     <tr>
