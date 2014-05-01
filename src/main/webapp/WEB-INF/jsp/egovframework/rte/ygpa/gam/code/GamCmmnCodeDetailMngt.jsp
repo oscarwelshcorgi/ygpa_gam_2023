@@ -191,7 +191,7 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 								</select>
 							</td>
 							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="70" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>

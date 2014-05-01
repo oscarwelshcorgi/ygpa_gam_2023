@@ -58,7 +58,7 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 			module.$("#clCode").attr("disabled","disabled");				// 분류코드
 	 	});
 	});
-	
+
 	this.$("#cmmnCodeClMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmmnCodeClMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
@@ -96,9 +96,9 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-			
+
 			if(!validateGamCodeClMngt(this.$("#cmmnCodeClManageVO")[0])) return;
-			
+
 		 	var inputVO = this.makeFormArgs("#cmmnCodeClManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/code/gamCmmnClCodeRegist.do" />', inputVO, function(module, result) {
@@ -174,7 +174,7 @@ var module_instance = new GamCmmnCodeClMngtModule();
 								</select>
 							</td>
 							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="70" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn" class="submit">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -188,7 +188,7 @@ var module_instance = new GamCmmnCodeClMngtModule();
 				<li><a href="#tabs1" class="emdTab">분류코드목록</a></li>
 				<li><a href="#tabs2" class="emdTab">분류코드상세</a></li>
 			</ul>
-			
+
 			<!-- 목록 탭 -->
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="cmmnCodeClMngList" style="display:none" class="fillHeight"></table>
@@ -196,7 +196,7 @@ var module_instance = new GamCmmnCodeClMngtModule();
 					<button id="addBtn">추가</button>
 				</div>
 			</div>
-			
+
 			<!-- 저장 및 상세 탭 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmmnCodeClManageVO" style="height:370px;">
