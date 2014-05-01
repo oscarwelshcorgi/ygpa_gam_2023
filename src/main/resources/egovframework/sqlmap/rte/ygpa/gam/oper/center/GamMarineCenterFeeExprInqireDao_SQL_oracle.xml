@@ -164,8 +164,8 @@
                              FROM LEV_REQEST_F A,
                                   ASSETS_RENT_F B
                             WHERE 1 = 1
-                             AND A.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND A.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                              AND A.PRT_AT_CODE = B.PRT_AT_CODE
                              AND A.MNG_YEAR    = B.MNG_YEAR
                              AND A.MNG_NO      = B.MNG_NO
@@ -250,8 +250,8 @@
                              FROM LEV_REQEST_F A,
                                   ASSETS_RENT_F B
                             WHERE 1 = 1
-                             AND A.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND A.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                              AND A.PRT_AT_CODE = B.PRT_AT_CODE
                              AND A.MNG_YEAR    = B.MNG_YEAR
                              AND A.MNG_NO      = B.MNG_NO
@@ -336,8 +336,8 @@
                              FROM LEV_REQEST_F A,
                                   ASSETS_RENT_F B
                             WHERE 1 = 1
-                             AND A.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND A.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                              AND A.PRT_AT_CODE = B.PRT_AT_CODE
                              AND A.MNG_YEAR    = B.MNG_YEAR
                              AND A.MNG_NO      = B.MNG_NO
