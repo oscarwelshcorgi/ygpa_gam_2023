@@ -113,7 +113,7 @@ public class GamAssetRentfeePayDtlsInqireController {
     	totalCnt = gamAssetRentfeePayDtlsInqireService.selectAssetRentfeePayDtlsInqireListTotCnt(searchVO);
     	List assetRentList = gamAssetRentfeePayDtlsInqireService.selectAssetRentfeePayDtlsInqireList(searchVO);
     	
-    	//요금합계, 고지금액합계
+    	//자료수 고지금액 수납금액합계
     	GamAssetRentfeePayDtlsInqireVO resultSum = gamAssetRentfeePayDtlsInqireService.selectAssetRentfeePayDtlsInqireSum(searchVO);
     	
     	
@@ -124,9 +124,9 @@ public class GamAssetRentfeePayDtlsInqireController {
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
     	
-    	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
-    	map.put("sumFee", resultSum.getSumFee());
-    	map.put("dpTotCnt", resultSum.getDpTotCnt());
+    	map.put("totSumCnt", resultSum.getTotSumCnt());
+    	map.put("totSumNticAmt", resultSum.getTotSumNticAmt());
+    	map.put("totSumRcvdAmt", resultSum.getTotSumRcvdAmt());
     	
     	return map;
     }
