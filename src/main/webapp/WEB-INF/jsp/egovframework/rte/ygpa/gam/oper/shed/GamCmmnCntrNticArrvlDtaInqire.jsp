@@ -132,7 +132,7 @@ GamCmmnCntrNticArrvlDtaInqireModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '115'
     });
 
     // 첨부파일 테이블 설정
@@ -1244,7 +1244,7 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <div class="emdControlPanel"></div>
+                <!--<div class="emdControlPanel"></div>-->
                     <form id="gamCmmnCntrNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -1263,15 +1263,13 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">관리번호</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">신청업체</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <!-- <button id="popupEntrpsInfoInput">업체조회</button>  -->
@@ -1322,11 +1320,9 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm" disabled/></td>
-                            </tr>
-                            <tr>
+                                <td><input type="text" size="50" id="rm" disabled/></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt" disabled/><!-- <button id="btnSaveComment">코멘트저장</button></td>  -->
+                                <td><input type="text" size="50" id="cmt" disabled/><!-- <button id="btnSaveComment">코멘트저장</button></td>  -->
                             </tr>
                         </table>
                     </form>
@@ -1340,7 +1336,7 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
 
                  <table>
                     <tr>
-                        <td height="30"></td>
+                        <td height="10"></td>
                     </tr>
                  </table>
                  <table class="searchPanel">
