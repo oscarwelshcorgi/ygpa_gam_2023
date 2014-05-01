@@ -31,9 +31,16 @@
                            	SELECT 
                            		T1.PRTCD
                            		,CONCAT(CONCAT(SUBSTR(T1.YRMT,1,4),'-'),SUBSTR(T1.YRMT,-2,2)) YRMT
+								, MIN(T2.PRT_KOR_NM) AS PRT_KOR_NM
                            		, TO_CHAR(MAX(T1.UPDT_DT), 'YYYY-MM-DD') MAXUPDT
                            		, COUNT(*) CNT
   								FROM PORT_MIS_COSTVAL_STATS_F T1
+								LEFT OUTER JOIN 
+									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T2 
+								ON 
+									(
+									T1.PRTCD=T2.PRT_AT_CODE
+									)
   								GROUP BY T1.PRTCD, T1.YRMT
 								HAVING 1 = 1 					       
 					        		<isNotEmpty property="prtAtCode">

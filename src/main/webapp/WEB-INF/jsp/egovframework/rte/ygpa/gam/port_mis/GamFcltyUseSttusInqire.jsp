@@ -37,14 +37,15 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         url: '<c:url value="/port_mis/gamSelectFcltyUseSttusInqireList.do" />',
         dataType: 'json',
         colModel : [      
-					{display:'청코드', name:'prtAtCode',width:50, sortable:true,align:'center'},         
+					{display:'항코드', name:'prtAtCode',width:40, sortable:true,align:'center'},         
+					{display:'항코드명', name:'prtKorNm',width:60, sortable:true,align:'center'},  
 					{display:'선석코드', name:'facCode',width:60, sortable:true,align:'center'},                
-					{display:'선석명', name:'facKorNm',width:190, sortable:true,align:'center'},         
-					{display:'요금종류코드', name:'feeTp',width:100, sortable:true,align:'center'},  
-					{display:'요금종류명', name:'feeTpKorNm',width:120, sortable:true,align:'center'},  
+					{display:'선석명', name:'facKorNm',width:180, sortable:true,align:'left'},         
+					{display:'요금종류', name:'feeTp',width:60, sortable:true,align:'center'},  
+					{display:'요금종류명', name:'feeTpKorNm',width:100, sortable:true,align:'left'},  
 					{display:'면제금액', name:'exmpAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},
 					{display:'할인금액', name:'dcAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'},               
-					{display:'고지금액', name:'billAmnt',width:100, sortable:true,align:'right' , displayFormat: 'number'}
+					{display:'고지금액', name:'billAmnt',width:110, sortable:true,align:'right' , displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: '350',
@@ -63,14 +64,17 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 	
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
+	var serchDay = today.getDate();
 	
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
 
-	var serchday = today.getDate();
+	if(serchDay < 10){
+		serchDay = "0" + serchDay;
+	}
 	
-	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+	var displayDate = serchYr + "-" + serchMn + "-" + serchDay;
 
 	this.$("#sGrUsagePdFrom").val(displayDate);
 	this.$("#sGrUsagePdTo").val(displayDate);

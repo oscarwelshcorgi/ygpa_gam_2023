@@ -38,7 +38,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 
 	this._edited=false;	// 편집 상태를 저장 한다.
 
-	this.$('#prtAtCode').val('620');	// 기본 항코드 설정s
+	//this.$('#prtAtCode').val('620');	// 기본 항코드 설정s
 
 	// 테이블 설정
 	this.$("#gamCustTpSalesSttutsCreatList").flexigrid({
@@ -46,10 +46,11 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		url: '<c:url value="/port_mis/selectgamCustTpSalesSttutsCreatList.do"/>',
 		dataType: 'json',
 		colModel : [
-			{display:'항코드', name:'prtcd', width:80, sortable:true, align:'center'},
+			{display:'항코드', name:'prtcd', width:70, sortable:true, align:'center'},
+			{display:'항코드명', name:'prtKorNm', width:75, sortable:true, align:'center'},
 			{display:'년월', name:'yrmt', width:180, sortable:true, align:'center'},
 			{display:'생성일자', name:'maxupdt', width:180, sortable:true, align:'center'},
-			{display:'건수', name:'cnt', width:250, sortable:true, align:'center'}
+			{display:'건수', name:'cnt', width:180, sortable:true, align:'center'}
 			],
 		height: 'auto'
 	});
@@ -64,11 +65,13 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		module: this,
 		url: '<c:url value="/port_mis/selectErpStatisticsList.do"/>',
 		colModel : [
-					{display:'항코드', name:'prtcd', width:60, sortable:true, align:'center'},
-					{display:'업체명', name:'firmKorNm', width:190, sortable:true, align:'center'},
-					{display:'년월', name:'yrmt', width:70, sortable:true, align:'center'},
-					{display:'요금종류코드', name:'chrgekndcd', width:100, sortable:true, align:'center'},
-					{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
+					{display:'항코드', name:'prtcd', width:40, sortable:true, align:'center'},
+					{display:'항코드명', name:'prtKorNm', width:55, sortable:true, align:'center'},
+					{display:'업체코드', name:'entrpscd', width:70, sortable:true, align:'center'},
+					{display:'업체명', name:'firmKorNm', width:150, sortable:true, align:'left'},
+					{display:'년월', name:'yrmt', width:50, sortable:true, align:'center'},
+					{display:'요금종류', name:'chrgekndcd', width:55, sortable:true, align:'center'},
+					{display:'요금종류', name:'feeTpKorNm', width:103, sortable:true, align:'left'},
 					{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
 		height: '350',
@@ -92,12 +95,14 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 		module: this,
 		url: '<c:url value="/port_mis/selectShipErpStatisticsList.do"/>',
 		colModel : [
-				{display:'항코드', name:'prtcd', width:60, sortable:true, align:'center'},
-				{display:'업체명', name:'firmKorNm', width:190, sortable:true, align:'center'},
-				{display:'년월', name:'yrmt', width:70, sortable:true, align:'center'},
-				{display:'요금종류코드', name:'chrgekndcd', width:100, sortable:true, align:'center'},
-				{display:'요금종류', name:'feeTpKorNm', width:120, sortable:true, align:'center'},
-				{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
+					{display:'항코드', name:'prtcd', width:40, sortable:true, align:'center'},
+					{display:'항코드명', name:'prtKorNm', width:55, sortable:true, align:'center'},
+					{display:'업체코드', name:'entrpscd', width:70, sortable:true, align:'center'},
+					{display:'업체명', name:'firmKorNm', width:150, sortable:true, align:'left'},
+					{display:'년월', name:'yrmt', width:50, sortable:true, align:'center'},
+					{display:'요금종류', name:'chrgekndcd', width:55, sortable:true, align:'center'},
+					{display:'요금종류', name:'feeTpKorNm', width:103, sortable:true, align:'left'},
+					{display:'매출액', name:'costval', width:100, sortable:true, align:'right' , displayFormat: 'number'}
 			],
 		height: '350',
 		preProcess: function(module,data) {
