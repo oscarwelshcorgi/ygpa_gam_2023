@@ -81,6 +81,9 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
 	}
 	
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 
