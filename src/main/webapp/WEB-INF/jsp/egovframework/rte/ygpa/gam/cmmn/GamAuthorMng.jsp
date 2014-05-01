@@ -39,8 +39,8 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"권한 ID", 	name:"authorCode",		width:250, 	sortable:false,		align:"left"},
-					{display:"권한명", 	name:"authorNm",		width:140, 	sortable:false,		align:"center"},
-					{display:"설명", 	name:"authorDc",		width:280, 	sortable:false,		align:"center"}
+					{display:"권한명", 	name:"authorNm",		width:140, 	sortable:false,		align:"left"},
+					{display:"설명", 	name:"authorDc",		width:280, 	sortable:false,		align:"left"}
 					],
 		height: "auto",
 	});

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.sec.ram.service.AuthorManageVO;
 import egovframework.com.sec.ram.service.AuthorRoleManage;
 import egovframework.com.sec.ram.service.AuthorRoleManageVO;
+import egovframework.com.sec.ram.service.EgovAuthorManageService;
 import egovframework.com.sec.ram.service.EgovAuthorRoleManageService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -28,7 +30,10 @@ public class GamAuthorRoleMngController {
 	@Resource(name = "egovAuthorRoleManageService")
     private EgovAuthorRoleManageService egovAuthorRoleManageService;
 	
-	
+	@Resource(name = "egovAuthorManageService")
+    private EgovAuthorManageService egovAuthorManageService;
+
+
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -38,7 +43,10 @@ public class GamAuthorRoleMngController {
 	 */
 	@RequestMapping(value="/cmmn/gamAuthorRoleMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    	AuthorManageVO authorManageVO = new AuthorManageVO();
+    	List<AuthorManageVO> AuthorList = egovAuthorManageService.selectAuthorList(authorManageVO);
     	model.addAttribute("windowId", windowId);
+    	model.addAttribute("authorlist", AuthorList);
     	return "/ygpa/gam/cmmn/GamAuthorRoleMng";
     }
 	

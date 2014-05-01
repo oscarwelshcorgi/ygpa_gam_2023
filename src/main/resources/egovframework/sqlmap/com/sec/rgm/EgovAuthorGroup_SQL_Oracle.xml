@@ -61,7 +61,7 @@
                 </isEqual>
             </isNotEmpty>
             <![CDATA[ 
-                    ) ALL_LIST
+                    ) ALL_LIST ORDER BY REG_YN DESC , USER_ID  
                     )
              WHERE  RNUM  > #firstIndex#
                AND  RNUM <= #firstIndex# + #recordCountPerPage#

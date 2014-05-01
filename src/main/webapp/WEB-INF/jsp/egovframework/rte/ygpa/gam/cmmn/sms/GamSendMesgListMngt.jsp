@@ -40,15 +40,18 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'SMS순번', name:'smsSeq',width:50, sortable:false,align:'center'},
-                    {display:'수신번호', name:'recptnNo',width:100, sortable:false,align:'center'},
-                    {display:'회신번호', name:'replyNo',width:100, sortable:false,align:'center'},
-                    {display:'내용', name:'cn',width:150, sortable:false,align:'center'},
-                    {display:'전송일자', name:'trnsmisDt',width:100, sortable:false,align:'center'},
+                    {display:'수신번호', name:'recptnNo',width:90, sortable:false,align:'center'},
+                    {display:'회신번호', name:'replyNo',width:90, sortable:false,align:'center'},
+                    {display:'내용', name:'cn',width:280, sortable:false,align:'left'},
+                    {display:'전송일시', name:'trnsmisDt',width:120, sortable:false,align:'center'},
                     {display:'전송상태', name:'trnsmisSttus',width:60, sortable:false,align:'center'},
-                    {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
-                    {display:'관리번호', name:'mngNo',width:50, sortable:false,align:'center'},
-                    {display:'관리횟수', name:'mngCnt',width:50, sortable:false,align:'center'},
+//                     {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
+//                     {display:'관리번호', name:'mngNo',width:50, sortable:false,align:'center'},
+//                     {display:'관리횟수', name:'mngCnt',width:50, sortable:false,align:'center'},
+                    {display:'항코드', name:'prtAtCode',width:50, sortable:false,align:'center'},
+                    {display:'관리번호', name:'mngYearNoCnt',width:80, sortable:false,align:'center'},
                     {display:'등록자', name:'regUsr',width:80, sortable:false,align:'center'},
+                    {display:'등록일시', name:'registDt',width:120, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -170,7 +173,7 @@ var module_instance = new GamSendMesgListMngtModule();
                             <td>
                                 <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <th>전송기간</th>
+                            <th>등록기간</th>
                             <td>
                                 <input id="searchDTFrom" type="text" class="emdcal"
                                 	size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="searchDTTo" type="text"

@@ -43,10 +43,10 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 		colModel : [
                     {display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
 					{display:"롤 ID", 		name:"roleCode",	width:100, 	sortable:false,		align:"center"},
-					{display:"롤 명", 		name:"roleNm",		width:120, 	sortable:false,		align:"center"},
-					{display:"롤 타입", 		name:"roleTyp",		width:60, 	sortable:false,		align:"center"},
-					{display:"롤 Sort", 		name:"roleSort",	width:80, 	sortable:false,		align:"center"},
-					{display:"롤 설명", 		name:"roleDc",		width:160, 	sortable:false,		align:"center"},
+					{display:"롤 명", 		name:"roleNm",		width:120, 	sortable:false,		align:"left"},
+					{display:"롤 타입", 		name:"roleTyp",		width:40, 	sortable:false,		align:"center"},
+					{display:"롤 Sort", 		name:"roleSort",	width:50, 	sortable:false,		align:"center"},
+					{display:"롤 설명", 		name:"roleDc",		width:190, 	sortable:false,		align:"left"},
 					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
 					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],
@@ -125,8 +125,14 @@ var module_instance = new GamAuthorRoleMngModule();
 					<tbody>
 						<tr>
 							<th>권한코드</th>
-							<td>&nbsp;<input id="searchKeyword" type="text" size="30" title="검색"  /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><select class="select" id=searchKeyword title="searchKeyword">
+								<c:forEach var="result" items="${authorlist}" varStatus="status">
+									<option value='<c:out value="${result.authorCode}"/>'><c:out value="${result.authorCode}"/></option>
+								</c:forEach>
+								</select>
+							</td>
+<!-- 							<td>&nbsp;<input id="searchKeyword" type="text" size="30" title="검색"  /></td> -->
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>

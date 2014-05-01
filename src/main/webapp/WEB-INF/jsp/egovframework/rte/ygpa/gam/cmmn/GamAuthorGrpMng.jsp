@@ -42,9 +42,9 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
-					{display:"사용자 ID", 	name:"userId",		width:100, 	sortable:false,		align:"center"},
-					{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"center"},
-					{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"center"},
+					{display:"사용자 ID", 	name:"userId",		width:100, 	sortable:false,		align:"left"},
+					{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"left"},
+					{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"left"},
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
 					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
 					],
@@ -181,7 +181,7 @@ var module_instance = new GamAuthorGrpMngModule();
 				                </select>
 								<input id="searchKeyword" type="text" size="30" title="검색" />&nbsp;&nbsp;<button id="popupBtn">그룹조회 팝업</button>
 							</td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -192,7 +192,7 @@ var module_instance = new GamAuthorGrpMngModule();
 		<table id="authorGrpMngList" style="display:none" class="fillHeight"></table>
 	</div>
 	<div class="emdControlPanel">
-		<button id="saveBtn">등록</button>
-		<button id="deleteBtn">삭제</button>
+		<button id="saveBtn" class="buttonSave"><span class="ui-icon-save"></span>권한그룹 등록</button>
+		<button id="deleteBtn" class="buttonTrash"><span class="ui-icon-trash"></span>권한그룹 해제</button>
 	</div>
 </div>
