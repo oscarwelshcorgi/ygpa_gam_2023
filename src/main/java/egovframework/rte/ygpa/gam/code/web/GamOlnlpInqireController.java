@@ -147,7 +147,7 @@ public class GamOlnlpInqireController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/gamOlnlpInqireDetailList.do")
-	@ResponseBody Map<String, Object> selectOlnlpMngtList(GamOlnlpFVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectOlnlpInqireList(GamOlnlpFVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 

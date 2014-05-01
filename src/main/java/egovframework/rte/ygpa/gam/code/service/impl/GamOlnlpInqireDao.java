@@ -59,7 +59,7 @@ public class GamOlnlpInqireDao extends YGPAAbstractDAO{
 	 */
 	@SuppressWarnings("unchecked")
 	public List selectOlnlpInqireList(GamOlnlpFVO vo) throws Exception{
-		return list("gamOlnlpInqireDao.selectOlnlpMngtList", vo);
+		return list("gamOlnlpInqireDao.selectOlnlpInqireList", vo);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class GamOlnlpInqireDao extends YGPAAbstractDAO{
 	 * @exception Exception
 	 */
     public int selectOlnlpInqireListTotCnt(GamOlnlpFVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamOlnlpInqireDao.selectOlnlpMngtListTotCnt", vo);
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamOlnlpInqireDao.selectOlnlpInqireListTotCnt", vo);
     }
 
 }
