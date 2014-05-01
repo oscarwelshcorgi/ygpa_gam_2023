@@ -69,7 +69,6 @@ GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
 
 				this.doAction('<c:url value="/cmmn/gamMenuCreatInsert.do" />', {checkedAuthorForInsert:checkedAuthorForInsert, checkedMenuNoForInsert:checkedMenuNoForInsert}, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			alert("OK");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -139,7 +138,7 @@ var popup_instance = new GamMenuCreatPopupModule();
 				<tbody>
 					<tr>
 						<th>권한코드</th>
-						<td><input id="authorCode" type="text" size="20" value="${authorCode}"></td>
+						<td><input id="authorCode" type="text" size="30" value="${authorCode}"></td>
 						<td><button id="selectMenuList" class="submit">조회</button></td>
 					</tr>
 				</tbody>

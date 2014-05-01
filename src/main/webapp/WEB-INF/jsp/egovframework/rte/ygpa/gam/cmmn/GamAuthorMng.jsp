@@ -166,7 +166,7 @@ var module_instance = new GamAuthorMngModule();
 						<tr>
 							<th>권한 명</th>
 							<td>&nbsp;<input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -192,11 +192,11 @@ var module_instance = new GamAuthorMngModule();
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">권한코드</th>
-							<td><input type="text" size="80" id="authorCode" maxlength="30" /></td>
+							<td><input type="text" size="80" id="authorCode" maxlength="30" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">권한명</th>
-							<td><input type="text" size="80" id="authorNm" maxlength="60" /></td>
+							<td><input type="text" size="80" id="authorNm" maxlength="60"data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">설명</th>
@@ -205,7 +205,7 @@ var module_instance = new GamAuthorMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="listBtn">목록</button>
+<!-- 					<button id="listBtn">목록</button> -->
 					<button id="saveBtn">저장</button>
 					<button id="deleteBtn">삭제</button>
 				</div>

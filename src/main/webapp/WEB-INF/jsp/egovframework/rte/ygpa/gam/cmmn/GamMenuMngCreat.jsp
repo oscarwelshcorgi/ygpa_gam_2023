@@ -112,7 +112,7 @@ var module_instance = new GamMenuMngCreateModule();
 						<tr>
 							<th>보안설정대상ID</th>
 							<td>&nbsp;<input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>

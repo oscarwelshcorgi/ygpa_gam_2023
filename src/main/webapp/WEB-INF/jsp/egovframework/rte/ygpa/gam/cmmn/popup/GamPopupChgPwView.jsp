@@ -67,6 +67,22 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 		// 수정
 		case "changeBtn":
 
+			if(this.$("#oldPassword").val() == ""){
+				alert("기존비밀번호를 해주세요.");
+				this.$("#oldPassword").focus();
+				return;
+			}
+			if(this.$("#newPassword").val() == ""){
+				alert("비밀번호를 입력 해주세요.");
+				this.$("#newPassword").focus();
+				return;
+			}
+			if(this.$("#newPassword2").val() == ""){
+				alert("비밀번호 확인를 입력 해주세요.");
+				this.$("#newPassword2").focus();
+				return;
+			}
+			
 			if(this.$('#newPassword').val()!=this.$('#newPassword2').val()) {
 				alert('입력한 암호가 서로 다릅니다.');
 				return;
@@ -80,6 +96,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 			 		}
 			 		else {
 			 			alert(result.resultMsg);
+			 			console.log(result.resultMsg);
 			 			return;
 			 		}
 			 	});				
@@ -95,7 +112,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 		case "closeBtn":
 			this.$("#oldPassword").val("");
 			this.$("#newPassword").val("");
-			this.$("#newPasswor2").val("");
+			this.$("#newPassword2").val("");
 		break;
 
 	}

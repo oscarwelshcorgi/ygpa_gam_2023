@@ -334,7 +334,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<td><input type="text" size="10" id="searchEntrpsCd" maxlength="10" /></td>
 							<th>사업자번호</th>
 							<td><input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -394,7 +394,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 				<div class="emdControlPanel">
 					<button id="chargerAddBtn">추가</button>
 					<button id="chargerDeleteBtn">삭제</button>
-					<button id="saveBtn">업체정보 저장</button>
+					<button id="saveBtn">저장</button>
 				</div>
 			</div>
 			

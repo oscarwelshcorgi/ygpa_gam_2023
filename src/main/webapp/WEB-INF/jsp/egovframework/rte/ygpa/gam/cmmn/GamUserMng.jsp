@@ -57,7 +57,9 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', {uniqId: row["uniqId"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
+			if(result.userManageVO.zip){
 			var zipSet = result.userManageVO.zip.substring(0,3) + "-" + result.userManageVO.zip.substring(3);
+			}
 
 			module.$("#uniqId").val(result.userManageVO.uniqId);													// 사용자 고유 ID
 			module.$("#emplyrId").val(result.userManageVO.emplyrId);												// 사용자 ID
@@ -65,6 +67,9 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			this.$(".displayPassword").show();
 //			module.$("#password").val(result.userManageVO.password);												// 비밀번호
 //			module.$("#password2").val(result.userManageVO.password);												// 비밀번호 확인
+			module.$("#password").hide();												
+			module.$("#password2").hide();												
+			module.$("#tdpassword").hide();												
 			module.$("#passwordHint").val(result.userManageVO.passwordHint).attr("selected","selected");			// 비밀번호 질문
 			module.$("#passwordCnsr").val(result.userManageVO.passwordCnsr);										// 비밀번호 답변
 			module.$("#emplNo").val(result.userManageVO.emplNo);													// 사번
@@ -86,8 +91,10 @@ GamUserMngListModule.prototype.loadComplete = function() {
 			module.$("#insttCode").val(result.userManageVO.insttCode).attr("selected","selected");					// 소속기관 코드
 			module.$("#emplyrSttusCode").val(result.userManageVO.emplyrSttusCode).attr("selected","selected");		// 사용자상태 코드
 			module.$("#subDn").val(result.userManageVO.subDn);														// 사용자 DN
-
+			module.$("#chgPwBtn").show();
 			module.$("#checkId").val("ok");
+			module.$("#saveBtn").hide();
+			module.$("#modifyBtn").show();
 	 	});
 	});
 };
@@ -111,10 +118,17 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		// 추가
 		case "addBtn":
 			this.$("#userMngListTab").tabs("option", {active: 1});
+			this.$("#password").show();												
+			this.$("#password2").show();												
+			this.$("#tdpassword").show();	
 			this.$(".displayPassword").show();
 			this.$("#userManageVO :input").val("");
 			this.$("#cmd").val("insert");
 			this.$("#checkId").val("");
+			this.$("#chgPwBtn").hide();
+			this.$("#emplyrId").removeAttr("disabled");
+			this.$("#saveBtn").show();
+			this.$("#modifyBtn").hide();
 		break;
 
 		// 아이디 입력
@@ -177,6 +191,49 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 				alert("아이디 체크를 해주세요.");
 				return;
 			}
+			if(this.$("#password").val() == ""){
+				alert("비밀번호를 입력 해주세요.");
+				this.$("#password").focus();
+				return;
+			}
+			if(this.$("#password2").val() == ""){
+				alert("비밀번호 확인를 입력 해주세요.");
+				this.$("#password2").focus();
+				return;
+			}
+			if(this.$('#password').val()!=this.$('#password2').val()) {
+				alert('입력한 암호가 서로 다릅니다.');
+				this.$("#password").focus();
+				return;
+			}
+			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
+			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
+
+			var inputVO = this.makeFormArgs("#userManageVO");
+			if(this.$("#cmd").val() == "insert") {
+			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			module.$("#userMngListTab").tabs("option", {active: 0});
+			 			module.$("#userManageVO :input").val("");
+			 			var searchOpt = module.makeFormArgs("#userMngForm");
+					 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}else{
+			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == 0){
+			 			module.$("#userMngListTab").tabs("option", {active: 0});
+			 			module.$("#userManageVO :input").val("");
+			 			var searchOpt = module.makeFormArgs("#userMngForm");
+					 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+			break;
+		case "modifyBtn":
+
 			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
 			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
 
@@ -289,11 +346,11 @@ var module_instance = new GamUserMngListModule();
 				                </select>&nbsp;
 				                <select id="searchCondition" title="검색조건선택2">
 				                    <option value="0">ID</option>
-				                    <option value="1">Name</option>
+				                    <option value="1">사용자이름</option>
 				                </select>&nbsp;
 				                <input id="searchKeyword" type="text" title="검색단어입력" />
 							</td>
-							<td><button id="searchBtn" class="submit">조회</button></td>
+							<td><button id="searchBtn" class="submit buttonSearch" >조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -339,20 +396,20 @@ var module_instance = new GamUserMngListModule();
 			                    - <input title="homeendTelno" id="homeendTelno" size="4" maxlength="4" />
 			                </td>
 			            </tr>
-			            <tr>
+			            <tr id="tdpassword">
 			                <th width="15%" height="23">비밀번호</th>
 			                <td width="35%" >
 			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" data-required="true"/>
 			                </td>
-			                <th width="15%" height="23" class="required_text">사무실전화번호&nbsp;&nbsp;</th>
-			                <td width="35%" >
-			                    <input id="offmTelno" title="사무실전화번호" size="20" maxlength="15" />
-			                </td>
-			            </tr>
-			            <tr>
 			                <th width="15%" height="23" class="required_text">비밀번호확인</th>
 			                <td width="35%" >
 			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20"  data-required="true" />
+			                </td>
+			            </tr>
+			            <tr>
+			                <th width="15%" height="23" class="required_text">사무실전화번호&nbsp;&nbsp;</th>
+			                <td width="35%" >
+			                    <input id="offmTelno" title="사무실전화번호" size="20" maxlength="15" />
 			                </td>
 			                <th width="15%" height="23">팩스번호&nbsp;&nbsp;</th>
 			                <td width="35%" >
@@ -382,7 +439,7 @@ var module_instance = new GamUserMngListModule();
 			                    이메일주소
 			                </th>
 			                <td width="35%">
-			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50"   data-required="true"/>
+			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>
@@ -436,7 +493,7 @@ var module_instance = new GamUserMngListModule();
 			                    그룹아이디
 			                </th>
 			                <td width="35%" >
-			                    <select id="groupId" title="그룹아이디">
+			                    <select id="groupId" title="그룹아이디" data-required="true">
 			                        <c:forEach varStatus="var" items="${groupId_result}" var="result">
 				                    	<option value="${result.code}" label="${result.codeNm}"/>
 			                    	</c:forEach>
@@ -456,26 +513,19 @@ var module_instance = new GamUserMngListModule();
 			                    사용자상태코드
 			                </th>
 			                <td width="35%" >
-			                    <select id="emplyrSttusCode" title="사용자상태코드">
+			                    <select id="emplyrSttusCode" title="사용자상태코드" data-required="true">
 			                        <c:forEach varStatus="var" items="${emplyrSttusCode_result}" var="result">
 				                    	<option value="${result.code}" label="${result.codeNm}"/>
 			                    	</c:forEach>
 			                    </select>
 			                </td>
 			            </tr>
-			            <tr>
-			                <th width="15%" height="23" class="required_text">생일&nbsp;&nbsp;</th>
-			                <td width="35%" >
-			                    <input id="brth" title="생일" size="20" maxlength="8" />
-			                </td>
-			                <th width="15%" height="23" class="required_text">사용자DN&nbsp;&nbsp;</th>
-			                <td width="35%" ><input id="subDn" title="사용자DN" size="40" maxlength="100" /></td>
-			            </tr>
 					</table>
 				</form>
 				<div class="emdControlPanel">
 					<button id="saveBtn">저장</button>
-					<button id="listBtn">목록</button>
+					<button id="modifyBtn" style="display: none">저장</button>
+<!-- 					<button id="listBtn">목록</button> -->
 					<button id="chgPwBtn">암호변경</button>
 					<button id="deleteBtn">삭제</button>
 					<button id="cancelBtn">취소</button>

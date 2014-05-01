@@ -52,7 +52,7 @@ GamProgramSearchPopupModule.prototype.loadComplete = function() {
 
 	this.$("#programSearchPopupList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 
-		module.closeDialog('ok', row["progrmFileNm"]);
+		module.closeDialog('ok', row);
 	});
 };
 

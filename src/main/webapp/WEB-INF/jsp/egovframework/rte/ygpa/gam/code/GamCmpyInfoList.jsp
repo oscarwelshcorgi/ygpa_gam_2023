@@ -346,8 +346,8 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<th>사업자번호</th>
 							<td>
 								<input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/>
-								<button id="searchBtn" style="margin-left:60px">조회</button>
 							</td>
+								<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>

@@ -145,7 +145,7 @@
         </form>
 
         <form name="userManageUpdateVO">
-
+<!-- 
             <field property="emplyrId" depends="required, maxlength">
                 <arg0 key="사용자아이디" resource="false"/>
                 <arg1 key="20" resource="false"/>
@@ -163,11 +163,11 @@
                 <var-value>50</var-value>
                 </var>
             </field>
-                        <!--
+                        
             <field property="password" depends="required, password1, password2, password3, password4">
                 <arg0 key="비밀번호" resource="false"/>
             </field>
-            -->
+           
             <field property="passwordHint" depends="required">
                 <arg0 key="비밀번호힌트" resource="false"/>
             </field>
@@ -180,11 +180,11 @@
                 <var-value>100</var-value>
                 </var>
             </field>
-            <!--
+            
             <field property="ihidnum" depends="required, ihidnum">
                 <arg0 key="주민등록번호" resource="false"/>
             </field>
-            -->
+           
             <field property="areaNo" depends="required, maxlength, integer">
                 <arg0 key="집지역번호" resource="false"/>
                 <arg1 key="4" resource="false"/>
@@ -270,6 +270,7 @@
                 <arg0 key="사용자상태코드" resource="false"/>
             </field>
 
+ -->
             <field property="subDn" depends="maxlength">
                 <arg0 key="사용자DN" resource="false"/>
                 <arg1 key="100" resource="false"/>
@@ -278,7 +279,6 @@
                 <var-value>100</var-value>
                 </var>
             </field>
-
         </form>
 
     </formset>

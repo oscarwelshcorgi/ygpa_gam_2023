@@ -68,7 +68,9 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			module.$("#relateImageNm").val(row["relateImageNm"]);		// 관련이미지명
 			module.$("#relateImagePath").val(row["relateImagePath"]);	// 관련이미지경로
 			module.$("#menuDc").val(row["menuDc"]);						// 메뉴설명
+			module.$("#progrmKoreanNm").val(row["progrmKoreanNm"]);
 			throw 0;
+			
 		}
 	});
 };
@@ -187,7 +189,8 @@ GamMenuMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	
 	switch(popupId){
 		case "selectProgramPopList":
-			this.$("#progrmFileNm").val(value);
+			this.$("#progrmFileNm").val(value.progrmFileNm);
+			this.$("#progrmKoreanNm").val(value.progrmKoreanNm);
 		break;
 	
 		default:
@@ -210,7 +213,7 @@ var module_instance = new GamMenuMngModule();
 						<tr>
 							<th>메뉴 명</th>
 							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -242,20 +245,21 @@ var module_instance = new GamMenuMngModule();
 						</colgroup>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴No</th>
-							<td><input type="text" size="25" id="menuNo" maxlength="20" /></td>
+							<td><input type="text" size="25" id="menuNo" maxlength="20" data-required="true"/></td>
 							<th width="20%" height="23" class="required_text">메뉴순서</th>
-							<td><input type="text" size="25" id="menuOrdr" maxlength="5" /></td>
+							<td><input type="text" size="25" id="menuOrdr" maxlength="5" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴명</th>
-							<td><input type="text" size="25" id="menuNm" maxlength="60" /></td>
+							<td><input type="text" size="25" id="menuNm" maxlength="60" data-required="true"/></td>
 							<th width="20%" height="23" class="required_text">상위메뉴No</th>
 							<td><input type="text" size="25" id="upperMenuId" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">파일명</th>
 							<td colspan="3">
-								<input type="text" size="40" id="progrmFileNm" maxlength="60" disabled="disabled" />&nbsp;&nbsp;
+								<input type="text" size="30" id="progrmFileNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
+								<input type="text" size="30" id="progrmKoreanNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
 								<button id="popupBtn">프로그램파일명 검색</button>
 							</td>
 						</tr>
@@ -272,7 +276,7 @@ var module_instance = new GamMenuMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="listBtn">목록</button>
+<!-- 					<button id="listBtn">목록</button> -->
 					<button id="saveBtn">저장</button>
 					<button id="deleteBtn">삭제</button>
 				</div>

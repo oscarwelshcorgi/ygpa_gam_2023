@@ -33,11 +33,8 @@
 			<isEqual prepend="AND" property="searchCondition" compareValue="2">
 				<![CDATA[A.CODE_ID_NM LIKE '%' || #searchKeyword# || '%']]>
 			</isEqual>
-			<isEqual prepend="AND" property="searchCondition" compareValue="clCode">
+			<isEqual prepend="AND" property="searchCondition" compareValue="3">
 				<![CDATA[A.CL_CODE LIKE '%' || #searchKeyword# || '%']]>
-			</isEqual>
-			<isEqual prepend="AND" property="searchCondition" compareValue="clCode">
-				<![CDATA[A.USE_AT = 'Y']]>
 			</isEqual>
 		<![CDATA[
 			/* 구현 Sql */

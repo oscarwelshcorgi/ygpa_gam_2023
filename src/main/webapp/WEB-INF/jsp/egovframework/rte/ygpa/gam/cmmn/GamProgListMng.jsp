@@ -168,7 +168,7 @@ var module_instance = new GamProgListMngModule();
 						<tr>
 							<th>프로그램 명</th>
 							<td>&nbsp;<input id="searchKeyword" name="searchKeyword" type="text" size="60" /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -194,19 +194,19 @@ var module_instance = new GamProgListMngModule();
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램파일명</th>
-							<td><input type="text" size="80" id="progrmFileNm" maxlength="60" /></td>
+							<td><input type="text" size="80" id="progrmFileNm" maxlength="60" data-required="true"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">한글명</th>
-							<td><input type="text" size="80" id="progrmKoreanNm" maxlength="60" /></td>
+							<th width="20%" height="23" class="required_text"> 한글명</th>
+							<td><input type="text" size="80" id="progrmKoreanNm" maxlength="60" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램경로</th>
-							<td><input type="text" size="80" id="progrmStrePath" maxlength="100" /></td>
+							<td><input type="text" size="80" id="progrmStrePath" maxlength="100" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">URL</th>
-							<td><input type="text" size="80" id="URL" maxlength="100" /></td>
+							<td><input type="text" size="80" id="URL" maxlength="100" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램설명</th>
@@ -216,7 +216,7 @@ var module_instance = new GamProgListMngModule();
 				</form>
 				<div class="emdControlPanel">
 					<button id="saveBtn">저장</button>
-					<button id="listBtn">목록</button>
+<!-- 					<button id="listBtn">목록</button> -->
 					<button id="deleteBtn">삭제</button>
 				</div>
 			</div>

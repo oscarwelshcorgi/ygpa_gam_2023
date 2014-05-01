@@ -19,6 +19,7 @@
 			  FROM  (
 			/* 구현 Sql */
 			SELECT  A.CODE_ID
+				 ,	B.CODE_ID_NM
 			     ,  A.CODE
 			     ,  A.CODE_NM
 			     ,  DECODE(A.USE_AT, 'Y', '사용', '미사용') USE_AT

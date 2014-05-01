@@ -342,12 +342,12 @@ public class GamUserMngController {
         		isCorrectPassword = true;
         	}else{
         		isCorrectPassword = false;
-        		resultMsg="fail.user.passwordUpdate2";
+        		resultMsg=egovMessageSource.getMessage("fail.user.passwordUpdate2");
         		resultCode = "1";
         	}
     	}else{
     		isCorrectPassword = false;
-    		resultMsg="fail.user.passwordUpdate1";
+    		resultMsg=egovMessageSource.getMessage("fail.user.passwordUpdate1");
     		resultCode = "1";
     	}
 

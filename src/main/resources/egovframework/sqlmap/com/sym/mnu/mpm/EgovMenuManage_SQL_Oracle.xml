@@ -16,16 +16,17 @@
 	<select id="menuManageDAO.selectMenuManageList_D" parameterClass="comDefaultVO" resultClass="egovMap">
 		<![CDATA[
 		       SELECT * FROM ( SELECT rownum rn, TB.* FROM (
-					SELECT
-						  MENU_NO           AS "menuNo"
-						, MENU_ORDR         AS "menuOrdr"
-						, MENU_NM           AS "menuNm"
-						, UPPER_MENU_NO     AS "upperMenuId"
-						, MENU_DC           AS "menuDc"
-						, RELATE_IMAGE_PATH AS "relateImagePath"
-						, RELATE_IMAGE_NM   AS "relateImageNm"
-						, PROGRM_FILE_NM    AS "progrmFileNm"
-					FROM COMTNMENUINFO
+					Select A.Menu_No     As "menuNo" ,
+				      A.MENU_ORDR         AS "menuOrdr" ,
+				      A.Menu_Nm           As "menuNm" ,
+				      A.Upper_Menu_No     As "upperMenuId" ,
+				      A.MENU_DC           AS "menuDc" ,
+				      A.Relate_Image_Path As "relateImagePath" ,
+				      A.Relate_Image_Nm   As "relateImageNm" ,
+				      A.Progrm_File_Nm    As "progrmFileNm" ,
+				      B.PROGRM_KOREAN_NM AS "progrmKoreanNm"
+				  	  From Comtnmenuinfo A 
+			   		 LEFT OUTER JOIN COMTNPROGRMLIST B on ( A.Progrm_File_Nm = B.Progrm_File_Nm)
 					WHERE MENU_NM like '%'|| #searchKeyword#||'%'
 		       ) TB )  WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
 		 ]]>
