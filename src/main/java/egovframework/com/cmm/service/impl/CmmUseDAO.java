@@ -1,6 +1,7 @@
 package egovframework.com.cmm.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +28,7 @@ public class CmmUseDAO extends EgovComAbstractDAO {
 
     /**
      * 주어진 조건에 따른 공통코드를 불러온다.
-     * 
+     *
      * @param vo
      * @return
      * @throws Exception
@@ -38,8 +39,30 @@ public class CmmUseDAO extends EgovComAbstractDAO {
     }
 
     /**
+     * 공통코드 목록을 조회한다.
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public List selectCmmClList(Map vo) throws Exception {
+	return list("CmmUseDAO.selectCmmClList", vo);
+    }
+
+    /**
+     * 공통코드 목록을 조회한다.
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public List selectCmmCodeList(Map vo) throws Exception {
+	return list("CmmUseDAO.selectCmmCodeList", vo);
+    }
+
+    /**
      * 공통코드로 사용할 조직정보를 를 불러온다.
-     * 
+     *
      * @param vo
      * @return
      * @throws Exception
@@ -51,7 +74,7 @@ public class CmmUseDAO extends EgovComAbstractDAO {
 
     /**
      * 공통코드로 사용할그룹정보를 를 불러온다.
-     * 
+     *
      * @param vo
      * @return
      * @throws Exception

@@ -9,14 +9,14 @@
   * @Class Name : GamCmmnCodeDetailMngt.jsp
   * @Description : 공통코드 상세관리 화면
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.23  kok          최초 생성
   *
   * author kok
   * since 2014.01.23
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -46,108 +46,82 @@ GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {
 					],
 		height: "auto"
 	});
-	
+
 	this.$("#cmmnCodeMngDetailMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.doAction('<c:url value="/code/gamCcmCmmnDetailCodeDetail.do" />', {codeId: row["codeId"], code: row["code"]}, function(module, result) {
 
 			// value 설정
 			module.$("#cmd").val("modify");
+			module.$("#clCode").val(result.codeDetail.clCode);			// 코드ID(hidden)
 			module.$("#codeId").val(result.codeDetail.codeId);			// 코드ID(hidden)
-			module.$("#codeIdText").val(result.codeDetail.codeIdNm);	// 코드ID(text) [display]
 			module.$("#code").val(result.codeDetail.code);				// 코드
 			module.$("#codeNm").val(result.codeDetail.codeNm);			// 코드명
 			module.$("#codeDc").val(result.codeDetail.codeDc);			// 코드설명
 			module.$("#useAt").val(result.codeDetail.useAt);			// 사용여부
-			
+
 			// style 설정
-			module.$("#codeIdText").show();								// 코드ID(text)[display]
-			module.$("#codeIdText").attr("disabled","disabled");		// 코드ID(text)[display]
-			module.$("#code").attr("disabled","disabled");				// 코드
-			module.$("#codeIdText").removeAttr("style");				// 코드ID(text)[display]
-			module.$("#codeIdSelect").hide();							// 코드ID(select)[display]
-			module.$("#clCode").hide();									// 코드ID(select)[display]
+			module.$("#code").disable();				// 코드
+			module.$("#clCode").disable();									// 코드ID(select)[display]
+			module.$("#codeId").disable();									// 코드ID(select)[display]
 	 	});
 	});
 
-	
+
 	this.$("#cmmnCodeMngDetailMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
+
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
 	});
-	
-	this.$("#clCode").on("change", {module: this}, function(event) {
-		
-		event.data.module.doAction('<c:url value="/code/gamGetSubCode.do" />', {clCode : $(this).val()}, function(module, result) {
-			
-			if(result.resultCode == "0"){
-				if(result.cmmnCodeList.length > 0){
-					for(var i=0; i<result.cmmnCodeList.length; i++){
-						if(i == 0){
-							module.$("#codeIdSelect").html("<option value='"+result.cmmnCodeList[i].codeId+"'>"+result.cmmnCodeList[i].codeIdNm+"</option>");	
-						}else{
-							module.$("#codeIdSelect").append("<option value='"+result.cmmnCodeList[i].codeId+"'>"+result.cmmnCodeList[i].codeIdNm+"</option>");
-						}
-					}	
-				}else{
-					module.$("#codeIdSelect").html("");
-				}
-	 		}
-	 	});
-	});
-	
-	
 
 };
-		
+
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#cmmnCodeDetailMngtForm");
 			this.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0});
-		 	this.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 			// 목록
 		case "listBtn":
-			this.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0}); 
+			this.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0});
 		break;
-		
+
 		// 추가
 		case "addBtn":
-			
+
 			this.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 1});
 			this.$("#cmmnCodeDetailManageVO :input").val("");
 			this.$("#cmd").val("insert");
-			
-			this.$("#codeIdText").hide();						// 코드ID(text)[display]
-			this.$("#code").removeAttr("disabled");				// 코드
-			this.$("#codeIdSelect").show();						// 코드ID(select)[display]
-			this.$("#clCode").show();							// 코드ID(select)[display]
+			this.$("#useAt").val("Y");
+
+			this.$("#code").enable();				// 코드
+			this.$('#clCode').enable();
+			this.$('#codeId').enable();
 		break;
-			
+
 		// 저장
 		case "saveBtn":
 
 			if(!validateGamCodeDetailMngt(this.$("#cmmnCodeDetailManageVO")[0])) return;
-			
-			this.$("#codeId").val(this.$("#codeIdSelect").val());
+
 		 	var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
 
 			if(this.$("#cmd").val() == "insert") {
-				
+
 			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
 						module.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -157,14 +131,14 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
 						module.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}
 		break;
-		
+
 		// 삭제
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
@@ -173,7 +147,7 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
 						module.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0}); 
+						module.$("#cmmnCodeMngDetailMngListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
@@ -188,7 +162,7 @@ GamCmmnCodeDetailMngtModule.prototype.onTabChange = function(newTabId, oldTabId)
 	switch(newTabId) {
 		case "tabs1":
 		break;
-	
+
 		case "tabs2":
 		break;
 	}
@@ -214,7 +188,7 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 									<option value="1">코드ID</option>
 									<option value="2">코드</option>
 									<option value="3">코드명</option>
-								</select>	   
+								</select>
 							</td>
 							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="70" maxlength="60" title="검색조건" /></td>
 							<td><button id="searchBtn">조회</button></td>
@@ -231,7 +205,7 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 				<li><a href="#tabs1" class="emdTab">공통코드상세목록</a></li>
 				<li><a href="#tabs2" class="emdTab">공통코드상세정보</a></li>
 			</ul>
-			
+
 			<!-- 목록 탭 -->
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="cmmnCodeMngDetailMngList" style="display:none" class="fillHeight"></table>
@@ -239,28 +213,22 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 					<button id="addBtn">추가</button>
 				</div>
 			</div>
-			
+
 			<!-- 저장 및 상세 탭 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmmnCodeDetailManageVO" style="height:370px;">
 					<input type="hidden" id="cmd"/>
-					<input type="hidden" id="codeId" />
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">코드ID</th>
 							<td>
-								<input type="text" size="80" id="codeIdText" style="display:none" />
-								<select class="select" id="clCode" title="clCode">
-									<c:forEach var="result" items="${cmmnClCodeList}" varStatus="status">
-										<option value='<c:out value="${result.clCode}"/>' <c:if test="${result.clCode == cmmnCode.clCode}">selected="selected"</c:if>><c:out value="${result.clCode}"/></option>
-									</c:forEach>
-								</select>
-								<select class="select" id="codeIdSelect"></select>
+								<input id="clCode" class="ygpaCmmnCl" size="10"/>
+								<input id="codeId" class="ygpaCmmnCode" data-display-value="N" data-cl-selector="clCode"/>
 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">코드</th>
-							<td><input type="text" size="80" id="code"  maxlength="15" /></td>
+							<td><input type="text" size="80" id="code"  maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">코드명</th>

@@ -109,7 +109,7 @@ div.ui-resizable-handle {
 }
 
 .icon.ui-draggable-dragging {
-  z-index: 920;
+  z-index: 1920;
 }
 
 /* `Windows
@@ -128,12 +128,12 @@ div.ui-resizable-handle {
   height: 600px; 	/* ������ 300px */
   top: 30px;		/* ������ 30px */
   left: 220px;		/* ������������ 120px */
-  z-index: 902;
+  z-index: 1902;
 }
 
 .window.window_stack,
 .window.ui-draggable-dragging {
-  z-index: 910;
+  z-index: 1910;
 }
 
 .window.ui-draggable-dragging {
@@ -433,7 +433,7 @@ th.shrink {
   padding: 1px 1px 0;
   position: absolute;
   min-width: 200px;
-  z-index: 930;
+  z-index: 1930;
 }
 
 #bar_top ul.menu li {
@@ -490,7 +490,7 @@ ul.submenu {
   position: absolute;
   left: 100%;
 	min-width: 200px;
-  z-index: 930;
+  z-index: 1930;
 }
 
 ul.submenu li:hover ul {

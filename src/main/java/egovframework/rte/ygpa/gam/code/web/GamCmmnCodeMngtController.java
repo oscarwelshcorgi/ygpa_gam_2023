@@ -28,14 +28,14 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
- * 
+ *
  * @author Administrator
  * @since 2014. 1. 22.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 1. 22.		kok		최초 생성
@@ -58,13 +58,13 @@ public class GamCmmnCodeMngtController {
 
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
     LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    
+
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -76,17 +76,17 @@ public class GamCmmnCodeMngtController {
     String indexMain(@RequestParam("window_id") String windowId, @ModelAttribute("cmmnCode") CmmnCode cmmnCode, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
 
-    	CmmnClCodeVO searchVO;
-		searchVO = new CmmnClCodeVO();
-		searchVO.setRecordCountPerPage(999999);
-		searchVO.setFirstIndex(0);
-		searchVO.setSearchCondition("CodeList");
-        List CmmnCodeList = cmmnClCodeManageService.selectCmmnClCodeList(searchVO);
-        model.addAttribute("cmmnClCode", CmmnCodeList);
-		
+//    	CmmnClCodeVO searchVO;
+//		searchVO = new CmmnClCodeVO();
+//		searchVO.setRecordCountPerPage(999999);
+//		searchVO.setFirstIndex(0);
+//		searchVO.setSearchCondition("CodeList");
+//        List CmmnCodeList = cmmnClCodeManageService.selectCmmnClCodeList(searchVO);
+//        model.addAttribute("cmmnClCode", CmmnCodeList);
+
     	return "/ygpa/gam/code/GamCmmnCodeMngt";
     }
-	
+
 	/**
 	 * 공통코드관리 목록을 조회한다.
 	 * @param searchVO
@@ -103,11 +103,11 @@ public class GamCmmnCodeMngtController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
         List<?> CmmnCodeList = cmmnCodeManageService.selectCmmnCodeList(searchVO);
         int totCnt = cmmnCodeManageService.selectCmmnCodeListTotCnt(searchVO);
 
@@ -122,7 +122,7 @@ public class GamCmmnCodeMngtController {
     	return map;
 	}
 
-    
+
     /**
      * 공통코드관리 상세항목을 조회한다.
      * @param clCode
@@ -131,7 +131,7 @@ public class GamCmmnCodeMngtController {
      */
 	@RequestMapping(value="/code/gamCcmCmmnCodeDetail.do")
  	@ResponseBody Map<String, Object> selectCmmnCodeDetail (@RequestParam("codeId") String codeId) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		CmmnCode cmmncode = new CmmnCode();
 		cmmncode.setCodeId(codeId);
@@ -152,8 +152,8 @@ public class GamCmmnCodeMngtController {
 	 * @throws Exception
 	 */
     @RequestMapping(value="/code/gamCcmCmmnCodeRegist.do")
-	@ResponseBody Map<String, Object> insertCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode, BindingResult bindingResult) throws Exception {    
-    	
+	@ResponseBody Map<String, Object> insertCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode, BindingResult bindingResult) throws Exception {
+
     	Map<String, Object> map = new HashMap<String, Object>();
 
         beanValidator.validate(cmmnCode, bindingResult);
@@ -168,7 +168,7 @@ public class GamCmmnCodeMngtController {
 		comCode.setCodeId(cmmnCode.getCodeId());
 
 		int totCnt = cmmnCodeManageService.selectCmmnCodeListTotCnt(comCode);
-		
+
 		if(totCnt > 0){
 			map.put("resultCode", 1);
 			map.put("resultMsg", "등록된 코드가 존재합니다.");
@@ -179,20 +179,20 @@ public class GamCmmnCodeMngtController {
 				cmmnCode.setFrstRegisterId(user.getId());
 		    	cmmnCodeManageService.insertCmmnCode(cmmnCode);
 		    	map.put("resultCode", 0);			// return ok
-				map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
+				map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
 				map.put("resultCode", 1);
 				map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 			}
-			
+
 		}
 
         return map;
     }
-    
-    
+
+
     /**
      * 공통코드관리를 수정한다.
      * @param loginVO
@@ -205,9 +205,9 @@ public class GamCmmnCodeMngtController {
     @RequestMapping(value="/code/gamCcmCmmnCodeModify.do")
 	@ResponseBody Map<String, Object> updateCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode
 			, BindingResult bindingResult, @ModelAttribute("cmd") String cmd) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-    	
+
 		if (cmd.equals("")) {
     		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
     		map.put("cmmnCode", vo);
@@ -225,28 +225,28 @@ public class GamCmmnCodeMngtController {
         		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
         		return map;
     		}
-    		
+
 
     		try {
     			cmmnCode.setLastUpdusrId(user.getId());
     	    	cmmnCodeManageService.updateCmmnCode(cmmnCode);
-    	    	
+
     	    	map.put("resultCode", 0);
-    	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+    	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
 				map.put("resultCode", 1);
     	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 			}
-   			
+
 	        return map;
     	} else {
     		return map;
     	}
     }
-    
-    
+
+
     /**
      * 공통코드관리를 삭제한다.
      * @param cmmnCode
@@ -255,9 +255,9 @@ public class GamCmmnCodeMngtController {
      */
     @RequestMapping(value="/code/gamCcmCmmnCodeRemove.do")
 	@ResponseBody Map<String, Object> deleteCmmnCode (@ModelAttribute("clCode") CmmnCode cmmnCode) throws Exception {
-    	
+
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
     	try{
     		cmmnCodeManageService.deleteCmmnCode(cmmnCode);
     		map.put("resultCode", 0);
@@ -266,8 +266,8 @@ public class GamCmmnCodeMngtController {
     		map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
     	}
-        
-    	
+
+
     	return map;
 	}
 }

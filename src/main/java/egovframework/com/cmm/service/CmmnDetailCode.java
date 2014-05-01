@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.04.01  이중호          최초 생성
@@ -19,32 +19,36 @@ import java.io.Serializable;
  * </pre>
  */
 public class CmmnDetailCode implements Serializable {
-	
+	/**
+	 * 코드 그룹
+	 */
+	private String clCode="";
+
 	/*
 	 * 코드ID
 	 */
     private String codeId = "";
-    
+
     /*
      * 코드ID명
      */
     private String codeIdNm = "";
-    
+
     /*
      * 코드
      */
 	private String code = "";
-	
+
 	/*
 	 * 코드명
 	 */
     private String codeNm = "";
-    
+
     /*
      * 코드설명
      */
     private String codeDc = "";
-    
+
     /*
      * 사용여부
      */
@@ -54,7 +58,7 @@ public class CmmnDetailCode implements Serializable {
      * 최초등록자ID
      */
     private String frstRegisterId = "";
-    
+
     /*
      * 최종수정자ID
      */
@@ -186,6 +190,14 @@ public class CmmnDetailCode implements Serializable {
 	 */
 	public void setLastUpdusrId(String lastUpdusrId) {
 		this.lastUpdusrId = lastUpdusrId;
+	}
+
+	public String getClCode() {
+		return clCode;
+	}
+
+	public void setClCode(String clCode) {
+		this.clCode = clCode;
 	}
 
 

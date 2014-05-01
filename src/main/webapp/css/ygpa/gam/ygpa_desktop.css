@@ -119,6 +119,31 @@ vertical-align: middle;
   color: #fff;
 }
 
+.detailForm table {
+	width: 100%;
+	background: white;
+}
+
+.detailForm th {
+	background: #2FDAFF;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+  text-shadow: #000 0 1px 1px;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.detailForm td {
+	background: #fff;
+	color: #615E5E;
+}
+
+.detailForm tr {
+  background: #06c repeat-x;
+  color: #fff;
+}
+
 .searchPanel th.shrink {
   width: 1%;
 }
@@ -210,3 +235,4 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
 @media print {
 	.page-break	{ display: block; page-break-before: always; }
 }
+

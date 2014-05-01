@@ -4,6 +4,7 @@
 <sqlMap namespace="CmmUse">
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias  alias="ComDefaultCodeVO" type="egovframework.com.cmm.ComDefaultCodeVO"/>
 
 	<resultMap id="CmmCodeDetail" class="egovframework.com.cmm.service.CmmnDetailCode">
@@ -14,10 +15,10 @@
 	</resultMap>
 
 	<select id="CmmUseDAO.selectCmmCodeDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
-		<![CDATA[ 
-			SELECT 
+		<![CDATA[
+			SELECT
 			CODE_ID, CODE, CODE_NM, CODE_DC
-			FROM 
+			FROM
 			COMTCCMMNDETAILCODE
 			WHERE
 			USE_AT      = 'Y'
@@ -25,14 +26,37 @@
 		]]>
 	</select>
 
+	<select id="CmmUseDAO.selectCmmClList" parameterClass="hashMap" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				CL_CODE, CL_CODE_NM
+			FROM
+			COMTCCMMNCLCODE
+			WHERE
+			USE_AT      = 'Y'
+		]]>
+	</select>
+
+	<select id="CmmUseDAO.selectCmmCodeList" parameterClass="hashMap" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				CODE_ID, CODE_ID_NM
+			FROM
+			COMTCCMMNCODE
+			WHERE
+			USE_AT      = 'Y'
+			AND CL_CODE = #clCode#
+		]]>
+	</select>
+
     <select id="CmmUseDAO.selectOgrnztIdDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
-            <![CDATA[ 
-            SELECT 
-                #tableNm#     CODE_ID, 
-                ORGNZT_ID     CODE, 
-                ORGNZT_NM     CODE_NM, 
+            <![CDATA[
+            SELECT
+                #tableNm#     CODE_ID,
+                ORGNZT_ID     CODE,
+                ORGNZT_NM     CODE_NM,
                 ORGNZT_DC     CODE_DC
-            FROM 
+            FROM
                 COMTNORGNZTINFO
             WHERE 1=1
             ]]>
@@ -40,15 +64,15 @@
                 ORGNZT_ID  LIKE  #detailConditionValue#
             </isEqual>
     </select>
-    
+
     <select id="CmmUseDAO.selectGroupIdDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
-            <![CDATA[ 
-            SELECT 
-                #tableNm#     CODE_ID, 
-                GROUP_ID     CODE, 
-                GROUP_NM     CODE_NM, 
+            <![CDATA[
+            SELECT
+                #tableNm#     CODE_ID,
+                GROUP_ID     CODE,
+                GROUP_NM     CODE_NM,
                 GROUP_DC     CODE_DC
-            FROM 
+            FROM
                 COMTNAUTHORGROUPINFO
             WHERE 1=1
             ]]>
@@ -56,6 +80,6 @@
                 GROUP_ID  LIKE  #detailConditionValue#
             </isEqual>
     </select>
-    
 
-</sqlMap>            
+
+</sqlMap>

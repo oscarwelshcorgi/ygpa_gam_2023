@@ -37,7 +37,7 @@ public class EgovCmmUseServiceImpl extends AbstractServiceImpl implements EgovCm
 
     /**
      * 공통코드를 조회한다.
-     * 
+     *
      * @param vo
      * @return
      * @throws Exception
@@ -46,9 +46,13 @@ public class EgovCmmUseServiceImpl extends AbstractServiceImpl implements EgovCm
 	return cmmUseDAO.selectCmmCodeDetail(vo);
     }
 
+    public List selectCmmClList(Map vo) throws Exception {
+	return cmmUseDAO.selectCmmClList(vo);
+    }
+
     /**
      * ComDefaultCodeVO의 리스트를 받아서 여러개의 코드 리스트를 맵에 담아서 리턴한다.
-     * 
+     *
      * @param voList
      * @return
      * @throws Exception
@@ -69,7 +73,7 @@ public class EgovCmmUseServiceImpl extends AbstractServiceImpl implements EgovCm
 
     /**
      * 조직정보를 코드형태로 리턴한다.
-     * 
+     *
      * @param 조회조건정보 vo
      * @return 조직정보 List
      * @throws Exception
@@ -80,7 +84,7 @@ public class EgovCmmUseServiceImpl extends AbstractServiceImpl implements EgovCm
 
     /**
      * 그룹정보를 코드형태로 리턴한다.
-     * 
+     *
      * @param 조회조건정보 vo
      * @return 그룹정보 List
      * @throws Exception
@@ -88,4 +92,13 @@ public class EgovCmmUseServiceImpl extends AbstractServiceImpl implements EgovCm
     public List<CmmnDetailCode> selectGroupIdDetail(ComDefaultCodeVO vo) throws Exception {
 	return cmmUseDAO.selectGroupIdDetail(vo);
     }
+
+	/* (non-Javadoc)
+	 * @see egovframework.com.cmm.service.EgovCmmUseService#selectCmmCodeList(java.util.Map)
+	 */
+	@Override
+	public List selectCmmCodeList(Map vo) throws Exception {
+		// TODO Auto-generated method stub
+		return cmmUseDAO.selectCmmCodeList(vo);
+	}
 }

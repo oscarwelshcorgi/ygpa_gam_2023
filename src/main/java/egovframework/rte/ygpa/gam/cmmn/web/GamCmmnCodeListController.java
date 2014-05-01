@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 @Controller
 public class GamCmmnCodeListController {
@@ -81,35 +82,50 @@ public class GamCmmnCodeListController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectCmmnClOptionsList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCmmnClOptionsList(@RequestParam Map vo) throws Exception {
+		// 자산코드
+		Map optMap = new HashMap();
+
+		List<EgovMap> Cd = cmmUseService.selectCmmClList(vo);
+		List list = new ArrayList();
+		for(Map CmnCdList : Cd){
+			Map item = new HashMap();
+			item.put("value", CmnCdList.get("clCode"));
+			item.put("name", CmnCdList.get("clCodeNm"));
+			list.add(item);
+		}
+
+		optMap.put("resultList", list);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectCmmnCodeOptionsList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCmmnCodeOptionsList(@RequestParam Map vo) throws Exception {
+		// 자산코드
+		Map optMap = new HashMap();
+
+		List<Map> Cd = cmmUseService.selectCmmCodeList(vo);
+		List list = new ArrayList();
+		for(Map CmnCdList : Cd){
+			Map item = new HashMap();
+			item.put("value", CmnCdList.get("codeId"));
+			item.put("name", CmnCdList.get("codeIdNm"));
+			list.add(item);
+		}
+
+		optMap.put("resultList", list);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/cmmn/selectCmmnCdOptionsList.do", method=RequestMethod.POST)
 	@ResponseBody Map selectCmmnCdOptionsList(@RequestParam("code_id") String cmd) throws Exception {
 		// 자산코드
 		Map optMap = new HashMap();
-		/*
-		Map item = null;
-		List list = new ArrayList();
-		item = new HashMap();
-		item.put("value","A");
-		item.put("name","건물");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","E");
-		item.put("name","기타");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","L");
-		item.put("name","토지");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","S");
-		item.put("name","구축물");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","w");
-		item.put("name","창고");
-		list.add(item);
-		*/
-
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 		codeVo.setCodeId(cmd);
