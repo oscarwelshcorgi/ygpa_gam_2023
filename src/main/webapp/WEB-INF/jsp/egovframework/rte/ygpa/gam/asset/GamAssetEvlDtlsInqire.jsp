@@ -50,7 +50,7 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
                  {display:'전기말자본적지출금액누계', name:'preEndAssetBuySum',width:180, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'자본적지출금액', name:'assetBuyAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'당기상각금액', name:'thisTermDeprctnAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'잔존금액', name:'curAmt',width:140, sortable:false,align:'center', displayFormat: 'number'}
+                 {display:'잔존금액', name:'curAmt',width:140, sortable:false,align:'right', displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',

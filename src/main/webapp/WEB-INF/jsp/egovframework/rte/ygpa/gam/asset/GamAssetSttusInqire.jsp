@@ -49,9 +49,9 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
                  {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
                  {display:'사용시작', name:'usagePdFrom',width:90, sortable:false,align:'center'},
                  {display:'사용종료', name:'usagePdTo',width:90, sortable:false,align:'center'},
-                 {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'사용료', name:'grFee',width:160, sortable:false,align:'center', displayFormat: 'number'},
-                 {display:'감면사용료', name:'grRdcxptFee',width:160, sortable:false,align:'center', displayFormat: 'number'},
+                 {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'사용료', name:'grFee',width:160, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'감면사용료', name:'grRdcxptFee',width:160, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'사용용도', name:'usagePrposCdNm',width:120, sortable:false,align:'center'},
                  //{display:'사용용도코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
                  {display:'사용목적', name:'usagePurps',width:150, sortable:false,align:'center'}
@@ -108,6 +108,9 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
 	}
 	
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 
