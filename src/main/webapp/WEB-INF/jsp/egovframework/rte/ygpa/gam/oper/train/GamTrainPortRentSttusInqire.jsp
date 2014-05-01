@@ -163,7 +163,7 @@ GamTrainPortRentSttusInqireModule.prototype.loadComplete = function() {
                     */
                     ],
            showTableToggleBtn: false,
-           height: 'auto'
+           height: '115'
     });
     
     // 첨부파일 테이블 설정
@@ -754,7 +754,7 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <div class="emdControlPanel"></div>
+                <!-- <div class="emdControlPanel"></div>-->
                     <form id="gamTrainPortRentSttusInqireForm">
                         <input type="hidden" id="cmd"/>
 
@@ -768,25 +768,21 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
 	                                <input type="text" size="5" id="prtAtCode" readonly/>
                                 </td>
                                 <th><span class="label">관리번호</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
                             </tr>
                             <tr>
+                                <th style="width: 100px"><span class="label">최초신청일자</span></th>
+                                <td style="width: 350px"><input type="text" size="10" id="frstReqstDt" readonly /></td>
                                 <th><span class="label">신청업체</span></th>
                                 <td colspan="3">
                                     <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <!-- <button id="popupEntrpsInfoInput">업체조회</button> -->
                                 </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 100px"><span class="label">최초신청일자</span></th>
-                                <td style="width: 350px"><input type="text" size="10" id="frstReqstDt" readonly /></td>
-                                <th ><span class="label">신청일자</span></th>
-                                <td><input type="text" size="10" id="reqstDt" readonly /></td>
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
@@ -800,6 +796,8 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
                                      -->
                                      <input type="text" size="5" id="prmisnYn" style="text-align:center;" readonly/>
                                 </td>
+                                <th ><span class="label">신청일자</span></th>
+                                <td><input type="text" size="10" id="reqstDt" readonly /></td>
                                 <th><span class="label">승낙일자</span></th>
                                 <td><input type="text" size="10" id="prmisnDt" readonly /></td>
                             </tr>
@@ -812,14 +810,12 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
                                 <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" readonly /></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">총사용료</span></th>
                                 <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" readonly /></td>
-                                <th style="width: 100px"><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" readonly /></td>
                             </tr>
                             <tr>
+                                <th style="width: 100px"><span class="label">총감면사용료</span></th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" readonly /></td>
                             	<!-- 
                                 <th><span class="label">납부방법</span></th>
                                 <td>
@@ -842,7 +838,7 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
                                 <th><span class="label">비고</span></th>
                                 <td><input type="text" size="50" id="rm" readonly /></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
+                                <td colspan="3"><input type="text" size="50" id="cmt" readonly /> <!-- <button id="btnSaveComment">코멘트저장</button>  --></td>
                             </tr>
                         </table>
                     </form>
@@ -856,7 +852,7 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
 
                  <table>
                     <tr>
-                        <td height="20"></td>
+                        <td height="10"></td>
                     </tr>
                  </table>
                  <table class="searchPanel">

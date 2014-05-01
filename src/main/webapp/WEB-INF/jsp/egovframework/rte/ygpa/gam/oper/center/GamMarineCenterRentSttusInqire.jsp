@@ -142,7 +142,7 @@ GamMarineCenterRentSttusInqireModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '115'
     });
 
     // 첨부파일 테이블 설정
@@ -1247,6 +1247,8 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                                 <td>
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
+                                <th><span class="label">최초신청일자</span></th>
+                                <td><input type="text" size="10" id="frstReqstDt" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">신청업체</span></th>
@@ -1261,10 +1263,6 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                                     <input type="text" size="3" id="mngNo" disabled/>-
                                     <input type="text" size="2" id="mngCnt" disabled/>
                                 </td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">최초신청일자</span></th>
-                                <td><input type="text" size="10" id="frstReqstDt" disabled/></td>
                                 <th><span class="label">신청일자</span></th>
                                 <td><input type="text" size="10" id="reqstDt" disabled/></td>
                             </tr>
@@ -1279,6 +1277,8 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                                 </td>
                                 <th><span class="label">승낙일자</span></th>
                                 <td><input type="text" size="10" id="prmisnDt" disabled></td>
+                                <th><span class="label">총사용면적</span></th>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용기간</span></th>
@@ -1286,10 +1286,6 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                                     <input type="text" size="10" id="grUsagePdFrom" disabled/>~
                                     <input type="text" size="10" id="grUsagePdTo" disabled/>
                                 </td>
-                                <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">총사용료</span></th>
                                 <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
                                 <th><span class="label">총감면사용료</span></th>
@@ -1297,17 +1293,17 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">납부방법</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                </td>
+                                <th><span class="label">고지 방법</span></th>
+                                <td colspan="3">
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="label">고지 방법</span></th>
-                                <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
-                                </td>
                                 <th><span class="label">분납이자율</span></th>
-                                <td>
+                                <td colspan="5">
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4" disabled/>
                                     <select id="cofixList" disabled>
                                         <option value="">선택</option>
@@ -1321,7 +1317,7 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                                 <th><span class="label">비고</span></th>
                                 <td><input type="text" size="50" id="rm" disabled/></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td><input type="text" size="50" id="cmt" disabled/><!--<button id="btnSaveComment">코멘트저장</button>  --></td>
+                                <td colspan="3"><input type="text" size="50" id="cmt" disabled/><!--<button id="btnSaveComment">코멘트저장</button>  --></td>
                             </tr>
                         </table>
                     </form>
@@ -1335,7 +1331,7 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
 
                  <table>
                     <tr>
-                        <td height="20"></td>
+                        <td height="10"></td>
                     </tr>
                  </table>
                  <table class="searchPanel">
