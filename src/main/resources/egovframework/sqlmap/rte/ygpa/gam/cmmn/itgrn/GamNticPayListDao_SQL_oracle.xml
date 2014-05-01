@@ -11,7 +11,8 @@
     <resultMap id="gamNticPayListSumMap" class="nticPayListVO">
         <result property="sumBillAmnt" column="SUM_BILL_AMNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
         <result property="sumRcvdAmnt" column="SUM_RCVD_AMNT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
-        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumNotRcvdAmnt" column="SUM_NOT_RCVD_AMNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+        <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="4" javaType="string" jdbcType="VARCHAR"/>
     </resultMap>
     
     <resultMap id="gamDlyNticPayListSumMap" class="nticPayListVO">
@@ -187,6 +188,7 @@
             	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
             	,TRIM(TO_CHAR(NVL(SUM(T1.BILL_AMNT),0), '999,999,999,999')) AS SUM_BILL_AMNT 
             	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN T1.RCVD_TP = 2 OR T1.RCVD_TP = 3 THEN T1.BILL_AMNT END),0), '999,999,999,999')) AS SUM_RCVD_AMNT 
+            	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN T1.RCVD_TP != 2 AND T1.RCVD_TP != 3 THEN T1.BILL_AMNT END),0), '999,999,999,999')) AS SUM_NOT_RCVD_AMNT 
 			FROM 
 				PAYEOSU.REV_COLL_F@YGPA_PORTMIS T1
 			LEFT OUTER JOIN 

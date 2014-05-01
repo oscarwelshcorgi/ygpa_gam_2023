@@ -37,7 +37,8 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"청코드", 	 				name:"prtAtCode",			width:50,		sortable:false,		align:"center"},
+				{display:"항코드", 	 				name:"prtAtCode",			width:50,		sortable:false,		align:"center"},
+				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"요금종류",					name:"feeTp",				width:60,		sortable:false,		align:"center"},
 				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"회계년도",					name:"fiscalYr",			width:60,		sortable:false,		align:"center"},
@@ -65,9 +66,8 @@ GamNticPayListModule.prototype.loadComplete = function() {
 				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
 				{display:"시설코드",					name:"facCode",				width:80,		sortable:false,		align:"center"},
 				{display:"시설부코드",					name:"facSubCode",			width:80,		sortable:false,		align:"center"},
-				{display:"고지횟수",					name:"billCount",			width:80,		sortable:false,		align:"center"},
-				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"선석명",					name:"facKorNm",			width:80,		sortable:false,		align:"center"}
+				{display:"선석명",					name:"facKorNm",			width:80,		sortable:false,		align:"center"},
+				{display:"고지횟수",					name:"billCount",			width:80,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -77,6 +77,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.dpTotCnt);
             module.$('#totalRcvdAmnt').val(data.sumRcvdAmnt);
+            module.$('#totalNotRcvdAmnt').val(data.sumNotRcvdAmnt);
             module.$('#totalBillAmnt').val(data.sumBillAmnt);
       
             return data;
@@ -90,13 +91,15 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"청코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
+				{display:"항코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
+				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
 				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"회계년도",					name:"fiscalYr",			width:80,		sortable:false,		align:"center"},
 				{display:"고지번호",					name:"billNo",				width:80,		sortable:false,		align:"center"},
 				{display:"연체횟수",					name:"dlySerNo",			width:80,		sortable:false,		align:"center"},
 				{display:"업체코드",					name:"agentCode",			width:80,		sortable:false,		align:"center"},
+				{display:"업체명",					name:"firmKorNm",			width:80,		sortable:false,		align:"center"},
 				{display:"사업자등록번호",				name:"bzRgstId",			width:80,		sortable:false,		align:"center"},
 				{display:"연체고지금액",				name:"dlyBillAmnt",			width:80,		sortable:false,		align:"center"},
 				{display:"연체고지일자",				name:"dlyBillDt",			width:80,		sortable:false,		align:"center"},
@@ -108,9 +111,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 				{display:"할인율코드",					name:"dcRate",				width:80,		sortable:false,		align:"center"},
 				{display:"금융기관수납일자",				name:"recptEpdt",			width:80,		sortable:false,		align:"center"},
 				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
-				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
-				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"업체명",					name:"firmKorNm",			width:80,		sortable:false,		align:"center"}
+				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -144,14 +145,17 @@ GamNticPayListModule.prototype.loadComplete = function() {
 	
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
+	var serchDay = today.getDate();
 	
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
 	
-	var serchday = today.getDate();
+	if(serchDay < 10){
+		serchDay = "0" + serchDay;
+	}
 	
-	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
+	var displayDate = serchYr + "-" + serchMn + "-" + serchDay;
 
 	this.$("#sGrUsagePdFrom").val(displayDate);
 	this.$("#sGrUsagePdTo").val(displayDate);
@@ -256,7 +260,7 @@ var module_instance = new GamNticPayListModule();
                                 <input id="chrgeKndNm" type="text" size="10"> 
                                 <button id="popupChrgeKndCd">요금</button>
                             </td>
-                            <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+                            <td rowspan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
 						<tr>
 							<th>수납구분</th>
@@ -297,9 +301,10 @@ var module_instance = new GamNticPayListModule();
                             <td>
                                <form id="form1">
                                    합계 : 
-                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
+                                   자료수 <input id="totalResultCnt" size="8" style="text-align:right;" readonly>
 								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
 								   수납금액합계 <input id="totalRcvdAmnt" type="text" size="15" style="text-align:right;" readonly>원
+								   미수납금액합계 <input id="totalNotRcvdAmnt" type="text" size="15" style="text-align:right;" readonly>원
                                </form>
                             </td>
                             <td>

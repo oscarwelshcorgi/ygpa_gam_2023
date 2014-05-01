@@ -127,6 +127,7 @@ public class GamNticPayListController {
     	
     	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
     	map.put("sumRcvdAmnt", resultSum.getSumRcvdAmnt());
+    	map.put("sumNotRcvdAmnt", resultSum.getSumNotRcvdAmnt());
     	map.put("dpTotCnt", resultSum.getDpTotCnt());
 
     	return map;

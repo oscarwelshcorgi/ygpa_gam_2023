@@ -55,7 +55,7 @@ public class GamNticPayListServiceImpl extends AbstractServiceImpl implements Ga
 	
 	
 	/**
-	 * 자료수와 고지금액합계,수납금액(수납구분이 2나 3)합계
+	 * 자료수와 고지금액합계,수납금액(수납구분이 2나 3)합계,미수납금액(수납구분이 2나 3이 아닌것)합계
 	 */
 	public GamNticPayListVO selectNticPayListSum(GamNticPayListVO vo) throws Exception {
 		return gamNticPayListDao.selectNticPayListSum(vo);

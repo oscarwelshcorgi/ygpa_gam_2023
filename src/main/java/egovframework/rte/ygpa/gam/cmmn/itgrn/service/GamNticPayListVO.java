@@ -43,6 +43,9 @@ public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 	
 	/** 수납금액 */
 	private String sumRcvdAmnt;
+
+	/** 수납금액 */
+	private String sumNotRcvdAmnt;
 	
 	/** 연체고지금액 */
 	private String sumDlyBillAmnt;
@@ -226,6 +229,20 @@ public class GamNticPayListVO extends ErpCmmnCdDefaultVO{
 		this.sumRcvdAmnt = sumRcvdAmnt;
 	}
 
+	/**
+	 * @return the sumNotRcvdAmnt
+	 */
+	public String getSumNotRcvdAmnt() {
+		return sumNotRcvdAmnt;
+	}
+
+	/**
+	 * @param sumRcvdAmnt the sumNotRcvdAmnt to set
+	 */
+	public void setSumNotRcvdAmnt(String sumNotRcvdAmnt) {
+		this.sumNotRcvdAmnt = sumNotRcvdAmnt;
+	}
+	
 	/**
 	 * @return the sumDlyBillAmnt
 	 */
