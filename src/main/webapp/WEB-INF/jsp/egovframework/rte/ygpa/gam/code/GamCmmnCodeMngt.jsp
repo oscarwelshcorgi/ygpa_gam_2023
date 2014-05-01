@@ -217,6 +217,7 @@ var module_instance = new GamCmmnCodeMngtModule();
 							<th width="20%" height="23" class="required_text">분류코드</th>
 							<td>
 								<input id="clCode" class="ygpaCmmnCl" data-display-value="N" size="10"/>
+								<input id="clCode2" class="skipValue" type="text"/>
  							</td>
 						</tr>
 						<tr>
