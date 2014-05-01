@@ -36,25 +36,25 @@ GamCntnrQuayMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/oper/cntnr/gamSelectCntnrQuayMtRentFeeSttusInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'항코드', name:'prtAtCode',width:70, sortable:false,align:'center'},
-                 {display:'항코드명', name:'prtKorNm',width:120, sortable:false,align:'center'},
-                 {display:'사용년도', name:'usageYear',width:70, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCd',width:70, sortable:false,align:'center'},
+                 {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+                 {display:'항코드명', name:'prtKorNm',width:55, sortable:false,align:'center'},
+                 {display:'사용년도', name:'usageYear',width:55, sortable:false,align:'center'},
+                 {display:'자산코드', name:'gisAssetsCd',width:55, sortable:false,align:'center'},
                  {display:'자산부코드', name:'gisAssetsSubCd',width:70, sortable:false,align:'center'},
-                 {display:'자산명', name:'prtFcltyNm',width:170, sortable:false,align:'center'},
-                 {display:'전체사용료', name:'sumTotalFee',width:200, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'1월사용료', name:'sum01Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'2월사용료', name:'sum02Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'3월사용료', name:'sum03Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'4월사용료', name:'sum04Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'5월사용료', name:'sum05Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'6월사용료', name:'sum06Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'7월사용료', name:'sum07Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'8월사용료', name:'sum08Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'9월사용료', name:'sum09Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'10월사용료', name:'sum10Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'11월사용료', name:'sum11Fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'12월사용료', name:'sum12Fee',width:150, sortable:false,align:'right', displayFormat: 'number'}
+                 {display:'자산명', name:'prtFcltyNm',width:180, sortable:false,align:'left'},
+                 {display:'전체사용료', name:'sumTotalFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'1월사용료', name:'sum01Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'2월사용료', name:'sum02Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'3월사용료', name:'sum03Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'4월사용료', name:'sum04Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'5월사용료', name:'sum05Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'6월사용료', name:'sum06Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'7월사용료', name:'sum07Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'8월사용료', name:'sum08Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'9월사용료', name:'sum09Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'10월사용료', name:'sum10Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'11월사용료', name:'sum11Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'12월사용료', name:'sum12Fee',width:100, sortable:false,align:'right', displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',
@@ -67,13 +67,24 @@ GamCntnrQuayMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
  });
  //로드될 때 사용기간에 오늘날짜 처리
 	var today = new Date();
+
+ 	var pyear = today.getFullYear(); 
+    var pmonth= today.getMonth() + 1; 
+    
+    if (pmonth <= 1) {
+        var today = new Date(pyear - 1, 12, 1);
+    }
+    else
+    {
+        var today = new Date(pyear, pmonth - 2, 1);
+    }
+    
 	var tomonth = ((today.getMonth() + 1) >= 10) ? '' + (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
 	var toyear =  '' + today.getFullYear(); 
 	this.$('#sStartYr').val(toyear);
 	this.$('#sStartMn').val(tomonth);    
 	this.$('#sEndYr').val(toyear);
 	this.$('#sEndMn').val(tomonth);
-
 };
 
 this.$("#cntnrQuayMtRentFeeSttusInqireList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -190,8 +201,8 @@ var module_instance = new GamCntnrQuayMtRentFeeSttusInqireModule();
                         <tr>
                             <th>자산코드</th>
 							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
 								<button id="searchPopupBtn">자산코드</button>
 							</td>
                             <th>조회기간</th>
