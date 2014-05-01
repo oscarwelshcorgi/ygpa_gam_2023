@@ -153,7 +153,7 @@ GamPrtFcltyRentMngtModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '115'
     });
 
     // 첨부파일 테이블 설정
@@ -1600,68 +1600,23 @@ var module_instance = new GamPrtFcltyRentMngtModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <div class="emdControlPanel"></div>
+                <!-- <div class="emdControlPanel"></div>-->
                     <form id="gamPrtFcltyRentMngtForm" commandName="gamPrtFcltyRentMngtVld" name="gamPrtFcltyRentMngtForm" >
                         <input type="hidden" id="cmd"/>
                         <!-- <input type="hidden" id="quayGroupCd"/> 확인필요. -->
-
                         <table>
                             <tr>
                                 <th style="width:80px">항구분</th>
-                                <td style="width:400px">
+                                <td>
                                     <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
                                     <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
                                 <th style="width:80px">관리번호</th>
-                                <td colspan="3" style="width:110px">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
-                            </tr>
-                            <tr>
-                                <th>신청업체</th>
-                                <td>
-                                    <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
-                                    <input type="text" size="25" id="entrpsNm" readonly/>
-                                    <button id="popupEntrpsInfoInput" class="popupButton" >업체조회</button>
-                                </td>
-                                <th>최초신청일자</th>
-                                <td><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly /></td>
-                                <th style="width:80px;text-align:center;">신청일자</th>
-                                <td style="width:110px"><input type="text" class="emdcal" size="10" id="reqstDt" readonly /></td>
-                            </tr>
-                            <tr>
-                                <th>승낙여부</th>
-                                <td>
-                                    <select id="prmisnYn" disabled >
-                                        <option value="" selected="selected">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N">N</option>
-                                    </select>
-                                </td>
-                                <th>승낙일자</th>
-                                <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled /></td>
-                                <th style="text-align:center">고지 방법</th>
-                                <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>총사용기간</th>
-                                <td>
-                                    <input type="text" size="10" id="grUsagePdFrom" disabled />
-                                    ~
-                                    <input type="text" size="10" id="grUsagePdTo" disabled />
-                                </td>
-                                <th>총사용면적</th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" disabled /></td>
-                                <th style="text-align:center">총사용료</th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" disabled /></td>
-                            </tr>
-                            <tr>
-                                <th>총감면사용료</th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" disabled /></td>
                                 <th>분납이자율</th>
                                 <td colspan="3">
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
@@ -1674,28 +1629,57 @@ var module_instance = new GamPrtFcltyRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th>비고</th>
-                                <td><input type="text" size="50" id="rm" maxlength="90" /></td>
+                                <th>신청업체</th>
+                                <td colspan="3">
+                                    <input type="text" size="12" id="entrpscd" maxlength="10" readonly />
+                                    <input type="text" size="25" id="entrpsNm" readonly/>
+                                    <button id="popupEntrpsInfoInput" class="popupButton" >업체조회</button>
+                                </td>
+                                <th>최초신청일자</th>
+                                <td><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly /></td>
+                                <th style="width:80px">신청일자</th>
+                                <td><input type="text" class="emdcal" size="10" id="reqstDt" readonly /></td>
                             </tr>
                             <tr>
+                                <th>승낙여부</th>
+                                <td>
+                                    <select id="prmisnYn" disabled >
+                                        <option value="" selected="selected">선택</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                                <th>승낙일자</th>
+                                <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled /></td>
+                                <th>고지 방법</th>
+                                <td>
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                </td>
+                                <th>총사용면적</th>
+                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" style="text-align:right;" disabled /></td>
+                            </tr>
+                            <tr>
+                                <th>총사용기간</th>
+                                <td colspan="3">
+                                    <input type="text" size="10" id="grUsagePdFrom" disabled />
+                                    ~
+                                    <input type="text" size="10" id="grUsagePdTo" disabled />
+                                </td>
+                                <th>총사용료</th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" style="text-align:right;" disabled /></td>
+                                <th>총감면사용료</th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" style="text-align:right;" disabled /></td>
+                            </tr>
+                            <tr>
+                                <th>비고</th>
+                                <td colspan="3"><input type="text" size="50" id="rm" maxlength="90" /></td>
                                 <th>코멘트</th>
-                                <td colspan="5"><input type="text" size="50" id="cmt" maxlength="90" /><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="3" style="width:400px"><input type="text" size="35" id="cmt" maxlength="90" /><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
                         </table>
                     </form>
 
-                <!--
-                <div style="vertical-align: bottom; text-align: right;">
-                    <input type="reset" value="취소" class="input_1"> <input
-                        type="submit" value="저장" class="input_1">
-                </div>
-                 -->
-
-                 <table>
-                    <tr>
-                        <td height="10"></td>
-                    </tr>
-                 </table>
+                
                  <table class="searchPanel">
                     <tbody>
                     <tr>

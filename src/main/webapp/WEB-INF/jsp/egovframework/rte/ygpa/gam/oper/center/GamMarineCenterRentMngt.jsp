@@ -154,7 +154,7 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '115'
     });
 
     // 첨부파일 테이블 설정
@@ -1523,7 +1523,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <div class="emdControlPanel"></div>
+                <!-- <div class="emdControlPanel"></div>-->
                     <form id="gamMarineCenterRentForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -1536,9 +1536,11 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                     <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
                                 <th style="width:100px"><span class="label">담당부서</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
+                                <th><span class="label">총사용료</span></th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">신청업체</span></th>
@@ -1548,10 +1550,14 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                     <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
                                 </td>
                                 <th><span class="label">관리번호</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
+                                </td>
+                                <th><span class="label">납부방법</span></th>
+                                <td>
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
                                 </td>
                             </tr>
                             <tr>
@@ -1580,22 +1586,6 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
-                                <th><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">납부방법</span></th>
-                                <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
-                                </td>
-                                <th><span class="label">고지 방법</span></th>
-                                <td colspan="3">
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
-                                </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">분납이자율</span></th>
                                 <td>
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
@@ -1606,28 +1596,22 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm" maxlength="90"/></td>
+                                <th><span class="label">총감면사용료</span></th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
+                                <th><span class="label">고지 방법</span></th>
+                                <td>
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                </td>
                             </tr>
                             <tr>
+                                <th><span class="label">비고</span></th>
+                                <td><input type="text" size="50" id="rm" maxlength="90"/></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="5"><input type="text" size="50" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="3" style="width:400px"><input type="text" size="35" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
                             </tr>
                         </table>
                     </form>
 
-                <!--
-                <div style="vertical-align: bottom; text-align: right;">
-                    <input type="reset" value="취소" class="input_1"> <input
-                        type="submit" value="저장" class="input_1">
-                </div>
-                 -->
-
-                 <table>
-                    <tr>
-                        <td height="5"></td>
-                    </tr>
-                 </table>
                  <table class="searchPanel">
                     <tbody>
                     <tr>
