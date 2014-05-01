@@ -188,11 +188,11 @@ var module_instance = new GamOlnlpInqireModule();
 					<tbody>
 						<tr>
 							<th>항코드</th>
-							<td><input id="searchAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
+							<td><input id="searchAssetsPrtAtCode" data-column-id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<input id="searchAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
 								<button id="searchPopupBtn" class="popupButton">자산코드</button>
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>

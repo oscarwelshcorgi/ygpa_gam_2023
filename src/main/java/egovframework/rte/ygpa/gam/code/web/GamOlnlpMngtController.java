@@ -106,9 +106,7 @@ public class GamOlnlpMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/gamOlnlpInsertList.do")
-	@ResponseBody Map<String, Object> selectOlnlpInsertList(GisAssetsCodeVO searchVO,
-			@RequestParam("searchAssetsPrtAtCode") String searchAssetsPrtAtCode,
-			@RequestParam("searchAssetsCd") String searchAssetsCd, @RequestParam("searchAssetsSubCd") String searchAssetsSubCd)throws Exception {
+	@ResponseBody Map<String, Object> selectOlnlpInsertList(GisAssetsCodeVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -129,10 +127,6 @@ public class GamOlnlpMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		searchVO.setGisAssetsPrtAtCode(searchAssetsPrtAtCode);
-		searchVO.setGisAssetsCd(searchAssetsCd);
-		searchVO.setGisAssetsSubCd(searchAssetsSubCd);
 
 		/** List Data */
 		List<GisAssetsCodeVO> OlnlpMngtList = gamOlnlpMngtService.selectOlnlpInsertList(searchVO);
