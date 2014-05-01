@@ -27,7 +27,7 @@
  */
 function GamOlnlpMngtModule() {}
 
-GamOlnlpMngtModule.prototype = new EmdModule(800,600);	// 초기 시작 창크기 지정
+GamOlnlpMngtModule.prototype = new EmdModule(864,600);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamOlnlpMngtModule.prototype.loadComplete = function() {
@@ -44,7 +44,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"자산명",		 			name:"gisAssetsNm",			width:140,		sortable:false,		align:"center"},
 				{display:"소재지",		 			name:"gisAssetsLocplc",		width:220,		sortable:false,		align:"center"},
 				{display:"지번", 					name:"gisAssetsLnmDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"현재공시지가", 					name:"currOlnlp",	width:100,		sortable:false,		align:"center"}
+				{display:"현재공시지가", 					name:"olnlp",	width:100,		sortable:false,		align:"right", displayFormat: "number"}
 			],
 		height: "auto"
 	});
@@ -77,7 +77,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"순번", 					name:"rnum",		width:80,		sortable:false,		align:"center"},
 				{display:"시작일자",	 				name:"beginDt",			width:150,		sortable:false,		align:"center"},
 				{display:"종료일자",		 			name:"endDt",			width:150,		sortable:false,		align:"center"},
-				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"center"}
+				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"right", displayFormat:"number"}
 			],
 		height: "auto",
 		preProcess: function(module, data) {
@@ -321,7 +321,7 @@ var module_instance = new GamOlnlpMngtModule();
 							<td>
 								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
 								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
-								<button id="searchPopupBtn">자산코드</button>
+								<button id="searchPopupBtn" class="popupButton">자산코드</button>
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						<tr>
@@ -379,7 +379,7 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 						<tr>
 							<th>소재지</th>
-							<td colspan="3'"><span id="lbGisAssetsLocplc"></span>&nbsp;<span id="lbGisAssetsLnmDisplay"></span></td>
+							<td colspan="5"><span id="lbGisAssetsLocplc"></span>&nbsp;<span id="lbGisAssetsLnmDisplay"></span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -400,7 +400,7 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 						<tr>
 							<th>공시지가</th>
-							<td colspan="2">
+							<td colspan="3">
 								<input id="olnlp" type="text" size="40" title="공시지가 금액" />
 							</td>
 						</tr>

@@ -7,9 +7,8 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="olnlpVO" type="egovframework.rte.ygpa.gam.code.service.GamOlnlpFVO"/>
     <typeAlias alias="gisAssetsVO" type="egovframework.rte.ygpa.gam.code.service.GisAssetsCodeVO"/>
-    <typeAlias alias="bupjungdongOlnlpVO" type="egovframework.rte.ygpa.gam.code.service.GamBupjungdongOlnlpVO"/>
 
-    <select id="gamOlnlpMngtDao.selectOlnlpInsertList" parameterClass="gisAssetsVO" resultClass="egovMap">
+    <select id="gamOlnlpInqireDao.selectOlnlpInsertList" parameterClass="gisAssetsVO" resultClass="egovMap">
          SELECT *
 		  FROM
 		       (SELECT Z.*,
@@ -86,7 +85,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamOlnlpMngtDao.selectOlnlpInsertListTotCnt" parameterClass="gisAssetsVO" resultClass="int">
+    <select id="gamOlnlpInqireDao.selectOlnlpInsertListTotCnt" parameterClass="gisAssetsVO" resultClass="int">
             SELECT COUNT(*) totcnt
             FROM GIS_ASSETS_CD_F G
 			WHERE 1                    = 1
@@ -110,7 +109,7 @@
            	</isNotEmpty>
     </select>
 
-    <select id="gamOlnlpMngtDao.selectOlnlpMngtList" parameterClass="olnlpVO" resultClass="egovMap">
+    <select id="gamOlnlpInqireDao.selectOlnlpInqireList" parameterClass="olnlpVO" resultClass="egovMap">
          SELECT *
 		  FROM
 		       (SELECT Z.*,
@@ -133,96 +132,12 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamOlnlpMngtDao.selectOlnlpMngtListTotCnt" parameterClass="olnlpVO" resultClass="int">
+    <select id="gamOlnlpInqireDao.selectOlnlpInqireListTotCnt" parameterClass="olnlpVO" resultClass="int">
             SELECT COUNT(*) totcnt
             	FROM OLNLP_F
             WHERE GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 			AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 		    AND GIS_ASSETS_CD = #gisAssetsCd#
     </select>
-
-  	<insert id="gamOlnlpMngtDao.insertOlnlpMngt" parameterClass="olnlpVO">
-		INSERT
-		  INTO OLNLP_F
-		       (
-		           GIS_ASSETS_CD ,
-		           GIS_ASSETS_PRT_AT_CODE ,
-		           GIS_ASSETS_SUB_CD ,
-		           OLNLP_SEQ ,
-		           OLNLP ,
-		           REG_USR ,
-		           REGIST_DT ,
-		           BEGIN_DT ,
-		           END_DT
-		       )
-		       VALUES
-		       (
-		           #gisAssetsCd# ,
-		           #gisAssetsPrtAtCode# ,
-		           #gisAssetsSubCd# ,
-		           (SELECT MAX(OLNLP_SEQ+1) FROM OLNLP_F) ,
-		           #olnlp# ,
-		           #regUsr# ,
-		           SYSDATE ,
-		           #beginDt# ,
-		           #endDt#
-		       )
-    </insert>
-
-      	<insert id="gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S" parameterClass="bupjungdongOlnlpVO">
-			INSERT
-			  INTO BUPJUNGDONG_OLNLP_F
-		       (
-		           OLNLP_APPLC_YEAR,
-					BEGIN_DT,
-					END_DT,
-					OLNLP,
-					BUPJUNGDONG_CD,
-					LNM,
-					MT
-		       )
-		       VALUES
-		       (
-		           #olnlpApplcYear#,
-					TO_DATE(#beginDt#, 'YYYY-MM-DD'),
-					TO_DATE(#endDt#, 'YYYY-MM-DD'),
-					#olnlp#,
-					#bupjungdongCd#,
-					#lnm#,
-					#mt#
-		       )
-    </insert>
-
-  	<update id="gamOlnlpMngtDao.updateOlnlpMngt" parameterClass="olnlpVO">
-		UPDATE OLNLP_F
-		SET
-		       OLNLP = #olnlp#,
-		       UPD_USR = #updUsr#,
-		       UPDT_DT = SYSDATE,
-		       BEGIN_DT = #beginDt#,
-		       END_DT = #endDt#
-		 WHERE GIS_ASSETS_CD = #gisAssetsCd#
-		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-		       AND OLNLP_SEQ = #olnlpSeq#
-    </update>
-
-    <delete id="gamOlnlpMngtDao.deleteOlnlpMngt" parameterClass="olnlpVO">
-      DELETE
-		  FROM OLNLP_F
-		 WHERE GIS_ASSETS_CD = #gisAssetsCd#
-		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-		       AND OLNLP_SEQ = #olnlpSeq#
-    </delete>
-
-    <delete id="gamOlnlpMngtDao.deleteOlnlpBJD">
-      DELETE
-		  FROM BUPJUNGDONG_OLNLP_F
-    </delete>
-
-	<procedure id="gamOlnlpMngtDao.createOlnlpByBJD" >
-		{ call SP_CREATE_OLNLP() }
-	</procedure>
 
 </sqlMap>

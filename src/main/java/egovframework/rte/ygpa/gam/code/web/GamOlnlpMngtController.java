@@ -99,21 +99,6 @@ public class GamOlnlpMngtController {
     	return "/ygpa/gam/code/GamOlnlpMngt";
     }
 
-
-	/**
-	 * 공시지가 조회화면호출
-	 * @param windowId
-	 * @param model
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/code/gamOlnlpList.do")
-	String indexConstOlnlpInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		model.addAttribute("windowId", windowId);
-		return "/ygpa/gam/code/GamOlnlpList";
-	}
-
-
 	/**
 	 * 공시지가 등록 현황 목록 조회
 	 * @param searchVO
@@ -410,7 +395,11 @@ public class GamOlnlpMngtController {
 
 					try {
 						fis = file.getInputStream();
-						excelOlnlpService.uploadExcel("gamBupjungdongOlnlpDAO.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
+						gamOlnlpMngtService.deleteOlnlpBJD();
+
+						excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
+
+						gamOlnlpMngtService.createOlnlpFromBJD();
 					} catch(Exception e) {
 						throw e;
 					} finally {

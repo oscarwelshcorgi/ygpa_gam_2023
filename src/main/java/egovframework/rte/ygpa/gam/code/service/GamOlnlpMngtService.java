@@ -91,4 +91,16 @@ public interface GamOlnlpMngtService {
 	 */
 	List mergeOlnlpMngt(Map mergeMap) throws Exception;
 
+	/**
+	 * 법정동 자료에서 공시지가 자료를 생성한다.
+	 * @throws Exception
+	 */
+	void createOlnlpFromBJD() throws Exception;
+
+	/**
+	 * 법정동 자료를 삭제 한다.
+	 * @throws Exception
+	 */
+	void deleteOlnlpBJD();
+
 }

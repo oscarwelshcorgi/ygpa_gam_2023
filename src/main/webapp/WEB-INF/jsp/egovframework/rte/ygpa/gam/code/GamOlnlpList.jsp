@@ -8,14 +8,14 @@
   * @Class Name : GamOlnlpList.jsp
   * @Description : 공시지가 조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.03.10  kok          최초 생성
   *
   * author kok
   * since 2014.03.10
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -33,7 +33,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 	// 공시지가 등록현황 목록
 	this.$("#olnlpInsertList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamOlnlpInsertList.do" />',
+		url: '<c:url value="/code/gamOlnlpInqireList.do" />',
 		dataType: "json",
 		colModel : [
 				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:50,		sortable:false,		align:"center"},
@@ -47,9 +47,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 	});
 
 	// 공시지가 목록
-	this.$("#olnlpMngtList").flexigrid({
+	this.$("#olnlpInqireList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamOlnlpMngtList.do" />',
+		url: '<c:url value="/code/gamOlnlpInqireDetailList.do" />',
 		dataType: "json",
 		colModel : [
 				{display:"순번", 					name:"olnlpSeq",		width:100,		sortable:false,		align:"center"},
@@ -63,22 +63,22 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 		height: "230"
 	});
-	
+
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#olnlpMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
+		module.$("#olnlpInqireListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
 		var listInput = {gisAssetsCd:row["gisAssetsCd"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"]};
-		module.doAction('<c:url value="/code/gamOlnlpMngtList.do" />', listInput, function(module, result) {
+		module.doAction('<c:url value="/code/gamOlnlpInqiretList.do" />', listInput, function(module, result) {
 
 			var totalCount = result.totalCount;
 			if(totalCount > 0){
 				module.$("#gisAssetsCd").val(result.searchOption.gisAssetsCd);
 				module.$("#gisAssetsPrtAtCode").val(result.searchOption.gisAssetsPrtAtCode);
 				module.$("#gisAssetsSubCd").val(result.searchOption.gisAssetsSubCd);
-				
+
 				var searchOpt = module.makeFormArgs("#olnlpManageVO");
-				module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
+				module.$("#olnlpInqireList").flexOptions({params:searchOpt}).flexReload();
 			}else{
 				alert("등록된 공시지가 목록이 없습니다.");
 			}
@@ -91,12 +91,12 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
 GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
-			
+
 			if(this.$("#gisAssetsLnmSub").val() != ""){
 				if(this.$("#gisAssetsLnm").val() == ""){
 					this.$("#gisAssetsLnm").focus();
@@ -104,12 +104,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 					return;
 				}
 			}
-			
+
 			var searchOpt = this.makeFormArgs("#olnlpForm");
-		 	this.$("#olnlpMngtListTab").tabs("option", {active: 0});
+		 	this.$("#olnlpInqireListTab").tabs("option", {active: 0});
 		 	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 		// 자산코드 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
@@ -133,9 +133,9 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
  * 팝업 close 이벤트
  */
 GamOlnlpMngtModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
-		
+
 		// 자산코드 조회
 		case "searchGisCodePopup":
 			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
@@ -162,11 +162,11 @@ var module_instance = new GamOlnlpMngtModule();
 					<tbody>
 						<tr>
 							<th>항코드</th>
-							<td><input id="searchAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
+							<td><input id="searchAssetsPrtAtCode" data-column-id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<input id="searchAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" maxlength="3" title="검색조건"/>&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건"/>
 								<button id="searchPopupBtn">자산코드</button>
 							</td>
 							<td rowspan="2">
@@ -175,42 +175,39 @@ var module_instance = new GamOlnlpMngtModule();
 						<tr>
 							<th>소재지</th>
 							<td>
-								<input id="gisAssetsLocplc" type="text" size="50" title="검색조건" />
+								<input id="searchGisAssetsLocplc" data-column-id="gisAssetsLocplc" type="text" size="50" title="검색조건" />
 							</td>
 							<th>지번</th>
 							<td>
-								<input id="gisAssetsLnm" type="text" size="5" title="검색조건"  />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="5" title="검색조건"  />
+								<input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="5" title="검색조건"  />&nbsp;-&nbsp;
+								<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="5" title="검색조건"  />
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<!-- <div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-				</div> -->
 			</form>
 		</div>
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="olnlpMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="olnlpInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">공시지가등록현황목록</a></li>
 				<li><a href="#tabs2" class="emdTab">공시지가목록</a></li>
 			</ul>
-			
+
 			<!-- 공시지가 등록현황 목록 -->
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 			</div>
-			
+
 			<!-- 공시지가 목록 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<table id="olnlpMngtList" style="display:none" class="fillHeight"></table>
+				<table id="olnlpInqireList" style="display:none" class="fillHeight"></table>
 				<form id="olnlpManageVO">
 					<input type="hidden" id="gisAssetsCd" />
 					<input type="hidden" id="gisAssetsPrtAtCode" />
-					<input type="hidden" id="gisAssetsSubCd" />	
+					<input type="hidden" id="gisAssetsSubCd" />
 				</form>
 			</div>
 		</div>

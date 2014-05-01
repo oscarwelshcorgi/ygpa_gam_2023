@@ -102,6 +102,15 @@ public class GamOlnlpMngtDao extends YGPAAbstractDAO{
     	delete("gamOlnlpMngtDao.deleteOlnlpMngt", vo);
     }
 
+
+    public void createOlnlpByBJD() throws Exception {
+    	getSqlMapClient().queryForObject("gamOlnlpMngtDao.createOlnlpByBJD", null);
+    }
+
+    public void deleteOlnlpBJD() {
+    	delete("gamOlnlpMngtDao.deleteOlnlpBJD", null);
+    }
+
 	public List mergeOlnlpMngt(Map mergeMap) throws Exception {
 		return this.merge(mergeMap, "gamOlnlpMngtDao.insertOlnlpMngt", "gamOlnlpMngtDao.updateOlnlpMngt", "gamOlnlpMngtDao.deleteOlnlpMngt");
 	}

@@ -13,6 +13,7 @@
      <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamCmpyInfoMngtDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamGisCodeDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamOlnlpMngtDao_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamOlnlpInqireDao_SQL_oracle.xml"/>
 
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/itgrn/GamNticPayListDao_SQL_oracle.xml"/>
 

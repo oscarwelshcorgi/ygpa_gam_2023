@@ -102,4 +102,22 @@ public class GamOlnlpMngtServiceImpl extends AbstractServiceImpl implements GamO
 	public List mergeOlnlpMngt(Map mergeMap) throws Exception {
 		return gamOlnlpMngtDao.mergeOlnlpMngt(mergeMap);
 	}
+
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamOlnlpMngtService#updateOlnlpFromBJD()
+	 */
+	@Override
+	public void createOlnlpFromBJD() throws Exception {
+		gamOlnlpMngtDao.createOlnlpByBJD();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamOlnlpMngtService#deleteOlnlpBJD()
+	 */
+	@Override
+	public void deleteOlnlpBJD() {
+		gamOlnlpMngtDao.deleteOlnlpBJD();
+	}
 }

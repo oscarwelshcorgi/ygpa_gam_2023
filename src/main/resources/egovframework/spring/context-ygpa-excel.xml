@@ -15,7 +15,7 @@
 	<bean id="excelOlnlpService"	class="egovframework.rte.fdl.excel.impl.EgovExcelServiceImpl">
 		<!-- <property name="propertyPath" value="excelInfo.xml" /> -->
 		<property name="mapClass" value="egovframework.rte.ygpa.gam.code.service.impl.GamOlnlpExcelMapping" />
-		<property name="sqlMapClient" ref="egov.sqlMapClient" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
 
 </beans>
