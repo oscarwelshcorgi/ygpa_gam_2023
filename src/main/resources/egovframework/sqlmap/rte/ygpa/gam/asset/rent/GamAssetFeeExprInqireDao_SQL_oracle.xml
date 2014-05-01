@@ -293,9 +293,9 @@
 
     <select id="gamAssetFeeExprInqireDao.selectAssetFeeExprInqireSum_S" parameterClass="gamAssetFeeExprInqireVO" resultMap="gamAssetFeeExprInqireSumMap">
          SELECT
-                 NVL(COUNT(*),0) SUM_CNT
-               , NVL(SUM(A.GR_AR),0) SUM_GR_AR
-               , NVL(SUM(A.GR_FEE),0) SUM_GR_FEE
+                 TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999.0')) SUM_GR_AR
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
           FROM ASSETS_RENT_F A
          WHERE 1=1
 

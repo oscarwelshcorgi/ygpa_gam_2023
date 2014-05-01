@@ -73,6 +73,9 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
 	}
 
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
 	
 	today.setMonth(today.getMonth() - 1);
@@ -83,6 +86,10 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
 		serchMn = "0" + serchMn;
 	}
 	serchday = today.getDate();
+	
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
 

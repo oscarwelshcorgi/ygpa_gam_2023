@@ -306,11 +306,11 @@
     
     <select id="gamAssetRentFeeMngtDao.selectAssetRentFeeSum_S" parameterClass="gamAssetRentFeeMngtVO" resultMap="gamAssetRentFeeSumMap">
          SELECT 
-                 NVL(COUNT(*),0) SUM_CNT
-               , NVL(SUM(L.FEE),0) SUM_FEE
-               , NVL(SUM(L.ARRRG_AMT),0) SUM_ARRRG_AMT
-               , NVL(SUM(L.VAT),0) SUM_VAT
-               , NVL(SUM(L.NTIC_AMT),0) SUM_NTIC_AMT
+                 TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(L.FEE),0), '999,999,999,999')) SUM_FEE
+               , TRIM(TO_CHAR(NVL(SUM(L.ARRRG_AMT),0), '999,999,999,999')) SUM_ARRRG_AMT
+               , TRIM(TO_CHAR(NVL(SUM(L.VAT),0), '999,999,999,999')) SUM_VAT
+               , TRIM(TO_CHAR(NVL(SUM(L.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMT
           FROM LEV_REQEST_F L
          WHERE 1 = 1
          

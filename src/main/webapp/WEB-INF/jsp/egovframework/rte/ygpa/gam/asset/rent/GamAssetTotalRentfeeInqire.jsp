@@ -44,7 +44,7 @@ GamAssetTotalRentfeeInqireModule.prototype.loadComplete = function() {
                  {display:'업체코드', name:'reqstEntrpsCd',width:150, sortable:false,align:'center'},
                  {display:'업체명', name:'reqstEntrpsCdNm',width:150, sortable:false,align:'center'},
                  {display:'사용시작일', name:'usagePdFrom',width:150, sortable:false,align:'center'},
-                 {display:'사용료', name:'fee',width:150, sortable:false,align:'center'},
+                 {display:'사용료', name:'fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'면제', name:'exemptSe',width:150, sortable:false,align:'center'},
                  {display:'수정자', name:'updUsr',width:150, sortable:false,align:'center'},
                  {display:'수정일시', name:'updtDt',width:150, sortable:false,align:'center'}
@@ -70,6 +70,9 @@ GamAssetTotalRentfeeInqireModule.prototype.loadComplete = function() {
 	}
 	
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 

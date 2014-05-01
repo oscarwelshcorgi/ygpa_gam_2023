@@ -54,8 +54,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
                     {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
-                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
                     {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
                     //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
@@ -109,8 +109,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
@@ -154,7 +154,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: true,
-        height: '120'
+        height: '115'
     });
 
     // 첨부파일 테이블 설정
@@ -1497,9 +1497,9 @@ var module_instance = new GamAssetRentMngtModule();
                             <td>
                                <form id="form1">
                                    합계 :
-                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" readonly>
-                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" readonly>
-                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" readonly>원
+                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
+                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" style="text-align:right;" readonly>원
+                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" style="text-align:right;" readonly>원
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
@@ -1525,7 +1525,7 @@ var module_instance = new GamAssetRentMngtModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
-                <div class="emdControlPanel"></div>
+                <div class="emdControlPanel">
                     <form id="gamAssetRentForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -1617,30 +1617,31 @@ var module_instance = new GamAssetRentMngtModule();
                         </table>
                     </form>
 
-                 <table class="searchPanel">
-                    <tbody>
-                    <tr>
-                        <th>자산임대상세목록</th>
-                    </tr>
-                    </tbody>
-                 </table>
+	                 <table class="searchPanel">
+	                    <tbody>
+	                    <tr>
+	                        <th>자산임대상세목록</th>
+	                    </tr>
+	                    </tbody>
+	                 </table>
 
-                 <!-- <table id="assetRentDetailList" style="display:none" class="fillHeight"></table> -->
-                 <table id="assetRentDetailList" style="display:none"></table>
-
-                 <table style="width:100%">
-                    <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
-                    </tr>
-                    <tr>
-                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
-                        <td width="100"></td>
-                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
-                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
-                            <!-- <button id="btnCancelItem">취소</button>  -->
-                        </td>
-                    </tr>
-                 </table>
+	                 <!-- <table id="assetRentDetailList" style="display:none" class="fillHeight"></table> -->
+	                 <table id="assetRentDetailList" style="display:none"></table>
+	
+	                 <table style="width:100%">
+	                    <tr>
+	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
+	                    </tr>
+	                    <tr>
+	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
+	                        <td width="100"></td>
+	                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
+	                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
+	                            <!-- <button id="btnCancelItem">취소</button>  -->
+	                        </td>
+	                    </tr>
+	                 </table>
+                 </div>
             </div>
 
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">

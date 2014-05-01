@@ -38,11 +38,11 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
      colModel : [
                  {display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},
                  {display:'요금종류명', name:'chrgeKndNm',width:120, sortable:false,align:'center'},
-                 {display:'사용료', name:'sumFee',width:120, sortable:false,align:'right'},
-                 {display:'부가세', name:'sumVat',width:120, sortable:false,align:'right'},
-                 {display:'고지금액', name:'sumNticAmt',width:120, sortable:false,align:'right'},
-                 {display:'수납금액', name:'sumRcvdAmt',width:120, sortable:false,align:'right'},
-                 {display:'미수납금액', name:'sumNotRcvdAmt',width:120, sortable:false,align:'right'}
+                 {display:'사용료', name:'sumFee',width:120, sortable:false,align:'right', displayFormat:'number'},
+                 {display:'부가세', name:'sumVat',width:120, sortable:false,align:'right', displayFormat:'number'},
+                 {display:'고지금액', name:'sumNticAmt',width:120, sortable:false,align:'right', displayFormat:'number'},
+                 {display:'수납금액', name:'sumRcvdAmt',width:120, sortable:false,align:'right', displayFormat:'number'},
+                 {display:'미수납금액', name:'sumNotRcvdAmt',width:120, sortable:false,align:'right', displayFormat:'number'}
                  ],
      usepager: true,
      useRp: true,
@@ -69,6 +69,9 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
 	}
 
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
 	
 	today.setMonth(today.getMonth() - 1);
@@ -79,6 +82,9 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
 		serchMn = "0" + serchMn;
 	}
 	serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 	
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
 

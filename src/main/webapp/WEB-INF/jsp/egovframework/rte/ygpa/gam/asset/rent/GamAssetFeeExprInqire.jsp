@@ -45,21 +45,21 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
                     {display:'고지번호', name:'nticno',width:70, sortable:false,align:'center'},
                     {display:'사용시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},
                     {display:'사용종료일', name:'nticPdTo',width:100, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'부가세', name:'vat',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'과세', name:'vatYn',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'부가세', name:'vat',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'과세', name:'vatYn',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'고지번호', name:'nticNo',width:60, sortable:false,align:'center'},
                     {display:'고지일자', name:'nticDt',width:60, sortable:false,align:'center'},
                     {display:'납부기한', name:'payTmlmt',width:60, sortable:false,align:'center'},
                     {display:'수납일자', name:'rcivDt',width:60, sortable:false,align:'center'},
-                    {display:'연체금액', name:'arrrgAmt',width:60, sortable:false,align:'center'},
+                    {display:'연체금액', name:'arrrgAmt',width:60, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'총사용기간 시작', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
                     {display:'총사용기간 종료', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
                     {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
-                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
                     {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
                     //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
@@ -110,8 +110,8 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
                     {display:'자산명', name:'gisAssetsNm',width:130, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:100, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:100, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:100, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
@@ -155,7 +155,7 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '140'
     });
 
     // 첨부파일 테이블 설정
@@ -181,7 +181,7 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
 					{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
                     {display:'관리년도', name:'mngYear',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'mngNo',width:60, sortable:false,align:'center'},
-                    {display:'관리횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
+                    {display:'관리횟수', name:'mngCnt',width:60, sortable:false,align:'right', displayFormat: 'number'},
 
                     {display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},
                     {display:'사진 제목', name:'photoSj', width:300, sortable:true, align:'center'},
@@ -1228,9 +1228,9 @@ var module_instance = new GamAssetFeeExprInqireModule();
                             <td>
                                <form id="form1">
                                    합계 :
-                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" readonly>
-                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" readonly>
-                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" readonly>원
+                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
+                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" style="text-align:right;" readonly>
+                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" style="text-align:right;" readonly>원
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
@@ -1275,15 +1275,13 @@ var module_instance = new GamAssetFeeExprInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">관리번호</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="4" id="mngYear" readonly/>-
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">신청업체</span></th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="25" id="entrpsNm" readonly/>
                                     <!-- <button id="popupEntrpsInfoInput">업체조회</button>  -->
@@ -1334,27 +1332,13 @@ var module_instance = new GamAssetFeeExprInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">비고</span></th>
-                                <td colspan="3"><input type="text" size="50" id="rm" disabled/></td>
-                            </tr>
-                            <tr>
+                                <td><input type="text" size="50" id="rm" disabled/></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"><input type="text" size="50" id="cmt" disabled/><!-- <button id="btnSaveComment">코멘트저장</button></td>  -->
+                                <td><input type="text" size="50" id="cmt" disabled/><!-- <button id="btnSaveComment">코멘트저장</button></td>  -->
                             </tr>
                         </table>
                     </form>
 
-                <!--
-                <div style="vertical-align: bottom; text-align: right;">
-                    <input type="reset" value="취소" class="input_1"> <input
-                        type="submit" value="저장" class="input_1">
-                </div>
-                 -->
-
-                 <table>
-                    <tr>
-                        <td height="30"></td>
-                    </tr>
-                 </table>
                  <table class="searchPanel">
                     <tbody>
                     <tr>

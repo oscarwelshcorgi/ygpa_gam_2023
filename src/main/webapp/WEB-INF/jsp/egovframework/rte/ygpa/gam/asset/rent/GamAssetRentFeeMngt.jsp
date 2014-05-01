@@ -44,11 +44,11 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
                     {display:'고지기간FROM', name:'nticPdFrom',width:100, sortable:false,align:'center'}, 
                     {display:'고지기간TO', name:'nticPdTo',width:100, sortable:false,align:'center'},
                     {display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},
                     {display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},
                     {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'center'},
-                    {display:'사용면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용면적', name:'grAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'사용기간FROM', name:'grUsagePdFrom',width:100, sortable:false,align:'center'},
                     {display:'사용기간TO', name:'grUsagePdTo',width:100, sortable:false,align:'center'},
                     {display:'허가일자', name:'prmisnDt',width:70, sortable:false,align:'center'}
@@ -590,11 +590,11 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td>
                                <form id="form1">
                                   합계
-                                  자료수 <input id="totalResultCnt" class="ygpaNumber" size="5" readonly>
-                                  사용료 <input id="sumFee" type="text" class="ygpaCurrency" size="14" readonly>
-                                  연체 <input id="sumArrrgAmt" type="text" class="ygpaCurrency" size="14" readonly>
-                                  부가세 <input id="sumVat" type="text" class="ygpaCurrency" size="14" readonly>
-                                  고지액 <input id="sumNticAmt" type="text" class="ygpaCurrency" size="14" readonly>
+                                  자료수 <input id="totalResultCnt" class="ygpaNumber" size="5" style="text-align:right;" readonly>
+                                  사용료 <input id="sumFee" type="text" class="ygpaCurrency" size="14" style="text-align:right;" readonly>
+                                  연체 <input id="sumArrrgAmt" type="text" class="ygpaCurrency" size="14" style="text-align:right;" readonly>
+                                  부가세 <input id="sumVat" type="text" class="ygpaCurrency" size="14" style="text-align:right;" readonly>
+                                  고지액 <input id="sumNticAmt" type="text" class="ygpaCurrency" size="14" style="text-align:right;" readonly>
                                </form>
                             </td>
                             <td>

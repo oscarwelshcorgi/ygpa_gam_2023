@@ -45,8 +45,8 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
                     {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
-                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
                     {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
                     //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
@@ -97,8 +97,8 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
@@ -141,8 +141,8 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
                     {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
                     */
                     ],
-        showTableToggleBtn: false,
-        height: 'auto'
+        showTableToggleBtn: true,
+        height: '145'
     });
 
     // 첨부파일 테이블 설정
@@ -1177,9 +1177,9 @@ var module_instance = new GamAssetRentSttusInqireModule();
                             <td>
                                <form id="form1">
                                    합계 :
-                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" readonly>
-                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" readonly>
-                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" readonly>원
+                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
+                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" style="text-align:right;" readonly>원
+                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" style="text-align:right;" readonly>원
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
@@ -1206,7 +1206,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+            <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
                 <div class="emdControlPanel"></div>
                     <form id="gamAssetRentSttusInqireForm">
                         <input type="hidden" id="cmd"/>
@@ -1215,24 +1215,24 @@ var module_instance = new GamAssetRentSttusInqireModule();
                         <table>
                             <tr>
                                 <th><span class="label">항구분</span></th>
-                                <td style="width: 350px">
+                                <td style="width: 350px" colspan="3">
                                     <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
                                     <input type="text" size="5" id="prtAtCodeStr" disabled/>
                                 </td>
                                 <th><span class="label">담당부서</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="label">관리번호</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="4" id="mngYear" disabled/>-
                                     <input type="text" size="3" id="mngNo" disabled/>-
                                     <input type="text" size="2" id="mngCnt" disabled/>
                                 </td>
                                 <th><span class="label">신청업체</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="6" id="entrpscd" maxlength="10" disabled/>
                                     <input type="text" size="25" id="entrpsNm" disabled/>
                                     <!-- <button id="popupEntrpsInfoInput">업체조회</button>  -->
@@ -1240,13 +1240,13 @@ var module_instance = new GamAssetRentSttusInqireModule();
                             </tr>
                             <tr>
                                 <th><span class="label">최초신청일자</span></th>
-                                <td><input type="text" size="10" id="frstReqstDt" disabled/></td>
+                                <td colspan="3"><input type="text" size="10" id="frstReqstDt" disabled/></td>
                                 <th><span class="label">신청일자</span></th>
-                                <td><input type="text" size="10" id="reqstDt" disabled/></td>
+                                <td colspan="3"><input type="text" size="10" id="reqstDt" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">승낙여부</span></th>
-                                <td>
+                                <td colspan="3">
                                     <select id="prmisnYn" disabled>
                                         <option value="" selected="selected">선택</option>
                                         <option value="Y">Y</option>
@@ -1254,26 +1254,24 @@ var module_instance = new GamAssetRentSttusInqireModule();
                                     </select>
                                 </td>
                                 <th><span class="label">승낙일자</span></th>
-                                <td><input type="text" size="10" id="prmisnDt" disabled></td>
+                                <td colspan="3"><input type="text" size="10" id="prmisnDt" disabled></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용기간</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="10" id="grUsagePdFrom" disabled/>~
                                     <input type="text" size="10" id="grUsagePdTo" disabled/>
                                 </td>
                                 <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
+                                <td colspan="3"><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
+                                <td style="width: 150px"><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
                                 <th><span class="label">총감면사용료</span></th>
                                 <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">납부방법</span></th>
-                                <td>
+                                <td style="width: 150px">
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
                                 </td>
                                 <th><span class="label">고지 방법</span></th>
@@ -1281,10 +1279,9 @@ var module_instance = new GamAssetRentSttusInqireModule();
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
                                 </td>
                             </tr>
-
                             <tr>
                                 <th><span class="label">분납이자율</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4" disabled/>
                                     <select id="cofixList" disabled>
                                         <option value="">선택</option>
@@ -1294,27 +1291,15 @@ var module_instance = new GamAssetRentSttusInqireModule();
                                     </select>
                                 </td>
                                 <th><span class="label">비고</span></th>
-                                <td><input type="text" size="50" id="rm" disabled/></td>
+                                <td colspan="3"><input type="text" size="50" id="rm" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3"> <input type="text" size="50" id="cmt" disabled/><!--<button id="btnSaveComment">코멘트저장</button>  --></td>
+                                <td colspan="6"> <input type="text" size="50" id="cmt" disabled/><!--<button id="btnSaveComment">코멘트저장</button>  --></td>
                             </tr>
                         </table>
                     </form>
 
-                <!--
-                <div style="vertical-align: bottom; text-align: right;">
-                    <input type="reset" value="취소" class="input_1"> <input
-                        type="submit" value="저장" class="input_1">
-                </div>
-                 -->
-
-                 <table>
-                    <tr>
-                        <td height="30"></td>
-                    </tr>
-                 </table>
                  <table class="searchPanel">
                     <tbody>
                     <tr>

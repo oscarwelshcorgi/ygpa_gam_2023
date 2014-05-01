@@ -100,6 +100,7 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
 	if(serchday < 10){
 		serchday = "0" + serchday;
 	}
+
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 
 	this.$("#sGrUsagePdFrom").val(displayDate);
