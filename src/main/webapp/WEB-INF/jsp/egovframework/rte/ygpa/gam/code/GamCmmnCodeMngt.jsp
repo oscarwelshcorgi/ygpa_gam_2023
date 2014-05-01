@@ -25,6 +25,8 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
+ 
+
 function GamCmmnCodeMngtModule() {}
 
 GamCmmnCodeMngtModule.prototype = new EmdModule(800, 600);
@@ -39,6 +41,7 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
+					{display:"분류코드", 		name:"clCode",		width:60, 	sortable:false,		align:"center"},
 					{display:"분류명",		name:"clCodeNm",	width:300, 	sortable:false,		align:"center"},
 					{display:"코드ID", 		name:"codeId",		width:100, 	sortable:false,		align:"center"},
 					{display:"코드ID명", 	name:"codeIdNm",	width:120, 	sortable:false,		align:"center"},
@@ -93,6 +96,7 @@ GamCmmnCodeMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.$("#cmmnCodeMngListTab").tabs("option", {active: 1});
 			this.$("#cmmnCodeManageVO :input").val("");
+			this.$("#useAt").val("Y");
 			this.$("#cmd").val("insert");
 			this.$("#clCode").removeAttr("disabled","disabled");			// 분류코드
 			this.$("#codeId").removeAttr("disabled","disabled");			// 코드ID
@@ -175,10 +179,11 @@ var module_instance = new GamCmmnCodeMngtModule();
 									<option selected="selected">--선택하세요--</option>
 									<option value="1">코드ID</option>
 									<option value="2">코드ID명</option>
+									<option value="3">분류코드</option>
 								</select>	   
 							</td>
 							<td>&nbsp;<input name="searchKeyword" id="searchKeyword" type="text" size="70" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -209,12 +214,15 @@ var module_instance = new GamCmmnCodeMngtModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드</th>
 							<td>
-								<select name="clCode" class="select" id="clCode">
-									<c:forEach var="result" items="${cmmnClCode}" varStatus="status">
-										<option value='<c:out value="${result.clCode}"/>'><c:out value="${result.clCode}"/></option>
-									</c:forEach>			  		   
-								</select>
-							</td>
+								<input id="clCode" class="ygpaCmmnCl" data-code-id='GAM019' data-column-id="clCode" data-display-value="Y" size="10"/>
+
+<%-- 								<select name="clCode" class="select" id="clCode" onchange='clcodenmf("${cmmnClCode}")'> --%>
+<%-- 									<c:forEach var="result" items="${cmmnClCode}" varStatus="status"> --%>
+<%-- 										<option value='<c:out value="${result.clCode}"/>' ><c:out value="${result.clCode}"/></option> --%>
+<%-- 									</c:forEach>			  		    --%>
+<!-- 								</select> -->
+<!-- 								<input type="text" readonly="readonly" id="detailclnm"> -->
+ 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">코드ID</th>
@@ -240,7 +248,7 @@ var module_instance = new GamCmmnCodeMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="listBtn">목록</button>
+<!-- 					<button id="listBtn">목록</button> -->
 					<button id="saveBtn">저장</button>
 					<button id="deleteBtn">삭제</button>
 				</div>
