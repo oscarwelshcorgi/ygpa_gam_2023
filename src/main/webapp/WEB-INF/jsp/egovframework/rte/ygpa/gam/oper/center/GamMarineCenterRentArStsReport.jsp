@@ -52,25 +52,23 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
      }
  });
 
- //로드될 때 사용기간에 오늘날짜 처리
+	//전월로 셀렉트박스 날짜 정의
 	var today = new Date();
- 	
- 	var toMonth = today.getMonth();
- 	//이번탈로 셀렉트박스 날짜 입력
- 	var endYr = today.getFullYear();
- 	var endMn = today.getMonth() + 1;
- 	endMn = (endMn >= 10) ? '' + endMn : '0' + endMn;
- 	
- 	//전월로 셀렉트박스 날짜 이력
- 	today.setMonth(toMonth - 1);
- 	var startYr = today.getFullYear();
- 	var startMn = today.getMonth() + 1;
- 	startMn = (startMn >= 10) ? '' + startMn : '0' + startMn;
- 	
-	this.$('#sStartYr').val(startYr);
-	this.$('#sStartMn').val(startMn);    
-	this.$('#sEndYr').val(endYr);
-	this.$('#sEndMn').val(endMn);
+	
+	var toMonth = today.getMonth();
+	today.setDate(1);
+	today.setMonth(toMonth - 1);
+	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+	if (serchMn < 10) {
+		serchMn = "0" + serchMn;
+	}
+
+	this.$("#sStartYr").val(serchYr);
+	this.$("#sStartMn").val(serchMn);
+	this.$("#sEndYr").val(serchYr);
+	this.$("#sEndMn").val(serchMn);
 };
 
 this.$("#marineCenterRentArStsReportList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -179,18 +177,18 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
                         <tr>
                             <th>항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th>업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <th>업체코드</th>
+                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;<button id="popupEntrpsInfo">업체</button></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>자산코드</th>
 							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
-								<button id="searchPopupBtn">자산코드</button>
+								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
+								<button id="searchPopupBtn">자산</button>
 							</td>
-                            <th>조회기간</th>
+                            <th>사용기간</th>
                             <td>
 		                       	<select id="sStartYr">
                                     <option value="" selected="selected">년도</option>

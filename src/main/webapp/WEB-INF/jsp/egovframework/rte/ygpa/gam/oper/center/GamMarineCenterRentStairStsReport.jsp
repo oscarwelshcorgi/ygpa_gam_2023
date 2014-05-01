@@ -54,25 +54,20 @@ GamMarineCenterRentStairStsReportModule.prototype.loadComplete = function() {
 });
  
 	
+	//전월로 셀렉트박스 날짜 정의
 	var today = new Date();
 	
 	var toMonth = today.getMonth();
-	
-	// 이번달로 셀렉트박스 날짜 정의
-	var endYr = today.getFullYear();
-	var endMn = today.getMonth() + 1;
-	
-	this.$("#serchEndYr").val(endYr);
-	this.$("#serchEndMn").val(endMn);
-	
-	//전월로 셀렉트박스 날짜 정의
+	today.setDate(1);
 	today.setMonth(toMonth - 1);
-	var startYr = today.getFullYear();
-	var startMn = today.getMonth() + 1;
-
-	this.$("#serchStartYr").val(startYr);
-	this.$("#serchStartMn").val(startMn);
 	
+	var serchYr = today.getFullYear();
+	var serchMn = today.getMonth() + 1;
+
+	this.$("#serchStartYr").val(serchYr);
+	this.$("#serchStartMn").val(serchMn);
+	this.$("#serchEndYr").val(serchYr);
+	this.$("#serchEndMn").val(serchMn);
 
 };
 
@@ -182,16 +177,16 @@ var module_instance = new GamMarineCenterRentStairStsReportModule();
                         <tr>
                             <th>항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th>업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <th>업체코드</th>
+                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;<button id="popupEntrpsInfo">업체</button></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
-								<button id="searchPopupBtn">자산코드</button>
+								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
+								<button id="searchPopupBtn">자산</button>
 							</td>
                             <th>사용기간</th>
                             <td>

@@ -68,6 +68,10 @@
 							         T1.USAGE_YEAR,
 							         T1.USAGE_QU,
 							         T1.USAGE_MT
+						        ORDER BY T1.PRT_AT_CODE,
+							         T1.USAGE_YEAR,
+							         T1.USAGE_QU,
+							         T1.USAGE_MT
                 ) S
              ) A
     	

@@ -190,16 +190,16 @@ var module_instance = new GamCmmnCntrMtRentFeeSttusInqireModule();
                         <tr>
                             <th>항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th>업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <th>업체코드</th>
+                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;<button id="popupEntrpsInfo">업체</button></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>자산코드</th>
 							<td>
 								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
-								<button id="searchPopupBtn">자산코드</button>
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
+								<button id="searchPopupBtn">자산</button>
 							</td>
                             <th>조회기간</th>
                             <td>

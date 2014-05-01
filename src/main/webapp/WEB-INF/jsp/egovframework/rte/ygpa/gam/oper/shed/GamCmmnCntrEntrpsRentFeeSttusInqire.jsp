@@ -36,24 +36,24 @@ GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/oper/shed/gamSelectCmmnCntrEntrpsRentFeeSttusInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'항코드', name:'prtAtCode',width:100, sortable:false,align:'center'},
-				 {display:'항코드명', name:'prtKorNm',width:120, sortable:false,align:'center'},
-                 {display:'사용년도', name:'usageYear',width:100, sortable:false,align:'center'},
-                 {display:'업체코드', name:'reqstEntrpsCd',width:100, sortable:false,align:'center'},
-                 {display:'업체명', name:'entrpsNm',width:100, sortable:false,align:'center'},
-                 {display:'전체사용료', name:'sumTotalFee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'1월사용료', name:'sum01Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'2월사용료', name:'sum02Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'3월사용료', name:'sum03Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'4월사용료', name:'sum04Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'5월사용료', name:'sum05Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'6월사용료', name:'sum06Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'7월사용료', name:'sum07Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'8월사용료', name:'sum08Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'9월사용료', name:'sum09Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'10월사용료', name:'sum10Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'11월사용료', name:'sum11Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},
-                 {display:'12월사용료', name:'sum12Fee',width:100, sortable:false,align:'right' , displayFormat: 'number'}
+                 {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+                 {display:'항코드명', name:'prtKorNm',width:55, sortable:false,align:'center'},
+                 {display:'사용년도', name:'usageYear',width:55, sortable:false,align:'center'},
+                 {display:'업체코드', name:'reqstEntrpsCd',width:70, sortable:false,align:'center'},
+                 {display:'업체명', name:'entrpsNm',width:180, sortable:false,align:'left'},
+                 {display:'전체사용료', name:'sumTotalFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'1월사용료', name:'sum01Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'2월사용료', name:'sum02Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'3월사용료', name:'sum03Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'4월사용료', name:'sum04Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'5월사용료', name:'sum05Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'6월사용료', name:'sum06Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'7월사용료', name:'sum07Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'8월사용료', name:'sum08Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'9월사용료', name:'sum09Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'10월사용료', name:'sum10Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'11월사용료', name:'sum11Fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'12월사용료', name:'sum12Fee',width:100, sortable:false,align:'right', displayFormat: 'number'}
                  ],
      showTableToggleBtn: true,
      height: '350',
@@ -187,14 +187,14 @@ var module_instance = new GamCmmnCntrEntrpsRentFeeSttusInqireModule();
                             <th>항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th>업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;<button id="popupEntrpsInfo">업체</button></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
 								<button id="searchPopupBtn">자산코드</button>
 							</td>
                             <th>사용기간</th>
