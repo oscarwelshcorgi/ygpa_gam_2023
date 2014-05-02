@@ -526,22 +526,24 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			if(this.selectedItem==null) {
 				return;
 			}
-			var assetCd = [
-			               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},
-			               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
-			               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
-			             ];
-	   	 	this.doAction('<c:url value="/code/assets/selectGisAssetCodeByPk.do" />', assetCd, function(module, result) {
-				if (result.resultCode == "0") {
-					module.makeFormValues('#editGisAssetCode',
-							result.result); // 결과값을 채운다.
-					module._editData = result.result;
-							module._state="";
-							module._regMode="U";
-				} else {
-					alert(result.resultMsg);
-				}
-						});
+			if(this._regMode!="I") {
+				var assetCd = [
+				               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},
+				               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
+				               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
+				             ];
+		   	 	this.doAction('<c:url value="/code/assets/selectGisAssetCodeByPk.do" />', assetCd, function(module, result) {
+					if (result.resultCode == "0") {
+						module.makeFormValues('#editGisAssetCode',
+								result.result); // 결과값을 채운다.
+						module._editData = result.result;
+								module._state="";
+								module._regMode="U";
+					} else {
+						alert(result.resultMsg);
+					}
+							});
+			}
 			break;
 		case 'tabs3':
 			this.loadPhotoList();
@@ -554,12 +556,14 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		if(this.selectedItem==null) {
 			return;
 		}
-		var assetCd = [
-	               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},
-	               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
-	               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
-	             ];
-	 	this.$('#assetCodePhotoList').flexOptions({params:assetCd}).flexReload();
+		if(this._regMode!="I") {
+			var assetCd = [
+		               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},
+		               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
+		               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
+		             ];
+		 	this.$('#assetCodePhotoList').flexOptions({params:assetCd}).flexReload();
+		}
 	}
 
 	GamAssetCodeModule.prototype.onSubmit = function() {

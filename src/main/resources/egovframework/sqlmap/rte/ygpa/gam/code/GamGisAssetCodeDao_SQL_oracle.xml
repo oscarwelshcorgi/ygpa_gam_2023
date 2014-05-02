@@ -130,7 +130,7 @@
 				GIS_ASSETS_BLDDATE=#gisAssetsBlddate#,
 			</isNotNull>
 			<isNotNull property="gisAssetsBldDt">
-				GIS_ASSETS_BLD_DT=#gisAssetsBldDt#,
+				GIS_ASSETS_BLD_DT=TO_DATE(#gisAssetsBldDt#, 'YYYY-MM-DD'),
 			</isNotNull>
 			<isNotNull property="gisAssetsStndrd">
 				GIS_ASSETS_STNDRD=#gisAssetsStndrd#,
@@ -181,7 +181,7 @@
 				GIS_ASSETS_VAL_AMT=#gisAssetsValAmt#,
 			</isNotNull>
 			<isNotNull property="gisAssetsValInqireDt">
-				GIS_ASSETS_VAL_INQIRE_DT=#gisAssetsValInqireDt#,
+				GIS_ASSETS_VAL_INQIRE_DT=TO_DATE(#gisAssetsValInqireDt#),
 			</isNotNull>
 			<isNotNull property="drwLstRegistYear">
 				DRW_LST_REGIST_YEAR=#drwLstRegistYear#,
