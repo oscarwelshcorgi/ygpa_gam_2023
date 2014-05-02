@@ -361,7 +361,7 @@ var module_instance = new GamOlnlpMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="insertExcel">엑셀등록</button>
+					<button id="insertExcel" class="buttonExcel">엑셀등록</button>
 				</div>
 			</div>
 
