@@ -244,3 +244,4 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
 
     </div>
 </div>
+</div>
