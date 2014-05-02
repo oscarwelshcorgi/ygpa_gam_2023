@@ -564,11 +564,11 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 			alert(result.resultMsg);
 	     	 		}
 	     	 	});
+	    		this.loadPhotoList();
 		}
 		else if(this._cmd=="insert") {
 	 			module.clearPhotoPage();
 		}
-		this.loadPhotoList();
 		break;
 	}
 };

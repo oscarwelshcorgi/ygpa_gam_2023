@@ -184,7 +184,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 		break;
 	}
-	
+
 
 };
 
@@ -571,12 +571,12 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 			alert(result.resultMsg);
 	     	 		}
 	     	 	});
+	     	 	this.loadPhotoList();
 		}
 		else if(this._cmd=="insert") {
 	 			this.clearPhotoPage();
-	 			this.$("#fcltyPhotoList").flexEmptyData();
 		}
-		this.loadPhotoList();
+		//this.loadPhotoList();
 		break;
 	}
 };
