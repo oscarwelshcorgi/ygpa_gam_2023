@@ -146,6 +146,33 @@ vertical-align: middle;
   color: #fff;
 }
 
+.summaryPanel table {
+	width: 100%;
+	background: white;
+}
+
+.summaryPanel th {
+	background: #585AC8;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+  text-shadow: #000 0 1px 1px;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.summaryPanel td {
+	background: #fff;
+	color: #615E5E;
+	vertical-align:middle;
+	padding-left: 4px;
+}
+
+.summaryPanel tr {
+  background: #06c repeat-x;
+  color: #fff;
+}
+
 .searchPanel th.shrink {
   width: 1%;
 }
