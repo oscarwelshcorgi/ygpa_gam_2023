@@ -649,7 +649,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<tr>
 						<th><span class="label">항구분</span></th>
 						<td>
-							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-code='P' />
+							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-code='P' data-required="true"/>
 						</td>
 						<th><span class="label">자산코드</span></th>
 						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
@@ -669,20 +669,20 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-								<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001'>
+								<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001' data-required="true">
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
-							<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM002'>
+							<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM002'data-required="true">
 						</td>
 						<th><span class="label">부두구분</span></th>
 						<td>
-							<input id="gisAssetsQuayCd" class="ygpaCmmnCd" data-code-id='GAM003'>
+							<input id="gisAssetsQuayCd" class="ygpaCmmnCd" data-code-id='GAM003' data-required="true">
 						</td>
 					</tr>
 					<tr>
 						<th><span class="label">자산명</span></th>
-						<td colspan="5"><input type="text" size="80" id="gisAssetsNm"></td>
+						<td colspan="5"><input type="text" size="80" id="gisAssetsNm" data-required="true"></td>
 					</tr>
 					<tr>
 						<th><span class="label">자산소재지</span></th>
