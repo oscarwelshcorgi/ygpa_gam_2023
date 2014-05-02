@@ -112,6 +112,6 @@ public class GamOlnlpMngtDao extends YGPAAbstractDAO{
     }
 
 	public List mergeOlnlpMngt(Map mergeMap) throws Exception {
-		return this.merge(mergeMap, "gamOlnlpMngtDao.insertOlnlpMngt", "gamOlnlpMngtDao.updateOlnlpMngt", "gamOlnlpMngtDao.deleteOlnlpMngt");
+		return this.merge(mergeMap, "gamOlnlpMngtDao.insertOlnlpMngtMap", "gamOlnlpMngtDao.updateOlnlpMngtMap", "gamOlnlpMngtDao.deleteOlnlpMngtMap");
 	}
 }

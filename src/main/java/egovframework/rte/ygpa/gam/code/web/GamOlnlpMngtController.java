@@ -295,7 +295,7 @@ public class GamOlnlpMngtController {
     	return map;
     }
 
-	@RequestMapping(value="/asset/mergeGamOlnlpMngt.do")
+	@RequestMapping(value="/code/mergeGamOlnlpMngt.do")
 	@ResponseBody Map<String, Object> mergeGamOlnlpMngt(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();

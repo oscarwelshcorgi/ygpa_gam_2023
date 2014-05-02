@@ -91,17 +91,115 @@
 	</insert>
 
 	<update id="gamGisAssetCodeDao.updateAssetCode_S">
-		<![CDATA[
 			UPDATE GIS_ASSETS_CD_F
-			SET ID=#id#
-				, NAME=#name#
-				, DESCRIPTION=#description#
-				, USE_YN=#useYn#
+			SET
+			<isNotNull property="erpAssetsSeCd">
+				ERP_ASSETS_SE_CD=#erpAssetsSeCd#,
+			</isNotNull>
+			<isNotNull property="erpAssetsNo">
+				ERP_ASSETS_NO=#erpAssetsNo#,
+			</isNotNull>
+			<isNotNull property="erpAssetsNoSeq">
+				ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#,
+			</isNotNull>
+			<isNotNull property="erpAssetsDisuseRegistYn">
+				ERP_ASSETS_DISUSE_REGIST_YN=#erpAssetsDisuseRegistYn#,
+			</isNotNull>
+			<isNotNull property="erpAssetsDisuseRsn">
+				ERP_ASSETS_DISUSE_RSN=#erpAssetsDisuseRsn#,
+			</isNotNull>
+			<isNotNull property="gisAssetsPrprtySeCd">
+				GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsLocCd">
+				GIS_ASSETS_LOC_CD=#gisAssetsLocCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsQuayCd">
+				GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsQuayGroupCd">
+				GIS_ASSETS_QUAY_GROUP_CD=#gisAssetsQuayGroupCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsNm">
+				GIS_ASSETS_NM=#gisAssetsNm#,
+			</isNotNull>
+			<isNotNull property="gisAssetsAcqPri">
+				GIS_ASSETS_ACQ_PRI=#gisAssetsAcqPri#,
+			</isNotNull>
+			<isNotNull property="gisAssetsBlddate">
+				GIS_ASSETS_BLDDATE=#gisAssetsBlddate#,
+			</isNotNull>
+			<isNotNull property="gisAssetsBldDt">
+				GIS_ASSETS_BLD_DT=#gisAssetsBldDt#,
+			</isNotNull>
+			<isNotNull property="gisAssetsStndrd">
+				GIS_ASSETS_STNDRD=#gisAssetsStndrd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsSeCd">
+				GIS_ASSETS_SE_CD=#gisAssetsSeCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsMngDeptCd">
+				GIS_ASSETS_MNG_DEPT_CD=#gisAssetsMngDeptCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsOperDeptCd">
+				GIS_ASSETS_OPER_DEPT_CD=#gisAssetsOperDeptCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsLocplc">
+				GIS_ASSETS_LOCPLC=#gisAssetsLocplc#,
+			</isNotNull>
+			<isNotNull property="gisAssetsBupjungdongCd">
+				GIS_ASSETS_BUPJUNGDONG_CD=#gisAssetsBupjungdongCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsLnmMt">
+				GIS_ASSETS_LNM_MT=#gisAssetsLnmMt#,
+			</isNotNull>
+			<isNotNull property="gisAssetsLnm">
+				GIS_ASSETS_LNM=#gisAssetsLnm#,
+			</isNotNull>
+			<isNotNull property="gisAssetsLnmSub">
+				GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#,
+			</isNotNull>
+			<isNotNull property="gisAssetsAr">
+				GIS_ASSETS_AR=#gisAssetsAr#,
+			</isNotNull>
+			<isNotNull property="gisAssetsRealRentAr">
+				GIS_ASSETS_REAL_RENT_AR=#gisAssetsRealRentAr#,
+			</isNotNull>
+			<isNotNull property="gisAssetsUsageYn">
+				GIS_ASSETS_USAGE_YN=#gisAssetsUsageYn#,
+			</isNotNull>
+			<isNotNull property="gisAssetsInvstmntMthd">
+				GIS_ASSETS_INVSTMNT_MTHD=#gisAssetsInvstmntMthd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsGisCd">
+				GIS_ASSETS_GIS_CD=#gisAssetsGisCd#,
+			</isNotNull>
+			<isNotNull property="gisAssetsRm">
+				GIS_ASSETS_RM=#gisAssetsRm#,
+			</isNotNull>
+			<isNotNull property="gisAssetsValAmt">
+				GIS_ASSETS_VAL_AMT=#gisAssetsValAmt#,
+			</isNotNull>
+			<isNotNull property="gisAssetsValInqireDt">
+				GIS_ASSETS_VAL_INQIRE_DT=#gisAssetsValInqireDt#,
+			</isNotNull>
+			<isNotNull property="drwLstRegistYear">
+				DRW_LST_REGIST_YEAR=#drwLstRegistYear#,
+			</isNotNull>
+			<isNotNull property="drwLstSeq">
+				DRW_LST_SEQ=#drwLstSeq#,
+			</isNotNull>
+			<isNotNull property="erpAssetsCls">
+				ERP_ASSETS_CLS=#erpAssetsCls#
+			</isNotNull>
+			<isNotNull property="updUsr">
+				UPD_USR=#updUsr#,
+			</isNotNull>
+				UPDTDT=SYSDATE
 			WHERE
 				GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
 				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 				AND GIS_ASSETS_CD=#gisAssetsCd#
-		]]>
 	</update>
 
 	<delete id="gamGisAssetCodeDao.deleteAssetCode_S">

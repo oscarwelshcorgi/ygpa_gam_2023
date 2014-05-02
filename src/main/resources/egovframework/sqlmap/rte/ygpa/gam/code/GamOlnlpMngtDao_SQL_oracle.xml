@@ -216,6 +216,67 @@
 		       AND OLNLP_SEQ = #olnlpSeq#
     </delete>
 
+
+      	<insert id="gamOlnlpMngtDao.insertOlnlpMngtMap" parameterClass="hashMap">
+		INSERT
+		  INTO OLNLP_F
+		       (
+		           GIS_ASSETS_CD ,
+		           GIS_ASSETS_PRT_AT_CODE ,
+		           GIS_ASSETS_SUB_CD ,
+		           OLNLP_SEQ ,
+		           OLNLP ,
+		           REG_USR ,
+		           REGIST_DT ,
+		           BEGIN_DT ,
+		           END_DT
+		       )
+		       VALUES
+		       (
+		           #gisAssetsCd# ,
+		           #gisAssetsPrtAtCode# ,
+		           #gisAssetsSubCd# ,
+		           (SELECT MAX(OLNLP_SEQ+1) FROM OLNLP_F) ,
+		           #olnlp# ,
+		           #regUsr# ,
+		           SYSDATE ,
+		           #beginDt# ,
+		           #endDt#
+		       )
+    </insert>
+
+  	<update id="gamOlnlpMngtDao.updateOlnlpMngtMap" parameterClass="hashMap">
+		UPDATE OLNLP_F
+		SET
+		<isNotNull property="olnlp">
+		       OLNLP = #olnlp#,
+		</isNotNull>
+		<isNotNull property="updUsr">
+		       UPD_USR = #updUsr#,
+		</isNotNull>
+		<isNotNull property="beginDt">
+		       BEGIN_DT = #beginDt#,
+		</isNotNull>
+		<isNotNull property="endDt">
+		       END_DT = #endDt#,
+		</isNotNull>
+	       	UPDT_DT = SYSDATE
+		 WHERE GIS_ASSETS_CD = #gisAssetsCd#
+		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		       AND OLNLP_SEQ = #olnlpSeq#
+    </update>
+
+    <delete id="gamOlnlpMngtDao.deleteOlnlpMngtMap" parameterClass="hashMap">
+      DELETE
+		  FROM OLNLP_F
+		 WHERE GIS_ASSETS_CD = #gisAssetsCd#
+		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		       AND OLNLP_SEQ = #olnlpSeq#
+    </delete>
+
+
     <delete id="gamOlnlpMngtDao.deleteOlnlpBJD">
       DELETE
 		  FROM BUPJUNGDONG_OLNLP_F

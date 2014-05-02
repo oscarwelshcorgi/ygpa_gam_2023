@@ -38,7 +38,6 @@ public class IpObtainInterceptor extends HandlerInterceptorAdapter {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		if (loginVO != null) {
-			log.debug("$$$ login ip is "+clientIp);
 			loginVO.setIp(clientIp);
 		}
 

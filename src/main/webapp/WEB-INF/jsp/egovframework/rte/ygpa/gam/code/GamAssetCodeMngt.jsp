@@ -279,7 +279,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			} else {
 				this
 						.doAction(
-								'<c:url value="/code/assets/updateGamAssetsCode.do" />',
+								'<c:url value="/code/assets/updateGamGisAssetCode.do" />',
 								inputVO,
 								function(module, result) {
 									if (result.resultCode == "0") {
@@ -537,6 +537,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							result.result); // 결과값을 채운다.
 					module._editData = result.result;
 							module._state="";
+							module._regMode="U";
 				} else {
 					alert(result.resultMsg);
 				}

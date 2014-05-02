@@ -95,9 +95,16 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		module._editRow=module.$('#olnlpMngtList').selectedRowIds()[0];
 	});
 
-	this.$(".olnlpManageVO").bind("change keyup", {module: this}, function(event) {
-		event.data.module.applyOlnlp();
+	this.$("#olnlpMngtList").on("onItemUnSelected", function(event, module, row, grid, param) {
+		module.applyOlnlp();
 	});
+
+ 	this.$("#olnlpManageVO").bind("change keyup", {module: this}, function(event) {
+		var selectRowCnt = event.data.module.$('#olnlpMngtList').selectedRowCount();
+		if(selectRowCnt==1) event.data.module._edited=true;
+	});
+
+//	console.log("gamOlnlpLoad complete");
 
 /*
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -128,20 +135,15 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 };
 
 GamOlnlpMngtModule.prototype.applyOlnlp = function() {
-	var selectRow = this.$('#olnlpMngtList').selectedRows();
-	if(selectRow.length==0) return;
+	if(this._editData==null) return;
 
-	var rownum;
 	var row = {};
-	row=this.getFormValues('#olnlpManageVO', selectRow[0]);
-	rownum=this.$('#olnlpMngtList').selectedRowIds()[0];
+	row=this.getFormValues('#olnlpManageVO', this._editData);
 
 	if(row["_updtId"]!='I') row["_updtId"]='U';
-	this.$('#olnlpMngtList').flexUpdateRow(rownum, row);
+	this.$('#olnlpMngtList').flexUpdateRow(this._editRow, row);
 
 	console.log('_updtId : ' + row["_updtId"]);
-
-	this._edited=true;
 };
 
 /**
@@ -171,11 +173,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.$('#olnlpManageVO :input').val('');
 			this._maxOlnlpSeq+=1;
-			this._editRow={updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
+			this._editData={_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
 					, gisAssetsCd: this._selectRow.gisAssetsCd
 					, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlpSeq: this._maxOlnlpSeq};
 
-//			this.$("#olnlpMngtList").flexAddRow(this._editData);
+			this._editRow=this.$("#olnlpMngtList").flexAddRow(this._editRow);
+			this.$("#olnlpMngtList").selectRowId(this._editRow);
 
 		break;
 		// 삭제
@@ -191,7 +194,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 				if(row["_updtId"]!="I") {
 					this.deleteList[this.deleteList.length]=row;
 				}
-				this.$('#olnlpMngtList').flexRemoveRow(this.$('#olnlpMngtList').selectedRowIds()[i]);
+				this.$('#olnlpMngtList').flexRemoveRow(this.$('#olnlpMngtList').selectedRowIds()[0]);
 			}
 		break;
 
@@ -202,8 +205,8 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
+			this.applyOlnlp();
 			this.saveOlnlp();
-
 		break;
 
 		case 'insertExcel':
@@ -227,7 +230,7 @@ GamOlnlpMngtModule.prototype.saveOlnlp = function() {
 
 	    this.doAction('<c:url value="/code/mergeGamOlnlpMngt.do" />', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
-	        	this.loadOlnlpList();
+	        	module.loadOlnlpList();
 	        }
 	        alert(result.resultMsg);
 	        module._edited=false;
@@ -391,17 +394,23 @@ var module_instance = new GamOlnlpMngtModule();
 				</div>
 				<form id="olnlpManageVO">
 				<table class="editForm">
+					<colgroup>
+						<col width="120"/>
+						<col width="160"/>
+						<col width="120"/>
+						<col width="160"/>
+						<col width="120"/>
+						<col width="160"/>
+					</colgroup>
 					<tbody>
 						<tr>
 							<th>적용시작일자</th>
-							<td><input id="beginDt" type="text" size="20" maxlength="10" class="emdcal" title="시작일자" /></td>
+							<td><input id="beginDt" type="text" size="12" maxlength="10" class="emdcal" title="시작일자" /></td>
 							<th>적용종료일자</th>
-							<td><input id="endDt" type="text" size="20" maxlength="10" class="emdcal" title="종료일자" /></td>
-						</tr>
-						<tr>
+							<td><input id="endDt" type="text" size="12" maxlength="10" class="emdcal" title="종료일자" /></td>
 							<th>공시지가</th>
 							<td colspan="3">
-								<input id="olnlp" type="text" size="40" title="공시지가 금액" />
+								<input id="olnlp" type="text" size="15" title="공시지가 금액" class="ygpaNumber" /> 원
 							</td>
 						</tr>
 					</tbody>
