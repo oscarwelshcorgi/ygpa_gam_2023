@@ -47,11 +47,11 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 				{display:"자산코드",		 			name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 				{display:"건축시설코드", 				name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-				{display:"시설명",	 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"center"},
+				{display:"시설명",	 				name:"prtFcltyNm",			width:100,		sortable:false,		align:"left"},
 				{display:"위치",		 				name:"gisAssetsLocCd",		width:40,		sortable:false,		align:"center"},
-				{display:"구조",		 				name:"prtFcltyStndrd",		width:100,		sortable:false,		align:"center"},
+				{display:"구조",		 				name:"prtFcltyStndrd",		width:100,		sortable:false,		align:"left"},
 				{display:"시설단위", 	 			name:"prtFcltyUnit",		width:80,		sortable:false,		align:"center"},
-				{display:"관리업체 명", 	 			name:"prtFcltyMngEntrpsNm",	width:80,		sortable:false,		align:"center"},
+				{display:"관리업체 명", 	 			name:"prtFcltyMngEntrpsNm",	width:80,		sortable:false,		align:"left"},
 				{display:"관리업체 코드",	 			name:"prtFcltyMngEntrpsCd",	width:80,		sortable:false,		align:"center"},
 				{display:"설치일자",					name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 				{display:"변경일자",					name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
@@ -104,9 +104,8 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				return;
 			}
 
-			this._cmd="modify";
-
-			module.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+			module._cmd="modify";
+			module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
 
 
@@ -114,11 +113,11 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
-	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+/* 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
-
+ */
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyPhotoChanged(event.target);
@@ -185,6 +184,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 		break;
 	}
+	
 
 };
 
@@ -234,11 +234,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 추가
 		case "addBtn":
-			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
 			this.$("#fcltyManageVO :input").val("");
+			this.$('#fcltyPhotoList').flexEmptyData();
 			this._cmd="insert";
 			this.$(".selectedGAM005").show();
 			this.$("#gisCodePopupBtn").show();
+			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
 		break;
 
 		// 자산코드 팝업
@@ -453,6 +454,7 @@ GamFcltyMngtModule.prototype.clearPhotoPage = function() {
 GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	var row = this.$('#fcltyMngtList').selectedRows();
 	if(row.length <= 0) {
+		console.log(row.length);
  		this.clearPhotoPage();
 		return;
 	}
@@ -477,6 +479,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	case "tabs1":
 		break;
 	case "tabs2":
+		console.log(this._cmd+"tabs2");
+		console.log(this._cmd);
 		if(this._cmd!="insert") {
 			var row = this.$('#fcltyMngtList').selectedRows();
 			if(row.length <= 0) {
@@ -524,11 +528,13 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 	});
 		}
 		else if(this._cmd=="insert") {
-	 			module.clearCodePage();
+	 			this.clearCodePage();
 		}
 		break;
 	case "tabs3":
 		this._deleteDataFileList=[];
+		console.log(this._cmd+"tabs3");
+		console.log(this._cmd);
 		if(this._cmd!="insert") {
 			var row = this.$('#fcltyMngtList').selectedRows();
 			if(row.length <= 0) {
@@ -567,7 +573,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 	});
 		}
 		else if(this._cmd=="insert") {
-	 			module.clearPhotoPage();
+	 			this.clearPhotoPage();
+	 			this.$("#fcltyPhotoList").flexEmptyData();
 		}
 		this.loadPhotoList();
 		break;
@@ -628,9 +635,9 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
-								<button id="searchPopupBtn">선택</button>
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<th>건축시설코드</th>
 							<td>
@@ -684,7 +691,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 코드</th>
 							<td>
-								<input type="text" size="8" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="8" id="gisAssetsCd" disabled="disabled" data-required="true"/>&nbsp;-&nbsp;
 								<input type="text" size="6" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
 								<input type="text" size="8" id="gisAssetsPrtAtCode" disabled="disabled"/>
 							</td>
@@ -706,7 +713,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr class="selectedGAM005">
 							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
 							</td>
 						</tr>
 						<tr>
