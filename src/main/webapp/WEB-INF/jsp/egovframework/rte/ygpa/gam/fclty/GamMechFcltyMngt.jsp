@@ -178,7 +178,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
         module._fcltyItem = row;
 */
 
-		console.log("select from map");
+		// console.log("select from map");
 		this._cmd="modify";
 
 		this.$("#fcltyMngtListTab").tabs("option", {active: 1});
@@ -191,7 +191,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
 	var changed=false;
 	var row={};
-	console.log("change event occur");
+	// console.log("change event occur");
 
 	var selectRow = this.$('#fcltyPhotoList').selectedRows();
 	if(selectRow.length > 0) {

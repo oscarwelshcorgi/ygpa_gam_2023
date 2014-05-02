@@ -64,7 +64,7 @@
 		</c:if>
 	</div>
 	<script>
-	throw 0;
-		console.log("script running...");
+	// throw 0;
+		// console.log("script running...");
 	</script>
 </c:if>

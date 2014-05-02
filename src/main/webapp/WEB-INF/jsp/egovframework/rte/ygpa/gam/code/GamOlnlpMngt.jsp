@@ -74,7 +74,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpMngtList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"순번", 					name:"rnum",		width:80,		sortable:false,		align:"center"},
+				{display:"순번", 					name:"olnlpSeq",		width:80,		sortable:false,		align:"center"},
 				{display:"시작일자",	 				name:"beginDt",			width:150,		sortable:false,		align:"center"},
 				{display:"종료일자",		 			name:"endDt",			width:150,		sortable:false,		align:"center"},
 				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"right", displayFormat:"number"}
@@ -82,9 +82,11 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		height: "auto",
 		preProcess: function(module, data) {
 			module._maxOlnlpSeq=0;
-			$.each(data, function(d) {
-				if(d.olnlpSeq>module._maxOlnlpSeq) module._maxOlnlpSeq=d.olnlpSeq;
+			$.each(data.resultList, function() {
+				if(this.olnlpSeq>module._maxOlnlpSeq) module._maxOlnlpSeq=this.olnlpSeq*1;
+				//console.log('olnlpSeq : '+this.olnlpSeq);
 			});
+			console.log('grid last olnlpSeq : '+module._maxOlnlpSeq);
 			return data;
 		}
 	});
@@ -98,9 +100,14 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		module._editRow=module.$('#olnlpMngtList').selectedRowIds()[0];
 	});
 
- 	this.$("#olnlpManageVO").bind("change keyup", {module: this}, function(event) {
+ 	this.$("#olnlpManageVO :input").bind("change keyup", {module: this}, function(event) {
 		var selectRowCnt = event.data.module.$('#olnlpMngtList').selectedRowCount();
 		if(selectRowCnt==1) event.data.module._edited=true;
+		if(event.data.module.$('#beginDt').is(event.target)) {
+			var bDt = EMD.util.StrToDate(event.data.module.$('#beginDt').val());
+			var eDt = EMD.util.addMonths(bDt, 12);
+			event.data.module.$('#endDt').val(EMD.util.getDate(eDt));
+		}
 	});
 
 	console.log("gamOlnlpLoad complete");
@@ -144,7 +151,7 @@ GamOlnlpMngtModule.prototype.applyOlnlp = function() {
 	if(row["_updtId"]!='I') row["_updtId"]='U';
 	this.$('#olnlpMngtList').flexUpdateRow(this._editRow, row);
 
-	console.log('_updtId : ' + row["_updtId"]);
+	// console.log('_updtId : ' + row["_updtId"]);
 	this._editData=null;
 	this._editRow=null;
 	this._edited=false;
@@ -180,9 +187,9 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 			this._edited=false;
 			this._editData={_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
 					, gisAssetsCd: this._selectRow.gisAssetsCd
-					, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlpSeq: this._maxOlnlpSeq};
+					, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlp: 0, olnlpSeq: EMD.util.leftPad(this._maxOlnlpSeq, '0', 2)};
 
-			this._editData=this.$("#olnlpMngtList").flexAddRow(this._editData);
+			this._editRow=this.$("#olnlpMngtList").flexAddRow(this._editData);
 			this.$("#olnlpMngtList").selectRowId(this._editRow);
 
 		break;

@@ -334,8 +334,9 @@ public class GamOlnlpMngtController {
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
 
+		insertList.addAll(updateList);	// combine list
+
 		mergeMap.put("CU", insertList);
-		mergeMap.put("CU", updateList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
 

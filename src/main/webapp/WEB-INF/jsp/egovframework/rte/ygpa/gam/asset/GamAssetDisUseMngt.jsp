@@ -130,7 +130,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             this.$("#assetDisUseListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
 
-            console.log('select disuse assets list');
+            // console.log('select disuse assets list');
             break;
 
         // 자산폐기

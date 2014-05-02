@@ -177,7 +177,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
         module._fcltyItem = row;
 */
 
-		console.log("select from map");
+		// console.log("select from map");
 		this._cmd="modify";
 
 		this.$("#fcltyMngtListTab").tabs("option", {active: 1});
@@ -191,7 +191,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
 	var changed=false;
 	var row={};
-	console.log("change event occur");
+	// console.log("change event occur");
 
 	var selectRow = this.$('#fcltyPhotoList').selectedRows();
 	if(selectRow.length > 0) {
@@ -454,7 +454,7 @@ GamFcltyMngtModule.prototype.clearPhotoPage = function() {
 GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	var row = this.$('#fcltyMngtList').selectedRows();
 	if(row.length <= 0) {
-		console.log(row.length);
+		// console.log(row.length);
  		this.clearPhotoPage();
 		return;
 	}
@@ -479,8 +479,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	case "tabs1":
 		break;
 	case "tabs2":
-		console.log(this._cmd+"tabs2");
-		console.log(this._cmd);
+		// console.log(this._cmd+"tabs2");
+		// console.log(this._cmd);
 		if(this._cmd!="insert") {
 			var row = this.$('#fcltyMngtList').selectedRows();
 			if(row.length <= 0) {
@@ -533,8 +533,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		break;
 	case "tabs3":
 		this._deleteDataFileList=[];
-		console.log(this._cmd+"tabs3");
-		console.log(this._cmd);
+		// console.log(this._cmd+"tabs3");
+		// console.log(this._cmd);
 		if(this._cmd!="insert") {
 			var row = this.$('#fcltyMngtList').selectedRows();
 			if(row.length <= 0) {

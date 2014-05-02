@@ -96,7 +96,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
  			var tree = module.$("#menuTreeList");
  			for(var i=0; i<result.listMenulist.length; i++) {
  				var obj = result.listMenulist[i];
- 				console.log("obj.chkYeoBu : "+obj.chkYeoBu);
+ 				// console.log("obj.chkYeoBu : "+obj.chkYeoBu);
  				// 해당 리스트를 트리 라이브러리에 맞게 변경 한다.
  				obj.parentid = obj.upperMenuId;
  				obj.id = obj.menuNo;

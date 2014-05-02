@@ -150,7 +150,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
 
-		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+		// console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
 	this.$("#assetCodeList").on('onItemUnSelected', function(event, module, row, grid, param) {
@@ -302,7 +302,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		inputVO.updateList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}]);
 		inputVO.insertList = this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}]);
 		inputVO.deleteList = this._deleteDataList;
-		console.log(inputVO);
+		// console.log(inputVO);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 		break;
 	case 'btnApplyGisAssetsCode':

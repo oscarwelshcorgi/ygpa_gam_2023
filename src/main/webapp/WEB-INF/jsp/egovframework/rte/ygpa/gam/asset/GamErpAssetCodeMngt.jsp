@@ -450,7 +450,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			}
 			else {
 				alert('저장된 시설에만 위치 등록이 가능합니다.');
-				console.log("error add gis feature");
+				// console.log("error add gis feature");
 			}
 //			this.btnAddGisMap('GAC', {row.gisAssetsCd, row.gisAssetsSubCd});
 		}
@@ -552,7 +552,7 @@ GamAssetCodeModule.prototype.applyPhotoItem = function() {
 	if(row["_updtId"]!='I') row["_updtId"]='U';
 	this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
 
-	console.log('_updtId : ' + row["_updtId"]);
+	// console.log('_updtId : ' + row["_updtId"]);
 
 	this._edited=true;
 };

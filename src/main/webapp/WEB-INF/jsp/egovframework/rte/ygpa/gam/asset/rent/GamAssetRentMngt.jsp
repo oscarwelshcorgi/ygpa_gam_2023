@@ -344,7 +344,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$(".photoEditItem").bind("keyup change", {module: this}, function(event) {
-    	console.log("keyup or change event occur");
+    	// console.log("keyup or change event occur");
     	event.data.module.applyPhotoData();
     });
 
