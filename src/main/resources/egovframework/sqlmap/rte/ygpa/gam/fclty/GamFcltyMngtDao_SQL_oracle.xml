@@ -113,7 +113,7 @@
 	           				AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchKeyword">
-	           				AND PRT_FCLTY_NM = #searchKeyword#
+	           				AND PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
 	           			</isNotEmpty>
 		            ORDER BY F.GIS_ASSETS_CD DESC ,
 		                     F.GIS_ASSETS_PRT_AT_CODE DESC ,
@@ -147,7 +147,7 @@
            		AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
            	</isNotEmpty>
 	        <isNotEmpty property="searchKeyword">
-           		AND PRT_FCLTY_NM = #searchKeyword#
+           		AND PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
            	</isNotEmpty>
     </select>
 

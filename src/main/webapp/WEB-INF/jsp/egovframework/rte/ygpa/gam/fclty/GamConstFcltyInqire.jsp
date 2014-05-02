@@ -271,9 +271,9 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
-								<button id="searchPopupBtn">선택</button>
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<th>건축시설코드</th>
 							<td>
