@@ -90,13 +90,12 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#olnlpMngtList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.applyOlnlp();	// 편집 중인게 있으면 저장한다.
+		module.$('#olnlpManageVO :input').val(''); // 폼의 값을 모두 지운다.
+
 		module.makeFormValues('#olnlpManageVO', row);
 		module._editData=module.getFormValues('#olnlpManageVO', row);
 		module._editRow=module.$('#olnlpMngtList').selectedRowIds()[0];
-	});
-
-	this.$("#olnlpMngtList").on("onItemUnSelected", function(event, module, row, grid, param) {
-		module.applyOlnlp();
 	});
 
  	this.$("#olnlpManageVO").bind("change keyup", {module: this}, function(event) {
@@ -104,7 +103,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		if(selectRowCnt==1) event.data.module._edited=true;
 	});
 
-//	console.log("gamOlnlpLoad complete");
+	console.log("gamOlnlpLoad complete");
 
 /*
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -135,8 +134,10 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 };
 
 GamOlnlpMngtModule.prototype.applyOlnlp = function() {
-	if(this._editData==null) return;
-
+	if(this._editData==null || this._edited!=true) return;
+	if(!validateGamOlnlpCode(this.$("#olnlpManageVO")[0])) {
+		return;
+	}
 	var row = {};
 	row=this.getFormValues('#olnlpManageVO', this._editData);
 
@@ -144,6 +145,9 @@ GamOlnlpMngtModule.prototype.applyOlnlp = function() {
 	this.$('#olnlpMngtList').flexUpdateRow(this._editRow, row);
 
 	console.log('_updtId : ' + row["_updtId"]);
+	this._editData=null;
+	this._editRow=null;
+	this._edited=false;
 };
 
 /**
@@ -173,11 +177,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.$('#olnlpManageVO :input').val('');
 			this._maxOlnlpSeq+=1;
+			this._edited=false;
 			this._editData={_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
 					, gisAssetsCd: this._selectRow.gisAssetsCd
 					, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlpSeq: this._maxOlnlpSeq};
 
-			this._editRow=this.$("#olnlpMngtList").flexAddRow(this._editRow);
+			this._editData=this.$("#olnlpMngtList").flexAddRow(this._editData);
 			this.$("#olnlpMngtList").selectRowId(this._editRow);
 
 		break;
@@ -395,11 +400,11 @@ var module_instance = new GamOlnlpMngtModule();
 				<form id="olnlpManageVO">
 				<table class="editForm">
 					<colgroup>
-						<col width="120"/>
-						<col width="160"/>
-						<col width="120"/>
-						<col width="160"/>
-						<col width="120"/>
+						<col width="110"/>
+						<col width="130"/>
+						<col width="110"/>
+						<col width="130"/>
+						<col width="110"/>
 						<col width="160"/>
 					</colgroup>
 					<tbody>
@@ -409,7 +414,7 @@ var module_instance = new GamOlnlpMngtModule();
 							<th>적용종료일자</th>
 							<td><input id="endDt" type="text" size="12" maxlength="10" class="emdcal" title="종료일자" /></td>
 							<th>공시지가</th>
-							<td colspan="3">
+							<td>
 								<input id="olnlp" type="text" size="15" title="공시지가 금액" class="ygpaNumber" /> 원
 							</td>
 						</tr>
