@@ -190,7 +190,9 @@ var module_instance = new GamMarineCenterRentCmpyStsReportModule();
                             <th>항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th>업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;<button id="popupEntrpsInfo">업체</button></td>
+                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            <input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
+                            <button id="popupEntrpsInfo" class="popupButton">선택</button></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
@@ -198,7 +200,7 @@ var module_instance = new GamMarineCenterRentCmpyStsReportModule();
 							<td>
 								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
 								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
-								<button id="searchPopupBtn">자산코드</button>
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
                             <th>사용기간</th>
                             <td>
@@ -246,17 +248,16 @@ var module_instance = new GamMarineCenterRentCmpyStsReportModule();
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="marineCenterRentCmpyStsReportList" style="display:none" class="fillHeight"></table>
             <div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <tr>
-                            <td>
-                               <form id="form1">
-                               	   합계 : 
-				   					자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly> 
-                                   전체사용료 <input id="sumTotalFeeSum" class="ygpaNumber" style="text-align:right;" size="15" readonly>원 
-                               </form>
-                            </td>
-                        </tr>
-                     </table>
+				<form id="form1">
+					<table style="width:100%;" class="summaryPanel">
+						<tr>
+							<th width="20%" height="23">자료수</th>
+							<td><input type="text" size="30" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+							<th width="20%" height="23">전체사용료</th>
+							<td><input type="text" size="50" id="sumTotalFeeSum" class="ygpaNumber" disabled="disabled" /></td>
+						</tr>
+					</table>
+				</form>
             </div>
 		</div>
             

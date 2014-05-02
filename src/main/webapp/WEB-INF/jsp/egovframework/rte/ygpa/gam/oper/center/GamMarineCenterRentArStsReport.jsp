@@ -38,7 +38,7 @@ GamMarineCenterRentArStsReportModule.prototype.loadComplete = function() {
      colModel : [
                  {display:'항코드', name:'prtAtCode',width:150, sortable:false,align:'center'},
                  {display:'항코드명', name:'prtKorNm',width:150, sortable:false,align:'center'},
-                 {display:'면적구분', name:'areaClass',width:150, sortable:false,align:'center'},
+                 {display:'면적구분', name:'areaClass',width:150, sortable:false,align:'left'},
                  {display:'사용료', name:'sumTotalFee',width:200, sortable:false,align:'right' ,displayFormat: 'number'},
                  {display:'감면사용료', name:'sumTotalRdcxptFee',width:200, sortable:false,align:'right' ,displayFormat: 'number'}
                  ],
@@ -178,7 +178,9 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
                             <th>항코드</th>
                             <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th>업체코드</th>
-                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;<button id="popupEntrpsInfo">업체</button></td>
+                            <td><input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            <input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
+                            <button id="popupEntrpsInfo" class="popupButton">선택</button></td>
                             <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
@@ -186,7 +188,7 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
 							<td>
 								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
 								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
-								<button id="searchPopupBtn">자산</button>
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
                             <th>사용기간</th>
                             <td>
@@ -241,18 +243,18 @@ var module_instance = new GamMarineCenterRentArStsReportModule();
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="marineCenterRentArStsReportList" style="display:none" class="fillHeight"></table>
             <div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <tr>
-                            <td>
-                               <form id="form1">
-                       합계
-                       자료수 <input id="totSumCnt" size="15" style="text-align:right;" readonly>
-                       사용료 <input id="totSumFee" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                       감면사용료 <input id="totSumRocxptFee" type="text" class="ygpaCurrency" style="text-align:right;" size="15" readonly>
-                               </form>
-                            </td>
-                        </tr>
-                     </table>
+				<form id="form1">
+					<table style="width:100%;" class="summaryPanel">
+						<tr>
+							<th width="20%" height="23">자료수</th>
+							<td><input type="text" size="10" id="totSumCnt" class="ygpaNumber" disabled="disabled" /></td>
+							<th width="20%" height="23">사용료</th>
+							<td><input type="text" size="20" id="totSumFee" class="ygpaNumber" disabled="disabled" /></td>
+							<th width="20%" height="23">감면사용료</th>
+							<td><input type="text" size="20" id="totSumRocxptFee" class="ygpaNumber" disabled="disabled" /></td>
+						</tr>
+					</table>
+				</form>
             </div>
 		</div>
             
