@@ -173,6 +173,12 @@ vertical-align: middle;
   color: #fff;
 }
 
+.summaryPanel input[type="text"]:disabled { color: #000; background-color: #CACACA; border-style: none none none; }
+
+.ygpaNumber {
+	text-align: right;
+}
+
 .searchPanel th.shrink {
   width: 1%;
 }

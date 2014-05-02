@@ -206,44 +206,39 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                 <table id="assetEvlDtlsInqireList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">
-                    <table style="width:100%;">
+                    <table style="width:100%;" class="summaryPanel">
                         <tr>
-                            <td style="width:50px;">합계 :</td>
-                            <td style="width:120px;">재평가금액</td>
-                            <td style="width:200px;"><input id="sumRevalAmt" size="23" class="ygpaCurrency" readonly >원</td>
-                            <td style="width:130px;">당기자산증가금액</td>
-                            <td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
-                            <td style="width:165px;">대차대조기말현재금액</td>
-                            <td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
+                            <th style="width:120px;">재평가금액</th>
+                            <td style="width:200px;"><input id="sumRevalAmt" size="15" class="ygpaNumber" readonly >원</td>
+                            <th style="width:130px;">당기자산증가금액</th>
+                            <td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                            <th style="width:165px;">대차대조기말현재금액</th>
+                            <td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
                         </tr>
                         <tr>
-                            <td>&nbsp;</td>
-                            <td>대차대조전기말상각누계금액</td>
-                            <td><input id="sumBsPreDeprctnSum" type="text" size="23" class="ygpaCurrency" readonly>원</td>
-                            <td>대차대조미상각잔액</td>
-                            <td><input id="sumBsNoDeprctnBal" type="text" size="23" class="ygpaCurrency" readonly>원</td>
-                            <td>전기말자본적지출금액 누계</td>
-                            <td><input id="sumPreEndAssetBuySum" type="text" size="23" class="ygpaCurrency" readonly >원</td>
+                            <th>대차대조전기말상각누계금액</th>
+                            <td><input id="sumBsPreDeprctnSum" type="text" size="15" class="ygpaNumber" readonly>원</td>
+                            <th>대차대조미상각잔액</th>
+                            <td><input id="sumBsNoDeprctnBal" type="text" size="15" class="ygpaNumber" readonly>원</td>
+                            <th>전기말자본적지출금액 누계</th>
+                            <td><input id="sumPreEndAssetBuySum" type="text" size="15" class="ygpaNumber" readonly >원</td>
                         </tr>
                         <tr>
-                            <td>&nbsp;</td>
-                            <td>자본적지출금액</td>
-                            <td><input id="sumAssetBuyAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
-                            <td>당기상각금액</td>
-                            <td><input id="sumThisTermDeprctnAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
-                            <td>잔존금액</td>
-                            <td><input id="sumCurAmt" type="text" size="23" class="ygpaCurrency" readonly >원</td>
+                            <th>자본적지출금액</th>
+                            <td><input id="sumAssetBuyAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                            <th>당기상각금액</th>
+                            <td><input id="sumThisTermDeprctnAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                            <th>잔존금액</th>
+                            <td><input id="sumCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
                         </tr>
-                        <tr>
-                            <td colspan="7" style="text-align: right">
-                                <button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button>
-								<button id="btnErpAssetCodeListExcelDownload">엑셀</button>
-<!--                                 <button id="printGrid" data-flexi-grid="assetEvlDtlsInqireList">인쇄</button> -->
-                            </td>
-                        </tr>
-
                     </table>
-                </div>
+                    <div class="emdControlPanel">
+						<button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button>
+						<button id="btnErpAssetCodeListExcelDownload">엑셀</button>
+						<!--<button id="printGrid" data-flexi-grid="assetEvlDtlsInqireList">인쇄</button> -->
+					</div>
+
+					</div>
 
             </div>
 
