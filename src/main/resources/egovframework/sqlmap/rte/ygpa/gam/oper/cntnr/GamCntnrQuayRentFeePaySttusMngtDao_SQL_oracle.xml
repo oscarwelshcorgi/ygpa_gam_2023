@@ -11,6 +11,7 @@
          <result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="1"/>
         <result property="sumNticAmt" column="SUM_NTIC_AMNT" columnIndex="2"/>
         <result property="sumRcvdAmt" column="SUM_RCVD_AMNT" columnIndex="3"/>
+        <result property="sumNotRcvdAmt" column="SUM_NOT_RCVD_AMNT" columnIndex="4"/>
    </resultMap>
     
     <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtList_D" parameterClass="gamCntnrQuayRentFeePaySttusMngtVO" resultClass="egovMap">
@@ -40,8 +41,9 @@
                                   , T1.MNG_YEAR || '-' || T1.MNG_NO || '-' || T1.MNG_CNT AS RENT_MNG_NO
                                   , (CASE WHEN T2.ROWID IS NULL THEN '미고지' WHEN T2.RCVD_TP='0' THEN '미납' WHEN T2.RCVD_TP='1' THEN '연체' WHEN T2.RCVD_TP='2' THEN '연체수납' WHEN T2.RCVD_TP='3' THEN '수납' WHEN T2.RCVD_TP='4' THEN '불납' END) AS RCVD_TP
                                   , T2.BILL_PRT_YN
-                                  , T2.RCVD_DT
-                                  , NVL(T1.PAY_TMLMT,T2.DUE_DATE) AS DUE_DATE
+                                  , TO_CHAR(T2.RCVD_DT, 'YYYY-MM-DD') AS RCVD_DT
+                                  , TO_CHAR(NVL(T1.PAY_TMLMT,T2.DUE_DATE), 'YYYY-MM-DD') AS DUE_DATE
+                                  , T1.RM
                             FROM LEV_REQEST_F T1
                             LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
                             WHERE 1 = 1
@@ -112,8 +114,9 @@
                                   , T1.MNG_YEAR || '-' || T1.MNG_NO || '-' || T1.MNG_CNT AS RENT_MNG_NO
                                   , (CASE WHEN T2.ROWID IS NULL THEN '미고지' WHEN T2.RCVD_TP='0' THEN '미납' WHEN T2.RCVD_TP='1' THEN '연체' WHEN T2.RCVD_TP='2' THEN '연체수납' WHEN T2.RCVD_TP='3' THEN '수납' WHEN T2.RCVD_TP='4' THEN '불납' END) AS RCVD_TP
                                   , T2.BILL_PRT_YN
-                                  , T2.RCVD_DT
-                                  , NVL(T1.PAY_TMLMT,T2.DUE_DATE) AS DUE_DATE
+                                  , TO_CHAR(T2.RCVD_DT, 'YYYY-MM-DD') AS RCVD_DT
+                                  , TO_CHAR(NVL(T1.PAY_TMLMT,T2.DUE_DATE), 'YYYY-MM-DD') AS DUE_DATE
+                                  , T1.RM
                             FROM LEV_REQEST_F T1
                             LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
                             WHERE 1 = 1
@@ -161,6 +164,7 @@
                TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) DP_TOT_CNT
                , TRIM(TO_CHAR(NVL(SUM(S.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMNT
                , TRIM(TO_CHAR(NVL(SUM(CASE WHEN S.RCVD_TP IN ('2','3') THEN S.NTIC_AMT END),0), '999,999,999,999')) SUM_RCVD_AMNT
+               , TRIM(TO_CHAR(NVL(SUM(CASE WHEN S.RCVD_TP IN ('2','3') THEN 0 ELSE S.NTIC_AMT END),0), '999,999,999,999')) SUM_NOT_RCVD_AMNT
               FROM (
                            SELECT T1.PRT_AT_CODE
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
@@ -184,8 +188,9 @@
                                   , T1.MNG_YEAR || '-' || T1.MNG_NO || '-' || T1.MNG_CNT AS RENT_MNG_NO
                                   , (CASE WHEN T2.ROWID IS NULL THEN '미고지' WHEN T2.RCVD_TP='0' THEN '미납' WHEN T2.RCVD_TP='1' THEN '연체' WHEN T2.RCVD_TP='2' THEN '연체수납' WHEN T2.RCVD_TP='3' THEN '수납' WHEN T2.RCVD_TP='4' THEN '불납' END) AS RCVD_TP
                                   , T2.BILL_PRT_YN
-                                  , T2.RCVD_DT
-                                  , NVL(T1.PAY_TMLMT,T2.DUE_DATE) AS DUE_DATE
+                                  , TO_CHAR(T2.RCVD_DT, 'YYYY-MM-DD') AS RCVD_DT
+                                  , TO_CHAR(NVL(T1.PAY_TMLMT,T2.DUE_DATE), 'YYYY-MM-DD') AS DUE_DATE
+                                  , T1.RM
                             FROM LEV_REQEST_F T1
                             LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.FEE_TP AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTICNO=T2.BILL_NO)
                             WHERE 1 = 1

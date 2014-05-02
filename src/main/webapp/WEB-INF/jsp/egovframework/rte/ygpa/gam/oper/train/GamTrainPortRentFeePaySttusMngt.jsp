@@ -36,26 +36,26 @@ GamTrainPortRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/train/gamSelectTrainPortRentFeePaySttusMngtList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:100, sortable:false,align:'center'},              
-					{display:'항코드명', name:'prtAtCodeNm',width:100, sortable:false,align:'center'},              
-					{display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},         
-					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'center'},           
-					{display:'회계년도', name:'accnutYear',width:100, sortable:false,align:'center'},         
-					{display:'고지번호', name:'nticno',width:100, sortable:false,align:'center'},                          
-					{display:'고지횟수', name:'nticCnt',width:100, sortable:false,align:'center'},          
-					{display:'고지일자', name:'nticDt',width:100, sortable:false,align:'center'},            
-					{display:'고지업체코드', name:'entrpscd',width:100, sortable:false,align:'center'},
-					{display:'고지업체명', name:'entrpsNm',width:100, sortable:false,align:'center'},
-					{display:'사용시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},         
-					{display:'사용종료일', name:'nticPdTo',width:100, sortable:false,align:'center'},               
+					{display:'항코드', name:'prtAtCode',width:50, sortable:false,align:'center'},              
+					{display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},              
+					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},         
+					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},           
+					{display:'회계년도', name:'accnutYear',width:55, sortable:false,align:'center'},         
+					{display:'고지번호', name:'nticno',width:55, sortable:false,align:'center'},                          
+					{display:'고지횟수', name:'nticCnt',width:55, sortable:false,align:'center'},          
+					{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+					{display:'고지업체', name:'entrpscd',width:80, sortable:false,align:'center'},
+					{display:'고지업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
 					{display:'사용료', name:'fee',width:100, sortable:false,align:'right' , displayFormat: 'number'},         
 					{display:'부가세', name:'vat',width:100, sortable:false,align:'right' , displayFormat: 'number'},                
-					{display:'과세구분', name:'vatYn',width:100, sortable:false,align:'center'},               
+					{display:'과세구분', name:'vatYn',width:55, sortable:false,align:'center'},               
 					{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right' , displayFormat: 'number'},               
-					{display:'수납구분', name:'rcvdTp',width:100, sortable:false,align:'center'},         
+					{display:'수납구분', name:'rcvdTp',width:55, sortable:false,align:'center'},         
 					{display:'수납일자', name:'rcvdDt',width:100, sortable:false,align:'center'},         
+					{display:'사용시작일', name:'nticPdFrom',width:100, sortable:false,align:'center'},         
+					{display:'사용종료일', name:'nticPdTo',width:100, sortable:false,align:'center'},               
 					{display:'관리번호', name:'rentMngNo',width:100, sortable:false,align:'center'},            
-					{display:'고지서출력여부', name:'billPrtYn',width:100, sortable:false,align:'center'},               
+					{display:'고지서출력', name:'billPrtYn',width:80, sortable:false,align:'center'},               
 					{display:'납부기한', name:'dueDate',width:100, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
@@ -63,6 +63,7 @@ GamTrainPortRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         preProcess: function(module,data) {
         	module.$('#totalResultCnt').val(data.dpTotCnt);
             module.$('#sumRcvdAmt').val(data.sumRcvdAmt);
+            module.$('#sumNotRcvdAmt').val(data.sumNotRcvdAmt);
             module.$('#sumNticAmt').val(data.sumNticAmt);
             
             return data;
@@ -217,13 +218,15 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
                         <tr>
                         	<th>요금종류</th>
                             <td>
-                                <input id="sChrgeKnd" type="text" size="10"> 
-                                <input id="sChrgeKndNm" type="text" size="10"> 
-                                <button id="popupChrgeKndCd">요금</button>
+                                <input id="sChrgeKnd" type="text" size="3">&nbsp; &nbsp; 
+                                <input id="sChrgeKndNm" type="text" size="13" disabled="disabled">&nbsp; &nbsp; 
+                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                         	<th>고지업체</th>
                             <td colspan="3">
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
+                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="39" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button></td>
                             </td>
                         </tr>
                         <tr>
@@ -259,18 +262,20 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
                 <!-- </div>  -->
                 
                 <div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                    합계
-                                    자료수 <input id="totalResultCnt" size="5" style="text-align:right;" readonly>
-                                    고지금액 <input id="sumNticAmt" type="text" size="14" style="text-align:right;" readonly>원 
-                                    수납금액 <input id="sumRcvdAmt" type="text" size="14" style="text-align:right;" readonly>원 
-                               </form>
-                            </td>
-                        </tr>
-                    </table>
+					<form id="form1">
+                    	<table style="width:100%;" class="summaryPanel">
+                        	<tr>
+								<th width="20%" height="23">자료수</th>
+								<td><input type="text" size="6" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">고지금액</th>
+								<td><input type="text" size="20" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">수납금액</th>
+								<td><input type="text" size="20" id="sumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">미수납금액</th>
+								<td><input type="text" size="20" id="sumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
                 </div>
             </div>
 
@@ -279,68 +284,66 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
                 <div class="emdControlPanel">
                     <form id="gamTrainPortRentFeePaySttusMngtForm">
                         <input type="hidden" id="cmd"/>
-                        
-                        <table>
+                        <table class="searchPanel">
                             <tr>
-                                <th style="width:150px;"><span class="label">항코드</span></th>
-                                <td style="width:250px;"><input type="text" size="10" id="prtAtCode"/></td>
-                                <th style="width:150px;"><span class="label">항코드명</span></th>
-                                <td><input type="text" size="10" id="prtAtCodeNm"/></td>
+								<th width="20%" height="23">항코드</th>
+								<td><input type="text" size="43" id="prtAtCode" disabled="disabled" /></td>
+								<th width="20%" height="23">항코드명</th>
+								<td><input type="text" size="43" id="prtAtCodeNm" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">요금종류코드</span></th>
-                                <td><input type="text" size="10" id="chrgeKnd"/></td>
-                                <th><span class="label">요금종류명</span></th>
-                                <td><input type="text" size="10" id="chrgeKndNm"/></td>
-
+								<th width="20%" height="23">요금종류코드</th>
+								<td><input type="text" size="43" id="chrgeKnd" disabled="disabled" /></td>
+								<th width="20%" height="23">요금종류명</th>
+								<td><input type="text" size="43" id="chrgeKndNm" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">회계년도</span></th>
-                                <td><input type="text" size="10" id="accnutYear"/></td>
-                                <th><span class="label">고지번호</span></th>
-                                <td><input type="text" size="10" id="nticno"/></td>
+								<th width="20%" height="23">회계년도</th>
+								<td><input type="text" size="43" id="accnutYear" disabled="disabled" /></td>
+								<th width="20%" height="23">고지번호</th>
+								<td><input type="text" size="43" id="nticno" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">고지횟수</span></th>
-                                <td><input type="text" size="10" id="nticCnt"/></td>
-                                <th><span class="label">고지일자</span></th>
-                                <td><input type="text" size="10" id="nticDt"/></td>
-                                
+								<th width="20%" height="23">고지횟수</th>
+								<td><input type="text" size="43" id="nticCnt" disabled="disabled" /></td>
+								<th width="20%" height="23">고지일자</th>
+								<td><input type="text" size="43" id="nticDt" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                            	<th><span class="label">사용시작일</span></th>
-                                <td><input type="text" size="20" id="nticPdFrom"/></td>
-                                <th><span class="label">사용종료일</span></th>
-                                <td><input type="text" size="10" id="nticPdTo"/></td>
+								<th width="20%" height="23">사용시작일</th>
+								<td><input type="text" size="43" id="nticPdFrom" disabled="disabled" /></td>
+								<th width="20%" height="23">사용종료일</th>
+								<td><input type="text" size="43" id="nticPdTo" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">사용료</span></th>
-                                <td><input type="text" size="10" id="fee"/></td>
-                                <th><span class="label">부가세</span></th>
-                                <td><input type="text" size="10" id="vat"/></td>
+								<th width="20%" height="23">사용료</th>
+								<td><input type="text" size="43" id="fee" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">부가세</th>
+								<td><input type="text" size="43" id="vat" class="ygpaNumber" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">과세구분</span></th>
-                                <td><input type="text" size="10" id="vatYn"/></td>
-                                <th><span class="label">고지금액</span></th>
-                                <td><input type="text" size="10" id="nticAmt"/></td>
-                                
+								<th width="20%" height="23">과세구분</th>
+								<td><input type="text" size="43" id="vatYn" disabled="disabled" /></td>
+								<th width="20%" height="23">고지금액</th>
+								<td><input type="text" size="43" id="nticAmt" class="ygpaNumber" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                            	<th><span class="label">수납구분</span></th>
-                                <td><input type="text" size="10" id="rcvdTp"/></td>
-                                <th><span class="label">수납일자</span></th>
-                                <td><input type="text" size="20" id="rcvdDt"/></td>
+								<th width="20%" height="23">수납구분</th>
+								<td><input type="text" size="43" id="rcvdTp" disabled="disabled" /></td>
+								<th width="20%" height="23">수납일자</th>
+								<td><input type="text" size="43" id="rcvdDt" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">관리번호</span></th>
-                                <td><input type="text" size="20" id="rentMngNo"/></td>
-                                <th><span class="label">고지서출력여부</span></th>
-                                <td><input type="text" size="20" id="billPrtYn"/></td>
+								<th width="20%" height="23">관리번호</th>
+								<td><input type="text" size="43" id="rentMngNo" disabled="disabled" /></td>
+								<th width="20%" height="23">고지서출력여부</th>
+								<td><input type="text" size="43" id="billPrtYn" disabled="disabled" /></td>
                             </tr>
                             <tr>
-                                <th><span class="label">납부기한</span></th>
-                                <td colspan="3"><input type="text" size="10" id="dueDate"/></td>
+								<th width="20%" height="23">납부기한</th>
+								<td><input type="text" size="43" id="dueDate" disabled="disabled" /></td>
+								<th width="20%" height="23">비고</th>
+								<td><input type="text" size="43" id="rm" disabled="disabled" /></td>
                             </tr>
                         </table>
                     </form>

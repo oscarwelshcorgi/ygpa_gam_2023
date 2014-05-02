@@ -165,6 +165,7 @@ public class GamHtldRentFeePaySttusMngtController {
     	map.put("dpTotCnt", resultSum.getDpTotCnt());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
     	map.put("sumRcvdAmt", resultSum.getSumRcvdAmt());
+    	map.put("sumNotRcvdAmt", resultSum.getSumNotRcvdAmt());
     	
     	/*
     	map.put("sumFee", "");

@@ -173,6 +173,9 @@ public class GamPrtFcltyRentFeePaySttusMngtVO extends ComDefaultVO {
     /** 수납액(합계) */
     private String sumRcvdAmt;
 
+    /** 미수납액(합계) */
+    private String sumNotRcvdAmt;
+
     /** 자료수 */
     private String dpTotCnt;
 
@@ -1524,6 +1527,20 @@ public class GamPrtFcltyRentFeePaySttusMngtVO extends ComDefaultVO {
 	 */
 	public void setSumRcvdAmt(String sumRcvdAmt) {
 		this.sumRcvdAmt = sumRcvdAmt;
+	}
+
+	/**
+	 * @return the sumNotRcvdAmt
+	 */
+	public String getSumNotRcvdAmt() {
+		return sumNotRcvdAmt;
+	}
+
+	/**
+	 * @param sumNotRcvdAmt the sumNotRcvdAmt to set
+	 */
+	public void setSumNotRcvdAmt(String sumNotRcvdAmt) {
+		this.sumNotRcvdAmt = sumNotRcvdAmt;
 	}
 
 	/**
