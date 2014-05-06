@@ -163,6 +163,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.$('#assetCodeList').flexOptions({
 				params : searchOpt
 			}).flexReload();
+			this.$("#assetCodeTab").tabs("option", {
+				active : 0
+			}); // 탭 전환
 			throw 0;
 			break;
 		case 'popupFcltyCd':

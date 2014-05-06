@@ -76,6 +76,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	this.$("#assetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		if(row==null) return;
 		module.selectedItem = row;
+		module._regMode = 'U';
 		module.$("#assetCodeTab").tabs("option", {
 			active : 1
 		}); // 탭을 전환 한다.
@@ -197,6 +198,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.$('#assetCodeList').flexOptions({
 				params : searchOpt
 			}).flexReload();
+			this.$("#assetCodeTab").tabs("option", {
+				active : 0
+			}); // 탭 전환
 			throw 0;
 			break;
 		case 'addAssetGisCdItem': // gis 자산 추가
@@ -223,20 +227,27 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			}
 			break;
 		case 'removeAssetGisCdItem':
-			if (this.$('#assetCodeList').selectedRowIds().length > 0) {
-				var row = this.$('#assetCodeList').selectedRows();
-				var inputVO=[{name: 'deleteList', value :JSON.stringify(row) }];
-				this.doAction('<c:url value="/code/assets/deleteGamGisAssetCodes.do" />', inputVO, function(module, result) {
-					module.loadData();
-				});
-				this._editData = null;
-			}
+					if (this.$('#editGisAssetCode').selectedRowIds().length != 1) {
+						alert('삭제할 항목을 선택 하십시요');
+						return;
+					}
+				if (confirm('선택한 자산을 삭제 하시겠습니까?')) {
+					if (this.$('#assetCodeList').selectedRowIds().length > 0) {
+						var row = this.$('#assetCodeList').selectedRows();
+						var inputVO=[{name: 'deleteList', value :JSON.stringify(row) }];
+						this.doAction('<c:url value="/code/assets/deleteGamGisAssetCodes.do" />', inputVO, function(module, result) {
+							module.loadData();
+						});
+						this._editData = null;
+					}
+				}
 			break;
 		case 'storeAutoMapGenerate': // 지도 위치 자동 등록
 		//		EMD.storeAutoMapGenerate
 			break;
 		case 'btnSaveGisAssetsCode':
 			// 변경된 자료를 저장한다.
+			console.log(this._regMode);
 			if (!validateGamAssetCode(this.$("#editGisAssetCode")[0]))
 				return;
 			//alert(this._regMode);
@@ -331,18 +342,21 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			//		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
 			break;
 		case 'btnCancelGisAssetsCode':
+			this._regMode = 'I';
 			this.$('#editGisAssetCode').find(':input').val('');
 			this.$('#btnApplyGisAssetCode').removeAttr('disabled');
 			break;
 		case 'removeAssetGisCdDetailItem':
-			if (this._editData._updtId==null || this._editData._updtId!='I') {
-				this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', this._editData, function(module, result) {
-					module.loadData();
-					module.$("#assetCodeTab").tabs("option", {
-						active : 0
+			if(confirm('선택한 자산을 삭제 하시겠습니까?')){
+				if (this._editData._updtId==null || this._editData._updtId!='I') {
+					this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', this._editData, function(module, result) {
+						module.loadData();
+						module.$("#assetCodeTab").tabs("option", {
+							active : 0
+						});
 					});
-				});
-				this._editData = null;
+					this._editData = null;
+				}
 			}
 			break;
 		case 'editAssetCd':
@@ -414,7 +428,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				alert('삭제할 항목을 선택 하십시요');
 				return;
 			}
-			if( confirm("선택한 항목을 삭제하시겠습니까?") ) {
+			if( confirm("선택한 항목을 삭제 하시겠습니까?") ) {
 				for(var i=this.$('#assetCodePhotoList').selectedRowIds().length-1; i>=0; i--) {
 					var row=this.$('#assetCodePhotoList').flexGetRow(this.$('#assetCodePhotoList').selectedRowIds()[i]);
 					if(row._updtId==undefined || row._updtId!='I')  this._deletePhotoList[this._deletePhotoList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
@@ -526,6 +540,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			if(this.selectedItem==null) {
 				return;
 			}
+			console.log(this._regMode);
 			if(this._regMode!="I") {
 				var assetCd = [
 				               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},

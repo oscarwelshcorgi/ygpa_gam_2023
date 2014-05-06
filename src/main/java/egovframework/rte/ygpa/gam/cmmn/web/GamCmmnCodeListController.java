@@ -36,7 +36,6 @@ public class GamCmmnCodeListController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/cmmn/selectDeptCodeOptionsList.do", method=RequestMethod.POST)
 	@ResponseBody Map selectDeptCodeOptionsList(@RequestParam("cmd") String cmd) throws Exception {
-		System.out.println("#######부서코드");
 		// 부서코드
 		Map optMap = new HashMap();
 		List list = new ArrayList();
