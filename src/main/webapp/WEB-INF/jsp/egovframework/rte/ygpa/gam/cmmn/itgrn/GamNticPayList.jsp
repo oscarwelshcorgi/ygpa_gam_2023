@@ -192,6 +192,20 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 		case "searchEntrpsCdBtn":
 			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
 		break;
+		
+		case 'popupChrgeKndCd': // 팝업을 호출한다.(요금조회)
+			/*
+			var opts = {
+			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
+			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+			};
+			*/
+			var opts;
+		
+			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
+					'<c:url value="/popup/showPayCd.do"/>', opts);
+			break;
 	}
 };
 
@@ -218,6 +232,16 @@ GamNticPayListModule.prototype.onClosePopup = function(popupId, msg, value){
 			this.$("#entrpscd").val(value["entrpscd"]);
 			this.$("#entrpsNm").val(value["entrpsNm"]);
 		break;
+		
+		case 'selectChrgeKndCd':
+			if (msg != 'cancel') {
+				this.$('#prtAtCode').val(value.prtAtCode);
+				this.$('#chrgeKndCd').val(value.feeTp);
+				this.$('#chrgeKndNm').val(value.feeTpKorNm);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
 	
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
