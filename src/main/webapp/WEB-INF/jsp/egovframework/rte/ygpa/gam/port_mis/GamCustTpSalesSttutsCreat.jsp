@@ -485,7 +485,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="prtAtCode">
+		                                <select id="prtAtCode2">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -530,12 +530,15 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                            	<input id="chrgeKndCd" type="text" size="4"> 
-		                                <input id="chrgeKndNm" type="text" size="10"> <!-- <button id="popupchrgeKndCd">요금</button> -->
+										<input id="chrgeKndCd2" type="text" size="2">&nbsp; &nbsp; 
+										<input id="chrgeKndNm2" type="text" size="8" disabled="disabled">&nbsp; &nbsp; 
+										<button id="popupChrgeKndCd2" class="popupButton">선택</button>
 		                            </td>
-		                            <th>업체명</th>
+		                            <th>조회업체</th>
 		                            <td>
-		                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+										<input id="sEntrpscd2" type="text" size="6">&nbsp; &nbsp;
+										<input id="sEntrpsNm2" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
+										<button id="popupEntrpsInfo2" class="popupButton">선택</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -549,7 +552,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="prtAtCode">
+		                                <select id="prtAtCode3">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -594,12 +597,15 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                            	<input id="chrgeKndCd" type="text" size="4"> 
-		                                <input id="chrgeKndNm" type="text" size="10"><!--  <button id="popupchrgeKndCd2">요금</button> -->
+										<input id="chrgeKndCd3" type="text" size="2">&nbsp; &nbsp; 
+										<input id="chrgeKndNm3" type="text" size="8" disabled="disabled">&nbsp; &nbsp; 
+										<button id="popupChrgeKndCd3" class="popupButton">선택</button>
 		                            </td>
-		                            <th>업체명</th>
+		                            <th>조회업체</th>
 		                            <td>
-		                                 <input id="sEntrpscd2" type="text" size="10" data-column-id="sEntrpscd"><input id="sEntrpsNm2" type="text" size="10" readonly> <button id="popupEntrpsInfo2">업체</button>
+										<input id="sEntrpscd3" type="text" size="6">&nbsp; &nbsp;
+										<input id="sEntrpsNm3" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
+										<button id="popupEntrpsInfo3" class="popupButton">선택</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -660,34 +666,32 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<table id="gamCustTpEnpSalesSttutsList" style="display:none;"></table>
 				<div class="emdControlPanel">
-                 <table style="width:100%;">
-                     <tr>
-                         <td>
-                            <form id="form1">
-                                합계 : 
-                                자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
-                                매출액합계 <input id="totalCostval" type="text" size="15" style="text-align:right;" readonly>
-                            </form>
-                         </td>
-                     </tr>
-                 </table>
-             </div>
+					<form id="form1">
+                   		<table style="width:100%;" class="summaryPanel">
+                       		<tr>
+								<th width="20%" height="23">자료수</th>
+								<td><input type="text" size="20" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">매출액합계</th>
+								<td><input type="text" size="45" id="totalCostval" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
 			<div id="tabs3" class="emdTabPage" data-onactivate="onShowTab3Activate">
 				<table id="gamCustTpShipEnpSalesSttutsList" style="display:none"></table>
 				<div class="emdControlPanel">
-                 <table style="width:100%;">
-                     <tr>
-                         <td>
-                            <form id="form1">
-                                합계 : 
-                                자료수 <input id="totalResultCnt1" size="15" style="text-align:right;" readonly>
-                                매출액합계 <input id="totalCostval1" type="text" size="15" style="text-align:right;" readonly>
-                            </form>
-                         </td>
-                     </tr>
-                 </table>
-             </div>
+					<form id="form1">
+                   		<table style="width:100%;" class="summaryPanel">
+                       		<tr>
+								<th width="20%" height="23">자료수</th>
+								<td><input type="text" size="20" id="totalResultCnt1" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">매출액합계</th>
+								<td><input type="text" size="45" id="totalCostval1" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
 			
 			

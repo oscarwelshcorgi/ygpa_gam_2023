@@ -175,16 +175,16 @@ var module_instance = new GamFcltyUseSttusInqireModule();
 						<tr>
 							<th style="width: 70px">선석</th>
                             <td>
-                                <input id="fac_code" type="text" size="10"> 
-                                <input id="fac_sub_code" type="text" size="10"> 
-                                <input id="fac_sub_kor_nm" type="text" size="10"> 
-                                <button id="popupBerthCd">선석</button>
+                                <input id="fac_code" type="text" size="3">&nbsp; &nbsp; 
+                                <input id="fac_sub_code" type="text" size="2">&nbsp; &nbsp; 
+                                <input id="fac_sub_kor_nm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
+                                <button id="popupBerthCd" class="popupButton">선택</button>
                             </td>
                             <th>요금종류</th>
                             <td>
-                                <input id="chrgeKndCd" type="text" size="10"> 
-                                <input id="chrgeKndNm" type="text" size="10"> 
-                                <button id="popupChrgeKndCd">요금</button>
+                                <input id="chrgeKndCd" type="text" size="6">&nbsp; &nbsp; 
+                                <input id="chrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
+                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
 						</tr>
                         
@@ -204,21 +204,22 @@ var module_instance = new GamFcltyUseSttusInqireModule();
 				<table id="fcltyUseSttusInqireList" style="display:none"></table>
 				
 				<div class="emdControlPanel">
-                    <table style="width:100%;">
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                   합계 : 
-                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
-                                   면제금액합계 <input id="totalExmpAmnt" type="text" size="15" style="text-align:right;" readonly>
-                                   할인금액합계 <input id="totalDcAmnt" type="text" size="15" style="text-align:right;" readonly>원
-								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
-                               </form>
-                            </td>
-                        </tr>
-                    </table>
+					<form id="form1">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="12%" height="20">자료수</th>
+								<td><input type="text" size="7" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="20">면제금액합계</th>
+								<td><input type="text" size="19" id="totalExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="20">할인금액합계</th>
+								<td><input type="text" size="19" id="totalDcAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="20">고지금액합계</th>
+								<td><input type="text" size="19" id="totalBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
                 </div>
             </div>
-
+		</div>
     </div>
 </div>

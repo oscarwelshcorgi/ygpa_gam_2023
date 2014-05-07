@@ -86,8 +86,26 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
     
     /** 매출액합계금액 */
     private String sumCostval;
+
+    /** 항코드  */
+    private String prtAtCode2;
+      
+    /** 업체코드 */
+    private String sEntrpscd2;
+
+    /** 요금종류코드 */
+    private String chrgeKndCd2;
     
-	/**
+    /** 항코드  */
+    private String prtAtCode3;
+      
+    /** 업체코드 */
+    private String sEntrpscd3;
+
+    /** 요금종류코드 */
+    private String chrgeKndCd3;
+
+    /**
 	 * @return the prtAtCode
 	 */
 	public String getPrtAtCode() {
@@ -115,7 +133,6 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 		this.sPrtAtCode = sPrtAtCode;
 	}
 
-
 	/**
 	 * @return the sEntrpscd
 	 */
@@ -129,7 +146,6 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 	public void setsEntrpscd(String sEntrpscd) {
 		this.sEntrpscd = sEntrpscd;
 	}
-
 
 	/**
 	 * @return the yrMt
@@ -411,5 +427,87 @@ public class GamCustTpSalesSttutsCreatVO extends ErpCmmnCdDefaultVO {
 		this.sumCostval = sumCostval;
 	}
 
+    /**
+	 * @return the prtAtCode2
+	 */
+	public String getPrtAtCode2() {
+		return prtAtCode2;
+	}
+
+	/**
+	 * @param prtAtCode2 the prtAtCode2 to set
+	 */
+	public void setPrtAtCode2(String prtAtCode2) {
+		this.prtAtCode2 = prtAtCode2;
+	}
 	
+	/**
+	 * @return the sEntrpscd2
+	 */
+	public String getsEntrpscd2() {
+		return sEntrpscd2;
+	}
+
+	/**
+	 * @param sEntrpscd2 the sEntrpscd2 to set
+	 */
+	public void setsEntrpscd2(String sEntrpscd2) {
+		this.sEntrpscd2 = sEntrpscd2;
+	}
+
+	/**
+	 * @return the chrgeKndCd2
+	 */
+	public String getChrgeKndCd2() {
+		return chrgeKndCd2;
+	}
+
+	/**
+	 * @param chrgeKndCd2 the chrgeKndCd2 to set
+	 */
+	public void setChrgeKndCd2(String chrgeKndCd2) {
+		this.chrgeKndCd2 = chrgeKndCd2;
+	}
+
+    /**
+	 * @return the prtAtCode3
+	 */
+	public String getPrtAtCode3() {
+		return prtAtCode3;
+	}
+
+	/**
+	 * @param prtAtCode3 the prtAtCode3 to set
+	 */
+	public void setPrtAtCode3(String prtAtCode3) {
+		this.prtAtCode3 = prtAtCode3;
+	}
+	
+	/**
+	 * @return the sEntrpscd3
+	 */
+	public String getsEntrpscd3() {
+		return sEntrpscd3;
+	}
+
+	/**
+	 * @param sEntrpscd3 the sEntrpscd3 to set
+	 */
+	public void setsEntrpscd3(String sEntrpscd3) {
+		this.sEntrpscd3 = sEntrpscd3;
+	}
+
+	/**
+	 * @return the chrgeKndCd3
+	 */
+	public String getChrgeKndCd3() {
+		return chrgeKndCd3;
+	}
+
+	/**
+	 * @param chrgeKndCd3 the chrgeKndCd3 to set
+	 */
+	public void setChrgeKndCd3(String chrgeKndCd3) {
+		this.chrgeKndCd3 = chrgeKndCd3;
+	}
 }
