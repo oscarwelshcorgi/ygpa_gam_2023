@@ -23,17 +23,17 @@
 				    (
                            SELECT T1.CHRGE_KND
                                   , MIN(T2.CODE_NM) AS CHRGE_KND_NM
-                                  , SUM(T1.FEE) AS SUM_FEE
-                                  , SUM(T1.VAT) AS SUM_VAT
-                                  , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
-                                  , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
-                                  , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                                  , NVL(SUM(T1.FEE),0) AS SUM_FEE
+                                  , NVL(SUM(T1.VAT),0) AS SUM_VAT
+                                  , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                              FROM LEV_REQEST_F T1
                              LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM024'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
                              LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
                             WHERE 1 = 1
-                             AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
 					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
@@ -59,17 +59,17 @@
           FROM (    
                            SELECT T1.CHRGE_KND
                                   , MIN(T2.CODE_NM) AS CHRGE_KND_NM
-                                  , SUM(T1.FEE) AS SUM_FEE
-                                  , SUM(T1.VAT) AS SUM_VAT
-                                  , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
-                                  , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
-                                  , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                                  , NVL(SUM(T1.FEE),0) AS SUM_FEE
+                                  , NVL(SUM(T1.VAT),0) AS SUM_VAT
+                                  , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                              FROM LEV_REQEST_F T1
                              LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM024'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
                              LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
                             WHERE 1 = 1
-                             AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
 					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
@@ -97,17 +97,17 @@
 			FROM (
                            SELECT T1.CHRGE_KND
                                   , MIN(T2.CODE_NM) AS CHRGE_KND_NM
-                                  , SUM(T1.FEE) AS SUM_FEE
-                                  , SUM(T1.VAT) AS SUM_VAT
-                                  , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
-                                  , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
-                                  , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                                  , NVL(SUM(T1.FEE),0) AS SUM_FEE
+                                  , NVL(SUM(T1.VAT),0) AS SUM_VAT
+                                  , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                              FROM LEV_REQEST_F T1
                              LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM024'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
                              LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
                             WHERE 1 = 1
-                             AND T1.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND T1.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
 					         AND T1.PRT_AT_CODE = #sPrtAtCode#  

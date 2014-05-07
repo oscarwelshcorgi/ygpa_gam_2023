@@ -37,7 +37,7 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
      dataType: 'json',
      colModel : [
 				 {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
-				 {display:'업체명', name:'entrpsNm',width:150, sortable:false,align:'center'},
+				 {display:'업체명', name:'entrpsNm',width:160, sortable:false,align:'left'},
 				 {display:'사용료', name:'sumFee',width:120, sortable:false,align:'right', displayFormat:'number'},
 				 {display:'부가세', name:'sumVat',width:120, sortable:false,align:'right', displayFormat:'number'},
 				 {display:'고지금액', name:'sumNticAmt',width:120, sortable:false,align:'right', displayFormat:'number'},
@@ -192,22 +192,25 @@ var module_instance = new GamCmpyRecvStsInqireModule();
                             <td style="width: 320px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
-                            <th>요금종류</th>
+                            <th>고지업체</th>
                             <td>
-                            <input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
-                            
-                            <!-- 
-                                <input id="sChrgeKnd" type="text" size="10"> 
-                                <input id="sChrgeKndNm" type="text" size="10"> 
-                                <button id="popupChrgeKndCd">요금</button>
-                                 -->
+                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <tr>
-                        	<th>고지업체</th>
+                            <th>요금종류</th>
                             <td>
-                                <input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20" readonly> <button id="popupEntrpsInfo">업체</button>
+								<input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
+								
+                            <!-- 
+                                <input id="sChrgeKnd" type="text" size="3"> 
+                                <input id="sChrgeKndNm" type="text" size="8"> 
+                                <button id="popupChrgeKndCd">요금</button>
+                             -->
+                                         
                             </td>
                             <th>고지기간</th>
                             <td>
@@ -236,25 +239,25 @@ var module_instance = new GamCmpyRecvStsInqireModule();
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="cmpyRecvStsInqireList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <tr>
-                            <td>
-                               <form id="form1">
-			                        합계
-			                        자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
-			                        고지금액 <input id="sumNticAmtSum" type="text" size="14" style="text-align:right;" readonly>원 
-                                    수납금액 <input id="sumRcvdAmtSum" type="text" size="14" style="text-align:right;" readonly>원 
-                                    수납금액 <input id="sumNotRcvdAmtSum" type="text" size="14" style="text-align:right;" readonly>원 
-                               </form>
-                            </td>
-                            <td>
-                                <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
-                       			<button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
-                            </td>
-                        </tr>
-                    </table>
+					<form id="form1">
+						<table style="width:100%;" class="summaryPanel">
+							<tr>
+								<th width="10%" height="20">자료수</th>
+								<td><input type="text" size="7" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">고지금액</th>
+								<td><input type="text" size="15" id="sumNticAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">수납금액</th>
+								<td><input type="text" size="15" id="sumRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">미수납금액</th>
+								<td><input type="text" size="15" id="sumNotRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+                                <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
+                       			<td><button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button></td>
+							</tr>
+						</table>
+					</form>
                        
                 </div>
             </div>
+	    </div>
     </div>
 </div>

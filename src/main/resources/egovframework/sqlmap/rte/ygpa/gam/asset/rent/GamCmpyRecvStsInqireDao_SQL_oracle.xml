@@ -23,11 +23,11 @@
 					    (
 	                      SELECT T1.ENTRPSCD
 	                             , MIN(T2.ENTRPS_NM) AS ENTRPS_NM
-	                             , SUM(T1.FEE) AS SUM_FEE
-	                             , SUM(T1.VAT) AS SUM_VAT
-	                             , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
-	                             , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
-	                             , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                                  , NVL(SUM(T1.FEE),0) AS SUM_FEE
+                                  , NVL(SUM(T1.VAT),0) AS SUM_VAT
+                                  , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
 	                        FROM 
 	                        	LEV_REQEST_F T1
 	                        LEFT OUTER JOIN 
@@ -74,11 +74,11 @@
           FROM (
 	            SELECT T1.ENTRPSCD
                       , MIN(T2.ENTRPS_NM) AS ENTRPS_NM
-                      , SUM(T1.FEE) AS SUM_FEE
-                      , SUM(T1.VAT) AS SUM_VAT
-                      , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
-                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
-                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                      , NVL(SUM(T1.FEE),0) AS SUM_FEE
+                      , NVL(SUM(T1.VAT),0) AS SUM_VAT
+                      , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+                      , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+                      , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                  FROM 
                  	LEV_REQEST_F T1
                  LEFT OUTER JOIN 
@@ -125,11 +125,11 @@
               FROM (           
                     SELECT T1.ENTRPSCD
                       , MIN(T2.ENTRPS_NM) AS ENTRPS_NM
-                      , SUM(T1.FEE) AS SUM_FEE
-                      , SUM(T1.VAT) AS SUM_VAT
-                      , SUM(T1.NTIC_AMT) AS SUM_NTIC_AMT
-                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END) AS SUM_RCVD_AMT
-                      , SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END) AS SUM_NOT_RCVD_AMT
+                      , NVL(SUM(T1.FEE),0) AS SUM_FEE
+                      , NVL(SUM(T1.VAT),0) AS SUM_VAT
+                      , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+                      , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+                      , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                  FROM 
                  	LEV_REQEST_F T1
                  LEFT OUTER JOIN 

@@ -36,8 +36,8 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/rent/gamSelectRecvTpRecvStsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'요금종류코드', name:'chrgeKnd',width:100, sortable:false,align:'center'},
-                 {display:'요금종류명', name:'chrgeKndNm',width:120, sortable:false,align:'center'},
+                 {display:'요금종류코드', name:'chrgeKnd',width:80, sortable:false,align:'center'},
+                 {display:'요금종류명', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
                  {display:'사용료', name:'sumFee',width:120, sortable:false,align:'right', displayFormat:'number'},
                  {display:'부가세', name:'sumVat',width:120, sortable:false,align:'right', displayFormat:'number'},
                  {display:'고지금액', name:'sumNticAmt',width:120, sortable:false,align:'right', displayFormat:'number'},
@@ -177,9 +177,9 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
                             </td>
                             <th>고지업체</th>
                             <td>
-                                <input id="sEntrpscd" type="text" size="5">
-                                <input id="sEntrpsNm" type="text" size="8" readonly>
-                                <button id="popupEntrpsInfo">업체</button>
+                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
@@ -217,27 +217,25 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="recvTpRecvStsInqireList" style="display:none" class="fillHeight"></table>
              	<div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                                   합계
-                       				자료수 <input id="totSumCnt" size="15" style="text-align:right;" readonly>
-					                        고지금액 <input id="totSumNticAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-					                        수납금액 <input id="totSumRcvdAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-					                        미수납금액 <input id="totSumNotRcvdAmt" class="ygpaNumber" style="text-align:right;" size="15" readonly>
-                               </form>
-                            </td>
-                            
-                            <td>
-                                <button id="btnErpAssetCodeListExcelDownload">엑셀</button>
-                       			<button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button>
-                            </td>
-                            
-                        </tr>
-                    </table>
+					<form id="form1">
+						<table style="width:100%;" class="summaryPanel">
+							<tr>
+								<th width="10%" height="20">자료수</th>
+								<td><input type="text" size="7" id="totSumCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">고지금액</th>
+								<td><input type="text" size="15" id="totSumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">수납금액</th>
+								<td><input type="text" size="15" id="totSumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">미수납금액</th>
+								<td><input type="text" size="15" id="totSumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+                                <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
+                       			<td><button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button></td>
+							</tr>
+						</table>
+					</form>
                        
                 </div>
             </div>
+        </div>
     </div>
 </div>
