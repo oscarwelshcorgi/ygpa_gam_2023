@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PopupFacilInfo">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="gamPopupFacilInfoSearchVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFacilInfoVO"/>
+
+	<select id="gamPopupFacilInfoDAO.selectFacilInfoList_S" parameterClass="gamPopupFacilInfoSearchVO" resultClass="egovMap">
+				SELECT * FROM (
+					SELECT A.*, ROWNUM RNUM FROM (
+						SELECT
+							*
+						FROM P2MGR.FACIL_NM_F@YGPA_P2MGR
+						WHERE 1=1
+							<isNotEmpty property="sPrtAtCode">
+								AND PRT_AT_CODE = #sPrtAtCode#
+							</isNotEmpty>
+							<isNotEmpty property="sFacCode">
+								AND FAC_CODE = #sFacCode#
+							</isNotEmpty>
+							<isNotEmpty property="sFacSubCode">
+								AND FAC_SUB_CODE = #sFacSubCode#
+							</isNotEmpty>
+							<isNotEmpty property="sFacKorNm">
+								AND FAC_KOR_NM LIKE '%' || #sFacKorNm# || '%'
+							</isNotEmpty>
+						ORDER BY PRT_AT_CODE, FAC_SUB_CODE, FAC_CODE
+					) A
+				<![CDATA[WHERE ROWNUM <= #lastIndex#) WHERE RNUM > #firstIndex#]]>
+	</select>
+	
+	<select id="gamPopupFacilInfoDAO.selectFacilInfoListTotCnt_S" parameterClass="gamPopupFacilInfoSearchVO" resultClass="int">
+						SELECT
+							COUNT(*) totcnt
+						FROM P2MGR.FACIL_NM_F@YGPA_P2MGR
+						WHERE 1=1
+							<isNotEmpty property="sPrtAtCode">
+								AND PRT_AT_CODE = #sPrtAtCode#
+							</isNotEmpty>
+							<isNotEmpty property="sFacCode">
+								AND FAC_CODE = #sFacCode#
+							</isNotEmpty>
+							<isNotEmpty property="sFacSubCode">
+								AND FAC_SUB_CODE = #sFacSubCode#
+							</isNotEmpty>
+							<isNotEmpty property="sFacKorNm">
+								AND FAC_KOR_NM LIKE '%' || #sFacKorNm# || '%'
+							</isNotEmpty>
+	</select>
+</sqlMap>
