@@ -71,12 +71,16 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
+		if(row==null) return;
+		module.selectedItem = row;
+		module._regMode = '';
 	});
 
 	this.$("#assetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		if(row==null) return;
 		module.selectedItem = row;
-		module._regMode = 'U';
+		module._regMode = '';
+
 		module.$("#assetCodeTab").tabs("option", {
 			active : 1
 		}); // 탭을 전환 한다.
@@ -326,7 +330,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			}
 			// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 			break;
-		case 'btnApplyGisAssetsCode':
+		case 'btnApplyGisAssetsCode':	// 사용 안함
 			this._editData = this.getFormValues('#editGisAssetCode',
 					this._editData);
 			if (this._editRow != null) { // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001

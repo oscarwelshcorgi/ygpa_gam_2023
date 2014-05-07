@@ -92,7 +92,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 
 			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 
-				$imgURL = module.getImageUrl(filenm);
+				$imgURL = module.getPfPhotoUrl(filenm);
 				module.$("#previewImage").fadeIn(400, function() {
 			    	module.$("#previewImage").attr("src", $imgURL);
 			    });
