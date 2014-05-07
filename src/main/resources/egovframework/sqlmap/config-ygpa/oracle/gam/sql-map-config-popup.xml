@@ -7,4 +7,4 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupGisAssetsCdDao_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupEntrpsInfoDao_SQL.xml"/>
 
-</sqlMapConfig>
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFacilInfoDao_SQL.xml" /></sqlMapConfig>

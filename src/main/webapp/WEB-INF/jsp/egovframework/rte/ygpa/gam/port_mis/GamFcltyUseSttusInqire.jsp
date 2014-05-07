@@ -101,11 +101,11 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 
             break;
 
-        // 팝업을 호출한다.(업체)     
-        case 'popupBerthCd': 
-            var opts;
-
-            //this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+        // 팝업을 호출한다.(선석)     
+        case 'popupFacilCd': 
+        	var opts = this.makeFormArgs('#gamFcltyUseSttusInqireSearchForm');
+            
+            this.doExecuteDialog('selectFacilInfoPopup', '선석 선택', '<c:url value="/popup/showFacilInfo.do"/>', opts);
             break;
             
          // 팝업을 호출한다.(요금종류)     
@@ -133,7 +133,15 @@ GamFcltyUseSttusInqireModule.prototype.onClosePopup = function(popupId, msg, val
             alert('취소 되었습니다');
         }
         break;
-         
+    case 'selectFacilInfoPopup' :
+        if (msg != 'cancel') {
+            this.$('#fac_code').val(value.facCode);
+            this.$('#fac_sub_code').val(value.facSubCode);
+            this.$('#fac_sub_kor_nm').val(value.facKorNm);
+        } else {
+            alert('취소 되었습니다');
+        }
+        break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
@@ -178,7 +186,7 @@ var module_instance = new GamFcltyUseSttusInqireModule();
                                 <input id="fac_code" type="text" size="3">&nbsp; &nbsp; 
                                 <input id="fac_sub_code" type="text" size="2">&nbsp; &nbsp; 
                                 <input id="fac_sub_kor_nm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
-                                <button id="popupBerthCd" class="popupButton">선택</button>
+                                <button id="popupFacilCd" class="popupButton">선택</button>
                             </td>
                             <th>요금종류</th>
                             <td>
