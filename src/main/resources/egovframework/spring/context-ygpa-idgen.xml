@@ -14,4 +14,13 @@
 		<property name="tableName"	value="SMS_TRNSMIS_DTLS_F"/>
 	</bean>
 
+	<bean name="gamPrtFcltyPhotoIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="PRT_FCLTY_PHOTO"/>
+	</bean>
+
 </beans>
