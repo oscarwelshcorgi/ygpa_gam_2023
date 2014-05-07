@@ -456,7 +456,7 @@
                                    , #gisCd#  -->
                                    , #deptcd#
                                    , #payMth#
-                                   , 'P'
+                                   , 'M'
                                    , TO_DATE(#frstReqstDt:DATE:NO_ENTRY#) 
                                    , 'N'
                                    )

@@ -56,6 +56,9 @@
 	    <result property="gisCd" column="GIS_CD" columnIndex="26"/>          
 	    <result property="deptcd" column="DEPTCD" columnIndex="27"/>
 	    <result property="payMth" column="PAY_MTH" columnIndex="28"/>
+	    <result property="payMthNm" column="PAY_MTH_NM" columnIndex="29"/>
+	    <result property="nticMthNm" column="PAY_MTH_NM" columnIndex="30"/>
+	    <result property="deptcdNm" column="DEPTCD_NM" columnIndex="31"/>
 	</resultMap>
     
     <resultMap id="gamCntnrQuayUseExprInqireDetailInfoMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayUseExprInqireDetailVO">
@@ -148,6 +151,10 @@
                                   , A.GR_RDCXPT_FEE
                                   , A.DEPTCD
                                   , A.PAY_MTH
+                                  , A.RM
+                                  , A.CMT
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM043' AND CD.CODE = A.PAY_MTH AND ROWNUM = 1) PAY_MTH_NM
+                                  , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
                              FROM ASSETS_RENT_F A
 		                            WHERE 1 = 1
 		                             AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
@@ -251,7 +258,7 @@
                TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
                , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999')) SUM_GR_AR
                , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
-          		, TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
           FROM ASSETS_RENT_F A
                         WHERE 1 = 1
                          AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
@@ -772,6 +779,9 @@
                , A.GIS_CD
                , A.DEPTCD
                , A.PAY_MTH
+               , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM043' AND CD.CODE = A.PAY_MTH AND ROWNUM = 1) PAY_MTH_NM
+               , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM008' AND CD.CODE = A.NTIC_MTH AND ROWNUM = 1) NTIC_MTH_NM
+               , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
           FROM ASSETS_RENT_F A
          WHERE 1=1 
            AND A.MNG_YEAR         = #mngYear#
