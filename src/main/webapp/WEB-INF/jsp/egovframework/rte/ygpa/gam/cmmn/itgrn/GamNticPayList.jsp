@@ -37,37 +37,37 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"항코드", 	 				name:"prtAtCode",			width:50,		sortable:false,		align:"center"},
-				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"요금종류",					name:"feeTp",				width:60,		sortable:false,		align:"center"},
-				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"회계년도",					name:"fiscalYr",			width:60,		sortable:false,		align:"center"},
-				{display:"고지번호",					name:"billNo",				width:60,		sortable:false,		align:"center"},
+				{display:"항코드", 	 				name:"prtAtCode",			width:45,		sortable:false,		align:"center"},
+				{display:"항코드명",					name:"prtKorNm",			width:55,		sortable:false,		align:"center"},
+				{display:"요금종류",					name:"feeTp",				width:55,		sortable:false,		align:"center"},
+				{display:"요금종류명",					name:"feeTpKorNm",			width:100,		sortable:false,		align:"left"},
+				{display:"회계년도",					name:"fiscalYr",			width:55,		sortable:false,		align:"center"},
+				{display:"고지번호",					name:"billNo",				width:55,		sortable:false,		align:"center"},
 				{display:"업체코드",					name:"agentCode",			width:60,		sortable:false,		align:"center"},
 				{display:"사업자등록번호",				name:"bzRgstId",			width:90,		sortable:false,		align:"center"},
-				{display:"사업장명",					name:"agentName",			width:150,		sortable:false,		align:"center"},
-				{display:"고지금액",					name:"billAmnt",			width:80,		sortable:false,		align:'right' , displayFormat: 'number'},
-				{display:"부가세",					name:"vat",					width:80,		sortable:false,		align:'right' , displayFormat: 'number'},
+				{display:"업체명",					name:"agentName",			width:165,		sortable:false,		align:"left"},
+				{display:"고지금액",					name:"billAmnt",			width:100,		sortable:false,		align:'right' , displayFormat: 'number'},
+				{display:"부가세",					name:"vat",					width:100,		sortable:false,		align:'right' , displayFormat: 'number'},
 				{display:"고지일자",					name:"billDt",				width:80,		sortable:false,		align:"center"},
 				{display:"고지서발부여부",				name:"billPrtYn",			width:90,		sortable:false,		align:"center"},
-				{display:"산출내역",					name:"amntRsn",				width:80,		sortable:false,		align:"center"},
+				{display:"산출내역",					name:"amntRsn",				width:180,		sortable:false,		align:"center"},
 				{display:"납부기한일자",				name:"dueDate",				width:80,		sortable:false,		align:"center"},
-				{display:"부가세구분",					name:"vatYn",				width:80,		sortable:false,		align:"center"},
+				{display:"부가세구분",					name:"vatYn",				width:60,		sortable:false,		align:"center"},
 				{display:"최초고지일자",				name:"firstBillDt",			width:80,		sortable:false,		align:"center"},
-				{display:"수납구분",					name:"rcvdTp",				width:80,		sortable:false,		align:"center"},
-				{display:"수납일자",					name:"rcvdDt",				width:60,		sortable:false,		align:"center"},
-				{display:"면제(보전)금액",				name:"exmpAmnt",			width:90,		sortable:false,		align:'right' , displayFormat: 'number'},
-				{display:"할인금액",					name:"dcAmnt",				width:80,		sortable:false,		align:'right' , displayFormat: 'number'},
+				{display:"수납구분",					name:"rcvdTp",				width:60,		sortable:false,		align:"center"},
+				{display:"수납일자",					name:"rcvdDt",				width:80,		sortable:false,		align:"center"},
+				{display:"면제(보전)금액",				name:"exmpAmnt",			width:100,		sortable:false,		align:'right' , displayFormat: 'number'},
+				{display:"할인금액",					name:"dcAmnt",				width:100,		sortable:false,		align:'right' , displayFormat: 'number'},
 				{display:"할인사유코드",				name:"dcCode",				width:80,		sortable:false,		align:"center"},
 				{display:"할인율코드",					name:"dcRate",				width:80,		sortable:false,		align:"center"},
 				{display:"금융기관수납일자",				name:"recptEpdt",			width:90,		sortable:false,		align:"center"},
-				{display:"정산여부",					name:"last",				width:80,		sortable:false,		align:"center"},
+				{display:"정산여부",					name:"last",				width:60,		sortable:false,		align:"center"},
 				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
 				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"},
-				{display:"시설코드",					name:"facCode",				width:80,		sortable:false,		align:"center"},
-				{display:"시설부코드",					name:"facSubCode",			width:80,		sortable:false,		align:"center"},
-				{display:"선석명",					name:"facKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"고지횟수",					name:"billCount",			width:80,		sortable:false,		align:"center"}
+				{display:"시설코드",					name:"facCode",				width:60,		sortable:false,		align:"center"},
+				{display:"시설부코드",					name:"facSubCode",			width:60,		sortable:false,		align:"center"},
+				{display:"선석명",					name:"facKorNm",			width:150,		sortable:false,		align:"left"},
+				{display:"고지횟수",					name:"billCount",			width:60,		sortable:false,		align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -91,25 +91,25 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"항코드", 	 				name:"prtAtCode",			width:80,		sortable:false,		align:"center"},
-				{display:"항명",						name:"prtKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"요금종류",					name:"feeTp",				width:80,		sortable:false,		align:"center"},
-				{display:"요금종류명",					name:"feeTpKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"회계년도",					name:"fiscalYr",			width:80,		sortable:false,		align:"center"},
-				{display:"고지번호",					name:"billNo",				width:80,		sortable:false,		align:"center"},
-				{display:"연체횟수",					name:"dlySerNo",			width:80,		sortable:false,		align:"center"},
-				{display:"업체코드",					name:"agentCode",			width:80,		sortable:false,		align:"center"},
-				{display:"업체명",					name:"firmKorNm",			width:80,		sortable:false,		align:"center"},
-				{display:"사업자등록번호",				name:"bzRgstId",			width:80,		sortable:false,		align:"center"},
-				{display:"연체고지금액",				name:"dlyBillAmnt",			width:80,		sortable:false,		align:"center"},
+				{display:"항코드", 	 				name:"prtAtCode",			width:45,		sortable:false,		align:"center"},
+				{display:"항코드명",					name:"prtKorNm",			width:55,		sortable:false,		align:"center"},
+				{display:"요금종류",					name:"feeTp",				width:55,		sortable:false,		align:"center"},
+				{display:"요금종류명",					name:"feeTpKorNm",			width:100,		sortable:false,		align:"left"},
+				{display:"회계년도",					name:"fiscalYr",			width:55,		sortable:false,		align:"center"},
+				{display:"고지번호",					name:"billNo",				width:55,		sortable:false,		align:"center"},
+				{display:"연체횟수",					name:"dlySerNo",			width:55,		sortable:false,		align:"center"},
+				{display:"업체코드",					name:"agentCode",			width:60,		sortable:false,		align:"center"},
+				{display:"업체명",					name:"firmKorNm",			width:165,		sortable:false,		align:"left"},
+				{display:"연체고지금액",				name:"dlyBillAmnt",			width:100,		sortable:false,		align:"center"},
 				{display:"연체고지일자",				name:"dlyBillDt",			width:80,		sortable:false,		align:"center"},
-				{display:"연체고지서발부여부",			name:"dlyBillPrtYn",		width:80,		sortable:false,		align:"center"},
-				{display:"산출내역",					name:"dlyBillRsn",			width:80,		sortable:false,		align:"center"},
-				{display:"연체납부기한일자",				name:"dlyDueDt",			width:80,		sortable:false,		align:"center"},
+				{display:"연체고지서발부여부",			name:"dlyBillPrtYn",		width:90,		sortable:false,		align:"center"},
+				{display:"사업자등록번호",				name:"bzRgstId",			width:90,		sortable:false,		align:"center"},
+				{display:"산출내역",					name:"dlyBillRsn",			width:180,		sortable:false,		align:"center"},
+				{display:"연체납부기한일자",				name:"dlyDueDt",			width:90,		sortable:false,		align:"center"},
 				{display:"최초고지일자",				name:"firstBillDt",			width:80,		sortable:false,		align:"center"},
 				{display:"연체수납일자",				name:"dlyRcvdDt",			width:80,		sortable:false,		align:"center"},
 				{display:"할인율코드",					name:"dcRate",				width:80,		sortable:false,		align:"center"},
-				{display:"금융기관수납일자",				name:"recptEpdt",			width:80,		sortable:false,		align:"center"},
+				{display:"금융기관수납일자",				name:"recptEpdt",			width:90,		sortable:false,		align:"center"},
 				{display:"시작일자",					name:"strDate",				width:80,		sortable:false,		align:"center"},
 				{display:"종료일자",					name:"endDate",				width:80,		sortable:false,		align:"center"}
 			],
@@ -256,9 +256,9 @@ var module_instance = new GamNticPayListModule();
                             </td>
                             <th>요금종류</th>
                             <td>
-                                <input id="chrgeKndCd" type="text" size="10"> 
-                                <input id="chrgeKndNm" type="text" size="10"> 
-                                <button id="popupChrgeKndCd">요금</button>
+                                <input id="chrgeKndCd" type="text" size="2">&nbsp; &nbsp; 
+                                <input id="chrgeKndNm" type="text" size="18" disabled="disabled">&nbsp; &nbsp; 
+                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                             <td rowspan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
@@ -296,22 +296,23 @@ var module_instance = new GamNticPayListModule();
 			<div id="tabs1" class="emdTabPage">
 				<table id="nticPayList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<table style="width:100%;">
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                   합계 : 
-                                   자료수 <input id="totalResultCnt" size="8" style="text-align:right;" readonly>
-								   고지금액합계 <input id="totalBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
-								   수납금액합계 <input id="totalRcvdAmnt" type="text" size="15" style="text-align:right;" readonly>원
-								   미수납금액합계 <input id="totalNotRcvdAmnt" type="text" size="15" style="text-align:right;" readonly>원
-                               </form>
-                            </td>
-                            <td>
-                            	<button id="btnNticPayListExcelDownload">엑셀</button>
-                            </td>
-                        </tr>
-                    </table>
+					<form id="form1">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="10%" height="20">자료수</th>
+								<td><input type="text" size="8" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">고지금액합계</th>
+								<td><input type="text" size="17" id="totalBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">수납금액합계</th>
+								<td><input type="text" size="17" id="totalRcvdAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">미수납금액합계</th>
+								<td><input type="text" size="17" id="totalNotRcvdAmnt" class="ygpaNumber" disabled="disabled" /></td>
+                            	<td>
+                            		<button id="btnNticPayListExcelDownload">엑셀</button>
+                            	</td>
+							</tr>
+						</table>
+					</form>
 					
 					<%-- <form id="delayNticPayListForm">
 						<input type="hidden" id="intSeq">
@@ -321,20 +322,19 @@ var module_instance = new GamNticPayListModule();
 			<div id="tabs2" class="emdTabPage">
 				<table id="delayNticPayList" style="display:none"></table>
 				<div class="emdControlPanel">
-					<table style="width:100%;">
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                   합계 : 
-                                   자료수 <input id="totalResultCnt1" size="15" style="text-align:right;" readonly>
-								   연체고지금액합계 <input id="totalDlyBillAmnt" type="text" size="15" style="text-align:right;" readonly>원
-                               </form>
-                            </td>
-                            <td>
-                            	<button id="btnDelayNticPayListExcelDownload">엑셀</button>
-                            </td>
-                        </tr>
-                    </table>
+					<form id="form1">
+						<table style="width:100%;" class="summaryPanel">
+							<tr>
+								<th width="20%" height="23">자료수</th>
+								<td><input type="text" size="25" id="totalResultCnt1" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">연체고지금액합계</th>
+								<td><input type="text" size="47" id="totalDlyBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
+	                            <td>
+    	                        	<button id="btnDelayNticPayListExcelDownload">엑셀</button>
+        	                    </td>
+							</tr>
+						</table>
+					</form>
 					
 				</div>
 			</div>
