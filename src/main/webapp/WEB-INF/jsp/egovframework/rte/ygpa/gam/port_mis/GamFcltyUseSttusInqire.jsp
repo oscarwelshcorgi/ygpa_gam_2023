@@ -110,9 +110,11 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
             
          // 팝업을 호출한다.(요금종류)     
         case 'popupChrgeKndCd': 
-            var opts;
-
             //this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+			var opts;
+		
+			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
+					'<c:url value="/popup/showPayCd.do"/>', opts);
             break;
             
     }
@@ -142,7 +144,16 @@ GamFcltyUseSttusInqireModule.prototype.onClosePopup = function(popupId, msg, val
             alert('취소 되었습니다');
         }
         break;
-     default:
+    case 'selectChrgeKndCd':
+		if (msg != 'cancel') {
+			this.$('#prtAtCode').val(value.prtAtCode);
+			this.$('#chrgeKndCd').val(value.feeTp);
+			this.$('#chrgeKndNm').val(value.feeTpKorNm);
+		} else {
+			alert('취소 되었습니다');
+		}
+		break;
+   	default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          throw 0;
          break;
