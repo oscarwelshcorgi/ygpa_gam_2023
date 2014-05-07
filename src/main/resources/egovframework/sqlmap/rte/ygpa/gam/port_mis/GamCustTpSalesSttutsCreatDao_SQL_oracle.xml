@@ -103,8 +103,8 @@
 								LEFT OUTER JOIN 
 									P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 ON (T1.ENTRPSCD=T2.AGENT_CODE)
 								WHERE 1 = 1 					       
-					        		<isNotEmpty property="prtAtCode2">
-			                    		AND T1.PRTCD = #prtAtCode2#
+					        		<isNotEmpty property="prtAtCode">
+			                    		AND T1.PRTCD = #prtAtCode#
 			                		</isNotEmpty>
 					        		<isNotEmpty property="eGrStartYr">
 					        			<isNotEmpty property="eGrStartMn">
@@ -116,11 +116,11 @@
 			                    			</isNotEmpty>
 			                    		</isNotEmpty>
 			                		</isNotEmpty>
-					        		<isNotEmpty property="chrgeKndCd2">
-			                    		AND T1.CHRGEKNDCD = #chrgeKndCd2#
+					        		<isNotEmpty property="chrgeKndCd">
+			                    		AND T1.CHRGEKNDCD = #chrgeKndCd#
 			                		</isNotEmpty>
-					        		<isNotEmpty property="sEntrpscd2">
-			                    		AND T1.ENTRPSCD = #sEntrpscd2#
+					        		<isNotEmpty property="sEntrpscd">
+			                    		AND T1.ENTRPSCD = #sEntrpscd#
 			                		</isNotEmpty>			                		
                 ) S
              ) A
@@ -141,8 +141,8 @@
 					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 						ON (T1.ENTRPSCD=T2.AGENT_CODE)
 			WHERE 1 = 1 					       
-				<isNotEmpty property="prtAtCode2">
-			    	AND T1.PRTCD = #prtAtCode2#
+				<isNotEmpty property="prtAtCode">
+			    	AND T1.PRTCD = #prtAtCode#
 			    </isNotEmpty>
         		<isNotEmpty property="eGrStartYr">
         			<isNotEmpty property="eGrStartMn">
@@ -155,11 +155,11 @@
                   	</isNotEmpty>
               	</isNotEmpty>
        
-				<isNotEmpty property="chrgeKndCd2">
-			        AND T1.CHRGEKNDCD = #chrgeKndCd2#
+				<isNotEmpty property="chrgeKndCd">
+			        AND T1.CHRGEKNDCD = #chrgeKndCd#
 			    </isNotEmpty>
-				<isNotEmpty property="sEntrpscd2">
-			       	AND T1.ENTRPSCD = #sEntrpscd2#
+				<isNotEmpty property="sEntrpscd">
+			       	AND T1.ENTRPSCD = #sEntrpscd#
 			    </isNotEmpty>			                		
     </select>
     
@@ -178,8 +178,8 @@
 					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 						ON (T1.ENTRPSCD=T2.AGENT_CODE)
 			WHERE 1 = 1 					       
-				<isNotEmpty property="prtAtCode2">
-			    	AND T1.PRTCD = #prtAtCode2#
+				<isNotEmpty property="prtAtCode">
+			    	AND T1.PRTCD = #prtAtCode#
 			    </isNotEmpty>
         		<isNotEmpty property="eGrStartYr">
         			<isNotEmpty property="eGrStartMn">
@@ -192,11 +192,11 @@
                   	</isNotEmpty>
               	</isNotEmpty>
        
-				<isNotEmpty property="chrgeKndCd2">
-			        AND T1.CHRGEKNDCD = #chrgeKndCd2#
+				<isNotEmpty property="chrgeKndCd">
+			        AND T1.CHRGEKNDCD = #chrgeKndCd#
 			    </isNotEmpty>
-				<isNotEmpty property="sEntrpscd2">
-			       	AND T1.ENTRPSCD = #sEntrpscd2#
+				<isNotEmpty property="sEntrpscd">
+			       	AND T1.ENTRPSCD = #sEntrpscd#
 			    </isNotEmpty>			                		
     </select>
 
@@ -224,8 +224,8 @@
 								P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 									ON (T1.ENTRPSCD=T2.AGENT_CODE)
 						WHERE 1 = 1 
-					        <isNotEmpty property="prtAtCode3">
-			                    AND T1.PRTCD = #prtAtCode3#
+					        <isNotEmpty property="prtAtCode">
+			                    AND T1.PRTCD = #prtAtCode#
 			                </isNotEmpty>
 			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
@@ -240,11 +240,11 @@
 				                    </isNotEmpty>
 			                    </isNotEmpty>
 			                </isNotEmpty>
-					        <isNotEmpty property="chrgeKndCd3">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd3#
+					        <isNotEmpty property="chrgeKndCd">
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
 			                </isNotEmpty>
-					        <isNotEmpty property="sEntrpscd3">
-			                    AND T1.ENTRPSCD = #sEntrpscd3#
+					        <isNotEmpty property="sEntrpscd">
+			                    AND T1.ENTRPSCD = #sEntrpscd#
 			                </isNotEmpty>			                		
                 ) S
              ) A
@@ -265,8 +265,8 @@
 								P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 									ON (T1.ENTRPSCD=T2.AGENT_CODE)
 						WHERE 1 = 1 
-					        <isNotEmpty property="prtAtCode3">
-			                    AND T1.PRTCD = #prtAtCode3#
+					        <isNotEmpty property="prtAtCode">
+			                    AND T1.PRTCD = #prtAtCode#
 			                </isNotEmpty>
 			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
@@ -281,11 +281,11 @@
 				                    </isNotEmpty>
 			                    </isNotEmpty>
 			                </isNotEmpty>
-					        <isNotEmpty property="chrgeKndCd3">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd3#
+					        <isNotEmpty property="chrgeKndCd">
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
 			                </isNotEmpty>
-					        <isNotEmpty property="sEntrpscd3">
-			                    AND T1.ENTRPSCD = #sEntrpscd3#
+					        <isNotEmpty property="sEntrpscd">
+			                    AND T1.ENTRPSCD = #sEntrpscd#
 			                </isNotEmpty>			                		
     </select>
     
@@ -305,8 +305,8 @@
 								P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
 									ON (T1.ENTRPSCD=T2.AGENT_CODE)
 						WHERE 1 = 1 
-					        <isNotEmpty property="prtAtCode3">
-			                    AND T1.PRTCD = #prtAtCode3#
+					        <isNotEmpty property="prtAtCode">
+			                    AND T1.PRTCD = #prtAtCode#
 			                </isNotEmpty>
 			                AND T1.ENTRPSCD IN (SELECT AGENT_CODE
                       								FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
@@ -321,11 +321,11 @@
 				                    </isNotEmpty>
 			                    </isNotEmpty>
 			                </isNotEmpty>
-					        <isNotEmpty property="chrgeKndCd3">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd3#
+					        <isNotEmpty property="chrgeKndCd">
+			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
 			                </isNotEmpty>
-					        <isNotEmpty property="sEntrpscd3">
-			                    AND T1.ENTRPSCD = #sEntrpscd3#
+					        <isNotEmpty property="sEntrpscd">
+			                    AND T1.ENTRPSCD = #sEntrpscd#
 			                </isNotEmpty>			                		
     </select>
 

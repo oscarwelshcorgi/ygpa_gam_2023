@@ -281,12 +281,43 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택',
 					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
 			break;
-
+		
+		case 'popupchrgeKndCd': // 팝업을 호출한다.(요금조회)
+			/*
+			var opts = {
+			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
+			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+			};
+			*/
+			var opts;
+		
+			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
+					'<c:url value="/popup/showPayCd.do"/>', opts);
+			break;
+		
+			
+		case 'popupchrgeKndCd2': // 팝업을 호출한다.(요금조회)
+			/*
+			var opts = {
+			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
+			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+			};
+			*/
+			var opts;
+		
+			this.doExecuteDialog('selectChrgeKndCd2', '요금 선택2',
+					'<c:url value="/popup/showPayCd.do"/>', opts);
+			break;
+		
 		}
+	
 	};
 
 	GamCustTpSalesSttutsCreat.prototype.onClosePopup = function(popupId, msg,
 			value) {
+
 		switch (popupId) {
 		case 'selectEntrpsInfoPopup':
 			if (msg != 'cancel') {
@@ -304,6 +335,26 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 				alert('취소 되었습니다');
 			}
 			break;
+		case 'selectChrgeKndCd':
+			if (msg != 'cancel') {
+				this.$('#prtAtCode1').val(value.prtAtCode);
+				this.$('#chrgeKndCd1').val(value.feeTp);
+				this.$('#chrgeKndNm1').val(value.feeTpKorNm);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+			
+		case 'selectChrgeKndCd2':
+			if (msg != 'cancel') {
+				this.$('#prtAtCode2').val(value.prtAtCode);
+				this.$('#chrgeKndCd2').val(value.feeTp);
+				this.$('#chrgeKndNm2').val(value.feeTpKorNm);
+			} else {
+				alert('취소 되었습니다');
+			}
+			break;
+
 		case 'insertEntrpsInfoPopup':
 			if (msg != 'cancel') {
 				this.$('#entrpscd').val(value.entrpscd);
@@ -485,7 +536,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="prtAtCode2">
+		                                <select id="prtAtCode1" data-column-id="prtAtCode">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -530,15 +581,12 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-										<input id="chrgeKndCd2" type="text" size="2">&nbsp; &nbsp; 
-										<input id="chrgeKndNm2" type="text" size="8" disabled="disabled">&nbsp; &nbsp; 
-										<button id="popupChrgeKndCd2" class="popupButton">선택</button>
+		                            	<input id="chrgeKndCd1" type="text" size="4" data-column-id="chrgeKndCd"> 
+		                                <input id="chrgeKndNm1" type="text" size="10"> <button id="popupchrgeKndCd">요금</button>
 		                            </td>
-		                            <th>조회업체</th>
+		                            <th>업체명</th>
 		                            <td>
-										<input id="sEntrpscd2" type="text" size="6">&nbsp; &nbsp;
-										<input id="sEntrpsNm2" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
-										<button id="popupEntrpsInfo2" class="popupButton">선택</button>
+		                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -552,7 +600,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                        <tr>
 		                            <th>항코드</th>
 		                            <td width="30%">
-		                                <select id="prtAtCode3">
+		                                <select id="prtAtCode2" data-column-id="prtAtCode">
 		                                    <option value="" selected="selected">선택</option>
 		
 		                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -597,15 +645,12 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-										<input id="chrgeKndCd3" type="text" size="2">&nbsp; &nbsp; 
-										<input id="chrgeKndNm3" type="text" size="8" disabled="disabled">&nbsp; &nbsp; 
-										<button id="popupChrgeKndCd3" class="popupButton">선택</button>
+		                            	<input id="chrgeKndCd2" type="text" size="4" data-column-id="chrgeKndCd"> 
+		                                <input id="chrgeKndNm2" type="text" size="10"> <button id="popupchrgeKndCd2">요금</button>
 		                            </td>
-		                            <th>조회업체</th>
+		                            <th>업체명</th>
 		                            <td>
-										<input id="sEntrpscd3" type="text" size="6">&nbsp; &nbsp;
-										<input id="sEntrpsNm3" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
-										<button id="popupEntrpsInfo3" class="popupButton">선택</button>
+		                                 <input id="sEntrpscd2" type="text" size="10" data-column-id="sEntrpscd"><input id="sEntrpsNm2" type="text" size="10" readonly> <button id="popupEntrpsInfo2">업체</button>
 		                            </td>
 								</tr>
 		                    </tbody>
