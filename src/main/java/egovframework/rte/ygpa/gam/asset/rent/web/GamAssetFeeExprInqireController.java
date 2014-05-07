@@ -141,9 +141,9 @@ public class GamAssetFeeExprInqireController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
-    	map.put("sumGrAr", resultSum.getSumGrAr());
-    	map.put("sumGrFee", resultSum.getSumGrFee());
-    	
+    	//map.put("sumGrAr", resultSum.getSumGrAr());
+    	//map.put("sumGrFee", resultSum.getSumGrFee());
+    	map.put("sumNticAmt", resultSum.getSumNticAmt());
     	return map;
     }
 	

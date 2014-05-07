@@ -11,8 +11,7 @@
 
     <resultMap id="gamAssetFeeExprInqireSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetFeeExprInqireVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
-        <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
-        <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
+        <result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="2"/>
     </resultMap>
 
     <resultMap id="gamAssetFeeExprInqireMaxMngMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetFeeExprInqireVO">
@@ -57,6 +56,9 @@
 	    <result property="gisCd" column="GIS_CD" columnIndex="26"/>
 	    <result property="deptcd" column="DEPTCD" columnIndex="27"/>
 	    <result property="payMth" column="PAY_MTH" columnIndex="28"/>
+	    <result property="payMthNm" column="PAY_MTH_NM" columnIndex="29"/>
+	    <result property="nticMthNm" column="PAY_MTH_NM" columnIndex="30"/>
+	    <result property="deptcdNm" column="DEPTCD_NM" columnIndex="31"/>
 	</resultMap>
 
     <resultMap id="gamAssetFeeExprInqireDetailInfoMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetFeeExprInqireDetailVO">
@@ -126,80 +128,62 @@
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT
-                                    A.PRT_AT_CODE
-                                  , A.PRT_AT_CODE PRT_AT_CODE_STR
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+                           SELECT A.PRT_AT_CODE
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
+                                  , A.NTIC_CNT
+                                  , A.CHRGE_KND
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , A.ACCNUT_YEAR
+                                  , A.NTICNO
+                                  , TO_CHAR(A.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
+                                  , TO_CHAR(A.NTIC_PD_FROM, 'YYYY-MM-DD') AS NTIC_PD_FROM
+                                  , TO_CHAR(A.NTIC_PD_TO, 'YYYY-MM-DD') AS NTIC_PD_TO
+                                  , A.FEE
+                                  , A.VAT
+                                  , (CASE WHEN A.VAT_YN='0' OR A.VAT_YN IS NULL THEN '면세' WHEN A.VAT_YN='1' THEN '영세' WHEN A.VAT_YN='2' THEN '과세' WHEN A.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
+                                  , A.NTIC_AMT
                                   , A.MNG_YEAR
                                   , A.MNG_NO
                                   , A.MNG_CNT
                                   , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
-                                  , A.ENTRPSCD
-                                  , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM
-                                  , A.REQST_SE_CD
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
-                                  , A.GR_AR
-                                  , A.GR_FEE
-                                  , A.NTIC_MTH
-                                  , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
-                                  , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
-                                  , A.PRMISN_YN
-                                  , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
-                                  , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
-                                  , A.DOC_NO
-                                  , A.RM
-                                  , A.CMT
-                                  , A.ETC
-                                  , A.REG_USR
-                                  , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-                                  , A.UPD_USR
-                                  , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-                                  , A.GR_RDCXPT_FEE
-                                  , A.GIS_CD
-                                  , A.DEPTCD
-                                  , A.PAY_MTH
-                                  , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
-                                  , A.SANCTN_STTUS
-                                  , A.SANCTNER_EMPL_NO
-                                  , A.QUAY_CD
-                                  , A.SANCTN_DT
-                                  , A.QUAY_GROUP_CD
-                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
-                                  , B.NTICNO
-                                  , TO_CHAR(B.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
-                                  , TO_CHAR(B.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
-                                  , B.FEE
-                                  , B.VAT_YN
-                           		, B.VAT
-                           		, TO_DATE(B.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
-                           		, B.PAY_TMLMT
-                           		, B.ARRRG_AMT
-                             FROM ASSETS_RENT_F A,
-                                  LEV_REQEST_F B
-                            WHERE 1=1
+                                  , B.NTIC_MTH
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM008' AND CD.CODE = B.NTIC_MTH AND ROWNUM = 1) AS NTIC_MTH_NM
+                                  , B.ENTRPSCD
+                                  , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = B.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM 
+                                  , B.REQST_SE_CD
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = B.REQST_SE_CD AND ROWNUM = 1) AS REQST_SE_CD_NM
+                                  , B.GR_AR
+                                  , B.GR_FEE
+                                  , TO_CHAR(B.REQST_DT, 'YYYY-MM-DD') AS REQST_DT 
+                                  , TO_CHAR(B.FRST_REQST_DT, 'YYYY-MM-DD') AS FRST_REQST_DT
+                                  , TO_CHAR(B.FRST_PRMISN_DT, 'YYYY-MM-DD') AS FRST_PRMISN_DT
+                                  , TO_CHAR(B.PRMISN_DT, 'YYYY-MM-DD') AS PRMISN_DT
+                                  , B.PRMISN_YN
+                                  , TO_CHAR(B.GR_USAGE_PD_FROM, 'YYYY-MM-DD') AS GR_USAGE_PD_FROM
+                                  , TO_CHAR(B.GR_USAGE_PD_TO, 'YYYY-MM-DD') AS GR_USAGE_PD_TO
+                                  , B.GR_RDCXPT_FEE
+                                  , B.DEPTCD
+                                  , B.PAY_MTH
+                                  , B.RM
+                                  , B.CMT
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM043' AND CD.CODE = B.PAY_MTH AND ROWNUM = 1) PAY_MTH_NM
+                                  , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = B.DEPTCD AND ROWNUM = 1) DEPTCD_NM
+                             FROM LEV_REQEST_F A,
+                                  ASSETS_RENT_F B
+                            WHERE 1 = 1
+                             AND A.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+                             AND A.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                              AND A.PRT_AT_CODE = B.PRT_AT_CODE
                              AND A.MNG_YEAR    = B.MNG_YEAR
                              AND A.MNG_NO      = B.MNG_NO
                              AND A.MNG_CNT     = B.MNG_CNT
-                             AND A.PRMISN_YN = 'Y'
+                             AND B.PRMISN_YN = 'Y'
                            <isNotEmpty property="sPrtAtCode">
 			                   AND A.PRT_AT_CODE = #sPrtAtCode#
 			               </isNotEmpty>
 
-			               <isNotEmpty property="sReqstSeCd">
-			                   AND A.REQST_SE_CD = #sReqstSeCd#
-			               </isNotEmpty>
-
 			               <isNotEmpty property="sEntrpscd">
 			                   AND A.ENTRPSCD = #sEntrpscd#
-			               </isNotEmpty>
-
-			               <isNotEmpty property="sGrUsagePdFrom">
-			                   AND B.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
-			               </isNotEmpty>
-
-			               <isNotEmpty property="sGrUsagePdTo">
-			                   AND B.NTIC_PD_FROM <![CDATA[<]]> TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
 			               </isNotEmpty>
 
 			               <isNotEmpty property="sMngYear">
@@ -214,9 +198,13 @@
 			                   AND A.MNG_CNT = #sMngCnt#
 			               </isNotEmpty>
 
+			               <isNotEmpty property="sReqstSeCd">
+			                   AND B.REQST_SE_CD = #sReqstSeCd#
+			               </isNotEmpty>
+
 			               <isNotEmpty property="sUsagePrposCd">
 			                   AND (
-			                         (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+			                         (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
 			                                                                       SELECT  PRT_AT_CODE
 			                                                                             , MNG_YEAR
 			                                                                             , MNG_NO
@@ -228,7 +216,7 @@
 			               </isNotEmpty>
 
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
+                             ORDER BY A.NTIC_PD_FROM
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -236,33 +224,23 @@
 
     <select id="gamAssetFeeExprInqireDao.selectAssetFeeExprInqireListTotCnt_S" parameterClass="gamAssetFeeExprInqireVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM ASSETS_RENT_F A,
-                   LEV_REQEST_F B
+              FROM LEV_REQEST_F A,
+                   ASSETS_RENT_F B
              WHERE 1=1
+               AND A.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+               AND A.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                AND A.PRT_AT_CODE = B.PRT_AT_CODE
                AND A.MNG_YEAR    = B.MNG_YEAR
                AND A.MNG_NO      = B.MNG_NO
                AND A.MNG_CNT     = B.MNG_CNT
-               AND A.PRMISN_YN = 'Y'
+               AND B.PRMISN_YN = 'Y'
 
                <isNotEmpty property="sPrtAtCode">
                    AND A.PRT_AT_CODE = #sPrtAtCode#
                </isNotEmpty>
 
-               <isNotEmpty property="sReqstSeCd">
-                   AND A.REQST_SE_CD = #sReqstSeCd#
-               </isNotEmpty>
-
                <isNotEmpty property="sEntrpscd">
                    AND A.ENTRPSCD = #sEntrpscd#
-               </isNotEmpty>
-
-               <isNotEmpty property="sGrUsagePdFrom">
-                   AND B.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
-               </isNotEmpty>
-
-               <isNotEmpty property="sGrUsagePdTo">
-                   AND B.NTIC_PD_FROM <![CDATA[<]]> TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
                </isNotEmpty>
 
                <isNotEmpty property="sMngYear">
@@ -277,9 +255,13 @@
                    AND A.MNG_CNT = #sMngCnt#
                </isNotEmpty>
 
+               <isNotEmpty property="sReqstSeCd">
+                   AND B.REQST_SE_CD = #sReqstSeCd#
+               </isNotEmpty>
+
                <isNotEmpty property="sUsagePrposCd">
                    AND (
-                         (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                         (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
                                                                        SELECT  PRT_AT_CODE
                                                                              , MNG_YEAR
                                                                              , MNG_NO
@@ -294,35 +276,24 @@
     <select id="gamAssetFeeExprInqireDao.selectAssetFeeExprInqireSum_S" parameterClass="gamAssetFeeExprInqireVO" resultMap="gamAssetFeeExprInqireSumMap">
          SELECT
                  TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) SUM_CNT
-               , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999.0')) SUM_GR_AR
-               , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
-          FROM ASSETS_RENT_F A
+               , TRIM(TO_CHAR(NVL(SUM(A.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMT
+           FROM LEV_REQEST_F A,
+                ASSETS_RENT_F B
          WHERE 1=1
-
-         AND A.PRMISN_YN = 'Y'
+          AND A.NTIC_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+          AND A.NTIC_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+          AND A.PRT_AT_CODE = B.PRT_AT_CODE
+          AND A.MNG_YEAR    = B.MNG_YEAR
+          AND A.MNG_NO      = B.MNG_NO
+          AND A.MNG_CNT     = B.MNG_CNT
+          AND B.PRMISN_YN = 'Y'
 
          <isNotEmpty property="sPrtAtCode">
              AND A.PRT_AT_CODE = #sPrtAtCode#
          </isNotEmpty>
 
-         <isNotEmpty property="sReqstSeCd">
-             AND A.REQST_SE_CD = #sReqstSeCd#
-         </isNotEmpty>
-
          <isNotEmpty property="sEntrpscd">
              AND A.ENTRPSCD = #sEntrpscd#
-         </isNotEmpty>
-
-         <isNotEmpty property="sGrUsagePdFrom">
-             AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-         </isNotEmpty>
-
-         <isNotEmpty property="sGrUsagePdTo">
-             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-         </isNotEmpty>
-
-         <isNotEmpty property="sGrAr">
-             AND A.GR_AR = #sGrAr#
          </isNotEmpty>
 
          <isNotEmpty property="sMngYear">
@@ -337,13 +308,13 @@
              AND A.MNG_CNT = #sMngCnt#
          </isNotEmpty>
 
-         <isNotEmpty property="sPrmisnYn">
-             AND A.PRMISN_YN = #sPrmisnYn#
+         <isNotEmpty property="sReqstSeCd">
+             AND B.REQST_SE_CD = #sReqstSeCd#
          </isNotEmpty>
 
          <isNotEmpty property="sUsagePrposCd">
              AND (
-                   (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                   (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
                                                                  SELECT  PRT_AT_CODE
                                                                        , MNG_YEAR
                                                                        , MNG_NO

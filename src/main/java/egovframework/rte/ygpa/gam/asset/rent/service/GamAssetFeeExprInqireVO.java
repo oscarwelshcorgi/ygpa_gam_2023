@@ -119,6 +119,15 @@ public class GamAssetFeeExprInqireVO extends ComDefaultVO {
     /** 결재 일시 */
     private String sanctnDt;	
 
+    /** 납부방법코드 */
+    private String payMthNm;
+    
+	/** 고지 방법 */
+    private String nticMthNm;
+    
+    /** 부서코드명 */
+    private String deptcdNm;
+
     /** 검색조건 */
     private String sPrtAtCode;
     
@@ -160,6 +169,9 @@ public class GamAssetFeeExprInqireVO extends ComDefaultVO {
     
     /** 총사용료 */
     private String sumGrFee;
+    
+    /** 총 고지금액 */
+    private String sumNticAmt;
     
     /** 관리번호(MAX) */
     private String maxMngCnt; 
@@ -728,6 +740,20 @@ public class GamAssetFeeExprInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sumNticAmt
+	 */
+	public String getSumNticAmt() {
+		return sumNticAmt;
+	}
+
+	/**
+	 * @param sumNticAmt the sumNticAmt to set
+	 */
+	public void setSumNticAmt(String sumNticAmt) {
+		this.sumNticAmt = sumNticAmt;
+	}
+
+	/**
 	 * @return the rPrtAtCode
 	 */
 	public String getrPrtAtCode() {
@@ -1005,6 +1031,48 @@ public class GamAssetFeeExprInqireVO extends ComDefaultVO {
 	 */
 	public void setSanctnDt(String sanctnDt) {
 		this.sanctnDt = sanctnDt;
+	}
+
+    /**
+	 * @return the payMthNm
+	 */
+	public String getPayMthNm() {
+		return payMthNm;
+	}
+
+	/**
+	 * @param payMthNm the payMthNm to set
+	 */
+	public void setPayMthNm(String payMthNm) {
+		this.payMthNm = payMthNm;
+	}
+
+	/**
+	 * @return the nticMthNm
+	 */
+	public String getNticMthNm() {
+		return nticMthNm;
+	}
+
+	/**
+	 * @param nticMthNm the nticMthNm to set
+	 */
+	public void setNticMthNm(String nticMthNm) {
+		this.nticMthNm = nticMthNm;
+	}
+
+	/**
+	 * @return the deptcdNm
+	 */
+	public String getDeptcdNm() {
+		return deptcdNm;
+	}
+
+	/**
+	 * @param deptcdNm the deptcdNm to set
+	 */
+	public void setDeptcdNm(String deptcdNm) {
+		this.deptcdNm = deptcdNm;
 	}
 
 	/**
