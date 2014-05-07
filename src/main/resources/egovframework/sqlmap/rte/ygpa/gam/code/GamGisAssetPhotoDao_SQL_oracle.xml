@@ -82,7 +82,7 @@
 
 	<select id="gamGisAssetPhotoDao.selectGetNewAssetPhotoSeq_S" parameterClass="hashMap" resultClass="java.lang.Integer">
 		<![CDATA[
-			SELECT NVL(MAX(PHOTO_SEQ),0)+1 MAX_PHOTO_SEQ
+			SELECT LPAD(TO_CHAR(NVL(MAX(TO_NUMBER(PHOTO_SEQ)),0)+1),2,'0') MAX_PHOTO_SEQ
 			FROM GIS_ASSETS_PHOTO_F
 			WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
 				AND GIS_ASSETS_CD = #gisAssetsCd#
