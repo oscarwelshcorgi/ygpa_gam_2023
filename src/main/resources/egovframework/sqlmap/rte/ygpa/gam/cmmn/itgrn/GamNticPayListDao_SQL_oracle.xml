@@ -38,22 +38,22 @@
 								,T1.AGENT_NAME
 								,T1.BILL_AMNT
 								,T1.VAT
-								,T1.BILL_DT
+								,TO_CHAR(T1.BILL_DT, 'YYYY-MM-DD') AS BILL_DT
 								,T1.BILL_PRT_YN
 								,T1.AMNT_RSN
-								,T1.DUE_DATE
+								,TO_CHAR(T1.DUE_DATE, 'YYYY-MM-DD') AS DUE_DATE
 								,(CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세'
 								       WHEN T1.VAT_YN='1' THEN '영세'
 								       WHEN T1.VAT_YN='2' THEN '과세'
 								       WHEN T1.VAT_YN='3' THEN '교부면제영세' END
 								) AS VAT_YN
-								,T1.FIRST_BILL_DT
-								,T1.RCVD_DT
+								,TO_CHAR(T1.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
+								,TO_CHAR(T1.RCVD_DT, 'YYYY-MM-DD') AS RCVD_DT
 								,T1.EXMP_AMNT
 								,T1.DC_AMNT
 								,T1.DC_CODE
 								,T1.DC_RATE
-								,T1.RECPT_EPDT
+								,TO_CHAR(T1.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
 								,T1.LAST
 								,(CASE WHEN T1.RCVD_TP='0' THEN '미납'
 								       WHEN T1.RCVD_TP='1' THEN '연체'
@@ -61,8 +61,8 @@
 								       WHEN T1.RCVD_TP='3' THEN '수납'
 								       WHEN T1.RCVD_TP='4' THEN '불납' END
 								) AS RCVD_TP
-								,T1.STR_DATE
-								,T1.END_DATE
+								,TO_CHAR(T1.STR_DATE, 'YYYY-MM-DD') AS STR_DATE
+								,TO_CHAR(T1.END_DATE, 'YYYY-MM-DD') AS END_DATE
 								,T1.FAC_CODE
 								,T1.FAC_SUB_CODE
 								,T1.BILL_COUNT
@@ -258,21 +258,21 @@
 									,T1.AGENT_CODE
 									,T1.BZ_RGST_ID
 									,T1.DLY_BILL_AMNT
-									,T1.DLY_BILL_DT
+									,TO_CHAR(T1.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
 									,T1.DLY_BILL_PRT_YN
 									,T1.DLY_BILL_RSN
-									,T1.DLY_DUE_DT
-									,T1.FIRST_BILL_DT
-									,T1.DLY_RCVD_DT
+									,TO_CHAR(T1.DLY_DUE_DT, 'YYYY-MM-DD') AS DLY_DUE_DT
+									,TO_CHAR(T1.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
+									,TO_CHAR(T1.DLY_RCVD_DT, 'YYYY-MM-DD') AS DLY_RCVD_DT
 									,T1.DC_RATE
-									,T1.RECPT_EPDT
-									,T1.STR_DATE
-									,T1.END_DATE
+									,TO_CHAR(T1.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
+									,TO_CHAR(T1.STR_DATE, 'YYYY-MM-DD') AS STR_DATE
+									,TO_CHAR(T1.END_DATE, 'YYYY-MM-DD') AS END_DATE
 									,T4.PRT_KOR_NM
 									,T3.FEE_TP_KOR_NM
 									,T2.FIRM_KOR_NM
 								FROM 
-									PAYEOSU.ERP_UNPAIN_F@YGPA_PORTMIS T1
+									PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
 								LEFT OUTER JOIN 
 									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 								ON 
@@ -318,7 +318,7 @@
     
             SELECT COUNT(*) totcnt
 				FROM 
-					PAYEOSU.ERP_UNPAIN_F@YGPA_PORTMIS T1
+					PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
 				LEFT OUTER JOIN 
 					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 				ON 
@@ -359,7 +359,7 @@
             	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
             	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT 
 			FROM 
-					PAYEOSU.ERP_UNPAIN_F@YGPA_PORTMIS T1
+					PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
 				LEFT OUTER JOIN 
 					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
 				ON 
