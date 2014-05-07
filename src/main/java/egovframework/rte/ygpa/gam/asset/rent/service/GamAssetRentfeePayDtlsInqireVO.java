@@ -41,14 +41,16 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
     /** 검색조건 */
     private String sChrgeKnd;
  
-    /** 자료수, 고지금액, 수납금액 합계*/
+    /** 자료수, 고지금액, 수납금액, 미수납금액 합계*/
     private String totSumCnt;
     
     private String totSumNticAmt;
     
     private String totSumRcvdAmt;
 
-	/**
+    private String totSumNotRcvdAmt;
+
+    /**
 	 * @return the sPrtAtCode
 	 */
 	public String getsPrtAtCode() {
@@ -200,5 +202,19 @@ public class GamAssetRentfeePayDtlsInqireVO extends ComDefaultVO {
 	 */
 	public void setTotSumRcvdAmt(String totSumRcvdAmt) {
 		this.totSumRcvdAmt = totSumRcvdAmt;
+	}
+
+	/**
+	 * @return the totSumNotRcvdAmt
+	 */
+	public String getTotSumNotRcvdAmt() {
+		return totSumNotRcvdAmt;
+	}
+
+	/**
+	 * @param totSumNotRcvdAmt the totSumNotRcvdAmt to set
+	 */
+	public void setTotSumNotRcvdAmt(String totSumNotRcvdAmt) {
+		this.totSumNotRcvdAmt = totSumNotRcvdAmt;
 	}
 }

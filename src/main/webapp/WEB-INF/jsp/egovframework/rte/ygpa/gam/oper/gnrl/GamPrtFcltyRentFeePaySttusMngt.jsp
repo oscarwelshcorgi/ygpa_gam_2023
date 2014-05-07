@@ -230,7 +230,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                             <td colspan="3">
                             	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
                             	<input id="sEntrpsNm" type="text" size="39" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button></td>
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                         </tr>
                         <tr>
@@ -269,14 +269,14 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 					<form id="form1">
                     	<table style="width:100%;" class="summaryPanel">
                         	<tr>
-								<th width="20%" height="23">자료수</th>
-								<td><input type="text" size="6" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="20%" height="23">고지금액</th>
-								<td><input type="text" size="20" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="20%" height="23">수납금액</th>
-								<td><input type="text" size="20" id="sumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="20%" height="23">미수납금액</th>
-								<td><input type="text" size="20" id="sumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="23">자료수</th>
+								<td><input type="text" size="7" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="23">고지금액</th>
+								<td><input type="text" size="19" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="23">수납금액</th>
+								<td><input type="text" size="19" id="sumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="23">미수납금액</th>
+								<td><input type="text" size="19" id="sumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>
@@ -351,6 +351,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                             </tr>
                         </table>
                     </form>
+				</div>
             </div>
 
         </div>

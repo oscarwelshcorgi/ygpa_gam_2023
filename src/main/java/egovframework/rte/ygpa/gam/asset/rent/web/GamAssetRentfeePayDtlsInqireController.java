@@ -127,6 +127,7 @@ public class GamAssetRentfeePayDtlsInqireController {
     	map.put("totSumCnt", resultSum.getTotSumCnt());
     	map.put("totSumNticAmt", resultSum.getTotSumNticAmt());
     	map.put("totSumRcvdAmt", resultSum.getTotSumRcvdAmt());
+    	map.put("totSumNotRcvdAmt", resultSum.getTotSumNotRcvdAmt());
     	
     	return map;
     }
