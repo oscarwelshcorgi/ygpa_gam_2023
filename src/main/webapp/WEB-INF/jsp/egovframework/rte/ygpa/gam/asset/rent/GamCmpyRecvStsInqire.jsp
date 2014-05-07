@@ -194,9 +194,13 @@ var module_instance = new GamCmpyRecvStsInqireModule();
                             </td>
                             <th>요금종류</th>
                             <td>
+                            <input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
+                            
+                            <!-- 
                                 <input id="sChrgeKnd" type="text" size="10"> 
                                 <input id="sChrgeKndNm" type="text" size="10"> 
                                 <button id="popupChrgeKndCd">요금</button>
+                                 -->
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>

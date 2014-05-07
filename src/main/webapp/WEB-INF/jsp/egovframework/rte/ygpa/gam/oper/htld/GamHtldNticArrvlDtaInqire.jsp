@@ -1178,9 +1178,12 @@ var module_instance = new GamHtldNticArrvlDtaInqireModule();
 
                             <th>요금종류</th>
                             <td>
+							<input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" />
+                            <!-- 
                                 <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp; 
                                 <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
+                             -->
                             </td>                           
                             
                             

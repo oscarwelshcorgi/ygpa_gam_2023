@@ -203,11 +203,14 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
                             <th>고지일자</th>
                             <td><input id="sGrUsagePdFrom" type="text" class="emdcal"size="8"> ~ <input id="sGrUsagePdTo" type="text"class="emdcal" size="8"></td>
                             <th>요금종류</th>
+                            <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" /></td>
+                            <!-- 
                             <td>
                                 <input id="sChrgeKnd" type="text" size="3"> 
                                 <input id="sChrgeKndNm" type="text" size="8"> 
                                 <button id="popupChrgeKndCd">요금</button>         
-                            </td>
+                            </td> 
+                            -->
                         </tr> 
 
                     </tbody>

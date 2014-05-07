@@ -186,9 +186,14 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
                         <tr>
                             <th>요금종류</th>
                             <td>
+								<input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
+								
+                            <!-- 
                                 <input id="sChrgeKnd" type="text" size="3"> 
                                 <input id="sChrgeKndNm" type="text" size="8"> 
-                                <button id="popupChrgeKndCd">요금</button>         
+                                <button id="popupChrgeKndCd">요금</button>
+                             -->
+                                         
                             </td>
                             <th>고지기간</th>
                             <td>

@@ -219,9 +219,12 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                         <tr>
                         	<th>요금종류</th>
                             <td>
+                            <input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
+                                <!-- 
                                 <input id="sChrgeKnd" type="text" size="3">&nbsp; &nbsp; 
                                 <input id="sChrgeKndNm" type="text" size="13" disabled="disabled">&nbsp; &nbsp; 
-                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
+                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
+                                -->
                             </td>
                         	<th>고지업체</th>
                             <td colspan="3">
