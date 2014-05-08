@@ -252,7 +252,7 @@ var module_instance = new GamAssetDisUseMngtModule();
 								<th>항구분</th>
 								<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 								<th>ERP 자산코드</th>
-								<td><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
+								<td><input id="searchGisErpAssetCls" data-column-id="erpAssetsSeCd" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetsNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetsNoSeq" type="text" size="2"></td>
 								<th>폐기여부</th>
 								<td><input id="searchErpAssetsDisuseRegistYn" data-column-id="erpAssetsDisuseRegistYn" type="text" class="ygpaYnSelect" data-default-prompt='전체' /></td>
 								<th>자산코드</th>
