@@ -102,6 +102,13 @@
 				<isNotEmpty prepend="AND" property="erpAssetsNoSeq">
 					ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
 				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="operDeptCd">
+					GIS_ASSETS_OPER_DEPT_CD=#operDeptCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="mngDeptCd">
+					GIS_ASSETS_MNG_DEPT_CD=#mngDeptCd#
+				</isNotEmpty>
+				
 
                              ORDER BY REGISTDT DESC
                 ) S
@@ -159,6 +166,12 @@
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNoSeq">
 					ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="operDeptCd">
+					GIS_ASSETS_OPER_DEPT_CD=#operDeptCd#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="mngDeptCd">
+					GIS_ASSETS_MNG_DEPT_CD=#mngDeptCd#
 				</isNotEmpty>
     </select>
 
