@@ -1526,7 +1526,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                 <!-- <div class="emdControlPanel"></div>-->
                     <form id="gamMarineCenterRentForm">
                         <input type="hidden" id="cmd"/>
-                        <input type="hidden" id="quayGroupCd"/>
+                        <!--<input type="hidden" id="quayGroupCd"/>-->
 
                         <table>
                             <tr>
