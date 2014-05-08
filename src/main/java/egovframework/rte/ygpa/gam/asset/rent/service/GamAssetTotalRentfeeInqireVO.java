@@ -38,19 +38,27 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
     
     private String usagePrposCd;
     
+    private String usagePrposCdNm;
+
     private String reqstEntrpsCd;
     
+    private String reqstEntrpsCdNm;
+
     private String usageCnd;
     
+    private String usageCndNm;
+
     private String exemptSe;
     
+    private String exemptSeNm;
+
     private String fee;
     
     private String rdcxptFee;
     
-    private String updUsr;
+    private String prtAtCodeNm;
     
-    private String updtDt;
+    private String rentMngNo;
     
     private String usagePdFrom;
     
@@ -59,9 +67,15 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
     private String gisAssetsCd;
     
     private String gisAssetsSubCd;
+
+    private String rentGisAssetsCd;
     
+    private String gisAssetsNm;
+
     private String quayCd;
     
+    private String quayCdNm;
+
     /** 검색 항코드 */
     private String sPrtAtCode;
     
@@ -74,13 +88,13 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
     /** 검색 사용기간 종료 */
     private String sGrUsagePdTo;
     
-    private String gisAssetsPrtAtCode;
+    private String sUsageCnd;
     
-    private String sGisAssetsPrprtySeCd;
+    private String sQuayCd;
     
-    private String sGisAssetsQuayCd;
+    private String sGisAssetsCd;
     
-    private String sGisAssetsLocCd;
+    private String sGisAssetsSubCd;
     
     
     /** 사용료 합계 */
@@ -89,6 +103,8 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
     /** 디스플레이 자료수 */
     private String dpTotCnt;
     
+    /** 감면사용료 합계 */
+    private String sumRdcxptFee;
     
 	/**
 	 * @return the usageYear
@@ -217,6 +233,20 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the usagePrposCdNm
+	 */
+	public String getUsagePrposCdNm() {
+		return usagePrposCdNm;
+	}
+
+	/**
+	 * @param usagePrposCdNm the usagePrposCdNm to set
+	 */
+	public void setUsagePrposCdNm(String usagePrposCdNm) {
+		this.usagePrposCdNm = usagePrposCdNm;
+	}
+
+	/**
 	 * @return the reqstEntrpsCd
 	 */
 	public String getReqstEntrpsCd() {
@@ -228,6 +258,20 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	 */
 	public void setReqstEntrpsCd(String reqstEntrpsCd) {
 		this.reqstEntrpsCd = reqstEntrpsCd;
+	}
+
+	/**
+	 * @return the reqstEntrpsCdNm
+	 */
+	public String getReqstEntrpsCdNm() {
+		return reqstEntrpsCdNm;
+	}
+
+	/**
+	 * @param reqstEntrpsCdNm the reqstEntrpsCdNm to set
+	 */
+	public void setReqstEntrpsCdNm(String reqstEntrpsCdNm) {
+		this.reqstEntrpsCdNm = reqstEntrpsCdNm;
 	}
 
 	/**
@@ -245,6 +289,20 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the usageCndNm
+	 */
+	public String getUsageCndNm() {
+		return usageCndNm;
+	}
+
+	/**
+	 * @param usageCndNm the usageCndNm to set
+	 */
+	public void setUsageCndNm(String usageCndNm) {
+		this.usageCndNm = usageCndNm;
+	}
+
+	/**
 	 * @return the exemptSe
 	 */
 	public String getExemptSe() {
@@ -256,6 +314,20 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	 */
 	public void setExemptSe(String exemptSe) {
 		this.exemptSe = exemptSe;
+	}
+
+	/**
+	 * @return the exemptSeNm
+	 */
+	public String getExemptSeNm() {
+		return exemptSeNm;
+	}
+
+	/**
+	 * @param exemptSeNm the exemptSeNm to set
+	 */
+	public void setExemptSeNm(String exemptSeNm) {
+		this.exemptSeNm = exemptSeNm;
 	}
 
 	/**
@@ -287,31 +359,31 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the updUsr
+	 * @return the prtAtCodeNm
 	 */
-	public String getUpdUsr() {
-		return updUsr;
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
 	}
 
 	/**
-	 * @param updUsr the updUsr to set
+	 * @param prtAtCodeNm the prtAtCodeNm to set
 	 */
-	public void setUpdUsr(String updUsr) {
-		this.updUsr = updUsr;
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
 	}
 
 	/**
-	 * @return the updtDt
+	 * @return the rentMngNo
 	 */
-	public String getUpdtDt() {
-		return updtDt;
+	public String getRentMngNo() {
+		return rentMngNo;
 	}
 
 	/**
-	 * @param updtDt the updtDt to set
+	 * @param rentMngNo the rentMngNo to set
 	 */
-	public void setUpdtDt(String updtDt) {
-		this.updtDt = updtDt;
+	public void setRentMngNo(String rentMngNo) {
+		this.rentMngNo = rentMngNo;
 	}
 
 	/**
@@ -371,6 +443,34 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the rentGisAssetsCd
+	 */
+	public String getRentGisAssetsCd() {
+		return rentGisAssetsCd;
+	}
+
+	/**
+	 * @param rentGisAssetsCd the rentGisAssetsCd to set
+	 */
+	public void setRentGisAssetsCd(String rentGisAssetsCd) {
+		this.rentGisAssetsCd = rentGisAssetsCd;
+	}
+
+	/**
+	 * @return the gisAssetsNm
+	 */
+	public String getGisAssetsNm() {
+		return gisAssetsNm;
+	}
+
+	/**
+	 * @param gisAssetsNm the gisAssetsNm to set
+	 */
+	public void setGisAssetsNm(String gisAssetsNm) {
+		this.gisAssetsNm = gisAssetsNm;
+	}
+
+	/**
 	 * @return the quayCd
 	 */
 	public String getQuayCd() {
@@ -382,6 +482,20 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	 */
 	public void setQuayCd(String quayCd) {
 		this.quayCd = quayCd;
+	}
+
+	/**
+	 * @return the quayCdNm
+	 */
+	public String getQuayCdNm() {
+		return quayCdNm;
+	}
+
+	/**
+	 * @param quayCdNm the quayCdNm to set
+	 */
+	public void setQuayCdNm(String quayCdNm) {
+		this.quayCdNm = quayCdNm;
 	}
 
 	/**
@@ -441,59 +555,59 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the gisAssetsPrtAtCode
+	 * @return the sUsageCnd
 	 */
-	public String getGisAssetsPrtAtCode() {
-		return gisAssetsPrtAtCode;
+	public String getsUsageCnd() {
+		return sUsageCnd;
 	}
 
 	/**
-	 * @param gisAssetsPrtAtCode the gisAssetsPrtAtCode to set
+	 * @param sUsageCnd the sUsageCnd to set
 	 */
-	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
-		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	public void setsUsageCnd(String sUsageCnd) {
+		this.sUsageCnd = sUsageCnd;
 	}
 
 	/**
-	 * @return the sGisAssetsPrprtySeCd
+	 * @return the sQuayCd
 	 */
-	public String getsGisAssetsPrprtySeCd() {
-		return sGisAssetsPrprtySeCd;
+	public String getsQuayCd() {
+		return sQuayCd;
 	}
 
 	/**
-	 * @param sGisAssetsPrprtySeCd the sGisAssetsPrprtySeCd to set
+	 * @param sQuayCd the sQuayCd to set
 	 */
-	public void setsGisAssetsPrprtySeCd(String sGisAssetsPrprtySeCd) {
-		this.sGisAssetsPrprtySeCd = sGisAssetsPrprtySeCd;
+	public void setsQuayCd(String sQuayCd) {
+		this.sQuayCd = sQuayCd;
 	}
 
 	/**
-	 * @return the sGisAssetsQuayCd
+	 * @return the sGisAssetsCd
 	 */
-	public String getsGisAssetsQuayCd() {
-		return sGisAssetsQuayCd;
+	public String getsGisAssetsCd() {
+		return sGisAssetsCd;
 	}
 
 	/**
-	 * @param sGisAssetsQuayCd the sGisAssetsQuayCd to set
+	 * @param sGisAssetsCd the sGisAssetsCd to set
 	 */
-	public void setsGisAssetsQuayCd(String sGisAssetsQuayCd) {
-		this.sGisAssetsQuayCd = sGisAssetsQuayCd;
+	public void setsGisAssetsCd(String sGisAssetsCd) {
+		this.sGisAssetsCd = sGisAssetsCd;
 	}
 
 	/**
-	 * @return the sGisAssetsLocCd
+	 * @return the sGisAssetsSubCd
 	 */
-	public String getsGisAssetsLocCd() {
-		return sGisAssetsLocCd;
+	public String getsGisAssetsSubCd() {
+		return sGisAssetsSubCd;
 	}
 
 	/**
-	 * @param sGisAssetsLocCd the sGisAssetsLocCd to set
+	 * @param sGisAssetsSubCd the sGisAssetsSubCd to set
 	 */
-	public void setsGisAssetsLocCd(String sGisAssetsLocCd) {
-		this.sGisAssetsLocCd = sGisAssetsLocCd;
+	public void setsGisAssetsSubCd(String sGisAssetsSubCd) {
+		this.sGisAssetsSubCd = sGisAssetsSubCd;
 	}
 
 	/**
@@ -524,6 +638,18 @@ public class GamAssetTotalRentfeeInqireVO extends ComDefaultVO {
 		this.dpTotCnt = dpTotCnt;
 	}
 	
-	
-	
+	/**
+	 * @return the sumRdcxptFee
+	 */
+	public String getSumRdcxptFee() {
+		return sumRdcxptFee;
+	}
+
+	/**
+	 * @param sumRdcxptFee the sumRdcxptFee to set
+	 */
+	public void setSumRdcxptFee(String sumRdcxptFee) {
+		this.sumRdcxptFee = sumRdcxptFee;
+	}
+
 }

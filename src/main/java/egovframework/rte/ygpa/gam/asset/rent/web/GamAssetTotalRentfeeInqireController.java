@@ -125,6 +125,7 @@ public class GamAssetTotalRentfeeInqireController {
     	
     	map.put("sumFee", resultSum.getSumFee());
     	map.put("dpTotCnt", resultSum.getDpTotCnt());
+    	map.put("sumRdcxptFee", resultSum.getSumRdcxptFee());
     	
     	return map;
     }

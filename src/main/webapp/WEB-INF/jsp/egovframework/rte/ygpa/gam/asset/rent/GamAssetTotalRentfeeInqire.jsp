@@ -36,24 +36,32 @@ GamAssetTotalRentfeeInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/rent/gamSelectAssetTotalRentfeeInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'사용년도', name:'usageYear',width:150, sortable:false,align:'center'},
-                 {display:'관리번호', name:'mngNo',width:150, sortable:false,align:'center'},
-                 {display:'횟수', name:'mngCnt',width:150, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCd',width:150, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsCdNm',width:150, sortable:false,align:'center'},
-                 {display:'업체코드', name:'reqstEntrpsCd',width:150, sortable:false,align:'center'},
-                 {display:'업체명', name:'reqstEntrpsCdNm',width:150, sortable:false,align:'center'},
-                 {display:'사용시작일', name:'usagePdFrom',width:150, sortable:false,align:'center'},
-                 {display:'사용료', name:'fee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'면제', name:'exemptSe',width:150, sortable:false,align:'center'},
-                 {display:'수정자', name:'updUsr',width:150, sortable:false,align:'center'},
-                 {display:'수정일시', name:'updtDt',width:150, sortable:false,align:'center'}
+                 {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+                 {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
+                 {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},                 
+                 {display:'사용년도', name:'usageYear',width:45, sortable:false,align:'center'},
+                 {display:'사용월', name:'usageMt',width:45, sortable:false,align:'center'},
+                 {display:'사용분기', name:'usageQu',width:45, sortable:false,align:'center'},
+                 {display:'사용순번', name:'assetsUsageSeq',width:45, sortable:false,align:'center'},
+                 {display:'사용업체', name:'reqstEntrpsCd',width:60, sortable:false,align:'center'},
+                 {display:'사용업체명', name:'reqstEntrpsCdNm',width:120, sortable:false,align:'left'},
+                 {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'자산코드', name:'rentGisAssetsCd',width:50, sortable:false,align:'center'},
+                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'left'},
+                 {display:'사용시작일', name:'usagePdFrom',width:80, sortable:false,align:'center'},
+                 {display:'사용종료일', name:'usagePdTo',width:80, sortable:false,align:'center'},
+                 {display:'감면사용료', name:'rdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'부두', name:'quayCdNm',width:150, sortable:false,align:'left'},
+                 {display:'사용용도', name:'usagePrposCdNm',width:150, sortable:false,align:'left'},
+                 {display:'면제구분', name:'exemptSeNm',width:80, sortable:false,align:'left'},
+                 {display:'사용조건', name:'usageCndNm',width:80, sortable:false,align:'left'}
                  ],
      showTableToggleBtn: false,
-     height: '300',
+     height: '360',
      preProcess: function(module,data) {
          module.$('#totalResultCnt').val(data.dpTotCnt);
          module.$('#totalFee').val(data.sumFee);
+         module.$('#totalRdcxptFee').val(data.sumRdcxptFee);
    
          return data;
      }
@@ -100,7 +108,22 @@ GamAssetTotalRentfeeInqireModule.prototype.onButtonClick = function(buttonId) {
 	    		return;
 	    	}
 	    	
-	        var searchOpt=this.makeFormArgs('#gamAssetTotalRentfeeInqireSearchForm');
+	    	if(this.$("#sGrUsagePdFrom").val() == ""){
+	    		alert("사용기간 시작일을 입력하세요.");
+	    		return;
+	    	}
+	    	
+	    	if(this.$("#sGrUsagePdTo").val() == ""){
+	    		alert("사용기간 종료일을 입력하세요.");
+	    		return;
+	    	}
+
+	    	if(this.$("#sGrUsagePdFrom").val() > this.$("#sGrUsagePdTo").val()){
+	    		alert("사용기간 시작일이 사용기간 종료일보다 큽니다.");
+	    		return;
+	    	}
+	    	
+	    	var searchOpt=this.makeFormArgs('#gamAssetTotalRentfeeInqireSearchForm');
 	        this.$('#assetTotalRentfeeInqireList').flexOptions({params:searchOpt}).flexReload();
 	
 	        break;
@@ -184,31 +207,41 @@ var module_instance = new GamAssetTotalRentfeeInqireModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th style="width: 80px">항코드</th>
-                            <td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th style="width: 80px">업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button></td>
-                            <th style="width: 80px">사용기간</th>
-                            <td><input id="sGrUsagePdFrom" type="text" class="emdcal" size="8"> ~ <input id="sGrUsagePdTo" type="text" class="emdcal" size="8"></td>
-                            <td rowSpan="3"><button id="searchBtn" *class="submit" class="buttonSearch">조회</button></td>
-                        </tr>
-                        
-                        <tr>
-                            <th>재산구분</th>
-                            <td><input id="sGisAssetsPrprtySeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001" /></td>
-                            <th>위치</th>
-                            <td><input id="sGisAssetsLocCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM002" /></td>
-                            <th>부두</th>
-                            <td><input id="sGisAssetsQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" /></td>
-                        </tr>    
-                        
-                        <tr>
-                            <th>자산코드</th>
-                            <td colspan="5"><input type="hidden" id="gisAssetsPrtAtCode"/><input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
-                                <input type="hidden" id="assetsCdStr"/><input type="text" size="20" id="gisAssetsNm" disabled/>
-                                <button id="popupFcltyCd" class="popupButton">자산조회</button>
+                            <th>항코드</th>
+                            <td>
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
+                            <th>부두</th>
+                            <td>
+                            	<input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM003" />
+                            </td>
+                            <th>사용기간</th>
+                            <td>
+                            <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                                size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
+                            </td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
+                        
+                        <tr>
+                            <th>사용조건</th>
+                            <td>
+                            	<input id="sUsageCnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM010" />
+                            </td>
+                            <th>자산코드</th>
+                            <td>
+                                <input id="searchAssetsCd" type="text" size="3">&nbsp;-&nbsp; 
+                                <input id="searchAssetsSubCd" type="text" size="3">&nbsp; &nbsp;
+                                <button id="searchPopupBtn" class="popupButton">선택</button>
+                            </td>
+                            <th>사용업체</th>
+                            <td>
+                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            </td>
+                        </tr>    
                     </tbody>
                 </table>
             </form>
@@ -220,20 +253,21 @@ var module_instance = new GamAssetTotalRentfeeInqireModule();
             <ul>
                 <li><a href="#tabs1" class="emdTab">자산별사용료현황</a></li>
             </ul>
-            <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
-            	<table id="assetTotalRentfeeInqireList" style="display:none"></table>
+            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+                <table id="assetTotalRentfeeInqireList" style="display:none" class="fillHeight"></table>
             	<div class="emdControlPanel">
-                    <table style="width:100%;">
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                   합계 : 
-                                   자료수 <input id="totalResultCnt" size="15" style="text-align:right;" readonly>
-                                   사용료합계 <input id="totalFee" type="text" size="15" style="text-align:right;" readonly>원
-                               </form>
-                            </td>
-                        </tr>
-                    </table>
+					<form id="form1">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="20%" height="20">자료수</th>
+								<td><input type="text" size="7" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="20">사용료</th>
+								<td><input type="text" size="19" id="totalFee" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="20">감면사용료</th>
+								<td><input type="text" size="19" id="totalRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
                 </div>
             </div>
             
