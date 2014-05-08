@@ -154,7 +154,7 @@ public class GamNticPayListController {
 			    new TypeReference<List<HashMap<String,String>>>(){});
 
         excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
-
+       // System.out.print("test *************************** : " + excelParam);
 		// 조회 조건
 		searchVO = mapper.convertValue(excelParam, GamNticPayListVO.class);
 

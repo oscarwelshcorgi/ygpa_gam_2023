@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireService;
@@ -44,7 +43,7 @@ import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireVO;
 @Controller
 public class GamAssetLndValInqireController {
 
-	protected Log log = LogFactory.getLog(this.getClass());
+//	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
@@ -149,6 +148,7 @@ public class GamAssetLndValInqireController {
         excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
 
 		// 조회 조건
+        //System.out.print("test *************************** : " + excelParam);
 		searchVO = mapper.convertValue(excelParam, GamAssetLndValInqireVO.class);
 
 		searchVO.setFirstIndex(0);

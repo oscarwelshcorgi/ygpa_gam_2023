@@ -48,6 +48,9 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
                  {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},
                  {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'}
                  ],
+                 usepager: true,
+         		useRp: true,
+         		rp: 24,
     showTableToggleBtn: true,
     height: 'auto',
     preProcess: function(module, data) {
@@ -55,7 +58,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
     		this.gisAssetsCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
     		this.gisAssetsLnmCode = this.gisAssetsLnm;
     		if(this.gisAssetsLnm!=null && this.gisAssetsLnmSub) this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
-    	});
+    	}); 
     	
         module.$('#sumCnt').val(data.sumCnt);
         module.$('#sumArOlnlp').val(data.sumArOlnlp);
@@ -103,7 +106,6 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 
          break;
 	case 'btnExcelDownload':
-
 			this.$('#assetLndValInqireList').flexExcelDown('<c:url value="/asset/selectAssetLndValInqireListExcel.do"/>');
 		break;
 
