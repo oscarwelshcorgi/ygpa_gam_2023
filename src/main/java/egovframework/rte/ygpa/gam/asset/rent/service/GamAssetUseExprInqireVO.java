@@ -119,6 +119,15 @@ public class GamAssetUseExprInqireVO extends ComDefaultVO {
     /** 결재 일시 */
     private String sanctnDt;	
 
+    /** 납부방법코드 */
+    private String payMthNm;
+    
+	/** 고지 방법 */
+    private String nticMthNm;
+    
+    /** 부서코드명 */
+    private String deptcdNm;
+
     /** 검색조건 */
     private String sPrtAtCode;
     
@@ -151,6 +160,12 @@ public class GamAssetUseExprInqireVO extends ComDefaultVO {
     
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
+    
+    /** 검색조건 */
+    private String searchAssetsCd;
+    
+    /** 검색조건 */
+    private String searchAssetsSubCd;
     
     /** 자료수 */
     private String sumCnt;
@@ -208,6 +223,9 @@ public class GamAssetUseExprInqireVO extends ComDefaultVO {
     
     /** 신청일자 */
     private String reqstDt;
+    
+    /** 총감면사용료 */
+    private String sumGrRdcxptFee;
     
 	/**
 	 * @return the prtAtCode
@@ -1007,6 +1025,48 @@ public class GamAssetUseExprInqireVO extends ComDefaultVO {
 		this.sanctnDt = sanctnDt;
 	}
 
+    /**
+	 * @return the payMthNm
+	 */
+	public String getPayMthNm() {
+		return payMthNm;
+	}
+
+	/**
+	 * @param payMthNm the payMthNm to set
+	 */
+	public void setPayMthNm(String payMthNm) {
+		this.payMthNm = payMthNm;
+	}
+
+	/**
+	 * @return the nticMthNm
+	 */
+	public String getNticMthNm() {
+		return nticMthNm;
+	}
+
+	/**
+	 * @param nticMthNm the nticMthNm to set
+	 */
+	public void setNticMthNm(String nticMthNm) {
+		this.nticMthNm = nticMthNm;
+	}
+
+	/**
+	 * @return the deptcdNm
+	 */
+	public String getDeptcdNm() {
+		return deptcdNm;
+	}
+
+	/**
+	 * @param deptcdNm the deptcdNm to set
+	 */
+	public void setDeptcdNm(String deptcdNm) {
+		this.deptcdNm = deptcdNm;
+	}
+
 	/**
 	 * @return the photoSeq
 	 */
@@ -1103,6 +1163,48 @@ public class GamAssetUseExprInqireVO extends ComDefaultVO {
 	 */
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
+	}
+
+	/**
+	 * @return the searchAssetsCd
+	 */
+	public String getSearchAssetsCd() {
+		return searchAssetsCd;
+	}
+
+	/**
+	 * @param searchAssetsCd the searchAssetsCd to set
+	 */
+	public void setSearchAssetsCd(String searchAssetsCd) {
+		this.searchAssetsCd = searchAssetsCd;
+	}
+
+	/**
+	 * @return the searchAssetsSubCd
+	 */
+	public String getSearchAssetsSubCd() {
+		return searchAssetsSubCd;
+	}
+
+	/**
+	 * @param searchAssetsSubCd the searchAssetsSubCd to set
+	 */
+	public void setSearchAssetsSubCd(String searchAssetsSubCd) {
+		this.searchAssetsSubCd = searchAssetsSubCd;
+	}
+
+	/**
+	 * @return the sumGrRdcxptFee
+	 */
+	public String getSumGrRdcxptFee() {
+		return sumGrRdcxptFee;
+	}
+
+	/**
+	 * @param sumGrRdcxptFee the sumGrRdcxptFee to set
+	 */
+	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
+		this.sumGrRdcxptFee = sumGrRdcxptFee;
 	}
 	
 }

@@ -214,7 +214,7 @@
                          AND A.QUAY_GROUP_CD = 'G'
                          AND A.PRMISN_YN = 'Y'
                          
-                         <isNotEmpty property="sPrtAtCode">
+             <isNotEmpty property="sPrtAtCode">
 	             AND A.PRT_AT_CODE = #sPrtAtCode#
 	         </isNotEmpty>
 	         
