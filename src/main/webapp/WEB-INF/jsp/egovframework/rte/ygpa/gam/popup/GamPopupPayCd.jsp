@@ -38,8 +38,8 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"항코드",			name:"prtAtCode", 	width:150, 		sortable:true, 		align:"center"},
-					{display:"요금 코드",			name:"feeTp", 	width:150, 		sortable:true, 		align:"center"},
-					{display:"요금 명",			name:"feeTpKorNm", 	width:255, 		sortable:true, 		align:"center"}
+					{display:"요금종류코드",			name:"feeTp", 	width:150, 		sortable:true, 		align:"center"},
+					{display:"요금종류명",			name:"feeTpKorNm", 	width:255, 		sortable:true, 		align:"left"}
 			],
 		height: "320"
 	});

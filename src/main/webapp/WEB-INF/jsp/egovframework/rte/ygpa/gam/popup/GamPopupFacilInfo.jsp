@@ -37,11 +37,11 @@ GamPopupFacilModule.prototype.loadComplete = function() {
 		url: '<c:url value="/popup/selectFacilInfoList.do"/>',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",			name:"prtAtCode", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"선석코드",			name:"facCode", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"선석부코드",			name:"facSubCode", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"선석명",	name:"facKorNm", 		width:200, 		sortable:true, 		align:"center"},
-					{display:"선석길이",				name:"facLen", 		width:120, 		sortable:true, 		align:"center"}
+					{display:"항코드",			name:"prtAtCode", 	width:100, 		sortable:true, 		align:"center"},
+					{display:"선석코드",			name:"facCode", 	width:100, 		sortable:true, 		align:"center"},
+					{display:"선석부코드",			name:"facSubCode", 	width:100, 		sortable:true, 		align:"center"},
+					{display:"선석명",	name:"facKorNm", 		width:220, 		sortable:true, 		align:"left"}
+// 					{display:"선석길이",				name:"facLen", 		width:120, 		sortable:true, 		align:"center"}
 			],
 		showTableToggleBtn: false,
 		height: "300"
