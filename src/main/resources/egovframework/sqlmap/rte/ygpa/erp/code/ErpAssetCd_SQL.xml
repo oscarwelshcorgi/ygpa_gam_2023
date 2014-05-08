@@ -181,7 +181,11 @@ SELECT * FROM (
 								ASSET_MNGT_NO,
 								ITEM_CLS,
 								ITEM_NAME_ASSET,
-								BUY_DATE,
+								DECODE(BUY_DATE, NULL, '', SUBSTR(BUY_DATE, 0,4)
+								  || '-'
+								  || SUBSTR(BUY_DATE, 5,2)
+								  || '-'
+								  || SUBSTR(BUY_DATE, 7,2)) BUY_DATE,
 								BUY_QTY,
 								CUR_QTY,
 								BUY_PRICE,
@@ -205,7 +209,11 @@ SELECT * FROM (
 								DEPRCTN_CLS,
 								ASSET_FIX_TERM,
 								CHANGE_CLS,
-								ASSET_SALE_DATE,
+								DECODE(ASSET_SALE_DATE, NULL, '', SUBSTR(ASSET_SALE_DATE, 0,4)
+								  || '-'
+								  || SUBSTR(ASSET_SALE_DATE, 5,2)
+								  || '-'
+								  || SUBSTR(ASSET_SALE_DATE, 7,2)) ASSET_SALE_DATE,
 								ASSET_SALE_AMT,
 								INPUT_EMP_NO,
 								TO_CHAR(INPUT_DATE, 'YYYY-MM-DD') INPUT_DATE,

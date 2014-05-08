@@ -97,4 +97,13 @@ public interface GamAssetRentFeeMngtService {
      */
     List selectNpticPrintInfo(Map searchVO) throws Exception;
 
+
+    /**
+     * 세금계산서 출력을 위한 고지 정보를 조회한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
+
 }

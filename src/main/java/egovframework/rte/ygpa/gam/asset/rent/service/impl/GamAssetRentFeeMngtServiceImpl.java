@@ -130,4 +130,15 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 		return gamAssetRentFeeMngtDao.selectNpticPrintInfo(searchVO);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectTaxNtcPrintInfo(java.util.Map)
+	 */
+	@Override
+	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeeMngtDao.selectTaxNtcPrintInfo(searchVO);
+	}
+
+
 }

@@ -20,7 +20,7 @@
       NTIC_PD_FROM,
       NTIC_PD_TO,
       ACCNUT_YEAR,
-      NTIC_NO,
+      NTICNO,
       NTIC_DT,
       PAY_TMLMT,
       SANCTN_STTUS,
@@ -68,7 +68,7 @@
       NTIC_PD_FROM,
       NTIC_PD_TO,
       ACCNUT_YEAR,
-      NTIC_NO,
+      NTICNO,
       NTIC_DT,
       PAY_TMLMT,
       SANCTN_STTUS,
@@ -111,67 +111,89 @@
       BILL_DT, DUE_DATE, BILL_PRT_YN,
       BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
 
-      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE
       )
-
         SELECT
-      PRT_AT_CODE, CHRGE_KND FEE_TP, ACCNUT_YEAR FISCAL_YR, NTIC_NO BILL_NO,
-      ENTRPSCD, (SELECT BZ_RGST_ID FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
-      SYS_DATE, PAY_TMLMT, NHT_PRINT_YN,
+      PRT_AT_CODE, CHRGE_KND FEE_TP, #accnutYear# FISCAL_YR, NTICNO BILL_NO,
+      ENTRPSCD, (SELECT BZ_RGST_ID FROM SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
+      SYSDATE, PAY_TMLMT, NHT_PRINT_YN,
       NTIC_AMT, RDCXPT_FEE, 0, 0,
 
       #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO
-      FROM LEV_REQEST
+      FROM LEV_REQEST_F
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
       	AND MNG_NO=#mngNo#
       	AND MNG_CNT=#mngCnt#
       	AND NTIC_CNT=#nticCnt#
-      	AND CHRGE_KND=#chrgeKnd#
-    )
     </insert>
 
-      <insert id="gamNticRequestMngtDAO.insertCancelNticRequestRevCollF">
-        INSERT INTO REV_COLL_F@YGPA_PORTMIS (
-      PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
-      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
-      BILL_DT, DUE_DATE, BILL_PRT_YN,
-      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+      <select id="gamNticRequestMngtDAO.selectNticNoAccnutYear_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT LPAD(NVL(MAX(NTICNO), 0) + 1, 6, '0') NTICNO,
+		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
+		FROM LEV_REQEST_F
+		WHERE PRT_AT_CODE = #prtAtCode# AND CHRGE_KND = #chrgeKnd# AND ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')
+		</select>
 
-      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
-      )
 
-        SELECT
-      PRT_AT_CODE, CHRGE_KND FEE_TP, ACCNUT_YEAR FISCAL_YR, NTIC_NO BILL_NO,
-      ENTRPSCD, (SELECT BZ_RGST_ID FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM SHP_OWOP_F@P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
-      SYS_DATE, PAY_TMLMT, NHT_PRINT_YN,
-      NTIC_AMT, RDCXPT_FEE, 0, 0,
+      <select id="gamNticRequestMngtDAO.selectNticRequestRcvdTp_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT BILL_NO,
+				RCVD_TP,
+		       RCVD_DT
+		FROM REV_COLL_F@YGPA_PORTMIS
+		WHERE PRT_AT_CODE = #prtAtCode#
+			AND FEE_TP = (SELECT MAX(DECODE(CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', CHRGE_KND)) CHRGE_KND
+									FROM LEV_REQEST_F
+									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
+									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+			AND FISCAL_YR = (SELECT MAX(ACCNUT_YEAR)
+									FROM LEV_REQEST_F
+									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
+									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+			AND BILL_NO=(SELECT MAX(NTICNO)
+									FROM LEV_REQEST_F
+									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
+									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+		</select>
 
-      #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO
-      FROM LEV_REQEST
-      WHERE PRT_AT_CODE=#prtAtCode#
-      	AND MNG_YEAR=#mngYear#
-      	AND MNG_NO=#mngNo#
-      	AND MNG_CNT=#mngCnt#
-      	AND NTIC_CNT=#nticCnt#
-      	AND CHRGE_KND=#chrgeKnd#
-    )
-    </insert>
+      <delete id="gamNticRequestMngtDAO.deleteNticRequestRevCollF">
+        DELETE REV_COLL_F@YGPA_PORTMIS
+		WHERE PRT_AT_CODE = #prtAtCode#
+			AND FEE_TP = (SELECT MAX(DECODE(CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', CHRGE_KND)) CHRGE_KND
+									FROM LEV_REQEST_F
+									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
+									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+			AND FISCAL_YR = (SELECT MAX(ACCNUT_YEAR)
+									FROM LEV_REQEST_F
+									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
+									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+			AND BILL_NO=(SELECT MAX(NTICNO)
+									FROM LEV_REQEST_F
+									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
+									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+    </delete>
 
     <update id="gamNticRequestMngtDAO.updateLevReqestIssueYn" parameterClass="hashMap">
-        UPDATE LEV_REQEST SET
-      		NHT_ISUE_YN=#nhtIsueYn#
-      		WHERE
+        UPDATE LEV_REQEST_F SET
+      		NHT_ISUE_YN=#nhtIsueYn#,
+      		NTICNO=#nticno#,
+      		ACCNUT_YEAR=#accnutYear#
+       <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
+       		NTIC_DT=SYSDATE
+     	</isEqual>
+       <isNotEqual prepend="," property="nhtIsueYn" compareValue="Y">
+       		NTIC_DT=''
+     	</isNotEqual>
+     	WHERE
 			PRT_AT_CODE=#prtAtCode#
-      	AND MNG_YEAR=#mngYear#
-      	AND MNG_NO=#mngNo#
-      	AND MNG_CNT=#mngCnt#
-      	AND NTIC_CNT=#nticCnt#
-      	AND CHRGE_KND=#chrgeKnd#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
   </update>
 
   <update id="gamNticRequestMngtDAO.updateLevReqestNhtPrintYn" parameterClass="hashMap">
-        UPDATE LEV_REQEST SET
+        UPDATE LEV_REQEST_F SET
       		NHT_PRINT_YN=#nhtPrintYn#
       		WHERE
 			PRT_AT_CODE=#prtAtCode#
@@ -182,7 +204,7 @@
       	AND CHRGE_KND=#chrgeKnd#
   </update>
 
-  <delete id="gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
+  <delete id="gamNticRequestMngtDAO.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
     <![CDATA[
       DELETE FROM USAGE_PD_BY_STATS_F
       WHERE PRT_AT_CODE=#prtAtCode#

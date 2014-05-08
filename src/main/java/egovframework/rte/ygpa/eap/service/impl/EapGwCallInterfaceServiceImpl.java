@@ -85,47 +85,27 @@ public class EapGwCallInterfaceServiceImpl extends AbstractServiceImpl implement
 		String miskey = (String)vo.get("miskey");
 		Map<String, String> map = new HashMap();
 		map.put("sanctnSttus", (String)vo.get("testEa"));
-		if(miskey.startsWith("GAMAR")) {		// 자산임대 사용승낙
-			String mode = miskey.substring(5, 8);
-			String prtAtCode = miskey.substring(8, 11);
-			String mngYear = miskey.substring(11, 15);
-			String mngNo = miskey.substring(15, 18);
-			String mngCnt = miskey.substring(18);
-			if("CNF".equals(mode)) {	// 사용 승낙
-				map.put("prtAtCode", prtAtCode);
-				map.put("mngYear", mngYear);
-				map.put("mngNo", mngNo);
-				map.put("mngCnt", mngCnt);
-				gamEApprovalRequestDAO.updateAssetRentSanctn(map);	// 결재 코드 삽입
-			}
-			else if("NTC".equals(mode)) {	// 사용료 고지 (징수결의)
-				map.put("prtAtCode", prtAtCode);
-				map.put("mngYear", mngYear);
-				map.put("mngNo", mngNo);
-				map.put("mngCnt", mngCnt);
-				gamEApprovalRequestDAO.updateAssetRentSanctn(map);	// 결재 코드 삽입
-			}
+		String mode = miskey.substring(5, 8);
+		String prtAtCode = miskey.substring(8, 11);
+		String mngYear = miskey.substring(11, 15);
+		String mngNo = miskey.substring(15, 18);
+		String mngCnt = miskey.substring(18);
+		if("CNF".equals(mode)) {	// 사용 승낙
+			map.put("prtAtCode", prtAtCode);
+			map.put("mngYear", mngYear);
+			map.put("mngNo", mngNo);
+			map.put("mngCnt", mngCnt);
+			gamEApprovalRequestDAO.updateAssetRentSanctn(map);	// 결재 코드 삽입
 		}
-		else if(miskey.startsWith("GAMPF")) {	// 항만시설
-			String mode = miskey.substring(5, 3);
-			String prtAtCode = miskey.substring(8, 2);
-			String mngYear = miskey.substring(10, 4);
-			String mngNo = miskey.substring(14, 3);
-			String mngCnt = miskey.substring(17);
-			if("CNF".equals(mode)) {	// 사용 승낙
-				map.put("prtAtCode", prtAtCode);
-				map.put("mngYear", mngYear);
-				map.put("mngNo", mngNo);
-				map.put("mngCnt", mngCnt);
-				gamEApprovalRequestDAO.updatePrtFcltyUseSanctn(map);	// 결재 코드 삽입
-			}
-			else if("NTC".equals(mode)) {	// 사용료 고지 (징수결의)
-				map.put("prtAtCode", prtAtCode);
-				map.put("mngYear", mngYear);
-				map.put("mngNo", mngNo);
-				map.put("mngCnt", mngCnt);
-				gamEApprovalRequestDAO.updatePrtFcltyUseSanctn(map);	// 결재 코드 삽입
-			}
+		else if("NTC".equals(mode)) {	// 사용료 고지 (징수결의)
+			map.put("prtAtCode", prtAtCode);
+			map.put("mngYear", mngYear);
+			map.put("mngNo", mngNo);
+			String nticCnt = mngCnt.substring(2, 4);
+			mngCnt=mngCnt.substring(0, 2);
+			map.put("mngCnt", mngCnt);
+			map.put("nticCnt", nticCnt);
+			gamEApprovalRequestDAO.updateNticIssueSanctn(map);	// 결재 코드 삽입
 		}
 		eapGwCallInterfaceDAO.updateGwCallInterface(vo);	// 결재 코드 갱신
 	}

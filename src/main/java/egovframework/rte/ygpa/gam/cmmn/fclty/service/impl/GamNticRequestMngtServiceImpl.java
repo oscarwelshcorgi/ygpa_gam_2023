@@ -96,6 +96,13 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	 */
 	@Override
 	public void sendNticRequest(Map<String, Object> vo) throws Exception {
+        Calendar cal = Calendar.getInstance();
+        Map map = gamNticRequestMngtDAO.selectNticNoAccnutYear(vo);
+//		vo.put("accnutYear", Integer.toString(cal.get(Calendar.YEAR)));	// 회계년도를 입력한다.
+        vo.put("accnutYear", map.get("accnutYear"));
+		vo.put("nticno", map.get("nticno"));
+		vo.put("nhtIsueYn", "Y");
+		gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);
 		gamNticRequestMngtDAO.insertNticRequestRevCollF(vo);
 	}
 
@@ -104,7 +111,15 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	 */
 	@Override
 	public void cancelNticRequest(Map<String, Object> vo) throws Exception {
-		gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);
+		Map map =gamNticRequestMngtDAO.selectNticRequestRcvdTp(vo);	// 수납 여부를 조회한다.
+		if("3".equals((String)map.get("rcvdTp"))) {	// 수납 여부 확인
+			throw processException("fail.cancelNticIssue.msg");
+		}
+		gamNticRequestMngtDAO.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
+		vo.put("accnutYear", "");
+		vo.put("nticno", "");
+		vo.put("nhtIsueYn", "N");
+		gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);	// 고지를 취소한다.
 	}
 
 	/* (non-Javadoc)

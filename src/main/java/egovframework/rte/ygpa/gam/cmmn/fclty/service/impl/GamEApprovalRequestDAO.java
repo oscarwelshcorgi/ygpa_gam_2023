@@ -18,12 +18,25 @@ public class GamEApprovalRequestDAO extends YGPAAbstractDAO {
         return (String)insert("gamEApprovalRequestDAO.sendEApprovalAssetUsePermRequest_S", vo);
 	}
 
+	public String sendEApprovalNticIssueRequest(Map<String, Object> vo) {
+        return (String)insert("gamEApprovalRequestDAO.sendEApprovalAssetNticIssueRequest_S", vo);
+	}
+
+	public String updateNticIssueSanctn(Map vo) {
+        return (String)insert("gamEApprovalRequestDAO.updateNticIssueSanctn_S", vo);
+	}
+
+
     public void updateAssetRentSanctn(Map vo) throws Exception {
         update("gamEApprovalRequestDAO.updateAssetRentSanctn_S", vo);
     }
 
+    public void updateAssetRentNticIssueSanctn(Map vo) throws Exception {
+        update("gamEApprovalRequestDAO.updateNticIssueSanctn_S", vo);
+    }
+
     public void updatePrtFcltyUseSanctn(Map vo) throws Exception {
-        update("gamEApprovalRequestDAO.updatePrtFcltyUseSanctn_S", vo);
+        update("gamEApprovalRequestDAO.updateNticIssueSanctn_S", vo);
     }
 
     public List selectAssetRentList(Map vo) throws Exception {

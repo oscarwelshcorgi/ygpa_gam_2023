@@ -29,4 +29,18 @@ public class GamEApprovalRequestServiceImpl extends AbstractServiceImpl
 		return tNo;
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamEApprovalRequestService#sendEApprovalAssetNticRequest(java.util.Map)
+	 */
+	@Override
+	public String sendEApprovalNticIssueRequest(Map<String, Object> vo)
+			throws Exception {
+		String tNo=gamEApprovalRequestDAO.selectEApprovalTno();
+		vo.put("tNo", tNo);
+		gamEApprovalRequestDAO.sendEApprovalNticIssueRequest(vo);	// 결재 정보를 입력 한다.
+		vo.put("sanctnSttus", "2");
+		gamEApprovalRequestDAO.updateNticIssueSanctn(vo);	// 결재 요청 중 코드 삽입
+		return tNo;
+	}
+
 }

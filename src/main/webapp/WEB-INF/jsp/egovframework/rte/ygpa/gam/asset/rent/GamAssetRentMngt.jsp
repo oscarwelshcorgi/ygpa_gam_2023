@@ -1268,7 +1268,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
                 if( confirm("결재요청을 하시겠습니까?") ) {
 	                var opts = {
-	                        type: 'ARUC',
+	                        type: 'ARU',
 	                        prtAtCode: rows['prtAtCode'],
 	                        mngYear: rows['mngYear'],
 	                        mngNo: rows['mngNo'],
@@ -1279,11 +1279,13 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 	                this.requestEApproval(opts);
 	                alert("결재요청을 하였습니다.");
 	                */
-	                this.requestEApproval(opts, function(){alert('결재완료');});
+	                this.requestEApproval(opts, function(module, msg){
+	                	alert(msg);
+		                //재조회 안됨..
+		                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+		                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                	});
 
-	                //재조회 안됨..
-	                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-	                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
                 }
             } else {
             	alert("목록에서 결제할 건을 선택하십시오.");
@@ -1612,7 +1614,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td colspan="3"><input type="text" size="40" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
-                                
+
                             </tr>
                         </table>
                     </form>
@@ -1627,7 +1629,7 @@ var module_instance = new GamAssetRentMngtModule();
 
 	                 <!-- <table id="assetRentDetailList" style="display:none" class="fillHeight"></table> -->
 	                 <table id="assetRentDetailList" style="display:none"></table>
-	
+
 	                 <table style="width:100%">
 	                    <tr>
 	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>

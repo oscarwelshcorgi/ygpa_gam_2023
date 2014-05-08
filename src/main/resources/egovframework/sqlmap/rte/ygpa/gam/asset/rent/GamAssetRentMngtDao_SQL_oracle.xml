@@ -173,7 +173,7 @@
                                   , A.PAY_MTH
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
                                   , A.SANCTN_STTUS
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM046' AND CD.CODE = A.SANCTN_STTUS AND ROWNUM = 1) SANCTN_STTUS_NM
+                                  , GAM_GETCODENAME('GAM046', A.SANCTN_STTUS) SANCTN_STTUS_NM
                                   , A.SANCTNER_EMPL_NO
                                   , A.QUAY_CD
                                   , A.SANCTN_DT
@@ -651,16 +651,7 @@
                                 , A.MNG_NO
                                 , A.MNG_CNT
                                 , A.QUAY_CD
-                                , CASE
-							         WHEN A.APPLC_TARIFF = '1' THEN
-							           '0.005'
-							         WHEN A.APPLC_TARIFF = '2' THEN
-							           '0.0025'
-							         WHEN A.APPLC_TARIFF = '3' THEN
-							           '0.001'
-							         ELSE
-							           ''
-							       END APPLC_TARIFF_STR
+                                , A.APPLC_TARIFF APPLC_TARIFF_STR
                             FROM ASSETS_RENT_DETAIL_F A
                            WHERE 1=1
                              AND A.PRT_AT_CODE = #prtAtCode#
@@ -691,6 +682,7 @@
            AND A.MNG_YEAR    = #mngYear#
            AND A.MNG_NO      = #mngNo#
            AND A.MNG_CNT     = #mngCnt#
+           AND A.QUAY_GROUP_CD='P'
     </select>
 
     <delete id="gamAssetRentMngtDao.deleteAssetRentPhoto_S">
@@ -869,6 +861,7 @@
            AND A.MNG_NO           = #mngNo#
            AND A.MNG_CNT          = #mngCnt#
            AND A.PRT_AT_CODE      = #prtAtCode#
+           AND A.QUAY_GROUP_CD='P'
     </select>
 
     <update id="gamAssetRentMngtDao.updateAssetRentPrmisn_S">
@@ -884,6 +877,7 @@
         AND    MNG_YEAR      = #mngYear#
         AND    MNG_NO        = #mngNo#
         AND    MNG_CNT       = #mngCnt#
+        AND QUAY_GROUP_CD='P'
     </update>
 
     <insert id="gamAssetRentMngtDao.insertAssetRentLevReqest_S">

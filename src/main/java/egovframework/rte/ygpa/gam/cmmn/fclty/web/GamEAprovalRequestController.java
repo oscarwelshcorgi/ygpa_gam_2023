@@ -64,41 +64,146 @@ public class GamEAprovalRequestController {
     	}
     	else {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-	    	if("ARUC".equals(approvalOpt.get("type"))) {
+    		String eaCode = (String)approvalOpt.get("type");
+    		String acCode =  eaCode.substring(2,3);
+    		eaCode = eaCode.substring(0, 2);
+    		approvalOpt.put("empCd", loginVo.getEmplNo());
+			approvalOpt.put("regIp", loginVo.getIp());
+	    	if("AR".equals(eaCode)) {
 	    		// 자산 임대 관리 결재 데이터를 준비 한다.
-	    		approvalOpt.put("empCd", loginVo.getEmplNo());
-	    		approvalOpt.put("docId", "GAMAR01");
-	    		approvalOpt.put("misKeyValue", "GAMARCNF");
-	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
-	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
-    			approvalOpt.put("regIp", loginVo.getIp());
-
-	    		tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
-	    		model.addAttribute("tNo", tNo);
-	    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
-	    		model.addAttribute("resultCode", 0);
-	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMARCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMARNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
 	    	}
-	    	else if("PFUC".equals(approvalOpt.get("type"))) {
+	    	else if("PF".equals(eaCode)) {
 	    		// 항만시설 임대관리 사용 승낙
 	    		// 자산 임대 관리 결재 데이터를 준비 한다.
-	    		approvalOpt.put("empCd", loginVo.getEmplNo());
-	    		approvalOpt.put("docId", "GAMPF01");
-	    		approvalOpt.put("misKeyValue", "GAMPFCNF");
-	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
-	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
-	    		approvalOpt.put("regIp", loginVo.getIp());
-
-	    		tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
-	    		model.addAttribute("tNo", tNo);
-	    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
-	    		model.addAttribute("resultCode", 0);
-	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMPFCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMPFNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+			}
+	    	else if("HT".equals(eaCode)) {
+	    		// 항만시설 임대관리 사용 승낙
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMHTCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMHTNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+	    	}
+	    	else if("CN".equals(eaCode)) {
+	    		// 항만시설 임대관리 사용 승낙
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMCNCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMCNNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+	    	}
+	    	else if("TP".equals(eaCode)) {
+	    		// 항만시설 임대관리 사용 승낙
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMTPCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMTPNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+	    	}
+	    	else if("CC".equals(eaCode)) {
+	    		// 공컨 임대관리 사용 승낙
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMCCCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+    				tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMCCNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+	    	}
+	    	else if("MC".equals(eaCode)) {
+	    		// 마린센터 임대관리 사용 승낙
+	    		// 자산 임대 관리 결재 데이터를 준비 한다.
+    			if("U".equals(acCode)) {	// 사용승낙
+    	    		approvalOpt.put("docId", "GAM00001");
+    	    		approvalOpt.put("misKeyValue", "GAMMCCNF");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.usecnfirm.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalAssetUsePermRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
+    			else {
+    	    		approvalOpt.put("docId", "GAM00002");
+    	    		approvalOpt.put("misKeyValue", "GAMMCNTC");
+    	    		approvalOpt.put("mCnt", 1);	// 문서 갯수
+    	    		approvalOpt.put("docNm", egovMessageSource.getMessage("gam.ea.nticissueAr.docName"));
+        			tNo=gamEApprovalRequestService.sendEApprovalNticIssueRequest(approvalOpt);	// 결재 데이터를 전송한다
+    			}
 	    	}
 	    	else {
 	    		model.addAttribute("resultCode", 2);
 	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.errortype"));
+
+	    		return "ygpa/gam/cmmn/fclty/GamOpenApprovalRequest";
 	    	}
+    		model.addAttribute("tNo", tNo);
+    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("gam.ea.usecnfirm.sending"));
     	}
 
     	return "ygpa/gam/cmmn/fclty/GamOpenApprovalRequest";

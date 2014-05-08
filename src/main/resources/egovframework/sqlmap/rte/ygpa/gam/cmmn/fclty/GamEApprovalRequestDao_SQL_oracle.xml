@@ -74,6 +74,16 @@
 		AND    MNG_CNT            = #mngCnt#
     </update>
 
+    <update id="gamEApprovalRequestDAO.updateNticIssueSanctn_S">
+        UPDATE LEV_REQEST_F SET
+		       sanctn_sttus               = #sanctnSttus#
+		WHERE  PRT_AT_CODE        = #prtAtCode#
+		AND    MNG_YEAR           = #mngYear#
+		AND    MNG_NO             = #mngNo#
+		AND    MNG_CNT            = #mngCnt#
+		AND    NTIC_CNT            = #nticCnt#
+    </update>
+
     <select id="gamEApprovalRequestDAO.selectEApprovalTno_S" resultClass="java.lang.String">
     	select TO_CHAR(SYSDATE, 'YYYYMMDDHHMISS') T_NO from dual
     </select>
@@ -110,4 +120,75 @@
 		)
     </insert>
 
+    <insert id="gamEApprovalRequestDAO.sendEApprovalAssetNticIssueRequest_S">
+        INSERT INTO GWCALL_FWD_IF (
+            T_NO,
+            EMP_CD,
+			SYS_ID,
+			DOC_ID,
+			MISKEY,
+			M_CNT,
+			M_DATA_VALUE1,
+			M_DATA_VALUE2,
+			M_DATA_VALUE3,
+			IP,
+			TEST_EA
+		)
+        VALUES (
+        	#tNo#,
+             #empCd#,
+             'GAM',
+             #docId#,
+             #misKeyValue# || #prtAtCode# ||  #mngYear# || #mngNo# || #mngCnt# || #nticCnt#,
+             #mCnt#,
+             (SELECT #docNm#
+				  || '|'
+				  || L.ENTRPSCD
+				  || '|'
+				  ||
+				  (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD
+				  )
+				  || '|'
+				  || TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD')
+				  || '|'
+				  || TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD')
+				  || '|'
+				  || L.NTICNO
+				  || '|'
+				  || L.DEPTCD
+				  || '|'
+				  ||
+				  (SELECT ORGNZT_NM FROM COMTNORGNZTINFO WHERE ORGNZT_ID=L.DEPTCD
+				  )
+				  || '|'
+				  || DECODE(L.VAT_YN, 'Y', '과세', 'N', '면세')
+				  || '|'
+				  || TO_CHAR(L.OLNLP, '9,999,999,999')
+				  || '|'
+				  || TO_CHAR(L.VAT, '9,999,999,999')
+				  || '|'
+				  || DECODE(A.NTIC_MTH, '1', '일괄', '2', '반기납', '3', '3분납', '4', '분기납', '5', '월납')
+				  || '|'
+				  || TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD')
+				  || TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD')
+				  || '|'
+				  || TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD')
+				  || DOC_NO
+				FROM ASSETS_RENT_F A, LEV_REQEST_F L
+				WHERE 1=1
+				AND A.PRT_AT_CODE=L.PRT_AT_CODE
+				AND A.MNG_YEAR=L.MNG_YEAR
+				AND A.MNG_NO=L.MNG_NO
+				AND A.MNG_CNT=L.MNG_CNT
+				AND L.PRT_AT_CODE=#prtAtCode#
+				AND L.MNG_YEAR     =#mngYear#
+				AND L.MNG_NO       =#mngNo#
+				AND L.MNG_CNT      =#mngCnt#
+				AND L.NTIC_CNT      =#nticCnt#) ,
+             (SELECT RM || '|' ||  CMT FROM ASSETS_RENT_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
+             (SELECT ETC || '|' ||  CMT FROM ASSETS_RENT_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
+             #regIp#,
+             ''
+		)
+    </insert>
 </sqlMap>

@@ -31,4 +31,12 @@ public interface GamEApprovalRequestService {
 	 */
 	public String sendEApprovalAssetUsePermRequest(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * 징수의뢰에 대해 전자결재를 요청한다.
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, nticCnt: 고지횟수)
+	 * @return
+	 * @throws Exception
+	 */
+	public String sendEApprovalNticIssueRequest(Map<String, Object> vo) throws Exception;
+
 }

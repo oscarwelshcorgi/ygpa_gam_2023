@@ -39,6 +39,16 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
     }
 
 	/**
+	 * 회계년도와 고지번호를 조회한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectNticNoAccnutYear(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectNticNoAccnutYear_S", vo);
+    }
+
+	/**
 	 * 고지정보를 불러온다.
 	 * @param vo
 	 * @return
@@ -60,6 +70,20 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	 */
 	public String insertCancelNticRequestRevCollF(Map<String, Object> vo) throws Exception {
         return (String)insert("gamNticRequestMngtDAO.insertCancelNticRequestRevCollF", vo);
+    }
+
+	/**
+	 * 납부여부를 조회한다.
+	 */
+	public EgovMap selectNticRequestRcvdTp(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectNticRequestRcvdTp_S", vo);
+	}
+
+	/**
+	 * 고지를 삭제 한다.
+	 */
+	public int deleteNticRequestRevCollF(Map<String, Object> vo) throws Exception {
+        return delete("gamNticRequestMngtDAO.deleteNticRequestRevCollF", vo);
     }
 
 	/**

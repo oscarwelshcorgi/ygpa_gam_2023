@@ -112,8 +112,23 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 		insert("gamAssetRentFeeMngtDao.insertAssetRentLevReqest_S", vo);
 	}
 
+	/**
+	 * 고지서 출력 리스트를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
 	public List selectNpticPrintInfo(Map searchVO) throws Exception {
-        return list("gamAssetRentFeeMngtDao.selectAssetRentFeeList_D", searchVO);
+        return list("gamAssetRentFeeMngtDao.selectNticPrintFeeList_D", searchVO);
 	}
 
+	/**
+	 * 세금계산서를 출력한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
+        return list("gamAssetRentFeeMngtDao.selectTaxNticPrintFeeList_D", searchVO);
+	}
 }
