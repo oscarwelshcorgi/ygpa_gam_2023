@@ -36,17 +36,17 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamSelectAssetLndValInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'자산코드', name:'gisAssetsCode',width:100, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
-                 {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'center'},
+                 {display:'자산코드', name:'gisAssetsCode',width:50, sortable:false,align:'center'},
+                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'left'},
+                 {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'left'},
                  {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
                  {display:'면적', name:'gisAssetsAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'면적대비지가', name:'arOlnlp',width:130, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'면적대비지가', name:'arOlnlp',width:100, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'자산취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'자산규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'자산준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},
-                 {display:'자산준공일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'}
+                 {display:'자산규격', name:'gisAssetsStndrd',width:150, sortable:false,align:'left'},
+                 {display:'자산준공년도', name:'gisAssetsBlddate',width:80, sortable:false,align:'center'},
+                 {display:'자산준공일자', name:'gisAssetsBldDt',width:80, sortable:false,align:'center'}
                  ],
                  usepager: true,
          		useRp: true,
@@ -79,11 +79,13 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
 	}
 
 	var serchday = today.getDate();
+	if(serchday < 10){
+		serchday = "0" + serchday;
+	}
 
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 
-	this.$("#sBeginDt").val(displayDate);
-	this.$("#sEndDt").val(displayDate);
+	this.$("#sSearchDT").val(displayDate);
 };
 
 /**
@@ -149,7 +151,7 @@ var module_instance = new GamAssetLndValInqireModule();
                             <th>GIS자산코드</th>
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
                             <th>GIS자산명</th>
-                            <td><input id="sGisAssetsNm" type="text" size="8"></td>
+                            <td><input id="sGisAssetsNm" type="text" size="30"></td>
                             <th>조회기준일자</th>
                             <td><input id="sSearchDT" type="text" class="emdcal" size="8"></td>
                             <td><button id="searchBtn" class="submit buttonSearch">조회</button></td>
@@ -297,9 +299,9 @@ var module_instance = new GamAssetLndValInqireModule();
                             </tr>
                         </table>
                     </form>
-            </div>
-
-        </div>
+				</div>
+			</div>
         -->
+		</div>
     </div>
 </div>
