@@ -43,7 +43,8 @@ GamPopupFacilModule.prototype.loadComplete = function() {
 					{display:"선석명",	name:"facKorNm", 		width:200, 		sortable:true, 		align:"center"},
 					{display:"선석길이",				name:"facLen", 		width:120, 		sortable:true, 		align:"center"}
 			],
-		height: "auto"
+		showTableToggleBtn: false,
+		height: "300"
 	});
 
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -122,20 +123,21 @@ var popup_instance = new GamPopupFacilModule();
                             </select>                        
                         </td>
 						<th>선석명</th>
-                        <td><input id="sFacKorNm" type="text" size="20" title="업체코드" maxlength="10" /></td>
+                        <td><input id="sFacKorNm" type="text" size="14" title="업체코드" maxlength="10" /></td>
+                         <td rowspan="2"><button id="btnFacilSearch" class="submit buttonSearch">조회</button></td>
                     </tr>
                     <tr>
                     	<th>선석코드</th>
-						<td><input id="sFacCode" type="text" size="20" title="선석코드" maxlength="12" /></td>
+						<td><input id="sFacCode" type="text" size="14" title="선석코드" maxlength="12" /></td>
                     	<th>선석부코드</th>
-						<td><input id="sFacSubCode" type="text" size="20" title="선석부코드" maxlength="12" /></td>
+						<td><input id="sFacSubCode" type="text" size="14" title="선석부코드" maxlength="12" /></td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
-		<div class="emdControlPanel">
-			<button id="btnFacilSearch">조회</button>
-		</div>
+<!-- 		<div class="emdControlPanel"> -->
+<!-- 			<button id="btnFacilSearch">조회</button> -->
+<!-- 		</div> -->
 		
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>

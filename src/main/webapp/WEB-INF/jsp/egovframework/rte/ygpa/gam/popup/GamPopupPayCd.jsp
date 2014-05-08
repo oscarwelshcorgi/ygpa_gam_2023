@@ -41,7 +41,7 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 					{display:"요금 코드",			name:"feeTp", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"요금 명",			name:"feeTpKorNm", 	width:255, 		sortable:true, 		align:"center"}
 			],
-		height: "auto"
+		height: "320"
 	});
 
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -123,15 +123,20 @@ var popup_instance = new GamPopupEntrpsModule();
 						<th>요금코드</th>
                         <td><input id="feeTp" type="text" size="12" title="요금코드" maxlength="10" /></td>
                     	<th>요금명</th>
-						<td><input id="feeTpKorNm" type="text" size="20" title="요금명" maxlength="12" /></td>
+						<td><input id="feeTpKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
+						<td><button id="btnPaySearch">조회</button></td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
+		
+		<!-- 	
+			
 		<div class="emdControlPanel">
 			<button id="btnPaySearch">조회</button>
 		</div>
 		
+		 -->
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
