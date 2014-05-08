@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO;
 
 /**
  * @Class Name : GamAssetSttusInqireServiceImpl.java
@@ -53,4 +54,14 @@ public class GamAssetSttusInqireServiceImpl  extends AbstractServiceImpl impleme
 		return gamAssetSttusInqireDao.selectAssetSttusInqireListTotCnt(searchVO);
 	}
 
+    /**
+  	 * 금액합계를 조회한다.
+  	 * @param searchVO - 조회할 정보가 담긴 VO
+  	 * @return GamAssetSttusInqireVO
+  	 * @exception Exception
+  	 */
+    public GamAssetSttusInqireVO selectAssetSttusInqireSum(GamAssetSttusInqireVO searchVO) throws Exception {
+        return gamAssetSttusInqireDao.selectAssetSttusInqireSum(searchVO);
+    }
+   
 }

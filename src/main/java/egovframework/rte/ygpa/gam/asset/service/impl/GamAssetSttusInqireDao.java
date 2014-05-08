@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO;
 
 /**
  * @Class Name : GamAssetSttusInqireDao.java
@@ -42,4 +43,13 @@ public class GamAssetSttusInqireDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetSttusInqireDao.selectAssetSttusInqireListTotCnt_S", searchVO);
     }
     
+    /**
+	 * 금액합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return GamAssetSttusInqireVO
+	 * @exception Exception
+	 */
+    public GamAssetSttusInqireVO selectAssetSttusInqireSum(GamAssetSttusInqireVO searchVO) throws Exception {
+        return (GamAssetSttusInqireVO) selectByPk("gamAssetSttusInqireDao.selectAssetSttusInqireListSum_S", searchVO);
+    }
 }

@@ -35,4 +35,12 @@ public interface GamAssetSttusInqireService {
 	 */
     int selectAssetDisUseListTotCnt(GamAssetSttusInqireVO searchVO) throws Exception;
     
+    /**
+	 * 금액합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return GamAssetSttusInqireVO
+	 * @exception Exception
+	 */
+    GamAssetSttusInqireVO selectAssetSttusInqireSum(GamAssetSttusInqireVO searchVO) throws Exception;
+
 }

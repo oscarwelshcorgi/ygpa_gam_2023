@@ -115,6 +115,8 @@ public class GamAssetSttusInqireController {
     	totalCnt = gamAssetSttusInqireService.selectAssetDisUseListTotCnt(searchVO);
     	List assetRentList = gamAssetSttusInqireService.selectAssetSttusInqireList(searchVO);
     	
+    	GamAssetSttusInqireVO resultSum = gamAssetSttusInqireService.selectAssetSttusInqireSum(searchVO);
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
@@ -123,6 +125,11 @@ public class GamAssetSttusInqireController {
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
     	
+    	map.put("sumCnt", resultSum.getSumCnt());
+    	map.put("sumAr", resultSum.getSumAr());
+    	map.put("sumFee", resultSum.getSumFee());
+    	map.put("sumRdcxptFee", resultSum.getSumRdcxptFee());
+
     	return map;
     }
 }

@@ -47,7 +47,19 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
     /** 검색조건 */
     private String sQuayCd;
 
-	/**
+    /** 자료수 */
+    private String sumCnt;
+    
+    /** 면적합계 */
+    private String sumAr;
+    
+    /** 사용료합계 */
+    private String sumFee;
+    
+    /** 감면사용료합계 */
+    private String sumRdcxptFee;
+
+    /**
 	 * @return the sGisAssetsCd
 	 */
 	public String getsGisAssetsCd() {
@@ -187,5 +199,59 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
 		this.sQuayCd = sQuayCd;
 	}
 	
-	
+	/**
+	 * @return the sumCnt
+	 */
+	public String getSumCnt() {
+		return sumCnt;
+	}
+
+	/**
+	 * @param sumCnt the sumCnt to set
+	 */
+	public void setSumCnt(String sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+
+	/**
+	 * @return the sumAr
+	 */
+	public String getSumAr() {
+		return sumAr;
+	}
+
+	/**
+	 * @param sumAr the sumAr to set
+	 */
+	public void setSumAr(String sumAr) {
+		this.sumAr = sumAr;
+	}
+
+	/**
+	 * @return the sumFee
+	 */
+	public String getSumFee() {
+		return sumFee;
+	}
+
+	/**
+	 * @param sumFee the sumFee to set
+	 */
+	public void setSumFee(String sumFee) {
+		this.sumFee = sumFee;
+	}
+
+	/**
+	 * @return the sumRdcxptFee
+	 */
+	public String getSumRdcxptFee() {
+		return sumRdcxptFee;
+	}
+
+	/**
+	 * @param sumRdcxptFee the sumRdcxptFee to set
+	 */
+	public void setSumRdcxptFee(String sumRdcxptFee) {
+		this.sumRdcxptFee = sumRdcxptFee;
+	}
 }

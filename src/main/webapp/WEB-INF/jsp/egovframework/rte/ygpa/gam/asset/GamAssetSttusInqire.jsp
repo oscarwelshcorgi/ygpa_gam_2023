@@ -36,65 +36,35 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamAssetSttusInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'항이름', name:'prtAtCodeNm',width:80, sortable:false,align:'center'},
-                 {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
-                 //{display:'GIS자산 재산구분코드', name:'gisAssetsPrprtySeCd',width:120, sortable:false,align:'center'},
-                 //{display:'GIS자산 위치코드', name:'gisAssetsLocCd',width:100, sortable:false,align:'center'},    
-                 //{display:'부두코드', name:'gisAssetsQuayCd',width:100, sortable:false,align:'center'},
-                 {display:'재산구분', name:'gisAssetsPrprtySeCdNm',width:80, sortable:false,align:'center'},
-                 {display:'위치', name:'gisAssetsLocCdNm',width:150, sortable:false,align:'center'},
-                 {display:'부두', name:'gisAssetsQuayCdNm',width:150, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
-                 {display:'사용업체명', name:'entrpsNm',width:180, sortable:false,align:'center'},
-                 {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
-                 {display:'사용시작', name:'usagePdFrom',width:90, sortable:false,align:'center'},
-                 {display:'사용종료', name:'usagePdTo',width:90, sortable:false,align:'center'},
-                 {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'사용료', name:'grFee',width:160, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'감면사용료', name:'grRdcxptFee',width:160, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'사용용도', name:'usagePrposCdNm',width:120, sortable:false,align:'center'},
-                 //{display:'사용용도코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
-                 {display:'사용목적', name:'usagePurps',width:150, sortable:false,align:'center'}
-                 /*
-                 {display:'자산코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 관리 부서 코드', name:'gisAssetsMngDeptCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 운영 부서 코드', name:'gisAssetsOperDeptCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},          
-                 {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
-                 {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
-                 {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
-                 {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},                                  
-                 {display:'GIS 자산 부두 그룹 코드', name:'gisAssetsQuayGroupCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 구분 코드', name:'gisAssetsSeCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 출자 방식', name:'gisAssetsInvstmntMthd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 GIS 코드', name:'gisAssetsGisCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},          
-                 {display:'도면 목록 등록 년도', name:'drwLstRegistYear',width:100, sortable:false,align:'center'},         
-                 {display:'도면 목록 순번', name:'drwLstSeq',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 가치 금액', name:'gisAssetsValAmt',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 가치 조회 일자', name:'gisAssetsValInqireDt',width:100, sortable:false,align:'center'},
-                 {display:'ERP 자산 구분 코드', name:'erpAssetsSeCd',width:100, sortable:false,align:'center'},           
-                 {display:'ERP 자산 번호', name:'erpAssetsNo',width:100, sortable:false,align:'center'},
-                 {display:'ERP 자산 번호 순번', name:'erpAssetsNoSeq',width:100, sortable:false,align:'center'},
-                 {display:'ERP 자산 폐기 등록 여부', name:'erpAssetsDisuseRegistYn',width:100, sortable:false,align:'center'},                      
-                 {display:'ERP 자산 폐기 사유', name:'erpAssetsDisuseRsn',width:100, sortable:false,align:'center'},
-                 */
-                 
+				 {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+				 {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
+				 {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
+				 {display:'신청업체', name:'entrpscd',width:60, sortable:false,align:'center'},
+				 {display:'신청업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
+                 {display:'자산코드', name:'assetsCdStr',width:55, sortable:false,align:'center'},
+                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'left'},
+                 {display:'사용시작일', name:'usagePdFrom',width:80, sortable:false,align:'center'},
+                 {display:'사용종료일', name:'usagePdTo',width:80, sortable:false,align:'center'},
+                 {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'사용면적', name:'usageAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'감면사용료', name:'rdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'재산구분', name:'gisAssetsPrprtySeCdNm',width:80, sortable:false,align:'left'},
+                 {display:'위치', name:'gisAssetsLocCdNm',width:150, sortable:false,align:'left'},
+                 {display:'부두', name:'gisAssetsQuayCdNm',width:150, sortable:false,align:'left'},
+                 {display:'사용용도', name:'usagePrposCdNm',width:150, sortable:false,align:'left'},
+                 {display:'사용목적', name:'usagePurps',width:150, sortable:false,align:'left'}
                  ],
      showTableToggleBtn: false,
-     height: 'auto'
- });
+     height: 'auto',
+     preProcess: function(module,data) {
+         module.$('#sumCnt').val(data.sumCnt);
+         module.$('#sumAr').val(data.sumAr);
+         module.$('#sumFee').val(data.sumFee);
+         module.$('#sumRdcxptFee').val(data.sumRdcxptFee);
+
+         return data;
+     }
+});
  
  
 	// 오늘날짜로 기준일자 설정 처리
@@ -129,7 +99,11 @@ GamAssetSttusInqireModule.prototype.onButtonClick = function(buttonId) {
      case 'searchBtn':
     	 
     	 if(this.$("#sUsagePdFrom").val() == ""){
-    		 alert("기준일자 시작일을 선택하세요.");
+    		 alert("사용시작일을 선택하세요.");
+    		 return;
+    	 }
+    	 if(this.$("#sUsagePdTo").val() == ""){
+    		 alert("사용종료일을 선택하세요.");
     		 return;
     	 }
     	 
@@ -143,6 +117,12 @@ GamAssetSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
          this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
          break;
+         
+	// 자산코드 팝업
+	case "searchPopupBtn":
+		this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+		break;
+		
  }
 };
 
@@ -209,13 +189,17 @@ var module_instance = new GamAssetSttusInqireModule();
                             
                             <th style="width: 40px"><span class="label">자산코드</span></th>
                             <td style="width: 120px">
-                                <input type="text" size="2" id="sGisAssetsCd" />-
-                                <input type="text" size="2" id="sGisAssetsSubCd" />
+                                <input id="sGisAssetsCd" type="text" size="2">&nbsp;-&nbsp; 
+                                <input id="sGisAssetsSubCd" type="text" size="2">
                             </td>
                             
                             <th style="width: 40px"><span class="label">업체</span></th>
                             <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfo">업체</button>
+                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                	        <!-- 
+                            	<input id="sEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
+                    	     -->
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             
                             <th style="width: 40px"><span class="label">부두</span></th>
@@ -287,11 +271,26 @@ var module_instance = new GamAssetSttusInqireModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-               <table id="assetSttusInqireList" style="display:none" class="fillHeight"></table>
-                
-               <div style="vertical-align: bottom; text-align: right;">
-                    <button id="btnMapSearch">맵조회</button>
+				<table id="assetSttusInqireList" style="display:none" class="fillHeight"></table>
+
+                <div class="emdControlPanel">
+					<form id="form1">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="10%" height="20">자료수</th>
+								<td><input type="text" size="8" id="sumCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">면적</th>
+								<td><input type="text" size="18" id="sumAr" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">사용료</th>
+								<td><input type="text" size="18" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">감면사용료</th>
+								<td><input type="text" size="18" id="sumRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
+								<td><button id="loadMap" data-flexi-grid="assetSttusInqireList">맵조회</button></td>
+							</tr>
+						</table>
+					</form>
                 </div>
+                
                 <!-- 
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
@@ -393,9 +392,9 @@ var module_instance = new GamAssetSttusInqireModule();
                             </tr>
                         </table>
                     </form>
-            </div>
-
-        </div>
+    	        </div>
+	        </div>
         -->
+        </div>
     </div>
 </div>
