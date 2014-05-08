@@ -36,6 +36,8 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamSelectAssetLndValInqireList.do"/>',
      dataType: 'json',
      colModel : [
+                 {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
+	             {display:'항코드명', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
                  {display:'자산코드', name:'gisAssetsCode',width:50, sortable:false,align:'center'},
                  {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'left'},
                  {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'left'},
@@ -148,10 +150,14 @@ var module_instance = new GamAssetLndValInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
+                            <th>항코드</th>
+                            <td>
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                            </td>
                             <th>GIS자산코드</th>
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
                             <th>GIS자산명</th>
-                            <td><input id="sGisAssetsNm" type="text" size="30"></td>
+                            <td><input id="sGisAssetsNm" type="text" size="20"></td>
                             <th>조회기준일자</th>
                             <td><input id="sSearchDT" type="text" class="emdcal" size="8"></td>
                             <td><button id="searchBtn" class="submit buttonSearch">조회</button></td>

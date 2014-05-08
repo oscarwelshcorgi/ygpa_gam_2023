@@ -151,6 +151,10 @@ var module_instance = new GamAssetTypeValueStsModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
+                            <th>항코드</th>
+                            <td>
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                            </td>
                             <th style="width:70px;">상각연도</th>
                             <td style="width:100px;">
                                 <!-- <input id="sDeprctnYear" type="text" size="2">  -->

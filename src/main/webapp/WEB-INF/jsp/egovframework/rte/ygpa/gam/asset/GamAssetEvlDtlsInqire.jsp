@@ -36,12 +36,13 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamSelectAssetEvlDtlsInqireList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'항이름', name:'gisAssetsPrtAtCodeNm',width:80, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCdStr',width:60, sortable:false,align:'center'},
-                 {display:'재산구분', name:'gisAssetsPrprtySeCdNm',width:80, sortable:false,align:'center'},
-                 {display:'위치', name:'gisAssetsLocCdNm',width:150, sortable:false,align:'center'},
-                 {display:'부두', name:'gisAssetsQuayCdNm',width:150, sortable:false,align:'center'},
-                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'center'},
+                 {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
+	             {display:'항코드명', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
+                 {display:'자산코드', name:'gisAssetsCdStr',width:55, sortable:false,align:'center'},
+                 {display:'재산구분', name:'gisAssetsPrprtySeCdNm',width:80, sortable:false,align:'left'},
+                 {display:'위치', name:'gisAssetsLocCdNm',width:150, sortable:false,align:'left'},
+                 {display:'부두', name:'gisAssetsQuayCdNm',width:150, sortable:false,align:'left'},
+                 {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'left'},
                  {display:'재평가금액', name:'revalAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'당기자산증가금액', name:'thisTermIncreAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'대차대조기말현재금액', name:'bsThisCurAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
@@ -64,6 +65,7 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
          module.$('#sumAssetBuyAmt').val($.number(data.sumAssetBuyAmt));
          module.$('#sumThisTermDeprctnAmt').val($.number(data.sumThisTermDeprctnAmt));
          module.$('#sumCurAmt').val($.number(data.sumCurAmt));
+         module.$('#sumCnt').val(data.sumCnt);
 
          return data;
      }
@@ -171,6 +173,10 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
+                            <th>항코드</th>
+                            <td>
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                            </td>
                             <th>상각연도</th>
                             <td>
                                 <!-- <input id="sGisAssetsBlddate" type="text" size="5" value="">  -->
@@ -188,7 +194,7 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                             <td><input id="sGisAssetsLocCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM002 /></td>
                             <th>부두</th>
                             <td><input id="sGisAssetsQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 /></td>
-                            <td style="text-align:right;"><button id="searchBtn" class="submit">조회</button></td>
+                            <td style="text-align:right;"><button id="searchBtn"  class="submit buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -231,17 +237,17 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                             <th>잔존금액</th>
                             <td><input id="sumCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
                         </tr>
+                        <tr>
+                            <th style="width:120px;">자료수</th>
+                            <td style="width:200px;"><input id="sumCnt" size="15" class="ygpaNumber" readonly ></td>
+                            <th> </th>
+                            <td> </td>
+							<td><button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button></td>
+							<td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
+                        </tr>
                     </table>
-                    <div class="emdControlPanel">
-						<button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button>
-						<button id="btnErpAssetCodeListExcelDownload">엑셀</button>
-						<!--<button id="printGrid" data-flexi-grid="assetEvlDtlsInqireList">인쇄</button> -->
-					</div>
-
-					</div>
-
+				</div>
             </div>
-
-    </div>
-</div>
+	    </div>
+	</div>
 </div>

@@ -17,6 +17,9 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamAssetTypeValueStsVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
+    /** 항코드 */
+    private String sPrtAtCode;
+
     private String sDeprctnYear;
     
     private String sGisAssetsPrprtySeCd;
@@ -70,6 +73,20 @@ public class GamAssetTypeValueStsVO extends ComDefaultVO {
 	 */
     private String sumCurAmt;
     
+
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
 
 	/**
 	 * @return the sDeprctnYear

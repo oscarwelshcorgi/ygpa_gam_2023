@@ -20,6 +20,9 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamAssetLndValInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
+    /** 항코드 */
+    private String sPrtAtCode;
+
     /** GIS 자산 코드 */
     private String sGisAssetsCd;
 	
@@ -36,6 +39,20 @@ public class GamAssetLndValInqireVO extends ComDefaultVO {
     
     private String sumGisAssetsAcqPri;
     
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
 	/**
 	 * @return the sGisAssetsCd
 	 */

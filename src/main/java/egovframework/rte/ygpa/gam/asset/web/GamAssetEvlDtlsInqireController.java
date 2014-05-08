@@ -152,6 +152,7 @@ public class GamAssetEvlDtlsInqireController {
     	map.put("sumGnrlDeprctnRate", resultSum.getSumGnrlDeprctnRate());
     	map.put("sumThisTermDeprctnAmt", resultSum.getSumThisTermDeprctnAmt());
     	map.put("sumCurAmt", resultSum.getSumCurAmt());
+    	map.put("sumCnt", resultSum.getSumCnt());
     	
     	return map;
     }

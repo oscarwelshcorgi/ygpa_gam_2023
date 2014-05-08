@@ -49,6 +49,10 @@
 							   AND A.ERP_ASSETS_NO     = B.ASSET_NO
 							   AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
 							 WHERE 1=1
+								<isNotEmpty property="sPrtAtCode">
+						            AND A.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+						        </isNotEmpty>
+
 								<isNotEmpty property="sDeprctnYear">
 						            AND B.DEPRCTN_YEAR = #sDeprctnYear#
 						        </isNotEmpty>
@@ -100,6 +104,10 @@
 				  AND A.ERP_ASSETS_NO     = B.ASSET_NO
 				  AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
 			 WHERE 1=1
+				<isNotEmpty property="sPrtAtCode">
+		            AND A.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		        </isNotEmpty>
+
 				<isNotEmpty property="sDeprctnYear">
 		            AND B.DEPRCTN_YEAR = #sDeprctnYear#
 		        </isNotEmpty>
@@ -157,6 +165,10 @@
 				  AND A.ERP_ASSETS_NO     = B.ASSET_NO
 				  AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
 			 WHERE 1=1
+				<isNotEmpty property="sPrtAtCode">
+		            AND A.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		        </isNotEmpty>
+
 				<isNotEmpty property="sDeprctnYear">
 		            AND B.DEPRCTN_YEAR = #sDeprctnYear#
 		        </isNotEmpty>

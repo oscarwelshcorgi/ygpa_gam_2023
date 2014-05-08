@@ -29,6 +29,7 @@
 							      , G.GIS_ASSETS_LNM
 							      , G.GIS_ASSETS_LNM_SUB
 							      , G.GIS_ASSETS_PRT_AT_CODE
+							      , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = G.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
 							      , NVL(G.GIS_ASSETS_AR,0) GIS_ASSETS_AR
 							      , G.GIS_ASSETS_USAGE_YN
 							      , NVL(G.GIS_ASSETS_ACQ_PRI,0) GIS_ASSETS_ACQ_PRI
@@ -64,6 +65,9 @@
 							 WHERE G.GIS_ASSETS_PRT_AT_CODE = O.GIS_ASSETS_PRT_AT_CODE
 							   AND G.GIS_ASSETS_CD = O.GIS_ASSETS_CD
 							   AND G.GIS_ASSETS_SUB_CD = O.GIS_ASSETS_SUB_CD
+				<isNotEmpty prepend="AND" property="sPrtAtCode">
+					G.GIS_ASSETS_PRT_AT_CODE=#sPrtAtCode#
+				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="sSearchDT">
 					TO_DATE(#sSearchDT#, 'YYYY-MM-DD') BETWEEN O.BEGIN_DT AND O.END_DT+1
 				</isNotEmpty>
@@ -86,6 +90,9 @@
              WHERE G.GIS_ASSETS_PRT_AT_CODE = O.GIS_ASSETS_PRT_AT_CODE
                AND G.GIS_ASSETS_CD = O.GIS_ASSETS_CD
                AND G.GIS_ASSETS_SUB_CD = O.GIS_ASSETS_SUB_CD
+				<isNotEmpty prepend="AND" property="sPrtAtCode">
+					G.GIS_ASSETS_PRT_AT_CODE=#sPrtAtCode#
+				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="sSearchDT">
 					TO_DATE(#sSearchDT#, 'YYYY-MM-DD') BETWEEN O.BEGIN_DT AND O.END_DT+1
 				</isNotEmpty>
@@ -115,6 +122,7 @@
 							      , G.GIS_ASSETS_LNM
 							      , G.GIS_ASSETS_LNM_SUB
 							      , G.GIS_ASSETS_PRT_AT_CODE
+							      , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = G.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
 							      , NVL(G.GIS_ASSETS_AR,0) GIS_ASSETS_AR
 							      , G.GIS_ASSETS_USAGE_YN
 							      , NVL(G.GIS_ASSETS_ACQ_PRI,0) GIS_ASSETS_ACQ_PRI
@@ -150,6 +158,9 @@
 							 WHERE G.GIS_ASSETS_PRT_AT_CODE = O.GIS_ASSETS_PRT_AT_CODE
 							   AND G.GIS_ASSETS_CD = O.GIS_ASSETS_CD
 							   AND G.GIS_ASSETS_SUB_CD = O.GIS_ASSETS_SUB_CD
+				<isNotEmpty prepend="AND" property="sPrtAtCode">
+					G.GIS_ASSETS_PRT_AT_CODE=#sPrtAtCode#
+				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="sSearchDT">
 					TO_DATE(#sSearchDT#, 'YYYY-MM-DD') BETWEEN O.BEGIN_DT AND O.END_DT+1
 				</isNotEmpty>

@@ -17,6 +17,9 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
+    /** 항코드 */
+    private String sPrtAtCode;
+
     /** GIS 자산 코드 */
     private String sGisAssetsCd;
 	
@@ -148,6 +151,22 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
     
     private String sumCurAmt;             
     
+    private String sumCnt;             
+
+    /**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
 	/**
 	 * @return the sGisAssetsCd
 	 */
@@ -804,6 +823,20 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 	 */
 	public void setSumCurAmt(String sumCurAmt) {
 		this.sumCurAmt = sumCurAmt;
+	}
+	
+	/**
+	 * @return the sumCnt
+	 */
+	public String getSumCnt() {
+		return sumCnt;
+	}
+
+	/**
+	 * @param sumCnt the sumCnt to set
+	 */
+	public void setSumCnt(String sumCnt) {
+		this.sumCnt = sumCnt;
 	}
 	
 }

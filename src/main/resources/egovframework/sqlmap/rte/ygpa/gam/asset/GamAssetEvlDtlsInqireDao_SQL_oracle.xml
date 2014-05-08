@@ -18,6 +18,7 @@
 		<result property="sumGnrlDeprctnRate" column="SUM_GNRL_DEPRCTN_RATE" columnIndex="8"/>
 		<result property="sumThisTermDeprctnAmt" column="SUM_THIS_TERM_DEPRCTN_AMT" columnIndex="9"/>
 		<result property="sumCurAmt" column="SUM_CUR_AMT" columnIndex="10"/>
+        <result property="sumCnt" column="SUM_CNT" columnIndex="11"/>
     </resultMap>
 
     <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireList_D" parameterClass="gamAssetEvlDtlsInqireVO" resultClass="egovMap">
@@ -61,6 +62,9 @@
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
  						   WHERE 1=1
+								<isNotEmpty property="sPrtAtCode">
+						            AND A.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+						        </isNotEmpty>
 
 							   <!--
 							   <isNotEmpty property="sGisAssetsCd">
@@ -106,6 +110,9 @@
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
  						   WHERE 1=1
+						<isNotEmpty property="sPrtAtCode">
+				            AND A.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+				        </isNotEmpty>
 
               <!--
               <isNotEmpty property="sGisAssetsCd">
@@ -140,7 +147,8 @@
 
     <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireSum_S" parameterClass="gamAssetEvlDtlsInqireVO" resultMap="gamAssetEvlDtlsInqireSumMap">
         SELECT
-		        SUM(NVL(E.REVAL_AMT,0)) SUM_REVAL_AMT
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+		      , SUM(NVL(E.REVAL_AMT,0)) SUM_REVAL_AMT
 		      , SUM(NVL(E.THIS_TERM_INCRE_AMT,0)) SUM_THIS_TERM_INCRE_AMT
 		      , SUM(NVL(E.BS_THIS_CUR_AMT,0)) SUM_BS_THIS_CUR_AMT
 		      , SUM(NVL(E.BS_PRE_DEPRCTN_SUM,0)) SUM_BS_PRE_DEPRCTN_SUM
@@ -155,6 +163,10 @@
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
  						   WHERE 1=1
+						<isNotEmpty property="sPrtAtCode">
+				            AND A.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+				        </isNotEmpty>
+
               <!--
               <isNotEmpty property="sGisAssetsCd">
                   AND A.GIS_ASSETS_CD = #sGisAssetsCd#
