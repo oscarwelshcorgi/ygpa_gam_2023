@@ -547,10 +547,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'addAssetRentRenew':
             var rows = this.$('#assetRentMngtList').selectedRows();
 
-            if( rows[0]['quayGroupCd'] != 'P' ) {
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 연장신청이 불가능합니다.");
                 return;
-            }
+            } */
 
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
@@ -580,10 +580,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                 return;
             }
 
-            if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
+            /* if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
                 return;
-            }
+            } */
 
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("항구분을 선택하십시오.");
@@ -677,10 +677,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'btnRemoveItem':
             var rows = this.$('#assetRentMngtList').selectedRows();
 
-            if( rows[0]['quayGroupCd'] != 'P' ) {
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
                 return;
-            }
+            } */
 
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
@@ -714,10 +714,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         case 'btnSaveComment':
             var inputVO=this.makeFormArgs('#gamAssetRentForm');
 
-            if( this.$('#quayGroupCd').val() != 'P' ) {
+            /* if( this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 코멘트저장이 불가능합니다.");
                 return;
-            }
+            } */
 
             this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
@@ -922,10 +922,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
 
-            if( rows[0]['quayGroupCd'] != 'P' ) {
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 사용승낙이 불가능합니다.");
                 return;
-            }
+            } */
 
             if(rows.length>=1) {
             	if( row['prmisnYn'] == 'Y' ) {
@@ -990,10 +990,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
 
-            if( rows[0]['quayGroupCd'] != 'P' ) {
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 승낙취소가 불가능합니다.");
                 return;
-            }
+            } */
 
             if( row['prmisnYn'] != 'Y' ) {
                 alert("승낙된 상태가 아닙니다.");
@@ -1256,10 +1256,10 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
                 var rows = this.$('#assetRentMngtList').selectedRows()[0];
 
-                if( rows['quayGroupCd'] != 'P' ) {
+                /* if( rows['quayGroupCd'] != 'P' ) {
                     alert("해당 건은 자산임대관리 메뉴에서 결재가 불가능합니다.");
                     return;
-                }
+                } */
 
                 if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
                 	alert("결재요청을 할수없는 상태 입니다.");
@@ -1528,7 +1528,7 @@ var module_instance = new GamAssetRentMngtModule();
                 <div class="emdControlPanel">
                     <form id="gamAssetRentForm">
                         <input type="hidden" id="cmd"/>
-                        <input type="hidden" id="quayGroupCd"/>
+                        <!-- <input type="hidden" id="quayGroupCd"/> -->
 
                         <table border=1>
                             <tr>
