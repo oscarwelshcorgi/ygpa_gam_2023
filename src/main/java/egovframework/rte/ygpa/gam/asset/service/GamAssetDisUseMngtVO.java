@@ -92,6 +92,9 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
     /** GIS 자산 출자 방식 */
     private String gisAssetsInvstmntMthd;	
     
+    /** 운영부서 */
+    private String operDeptCd;    
+        
     /** GIS 자산 GIS 코드 */
     private String gisAssetsGisCd;	       
     
@@ -677,6 +680,20 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
 	 */
 	public void setsGisAssetsSubCd(String sGisAssetsSubCd) {
 		this.sGisAssetsSubCd = sGisAssetsSubCd;
+	}
+
+	/**
+	 * @return the operDeptCd
+	 */
+	public String getOperDeptCd() {
+		return operDeptCd;
+	}
+
+	/**
+	 * @param operDeptCd the operDeptCd to set
+	 */
+	public void setOperDeptCd(String operDeptCd) {
+		this.operDeptCd = operDeptCd;
 	}
 	
 }

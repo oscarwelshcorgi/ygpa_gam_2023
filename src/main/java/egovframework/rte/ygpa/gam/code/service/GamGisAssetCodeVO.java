@@ -129,6 +129,12 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
     /** ERP 자산 폐기 사유 */
     private String erpAssetsDisuseRsn;
 
+    /** 운영부서 */
+    private String operDeptCd;
+
+    /** 관리부서 */
+    private String mngDeptCd;
+    
     /** GIS 자산 코드(조회조건) */
     private String sGisAssetsCd;
 
@@ -673,6 +679,34 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 
 	public void setGisAssetsQuayCd(String gisAssetsQuayCd) {
 		this.gisAssetsQuayCd = gisAssetsQuayCd;
+	}
+
+	/**
+	 * @return the operDeptCd
+	 */
+	public String getOperDeptCd() {
+		return operDeptCd;
+	}
+
+	/**
+	 * @param operDeptCd the operDeptCd to set
+	 */
+	public void setOperDeptCd(String operDeptCd) {
+		this.operDeptCd = operDeptCd;
+	}
+
+	/**
+	 * @return the mngDeptCd
+	 */
+	public String getMngDeptCd() {
+		return mngDeptCd;
+	}
+
+	/**
+	 * @param mngDeptCd the mngDeptCd to set
+	 */
+	public void setMngDeptCd(String mngDeptCd) {
+		this.mngDeptCd = mngDeptCd;
 	}
 
 }
