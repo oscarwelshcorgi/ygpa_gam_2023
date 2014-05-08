@@ -324,6 +324,7 @@ public class GamAssetCodeMngtController {
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
 
+		insertList.addAll(updateList);
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);

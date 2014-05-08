@@ -810,7 +810,7 @@ var module_instance = new GamAssetCodeModule();
 						<th><span class="label">ERP자산코드</span></th>
 						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd" readonly="readonly">-<input type="text" size="8" id="erpAssetsNo" readonly="readonly">-<input type="text" size="2" id="erpAssetsNoSeq" readonly="readonly"></td>
 						<th><span class="label">ERP자산명</span></th>
-						<td><input type="text" size="32" id="itemName" data-column-id="itemName" readonly="readonly""></td>
+						<td><input type="text" size="32" id="itemName" data-column-id="itemName" readonly="readonly"></td>
 						<th><span class="label">ERP구매용도</span></th>
 						<td><input type="text" size="32" id="purPurpose" data-column-id="purPurpose" readonly="readonly"></td>
 					</tr>

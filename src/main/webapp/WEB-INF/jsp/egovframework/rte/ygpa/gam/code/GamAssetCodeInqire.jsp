@@ -173,7 +173,17 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.doExecuteDialog('selectSearchAssetsCdPopup', '시설 선택',
 					'<c:url value="/popup/showAssetsCd.do"/>', opts);
 			break;
+		case 'btnDownloadFile': //사진 다운로드
+			var selectRow = this.$('#assetCodePhotoList').selectedRows();
+			if (selectRow.length > 0) {
+				var row = selectRow[0];
+				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+			}
+			break;
 		}
+		
+		
+		
 	};
 
 	GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {

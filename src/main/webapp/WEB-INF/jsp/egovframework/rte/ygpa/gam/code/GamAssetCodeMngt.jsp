@@ -110,7 +110,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#assetCodePhotoList").on('onItemSelected', function(event, module, row, grid, param) {
-		module.$('.emdCal').val('');
+		module.$('.emdcal').val('');
 		module.makeFormValues('#editAssetGisPhotoForm', row);
 
 		if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
@@ -135,7 +135,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	});
 
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
-	this.$('.photoEditItem').on('change', {module: this}, function(event) {
+	this.$('.photoEditItem').on('keyup change', {module: this}, function(event) {
 		var m = event.data.module;
 		var rowIdx=m.$('#assetCodePhotoList').selectedRowIds();
 
@@ -145,7 +145,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 		row.photoSj = m.$('#photoSj').val();
 		row.shotDt = m.$('#shotDt').val();
-		if(row._updt!="I") row._updt = "U";
+		if(row._updtId!="I") row._updtId = "U";
 
 		m.$('#assetCodePhotoList').flexUpdateRow(rowIdx[0], row);
 	});
@@ -802,12 +802,12 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							</td>
 							<th><span class="label">촬영일자</span></th>
 							<td>
-                            	<input id="shotDt" type="text" size="10"  class="emdcal photoEditItem">
+                            	<input id="shotDt" type="text" size="10"  class="emdcal photoEditItem" readonly="readonly">
 							</td>
 						</tr>
 					</table>
 				</form>
-   					<button id="btnApplyPhotoData">적용</button>
+<!--    					<button id="btnApplyPhotoData">적용</button> -->
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
