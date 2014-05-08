@@ -23,17 +23,15 @@ public class GamAssetLndValInqireVO extends ComDefaultVO {
     /** GIS 자산 명 */
     private String sGisAssetsNm;
     
-    /** 사용기간 FORM */
-    private String sUsagePdFrom;
+    /** 조회기준일자 */
+    private String sSearchDT;
     
-    /** 사용기간 TO */
-    private String sUsagePdTo;
+    /** 자료수, 합계 */
+    private String sumCnt;
     
-    /**  시작일 */
-    private String sBeginDt;
-
-    /**  종료일 */
-    private String sEndDt;
+    private String sumArOlnlp;
+    
+    private String sumGisAssetsAcqPri;
     
 	/**
 	 * @return the sGisAssetsCd
@@ -63,60 +61,61 @@ public class GamAssetLndValInqireVO extends ComDefaultVO {
 		this.sGisAssetsNm = sGisAssetsNm;
 	}
 
+
 	/**
-	 * @return the sUsagePdFrom
+	 * @return the sumCnt
 	 */
-	public String getsUsagePdFrom() {
-		return sUsagePdFrom;
+	public String getSumCnt() {
+		return sumCnt;
 	}
 
 	/**
-	 * @param sUsagePdFrom the sUsagePdFrom to set
+	 * @param sumCnt the sumCnt to set
 	 */
-	public void setsUsagePdFrom(String sUsagePdFrom) {
-		this.sUsagePdFrom = sUsagePdFrom;
+	public void setSumCnt(String sumCnt) {
+		this.sumCnt = sumCnt;
 	}
 
 	/**
-	 * @return the sUsagePdTo
+	 * @return the sumArOlnlp
 	 */
-	public String getsUsagePdTo() {
-		return sUsagePdTo;
+	public String getSumArOlnlp() {
+		return sumArOlnlp;
 	}
 
 	/**
-	 * @param sUsagePdTo the sUsagePdTo to set
+	 * @param sumArOlnlp the sumArOlnlp to set
 	 */
-	public void setsUsagePdTo(String sUsagePdTo) {
-		this.sUsagePdTo = sUsagePdTo;
+	public void setSumArOlnlp(String sumArOlnlp) {
+		this.sumArOlnlp = sumArOlnlp;
 	}
 
 	/**
-	 * @return the sBeginDt
+	 * @return the sumGisAssetsAcqPri
 	 */
-	public String getsBeginDt() {
-		return sBeginDt;
+	public String getSumGisAssetsAcqPri() {
+		return sumGisAssetsAcqPri;
 	}
 
 	/**
-	 * @param sBeginDt the sBeginDt to set
+	 * @param sumGisAssetsAcqPri the sumGisAssetsAcqPri to set
 	 */
-	public void setsBeginDt(String sBeginDt) {
-		this.sBeginDt = sBeginDt;
+	public void setSumGisAssetsAcqPri(String sumGisAssetsAcqPri) {
+		this.sumGisAssetsAcqPri = sumGisAssetsAcqPri;
 	}
 
 	/**
-	 * @return the sEndDt
+	 * @return the sSearchDT
 	 */
-	public String getsEndDt() {
-		return sEndDt;
+	public String getsSearchDT() {
+		return sSearchDT;
 	}
 
 	/**
-	 * @param sEndDt the sEndDt to set
+	 * @param sSearchDT the sSearchDT to set
 	 */
-	public void setsEndDt(String sEndDt) {
-		this.sEndDt = sEndDt;
+	public void setsSearchDT(String sSearchDT) {
+		this.sSearchDT = sSearchDT;
 	}
 
 }

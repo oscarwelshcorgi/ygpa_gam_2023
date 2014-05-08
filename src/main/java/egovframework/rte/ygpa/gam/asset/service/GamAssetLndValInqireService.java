@@ -1,7 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.service;
 
 import java.util.List;
-import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetLndValInqireService.java
@@ -23,7 +22,7 @@ public interface GamAssetLndValInqireService {
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectAssetLndValInqireList(GamGisAssetCodeVO searchVO) throws Exception;
+    List selectAssetLndValInqireList(GamAssetLndValInqireVO searchVO) throws Exception;
 
     /**
 	 * 자산부지공시지가 목록 총 갯수를 조회한다.
@@ -31,6 +30,14 @@ public interface GamAssetLndValInqireService {
 	 * @return cnt
 	 * @exception
 	 */
-    int selectAssetLndValInqireListTotCnt(GamGisAssetCodeVO searchVO) throws Exception;
+    int selectAssetLndValInqireListTotCnt(GamAssetLndValInqireVO searchVO) throws Exception;
+
+    /**
+	 * 자산부지공시지가 목록 합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 합계정보가 담긴 VO
+	 * @exception
+	 */
+    GamAssetLndValInqireVO selectAssetLndValInqireSum(GamAssetLndValInqireVO searchVO) throws Exception;
 
 }

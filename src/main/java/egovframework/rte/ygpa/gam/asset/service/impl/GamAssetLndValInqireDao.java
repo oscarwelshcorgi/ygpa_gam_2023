@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireVO;
 
 /**
  * @Class Name : GamAssetLndValInqireDao.java
@@ -28,7 +28,7 @@ public class GamAssetLndValInqireDao extends YGPAAbstractDAO {
 	 * @return 목록
 	 * @exception Exception
 	 */
-    public List selectAssetLndValInqireList(GamGisAssetCodeVO searchVO) throws Exception {
+    public List selectAssetLndValInqireList(GamAssetLndValInqireVO searchVO) throws Exception {
         return list("gamAssetLndValInqireDao.selectAssetLndValInqireList_D", searchVO);
     }
 
@@ -38,8 +38,17 @@ public class GamAssetLndValInqireDao extends YGPAAbstractDAO {
 	 * @return 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetLndValInqireListTotCnt(GamGisAssetCodeVO searchVO) {
+    public int selectAssetLndValInqireListTotCnt(GamAssetLndValInqireVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetLndValInqireDao.selectAssetLndValInqireListTotCnt_S", searchVO);
     }
 
+    /**
+	 * 자산부지공시지가조회 목록 합계를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 목록 총 갯수
+	 * @exception
+	 */
+    public GamAssetLndValInqireVO selectAssetLndValInqireSum(GamAssetLndValInqireVO searchVO) {
+        return (GamAssetLndValInqireVO) selectByPk("gamAssetLndValInqireDao.selectAssetLndValInqireSum_S", searchVO);
+    }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireService;
-import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireVO;
 
 /**
  * @Class Name : GamAssetLndValInqireServiceImpl.java
@@ -39,7 +39,7 @@ public class GamAssetLndValInqireServiceImpl  extends AbstractServiceImpl implem
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetLndValInqireList(GamGisAssetCodeVO searchVO) throws Exception {
+    public List selectAssetLndValInqireList(GamAssetLndValInqireVO searchVO) throws Exception {
         return gamAssetLndValInqireDao.selectAssetLndValInqireList(searchVO);
     }
 
@@ -49,8 +49,17 @@ public class GamAssetLndValInqireServiceImpl  extends AbstractServiceImpl implem
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetLndValInqireListTotCnt(GamGisAssetCodeVO searchVO) throws Exception {
+    public int selectAssetLndValInqireListTotCnt(GamAssetLndValInqireVO searchVO) throws Exception {
 		return gamAssetLndValInqireDao.selectAssetLndValInqireListTotCnt(searchVO);
 	}
 
+    /**
+	 * 자산부지공시지가 목록 합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public GamAssetLndValInqireVO selectAssetLndValInqireSum(GamAssetLndValInqireVO searchVO) throws Exception {
+		return gamAssetLndValInqireDao.selectAssetLndValInqireSum(searchVO);
+	}
 }

@@ -26,10 +26,8 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetLndValInqireVO;
-import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetSttusInqireController.java
@@ -99,7 +97,7 @@ public class GamAssetLndValInqireController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/asset/gamSelectAssetLndValInqireList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetLndValInqireList(GamGisAssetCodeVO searchVO) throws Exception {
+	public @ResponseBody Map selectAssetLndValInqireList(GamAssetLndValInqireVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -118,7 +116,8 @@ public class GamAssetLndValInqireController {
 
     	totalCnt = gamAssetLndValInqireService.selectAssetLndValInqireListTotCnt(searchVO);
     	List assetRentList = gamAssetLndValInqireService.selectAssetLndValInqireList(searchVO);
-
+    	GamAssetLndValInqireVO resultVO = gamAssetLndValInqireService.selectAssetLndValInqireSum(searchVO);
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -126,7 +125,10 @@ public class GamAssetLndValInqireController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
-
+    	map.put("sumCnt", resultVO.getSumCnt());
+    	map.put("sumArOlnlp", resultVO.getSumArOlnlp());
+    	map.put("sumGisAssetsAcqPri", resultVO.getSumGisAssetsAcqPri());
+    	
     	return map;
     }
 
@@ -139,7 +141,7 @@ public class GamAssetLndValInqireController {
 
     	// 환경설정
     	/** EgovPropertyService */
-		GamGisAssetCodeVO searchVO= new GamGisAssetCodeVO();
+		GamAssetLndValInqireVO searchVO= new GamAssetLndValInqireVO();
 
         header = mapper.readValue((String)excelParam.get("header"),
 			    new TypeReference<List<HashMap<String,String>>>(){});
@@ -147,7 +149,7 @@ public class GamAssetLndValInqireController {
         excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
 
 		// 조회 조건
-		searchVO = mapper.convertValue(excelParam, GamGisAssetCodeVO.class);
+		searchVO = mapper.convertValue(excelParam, GamAssetLndValInqireVO.class);
 
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
@@ -155,7 +157,6 @@ public class GamAssetLndValInqireController {
 
 		/** List Data */
     	List assetRentList = gamAssetLndValInqireService.selectAssetLndValInqireList(searchVO);
-
 
     	map.put("resultList", assetRentList);
     	map.put("header", header);
