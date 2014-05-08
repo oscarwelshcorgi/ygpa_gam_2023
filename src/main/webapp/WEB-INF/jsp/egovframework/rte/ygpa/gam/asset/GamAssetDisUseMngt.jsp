@@ -268,7 +268,7 @@ var module_instance = new GamAssetDisUseMngtModule();
 								<td><input id="searchGisAssetsQuayCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsQuayCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
 								<th>관리부서</th>
 								<td>
-									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" />
+									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
 								</td>
 							</tr>
 							<tr>
@@ -280,7 +280,7 @@ var module_instance = new GamAssetDisUseMngtModule();
 								<td><input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
 								<th>운영부서</th>
 								<td>
-									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" />
+									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
 								</td>
 							</tr>
 						</tbody>
