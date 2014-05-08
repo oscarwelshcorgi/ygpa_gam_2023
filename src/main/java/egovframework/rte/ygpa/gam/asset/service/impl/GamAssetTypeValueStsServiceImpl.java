@@ -53,5 +53,16 @@ public class GamAssetTypeValueStsServiceImpl  extends AbstractServiceImpl implem
    		//return gamAssetRentMngtDao.selectAssetRentListTotCnt(searchVO);
     	   return gamAssetTypeValueStsDao.selectAssetTypeValueStsListTotCnt(searchVO);
    	}
+       
+       
+     /**
+   	 * 금액합계를 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return GamAssetTypeValueStsVO
+   	 * @exception Exception
+   	 */
+     public GamAssetTypeValueStsVO selectAssetTypeValueStsSum(GamAssetTypeValueStsVO searchVO) throws Exception {
+         return gamAssetTypeValueStsDao.selectAssetTypeValueStsSum(searchVO);
+     }
     
 }

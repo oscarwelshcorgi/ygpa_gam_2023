@@ -129,12 +129,25 @@ public class GamAssetTypeValueStsController {
     	totalCnt = gamAssetTypeValueStsService.selectAssetTypeValueStsListTotCnt(searchVO);
     	List assetRentList = gamAssetTypeValueStsService.selectAssetTypeValueStsList(searchVO);
     	
+    	GamAssetTypeValueStsVO resultSum = gamAssetTypeValueStsService.selectAssetTypeValueStsSum(searchVO);
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", assetRentList);
     	map.put("searchOption", searchVO);
+    	map.put("totalCount", totalCnt);
+    	
+    	map.put("sumRevalAmt", resultSum.getSumRevalAmt());
+    	map.put("sumThisTermIncreAmt", resultSum.getSumThisTermIncreAmt());
+    	map.put("sumBsThisCurAmt", resultSum.getSumBsThisCurAmt());
+    	map.put("sumBsPreDeprctnSum", resultSum.getSumBsPreDeprctnSum());
+    	map.put("sumBsNoDeprctnBal", resultSum.getSumBsNoDeprctnBal());
+    	map.put("sumPreEndAssetBuySum", resultSum.getSumPreEndAssetBuySum());
+    	map.put("sumAssetBuyAmt", resultSum.getSumAssetBuyAmt());
+    	map.put("sumThisTermDeprctnAmt", resultSum.getSumThisTermDeprctnAmt());
+    	map.put("sumCurAmt", resultSum.getSumCurAmt());
     	
     	return map;
     }

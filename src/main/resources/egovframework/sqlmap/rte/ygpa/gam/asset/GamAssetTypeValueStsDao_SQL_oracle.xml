@@ -6,6 +6,18 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetTypeValueStsVO" type="egovframework.rte.ygpa.gam.asset.service.GamAssetTypeValueStsVO"/>
+    
+    <resultMap id="gamAssetTypeValueStsSumMap" class="gamAssetTypeValueStsVO">
+        <result property="sumRevalAmt" column="SUM_REVAL_AMT" columnIndex="1"/>
+		<result property="sumThisTermIncreAmt" column="SUM_THIS_TERM_INCRE_AMT" columnIndex="2"/>
+		<result property="sumBsThisCurAmt" column="SUM_BS_THIS_CUR_AMT" columnIndex="3"/>
+		<result property="sumBsPreDeprctnSum" column="SUM_BS_PRE_DEPRCTN_SUM" columnIndex="4"/>
+		<result property="sumBsNoDeprctnBal" column="SUM_BS_NO_DEPRCTN_BAL" columnIndex="5"/>
+		<result property="sumPreEndAssetBuySum" column="SUM_PRE_END_ASSET_BUY_SUM" columnIndex="6"/>
+		<result property="sumAssetBuyAmt" column="SUM_ASSET_BUY_AMT" columnIndex="7"/>
+		<result property="sumThisTermDeprctnAmt" column="SUM_THIS_TERM_DEPRCTN_AMT" columnIndex="8"/>
+		<result property="sumCurAmt" column="SUM_CUR_AMT" columnIndex="9"/>
+    </resultMap>
 
     <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsList_D" parameterClass="gamAssetTypeValueStsVO" resultClass="egovMap">
         SELECT A.*
@@ -49,15 +61,81 @@
 
     <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsListTotCnt_S" parameterClass="gamAssetTypeValueStsVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM GIS_ASSETS_CD_F A,
-                   YGPAERP.EGMFA2000 B
-             WHERE A.ERP_ASSETS_CLS    = B.ASSET_CLS
-               AND A.ERP_ASSETS_NO     = B.ASSET_NO
-               AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
-
-            <isNotEmpty property="sDeprctnYear">
-                AND B.DEPRCTN_YEAR = #sDeprctnYear#
-            </isNotEmpty>
+            FROM(
+			SELECT
+			       B.DEPRCTN_YEAR
+			       ,a.gis_assets_prprty_se_cd
+			       ,a.gis_assets_se_cd
+			       ,a.gis_assets_quay_cd
+			       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM001' AND CD.CODE = A.gis_assets_prprty_se_cd AND ROWNUM = 1) gis_assets_prprty_se_NM
+			       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM013' AND CD.CODE = A.gis_assets_se_cd AND ROWNUM = 1) GIS_ASSETS_SE_NM
+			       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM003' AND CD.CODE = A.gis_assets_quay_cd AND ROWNUM = 1) gis_assets_quay_nm
+			       ,SUM(NVL(B.THIS_TERM_INCRE_AMT,0)) SUM_THIS_TERM_INCRE_AMT
+			       ,SUM(NVL(B.BS_THIS_CUR_AMT,0)) SUM_BS_THIS_CUR_AMT
+			       ,SUM(NVL(B.REVAL_AMT,0)) SUM_REVAL_AMT
+			       ,SUM(NVL(B.BS_PRE_DEPRCTN_SUM,0))  SUM_BS_PRE_DEPRCTN_SUM
+			       ,SUM(NVL(B.BS_NO_DEPRCTN_BAL,0)) SUM_BS_NO_DEPRCTN_BAL
+			       ,SUM(NVL(B.PRE_END_ASSET_BUY_SUM,0)) SUM_PRE_END_ASSET_BUY_SUM
+			       ,SUM(NVL(B.ASSET_BUY_AMT,0)) SUM_ASSET_BUY_AMT
+			       ,SUM(NVL(B.GNRL_DEPRCTN_RATE,0)) SUM_GNRL_DEPRCTN_RATE
+			       ,SUM(NVL(B.THIS_TERM_DEPRCTN_AMT,0)) SUM_THIS_TERM_DEPRCTN_AMT
+			       ,SUM(NVL(B.CUR_AMT,0)) SUM_CUR_AMT
+			  FROM GIS_ASSETS_CD_F A LEFT JOIN
+			       YGPAERP.EGMFA2000 B
+			  on 
+				  A.ERP_ASSETS_CLS    = B.ASSET_CLS
+				  AND A.ERP_ASSETS_NO     = B.ASSET_NO
+				  AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
+			 WHERE 1=1
+				<isNotEmpty property="sDeprctnYear">
+		            AND B.DEPRCTN_YEAR = #sDeprctnYear#
+		        </isNotEmpty>
+			GROUP BY B.DEPRCTN_YEAR, a.gis_assets_prprty_se_cd, a.gis_assets_se_cd, a.gis_assets_quay_cd
+		  )
+    </select>
+    
+    <select id="gamAssetTypeValueStsDao.selectAssetTypeValueStsSum_S" parameterClass="gamAssetTypeValueStsVO" resultMap="gamAssetTypeValueStsSumMap">
+        SELECT
+		        SUM(NVL(E.SUM_REVAL_AMT,0)) SUM_REVAL_AMT
+		      , SUM(NVL(E.SUM_THIS_TERM_INCRE_AMT,0)) SUM_THIS_TERM_INCRE_AMT
+		      , SUM(NVL(E.SUM_BS_THIS_CUR_AMT,0)) SUM_BS_THIS_CUR_AMT
+		      , SUM(NVL(E.SUM_BS_PRE_DEPRCTN_SUM,0)) SUM_BS_PRE_DEPRCTN_SUM
+		      , SUM(NVL(E.SUM_BS_NO_DEPRCTN_BAL,0)) SUM_BS_NO_DEPRCTN_BAL
+		      , SUM(NVL(E.SUM_PRE_END_ASSET_BUY_SUM,0)) SUM_PRE_END_ASSET_BUY_SUM
+		      , SUM(NVL(E.SUM_ASSET_BUY_AMT,0)) SUM_ASSET_BUY_AMT
+		      , SUM(NVL(E.SUM_THIS_TERM_DEPRCTN_AMT,0)) SUM_THIS_TERM_DEPRCTN_AMT
+		      , SUM(NVL(E.SUM_CUR_AMT,0)) SUM_CUR_AMT
+		FROM(
+			SELECT
+			       B.DEPRCTN_YEAR
+			       ,a.gis_assets_prprty_se_cd
+			       ,a.gis_assets_se_cd
+			       ,a.gis_assets_quay_cd
+			       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM001' AND CD.CODE = A.gis_assets_prprty_se_cd AND ROWNUM = 1) gis_assets_prprty_se_NM
+			       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM013' AND CD.CODE = A.gis_assets_se_cd AND ROWNUM = 1) GIS_ASSETS_SE_NM
+			       ,(SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM003' AND CD.CODE = A.gis_assets_quay_cd AND ROWNUM = 1) gis_assets_quay_nm
+			       ,SUM(NVL(B.THIS_TERM_INCRE_AMT,0)) SUM_THIS_TERM_INCRE_AMT
+			       ,SUM(NVL(B.BS_THIS_CUR_AMT,0)) SUM_BS_THIS_CUR_AMT
+			       ,SUM(NVL(B.REVAL_AMT,0)) SUM_REVAL_AMT
+			       ,SUM(NVL(B.BS_PRE_DEPRCTN_SUM,0))  SUM_BS_PRE_DEPRCTN_SUM
+			       ,SUM(NVL(B.BS_NO_DEPRCTN_BAL,0)) SUM_BS_NO_DEPRCTN_BAL
+			       ,SUM(NVL(B.PRE_END_ASSET_BUY_SUM,0)) SUM_PRE_END_ASSET_BUY_SUM
+			       ,SUM(NVL(B.ASSET_BUY_AMT,0)) SUM_ASSET_BUY_AMT
+			       ,SUM(NVL(B.GNRL_DEPRCTN_RATE,0)) SUM_GNRL_DEPRCTN_RATE
+			       ,SUM(NVL(B.THIS_TERM_DEPRCTN_AMT,0)) SUM_THIS_TERM_DEPRCTN_AMT
+			       ,SUM(NVL(B.CUR_AMT,0)) SUM_CUR_AMT
+			  FROM GIS_ASSETS_CD_F A LEFT JOIN
+			       YGPAERP.EGMFA2000 B
+			  on 
+				  A.ERP_ASSETS_CLS    = B.ASSET_CLS
+				  AND A.ERP_ASSETS_NO     = B.ASSET_NO
+				  AND A.ERP_ASSETS_NO_SEQ = B.ASSET_NO_SEQ
+			 WHERE 1=1
+				<isNotEmpty property="sDeprctnYear">
+		            AND B.DEPRCTN_YEAR = #sDeprctnYear#
+		        </isNotEmpty>
+			GROUP BY B.DEPRCTN_YEAR, a.gis_assets_prprty_se_cd, a.gis_assets_se_cd, a.gis_assets_quay_cd
+		  ) E
     </select>
 
 </sqlMap>

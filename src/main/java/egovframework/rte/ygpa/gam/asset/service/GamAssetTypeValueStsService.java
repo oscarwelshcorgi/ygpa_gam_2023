@@ -31,4 +31,13 @@ public interface GamAssetTypeValueStsService {
    	 * @exception
    	 */
     int selectAssetTypeValueStsListTotCnt(GamAssetTypeValueStsVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 금액합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return GamAssetTypeValueStsVO
+	 * @exception Exception
+	 */
+    GamAssetTypeValueStsVO selectAssetTypeValueStsSum(GamAssetTypeValueStsVO searchVO) throws Exception;
 }

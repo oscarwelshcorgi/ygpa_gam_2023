@@ -42,4 +42,15 @@ public class GamAssetTypeValueStsDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetTypeValueStsDao.selectAssetTypeValueStsListTotCnt_S", searchVO);
     }
     
+    
+    /**
+	 * 금액합계를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return GamAssetTypeValueStsVO
+	 * @exception Exception
+	 */
+    public GamAssetTypeValueStsVO selectAssetTypeValueStsSum(GamAssetTypeValueStsVO searchVO) throws Exception {
+        return (GamAssetTypeValueStsVO) selectByPk("gamAssetTypeValueStsDao.selectAssetTypeValueStsSum_S", searchVO);
+    }
+    
 }

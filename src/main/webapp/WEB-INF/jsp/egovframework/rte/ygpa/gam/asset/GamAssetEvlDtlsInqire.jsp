@@ -188,7 +188,7 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                             <td><input id="sGisAssetsLocCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM002 /></td>
                             <th>부두</th>
                             <td><input id="sGisAssetsQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 /></td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
+                            <td style="text-align:right;"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
