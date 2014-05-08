@@ -683,7 +683,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">GIS 자산 코드</th>
 							<td>
-								<input type="text" size="8" id="gisAssetsCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="8" id="gisAssetsCd" disabled="disabled" data-required="true" />&nbsp;-&nbsp;
 								<input type="text" size="6" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
 								<input type="text" size="8" id="gisAssetsPrtAtCode" disabled="disabled"/>
 							</td>
@@ -705,7 +705,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr class="selectedGAM005">
 							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
 							</td>
 						</tr>
 						<tr>
