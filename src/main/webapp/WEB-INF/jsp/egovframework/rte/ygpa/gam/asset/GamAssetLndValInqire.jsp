@@ -56,6 +56,10 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
     		this.gisAssetsLnmCode = this.gisAssetsLnm;
     		if(this.gisAssetsLnm!=null && this.gisAssetsLnmSub) this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
     	});
+    	
+        module.$('#sumCnt').val(data.sumCnt);
+        module.$('#sumArOlnlp').val(data.sumArOlnlp);
+        module.$('#sumGisAssetsAcqPri').val(data.sumGisAssetsAcqPri);
     	return data;
     }
  });
@@ -89,7 +93,7 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
      // 조회
      case 'searchBtn':
 
-    	 if(this.$("#searchKeyword").val() == ""){
+    	 if(this.$("#sSearchDT").val() == ""){
     		 alert("기준일을 선택하세요.");
     		 return;
     	 }
@@ -98,6 +102,11 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          this.$('#assetLndValInqireList').flexOptions({params:searchOpt}).flexReload();
 
          break;
+	case 'btnExcelDownload':
+
+			this.$('#assetLndValInqireList').flexExcelDown('<c:url value="/asset/selectAssetLndValInqireListExcel.do"/>');
+		break;
+
  }
 };
 
@@ -140,8 +149,8 @@ var module_instance = new GamAssetLndValInqireModule();
                             <th>GIS자산명</th>
                             <td><input id="sGisAssetsNm" type="text" size="8"></td>
                             <th>조회기준일자</th>
-                            <td><input id="searchKeyword" type="text" class="emdcal" size="8"></td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
+                            <td><input id="sSearchDT" type="text" class="emdcal" size="8"></td>
+                            <td><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                         <!--
                         <tr>
@@ -171,7 +180,18 @@ var module_instance = new GamAssetLndValInqireModule();
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="assetLndValInqireList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
-					<button class="buttonExcel" data-flexi-grid="assetLndValInqireList" data-url="<c:url value='/asset/selectAssetLndValInqireListExcel.do' />">엑셀</button>
+                	<table style="width:100%;" class="summaryPanel">
+                        <tr>
+                            <th style="width:120px;">자료수</th>
+                            <td style="width:200px;"><input id="sumCnt" size="15" class="ygpaNumber" readonly ></td>
+                            <th style="width:130px;">면적대비지가</th>
+                            <td style="width:200px;"><input id="sumArOlnlp" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                            <th style="width:165px;">자산취득가액</th>
+                            <td style="width:200px;"><input id="sumGisAssetsAcqPri" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                        </tr>
+                	</table>
+					<!--  <button class="buttonExcel" data-flexi-grid="assetLndValInqireList" data-url="<c:url value='/asset/selectAssetLndValInqireListExcel.do' />">엑셀</button>-->
+					<button id="btnExcelDownload">엑셀</button>
 				</div>
 
                 <!--
