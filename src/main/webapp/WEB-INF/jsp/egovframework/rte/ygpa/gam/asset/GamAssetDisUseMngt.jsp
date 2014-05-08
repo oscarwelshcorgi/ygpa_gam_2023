@@ -214,15 +214,16 @@ GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) 
     switch (popupId) {
      case 'updateDisUseAssetPopup':
          if (msg != 'cancel') {
-         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', [{name: 'erpAssetsDisuseRsn', value:value.erpAssetsDisuseRsn}
+        	 console.log('disuse accept');
+         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', [{name: 'erpAssetsDisuseRsn', value:value.result.erpAssetsDisuseRsn}
          			, {name: 'erpAssetsDisuseRegistYn', value:'Y'}
-         			, {name: 'gisAssetsPrtAtCode', value:value.gisAssetsPrtAtCode}
-         			, {name: 'gisAssetsCd', value:value.gisAssetsCd}
-         			, {name: 'gisAssetsSubCd', value:value.gisAssetsSubCd}
+         			, {name: 'gisAssetsPrtAtCode', value:value.result.gisAssetsPrtAtCode}
+         			, {name: 'gisAssetsCd', value:value.result.gisAssetsCd}
+         			, {name: 'gisAssetsSubCd', value:value.result.gisAssetsSubCd}
          			], function(module, result) {
                 alert(result.resultMsg);
-                var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
-                this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
+                var searchOpt=module.makeFormArgs('#gamAssetDisUseSearchForm');
+                module.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
             });
          } else {
              alert('취소 되었습니다');

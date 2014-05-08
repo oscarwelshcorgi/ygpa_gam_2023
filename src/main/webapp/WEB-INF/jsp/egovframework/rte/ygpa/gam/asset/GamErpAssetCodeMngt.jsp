@@ -54,7 +54,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'구매구분', name:'purCls', width:40, sortable:true, align:'center'},
 			{display:'구매용도', name:'purPurpose', width:200, sortable:true, align:'center'},
 			{display:'구입처', name:'purCust', width:200, sortable:true, align:'center'},
-			{display:'회계단위구분', name:'accUnitCls', width:16, sortable:true, align:'center'},
+			{display:'회계단위구분', name:'accUnitCls', width:94, sortable:true, align:'center'},
 			{display:'프로젝트코드', name:'projectCd', width:64, sortable:true, align:'center'},
 			{display:'장소코드', name:'placeCd', width:32, sortable:true, align:'center'},
 			{display:'부서코드', name:'deptCd', width:64, sortable:true, align:'center'},
@@ -64,9 +64,9 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'제품일련번호', name:'productSeqNo', width:200, sortable:true, align:'center'},
 			{display:'제조업체명', name:'makerName', width:200, sortable:true, align:'center'},
 			{display:'계정코드', name:'accntCd', width:64, sortable:true, align:'center'},
-			{display:'상각구분', name:'deprctnCls', width:8, sortable:true, align:'center'},
+			{display:'상각구분', name:'deprctnCls', width:64, sortable:true, align:'center'},
 			{display:'자산내용년수', name:'assetFixTerm', width:128, sortable:true, align:'center'},
-			{display:'변동구분', name:'changeCls', width:8, sortable:true, align:'center'}
+			{display:'변동구분', name:'changeCls', width:64, sortable:true, align:'center'}
 			],
 		height: 'auto',
 /* 		preProcess: function(module, data) {
