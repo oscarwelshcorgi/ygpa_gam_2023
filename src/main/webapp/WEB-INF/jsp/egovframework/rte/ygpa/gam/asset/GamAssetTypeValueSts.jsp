@@ -36,19 +36,19 @@ GamAssetTypeValueStsModule.prototype.loadComplete = function() {
      url: '<c:url value="/asset/gamSelectAssetTypeValueStsList.do"/>',
      dataType: 'json',
      colModel : [
-                 {display:'상각연도', name:'deprctnYear',width:150, sortable:false,align:'center'},
-                 {display:'재산종류', name:'gisAssetsPrprtySeNm',width:150, sortable:false,align:'center'},
-                 {display:'자산구분', name:'gisAssetsSeNm',width:180, sortable:false,align:'center'},
-                 {display:'부두명', name:'gisAssetsQuayNm',width:180, sortable:false,align:'center'},
-                 {display:'재평가금액', name:'sumRevalAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'당기자산증가금액', name:'sumThisTermIncreAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'대차대조기말현재금액', name:'sumBsThisCurAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'대차대조전기말상각누계금액', name:'sumBsPreDeprctnSum',width:180, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'대차대조미상각잔액', name:'sumBsNoDeprctnBal',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'전기말자본적지출금액누계', name:'sumPreEndAssetBuySum',width:180, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'자본적지출금액', name:'sumAssetBuyAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'당기상각금액', name:'sumThisTermDeprctnAmt',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'잔존금액', name:'sumCurAmt',width:150, sortable:false,align:'right', displayFormat: 'number'}
+                 {display:'상각연도', name:'deprctnYear',width:60, sortable:false,align:'center'},
+                 {display:'재산종류', name:'gisAssetsPrprtySeNm',width:80, sortable:false,align:'left'},
+                 {display:'자산구분', name:'gisAssetsSeNm',width:180, sortable:false,align:'left'},
+                 {display:'부두명', name:'gisAssetsQuayNm',width:100, sortable:false,align:'left'},
+                 {display:'재평가금액', name:'sumRevalAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당기자산증가금액', name:'sumThisTermIncreAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조기말현재금액', name:'sumBsThisCurAmt',width:130, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조전기말상각누계금액', name:'sumBsPreDeprctnSum',width:170, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'대차대조미상각잔액', name:'sumBsNoDeprctnBal',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'전기말자본적지출금액누계', name:'sumPreEndAssetBuySum',width:160, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'자본적지출금액', name:'sumAssetBuyAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당기상각금액', name:'sumThisTermDeprctnAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'잔존금액', name:'sumCurAmt',width:100, sortable:false,align:'right', displayFormat: 'number'}
                  ],
      showTableToggleBtn: false,
      height: 'auto',
@@ -160,9 +160,14 @@ var module_instance = new GamAssetTypeValueStsModule();
                                         <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisYear}">selected</c:if> >${yearListItem.codeNm }</option>
                                     </c:forEach>
                                 </select>
-
                             </td>
-                            <td style="text-align:right;"><button id="searchBtn" class="submit">조회</button></td>
+							<th>재산</th>
+							<td><input id="sGisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id="GAM001" data-default-prompt="전체"/></td>
+							<th>부두</th>
+							<td><input id="sGisAssetsQuayCd" class="ygpaCmmnCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
+							<th>자산구분</th>
+							<td><input id="sGisAssetsSeCd" class="ygpaCmmnCd" data-code-id="GAM013" data-default-prompt="전체"/></td>
+                            <td style="text-align:right;"><button id="searchBtn"  class="submit buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -170,49 +175,48 @@ var module_instance = new GamAssetTypeValueStsModule();
         </div>
     </div>
 
-    <div class="emdPanel fillHeight">
-        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
-            <ul>
-                <li><a href="#tabs1" class="emdTab">자산종류별자산가치통계</a></li>
-            </ul>
-            <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
+	<div class="emdPanel fillHeight">
+		<div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<ul>
+				<li><a href="#tabs1" class="emdTab">자산종류별자산가치통계</a></li>
+			</ul>
+			<div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="assetTypeValueStsList" style="display:none" class="fillHeight"></table>
             
-            <div class="emdControlPanel">
-                  <table style="width:100%;" class="summaryPanel">
-                  	  <tr>
-                          <td style="width:650px;" colspan="4"> </td>
-                          <th style="width:165px;">자료수</th>
-                          <td style="width:200px;"><input id="totalResultCnt" type="text" size="15" class="ygpaNumber" readonly >개</td>
-                      </tr>
-                      <tr>
-                          <th style="width:120px;">재평가금액</th>
-                          <td style="width:200px;"><input id="sumRevalAmt" size="15" class="ygpaNumber" readonly >원</td>
-                          <th style="width:130px;">당기자산증가금액</th>
-                          <td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
-                          <th style="width:165px;">대차대조기말현재금액</th>
-                          <td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
-                      </tr>
-                      <tr>
-                          <th>대차대조전기말상각누계금액</th>
-                          <td><input id="sumBsPreDeprctnSum" type="text" size="15" class="ygpaNumber" readonly>원</td>
-                          <th>대차대조미상각잔액</th>
-                          <td><input id="sumBsNoDeprctnBal" type="text" size="15" class="ygpaNumber" readonly>원</td>
-                          <th>전기말자본적지출금액 누계</th>
-                          <td><input id="sumPreEndAssetBuySum" type="text" size="15" class="ygpaNumber" readonly >원</td>
-                      </tr>
-                      <tr>
-                          <th>자본적지출금액</th>
-                          <td><input id="sumAssetBuyAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
-                          <th>당기상각금액</th>
-                          <td><input id="sumThisTermDeprctnAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
-                          <th>잔존금액</th>
-                          <td><input id="sumCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
-                      </tr>
-                  </table>
-            </div>
-          
+				<div class="emdControlPanel">
+					<table style="width:100%;" class="summaryPanel">
+						<tr>
+							<td style="width:650px;" colspan="4"> </td>
+							<th style="width:165px;">자료수</th>
+							<td style="width:200px;"><input id="totalResultCnt" type="text" size="15" class="ygpaNumber" readonly >개</td>
+						</tr>
+						<tr>
+							<th style="width:120px;">재평가금액</th>
+							<td style="width:200px;"><input id="sumRevalAmt" size="15" class="ygpaNumber" readonly >원</td>
+							<th style="width:130px;">당기자산증가금액</th>
+							<td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<th style="width:165px;">대차대조기말현재금액</th>
+							<td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+						</tr>
+						<tr>
+							<th>대차대조전기말상각누계금액</th>
+							<td><input id="sumBsPreDeprctnSum" type="text" size="15" class="ygpaNumber" readonly>원</td>
+							<th>대차대조미상각잔액</th>
+							<td><input id="sumBsNoDeprctnBal" type="text" size="15" class="ygpaNumber" readonly>원</td>
+							<th>전기말자본적지출금액 누계</th>
+							<td><input id="sumPreEndAssetBuySum" type="text" size="15" class="ygpaNumber" readonly >원</td>
+						</tr>
+						<tr>
+							<th>자본적지출금액</th>
+							<td><input id="sumAssetBuyAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<th>당기상각금액</th>
+							<td><input id="sumThisTermDeprctnAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<th>잔존금액</th>
+							<td><input id="sumCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+						</tr>
+					</table>
+				</div>          
+			</div>
 		</div>
-
-    </div>
+	</div>
 </div>

@@ -19,6 +19,12 @@ public class GamAssetTypeValueStsVO extends ComDefaultVO {
     
     private String sDeprctnYear;
     
+    private String sGisAssetsPrprtySeCd;
+    			
+    private String sGisAssetsQuayCd;
+
+    private String sGisAssetsSeCd;
+
     /**
 	 * 재평가금액
 	 */
@@ -77,6 +83,48 @@ public class GamAssetTypeValueStsVO extends ComDefaultVO {
 	 */
 	public void setsDeprctnYear(String sDeprctnYear) {
 		this.sDeprctnYear = sDeprctnYear;
+	}
+
+	/**
+	 * @return the sGisAssetsPrprtySeCd
+	 */
+	public String getsGisAssetsPrprtySeCd() {
+		return sGisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @param sGisAssetsPrprtySeCd the sGisAssetsPrprtySeCd to set
+	 */
+	public void setsGisAssetsPrprtySeCd(String sGisAssetsPrprtySeCd) {
+		this.sGisAssetsPrprtySeCd = sGisAssetsPrprtySeCd;
+	}
+
+	/**
+	 * @return the sGisAssetsQuayCd
+	 */
+	public String getsGisAssetsQuayCd() {
+		return sGisAssetsQuayCd;
+	}
+
+	/**
+	 * @param sGisAssetsQuayCd the sGisAssetsQuayCd to set
+	 */
+	public void setsGisAssetsQuayCd(String sGisAssetsQuayCd) {
+		this.sGisAssetsQuayCd = sGisAssetsQuayCd;
+	}
+
+	/**
+	 * @return the sGisAssetsSeCd
+	 */
+	public String getsGisAssetsSeCd() {
+		return sGisAssetsSeCd;
+	}
+
+	/**
+	 * @param sGisAssetsSeCd the sGisAssetsSeCd to set
+	 */
+	public void setsGisAssetsSeCd(String sGisAssetsSeCd) {
+		this.sGisAssetsSeCd = sGisAssetsSeCd;
 	}
 
 	/**

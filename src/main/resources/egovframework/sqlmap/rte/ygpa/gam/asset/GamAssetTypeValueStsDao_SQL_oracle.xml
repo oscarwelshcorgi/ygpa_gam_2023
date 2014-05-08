@@ -52,7 +52,20 @@
 								<isNotEmpty property="sDeprctnYear">
 						            AND B.DEPRCTN_YEAR = #sDeprctnYear#
 						        </isNotEmpty>
-							          GROUP BY B.DEPRCTN_YEAR, a.gis_assets_prprty_se_cd, a.gis_assets_se_cd, a.gis_assets_quay_cd
+
+								<isNotEmpty property="sGisAssetsPrprtySeCd">
+						            AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
+						        </isNotEmpty>
+
+								<isNotEmpty property="sGisAssetsQuayCd">
+						            AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
+						        </isNotEmpty>
+
+								<isNotEmpty property="sGisAssetsSeCd">
+						            AND A.GIS_ASSETS_SE_CD = #sGisAssetsSeCd#
+						        </isNotEmpty>
+
+							          GROUP BY B.DEPRCTN_YEAR, A.GIS_ASSETS_PRPRTY_SE_CD, A.GIS_ASSETS_SE_CD, A.GIS_ASSETS_QUAY_CD
 						) order by DEPRCTN_YEAR, gis_assets_prprty_se_NM, GIS_ASSETS_SE_NM, gis_assets_quay_nm
                         ) S
              ) A
@@ -90,6 +103,19 @@
 				<isNotEmpty property="sDeprctnYear">
 		            AND B.DEPRCTN_YEAR = #sDeprctnYear#
 		        </isNotEmpty>
+
+				<isNotEmpty property="sGisAssetsPrprtySeCd">
+		            AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
+		        </isNotEmpty>
+
+				<isNotEmpty property="sGisAssetsQuayCd">
+		            AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
+		        </isNotEmpty>
+
+				<isNotEmpty property="sGisAssetsSeCd">
+		            AND A.GIS_ASSETS_SE_CD = #sGisAssetsSeCd#
+		        </isNotEmpty>
+
 			GROUP BY B.DEPRCTN_YEAR, a.gis_assets_prprty_se_cd, a.gis_assets_se_cd, a.gis_assets_quay_cd
 		  )
     </select>
@@ -134,6 +160,19 @@
 				<isNotEmpty property="sDeprctnYear">
 		            AND B.DEPRCTN_YEAR = #sDeprctnYear#
 		        </isNotEmpty>
+
+				<isNotEmpty property="sGisAssetsPrprtySeCd">
+		            AND A.GIS_ASSETS_PRPRTY_SE_CD = #sGisAssetsPrprtySeCd#
+		        </isNotEmpty>
+
+				<isNotEmpty property="sGisAssetsQuayCd">
+		            AND A.GIS_ASSETS_QUAY_CD = #sGisAssetsQuayCd#
+		        </isNotEmpty>
+
+				<isNotEmpty property="sGisAssetsSeCd">
+		            AND A.GIS_ASSETS_SE_CD = #sGisAssetsSeCd#
+		        </isNotEmpty>
+
 			GROUP BY B.DEPRCTN_YEAR, a.gis_assets_prprty_se_cd, a.gis_assets_se_cd, a.gis_assets_quay_cd
 		  ) E
     </select>
