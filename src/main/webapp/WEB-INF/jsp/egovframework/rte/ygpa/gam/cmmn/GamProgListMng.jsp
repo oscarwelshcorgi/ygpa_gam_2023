@@ -38,11 +38,11 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/gamProgramListManageSelect.do" />',
 		dataType: 'json',
 		colModel : [
-					{display:'프로그램파일명', 	name:'progrmFileNm',	width:160, 		sortable:false,		align:'center'},
-					{display:'프로그램명', 		name:'progrmKoreanNm',	width:160, 		sortable:false,		align:'center'},
-					{display:'프로그램경로', 		name:'progrmStrePath',	width:150, 		sortable:false,		align:'center'},
-					{display:'URL', 			name:'url',				width:200, 		sortable:false,		align:'center'},
-					{display:'프로그램설명',		name:'progrmDc',		width:180,		sortable:false,		align:'center'}
+					{display:'프로그램파일명', 	name:'progrmFileNm',	width:180, 		sortable:false,		align:'left'},
+					{display:'프로그램명', 		name:'progrmKoreanNm',	width:170, 		sortable:false,		align:'left'},
+					{display:'프로그램경로', 	name:'progrmStrePath',	width:120, 		sortable:false,		align:'left'},
+					{display:'URL', 		name:'url',				width:205, 		sortable:false,		align:'left'},
+					{display:'프로그램설명',	name:'progrmDc',		width:180,		sortable:false,		align:'left'}
 					],
 		height: "auto"
 	});

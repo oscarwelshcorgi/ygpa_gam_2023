@@ -41,9 +41,9 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"No", 			name:"rn",				width:30, 	sortable:false,		align:"center"},
 					{display:"아이디", 		name:"userId",			width:100, 	sortable:false,		align:"center"},
-					{display:"사용자이름", 	name:"userNm",			width:90, 	sortable:false,		align:"center"},
-					{display:"사용자이메일", 	name:"emailAdres",		width:220, 	sortable:false,		align:"center"},
-					{display:"전화번호", 	name:"allTelno",		width:150, 	sortable:false,		align:"center"},
+					{display:"사용자이름", 		name:"userNm",			width:90, 	sortable:false,		align:"left"},
+					{display:"사용자이메일", 	name:"emailAdres",		width:220, 	sortable:false,		align:"left"},
+					{display:"전화번호", 		name:"allTelno",		width:150, 	sortable:false,		align:"center"},
 					{display:"등록일", 		name:"sbscrbDe",		width:100, 	sortable:false,		align:"center"},
 					{display:"가입상태",		name:"sttus",			width:140,	sortable:false,		align:"center"}
 					],
