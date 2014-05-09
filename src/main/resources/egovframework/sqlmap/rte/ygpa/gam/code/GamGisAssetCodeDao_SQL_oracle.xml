@@ -10,7 +10,8 @@
 	<insert id="gamGisAssetCodeDao.insertAssetCode_S">
 		<![CDATA[
 			INSERT INTO GIS_ASSETS_CD_F
-				( 					GIS_ASSETS_PRT_AT_CODE,
+				( 					
+					GIS_ASSETS_PRT_AT_CODE,
 					GIS_ASSETS_SUB_CD,
 					GIS_ASSETS_CD,
 					GIS_ASSETS_NM,
@@ -58,12 +59,12 @@
 					#gisAssetsLocplc#,
 					#gisAssetsLnm#,
 					#gisAssetsLnmSub#,
-					#gisAssetsAr#,
+					TO_NUMBER(REPLACE(#gisAssetsAr#, ',', '')),
 					#gisAssetsUsageYn#,
-					#gisAssetsAcqPri#,
+					TO_NUMBER(REPLACE(#gisAssetsAcqPri#, ',', '')),
 					#gisAssetsStndrd#,
 					#gisAssetsBlddate#,
-					#gisAssetsBldDt#,
+					TO_DATE(#gisAssetsBldDt#, 'YYYY-MM-DD'),
 					#gisAssetsRm#,
 					#regUsr#,
 					#registdt#,
@@ -75,11 +76,11 @@
 					#gisAssetsPrprtySeCd#,
 					#gisAssetsInvstmntMthd#,
 					#gisAssetsGisCd#,
-					#gisAssetsRealRentAr#,
+					TO_NUMBER(REPLACE(#gisAssetsRealRentAr#, ',', '')),
 					#drwLstRegistYear#,
 					#drwLstSeq#,
-					#gisAssetsValAmt#,
-					#gisAssetsValInqireDt#,
+					TO_NUMBER(REPLACE(#gisAssetsValAmt#, ',', '')),
+					TO_DATE(#gisAssetsValInqireDt#, 'YYYY-MM-DD'),
 					#erpAssetsSeCd#,
 					#erpAssetsNo#,
 					#erpAssetsNoSeq#,
@@ -124,7 +125,7 @@
 				GIS_ASSETS_NM=#gisAssetsNm#,
 			</isNotNull>
 			<isNotNull property="gisAssetsAcqPri">
-				GIS_ASSETS_ACQ_PRI=#gisAssetsAcqPri#,
+				GIS_ASSETS_ACQ_PRI=TO_NUMBER(REPLACE(#gisAssetsAcqPri#, ',', '')),
 			</isNotNull>
 			<isNotNull property="gisAssetsBlddate">
 				GIS_ASSETS_BLDDATE=#gisAssetsBlddate#,
@@ -160,10 +161,10 @@
 				GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#,
 			</isNotNull>
 			<isNotNull property="gisAssetsAr">
-				GIS_ASSETS_AR=#gisAssetsAr#,
+				GIS_ASSETS_AR=TO_NUMBER(REPLACE(#gisAssetsAr#, ',', '')),
 			</isNotNull>
 			<isNotNull property="gisAssetsRealRentAr">
-				GIS_ASSETS_REAL_RENT_AR=#gisAssetsRealRentAr#,
+				GIS_ASSETS_REAL_RENT_AR=TO_NUMBER(REPLACE(#gisAssetsRealRentAr#, ',', '')),
 			</isNotNull>
 			<isNotNull property="gisAssetsUsageYn">
 				GIS_ASSETS_USAGE_YN=#gisAssetsUsageYn#,
@@ -178,10 +179,10 @@
 				GIS_ASSETS_RM=#gisAssetsRm#,
 			</isNotNull>
 			<isNotNull property="gisAssetsValAmt">
-				GIS_ASSETS_VAL_AMT=#gisAssetsValAmt#,
+				GIS_ASSETS_VAL_AMT=TO_NUMBER(REPLACE(#gisAssetsValAmt#, ',', '')),
 			</isNotNull>
 			<isNotNull property="gisAssetsValInqireDt">
-				GIS_ASSETS_VAL_INQIRE_DT=TO_DATE(#gisAssetsValInqireDt#),
+				GIS_ASSETS_VAL_INQIRE_DT=TO_DATE(#gisAssetsValInqireDt#, 'YYYY-MM-DD'),
 			</isNotNull>
 			<isNotNull property="drwLstRegistYear">
 				DRW_LST_REGIST_YEAR=#drwLstRegistYear#,
@@ -231,7 +232,7 @@
 					GIS_ASSETS_ACQ_PRI,
 					GIS_ASSETS_STNDRD,
 					GIS_ASSETS_BLDDATE,
-					TO_CHAR(TO_DATE(GIS_ASSETS_BLD_DT),'YYYY-MM-DD') AS GIS_ASSETS_BLD_DT,
+					TO_CHAR(GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') AS GIS_ASSETS_BLD_DT,
 					GIS_ASSETS_RM,
 					GIS_ASSETS_QUAY_GROUP_CD,
 					GIS_ASSETS_SE_CD,
@@ -241,7 +242,7 @@
 					DRW_LST_REGIST_YEAR,
 					DRW_LST_SEQ,
 					GIS_ASSETS_VAL_AMT,
-					TO_CHAR(TO_DATE(GIS_ASSETS_VAL_INQIRE_DT), 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT,
+					TO_CHAR(GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT,
 					ERP_ASSETS_SE_CD,
 					ERP_ASSETS_NO,
 					ERP_ASSETS_NO_SEQ,
@@ -292,7 +293,8 @@
 						GIS_ASSETS_ACQ_PRI,
 						GIS_ASSETS_STNDRD,
 						GIS_ASSETS_BLDDATE,
-						GIS_ASSETS_BLD_DT,
+						TO_CHAR(GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') AS GIS_ASSETS_BLD_DT,
+						TO_CHAR(GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT,
 						GIS_ASSETS_MNG_DEPT_CD,
 						GAM_GETDEPTNAME(GIS_ASSETS_MNG_DEPT_CD) MNG_DEPT_NM,
 						GIS_ASSETS_OPER_DEPT_CD,

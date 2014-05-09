@@ -38,20 +38,20 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		module: this,
 		url: '<c:url value="/code/assets/selectGisAssetCodeList.do"/>',
 		colModel : [
-			{display:'항코드', name:'gisAssetsPrtAtCode', width:24, sortable:false, align:'center'},
-			{display:'항구분', name:'prtAtCodeNm', width:40, sortable:false, align:'center'},
-			{display:'자산코드', name:'assetCode', width:56, sortable:false, align:'center'},
-			{display:'자산명', name:'gisAssetsNm', width:180, sortable:false, align:'center'},
+			{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:false, align:'center'},
+			{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:false, align:'center'},
+			{display:'자산코드', name:'assetCode', width:60, sortable:false, align:'center'},
+			{display:'자산명', name:'gisAssetsNm', width:180, sortable:false, align:'left'},
 			{display:'재산', name:'gisAssetsPrprtyNm', width:80, sortable:false, align:'center'},
 			{display:'위치', name:'gisAssetsLocNm', width:80, sortable:false, align:'center'},
 			{display:'부두', name:'gisAssetsQuayNm', width:80, sortable:false, align:'center'},
+			{display:'소재지', name:'gisAssetsLocplc', width:180, sortable:false, align:'left'},
+			{display:'지번', name:'lotcode', width:50, sortable:false, align:'center'},
+			{display:'면적', name:'gisAssetsAr', width:80, sortable:false, align:'right', displayFormat: 'number'},
+			{display:'실임대면적', name:'gisAssetsRealRentAr', width:80, sortable:false, align:'right', displayFormat:'number'},
+			{display:'취득가액', name:'gisAssetsAcqPri', width:100, sortable:false, align:'right', displayFormat: 'number'},
 			{display:'관리 부서', name:'mngDeptNm', width:80, sortable:false, align:'center'},
 			{display:'운영 부서', name:'operDeptNm', width:80, sortable:false, align:'center'},
-			{display:'소재지', name:'gisAssetsLocplc', width:180, sortable:false, align:'left'},
-			{display:'지번', name:'lotcode', width:40, sortable:false, align:'center'},
-			{display:'면적', name:'gisAssetsAr', width:64, sortable:false, align:'right', displayFormat: 'number'},
-			{display:'실임대면적', name:'gisAssetsRealRentAr', width:64, sortable:false, align:'right', displayFormat:'number'},
-			{display:'취득가액', name:'gisAssetsAcqPri', width:80, sortable:false, align:'right', displayFormat: 'number'},
 /* 			{display:'규격', name:'gisAssetsStndrd', width:120, sortable:false, align:'center'},
 			{display:'준공년도', name:'gisAssetsBlddate', width:32, sortable:false, align:'center'},
 			{display:'준공 일자', name:'gisAssetsBldDt', width:128, sortable:false, align:'center'}, */
@@ -92,10 +92,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 				{display:'사진 순번', name:'photoSeq', width:80, sortable:false, align:'center'},
-				{display:'사진 제목', name:'photoSj', width:300, sortable:false, align:'center'},
+				{display:'사진 제목', name:'photoSj', width:300, sortable:false, align:'left'},
 				{display:'파일명', name:'filenmLogic', width:200, sortable:false, align:'left'},
 				{display:'촬영 일시', name:'shotDt', width:120, sortable:false, align:'center'},
-				{display:'등록자', name:'regUse', width:160, sortable:false, align:'center'}
+				{display:'등록자', name:'regUsr', width:155, sortable:false, align:'center'}
 			],
 		height: '120'
 	});
@@ -730,13 +730,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							</select>
 						</td>
 						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" > 원</td>
+						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency"> 원</td>
 					</tr>
 					<tr>
 						<th><span class="label">면적</span></th>
 						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> m^2</td>
 						<th><span class="label">실제 임대 면적</span></th>
-						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaCurrency" > m^2</td>
+						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaCurrency"> m^2</td>
 						<th><span class="label">자산규격</span></th>
 						<td><input type="text" size="20" id="gisAssetsStndrd"></td>
 					</tr>
@@ -756,11 +756,11 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr>
 					<tr>
 						<th><span class="label">자산 가치 금액</span></th>
-						<td><input type="text" size="16" id="gisAssetsValAmt" class="ygpaCurrency"> 원 (조회일자 : <input type="text" size="16" class="emdcal" id="gisAssetsValInqireDt">)</td>
+						<td><input type="text" size="15" id="gisAssetsValAmt" class="ygpaCurrency"> 원 (조회일자 : <input type="text" size="10" class="emdcal" id="gisAssetsValInqireDt">)</td>
 						<th><span class="label">준공년도</span></th>
 						<td><input type="text" size="4" id="gisAssetsBlddate"></td>
 						<th><span class="label">준공일자</span></th>
-						<td><input type="text" size="16" class="emdcal" id="gisAssetsBldDt"></td>
+						<td><input type="text" size="15" class="emdcal" id="gisAssetsBldDt"></td>
 					</tr>
 					<tr>
 						<th><span class="label">비고</span></th>
