@@ -40,7 +40,7 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
 					{display:"분류코드", 	name:"clCode",		width:150, 	sortable:false,		align:"center"},
-					{display:"분류코드명", 	name:"clCodeNm",	width:330, 	sortable:false,		align:"center"},
+					{display:"분류코드명", 	name:"clCodeNm",	width:330, 	sortable:false,		align:"left"},
 					{display:"사용여부", 	name:"useAt",		width:123, 	sortable:false,		align:"center"}
 					],
 		height: "auto"
@@ -226,7 +226,9 @@ var module_instance = new GamCmmnCodeClMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel emdControlPanel1">
+				<!--
 					<button id="listBtn">목록</button>
+				-->
 					<button id="saveBtn">저장</button>
 					<button id="deleteBtn">삭제</button>
 				</div>

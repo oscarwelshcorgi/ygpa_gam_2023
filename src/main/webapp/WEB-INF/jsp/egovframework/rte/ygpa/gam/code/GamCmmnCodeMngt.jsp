@@ -40,11 +40,11 @@ GamCmmnCodeMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamCcmCmmnCodeList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
+					{display:"순번", 		name:"rnum",		width:50, 	sortable:false,		align:"center"},
 					{display:"분류코드", 		name:"clCode",		width:60, 	sortable:false,		align:"center"},
-					{display:"분류명",		name:"clCodeNm",	width:300, 	sortable:false,		align:"center"},
-					{display:"코드ID", 		name:"codeId",		width:100, 	sortable:false,		align:"center"},
-					{display:"코드ID명", 	name:"codeIdNm",	width:120, 	sortable:false,		align:"center"},
+					{display:"분류명",		name:"clCodeNm",	width:220, 	sortable:false,		align:"left"},
+					{display:"코드ID", 		name:"codeId",		width:80, 	sortable:false,		align:"center"},
+					{display:"코드ID명", 	name:"codeIdNm",	width:165, 	sortable:false,		align:"left"},
 					{display:"사용여부", 	name:"useAt",		width:70, 	sortable:false,		align:"center"}
 					],
 		height: "auto"
