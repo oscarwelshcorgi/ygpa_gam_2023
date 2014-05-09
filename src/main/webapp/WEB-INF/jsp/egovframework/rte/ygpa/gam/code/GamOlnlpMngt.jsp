@@ -38,13 +38,13 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpInsertList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
-				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-				{display:"자산코드",		 			name:"gisAssetsTotCd",			width:60,		sortable:false,		align:"center"},
-				{display:"자산명",		 			name:"gisAssetsNm",			width:140,		sortable:false,		align:"center"},
-				{display:"소재지",		 			name:"gisAssetsLocplc",		width:220,		sortable:false,		align:"center"},
-				{display:"지번", 					name:"gisAssetsLnmDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"현재공시지가", 					name:"olnlp",	width:100,		sortable:false,		align:"right", displayFormat: "number"}
+				{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,	sortable:false,	align:"center"},
+				{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,	sortable:false,	align:"center"},
+				{display:"자산코드",		name:"gisAssetsTotCd",		width:60,	sortable:false,	align:"center"},
+				{display:"자산명",		name:"gisAssetsNm",			width:168,	sortable:false,	align:"left"},
+				{display:"소재지",		name:"gisAssetsLocplc",		width:200,	sortable:false,	align:"left"},
+				{display:"지번", 			name:"gisAssetsLnmDisplay",	width:60,	sortable:false,	align:"center"},
+				{display:"현재공시지가", 	name:"olnlp",				width:100,	sortable:false,	align:"right", displayFormat: "number"}
 			],
 		height: "auto"
 	});
@@ -74,10 +74,10 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpMngtList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"순번", 					name:"olnlpSeq",		width:80,		sortable:false,		align:"center"},
-				{display:"시작일자",	 				name:"beginDt",			width:150,		sortable:false,		align:"center"},
-				{display:"종료일자",		 			name:"endDt",			width:150,		sortable:false,		align:"center"},
-				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"right", displayFormat:"number"}
+				{display:"순번", 		name:"olnlpSeq",	width:100,	sortable:false,	align:"center"},
+				{display:"시작일자",	name:"beginDt",		width:160,	sortable:false,	align:"center"},
+				{display:"종료일자",	name:"endDt",		width:160,	sortable:false,	align:"center"},
+				{display:"공시지가",	name:"olnlp",		width:310,	sortable:false,	align:"right", displayFormat:"number"}
 			],
 		height: "auto",
 		preProcess: function(module, data) {
@@ -334,9 +334,9 @@ var module_instance = new GamOlnlpMngtModule();
 							<td><input id="searchAssetsPrtAtCode" data-column-id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
-								<button id="searchPopupBtn" class="popupButton">자산코드</button>
+								<input id="searchAssetsCd" data-column-id="gisAssetsCd" type="text" size="5" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="5" maxlength="2" title="검색조건" />
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						<tr>
@@ -377,16 +377,16 @@ var module_instance = new GamOlnlpMngtModule();
 				<table class="detailForm">
 					<colgroup>
 						<col width="120"/>
+						<col width="147"/>
 						<col width="120"/>
+						<col width="147"/>
 						<col width="120"/>
-						<col width="120"/>
-						<col width="120"/>
-						<col width="120"/>
+						<col width="147"/>
 					</colgroup>
 					<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><span id="lbGisAssetsPrtAtCodeNm"></span>(<span id="lbGisAssetsPrtAtCode"></span>)</td>
+							<td><span id="lbGisAssetsPrtAtNm"></span>(<span id="lbGisAssetsPrtAtCode"></span>)</td>
 							<th>자산코드</th>
 							<td><span id="lbGisAssetsTotCd"></span></td>
 							<th>자산명</th>
@@ -394,7 +394,7 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 						<tr>
 							<th>소재지</th>
-							<td colspan="5"><span id="lbGisAssetsLocplc"></span>&nbsp;<span id="lbGisAssetsLnmDisplay"></span></td>
+							<td colspan="5"><span id="lbGisAssetsLnmDisplay"></span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -407,12 +407,12 @@ var module_instance = new GamOlnlpMngtModule();
 				<form id="olnlpManageVO">
 				<table class="editForm">
 					<colgroup>
-						<col width="110"/>
-						<col width="130"/>
-						<col width="110"/>
-						<col width="130"/>
-						<col width="110"/>
-						<col width="160"/>
+						<col width="120"/>
+						<col width="147"/>
+						<col width="120"/>
+						<col width="147"/>
+						<col width="120"/>
+						<col width="147"/>
 					</colgroup>
 					<tbody>
 						<tr>
