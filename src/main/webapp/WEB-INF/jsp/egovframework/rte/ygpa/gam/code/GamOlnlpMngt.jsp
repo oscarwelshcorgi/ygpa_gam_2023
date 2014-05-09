@@ -292,7 +292,7 @@ GamOlnlpMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 			this.$('#lbGisAssetsTotCd').text(row[0].gisAssetsTotCd);
 			this.$('#lbGisAssetsNm').text(row[0].gisAssetsNm);
 			this.$('#lbGisAssetsLocplc').text(row[0].gisAssetsLocplc);
-			this.$('#lbGisAssetsLnmDisplay').text(row[0].gisAssetsLnmDisplay);
+			this.$('#lbGisAssetsLocplcLnmDisplay').text(row[0].gisAssetsLocplcLnmDisplay);
 		}
 		break;
 	}
@@ -394,7 +394,7 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 						<tr>
 							<th>소재지</th>
-							<td colspan="5"><span id="lbGisAssetsLnmDisplay"></span></td>
+							<td colspan="5"><span id="lbGisAssetsLocplcLnmDisplay"></span></td>
 						</tr>
 					</tbody>
 				</table>

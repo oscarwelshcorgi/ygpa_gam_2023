@@ -37,13 +37,13 @@ GamOlnlpInqireModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpInqireList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"항코드",		 			name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
-				{display:"항이름",		 			name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-				{display:"자산코드",		 			name:"gisAssetsTotCd",			width:60,		sortable:false,		align:"center"},
-				{display:"자산명",		 			name:"gisAssetsNm",			width:140,		sortable:false,		align:"center"},
-				{display:"소재지",		 			name:"gisAssetsLocplc",		width:220,		sortable:false,		align:"center"},
-				{display:"지번", 					name:"gisAssetsLnmDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"현재공시지가", 					name:"olnlp",	width:100,		sortable:false,		align:"right", displayFormat: "number"}
+					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,	sortable:false,	align:"center"},
+					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,	sortable:false,	align:"center"},
+					{display:"자산코드",		name:"gisAssetsTotCd",		width:60,	sortable:false,	align:"center"},
+					{display:"자산명",		name:"gisAssetsNm",			width:168,	sortable:false,	align:"left"},
+					{display:"소재지",		name:"gisAssetsLocplc",		width:200,	sortable:false,	align:"left"},
+					{display:"지번", 			name:"gisAssetsLnmDisplay",	width:60,	sortable:false,	align:"center"},
+					{display:"현재공시지가", 	name:"olnlp",				width:100,	sortable:false,	align:"right", displayFormat: "number"}
 			],
 		height: "auto"
 	});
@@ -61,10 +61,10 @@ GamOlnlpInqireModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamOlnlpInqireDetailList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"순번", 					name:"rnum",		width:80,		sortable:false,		align:"center"},
-				{display:"시작일자",	 				name:"beginDt",			width:150,		sortable:false,		align:"center"},
-				{display:"종료일자",		 			name:"endDt",			width:150,		sortable:false,		align:"center"},
-				{display:"공시지가",		 			name:"olnlp",			width:270,		sortable:false,		align:"right", displayFormat:"number"}
+					{display:"순번", 		name:"olnlpSeq",	width:100,	sortable:false,	align:"center"},
+					{display:"시작일자",	name:"beginDt",		width:160,	sortable:false,	align:"center"},
+					{display:"종료일자",	name:"endDt",		width:160,	sortable:false,	align:"center"},
+					{display:"공시지가",	name:"olnlp",		width:310,	sortable:false,	align:"right", displayFormat:"number"}
 			],
 		height: "auto",
 		preProcess: function(module, data) {
@@ -145,11 +145,11 @@ GamOlnlpInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) 
 		}
 		else {
 			this.$('#lbGisAssetsPrtAtCode').text(row[0].gisAssetsPrtAtCode);
-			this.$('#lbGisAssetsPrtAtCodeNm').text(row[0].gisAssetsPrtAtName);
+			this.$('#lbGisAssetsPrtAtNm').text(row[0].gisAssetsPrtAtName);
 			this.$('#lbGisAssetsTotCd').text(row[0].gisAssetsTotCd);
 			this.$('#lbGisAssetsNm').text(row[0].gisAssetsNm);
 			this.$('#lbGisAssetsLocplc').text(row[0].gisAssetsLocplc);
-			this.$('#lbGisAssetsLnmDisplay').text(row[0].gisAssetsLnmDisplay);
+			this.$('#lbGisAssetsLocplcLnmDisplay').text(row[0].gisAssetsLocplcLnmDisplay);
 		}
 		break;
 	}
@@ -191,9 +191,9 @@ var module_instance = new GamOlnlpInqireModule();
 							<td><input id="searchAssetsPrtAtCode" data-column-id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
-								<button id="searchPopupBtn" class="popupButton">자산코드</button>
+								<input id="searchAssetsCd" data-column-id="gisAssetsCd" type="text" size="5" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="5" maxlength="2" title="검색조건" />
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						<tr>
@@ -225,7 +225,9 @@ var module_instance = new GamOlnlpInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
+				<!--
 					<button id="insertExcel">엑셀등록</button>
+				-->
 				</div>
 			</div>
 
@@ -234,16 +236,16 @@ var module_instance = new GamOlnlpInqireModule();
 				<table class="detailForm">
 					<colgroup>
 						<col width="120"/>
+						<col width="147"/>
 						<col width="120"/>
+						<col width="147"/>
 						<col width="120"/>
-						<col width="120"/>
-						<col width="120"/>
-						<col width="120"/>
+						<col width="147"/>
 					</colgroup>
 					<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><span id="lbGisAssetsPrtAtCodeNm"></span>(<span id="lbGisAssetsPrtAtCode"></span>)</td>
+							<td><span id="lbGisAssetsPrtAtNm"></span>(<span id="lbGisAssetsPrtAtCode"></span>)</td>
 							<th>자산코드</th>
 							<td><span id="lbGisAssetsTotCd"></span></td>
 							<th>자산명</th>
@@ -251,7 +253,7 @@ var module_instance = new GamOlnlpInqireModule();
 						</tr>
 						<tr>
 							<th>소재지</th>
-							<td colspan="5"><span id="lbGisAssetsLocplc"></span>&nbsp;<span id="lbGisAssetsLnmDisplay"></span></td>
+							<td colspan="5"><span id="lbGisAssetsLocplcLnmDisplay"></span></td>
 						</tr>
 					</tbody>
 				</table>
