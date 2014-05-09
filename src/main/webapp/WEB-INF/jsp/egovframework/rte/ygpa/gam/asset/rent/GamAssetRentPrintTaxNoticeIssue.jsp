@@ -496,10 +496,10 @@ else System.out.println( "=============vatAmount is null : "+pageContext.getAttr
 			                <td class="cborder" style="border-top-style:none"><c:if test="${result.fee!=0}"><fmt:formatDate value="${nticDate}" pattern="dd"/></c:if></td>
 			                <td class="cborder" style="border-top-style:none"><c:out value="${result.chrgeKndNm}"/></td>
 			                <td class="cborder" style="border-top-style:none"><c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></td>
-			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px"><c:if test="${result.fee!=0}"><c:out value="${result.grAr}"/></c:if></td>
-			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px"><c:if test="${result.fee!=0}"><c:out value="${result.fee-result.vat}"/></c:if> &nbsp;</td>
-			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px"><c:if test="${result.fee!=0}"><c:out value="${result.fee-result.vat}"/></c:if>  &nbsp;</td>
-			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px"><c:if test="${result.fee!=0}"><c:out value="${result.vat}"/></c:if> &nbsp;</td>
+			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.grAr}" /></c:if></td>
+			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeAmount}" /></c:if></td>
+			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeAmount}" /></c:if></td>
+			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vatAmount}" /></c:if></td>
 			                <td class="cborder" style="border-top-style:none"></td>
 			              </tr>
 			              </c:forEach>
@@ -517,7 +517,7 @@ else System.out.println( "=============vatAmount is null : "+pageContext.getAttr
 			                  <b>청구</b> <span class="ttxt">함</span></td>
 			              </tr>
 			              <tr height="24">
-			                <td class="cborder" style="border-top-style:none;border-left-style:none;border-bottom-style:none; text-align: right;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].totalNticAmt}" /></td>
+			                <td class="cborder" style="border-top-style:none;border-left-style:none;border-bottom-style:none; text-align: right; padding-right: 2px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].totalNticAmt}" /></td>
 			                <td class="cborder" style="border-top-style:none;border-bottom-style:none">&nbsp;</td>
 			                <td class="cborder" style="border-top-style:none;border-bottom-style:none">&nbsp;</td>
 			                <td class="cborder" style="border-top-style:none;border-bottom-style:none">&nbsp;</td>
