@@ -336,7 +336,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "btnUploadFile":
 
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-			this.uploadFile("uploadPhoto", function(module, result) {
+			this.uploadPfPhoto("uploadPhoto", function(module, result) {
 
 				var userid = "admin";
 
@@ -349,7 +349,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			var selectRow = this.$('#fcltyPhotoList').selectedRows();
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
-				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+				this.downPfPhoto(row["filenmPhysicl"], row["filenmLogic"]);
 			}
 			break;
 

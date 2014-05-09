@@ -237,7 +237,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#fcltyManageVO :input").val("");
 			this.$('#fcltyPhotoList').flexEmptyData();
 			this._cmd="insert";
-			this.$(".selectedGAM005").show();
+// 			this.$(".selectedGAM005").show();
+			this.$("#selectedGAM005").hide();
+			this.$("#selectedGAM006").hide();
 			this.$("#prtFcltyUnit").attr("disabled","disabled");
 			this.$("#gisCodePopupBtn").show();
 			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
@@ -338,7 +340,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "btnUploadFile":
 
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-			this.uploadFile("uploadPhoto", function(module, result) {
+			this.uploadPfPhoto("uploadPhoto", function(module, result) {
 
 				var userid = "admin";
 
@@ -352,7 +354,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			var selectRow = this.$('#fcltyPhotoList').selectedRows();
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
-				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+				this.downPfPhoto(row["filenmPhysicl"], row["filenmLogic"]);
 			}
 			break;
 
@@ -715,6 +717,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" />
+								<input id="selectedGAM006" type="text" />
 							</td>
 						</tr>
 						<tr>
