@@ -212,6 +212,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.$("#assetCodeTab").tabs("option", {
 				active : 1
 			}); // 탭을 전환 한다.
+			this.$('#assetCodePhotoList').flexEmptyData();
 			this.$('#editGisAssetCode :input').val('');
 			if (this._params.action == "addLotcodeFeature") {
 				// 지번 주소를 저장한다.
