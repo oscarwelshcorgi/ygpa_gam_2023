@@ -730,13 +730,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							</select>
 						</td>
 						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency"> 원</td>
+						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" > 원</td>
 					</tr>
 					<tr>
 						<th><span class="label">면적</span></th>
 						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> m^2</td>
 						<th><span class="label">실제 임대 면적</span></th>
-						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaCurrency"> m^2</td>
+						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaCurrency" > m^2</td>
 						<th><span class="label">자산규격</span></th>
 						<td><input type="text" size="20" id="gisAssetsStndrd"></td>
 					</tr>
