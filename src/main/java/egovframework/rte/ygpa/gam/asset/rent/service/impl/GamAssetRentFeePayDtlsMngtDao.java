@@ -43,6 +43,10 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S", searchVO);
     }
 
+    public List selectAssetRentFeePayDtlsMngtDetailList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return list("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailList_D", searchVO);
+    }
+
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -78,6 +82,9 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 		return this.merge(mergeMap, "gamAssetRentFeePayDtlsMngtDao.insertAssetPhoto_S", "gamAssetRentFeePayDtlsMngtDao.updateAssetPhoto_S", "gamAssetRentFeePayDtlsMngtDao.deleteAssetPhoto_S");
 	}
 
+	public int updateAssetRentFeePayDtlsMngtList() throws Exception {
+		return update("gamAssetRentFeePayDtlsMngtDao.updateAssetRentFeePayDtlsMngtList", null);
+	}
 
 	/**
 	 * 연체 등록

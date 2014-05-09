@@ -33,6 +33,7 @@ import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
@@ -171,6 +172,86 @@ public class GamAssetRentFeePayDtlsMngtController {
 
     	return map;
     }
+
+	/**
+     * 자산임대료납부관리 상세정보를 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentFeePayDtlsMngtDetail(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+    	List resultList = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailList(searchVO);
+
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+	    @SuppressWarnings("unchecked")
+		@RequestMapping(value="/asset/rent/updateAssetRentFeePayDtlsMngtList.do")
+	    public @ResponseBody Map updateAssetRentFeePayDtlsMngtList()
+	            throws Exception {
+
+	     	Map map = new HashMap();
+	     	Map paramMap = new HashMap();
+	        String resultMsg = "";
+	        int resultCode = 1;
+	        int anlrveLevCnt = 0;
+
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+		        map.put("resultCode", 1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	        	return map;
+	    	}
+
+	    	try {
+	    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+//	    		paramMap.put("updUsr", loginVo.getId());
+
+	    		int result=gamAssetRentFeePayDtlsMngtService.updateAssetRentFeePayDtlsMngtList();
+
+		        resultCode = 0;
+		 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+
+		     	map.put("resultCode", resultCode);
+		        map.put("resultMsg", resultMsg);
+		        map.put("updateCount", result);
+	    	}
+	    	catch(Exception e) {
+		        map.put("resultCode", -1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+	        	return map;
+	    	}
+
+	 		return map;
+	     }
+
 
     /**
      *  연체 세입 조회

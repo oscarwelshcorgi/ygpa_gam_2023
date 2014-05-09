@@ -34,8 +34,8 @@
 <link rel="stylesheet" href="<c:url value='/css/jquery.fileupload-ui.css' />">
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.sidr.light.css'/>">
-<link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
-<!--[if lt IE 9]>
+<%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
+ --%><!--[if lt IE 9]>
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
 

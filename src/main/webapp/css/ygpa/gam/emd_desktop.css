@@ -1266,6 +1266,7 @@ img.olTileImage {
 	border: 1px;
 	border-color: black;
 	background-color: white;
+	display: none;
 }
 
 .showCategoryMenu {

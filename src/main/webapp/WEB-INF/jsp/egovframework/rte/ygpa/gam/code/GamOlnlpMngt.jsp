@@ -178,6 +178,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt = this.makeFormArgs("#olnlpForm");
 		 	this.$("#olnlpMngtListTab").tabs("option", {active: 0});
 		 	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
+		 	console.log("olnlp loaded");
 		break;
 
 		// 추가

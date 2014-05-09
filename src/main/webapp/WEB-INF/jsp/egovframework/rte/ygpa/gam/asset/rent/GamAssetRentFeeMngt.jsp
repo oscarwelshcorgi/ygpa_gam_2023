@@ -634,30 +634,20 @@ var module_instance = new GamAssetRentFeeMngtModule();
         <div class="viewPanel">
             <form id="gamAssetRentFeeSearchForm">
                 <table style="width:100%;" class="searchPanel">
-	                <colgroup>
-	                	<col width="100" />
-	                	<col width="150" />
-	                	<col width="100" />
-	                	<col width="150" />
-	                	<col width="100" />
-	                	<col width="150" />
-	                	<col width="80" />
-	                </colgroup>
-                    <tbody>
                         <tr>
                             <th>항코드</th>
                             <td>
 								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" data-column-id="gisAssetsPrtAtCode" />
                             </td>
                             <th>관리번호</th>
-                            <td>
+                            <td style="width: 200px">
                                 <input id="sMngYear" type="text" width="80" size="4" maxlength="4">-<input id="sMngNo" type="text" size="3" maxlength="3">-<input id="sMngCnt" type="text" size="2" maxlength="2">
                             </td>
                             <th>신청업체</th>
                             <td>
                                 <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfoFee">업체</button>
                             </td>
-                            <td><button id="searchBtn" class="submit">조회</button></td>
+                            <td rowspan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                         <tr>
                             <th>결재여부</th>
@@ -734,7 +724,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                         </tr>
                          -->
-                    </tbody>
                 </table>
             </form>
         </div>

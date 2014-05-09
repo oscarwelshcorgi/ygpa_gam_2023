@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -26,6 +27,9 @@ public class GamCmmnCodeListController {
 	 /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
+
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
 
 	@RequestMapping(value="/cmmn/selectGamCmmnCodeList.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -39,29 +43,6 @@ public class GamCmmnCodeListController {
 		// 부서코드
 		Map optMap = new HashMap();
 		List list = new ArrayList();
-		/*
-		Map item = null;
-		item = new HashMap();
-		item.put("value","ORGNZT_0000000000000");
-		item.put("name","항만운영팀");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","ORGNZT_0000000000001");
-		item.put("name","물류기획팀");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","ORGNZT_0000000000002");
-		item.put("name","경영지원팀");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","ORGNZT_0000000000003");
-		item.put("name","재무회계팀");
-		list.add(item);
-		item = new HashMap();
-		item.put("value","ORGNZT_0000000000004");
-		item.put("name","마케팅팀");
-		list.add(item);
-		*/
 
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
 		vo.setTableNm("COMTNORGNZTINFO");
@@ -76,6 +57,27 @@ public class GamCmmnCodeListController {
 
 
 		optMap.put("resultList", list);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectDeptCodeName.do", method=RequestMethod.POST)
+	@ResponseBody Map selectDeptCodeOptionName(@RequestParam("value") String value) throws Exception {
+		// 부서코드
+		Map optMap = new HashMap();
+		List list = new ArrayList();
+
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+		vo.setTableNm("COMTNORGNZTINFO");
+		vo.setHaveDetailCondition("Y");
+		vo.setDetailCondition(value);
+		List<CmmnDetailCode> DeptCode = cmmUseService.selectOgrnztIdDetail(vo);
+
+		if(DeptCode.size()==0) {
+			optMap.put("value", egovMessageSource.getMessage("fail.ref.orznid"));
+		}
+		optMap.put("name", DeptCode.get(0).getCodeNm());
 
 		return optMap;
 	}
@@ -101,6 +103,23 @@ public class GamCmmnCodeListController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectCmmnClName.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCmmnClName(@RequestParam Map vo) throws Exception {
+		Map optMap = new HashMap();
+
+		List<EgovMap> Cd = cmmUseService.selectCmmClList(vo);
+
+
+		if(Cd.size()==0) {
+			optMap.put("value", egovMessageSource.getMessage("fail.ref.cmmncd"));
+		}
+		optMap.put("name", Cd.get(0).get("clCodeNm"));
+
+		return optMap;
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/cmmn/selectCmmnCodeOptionsList.do", method=RequestMethod.POST)
 	@ResponseBody Map selectCmmnCodeOptionsList(@RequestParam Map vo) throws Exception {
 		// 자산코드
@@ -116,6 +135,22 @@ public class GamCmmnCodeListController {
 		}
 
 		optMap.put("resultList", list);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectCmmnCodeName.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCmmnCodeName(@RequestParam Map vo) throws Exception {
+		Map optMap = new HashMap();
+
+		List<EgovMap> Cd = cmmUseService.selectCmmCodeList(vo);
+
+
+		if(Cd.size()==0) {
+			optMap.put("value", egovMessageSource.getMessage("fail.ref.cmmncd"));
+		}
+		optMap.put("name", Cd.get(0).get("codeIdNm"));
 
 		return optMap;
 	}
@@ -141,5 +176,27 @@ public class GamCmmnCodeListController {
 
 		return optMap;
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectCmmnDetailCodeName.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCmmnDetailCodeName(@RequestParam Map vo) throws Exception {
+		Map optMap = new HashMap();
+
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		codeVo.setCodeId((String)vo.get("code_id"));
+		codeVo.setCode((String)vo.get("value"));
+
+		List<CmmnDetailCode> Cd = cmmUseService.selectCmmCodeDetail(codeVo);
+
+
+		if(Cd.size()==0) {
+			optMap.put("value", egovMessageSource.getMessage("fail.ref.cmmncd"));
+		}
+		optMap.put("name", Cd.get(0).getCodeNm());
+
+		return optMap;
+	}
+
+
 
 }

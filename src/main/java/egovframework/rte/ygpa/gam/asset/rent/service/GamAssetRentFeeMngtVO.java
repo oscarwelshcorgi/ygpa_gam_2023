@@ -211,6 +211,43 @@ public class GamAssetRentFeeMngtVO extends ComDefaultVO {
     /** 사용료(합계) */
     private String sumFee;
 
+	private String sumFeeA3;
+    private String sumFeeA4;
+    private String sumFeeD1;
+    private String sumFeeD2;
+
+    public String getSumFeeA3() {
+		return sumFeeA3;
+	}
+
+	public void setSumFeeA3(String sumFeeA3) {
+		this.sumFeeA3 = sumFeeA3;
+	}
+
+	public String getSumFeeA4() {
+		return sumFeeA4;
+	}
+
+	public void setSumFeeA4(String sumFeeA4) {
+		this.sumFeeA4 = sumFeeA4;
+	}
+
+	public String getSumFeeD1() {
+		return sumFeeD1;
+	}
+
+	public void setSumFeeD1(String sumFeeD1) {
+		this.sumFeeD1 = sumFeeD1;
+	}
+
+	public String getSumFeeD2() {
+		return sumFeeD2;
+	}
+
+	public void setSumFeeD2(String sumFeeD2) {
+		this.sumFeeD2 = sumFeeD2;
+	}
+
     /** 고지금액(합계) */
     private String sumNhtIsueAmt;
 

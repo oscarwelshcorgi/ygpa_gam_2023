@@ -36,6 +36,14 @@ public interface GamAssetRentFeePayDtlsMngtService {
     int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
     /**
+     * 납부관리 상세 내역을 조회한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectAssetRentFeePayDtlsMngtDetailList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+    /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 자산임대료납부관리목록
@@ -51,6 +59,12 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @exception Exception
 	 */
     GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+    /**
+     * 납부현황을 업데이트 한다.
+     * @throws Exception
+     */
+    int updateAssetRentFeePayDtlsMngtList() throws Exception;
 
 	/**
 	 * 연체 세입 목록을 조회한다.

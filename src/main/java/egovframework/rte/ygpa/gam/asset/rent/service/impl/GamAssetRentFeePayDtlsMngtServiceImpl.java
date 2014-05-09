@@ -140,4 +140,21 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 		return gamAssetRentFeePayDtlsMngtDao.mergeNticArrrgList(mergeMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#updateAssetRentFeePayDtlsMngtList()
+	 */
+	@Override
+	public int updateAssetRentFeePayDtlsMngtList() throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.updateAssetRentFeePayDtlsMngtList();
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public List selectAssetRentFeePayDtlsMngtDetailList(
+			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailList(searchVO);
+	}
+
 }

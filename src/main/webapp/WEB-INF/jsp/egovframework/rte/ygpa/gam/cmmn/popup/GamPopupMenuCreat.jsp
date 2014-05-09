@@ -146,8 +146,8 @@ var popup_instance = new GamMenuCreatPopupModule();
 		</form>
 	</div>
 
-	<div class="emdPanel">
-		<div style="width: 100%; height: 350px;">
+	<div class="emdPanel" class="fillHeight">
+		<div style="width: 100%; height:330px;" class="fillHeight">
 			<div id="menuTreeList" class="tree" style="position:relative; width:100%; height:100%; z-index:10; overflow: scroll" data-resize="contentFill">
 			</div>
 		</div>

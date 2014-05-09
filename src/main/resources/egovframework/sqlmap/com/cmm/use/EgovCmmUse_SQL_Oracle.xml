@@ -24,6 +24,10 @@
 			USE_AT      = 'Y'
 			AND CODE_ID = #codeId#
 		]]>
+			<isNotEmpty prepend="AND" property="code">
+				CODE=#code#
+			</isNotEmpty>
+
 	</select>
 
 	<select id="CmmUseDAO.selectCmmClList" parameterClass="hashMap" resultClass="egovMap">
@@ -47,6 +51,9 @@
 			USE_AT      = 'Y'
 			AND CL_CODE = #clCode#
 		]]>
+		<isNotEmpty prepend="AND" property="codeId">
+			AND CODE_ID = #codeId#
+		</isNotEmpty>
 	</select>
 
     <select id="CmmUseDAO.selectOgrnztIdDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
