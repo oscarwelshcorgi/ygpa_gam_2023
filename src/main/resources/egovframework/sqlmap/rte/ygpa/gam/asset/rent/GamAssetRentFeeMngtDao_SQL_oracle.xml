@@ -955,7 +955,7 @@
 			      MAX(S.NTIC_PD_TO) NTIC_PD_TO,
 			      MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
 			      SUM(S.FEE) FEE_AMOUNT,
-			      MAX(S.VAT) VAT,
+			      SUM(S.VAT) VAT_AMOUNT,
 			      MAX(S.VAT_YN) VAT_YN,
 			      SUM(S.NTIC_AMT) TOTAL_NTIC_AMT,
 			      MAX(S.DEPTCD) DEPTCD,
