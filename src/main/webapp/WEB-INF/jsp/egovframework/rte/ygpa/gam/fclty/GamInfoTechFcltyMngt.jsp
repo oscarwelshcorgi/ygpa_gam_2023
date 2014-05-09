@@ -104,7 +104,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				return;
 			}
 
-			this._cmd="modify";
+			module._cmd="modify";
 
 			module.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
@@ -234,9 +234,10 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 추가
 		case "addBtn":
+			this._cmd="insert";
+			this.$('#fcltyPhotoList').flexEmptyData();
 			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
 			this.$("#fcltyManageVO :input").val("");
-			this._cmd="insert";
 			this.$(".selectedGAM005").show();
 			this.$("#gisCodePopupBtn").show();
 		break;
@@ -336,12 +337,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "btnUploadFile":
 
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-			this.uploadPfPhoto("uploadPhoto", function(module, result) {
+			this.uploadFile("uploadPhoto", function(module, result) {
 
 				var userid = "admin";
 
 				$.each(result, function(){
-					module.$("#fcltyPhotoList").flexAddRow({_updtId:'I', gisAssetsPrtAtCode: module._fcltyItem.gisAssetsPrtAtCode, gisAssetsCd: module._fcltyItem.gisAssetsCd, gisAssetsSubCd: module._fcltyItem.gisAssetsSubCd, prtFcltySe:'C', gisPrtFcltyCd: module._fcltyItem.gisPrtFcltyCd, gisPrtFcltySeq: module._fcltyItem.gisPrtFcltySeq, prtFcltyPhotoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
+					module.$("#fcltyPhotoList").flexAddRow({_updtId:'I', gisAssetsPrtAtCode: module._fcltyItem.gisAssetsPrtAtCode, gisAssetsCd: module._fcltyItem.gisAssetsCd, gisAssetsSubCd: module._fcltyItem.gisAssetsSubCd, prtFcltySe:'M', gisPrtFcltyCd: module._fcltyItem.gisPrtFcltyCd, gisPrtFcltySeq: module._fcltyItem.gisPrtFcltySeq, prtFcltyPhotoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
 				});
 			}, "시설사진 업로드");
 
@@ -350,7 +351,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			var selectRow = this.$('#fcltyPhotoList').selectedRows();
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
-				this.downPfPhoto(row["filenmPhysicl"], row["filenmLogic"]);
+				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
 			}
 			break;
 
@@ -524,7 +525,7 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 	});
 		}
 		else if(this._cmd=="insert") {
-	 			module.clearCodePage();
+	 			this.clearCodePage();
 		}
 		break;
 	case "tabs3":
@@ -769,7 +770,7 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 						<tr>
 							<th><span class="label">촬영일자</span></th>
-							<td><input id="shotDt" type="text" size="10" class="emdcal photoEditItem"  maxlength="10" /></td>
+							<td><input id="shotDt" type="text" size="10" class="emdcal photoEditItem"  maxlength="10" readonly="readonly"/></td>
 						</tr>
 						<tr>
 							<th><span class="label">사진 설명</span></th>

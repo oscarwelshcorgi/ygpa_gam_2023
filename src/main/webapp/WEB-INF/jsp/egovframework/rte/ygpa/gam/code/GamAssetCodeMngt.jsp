@@ -467,6 +467,14 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.doExecuteDialog('selectSearchAssetsCdPopup', '시설 선택',
 					'<c:url value="/popup/showAssetsCd.do"/>', opts);
 			break;
+		case 'btnDownloadFile':
+			var selectRow = this.$('#assetCodePhotoList').selectedRows();
+			alert(selectRow+"BBBBBBBBBBBBBB");
+			if(selectRow.length > 0) {
+				var row=selectRow[0];
+				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+			}	
+			break;
 		}
 	};
 
@@ -525,7 +533,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			throw 0;
 			break;
+			
+		
 		}
+		
+
+		
+		
 	};
 
 	/*

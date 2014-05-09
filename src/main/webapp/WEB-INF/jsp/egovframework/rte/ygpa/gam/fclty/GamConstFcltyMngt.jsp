@@ -238,6 +238,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#fcltyPhotoList').flexEmptyData();
 			this._cmd="insert";
 			this.$(".selectedGAM005").show();
+			this.$("#prtFcltyUnit").attr("disabled","disabled");
 			this.$("#gisCodePopupBtn").show();
 			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
 		break;
@@ -337,7 +338,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "btnUploadFile":
 
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-			this.uploadPfPhoto("uploadPhoto", function(module, result) {
+			this.uploadFile("uploadPhoto", function(module, result) {
 
 				var userid = "admin";
 
@@ -351,7 +352,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			var selectRow = this.$('#fcltyPhotoList').selectedRows();
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
-				this.downPfPhoto(row["filenmPhysicl"], row["filenmLogic"]);
+				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
 			}
 			break;
 
@@ -713,7 +714,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr class="selectedGAM005">
 							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" />
 							</td>
 						</tr>
 						<tr>
@@ -776,7 +777,7 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 						<tr>
 							<th><span class="label">촬영일자</span></th>
-							<td><input id="shotDt" type="text" size="10" class="emdcal photoEditItem"  maxlength="10" /></td>
+							<td><input id="shotDt" type="text" size="10" class="emdcal photoEditItem"  maxlength="10" readonly="readonly"/></td>
 						</tr>
 						<tr>
 							<th><span class="label">사진 설명</span></th>
