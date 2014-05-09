@@ -75,30 +75,32 @@
 			                    , F.GIS_ASSETS_PRT_AT_CODE
 			                    , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
 			                    , F.GIS_ASSETS_SUB_CD
-			                    , GIS_PRT_FCLTY_CD
-			                    , GIS_PRT_FCLTY_SEQ
-			                    , PRT_FCLTY_NM
+			                    , F.GIS_PRT_FCLTY_CD
+			                    , F.GIS_PRT_FCLTY_SEQ
+			                    , F.PRT_FCLTY_NM
 			                    , A.GIS_ASSETS_LOC_CD
-			                    , PRT_FCLTY_STNDRD
-			                    , PRT_FCLTY_UNIT
+			                    , F.PRT_FCLTY_STNDRD
+			                    , F.PRT_FCLTY_UNIT
 			                    , TO_CHAR(TO_DATE(PRT_FCLTY_INSTL_DT) , 'yyyy-mm-dd')  PRT_FCLTY_INSTL_DT
                                 , TO_CHAR(TO_DATE(PRT_FCLTY_CHANGE_DT) , 'yyyy-mm-dd')  PRT_FCLTY_CHANGE_DT
-			                    , PRT_FCLTY_SE
+			                    , F.PRT_FCLTY_SE
 			                    , (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = F.PRT_FCLTY_MNG_ENTRPS_CD) PRT_FCLTY_MNG_ENTRPS_NM
-			                    , PRT_FCLTY_MNG_ENTRPS_CD
-			                    , PRT_FCLTY_GIS_CD
+			                    , F.PRT_FCLTY_MNG_ENTRPS_CD
+			                    , F.PRT_FCLTY_GIS_CD
 								, A.GIS_ASSETS_NM
                                 , A.GIS_ASSETS_LOCPLC
 		       					, A.GIS_ASSETS_LNM
 		       					, A.GIS_ASSETS_LNM_SUB
    								, F.LA_CRDNT
 								, F.LO_CRDNT
+			                    , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
+			                    , GAM_GETCODENAME('GAM003', F.PRT_FCLTY_SE) PRT_FCLTY_SE_NM
 		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
 		                WHERE 1 = 1
                         AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                         AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                         AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-		                AND PRT_FCLTY_SE = #prtFcltySe#
+		                AND F.PRT_FCLTY_SE = #prtFcltySe#
 		                <isNotEmpty property="searchPrtAtCode">
 	           				AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
 	           			</isNotEmpty>
@@ -113,7 +115,7 @@
 	           				AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchKeyword">
-	           				AND PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
+	           				AND F.PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
 	           			</isNotEmpty>
 		            ORDER BY F.GIS_ASSETS_CD DESC ,
 		                     F.GIS_ASSETS_PRT_AT_CODE DESC ,
