@@ -39,7 +39,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
 				{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 				{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
-				{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"center"},
+				{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
 				{display:"건축시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 				{display:"건축시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 				{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
@@ -223,9 +223,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		case 'btnDownloadFile': //사진 다운로드
 			var selectRow = this.$('#fcltyPhotoList').selectedRows();
-			if (selectRow.length > 0) {
-				var row = selectRow[0];
-				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+			if(selectRow.length > 0) {
+				var row=selectRow[0];
+				this.downPfPhoto(row["filenmPhysicl"], row["filenmLogic"]);
 			}
 			break;
 			
@@ -330,7 +330,7 @@ var module_instance = new GamFcltyMngtModule();
 					<table class="searchPanel">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>
-							<td><input type="text" size="50" id="gisAssetsPrtAtCode" disabled="disabled"/></td>
+							<td><input type="text" size="50" id="gisAssetsPrtAtCodeStr" disabled="disabled"/></td>
 							<th width="15%" height="23" class="required_text">항코드명</th>
 							<td><input type="text" size="50" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 						</tr>
