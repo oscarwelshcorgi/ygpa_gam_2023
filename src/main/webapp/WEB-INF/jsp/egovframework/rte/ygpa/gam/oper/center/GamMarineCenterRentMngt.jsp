@@ -5,29 +5,25 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
-  /**
-  * @Class Name : GamMarineCenterRentMngt.jsp
-  * @Description : 마린센터임대목록관리
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2014.01.10  heroine     최초 생성
-  *
-  * author heroine
-  * since 2014.01.10
-  *
-  * Copyright (C) 2013 by LFIT  All right reserved.
-  */
+/**
+* @Class Name : GamMarineCenterRentMngt.jsp
+* @Description : 마린센터임대목록관리
+* @Modification Information
+*
+*   수정일         수정자                   수정내용
+*  -------    --------    ---------------------------
+*  2014.01.10  heroine     최초 생성
+*
+* author heroine
+* since 2014.01.10
+*
+* Copyright (C) 2013 by LFIT  All right reserved.
+*/
 %>
-<validator:javascript formName="gamMarineCenterRent" method="validateGamMarineCenterRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamMarineCenterRentDetail" method="validateGamMarineCenterRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamMarineCenterRentFile" method="validateGamMarineCenterRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<!--
-<validator:javascript formName="gamAssetRent" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentDetail" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentFile" staticJavascript="false" xhtml="true" cdata="false" />
- -->
+<validator:javascript formName="gamMarineCenterRentVld" method="validateGamMarineCenterRentVld" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamMarineCenterRentDetailVld" method="validateGamMarineCenterRentDetailVld" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamMarineCenterRentPhotoVld" method="validateGamMarineCenterRentPhotoVld" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -54,8 +50,8 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
                     {display:'신청구분', name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
                     {display:'허가여부', name:'prmisnYn',width:60, sortable:false,align:'center'},
                     {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
-                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'총사용료', name:'grFee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'총면적', name:'grAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'최초 신청일', name:'frstReqstDt',width:70, sortable:false,align:'center'},
                     {display:'최초 허가일자', name:'frstPrmisnDt',width:90, sortable:false,align:'center'},
                     //{display:'날짜', name:'dt',width:60, sortable:false,align:'center'},
@@ -109,8 +105,8 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'center'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
                     {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
-                    {display:'사용료', name:'fee',width:120, sortable:false,align:'center', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'center', displayFormat: 'number'},
+                    {display:'사용료', name:'fee',width:120, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:120, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:120, sortable:false,align:'center'},
                     {display:'면제구분', name:'exemptSeNm',width:100, sortable:false,align:'center'}
 
@@ -153,7 +149,7 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
                     {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
                     */
                     ],
-        showTableToggleBtn: false,
+        showTableToggleBtn: true,
         height: '115'
     });
 
@@ -163,12 +159,12 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/center/gamSelectMarineCenterRentFileList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'순번', name:'rnum', width:80, sortable:true, align:'center'},
-                    {display:'사진제목', name:'photoSj', width:250, sortable:true, align:'center'},
+                    {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
+                    {display:'사진제목', name:'photoSj', width:200, sortable:true, align:'center'},
                     {display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'center'},
                     {display:'촬영일시', name:'shotDt', width:120, sortable:true, align:'center'},
-                    {display:'사진설명', name:'photoDesc', width:200, sortable:true, align:'center'}
-                    //2014-4-22 rnum추가
+                    {display:'사진설명', name:'photoDesc', width:380, sortable:true, align:'center'}
+
                     /*
                     {display:'파일명(물리)', name:'filenmPhysicl', width:200, sortable:true, align:'left'},
                     {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -180,7 +176,7 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '160'
     });
 
     this.$("#marineCenterRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -242,7 +238,7 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$("#marineCenterRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#assetRentListTab").tabs("option", {active: 1});
+        module.$("#marineCenterRentMngtListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
         module.$('#gamMarineCenterRentForm :input').val('');
 
@@ -258,7 +254,7 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$("#marineCenterRentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#assetRentListTab").tabs("option", {active: 2});
+        module.$("#marineCenterRentMngtListTab").tabs("option", {active: 2});
         module.$('#gamMarineCenterRentDetailForm :input').val('');
         module.makeFormValues('#gamMarineCenterRentDetailForm', row);
         module._editData=module.getFormValues('#gamMarineCenterRentDetailForm', row);
@@ -281,15 +277,15 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$('#applcTariff').on('change', {module: this}, function(event) {
-        if( $(this).val() == '1' ) {
-            event.data.module.$('#applcTariffStr').val("0.05");
-        } else if( $(this).val() == '2' ) {
-            event.data.module.$('#applcTariffStr').val("0.025");
-        } else if( $(this).val() == '3' ) {
-            event.data.module.$('#applcTariffStr').val("0.01");
-        } else {
-            event.data.module.$('#applcTariffStr').val("");
-        }
+    	if( $(this).val() == '1' ) {
+    		event.data.module.$('#applcTariffStr').val("0.05");
+    	} else if( $(this).val() == '2' ) {
+    		event.data.module.$('#applcTariffStr').val("0.025");
+    	} else if( $(this).val() == '3' ) {
+    		event.data.module.$('#applcTariffStr').val("0.01");
+    	} else {
+    		event.data.module.$('#applcTariffStr').val("");
+    	}
 
         if( $(this).val() == '' ) {
             event.data.module.$('#applcTariffNm').val("");
@@ -315,38 +311,39 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
     this.$('#nticMth').on('change', {module: this}, function(event) {
         //alert($(this).val());
         if( $(this).val() != '' && $(this).val() != '1' ) {
-            event.data.module.$('#cofixList').val( event.data.module.$('#blceStdrIntrrate').val() );
-            event.data.module.$('#payinstIntrrate').val(Number(event.data.module.$('#cofixList').val()) * 100);
+        	event.data.module.$('#cofixList').val( event.data.module.$('#blceStdrIntrrate').val() );
+        	event.data.module.$('#payinstIntrrate').val(Number(event.data.module.$('#cofixList').val()) * 100);
         } else {
-            event.data.module.$('#cofixList').val("");
-            event.data.module.$('#payinstIntrrate').val("");
+        	event.data.module.$('#cofixList').val("");
+        	event.data.module.$('#payinstIntrrate').val("");
         }
     });
 
     this.$('#cofixList').on('change', {module: this}, function(event) {
-        //alert('||'+$(this).val()+'||');
+    	//alert('||'+$(this).val()+'||');
         if( $(this).val() == '' ) {
-            event.data.module.$('#payinstIntrrate').val("");
+        	event.data.module.$('#payinstIntrrate').val("");
         } else {
-            var payinstIntrrateCal = (Number($(this).val()) * 100) + "";
+        	var payinstIntrrateCal = (Number($(this).val()) * 100) + "";
 
-            if(payinstIntrrateCal.length > 4) {
-                payinstIntrrateCal = payinstIntrrateCal.substring(0,5);
-                payinstIntrrateCal = Number(payinstIntrrateCal).toFixed(2);
-            }
+        	if(payinstIntrrateCal.length > 4) {
+        		payinstIntrrateCal = payinstIntrrateCal.substring(0,5);
+        		payinstIntrrateCal = Number(payinstIntrrateCal).toFixed(2);
+        	}
 
-            event.data.module.$('#payinstIntrrate').val( payinstIntrrateCal );
+        	event.data.module.$('#payinstIntrrate').val( payinstIntrrateCal );
         }
     });
 
-    //로드될 때 사용기간에 오늘날짜 처리
-/* 	var today = new Date();
-	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1);
-	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate();
-	var sToday = today.getFullYear() + '-' + month + '-' + date;
+    this.$('#exemptRsnCd').on('change', {module: this}, function(event) {
+        event.data.module.$('#exemptRsnCdStr').val($(this).val());
+    });
 
-    this.$('#sGrUsagePdFrom').val(sToday);
-    this.$('#sGrUsagePdTo').val(sToday); */
+    this.$(".photoEditItem").bind("keyup change", {module: this}, function(event) {
+    	// console.log("keyup or change event occur");
+    	event.data.module.applyPhotoData();
+    });
+
 };
 
 
@@ -516,14 +513,16 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
+            this.$("#marineCenterRentMngtListTab").tabs("option", {active: 0});
+
             var searchOpt=this.makeFormArgs('#gamMarineCenterRentMngtSearchForm');
-            this.$('#assetRentListTab').tabs("option", {active: 0});
             this.$('#marineCenterRentMngtList').flexOptions({params:searchOpt}).flexReload();
+
             break;
 
         // 최초신청
-        case 'addMarineCenterRentFirst':
-            this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+        case 'addCmmnCntrRentMngtFirst':
+            this.$("#marineCenterRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamMarineCenterRentForm').find(':input').val('');
             this.$('#gamMarineCenterRentDetailForm').find(':input').val('');
             this.$('#gamMarineCenterRentFileForm').find(':input').val('');
@@ -538,13 +537,16 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
-            //this.$('#prtAtCode').val("640");
-
             break;
 
         // 연장신청
-        case 'addMarineCenterRentRenew':
+        case 'addCmmnCntrRentMngtRenew':
             var rows = this.$('#marineCenterRentMngtList').selectedRows();
+
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 연장신청이 불가능합니다.");
+                return;
+            } */
 
             if(rows.length>=1) {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
@@ -570,17 +572,17 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         // 신청저장
         case 'btnSaveItem':
 
-            if(!validateGamMarineCenterRent(this.$('#gamMarineCenterRentForm')[0])) {
+        	if(!validateGamMarineCenterRentVld(this.$('#gamMarineCenterRentForm')[0])) {
                 return;
             }
+
+            /* if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
+                return;
+            } */
 
             if( this.$('#prtAtCode').val() == '' ) {
                 alert("항구분을 선택하십시오.");
-                return;
-            }
-
-            if( this.$('#prtAtCode').val() != '640' ) {
-                alert("항구분은 마린센터를 선택하십시오.");
                 return;
             }
 
@@ -662,7 +664,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                 });
 
 
-                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                this.$("#marineCenterRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
             }
 
             break;
@@ -671,10 +673,15 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         case 'btnRemoveItem':
             var rows = this.$('#marineCenterRentMngtList').selectedRows();
 
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
+                return;
+            } */
+
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
             } else {
-                if( confirm("신청삭제를 하시겠습니까?") ) {
+            	if( confirm("신청삭제를 하시겠습니까?") ) {
                     if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
                         this.$('#detailPrmisnYn').val('N');
                     }
@@ -691,7 +698,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                         alert(result.resultMsg);
                     });
 
-                    this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                    this.$("#marineCenterRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
                     this.$('#gamMarineCenterRentForm :input').val("");
                     this.$("#cmd").val('insert');
                 }
@@ -702,6 +709,11 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         //코멘트저장
         case 'btnSaveComment':
             var inputVO=this.makeFormArgs('#gamMarineCenterRentForm');
+
+            /* if( this.$('#quayGroupCd').val() != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 코멘트저장이 불가능합니다.");
+                return;
+            } */
 
             this.doAction('<c:url value="/oper/center/gamUpdateMarineCenterRentComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
@@ -716,18 +728,18 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
         //임대상세추가
         case 'btnInsertItemDetail':
-            this.$("#assetRentListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
-                this.$('#gamMarineCenterRentDetailForm').find(':input').val('');
+        	 this.$("#marineCenterRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+             this.$('#gamMarineCenterRentDetailForm').find(':input').val('');
 
-                this.$("#detailCmd").val('insert');
-                this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
-                //this.$('#detailPrtAtCodeNm').val( this.$('#prtAtCodeNm').val() );
-                this.$('#detailMngYear').val( this.$('#mngYear').val() );
-                this.$('#detailMngNo').val( this.$('#mngNo').val() );
-                this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
+             this.$("#detailCmd").val('insert');
+             this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
+             //this.$('#detailPrtAtCodeNm').val( this.$('#prtAtCodeNm').val() );
+             this.$('#detailMngYear').val( this.$('#mngYear').val() );
+             this.$('#detailMngNo').val( this.$('#mngNo').val() );
+             this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
 
-                this._editData=this.getFormValues('#gamMarineCenterRentDetailForm', {_updtId:'I'});
-                this._editRow=this.$('#marineCenterRentDetailList').flexGetData().length;
+             this._editData=this.getFormValues('#gamMarineCenterRentDetailForm', {_updtId:'I'});
+             this._editRow=this.$('#marineCenterRentDetailList').flexGetData().length;
 
             break;
 
@@ -842,7 +854,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                     }
 
                     /* 총사용료, 총면적 계산 종료 */
-
                 }
             }
 
@@ -860,7 +871,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
             if(this.$("#detailCmd").val()=='insert') {
 
-                this.doAction('<c:url value="/oper/center/gamInsertMarineCenterRentDetail.do" />', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentDetail.do" />', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamMarineCenterRentForm');
@@ -871,7 +882,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                 });
             }
             else {
-                this.doAction('<c:url value="/oper/center/gamUpdateMarineCenterRentDetail.do" />', inputVO, function(module, result) {
+                this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamMarineCenterRentForm');
                         module.$('#marineCenterRentDetailList').flexOptions({params:searchOpt}).flexReload();
@@ -907,8 +918,13 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             var rows = this.$('#marineCenterRentMngtList').selectedRows();
             var row = this.$('#marineCenterRentMngtList').selectedRows()[0];
 
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 사용승낙이 불가능합니다.");
+                return;
+            } */
+
             if(rows.length>=1) {
-                if( row['prmisnYn'] == 'Y' ) {
+            	if( row['prmisnYn'] == 'Y' ) {
                     alert("이미 사용승낙된 상태 입니다.");
                     return;
                 }
@@ -918,14 +934,14 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                     return;
                 }
 
-                var opts = {
+            	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
                     'mngNo': rows[0]['mngNo'],
                     'mngCnt': rows[0]['mngCnt']
                 };
 
-                this.doExecuteDialog('insertMarineCenterRentPrmisnPopup', '승낙', '<c:url value="/oper/center/popup/showMarineCenterRentPrmisn.do"/>', opts);
+                this.doExecuteDialog('insertTrainPortRentMngtPrmisnPopup', '승낙', '<c:url value="/oper/center/popup/showMarineCenterRentPrmisn.do"/>', opts);
 
             } else {
                 alert("목록에서 선택하십시오.");
@@ -950,7 +966,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
             if(rows.length>=1) {
                 if( confirm("승낙을 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/oper/center/gamUpdateMarineCenterRentPrmisn.do" />', rows[0], function(module, result) {
+                    this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamMarineCenterRentForm');
                             module.$('#marineCenterRentMngtList').flexOptions({params:searchOpt}).flexReload();
@@ -969,6 +985,11 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
         case 'btnPrmisnCancel': // 승낙취소
             var rows = this.$('#marineCenterRentMngtList').selectedRows();
             var row = this.$('#marineCenterRentMngtList').selectedRows()[0];
+
+            /* if( rows[0]['quayGroupCd'] != 'P' ) {
+                alert("해당 건은 자산임대관리 메뉴에서 승낙취소가 불가능합니다.");
+                return;
+            } */
 
             if( row['prmisnYn'] != 'Y' ) {
                 alert("승낙된 상태가 아닙니다.");
@@ -1000,7 +1021,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
         case 'btnRentDetailApply': //임대상세적용
 
-			if(!validateGamMarineCenterRentDetail(this.$('#gamMarineCenterRentDetailForm')[0])) {
+        	if(!validateGamMarineCenterRentDetailVld(this.$('#gamMarineCenterRentDetailForm')[0])) {
                 return;
             }
 
@@ -1078,7 +1099,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 
 
-			/* 총사용료, 총면적 계산 시작 */
+            /* 총사용료, 총면적 계산 시작 */
             var fee = 0;
             var rdcxptFee = 0;
             var usageAr = 0;
@@ -1173,39 +1194,19 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
             /* 총사용료, 총면적 계산 종료 */
 
-            this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$("#marineCenterRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
 
             break;
 
         case 'btnUploadFile':
             // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-
-            this._tempPhotoSj = this.$('#photoSj').val();
-            this._tempPhotoDesc = this.$('#photoDesc').val();
-            this._tempShotDt = this.$('#shotDt').val();
-            this._tempRnum = this.$("#marineCenterRentFileList").flexGetData().length + 1;
-
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
-
                 $.each(result, function(){
                     //module.$('#marineCenterRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#marineCenterRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    //module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-             		module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', 
-             			prtAtCode: '', 
-             			mngYear: '', 
-             			mngNo: '', 
-             			mngCnt: '', 
-						photoSeq: '', 
-						rnum: module._tempRnum,
-						photoSj: module._tempPhotoSj, 
-						filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, 
-						shotDt: module._tempShortDt, 
-						photoDesc: module._tempPhotoDesc, 
-						regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-					//2014-4-22 변경
+                    module.$('#marineCenterRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                 });
             }, '첨부파일 업로드');
 
@@ -1215,28 +1216,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             break;
 
         case 'btnApplyPhotoData':
-
-			if(!validateGamMarineCenterRentFile(this.$('#gamMarineCenterRentFileForm')[0])) {
-                return;
-            }
-
-            if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
-            this._editDataFile=this.getFormValues('#gamMarineCenterRentFileForm', this._editDataFile);
-
-            //alert(this._editDataFile._updtId);
-
-            if(this._editRowFile!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRowFile 로 변경 2014-03-14.001
-                if(this._editDataFile._updtId!='I') this._editDataFile._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
-                this.$('#marineCenterRentFileList').flexUpdateRow(this._editRowFile, this._editDataFile);
-                this._editRowFile=null;    // 편집 저장 하였으므로 로우 편집을 종료 한다.
-            }
-            else {
-                this.$('#marineCenterRentFileList').flexAddRow(this._editDataFile);
-            }
-
-            this.$('#gamMarineCenterRentFileForm').find(':input').val('');
-            this._editDataFile=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
-
+			this.applyPhotoData();
             break;
 
         // 파일 삭제 (Grid상에서만 삭제됨)
@@ -1246,7 +1226,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             if(rows.length == 0) {
                 alert("파일목록에서 삭제할 행을 선택하십시오.");
             } else {
-            	if(!confirm('삭제를 하시겠습니까?')) return; //2014-4-22 추가
                 if(this.$('#marineCenterRentFileList').selectedRowIds().length>0) {
                     for(var i=this.$('#marineCenterRentFileList').selectedRowIds().length-1; i>=0; i--) {
                         var row=this.$('#marineCenterRentFileList').flexGetRow(this.$('#marineCenterRentFileList').selectedRowIds()[i]);
@@ -1258,8 +1237,6 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
                         }
                         this.$('#marineCenterRentFileList').flexRemoveRow(this.$('#marineCenterRentFileList').selectedRowIds()[i]);
                     }
-                    this.$("#previewImage").attr('src', ''); //2014-4-22 삭제시 preview이미지 지움
-                	alert('삭제가 완료되었습니다.'); //2014-4-22 추가
                 }
             }
 
@@ -1275,40 +1252,63 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
 
                 var rows = this.$('#marineCenterRentMngtList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
-                    alert("결재요청을 할수없는 상태 입니다.");
+                /* if( rows['quayGroupCd'] != 'P' ) {
+                    alert("해당 건은 자산임대관리 메뉴에서 결재가 불가능합니다.");
                     return;
+                } */
+
+                if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
+                	alert("결재요청을 할수없는 상태 입니다.");
+                	return;
                 }
 
                 if( confirm("결재요청을 하시겠습니까?") ) {
-                    var opts = {
-                            type: 'ARUC',
-                            prtAtCode: rows['prtAtCode'],
-                            mngYear: rows['mngYear'],
-                            mngNo: rows['mngNo'],
-                            mngCnt: rows['mngCnt']
-                    };
-                    this.requestEApproval(opts);
+	                var opts = {
+	                        type: 'ARU',
+	                        prtAtCode: rows['prtAtCode'],
+	                        mngYear: rows['mngYear'],
+	                        mngNo: rows['mngNo'],
+	                        mngCnt: rows['mngCnt']
+	                };
 
-                    alert("결재요청을 하였습니다.");
+	                /*
+	                this.requestEApproval(opts);
+	                alert("결재요청을 하였습니다.");
+	                */
+	                this.requestEApproval(opts, function(module, msg){
+	                	alert(msg);
+		                //재조회 안됨..
+		                var searchOpt=module.makeFormArgs('#gamMarineCenterRentForm');
+		                module.$('#marineCenterRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                	});
 
-                    var searchOpt=module.makeFormArgs('#gamMarineCenterRentForm');
-                    module.$('#marineCenterRentMngtList').flexOptions({params:searchOpt}).flexReload();
                 }
             } else {
-                alert("목록에서 결제할 건을 선택하십시오.");
-                return;
+            	alert("목록에서 결제할 건을 선택하십시오.");
+            	return;
             }
             break;
 
 
-        case 'btnDownloadFile':
-    		var selectRow = this.$('#marineCenterRentFileList').selectedRows();
-    		if(selectRow.length > 0) {
-    			var row=selectRow[0];
-    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
-    		}
-    		break;
+    }
+};
+
+GamMarineCenterRentMngtModule.prototype.applyPhotoData = function() {
+
+	if(!validateGamMarineCenterRentPhotoVld(this.$('#gamMarineCenterRentFileForm')[0])) {
+        return;
+    }
+
+	var selectRow = this.$('#marineCenterRentFileList').selectedRows();
+	if(selectRow.length > 0) {
+
+    var row=selectRow[0];
+	  		var rowid=this.$("#marineCenterRentFileList").selectedRowIds()[0];
+	  		row=this.getFormValues('#gamMarineCenterRentFileForm', row);
+        if(row["_updtId"]!='I') row["_updtId"]='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
+        this.$('#marineCenterRentFileList').flexUpdateRow(rowid, row);
+    }
+    else {
     }
 };
 
@@ -1379,7 +1379,7 @@ GamMarineCenterRentMngtModule.prototype.onClosePopup = function(popupId, msg, va
              alert('취소 되었습니다');
          }
          break;
-     case 'insertMarineCenterRentPrmisnPopup':
+     case 'insertTrainPortRentMngtPrmisnPopup':
          if (msg != 'cancel') {
              if( value == "0" ) {
                  var searchOpt=this.makeFormArgs('#gamMarineCenterRentMngtSearchForm');
@@ -1439,13 +1439,13 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </td>
                             <th>신청업체</th>
                             <td>
-                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo" class="popupButton">업체</button>
                             </td>
                             <th>사용용도</th>
                             <td>
                                 <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM007 />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>관리번호</th>
@@ -1478,11 +1478,11 @@ var module_instance = new GamMarineCenterRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="marineCenterRentMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">자산임대 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">자산임대 내역</a></li>
-                <li><a href="#tabs3" class="emdTab">자산임대 상세내역</a></li>
+                <li><a href="#tabs1" class="emdTab">마린센터임대 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">마린센터임대 내역</a></li>
+                <li><a href="#tabs3" class="emdTab">마린센터임대 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
@@ -1495,9 +1495,9 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             <td>
                                <form id="form1">
                                    합계 :
-                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" readonly>
-                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" readonly>
-                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" readonly>원
+                                   자료수 <input id="totalResultCnt" size="15" class="ygpaNumber" style="text-align:right;" readonly>
+                                   총면적 <input id="totalArea" type="text" size="15" class="ygpaNumber" style="text-align:right;" readonly>원
+                                   총사용료 <input id="totalUse" type="text" size="15" class="ygpaCurrency" style="text-align:right;" readonly>원
 
                                    <input id="loginOrgnztId" type="hidden" value="<c:out value="${loginOrgnztId}"/>"/>
                                    <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
@@ -1509,45 +1509,35 @@ var module_instance = new GamMarineCenterRentMngtModule();
                         </tr>
                         <tr>
                             <td style="text-align: right">
-                                <button id="addMarineCenterRentFirst">최초신청</button>
-                                <button id="addMarineCenterRentRenew">연장신청</button>
+                                <button id="addCmmnCntrRentMngtFirst">최초신청</button>
+                                <button id="addCmmnCntrRentMngtRenew">연장신청</button>
                                 <button id="btnRemoveItem">신청삭제</button>
                                 <button id="btnEApproval">결재요청</button>
                                 <button id="btnPrmisn">사용승낙</button>
                                 <button id="btnPrmisnCancel">승낙취소</button>
-                                <button id="btnShowMap">맵조회</button>
+                                <!-- <button id="btnShowMap">맵조회</button> -->
                             </td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <!-- <div class="emdControlPanel"></div>-->
+            <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
+                <div class="emdControlPanel">
                     <form id="gamMarineCenterRentForm">
                         <input type="hidden" id="cmd"/>
-                        <!--<input type="hidden" id="quayGroupCd"/>-->
+                        <!-- <input type="hidden" id="quayGroupCd"/> -->
 
-                        <table>
+                        <table border=1>
                             <tr>
-                                <th style="width:100px"><span class="label">항구분</span></th>
-                                <td style="width:400px">
-                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 data-value="640" />
+                                <th><span class="label">항구분</span></th>
+                                <td style="width: 350px"  colspan="3">
+                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
                                     <input type="text" size="5" id="prtAtCodeStr" readonly/>
                                 </td>
-                                <th style="width:100px"><span class="label">담당부서</span></th>
+                                <th><span class="label">담당부서</span></th>
                                 <td>
                                     <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
-                                </td>
-                                <th><span class="label">총사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
-                            </tr>
-                            <tr>
-                                <th><span class="label">신청업체</span></th>
-                                <td>
-                                    <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
-                                    <input type="text" size="25" id="entrpsNm" readonly/>
-                                    <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
                                 </td>
                                 <th><span class="label">관리번호</span></th>
                                 <td>
@@ -1555,39 +1545,55 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                     <input type="text" size="3" id="mngNo" readonly/>-
                                     <input type="text" size="2" id="mngCnt" readonly/>
                                 </td>
-                                <th><span class="label">납부방법</span></th>
-                                <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
-                                </td>
                             </tr>
                             <tr>
+                                <th><span class="label">신청업체</span></th>
+                                <td colspan="3">
+                                    <input type="text" size="5" id="entrpscd" maxlength="10" readonly/>
+                                    <input type="text" size="25" id="entrpsNm" readonly/>
+                                    <button id="popupEntrpsInfoInput" class="popupButton">업체조회</button>
+                                </td>
                                 <th><span class="label">최초신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="frstReqstDt" readonly/></td>
                                 <th><span class="label">신청일자</span></th>
                                 <td><input type="text" class="emdcal" size="10" id="reqstDt" readonly/></td>
-                                <th><span class="label">승낙일자</span></th>
-                                <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled></td>
                             </tr>
                             <tr>
-                                <th><span class="label">총사용기간</span></th>
-                                <td>
-                                    <input type="text" size="10" id="grUsagePdFrom" disabled/>~
-                                    <input type="text" size="10" id="grUsagePdTo" disabled/>
-                                </td>
-                                <th><span class="label">총사용면적</span></th>
-                                <td><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
                                 <th><span class="label">승낙여부</span></th>
-                                <td>
+                                <td  colspan="3">
                                     <select id="prmisnYn" disabled>
                                         <option value="">선택</option>
                                         <option value="Y">Y</option>
                                         <option value="N" selected="selected">N</option>
                                     </select>
                                 </td>
+                                <th><span class="label">승낙일자</span></th>
+                                <td><input type="text" class="emdcal" size="10" id="prmisnDt" disabled></td>
+                                <th><span class="label">총사용기간</span></th>
+                                <td>
+                                    <input type="text" size="10" id="grUsagePdFrom" disabled/>~
+                                    <input type="text" size="10" id="grUsagePdTo" disabled/>
+                                </td>
                             </tr>
                             <tr>
+                                <th><span class="label">총사용면적</span></th>
+                                <td colspan="3"><input type="text" size="10" class="ygpaNumber" id="grAr" disabled/></td>
+                                <th><span class="label">총사용료</span></th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grFee" disabled/></td>
+                                <th><span class="label">총감면사용료</span></th>
+                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
+                            </tr>
+                            <tr>
+                                <th><span class="label">납부방법</span></th>
+                                <td style="width: 100px">
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                </td>
+                                <th style="width: 80px"><span class="label">고지 방법</span></th>
+                                <td style="width: 230px">
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                </td>
                                 <th><span class="label">분납이자율</span></th>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" size="10" id="payinstIntrrate" maxlength="4"/>
                                     <select id="cofixList">
                                         <option value="">선택</option>
@@ -1596,46 +1602,44 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th><span class="label">총감면사용료</span></th>
-                                <td><input type="text" size="10" class="ygpaCurrency" id="grRdcxptFee" disabled/></td>
-                                <th><span class="label">고지 방법</span></th>
-                                <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
-                                </td>
                             </tr>
                             <tr>
-                                <th><span class="label">비고</span></th>
-                                <td><input type="text" size="50" id="rm" maxlength="90"/></td>
                                 <th><span class="label">코멘트</span></th>
-                                <td colspan="3" style="width:400px"><input type="text" size="35" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <td colspan="3"><input type="text" size="40" id="cmt" maxlength="90"/><button id="btnSaveComment">코멘트저장</button></td>
+                                <th><span class="label">비고</span></th>
+                                <td colspan="3"><input type="text" size="40" id="rm" maxlength="90"/></td>
+                            </tr>
+                            <tr>
+
                             </tr>
                         </table>
                     </form>
 
-                 <table class="searchPanel">
-                    <tbody>
-                    <tr>
-                        <th>자산임대상세목록</th>
-                    </tr>
-                    </tbody>
-                 </table>
+	                 <table class="searchPanel">
+	                    <tbody>
+	                    <tr>
+	                        <th>자산임대상세목록</th>
+	                    </tr>
+	                    </tbody>
+	                 </table>
 
-                 <!-- <table id="marineCenterRentDetailList" style="display:none" class="fillHeight"></table> -->
-                 <table id="marineCenterRentDetailList" style="display:none"></table>
+	                 <!-- <table id="marineCenterRentDetailList" style="display:none" class="fillHeight"></table> -->
+	                 <table id="marineCenterRentDetailList" style="display:none"></table>
 
-                 <table style="width:100%">
-                    <tr>
-                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail">임대상세삭제</button></td>
-                    </tr>
-                    <tr>
-                        <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
-                        <td width="100"></td>
-                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
-                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
-                            <!-- <button id="btnCancelItem">취소</button>  -->
-                        </td>
-                    </tr>
-                 </table>
+	                 <table style="width:100%">
+	                    <tr>
+	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
+	                    </tr>
+	                    <tr>
+	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
+	                        <td width="100"></td>
+	                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
+	                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
+	                            <!-- <button id="btnCancelItem">취소</button>  -->
+	                        </td>
+	                    </tr>
+	                 </table>
+                 </div>
             </div>
 
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
@@ -1651,24 +1655,18 @@ var module_instance = new GamMarineCenterRentMngtModule();
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table>
                             <tr>
-                                <th style="width:100px"><span class="label">자산사용순번</span></th>
-                                <td>
+                                <th style="width: 100px"><span class="label">자산사용순번</span></th>
+                                <td style="width: 230px">
                                 	<input type="text" size="10" id="assetsUsageSeq" readonly/>
-                                	<input type="hidden" id="gisAssetsPrtAtCodeNm" />
-                                	<!--부두코드 : <input type="text" id="quayCd" readonly/>-->
+	                                <input type="hidden" id="gisAssetsPrtAtCodeNm" />
+	                                부두코드 : <input type="text" id="quayCd" size="5" readonly/>
                                 </td>
-                                <th><span class="label">부두코드</span></th>
-                                <td colspan="3">
-                                	<input type="text" id="quayCd" readonly/>
-                                </td>
-                            </tr>
-                            <tr>
                                 <th><span class="label">자산코드 </span></th>
                                 <td><input type="hidden" id="gisAssetsPrtAtCode"/><input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <input type="hidden" id="assetsCdStr"/>
                                     <button id="popupFcltyCd" class="popupButton">자산조회</button></td>
                                 <th><span class="label">자산명</span></th>
-                                <td colspan="3"><input type="text" size="20" id="gisAssetsNm" disabled/></td>
+                                <td><input type="text" size="20" id="gisAssetsNm" disabled/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">소재지</span></th>
@@ -1678,10 +1676,10 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">자산면적</span></th>
-                                <td style="width: 230px"><input type="text" size="17" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
-                                <th style="width: 80px"><span class="label">실제임대면적</span></th>
-                                <td style="width: 170px"><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
-                                <th style="width: 120px"><span class="label">공시지가목록</span></th>
+                                <td><input type="text" size="17" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
+                                <th><span class="label">실제임대면적</span></th>
+                                <td><input type="text" size="17" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
+                                <th><span class="label">공시지가목록</span></th>
                                 <td>
                                     <select id="olnlpList">
                                         <option value="">선택</option>
@@ -1732,7 +1730,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                     <input id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM017 />
 
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
-                                    <input type="text" size="70" id="exemptRsn"/>
+                                    <input type="text" size="70" id="exemptRsn" maxlength="95"/>
                                 </td>
                             </tr>
                             <tr>
@@ -1743,15 +1741,15 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </tr>
                             <tr>
                                 <th><span class="label">산출내역</span></th>
-                                <td colspan="5"><input type="text" size="100" id="computDtls"/></td>
+                                <td colspan="5"><input type="text" size="100" id="computDtls" maxlength="95"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용목적</span></th>
-                                <td colspan="5"><input type="text" size="100" id="usagePurps"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usagePurps" maxlength="95"/></td>
                             </tr>
                             <tr>
                                 <th><span class="label">사용내역</span></th>
-                                <td colspan="5"><input type="text" size="100" id="usageDtls"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usageDtls" maxlength="45"/></td>
                             </tr>
 
 
@@ -1867,7 +1865,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
 
                 <table style="width:100%">
                     <tr>
-                        <td><button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button></td>
+                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
                         <td style="text-align:right"><button id="xxxx">취소</button><button id="btnRentDetailApply">임대상세적용</button>
                         </td>
@@ -1878,7 +1876,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
 
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
 
-                <table id="marineCenterRentFileList" style="display:none" class="fillHeight"></table>
+                <table id="marineCenterRentFileList" style="display:none"></table>
                 <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
                 <form id="gamMarineCenterRentFileForm">
                     <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
@@ -1914,7 +1912,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                         </tr>
                     </table>
                 </form>
-                    <button id="btnApplyPhotoData">첨부파일 적용</button>
+                    <!-- <button id="btnApplyPhotoData">첨부파일 적용</button> -->
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>
