@@ -469,7 +469,6 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			break;
 		case 'btnDownloadFile':
 			var selectRow = this.$('#assetCodePhotoList').selectedRows();
-			alert(selectRow+"BBBBBBBBBBBBBB");
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
 				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
