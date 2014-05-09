@@ -85,7 +85,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 					{display:"휴대폰번호", 		name:"chargerMoblphonNo",	width:100, 	sortable:false,		align:"center"},
 					{display:"전화번호", 		name:"chargerTlphonNo",		width:100, 	sortable:false,		align:"center"},
 					{display:"팩스번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
-					{display:"이메일", 		name:"chargerEmail",		width:150, 	sortable:false,		align:"center"}
+					{display:"이메일", 		name:"chargerEmail",		width:150, 	sortable:false,		align:"left"}
 					],
 		height: "auto"
 	});

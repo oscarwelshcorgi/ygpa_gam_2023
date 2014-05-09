@@ -36,15 +36,15 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamCmpyInfoMngtList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"업체코드", 		name:"entrpscd",		width:100, 	sortable:false,		align:"center"},
-					{display:"업체명", 			name:"entrpsNm",		width:150, 	sortable:false,		align:"center"},
-					{display:"대표자명", 		name:"rprsntvNm",		width:80, 	sortable:false,		align:"center"},
-					{display:"사업자등록번호", 	name:"bizrno",			width:120, 	sortable:false,		align:"center"},
-					{display:"업종", 			name:"induty",			width:80, 	sortable:false,		align:"center"},
+					{display:"업체코드", 		name:"entrpscd",		width:80, 	sortable:false,		align:"center"},
+					{display:"업체명", 		name:"entrpsNm",		width:150, 	sortable:false,		align:"left"},
+					{display:"대표자명", 		name:"rprsntvNm",		width:120, 	sortable:false,		align:"left"},
+					{display:"사업자등록번호", 	name:"bizrno",			width:100, 	sortable:false,		align:"center"},
+					{display:"업종", 			name:"induty",			width:95, 	sortable:false,		align:"left"},
 					{display:"전화번호", 		name:"tlphonNo",		width:100, 	sortable:false,		align:"center"},
 					{display:"팩스", 			name:"fax",				width:100, 	sortable:false,		align:"center"},
 					{display:"우편번호", 		name:"zip",				width:80, 	sortable:false,		align:"center"},
-					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"center"}
+					{display:"주소", 			name:"adres",			width:150, 	sortable:false,		align:"left"}
 					],
 		height: "auto"
 	});
@@ -75,14 +75,15 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		url: '<c:url value="/code/gamCmpyMngtList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"번호",		 		name:"rnum",				width:40, 	sortable:false,		align:"center"},
-					{display:"담당자명", 		name:"chargerNm",			width:100, 	sortable:false,		align:"center"},
-					{display:"부서", 			name:"chargerDept",			width:100, 	sortable:false,		align:"center"},
+					{display:"번호",			name:"rnum",				width:40, 	sortable:false,		align:"center"},
+					{display:"담당자명", 		name:"chargerNm",			width:100, 	sortable:false,		align:"left"},
+					{display:"부서", 			name:"chargerDept",			width:100, 	sortable:false,		align:"left"},
 					{display:"직위", 			name:"chargerOfcPos",		width:80, 	sortable:false,		align:"center"},
-					{display:"업무", 			name:"chrgJobDisplay",		width:100, 	sortable:false,		align:"center"},
-					{display:"휴대폰번호", 		name:"chargerMoblphonNo",	width:120, 	sortable:false,		align:"center"},
-					{display:"팩스 번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
-					{display:"이메일", 			name:"chargerEmail",		width:80, 	sortable:false,		align:"center"}
+					{display:"업무", 			name:"chrgJobDisplay",		width:115, 	sortable:false,		align:"left"},
+					{display:"휴대폰번호", 		name:"chargerMoblphonNo",	width:100, 	sortable:false,		align:"center"},
+					{display:"전화번호", 		name:"chargerTlphonNo",		width:100, 	sortable:false,		align:"center"},
+					{display:"팩스번호", 		name:"chargerFax",			width:100, 	sortable:false,		align:"center"},
+					{display:"이메일", 		name:"chargerEmail",		width:150, 	sortable:false,		align:"left"}
 					],
 		height: "auto"
 	});
@@ -344,10 +345,8 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<th>업체 코드</th>
 							<td><input type="text" size="10" id="searchEntrpsCd" maxlength="10" /></td>
 							<th>사업자번호</th>
-							<td>
-								<input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/>
-							</td>
-								<td><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td><input id="searchBizrno" type="text" size="10" maxlength="12" title="사업자 번호"/></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -375,23 +374,25 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<th width="20%" height="23" class="required_text">업체 코드</th>
 							<td><input type="text" size="30" id="entrpscd" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">대표자 명</th>
-							<td><input type="text" size="30" id="rprsntvNm" disabled="disabled" /></td>
+							<td><input type="text" size="50" id="rprsntvNm" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 명</th>
 							<td><input type="text" size="30" id="entrpsNm" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">사업자등록번호</th>
-							<td><input type="text" size="12" id="bizrno" disabled="disabled" /></td>
+							<td><input type="text" size="50" id="bizrno" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업종</th>
-							<td colspan="3"><input type="text" id="induty" title="업종" size="30" disabled="disabled" /></td>
+							<td><input type="text" id="induty" title="업종" size="30" disabled="disabled" /></td>
+							<th width="20%" height="23" class="required_text">업종코드</th>
+							<td><input type="text" size="50" id="bsnmSe" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">전화번호</th>
 							<td><input type="text" size="30" id="tlphonNo" disabled="disabled" /></td>
 							<th width="20%" height="23" class="required_text">팩스</th>
-							<td><input type="text" size="30" id="fax" disabled="disabled" /></td>
+							<td><input type="text" size="50" id="fax" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">우편번호</th>
