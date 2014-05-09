@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 포트미스 납부확인 작업 정의  -->
+	<bean id="updateAssetRentFeePayDtlsMngt"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="gamAssetRentFeePayDtlsMngtService" />
+		<property name="targetMethod" value="updateAssetRentFeePayDtlsMngtList" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 포트미스 납부확인 트리거  -->
+	<bean id="updateAssetRentFeePayDtlsMngtTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateAssetRentFeePayDtlsMngt" />
+		<property name="startDelay" value="60000" />
+		<property name="cronExpression" value="0 15 08 ? * *" />
+	</bean>
+
+	<!-- 포트미스 납부확인 스케줄  -->
+	<bean id="updateAssetRentFeePayDtlsMngtScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="updateAssetRentFeePayDtlsMngtTrigger" />
+			</list>
+		</property>
+	</bean>
+</beans>
