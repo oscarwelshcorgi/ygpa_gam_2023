@@ -16,16 +16,19 @@
             <field property="frstReqstDt" depends="required, date">
                 <arg0 key="최초신청일자" resource="false"/>
                 <var>
-                	<var-name>datePatternStrict</var-name>
-                	<var-value>yyyy-MM-dd</var-value>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
             <field property="reqstDt" depends="required, date">
                 <arg0 key="신청일자" resource="false"/>
                 <var>
-                	<var-name>datePatternStrict</var-name>
-                	<var-value>yyyy-MM-dd</var-value>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
                 </var>
+            </field>
+            <field property="payMth" depends="required">
+                <arg0 key="납부방법" resource="false"/>
             </field>
             <field property="nticMth" depends="required">
                 <arg0 key="고지방법" resource="false"/>

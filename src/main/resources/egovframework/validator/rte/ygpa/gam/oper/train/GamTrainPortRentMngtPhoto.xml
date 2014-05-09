@@ -8,18 +8,18 @@
     <formset>
         <form name="gamTrainPortRentMngtPhotoVld">
             <field property="photoSj" depends="maxlength">
-                <arg0 key="GIS 사진 제목" resource="false"/>
+                <arg0 key="제목" resource="false"/>
                 <arg1 key="80" resource="false"/>
                 <var>
-	                <var-name>maxlength</var-name>
-	                <var-value>80</var-value>
+                    <var-name>maxlength</var-name>
+                    <var-value>80</var-value>
                 </var>
             </field>
             <field property="shotDt" depends="date">
-                <arg0 key="촬영일자" resource="false"/>
+                <arg0 key="촬영일시" resource="false"/>
                 <var>
-                	<var-name>datePatternStrict</var-name>
-                	<var-value>yyyy-MM-dd</var-value>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
         </form>
