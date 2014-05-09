@@ -91,12 +91,12 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		url: '<c:url value="/code/assets/selectGisAssetPhotoList.do"/>',
 		dataType: 'json',
 		colModel : [
-				{display:'사진 순번', name:'photoSeq', width:80, sortable:false, align:'center'},
-				{display:'사진 제목', name:'photoSj', width:300, sortable:false, align:'left'},
-				{display:'파일명', name:'filenmLogic', width:200, sortable:false, align:'left'},
-				{display:'촬영 일시', name:'shotDt', width:120, sortable:false, align:'center'},
-				{display:'등록자', name:'regUsr', width:155, sortable:false, align:'center'}
-			],
+					{display:'사진 순번', name:'photoSeq', width:80, sortable:false, align:'center'},
+					{display:'사진 제목', name:'photoSj', width:300, sortable:false, align:'left'},
+					{display:'파일명', name:'filenmLogic', width:200, sortable:false, align:'left'},
+					{display:'촬영 일시', name:'shotDt', width:120, sortable:false, align:'center'},
+					{display:'등록자', name:'regUsr', width:155, sortable:false, align:'center'}
+					],
 		height: '120'
 	});
 
