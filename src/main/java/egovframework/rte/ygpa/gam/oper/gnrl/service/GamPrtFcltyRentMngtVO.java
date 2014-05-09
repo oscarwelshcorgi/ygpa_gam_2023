@@ -117,7 +117,7 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     private String frstReqstDt;  
     
     /** 결재 일시 */
-    private String sanctnDt;
+    private String sanctnDt;	
     
     /** 분납이자율 */
     private String payinstIntrrate;
@@ -151,18 +151,6 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     
     /** 검색조건 */
     private String sMngCnt;
-    
-    /** 검색조건 */
-    private String sQuayCd;
-    
-    /** 검색조건 */
-    private String sEntrpsNm;
-    
-    /** 검색조건 */
-    private String sDateSearchGbn;
-    
-    /** 검색조건 */
-    private String sDateSearchValue;
     
     /** 검색조건(사용 용도 코드) */                                                   
     private String sUsagePrposCd; 
@@ -219,40 +207,31 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     private String shotDt;	        
     
     /** 사진 설명  */
-    private String photoDesc;
+    private String photoDesc;	    
     
     /** 신청일자 */
     private String reqstDt;
     
-    /**  */
     private String thisYear;
 
-    /**  */
     private String divSt;
 
-    /**  */
     private String divEnd;
     
-    /**  */
     private String cYear;
     
     private String cDiy;
     
-    /**  */
     private String objYrmt;          
     
-    /**  */
     private String blceStdrIntrrate;   
     
-    /**  */
     private String newManipAmtStdrIntrrate;
     
-    /**  */
     private String annodt;                 
     
-    /**  */
     private String blceStdrIntrrateShow;
-
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -321,20 +300,6 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	 */
 	public void setEntrpscd(String entrpscd) {
 		this.entrpscd = entrpscd;
-	}
-
-	/**
-	 * @return the entrpsNm
-	 */
-	public String getEntrpsNm() {
-		return entrpsNm;
-	}
-
-	/**
-	 * @param entrpsNm the entrpsNm to set
-	 */
-	public void setEntrpsNm(String entrpsNm) {
-		this.entrpsNm = entrpsNm;
 	}
 
 	/**
@@ -632,6 +597,342 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sReqstSeCd
+	 */
+	public String getsReqstSeCd() {
+		return sReqstSeCd;
+	}
+
+	/**
+	 * @param sReqstSeCd the sReqstSeCd to set
+	 */
+	public void setsReqstSeCd(String sReqstSeCd) {
+		this.sReqstSeCd = sReqstSeCd;
+	}
+
+	/**
+	 * @return the sEntrpscd
+	 */
+	public String getsEntrpscd() {
+		return sEntrpscd;
+	}
+
+	/**
+	 * @param sEntrpscd the sEntrpscd to set
+	 */
+	public void setsEntrpscd(String sEntrpscd) {
+		this.sEntrpscd = sEntrpscd;
+	}
+
+	/**
+	 * @return the sMngNo
+	 */
+	public String getsMngNo() {
+		return sMngNo;
+	}
+
+	/**
+	 * @param sMngNo the sMngNo to set
+	 */
+	public void setsMngNo(String sMngNo) {
+		this.sMngNo = sMngNo;
+	}
+
+	/**
+	 * @return the sPrmisnYn
+	 */
+	public String getsPrmisnYn() {
+		return sPrmisnYn;
+	}
+
+	/**
+	 * @param sPrmisnYn the sPrmisnYn to set
+	 */
+	public void setsPrmisnYn(String sPrmisnYn) {
+		this.sPrmisnYn = sPrmisnYn;
+	}
+
+	/**
+	 * @return the sGrUsagePdFrom
+	 */
+	public String getsGrUsagePdFrom() {
+		return sGrUsagePdFrom;
+	}
+
+	/**
+	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
+	 */
+	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
+		this.sGrUsagePdFrom = sGrUsagePdFrom;
+	}
+
+	/**
+	 * @return the sGrUsagePdTo
+	 */
+	public String getsGrUsagePdTo() {
+		return sGrUsagePdTo;
+	}
+
+	/**
+	 * @param sGrUsagePdTo the sGrUsagePdTo to set
+	 */
+	public void setsGrUsagePdTo(String sGrUsagePdTo) {
+		this.sGrUsagePdTo = sGrUsagePdTo;
+	}
+
+	/**
+	 * @return the sGrAr
+	 */
+	public String getsGrAr() {
+		return sGrAr;
+	}
+
+	/**
+	 * @param sGrAr the sGrAr to set
+	 */
+	public void setsGrAr(String sGrAr) {
+		this.sGrAr = sGrAr;
+	}
+
+	/**
+	 * @return the sumCnt
+	 */
+	public String getSumCnt() {
+		return sumCnt;
+	}
+
+	/**
+	 * @param sumCnt the sumCnt to set
+	 */
+	public void setSumCnt(String sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+
+	/**
+	 * @return the sumGrAr
+	 */
+	public String getSumGrAr() {
+		return sumGrAr;
+	}
+
+	/**
+	 * @param sumGrAr the sumGrAr to set
+	 */
+	public void setSumGrAr(String sumGrAr) {
+		this.sumGrAr = sumGrAr;
+	}
+
+	/**
+	 * @return the sumGrFee
+	 */
+	public String getSumGrFee() {
+		return sumGrFee;
+	}
+
+	/**
+	 * @param sumGrFee the sumGrFee to set
+	 */
+	public void setSumGrFee(String sumGrFee) {
+		this.sumGrFee = sumGrFee;
+	}
+
+	/**
+	 * @return the rPrtAtCode
+	 */
+	public String getrPrtAtCode() {
+		return rPrtAtCode;
+	}
+
+	/**
+	 * @param rPrtAtCode the rPrtAtCode to set
+	 */
+	public void setrPrtAtCode(String rPrtAtCode) {
+		this.rPrtAtCode = rPrtAtCode;
+	}
+
+	/**
+	 * @return the rMngYear
+	 */
+	public String getrMngYear() {
+		return rMngYear;
+	}
+
+	/**
+	 * @param rMngYear the rMngYear to set
+	 */
+	public void setrMngYear(String rMngYear) {
+		this.rMngYear = rMngYear;
+	}
+
+	/**
+	 * @return the rMngNo
+	 */
+	public String getrMngNo() {
+		return rMngNo;
+	}
+
+	/**
+	 * @param rMngNo the rMngNo to set
+	 */
+	public void setrMngNo(String rMngNo) {
+		this.rMngNo = rMngNo;
+	}
+
+	/**
+	 * @return the rMngCnt
+	 */
+	public String getrMngCnt() {
+		return rMngCnt;
+	}
+
+	/**
+	 * @param rMngCnt the rMngCnt to set
+	 */
+	public void setrMngCnt(String rMngCnt) {
+		this.rMngCnt = rMngCnt;
+	}
+
+	/**
+	 * @return the rentMngNo
+	 */
+	public String getRentMngNo() {
+		return rentMngNo;
+	}
+
+	/**
+	 * @param rentMngNo the rentMngNo to set
+	 */
+	public void setRentMngNo(String rentMngNo) {
+		this.rentMngNo = rentMngNo;
+	}
+
+	/**
+	 * @return the maxMngCnt
+	 */
+	public String getMaxMngCnt() {
+		return maxMngCnt;
+	}
+
+	/**
+	 * @param maxMngCnt the maxMngCnt to set
+	 */
+	public void setMaxMngCnt(String maxMngCnt) {
+		this.maxMngCnt = maxMngCnt;
+	}
+
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
+	}
+
+	/**
+	 * @return the sMngYear
+	 */
+	public String getsMngYear() {
+		return sMngYear;
+	}
+
+	/**
+	 * @param sMngYear the sMngYear to set
+	 */
+	public void setsMngYear(String sMngYear) {
+		this.sMngYear = sMngYear;
+	}
+
+	/**
+	 * @return the sMngCnt
+	 */
+	public String getsMngCnt() {
+		return sMngCnt;
+	}
+
+	/**
+	 * @param sMngCnt the sMngCnt to set
+	 */
+	public void setsMngCnt(String sMngCnt) {
+		this.sMngCnt = sMngCnt;
+	}
+
+	/**
+	 * @return the sUsagePrposCd
+	 */
+	public String getsUsagePrposCd() {
+		return sUsagePrposCd;
+	}
+
+	/**
+	 * @param sUsagePrposCd the sUsagePrposCd to set
+	 */
+	public void setsUsagePrposCd(String sUsagePrposCd) {
+		this.sUsagePrposCd = sUsagePrposCd;
+	}
+
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
+	}
+
+	/**
+	 * @return the vatYn
+	 */
+	public String getVatYn() {
+		return vatYn;
+	}
+
+	/**
+	 * @param vatYn the vatYn to set
+	 */
+	public void setVatYn(String vatYn) {
+		this.vatYn = vatYn;
+	}
+
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
+	}
+
+	/**
 	 * @return the prtAtCodeNm
 	 */
 	public String getPrtAtCodeNm() {
@@ -730,328 +1031,6 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sPrtAtCode
-	 */
-	public String getsPrtAtCode() {
-		return sPrtAtCode;
-	}
-
-	/**
-	 * @param sPrtAtCode the sPrtAtCode to set
-	 */
-	public void setsPrtAtCode(String sPrtAtCode) {
-		this.sPrtAtCode = sPrtAtCode;
-	}
-
-	/**
-	 * @return the sReqstSeCd
-	 */
-	public String getsReqstSeCd() {
-		return sReqstSeCd;
-	}
-
-	/**
-	 * @param sReqstSeCd the sReqstSeCd to set
-	 */
-	public void setsReqstSeCd(String sReqstSeCd) {
-		this.sReqstSeCd = sReqstSeCd;
-	}
-
-	/**
-	 * @return the sEntrpscd
-	 */
-	public String getsEntrpscd() {
-		return sEntrpscd;
-	}
-
-	/**
-	 * @param sEntrpscd the sEntrpscd to set
-	 */
-	public void setsEntrpscd(String sEntrpscd) {
-		this.sEntrpscd = sEntrpscd;
-	}
-
-	/**
-	 * @return the sPrmisnYn
-	 */
-	public String getsPrmisnYn() {
-		return sPrmisnYn;
-	}
-
-	/**
-	 * @param sPrmisnYn the sPrmisnYn to set
-	 */
-	public void setsPrmisnYn(String sPrmisnYn) {
-		this.sPrmisnYn = sPrmisnYn;
-	}
-
-	/**
-	 * @return the sGrUsagePdFrom
-	 */
-	public String getsGrUsagePdFrom() {
-		return sGrUsagePdFrom;
-	}
-
-	/**
-	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
-	 */
-	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
-		this.sGrUsagePdFrom = sGrUsagePdFrom;
-	}
-
-	/**
-	 * @return the sGrUsagePdTo
-	 */
-	public String getsGrUsagePdTo() {
-		return sGrUsagePdTo;
-	}
-
-	/**
-	 * @param sGrUsagePdTo the sGrUsagePdTo to set
-	 */
-	public void setsGrUsagePdTo(String sGrUsagePdTo) {
-		this.sGrUsagePdTo = sGrUsagePdTo;
-	}
-
-	/**
-	 * @return the sGrAr
-	 */
-	public String getsGrAr() {
-		return sGrAr;
-	}
-
-	/**
-	 * @param sGrAr the sGrAr to set
-	 */
-	public void setsGrAr(String sGrAr) {
-		this.sGrAr = sGrAr;
-	}
-
-	/**
-	 * @return the sMngYear
-	 */
-	public String getsMngYear() {
-		return sMngYear;
-	}
-
-	/**
-	 * @param sMngYear the sMngYear to set
-	 */
-	public void setsMngYear(String sMngYear) {
-		this.sMngYear = sMngYear;
-	}
-
-	/**
-	 * @return the sMngNo
-	 */
-	public String getsMngNo() {
-		return sMngNo;
-	}
-
-	/**
-	 * @param sMngNo the sMngNo to set
-	 */
-	public void setsMngNo(String sMngNo) {
-		this.sMngNo = sMngNo;
-	}
-
-	/**
-	 * @return the sMngCnt
-	 */
-	public String getsMngCnt() {
-		return sMngCnt;
-	}
-
-	/**
-	 * @param sMngCnt the sMngCnt to set
-	 */
-	public void setsMngCnt(String sMngCnt) {
-		this.sMngCnt = sMngCnt;
-	}
-
-	/**
-	 * @return the sUsagePrposCd
-	 */
-	public String getsUsagePrposCd() {
-		return sUsagePrposCd;
-	}
-
-	/**
-	 * @param sUsagePrposCd the sUsagePrposCd to set
-	 */
-	public void setsUsagePrposCd(String sUsagePrposCd) {
-		this.sUsagePrposCd = sUsagePrposCd;
-	}
-
-	/**
-	 * @return the sumCnt
-	 */
-	public String getSumCnt() {
-		return sumCnt;
-	}
-
-	/**
-	 * @param sumCnt the sumCnt to set
-	 */
-	public void setSumCnt(String sumCnt) {
-		this.sumCnt = sumCnt;
-	}
-
-	/**
-	 * @return the sumGrAr
-	 */
-	public String getSumGrAr() {
-		return sumGrAr;
-	}
-
-	/**
-	 * @param sumGrAr the sumGrAr to set
-	 */
-	public void setSumGrAr(String sumGrAr) {
-		this.sumGrAr = sumGrAr;
-	}
-
-	/**
-	 * @return the sumGrFee
-	 */
-	public String getSumGrFee() {
-		return sumGrFee;
-	}
-
-	/**
-	 * @param sumGrFee the sumGrFee to set
-	 */
-	public void setSumGrFee(String sumGrFee) {
-		this.sumGrFee = sumGrFee;
-	}
-
-	/**
-	 * @return the maxMngCnt
-	 */
-	public String getMaxMngCnt() {
-		return maxMngCnt;
-	}
-
-	/**
-	 * @param maxMngCnt the maxMngCnt to set
-	 */
-	public void setMaxMngCnt(String maxMngCnt) {
-		this.maxMngCnt = maxMngCnt;
-	}
-
-	/**
-	 * @return the rPrtAtCode
-	 */
-	public String getrPrtAtCode() {
-		return rPrtAtCode;
-	}
-
-	/**
-	 * @param rPrtAtCode the rPrtAtCode to set
-	 */
-	public void setrPrtAtCode(String rPrtAtCode) {
-		this.rPrtAtCode = rPrtAtCode;
-	}
-
-	/**
-	 * @return the rMngYear
-	 */
-	public String getrMngYear() {
-		return rMngYear;
-	}
-
-	/**
-	 * @param rMngYear the rMngYear to set
-	 */
-	public void setrMngYear(String rMngYear) {
-		this.rMngYear = rMngYear;
-	}
-
-	/**
-	 * @return the rMngNo
-	 */
-	public String getrMngNo() {
-		return rMngNo;
-	}
-
-	/**
-	 * @param rMngNo the rMngNo to set
-	 */
-	public void setrMngNo(String rMngNo) {
-		this.rMngNo = rMngNo;
-	}
-
-	/**
-	 * @return the rMngCnt
-	 */
-	public String getrMngCnt() {
-		return rMngCnt;
-	}
-
-	/**
-	 * @param rMngCnt the rMngCnt to set
-	 */
-	public void setrMngCnt(String rMngCnt) {
-		this.rMngCnt = rMngCnt;
-	}
-
-	/**
-	 * @return the rentMngNo
-	 */
-	public String getRentMngNo() {
-		return rentMngNo;
-	}
-
-	/**
-	 * @param rentMngNo the rentMngNo to set
-	 */
-	public void setRentMngNo(String rentMngNo) {
-		this.rentMngNo = rentMngNo;
-	}
-
-	/**
-	 * @return the chrgeKnd
-	 */
-	public String getChrgeKnd() {
-		return chrgeKnd;
-	}
-
-	/**
-	 * @param chrgeKnd the chrgeKnd to set
-	 */
-	public void setChrgeKnd(String chrgeKnd) {
-		this.chrgeKnd = chrgeKnd;
-	}
-
-	/**
-	 * @return the vatYn
-	 */
-	public String getVatYn() {
-		return vatYn;
-	}
-
-	/**
-	 * @param vatYn the vatYn to set
-	 */
-	public void setVatYn(String vatYn) {
-		this.vatYn = vatYn;
-	}
-
-	/**
-	 * @return the payMth
-	 */
-	public String getPayMth() {
-		return payMth;
-	}
-
-	/**
-	 * @param payMth the payMth to set
-	 */
-	public void setPayMth(String payMth) {
-		this.payMth = payMth;
-	}
-
-	/**
 	 * @return the photoSeq
 	 */
 	public String getPhotoSeq() {
@@ -1147,62 +1126,6 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 	 */
 	public void setReqstDt(String reqstDt) {
 		this.reqstDt = reqstDt;
-	}
-
-	/**
-	 * @return the sQuayCd
-	 */
-	public String getsQuayCd() {
-		return sQuayCd;
-	}
-
-	/**
-	 * @param sQuayCd the sQuayCd to set
-	 */
-	public void setsQuayCd(String sQuayCd) {
-		this.sQuayCd = sQuayCd;
-	}
-
-	/**
-	 * @return the sEntrpsNm
-	 */
-	public String getsEntrpsNm() {
-		return sEntrpsNm;
-	}
-
-	/**
-	 * @param sEntrpsNm the sEntrpsNm to set
-	 */
-	public void setsEntrpsNm(String sEntrpsNm) {
-		this.sEntrpsNm = sEntrpsNm;
-	}
-
-	/**
-	 * @return the sDateSearchGbn
-	 */
-	public String getsDateSearchGbn() {
-		return sDateSearchGbn;
-	}
-
-	/**
-	 * @param sDateSearchGbn the sDateSearchGbn to set
-	 */
-	public void setsDateSearchGbn(String sDateSearchGbn) {
-		this.sDateSearchGbn = sDateSearchGbn;
-	}
-
-	/**
-	 * @return the sDateSearchValue
-	 */
-	public String getsDateSearchValue() {
-		return sDateSearchValue;
-	}
-
-	/**
-	 * @param sDateSearchValue the sDateSearchValue to set
-	 */
-	public void setsDateSearchValue(String sDateSearchValue) {
-		this.sDateSearchValue = sDateSearchValue;
 	}
 
 	/**

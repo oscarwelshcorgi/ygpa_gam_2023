@@ -143,7 +143,7 @@ public class GamPrtFcltyRentMngtController {
     @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyRentMngtList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectPrtFcltyRentMngtList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt, page, firstIndex; 
     	Map map = new HashMap();
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));

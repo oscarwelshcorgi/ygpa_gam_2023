@@ -128,7 +128,7 @@ public class GamHtldRentMngtController {
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/oper/htld/GamHtldRentMngt";
-    }
+    } 
 	
 	/**
      * 배후단지임대목록을 조회한다. 
