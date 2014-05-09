@@ -25,7 +25,8 @@
 							       , G.GIS_ASSETS_LNM
 							       , G.GIS_ASSETS_LNM_SUB
 							       , G.GIS_ASSETS_PRT_AT_CODE
-							       , G.GIS_ASSETS_AR
+							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = G.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
+							       , NVL(G.GIS_ASSETS_AR,0) AS GIS_ASSETS_AR
 							       , G.GIS_ASSETS_USAGE_YN
 							       , NVL(G.GIS_ASSETS_ACQ_PRI,0) GIS_ASSETS_ACQ_PRI
 							       , G.GIS_ASSETS_STNDRD
@@ -56,61 +57,61 @@
                             WHERE 1=1
 
 				<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
-					GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+					G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsCd">
-					GIS_ASSETS_CD=#gisAssetsCd#
+					G.GIS_ASSETS_CD=#gisAssetsCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsSubCd">
-					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+					G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 				</isNotEmpty>
 				<isEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
-					ERP_ASSETS_DISUSE_REGIST_YN='Y'
+					G.ERP_ASSETS_DISUSE_REGIST_YN='Y'
 				</isEqual>
 				<isNotEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
 				<![CDATA[
-					(ERP_ASSETS_DISUSE_REGIST_YN <> 'Y' OR ERP_ASSETS_DISUSE_REGIST_YN IS NULL)
+					(G.ERP_ASSETS_DISUSE_REGIST_YN <> 'Y' OR G.ERP_ASSETS_DISUSE_REGIST_YN IS NULL)
 					]]>
 				</isNotEqual>
 				<isNotEmpty prepend="AND" property="gisAssetsNm">
-					GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
+					G.GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
-					GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
+					G.GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
-					GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
+					G.GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
-					GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
+					G.GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocplc">
-					GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+					G.GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLnm">
-					GIS_ASSETS_LNM=#gisAssetsLnm#
+					G.GIS_ASSETS_LNM=#gisAssetsLnm#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
-					GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
+					G.GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsSeCd">
-					ERP_ASSETS_SE_CD=#erpAssetsSeCd#
+					G.ERP_ASSETS_SE_CD=#erpAssetsSeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNo">
-					ERP_ASSETS_NO=#erpAssetsNo#
+					G.ERP_ASSETS_NO=#erpAssetsNo#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNoSeq">
-					ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
+					G.ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="operDeptCd">
-					GIS_ASSETS_OPER_DEPT_CD=#operDeptCd#
+					G.GIS_ASSETS_OPER_DEPT_CD=#operDeptCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="mngDeptCd">
-					GIS_ASSETS_MNG_DEPT_CD=#mngDeptCd#
+					G.GIS_ASSETS_MNG_DEPT_CD=#mngDeptCd#
 				</isNotEmpty>
 				
 
-                             ORDER BY REGISTDT DESC
+                             ORDER BY G.REGISTDT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -121,57 +122,57 @@
               FROM GIS_ASSETS_CD_F G
              WHERE 1=1
              				<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
-					GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+					G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsCd">
-					GIS_ASSETS_CD=#gisAssetsCd#
+					G.GIS_ASSETS_CD=#gisAssetsCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsSubCd">
-					GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+					G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 				</isNotEmpty>
 				<isEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
-					ERP_ASSETS_DISUSE_REGIST_YN='Y'
+					G.ERP_ASSETS_DISUSE_REGIST_YN='Y'
 				</isEqual>
 				<isNotEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
 				<![CDATA[
-					(ERP_ASSETS_DISUSE_REGIST_YN <> 'Y' OR ERP_ASSETS_DISUSE_REGIST_YN IS NULL)
+					(G.ERP_ASSETS_DISUSE_REGIST_YN <> 'Y' OR G.ERP_ASSETS_DISUSE_REGIST_YN IS NULL)
 					]]>
 				</isNotEqual>
 				<isNotEmpty prepend="AND" property="gisAssetsNm">
-					GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
+					G.GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
-					GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
+					G.GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
-					GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
+					G.GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
-					GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
+					G.GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocplc">
-					GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+					G.GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLnm">
-					GIS_ASSETS_LNM=#gisAssetsLnm#
+					G.GIS_ASSETS_LNM=#gisAssetsLnm#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
-					GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
+					G.GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsSeCd">
-					ERP_ASSETS_SE_CD=#erpAssetsSeCd#
+					G.ERP_ASSETS_SE_CD=#erpAssetsSeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNo">
-					ERP_ASSETS_NO=#erpAssetsNo#
+					G.ERP_ASSETS_NO=#erpAssetsNo#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNoSeq">
-					ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
+					G.ERP_ASSETS_NO_SEQ=#erpAssetsNoSeq#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="operDeptCd">
-					GIS_ASSETS_OPER_DEPT_CD=#operDeptCd#
+					G.GIS_ASSETS_OPER_DEPT_CD=#operDeptCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="mngDeptCd">
-					GIS_ASSETS_MNG_DEPT_CD=#mngDeptCd#
+					G.GIS_ASSETS_MNG_DEPT_CD=#mngDeptCd#
 				</isNotEmpty>
     </select>
 

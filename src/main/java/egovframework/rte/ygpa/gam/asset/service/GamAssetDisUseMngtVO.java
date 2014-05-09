@@ -43,6 +43,9 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
     
     /** GIS 자산 항코드 */
     private String gisAssetsPrtAtCode;	   
+
+    /** GIS 자산 항코드명 */
+    private String gisAssetsPrtAtCodeNm;	   
     
     /** GIS 자산 면적 */
     private String gisAssetsAr;          
@@ -50,6 +53,9 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
     /** GIS 자산 사용 여부 */
     private String gisAssetsUsageYn;	       
     
+    /** GIS 자산 사용 여부 */
+    private String gisAssetsUsageYnNm;	       
+
     /** GIS 자산 취득가액 */
     private String gisAssetsAcqPri;	       
     
@@ -263,6 +269,20 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the gisAssetsPrtAtCodeNm
+	 */
+	public String getGisAssetsPrtAtCodeNm() {
+		return gisAssetsPrtAtCodeNm;
+	}
+
+	/**
+	 * @param gisAssetsPrtAtCodeNm the gisAssetsPrtAtCodeNm to set
+	 */
+	public void setGisAssetsPrtAtCodeNm(String gisAssetsPrtAtCodeNm) {
+		this.gisAssetsPrtAtCodeNm = gisAssetsPrtAtCodeNm;
+	}
+
+	/**
 	 * @return the gisAssetsAr
 	 */
 	public String getGisAssetsAr() {
@@ -288,6 +308,20 @@ public class GamAssetDisUseMngtVO extends ComDefaultVO {
 	 */
 	public void setGisAssetsUsageYn(String gisAssetsUsageYn) {
 		this.gisAssetsUsageYn = gisAssetsUsageYn;
+	}
+
+	/**
+	 * @return the gisAssetsUsageYnNm
+	 */
+	public String getGisAssetsUsageYnNm() {
+		return gisAssetsUsageYnNm;
+	}
+
+	/**
+	 * @param gisAssetsUsageYnNm the gisAssetsUsageYnNm to set
+	 */
+	public void setGisAssetsUsageYnNm(String gisAssetsUsageYnNm) {
+		this.gisAssetsUsageYnNm = gisAssetsUsageYnNm;
 	}
 
 	/**

@@ -36,21 +36,22 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/gamSelectAssetDisUseList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'항코드', name:'gisAssetsPrtAtCode',width:60, sortable:false,align:'center'},
-                    {display:'자산코드', name:'gisAssetsCode',width:66, sortable:false,align:'center'},
+                    {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
+   	                {display:'항코드명', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
                     {display:'ERP 자산코드', name:'erpAssetCode',width:90, sortable:false,align:'center'},
-                    {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'center'},
-                    {display:'지번', name:'gisAssetsLnmCode',width:58, sortable:false,align:'center'},
-                    {display:'면적', name:'gisAssetsAr',width:64, sortable:false,align:'center'},
-                    {display:'폐기', name:'erpAssetsDisuseRegistYn',width:44, sortable:false,align:'center'},
-                    {display:'폐기사유', name:'erpAssetsDisuseRsn',width:200, sortable:false,align:'center'},
-                    {display:'규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                    {display:'관리부서', name:'gisAssetsMngDeptCdNm',width:100, sortable:false,align:'center'},
-                    {display:'운영부서', name:'gisAssetsOperDeptCdNm',width:100, sortable:false,align:'center'},
+                    {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
+                    {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
+                    {display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'폐기', name:'erpAssetsDisuseRegistYn',width:40, sortable:false,align:'center'},
+                    {display:'폐기사유', name:'erpAssetsDisuseRsn',width:200, sortable:false,align:'left'},
+                    {display:'규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'left'},
+                    {display:'관리부서', name:'gisAssetsMngDeptCdNm',width:100, sortable:false,align:'left'},
+                    {display:'운영부서', name:'gisAssetsOperDeptCdNm',width:100, sortable:false,align:'left'},
                     {display:'취득가액', name:'gisAssetsAcqPri',width:110, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'사용여부', name:'gisAssetsUsageYn',width:64, sortable:false,align:'center'},
-                    {display:'준공년도', name:'gisAssetsBlddate',width:64, sortable:false,align:'center'},
+                    {display:'사용여부', name:'gisAssetsUsageYn',width:55, sortable:false,align:'center'},
+                    {display:'준공년도', name:'gisAssetsBlddate',width:55, sortable:false,align:'center'},
                     {display:'준공일자', name:'gisAssetsBldDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
@@ -58,10 +59,31 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         preProcess: function(module, data) {
         	$.each(data.resultList, function() {
         		this.gisAssetsCode=this.gisAssetsCd+"-"+this.gisAssetsSubCd;
-        		this.erpAssetCode=this.erpAssetsSeCd+"-"+this.erpAssetsNo+"-"+this.erpAssetsNoSeq;
+        		if(this.erpAssetsSeCd!=null) {
+        			if(this.erpAssetsNo!=null) {
+        				if(this.erpAssetsNoSeq!=null) {
+        	        		this.erpAssetCode=this.erpAssetsSeCd+"-"+this.erpAssetsNo+"-"+this.erpAssetsNoSeq;
+        				} else {
+        	        		this.erpAssetCode=this.erpAssetsSeCd+"-"+this.erpAssetsNo;
+        				}
+        			} else {
+        				if(this.erpAssetsNoSeq!=null) {
+        	        		this.erpAssetCode=this.erpAssetsSeCd+"--"+this.erpAssetsNoSeq;
+        				} else {
+        	        		this.erpAssetCode=this.erpAssetsSeCd;
+        				}
+        			}
+        		} else {
+	        		this.erpAssetCode="";
+        		}
         		this.gisAssetsLnmCode = this.gisAssetsLnm;
         		if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
         			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
+        		}
+        		if(this.gisAssetsUsageYn = "Y") {
+        			this.gisAssetsUsageYnNm="사용";
+        		} else {
+        			this.gisAssetsUsageYnNm="미사용";
         		}
         	});
         	return data;
@@ -71,7 +93,6 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
     this.$("#assetDisUseList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
         module.$("#assetDisUseListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
-
         if(row!=null) {
             module.$('#gisAssetsSubCd').val(row['gisAssetsSubCd']);
             module.$('#gisAssetsCd').val(row['gisAssetsCd']);
@@ -84,8 +105,10 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             module.$('#gisAssetsLnm').val(row['gisAssetsLnm']);
             module.$('#gisAssetsLnmSub').val(row['gisAssetsLnmSub']);
             module.$('#gisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
+            module.$('#gisAssetsPrtAtCodeNm').val(row['gisAssetsPrtAtCodeNm']);
             module.$('#gisAssetsAr').val(row['gisAssetsAr']);
             module.$('#gisAssetsUsageYn').val(row['gisAssetsUsageYn']);
+            module.$('#gisAssetsUsageYnNm').val(row['gisAssetsUsageYnNm']);
             module.$('#gisAssetsAcqPri').val(row['gisAssetsAcqPri']);
             module.$('#gisAssetsStndrd').val(row['gisAssetsStndrd']);
             module.$('#gisAssetsBlddate').val(row['gisAssetsBlddate']);
@@ -257,7 +280,7 @@ var module_instance = new GamAssetDisUseMngtModule();
 								<td><input id="searchErpAssetsDisuseRegistYn" data-column-id="erpAssetsDisuseRegistYn" type="text" class="ygpaYnSelect" data-default-prompt='전체' /></td>
 								<th>자산코드</th>
 								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
-								<td rowSpan="3"><button id="searchBtn" class="submit">조회</button></td>
+								<td rowSpan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
 							</tr>
 							<tr>
 								<th>재산</th>
@@ -318,40 +341,40 @@ var module_instance = new GamAssetDisUseMngtModule();
 
                         <table class="searchPanel">
                             <tr>
+                                <th>GIS 자산 항코드</th>
+                                <td>
+                                	<input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>&nbsp;-&nbsp;
+                                	<input type="text" size="10" id="gisAssetsPrtAtCodeNm" disabled="disabled"/>
+                                </td>
                                 <th>GIS 자산 코드</th>
                                 <td><input type="text" size="20" id="gisAssetsCd" disabled="disabled"/></td>
                                 <th>GIS 자산 SUB 코드</th>
                                 <td><input type="text" size="20" id="gisAssetsSubCd" disabled="disabled"/></td>
-                                <th>자산관리부서</th>
-                                <td><input type="text" size="20" id="gisAssetsMngDeptCdNm" disabled="disabled"/></td>
                             </tr>
                             <tr>
-                                <!--
-                                <th><span class="label">GIS 자산 관리 부서 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsMngDeptCd" disabled="disabled"/></td>
-                                <th><span class="label">GIS 자산 운영 부서 코드</span></th>
-                                <td><input type="text" size="10" id="gisAssetsOperDeptCd" disabled="disabled"/></td>
-                                -->
-                                <th>자산운영부서</th>
-                                <td><input type="text" size="20" id="gisAssetsOperDeptCdNm" disabled="disabled"/></td>
+                                <th>GIS 자산명</th>
+                                <td><input type="text" size="20" id="gisAssetsNm" disabled="disabled"/></td>
                                 <th>GIS 자산 소재지</th>
                                 <td><input type="text" size="20" id="gisAssetsLocplc" disabled="disabled"/></td>
                                 <th>GIS 자산 지번</th>
-                                <td><input type="text" size="20" id="gisAssetsLnm" disabled="disabled"/></td>
+                                <td>
+                                	<input type="text" size="8" id="gisAssetsLnm" disabled="disabled"/>&nbsp;-&nbsp;
+                                	<input type="text" size="7" id="gisAssetsLnmSub" disabled="disabled"/>
+                                </td>
                             </tr>
                             <tr>
-                                <th>GIS 자산 지번SUB</th>
-                                <td><input type="text" size="20" id="gisAssetsLnmSub" disabled="disabled"/></td>
-                                <th>GIS 자산 항코드</th>
-                                <td><input type="text" size="20" id="gisAssetsPrtAtCode" disabled="disabled"/></td>
+                                <th>자산관리부서</th>
+                                <td><input type="text" size="20" id="gisAssetsMngDeptCdNm" disabled="disabled"/></td>
+                                <th>자산운영부서</th>
+                                <td><input type="text" size="20" id="gisAssetsOperDeptCdNm" disabled="disabled"/></td>
                                 <th>GIS 자산 면적</th>
-                                <td><input type="text" size="20" id="gisAssetsAr" disabled="disabled"/></td>
+                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsAr" disabled="disabled"/></td>
                             </tr>
                             <tr>
                                 <th>GIS 자산 사용 여부</th>
                                 <td><input type="text" size="20" id="gisAssetsUsageYn" disabled="disabled"/></td>
                                 <th>GIS 자산 취득가액</th>
-                                <td><input type="text" size="20" id="gisAssetsAcqPri" disabled="disabled"/></td>
+                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsAcqPri" disabled="disabled"/></td>
                                 <th>GIS 자산 규격</th>
                                 <td><input type="text" size="20" id="gisAssetsStndrd" disabled="disabled"/></td>
                             </tr>
@@ -416,8 +439,8 @@ var module_instance = new GamAssetDisUseMngtModule();
                                 <td><input type="text" size="20" id="erpAssetsDisuseRegistYn" disabled="disabled"/></td>
                                 <th>ERP 자산 폐기 사유</th>
                                 <td><input type="text" size="20" id="erpAssetsDisuseRsn" disabled="disabled"/></td>
-                                <th>GIS 자산 항코드</th>
-                                <td><input type="text" size="20" id="gisAssetsPrtAtCode" disabled="disabled"/></td>
+                                <th>사용 여부</th>
+                                <td><input type="text" size="20" id="gisAssetsUsageYnNm" disabled="disabled"/></td>
                             </tr>
                         </table>
                     </form>
