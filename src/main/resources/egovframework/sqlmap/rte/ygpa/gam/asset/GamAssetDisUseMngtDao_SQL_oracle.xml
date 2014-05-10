@@ -68,11 +68,11 @@
 				<isEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
 					G.ERP_ASSETS_DISUSE_REGIST_YN='Y'
 				</isEqual>
-				<isNotEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
+				<isEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="N">
 				<![CDATA[
 					(G.ERP_ASSETS_DISUSE_REGIST_YN <> 'Y' OR G.ERP_ASSETS_DISUSE_REGIST_YN IS NULL)
 					]]>
-				</isNotEqual>
+				</isEqual>
 				<isNotEmpty prepend="AND" property="gisAssetsNm">
 					G.GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
@@ -133,11 +133,11 @@
 				<isEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
 					G.ERP_ASSETS_DISUSE_REGIST_YN='Y'
 				</isEqual>
-				<isNotEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="Y">
+				<isEqual prepend="AND" property="erpAssetsDisuseRegistYn" compareValue="N">
 				<![CDATA[
 					(G.ERP_ASSETS_DISUSE_REGIST_YN <> 'Y' OR G.ERP_ASSETS_DISUSE_REGIST_YN IS NULL)
 					]]>
-				</isNotEqual>
+				</isEqual>
 				<isNotEmpty prepend="AND" property="gisAssetsNm">
 					G.GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
 				</isNotEmpty>
