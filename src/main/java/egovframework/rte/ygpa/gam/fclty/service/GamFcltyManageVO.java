@@ -71,6 +71,12 @@ public class GamFcltyManageVO extends ComDefaultVO{
     /** GIS 자산 항코드 */
     private String gisAssetsPrtAtCode;
 
+    /** GIS 자산 항코드 */
+    private String gisAssetsPrtAtCodeStr;
+
+    /** GIS 자산 항코드명 */
+    private String gisAssetsPrtAtNm;
+    
     /** GIS 자산 코드 */
     private String gisAssetsCd;
 
@@ -515,6 +521,34 @@ public class GamFcltyManageVO extends ComDefaultVO{
 	 */
 	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
 		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	}
+
+	/**
+	 * @return the gisAssetsPrtAtCodeStr
+	 */
+	public String getGisAssetsPrtAtCodeStr() {
+		return gisAssetsPrtAtCodeStr;
+	}
+
+	/**
+	 * @param gisAssetsPrtAtCodeStr the gisAssetsPrtAtCodeStr to set
+	 */
+	public void setGisAssetsPrtAtCodeStr(String gisAssetsPrtAtCodeStr) {
+		this.gisAssetsPrtAtCodeStr = gisAssetsPrtAtCodeStr;
+	}
+
+	/**
+	 * @return the gisAssetsPrtAtNm
+	 */
+	public String getGisAssetsPrtAtNm() {
+		return gisAssetsPrtAtNm;
+	}
+
+	/**
+	 * @param gisAssetsPrtAtNm the gisAssetsPrtAtNm to set
+	 */
+	public void setGisAssetsPrtAtNm(String gisAssetsPrtAtNm) {
+		this.gisAssetsPrtAtNm = gisAssetsPrtAtNm;
 	}
 
 	/**
