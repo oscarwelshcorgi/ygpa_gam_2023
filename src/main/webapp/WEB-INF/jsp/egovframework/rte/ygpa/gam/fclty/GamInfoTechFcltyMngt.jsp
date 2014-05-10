@@ -139,7 +139,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
-
+		module.$("#fcltyGisPhotoForm input").val('');
 		module.makeFormValues("#fcltyGisPhotoForm", row);
 		module._editDataFile = module.getFormValues("#fcltyGisPhotoForm", row);
 		module._editRowFile = module.$("#fcltyPhotoList").selectedRowIds()[0];
