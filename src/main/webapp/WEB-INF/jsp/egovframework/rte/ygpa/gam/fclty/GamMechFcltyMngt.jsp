@@ -103,10 +103,10 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
-
+			module.$(".selectedGAM005").hide();
+			module.$("#gisCodePopupBtn").hide();
 			module._cmd="modify";
-
-			module.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
+			module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
 
 
@@ -114,10 +114,10 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
-	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		// 이벤트내에선 모듈에 대해 선택한다.
-		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-	});
+// 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+// 		// 이벤트내에선 모듈에 대해 선택한다.
+// 		module.$("#fcltyMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
+// 	});
 
 	// 사진 정보 속성이 변경 된 경우 이벤트 실행
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
@@ -627,8 +627,8 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" disabled="disabled"/>&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" disabled="disabled"/>
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
 								<button id="searchPopupBtn">선택</button>
 							</td>
 							<th>기계시설코드</th>

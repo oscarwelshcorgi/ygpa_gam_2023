@@ -103,7 +103,8 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
-
+			module.$(".selectedGAM005").hide();
+			module.$("#gisCodePopupBtn").hide();
 			module._cmd="modify";
 			module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
@@ -234,15 +235,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 추가
 		case "addBtn":
-			this.$("#fcltyManageVO :input").val("");
-			this.$('#fcltyPhotoList').flexEmptyData();
 			this._cmd="insert";
-// 			this.$(".selectedGAM005").show();
-			this.$("#selectedGAM005").hide();
-			this.$("#selectedGAM006").hide();
-			this.$("#prtFcltyUnit").attr("disabled","disabled");
-			this.$("#gisCodePopupBtn").show();
+			this.$('#fcltyPhotoList').flexEmptyData();
 			this.$("#fcltyMngtListTab").tabs("option", {active: 1});
+			this.$("#fcltyManageVO :input").val("");
+			this.$(".selectedGAM005").show();
+			this.$("#gisCodePopupBtn").show();
 		break;
 
 		// 자산코드 팝업
@@ -717,7 +715,6 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="20%" height="23" class="required_text">시설분류</th>
 							<td colspan="3">
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" />
-								<input id="selectedGAM006" type="text" />
 							</td>
 						</tr>
 						<tr>
