@@ -58,8 +58,7 @@
 	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
 	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
 
-<%--     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
- --%>
+    <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
 
     <script type="text/javascript">
