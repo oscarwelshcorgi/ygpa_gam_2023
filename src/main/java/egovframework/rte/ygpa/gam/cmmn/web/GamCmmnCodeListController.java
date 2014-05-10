@@ -183,8 +183,8 @@ public class GamCmmnCodeListController {
 		Map optMap = new HashMap();
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		codeVo.setCodeId((String)vo.get("code_id"));
-		codeVo.setCode((String)vo.get("value"));
+		codeVo.setCodeId((String)vo.get("codeId"));
+		codeVo.setCode((String)vo.get("code"));
 
 		List<CmmnDetailCode> Cd = cmmUseService.selectCmmCodeDetail(codeVo);
 
@@ -192,7 +192,7 @@ public class GamCmmnCodeListController {
 		if(Cd.size()==0) {
 			optMap.put("value", egovMessageSource.getMessage("fail.ref.cmmncd"));
 		}
-		optMap.put("name", Cd.get(0).getCodeNm());
+		else optMap.put("value", Cd.get(0).getCodeNm());
 
 		return optMap;
 	}

@@ -52,11 +52,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#sumFee').val(data.sumFee);
-            module.$('#sumVat').val(data.sumVat);
-            module.$('#sumNticAmt').val(data.sumNticAmt);
-
+        	module.makeDivValues('#assetRentFeePayListSum', data);
             return data;
         }
     });
@@ -77,6 +73,8 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
 
     });
 
+    this.$('#sNticDtFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
+    this.$('#sNticDtTo').val(EMD.util.getDate());
 };
 
 /**
@@ -89,6 +87,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
         	this.loadData();
+        	console.log("debug");
             break;
 
         // 팝업을 호출한다.(업체)
@@ -146,7 +145,6 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onTabChange = function(newTabId, oldT
     case 'tabs2':
     	var row = this.$('#assetRentFeePayList').selectedRows()[0];
 
-    	this.makeDivValues('#masterPayInfo', row); // 결과값을 채운다.
 		var nticDetail = [
 		               { name: 'prtAtCode', value: row.prtAtCode},
 		               { name: 'mngYear', value: row.mngYear },
@@ -156,21 +154,9 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onTabChange = function(newTabId, oldT
 		             ];
    	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
-				if(module.$('#detailPayInfo').find('table').length<result.resultList.length) {	// 테이블이 갯수가 작으면 늘린다.
-					for(var i=0; i<module.$('#detailPayInfo').find('table').length; i<result.resultList.length; i++) {
-						var tab=module.$('#detailPayInfo').find('table :eq(0)').clone();
-						module.$('#detailPayInfo').append(tab);
-					}
-				}
-				else if(module.$('#detailPayInfo').find('table').length>result.resultList.length) {	// 테이블이 크면 줄인다.
-					while(module.$('#detailPayInfo').find('table').length>result.resultList.length) {
-						module.$("#detailPayInfo").remove(module.$('#detailPayInfo:last-child'));
-					}
-				}
-				for(var i=0; i<result.resultList.length; i++) {
-					module.makeDivValues('#detailPayInfo:eq('+i+')',
-							result.resultList[i]); // 결과값을 채운다.
-				}
+				module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
+				module.makeMultiDivValues('#detailPayInfo',result.resultList );	// 리스트 값을 채운다
+				module.makeDivValues('#summaryPayInfo', result.resultSummary); // 결과값을 채운다.
 			} else {
 				alert(result.resultMsg);
 			}
@@ -218,7 +204,9 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                             <th style="width: 70px">항코드</th>
                             <td style="width: 170px"><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th style="width: 70px">업체명</th>
-                            <td colspan="3"><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20" readonly> <button id="popupEntrpsInfo">업체</button></td>
+                            <td><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20"> <button id="popupEntrpsInfo" class="popupButton">업체</button></td>
+                            <th style="width: 70px">납부구분</th>
+                            <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체"></td>
                             <td rowspan="2"><button id="searchBtn" *class="submit" class="buttonSearch">조회</button></td>
                         </tr>
 
@@ -226,7 +214,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                             <th>관리번호</th>
                             <td><input id="sMngYear" type="text" size="3">-<input id="sMngNo" type="text" size="2">-<input id="sMngCnt" type="text" size="1"></td>
                             <th>고지일자</th>
-                            <td><input id="sNticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticPdTo" type="text"class="emdcal" size="8"></td>
+                            <td><input id="sNticDtFrom" data-column-id="nticDtFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticDtTo" type="text"class="emdcal" size="8"></td>
                             <th>요금종류</th>
                             <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
                         </tr>
@@ -299,98 +287,102 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <!-- <div style="width: 100%; height: 100%; overflow:auto">  -->
-                        <table id="assetRentFeePayList" style="display:none" class="fillHeight"></table>
+                <table id="assetRentFeePayList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
+                	<table id="assetRentFeePayListSum" class="summaryPanel" style="display:inline-table; vertical-align: middle;">
+                		<tr>
+                			<th>조회자료수</th>
+                			<td style="text-align:right; width:80px;"><span data-column-id="totalResultCnt" class="ygpaNumber"></span></td>
+                			<th>총 고지금액</th>
+                			<td style="text-align:right; width:110px;"><span data-column-id="sumFee" class="ygpaNumber"></span> 원</td>
+                			<th>부가세</th>
+                			<td style="text-align:right; width:110px;"><span data-column-id="sumVat" class="ygpaNumber"></span> 원</td>
+                			<th>총 납부금액</th>
+                			<td style="text-align:right; width:110px;"><span data-column-id="sumPayAmt" class="ygpaNumber"></span> 원</td>
+                		</tr>
+                	</table>
 					<button id="btnUpdatePayDtls">납부확인</button>
 					<button id="btnNticArrrg">연체고지</button>
                 </div>
-                <!-- </div>  -->
-
-                <!--
-                <div class="emdControlPanel">
-                    <table style="width:100%;" >
-                        <tr>
-                            <td>
-                               <form id="form1">
-                                    합계
-                                    자료수 <input id="totalResultCnt" size="5" readonly>
-                                    사용료 <input id="sumFee" type="text" size="14" readonly>
-                                    부가세 <input id="sumVat" type="text" size="14" readonly>
-                                    고지액 <input id="sumNticAmt" type="text" size="14" readonly>
-                               </form>
-                            </td>
-                            <td>
-                                <button id="mapInfoBtn">맵정보</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                 -->
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-				<div id="masterPayInfo" class="emdPanel">
-                    <table class="detailPanel">
+
+                <div class="emdPanel">
+                    <table id="masterPayInfo" class="detailPanel">
                         <tr>
-                        	<th><span class="label">청코드</span></th>
-                            <td style="width: 180px"><span data-column-id="prtAtCode"></span></td>
-                            <th><span class="label">회계년도</span></th>
-                            <td style="width: 180px"><span data-column-id="accnutYear"></span></td>
-                            <th><span class="label">고지번호</span></th>
+                        	<th style="width: 100px"><span class="label">항구분</span></th>
+                            <td style="width: 180px"><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
+                            <th style="width: 100px"><span class="label">회계년도</span></th>
+                            <td style="width: 60px"><span data-column-id="accnutYear"></span></td>
+                            <th style="width: 60px"><span class="label">횟수</span></th>
+                            <td style="width: 60px"><span data-column-id="nticCnt"></span></td>
+                            <th style="width: 100px"><span class="label">고지번호</span></th>
                             <td style="width: 180px"><span data-column-id="nticno"></span></td>
                         </tr>
                         <tr>
                         	<th><span class="label">업체</span></th>
-                            <td style="width: 180px"><span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)</td>
+                            <td><span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)</td>
                         	<th><span class="label">요금</span></th>
-                            <td style="width: 180px" colspan="3"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+                            <td colspan="3"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+                        	<th><span class="label">고지금액</span></th>
+                            <td style="text-align:right;"><span data-column-id="totalNticAmount" class="ygpaNumber"></span> 원</td>
                         </tr>
                         <tr>
-                        	<th><span class="label">고지금액</span></th>
-                            <td style="width: 180px"><span data-column-id="totalNticAmount" class="ygpaNumber"></span></td>
                             <th><span class="label">고지일자</span></th>
-                            <td style="width: 180px"><span data-column-id="nticDt"></span></td>
+                            <td><span data-column-id="nticDt"></span></td>
                             <th><span class="label">납부기한일자</span></th>
-                            <td style="width: 180px"><span data-column-id="payTmlmt"></span></td>
+                            <td colspan="5"><span data-column-id="payTmlmt"></span></td>
                         </tr>
                         <tr>
                         	<th><span class="label">수납구분</span></th>
-                            <td style="width: 180px"><span data-column-id="rcivSe" class="ygpaYnSelect" data-y-prompt="수납" data-n-prompt="미수납"></span></td>
+                            <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
                             <th><span class="label">수납일자</span></th>
-                            <td style="width: 180px" colspan="3"><span data-column-id="rcivDt"></span></td>
+                            <td colspan="5"><span data-column-id="rcivDt"></span></td>
                         </tr>
                     </table>
-            	</div>
-                <div id="detailPayInfo" class="emdPanel">
-                    <table class="detailPanel">
+               		<table class="detailPanel">
+                    	<thead>
+                    		<tr>
+	                            <th style="text-align:center; width: 52px"><span class="label">회차</span></th>
+	                            <th style="text-align:center; width: 76px"><span class="label">회계년도</span></th>
+	                            <th style="text-align:center; width: 76px"><span class="label">고지번호</span></th>
+	                        	<th style="text-align:center; width: 130px"><span class="label">요금</span></th>
+	                        	<th style="text-align:center; width: 84px"><span class="label">고지금액</span></th>
+	                            <th style="text-align:center; width: 110px"><span class="label">고지일자</span></th>
+	                            <th style="text-align:center; width: 110px"><span class="label">납부기한일자</span></th>
+	                        	<th style="text-align:center; width: 76px"><span class="label">수납구분</span></th>
+	                            <th style="text-align:center; width: 110px"><span class="label">수납일자</span></th>
+                            </tr>
+                    	</thead>
+                    	<tbody id="detailPayInfo" >
+                    		<tr>
+	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span><span data-column-id="currNticCnt" class="ygpaYnSelect" data-y-prompt="*" data-n-prompt=""></span></td>
+	                            <td style="text-align:center;"><span data-column-id="accnutYear"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="nticno"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+	                            <td style="text-align:right;"><span data-column-id="fee" class="ygpaNumber"> 원</span></td>
+	                            <td style="text-align:center;"><span data-column-id="nticDt"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="payTmlmt"></span></td>
+		                        <td style="text-align:center;"><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="rcivDt"></span></td>
+                             </tr>
+                    	</tbody>
+                    </table>
+                    <table id="summaryPayInfo" class="summaryPanel">
                         <tr>
-                        	<th><span class="label">청코드</span></th>
-                            <td style="width: 180px"><span data-column-id="prtAtCode"></span></td>
-                            <th><span class="label">회계년도</span></th>
-                            <td style="width: 180px"><span data-column-id="accnutYear"></span></td>
-                            <th><span class="label">고지번호</span></th>
-                            <td style="width: 180px"><span data-column-id="nticno"></span></td>
-                        </tr>
-                        <tr>
-                        	<th><span class="label">업체</span></th>
-                            <td style="width: 180px"><span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)</td>
-                        	<th><span class="label">요금</span></th>
-                            <td style="width: 180px" colspan="3"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
-                        </tr>
-                        <tr>
-                        	<th><span class="label">고지금액</span></th>
-                            <td style="width: 180px"><span data-column-id="totalNticAmount" class="ygpaNumber"></span></td>
-                            <th><span class="label">고지일자</span></th>
-                            <td style="width: 180px"><span data-column-id="nticDt"></span></td>
-                            <th><span class="label">납부기한일자</span></th>
-                            <td style="width: 180px"><span data-column-id="payTmlmt"></span></td>
-                        </tr>
-                        <tr>
-                        	<th><span class="label">수납구분</span></th>
-                            <td style="width: 180px"><span data-column-id="rcivSe" class="ygpaYnSelect" data-y-prompt="수납" data-n-prompt="미수납"></span></td>
-                            <th><span class="label">수납일자</span></th>
-                            <td style="width: 180px"><span data-column-id="rcivDt"></span></td>
+                        	<th><span class="label">총 고지 금액</span></th>
+                            <td style="text-align:right; width: 92px"><span data-column-id="totalNticAmount" class="ygpaNumber"></span> 원</td>
+                            <th><span class="label">총 납부 금액</span></th>
+                            <td style="text-align:right; width: 92px"><span data-column-id="feePayAmount" class="ygpaNumber"></span> 원</td>
+                            <th><span class="label">관리비</span></th>
+                            <td style="text-align:right; width: 92px"><span data-column-id="feeA1" class="ygpaNumber"></span> 원</td>
+                            <th><span class="label">이자</span></th>
+                            <td style="text-align:right; width: 92px"><span data-column-id="feeA3" class="ygpaNumber"></span> 원</td>
+                            <th><span class="label">연체료</span></th>
+                            <td style="text-align:right; width: 92px"><span data-column-id="feeD1" class="ygpaNumber"></span> 원</td>
+                            <th><span class="label">과태료</span></th>
+                            <td style="text-align:right; width: 92px"><span data-column-id="feeD2" class="ygpaNumber"></span> 원</td>
                         </tr>
                     </table>
             </div>

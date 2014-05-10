@@ -200,12 +200,16 @@ public class GamAssetRentFeePayDtlsMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
     	List resultList = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailList(searchVO);
+    	Map master = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailMstPk(searchVO);
+    	Map summary = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailSumPk(searchVO);
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
+    	map.put("resultMaster", master);
+    	map.put("resultSummary", summary);
     	map.put("searchOption", searchVO);
 
     	return map;

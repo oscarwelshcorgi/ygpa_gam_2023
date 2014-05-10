@@ -26,7 +26,7 @@
 		<result property="entrpscd" column="ENTRPSCD" columnIndex="4"/>
 		<result property="entrpsNm" column="ENTRPS_NM" columnIndex="5"/>
 		<result property="nticPdFrom" column="NTIC_PD_FROM" columnIndex="6"/>
-		<result property="constPerTo" column="CONST_PER_TO" columnIndex="7"/>
+		<result property="nticPdTo" column="NTIC_PD_TO" columnIndex="7"/>
 		<result property="accnutYear" column="ACCNUT_YEAR" columnIndex="8"/>
 		<result property="nticno" column="NTICNO" columnIndex="9"/>
 		<result property="nticDt" column="NTIC_DT" columnIndex="10"/>
@@ -166,15 +166,15 @@
 							       AND L.entrpscd = #sEntrpscd#
 							   </isNotEmpty>
 
-						         <isNotEmpty property="nticPdFrom">
+						         <isNotEmpty property="sUsagePdFrom">
 									<![CDATA[
-						         		AND L.NTIC_PD_FROM > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+						         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
 						         	]]>
 						         </isNotEmpty>
 
-						         <isNotEmpty property="nticPdTo">
+						         <isNotEmpty property="sUsagePdTo">
 									<![CDATA[
-							         	AND L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
+							         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
 						         	]]>
 						         </isNotEmpty>
 
@@ -277,17 +277,17 @@
                    AND L.entrpscd = #sEntrpscd#
                </isNotEmpty>
 
-         <isNotEmpty property="nticPdFrom">
-			<![CDATA[
-         		AND L.NTIC_PD_FROM > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
-         	]]>
-         </isNotEmpty>
+						         <isNotEmpty property="sUsagePdFrom">
+									<![CDATA[
+						         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+						         	]]>
+						         </isNotEmpty>
 
-         <isNotEmpty property="nticPdTo">
-			<![CDATA[
-	         	AND L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
-         	]]>
-         </isNotEmpty>
+						         <isNotEmpty property="sUsagePdTo">
+									<![CDATA[
+							         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+						         	]]>
+						         </isNotEmpty>
 
 			   <isNotEmpty property="sanctnSttus">
 			       AND L.SANCTN_STTUS = #sanctnSttus#
@@ -406,15 +406,15 @@
              AND L.MNG_CNT     = #sMngCnt#
          </isNotEmpty>
 
-         <isNotEmpty property="nticPdFrom">
+         <isNotEmpty property="sUsagePdFrom">
 			<![CDATA[
-         		AND L.NTIC_PD_FROM > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
          	]]>
          </isNotEmpty>
 
-         <isNotEmpty property="nticPdTo">
+         <isNotEmpty property="sUsagePdTo">
 			<![CDATA[
-	         	AND L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
+	         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
          	]]>
          </isNotEmpty>
 
@@ -440,12 +440,12 @@
 		     , CHRGE_KND    = #chrgeKnd#
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
-		     , NTIC_PD_FROM = REPLACE(#nticPdFrom#,'-','')
-		     , CONST_PER_TO = REPLACE(#constPerTo#,'-','')
+		     , NTIC_PD_FROM = TO_DATE(#nticPdFrom#,'YYYY-MM-DD')
+		     , NTIC_PD_TO = TO_DATE(#nticPdTo#,'YYYY-MM-DD')
 		     , ACCNUT_YEAR  = #accnutYear#
 		     , NTICNO       = #nticno#
-		     , NTIC_DT      = REPLACE(#nticDt#,'-','')
-		     , PAY_TMLMT    = REPLACE(#payTmlmt#,'-','')
+		     , NTIC_DT      = TO_DATE(#nticDt#,'YYYY-MM-DD')
+		     , PAY_TMLMT    = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
 		     , OLNLP        = #olnlp#
 		     , FEE          = #fee#
 		     , VAT_YN       = #vatYn#
@@ -453,7 +453,7 @@
 		     , NTIC_AMT     = #nticAmt#
 		     , RM           = #rm#
 		     , RCIV_SE      = #rcivSe#
-		     , RCIV_DT      = REPLACE(#rcivDt#,'-','')
+		     , RCIV_DT      = TO_DATE(#rcivDt#,'YYYY-MM-DD')
 		     , NHT_ISUE_YN  = #nhtIsueYn#
 		     , ARRRG_NO     = #arrrgNo#
 		     , ARRRG_AMT    = #arrrgAmt#
@@ -477,10 +477,10 @@
                , L.ENTRPSCD
                , L.ENTRPS_NM
                , L.NTIC_PD_FROM
-               , L.CONST_PER_TO
+               , L.NTIC_PD_TO
                , L.ACCNUT_YEAR
                , L.NTICNO
-               , TO_CHAR(TO_DATE(L.NTIC_DT), 'YYYY-MM-DD') NTIC_DT
+               , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
                , L.PAY_TMLMT
                , L.OLNLP
                , L.FEE
@@ -629,8 +629,8 @@
 		                          , #orginlNticAccnutYear#
 		                          , #orginlNticNo#
 		                          , #elctrnTaxbilIsuYn#
-		                          , REPLACE(#beginDt#,'-','')
-		                          , REPLACE(#endDt#,'-','')
+		                          , TO_CHAR(#beginDt#,'YYYY-MM-DD')
+		                          , REPLACE(#endDt#,'YYYY-MM-DD')
 		                          , #nticMth#
 		                          , #regUsr#
 		                          , SYSDATE
@@ -661,7 +661,7 @@
                            , ENTRPSCD
                            , ENTRPS_NM
                            , NTIC_PD_FROM
-                           , CONST_PER_TO
+                           , NTIC_PD_TO
                            , ACCNUT_YEAR
                            , NTICNO
                            , NTIC_DT
@@ -695,12 +695,12 @@
                            , #chrgeKnd#
                            , #entrpscd#
                            , #entrpsNm#
-                           , #nticPdFrom#
-                           , #constPerTo#
+                           , TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+                           , TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
                            , #accnutYear#
                            , #nticno#
                            , #nticDt#
-                           , #payTmlmt#
+                           , TO_DATE(#payTmlmt#, 'YYYY-MM-DD')
                            , #olnlp#
                            , #fee#
                            , #vatYn#
@@ -708,7 +708,7 @@
                            , #nticAmt#
                            , #rm#
                            , #rcivSe#
-                           , #rcivDt#
+                           , TO_DATE(#rcivDt#, 'YYYY-MM-DD')
                            , #nhtIsueYn#
                            , #arrrgNo#
                            , #arrrgAmt#
@@ -1062,4 +1062,169 @@
 			    ) A
 			  ) Z
     </select>
+
+    <select id="gamAssetRentFeeMngtDao.selectAssetRentFeeDetailList_D" parameterClass="gamAssetRentFeeMngtVO" resultClass="egovMap">
+           SELECT ROWNUM RNUM, A.*
+           FROM (
+	                       SELECT
+				         L.NTIC_CNT
+				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
+				       , L.FCLTY_SE
+				       , L.CHRGE_KND
+				       , L.ENTRPSCD
+				       , L.ENTRPS_NM
+				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+				       , TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+				       , L.ACCNUT_YEAR
+				       , L.NTICNO
+				       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+				       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+				       , L.SANCTN_STTUS
+				       , L.SANCTNER_EMPL_NO
+				       , TO_CHAR(L.SANCTN_DT) SANCTN_DT
+				       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
+				       , NVL(L.OLNLP,0) OLNLP
+				       , NVL(L.FEE,0) FEE
+				       , L.VAT_YN
+				       , NVL(L.VAT,0) VAT
+				       , NVL(L.NTIC_AMT,0) NTIC_AMT
+				       , L.RM
+				       , L.RCIV_SE
+				       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+				       , L.NHT_ISUE_YN
+				       , L.ARRRG_NO
+				       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
+				       , L.REQEST_SEQ
+				       , L.DEPTCD
+				       , L.NTIC_MTH
+				       , L.REG_USR
+				       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+				       , L.UPD_USR
+				       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+				       , L.PRT_AT_CODE
+				       , L.MNG_YEAR
+				       , L.MNG_NO
+				       , L.MNG_CNT
+				       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+							       , GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
+							       , NVL(A.GR_AR,0) GR_AR
+							       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+							       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+							       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+							       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+				  FROM ASSETS_RENT_F A,
+				       LEV_REQEST_F L
+				 WHERE 1 = 1
+				   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+	                           AND A.MNG_YEAR = L.MNG_YEAR
+	                           AND A.MNG_NO = L.MNG_NO
+	                           AND A.MNG_CNT = L.MNG_CNT
+				   AND A.QUAY_GROUP_CD='P'
+			       AND L.PRT_AT_CODE = #prtAtCode#
+			       AND L.MNG_YEAR = #mngYear#
+			       AND L.MNG_NO = #mngNo#
+			       AND L.MNG_CNT = #mngCnt#
+                ORDER BY L.NTIC_CNT ASC, L.NTIC_DT ASC
+             ) A
+    </select>
+
+	<select id="gamAssetRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S" parameterClass="gamAssetRentFeeMngtVO" resultClass="egovMap">
+		SELECT
+				L.PRT_AT_CODE
+		       , GAM_GETCODENAME('GAM019', L.PRT_AT_CODE) PRT_AT_CODE_NM
+		       , L.MNG_YEAR
+		       , L.MNG_NO
+		       , L.MNG_CNT
+		        , L.NTIC_CNT
+		       , L.FCLTY_SE
+		       , L.CHRGE_KND
+		       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
+		       , L.ENTRPSCD
+		       , L.ENTRPS_NM
+		       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		       , TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		       , L.ACCNUT_YEAR
+		       , L.NTICNO
+		       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+		       , L.SANCTN_STTUS
+		       , L.SANCTNER_EMPL_NO
+		       , TO_CHAR(L.SANCTN_DT, 'YYYY-MM-DD') SANCTN_DT
+		       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
+		       , NVL(L.OLNLP,0) OLNLP
+		       , NVL(L.FEE,0) FEE
+		       , L.VAT_YN
+		       , NVL(L.VAT,0) VAT
+		       , NVL(L.NTIC_AMT,0) NTIC_AMT
+		       , L.RM
+		       , L.RCIV_SE
+		       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		       , L.NHT_ISUE_YN
+		       , L.ARRRG_NO
+		       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
+		       , L.DEPTCD
+		       , L.NTIC_MTH
+		       , GAM_GETCODENAME('GAM008', L.NTIC_MTH) NTIC_MTH_NM
+		       , L.REG_USR
+		       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+		       , L.UPD_USR
+		       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+				, GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
+		       , NVL(A.GR_FEE,0) GR_FEE
+		       , NVL(A.GR_AR,0) GR_AR
+		       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+		       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+		       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+		       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+		  FROM ASSETS_RENT_F A,
+		       LEV_REQEST_F L
+		 WHERE 1 = 1
+		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+                          AND A.MNG_YEAR = L.MNG_YEAR
+                          AND A.MNG_NO = L.MNG_NO
+                          AND A.MNG_CNT = L.MNG_CNT
+		   AND A.QUAY_GROUP_CD='P'
+	       AND L.PRT_AT_CODE = #prtAtCode#
+	       AND L.MNG_YEAR = #mngYear#
+	       AND L.MNG_NO = #mngNo#
+	       AND L.MNG_CNT = #mngCnt#
+	       AND L.NTIC_CNT = #nticCnt#
+    </select>
+
+    <select id="gamAssetRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S" parameterClass="gamAssetRentFeeMngtVO" resultClass="egovMap">
+         SELECT
+                 COUNT(*) SUM_CNT
+               , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
+                   	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
+                   	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
+                   	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
+                   	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
+                , SUM(NVL(L.NTIC_AMT, 0)) SUM_NHT_ISUE_AMT
+               , SUM(NVL(L.VAT, 0)) SUM_VAT
+               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
+          FROM ASSETS_RENT_F A, LEV_REQEST_F L
+		 WHERE 1 = 1
+		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+                          AND A.MNG_YEAR = L.MNG_YEAR
+                          AND A.MNG_NO = L.MNG_NO
+                          AND A.MNG_CNT = L.MNG_CNT
+		   AND A.QUAY_GROUP_CD='P'
+	       AND L.PRT_AT_CODE = #prtAtCode#
+	       AND L.MNG_YEAR = #mngYear#
+	       AND L.MNG_NO = #mngNo#
+	       AND L.MNG_CNT = #mngCnt#
+	       GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT
+    </select>
+
+    <update id="gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S">
+        UPDATE LEV_REQEST_F SET
+		     RM     = #rm#
+		     , UPD_USR      = #updUsr#
+		     , UPDT_DT      = SYSDATE
+		WHERE  NTIC_CNT     = #nticCnt#
+		AND    PRT_AT_CODE  = #prtAtCode#
+		AND    MNG_YEAR     = #mngYear#
+		AND    MNG_NO       = #mngNo#
+		AND    MNG_CNT      = #mngCnt#
+    </update>
 </sqlMap>

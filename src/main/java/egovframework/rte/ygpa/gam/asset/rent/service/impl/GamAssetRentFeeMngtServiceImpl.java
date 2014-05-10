@@ -126,7 +126,6 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 */
 	@Override
 	public List selectNpticPrintInfo(Map searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return gamAssetRentFeeMngtDao.selectNpticPrintInfo(searchVO);
 	}
 
@@ -136,8 +135,40 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 */
 	@Override
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return gamAssetRentFeeMngtDao.selectTaxNtcPrintInfo(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectAssetRentFeeDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
+	 */
+	@Override
+	public List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO) {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectAssetRentFeeDetailMstPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
+	 */
+	@Override
+	public Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO) {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailMstPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectAssetRentFeeDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
+	 */
+	@Override
+	public Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO) {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailSumPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#updateAssetRentFeeMngtListDetail(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
+	 */
+	@Override
+	public void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo)
+			throws Exception {
+		gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail(vo);
 	}
 
 

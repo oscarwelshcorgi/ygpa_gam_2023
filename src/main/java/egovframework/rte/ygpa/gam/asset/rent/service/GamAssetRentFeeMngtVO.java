@@ -35,11 +35,14 @@ public class GamAssetRentFeeMngtVO extends ComDefaultVO {
     /** 고지 기간 FROM */
     private String nticPdFrom;
 
-    /** 고지 기간 FROM */
+    /** 고지 기간 TO */
     private String nticPdTo;
 
-    /** 공사기간 TO */
-    private String constPerTo;
+    /** 고지 일자 시작(조회) */
+    private String nticDtFrom;
+
+    /** 고지 일자 끝(조회) */
+    private String nticDtTo;
 
     /** 회계 년도 */
     private String accnutYear;
@@ -434,20 +437,6 @@ public class GamAssetRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setNticPdFrom(String nticPdFrom) {
 		this.nticPdFrom = nticPdFrom;
-	}
-
-	/**
-	 * @return the constPerTo
-	 */
-	public String getConstPerTo() {
-		return constPerTo;
-	}
-
-	/**
-	 * @param constPerTo the constPerTo to set
-	 */
-	public void setConstPerTo(String constPerTo) {
-		this.constPerTo = constPerTo;
 	}
 
 	/**
@@ -1512,6 +1501,22 @@ public class GamAssetRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setsNhtIsueYn(String sNhtIsueYn) {
 		this.sNhtIsueYn = sNhtIsueYn;
+	}
+
+	public String getNticDtFrom() {
+		return nticDtFrom;
+	}
+
+	public void setNticDtFrom(String nticDtFrom) {
+		this.nticDtFrom = nticDtFrom;
+	}
+
+	public String getNticDtTo() {
+		return nticDtTo;
+	}
+
+	public void setNticDtTo(String nticDtTo) {
+		this.nticDtTo = nticDtTo;
 	}
 
 }

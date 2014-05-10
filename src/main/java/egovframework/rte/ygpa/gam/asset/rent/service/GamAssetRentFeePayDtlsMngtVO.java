@@ -171,6 +171,9 @@ public class GamAssetRentFeePayDtlsMngtVO extends ComDefaultVO {
     /** 고지액(합계) */
     private String sumNticAmt;
 
+    /** 납부금액(합계) */
+    private String sumPayAmt;
+
     /** 고지방법 */
     private String sNticMth;
 
@@ -290,6 +293,28 @@ public class GamAssetRentFeePayDtlsMngtVO extends ComDefaultVO {
 
     /** 수납 구분 */
     private String sRcivSe;
+
+    /** 고지 일자 시작(조회) */
+    private String nticDtFrom;
+
+    /** 고지 일자 끝(조회) */
+    private String nticDtTo;
+
+	public String getNticDtFrom() {
+		return nticDtFrom;
+	}
+
+	public void setNticDtFrom(String nticDtFrom) {
+		this.nticDtFrom = nticDtFrom;
+	}
+
+	public String getNticDtTo() {
+		return nticDtTo;
+	}
+
+	public void setNticDtTo(String nticDtTo) {
+		this.nticDtTo = nticDtTo;
+	}
 
 	/**
 	 * @return the nticCnt
@@ -1569,6 +1594,14 @@ public class GamAssetRentFeePayDtlsMngtVO extends ComDefaultVO {
 
 	public void setSumFeeD2(String sumFeeD2) {
 		this.sumFeeD2 = sumFeeD2;
+	}
+
+	public String getSumPayAmt() {
+		return sumPayAmt;
+	}
+
+	public void setSumPayAmt(String sumPayAmt) {
+		this.sumPayAmt = sumPayAmt;
 	}
 
 }

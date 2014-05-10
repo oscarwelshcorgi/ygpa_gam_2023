@@ -2,6 +2,8 @@ package egovframework.rte.ygpa.gam.asset.rent.service;
 
 import java.util.List;
 import java.util.Map;
+
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
 
@@ -35,6 +37,15 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 */
     int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
+	/**
+	 * 자산임대 상세 마스터 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+
     /**
      * 납부관리 상세 내역을 조회한다.
      * @param searchVO
@@ -42,6 +53,14 @@ public interface GamAssetRentFeePayDtlsMngtService {
      * @throws Exception
      */
     List selectAssetRentFeePayDtlsMngtDetailList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+	/**
+	 * 자산임대 상세 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.

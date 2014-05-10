@@ -157,6 +157,14 @@ var popup_instance = new GamNticArrrgPopupModule();
 	<div class="emdPanel fillHeight">
 		<table id="assetRentFeePayList" style="display: none" class="fillHeight"></table>
 		<div class="emdControlPanel">
+		<form id="editArrrgRateForm">
+			<table>
+				<tr>
+					<th>연체료율 (연 %)</th>
+					<td><input class="ygpaNumber" data-column-id="dlyRate"/></td>
+				</tr>
+			</table>
+		</form>
 			<button id="btnOk">연체 고지</button>
 		</div>
 	</div>

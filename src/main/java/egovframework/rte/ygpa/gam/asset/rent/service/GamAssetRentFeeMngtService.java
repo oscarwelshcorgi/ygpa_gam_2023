@@ -106,4 +106,29 @@ public interface GamAssetRentFeeMngtService {
      */
     List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
 
+    /**
+     * 징수의뢰 상세 목록을 조회한다.
+     * @param searchVO
+     * @return
+     */
+	List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO);
+
+	/**
+	 * 징수의뢰 상세 마스터를 조회한다.
+	 * @param searchVO
+	 * @return
+	 */
+	Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO);
+
+	/**
+	 * 징수의뢰 상세 합계를 조회한다.
+	 * @param searchVO
+	 * @return
+	 */
+	Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO);
+
+	/**
+	 * 징수의뢰 정보를 수정한다.
+	 */
+	void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo) throws Exception;
 }

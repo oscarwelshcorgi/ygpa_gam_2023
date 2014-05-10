@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 
 /**
  * @Class Name : GamAssetRentFeePayDtlsMngtDao.java
@@ -43,8 +45,16 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S", searchVO);
     }
 
+    public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailMaster_D", searchVO);
+    }
+
     public List selectAssetRentFeePayDtlsMngtDetailList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return list("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailList_D", searchVO);
+    }
+
+    public EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailSum_D", searchVO);
     }
 
     /**

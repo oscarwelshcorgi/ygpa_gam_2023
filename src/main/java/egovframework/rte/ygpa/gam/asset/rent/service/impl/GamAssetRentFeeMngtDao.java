@@ -131,4 +131,22 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
         return list("gamAssetRentFeeMngtDao.selectTaxNticPrintFeeList_D", searchVO);
 	}
+
+	public List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO) {
+		return list("gamAssetRentFeeMngtDao.selectAssetRentFeeDetailList_D", searchVO);
+	}
+
+	public Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO) {
+		return (Map) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S", searchVO);
+	}
+
+	public Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO) {
+		return (Map) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S", searchVO);
+	}
+
+	public void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo)
+			throws Exception {
+		update("gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S", vo);
+	}
+
 }

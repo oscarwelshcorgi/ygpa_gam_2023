@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
@@ -155,6 +156,24 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	public List selectAssetRentFeePayDtlsMngtDetailList(
 			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailMstPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(
+			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailMstPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(
+			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailSumPk(searchVO);
 	}
 
 }

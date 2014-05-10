@@ -166,6 +166,92 @@ public class GamAssetRentFeeMngtController {
     	return map;
     }
 
+		/**
+	     * 자산임대료고지관리 상세정보를 조회한다.
+	     *
+	     * @param searchVO
+	     * @return map
+	     * @throws Exception the exception
+	     */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+	    @RequestMapping(value="/asset/rent/gamSelectAssetRentFeeMngtListDetail.do", method=RequestMethod.POST)
+		public @ResponseBody Map gamSelectAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO searchVO) throws Exception {
+
+			int totalCnt, page, firstIndex;
+	    	Map map = new HashMap();
+
+	    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+	    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+	    	PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+			paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+			paginationInfo.setPageSize(searchVO.getPageSize());
+
+			searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+			searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+			searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+			//자산임대상세
+	    	List resultList = gamAssetRentFeeMngtService.selectAssetRentFeeDetailList(searchVO);
+	    	Map master = gamAssetRentFeeMngtService.selectAssetRentFeeDetailMstPk(searchVO);
+	    	Map summary = gamAssetRentFeeMngtService.selectAssetRentFeeDetailSumPk(searchVO);
+
+	        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+
+	    	map.put("resultCode", 0);	// return ok
+	    	map.put("resultList", resultList);
+	    	map.put("resultMaster", master);
+	    	map.put("resultSummary", summary);
+	    	map.put("searchOption", searchVO);
+
+	    	return map;
+	    }
+
+		/**
+	     * 자산임대료고지 정보를 수정한다.
+	     * @param gamAssetRentFeeMngtVO
+	     * @param bindingResult
+	     * @return map
+	     * @throws Exception
+	     */
+	    @RequestMapping(value="/asset/rent/updateAssetRentFeeMngtListDetail.do")
+	    public @ResponseBody Map updateAssetRentFeeMngtListDetail(
+	     	   @ModelAttribute("gamAssetRentFeeMngtVO") GamAssetRentFeeMngtVO gamAssetRentFeeMngtVO,
+	     	   BindingResult bindingResult)
+	            throws Exception {
+
+	     	 Map map = new HashMap();
+	         String resultMsg = "";
+	         int resultCode = 1;
+
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+		        map.put("resultCode", 1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	        	return map;
+	    	}
+
+	    	try {
+	    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	    		gamAssetRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
+		         gamAssetRentFeeMngtService.updateAssetRentFeeMngtListDetail(gamAssetRentFeeMngtVO);
+		         resultCode = 0;
+		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	    	}
+	    	catch(Exception e) {
+		         resultCode = 0;
+		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
+	    	}
+
+	     	 map.put("resultCode", resultCode);
+	         map.put("resultMsg", resultMsg);
+
+	 		return map;
+	     }
+
+
 	/**
      * 자산임대료고지관리정보를 수정한다.
      * @param gamAssetRentFeeMngtVO
