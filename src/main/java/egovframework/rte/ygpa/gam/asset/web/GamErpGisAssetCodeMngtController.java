@@ -292,6 +292,8 @@ public class GamErpGisAssetCodeMngtController {
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		
+		insertList.addAll(updateList);
 
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
