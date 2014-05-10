@@ -154,7 +154,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 				{display:'사진제목', name:'photoSj', width:300, sortable:true, align:'left'},
 				{display:'파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
 				{display:'촬영일자', name:'shotDt', width:120, sortable:true, align:'center'},
-				{display:'등록자', name:'regUse', width:155, sortable:true, align:'center'}
+				{display:'등록자', name:'regUsr', width:155, sortable:true, align:'center'}
 			],
 		height: '120'
 	});
