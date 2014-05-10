@@ -226,6 +226,8 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
 				this.downPfPhoto(row["filenmPhysicl"], row["filenmLogic"]);
+			} else {
+				alert("자료가 선택되지 않았습니다.");
 			}
 			break;
 			
@@ -296,7 +298,7 @@ var module_instance = new GamFcltyMngtModule();
 						</tr>
 						<tr>
 							<th>건축시설명</th>
-							<td colspan="5"><input id="searchKeyword" type="text" size="40" maxlength="40" title="검색조건"  /></td>
+							<td colspan="5"><input id="searchKeyword" type="text" size="60" maxlength="40" title="검색조건"  /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -317,7 +319,7 @@ var module_instance = new GamFcltyMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
+					<button id="loadMap" data-flexi-grid="fcltyMngtList">맵조회</button>
 				</div>
 			</div>
 
@@ -325,8 +327,10 @@ var module_instance = new GamFcltyMngtModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
 					<input type="hidden" id="cmd" />
+			<!--
 					<input type="hidden" id="laCrdnt" />
 					<input type="hidden" id="loCrdnt" />
+			-->
 					<table class="searchPanel">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>
@@ -395,17 +399,17 @@ var module_instance = new GamFcltyMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="gotoLocation">위치 조회</button>
+					<button id="gotoLocation">위치조회</button>
 				</div>
 			</div>
 
 			<!-- 건축시설 사진 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
+				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 				<div class="emdControlPanel">
 					<button id="btnDownloadFile">다운로드</button>
 				</div>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>
 	</div>
