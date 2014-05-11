@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
@@ -16,14 +16,14 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO;
 
 /**
- * 
+ *
  * @author kok
  * @since 2014. 2. 3.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 2. 3.		kok		최초 생성
@@ -44,7 +44,7 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
 	public List<GamFcltyDrwInfoFVO> selectDrwListMngtList(GamFcltyDrwInfoFVO vo) throws Exception{
 		return list("gamFcltyDrwMngtDao.selectDrwListMngtList", vo);
 	}
-	
+
 	/**
 	 * 도면목록관리 목록 총 수
 	 * @param vo
@@ -54,7 +54,7 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
 	public int selectDrwListMngtListTotCnt(GamFcltyDrwInfoFVO vo) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyDrwMngtDao.selectDrwListMngtListTotCnt", vo);
 	}
-	
+
 	/**
 	 * 도면목록관리 파일 목록 조회
 	 * @param vo
@@ -65,7 +65,7 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
     public List<ComDefaultVO> selectDrwListPhotoList(GamFcltyDrwDtaFVO vo) throws Exception{
     	return list("gamFcltyDrwMngtDao.selectDrwListPhotoList", vo);
     }
-    
+
     /**
      * 도면목록관리 파일 총 수
      * @param vo
@@ -75,18 +75,18 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
     public int selectDrwListPhotoListTotCnt(GamFcltyDrwDtaFVO vo) throws Exception {
     	return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyDrwMngtDao.selectDrwListPhotoListTotCnt", vo);
     }
-	
+
 	/**
 	 * 도면목록관리 저장
 	 * @param form
 	 * @return string
 	 */
-	public String insertDrwListMng(HashMap<String,String> form){
+	public String insertDrwListMng(Map form){
 		insert("gamFcltyDrwMngtDao.insertDrwListMng", form);
-		
-		return form.get("maxDrwSeq");
+
+		return (String) form.get("maxDrwSeq");
 	}
-	
+
 	/**
 	 * 도면목록관리 파일 저장
 	 * @param fileList
@@ -94,15 +94,15 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
 	public void insertDrwListMngFile(Map<String,String> fileList){
 		insert("gamFcltyDrwMngtDao.insertDrwListMngFile", fileList);
 	}
-	
+
 	/**
 	 * 도면목록관리 수정
 	 * @param form
 	 */
-    public void updateDrwListMng(HashMap<String,String> form){
+    public void updateDrwListMng(Map form){
         update("gamFcltyDrwMngtDao.updateDrwListMng",form);
     }
-    
+
     /**
      * 도면목록관리 파일 수정
      * @param vo
@@ -110,32 +110,34 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
     public void updateDrwListMngFile(Map<String,String> fileList){
     	update("gamFcltyDrwMngtDao.updateDrwListMngFile",fileList);
     }
-	
+
     /**
      * 도면목록관리 삭제
      * @param vo
      */
-    public void deleteDrwListMng(GamFcltyDrwDtaFVO vo){
+    public void deleteDrwListMng(Map vo){
     	delete("gamFcltyDrwMngtDao.deleteDrwListMng", vo);
     }
-    
+
     /**
      * 도면목록관리 파일 삭제
      * @param fileList
      */
-    public void deleteDrwListMngFile(Map<String,String> fileList){
+    public void deleteDrwListMngFile(Map fileList){
     	update("gamFcltyDrwMngtDao.deleteDrwListMngFile",fileList);
-    }
-    
-    /**
-     * 도면목록관리 상세
-     *      * @param fileList
-     */
-    public EgovMap DrwDetailSelectView(Map vo) throws Exception{
-        return (EgovMap) selectByPk("gamFcltyMngtDao.DrwDetailSelectView", vo);
     }
 
     public List mergeFcltyPhoto(Map vo) throws Exception{
-    	return merge(vo,"","","");
+    	return merge(vo,"gamFcltyDrwMngtDao.insertDrwListMngFile","gamFcltyDrwMngtDao.updateDrwListMngFile","gamFcltyDrwMngtDao.deleteDrwListMngFile");
     }
+
+
+	public Map selectDrwListDetailMaster(Map vo) throws Exception {
+		return (Map)selectByPk("gamFcltyDrwMngtDao.selectDrwListDetailMaster_S", vo);
+	}
+
+	public List selectDrwListDetailFileList(Map vo) throws Exception {
+		return list("gamFcltyDrwMngtDao.selectDrwListDetailFileList_D", vo);
+	}
+
 }

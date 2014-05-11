@@ -33,7 +33,6 @@ GamFcltyDrwListMngtModule.prototype = new EmdModule(1000,600);	// 초기 시작 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
-	console.log(params);
 
 	this._params = params;	// 파라미터를 저장한다.
 
@@ -52,16 +51,13 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		showTableToggleBtn: false,
 		height: "auto",
 		preProcess: function(module, data) {
-			
-			console.log(module);
-			console.log(data);
 			return data;
 		}
 	});
 
 	this.$("#drwListMngtList").on("onItemSelected", function(event, module, row, grid, param) {
-		
-		/* 
+		module._cmd="modify";
+		/*
 		module.$("#drwListManageVO :input").val("");
 
 		module.makeFormValues("#drwListManageVO", row);
@@ -76,6 +72,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 
 	this.$("#drwListMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
+		module._cmd="modify";
 		module.$("#drwListMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
 
@@ -118,17 +115,13 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		showTableToggleBtn: false,
 		height: "150",
 		preProcess: function(module, data) {
-			console.log(module);
-			module._DrwItem=module;
-			console.log(data);
 			return data;
 		}
 	});
 
 	this.$("#drwListPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
 
-		module.$("#drwListPhotoForm :input").val("");
-		module.makeFormValues("#drwListPhotoForm", row);
+ 		module.makeFormValues("#drwListPhotoForm", row);
 		module._editDataFile = module.getFormValues("#drwListPhotoForm", row);
 		module._editRowFile = module.$("#drwListPhotoList").selectedRowIds()[0];
 
@@ -150,57 +143,61 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		}
 	*/
 	});
-	
+
+
+	this.$("#drwListManageVO :input:visible").bind("change keyup", {module: this}, function(event) {
+		event.data.module._edited=true;
+	});
+
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyPhotoChanged(event.target);
 	});
 };
 
-GamFcltyDrwListMngtModule.prototype.applyPhotoChanged = function(target) {
-	var changed=false;
-	var row={};
-	// console.log("change event occur");
+GamFcltyDrwListMngtModule.prototype.loadList = function() {
+	var searchOpt=this.makeFormArgs("#drwListForm");
+ 	this.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+	this.$("#drwListMngtListTab").tabs("option", {active: 0});
+// 	console.log("list loaded");
+}
 
-	var selectRow = this.$('#drwListPhotoList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#drwDtaCd').is(target)) {
-			row['drwDtaCd'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#drwNo').is(target)) {
-			row['drwNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#drwSeCd').is(target)) {
-			row['drwSeCd'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#drwNm').is(target)) {
-			row['drwNm'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#drwWritngDt').is(target)) {
-			row['drwWritngDt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#drwChangedt').is(target)) {
-			row['drwChangedt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#drwChangeDtls').is(target)) {
-			row['drwChangeDtls'] = $(target).val();
-			changed=true;
-		}
+GamFcltyDrwListMngtModule.prototype.loadDetailData = function() {
+	this._edited=false;
+	this.clearCodePage();
+	this.clearPhotoPage();
+	if(this._cmd!="insert") {
+		var row = this.$('#drwListMngtList').selectedRows()[0];
+
+		var drwFclty = [
+           { name: 'drwLstRegistYear', value: row['drwLstRegistYear'] },
+           { name: 'drwLstSeq', value: row['drwLstSeq'] }
+         ];
+
+	 	this.doAction('<c:url value="/fclty/selectDrwListDetail.do" />', drwFclty, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			this._deleteDataFileList = [];    // 삭제 목록 초기화
+	 			module.makeFormValues('#drwListManageVO', result.resultMaster);	// 결과값을 채운다.
+	 			module.$("#drwListPhotoList").flexEmptyData();
+	 			module.$("#drwListPhotoList").flexAddData({resultList: result.resultDetail});
+	 		}
+	 		else {
+	 			alert(result.resultMsg);
+	 		}
+	 	});
 	}
-	if(changed) {
-		var rowid=this.$("#drwListPhotoList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#drwListPhotoList').flexUpdateRow(rowid, row);
-	}
+//	console.log("detail data loaded");
 };
 
+GamFcltyDrwListMngtModule.prototype.applyPhotoChanged = function(target) {
+	if(this._editDataFile===undefined) return;
+	if(this._editDataFile._updtId===undefined) this._editDataFile._updtId;
+	if(this._editDataFile._updtId!='I') this._editDataFile._updtId='U';
+
+	this._editDataFile=this.getFormValues('#drwListPhotoForm', this._editDataFile);
+
+	this.edited=true;
+	this.$('#drwListPhotoList').flexUpdateRow(this._editRowFile, this._editDataFile);
+};
 
 /**
  * 정의 된 버튼 클릭 시
@@ -211,58 +208,49 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 조회
 		case "searchBtn":
-			var searchOpt=this.makeFormArgs("#drwListForm");
-		 	this.$("#drwListMngtListTab").tabs("option", {active: 0});
-		 	this.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
+			this.loadList();
 		break;
 
 		// 추가
 		case "addBtn":
+			this._cmd="insert";
 			this.$("#drwListMngtListTab").tabs("option", {active: 1});
 			this.$("#drwListManageVO :input").val("");
-			this.$("#cmd").val("insert");
 			this.$("#drwLstRegistYear").removeAttr("disabled");
 		break;
 
 		// 저장
-		case "saveBtn":
-
-			if(!validateGamDrwListCode(this.$("#drwListManageVO")[0])) return;
+		case "btnSaveFile":
+		case "btnSaveFile2":
+			if(!validateGamDrwListCode(this.$("#drwListManageVO")[0])) {
+				this.$("#drwListMngtListTab").tabs("option", {active: 1});
+				return;
+			}
 
 		 	var inputVO=[{}];
 
 		 	if(this._deleteDataFileList == undefined) this._deleteDataFileList=[];
 
-			inputVO[inputVO.length]={name: "insertFileList", value: JSON.stringify(this.$("#drwListPhotoList").selectFilterData([{col: "_updtId", filter: "I"}])) };
-			inputVO[inputVO.length]={name: "updateFileList", value :JSON.stringify(this.$("#drwListPhotoList").selectFilterData([{col: "_updtId", filter: "U"}])) };
-			inputVO[inputVO.length]={name: "deleteFileList", value: JSON.stringify(this._deleteDataFileList) };
-			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this.getFormValues("#drwListManageVO", {})) };
+		 	this.$("#cmd").val(this._cmd);
 
-		 	if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/fclty/gamDrwInfoListMngInsert.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#drwListForm");
-						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#drwListMngtListTab").tabs("option", {active: 0});
-						module.$("#drwListManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('<c:url value="/fclty/gamDrwListMngUpdate.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#drwListForm");
-						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#drwListMngtListTab").tabs("option", {active: 0});
-						module.$("#drwListManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}
+			inputVO[inputVO.length]={name: "drwListMaster", value: JSON.stringify(this.getFormValues("#drwListManageVO", {})) };
+
+		    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#drwListPhotoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+		    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#drwListPhotoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+		    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+
+		    this.doAction('<c:url value="/fclty/mergeDrwInfoMngt.do" />', inputVO, function(module, result) {
+		        if(result.resultCode == 0){
+			    	module.loadDetailData();
+		        }
+		        alert(result.resultMsg);
+		    });
 		break;
-
 		// 삭제
-		case "deleteBtn":
+		case "btnDeleteFile":
+			if(this._cmd=="insert") {
+				this.$("#drwListMngtListTab").tabs("option", {active: 0});
+			}
 			var row = this.$("#drwListMngtList").selectedRows();
 
 			if(row.length == "0"){
@@ -270,10 +258,10 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 				return;
 			}
 
-			if(confirm("선택 한 건축 시설을 삭제하시겠습니까?")){
+			if(confirm("선택 한 도면 목록을 삭제하시겠습니까?")){
 
 				var inputVO = {drwLstRegistYear:row[0]["drwLstRegistYear"], drwLstSeq:row[0]["drwLstSeq"]};
-			 	this.doAction('<c:url value="/fclty/gamDrwListMngDelete.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/fclty/deleteDrwInfoMngt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -304,8 +292,8 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.removeGisAssetPhotoItem();
 		break;
 
-		case 'btnSaveFile':	// 저장
-			if( confirm("사진 목록을 저장하시겠습니까?") ) {
+/* 		case 'btnSaveFile':	// 저장
+			if( confirm(" 저장하시겠습니까?") ) {
 			    // 변경된 자료를 저장한다.
 			    var inputVO=[];
 			    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#drwListPhotoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
@@ -322,9 +310,9 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			    });
 			}
 			break;
-
+ */
 		// 파일 적용
-		
+
 		/*
 		case "btnApplyPhotoData":
 
@@ -349,7 +337,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		break;
 		*/
-		
+
 	}
 };
 GamFcltyDrwListMngtModule.prototype.removeGisAssetPhotoItem = function() {
@@ -365,6 +353,8 @@ GamFcltyDrwListMngtModule.prototype.removeGisAssetPhotoItem = function() {
 
     		var row = this.$("#drwListPhotoList").flexGetRow(this.$("#drwListPhotoList").selectedRowIds()[i]);
 
+    		if(this._deleteDataFileList==null) this._deleteDataFileList=[];
+
             if(row._updtId == undefined || row._updtId != "I") {
             	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			}
@@ -374,11 +364,9 @@ GamFcltyDrwListMngtModule.prototype.removeGisAssetPhotoItem = function() {
 		}
 
     	this.$("#previewImage").attr("src","");
-    	alert("삭제되었습니다.");
 	}
 
     this.$("#drwListPhotoForm").find(":input").val("");
-    this._editDataFile = null;
 };
 
 GamFcltyDrwListMngtModule.prototype.clearCodePage = function() {
@@ -406,6 +394,31 @@ GamFcltyDrwListMngtModule.prototype.loadPhotoList = function() {
 
  	this.$('#drwListPhotoList').flexOptions({params:searchOpt}).flexReload();
 };
+
+/*
+ * 탭 변경 전 호출 함수
+ */
+GamFcltyDrwListMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	switch(newTabId) {
+	case "tabs1":
+		if(this._edited) {
+			if(!confirm('저장하지 않은 편집 항목이 있습니다. 탭을 이동하면 편집 한 항목이 저장 되지 않습니다 계속 하시겠습니까?')) {
+				return false;
+			}
+		}
+		break;
+	case "tabs2":
+	case "tabs3":
+		var row = this.$('#drwListMngtList').selectedRowIds();
+		if(row.length!=1 && this._cmd!="insert") {
+			alert('도면 목록을 선택 하세요');
+			return false;
+		}
+		break;
+	}
+	return true;
+};
+
 /**
  * 탭 변경시 실행 이벤트
  */
@@ -414,85 +427,9 @@ GamFcltyDrwListMngtModule.prototype.loadPhotoList = function() {
 	case "tabs1":
 		break;
 	case "tabs2":
-		if(this._cmd!="insert") {
-			var row = this.$('#drwListMngtList').selectedRows();
-			if(row.length <= 0) {
-		 		this.clearCodePage();
-		 		if(this._params.action!=null || this._params.action=='prtFcltyMngt') {
-		 			var prtFclty = [
-									{ name: 'drwLstRegistYear', value: row['drwLstRegistYear'] },
-									{ name: 'drwLstSeq', value: row['drwLstSeq'] }
-		 			              ];
-		 	     	 	this.doAction('<c:url value="/fclty/gamDrwFcltyDetail.do" />', prtFclty, function(module, result) {
-		 	     	 		if(result.resultCode == "0"){
-		 	     	 			module.clearCodePage();
-		 	     	 			module._fcltyItem=result.result;
-		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
-		 	     	 		}
-		 	     	 		else {
-		 	     	 			alert(result.resultMsg);
-		 	     	 		}
-		 	     	 	});
-	 	     	 	}
-				return;
-			}
-			row=row[0];
-			console.log(row);
-			var drwFclty = [
-			                { name: 'drwLstRegistYear', value: row['drwLstRegistYear'] },
-			                { name: 'drwLstSeq', value: row['drwLstSeq'] }
-			              ];
-	     	 	this.doAction('<c:url value="/fclty/gamDrwFcltyDetail.do" />', drwFclty, function(module, result) {
-	     	 		if(result.resultCode == "0"){
-	     	 			module.clearCodePage();
-	     	 			module._DrwItem=result.result;
-	     	 			module.makeFormValues('#drwListManageVO', result.result);	// 결과값을 채운다.
-	     	 		}
-	     	 		else {
-	     	 			alert(result.resultMsg);
-	     	 		}
-	     	 	});
-		}
-		else if(this._cmd=="insert") {
-	 			this.clearCodePage();
-		}
-		break;
 	case "tabs3":
-		this._deleteDataFileList = [];    // 삭제 목록 초기화
-		if(this._cmd!="insert") {
-			var row = this.$('#drwListMngtList').selectedRows();
-			if(row.length <= 0) {
-		 		this.clearPhotoPage();
-		 		if(this._params.action!=null || this._params.action=='prtFcltyMngt') {
-		 			var drwFclty = [
-		 			                 { name: 'drwLstRegistYear', value: row['drwLstRegistYear'] },
-			              		     { name: 'drwLstSeq', value: row['drwLstSeq'] }
-		 			              ];
-		 		 	this.$('#drwListPhotoList').flexOptions({params:drwFclty}).flexReload();
-	 	     	 	}
-				return;
-			}
-					row=row[0];
-					var drwFclty = [
-			              		     { name: 'drwLstRegistYear', value: row['drwLstRegistYear'] },
-			              		     { name: 'drwLstSeq', value: row['drwLstSeq'] }
-			              ]; 
-	     	 	this.doAction('<c:url value="/fclty/gamDrwFcltyDetail.do" />', drwFclty, function(module, result) {
-	     	 		if(result.resultCode == "0"){
-	     	 			module.clearPhotoPage();
-	     	 			module._fcltyItem=result.result;
-	     	 			module.makeFormValues('#drwListManageVO', result.result);	// 결과값을 채운다.
-	     	 		}
-	     	 		else {
-	     	 			alert(result.resultMsg);
-	     	 		}
-	     	 	});
-	     	 	this.loadPhotoList();
-		}
-		else if(this._cmd=="insert") {
-	 			this.clearPhotoPage();
-		}
-		//this.loadPhotoList();
+		if(oldTabId!="tabs1") return;	// 이전 탭이 tabs1 이 아니면 로딩 안함
+		this.loadDetailData();
 		break;
 	}
 };
@@ -528,7 +465,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="drwListMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="drwListMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">도면목록</a></li>
 				<li><a href="#tabs2" class="emdTab">도면목록상세</a></li>
@@ -583,11 +520,11 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="btnEditMap">도면위치등록</button>
-					<button id="btnRemoveMap">도면위치삭제</button>
-					<button id="btnGotoMap">도면위치조회</button>
-					<button id="deleteBtn">도면목록삭제</button>
-					<button id="saveBtn">도면목록저장</button>
+					<button id="btnEditMap">위치등록</button>
+					<button id="btnRemoveMap">위치삭제</button>
+					<button id="btnGotoMap">위치조회</button>
+					<button id="btnDeleteFile" class="buttonDelete">삭제</button>
+					<button id="btnSaveFile" class="buttonSave">저장</button>
 				</div>
 			</div>
 
@@ -598,10 +535,10 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
 					<button id="btnRemoveFile">삭제</button>
-					<button id="btnSaveFile">저장</button>
+					<button id="btnSaveFile2">저장</button>
 				</div>
 				<form id="drwListPhotoForm">
-					<table class="searchPanel">
+					<table class="detailForm">
 						<tr>
 							<th width="20%" height="23">도면 자료 코드</th>
 							<td colspan="3"><input type="text" size="40" id="drwDtaCd" disabled="disabled" maxlength="20" /></td>

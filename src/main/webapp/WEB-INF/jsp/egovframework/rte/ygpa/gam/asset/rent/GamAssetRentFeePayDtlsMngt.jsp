@@ -58,13 +58,6 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
     });
 
     this.$("#assetRentFeePayList").on('onItemSelected', function(event, module, row, grid, param) {
-/*         module.$('#cmd').val('modify');
-
-        module.$('#gamAssetRentFeePayForm :input').val('');
-
-        module.makeFormValues('#gamAssetRentFeePayForm', row);
-        module._editData=module.getFormValues('#gamAssetRentFeePayForm', row);
-        module._editRow=module.$('#assetRentFeePayList').selectedRowIds()[0]; */
     });
 
     this.$("#assetRentFeePayList").on('onItemDoubleClick', function(event, module, row, grid, param) {

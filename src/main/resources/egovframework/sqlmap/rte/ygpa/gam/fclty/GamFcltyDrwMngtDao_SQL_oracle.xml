@@ -7,10 +7,10 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="drwDtaFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO"/>
     <typeAlias alias="drwInfoFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO"/>
-    
-    
+
+
     <select id="gamFcltyMngtDao.DrwDetailSelectView" resultClass="egovMap" parameterClass="hashMap" >
-			SELECT 
+			SELECT
 					DRW_LST_REGIST_YEAR
 					,DRW_LST_SEQ
 					,DRW_LST_NM
@@ -22,34 +22,34 @@
 					,AUTHNM
 					,SBM_NM
 					,EXM_NM
-					,CNSTRTR  
+					,CNSTRTR
 				FROM DRW_INFO_F
 				WHERE DRW_LST_REGIST_YEAR= #drwLstRegistYear#
 				AND DRW_LST_SEQ= #drwLstSeq#
   	</select>
-  	
+
     <select id="gamFcltyDrwMngtDao.selectDrwListMngtList" parameterClass="drwInfoFVO" resultClass="egovMap">
-		SELECT * 
-		  FROM 
-		       (SELECT Z.*, 
-		              ROWNUM AS RNUM 
-		         FROM 
-		              (SELECT 
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (SELECT
 		              	      DRW_LST_REGIST_YEAR ||'-'|| DRW_LST_SEQ AS DRAW_LIST_NUMBER
-		              		, DRW_LST_REGIST_YEAR 
-		                    , DRW_LST_SEQ 
-		                    , DRW_LST_NM 
+		              		, DRW_LST_REGIST_YEAR
+		                    , DRW_LST_SEQ
+		                    , DRW_LST_NM
 		                    , DRW_LST_MNG_DEPT_CD
-		                    , (SELECT ORGNZT_NM FROM COMTNORGNZTINFO WHERE ORGNZT_ID = DRW_LST_MNG_DEPT_CD) AS DRW_LST_MNG_DEPT_NM 
-		                    , REG_USR 
+		                    , (SELECT ORGNZT_NM FROM COMTNORGNZTINFO WHERE ORGNZT_ID = DRW_LST_MNG_DEPT_CD) AS DRW_LST_MNG_DEPT_NM
+		                    , REG_USR
 		                    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
-		                    , DRW_LST_SE_CD 
-		                    , DRW_LST_GIS_CD 
-		                    , AUTHNM 
-		                    , SBM_NM 
-		                    , EXM_NM 
-		                    , CNSTRTR 
-		                FROM DRW_INFO_F 
+		                    , DRW_LST_SE_CD
+		                    , DRW_LST_GIS_CD
+		                    , AUTHNM
+		                    , SBM_NM
+		                    , EXM_NM
+		                    , CNSTRTR
+		                FROM DRW_INFO_F
 		                WHERE 1 = 1
 		                <!-- 도면 목록 등록 년도 -->
 		                <isNotEmpty property="drwLstRegistYear">
@@ -71,16 +71,16 @@
 	           			<isNotEmpty property="drwLstMngDeptCd">
 	           				AND DRW_LST_MNG_DEPT_CD = #drwLstMngDeptCd#
 	           			</isNotEmpty>
-		            ORDER BY DRW_LST_SEQ DESC , 
-		                     DRW_LST_REGIST_YEAR DESC 
+		            ORDER BY DRW_LST_SEQ DESC ,
+		                     DRW_LST_REGIST_YEAR DESC
 		              )Z
 		       )
 		       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
     <select id="gamFcltyDrwMngtDao.selectDrwListMngtListTotCnt" parameterClass="drwInfoFVO" resultClass="int">
-		SELECT COUNT(*) totcnt 
-		  FROM DRW_INFO_F 
+		SELECT COUNT(*) totcnt
+		  FROM DRW_INFO_F
 		 WHERE 1=1
 		 <!-- 도면 목록 등록 년도 -->
 		<isNotEmpty property="drwLstRegistYear">
@@ -103,90 +103,90 @@
         	AND DRW_LST_MNG_DEPT_CD = #drwLstMngDeptCd#
         </isNotEmpty>
     </select>
-    
+
     <select id="gamFcltyDrwMngtDao.selectDrwListPhotoList" parameterClass="drwDtaFVO" resultClass="egovMap">
-		SELECT * 
-		  FROM 
-		       (SELECT Z.*, 
-		              ROWNUM AS RNUM 
-		         FROM 
-		              (SELECT  DRW_DTA_CD 
-		                     , DRW_LST_REGIST_YEAR 
-		                     , DRW_LST_SEQ 
-		                     , DRW_NM 
-		                     , DRW_FILENM_PHYSICL 
-		                     , DRW_FILENM_LOGIC 
-		                     , DRW_SE_CD 
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (SELECT  DRW_DTA_CD
+		                     , DRW_LST_REGIST_YEAR
+		                     , DRW_LST_SEQ
+		                     , DRW_NM
+		                     , DRW_FILENM_PHYSICL
+		                     , DRW_FILENM_LOGIC
+		                     , DRW_SE_CD
 		                     , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM048' AND CODE = DRW_SE_CD) AS DRW_SE_NM
-		                     , DRW_NO 
+		                     , DRW_NO
 							 , TO_CHAR(TO_DATE(DRW_WRITNG_DT), 'YYYY-MM-DD') AS DRW_WRITNG_DT
-                             , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT 
+                             , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
 		                     , REG_USR
                              , TO_CHAR(TO_DATE(DRW_CHANGEDT), 'YYYY-MM-DD') AS DRW_CHANGEDT
                              , DRW_CHANGE_DTLS
-		                     , DRW_GIS_CD  
+		                     , DRW_GIS_CD
 		                FROM DRW_DTA_F
 		                WHERE DRW_LST_SEQ = #drwLstSeq#
            				AND DRW_LST_REGIST_YEAR = #drwLstRegistYear#
-		            ORDER BY DRW_DTA_CD DESC , 
-		                     DRW_LST_REGIST_YEAR DESC , 
-		                     DRW_LST_SEQ DESC 
-		              )Z 
+		            ORDER BY DRW_DTA_CD DESC ,
+		                     DRW_LST_REGIST_YEAR DESC ,
+		                     DRW_LST_SEQ DESC
+		              )Z
 		       )
 		       <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
     <select id="gamFcltyDrwMngtDao.selectDrwListPhotoListTotCnt" parameterClass="drwDtaFVO" resultClass="int">
-			SELECT COUNT(*) totcnt 
-			  FROM DRW_DTA_F 
+			SELECT COUNT(*) totcnt
+			  FROM DRW_DTA_F
 			 WHERE DRW_LST_SEQ = #drwLstSeq#
 			 AND DRW_LST_REGIST_YEAR = #drwLstRegistYear#
     </select>
-    
+
     <insert id="gamFcltyDrwMngtDao.insertDrwListMng">
     	<selectKey keyProperty="maxDrwSeq" resultClass="String">
-	       	SELECT LPAD(NVL(MAX(DRW_LST_SEQ),0) + 1,'4','0') 
-				FROM DRW_INFO_F  
-		   	WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+	       	SELECT LPAD(NVL(MAX(DRW_LST_SEQ),0) + 1,'4','0')
+				FROM DRW_INFO_F
+		   	WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 	    </selectKey>
-		INSERT 
-		  INTO DRW_INFO_F 
-		       ( 
-		           DRW_LST_REGIST_YEAR , 
-		           DRW_LST_SEQ , 
-		           DRW_LST_NM , 
-		           DRW_LST_MNG_DEPT_CD , 
-		           REG_USR , 
-		           REGIST_DT , 
-		           DRW_LST_SE_CD , 
-		           DRW_LST_GIS_CD , 
-		           AUTHNM , 
-		           SBM_NM , 
-		           EXM_NM , 
+		INSERT
+		  INTO DRW_INFO_F
+		       (
+		           DRW_LST_REGIST_YEAR ,
+		           DRW_LST_SEQ ,
+		           DRW_LST_NM ,
+		           DRW_LST_MNG_DEPT_CD ,
+		           REG_USR ,
+		           REGIST_DT ,
+		           DRW_LST_SE_CD ,
+		           DRW_LST_GIS_CD ,
+		           AUTHNM ,
+		           SBM_NM ,
+		           EXM_NM ,
 		           CNSTRTR
-		       ) 
-		       VALUES 
-		       ( 
-		           #drwLstRegistYear#, 
-		           #maxDrwSeq#, 
-		           #drwLstNm#, 
-		           #drwLstMngDeptCd#, 
-		           #regUsr#, 
-		           sysdate, 
-		           #drwLstSeCd#, 
-		           #drwLstGisCd#, 
-		           #authnm#, 
-		           #sbmNm#, 
-		           #exmNm#, 
-		           #cnstrtr# 
+		       )
+		       VALUES
+		       (
+		           #drwLstRegistYear#,
+		           #maxDrwSeq#,
+		           #drwLstNm#,
+		           #drwLstMngDeptCd#,
+		           #regUsr#,
+		           sysdate,
+		           #drwLstSeCd#,
+		           #drwLstGisCd#,
+		           #authnm#,
+		           #sbmNm#,
+		           #exmNm#,
+		           #cnstrtr#
 		       )
 	</insert>
-    
+
     <insert id="gamFcltyDrwMngtDao.insertDrwListMngFile">
       	<selectKey keyProperty="maxDrwDtaCd" resultClass="String">
-			SELECT LPAD(NVL(MAX(DRW_DTA_CD),0) + 1,'2','0') 
-			  FROM DRW_DTA_F 
-			 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+			SELECT LPAD(NVL(MAX(DRW_DTA_CD),0) + 1,'2','0')
+			  FROM DRW_DTA_F
+			 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 			       AND DRW_LST_SEQ = #drwLstSeq#
 	    </selectKey>
 		INSERT INTO DRW_DTA_F (
@@ -203,7 +203,7 @@
 				, REGIST_DT
 				, REG_USR
 				, DRW_GIS_CD
-		
+
 		    ) VALUES (
 				  #maxDrwDtaCd#
 				, #drwLstRegistYear#
@@ -220,55 +220,94 @@
 				, #drwGisCd#
 			)
 	</insert>
-    
+
    	<update id="gamFcltyDrwMngtDao.updateDrwListMng">
-		UPDATE DRW_INFO_F 
+		UPDATE DRW_INFO_F
 		SET
-		       DRW_LST_NM = #drwLstNm#, 
-		       DRW_LST_MNG_DEPT_CD = #drwLstMngDeptCd#, 
-		       DRW_LST_SE_CD = #drwLstSeCd#, 
-		       DRW_LST_GIS_CD = #drwLstGisCd#, 
-		       AUTHNM = #authnm#, 
-		       SBM_NM = #sbmNm#, 
-		       EXM_NM = #exmNm#, 
-		       CNSTRTR = #cnstrtr# 
-		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+		       DRW_LST_NM = #drwLstNm#,
+		       DRW_LST_MNG_DEPT_CD = #drwLstMngDeptCd#,
+		       DRW_LST_SE_CD = #drwLstSeCd#,
+		       DRW_LST_GIS_CD = #drwLstGisCd#,
+		       AUTHNM = #authnm#,
+		       SBM_NM = #sbmNm#,
+		       EXM_NM = #exmNm#,
+		       CNSTRTR = #cnstrtr#
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 		       AND DRW_LST_SEQ = #drwLstSeq#
 	</update>
-    
+
     <update id="gamFcltyDrwMngtDao.updateDrwListMngFile">
-  		UPDATE DRW_DTA_F 
-		       SET 
-		       DRW_NM = #drwNm#, 
-		       DRW_FILENM_PHYSICL = #drwFilenmPhysicl#, 
-		       DRW_FILENM_LOGIC = #drwFilenmLogic#, 
-		       DRW_SE_CD = #drwSeCd#, 
-		       DRW_NO = #drwNo#, 
-		       DRW_WRITNG_DT = #drwWritngDt#, 
-		       DRW_CHANGEDT = #drwChangedt#, 
-		       DRW_CHANGE_DTLS = #drwChangeDtls#, 
-		       DRW_GIS_CD = #drwGisCd# 
-		 WHERE DRW_DTA_CD = #drwDtaCd# 
-		       AND DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+  		UPDATE DRW_DTA_F
+		       SET
+		       DRW_NM = #drwNm#,
+		       DRW_FILENM_PHYSICL = #drwFilenmPhysicl#,
+		       DRW_FILENM_LOGIC = #drwFilenmLogic#,
+		       DRW_SE_CD = #drwSeCd#,
+		       DRW_NO = #drwNo#,
+		       DRW_WRITNG_DT = #drwWritngDt#,
+		       DRW_CHANGEDT = #drwChangedt#,
+		       DRW_CHANGE_DTLS = #drwChangeDtls#,
+		       DRW_GIS_CD = #drwGisCd#
+		 WHERE DRW_DTA_CD = #drwDtaCd#
+		       AND DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 		       AND DRW_LST_SEQ = #drwLstSeq#
     </update>
-    
-    <delete id="gamFcltyDrwMngtDao.deleteDrwListMng">
-    	DELETE 
-		  FROM DRW_INFO_F 
-		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+
+    <delete id="gamFcltyDrwMngtDao.deleteDrwListMng" parameterClass="hashMap">
+    	DELETE
+		  FROM DRW_INFO_F
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 		       AND DRW_LST_SEQ = #drwLstSeq#
     </delete>
-    
-    <delete id="gamFcltyDrwMngtDao.deleteDrwListMngFile">
-    	DELETE 
-		  FROM DRW_DTA_F 
-		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear# 
+
+    <delete id="gamFcltyDrwMngtDao.deleteDrwListMngFile" parameterClass="hashMap">
+    	DELETE
+		  FROM DRW_DTA_F
+		 WHERE DRW_LST_REGIST_YEAR = #drwLstRegistYear#
 		    AND DRW_LST_SEQ = #drwLstSeq#
 		    <isNotEmpty property="drwDtaCd">
    				AND DRW_DTA_CD = #drwDtaCd#
    			</isNotEmpty>
     </delete>
-    
-    
+
+    <select id="gamFcltyDrwMngtDao.selectDrwListDetailMaster_S" parameterClass="hashMap" resultClass="egovMap">
+			SELECT
+			DRW_LST_REGIST_YEAR
+			,DRW_LST_SEQ
+			,DRW_LST_NM
+			,DRW_LST_MNG_DEPT_CD
+			,REG_USR
+			,REGIST_DT
+			,DRW_LST_SE_CD
+			,DRW_LST_GIS_CD
+			,AUTHNM
+			,SBM_NM
+			,EXM_NM
+			,CNSTRTR
+			FROM DRW_INFO_F
+			WHERE DRW_LST_REGIST_YEAR= #drwLstRegistYear#
+			AND DRW_LST_SEQ= #drwLstSeq#
+    </select>
+
+       <select id="gamFcltyDrwMngtDao.selectDrwListDetailFileList_D" parameterClass="hashMap" resultClass="egovMap">
+			SELECT
+			DRW_DTA_CD
+			, DRW_LST_REGIST_YEAR
+			, DRW_LST_SEQ
+			, DRW_NM
+			, DRW_FILENM_PHYSICL
+			, DRW_FILENM_LOGIC
+			, DRW_SE_CD
+			, GAM_GETCODENAME('GAM048', DRW_SE_CD) AS DRW_SE_NM
+			, DRW_NO
+			, TO_CHAR(TO_DATE(DRW_WRITNG_DT), 'YYYY-MM-DD') AS DRW_WRITNG_DT
+			, TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
+			, REG_USR
+			, TO_CHAR(TO_DATE(DRW_CHANGEDT), 'YYYY-MM-DD') AS DRW_CHANGEDT
+			, DRW_CHANGE_DTLS
+			, DRW_GIS_CD
+			FROM DRW_DTA_F
+			WHERE DRW_LST_REGIST_YEAR= #drwLstRegistYear#
+			AND DRW_LST_SEQ= #drwLstSeq#
+   </select>
 </sqlMap>

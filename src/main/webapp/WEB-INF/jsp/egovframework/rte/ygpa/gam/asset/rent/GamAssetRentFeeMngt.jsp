@@ -565,17 +565,17 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <table id="summaryFeeInfo" class="summaryPanel">
                         <tr>
                             <th><span class="label">총 사용료</span></th>
-                            <td style="text-align:right; width: 92px"><span data-column-id="sumFee" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right; width: 92px"><span data-column-id="sumFee" class="ygpaNumber"></span></td>
                         	<th><span class="label">총 고지 금액</span></th>
-                            <td style="text-align:right; width: 92px"><span data-column-id="sumNticAmt" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right; width: 92px"><span data-column-id="sumNticAmt" class="ygpaNumber"></span></td>
                             <th><span class="label">관리비</span></th>
-                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeA4" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeA4" class="ygpaNumber"></span></td>
                             <th><span class="label">이자</span></th>
-                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeA3" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeA3" class="ygpaNumber"></span></td>
                             <th><span class="label">연체료</span></th>
-                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeD1" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeD1" class="ygpaNumber"></span></td>
                             <th><span class="label">과태료</span></th>
-                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeD2" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right; width: 92px"><span data-column-id="sumFeeD2" class="ygpaNumber"></span></td>
                         </tr>
                     </table>
             </div>
