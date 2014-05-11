@@ -45,11 +45,13 @@ table .searchPanel {
   text-shadow: #fff 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .searchPanel td {
 	background: #fff;
 	padding: 2px;
+  vertical-align: middle;
 }
 
 
@@ -88,10 +90,12 @@ vertical-align: middle;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .editPanel td {
-	background: #fff
+	background: #fff;
+  vertical-align: middle;
 }
 
 .editPanel tr {
@@ -107,11 +111,13 @@ vertical-align: middle;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .editForm td {
 	background: #fff;
 	color: #615E5E;
+  vertical-align: middle;
 }
 
 .editForm tr {
@@ -132,6 +138,7 @@ vertical-align: middle;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .detailForm td {
@@ -159,6 +166,7 @@ vertical-align: middle;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .detailPanel td {
@@ -186,6 +194,7 @@ vertical-align: middle;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .summaryPanel td {
@@ -242,11 +251,13 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
+  vertical-align: middle;
 }
 
 .prtFcltyInfo td {
 	background: #fff;
 	color: #615E5E;
+  vertical-align: middle;
 }
 
 .prtFcltyInfo tr {
