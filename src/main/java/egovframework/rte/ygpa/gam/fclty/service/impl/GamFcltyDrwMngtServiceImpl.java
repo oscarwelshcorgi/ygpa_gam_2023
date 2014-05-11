@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO;
@@ -91,6 +93,7 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 		form.put("regUsr", (String)drwListMngtList.get("USERID"));
 
 		String insertkey = insertDrwListMng(form);
+
 
 		// 도면목록관리 파일을 저장한다.
 		if(insertFileList.size() > 0){
@@ -198,4 +201,39 @@ public class GamFcltyDrwMngtServiceImpl extends AbstractServiceImpl implements G
 	private void deleteDrwListMngFileImpl(Map<String,String> deleteList) throws Exception{
 		gamFcltyDrwMngtDao.deleteDrwListMngFile(deleteList);
 	}
+	
+	// 도면 목록관리 상세
+	public EgovMap DrwSelectView(Map vo) throws Exception {
+		return gamFcltyDrwMngtDao.DrwDetailSelectView(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwMngtService#mergeFcltyPhotoMngt(java.util.Map)
+	 */
+	@Override
+	public List mergeDrwPhotoMngt(Map mergeList) throws Exception {
+		ArrayList arraylistCU = (ArrayList)mergeList.get("CU");
+        HashMap[] hmCU = (HashMap[])arraylistCU.toArray(new HashMap[arraylistCU.size()]);
+        Map result;
+        Integer photoSeq=0;
+
+//		if(hmCU.length>0) photoSeq=gamFcltyDrwMngtDao.selectFcltyPhotoMaxSeq(hmCU[0]);
+        //수정처리 & 입력처리
+        for (int i=0; i<hmCU.length; i++) {
+        	if ("I".equals(hmCU[i].get("_updtId"))) {
+            	log.debug("#photoeq : "+photoSeq.toString());
+            	hmCU[i].put("photoSeq", photoSeq++);
+//            	hmCU[i].put("prtFcltySe", prtFcltySe);
+            }
+        	else if("U".equals(hmCU[i].get("_updtId"))){
+        	}
+            else {
+            	log.debug("unknown RowStatus ["+i+"] : "+hmCU[i].get("_updtId"));
+            }
+        }
+
+		return gamFcltyDrwMngtDao.mergeFcltyPhoto(mergeList);
+	}
+
+	
 }

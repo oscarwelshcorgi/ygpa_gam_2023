@@ -8,6 +8,26 @@
     <typeAlias alias="drwDtaFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO"/>
     <typeAlias alias="drwInfoFVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO"/>
     
+    
+    <select id="gamFcltyMngtDao.DrwDetailSelectView" resultClass="egovMap" parameterClass="hashMap" >
+			SELECT 
+					DRW_LST_REGIST_YEAR
+					,DRW_LST_SEQ
+					,DRW_LST_NM
+					,DRW_LST_MNG_DEPT_CD
+					,REG_USR
+					,REGIST_DT
+					,DRW_LST_SE_CD
+					,DRW_LST_GIS_CD
+					,AUTHNM
+					,SBM_NM
+					,EXM_NM
+					,CNSTRTR  
+				FROM DRW_INFO_F
+				WHERE DRW_LST_REGIST_YEAR= #drwLstRegistYear#
+				AND DRW_LST_SEQ= #drwLstSeq#
+  	</select>
+  	
     <select id="gamFcltyDrwMngtDao.selectDrwListMngtList" parameterClass="drwInfoFVO" resultClass="egovMap">
 		SELECT * 
 		  FROM 
@@ -249,4 +269,6 @@
    				AND DRW_DTA_CD = #drwDtaCd#
    			</isNotEmpty>
     </delete>
+    
+    
 </sqlMap>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwDtaFVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyDrwInfoFVO;
 
@@ -124,5 +125,17 @@ public class GamFcltyDrwMngtDao extends YGPAAbstractDAO{
      */
     public void deleteDrwListMngFile(Map<String,String> fileList){
     	update("gamFcltyDrwMngtDao.deleteDrwListMngFile",fileList);
+    }
+    
+    /**
+     * 도면목록관리 상세
+     *      * @param fileList
+     */
+    public EgovMap DrwDetailSelectView(Map vo) throws Exception{
+        return (EgovMap) selectByPk("gamFcltyMngtDao.DrwDetailSelectView", vo);
+    }
+
+    public List mergeFcltyPhoto(Map vo) throws Exception{
+    	return merge(vo,"","","");
     }
 }

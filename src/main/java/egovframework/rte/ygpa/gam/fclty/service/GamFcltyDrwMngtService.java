@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.com.cmm.ComDefaultVO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
  * 
@@ -79,4 +80,20 @@ public interface GamFcltyDrwMngtService {
 	 * @throws Exception
 	 */
 	public void deleteDrwListMng(GamFcltyDrwDtaFVO vo) throws Exception;
+	
+	/**
+	 * 도면 목록관리 상세
+	 * @param vo
+	 * @throws Exception
+	 */
+	public EgovMap DrwSelectView(Map fcltyManageVO) throws Exception;
+
+	/**
+	 * 도면 목록관리 비교
+	 * @param map
+	 * @throws Exception
+	 */
+	
+	public List mergeDrwPhotoMngt(Map mergeList) throws Exception;
+	
 }

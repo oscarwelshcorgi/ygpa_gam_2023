@@ -325,7 +325,6 @@ public class GamConsFcltyMngtController {
 	@ResponseBody Map<String, Object> mergeGamGisAssetPhotoMngt(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String, String> userMap = new HashMap<String, String>();
 		ObjectMapper mapper = new ObjectMapper();
