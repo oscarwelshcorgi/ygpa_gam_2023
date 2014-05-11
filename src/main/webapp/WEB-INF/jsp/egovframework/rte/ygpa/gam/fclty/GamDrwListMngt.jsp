@@ -57,17 +57,6 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 
 	this.$("#drwListMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		module._cmd="modify";
-		/*
-		module.$("#drwListManageVO :input").val("");
-
-		module.makeFormValues("#drwListManageVO", row);
-		module._editInfoData = module.getFormValues("#drwListManageVO", row);
-		module._editInfoRow = module.$("#drwListMngtList").selectedRowIds()[0];
-		module.$("#cmd").val("modify");
-		module.$("#drwLstRegistYear").attr("disabled","disabled");
-		var searchOpt = module.makeFormArgs("#drwListManageVO");
-        module.$("#drwListPhotoList").flexOptions({params:searchOpt}).flexReload();
-         */
 	});
 
 	this.$("#drwListMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -75,25 +64,6 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		module._cmd="modify";
 		module.$("#drwListMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
-
-	// 사진 정보 속성이 변경 된 경우 이벤트 실행
-// 	this.$(".photoEditItem").on("change", {module: this}, function(event) {
-
-// 		var m = event.data.module;
-
-// 		if(m._editPhotoRow == null) return;
-// 		if(m._editPhotoData == null) return;
-
-// 		if(m._editPhotoData._updt == null || m._editPhotoData._updt == "") m._editPhotoData._updt = "U";
-// 		else m._editPhotoData._updt = "I";
-
-// 		if(m.$("#photoSj") == event.target){
-// 			m._editPhotoData.photoSj = $(event.target).val();
-// 		}else{
-// 			var dtStr = m.$("#shotDt").val()+" "+m.$("#shotTime").val();
-// 			m._editPhotoData.shotDt = dtStr;
-// 		}
-// 	});
 
 	this.$("#drwListPhotoList").flexigrid({
 		module: this,
@@ -167,6 +137,8 @@ GamFcltyDrwListMngtModule.prototype.loadDetailData = function() {
 	this.clearPhotoPage();
 	if(this._cmd!="insert") {
 		var row = this.$('#drwListMngtList').selectedRows()[0];
+
+		this._loadDrwItem = row;
 
 		var drwFclty = [
            { name: 'drwLstRegistYear', value: row['drwLstRegistYear'] },
@@ -282,7 +254,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 				var userid = "admin";
 
 				$.each(result, function(){
-					module.$("#drwListPhotoList").flexAddRow({_updtId:"I", drwDtaCd: "", drwNm: "", drwFilenmLogic: this.logicalFileNm, drwFilenmPhysicl: this.physcalFileNm, drwSeCd: "", drwNo: "", drwWritngDt:"", drwChangedt:"", drwChangeDtls : "",drwLstRegistYear:module._DrwItem.drwLstRegistYear, drwLstSeq:module._DrwItem.drwLstSeq});
+					module.$("#drwListPhotoList").flexAddRow({_updtId:"I", drwDtaCd: "", drwNm: "", drwFilenmLogic: this.logicalFileNm, drwFilenmPhysicl: this.physcalFileNm, drwSeCd: "", drwNo: "", drwWritngDt:"", drwChangedt:"", drwChangeDtls : "",drwLstRegistYear:module._loadDrwItem.drwLstRegistYear, drwLstSeq:module._loadDrwItem.drwLstSeq});
 				});
 			}, "도면파일 업로드");
 
@@ -291,52 +263,6 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "btnRemoveFile":
 			this.removeGisAssetPhotoItem();
 		break;
-
-/* 		case 'btnSaveFile':	// 저장
-			if( confirm(" 저장하시겠습니까?") ) {
-			    // 변경된 자료를 저장한다.
-			    var inputVO=[];
-			    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#drwListPhotoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
-			    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#drwListPhotoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
-			    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-
-			    this.doAction('<c:url value="/fclty/mergeDrwInfoPhotoMngt.do" />', inputVO, function(module, result) {
-			        if(result.resultCode == 0){
-				    	module.loadPhotoList();
-			        }
-			        alert(result.resultMsg);
-			    });
-			}
-			break;
- */
-		// 파일 적용
-
-		/*
-		case "btnApplyPhotoData":
-
-			if(this._editDataFile == null){
-				alert("적용할 파일이 없습니다.");
-				return;
-			}
-
-			if(!validateGamDrwListPhoto(this.$("#drwListPhotoForm")[0])) return;
-
-            this._editDataFile = this.getFormValues("#drwListPhotoForm", this._editDataFile);
-            if(this._editRowFile != null) {
-                if(this._editDataFile._updtId != "I") this._editDataFile._updtId = "U";
-                this.$("#drwListPhotoList").flexUpdateRow(this._editRowFile, this._editDataFile);
-                this._editRowFile = null;
-            }else{
-                this.$("#drwListPhotoList").flexAddRow(this._editDataFile);
-            }
-
-            this.$("#drwListPhotoForm :input").val("");
-            this._editDataFile = null;
-
-		break;
-		*/
 
 	}
 };
