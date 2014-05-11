@@ -292,8 +292,7 @@ GamAssetRentFeeMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTa
 		}
 	}
 	return true;
-}
-
+};
 
 GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
@@ -439,19 +438,19 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         		총 부가세 :
                         	</th>
                             <td style="text-align: right;">
-                            	<span data-column-id="sumVat" class="ygpaNumber"></span> 원
+                            	<span data-column-id="sumVat" class="ygpaNumber"></span>
                            	</td>
                      	    <th>
                         		총 고지금액 :
                         	</th>
                             <td style="text-align: right;">
-                            	<span data-column-id="sumNticAmt" class="ygpaNumber"></span> 원></span>
+                            	<span data-column-id="sumNticAmt" class="ygpaNumber"></span>
                            	</td>
                      	    <th>
                         		고지의뢰금액 :
                         	</th>
                             <td style="text-align: right;">
-                            	<span data-column-id="sumNhtIsueAmt" class="ygpaNumber"></span> 원></span>
+                            	<span data-column-id="sumNhtIsueAmt" class="ygpaNumber"></span>
                            	</td>
                         </tr>
                     </table>
@@ -587,7 +586,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
                      <button id="btnNticIssuePrint2">고지서출력</button>
                      <button id="btnTaxPrint2">계산서출력</button>
 	            </div>
-
 	        </div>
 	    </div>
 	</div>
