@@ -164,6 +164,7 @@ public class GamAssetRentSttusInqireController {
     	map.put("searchOption", searchVO);
     	map.put("sumGrAr", resultSum.getSumGrAr());
     	map.put("sumGrFee", resultSum.getSumGrFee());
+    	map.put("sumGrRdcxptFee", resultSum.getSumGrRdcxptFee());
     	
     	return map;
     }
