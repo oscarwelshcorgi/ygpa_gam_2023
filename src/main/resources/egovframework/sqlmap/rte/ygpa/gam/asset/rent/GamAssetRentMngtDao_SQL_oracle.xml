@@ -13,6 +13,7 @@
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
         <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
+        <result property="sumGrRdcxptFee" column="SUM_GR_RDCXPT_FEE" columnIndex="4"/>
     </resultMap>
 
     <resultMap id="gamAssetRentMaxMngMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO">
@@ -176,10 +177,13 @@
                                   , GAM_GETCODENAME('GAM046', A.SANCTN_STTUS) SANCTN_STTUS_NM
                                   , A.SANCTNER_EMPL_NO
                                   , A.QUAY_CD
-                                  , A.SANCTN_DT
+                                  , TO_CHAR(A.SANCTN_DT, 'YYYY-MM-DD HH24:MI:SS') SANCTN_DT
                                   , A.QUAY_GROUP_CD
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
-                                  , (A.PAYINST_INTRRATE * 100) PAYINST_INTRRATE
+                                  , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) || '%' AS PAYINST_INTRRATE
+                                  , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
+                                  , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
+                                  , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD='P'
 
@@ -200,7 +204,7 @@
                              </isNotEmpty>
 
                              <isNotEmpty property="sGrUsagePdTo">
-                                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                                 AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                              </isNotEmpty>
 
 					         <isNotEmpty property="sGrAr">
@@ -225,7 +229,7 @@
 
                              <isNotEmpty property="sUsagePrposCd">
                                  AND (
-								       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+								       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
 															                         SELECT  PRT_AT_CODE
 															                               , MNG_YEAR
 															                               , MNG_NO
@@ -266,7 +270,7 @@
              </isNotEmpty>
 
              <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                 AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
              </isNotEmpty>
 
              <isNotEmpty property="sGrAr">
@@ -291,7 +295,7 @@
 
              <isNotEmpty property="sUsagePrposCd">
                  AND (
-                       (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
                                                                      SELECT  PRT_AT_CODE
                                                                            , MNG_YEAR
                                                                            , MNG_NO
@@ -308,6 +312,7 @@
                  TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) SUM_CNT
                , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999')) SUM_GR_AR
                , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
           FROM ASSETS_RENT_F A
          WHERE A.QUAY_GROUP_CD='P'
 
@@ -328,7 +333,7 @@
          </isNotEmpty>
 
          <isNotEmpty property="sGrUsagePdTo">
-             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+             AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
          </isNotEmpty>
 
          <isNotEmpty property="sGrAr">
@@ -353,7 +358,7 @@
 
          <isNotEmpty property="sUsagePrposCd">
              AND (
-                   (PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT) IN (
+                   (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
                                                                  SELECT  PRT_AT_CODE
                                                                        , MNG_YEAR
                                                                        , MNG_NO
@@ -634,7 +639,7 @@
                                 , A.ENTRPS_SE
                                 , A.FEE_CALC_SE
                                 , A.RDCXPT_FEE_CALC_SE
-                                , A.RDCXPT_FEE
+                                , NVL(A.RDCXPT_FEE,0) RDCXPT_FEE
                                 , NVL(A.FEE,0) FEE
                                 , TO_CHAR(A.TRMNAT_DT,'YYYY-MM-DD') TRMNAT_DT
                                 , A.TRMNAT_RSN
@@ -652,6 +657,7 @@
                                 , A.MNG_CNT
                                 , A.QUAY_CD
                                 , A.APPLC_TARIFF APPLC_TARIFF_STR
+                                , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
                             FROM ASSETS_RENT_DETAIL_F A
                            WHERE 1=1
                              AND A.PRT_AT_CODE = #prtAtCode#

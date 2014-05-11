@@ -208,7 +208,7 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     
     /** 사진 설명  */
     private String photoDesc;	    
-    
+
     /** 신청일자 */
     private String reqstDt;
     
@@ -231,6 +231,9 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     private String annodt;                 
     
     private String blceStdrIntrrateShow;
+
+    /** 총감면사용료 */
+    private String sumGrRdcxptFee;
     
 	/**
 	 * @return the prtAtCode
@@ -1280,6 +1283,20 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
 	 */
 	public void setBlceStdrIntrrateShow(String blceStdrIntrrateShow) {
 		this.blceStdrIntrrateShow = blceStdrIntrrateShow;
+	}
+	
+	/**
+	 * @return the sumGrRdcxptFee
+	 */
+	public String getSumGrRdcxptFee() {
+		return sumGrRdcxptFee;
+	}
+
+	/**
+	 * @param sumGrRdcxptFee the sumGrRdcxptFee to set
+	 */
+	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
+		this.sumGrRdcxptFee = sumGrRdcxptFee;
 	}
 	
 }

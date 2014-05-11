@@ -232,6 +232,9 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     
     private String blceStdrIntrrateShow;
     
+    /** 총감면사용료 */
+    private String sumGrRdcxptFee;
+
 	/**
 	 * @return the prtAtCode
 	 */
@@ -1282,4 +1285,18 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 		this.blceStdrIntrrateShow = blceStdrIntrrateShow;
 	}
     
+	/**
+	 * @return the sumGrRdcxptFee
+	 */
+	public String getSumGrRdcxptFee() {
+		return sumGrRdcxptFee;
+	}
+
+	/**
+	 * @param sumGrRdcxptFee the sumGrRdcxptFee to set
+	 */
+	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
+		this.sumGrRdcxptFee = sumGrRdcxptFee;
+	}
+	
 }
