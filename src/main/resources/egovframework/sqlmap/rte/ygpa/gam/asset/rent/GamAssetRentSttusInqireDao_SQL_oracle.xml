@@ -168,7 +168,7 @@
                                   , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
                                   , A.UPD_USR
                                   , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-                                  , A.GR_RDCXPT_FEE
+                                  , NVL(A.GR_RDCXPT_FEE, 0) GR_RDCXPT_FEE
                                   , A.GIS_CD
                                   , A.DEPTCD
                                   , A.PAY_MTH
@@ -582,37 +582,37 @@
                                 , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
 
                                 , (SELECT F.GIS_ASSETS_NM FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
                                       AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                                       AND ROWNUM = 1) GIS_ASSETS_NM
 
                                 , (SELECT F.GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
                                       AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                                       AND ROWNUM = 1) GIS_ASSETS_LOCPLC
 
                                 , (SELECT F.GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
                                       AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                                       AND ROWNUM = 1) GIS_ASSETS_LNM
 
                                 , (SELECT F.GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
                                       AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                                       AND ROWNUM = 1) GIS_ASSETS_LNM_SUB
 
                                 , (SELECT F.GIS_ASSETS_AR FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
                                       AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                                       AND ROWNUM = 1) GIS_ASSETS_AR
 
                                 , (SELECT F.GIS_ASSETS_REAL_RENT_AR FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
                                       AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                                       AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                                       AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
@@ -630,7 +630,7 @@
                                 , TO_CHAR(A.EXEMPT_PD_FROM,'YYYY-MM-DD') EXEMPT_PD_FROM
                                 , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
                                 , A.COMPUT_DTLS
-                                , A.OLNLP
+                                , NVL(A.OLNLP, 0) OLNLP
                                 , A.APPLC_TARIFF
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM023' AND CD.CODE = A.APPLC_TARIFF AND ROWNUM = 1) APPLC_TARIFF_NM
                                 , A.APPLC_MTH
@@ -649,6 +649,8 @@
                                 , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
                                 , A.PRT_AT_CODE
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+                                , A.PRT_AT_CODE AS DTL_PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) DTL_PRT_AT_CODE_NM
                                 , A.GIS_ASSETS_PRT_AT_CODE
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
                                 , A.MNG_YEAR
@@ -1159,10 +1161,10 @@
                                   , A.MNG_CNT
                                   , A.PHOTO_DESC
                              FROM ASSETS_RENT_PHOTO_F A
-                            WHERE PRT_AT_CODE = #prtAtCode#
-                              AND MNG_YEAR    = #mngYear#
-                              AND MNG_NO      = #mngNo#
-                              AND MNG_CNT     = #mngCnt#
+                            WHERE A.PRT_AT_CODE = #prtAtCode#
+                              AND A.MNG_YEAR    = #mngYear#
+                              AND A.MNG_NO      = #mngNo#
+                              AND A.MNG_CNT     = #mngCnt#
                             ORDER BY A.PHOTO_SEQ DESC
                 ) S
              ) A

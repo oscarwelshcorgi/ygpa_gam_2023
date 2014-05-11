@@ -206,6 +206,9 @@ public class GamHtldRentSttusInqireVO extends ErpCmmnCdDefaultVO {
     /** 신청일자 */
     private String reqstDt;
 
+    /** 총감면사용료 */
+    private String sumGrRdcxptFee;
+    
 	/**
 	 * @return the prtAtCode
 	 */
@@ -1088,4 +1091,18 @@ public class GamHtldRentSttusInqireVO extends ErpCmmnCdDefaultVO {
 		this.reqstDt = reqstDt;
 	}
 
+	/**
+	 * @return the sumGrRdcxptFee
+	 */
+	public String getSumGrRdcxptFee() {
+		return sumGrRdcxptFee;
+	}
+
+	/**
+	 * @param sumGrRdcxptFee the sumGrRdcxptFee to set
+	 */
+	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
+		this.sumGrRdcxptFee = sumGrRdcxptFee;
+	}
+	
 }

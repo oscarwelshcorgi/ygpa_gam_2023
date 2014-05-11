@@ -101,8 +101,8 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'assetsUsageSeq',width:30, sortable:false,align:'center'},
-                    {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'항코드', name:'dtlPrtAtCode',width:40, sortable:false,align:'center'},
+                    {display:'항코드명', name:'dtlPrtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'left'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
@@ -1267,7 +1267,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                             <tr>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019  disabled/>
+                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 disabled/>
                                     <input type="text" size="4" id="prtAtCodeStr" disabled/>
                                 </td>
 								<th width="10%" height="18">담당부서</th>
@@ -1377,7 +1377,6 @@ var module_instance = new GamAssetRentSttusInqireModule();
                     <form id="gamAssetRentSttusInqireDetailForm">
                         <input type="hidden" id="detailCmd"/>
                         <input type="hidden" id="detailPrtAtCode" data-column-id="prtAtCode"/>
-
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table class="searchPanel">
                             <tr>
@@ -1385,8 +1384,8 @@ var module_instance = new GamAssetRentSttusInqireModule();
                                 <td><input type="text" size="20" id="assetsUsageSeq" disabled/></td>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                	<input type="text" size="5" id="gisAssetsPrtAtCode" disabled/>
-	                                <input type="text" size="13" id="gisAssetsPrtAtCodeNm" disabled/>
+                                	<input type="text" size="5" id="dtlPrtAtCode" disabled/>
+	                                <input type="text" size="13" id="dtlPrtAtCodeNm" disabled/>
                                 </td>
 								<th width="10%" height="18">관리번호</th>
                                 <td>
@@ -1654,8 +1653,6 @@ var module_instance = new GamAssetRentSttusInqireModule();
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>
-
-
         </div>
     </div>
 </div>
