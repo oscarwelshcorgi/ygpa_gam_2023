@@ -426,13 +426,13 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         		조회 자료수 :
                         	</th>
                             <td style="text-align: right;">
-                            	<span data-column-id="totalCount" class="ygpaNumber"></span>
+                            	<span data-column-id="totalCount" class="ygpaNumber"></span>건
                            	</td>
                      	    <th>
                         		총 사용료 :
                         	</th>
                             <td style="text-align: right;">
-                            	<span data-column-id="sumFee" class="ygpaNumber"></span> 원
+                            	<span data-column-id="sumFee" class="ygpaNumber"></span>
                            	</td>
                      	    <th>
                         		총 부가세 :
