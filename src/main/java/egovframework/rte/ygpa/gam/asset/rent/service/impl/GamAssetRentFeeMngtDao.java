@@ -148,5 +148,7 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 			throws Exception {
 		update("gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S", vo);
 	}
+	
+	
 
 }

@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.train.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -118,4 +119,35 @@ public class GamTrainPortRentFeeMngtServiceImpl extends AbstractServiceImpl impl
 		gamTrainPortRentFeeMngtDao.insertTrainPortRentFeeMngtLevReqest(vo);
 	}
 	
+	
+	@Override
+	public List selectNpticPrintInfo(Map searchVO) throws Exception {
+		return gamTrainPortRentFeeMngtDao.selectNpticPrintInfo(searchVO);
+	}
+	
+	@Override
+	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
+		return gamTrainPortRentFeeMngtDao.selectTaxNtcPrintInfo(searchVO);
+	}
+	
+	@Override
+	public void updateAssetRentFeeMngtListDetail(GamTrainPortRentFeeMngtVO vo)
+			throws Exception {
+		gamTrainPortRentFeeMngtDao.updateAssetRentFeeMngtListDetail(vo);
+	}
+	
+	@Override
+	public List selectAssetRentFeeDetailList(GamTrainPortRentFeeMngtVO searchVO) {
+		return gamTrainPortRentFeeMngtDao.selectAssetRentFeeDetailList(searchVO);
+	}
+
+	@Override
+	public Map selectAssetRentFeeDetailMstPk(GamTrainPortRentFeeMngtVO searchVO) {
+		return gamTrainPortRentFeeMngtDao.selectAssetRentFeeDetailMstPk(searchVO);
+	}
+
+	@Override
+	public Map selectAssetRentFeeDetailSumPk(GamTrainPortRentFeeMngtVO searchVO) {
+		return gamTrainPortRentFeeMngtDao.selectAssetRentFeeDetailSumPk(searchVO);
+	}
 }

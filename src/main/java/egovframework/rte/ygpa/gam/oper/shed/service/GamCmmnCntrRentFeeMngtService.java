@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.shed.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Class Name : GamCmmnCntrRentFeeMngtService.java
@@ -83,4 +84,16 @@ public interface GamCmmnCntrRentFeeMngtService {
 	 * @exception Exception
 	 */
 	public void insertCmmnCntrRentFeeMngtLevReqest(GamCmmnCntrRentFeeMngtVO vo) throws Exception;
+	
+	List selectNpticPrintInfo(Map searchVO) throws Exception;
+	
+	List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
+	
+	void updateAssetRentFeeMngtListDetail(GamCmmnCntrRentFeeMngtVO vo) throws Exception;
+	
+	List selectAssetRentFeeDetailList(GamCmmnCntrRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailMstPk(GamCmmnCntrRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailSumPk(GamCmmnCntrRentFeeMngtVO searchVO);
 }

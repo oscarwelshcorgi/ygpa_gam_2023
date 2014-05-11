@@ -10,54 +10,89 @@
     <resultMap id="gamCmmnCntrRentFeeMngtSumMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeeMngtVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
-        <result property="sumArrrgAmt" column="SUM_ARRRG_AMT" columnIndex="3"/>
+        <result property="sumNhtIsueAmt" column="SUM_NHT_ISUE_AMT" columnIndex="3"/>
         <result property="sumVat" column="SUM_VAT" columnIndex="4"/>
         <result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="5"/>
+        <result property="sumFeeA3" column="SUM_FEE_A3" columnIndex="6"/>
+        <result property="sumFeeA4" column="SUM_FEE_A4" columnIndex="7"/>
+        <result property="sumFeeD1" column="SUM_FEE_D1" columnIndex="8"/>
+        <result property="sumFeeD2" column="SUM_FEE_D2" columnIndex="9"/>
     </resultMap>
     
     <resultMap id="gamCmmnCntrRentFeeMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeeMngtVO">
-        <result property="nticCnt" column="NTIC_CNT" columnIndex="1"/> 
-		<result property="fcltySe" column="FCLTY_SE" columnIndex="2"/>     
-		<result property="chrgeKnd" column="CHRGE_KND" columnIndex="3"/>    
-		<result property="entrpscd" column="ENTRPSCD" columnIndex="4"/>     
-		<result property="entrpsNm" column="ENTRPS_NM" columnIndex="5"/>    
-		<result property="nticPdFrom" column="NTIC_PD_FROM" columnIndex="6"/> 
-		<result property="constPerTo" column="CONST_PER_TO" columnIndex="7"/> 
-		<result property="accnutYear" column="ACCNUT_YEAR" columnIndex="8"/>  
-		<result property="nticno" column="NTICNO" columnIndex="9"/>       
-		<result property="nticDt" column="NTIC_DT" columnIndex="10"/>      
-		<result property="payTmlmt" column="PAY_TMLMT" columnIndex="11"/>    
-		<result property="olnlp" column="OLNLP" columnIndex="12"/>        
-		<result property="fee" column="FEE" columnIndex="13"/>          
-		<result property="vatYn" column="VAT_YN" columnIndex="14"/>       
-		<result property="vat" column="VAT" columnIndex="15"/>          
-		<result property="nticAmt" column="NTIC_AMT" columnIndex="16"/>     
-		<result property="rm" column="RM" columnIndex="17"/>           
-		<result property="rcivSe" column="RCIV_SE" columnIndex="18"/>      
-		<result property="rcivDt" column="RCIV_DT" columnIndex="19"/>      
-		<result property="nhtIsueYn" column="NHT_ISUE_YN" columnIndex="20"/>  
-		<result property="arrrgNo" column="ARRRG_NO" columnIndex="21"/>     
-		<result property="arrrgAmt" column="ARRRG_AMT" columnIndex="22"/>    
-		<result property="reqestSeq" column="REQEST_SEQ" columnIndex="23"/>   
-		<result property="deptcd" column="DEPTCD" columnIndex="24"/>       
-		<result property="nticMth" column="NTIC_MTH" columnIndex="25"/>     
-		<result property="regUsr" column="REG_USR" columnIndex="26"/>      
-		<result property="registDt" column="REGIST_DT" columnIndex="27"/>    
-		<result property="updUsr" column="UPD_USR" columnIndex="28"/>      
-		<result property="updtDt" column="UPDT_DT" columnIndex="29"/>      
-		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="30"/>  
-		<result property="mngYear" column="MNG_YEAR" columnIndex="31"/>     
-		<result property="mngNo" column="MNG_NO" columnIndex="32"/>       
+         <result property="nticCnt" column="NTIC_CNT" columnIndex="1"/>
+		<result property="fcltySe" column="FCLTY_SE" columnIndex="2"/>
+		<result property="chrgeKnd" column="CHRGE_KND" columnIndex="3"/>
+		<result property="entrpscd" column="ENTRPSCD" columnIndex="4"/>
+		<result property="entrpsNm" column="ENTRPS_NM" columnIndex="5"/>
+		<result property="nticPdFrom" column="NTIC_PD_FROM" columnIndex="6"/>
+		<result property="nticPdTo" column="NTIC_PD_TO" columnIndex="7"/>
+		<result property="accnutYear" column="ACCNUT_YEAR" columnIndex="8"/>
+		<result property="nticno" column="NTICNO" columnIndex="9"/>
+		<result property="nticDt" column="NTIC_DT" columnIndex="10"/>
+		<result property="payTmlmt" column="PAY_TMLMT" columnIndex="11"/>
+		<result property="sanctnSttus" column="SANCTN_STTUS"/>
+		<result property="sanctnerEmplNo" column="SANCTNER_EMPL_NO"/>
+		<result property="sanctnDt" column="SANCTN_DT"/>
+		<result property="olnlp" column="OLNLP" columnIndex="12"/>
+		<result property="fee" column="FEE" columnIndex="13"/>
+		<result property="vatYn" column="VAT_YN" columnIndex="14"/>
+		<result property="vat" column="VAT" columnIndex="15"/>
+		<result property="nticAmt" column="NTIC_AMT" columnIndex="16"/>
+		<result property="rm" column="RM" columnIndex="17"/>
+		<result property="rcivSe" column="RCIV_SE" columnIndex="18"/>
+		<result property="rcivDt" column="RCIV_DT" columnIndex="19"/>
+		<result property="nhtIsueYn" column="NHT_ISUE_YN" columnIndex="20"/>
+		<result property="arrrgNo" column="ARRRG_NO" columnIndex="21"/>
+		<result property="arrrgAmt" column="ARRRG_AMT" columnIndex="22"/>
+		<result property="reqestSeq" column="REQEST_SEQ" columnIndex="23"/>
+		<result property="deptcd" column="DEPTCD" columnIndex="24"/>
+		<result property="nticMth" column="NTIC_MTH" columnIndex="25"/>
+		<result property="regUsr" column="REG_USR" columnIndex="26"/>
+		<result property="registDt" column="REGIST_DT" columnIndex="27"/>
+		<result property="updUsr" column="UPD_USR" columnIndex="28"/>
+		<result property="updtDt" column="UPDT_DT" columnIndex="29"/>
+		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="30"/>
+		<result property="mngYear" column="MNG_YEAR" columnIndex="31"/>
+		<result property="mngNo" column="MNG_NO" columnIndex="32"/>
 		<result property="mngCnt" column="MNG_CNT" columnIndex="33"/>   
     </resultMap>
 
     
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtList_D" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
-           SELECT A.*
+           SELECT Z.* FROM (
+           SELECT ROWNUM RNUM, A.*
            FROM (
-                   SELECT  ROWNUM RNUM, S.*
+                   SELECT
+                   	S.PRT_AT_CODE,
+                   	S.MNG_YEAR,
+                   	S.MNG_NO,
+                   	S.MNG_CNT,
+                   	S.MNG_YEAR || '-' || S.MNG_NO || '-' || S.MNG_CNT AS RENT_MNG_NO,
+                   	S.NTIC_CNT,
+			        S.ENTRPSCD,
+			        S.ENTRPS_NM,
+                   	MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
+                   	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
+                   	MAX(S.NTICNO) NTICNO,
+                   	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
+    				GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+                   	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
+                   	SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
+                   	SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
+                   	SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
+                   	SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
+                   	MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
+                   	MAX(S.SANCTN_STTUS) SANCTN_STTUS,
+                   	MAX(S.NTIC_DT) NTIC_DT,
+                   	MAX(S.NHT_ISUE_YN) NHT_ISUE_YN,
+                   	MAX(S.DEPTCD_NM) DEPTCD_NM,
+                   	MAX(S.GR_AR) GR_AR,
+                   	MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
+                   	MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
+                   	MAX(S.PRMISN_DT) PRMISN_DT
                      FROM (
-                           SELECT 
+                           SELECT
 							         L.NTIC_CNT
 							       , L.FCLTY_SE
 							       , L.CHRGE_KND
@@ -69,11 +104,15 @@
 							       , L.NTICNO
 							       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
 							       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+							       , L.SANCTN_STTUS
+							       , L.SANCTNER_EMPL_NO
+							       , TO_CHAR(L.SANCTN_DT) SANCTN_DT
+							       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
 							       , NVL(L.OLNLP,0) OLNLP
 							       , NVL(L.FEE,0) FEE
 							       , L.VAT_YN
 							       , NVL(L.VAT,0) VAT
-							       , NVL(L.NTIC_AMT,0) NTIC_AMT 
+							       , NVL(L.NTIC_AMT,0) NTIC_AMT
 							       , L.RM
 							       , L.RCIV_SE
 							       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
@@ -91,10 +130,8 @@
 							       , L.MNG_YEAR
 							       , L.MNG_NO
 							       , L.MNG_CNT
-							       , L.MNG_YEAR || '-' || L.MNG_NO || '-' || L.MNG_CNT AS RENT_MNG_NO
 							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
-    						       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = L.CHRGE_KND AND ROWNUM = 1) CHRGE_KND_NM
-    						       , (SELECT C.ORGNZT_NM FROM COMTNORGNZTINFO C WHERE C.ORGNZT_ID = L.DEPTCD AND ROWNUM = 1) DEPTCD_NM
+    						       , GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
     						       , NVL(A.GR_AR,0) GR_AR
     						       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
     						       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
@@ -102,33 +139,49 @@
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
 							  FROM ASSETS_RENT_F A,
 							       LEV_REQEST_F L
-							 WHERE A.QUAY_GROUP_CD = 'E' <!-- 공컨장치장 -->
+							 WHERE 1 = 1
 							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                                AND A.MNG_YEAR = L.MNG_YEAR
                                AND A.MNG_NO = L.MNG_NO
                                AND A.MNG_CNT = L.MNG_CNT
-							   
+							   AND A.QUAY_GROUP_CD='E'
 							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sReqstSeCd">
 								   AND (
 								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
 								                                                              SELECT   R.PRT_AT_CODE
 								                                                                     , R.MNG_YEAR
 								                                                                     , R.MNG_NO
-								                                                                     , R.MNG_CNT 
+								                                                                     , R.MNG_CNT
 								                                                                FROM ASSETS_RENT_F R
-								                                                               WHERE R.REQST_SE_CD = #sReqstSeCd# 
+								                                                               WHERE R.REQST_SE_CD = #sReqstSeCd#
 								                                                             )
-								       ) 
+								       )
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sEntrpscd">
-							       AND L.entrpscd = #sEntrpscd# 
+							       AND L.entrpscd = #sEntrpscd#
 							   </isNotEmpty>
-							   
+
+						         <isNotEmpty property="sUsagePdFrom">
+									<![CDATA[
+						         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+						         	]]>
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sUsagePdTo">
+									<![CDATA[
+							         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+						         	]]>
+						         </isNotEmpty>
+
+							   <isNotEmpty property="sanctnSttus">
+							       AND L.SANCTN_STTUS = #sanctnSttus#
+							   </isNotEmpty>
+
 							   <isNotEmpty property="sUsagePrposCd">
 								   AND (
 								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
@@ -138,276 +191,247 @@
 								                                                                    , D.MNG_CNT
 								                                                                FROM ASSETS_RENT_DETAIL_F D
 								                                                               WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
-								                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
+								                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT
 								                                                             )
 								       )
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sMngYear">
 							       AND L.MNG_YEAR    = #sMngYear#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sMngNo">
 							       AND L.MNG_NO      = #sMngNo#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sMngCnt">
 							       AND L.MNG_CNT     = #sMngCnt#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sPrmisnYn">
 								   AND (
 								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
 								                                                              SELECT   R.PRT_AT_CODE
 								                                                                     , R.MNG_YEAR
 								                                                                     , R.MNG_NO
-								                                                                     , R.MNG_CNT 
+								                                                                     , R.MNG_CNT
 								                                                                FROM ASSETS_RENT_F R
-								                                                               WHERE R.PRMISN_YN = #sPrmisnYn# 
+								                                                               WHERE R.PRMISN_YN = #sPrmisnYn#
 								                                                             )
 								       )
 	                              </isNotEmpty>
-	                              
-	                              <isNotEmpty property="sUsagePdFrom">  
-							   AND (
-							         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-							                                                              SELECT  D.PRT_AT_CODE
-							                                                                    , D.MNG_YEAR
-							                                                                    , D.MNG_NO
-							                                                                    , D.MNG_CNT
-							                                                                FROM ASSETS_RENT_DETAIL_F D
-							                                                               WHERE D.USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sUsagePdFrom#,'-','')
-							                                                                 AND D.USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sUsagePdTo#,'-','')
-							                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
-							                                                             )
-							       ) 
-							   </isNotEmpty>
-							   
-							   <isNotEmpty property="sRrArFrom">
-								   AND (
-								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-								                                                              SELECT   R.PRT_AT_CODE
-								                                                                     , R.MNG_YEAR
-								                                                                     , R.MNG_NO
-								                                                                     , R.MNG_CNT 
-								                                                                FROM ASSETS_RENT_F R
-								                                                               WHERE R.GR_AR BETWEEN #sRrArFrom# AND #sRrArTo#
-								                                                             )
-								       )
-	                              </isNotEmpty>
-                             ORDER BY L.REGIST_DT DESC
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 
+               <isNotEmpty property="sRrArFrom">
+				<![CDATA[
+               	AND A.GR_AR > #sRrArFrom#
+               	]]>
+               </isNotEmpty>
+          	    <isNotEmpty property="sRrArTo">
+				<![CDATA[
+               	AND A.GR_AR < #sRrArTo#
+               	]]>
+               </isNotEmpty>
+
+	                           <isNotEmpty property="sNhtIsueYn">
+	                               AND L.NHT_ISUE_YN = #sNhtIsueYn#
+	                           </isNotEmpty>
+
+                ) S
+                GROUP BY S.PRT_AT_CODE, S.MNG_YEAR, S.MNG_NO, S.MNG_CNT, S.NTIC_CNT, S.ENTRPSCD, S.ENTRPS_NM
+                ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
+             ) A
+             ) Z
+        <![CDATA[
+        	WHERE Z.RNUM <= #recordCountPerPage# and Z.RNUM > #firstIndex#
+        ]]>
     </select>
     
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtListTotCnt_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="int">
-            SELECT COUNT(*) TOTCNT
-            FROM ASSETS_RENT_F A
-		       , LEV_REQEST_F L
-		 	WHERE A.QUAY_GROUP_CD = 'E' <!-- 공컨장치장 -->
-		   	  AND A.PRT_AT_CODE = L.PRT_AT_CODE
-              AND A.MNG_YEAR = L.MNG_YEAR
-              AND A.MNG_NO = L.MNG_NO
-              AND A.MNG_CNT = L.MNG_CNT
-               
+            SELECT COUNT(*) totcnt FROM
+            	(SELECT *
+              FROM ASSETS_RENT_F A, LEV_REQEST_F L
+             WHERE A.QUAY_GROUP_CD='E'
+             	AND A.PRT_AT_CODE=L.PRT_AT_CODE
+             	AND A.MNG_YEAR=L.MNG_YEAR
+             	AND A.MNG_NO=L.MNG_NO
+             	AND A.MNG_CNT=L.MNG_CNT
+
                <isNotEmpty property="sPrtAtCode">
-			       AND L.PRT_AT_CODE = #sPrtAtCode#
+                   AND L.PRT_AT_CODE = #sPrtAtCode#
+               </isNotEmpty>
+
+               <isNotEmpty property="sReqstSeCd">
+                   AND (
+                         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+                                                                              SELECT   R.PRT_AT_CODE
+                                                                                     , R.MNG_YEAR
+                                                                                     , R.MNG_NO
+                                                                                     , R.MNG_CNT
+                                                                                FROM ASSETS_RENT_F R
+                                                                               WHERE R.REQST_SE_CD = #sReqstSeCd#
+                                                                             )
+                       )
+               </isNotEmpty>
+
+               <isNotEmpty property="sEntrpscd">
+                   AND L.entrpscd = #sEntrpscd#
+               </isNotEmpty>
+
+						         <isNotEmpty property="sUsagePdFrom">
+									<![CDATA[
+						         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+						         	]]>
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sUsagePdTo">
+									<![CDATA[
+							         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+						         	]]>
+						         </isNotEmpty>
+
+			   <isNotEmpty property="sanctnSttus">
+			       AND L.SANCTN_STTUS = #sanctnSttus#
 			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sReqstSeCd">
-				   AND (
-				         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-				                                                              SELECT   R.PRT_AT_CODE
-				                                                                     , R.MNG_YEAR
-				                                                                     , R.MNG_NO
-				                                                                     , R.MNG_CNT 
-				                                                                FROM ASSETS_RENT_F R
-				                                                               WHERE R.REQST_SE_CD = #sReqstSeCd# 
-				                                                             )
-				       ) 
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sEntrpscd">
-			       AND L.entrpscd = #sEntrpscd# 
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sUsagePrposCd">
-				   AND (
-				         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-				                                                              SELECT  D.PRT_AT_CODE
-				                                                                    , D.MNG_YEAR
-				                                                                    , D.MNG_NO
-				                                                                    , D.MNG_CNT
-				                                                                FROM ASSETS_RENT_DETAIL_F D
-				                                                               WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
-				                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
-				                                                             )
-				       )
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sMngYear">
-			       AND L.MNG_YEAR    = #sMngYear#
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sMngNo">
-			       AND L.MNG_NO      = #sMngNo#
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sMngCnt">
-			       AND L.MNG_CNT     = #sMngCnt#
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sPrmisnYn">
-				   AND (
-				         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-				                                                              SELECT   R.PRT_AT_CODE
-				                                                                     , R.MNG_YEAR
-				                                                                     , R.MNG_NO
-				                                                                     , R.MNG_CNT 
-				                                                                FROM ASSETS_RENT_F R
-				                                                               WHERE R.PRMISN_YN = #sPrmisnYn# 
-				                                                             )
-				       )
-                           </isNotEmpty>
-                           
-                           <isNotEmpty property="sUsagePdFrom">  
-			   AND (
-			         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-			                                                              SELECT  D.PRT_AT_CODE
-			                                                                    , D.MNG_YEAR
-			                                                                    , D.MNG_NO
-			                                                                    , D.MNG_CNT
-			                                                                FROM ASSETS_RENT_DETAIL_F D
-			                                                               WHERE D.USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sUsagePdFrom#,'-','')
-			                                                                 AND D.USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sUsagePdTo#,'-','')
-			                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
-			                                                             )
-			       ) 
-			   </isNotEmpty>
-			   
-			   <isNotEmpty property="sRrArFrom">
-				   AND (
-				         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-				                                                              SELECT   R.PRT_AT_CODE
-				                                                                     , R.MNG_YEAR
-				                                                                     , R.MNG_NO
-				                                                                     , R.MNG_CNT 
-				                                                                FROM ASSETS_RENT_F R
-				                                                               WHERE R.GR_AR BETWEEN #sRrArFrom# AND #sRrArTo#
-				                                                             )
-				       )
-                           </isNotEmpty>
+
+               <isNotEmpty property="sUsagePrposCd">
+                   AND (
+                         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+                                                                              SELECT  D.PRT_AT_CODE
+                                                                                    , D.MNG_YEAR
+                                                                                    , D.MNG_NO
+                                                                                    , D.MNG_CNT
+                                                                                FROM ASSETS_RENT_DETAIL_F D
+                                                                               WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT
+                                                                             )
+                       )
+               </isNotEmpty>
+
+               <isNotEmpty property="sMngYear">
+                   AND L.MNG_YEAR    = #sMngYear#
+               </isNotEmpty>
+
+               <isNotEmpty property="sMngNo">
+                   AND L.MNG_NO      = #sMngNo#
+               </isNotEmpty>
+
+               <isNotEmpty property="sMngCnt">
+                   AND L.MNG_CNT     = #sMngCnt#
+               </isNotEmpty>
+
+               <isNotEmpty property="sRrArFrom">
+				<![CDATA[
+               	AND A.GR_AR > #sRrArFrom#
+               	]]>
+               </isNotEmpty>
+          	    <isNotEmpty property="sRrArTo">
+				<![CDATA[
+               	AND A.GR_AR < #sRrArTo#
+               	]]>
+               </isNotEmpty>
+
+               <isNotEmpty property="sNhtIsueYn">
+                   AND L.NHT_ISUE_YN = #sNhtIsueYn#
+               </isNotEmpty>
+          GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.ENTRPSCD
+          ) Z
     </select>
     
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtSum_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultMap="gamCmmnCntrRentFeeMngtSumMap">
-         SELECT 
-               <!--   NVL(COUNT(*),0) SUM_CNT
-               , NVL(SUM(L.FEE),0) SUM_FEE
-               , NVL(SUM(L.ARRRG_AMT),0) SUM_ARRRG_AMT
-               , NVL(SUM(L.VAT),0) SUM_VAT
-               , NVL(SUM(L.NTIC_AMT),0) SUM_NTIC_AMT  -->
-               NVL(COUNT(*),0) SUM_CNT
-               , TRIM(TO_CHAR(NVL(SUM(L.FEE),0), '999,999,999,999')) SUM_FEE
-               , TRIM(TO_CHAR(NVL(SUM(L.ARRRG_AMT),0), '999,999,999,999')) SUM_ARRRG_AMT
-               , TRIM(TO_CHAR(NVL(SUM(L.VAT),0), '999,999,999,999')) SUM_VAT
-               , TRIM(TO_CHAR(NVL(SUM(L.NTIC_AMT),0), '999,999,999,999')) SUM_NTIC_AMT
-          FROM ASSETS_RENT_F A,
-		       LEV_REQEST_F L
-		  WHERE A.QUAY_GROUP_CD = 'E' <!-- 공컨장치장 -->
-		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
-           AND A.MNG_YEAR = L.MNG_YEAR
-           AND A.MNG_NO = L.MNG_NO
-           AND A.MNG_CNT = L.MNG_CNT
-		   
-		   <isNotEmpty property="sPrtAtCode">
-		       AND L.PRT_AT_CODE = #sPrtAtCode#
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sReqstSeCd">
-			   AND (
-			         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-			                                                              SELECT   R.PRT_AT_CODE
-			                                                                     , R.MNG_YEAR
-			                                                                     , R.MNG_NO
-			                                                                     , R.MNG_CNT 
-			                                                                FROM ASSETS_RENT_F R
-			                                                               WHERE R.REQST_SE_CD = #sReqstSeCd# 
-			                                                             )
-			       ) 
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sEntrpscd">
-		       AND L.entrpscd = #sEntrpscd# 
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sUsagePrposCd">
-			   AND (
-			         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-			                                                              SELECT  D.PRT_AT_CODE
-			                                                                    , D.MNG_YEAR
-			                                                                    , D.MNG_NO
-			                                                                    , D.MNG_CNT
-			                                                                FROM ASSETS_RENT_DETAIL_F D
-			                                                               WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
-			                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
-			                                                             )
-			       )
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sMngYear">
-		       AND L.MNG_YEAR    = #sMngYear#
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sMngNo">
-		       AND L.MNG_NO      = #sMngNo#
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sMngCnt">
-		       AND L.MNG_CNT     = #sMngCnt#
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sPrmisnYn">
-			   AND (
-			         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-			                                                              SELECT   R.PRT_AT_CODE
-			                                                                     , R.MNG_YEAR
-			                                                                     , R.MNG_NO
-			                                                                     , R.MNG_CNT 
-			                                                                FROM ASSETS_RENT_F R
-			                                                               WHERE R.PRMISN_YN = #sPrmisnYn# 
-			                                                             )
-			       )
-                          </isNotEmpty>
-                          
-                          <isNotEmpty property="sUsagePdFrom">  
-		   AND (
-		         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-		                                                              SELECT  D.PRT_AT_CODE
-		                                                                    , D.MNG_YEAR
-		                                                                    , D.MNG_NO
-		                                                                    , D.MNG_CNT
-		                                                                FROM ASSETS_RENT_DETAIL_F D
-		                                                               WHERE D.USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sUsagePdFrom#,'-','')
-		                                                                 AND D.USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sUsagePdTo#,'-','')
-		                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT 
-		                                                             )
-		       ) 
-		   </isNotEmpty>
-		   
-		   <isNotEmpty property="sRrArFrom">
-			   AND (
-			         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-			                                                              SELECT   R.PRT_AT_CODE
-			                                                                     , R.MNG_YEAR
-			                                                                     , R.MNG_NO
-			                                                                     , R.MNG_CNT 
-			                                                                FROM ASSETS_RENT_F R
-			                                                               WHERE R.GR_AR BETWEEN #sRrArFrom# AND #sRrArTo#
-			                                                             )
-			       )
-                          </isNotEmpty>
+        SELECT
+                 COUNT(*) SUM_CNT
+               , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
+                   	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
+                   	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
+                   	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
+                   	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
+                , SUM(NVL(L.NTIC_AMT, 0)) SUM_NHT_ISUE_AMT
+               , SUM(NVL(L.VAT, 0)) SUM_VAT
+               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
+          FROM ASSETS_RENT_F A, LEV_REQEST_F L
+         WHERE 1 = 1
+             AND A.QUAY_GROUP_CD='E'
+             	AND A.PRT_AT_CODE=L.PRT_AT_CODE
+             	AND A.MNG_YEAR=L.MNG_YEAR
+             	AND A.MNG_NO=L.MNG_NO
+             	AND A.MNG_CNT=L.MNG_CNT
+         <isNotEmpty property="sPrtAtCode">
+             AND L.PRT_AT_CODE = #sPrtAtCode#
+         </isNotEmpty>
+
+         <isNotEmpty property="sReqstSeCd">
+             AND (
+                   (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+                                                                        SELECT   R.PRT_AT_CODE
+                                                                               , R.MNG_YEAR
+                                                                               , R.MNG_NO
+                                                                               , R.MNG_CNT
+                                                                          FROM ASSETS_RENT_F R
+                                                                         WHERE R.REQST_SE_CD = #sReqstSeCd#
+                                                                       )
+                 )
+         </isNotEmpty>
+
+         <isNotEmpty property="sEntrpscd">
+             AND L.entrpscd = #sEntrpscd#
+         </isNotEmpty>
+
+	   <isNotEmpty property="sanctnSttus">
+	       AND L.SANCTN_STTUS = #sanctnSttus#
+	   </isNotEmpty>
+
+         <isNotEmpty property="sUsagePrposCd">
+             AND (
+                   (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
+                                                                        SELECT  D.PRT_AT_CODE
+                                                                              , D.MNG_YEAR
+                                                                              , D.MNG_NO
+                                                                              , D.MNG_CNT
+                                                                          FROM ASSETS_RENT_DETAIL_F D
+                                                                         WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                                         GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT
+                                                                       )
+                 )
+         </isNotEmpty>
+
+         <isNotEmpty property="sMngYear">
+             AND L.MNG_YEAR    = #sMngYear#
+         </isNotEmpty>
+
+         <isNotEmpty property="sMngNo">
+             AND L.MNG_NO      = #sMngNo#
+         </isNotEmpty>
+
+         <isNotEmpty property="sMngCnt">
+             AND L.MNG_CNT     = #sMngCnt#
+         </isNotEmpty>
+
+         <isNotEmpty property="sUsagePdFrom">
+			<![CDATA[
+         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+         	]]>
+         </isNotEmpty>
+
+         <isNotEmpty property="sUsagePdTo">
+			<![CDATA[
+	         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+         	]]>
+         </isNotEmpty>
+
+               <isNotEmpty property="sRrArFrom">
+				<![CDATA[
+               	AND A.GR_AR > #sRrArFrom#
+               	]]>
+               </isNotEmpty>
+          	    <isNotEmpty property="sRrArTo">
+				<![CDATA[
+               	AND A.GR_AR < #sRrArTo#
+               	]]>
+               </isNotEmpty>
+
+         <isNotEmpty property="sNhtIsueYn">
+             AND L.NHT_ISUE_YN = #sNhtIsueYn#
+         </isNotEmpty>
     </select>
     
     <update id="gamCmmnCntrRentFeeMngtDao.updateCmmnCntrRentFeeMngt_S">
@@ -696,5 +720,507 @@
                            , #mngCnt#
                          )
     </insert>
+    
+    
+    <select id="gamCmmnCntrRentFeeMngtDao.selectNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT Z.*
+			FROM
+			  (SELECT ROWNUM RNUM,
+			    P2MGR.sf_makedigit@YGPA_P2MGR(A.PRT_AT_CODE
+			    || ASCII(SUBSTR(A.CHRGE_KND,1,1))
+			    || SUBSTR(A.CHRGE_KND,2,1)
+			    || A.ACCNUT_YEAR
+			    || A.NTICNO
+			    || '0','BILLNO') CSTMR_REF_CODE,
+			    (SELECT DECODE(A.PRT_AT_CODE, '620', '1', '621', '2', '3')
+			      || FEE_TP_MAP
+			      || SUBSTR(A.ACCNUT_YEAR, 3,2)
+			      || A.NTICNO
+			      || '00'
+			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
+			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
+			    AND FEE_TP        = A.CHRGE_KND
+			    ) ELEC_PAY_NO,
+			    A.*
+			  FROM
+			    (SELECT S.PRT_AT_CODE,
+			      S.MNG_YEAR,
+			      S.MNG_NO,
+			      S.MNG_CNT,
+			      S.MNG_YEAR
+			      || '-'
+			      || S.MNG_NO
+			      || '-'
+			      || S.MNG_CNT AS RENT_MNG_NO,
+			      S.NTIC_CNT,
+			      S.ACCNUT_YEAR,
+			      S.NTICNO,
+			      GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+			      S.ENTRPSCD,
+			      S.ENTRPS_NM,
+			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD
+			      ) RPRSNTV_NM,
+			      (SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ADRES,
+			      (SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ZIP,
+			      MAX(S.NTIC_DT) NTIC_DT,
+			      MAX(S.PAY_TMLMT) PAY_TMLMT,
+			      (SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) BIZRNO,
+			      MAX(S.GIS_ASSETS_NM) GIS_ASSETS_NM,
+			      MAX(S.GIS_ASSETS_LOCPLC) GIS_ASSETS_LOCPLC,
+			      MAX(S.GIS_ASSETS_LNM) GIS_ASSETS_LNM,
+			      MAX(S.GIS_ASSETS_LNM_SUB) GIS_ASSETS_LNM_SUB,
+			      COUNT(S.GIS_ASSETS_NM) GIS_ASSETS_CNT,
+			      MAX(S.COMPUT_DTLS) COMPUT_DTLS,
+			      MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
+			      MAX(S.NTIC_PD_TO) NTIC_PD_TO,
+			      MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
+			      SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
+			      SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
+			      SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
+			      SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
+			      SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
+			      MAX(S.VAT) VAT,
+			      MAX(S.VAT_YN) VAT_YN,
+			      MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
+			      MAX(S.SANCTN_STTUS) SANCTN_STTUS,
+			      MAX(S.NHT_ISUE_YN) NHT_ISUE_YN,
+			      MAX(S.DEPTCD_NM) DEPTCD_NM,
+			      MAX(S.GR_AR) GR_AR,
+			      MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
+			      MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
+			      MAX(S.PRMISN_DT) PRMISN_DT
+			    FROM
+			      (SELECT L.NTIC_CNT ,
+			        L.FCLTY_SE ,
+			        L.CHRGE_KND ,
+			        L.ENTRPSCD ,
+			        L.ENTRPS_NM ,
+			        TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM ,
+			        TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO ,
+			        L.ACCNUT_YEAR ,
+			        L.NTICNO ,
+			        TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT ,
+			        TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT ,
+			        L.SANCTN_STTUS ,
+			        L.SANCTNER_EMPL_NO ,
+			        TO_CHAR(L.SANCTN_DT) SANCTN_DT ,
+			        GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM ,
+			        NVL(L.OLNLP,0) OLNLP ,
+			        NVL(L.FEE,0) FEE ,
+			        L.VAT_YN ,
+			        NVL(L.VAT,0) VAT ,
+			        NVL(L.NTIC_AMT,0) NTIC_AMT ,
+			        L.RM ,
+			        L.RCIV_SE ,
+			        TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
+			        L.NHT_ISUE_YN ,
+			        L.ARRRG_NO ,
+			        NVL(L.ARRRG_AMT,0) ARRRG_AMT ,
+			        L.REQEST_SEQ ,
+			        L.DEPTCD ,
+			        L.NTIC_MTH ,
+			        L.REG_USR ,
+			        TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT ,
+			        L.UPD_USR ,
+			        TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT ,
+			        L.PRT_AT_CODE ,
+			        L.MNG_YEAR ,
+			        L.MNG_NO ,
+			        L.MNG_CNT ,
+			        (SELECT CD.CODE_NM
+			        FROM COMTCCMMNDETAILCODE CD
+			        WHERE CD.CODE_ID = 'GAM019'
+			        AND CD.CODE      = L.PRT_AT_CODE
+			        AND ROWNUM       = 1
+			        ) PRT_AT_CODE_NM ,
+			        GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM ,
+			        NVL(A.GR_AR,0) GR_AR ,
+			        TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM ,
+			        TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO ,
+			        TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT ,
+			        NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE ,
+			        A.COMPUT_DTLS ,
+			        (SELECT GIS_ASSETS_NM
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_NM ,
+			        (SELECT GIS_ASSETS_LOCPLC
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LOCPLC ,
+			        (SELECT GIS_ASSETS_LNM
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LNM ,
+			        (SELECT GIS_ASSETS_LNM_SUB
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LNM_SUB
+			      FROM
+			        (SELECT AR.*,
+			          ARD.GIS_ASSETS_PRT_AT_CODE,
+			          ARD.GIS_ASSETS_CD,
+			          ARD.GIS_ASSETS_SUB_CD,
+			          ARD.COMPUT_DTLS
+			        FROM ASSETS_RENT_F AR
+			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
+			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
+			        AND AR.MNG_NO     = ARD.MNG_NO
+			        AND AR.MNG_CNT    = ARD.MNG_CNT
+			        ) A,
+			        LEV_REQEST_F L
+			      WHERE 1             = 1
+			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
+			      AND A.MNG_YEAR      = L.MNG_YEAR
+			      AND A.MNG_NO        = L.MNG_NO
+			      AND A.MNG_CNT       = L.MNG_CNT
+			      AND A.QUAY_GROUP_CD = 'E'
+			      AND L.PRT_AT_CODE   = #prtAtCode#
+			      AND L.MNG_YEAR      = #mngYear#
+			      AND L.MNG_NO        = #mngNo#
+			      AND L.MNG_CNT       = #mngCnt#
+			      AND L.NTIC_CNT      = #nticCnt#
+			      ) S
+			    GROUP BY S.PRT_AT_CODE,
+			      S.MNG_YEAR,
+			      S.MNG_NO,
+			      S.MNG_CNT,
+			      S.NTIC_CNT,
+			      S.ENTRPSCD,
+			      S.ENTRPS_NM,
+			      S.ACCNUT_YEAR,
+			      S.NTICNO
+			    ORDER BY S.ENTRPS_NM ASC,
+			      S.NTIC_CNT ASC
+			    ) A
+			  ) Z
+    </select>
+    
+    <select id="gamCmmnCntrRentFeeMngtDao.selectTaxNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT Z.*
+			FROM
+			  (SELECT ROWNUM RNUM,
+			    A.*
+			  FROM
+			    (SELECT S.PRT_AT_CODE,
+			      S.MNG_YEAR,
+			      S.MNG_NO,
+			      S.MNG_CNT,
+			      S.MNG_YEAR
+			      || '-'
+			      || S.MNG_NO
+			      || '-'
+			      || S.MNG_CNT AS RENT_MNG_NO,
+			      S.NTIC_CNT,
+			      S.ACCNUT_YEAR,
+			      S.NTICNO,
+			      GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+			      S.ENTRPSCD,
+			      S.ENTRPS_NM,
+			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) RPRSNTV_NM,
+			      (SELECT BIZCND FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) BIZCND,
+			      (SELECT INDUTY FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) INDUTY,
+			      (SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ADRES,
+			      (SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ZIP,
+			      MAX(S.NTIC_DT) NTIC_DT,
+			      (SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) BIZRNO,
+			      MAX(S.GIS_ASSETS_NM) GIS_ASSETS_NM,
+			      MAX(S.GIS_ASSETS_LOCPLC) GIS_ASSETS_LOCPLC,
+			      MAX(S.GIS_ASSETS_LNM) GIS_ASSETS_LNM,
+			      MAX(S.GIS_ASSETS_LNM_SUB) GIS_ASSETS_LNM_SUB,
+			      COUNT(S.GIS_ASSETS_NM) GIS_ASSETS_CNT,
+			      MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
+			      MAX(S.NTIC_PD_TO) NTIC_PD_TO,
+			      MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
+			      SUM(S.FEE) FEE_AMOUNT,
+			      SUM(S.VAT) VAT_AMOUNT,
+			      MAX(S.VAT_YN) VAT_YN,
+			      SUM(S.NTIC_AMT) TOTAL_NTIC_AMT,
+			      MAX(S.DEPTCD) DEPTCD,
+			      MAX(S.DEPTCD_NM) DEPTCD_NM,
+			      MAX(S.GR_AR) GR_AR,
+			      MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
+			      MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
+			      MAX(S.RM) RM,
+			      MAX(S.RCIV_SE) RCIV_SE
+			    FROM
+			      (SELECT L.NTIC_CNT ,
+			        L.ACCNUT_YEAR ,
+			        L.NTICNO ,
+			        L.CHRGE_KND ,
+			        L.PRT_AT_CODE ,
+			        L.MNG_YEAR ,
+			        L.MNG_NO ,
+			        L.MNG_CNT ,
+			        L.ENTRPSCD ,
+			        L.ENTRPS_NM ,
+			        TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM ,
+			        TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO ,
+			        TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT ,
+			        NVL(L.OLNLP,0) OLNLP ,
+			        NVL(L.FEE,0) FEE,
+			        L.VAT_YN ,
+			        NVL(L.VAT,0) VAT ,
+			        NVL(L.NTIC_AMT,0) NTIC_AMT ,
+			        L.RM ,
+			        L.RCIV_SE ,
+			        L.DEPTCD ,
+			        (SELECT CD.CODE_NM
+			        FROM COMTCCMMNDETAILCODE CD
+			        WHERE CD.CODE_ID = 'GAM019'
+			        AND CD.CODE      = L.PRT_AT_CODE
+			        AND ROWNUM       = 1 ) PRT_AT_CODE_NM ,
+			        GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM ,
+			        NVL(A.GR_AR,0) GR_AR ,
+			        TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM ,
+			        TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO ,
+			        (SELECT GIS_ASSETS_NM
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_NM ,
+			        (SELECT GIS_ASSETS_LOCPLC
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LOCPLC ,
+			        (SELECT GIS_ASSETS_LNM
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LNM ,
+			        (SELECT GIS_ASSETS_LNM_SUB
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LNM_SUB
+			      FROM
+			        (SELECT AR.*,
+			          ARD.GIS_ASSETS_PRT_AT_CODE,
+			          ARD.GIS_ASSETS_CD,
+			          ARD.GIS_ASSETS_SUB_CD,
+			          ARD.COMPUT_DTLS
+			        FROM ASSETS_RENT_F AR
+			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
+			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
+			        AND AR.MNG_NO     = ARD.MNG_NO
+			        AND AR.MNG_CNT    = ARD.MNG_CNT
+			        ) A,
+			        LEV_REQEST_F L
+			      WHERE 1             = 1
+			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
+			      AND A.MNG_YEAR      = L.MNG_YEAR
+			      AND A.MNG_NO        = L.MNG_NO
+			      AND A.MNG_CNT       = L.MNG_CNT
+			      AND A.QUAY_GROUP_CD = 'E'
+			      AND L.PRT_AT_CODE   = #prtAtCode#
+			      AND L.MNG_YEAR      = #mngYear#
+			      AND L.MNG_NO        = #mngNo#
+			      AND L.MNG_CNT       = #mngCnt#
+			      AND L.NTIC_CNT      = #nticCnt#
+			      ) S
+			    GROUP BY S.PRT_AT_CODE,
+			      S.MNG_YEAR,
+			      S.MNG_NO,
+			      S.MNG_CNT,
+			      S.NTIC_CNT,
+			      S.ENTRPSCD,
+			      S.ENTRPS_NM,
+			      S.ACCNUT_YEAR,
+			      S.NTICNO
+			    ORDER BY S.ENTRPS_NM ASC,
+			      S.NTIC_CNT ASC
+			    ) A
+			  ) Z
+    </select>
+    
+    
+    <update id="gamCmmnCntrRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S">
+        UPDATE LEV_REQEST_F SET
+		     RM     = #rm#
+		     , UPD_USR      = #updUsr#
+		     , UPDT_DT      = SYSDATE
+		WHERE  NTIC_CNT     = #nticCnt#
+		AND    PRT_AT_CODE  = #prtAtCode#
+		AND    MNG_YEAR     = #mngYear#
+		AND    MNG_NO       = #mngNo#
+		AND    MNG_CNT      = #mngCnt#
+    </update>
+    
+     <select id="gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailList_D" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
+           SELECT ROWNUM RNUM, A.*
+           FROM (
+	                       SELECT
+				         L.NTIC_CNT
+				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
+				       , L.FCLTY_SE
+				       , L.CHRGE_KND
+				       , L.ENTRPSCD
+				       , L.ENTRPS_NM
+				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+				       , TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+				       , L.ACCNUT_YEAR
+				       , L.NTICNO
+				       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+				       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+				       , L.SANCTN_STTUS
+				       , L.SANCTNER_EMPL_NO
+				       , TO_CHAR(L.SANCTN_DT) SANCTN_DT
+				       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
+				       , NVL(L.OLNLP,0) OLNLP
+				       , NVL(L.FEE,0) FEE
+				       , L.VAT_YN
+				       , NVL(L.VAT,0) VAT
+				       , NVL(L.NTIC_AMT,0) NTIC_AMT
+				       , L.RM
+				       , L.RCIV_SE
+				       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+				       , L.NHT_ISUE_YN
+				       , L.ARRRG_NO
+				       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
+				       , L.REQEST_SEQ
+				       , L.DEPTCD
+				       , L.NTIC_MTH
+				       , L.REG_USR
+				       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+				       , L.UPD_USR
+				       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+				       , L.PRT_AT_CODE
+				       , L.MNG_YEAR
+				       , L.MNG_NO
+				       , L.MNG_CNT
+				       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+							       , GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
+							       , NVL(A.GR_AR,0) GR_AR
+							       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+							       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+							       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+							       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+				  FROM ASSETS_RENT_F A,
+				       LEV_REQEST_F L
+				 WHERE 1 = 1
+				   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+	                           AND A.MNG_YEAR = L.MNG_YEAR
+	                           AND A.MNG_NO = L.MNG_NO
+	                           AND A.MNG_CNT = L.MNG_CNT
+				   AND A.QUAY_GROUP_CD='E'
+			       AND L.PRT_AT_CODE = #prtAtCode#
+			       AND L.MNG_YEAR = #mngYear#
+			       AND L.MNG_NO = #mngNo#
+			       AND L.MNG_CNT = #mngCnt#
+                ORDER BY L.NTIC_CNT ASC, L.NTIC_DT ASC
+             ) A
+    </select>
+    
+    <select id="gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
+		SELECT
+				L.PRT_AT_CODE
+		       , GAM_GETCODENAME('GAM019', L.PRT_AT_CODE) PRT_AT_CODE_NM
+		       , L.MNG_YEAR
+		       , L.MNG_NO
+		       , L.MNG_CNT
+		        , L.NTIC_CNT
+		       , L.FCLTY_SE
+		       , L.CHRGE_KND
+		       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
+		       , L.ENTRPSCD
+		       , L.ENTRPS_NM
+		       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		       , TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		       , L.ACCNUT_YEAR
+		       , L.NTICNO
+		       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+		       , L.SANCTN_STTUS
+		       , L.SANCTNER_EMPL_NO
+		       , TO_CHAR(L.SANCTN_DT, 'YYYY-MM-DD') SANCTN_DT
+		       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
+		       , NVL(L.OLNLP,0) OLNLP
+		       , NVL(L.FEE,0) FEE
+		       , L.VAT_YN
+		       , NVL(L.VAT,0) VAT
+		       , NVL(L.NTIC_AMT,0) NTIC_AMT
+		       , L.RM
+		       , L.RCIV_SE
+		       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		       , L.NHT_ISUE_YN
+		       , L.ARRRG_NO
+		       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
+		       , L.DEPTCD
+		       , L.NTIC_MTH
+		       , GAM_GETCODENAME('GAM008', L.NTIC_MTH) NTIC_MTH_NM
+		       , L.REG_USR
+		       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+		       , L.UPD_USR
+		       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+				, GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
+		       , NVL(A.GR_FEE,0) GR_FEE
+		       , NVL(A.GR_AR,0) GR_AR
+		       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+		       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+		       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+		       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+		  FROM ASSETS_RENT_F A,
+		       LEV_REQEST_F L
+		 WHERE 1 = 1
+		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+                          AND A.MNG_YEAR = L.MNG_YEAR
+                          AND A.MNG_NO = L.MNG_NO
+                          AND A.MNG_CNT = L.MNG_CNT
+		   AND A.QUAY_GROUP_CD='E'
+	       AND L.PRT_AT_CODE = #prtAtCode#
+	       AND L.MNG_YEAR = #mngYear#
+	       AND L.MNG_NO = #mngNo#
+	       AND L.MNG_CNT = #mngCnt#
+	       AND L.NTIC_CNT = #nticCnt#
+    </select>
+    
+    <select id="gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
+         SELECT
+                 COUNT(*) SUM_CNT
+               , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
+                   	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
+                   	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
+                   	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
+                   	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
+                , SUM(NVL(L.NTIC_AMT, 0)) SUM_NHT_ISUE_AMT
+               , SUM(NVL(L.VAT, 0)) SUM_VAT
+               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
+          FROM ASSETS_RENT_F A, LEV_REQEST_F L
+		 WHERE 1 = 1
+		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+                          AND A.MNG_YEAR = L.MNG_YEAR
+                          AND A.MNG_NO = L.MNG_NO
+                          AND A.MNG_CNT = L.MNG_CNT
+		   AND A.QUAY_GROUP_CD='E'
+	       AND L.PRT_AT_CODE = #prtAtCode#
+	       AND L.MNG_YEAR = #mngYear#
+	       AND L.MNG_NO = #mngNo#
+	       AND L.MNG_CNT = #mngCnt#
+	       GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT
+    </select>
+    
     
 </sqlMap>

@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -116,6 +117,38 @@ public class GamCntnrQuayRentFeeMngtServiceImpl extends AbstractServiceImpl impl
 	 */
 	public void insertCntnrQuayRentFeeMngtLevReqest(GamCntnrQuayRentFeeMngtVO vo) throws Exception {
 		gamCntnrQuayRentFeeMngtDao.insertCntnrQuayRentFeeMngtLevReqest(vo);
+	}
+	
+	@Override
+	public List selectNpticPrintInfo(Map searchVO) throws Exception {
+		return gamCntnrQuayRentFeeMngtDao.selectNpticPrintInfo(searchVO);
+	}
+	
+	@Override
+	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
+		return gamCntnrQuayRentFeeMngtDao.selectTaxNtcPrintInfo(searchVO);
+	}
+	
+	@Override
+	public void updateAssetRentFeeMngtListDetail(GamCntnrQuayRentFeeMngtVO vo)
+			throws Exception {
+		gamCntnrQuayRentFeeMngtDao.updateAssetRentFeeMngtListDetail(vo);
+	}
+	
+	@Override
+	public List selectAssetRentFeeDetailList(GamCntnrQuayRentFeeMngtVO searchVO) {
+		return gamCntnrQuayRentFeeMngtDao.selectAssetRentFeeDetailList(searchVO);
+	}
+
+	@Override
+	public Map selectAssetRentFeeDetailMstPk(GamCntnrQuayRentFeeMngtVO searchVO) {
+		return gamCntnrQuayRentFeeMngtDao.selectAssetRentFeeDetailMstPk(searchVO);
+	}
+
+
+	@Override
+	public Map selectAssetRentFeeDetailSumPk(GamCntnrQuayRentFeeMngtVO searchVO) {
+		return gamCntnrQuayRentFeeMngtDao.selectAssetRentFeeDetailSumPk(searchVO);
 	}
 	
 }

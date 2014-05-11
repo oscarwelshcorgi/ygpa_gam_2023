@@ -1,7 +1,9 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
 import java.util.List;
+import java.util.Map;
 
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 
 /**
@@ -85,4 +87,18 @@ public interface GamPrtFcltyRentFeeMngtService {
 	 * @exception Exception
 	 */
 	public void insertPrtFcltyRentFeeMngtLevReqest(GamPrtFcltyRentFeeMngtVO vo) throws Exception;
-}
+	
+	List selectNpticPrintInfo(Map searchVO) throws Exception;
+	
+	List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
+	
+	void updateAssetRentFeeMngtListDetail(GamPrtFcltyRentFeeMngtVO vo) throws Exception;
+	
+	List selectAssetRentFeeDetailList(GamPrtFcltyRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailMstPk(GamPrtFcltyRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailSumPk(GamPrtFcltyRentFeeMngtVO searchVO);
+	
+	}
+

@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.center.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Class Name : GamMarineCenterRentFeeMngtService.java
@@ -83,5 +84,16 @@ public interface GamMarineCenterRentFeeMngtService {
 	 * @exception Exception
 	 */
 	public void insertAssetRentLevReqest(GamMarineCenterRentFeeMngtVO vo) throws Exception;
-    
+ 
+	List selectNpticPrintInfo(Map searchVO) throws Exception;
+	
+	List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
+	
+	void updateAssetRentFeeMngtListDetail(GamMarineCenterRentFeeMngtVO vo) throws Exception;
+	
+	List selectAssetRentFeeDetailList(GamMarineCenterRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailMstPk(GamMarineCenterRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailSumPk(GamMarineCenterRentFeeMngtVO searchVO);
 }

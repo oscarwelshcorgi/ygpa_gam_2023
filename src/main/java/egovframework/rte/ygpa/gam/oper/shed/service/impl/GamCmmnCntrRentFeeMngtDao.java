@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.shed.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -107,5 +108,30 @@ public class GamCmmnCntrRentFeeMngtDao extends YGPAAbstractDAO {
 	 */
 	public void insertCmmnCntrRentFeeMngtLevReqest(GamCmmnCntrRentFeeMngtVO vo){
 		insert("gamCmmnCntrRentFeeMngtDao.insertCmmnCntrRentFeeMngtLevReqest_S", vo);
+	}
+	
+	public List selectNpticPrintInfo(Map searchVO) throws Exception {
+        return list("gamCmmnCntrRentFeeMngtDao.selectNticPrintFeeList_D", searchVO);
+	}
+	
+	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
+        return list("gamCmmnCntrRentFeeMngtDao.selectTaxNticPrintFeeList_D", searchVO);
+	}
+	
+	public void updateAssetRentFeeMngtListDetail(GamCmmnCntrRentFeeMngtVO vo)
+			throws Exception {
+		update("gamCmmnCntrRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S", vo);
+	}
+	
+	public List selectAssetRentFeeDetailList(GamCmmnCntrRentFeeMngtVO searchVO) {
+		return list("gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailList_D", searchVO);
+	}
+	
+	public Map selectAssetRentFeeDetailMstPk(GamCmmnCntrRentFeeMngtVO searchVO) {
+		return (Map) selectByPk("gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S", searchVO);
+	}
+	
+	public Map selectAssetRentFeeDetailSumPk(GamCmmnCntrRentFeeMngtVO searchVO) {
+		return (Map) selectByPk("gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S", searchVO);
 	}
 }

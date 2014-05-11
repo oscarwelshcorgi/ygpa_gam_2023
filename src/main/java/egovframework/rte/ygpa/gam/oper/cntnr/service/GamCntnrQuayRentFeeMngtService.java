@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Class Name : GamCntnrQuayRentFeeMngtService.java
@@ -83,4 +84,17 @@ public interface GamCntnrQuayRentFeeMngtService {
 	 * @exception Exception
 	 */
 	public void insertCntnrQuayRentFeeMngtLevReqest(GamCntnrQuayRentFeeMngtVO vo) throws Exception;
+	
+	List selectNpticPrintInfo(Map searchVO) throws Exception;
+	
+	List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
+	
+	void updateAssetRentFeeMngtListDetail(GamCntnrQuayRentFeeMngtVO vo) throws Exception;
+	
+	List selectAssetRentFeeDetailList(GamCntnrQuayRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailMstPk(GamCntnrQuayRentFeeMngtVO searchVO);
+	
+	Map selectAssetRentFeeDetailSumPk(GamCntnrQuayRentFeeMngtVO searchVO);
+	
 }

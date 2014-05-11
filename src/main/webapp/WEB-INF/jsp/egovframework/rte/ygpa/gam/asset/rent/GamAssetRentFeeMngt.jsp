@@ -36,7 +36,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/gamSelectAssetRentFeeMngtList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'항이름', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+                    {display:'항이름', name:'prtAtCode',width:60, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:70, sortable:false,align:'center'},
                     {display:'횟수', name:'nticCnt',width:42, sortable:false,align:'center'},
                     {display:'업체명', name:'entrpsNm',width:160, sortable:false,align:'center'},
@@ -58,7 +58,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-
         	$.each(data.resultList, function() {
         		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
         		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
