@@ -476,7 +476,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                 <div class="emdPanel">
+<!--	                 
                    	<h2>시설사용내역</h2>
+ -->					
                    	<form id="gamAssetRentFeeForm">
                    	<input type="hidden" data-column-id="prtAtCode"/>
                    	<input type="hidden" data-column-id="mngYear"/>
