@@ -389,7 +389,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
 };
 
-
 GamAssetRentMngtModule.prototype.onCalc = function() {
 	console.debug('calc start');
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
@@ -482,11 +481,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
         // 조회
         case 'searchBtn':
-            this.$("#assetRentListTab").tabs("option", {active: 0});
-
-            var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-            this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-			console.log('debug');
+			this.loadData();
             break;
 
         // 최초신청
@@ -524,8 +519,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                     this.doAction('<c:url value="/asset/rent/gamInsertAssetRentRenew.do" />', rows[0], function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
-                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        	this.loadData();
                         }
 
                         alert(result.resultMsg);
@@ -660,8 +654,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
                     this.doAction('<c:url value="/asset/rent/gamDeleteAssetRent.do" />', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
-                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        	this.loadData();
                         }
 
                         alert(result.resultMsg);
@@ -686,8 +679,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
             this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
-                    var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');
-                    module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                	this.loadData();
                 }
 
                 alert(result.resultMsg);
@@ -1297,9 +1289,11 @@ GamAssetRentMngtModule.prototype.onSubmit = function() {
 };
 
 GamAssetRentMngtModule.prototype.loadData = function() {
+    this.$("#assetRentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-    //this.showAlert(searchOpt);
     this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	console.log('debug');
+
 };
 
 GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -1360,8 +1354,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
              if( value == "0" ) {
-                 var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-                 this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+					this.loadData();
              }
          } else {
              alert('취소 되었습니다');
