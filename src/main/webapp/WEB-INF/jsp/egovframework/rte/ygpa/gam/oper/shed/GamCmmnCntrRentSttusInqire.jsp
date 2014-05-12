@@ -926,9 +926,9 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
                             <tr>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="hidden" id="gisAssetsPrtAtCode"/>
-                                	<input type="text" size="8" id="gisAssetsCd" disabled/>-
-                                	<input type="text" size="8" id="gisAssetsSubCd" disabled/>
+                                	<input type="text" size="5" id="gisAssetsPrtAtCode" disabled/>-
+                                	<input type="text" size="4" id="gisAssetsCd" disabled/>-
+                                	<input type="text" size="4" id="gisAssetsSubCd" disabled/>
                                     <input type="hidden" id="assetsCdStr"/>
                                 </td>
 								<th width="10%" height="18">자산면적</th>

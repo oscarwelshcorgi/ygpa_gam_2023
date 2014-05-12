@@ -351,43 +351,12 @@
                                 , A.GIS_ASSETS_CD
                                 , A.GIS_ASSETS_SUB_CD
                                 , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
-
-                                , (SELECT F.GIS_ASSETS_NM FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_NM
-
-                                , (SELECT F.GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_LOCPLC
-
-                                , (SELECT F.GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_LNM
-
-                                , (SELECT F.GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_LNM_SUB
-
-                                , (SELECT F.GIS_ASSETS_AR FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_AR
-
-                                , (SELECT F.GIS_ASSETS_REAL_RENT_AR FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE)
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
-
+								, F.GIS_ASSETS_NM
+								, F.GIS_ASSETS_LOCPLC
+								, F.GIS_ASSETS_LNM
+								, F.GIS_ASSETS_LNM_SUB
+								, F.GIS_ASSETS_AR
+								, F.GIS_ASSETS_REAL_RENT_AR
                                 , NVL(A.USAGE_AR,0) USAGE_AR
                                 , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
                                 , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
@@ -433,6 +402,9 @@
                                 , GAM_GETCODENAME('GAM017', A.EXEMPT_RSN_CD) EXEMPT_RSN_CD_NM
                                 , GAM_GETCODENAME('GAM014', A.APPLC_MTH) APPLC_MTH_NM
                             FROM ASSETS_RENT_DETAIL_F A
+							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
+																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
+																	F.GIS_ASSETS_CD = A.GIS_ASSETS_CD)
                            WHERE 1 = 1
                              AND A.PRT_AT_CODE = #prtAtCode#
                              AND A.MNG_YEAR    = #mngYear#
