@@ -19,6 +19,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetRentServiceMngtImpl.java
@@ -97,45 +98,45 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	 */
 	public void insertAssetRentRenew(GamAssetRentMngtVO vo) throws Exception {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		//자산임대 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamAssetRentMngtDao.selectAssetRentMaxMngCnt(vo);
-		
+
 		//자산임대 복사등록
 		vo.setMaxMngCnt(maxMngCnt);
 		vo.setRegUsr(loginVO.getId());
 		vo.setUpdUsr(loginVO.getId());
 		vo.setReqstSeCd("2");
-		gamAssetRentMngtDao.insertAssetRentRenew(vo); 
-		
+		gamAssetRentMngtDao.insertAssetRentRenew(vo);
+
 		//자산임대상세정보 조회
 		List detailList = gamAssetRentMngtDao.selectAssetRentDetailInfo(vo);
-		
+
 		GamAssetRentDetailVO resultVo = null;
-		
+
 		for( int i = 0 ; i < detailList.size() ; i++ ) {
 			resultVo = new GamAssetRentDetailVO();
 			resultVo = (GamAssetRentDetailVO)detailList.get(i);
-			
+
 			resultVo.setMngCnt(maxMngCnt);
 			resultVo.setRegUsr(loginVO.getId());
 			resultVo.setUpdUsr(loginVO.getId());
-			
+
 			//자산임대상세 복사등록
-			gamAssetRentMngtDao.insertAssetRentDetailRenew(resultVo); 
+			gamAssetRentMngtDao.insertAssetRentDetailRenew(resultVo);
 		}
-		
+
 		GamAssetRentMngtVO updRentVO = new GamAssetRentMngtVO();
-		
+
 		//총사용료, 총면적, 총사용기간 조회
 		updRentVO = gamAssetRentMngtDao.selectAssetRentRenewInfo(vo);
-		
+
 		if( updRentVO != null ) {
 			updRentVO.setPrtAtCode(vo.getPrtAtCode());
 			updRentVO.setMngYear(vo.getMngYear());
 			updRentVO.setMngNo(vo.getMngNo());
 			updRentVO.setMaxMngCnt(maxMngCnt);
-			
+
 			gamAssetRentMngtDao.updateAssetRentRenewInfo(updRentVO);
 		}
 	}
@@ -168,15 +169,15 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public int selectAssetRentDetailListTotCnt(GamAssetRentMngtVO vo) throws Exception {
 		return gamAssetRentMngtDao.selectAssetRentDetailListTotCnt(vo);
 	}
-    
+
     /**
    	 * 공시지가 목록을 조회한다.
    	 * @param searchVO - 조회할 정보가 담긴 VO
    	 * @return list
    	 * @exception Exception
    	 */
-    public List selectOlnlpInfo() throws Exception {
-        return gamAssetRentMngtDao.selectOlnlpInfo();
+    public List selectOlnlpInfo(GamGisAssetCodeVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectOlnlpInfo(searchVO);
     }
 
     /**
@@ -265,16 +266,16 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 		int[] dayCnt = null; //고지방법별 해당기간의 날짜수
 		int totDayCnt = 0; // 사용기간 총 일수
 		int dayFee = 0; //일별 사용료
-		
-		int propNticPdFrom = 0; //고지기간 FROM 
-		int propNticPdTo   = 0; //고지기간 TO 
+
+		int propNticPdFrom = 0; //고지기간 FROM
+		int propNticPdTo   = 0; //고지기간 TO
 		int propPayTmlmt   = 0; //납부기한
 
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
 		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
-		
+
 		int monthCnt = gamAssetRentMngtDao.selectUsagePdMonthCnt(vo);
-		
+
 		log.debug("################################################ monthCnt => " + monthCnt);
 
 		if( vo.getNticMth().equals("1") ) {	// 일시납
@@ -363,7 +364,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 				} else {
 					startRetVal[i] = EgovDateUtil.addYearMonthDay(cStartDt, 0, i, 0);
 				}
-				
+
 				int j = monthCnt-1;
 				if( i == j ) {
 					endRetVal[i] = cEndDt;
@@ -382,7 +383,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 			int thisTimeVat = 0;
 
 			vo.setNticCnt(Integer.toString(i+1)); //고지횟수
-			
+
 			if( "Pre".equals(vo.getPayMth()) ) { //납부방법(선납)
 				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
 				propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
@@ -392,7 +393,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 				propNticPdTo = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdToAfter"));
 				propPayTmlmt = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmtAfter"));
 			}
-			
+
 			vo.setNticPdFrom(EgovDateUtil.addDay(startRetVal[i], propNticPdFrom)); //고지기간 FROM
 			vo.setConstPerTo(EgovDateUtil.addDay(startRetVal[i], propNticPdTo)); //고지기간 TO
 		    vo.setPayTmlmt(EgovDateUtil.addDay(startRetVal[i], propPayTmlmt));   //납부기한
@@ -400,16 +401,16 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 		    if( dayCnt[i] > 0 ) {
 				thisTimeFee = dayFee * dayCnt[i]; //사용료
 				vo.setFee(Integer.toString(thisTimeFee));
-	
+
 				if( "Y".equals(vo.getVatYn()) ) {
 					thisTimeVat = thisTimeFee / 10;
 					thisTimeFee = thisTimeFee + thisTimeVat;
-	
+
 					vo.setVat(Integer.toString(thisTimeVat)); //부가세
 				}
-	
+
 				vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
-				
+
 				log.debug("################################################ for => " + i + "##################################");
 				log.debug("################################################ 월별 시작일 => " + startRetVal[i]);
 				log.debug("################################################ 월별 종료일 => " + endRetVal[i]);
@@ -422,11 +423,11 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 				log.debug("################################################ 부가세 => " + vo.getVat());
 				log.debug("################################################ 고지금액 => " + vo.getNticAmt());
 				log.debug("---------------------------------------------------------------------------------------------------");
-				
+
 				//징수의뢰 insert
 				gamAssetRentMngtDao.insertAssetRentLevReqest(vo);
 		    }
-			
+
 		}
 
 		//자산임대 허가여부를 수정
@@ -441,7 +442,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo) throws Exception {
 		gamAssetRentMngtDao.updateAssetRentPrmisnCancel(vo);
 	}
-	
+
 	/**
 	 * 파일 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -461,7 +462,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public int selectAssetRentFileListTotCnt(GamAssetRentMngtVO searchVO) throws Exception {
 		return gamAssetRentMngtDao.selectAssetRentFileListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 파일을 등록한다.
 	 * @param vo GamAssetRentVO
@@ -470,7 +471,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void insertAssetRentFile(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.insertAssetRentFile(vo);
 	}
-	
+
 	/**
 	 * 파일을 수정한다.
 	 * @param vo GamAssetRentVO
@@ -479,7 +480,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void updateAssetRentFile(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.updateAssetRentFile(vo);
 	}
-	
+
 	/**
 	 * 파일을 삭제한다.
 	 * @param vo GamAssetRentVO
@@ -488,7 +489,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void deleteAssetRentPhotoSingle(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.deleteAssetRentPhotoSingle(vo);
 	}
-	
+
 	/**
 	 * 임대신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -498,7 +499,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentMaxKey(searchVO);
     }
-    
+
     /**
 	 * 코멘트를 수정한다.
 	 * @param vo GamAssetRentDetailVO
@@ -507,7 +508,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void updateAssetRentComment(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.updateAssetRentComment(vo);
 	}
-	
+
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -517,7 +518,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentRenewInfo(searchVO);
     }
-    
+
     /**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
 	 * @param vo GamAssetRentDetailVO
@@ -526,7 +527,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void updateAssetRentRenewInfo(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.updateAssetRentRenewInfo(vo);
 	}
-	
+
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -536,7 +537,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCurrRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCurrRenewInfo(searchVO);
     }
-    
+
     /**
 	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -546,7 +547,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentDetailQuaycd(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentDetailQuaycd(searchVO);
     }
-    
+
     /**
 	 * 신청저장시 임대테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamAssetRentDetailVO
@@ -555,7 +556,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
 	public void updateAssetRentQuaycd(GamAssetRentMngtVO vo) throws Exception {
 		gamAssetRentMngtDao.updateAssetRentQuaycd(vo);
 	}
-	
+
 	/**
    	 * 코픽스 이자율 목록을 조회한다.
    	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -565,7 +566,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public List selectCofixInfo() throws Exception {
         return gamAssetRentMngtDao.selectCofixInfo();
     }
-    
+
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -575,7 +576,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentBeforeQuarterInfo(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentBeforeQuarterInfo(searchVO);
     }
-    
+
     /**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -585,7 +586,7 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCofixInfo(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCofixInfo(searchVO);
     }
-    
+
     /**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -595,5 +596,5 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCofixInfoMax(searchVO);
     }
-	
+
 }
