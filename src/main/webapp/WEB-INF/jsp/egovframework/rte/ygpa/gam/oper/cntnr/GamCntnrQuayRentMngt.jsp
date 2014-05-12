@@ -569,7 +569,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
             this.$('#gamCntnrQuayRentMngtForm').find(':input').val('');
             this.$('#gamCntnrQuayRentMngtDetailForm').find(':input').val('');
             this.$('#gamCntnrQuayRentMngtFileForm').find(':input').val('');
-
+            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             //this.$("#cntnrQuayRentMngtDetailList").flexRemove();
             this.$("#cntnrQuayRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cntnrQuayRentMngtFileList").flexAddData({resultList:[]}); //그리드 초기화

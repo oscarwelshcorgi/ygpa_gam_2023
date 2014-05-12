@@ -569,7 +569,7 @@ GamMarineCenterRentMngtModule.prototype.onCalc = function() {
             this.$('#gamMarineCenterRentForm').find(':input').val('');
             this.$('#gamMarineCenterRentDetailForm').find(':input').val('');
             this.$('#gamMarineCenterRentFileForm').find(':input').val('');
-
+            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             //this.$("#marineCenterRentDetailList").flexRemove();
             this.$("#marineCenterRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#marineCenterRentFileList").flexAddData({resultList:[]}); //그리드 초기화

@@ -569,7 +569,7 @@ GamTrainPortRentMngtModule.prototype.onCalc = function() {
             this.$('#gamTrainPortRentMngtForm').find(':input').val('');
             this.$('#gamTrainPortRentMngtDetailForm').find(':input').val('');
             this.$('#gamTrainPortRentMngtFileForm').find(':input').val('');
-
+            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             //this.$("#trainPortRentMngtDetailList").flexRemove();
             this.$("#trainPortRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#trainPortRentMngtFileList").flexAddData({resultList:[]}); //그리드 초기화

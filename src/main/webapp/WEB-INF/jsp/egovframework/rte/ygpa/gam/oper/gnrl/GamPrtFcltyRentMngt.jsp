@@ -574,7 +574,7 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
             this.$("#prtFcltyRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#prtFcltyRentMngtFileList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
-
+            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
 
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());

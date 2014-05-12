@@ -576,7 +576,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
-
+            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
