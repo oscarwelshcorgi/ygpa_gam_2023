@@ -79,7 +79,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 				{display:"도면자료코드",	name:"drwDtaCd",		width:80,	sortable:false,	align:"center"},
 				{display:"도면명", 		name:"drwNm",			width:200,	sortable:false,	align:"left"},
 				{display:"도면파일명",		name:"drwFilenmLogic",	width:200,	sortable:false,	align:"left"},
-				{display:"도면구분", 		name:"drwSeCdNm",		width:80,	sortable:false,	align:"center"},
+				{display:"도면구분", 		name:"drwSeCd",		width:80,	sortable:false,	align:"center"},
 				{display:"도면번호",		name:"drwNo",			width:50,	sortable:false,	align:"center"},
 				{display:"축적",			name:"scl",				width:80,	sortable:false,	align:"left"},
 				{display:"도면작성일",		name:"drwWritngDt",		width:70,	sortable:false,	align:"center"},
@@ -270,6 +270,12 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		case "btnRemoveFile":
 			this.removeGisAssetPhotoItem();
+		case 'btnDownloadFile':
+			var selectRow = this.$('#drwListPhotoList').selectedRows();
+			if(selectRow.length > 0) {
+				var row=selectRow[0];
+				this.downloadFile(row["drwFilenmPhysicl"], row["drwFilenmLogic"]);
+			}
 		break;
 
 	}
@@ -486,27 +492,27 @@ var module_instance = new GamFcltyDrwListMngtModule();
 							<th width="20%" height="23">도면자료코드</th>
 							<td><input type="text" size="40" id="drwDtaCd" disabled="disabled" maxlength="20" /></td>
 							<th width="20%" height="23" class="required_text">도면번호</th>
-							<td><input type="text" size="8" id="drwNo" maxlength="8" /></td>
+							<td><input type="text" size="8" id="drwNo" maxlength="8" class="photoEditItem"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면구분</th>
-							<td><input type="text" id="drwSeCd" class="ygpaCmmnCd" data-code-id="GAM048" /></td>
+							<td><input type="text" id="drwSeCd" class="ygpaCmmnCd photoEditItem" data-code-id="GAM048" /></td>
 							<th width="20%" height="23" class="required_text">축적</th>
-							<td><input type="text" size="45" id="scl" maxlength="20" /></td>
+							<td><input type="text" size="45" id="scl" maxlength="20" class="photoEditItem"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면명</th>
-							<td colspan="3"><input type="text" size="120" id="drwNm" maxlength="40"/></td>
+							<td colspan="3"><input type="text" size="120" id="drwNm" maxlength="40" class="photoEditItem"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면작성일자</th>
-							<td><input type="text" id="drwWritngDt" class="emdcal"/></td>
+							<td><input type="text" id="drwWritngDt" class="emdcal" class="photoEditItem"/></td>
 							<th width="20%" height="23" class="required_text">도면변경일자</th>
-							<td><input type="text" id="drwChangedt" class="emdcal"/></td>
+							<td><input type="text" id="drwChangedt" class="emdcal" class="photoEditItem"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면변경내역</th>
-							<td colspan="3"><input type="text" size="120" id="drwChangeDtls" maxlength="200" /></td>
+							<td colspan="3"><input type="text" size="120" id="drwChangeDtls" maxlength="200"  class="photoEditItem"/></td>
 						</tr>
 					</table>
 				</form>
