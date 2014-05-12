@@ -308,9 +308,15 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		               { name: 'nticCnt', value: row.nticCnt }
 		             ];
    	 	this.doAction('<c:url value="/asset/rent/gamSelectAssetRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
+   	   	 	console.log('debug');
 			if (result.resultCode == "0") {
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
-				module.makeMultiDivValues('#detailFeeInfo',result.resultList );	// 리스트 값을 채운다
+				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
+					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
+					else {
+						if($(this).hasClass("detailRowSelected")) $(this).removeClass("detailRowSelected");
+					}
+				} );	// 리스트 값을 채운다
 				module.makeDivValues('#summaryFeeInfo', result.resultSummary); // 결과값을 채운다.
 
 				module.makeFormValues('#gamAssetRentFeeForm', result.resultMaster);
@@ -548,7 +554,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     	</thead>
                     	<tbody id="detailFeeInfo" >
                     		<tr>
-	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span><span data-column-id="currNticCnt" class="ygpaYnSelect" data-y-prompt="*" data-n-prompt=""></span></td>
+	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="accnutYear"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="nticno"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>

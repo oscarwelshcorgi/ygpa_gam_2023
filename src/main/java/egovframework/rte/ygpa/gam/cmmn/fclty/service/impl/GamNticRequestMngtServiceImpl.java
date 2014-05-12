@@ -8,6 +8,7 @@ import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -128,21 +129,22 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void sendUnpaidRequest(Map<String, Object> vo) throws Exception {
 		// TODO Auto-generated method stub
-		vo.put("feeTp", "C1");
-		try {
-			vo.put("arrrgNo", Integer.parseInt((String)vo.get("arrrgNo"))+1);
-		}
-		catch(Exception e) {
-			vo.put("arrrgNo", 1);
-			// 연체 금액 계산
-			// 연체 납부기한
-			vo.put("dlyPayTmlmt", getDueDate(this.TERM_FOR_PAYMENT15));
-            Map dlyAmntMap = calculateDlyBillAmnt(vo);
-
-			Integer d = Integer.parseInt((String)vo.get("nticAmt"));
-			vo.put("arrrgAmt", +1);
-		}
-		gamNticRequestMngtDAO.insertNticRequestRevCollF(vo);
+//		vo.put("feeTp", "C1");
+//		try {
+//			vo.put("arrrgNo", Integer.parseInt((String)vo.get("arrrgNo"))+1);
+//		}
+//		catch(Exception e) {
+//			vo.put("arrrgNo", 1);
+//			// 연체 금액 계산
+//			// 연체 납부기한
+//			vo.put("dlyPayTmlmt", getDueDate(this.TERM_FOR_PAYMENT15));
+//            Map dlyAmntMap = calculateDlyBillAmnt(vo);
+//
+//			Integer d = Integer.parseInt((String)vo.get("nticAmt"));
+//			vo.put("arrrgAmt", +1);
+//		}
+		gamNticRequestMngtDAO.updateLevReqestArrrgAmt(vo);
+		gamNticRequestMngtDAO.insertNticRequestRevCollFC1(vo);
 	}
 
 	/* (non-Javadoc)
@@ -391,6 +393,23 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
         if (logger.isDebugEnabled()) logger.debug("BigDecimal -1;"+tmp);*/
         return retMap;
     }
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#sendMultiUnpaidRequest(java.util.List)
+	 */
+	@Override
+	public void sendMultiUnpaidRequest(List list) throws Exception {
+		//
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#cancelUnpaidRequest(java.util.Map)
+	 */
+	@Override
+	public void cancelUnpaidRequest(Map<String, Object> vo) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
 
 
 }

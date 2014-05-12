@@ -128,6 +128,36 @@
       	AND NTIC_CNT=#nticCnt#
     </insert>
 
+    <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollFC1" parameterClass="hashMap" >
+        INSERT INTO REV_COLL_F@YGPA_PORTMIS (
+      PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
+      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
+      BILL_DT, DUE_DATE, BILL_PRT_YN,
+      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+		RCVD_TP,
+		ORIGIN_FEE_TP, ORIGIN_FISCAL_YR, ORIGIN_BILL_NO,
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE
+      )
+        SELECT
+      PRT_AT_CODE, 'C1', TO_CHAR(SYSDATE, 'YYYY') FISCAL_YR, (SELECT MAX(NTICNO)+1 FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#) BILL_NO,
+      ENTRPSCD, (SELECT BZ_RGST_ID FROM SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
+      SYSDATE, (SYSDATE+15) PAY_TMLMT, NHT_PRINT_YN,
+      ARRRG_AMT, RDCXPT_FEE, 0, 0,
+		'0',
+		CHRGE_KND, ACCNUT_YEAR, NTICNO,
+      #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO
+      FROM LEV_REQEST_F
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+    </insert>
+
       <select id="gamNticRequestMngtDAO.selectNticNoAccnutYear_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT LPAD(NVL(MAX(NTICNO), 0) + 1, 6, '0') NTICNO,
 		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
@@ -172,6 +202,27 @@
 									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
 									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
     </delete>
+
+    <update id="gamNticRequestMngtDAO.updateLevReqestArrrgAmt" parameterClass="hashMap">
+        UPDATE LEV_REQEST_F SET
+        	PAY_TMLMT=TRUNC(SYSDATE)+15,
+      		ARRRG_NO=(SELECT NVL(ARRRG_NO,0)+1 FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
+		      	AND MNG_YEAR=#mngYear#
+		      	AND MNG_NO=#mngNo#
+		      	AND MNG_CNT=#mngCnt#
+		      	AND NTIC_CNT=#nticCnt#),
+      		ARRRG_AMT=TO_NUMBER(#arrrgAmt#),
+      		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#)/100,
+      		ARRRG_PAY_DATES=TO_NUMBER(#arrrgPayDates#),
+      		UPD_USR=#updUsr#,
+      		UPDT_DT=SYSDATE
+     	WHERE
+			PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+  </update>
 
     <update id="gamNticRequestMngtDAO.updateLevReqestIssueYn" parameterClass="hashMap">
         UPDATE LEV_REQEST_F SET

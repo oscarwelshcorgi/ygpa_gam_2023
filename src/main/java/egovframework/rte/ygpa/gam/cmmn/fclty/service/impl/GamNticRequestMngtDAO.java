@@ -65,6 +65,9 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (String)insert("gamNticRequestMngtDAO.insertNticRequestRevCollF", vo);
     }
 
+	public String insertNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamNticRequestMngtDAO.insertNticRequestRevCollFC1", vo);
+    }
 	/**
 	 * 고지 취소 정보를 전송한다.
 	 */
@@ -85,6 +88,15 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	public int deleteNticRequestRevCollF(Map<String, Object> vo) throws Exception {
         return delete("gamNticRequestMngtDAO.deleteNticRequestRevCollF", vo);
     }
+
+	/**
+	 * 연체료를 등록한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateLevReqestArrrgAmt(Map<String, Object> vo) throws Exception {
+        update("gamNticRequestMngtDAO.updateLevReqestArrrgAmt", vo);
+	}
 
 	/**
 	 * 고지서 발부여부를 저장한다.

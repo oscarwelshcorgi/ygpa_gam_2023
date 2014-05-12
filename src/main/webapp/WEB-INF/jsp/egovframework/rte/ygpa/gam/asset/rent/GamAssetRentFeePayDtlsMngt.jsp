@@ -63,20 +63,25 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
     this.$("#assetRentFeePayList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
         module.$("#assetRentFeePayListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
-
     });
 
     this.$('#sNticDtFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
     this.$('#sNticDtTo').val(EMD.util.getDate());
+
+    this.$('#arrrgDetail :input').on('change keyup', {module: this}, function(event) {
+    	event.data.module.calculateArrrgFee();
+    });
+
+    console.log('loadCompleted');
 };
 
 /**
  * 정의 된 버튼 클릭 시
  */
  GamAssetRentFeePayDtlsMngtModule.prototype.onButtonClick = function(buttonId) {
+     var opts=null;
 
     switch(buttonId) {
-
         // 조회
         case 'searchBtn':
         	this.loadData();
@@ -85,9 +90,8 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
 
         // 팝업을 호출한다.(업체)
         case 'popupEntrpsInfoFeePay':
-            var opts;
-
-            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            var searchOpt=module.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
+            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts, searchOpt);
             break;
 
         case 'btnUpdatePayDtls':	// 납부 현황 새로 고침
@@ -104,8 +108,41 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         case 'btnNticArrrg':
             this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '<c:url value="/asset/rent/showNticArrrgPopup.do"/>', opts);
         	break;
-
+        case 'btnNticArrrgSingle':
+			this.nticArrrgSingle();
+        	break;
     }
+};
+
+GamAssetRentFeePayDtlsMngtModule.prototype.nticArrrgSingle = function() {
+	var rows = this.$('#assetRentFeePayList').selectedRows();
+	if(rows.length==0) {
+		alert('연체 고지 할 항목을 선택 하세요.');
+		return;
+	}
+
+	var row=rows[0];
+
+	var arrrgRate=this.$('#arrrgRate').val();
+	var applyPayDates=this.$('#applyPayDates').val();
+	var arrrgAmt=this.$('#arrrgAmt').number(true).val();
+
+	var nticDetail = [
+	               { name: 'prtAtCode', value: row.prtAtCode},
+	               { name: 'mngYear', value: row.mngYear },
+	               { name: 'mngNo', value: row.mngNo },
+	               { name: 'mngCnt', value: row.mngCnt },
+	               { name: 'nticCnt', value: row.nticCnt },
+	               { name: 'arrrgTariff', value: arrrgRate },
+	               { name: 'arrrgPayDates', value: applyPayDates },
+	               { name: 'arrrgAmt', value: arrrgAmt },
+	             ];
+	 	this.doAction('<c:url value="/asset/rent/insertNticArrrg.do" />', nticDetail, function(module, result) {
+		if (result.resultCode == "0") {
+		} else {
+		}
+		alert(result.resultMsg);
+	});
 };
 
 GamAssetRentFeePayDtlsMngtModule.prototype.onSubmit = function() {
@@ -120,6 +157,62 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadData = function() {
     this.$('#assetRentFeePayList').flexOptions({params:searchOpt}).flexReload();
 };
 
+GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
+	var row = this.$('#assetRentFeePayList').selectedRows()[0];
+
+	var nticDetail = [
+	               { name: 'prtAtCode', value: row.prtAtCode},
+	               { name: 'mngYear', value: row.mngYear },
+	               { name: 'mngNo', value: row.mngNo },
+	               { name: 'mngCnt', value: row.mngCnt },
+	               { name: 'nticCnt', value: row.nticCnt }
+	             ];
+	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
+		if (result.resultCode == "0") {
+			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
+			module.makeMultiDivValues('#detailPayInfo',result.resultList, function(row) {
+				if(row.currNticCnt=="Y") $(this).addClass("detailRowSelected");
+				else {
+					if($(this).hasClass("detailRowSelected")) $(this).removeClass("detailRowSelected");
+				}
+			} );	// 리스트 값을 채운다
+			module.makeDivValues('#summaryPayInfo', result.resultSummary); // 결과값을 채운다.
+			if(result.resultArrrg==undefined) {
+				module.$('#arrrgDetail').hide();
+			}
+			else {
+				module.nticAmt=result.resultArrrg.nticAmt*1;
+				module.$('#arrrgDetail').show();
+				module.makeDivValues('#arrrgDetail', result.resultArrrg); // 결과값을 채운다.
+				module.makeFormValues('#arrrgDetailVO', result.resultArrrg); // 결과값을 폼에 채운다.
+			}
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+};
+
+GamAssetRentFeePayDtlsMngtModule.prototype.calculateArrrgFee = function() {
+	// 연체료 계산
+	console.log('arrrg calc');
+
+	var arrrgRate=this.$('#arrrgRate').val()/100;
+	var applyPayDates=this.$('#applyPayDates').val()*1;
+//	var arrrgAmt=$.number(this.$('#arrrgAmt').val(), false)*1;
+	var arrrgAmtResult=0;
+
+	if(applyPayDates<=0) {
+		this.$('#arrrgAmt').val('-');
+		return;
+	}
+	if(arrrgRate==0) {
+		arrrgRate=0.12;
+		this.$('#arrrgRate').val('12');
+	}
+	arrrgAmtResult = this.nticAmt+Math.round(this.nticAmt*applyPayDates/365*arrrgRate/10)*10;
+	this.$('#arrrgAmt').val($.number(arrrgAmtResult));
+};
+
 GamAssetRentFeePayDtlsMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 	if(newTabId=='tabs2') {
 		if(this.$('#assetRentFeePayList').selectedRowCount()!=1) {
@@ -128,7 +221,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onTabChangeBefore = function(newTabId
 		}
 	}
 	return true;
-}
+};
 
 
 GamAssetRentFeePayDtlsMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -136,24 +229,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onTabChange = function(newTabId, oldT
     case 'tabs1':
         break;
     case 'tabs2':
-    	var row = this.$('#assetRentFeePayList').selectedRows()[0];
-
-		var nticDetail = [
-		               { name: 'prtAtCode', value: row.prtAtCode},
-		               { name: 'mngYear', value: row.mngYear },
-		               { name: 'mngNo', value: row.mngNo },
-		               { name: 'mngCnt', value: row.mngCnt },
-		               { name: 'nticCnt', value: row.nticCnt }
-		             ];
-   	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
-			if (result.resultCode == "0") {
-				module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
-				module.makeMultiDivValues('#detailPayInfo',result.resultList );	// 리스트 값을 채운다
-				module.makeDivValues('#summaryPayInfo', result.resultSummary); // 결과값을 채운다.
-			} else {
-				alert(result.resultMsg);
-			}
-		});
+		this.loadDetailPage();
         break;
     }
 };
@@ -197,10 +273,10 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                             <th style="width: 70px">항코드</th>
                             <td style="width: 170px"><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
                             <th style="width: 70px">업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="20"> <button id="popupEntrpsInfo" class="popupButton">업체</button></td>
+                            <td><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="10"> <button id="popupEntrpsInfo" class="popupButton">업체</button></td>
                             <th style="width: 70px">납부구분</th>
                             <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체"></td>
-                            <td rowspan="2"><button id="searchBtn" *class="submit" class="buttonSearch">조회</button></td>
+                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
 
                         <tr>
@@ -211,61 +287,6 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                             <th>요금종류</th>
                             <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
                         </tr>
-
-                        <!--
-                        <tr>
-                            <th>항코드</th>
-                            <td>
-                                <select id="sPrtAtCode">
-                                    <option value="" selected="selected">선택</option>
-
-                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th>고지방법</th>
-                            <td width="100px">
-                                <select id="sNticMth">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${nticMthCdList}" var="nticMthCdItem">
-                                        <option value="${nticMthCdItem.code }">${nticMthCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th>부두</th>
-                            <td>
-                                <select id="sQuayCd">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${quayCdList}" var="quayCdItem">
-                                        <option value="${quayCdItem.code }">${quayCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <th>수납구분</th>
-                            <td>
-                                <select id="sRcivSe">
-                                    <option value="" selected="selected">선택</option>
-                                    <c:forEach  items="${rcivSeCdList}" var="rcivSeCdItem">
-                                        <option value="${rcivSeCdItem.code }">${rcivSeCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
-                        </tr>
-                        <tr>
-                            <th>조회업체</th>
-                            <td>
-                                <input id="sEntrpscd" type="text" size="3"><input id="sEntrpsNm" type="text" size="6" readonly> <button id="popupEntrpsInfoFeePay">업체</button>
-                            </td>
-                            <th>고지일자</th>
-                            <td colspan="4">
-                            <input id="sNticDtFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sNticDtTo" type="text"
-                                class="emdcal" size="8">
-                            </td>
-                        </tr>
-                         -->
                     </tbody>
                 </table>
             </form>
@@ -281,27 +302,28 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="assetRentFeePayList" style="display:none" class="fillHeight"></table>
-                <div class="emdControlPanel">
-                	<table id="assetRentFeePayListSum" class="summaryPanel" style="display:inline-table; vertical-align: middle;">
+                <div class="emdControlPanel" style="vertical-align: middle;">
+                	<table id="assetRentFeePayListSum" class="summaryPanel" style="display:inline-table; vertical-align: middle; float:left;">
                 		<tr>
-                			<th>조회자료수</th>
-                			<td style="text-align:right; width:80px;"><span data-column-id="totalResultCnt" class="ygpaNumber"></span></td>
+                			<th>자료수</th>
+                			<td style="text-align:right; width:50px;"><span data-column-id="sumCnt" class="ygpaNumber"></span></td>
                 			<th>총 고지금액</th>
-                			<td style="text-align:right; width:110px;"><span data-column-id="sumFee" class="ygpaNumber"></span> 원</td>
+                			<td style="text-align:right; width:110px;"><span data-column-id="sumNhtIsueAmt" class="ygpaNumber"></span></td>
                 			<th>부가세</th>
-                			<td style="text-align:right; width:110px;"><span data-column-id="sumVat" class="ygpaNumber"></span> 원</td>
+                			<td style="text-align:right; width:110px;"><span data-column-id="sumVat" class="ygpaNumber"></span></td>
                 			<th>총 납부금액</th>
-                			<td style="text-align:right; width:110px;"><span data-column-id="sumPayAmt" class="ygpaNumber"></span> 원</td>
+                			<td style="text-align:right; width:110px;"><span data-column-id="sumPayAmt" class="ygpaNumber"></span></td>
                 		</tr>
                 	</table>
-					<button id="btnUpdatePayDtls">납부확인</button>
-					<button id="btnNticArrrg">연체고지</button>
+					<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
+					<button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button>
                 </div>
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
                 <div class="emdPanel">
+                	<h2>고지 내역</h2>
                     <table id="masterPayInfo" class="detailPanel">
                         <tr>
                         	<th style="width: 100px"><span class="label">항구분</span></th>
@@ -319,7 +341,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                         	<th><span class="label">요금</span></th>
                             <td colspan="3"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
                         	<th><span class="label">고지금액</span></th>
-                            <td style="text-align:right;"><span data-column-id="totalNticAmount" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right;"><span data-column-id="nticAmt" class="ygpaNumber"></span> 원</td>
                         </tr>
                         <tr>
                             <th><span class="label">고지일자</span></th>
@@ -334,6 +356,37 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                             <td colspan="5"><span data-column-id="rcivDt"></span></td>
                         </tr>
                     </table>
+                    <div id="arrrgDetail">
+                    <h2>연체 내역</h2>
+                    <form id="arrrgDetailVO">
+                      <table id="arrrgDetailInfo" class="detailPanel">
+                        <tr>
+                        	<th><span class="label">연체일수</span></th>
+                            <td><span data-column-id="arrrgDates"></span></td>
+                            <th>이체상태</th>
+                            <td><span data-column-id="icheStatusNm"></span></td>
+                            <th>결과코드</th>
+                            <td colspan="3"><span data-column-id="rsltCode"></span></td>
+                        </tr>
+                        <tr>
+                        	<th><span class="label">연체고지납부기한</span></th>
+                            <td><span id="newPayTmlmt" data-column-id="newPayTmlmt"></span></td>
+                        	<th><span class="label">연체적용일수</span></th>
+                            <td><input id="applyPayDates" data-column-id="applyPayDates" /></td>
+                            <th><span class="label">연체요율</span></th>
+                            <td><input id="arrrgRate" data-column-id="arrrgRate" /></td>
+                        	<th><span class="label">연체금액</span></th>
+                            <td><input id="arrrgAmt" data-column-id="arrrgAmt" class="ygpaNumber" /></td>
+                        </tr>
+                    </table>
+                    </form>
+	                  <div class="emdControlPanel" style="vertical-align: middle;">
+						<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
+					</div>
+                    </div>
+
+            	</div>
+				<h2>전체 사용료 내역</h2>
                		<table class="detailPanel">
                     	<thead>
                     		<tr>
@@ -350,7 +403,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                     	</thead>
                     	<tbody id="detailPayInfo" >
                     		<tr>
-	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span><span data-column-id="currNticCnt" class="ygpaYnSelect" data-y-prompt="*" data-n-prompt=""></span></td>
+	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="accnutYear"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="nticno"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
@@ -378,8 +431,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                             <td style="text-align:right; width: 92px"><span data-column-id="feeD2" class="ygpaNumber"></span> 원</td>
                         </tr>
                     </table>
-            </div>
-
+			</div>
         </div>
     </div>
 </div>

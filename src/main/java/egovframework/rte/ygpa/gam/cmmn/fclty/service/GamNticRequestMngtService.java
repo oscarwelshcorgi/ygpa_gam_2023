@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.cmmn.fclty.service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +46,21 @@ public interface GamNticRequestMngtService {
 	 */
 	public void sendUnpaidRequest(Map<String, Object> vo) throws Exception;
 
+
 	/**
+	 * 여러건의 고지의뢰 건을 연체 고지 한다.
+	 * @param list
+	 * @throws Exception
+	 */
+	public void sendMultiUnpaidRequest(List list) throws Exception;
+
+	/**
+	 * 연체고지건을 포트미스에 고지 취소 한다.
+	 * @param vo (nticCnt:고지횟수, prtAtCode, mngYear:관리년도, mngNo:관리 번호, mngCnt:관리 횟수, chrgeKnd: 요금종류)
+	 * @throws Exception
+	 */
+	public void cancelUnpaidRequest(Map<String, Object> vo) throws Exception;
+/**
 	 * 고지서 출력 여부를 업데이트 한다.
 	 * @param vo
 	 * @throws Exception

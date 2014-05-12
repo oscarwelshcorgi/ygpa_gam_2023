@@ -181,6 +181,16 @@ vertical-align: middle;
   color: #fff;
 }
 
+.detailPanel tr.detailRowSelected {
+	background: #25338B;
+	color: #fff;
+}
+
+.detailPanel tr.detailRowSelected>td {
+	background: #25338B;
+	color: #fff;
+}
+
 .summaryPanel table {
 	width: 100%;
 	background: white;

@@ -32,10 +32,12 @@ import egovframework.com.sec.ram.service.AuthorRoleManage;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 
 /**
@@ -70,6 +72,9 @@ public class GamAssetRentFeePayDtlsMngtController {
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
+
+    @Resource(name="gamNticRequestMngtService")
+    private GamNticRequestMngtService gamNticRequestMngtService;
 
     @Resource(name = "gamAssetRentFeePayDtlsMngtService")
     private GamAssetRentFeePayDtlsMngtService gamAssetRentFeePayDtlsMngtService;
@@ -160,15 +165,21 @@ public class GamAssetRentFeePayDtlsMngtController {
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
-
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
 
-    	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
-    	map.put("sumRcvdAmnt", resultSum.getSumRcvdAmnt());
-    	map.put("dpTotCnt", resultSum.getDpTotCnt());
+    	map.put("sumCnt", resultSum.getSumCnt());
+    	map.put("sumFee", resultSum.getSumFee());
+    	map.put("sumNhtIsueAmt", resultSum.getSumNhtIsueAmt());
+    	map.put("sumVat", resultSum.getSumVat());
+    	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	map.put("sumFeeA3", resultSum.getSumFeeA3());
+    	map.put("sumFeeA4", resultSum.getSumFeeA4());
+    	map.put("sumFeeD1", resultSum.getSumFeeD1());
+    	map.put("sumFeeD2", resultSum.getSumFeeD2());
+    	map.put("sumPayAmt", resultSum.getSumPayAmt());
 
     	return map;
     }
@@ -202,6 +213,7 @@ public class GamAssetRentFeePayDtlsMngtController {
     	List resultList = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailList(searchVO);
     	Map master = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailMstPk(searchVO);
     	Map summary = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDetailSumPk(searchVO);
+    	Map arrrgDetail = gamAssetRentFeePayDtlsMngtService.selectNticArrrgDetail(searchVO);;
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -210,6 +222,7 @@ public class GamAssetRentFeePayDtlsMngtController {
     	map.put("resultList", resultList);
     	map.put("resultMaster", master);
     	map.put("resultSummary", summary);
+    	map.put("resultArrrg", arrrgDetail);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -278,12 +291,9 @@ public class GamAssetRentFeePayDtlsMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/asset/rent/selectNticArrrgList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> selectNticArrrgList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+    @ResponseBody Map<String, Object> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-
-    	searchVO.setPageUnit(10);
-    	searchVO.setPageSize(10);
 
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -305,19 +315,17 @@ public class GamAssetRentFeePayDtlsMngtController {
     	return map;
     }
 
-    @RequestMapping(value="/asset/rent/mergeNticArrrgList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> mergeNticArrrgList(@RequestParam Map<String, Object> dataList) throws Exception {
+    /**
+     *  연체 일괄 고지
+     * @param dataList
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/rent/insertNticArrrgList.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> insertNticArrrgList(GamAssetRentArrrgMngtVO searchVO) throws Exception {
 
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
+		Map map = new HashMap<String,Object>();
 
     	int resultCode = -1;
     	String resultMsg = "";
@@ -329,31 +337,52 @@ public class GamAssetRentFeePayDtlsMngtController {
         	return map;
     	}
 
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
+		searchVO.setUpdUsr(loginVO.getId());
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
 
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
+		List<?> gamNticArrrgList = gamAssetRentFeePayDtlsMngtService.selectNticArrrgList(searchVO);
 
-//		gamAssetRentFeePayDtlsMngtService.mergeNticArrrgList(mergeMap);
+		for(int i=0; i<gamNticArrrgList.size(); i++) {
+			Map<String, Object> nticArg = (Map<String, Object>)gamNticArrrgList.get(i);
+			nticArg.put("arrrgRate", searchVO.getArrrgRate());
+		}
+
+		gamNticRequestMngtService.sendMultiUnpaidRequest(gamNticArrrgList);
 
         map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaidlist"));
 
 		return map;
     }
 
+    @RequestMapping(value="/asset/rent/insertNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> insertNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+
+		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
 }

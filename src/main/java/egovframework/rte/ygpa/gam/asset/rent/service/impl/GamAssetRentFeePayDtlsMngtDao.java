@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 
@@ -67,6 +68,10 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 		return (GamAssetRentFeePayDtlsMngtVO) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum_S", searchVO);
 	}
 
+    public EgovMap selectNticArrrgDetail(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectNticArrrgDetail_S", searchVO);
+    }
+
 
 	/**
 	 * 고지금액합계, 수납금액합계
@@ -78,12 +83,12 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 		return (GamAssetRentFeePayDtlsMngtVO) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum_S", searchVO);
 	}
 
-	public List<?> selectNticArrrgList(GamAssetRentFeePayDtlsMngtVO searchVO)
+	public List<?> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO)
 			throws Exception {
         return list("gamAssetRentFeePayDtlsMngtDao.selectNticArrrgList_D", searchVO);
 	}
 
-	public int selectNticArrrgListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO)
+	public int selectNticArrrgListTotCnt(GamAssetRentArrrgMngtVO searchVO)
 			throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectNticArrrgListTotCnt_S", searchVO);
 	}

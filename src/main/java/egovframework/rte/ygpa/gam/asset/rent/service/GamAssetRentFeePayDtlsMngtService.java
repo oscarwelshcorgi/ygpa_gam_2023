@@ -91,7 +91,15 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<?> selectNticArrrgList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+	List<?> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체세입건을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	Map selectNticArrrgDetail(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체세입 건수 조회
@@ -99,7 +107,7 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	int selectNticArrrgListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+	int selectNticArrrgListTotCnt(GamAssetRentArrrgMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체 세입을 등록한다.

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
@@ -92,7 +93,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public List<?> selectNticArrrgList(GamAssetRentFeePayDtlsMngtVO searchVO)
+	public List<?> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgList(searchVO);
@@ -102,7 +103,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgListTotCnt(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public int selectNticArrrgListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO)
+	public int selectNticArrrgListTotCnt(GamAssetRentArrrgMngtVO searchVO)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgListTotCnt(searchVO);
@@ -174,6 +175,16 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	public EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(
 			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailSumPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgDetail(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public Map selectNticArrrgDetail(GamAssetRentFeePayDtlsMngtVO searchVO)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgDetail(searchVO);
 	}
 
 }
