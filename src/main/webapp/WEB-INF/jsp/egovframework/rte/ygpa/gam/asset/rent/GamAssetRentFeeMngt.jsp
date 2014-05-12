@@ -311,7 +311,6 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		               { name: 'nticCnt', value: row.nticCnt }
 		             ];
    	 	this.doAction('<c:url value="/asset/rent/gamSelectAssetRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
-   	   	 	console.log('debug');
 			if (result.resultCode == "0") {
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {

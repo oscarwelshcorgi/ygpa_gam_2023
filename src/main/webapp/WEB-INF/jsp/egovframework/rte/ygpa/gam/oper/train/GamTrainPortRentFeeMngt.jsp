@@ -309,10 +309,15 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		               { name: 'mngCnt', value: row.mngCnt },
 		               { name: 'nticCnt', value: row.nticCnt }
 		             ];
-   	 	this.doAction('<c:url value="/oper/train/gamSelectTrainPortRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
+		this.doAction('<c:url value="/oper/train/gamSelectTrainPortRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
-				module.makeMultiDivValues('#detailFeeInfo',result.resultList );	// 리스트 값을 채운다
+				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
+					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
+					else {
+						if($(this).hasClass("detailRowSelected")) $(this).removeClass("detailRowSelected");
+					}
+				} );	// 리스트 값을 채운다
 				module.makeDivValues('#summaryFeeInfo', result.resultSummary); // 결과값을 채운다.
 
 				module.makeFormValues('#gamAssetRentFeeForm', result.resultMaster);
@@ -321,6 +326,7 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				alert(result.resultMsg);
 			}
 		});
+
         break;
     }
 };
