@@ -356,10 +356,10 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     });
 
 	var today = new Date();
-	
+
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
-	
+
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
@@ -369,9 +369,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 		serchday = "0" + serchday;
 	}
 	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
-	
+
 	today.setMonth(today.getMonth() - 3);
-	
+
 	serchYr = today.getFullYear();
 	serchMn = today.getMonth() + 1;
 	if(serchMn < 10){
@@ -381,12 +381,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	if(serchday < 10){
 		serchday = "0" + serchday;
 	}
-	
+
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
 
 	this.$("#sGrUsagePdFrom").val(searchStartDate);
 	this.$("#sGrUsagePdTo").val(searchEndDate);
-    
+
 };
 
 
@@ -1586,7 +1586,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <input type="hidden" id="cmd"/>
                         <!-- <input type="hidden" id="quayGroupCd"/> -->
 
-                        <table class="searchPanel">
+                        <table class="editForm">
                             <tr>
 								<th width="10%" height="18">항코드</th>
                                 <td>
@@ -1691,11 +1691,11 @@ var module_instance = new GamAssetRentMngtModule();
 	                 <table id="assetRentDetailList" style="display:none"></table>
 
 	                 <table style="width:100%">
-<!--	                 
+<!--
 	                    <tr>
 	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
 	                    </tr>
--->	                    
+-->
 	                    <tr>
 	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
@@ -1716,7 +1716,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <input type="hidden" id="detailPrtAtCode" data-column-id="prtAtCode"/>
 
                         <input type="hidden" id="detailPrmisnYn"/>
-                        <table class="searchPanel">
+                        <table class="editForm">
                             <tr>
 								<th width="10%" height="18">자산사용순번</th>
                                 <td><input type="text" size="28" id="assetsUsageSeq" disabled/></td>
@@ -1762,7 +1762,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="20" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~ 
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~
                                 	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/>
                                 </td>
                             </tr>
@@ -1977,7 +1977,7 @@ var module_instance = new GamAssetRentMngtModule();
                     <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
                     <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
 
-                    <table class="searchPanel">
+                    <table class="editForm">
                         <tr>
 							<th width="10%" height="18">사진제목</th>
                             <td>

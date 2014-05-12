@@ -84,19 +84,22 @@ vertical-align: middle;
 
 .editPanel th {
 	background: #2FDAFF;
-	  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+/* 	  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff; */
   font-weight: bold;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
   vertical-align: middle;
+  	border: gray solid 1px;
 }
 
 .editPanel td {
 	background: #fff;
   vertical-align: middle;
-}
+/*   	border: gray solid 1px;
+ */
+ }
 
 .editPanel tr {
   background: #06c repeat-x;
@@ -105,19 +108,22 @@ vertical-align: middle;
 
 .editForm th {
 	background: #2FDAFF;
-	  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+/* 	  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff; */
   font-weight: bold;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
   vertical-align: middle;
+  	border: gray solid 1px;
+
 }
 
 .editForm td {
 	background: #fff;
 	color: #615E5E;
   vertical-align: middle;
+  	/* border: gray solid 1px; */
 }
 
 .editForm tr {
@@ -132,13 +138,14 @@ vertical-align: middle;
 
 .detailForm th {
 	background: #2FDAFF;
-  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+/*   border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff; */
   font-weight: bold;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
   vertical-align: middle;
+	border: gray solid 1px;
 }
 
 .detailForm td {
@@ -146,6 +153,7 @@ vertical-align: middle;
 	color: #615E5E;
 	vertical-align:middle;
 	padding-left: 4px;
+	border: gray solid 1px;
 }
 
 .detailForm tr {
@@ -156,17 +164,19 @@ vertical-align: middle;
 .detailPanel table {
 	width: 100%;
 	background: white;
+  border : gray solid 1px;
 }
 
 .detailPanel th {
 	background: #2FDAFF;
-  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+/*   border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff; */
   font-weight: bold;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
   vertical-align: middle;
+  border : gray solid 1px;
 }
 
 .detailPanel td {
@@ -174,6 +184,7 @@ vertical-align: middle;
 	color: #615E5E;
 	vertical-align:middle;
 	padding-left: 4px;
+	  border : gray solid 1px;
 }
 
 .detailPanel tr {
@@ -194,17 +205,21 @@ vertical-align: middle;
 .summaryPanel table {
 	width: 100%;
 	background: white;
+	  border : gray solid 1px;
+	margin-bottom: 4px;
 }
 
 .summaryPanel th {
 	background: #585AC8;
-  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+/*   border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff; */
   font-weight: bold;
   text-shadow: #000 0 1px 1px;
   white-space: nowrap;
   padding: 4px 8px;
   vertical-align: middle;
+    border : gray solid 1px;
+
 }
 
 .summaryPanel td {
@@ -212,6 +227,8 @@ vertical-align: middle;
 	color: black;
 	vertical-align:middle;
 	padding-left: 4px;
+	  border : gray solid 1px;
+
 }
 
 .summaryPanel tr {
