@@ -464,8 +464,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
         this.$('#fee').val($.number(calFee));
         this.$('#rdcxptFee').val($.number(rdcxptFee));
     } else {
-        this.$('#fee').val('###');
-        this.$('#rdcxptFee').val('###');
+        this.$('#fee').val('');
+        this.$('#rdcxptFee').val('');
     }
 
 };
