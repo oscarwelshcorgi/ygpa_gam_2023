@@ -42,11 +42,17 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		url: '<c:url value="/fclty/gamDrwListMngtList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"도면목록번호",			name:"drawListNumber",		width:80,		sortable:false,		align:"center"},
-				{display:"도면 목록 명", 			name:"drwLstNm",			width:250,		sortable:false,		align:"center"},
-				{display:"공사 명",				name:"authnm",				width:230,		sortable:false,		align:"center"},
-				{display:"시공자", 				name:"cnstrtr",				width:150,		sortable:false,		align:"center"},
-				{display:"도면 관리 부서 명",		name:"drwLstMngDeptNm",		width:150,		sortable:false,		align:"center"}
+				{display:"도면목록번호",	name:"drawListNumber",	width:80,	sortable:false,	align:"center"},
+				{display:"도면목록명", 		name:"drwLstNm",		width:210,	sortable:false,	align:"left"},
+				{display:"도면목록구분", 	name:"drwLstGisCdNm",	width:80,	sortable:false,	align:"center"},
+				{display:"공사명",		name:"authnm",			width:220,	sortable:false,	align:"left"},
+				{display:"시공자", 		name:"cnstrtr",			width:150,	sortable:false,	align:"left"},
+				{display:"도면관리부서",	name:"drwLstMngDeptNm",	width:100,	sortable:false,	align:"left"},
+				{display:"제출자", 		name:"sbmNm",			width:150,	sortable:false,	align:"left"},
+				{display:"검토자", 		name:"exmNm",			width:150,	sortable:false,	align:"left"},
+				{display:"도면구분", 		name:"drwLstSeCdNm",	width:80,	sortable:false,	align:"center"},
+				{display:"등록자", 		name:"regUsr",			width:100,	sortable:false,	align:"left"},
+				{display:"등록일시", 		name:"registDt",		width:120,	sortable:false,	align:"center"}
 			],
 		showTableToggleBtn: false,
 		height: "auto",
@@ -70,15 +76,17 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		url: '<c:url value="/fclty/gamDrwListPhotoList.do" />',
 		dataType: "json",
 		colModel : [
-				{display:"도면 자료 코드",		name:"drwDtaCd",			width:150,		sortable:false,		align:"center"},
-				{display:"년도",		name:"drwLstRegistYear",			width:150,		sortable:false,		align:"center"},
-				{display:"순번",		name:"drwLstSeq",			width:150,		sortable:false,		align:"center"},
-				{display:"도면 명", 				name:"drwNm",				width:160,		sortable:false,		align:"center"},
-				{display:"도면 파일명",			name:"drwFilenmLogic",		width:120,		sortable:false,		align:"center"},
-				{display:"도면 구분", 			name:"drwSeCd",				width:100,		sortable:false,		align:"center"},
-				{display:"도면 번호",				name:"drwNo",				width:100,		sortable:false,		align:"center"},
-				{display:"도면 작성 일자",		name:"drwWritngDt",			width:100,		sortable:false,		align:"center"},
-				{display:"도면 변경일",			name:"drwChangedt",			width:100,		sortable:false,		align:"center"}
+				{display:"도면자료코드",	name:"drwDtaCd",		width:80,	sortable:false,	align:"center"},
+				{display:"도면명", 		name:"drwNm",			width:200,	sortable:false,	align:"left"},
+				{display:"도면파일명",		name:"drwFilenmLogic",	width:200,	sortable:false,	align:"left"},
+				{display:"도면구분", 		name:"drwSeCdNm",		width:80,	sortable:false,	align:"center"},
+				{display:"도면번호",		name:"drwNo",			width:50,	sortable:false,	align:"center"},
+				{display:"축적",			name:"scl",				width:80,	sortable:false,	align:"left"},
+				{display:"도면작성일",		name:"drwWritngDt",		width:70,	sortable:false,	align:"center"},
+				{display:"도면변경일",		name:"drwChangedt",		width:70,	sortable:false,	align:"center"},
+				{display:"도면변경내역",	name:"drwChangeDtls",	width:200,	sortable:false,	align:"left"},
+				{display:"등록자", 		name:"regUsr",			width:100,	sortable:false,	align:"left"},
+				{display:"등록일시", 		name:"registDt",		width:120,	sortable:false,	align:"center"}
 			],
 		usepager: true,
 		useRp: true,
@@ -372,17 +380,20 @@ var module_instance = new GamFcltyDrwListMngtModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>도면 목록 등록 년도</th>
-							<td><input id="searchDrwLstRegistYear" type="text" size="4" maxlength="4" title="등록년도" />-<input id="searchDrwLstSeq" type="text" size="4" maxlength="4" title="등록순번" /></td>
-							<th>도면 명</th>
+							<th>등록년도/순번</th>
+							<td>
+								<input id="searchDrwLstRegistYear" type="text" size="4" maxlength="4" title="등록년도" />-
+								<input id="searchDrwLstSeq" type="text" size="4" maxlength="4" title="등록순번" />
+							</td>
+							<th>도면명</th>
 							<td><input id="searchDrwLstNm" type="text" size="40" title="도면명" /></td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>공사 명</th>
-							<td><input id="searchAuthnm" type="text" size="20" maxlength="4" title="공사 명" /></td>
 							<th>관리부서</th>
 							<td><input id="searchDeptCd" type="text" class="ygpaDeptSelect" data-default-prompt="전체"/></td>
+							<th>공사명</th>
+							<td><input id="searchAuthnm" type="text" size="40" title="공사명" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -400,7 +411,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 			<div id="tabs1" class="emdTabPage fillHeight">
 				<table id="drwListMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="showMap">맵조회</button>
+					<button id="loadMap" data-flexi-grid="drwListMngtList">맵조회</button>
 					<button id="addBtn">추가</button>
 					<button id="deleteBtn">삭제</button>
 				</div>
@@ -414,34 +425,40 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<input type="hidden" id="loCrdnt" />
 					<table class="searchPanel">
 						<tr>
-							<th width="150" height="23" class="required_text">도면 목록 등록 년도<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td colspan="3"><input type="text" size="4" id="drwLstRegistYear" maxlength="4" />-<input type="text" size="4" id="drwLstSeq" disabled="disabled"/><p>등록년도를 입력하면 순번이 자동으로 부여됩니다.</p></td>
+							<th width="150" height="23" class="required_text">도면목록 등록년도<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+							<td colspan="3"><input type="text" size="4" id="drwLstRegistYear" maxlength="4" />-<input type="text" size="4" id="drwLstSeq" disabled="disabled"/>     (등록년도를 입력하면 순번이 자동으로 부여됩니다.)</td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">도면 목록 명</th>
-							<td colspan="3"><input type="text" size="40" id="drwLstNm" maxlength="40" /></td>
+							<th height="23" class="required_text">도면목록명</th>
+							<td colspan="3"><input type="text" size="120" id="drwLstNm" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">도면 구분</th>
+							<th width="20%" height="23" class="required_text">도면목록구분</th>
 							<td colspan="3"><input type="text" id="drwLstGisCd" class="ygpaCmmnCd" data-code-id="GAM047" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">공사명</th>
-							<td colspan="3"><input type="text" size="40" id="authnm" maxlength="80" /></td>
+							<td colspan="3"><input type="text" size="120" id="authnm" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">시공자</th>
-							<td colspan="3"><input type="text" size="40" id="cnstrtr" maxlength="30" /></td>
+							<td colspan="3"><input type="text" size="120" id="cnstrtr" maxlength="30" /></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">제출자</th>
-							<td><input type="text" size="30" id="sbmNm" maxlength="40"/></td>
-							<th width="20%" height="23">검토자</th>
-							<td><input type="text" size="30" id="exmNm" maxlength="40" /></td>
+							<th width="20%" height="23" class="required_text">제출자</th>
+							<td colspan="3"><input type="text" size="120" id="sbmNm" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">도면 목록 관리 부서 코드</th>
+							<th width="20%" height="23" class="required_text">검토자</th>
+							<td colspan="3"><input type="text" size="120" id="exmNm" maxlength="40" /></td>
+						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">도면목록 관리부서</th>
 							<td colspan="3"><input type="text" id="drwLstMngDeptCd" maxlength="20" class="ygpaDeptSelect" /></td>
+						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">도면구분</th>
+							<td colspan="3"><input type="text" id="drwLstSeCd" class="ygpaCmmnCd" data-code-id="GAM048" /></td>
 						</tr>
 					</table>
 				</form>
@@ -464,30 +481,32 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<button id="btnSaveFile2">저장</button>
 				</div>
 				<form id="drwListPhotoForm">
-					<table class="detailForm">
+					<table class="searchPanel">
 						<tr>
-							<th width="20%" height="23">도면 자료 코드</th>
-							<td colspan="3"><input type="text" size="40" id="drwDtaCd" disabled="disabled" maxlength="20" /></td>
+							<th width="20%" height="23">도면자료코드</th>
+							<td><input type="text" size="40" id="drwDtaCd" disabled="disabled" maxlength="20" /></td>
+							<th width="20%" height="23" class="required_text">도면번호</th>
+							<td><input type="text" size="8" id="drwNo" maxlength="8" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">도면번호</th>
-							<td><input type="text" size="8" id="drwNo" maxlength="8"  class="photoEditItem"/></td>
-							<th width="20%" height="23" class="required_text">도면 구분</th>
-							<td><input type="text" id="drwSeCd" class="ygpaCmmnCd photoEditItem" data-code-id="GAM048" /></td>
+							<th width="20%" height="23" class="required_text">도면구분</th>
+							<td><input type="text" id="drwSeCd" class="ygpaCmmnCd" data-code-id="GAM048" /></td>
+							<th width="20%" height="23" class="required_text">축적</th>
+							<td><input type="text" size="45" id="scl" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면명</th>
-							<td colspan="3"><input type="text" size="40" id="drwNm" maxlength="40" class="photoEditItem"/></td>
+							<td colspan="3"><input type="text" size="120" id="drwNm" maxlength="40"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면작성일자</th>
-							<td><input type="text" id="drwWritngDt" class="emdcal photoEditItem"/></td>
-							<th width="20%" height="23" class="required_text">도면 변경일</th>
-							<td><input type="text" id="drwChangedt" class="emdcal photoEditItem"/></td>
+							<td><input type="text" id="drwWritngDt" class="emdcal"/></td>
+							<th width="20%" height="23" class="required_text">도면변경일자</th>
+							<td><input type="text" id="drwChangedt" class="emdcal"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">도면 변경 내역</th>
-							<td colspan="3"><input type="text" size="60" id="drwChangeDtls" maxlength="200" class="photoEditItem"/></td>
+							<th width="20%" height="23" class="required_text">도면변경내역</th>
+							<td colspan="3"><input type="text" size="120" id="drwChangeDtls" maxlength="200" /></td>
 						</tr>
 					</table>
 				</form>
