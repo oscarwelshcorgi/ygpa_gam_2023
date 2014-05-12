@@ -50,8 +50,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			{display:'면적', name:'gisAssetsAr', width:80, sortable:false, align:'right', displayFormat: 'number'},
 			{display:'실임대면적', name:'gisAssetsRealRentAr', width:80, sortable:false, align:'right', displayFormat:'number'},
 			{display:'취득가액', name:'gisAssetsAcqPri', width:100, sortable:false, align:'right', displayFormat: 'number'},
-			{display:'관리 부서', name:'mngDeptNm', width:80, sortable:false, align:'center'},
-			{display:'운영 부서', name:'operDeptNm', width:80, sortable:false, align:'center'},
+			{display:'관리부서', name:'mngDeptNm', width:80, sortable:false, align:'center'},
+			{display:'운영부서', name:'operDeptNm', width:80, sortable:false, align:'center'},
 /* 			{display:'규격', name:'gisAssetsStndrd', width:120, sortable:false, align:'center'},
 			{display:'준공년도', name:'gisAssetsBlddate', width:32, sortable:false, align:'center'},
 			{display:'준공 일자', name:'gisAssetsBldDt', width:128, sortable:false, align:'center'}, */
@@ -91,10 +91,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		url: '<c:url value="/code/assets/selectGisAssetPhotoList.do"/>',
 		dataType: 'json',
 		colModel : [
-					{display:'사진 순번', name:'photoSeq', width:80, sortable:false, align:'center'},
-					{display:'사진 제목', name:'photoSj', width:300, sortable:false, align:'left'},
+					{display:'사진순번', name:'photoSeq', width:80, sortable:false, align:'center'},
+					{display:'사진제목', name:'photoSj', width:300, sortable:false, align:'left'},
 					{display:'파일명', name:'filenmLogic', width:200, sortable:false, align:'left'},
-					{display:'촬영 일시', name:'shotDt', width:120, sortable:false, align:'center'},
+					{display:'촬영일자', name:'shotDt', width:120, sortable:false, align:'center'},
 					{display:'등록자', name:'regUsr', width:155, sortable:false, align:'center'}
 					],
 		height: '120'
@@ -689,7 +689,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-code='P' data-required="true"/>
 						</td>
 						<th><span class="label">자산코드</span></th>
-						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
+						<td colspan="3">
+							<input type="text" size="5"  id="gisAssetsCd" disabled="disabled">-
+							<input type="text" size="5"  id="gisAssetsSubCd" disabled="disabled">
+						</td>
 					</tr>
 					<!-- <tr>
 						<th><span class="label">자산코드</span></th>
@@ -697,16 +700,19 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr> -->
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
-						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd">-<input type="text" size="8" id="erpAssetsNo">-<input type="text" size="2" id="erpAssetsNoSeq">
+						<td>
+							<input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd">-
+							<input type="text" size="8" id="erpAssetsNo">-
+							<input type="text" size="2" id="erpAssetsNoSeq">
 							<button id="popupErpAssetList" class="popupButton">ERP코드조회</button>
 						</td>
 						<th><span class="label">ERP자산명</span></th>
-						<td colspan="5"><input type="text" size="40" id="itemName" data-column-id="itemName" readonly="readonly"></td>
+						<td colspan="5"><input type="text" size="62" id="itemName" data-column-id="itemName" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-								<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001' data-required="true">
+							<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001' data-required="true">
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
@@ -719,13 +725,19 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr>
 					<tr>
 						<th><span class="label">자산명</span></th>
-						<td colspan="5"><input type="text" size="80" id="gisAssetsNm" data-required="true"></td>
+						<td colspan="5"><input type="text" size="133" id="gisAssetsNm" data-required="true"></td>
 					</tr>
 					<tr>
 						<th><span class="label">자산소재지</span></th>
-						<td colspan="3"><input type="text" size="80" id="gisAssetsLocplc"><input type="hidden" id="gisAssetsBupjungdongCd" /></td>
+						<td colspan="3">
+							<input type="text" size="92" id="gisAssetsLocplc">
+							<input type="hidden" id="gisAssetsBupjungdongCd" />
+						</td>
 						<th><span class="label">지번</span></th>
-						<td><input type="text" size="4" id="gisAssetsLnm">-<input type="text" size="3" id="gisAssetsLnmSub"></td>
+						<td>
+							<input type="text" size="7" id="gisAssetsLnm">-
+							<input type="text" size="7" id="gisAssetsLnmSub">
+						</td>
 					</tr>
 					<tr>
 					</tr>
@@ -734,7 +746,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						<td>
 							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013'>
 						</td>
-						<th><span class="label">출자 방식</span></th>
+						<th><span class="label">출자방식</span></th>
 						<td>
 							<select id="gisAssetsInvstmntMthd">
 									<option value="" selected="selected">선택</option>
@@ -744,15 +756,15 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							</select>
 						</td>
 						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency"> 원</td>
+						<td><input type="text" size="18" id="gisAssetsAcqPri" class="ygpaNumber"> 원</td>
 					</tr>
 					<tr>
 						<th><span class="label">면적</span></th>
-						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> m^2</td>
-						<th><span class="label">실제 임대 면적</span></th>
-						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaCurrency"> m^2</td>
+						<td><input type="text" size="20" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> ㎡</td>
+						<th><span class="label">실제임대면적</span></th>
+						<td><input type="text" size="20" class="ygpaNumber" id="gisAssetsRealRentAr" class="ygpaCurrency"> ㎡</td>
 						<th><span class="label">자산규격</span></th>
-						<td><input type="text" size="20" id="gisAssetsStndrd"></td>
+						<td><input type="text" size="22" id="gisAssetsStndrd"></td>
 					</tr>
 					<tr>
 						<th><span class="label">관리부서</span></th>
@@ -769,12 +781,12 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						</td>
 					</tr>
 					<tr>
-						<th><span class="label">자산 가치 금액</span></th>
-						<td><input type="text" size="15" id="gisAssetsValAmt" class="ygpaCurrency"> 원 (조회일자 : <input type="text" size="10" class="emdcal" id="gisAssetsValInqireDt">)</td>
+						<th><span class="label">자산가치금액</span></th>
+						<td><input type="text" size="15" id="gisAssetsValAmt" class="ygpaNumber"> 원 (조회일자 : <input type="text" size="10" class="emdcal" id="gisAssetsValInqireDt">) </td>
 						<th><span class="label">준공년도</span></th>
-						<td><input type="text" size="4" id="gisAssetsBlddate"></td>
+						<td><input type="text" size="20" id="gisAssetsBlddate"></td>
 						<th><span class="label">준공일자</span></th>
-						<td><input type="text" size="15" class="emdcal" id="gisAssetsBldDt"></td>
+						<td><input type="text" size="16" class="emdcal" id="gisAssetsBldDt"></td>
 					</tr>
 					<tr>
 						<th><span class="label">비고</span></th>
@@ -808,17 +820,23 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<button id="saveAssetGisPhoto">저장</button>
 				</div>
 				<form id="editAssetGisPhotoForm">
-					<table>
-						<tr>
-							<th><span class="label">제 목</span></th>
-							<td>
-								<input id="photoSj" type="text" size="60" class="photoEditItem" />
-							</td>
-							<th><span class="label">촬영일자</span></th>
-							<td>
-                            	<input id="shotDt" type="text" size="10"  class="emdcal photoEditItem" readonly="readonly">
-							</td>
-						</tr>
+					<table class="searchPanel">
+                        <tr>
+							<th width="10%" height="18">사진제목</th>
+                            <td>
+                                <input id="photoSj" type="text" size="90" class="photoEditItem" maxlength="40"/>
+                            </td>
+							<th width="10%" height="18">촬영일자</th>
+                            <td>
+                                <input id="shotDt" type="text" size="15" class="emdcal photoEditItem" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+							<th width="10%" height="18">사진파일명</th>
+                            <td colspan="3">
+                                <input id="filenmLogic" type="text" size="135" class="photoEditItem" disabled/>
+                            </td>
+                        </tr>
 					</table>
 				</form>
 <!--    					<button id="btnApplyPhotoData">적용</button> -->

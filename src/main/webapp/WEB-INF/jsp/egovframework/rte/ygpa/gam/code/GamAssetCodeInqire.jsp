@@ -370,10 +370,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr> -->
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
-						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd" disabled="disabled" >-<input type="text" size="8" id="erpAssetsNo" disabled="disabled" >-<input type="text" size="2" id="erpAssetsNoSeq" disabled="disabled">
+						<td>
+							<input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd" disabled="disabled" >-
+							<input type="text" size="8" id="erpAssetsNo" disabled="disabled" >-
+							<input type="text" size="2" id="erpAssetsNoSeq" disabled="disabled">
 						</td>
 						<th><span class="label">ERP자산명</span></th>
-						<td colspan="5"><input type="text" size="40" id="itemName" data-column-id="itemName" disabled="disabled" ></td>
+						<td colspan="5"><input type="text" size="62" id="itemName" data-column-id="itemName" disabled="disabled" ></td>
 					</tr>
 					<tr>
 						<th><span class="label">재산구분</span></th>
@@ -391,13 +394,19 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr>
 					<tr>
 						<th><span class="label">자산명</span></th>
-						<td colspan="5"><input type="text" size="80" id="gisAssetsNm" disabled="disabled"></td>
+						<td colspan="5"><input type="text" size="133" id="gisAssetsNm" disabled="disabled"></td>
 					</tr>
 					<tr>
 						<th><span class="label">자산소재지</span></th>
-						<td colspan="3"><input type="text" size="80" id="gisAssetsLocplc" disabled="disabled"><input type="hidden" id="gisAssetsBupjungdongCd" /></td>
+						<td colspan="3">
+							<input type="text" size="92" id="gisAssetsLocplc" disabled="disabled">
+							<input type="hidden" id="gisAssetsBupjungdongCd" />
+						</td>
 						<th><span class="label">지번</span></th>
-						<td><input type="text" size="4" id="gisAssetsLnm" disabled="disabled">-<input type="text" size="3" id="gisAssetsLnmSub" disabled="disabled"></td>
+						<td>
+							<input type="text" size="7" id="gisAssetsLnm" disabled="disabled">-
+							<input type="text" size="7" id="gisAssetsLnmSub" disabled="disabled">
+						</td>
 					</tr>
 					<tr>
 					</tr>
@@ -407,21 +416,21 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' disabled="disabled">
 						</td>
 						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency" disabled="disabled"> 원</td>
+						<td><input type="text" size="18" id="gisAssetsAcqPri" class="ygpaNumber"disabled="disabled"> 원</td>
 					</tr>
 					<tr>
 						<th><span class="label">면적</span></th>
-						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2" disabled="disabled"> m^2</td>
-						<th><span class="label">실제 임대 면적</span></th>
-						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaCurrency" disabled="disabled"> m^2</td>
+						<td><input type="text" size="20" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2" disabled="disabled"> ㎡</td>
+						<th><span class="label">실제임대면적</span></th>
+						<td><input type="text" size="20" id="gisAssetsRealRentAr" class="ygpaNumber" disabled="disabled"> ㎡</td>
 						<th><span class="label">자산규격</span></th>
 						<td><input type="text" size="20" id="gisAssetsStndrd" disabled="disabled"></td>
 					</tr>
 					<tr>
 						<th><span class="label">관리부서</span></th>
-						<td><input type="text" size="16" id="gisAssetsMngDeptCd" class="ygpaDeptSelect"  disabled="disabled"></td>
+						<td><input type="text" size="16" id="gisAssetsMngDeptCd" class="ygpaDeptSelect" disabled="disabled"></td>
 						<th><span class="label">운영부서</span></th>
-						<td><input type="text" size="16" id="gisAssetsOperDeptCd" class="ygpaDeptSelect"  disabled="disabled"></td>
+						<td><input type="text" size="16" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" disabled="disabled"></td>
 						<th><span class="label">사용여부</span></th>
 						<td>
 							<select id="gisAssetsUsageYn"  disabled="disabled">
@@ -431,10 +440,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						</td>
 					</tr>
 					<tr>
-						<th><span class="label">자산 가치 금액</span></th>
-						<td><input type="text" size="16" id="gisAssetsValAmt" class="ygpaCurrency" disabled="disabled"> 원 (조회일자 : <input type="text" size="16" id="gisAssetsValInqireDt" disabled="disabled">)</td>
+						<th><span class="label">자산가치금액</span></th>
+						<td><input type="text" size="15" id="gisAssetsValAmt" class="ygpaNumber" disabled="disabled"> 원 (조회일자 : <input type="text" size="14" id="gisAssetsValInqireDt" disabled="disabled">)</td>
 						<th><span class="label">준공년도</span></th>
-						<td><input type="text" size="4" id="gisAssetsBlddate" disabled="disabled"></td>
+						<td><input type="text" size="20" id="gisAssetsBlddate" disabled="disabled"></td>
 						<th><span class="label">준공일자</span></th>
 						<td><input type="text" size="16" id="gisAssetsBldDt" disabled="disabled"></td>
 					</tr>
