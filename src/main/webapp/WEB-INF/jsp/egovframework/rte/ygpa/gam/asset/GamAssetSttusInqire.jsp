@@ -195,7 +195,7 @@ var module_instance = new GamAssetSttusInqireModule();
                             
                             <th style="width: 40px"><span class="label">업체</span></th>
                             <td>
-                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
+                            	<input id="sEntrpscd" type="text" size="6">
                 	        <!-- 
                             	<input id="sEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
                     	     -->
@@ -205,9 +205,8 @@ var module_instance = new GamAssetSttusInqireModule();
                             <th style="width: 40px"><span class="label">부두</span></th>
                             <td style="width: 100px">
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
-                            </td>
-                            
-                            <td rowspan="2"><button id="searchBtn" class="submit" class="buttonSearch">조회</button></td>
+                            </td>                           
+                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                          </tr>
                          <tr>   
                             <th>기준일자</th>
