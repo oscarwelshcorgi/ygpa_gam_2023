@@ -110,8 +110,8 @@ GamMarineCenterRentMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'assetsUsageSeq',width:30, sortable:false,align:'center'},
-                    {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'항코드', name:'dtlPrtAtCode',width:40, sortable:false,align:'center'},
+                    {display:'항코드명', name:'dtlPrtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'left'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
@@ -1711,12 +1711,13 @@ var module_instance = new GamMarineCenterRentMngtModule();
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table class="searchPanel">
                             <tr>
+                            <tr>
 								<th width="10%" height="18">자산사용순번</th>
-                                <td><input type="text" size="20" id="assetsUsageSeq" disabled/></td>
+                                <td><input type="text" size="28" id="assetsUsageSeq" disabled/></td>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                	<input type="text" size="5" id="gisAssetsPrtAtCode" disabled/>
-	                                <input type="text" size="13" id="gisAssetsPrtAtCodeNm" disabled/>
+                                	<input type="text" size="5" id="dtlPrtAtCode" disabled/>
+	                                <input type="text" size="13" id="dtlPrtAtCodeNm" disabled/>
                                 </td>
 								<th width="10%" height="18">관리번호</th>
                                 <td>
@@ -1728,7 +1729,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             <tr>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="hidden" id="gisAssetsPrtAtCode"/>
+                                	<input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>
                                 	<input type="text" size="3" id="gisAssetsCd" readonly/>
                                 	<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <input type="hidden" id="assetsCdStr"/>
@@ -1737,26 +1738,26 @@ var module_instance = new GamMarineCenterRentMngtModule();
 								<th width="10%" height="18">자산면적</th>
                                 <td><input type="text" size="21" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
 								<th width="10%" height="18">자산명</th>
-                                <td><input type="text" size="52" id="gisAssetsNm" disabled/></td>
+                                <td><input type="text" size="44" id="gisAssetsNm" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">지번</th>
                                 <td>
-                                	<input type="text" size="8" id="gisAssetsLnm" disabled/>-
-                                	<input type="text" size="8" id="gisAssetsLnmSub" disabled/>
+                                	<input type="text" size="12" id="gisAssetsLnm" disabled/>-
+                                	<input type="text" size="12" id="gisAssetsLnmSub" disabled/>
                                 </td>
 								<th width="10%" height="18">소재지</th>
-                                <td colspan="3"><input type="text" size="94" id="gisAssetsLocplc" disabled/></td>
+                                <td colspan="3"><input type="text" size="87" id="gisAssetsLocplc" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
+                                <td><input type="text" size="28" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
 								<th width="10%" height="18">사용면적</th>
                                 <td><input type="text" size="20" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="15" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/> ~ 
-                                	<input type="text" class="emdcal calcInput" size="15" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~ 
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -1767,7 +1768,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                         <option value="" selected="selected">선택</option>
                                     </select>
                                      -->
-                                    <input size="17" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id=GAM023 />
+                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id=GAM023 />
                                     <!--
                                     <input type="text" size="14" id="applcTariffStr" readonly/>
                                      -->
@@ -1789,7 +1790,7 @@ var module_instance = new GamMarineCenterRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">공시지가</th>
-                                <td><input type="text" size="20" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" maxlength="13"/></td>
+                                <td><input type="text" size="27" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" maxlength="13"/></td>
 								<th width="10%" height="18">면제구분</th>
                                 <td>
                                     <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM009  data-column-label-id='exemptSeNm'/>
@@ -1799,8 +1800,8 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="15" id="exemptPdFrom" readonly/> ~ 
-                                	<input type="text" class="emdcal calcInput" size="15" id="exemptPdTo" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdFrom" readonly/>~
+                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdTo" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -1812,17 +1813,17 @@ var module_instance = new GamMarineCenterRentMngtModule();
                                      -->
                                 </td>
 								<th width="10%" height="18">면제사유</th>
-                                <td><input type="text" size="51" id="exemptRsn" maxlength="95"/></td>
+                                <td><input type="text" size="44" id="exemptRsn" maxlength="95"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용료</th>
-                                <td><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
+                                <td><input type="text" size="27" class="ygpaCurrency" id="fee" /></td>
 								<th width="10%" height="18">감면사용료</th>
                                 <td><input type="text" size="20" class="calcInput" id="rdcxptFee" onkeyup="$(this).trigger('change')"/></td>
 								<th width="10%" height="18">부두코드</th>
                                 <td>
-                                	<input type="text" id="quayCd" size="15" disabled/>
-                                	<input type="text" id="quayCdNm" size="25" disabled/>
+                                	<input type="text" id="quayCd" size="10" disabled/>
+                                	<input type="text" id="quayCdNm" size="32" disabled/>
                                 </td>
                             </tr>
                             <tr>

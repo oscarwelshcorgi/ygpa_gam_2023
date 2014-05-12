@@ -580,43 +580,12 @@
                                 , A.GIS_ASSETS_CD
                                 , A.GIS_ASSETS_SUB_CD
                                 , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
-
-                                , (SELECT F.GIS_ASSETS_NM FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_NM
-
-                                , (SELECT F.GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_LOCPLC
-
-                                , (SELECT F.GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_LNM
-
-                                , (SELECT F.GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_LNM_SUB
-
-                                , (SELECT F.GIS_ASSETS_AR FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_AR
-
-                                , (SELECT F.GIS_ASSETS_REAL_RENT_AR FROM GIS_ASSETS_CD_F F
-                                    WHERE F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-                                      AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
-                                      AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
-                                      AND ROWNUM = 1) GIS_ASSETS_REAL_RENT_AR
-
+								, F.GIS_ASSETS_NM
+								, F.GIS_ASSETS_LOCPLC
+								, F.GIS_ASSETS_LNM
+								, F.GIS_ASSETS_LNM_SUB
+								, F.GIS_ASSETS_AR
+								, F.GIS_ASSETS_REAL_RENT_AR
                                 , NVL(A.USAGE_AR,0) USAGE_AR
                                 , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
                                 , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
@@ -650,6 +619,8 @@
                                 , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
                                 , A.PRT_AT_CODE
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+                                , A.PRT_AT_CODE AS DTL_PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) DTL_PRT_AT_CODE_NM
                                 , A.GIS_ASSETS_PRT_AT_CODE
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
                                 , A.MNG_YEAR
@@ -659,6 +630,9 @@
                                 , A.APPLC_TARIFF APPLC_TARIFF_STR
                                 , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
                             FROM ASSETS_RENT_DETAIL_F A
+							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
+																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
+																	F.GIS_ASSETS_CD = A.GIS_ASSETS_CD)
                            WHERE 1=1
                              AND A.PRT_AT_CODE = #prtAtCode#
                              AND A.MNG_YEAR    = #mngYear#
