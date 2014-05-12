@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
-
 /**
  * @Class Name : GamAssetRentFeePayDtlsMngtService.java
  * @Description : 자산임대료납부관리 Business class

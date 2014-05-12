@@ -16,286 +16,305 @@ import egovframework.com.cmm.ComDefaultVO;
  */
 public class GamMarineCenterRentNticMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
+
     /** 고지 횟수 */
-    private String nticCnt;	
-        
+    private String nticCnt;
+
     /** 시설 구분 */
-    private String fcltySe;	
+    private String fcltySe;
 
     /** 요금 종류 */
-    private String chrgeKnd;	
+    private String chrgeKnd;
 
     /** 업체코드 */
-    private String entrpscd;	
+    private String entrpscd;
 
     /** 업체 명 */
-    private String entrpsNm;	
+    private String entrpsNm;
 
     /** 고지 기간 FROM */
     private String nticPdFrom;
 
-    /** 공사기간 TO */
-    private String constPerTo;
+    /** 고지 기간 TO */
+    private String nticPdTo;
+
 
     /** 회계 년도 */
-    private String accnutYear;	
+    private String accnutYear;
 
     /** 고지번호 */
-    private String nticno;	    
+    private String nticno;
 
     /** 고지 일자 */
-    private String nticDt;	    
+    private String nticDt;
 
     /** 납부 기한 */
-    private String payTmlmt;	
+    private String payTmlmt;
 
     /** 공시지가 */
-    private String olnlp;	    
+    private String olnlp;
 
     /** 사용료 */
-    private String fee;	        
+    private String fee;
 
     /** 부가세 여부 */
-    private String vatYn;	    
+    private String vatYn;
 
     /** 부가세 */
-    private String vat;	        
+    private String vat;
 
     /** 고지 금액 */
-    private String nticAmt;	
+    private String nticAmt;
 
     /** 비고 */
-    private String rm;	        
+    private String rm;
 
     /** 수납 구분 */
-    private String rcivSe;	    
+    private String rcivSe;
 
     /** 수납 일자 */
-    private String rcivDt;	    
+    private String rcivDt;
 
     /** 고지서 발부 여부 */
-    private String nhtIsueYn;	
+    private String nhtIsueYn;
 
     /** 연체 번호 */
-    private String arrrgNo;	
+    private String arrrgNo;
 
     /** 연체 금액 */
-    private String arrrgAmt;	
+    private String arrrgAmt;
 
     /** 의뢰 순번 */
-    private String reqestSeq;	
+    private String reqestSeq;
 
     /** 부서코드 */
-    private String deptcd;	    
+    private String deptcd;
 
     /** 고지 방법 */
-    private String nticMth;	
+    private String nticMth;
 
     /** 등록자 */
-    private String regUsr;	    
+    private String regUsr;
 
     /** 등록일시 */
-    private String registDt;	
+    private String registDt;
 
     /** 수정자 */
-    private String updUsr;	    
+    private String updUsr;
 
     /** 수정일시 */
-    private String updtDt;	    
+    private String updtDt;
 
     /** 항코드 */
-    private String prtAtCode;	
+    private String prtAtCode;
 
     /** 관리 년도 */
-    private String mngYear;	
+    private String mngYear;
 
     /** 관리 번호 */
-    private String mngNo;	    
+    private String mngNo;
 
     /** 관리 횟수 */
     private String mngCnt;
-    
+
     /** 관리 번호(조합) */
     private String rentMngNo;
-    
+
     /** 검색조건 */
     private String sPrtAtCode;
-    
+
     /** 검색조건 */
     private String sMngYear;
-    
+
     /** 검색조건 */
     private String sMngNo;
-    
+
     /** 검색조건 */
     private String sMngCnt;
-    
+
     /** 검색조건 */
     private String sReqstSeCd;
-    
+
     /** 검색조건 */
     private String sEntrpscd;
-    
+
     /** 검색조건 */
     private String sUsagePrposCd;
-    
+
     /** 검색조건 */
     private String sPrmisnYn;
-    
+
     /** 검색조건 */
     private String sUsagePdFrom;
-    
+
     /** 검색조건 */
     private String sUsagePdTo;
-    
+
     /** 검색조건 */
     private String sRrArFrom;
-    
+
     /** 검색조건 */
     private String sRrArTo;
-    
+
     /** 자료수 */
     private String sumCnt;
-    
+
     /** 사용료(합계) */
     private String sumFee;
-    
+
     /** 연체(합계) */
     private String sumArrrgAmt;
-    
+
     /** 부가세(합계) */
     private String sumVat;
-    
+
     /** 고지액(합계) */
-    private String sumNticAmt;   
+    private String sumNticAmt;
 
-	/** 수납액(합계) */
-    private String sumRcvdAmt;
-
-    /** 미수납액(합계) */
-    private String sumNotRcvdAmt;
-
-    /** 자료수 */
-    private String dpTotCnt;
-
-    /** 검색조건 */
-    private String sGrUsagePdFrom;
-    
-    /** 검색조건 */
-    private String sGrUsagePdTo;
-
+    /** 납부금액(합계) */
+    private String sumPayAmt;
 
     /** 고지방법 */
     private String sNticMth;
-    
-    
+
+
+    /** 고지금액(합계) */
+    private String sumBillAmnt;
+
+    /** 수납금액(합계) */
+    private String sumRcvdAmnt;
+
+    /** 디스플레이 전체 자료수 */
+    private String dpTotCnt;
+
+    private String sumNhtIsueAmt;
+    private String sumFeeA3;
+    private String sumFeeA4;
+    private String sumFeeD1;
+    private String sumFeeD2;
+
     /******* 세입징수 ********/
 
     /** 회계 구분 코드 */
-    private String accnutSeCd;	           
+    private String accnutSeCd;
 
     /** 산출 내역 */
-    private String computDtls;	               
+    private String computDtls;
 
     /** 최초 고지 일자 */
-    private String frstNticDt;	           
+    private String frstNticDt;
 
     /** 수납 이체 상태 코드 */
-    private String rcivTransfrSttusCd;	   
+    private String rcivTransfrSttusCd;
 
     /** 불능 코드 */
-    private String incpctyCd;	               
+    private String incpctyCd;
 
     /** 과오납 금액 */
-    private String overrpayAmt;	           
+    private String overrpayAmt;
 
     /** 임시 발행 번호 */
-    private String tmprIsuNo;	               
+    private String tmprIsuNo;
 
     /** 할인 금액 */
-    private String dscntAmt;	               
+    private String dscntAmt;
 
     /** 할인 사유 */
-    private String dscntRsn;	               
+    private String dscntRsn;
 
     /** 할인 코드 */
-    private String dscntCd;	               
+    private String dscntCd;
 
     /** 수납 구분명 */
-    private String rcivSeNm;	               
+    private String rcivSeNm;
 
     /** 금융 기관 수납 일자 */
-    private String fnncInsttRcivDt;	       
+    private String fnncInsttRcivDt;
 
     /** 우편 고지 유무 */
-    private String postNticEnnc;	           
+    private String postNticEnnc;
 
     /** 불납 사유 코드 */
-    private String npymnRsnCd;	           
+    private String npymnRsnCd;
 
     /** 전자 고지 결과 */
-    private String elctrnNticResult;	       
+    private String elctrnNticResult;
 
     /** 전자 고지 정보 조회 일자 */
-    private String elctrnNticInfoInqireDt;	
+    private String elctrnNticInfoInqireDt;
 
     /** 정산 여부 */
-    private String excclcYn;	               
+    private String excclcYn;
 
     /** 징수관 구분 */
-    private String prcepturSe;	               
+    private String prcepturSe;
 
     /** 지로 수납처 */
-    private String giroRcivPlace;	           
+    private String giroRcivPlace;
 
     /** 지로 수납 구분 */
-    private String giroRcivSe;	           
+    private String giroRcivSe;
 
     /** 수수료 */
-    private String cmsn;	                   
+    private String cmsn;
 
     /** 마감 여부 */
-    private String closYn;	                   
+    private String closYn;
 
     /** 담당자 */
-    private String charger;	                   
+    private String charger;
 
     /** 작업 구분 */
-    private String opertSe;	               
+    private String opertSe;
 
     /** 원고지 요금 종류 */
-    private String orginlNticChrgeKnd;	   
+    private String orginlNticChrgeKnd;
 
     /** 원고지 회계 년도 */
-    private String orginlNticAccnutYear;	   
+    private String orginlNticAccnutYear;
 
     /** 원고지 번호 */
-    private String orginlNticNo;	           
+    private String orginlNticNo;
 
     /** 전자 세금 계산서 발행 여부 */
-    private String elctrnTaxbilIsuYn;	   
+    private String elctrnTaxbilIsuYn;
 
     /** 시작일 */
-    private String beginDt;	               
+    private String beginDt;
 
     /** 종료일 */
-    private String endDt;	 
-    
+    private String endDt;
+
     /** 부두코드 */
     private String sQuayCd;
-    
+
     /** 요금 종류 */
     private String sChrgeKnd;
-    
+
     /** 수납 구분 */
     private String sRcivSe;
-    
-    /** 고지 일자 (시작)*/
-    private String sNticDtFrom;
-    
-    /** 고지 일자 (종료)*/
-    private String sNticDtTo;
+
+    /** 고지 일자 시작(조회) */
+    private String nticDtFrom;
+
+    /** 고지 일자 끝(조회) */
+    private String nticDtTo;
+
+	public String getNticDtFrom() {
+		return nticDtFrom;
+	}
+
+	public void setNticDtFrom(String nticDtFrom) {
+		this.nticDtFrom = nticDtFrom;
+	}
+
+	public String getNticDtTo() {
+		return nticDtTo;
+	}
+
+	public void setNticDtTo(String nticDtTo) {
+		this.nticDtTo = nticDtTo;
+	}
 
 	/**
 	 * @return the nticCnt
@@ -385,14 +404,14 @@ public class GamMarineCenterRentNticMngtVO extends ComDefaultVO {
 	 * @return the constPerTo
 	 */
 	public String getConstPerTo() {
-		return constPerTo;
+		return nticPdTo;
 	}
 
 	/**
 	 * @param constPerTo the constPerTo to set
 	 */
 	public void setConstPerTo(String constPerTo) {
-		this.constPerTo = constPerTo;
+		this.nticPdTo = constPerTo;
 	}
 
 	/**
@@ -1488,59 +1507,31 @@ public class GamMarineCenterRentNticMngtVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sNticDtFrom
+	 * @return the sumBillAmnt
 	 */
-	public String getsNticDtFrom() {
-		return sNticDtFrom;
+	public String getSumBillAmnt() {
+		return sumBillAmnt;
 	}
 
 	/**
-	 * @param sNticDtFrom the sNticDtFrom to set
+	 * @param sumBillAmnt the sumBillAmnt to set
 	 */
-	public void setsNticDtFrom(String sNticDtFrom) {
-		this.sNticDtFrom = sNticDtFrom;
+	public void setSumBillAmnt(String sumBillAmnt) {
+		this.sumBillAmnt = sumBillAmnt;
 	}
 
 	/**
-	 * @return the sNticDtTo
+	 * @return the sumRcvdAmnt
 	 */
-	public String getsNticDtTo() {
-		return sNticDtTo;
+	public String getSumRcvdAmnt() {
+		return sumRcvdAmnt;
 	}
 
 	/**
-	 * @param sNticDtTo the sNticDtTo to set
+	 * @param sumRcvdAmnt the sumRcvdAmnt to set
 	 */
-	public void setsNticDtTo(String sNticDtTo) {
-		this.sNticDtTo = sNticDtTo;
-	}
-
-    /**
-	 * @return the sumRcvdAmt
-	 */
-	public String getSumRcvdAmt() {
-		return sumRcvdAmt;
-	}
-
-	/**
-	 * @param sumRcvdAmt the sumRcvdAmt to set
-	 */
-	public void setSumRcvdAmt(String sumRcvdAmt) {
-		this.sumRcvdAmt = sumRcvdAmt;
-	}
-
-	/**
-	 * @return the sumNotRcvdAmt
-	 */
-	public String getSumNotRcvdAmt() {
-		return sumNotRcvdAmt;
-	}
-
-	/**
-	 * @param sumNotRcvdAmt the sumNotRcvdAmt to set
-	 */
-	public void setSumNotRcvdAmt(String sumNotRcvdAmt) {
-		this.sumNotRcvdAmt = sumNotRcvdAmt;
+	public void setSumRcvdAmnt(String sumRcvdAmnt) {
+		this.sumRcvdAmnt = sumRcvdAmnt;
 	}
 
 	/**
@@ -1557,32 +1548,60 @@ public class GamMarineCenterRentNticMngtVO extends ComDefaultVO {
 		this.dpTotCnt = dpTotCnt;
 	}
 
-	/**
-	 * @return the sGrUsagePdFrom
-	 */
-	public String getsGrUsagePdFrom() {
-		return sGrUsagePdFrom;
+	public String getNticPdTo() {
+		return nticPdTo;
 	}
 
-	/**
-	 * @param sGrUsagePdFrom the sGrUsagePdFrom to set
-	 */
-	public void setsGrUsagePdFrom(String sGrUsagePdFrom) {
-		this.sGrUsagePdFrom = sGrUsagePdFrom;
+	public void setNticPdTo(String nticPdTo) {
+		this.nticPdTo = nticPdTo;
 	}
 
-	/**
-	 * @return the sGrUsagePdTo
-	 */
-	public String getsGrUsagePdTo() {
-		return sGrUsagePdTo;
+	public String getSumNhtIsueAmt() {
+		return sumNhtIsueAmt;
 	}
 
-	/**
-	 * @param sGrUsagePdTo the sGrUsagePdTo to set
-	 */
-	public void setsGrUsagePdTo(String sGrUsagePdTo) {
-		this.sGrUsagePdTo = sGrUsagePdTo;
+	public void setSumNhtIsueAmt(String sumNhtIsueAmt) {
+		this.sumNhtIsueAmt = sumNhtIsueAmt;
+	}
+
+	public String getSumFeeA3() {
+		return sumFeeA3;
+	}
+
+	public void setSumFeeA3(String sumFeeA3) {
+		this.sumFeeA3 = sumFeeA3;
+	}
+
+	public String getSumFeeA4() {
+		return sumFeeA4;
+	}
+
+	public void setSumFeeA4(String sumFeeA4) {
+		this.sumFeeA4 = sumFeeA4;
+	}
+
+	public String getSumFeeD1() {
+		return sumFeeD1;
+	}
+
+	public void setSumFeeD1(String sumFeeD1) {
+		this.sumFeeD1 = sumFeeD1;
+	}
+
+	public String getSumFeeD2() {
+		return sumFeeD2;
+	}
+
+	public void setSumFeeD2(String sumFeeD2) {
+		this.sumFeeD2 = sumFeeD2;
+	}
+
+	public String getSumPayAmt() {
+		return sumPayAmt;
+	}
+
+	public void setSumPayAmt(String sumPayAmt) {
+		this.sumPayAmt = sumPayAmt;
 	}
 
 }
