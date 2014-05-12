@@ -1,6 +1,10 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service;
 
 import java.util.List;
+import java.util.Map;
+
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 
 /**
  * @Class Name : GamCntnrQuayRentFeePaySttusMngtService.java
@@ -38,6 +42,86 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @return 컨테이너부두임대납부현황관리목록
 	 * @exception Exception
 	 */
+    GamCntnrQuayRentFeePaySttusMngtVO selectCntnrQuayRentFeePaySttusSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+    
+    
+    
+    
+    
+    
+    /**
+	 * 고지금액합계, 수납금액합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
     GamCntnrQuayRentFeePaySttusMngtVO selectCntnrQuayRentFeePaySttusMngtSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 자산임대 상세 마스터 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCntnrQuayRentFeePaySttusMngtDetailMstPk(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+
+
+    /**
+     * 납부관리 상세 내역을 조회한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectCntnrQuayRentFeePaySttusMngtDetailList(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+
+	/**
+	 * 자산임대 상세 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCntnrQuayRentFeePaySttusMngtDetailSumPk(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+
+    
+
+
+    /**
+     * 납부현황을 업데이트 한다.
+     * @throws Exception
+     */
+    int updateCntnrQuayRentFeePaySttusMngtList() throws Exception;
+
+	/**
+	 * 연체 세입 목록을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List<?> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체세입건을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	Map selectNticArrrgDetail(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체세입 건수 조회
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	int selectNticArrrgListTotCnt(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체 세입을 등록한다.
+	 * @param mergeMap
+	 * @return
+	 * @throws Exception
+	 */
+	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
     
 }

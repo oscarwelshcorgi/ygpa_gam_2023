@@ -1,10 +1,13 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 
 /**
@@ -48,8 +51,69 @@ public class GamPrtFcltyRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	 * @return 항만시설납부현황관리 목록
 	 * @exception Exception
 	 */
+	public GamPrtFcltyRentFeePaySttusMngtVO selectPrtFcltyRentFeePaySttusSum(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (GamPrtFcltyRentFeePaySttusMngtVO) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusSum_S", searchVO);
+	}
+	
+	
+	
+	
+	
+	
+	public EgovMap selectPrtFcltyRentFeePaySttusMngtDetailMstPk(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDetailMaster_D", searchVO);
+    }
+
+    public List selectPrtFcltyRentFeePaySttusMngtDetailList(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+        return list("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDetailList_D", searchVO);
+    }
+
+    public EgovMap selectPrtFcltyRentFeePaySttusMngtDetailSumPk(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDetailSum_D", searchVO);
+    }
+
+    
+
+    public EgovMap selectNticArrrgDetail(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectNticArrrgDetail_S", searchVO);
+    }
+
+
+	/**
+	 * 고지금액합계, 수납금액합계
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return vo
+	 * @exception Exception
+	 */
 	public GamPrtFcltyRentFeePaySttusMngtVO selectPrtFcltyRentFeePaySttusMngtSum(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentFeePaySttusMngtVO) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtSum_S", searchVO);
+	}
+
+	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO)
+			throws Exception {
+        return list("gamPrtFcltyRentFeePaySttusMngtDao.selectNticArrrgList_D", searchVO);
+	}
+
+	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO)
+			throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S", searchVO);
+	}
+
+	public List mergeNticArrrgList(Map mergeMap) throws Exception {
+		return this.merge(mergeMap, "gamPrtFcltyRentFeePaySttusMngtDao.insertAssetPhoto_S", "gamPrtFcltyRentFeePaySttusMngtDao.updateAssetPhoto_S", "gamPrtFcltyRentFeePaySttusMngtDao.deleteAssetPhoto_S");
+	}
+
+	public int updatePrtFcltyRentFeePaySttusMngtList() throws Exception {
+		return update("gamPrtFcltyRentFeePaySttusMngtDao.updatePrtFcltyRentFeePaySttusMngtList", null);
+	}
+
+	/**
+	 * 연체 등록
+	 * @param map
+	 * @throws Exception
+	 */
+	public void updateRevArrrgAnlrveBndeRcvdTp(Map map) throws Exception {
+		this.update("gamPrtFcltyRentFeePaySttusMngtDao.updateRevArrrgAnlrveBndeRcvdTp", map);
 	}
 	
 }

@@ -45,6 +45,20 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
     public int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S", searchVO);
     }
+    
+    
+    /**
+	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대료납부관리 목록
+	 * @exception Exception
+	 */
+	public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (GamAssetRentFeePayDtlsMngtVO) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum_S", searchVO);
+	}
+	
+	
+	
 
     public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailMaster_D", searchVO);
@@ -58,15 +72,7 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailSum_D", searchVO);
     }
 
-    /**
-	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
-	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대료납부관리 목록
-	 * @exception Exception
-	 */
-	public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
-		return (GamAssetRentFeePayDtlsMngtVO) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum_S", searchVO);
-	}
+    
 
     public EgovMap selectNticArrrgDetail(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectNticArrrgDetail_S", searchVO);

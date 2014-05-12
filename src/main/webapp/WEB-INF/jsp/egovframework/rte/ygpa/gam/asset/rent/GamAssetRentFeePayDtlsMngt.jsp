@@ -89,8 +89,10 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
             break;
 
         // 팝업을 호출한다.(업체)
-        case 'popupEntrpsInfoFeePay':
-            var searchOpt=module.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
+        //case 'popupEntrpsInfoFeePay':
+        case 'popupEntrpsInfo':
+            //var searchOpt=module.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
+            var searchOpt=this.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
             this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts, searchOpt);
             break;
 

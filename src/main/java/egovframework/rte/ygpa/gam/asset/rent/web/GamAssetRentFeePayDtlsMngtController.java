@@ -128,7 +128,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/asset/rent/GamAssetRentFeePayDtlsMngt";
-    }
+    } 
 
 	/**
      * 자산임대료납부관리 목록을 조회한다.
