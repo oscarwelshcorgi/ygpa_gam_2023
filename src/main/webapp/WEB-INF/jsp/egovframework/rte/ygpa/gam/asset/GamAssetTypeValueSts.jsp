@@ -190,11 +190,6 @@ var module_instance = new GamAssetTypeValueStsModule();
 				<div class="emdControlPanel">
 					<table style="width:100%;" class="summaryPanel">
 						<tr>
-							<td style="width:650px;" colspan="4"> </td>
-							<th style="width:165px;">자료수</th>
-							<td style="width:200px;"><input id="totalResultCnt" type="text" size="15" class="ygpaNumber" readonly >개</td>
-						</tr>
-						<tr>
 							<th style="width:120px;">재평가금액</th>
 							<td style="width:200px;"><input id="sumRevalAmt" size="15" class="ygpaNumber" readonly >원</td>
 							<th style="width:130px;">당기자산증가금액</th>
@@ -217,6 +212,10 @@ var module_instance = new GamAssetTypeValueStsModule();
 							<td><input id="sumThisTermDeprctnAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
 							<th>잔존금액</th>
 							<td><input id="sumCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+						</tr>
+						<tr>
+							<th style="width:165px;">자료수</th>
+							<td style="width:200px;" colspan="5"><input id="totalResultCnt" type="text" size="116" class="ygpaNumber" readonly >개</td>
 						</tr>
 					</table>
 				</div>          

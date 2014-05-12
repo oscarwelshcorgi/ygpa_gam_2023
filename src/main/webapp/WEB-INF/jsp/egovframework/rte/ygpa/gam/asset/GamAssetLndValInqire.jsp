@@ -193,11 +193,11 @@ var module_instance = new GamAssetLndValInqireModule();
                 	<table style="width:100%;" class="summaryPanel">
                         <tr>
                             <th style="width:120px;">자료수</th>
-                            <td style="width:200px;"><input id="sumCnt" size="15" class="ygpaNumber" readonly ></td>
+                            <td style="width:200px;"><input id="sumCnt" size="20" class="ygpaNumber" readonly >개</td>
                             <th style="width:130px;">면적대비지가</th>
-                            <td style="width:200px;"><input id="sumArOlnlp" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                            <td style="width:200px;"><input id="sumArOlnlp" type="text" size="20" class="ygpaNumber" readonly >원</td>
                             <th style="width:165px;">자산취득가액</th>
-                            <td style="width:200px;"><input id="sumGisAssetsAcqPri" type="text" size="15" class="ygpaNumber" readonly >원</td>
+                            <td style="width:200px;"><input id="sumGisAssetsAcqPri" type="text" size="20" class="ygpaNumber" readonly >원</td>
                         </tr>
                 	</table>
 					<!--  <button class="buttonExcel" data-flexi-grid="assetLndValInqireList" data-url="<c:url value='/asset/selectAssetLndValInqireListExcel.do' />">엑셀</button>-->

@@ -239,9 +239,7 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                         </tr>
                         <tr>
                             <th style="width:120px;">자료수</th>
-                            <td style="width:200px;"><input id="sumCnt" size="15" class="ygpaNumber" readonly ></td>
-                            <th> </th>
-                            <td> </td>
+                            <td style="width:200px;" colspan="3"><input id="sumCnt" size="62" class="ygpaNumber" readonly >개</td>
 							<td><button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button></td>
 							<td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
                         </tr>
