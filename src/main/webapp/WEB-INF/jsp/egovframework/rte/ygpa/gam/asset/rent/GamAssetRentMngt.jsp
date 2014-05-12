@@ -112,9 +112,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/asset/rent/gamSelectAssetRentDetailList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'순번', name:'assetsUsageSeq',width:30, sortable:false,align:'center'},
-                    {display:'항코드', name:'dtlPrtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'dtlPrtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
+                    {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'left'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
@@ -122,13 +121,13 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:80, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSeNm',width:60, sortable:false,align:'center'}
+                    {display:'면제구분', name:'exemptSeNm',width:60, sortable:false,align:'center'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'}
 
                     /*
                     {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
                     {display:'지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
                     {display:'지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
                     {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
@@ -471,6 +470,100 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
 };
 
+GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
+    /* 총사용료, 총면적 계산 시작 */
+    var fee = 0;
+    var rdcxptFee = 0;
+    var usageAr = 0;
+    var usagePdFrom = 0;
+    var usagePdTo = 0;
+    var minUsagePdFrom = 0;
+    var maxUsagePdTo = 0;
+
+    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
+        var row = this.$('#assetRentDetailList').flexGetRow(i);
+
+        if( row['fee'] != '' && row['fee'] != null ) {
+            var feeStr = row['fee']+"";
+            feeStr = feeStr.replace(/,/g,"");
+            fee += Number(feeStr);
+        }
+
+        if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
+            var rdcxptFeeStr = row['rdcxptFee']+"";
+            rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
+            rdcxptFee += Number(rdcxptFeeStr);
+        }
+
+        if( row['usageAr'] != '' && row['usageAr'] != null ) {
+            var usageArStr = row['usageAr']+"";
+            usageArStr = usageArStr.replace(/,/g,"");
+            usageAr += Number(usageArStr);
+        }
+
+        if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
+            var usagePdFromStr = row['usagePdFrom']+"";
+            usagePdFromStr = usagePdFromStr.replace(/-/g,"");
+            usagePdFrom = Number(usagePdFromStr);
+
+            if( minUsagePdFrom == 0 ) {
+                minUsagePdFrom = usagePdFrom;
+            } else {
+                if( minUsagePdFrom > usagePdFrom ) {
+                    minUsagePdFrom = usagePdFrom;
+                }
+            }
+        }
+
+        if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
+            var usagePdToStr = row['usagePdTo']+"";
+            usagePdToStr = usagePdToStr.replace(/-/g,"");
+            usagePdTo = Number(usagePdToStr);
+
+            if( maxUsagePdTo == 0 ) {
+                maxUsagePdTo = usagePdTo;
+            } else {
+                if( maxUsagePdTo < usagePdTo ) {
+                    maxUsagePdTo = usagePdTo;
+                }
+            }
+        }
+    }
+
+    this.$('#grFee').val( fee ); //총사용료
+    this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
+    this.$('#grAr').val( usageAr ); //총사용면적
+
+    if( minUsagePdFrom > 0 ) {
+        var minUsagePdFromStr = minUsagePdFrom+"";
+
+        if( minUsagePdFromStr.length == 8 ) {
+            minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8);
+            this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
+        } else {
+            this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+        }
+    }
+
+    if( maxUsagePdTo > 0 ) {
+        var maxUsagePdToStr = maxUsagePdTo+"";
+
+        if( maxUsagePdToStr.length == 8 ) {
+            maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8);
+            this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
+        } else {
+            this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+        }
+    }
+
+    if( this.$('#assetRentDetailList').flexGetData().length == 0 ) {
+        this.$('#grFee').val( "" ); //총사용료
+        this.$('#grRdcxptFee').val( "" ); //총감면사용료
+        this.$('#grAr').val( "" ); //총사용면적
+        this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+        this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+    }
+};
 
 /**
  * 정의 된 버튼 클릭 시
@@ -617,11 +710,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 
                 this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
-                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                        module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                        //module.$('#assetRentDetailList').flexReload();
-                        module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
-                        module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
+                    	this.loadData();
                     }
                     alert(result.resultMsg);
                 });
@@ -1062,99 +1151,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 
-
-            /* 총사용료, 총면적 계산 시작 */
-            var fee = 0;
-            var rdcxptFee = 0;
-            var usageAr = 0;
-            var usagePdFrom = 0;
-            var usagePdTo = 0;
-            var minUsagePdFrom = 0;
-            var maxUsagePdTo = 0;
-
-            for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
-                var row = this.$('#assetRentDetailList').flexGetRow(i);
-
-                if( row['fee'] != '' && row['fee'] != null ) {
-                    var feeStr = row['fee']+"";
-                    feeStr = feeStr.replace(/,/g,"");
-                    fee += Number(feeStr);
-                }
-
-                if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
-                    var rdcxptFeeStr = row['rdcxptFee']+"";
-                    rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
-                    rdcxptFee += Number(rdcxptFeeStr);
-                }
-
-                if( row['usageAr'] != '' && row['usageAr'] != null ) {
-                    var usageArStr = row['usageAr']+"";
-                    usageArStr = usageArStr.replace(/,/g,"");
-                    usageAr += Number(usageArStr);
-                }
-
-                if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
-                    var usagePdFromStr = row['usagePdFrom']+"";
-                    usagePdFromStr = usagePdFromStr.replace(/-/g,"");
-                    usagePdFrom = Number(usagePdFromStr);
-
-                    if( minUsagePdFrom == 0 ) {
-                        minUsagePdFrom = usagePdFrom;
-                    } else {
-                        if( minUsagePdFrom > usagePdFrom ) {
-                            minUsagePdFrom = usagePdFrom;
-                        }
-                    }
-                }
-
-                if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
-                    var usagePdToStr = row['usagePdTo']+"";
-                    usagePdToStr = usagePdToStr.replace(/-/g,"");
-                    usagePdTo = Number(usagePdToStr);
-
-                    if( maxUsagePdTo == 0 ) {
-                        maxUsagePdTo = usagePdTo;
-                    } else {
-                        if( maxUsagePdTo < usagePdTo ) {
-                            maxUsagePdTo = usagePdTo;
-                        }
-                    }
-                }
-            }
-
-            this.$('#grFee').val( fee ); //총사용료
-            this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
-            this.$('#grAr').val( usageAr ); //총사용면적
-
-            if( minUsagePdFrom > 0 ) {
-                var minUsagePdFromStr = minUsagePdFrom+"";
-
-                if( minUsagePdFromStr.length == 8 ) {
-                    minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8);
-                    this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
-                } else {
-                    this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
-                }
-            }
-
-            if( maxUsagePdTo > 0 ) {
-                var maxUsagePdToStr = maxUsagePdTo+"";
-
-                if( maxUsagePdToStr.length == 8 ) {
-                    maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8);
-                    this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
-                } else {
-                    this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
-                }
-            }
-
-            if( this.$('#assetRentDetailList').flexGetData().length == 0 ) {
-                this.$('#grFee').val( "" ); //총사용료
-                this.$('#grRdcxptFee').val( "" ); //총감면사용료
-                this.$('#grAr').val( "" ); //총사용면적
-                this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
-                this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
-            }
+			this.calcRentMasterValues();
 
             /* 총사용료, 총면적 계산 종료 */
 
