@@ -581,12 +581,15 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                            	<input id="chrgeKndCd1" type="text" size="4" data-column-id="chrgeKndCd"> 
-		                                <input id="chrgeKndNm1" type="text" size="10"> <button id="popupchrgeKndCd">요금</button>
+		                                <input id="chrgeKndCd1" type="text" size="2" data-column-id="chrgeKndCd">
+		                                <input id="chrgeKndNm1" type="text" size="11" disabled="disabled">
+		                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
 		                            </td>
-		                            <th>업체명</th>
+		                            <th>조회업체</th>
 		                            <td>
-		                                <input id="sEntrpscd" type="text" size="10"><input id="sEntrpsNm" type="text" size="10" readonly> <button id="popupEntrpsInfo">업체</button>
+	                                    <input type="text" size="8" id="entrpscd" maxlength="10"/>
+	                                    <input type="text" size="22" id="entrpsNm" disabled/>
+	                                    <button id="popupEntrpsInfo" class="popupButton">선택</button>
 		                            </td>
 								</tr>
 		                    </tbody>
@@ -645,12 +648,15 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<tr>
 									<th>요금종류</th>
 		                            <td>
-		                            	<input id="chrgeKndCd2" type="text" size="4" data-column-id="chrgeKndCd"> 
-		                                <input id="chrgeKndNm2" type="text" size="10"> <button id="popupchrgeKndCd2">요금</button>
+		                                <input id="chrgeKndCd2" type="text" size="2" data-column-id="chrgeKndCd">
+		                                <input id="chrgeKndNm2" type="text" size="11" disabled="disabled">
+		                                <button id="popupchrgeKndCd2" class="popupButton">선택</button>
 		                            </td>
-		                            <th>업체명</th>
+		                            <th>조회업체</th>
 		                            <td>
-		                                 <input id="sEntrpscd2" type="text" size="10" data-column-id="sEntrpscd"><input id="sEntrpsNm2" type="text" size="10" readonly> <button id="popupEntrpsInfo2">업체</button>
+	                                    <input type="text" size="8" id="sEntrpscd2" data-column-id="sEntrpscd" maxlength="10"/>
+	                                    <input type="text" size="22" id="sEntrpsNm2" disabled/>
+	                                    <button id="popupEntrpsInfo2" class="popupButton">선택</button>
 		                            </td>
 								</tr>
 		                    </tbody>
