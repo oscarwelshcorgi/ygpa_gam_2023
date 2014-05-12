@@ -1257,7 +1257,13 @@ GamTrainPortRentMngtModule.prototype.onCalc = function() {
             //this._editRowFile=this.$('#trainPortRentMngtFileList').flexGetData().length;
 
             break;
-
+        case 'btnDownloadFile':
+    		var selectRow = this.$('#trainPortRentMngtFileList').selectedRows();
+    		if(selectRow.length > 0) {
+    			var row=selectRow[0];
+    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+    		}
+    		break;
         case 'btnApplyPhotoData':
 			this.applyPhotoData();
             break;

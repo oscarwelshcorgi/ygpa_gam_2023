@@ -1258,6 +1258,13 @@ GamPrtFcltyRentMngtModule.prototype.onCalc = function() {
 
             break;
 
+        case 'btnDownloadFile':
+    		var selectRow = this.$('#prtFcltyRentMngtFileList').selectedRows();
+    		if(selectRow.length > 0) {
+    			var row=selectRow[0];
+    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+    		}
+    		break;
         case 'btnApplyPhotoData':
 			this.applyPhotoData();
             break;

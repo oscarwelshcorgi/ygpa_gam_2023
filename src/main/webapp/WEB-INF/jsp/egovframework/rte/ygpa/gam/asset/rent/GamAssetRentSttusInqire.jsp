@@ -979,6 +979,14 @@ GamAssetRentSttusInqireModule.prototype.onCalc = function() {
 
             break;
 
+        case 'btnDownloadFile':
+    		var selectRow = this.$('#assetRentSttusInqireFileList').selectedRows();
+    		if(selectRow.length > 0) {
+    			var row=selectRow[0];
+    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+    		}
+    		break;
+    		
         case 'btnApplyPhotoData':
 
             if(this._editDataFile==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
