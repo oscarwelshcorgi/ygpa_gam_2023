@@ -127,7 +127,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 		event.data.module._edited=true;
 	});
 
-	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
+	this.$(".photoEditItem").bind("keyup change", {module: this}, function(event) {
 		event.data.module.applyPhotoChanged(event.target);
 	});
 };
@@ -506,9 +506,9 @@ var module_instance = new GamFcltyDrwListMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면작성일자</th>
-							<td><input type="text" id="drwWritngDt" class="emdcal" class="photoEditItem"/></td>
+							<td><input type="text" id="drwWritngDt" class="emdcal photoEditItem" /></td>
 							<th width="20%" height="23" class="required_text">도면변경일자</th>
-							<td><input type="text" id="drwChangedt" class="emdcal" class="photoEditItem"/></td>
+							<td><input type="text" id="drwChangedt" class="emdcal photoEditItem" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">도면변경내역</th>
