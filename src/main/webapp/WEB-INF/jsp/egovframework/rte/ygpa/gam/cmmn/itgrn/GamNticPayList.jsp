@@ -8,14 +8,14 @@
   * @Class Name : GamNticPayList.jsp
   * @Description : 납부현황목록조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.04.16  lsl          최초 생성
   *
   * author lsl
   * since 2014.02.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,7 +29,7 @@ GamNticPayListModule.prototype = new EmdModule(1000,600);	// 초기 시작 창�
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamNticPayListModule.prototype.loadComplete = function() {
-	
+
 	// 세입
 	// 테이블 설정
 	this.$("#nticPayList").flexigrid({
@@ -79,11 +79,11 @@ GamNticPayListModule.prototype.loadComplete = function() {
             module.$('#totalRcvdAmnt').val(data.sumRcvdAmnt);
             module.$('#totalNotRcvdAmnt').val(data.sumNotRcvdAmnt);
             module.$('#totalBillAmnt').val(data.sumBillAmnt);
-      
+
             return data;
         }
 	});
-	
+
 	// 연체세입
 	// 테이블 설정
 	this.$("#delayNticPayList").flexigrid({
@@ -121,40 +121,40 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		preProcess: function(module,data) {
             module.$('#totalResultCnt1').val(data.dpTotCnt);
             module.$('#totalDlyBillAmnt').val(data.sumDlyBillAmnt);
-      
+
             return data;
         }
 	});
-	
+
 	this.$("#nticPayList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#nticPayListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-		
-		var detailInput = {prtAtCode:row["prtAtCode"],feeTp:row["feeTp"],fiscalYr:row["fiscalYr"],billNo:row["billNo"]};
-		module.doAction('<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />', detailInput, function(module, result) {
-			
-			this.$('#delayNticPayList').flexOptions({params:detailInput}).flexReload();
-		 	throw 0;
-			
-	 	});
+
+		var detailInput = [
+		   				{name: 'prtAtCode', value: row["prtAtCode"]},
+		   				{name: 'feeTp', value: row["feeTp"]},
+		   				{name: 'fiscalYr', value: row["fiscalYr"]},
+		   				{name: 'billNo', value: row["billNo"]}
+		                   ];
+		module.$('#delayNticPayList').flexOptions({params:detailInput}).flexReload();
 	});
-	
-	
+
+
 	// 현재날짜로 고지기간 설정
 	var today = new Date();
-	
+
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
 	var serchDay = today.getDate();
-	
+
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
-	
+
 	if(serchDay < 10){
 		serchDay = "0" + serchDay;
 	}
-	
+
 	var displayDate = serchYr + "-" + serchMn + "-" + serchDay;
 
 	this.$("#sGrUsagePdFrom").val(displayDate);
@@ -166,33 +166,33 @@ GamNticPayListModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
 GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
-			
+
 			this.$("#nticPayListTab").tabs("option", {active: 0});		// 탭을 전환 한다.
-			
+
 			var searchOpt = this.makeFormArgs("#nticPayListForm");
-		 	this.$("#nticPayList").flexOptions({params:searchOpt}).flexReload(); 
+		 	this.$("#nticPayList").flexOptions({params:searchOpt}).flexReload();
 		break;
-		
+
 		// 세입리스트 엑셀 다운로드
 		case 'btnNticPayListExcelDownload':
 			this.$('#nticPayList').flexExcelDown('<c:url value="/cmmn/itgrn/gamNticPayListSelectExcel.do"/>');
 		break;
-		
+
 		// 연체세입리스트 엑셀 다운로드
 		case 'btnDelayNticPayListExcelDownload':
 			this.$('#delayNticPayList').flexExcelDown('<c:url value="/cmmn/itgrn/gamDelayNticPayListSelectExcel.do"/>');
 		break;
-		
+
 		// 업체조회 팝업
 		case "searchEntrpsCdBtn":
 			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
 		break;
-		
+
 		case 'popupChrgeKndCd': // 팝업을 호출한다.(요금조회)
 			/*
 			var opts = {
@@ -202,7 +202,7 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 			};
 			*/
 			var opts;
-		
+
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
 					'<c:url value="/popup/showPayCd.do"/>', opts);
 			break;
@@ -214,7 +214,7 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
  * 탭 변경시 실행 이벤트
  */
  GamNticPayListModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	
+
 	switch(newTabId) {
 		case "tabs1": break;
 		case "tabs2": break;
@@ -224,15 +224,15 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
  * 팝업 close 이벤트
  */
 GamNticPayListModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
-		
+
 		// 업체조회화면
 		case "searchEntrpsCdPopup":
 			this.$("#entrpscd").val(value["entrpscd"]);
 			this.$("#entrpsNm").val(value["entrpsNm"]);
 		break;
-		
+
 		case 'selectChrgeKndCd':
 			if (msg != 'cancel') {
 				this.$('#prtAtCode').val(value.prtAtCode);
@@ -242,7 +242,7 @@ GamNticPayListModule.prototype.onClosePopup = function(popupId, msg, value){
 				alert('취소 되었습니다');
 			}
 			break;
-	
+
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			throw 0;
@@ -275,13 +275,13 @@ var module_instance = new GamNticPayListModule();
 							<th>고지일자</th>
                             <td>
                             	<input id="sGrUsagePdFrom" type="text" class="emdcal" size="10">
-                            	 ~ 
+                            	 ~
                             	<input id="sGrUsagePdTo" type="text" class="emdcal" size="10">
                             </td>
                             <th>요금종류</th>
                             <td>
-                                <input id="chrgeKndCd" type="text" size="2">&nbsp; &nbsp; 
-                                <input id="chrgeKndNm" type="text" size="18" disabled="disabled">&nbsp; &nbsp; 
+                                <input id="chrgeKndCd" type="text" size="2">&nbsp; &nbsp;
+                                <input id="chrgeKndNm" type="text" size="18" disabled="disabled">&nbsp; &nbsp;
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                             <td rowspan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
@@ -337,7 +337,7 @@ var module_instance = new GamNticPayListModule();
 							</tr>
 						</table>
 					</form>
-					
+
 					<%-- <form id="delayNticPayListForm">
 						<input type="hidden" id="intSeq">
 					</form> --%>
@@ -359,7 +359,7 @@ var module_instance = new GamNticPayListModule();
 							</tr>
 						</table>
 					</form>
-					
+
 				</div>
 			</div>
 		</div>
