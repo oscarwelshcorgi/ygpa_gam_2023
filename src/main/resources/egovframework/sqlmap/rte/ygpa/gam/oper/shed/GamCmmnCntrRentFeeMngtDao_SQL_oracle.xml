@@ -6,7 +6,7 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamCmmnCntrRentFeeMngtVO" type="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeeMngtVO"/>
-    
+
     <resultMap id="gamCmmnCntrRentFeeMngtSumMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeeMngtVO">
         <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
         <result property="sumFee" column="SUM_FEE" columnIndex="2"/>
@@ -18,9 +18,9 @@
         <result property="sumFeeD1" column="SUM_FEE_D1" columnIndex="8"/>
         <result property="sumFeeD2" column="SUM_FEE_D2" columnIndex="9"/>
     </resultMap>
-    
+
     <resultMap id="gamCmmnCntrRentFeeMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeeMngtVO">
-         <result property="nticCnt" column="NTIC_CNT" columnIndex="1"/>
+        <result property="nticCnt" column="NTIC_CNT" columnIndex="1"/>
 		<result property="fcltySe" column="FCLTY_SE" columnIndex="2"/>
 		<result property="chrgeKnd" column="CHRGE_KND" columnIndex="3"/>
 		<result property="entrpscd" column="ENTRPSCD" columnIndex="4"/>
@@ -55,12 +55,12 @@
 		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="30"/>
 		<result property="mngYear" column="MNG_YEAR" columnIndex="31"/>
 		<result property="mngNo" column="MNG_NO" columnIndex="32"/>
-		<result property="mngCnt" column="MNG_CNT" columnIndex="33"/>   
+		<result property="mngCnt" column="MNG_CNT" columnIndex="33"/>
     </resultMap>
 
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtList_D" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
-           SELECT Z.* FROM (
+		SELECT Z.* FROM (
            SELECT ROWNUM RNUM, A.*
            FROM (
                    SELECT
@@ -72,12 +72,15 @@
                    	S.NTIC_CNT,
 			        S.ENTRPSCD,
 			        S.ENTRPS_NM,
+                   	MIN(S.PRT_AT_CODE_NM) PRT_AT_CODE_NM,
                    	MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
                    	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
                    	MAX(S.NTICNO) NTICNO,
                    	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
     				GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
+                   	SUM(S.VAT) VAT,
+                   	SUM(S.NTIC_AMT) NTIC_AMT,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
                    	SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
                    	SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
@@ -245,9 +248,9 @@
         	WHERE Z.RNUM <= #recordCountPerPage# and Z.RNUM > #firstIndex#
         ]]>
     </select>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtListTotCnt_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="int">
-            SELECT COUNT(*) totcnt FROM
+           SELECT COUNT(*) totcnt FROM
             	(SELECT *
               FROM ASSETS_RENT_F A, LEV_REQEST_F L
              WHERE A.QUAY_GROUP_CD='E'
@@ -336,7 +339,7 @@
           GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.ENTRPSCD
           ) Z
     </select>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtSum_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultMap="gamCmmnCntrRentFeeMngtSumMap">
         SELECT
                  COUNT(*) SUM_CNT
@@ -433,19 +436,19 @@
              AND L.NHT_ISUE_YN = #sNhtIsueYn#
          </isNotEmpty>
     </select>
-    
+
     <update id="gamCmmnCntrRentFeeMngtDao.updateCmmnCntrRentFeeMngt_S">
         UPDATE LEV_REQEST_F SET
 		       FCLTY_SE     = #fcltySe#
 		     , CHRGE_KND    = #chrgeKnd#
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
-		     , NTIC_PD_FROM = REPLACE(#nticPdFrom#,'-','') 
-		     , CONST_PER_TO = REPLACE(#constPerTo#,'-','') 
+		     , NTIC_PD_FROM = TO_DATE(#nticPdFrom#,'YYYY-MM-DD')
+		     , NTIC_PD_TO 	= TO_DATE(#nticPdTo#,'YYYY-MM-DD')
 		     , ACCNUT_YEAR  = #accnutYear#
 		     , NTICNO       = #nticno#
-		     , NTIC_DT      = REPLACE(#nticDt#,'-','') 
-		     , PAY_TMLMT    = REPLACE(#payTmlmt#,'-','') 
+		     , NTIC_DT      = TO_DATE(#nticDt#,'YYYY-MM-DD')
+		     , PAY_TMLMT    = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
 		     , OLNLP        = #olnlp#
 		     , FEE          = #fee#
 		     , VAT_YN       = #vatYn#
@@ -453,7 +456,7 @@
 		     , NTIC_AMT     = #nticAmt#
 		     , RM           = #rm#
 		     , RCIV_SE      = #rcivSe#
-		     , RCIV_DT      = REPLACE(#rcivDt#,'-','') 
+		     , RCIV_DT      = TO_DATE(#rcivDt#,'YYYY-MM-DD')
 		     , NHT_ISUE_YN  = #nhtIsueYn#
 		     , ARRRG_NO     = #arrrgNo#
 		     , ARRRG_AMT    = #arrrgAmt#
@@ -468,19 +471,19 @@
 		AND    MNG_NO       = #mngNo#
 		AND    MNG_CNT      = #mngCnt#
     </update>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectCmmnCntrRentFeeMngtInfo_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultMap="gamCmmnCntrRentFeeMngtInfoMap"> 
-        SELECT 
+        SELECT
                  L.NTIC_CNT
                , L.FCLTY_SE
                , L.CHRGE_KND
                , L.ENTRPSCD
                , L.ENTRPS_NM
                , L.NTIC_PD_FROM
-               , L.CONST_PER_TO
+               , L.NTIC_PD_TO
                , L.ACCNUT_YEAR
                , L.NTICNO
-               , TO_CHAR(TO_DATE(L.NTIC_DT), 'YYYY-MM-DD') NTIC_DT
+               , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
                , L.PAY_TMLMT
                , L.OLNLP
                , L.FEE
@@ -505,14 +508,19 @@
                , L.MNG_NO
                , L.MNG_CNT
                , L.MNG_YEAR || '-' || L.MNG_NO || '-' || L.MNG_CNT AS RENT_MNG_NO
-          FROM LEV_REQEST_F L
-         WHERE L.NTIC_CNT    = #nticCnt#
+			FROM ASSETS_RENT_F A, LEV_REQEST_F L
+             WHERE A.QUAY_GROUP_CD='E'
+             	AND A.PRT_AT_CODE=L.PRT_AT_CODE
+             	AND A.MNG_YEAR=L.MNG_YEAR
+             	AND A.MNG_NO=L.MNG_NO
+             	AND A.MNG_CNT=L.MNG_CNT
+             	AND L.NTIC_CNT    = #nticCnt#
            AND L.PRT_AT_CODE = #prtAtCode#
            AND L.MNG_YEAR    = #mngYear#
            AND L.MNG_NO      = #mngNo#
            AND L.MNG_CNT     = #mngCnt#
     </select>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="int"> 
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
@@ -525,7 +533,7 @@
 		   AND MNG_NO      = #mngNo#
 		   AND MNG_CNT     = #mngCnt#
     </select>
-    
+
     <insert id="gamCmmnCntrRentFeeMngtDao.insertAnlrveLev_S">
         INSERT INTO ANLRVE_LEV_F (
 		                            CHRGE_KND
@@ -581,7 +589,7 @@
 		                          , MNG_YEAR
 		                          , MNG_NO
 		                          , MNG_CNT
-		                        ) 
+		                        )
 		                 VALUES (
 		                            #chrgeKnd#
 		                          , #accnutYear#
@@ -589,13 +597,13 @@
 		                          , #accnutSeCd#
 		                          , #entrpscd#
 		                          , #nticAmt#
-		                          , REPLACE(#nticDt#,'-','') 
+		                          , TO_DATE(#nticDt#,'YYYY-MM-DD')
 		                          , #nhtIsueYn#
 		                          , #computDtls#
-		                          , REPLACE(#payTmlmt#,'-','')  
-		                          , REPLACE(#frstNticDt#,'-','') 
+		                          , TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+		                          , TO_DATE(#frstNticDt#,'YYYY-MM-DD')
 		                          , #rcivTransfrSttusCd#
-		                          , REPLACE(#rcivDt#,'-','') 
+		                          , TO_DATE(#rcivDt#,'YYYY-MM-DD')
 		                          , #rcivSe#
 		                          , #incpctyCd#
 		                          , #overrpayAmt#
@@ -604,11 +612,11 @@
 		                          , #dscntRsn#
 		                          , #dscntCd#
 		                          , #rcivSeNm#
-		                          , REPLACE(#fnncInsttRcivDt#,'-','')  
+		                          , TO_DATE(#fnncInsttRcivDt#,'YYYY-MM-DD')
 		                          , #postNticEnnc#
 		                          , #npymnRsnCd#
 		                          , #elctrnNticResult#
-		                          , REPLACE(#elctrnNticInfoInqireDt#,'-','') 
+		                          , TO_DATE(#elctrnNticInfoInqireDt#,'YYYY-MM-DD')
 		                          , #excclcYn#
 		                          , #vat#
 		                          , #vatYn#
@@ -624,8 +632,8 @@
 		                          , #orginlNticAccnutYear#
 		                          , #orginlNticNo#
 		                          , #elctrnTaxbilIsuYn#
-		                          , REPLACE(#beginDt#,'-','') 
-		                          , REPLACE(#endDt#,'-','')
+		                          , TO_DATE(#beginDt#,'YYYY-MM-DD')
+		                          , TO_DATE(#endDt#,'YYYY-MM-DD')
 		                          , #nticMth#
 		                          , #regUsr#
 		                          , SYSDATE
@@ -638,7 +646,7 @@
 		                          , #mngCnt#
 		                        )
     </insert>
-    
+
     <update id="gamCmmnCntrRentFeeMngtDao.deleteCmmnCntrRentFeeMngt_S">
          DELETE FROM LEV_REQEST_F
           WHERE NTIC_CNT    = #nticCnt#
@@ -646,7 +654,7 @@
             AND MNG_YEAR    = #mngYear#
             AND MNG_NO      = #mngNo#
             AND MNG_CNT     = #mngCnt#
-    </update>        
+    </update>
 
 	<insert id="gamCmmnCntrRentFeeMngtDao.insertCmmnCntrRentFeeMngtLevReqest_S">
         INSERT INTO LEV_REQEST_F (
@@ -656,7 +664,7 @@
                            , ENTRPSCD
                            , ENTRPS_NM
                            , NTIC_PD_FROM
-                           , CONST_PER_TO
+                           , NTIC_PD_TO
                            , ACCNUT_YEAR
                            , NTICNO
                            , NTIC_DT
@@ -683,19 +691,19 @@
                            , MNG_YEAR
                            , MNG_NO
                            , MNG_CNT
-                         ) 
-                  VALUES ( 
+                         )
+                  VALUES (
                              #nticCnt#
                            , #fcltySe#
                            , #chrgeKnd#
                            , #entrpscd#
                            , #entrpsNm#
-                           , #nticPdFrom#
-                           , #constPerTo#
+                           , TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+                           , TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
                            , #accnutYear#
                            , #nticno#
                            , #nticDt#
-                           , #payTmlmt#
+                           , TO_DATE(#payTmlmt#, 'YYYY-MM-DD')
                            , #olnlp#
                            , #fee#
                            , #vatYn#
@@ -703,7 +711,7 @@
                            , #nticAmt#
                            , #rm#
                            , #rcivSe#
-                           , #rcivDt#
+                           , TO_DATE(#rcivDt#, 'YYYY-MM-DD')
                            , #nhtIsueYn#
                            , #arrrgNo#
                            , #arrrgAmt#
@@ -720,8 +728,8 @@
                            , #mngCnt#
                          )
     </insert>
-    
-    
+
+	<!--  고지서 출력  -->
     <select id="gamCmmnCntrRentFeeMngtDao.selectNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
 			FROM
@@ -779,7 +787,8 @@
 			      SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
 			      SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
 			      SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
-			      MAX(S.VAT) VAT,
+			      SUM(S.VAT) VAT,
+			      SUM(S.NTIC_AMT) NTIC_AMT,
 			      MAX(S.VAT_YN) VAT_YN,
 			      MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
 			      MAX(S.SANCTN_STTUS) SANCTN_STTUS,
@@ -908,7 +917,7 @@
 			    ) A
 			  ) Z
     </select>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectTaxNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
 			FROM
@@ -1055,20 +1064,7 @@
 			    ) A
 			  ) Z
     </select>
-    
-    
-    <update id="gamCmmnCntrRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S">
-        UPDATE LEV_REQEST_F SET
-		     RM     = #rm#
-		     , UPD_USR      = #updUsr#
-		     , UPDT_DT      = SYSDATE
-		WHERE  NTIC_CNT     = #nticCnt#
-		AND    PRT_AT_CODE  = #prtAtCode#
-		AND    MNG_YEAR     = #mngYear#
-		AND    MNG_NO       = #mngNo#
-		AND    MNG_CNT      = #mngCnt#
-    </update>
-    
+
      <select id="gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailList_D" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
            SELECT ROWNUM RNUM, A.*
            FROM (
@@ -1077,6 +1073,7 @@
 				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
 				       , L.FCLTY_SE
 				       , L.CHRGE_KND
+				       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
 				       , L.ENTRPSCD
 				       , L.ENTRPS_NM
 				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
@@ -1133,7 +1130,7 @@
                 ORDER BY L.NTIC_CNT ASC, L.NTIC_DT ASC
              ) A
     </select>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
 		SELECT
 				L.PRT_AT_CODE
@@ -1196,7 +1193,7 @@
 	       AND L.MNG_CNT = #mngCnt#
 	       AND L.NTIC_CNT = #nticCnt#
     </select>
-    
+
     <select id="gamCmmnCntrRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S" parameterClass="gamCmmnCntrRentFeeMngtVO" resultClass="egovMap">
          SELECT
                  COUNT(*) SUM_CNT
@@ -1221,6 +1218,16 @@
 	       AND L.MNG_CNT = #mngCnt#
 	       GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT
     </select>
-    
-    
+
+    <update id="gamCmmnCntrRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S">
+        UPDATE LEV_REQEST_F SET
+		     RM     = #rm#
+		     , UPD_USR      = #updUsr#
+		     , UPDT_DT      = SYSDATE
+		WHERE  NTIC_CNT     = #nticCnt#
+		AND    PRT_AT_CODE  = #prtAtCode#
+		AND    MNG_YEAR     = #mngYear#
+		AND    MNG_NO       = #mngNo#
+		AND    MNG_CNT      = #mngCnt#
+    </update>
 </sqlMap>

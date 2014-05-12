@@ -261,7 +261,8 @@ public class GamCmmnCntrRentFeeMngtVO extends ComDefaultVO {
     /** 고지액(합계) */
     private String sumNticAmt;
 
-
+    private String sumArrrgAmt;
+    
     /******* 세입징수 ********/
 
     /** 회계 구분 코드 */
@@ -1004,14 +1005,14 @@ public class GamCmmnCntrRentFeeMngtVO extends ComDefaultVO {
 	 * @return the sumArrrgAmt
 	 */
 	public String getSumArrrgAmt() {
-		return sumNhtIsueAmt;
+		return sumArrrgAmt;
 	}
 
 	/**
 	 * @param sumArrrgAmt the sumArrrgAmt to set
 	 */
 	public void setSumArrrgAmt(String sumArrrgAmt) {
-		this.sumNhtIsueAmt = sumNhtIsueAmt;
+		this.sumArrrgAmt = sumArrrgAmt;
 	}
 
 	/**

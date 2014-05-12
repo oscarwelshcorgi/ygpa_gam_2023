@@ -162,6 +162,7 @@ public class GamAssetRentFeeMngtController {
     	map.put("sumArrrgAmt", resultSum.getSumArrrgAmt());
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
+    	map.put("sumNhtIsueAmt", resultSum.getSumNhtIsueAmt());
 
     	return map;
     }

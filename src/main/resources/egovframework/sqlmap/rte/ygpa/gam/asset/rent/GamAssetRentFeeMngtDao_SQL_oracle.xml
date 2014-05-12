@@ -3,7 +3,7 @@
 
 <sqlMap namespace="ygpa.gam.asset.rent">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetRentFeeMngtVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO"/>
 
@@ -60,7 +60,7 @@
 
 
     <select id="gamAssetRentFeeMngtDao.selectAssetRentFeeList_D" parameterClass="gamAssetRentFeeMngtVO" resultClass="egovMap">
-    	SELECT Z.* FROM (
+		SELECT Z.* FROM (
            SELECT ROWNUM RNUM, A.*
            FROM (
                    SELECT
@@ -72,12 +72,15 @@
                    	S.NTIC_CNT,
 			        S.ENTRPSCD,
 			        S.ENTRPS_NM,
+                   	MIN(S.PRT_AT_CODE_NM) PRT_AT_CODE_NM,
                    	MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
                    	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
                    	MAX(S.NTICNO) NTICNO,
                    	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
     				GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
+                   	SUM(S.VAT) VAT,
+                   	SUM(S.NTIC_AMT) NTIC_AMT,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
                    	SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
                    	SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
@@ -247,7 +250,7 @@
     </select>
 
     <select id="gamAssetRentFeeMngtDao.selectAssetRentFeeListTotCnt_S" parameterClass="gamAssetRentFeeMngtVO" resultClass="int">
-            SELECT COUNT(*) totcnt FROM
+           SELECT COUNT(*) totcnt FROM
             	(SELECT *
               FROM ASSETS_RENT_F A, LEV_REQEST_F L
              WHERE A.QUAY_GROUP_CD='P'
@@ -338,7 +341,7 @@
     </select>
 
     <select id="gamAssetRentFeeMngtDao.selectAssetRentFeeSum_S" parameterClass="gamAssetRentFeeMngtVO" resultMap="gamAssetRentFeeSumMap">
-         SELECT
+        SELECT
                  COUNT(*) SUM_CNT
                , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
                    	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
@@ -441,7 +444,7 @@
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
 		     , NTIC_PD_FROM = TO_DATE(#nticPdFrom#,'YYYY-MM-DD')
-		     , NTIC_PD_TO = TO_DATE(#nticPdTo#,'YYYY-MM-DD')
+		     , NTIC_PD_TO 	= TO_DATE(#nticPdTo#,'YYYY-MM-DD')
 		     , ACCNUT_YEAR  = #accnutYear#
 		     , NTICNO       = #nticno#
 		     , NTIC_DT      = TO_DATE(#nticDt#,'YYYY-MM-DD')
@@ -594,13 +597,13 @@
 		                          , #accnutSeCd#
 		                          , #entrpscd#
 		                          , #nticAmt#
-		                          , REPLACE(#nticDt#,'-','')
+		                          , TO_DATE(#nticDt#,'YYYY-MM-DD')
 		                          , #nhtIsueYn#
 		                          , #computDtls#
-		                          , REPLACE(#payTmlmt#,'-','')
-		                          , REPLACE(#frstNticDt#,'-','')
+		                          , TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+		                          , TO_DATE(#frstNticDt#,'YYYY-MM-DD')
 		                          , #rcivTransfrSttusCd#
-		                          , REPLACE(#rcivDt#,'-','')
+		                          , TO_DATE(#rcivDt#,'YYYY-MM-DD')
 		                          , #rcivSe#
 		                          , #incpctyCd#
 		                          , #overrpayAmt#
@@ -609,11 +612,11 @@
 		                          , #dscntRsn#
 		                          , #dscntCd#
 		                          , #rcivSeNm#
-		                          , REPLACE(#fnncInsttRcivDt#,'-','')
+		                          , TO_DATE(#fnncInsttRcivDt#,'YYYY-MM-DD')
 		                          , #postNticEnnc#
 		                          , #npymnRsnCd#
 		                          , #elctrnNticResult#
-		                          , REPLACE(#elctrnNticInfoInqireDt#,'-','')
+		                          , TO_DATE(#elctrnNticInfoInqireDt#,'YYYY-MM-DD')
 		                          , #excclcYn#
 		                          , #vat#
 		                          , #vatYn#
@@ -629,8 +632,8 @@
 		                          , #orginlNticAccnutYear#
 		                          , #orginlNticNo#
 		                          , #elctrnTaxbilIsuYn#
-		                          , TO_CHAR(#beginDt#,'YYYY-MM-DD')
-		                          , REPLACE(#endDt#,'YYYY-MM-DD')
+		                          , TO_DATE(#beginDt#,'YYYY-MM-DD')
+		                          , TO_DATE(#endDt#,'YYYY-MM-DD')
 		                          , #nticMth#
 		                          , #regUsr#
 		                          , SYSDATE
@@ -726,7 +729,6 @@
                          )
     </insert>
 
-
 	<!--  고지서 출력  -->
     <select id="gamAssetRentFeeMngtDao.selectNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
@@ -785,7 +787,8 @@
 			      SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
 			      SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
 			      SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
-			      MAX(S.VAT) VAT,
+			      SUM(S.VAT) VAT,
+			      SUM(S.NTIC_AMT) NTIC_AMT,
 			      MAX(S.VAT_YN) VAT_YN,
 			      MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
 			      MAX(S.SANCTN_STTUS) SANCTN_STTUS,
@@ -915,8 +918,7 @@
 			  ) Z
     </select>
 
-
-<select id="gamAssetRentFeeMngtDao.selectTaxNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
+	<select id="gamAssetRentFeeMngtDao.selectTaxNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
 			FROM
 			  (SELECT ROWNUM RNUM,
@@ -1071,6 +1073,7 @@
 				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
 				       , L.FCLTY_SE
 				       , L.CHRGE_KND
+				       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
 				       , L.ENTRPSCD
 				       , L.ENTRPS_NM
 				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
