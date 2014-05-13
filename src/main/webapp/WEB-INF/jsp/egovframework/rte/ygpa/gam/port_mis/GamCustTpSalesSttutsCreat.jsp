@@ -587,8 +587,8 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            </td>
 		                            <th>조회업체</th>
 		                            <td>
-	                                    <input type="text" size="8" id="entrpscd" maxlength="10"/>
-	                                    <input type="text" size="22" id="entrpsNm" disabled/>
+	                                    <input type="text" size="8" id="sEntrpscd" data-column-id="sEntrpscd" maxlength="10"/>
+	                                    <input type="text" size="22" id="sEntrpsNm" disabled/>
 	                                    <button id="popupEntrpsInfo" class="popupButton">선택</button>
 		                            </td>
 								</tr>
