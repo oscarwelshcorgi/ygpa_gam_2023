@@ -612,7 +612,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     this.doAction('<c:url value="/oper/cntnr/gamInsertCntnrQuayRentMngtRenew.do" />', rows[0], function(module, result) {
 
                         if(result.resultCode=='0') {
-                        	this.loadData();
+                        	module.loadData();
                         }
 
                         alert(result.resultMsg);
@@ -743,7 +743,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     this.doAction('<c:url value="/oper/cntnr/gamDeleteCntnrQuayRentMngt.do" />', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
-                        	this.loadData();
+                        	module.loadData();
                         }
 
                         alert(result.resultMsg);
@@ -768,7 +768,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             this.doAction('<c:url value="/oper/cntnr/gamUpdateCntnrQuayRentMngtComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
-                	this.loadData();
+                	module.loadData();
                 }
 
                 alert(result.resultMsg);
@@ -1053,8 +1053,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/oper/cntnr/gamUpdateCntnrQuayRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        	 module.loadData();
                         }
 
                         alert(result.resultMsg);
