@@ -160,11 +160,8 @@ GamAssetTotalRentfeeInqireModule.prototype.onClosePopup = function(popupId, msg,
 	       
 	   case 'selectAssetsCdRentPopup':
            if (msg != 'cancel') {
-               this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
-               this.$('#gisAssetsCd').val(value.gisAssetsCd);
-               this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
-               this.$('#gisAssetsNm').val(value.gisAssetsNm);
-               this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd); 
+               this.$('#sGisAssetsCd').val(value.gisAssetsCd);
+               this.$('#sGisAssetsSubCd').val(value.gisAssetsSubCd);
            } else {
                alert('취소 되었습니다');
            }
@@ -231,9 +228,9 @@ var module_instance = new GamAssetTotalRentfeeInqireModule();
                             </td>
                             <th>자산코드</th>
                             <td>
-                                <input id="searchAssetsCd" type="text" size="3">&nbsp;-&nbsp; 
-                                <input id="searchAssetsSubCd" type="text" size="3">&nbsp; &nbsp;
-                                <button id="searchPopupBtn" class="popupButton">선택</button>
+                                <input id="sGisAssetsCd" type="text" size="3">&nbsp;-&nbsp; 
+                                <input id="sGisAssetsSubCd" type="text" size="3">&nbsp; &nbsp;
+                                <button id="popupFcltyCd" class="popupButton">선택</button>
                             </td>
                             <th>사용업체</th>
                             <td>

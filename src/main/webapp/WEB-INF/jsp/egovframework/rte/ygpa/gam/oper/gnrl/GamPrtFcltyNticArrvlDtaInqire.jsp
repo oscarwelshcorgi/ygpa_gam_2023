@@ -1141,9 +1141,9 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                             </td>
                             <th>관리번호</th>
                             <td>
-                                <input id="sMngYear" type="text" size="4">&nbsp;-&nbsp;
-                                <input id="sMngNo" type="text" size="4">&nbsp;-&nbsp;
-                                <input id="sMngCnt" type="text" size="4">
+                                <input id="sMngYear" type="text" class="mngYear">
+                                <input id="sMngNo" type="text" class="mngNo">
+                                <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>신청업체</th>
                             <td>

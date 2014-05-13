@@ -1143,8 +1143,9 @@ var module_instance = new GamCmmnCntrUseExprInqireModule();
                             </td>
                             <th>관리번호</th>
                             <td>
-                                <!-- <input id="sMngYear" type="text" style="width:30px">-<input id="sMngNo" type="text" style="width:23px">-<input id="sMngCnt" type="text" style="width:15px"> -->
-                                <input id="sMngYear" type="text" size="4"> <input id="sMngNo" type="text" size="4"> <input id="sMngCnt" type="text" size="4">
+                                <input id="sMngYear" type="text" class="mngYear">
+                                <input id="sMngNo" type="text" class="mngNo">
+                                <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>신청업체</th>
                             <td>
