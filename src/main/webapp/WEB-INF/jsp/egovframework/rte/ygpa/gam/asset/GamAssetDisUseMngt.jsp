@@ -279,7 +279,7 @@ var module_instance = new GamAssetDisUseMngtModule();
 								<th>폐기여부</th>
 								<td><input id="searchErpAssetsDisuseRegistYn" data-column-id="erpAssetsDisuseRegistYn" type="text" class="ygpaYnSelect" data-default-prompt='전체' /></td>
 								<th>자산코드</th>
-								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
+								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" style="text-transform: uppercase;">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
 								<td rowSpan="3"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
 							</tr>
 							<tr>

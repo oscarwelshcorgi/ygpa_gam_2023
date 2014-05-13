@@ -336,3 +336,14 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
 	.page-break	{ display: block; page-break-before: always; }
 }
 
+ input.mngYear {
+ 	width: 40px;
+ }
+
+ input.mngNo {
+ 	width: 30px;
+ }
+
+ input.mngCnt {
+ 	width: 20px;
+ }
