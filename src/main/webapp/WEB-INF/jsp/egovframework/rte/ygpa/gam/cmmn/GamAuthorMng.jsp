@@ -192,15 +192,15 @@ var module_instance = new GamAuthorMngModule();
 					<table class="searchPanel">
 						<tr>
 							<th width="20%" height="23" class="required_text">권한코드</th>
-							<td><input type="text" size="80" id="authorCode" maxlength="30" data-required="true"/></td>
+							<td><input type="text" size="92" id="authorCode" maxlength="30" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">권한명</th>
-							<td><input type="text" size="80" id="authorNm" maxlength="60"data-required="true"/></td>
+							<td><input type="text" size="92" id="authorNm" maxlength="60"data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">설명</th>
-							<td><input type="text" size="80" id="authorDc" maxlength="200" /></td>
+							<td><input type="text" size="92" id="authorDc" maxlength="200" /></td>
 						</tr>
 					</table>
 				</form>
