@@ -339,6 +339,8 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
 				EMD.gis.selectPrtFclty(this._fcltyItem);
+			} else {
+				alert("시설위치가 등록되지 않았습니다.");
 			}
 			break;
 		// 파일 업로드
