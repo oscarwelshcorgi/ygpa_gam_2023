@@ -472,7 +472,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
 				this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
-			}	
+			}
 			break;
 		}
 	};
@@ -532,13 +532,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			throw 0;
 			break;
-			
-		
-		}
-		
 
-		
-		
+
+		}
+
+
+
+
 	};
 
 	/*
@@ -674,7 +674,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			<div id="tabs1" class="emdTabPage fillHeight" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-style="default">맵조회</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->

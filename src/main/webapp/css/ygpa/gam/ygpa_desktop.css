@@ -347,3 +347,12 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
  input.mngCnt {
  	width: 20px;
  }
+
+ input.gisAssetsCd {
+ 	width: 30px;
+ 	text-transform: uppercase
+}
+
+ input.gisAssetsSubCd {
+ 	width: 20px;
+ }

@@ -130,6 +130,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length>0) {
 					this.lotcode += "-"+this.gisAssetsLnmSub;
 				}
+				this.assetCodeObj = {gisAssetsPrtAtcode: this.gisAssetsPrtAtcode, gisAssetsCd: this.gisAssetsCd, gisAssetsSubCd: this.gisAssetsSubCd};	// for show map
 			});
 			return data;
 		}
@@ -239,7 +240,7 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 	this.$('#erpAssetsNoSeq').val(this.$('#searchGisAssetErpAssetsNoSeq').val());
 	this.$('#erpAssetsCls').readonly(false);
 	this.$('#erpAssetsNo').readonly(false);
-	this.$('#erpAssetsNoSeq').readonly(false)
+	this.$('#erpAssetsNoSeq').readonly(false);
 
 	this.$('#itemName').val(this._itemNameAsset);
 	this.$('#itemName').disable();
@@ -325,17 +326,8 @@ GamAssetCodeModule.prototype.saveGisAssetPhotoItem = function() {
 GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'selectErpAssetCode':
-		/* if(this.$('#searchAssetCls').val()=='') {
-			alert('자산구분을 선택 하세요');
-			this.$('#searchAssetCls').addClass('ui-state-error');
-			return;
-		}
-		else {
-			this.$('#searchAssetCls').removeClass('ui-state-error');
-		} */
 		var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	 	this.$('#erpAssetCodeList').flexOptions({params:searchOpt}).flexReload();
-	 	// throw 0;
 		break;
 
 	case 'selectGisAssetCode':
@@ -353,7 +345,6 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-	 	// throw 0;
 		break;
 	case 'selectAddr':
         this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', opts);
@@ -535,9 +526,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.saveGisAssetPhotoItem();
 		break;
 	case 'popupFcltyCd':
-        var opts;
-
-        this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+        this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', []);
 		break;
 	}
 };
@@ -799,8 +788,8 @@ var module_instance = new GamAssetCodeModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap" data-flexi-grid="assetCodeList" data-gis-layer="gisAssetsCd">맵조회</button>
-					<button id="btnAddGisMap">위치등록</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCodeObj" data-style="default">맵조회</button>
+					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCode">위치등록</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
@@ -820,7 +809,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">항구분</span></th>
 						<td>
-							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-required='true' data-code-id='GAM019' data-column-label-id='prtAtCodeNm'' data-display-value='N'  disabled="disabled" size="3"/>
+							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-required='true' data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-value='N'  disabled="disabled" size='3' />
 						</td>
 						<th><span class="label">자산코드</span></th>
 						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
