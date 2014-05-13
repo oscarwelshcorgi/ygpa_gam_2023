@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireVO;
 
 /**

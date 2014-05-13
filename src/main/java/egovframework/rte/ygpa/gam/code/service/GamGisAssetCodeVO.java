@@ -134,12 +134,14 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 
     /** 관리부서 */
     private String mngDeptCd;
-    
+
     /** GIS 자산 코드(조회조건) */
     private String sGisAssetsCd;
 
     /** GIS 자산 명(조회조건) */
     private String sGisAssetsNm;
+
+    private String gisAssetsBupjungdongCd;
 
 	/**
 	 * @return the gisAssetsSubCd
@@ -707,6 +709,14 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 	 */
 	public void setMngDeptCd(String mngDeptCd) {
 		this.mngDeptCd = mngDeptCd;
+	}
+
+	public String getGisAssetsBupjungdongCd() {
+		return gisAssetsBupjungdongCd;
+	}
+
+	public void setGisAssetsBupjungdongCd(String gisAssetsBupjungdongCd) {
+		this.gisAssetsBupjungdongCd = gisAssetsBupjungdongCd;
 	}
 
 }

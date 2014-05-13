@@ -71,7 +71,7 @@
 					#registdt#,
 					#updUsr#,
 					#updtdt#,
-					#gisAssetsBupjungdongCd#
+					#gisAssetsBupjungdongCd#,
 					#gisAssetsQuayGroupCd#,
 					#gisAssetsLocCd#,
 					#gisAssetsSeCd#,
@@ -434,6 +434,5 @@
 					GIS_ASSETS_LNM_SUB = #lnmSub#
 				</isNotEmpty>
 	</select>
-
 
 </sqlMap>

@@ -271,6 +271,8 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 
 	    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
+	    if(this._deleteDataList==undefined || this._deleteDataList==null) this._deleteDataList=[];
+
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
 
 	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetCodeMngt.do" />', inputVO, function(module, result) {
