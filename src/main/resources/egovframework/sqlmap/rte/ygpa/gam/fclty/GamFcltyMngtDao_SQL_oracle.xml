@@ -107,6 +107,8 @@
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchAssetsCd">
 	           				AND F.GIS_ASSETS_CD = #searchAssetsCd#
+	           			</isNotEmpty>
+		                <isNotEmpty property="searchAssetsSubCd">
 	           				AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchFcltyCd">
@@ -141,6 +143,8 @@
            	</isNotEmpty>
 	        <isNotEmpty property="searchAssetsCd">
            		AND F.GIS_ASSETS_CD = #searchAssetsCd#
+           	</isNotEmpty>
+	        <isNotEmpty property="searchAssetsSubCd">
            		AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
            	</isNotEmpty>
 	        <isNotEmpty property="searchFcltyCd">
