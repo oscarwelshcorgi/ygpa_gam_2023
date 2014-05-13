@@ -768,7 +768,6 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             this.doAction('<c:url value="/oper/cntnr/gamUpdateCntnrQuayRentMngtComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
-                	module.loadData();
                 }
 
                 alert(result.resultMsg);

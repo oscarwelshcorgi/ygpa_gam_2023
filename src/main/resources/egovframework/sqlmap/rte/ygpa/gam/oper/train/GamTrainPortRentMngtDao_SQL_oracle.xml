@@ -720,7 +720,7 @@
                                            , USAGE_AR
 		                                 )
 		                          VALUES (
-		                                     ( SELECT NVL(MAX(ASSETS_USAGE_SEQ),0) + 1
+		                                     ( SELECT NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1
 											     FROM ASSETS_RENT_DETAIL_F
 											    WHERE MNG_YEAR    = #detailMngYear#
 											      AND MNG_NO      = #detailMngNo#
@@ -1011,7 +1011,7 @@
     <insert id="gamTrainPortRentMngtDao.insertTrainPortRentMngtDetailRenew_S">
 	    <selectKey keyProperty="maxAssetsUsageSeq" resultClass="int">
 	       SELECT
-	              (NVL(MAX(ASSETS_USAGE_SEQ),0) + 1) MAX_ASSETS_USAGE_SEQ
+	              (NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1) MAX_ASSETS_USAGE_SEQ
              FROM ASSETS_RENT_DETAIL_F
             WHERE MNG_YEAR    = #mngYear#
               AND MNG_NO      = #mngNo#
