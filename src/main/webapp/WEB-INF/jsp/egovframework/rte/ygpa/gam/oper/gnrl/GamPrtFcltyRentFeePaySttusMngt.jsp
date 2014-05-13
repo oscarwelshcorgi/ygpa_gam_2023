@@ -347,17 +347,17 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                         	<th style="width: 100px"><span class="label">항구분</span></th>
                             <td style="width: 180px"><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
                             <th style="width: 100px"><span class="label">회계년도</span></th>
-                            <td style="width: 60px"><span data-column-id="accnutYear"></span></td>
-                            <th style="width: 60px"><span class="label">횟수</span></th>
-                            <td style="width: 60px"><span data-column-id="nticCnt"></span></td>
+                            <td style="width: 80px"><span data-column-id="accnutYear"></span></td>
+                            <th style="width: 60px"><span class="label">고지횟수</span></th>
+                            <td style="width: 80px"><span data-column-id="nticCnt"></span></td>
                             <th style="width: 100px"><span class="label">고지번호</span></th>
-                            <td style="width: 180px"><span data-column-id="nticno"></span></td>
+                            <td style="width: 160px"><span data-column-id="nticno"></span></td>
                         </tr>
                         <tr>
-                        	<th><span class="label">업체</span></th>
-                            <td><span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)</td>
-                        	<th><span class="label">요금</span></th>
-                            <td colspan="3"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+                        	<th><span class="label">요금종류</span></th>
+                            <td><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+                        	<th><span class="label">고지업체</span></th>
+                            <td colspan="3"><span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)</td>
                         	<th><span class="label">고지금액</span></th>
                             <td style="text-align:right;"><span data-column-id="nticAmt" class="ygpaNumber"></span> 원</td>
                         </tr>
