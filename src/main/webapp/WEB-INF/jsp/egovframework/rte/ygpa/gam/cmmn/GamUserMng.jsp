@@ -379,41 +379,41 @@ var module_instance = new GamUserMngListModule();
 			            <tr>
 			                <th width="15%" height="23">사용자 아아디</th>
 			                <td colspan="3">
-			                    <input id="emplyrId" title="사용자아이디" size="20" maxlength="20" />
-			                    &nbsp;&nbsp;<button id="checkUserId">중복아이디 검색</button>
-			                    &nbsp;&nbsp;<button id="inputUserId">아이디 입력</button>
+			                    <input id="emplyrId" title="사용자아이디" size="48" maxlength="20" />
+			                    &nbsp; &nbsp;<button id="checkUserId">중복아이디 검사</button>
+			                    &nbsp; &nbsp;<button id="inputUserId">아이디 입력</button>
 			                </td>
 			            </tr>
 			            <tr>
 			                <th width="15%" height="23">사용자이름</th>
 			                <td width="35%">
-			                    <input id="emplyrNm" title="사용자이름" type="text" size="20" maxlength="60"  data-required="true" />
+			                    <input id="emplyrNm" title="사용자이름" type="text" size="48" maxlength="60"  data-required="true" />
 			                </td>
 			                <th width="15%" height="23">집전화번호</th>
 			                <td width="35%">
-			                    <input id="areaNo" title="areaNo" size="4" maxlength="4" />
-			                    - <input title="homemiddleTelno" id="homemiddleTelno" size="4" maxlength="4" />
-			                    - <input title="homeendTelno" id="homeendTelno" size="4" maxlength="4" />
+			                    <input id="areaNo" title="areaNo" size="5" maxlength="4" />
+			                    - <input title="homemiddleTelno" id="homemiddleTelno" size="5" maxlength="4" />
+			                    - <input title="homeendTelno" id="homeendTelno" size="5" maxlength="4" />
 			                </td>
 			            </tr>
 			            <tr id="tdpassword">
 			                <th width="15%" height="23">비밀번호</th>
 			                <td width="35%" >
-			                    <input type="password" id="password" title="비밀번호" size="20" maxlength="20" data-required="true"/>
+			                    <input type="password" id="password" title="비밀번호" size="48" maxlength="20" data-required="true"/>
 			                </td>
 			                <th width="15%" height="23" class="required_text">비밀번호확인</th>
 			                <td width="35%" >
-			                    <input id="password2" title="비밀번호확인" type="password" size="20" maxlength="20"  data-required="true" />
+			                    <input id="password2" title="비밀번호확인" type="password" size="48" maxlength="20"  data-required="true" />
 			                </td>
 			            </tr>
 			            <tr>
 			                <th width="15%" height="23" class="required_text">사무실전화번호&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <input id="offmTelno" title="사무실전화번호" size="20" maxlength="15" />
+			                    <input id="offmTelno" title="사무실전화번호" size="48" maxlength="15" />
 			                </td>
 			                <th width="15%" height="23">팩스번호&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <input id="fxnum" title="팩스번호" size="20" maxlength="15" />
+			                    <input id="fxnum" title="팩스번호" size="48" maxlength="15" />
 			                </td>
 			            </tr>
 			            <tr>
@@ -427,19 +427,19 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			                <th width="15%" height="23" class="required_text">핸드폰번호&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <input id="moblphonNo" title="핸드폰번호" size="20" maxlength="15" />
+			                    <input id="moblphonNo" title="핸드폰번호" size="48" maxlength="15" />
 			                </td>
 			            </tr>
 			            <tr>
 			                <th width="15%" height="23">비밀번호정답</th>
 			                <td width="35%" >
-			                    <input id="passwordCnsr" title="비밀번호정답" size="50" maxlength="100"  data-required="true" />
+			                    <input id="passwordCnsr" title="비밀번호정답" size="48" maxlength="100"  data-required="true" />
 			                </td>
 			                <th width="15%" height="23">
 			                    이메일주소
 			                </th>
 			                <td width="35%">
-			                    <input id="emailAdres" title="이메일주소" size="20" maxlength="50" />
+			                    <input id="emailAdres" title="이메일주소" size="48" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>
@@ -455,7 +455,8 @@ var module_instance = new GamUserMngListModule();
 			                    우편번호
 			                </th>
 			                <td width="35%" >
-			                    <input id="zip" type="text" title="우편번호" size="20" disabled="disabled"/>&nbsp;&nbsp;<button id="searchZipBtn">우편번호 검색</button>
+			                    <input id="zip" type="text" title="우편번호" size="27" disabled="disabled"/>&nbsp;&nbsp;
+			                    <button id="searchZipBtn">우편번호 검색</button>
 			                </td>
 			            </tr>
 			            <tr>
@@ -471,23 +472,23 @@ var module_instance = new GamUserMngListModule();
 			                    주소
 			                </th>
 			                <td width="35%" >
-			                    <input id="homeadres" title="주소" size="40" maxlength="100" />
+			                    <input id="homeadres" title="주소" size="48" maxlength="100" />
 			                </td>
 			            </tr>
 			            <tr>
 			                <th width="15%" height="23" class="required_text">직위명&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <input id="ofcpsNm" title="직위명" size="20" maxlength="50" />
+			                    <input id="ofcpsNm" title="직위명" size="48" maxlength="50" />
 			                </td>
 			                <th width="15%" height="23" class="required_text">상세주소&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <input id="detailAdres" title="상세주소" size="40" maxlength="50" />
+			                    <input id="detailAdres" title="상세주소" size="48" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>
 			                <th width="15%" height="23" class="required_text">사번&nbsp;&nbsp;</th>
 			                <td width="35%" >
-			                    <input id="emplNo" title="사번" size="20" maxlength="20" />
+			                    <input id="emplNo" title="사번" size="48" maxlength="20" />
 			                </td>
 			                <th width="15%" height="23" class="required_text">
 			                    그룹아이디
