@@ -462,11 +462,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						</td>
 					</tr> -->
 				</table>
+				<!--
 				<div style="vertical-align: bottom; text-align: right;">
 					<button id="btnAddGisMap">위치조회</button>
 				</div>
+				-->
 				</form>
-							</div>
+			</div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
 				<table id="assetCodePhotoList" style="display:none"></table>
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
