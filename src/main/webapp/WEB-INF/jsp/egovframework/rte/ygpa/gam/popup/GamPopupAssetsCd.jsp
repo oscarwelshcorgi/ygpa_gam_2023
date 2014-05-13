@@ -46,11 +46,11 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 					{display:"자산명", 					name:"gisAssetsNm", 		width:120, 	sortable:true, align:"center"},
 					{display:"소재지", 					name:"gisAssetsLocplc", 	width:180, 	sortable:true, align:"center"},
 					{display:"사용여부",					name:"gisAssetsUsageYn",	width:80, 	sortable:true, align:"center"}
-					//{display:"지번", 					name:"gisAssetsLnm", 		width:40, 	sortable:true, align:"center"}
 					],
 		height: '300',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
+				if(this.gisAssetsLocplc==null) this.gisAssetsLocplc="";
 				if(this.gisAssetsLnm!=undefined && this.gisAssetsLnm!=null) this.gisAssetsLocplc+=" "+this.gisAssetsLnm;
 				if(this.gisAssetsLnmSub!=undefined && this.gisAssetsLnmSub!=null) {
 					this.gisAssetsLocplc = this.gisAssetsLocplc+"-"+this.gisAssetsLnmSub;
@@ -121,7 +121,7 @@ var popup_instance = new GamAssetCodePopupModule();
 		</form>
 	</div>
 	<div class="emdPanel fillHeight">
-		<table id="assetCodeList" style="display: none" class="fillHeight"></table>
+		<table id="assetCodeList" style="display: none"></table>
 		<div class="emdControlPanel">
 			<button id="btnOk">자산 선택</button>
 			<button id="cancel">취소</button>

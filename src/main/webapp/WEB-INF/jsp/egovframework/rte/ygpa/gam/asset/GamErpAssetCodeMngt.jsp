@@ -615,7 +615,12 @@ GamAssetCodeModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 	if(this._edited) {
 		return confirm('탭을 이동 하면 편집 한 내용이 저장 되지 않습니다. 계속 하시겠습니까?');
 	}
-}
+	if(newTabId=="tabs3" && this.$('#assetCodeList').selectedRowCount()!=1) {
+		alert('선택된 GIS 자산이 없습니다.');
+		return false;
+	}
+	return true;
+};
 
 /*
 GamAssetCodeModule.prototype.onUploadFileDone = function(uploadId, result) {
@@ -777,9 +782,9 @@ var module_instance = new GamAssetCodeModule();
 				</div>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab2Activate">
-								<table id="assetCodeList" style="display:none"></table>
+				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
+					<button id="loadMap" data-flexi-grid="assetCodeList" data-gis-layer="gisAssetsCd">맵조회</button>
 					<button id="btnAddGisMap">위치등록</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>

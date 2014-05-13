@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
@@ -50,9 +51,9 @@ public class GamPopupAssetsCdController {
      */
     @RequestMapping(value="/popup/selectAssetCodeList.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> selectAssetCodeList(GamPopupGisAssetsCdVO searchVO) throws Exception {
+		Map map = new HashMap();
 
-    	Map<String, Object> map = new HashMap<String, Object>();
-
+    	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -62,10 +63,14 @@ public class GamPopupAssetsCdController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		/** List Data */
 		List<?> gamAssetList = gamPopupGisAssetsCdService.selectGisAssetsCdList(searchVO);
 		int totalCnt = gamPopupGisAssetsCdService.selectGisAssetsCdListTotCnt(searchVO);
 
-    	map.put("resultCode", 0);	// return ok
+        paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", gamAssetList);
     	map.put("searchOption", searchVO);
