@@ -178,7 +178,7 @@
                                   , TO_CHAR(A.SANCTN_DT, 'YYYY-MM-DD HH24:MI:SS') SANCTN_DT
                                   , A.QUAY_GROUP_CD
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
-                                  , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) || '%' AS PAYINST_INTRRATE
+                                  , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
                                   , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM

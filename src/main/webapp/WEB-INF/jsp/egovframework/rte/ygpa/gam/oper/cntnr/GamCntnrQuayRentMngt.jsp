@@ -20,27 +20,27 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamCntnrQuayRentMngtVld" method="validateGamCntnrQuayRentMngtVld" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamCntnrQuayRentMngtDetailVld" method="validateGamCntnrQuayRentMngtDetailVld" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamCntnrQuayRentMngtPhotoVld" method="validateGamCntnrQuayRentMngtPhotoVld" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRent" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <!--
-<validator:javascript formName="gamCntnrQuayRentMngtVld" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamCntnrQuayRentMngtDetailVld" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamCntnrQuayRentMngtPhotoVld" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRent" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentDetail" staticJavascript="false" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentFile" staticJavascript="false" xhtml="true" cdata="false" />
  -->
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamCntnrQuayRentMngtModule() {}
+function GamAssetRentMngtModule() {}
 
-GamCntnrQuayRentMngtModule.prototype = new EmdModule(1000, 600);
+GamAssetRentMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
+GamAssetRentMngtModule.prototype.loadComplete = function() {
 
-	// 컨테이너부두임대 테이블 설정
-    this.$("#cntnrQuayRentMngtList").flexigrid({
+    // 자산임대 테이블 설정
+    this.$("#assetRentMngtList").flexigrid({
         module: this,
         url: '<c:url value="/oper/cntnr/gamSelectCntnrQuayRentMngtList.do" />',
         dataType: 'json',
@@ -62,7 +62,7 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
                     {display:'총사용료', name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'납부방법', name:'payMthNm',width:55, sortable:false,align:'center'},
-                    {display:'분납이자율', name:'payinstIntrrate',width:60, sortable:false,align:'center'},
+                    {display:'분납이자율', name:'payinstIntrrateDisp',width:60, sortable:false,align:'center'},
                     {display:'최초신청일자', name:'frstReqstDt',width:80, sortable:false,align:'center'},
                     {display:'최초승낙일자', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
                     {display:'결재일시', name:'sanctnDt',width:110, sortable:false,align:'center'},
@@ -98,20 +98,22 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
             module.$('#totalArea').val(data.sumGrAr);
             module.$('#totalUse').val(data.sumGrFee);
             module.$('#totalGrRdcxptFee').val(data.sumGrRdcxptFee);
+            $.each(data.resultList, function() {
+            	this.payinstIntrrateDisp = this.payinstIntrrate+ ' %';
+            });
 
             return data;
         }
     });
 
-	// 컨테이너부두임대상세 테이블 설정
-    this.$("#cntnrQuayRentMngtDetailList").flexigrid({
+    // 자산임대상세 테이블 설정
+    this.$("#assetRentDetailList").flexigrid({
         module: this,
         url: '<c:url value="/oper/cntnr/gamSelectCntnrQuayRentMngtDetailList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'순번', name:'assetsUsageSeq',width:30, sortable:false,align:'center'},
-                    {display:'항코드', name:'dtlPrtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'dtlPrtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
+                    {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'left'},
                     {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
@@ -119,13 +121,13 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'적용요율', name:'applcTariffNm',width:80, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSeNm',width:60, sortable:false,align:'center'}
+                    {display:'면제구분', name:'exemptSeNm',width:60, sortable:false,align:'center'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'}
 
                     /*
                     {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
                     {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
                     {display:'지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
                     {display:'지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
                     {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
@@ -165,7 +167,7 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
     });
 
     // 첨부파일 테이블 설정
-    this.$("#cntnrQuayRentMngtFileList").flexigrid({
+    this.$("#assetRentFileList").flexigrid({
         module: this,
         url: '<c:url value="/oper/cntnr/gamSelectCntnrQuayRentMngtFileList.do" />',
         dataType: 'json',
@@ -190,16 +192,16 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
         height: '160'
     });
 
-    this.$("#cntnrQuayRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
+    this.$("#assetRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
         module.$('#cmd').val('modify');
 
-        module.$('#gamCntnrQuayRentMngtForm :input').val('');
+        module.$('#gamAssetRentForm :input').val('');
 
-        module.makeFormValues('#gamCntnrQuayRentMngtForm', row);
-        module._editData=module.getFormValues('#gamCntnrQuayRentMngtForm', row);
-        module._editRow=module.$('#cntnrQuayRentMngtList').selectedRowIds()[0];
+        module.makeFormValues('#gamAssetRentForm', row);
+        module._editData=module.getFormValues('#gamAssetRentForm', row);
+        module._editRow=module.$('#assetRentMngtList').selectedRowIds()[0];
 
-      //해당하는 컨테이너부두임대상세 목록과 파일목록를 불러온다.
+        //해당하는 자산임대상세 목록과 파일목록를 불러온다.
         module.$('#detailPrtAtCode').val(row['prtAtCode']);
         module.$('#prtAtCodeStr').val(row['prtAtCode']);
         module.$('#detailMngYear').val(row['mngYear']);
@@ -211,26 +213,26 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
             module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
         }
 
-        var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-        module.$('#cntnrQuayRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
-        module.$('#cntnrQuayRentMngtFileList').flexOptions({params:searchOpt}).flexReload();
+        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+        module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
+        module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
 
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
-    this.$("#cntnrQuayRentMngtDetailList").on('onItemSelected', function(event, module, row, grid, param) {
+    this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
-        module.$('#gamCntnrQuayRentMngtDetailForm :input').val('');
+        module.$('#gamAssetRentDetailForm :input').val('');
 
-        module.makeFormValues('#gamCntnrQuayRentMngtDetailForm', row);
-        module._editData=module.getFormValues('#gamCntnrQuayRentMngtDetailForm', row);
-        module._editRow=module.$('#cntnrQuayRentMngtDetailList').selectedRowIds()[0];
+        module.makeFormValues('#gamAssetRentDetailForm', row);
+        module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
+        module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
     });
 
-    this.$("#cntnrQuayRentMngtFileList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamCntnrQuayRentMngtFileForm', row);
-        module._editDataFile=module.getFormValues('#gamCntnrQuayRentMngtFileForm', row);
-        module._editRowFile=module.$('#cntnrQuayRentMngtFileList').selectedRowIds()[0];
+    this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
+        module.makeFormValues('#gamAssetRentFileForm', row);
+        module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
+        module._editRowFile=module.$('#assetRentFileList').selectedRowIds()[0];
 
         if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
             // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
@@ -248,14 +250,14 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
         }
     });
 
-    this.$("#cntnrQuayRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 1});
+    this.$("#assetRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+        module.$("#assetRentListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
-        module.$('#gamCntnrQuayRentMngtForm :input').val('');
+        module.$('#gamAssetRentForm :input').val('');
 
-        module.makeFormValues('#gamCntnrQuayRentMngtForm', row);
-        module._editData=module.getFormValues('#gamCntnrQuayRentMngtForm', row);
-        module._editRow=module.$('#cntnrQuayRentMngtList').selectedRowIds()[0];
+        module.makeFormValues('#gamAssetRentForm', row);
+        module._editData=module.getFormValues('#gamAssetRentForm', row);
+        module._editRow=module.$('#assetRentMngtList').selectedRowIds()[0];
 
         if(row!=null) {
             module.$('#cmd').val('modify');
@@ -264,12 +266,14 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
-    this.$("#cntnrQuayRentMngtDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 2});
-        module.$('#gamCntnrQuayRentMngtDetailForm :input').val('');
-        module.makeFormValues('#gamCntnrQuayRentMngtDetailForm', row);
-        module._editData=module.getFormValues('#gamCntnrQuayRentMngtDetailForm', row);
-        module._editRow=module.$('#cntnrQuayRentMngtDetailList').selectedRowIds()[0];
+    this.$("#assetRentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+        module.$("#assetRentListTab").tabs("option", {active: 2});
+        module.$('#gamAssetRentDetailForm :input').val('');
+        module.makeFormValues('#gamAssetRentDetailForm', row);
+        module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
+        module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
+
+        module.loadOlnlpList(row);
 
         if(row!=null) {
             module.$('#detailCmd').val('modify');
@@ -279,11 +283,6 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
     // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
     this.$('#prtAtCode').on('change', {module: this}, function(event) {
         event.data.module.$('#prtAtCodeStr').val($(this).val());
-        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
-    });
-
-    this.$('#olnlpList').on('change', {module: this}, function(event) {
-        event.data.module.$('#olnlp').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
     });
 
@@ -314,7 +313,7 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
         }
     });
 
-    this.$('.calcInput').on('change', {module: this}, function(event) {
+    this.$('.calcInput').on('change keyup', {module: this}, function(event) {
         var m = event.data.module;
         m.onCalc();
     });
@@ -356,10 +355,10 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
     });
 
 	var today = new Date();
-	
+
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
-	
+
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
@@ -369,9 +368,9 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
 		serchday = "0" + serchday;
 	}
 	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
-	
+
 	today.setMonth(today.getMonth() - 3);
-	
+
 	serchYr = today.getFullYear();
 	serchMn = today.getMonth() + 1;
 	if(serchMn < 10){
@@ -381,21 +380,19 @@ GamCntnrQuayRentMngtModule.prototype.loadComplete = function() {
 	if(serchday < 10){
 		serchday = "0" + serchday;
 	}
-	
+
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
 
 	this.$("#sGrUsagePdFrom").val(searchStartDate);
 	this.$("#sGrUsagePdTo").val(searchEndDate);
-    
+
 };
 
-
-GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
-
+GamAssetRentMngtModule.prototype.onCalc = function() {
+	console.debug('calc start');
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
     ) {
-
         var calFee      = 0;  //계산된 사용료
         var olnlp       = 0;  //공시지가
         var usageAr     = 0;  //사용면적
@@ -410,39 +407,21 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
         var exemptCnt   = 0;      // 면제일수
         var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
 
-        olnlp = Number(this.$('#olnlp').val());
-        usageAr = Number(this.$('#usageAr').val());
-        //applcTariff = Number(this.$('#applcTariff').val());
-        applcTariffStr = Number(this.$('#applcTariff').val());
-        //rdcxptFee = Number(this.$('#rdcxptFee').val());
+        olnlp = this.$('#olnlp').number(true).val();
+        usageAr = Number(this.$('#usageAr').number(true).val());
+        applcTariff = Number(this.$('#applcTariff').number(true).val());
+        applcTariffStr = this.$('#applcTariff').getSelectedCodeLabel();
         usagePdFrom = this.$('#usagePdFrom').val();
         usagePdTo = this.$('#usagePdTo').val();
         exemptPdFrom = this.$('#exemptPdFrom').val();
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
 
-
-        if( applcTariffStr == '0' ) {
-            this.$('#computDtls').val('');
-            return;
-        } else if( applcTariffStr == '1' ) {
-            applcTariff = 0.05;
-            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
-        } else if( applcTariffStr == '2' ) {
-            applcTariff = 0.025;
-            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
-        } else if( applcTariffStr == '3' ) {
-            applcTariff = 0.01;
-            this.$('#computDtls').val('사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 - 감면사용료');
-        }
-
         if( exemptSe == '1' ) {        // 일부면제
               if( this.$('#exemptPdFrom').val() == '' ) {
-                  alert("일부 면제의 경우 면제기간(시작)을 선택하십시오.");
                   return;
               }
               if( this.$('#exemptPdTo').val() == '' ) {
-                  alert("일부 면제의 경우 면제기간(종료)을 선택하십시오.");
                   return;
               }
         }
@@ -450,95 +429,40 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
         if( exemptSe == '0' ) {               // 면제없음.
             rdcxptFee = 0;
         } else if( exemptSe == '1' ) {   // 일부면제
+        	var dtFr = EMD.util.strToDate(exemptPdFrom);
+        	var dtTo = EMD.util.strToDate(exemptPdTo);
+
+        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
 
             /* 면제 일수 계산 */
-            var year3 = exemptPdFrom.substring(0,4);
-            var month3 = exemptPdFrom.substring(5,7);
-            var day3 = exemptPdFrom.substring(8,10);
+            exemptCnt = Number(days);
 
-            var year4 = exemptPdTo.substring(0,4);
-            var month4 = exemptPdTo.substring(5,7);
-            var day4 = exemptPdTo.substring(8,10);
-
-            var e_st_day = new Date(year3, (month3-1), day3, 0, 0, 0);
-            var e_mt_day = new Date(year4, (month4-1), day4, 0, 0, 0);
-
-            var e_take1 = e_mt_day.getTime();
-            var e_take2 = e_st_day.getTime();
-
-            var e_how_day = Math.ceil((e_take1-e_take2)/24/60/60/1000); // 두 날짜 사이의 일수
-
-            //exemptCnt = Number(e_how_day) + 1;
-            exemptCnt = Number(e_how_day);
-
-            rdcxptFee = olnlp * (exemptCnt / 365) * usageAr * applcTariff;
-
-            //alert("감면사용료 => " + rdcxptFee);
-
-        } else if( exemptSe == '2' ) {        // 전체면제
-            //this.$('#rdcxptFee').val('0');
-            rdcxptFee = 0;
+            rdcxptFee = olnlp * exemptCnt / 365 * usageAr * applcTariff;
         }
 
         /* 날짜계산 */
-        var year = usagePdFrom.substring(0,4);
-        var month = usagePdFrom.substring(5,7);
-        var day = usagePdFrom.substring(8,10);
 
-        var year2 = usagePdTo.substring(0,4);
-        var month2 = usagePdTo.substring(5,7);
-        var day2 = usagePdTo.substring(8,10);
+              	var dtFr = EMD.util.strToDate(usagePdFrom);
+        	var dtTo = EMD.util.strToDate(usagePdTo);
 
-        var st_day = new Date(year, (month-1), day, 0, 0, 0);
-        var mt_day = new Date(year2, (month2-1), day2, 0, 0, 0);
-
-        var take1 = mt_day.getTime();
-        var take2 = st_day.getTime();
-
-        var how_day = Math.ceil((take1-take2)/24/60/60/1000); // 두 날짜 사이의 일수
-
-        //dayUseCnt = parseInt(how_day) + 1;
-        dayUseCnt = parseInt(how_day);
-
-        var cur_day = new Date(year, (month-1), day, 0, 0, 0); // 입력받은 첫번째 날짜
-        //cur_day.setDate( cur_day.getDate() - 1 );
-        cur_day.setYear( cur_day.getFullYear() + 1 );
+        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)))+1;
+        dayUseCnt = parseInt(days);
 
         //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
-        //if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
-            //calFee = 0;
-        //} else {
-            calFee = olnlp*((dayUseCnt/365)*usageAr)*applcTariff - rdcxptFee;
-        //}
-
-        //alert("계산후 => " + calFee);
-        var calFeeStr = "" + calFee;
-
-        if( calFeeStr.indexOf('.') >= 0 ) {
-            calFeeStr = calFeeStr.substring(0,calFeeStr.indexOf('.'));
+        if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
+        	rdcxptFee = calFee;
+        	exemptCnt = dayUseCnt;
+            calFee = 0;
         } else {
-            calFeeStr = calFeeStr;
+            calFee = olnlp*dayUseCnt/365*usageAr*applcTariff - rdcxptFee;
         }
+        this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
 
-        this.$('#fee').val(calFeeStr);
+        calFee = Math.ceil(calFee/10)*10;
+        rdcxptFee = Math.ceil(rdcxptFee/10)*10;
 
-        if( exemptSe == '0' ) {
-            this.$('#rdcxptFee').val('0');
-        } else if( exemptSe == '1' ) {
-            var rdcxptFeeStr = "" + rdcxptFee;
-
-            if( rdcxptFeeStr.indexOf('.') >= 0 ) {
-                rdcxptFeeStr = rdcxptFeeStr.substring(0,rdcxptFeeStr.indexOf('.'));
-            } else {
-                rdcxptFeeStr = rdcxptFeeStr;
-            }
-
-            this.$('#rdcxptFee').val(rdcxptFeeStr);
-        } else if( exemptSe == '2' ) {
-            this.$('#rdcxptFee').val(calFeeStr);
-            this.$('#fee').val('0');
-        }
-
+        this.$('#fee').val($.number(calFee));
+        this.$('#rdcxptFee').val($.number(rdcxptFee));
     } else {
         this.$('#fee').val('');
         this.$('#rdcxptFee').val('');
@@ -546,45 +470,135 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
 };
 
+GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
+    /* 총사용료, 총면적 계산 시작 */
+    var fee = 0;
+    var rdcxptFee = 0;
+    var usageAr = 0;
+    var usagePdFrom = 0;
+    var usagePdTo = 0;
+    var minUsagePdFrom = 0;
+    var maxUsagePdTo = 0;
+
+    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
+        var row = this.$('#assetRentDetailList').flexGetRow(i);
+
+        if( row['fee'] != '' && row['fee'] != null ) {
+            var feeStr = row['fee']+"";
+            feeStr = feeStr.replace(/,/g,"");
+            fee += Number(feeStr);
+        }
+
+        if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
+            var rdcxptFeeStr = row['rdcxptFee']+"";
+            rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
+            rdcxptFee += Number(rdcxptFeeStr);
+        }
+
+        if( row['usageAr'] != '' && row['usageAr'] != null ) {
+            var usageArStr = row['usageAr']+"";
+            usageArStr = usageArStr.replace(/,/g,"");
+            usageAr += Number(usageArStr);
+        }
+
+        if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
+            var usagePdFromStr = row['usagePdFrom']+"";
+            usagePdFromStr = usagePdFromStr.replace(/-/g,"");
+            usagePdFrom = Number(usagePdFromStr);
+
+            if( minUsagePdFrom == 0 ) {
+                minUsagePdFrom = usagePdFrom;
+            } else {
+                if( minUsagePdFrom > usagePdFrom ) {
+                    minUsagePdFrom = usagePdFrom;
+                }
+            }
+        }
+
+        if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
+            var usagePdToStr = row['usagePdTo']+"";
+            usagePdToStr = usagePdToStr.replace(/-/g,"");
+            usagePdTo = Number(usagePdToStr);
+
+            if( maxUsagePdTo == 0 ) {
+                maxUsagePdTo = usagePdTo;
+            } else {
+                if( maxUsagePdTo < usagePdTo ) {
+                    maxUsagePdTo = usagePdTo;
+                }
+            }
+        }
+    }
+
+    this.$('#grFee').val( fee ); //총사용료
+    this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
+    this.$('#grAr').val( usageAr ); //총사용면적
+
+    if( minUsagePdFrom > 0 ) {
+        var minUsagePdFromStr = minUsagePdFrom+"";
+
+        if( minUsagePdFromStr.length == 8 ) {
+            minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8);
+            this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
+        } else {
+            this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+        }
+    }
+
+    if( maxUsagePdTo > 0 ) {
+        var maxUsagePdToStr = maxUsagePdTo+"";
+
+        if( maxUsagePdToStr.length == 8 ) {
+            maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8);
+            this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
+        } else {
+            this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+        }
+    }
+
+    if( this.$('#assetRentDetailList').flexGetData().length == 0 ) {
+        this.$('#grFee').val( "" ); //총사용료
+        this.$('#grRdcxptFee').val( "" ); //총감면사용료
+        this.$('#grAr').val( "" ); //총사용면적
+        this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+        this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+    }
+};
 
 /**
  * 정의 된 버튼 클릭 시
  */
- GamCntnrQuayRentMngtModule.prototype.onButtonClick = function(buttonId) {
+ GamAssetRentMngtModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
 
         // 조회
         case 'searchBtn':
-            this.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 0});
-
-            var searchOpt=this.makeFormArgs('#gamCntnrQuayRentMngtSearchForm');
-            this.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
-
+			this.loadData();
             break;
 
         // 최초신청
-        case 'addCntnrQuayRentMngtFirst':
-            this.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
-            this.$('#gamCntnrQuayRentMngtForm').find(':input').val('');
-            this.$('#gamCntnrQuayRentMngtDetailForm').find(':input').val('');
-            this.$('#gamCntnrQuayRentMngtFileForm').find(':input').val('');
-            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
-            //this.$("#cntnrQuayRentMngtDetailList").flexRemove();
-            this.$("#cntnrQuayRentMngtDetailList").flexAddData({resultList:[]}); //그리드 초기화
-            this.$("#cntnrQuayRentMngtFileList").flexAddData({resultList:[]}); //그리드 초기화
+        case 'addAssetRentFirst':
+            this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$('#gamAssetRentForm').find(':input').val('');
+            this.$('#gamAssetRentDetailForm').find(':input').val('');
+            this.$('#gamAssetRentFileForm').find(':input').val('');
+
+            //this.$("#assetRentDetailList").flexRemove();
+            this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
+            this.$("#assetRentFileList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
-
+            this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
             break;
 
         // 연장신청
-        case 'addCntnrQuayRentMngtRenew':
-            var rows = this.$('#cntnrQuayRentMngtList').selectedRows();
+        case 'addAssetRentRenew':
+            var rows = this.$('#assetRentMngtList').selectedRows();
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 연장신청이 불가능합니다.");
@@ -598,8 +612,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                     this.doAction('<c:url value="/oper/cntnr/gamInsertCntnrQuayRentMngtRenew.do" />', rows[0], function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtSearchForm');
-                            module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        	this.loadData();
                         }
 
                         alert(result.resultMsg);
@@ -615,7 +628,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
         // 신청저장
         case 'btnSaveItem':
 
-        	if(!validateGamCntnrQuayRentMngtVld(this.$('#gamCntnrQuayRentMngtForm')[0])) {
+        	if(!validateGamAssetRent(this.$('#gamAssetRentForm')[0])) {
                 return;
             }
 
@@ -669,11 +682,11 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                 var inputVO=[{name: 'test', value:'test hello'}];
                 //var inputVO=[{}];
 
-                //this._editData=this.getFormValues('#gamCntnrQuayRentMngtDetailForm', this._editData);
+                //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
 
-                inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#cntnrQuayRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+                inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
-                inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#cntnrQuayRentMngtDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+                inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
                 inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
 
@@ -681,15 +694,15 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                     this._deleteDataFileList=[];
                 }
 
-                inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#cntnrQuayRentMngtFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+                inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
-                inputVO[inputVO.length]={name: 'insertFileList', value: JSON.stringify(this.$('#cntnrQuayRentMngtFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+                inputVO[inputVO.length]={name: 'insertFileList', value: JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
                 inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
 
-                //var otherForm=this.getFormValues('#gamCntnrQuayRentMngtForm', {});  // 폼만 있을 경우
+                //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
 
-                this._editData2=this.getFormValues('#gamCntnrQuayRentMngtForm', {_updtId:'I'});
+                this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
                 inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
 
                 //console.log(inputVO);
@@ -697,24 +710,20 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
                 this.doAction('<c:url value="/oper/cntnr/gamSaveCntnrQuayRentMngt.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
-                        var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-                        module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
-                        //module.$('#cntnrQuayRentMngtDetailList').flexReload();
-                        module.$('#cntnrQuayRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
-                        module.$('#cntnrQuayRentMngtFileList').flexOptions({params:searchOpt}).flexReload();
+                    	module.loadData();
                     }
                     alert(result.resultMsg);
                 });
 
 
-                this.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
             }
 
             break;
 
         //신청삭제
         case 'btnRemoveItem':
-            var rows = this.$('#cntnrQuayRentMngtList').selectedRows();
+            var rows = this.$('#assetRentMngtList').selectedRows();
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
@@ -722,27 +731,26 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
             } */
 
             if(rows.length == 0) {
-                alert("컨테이너부두임대목록에서 신청삭제할 행을 선택하십시오.");
+                alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
             } else {
             	if( confirm("신청삭제를 하시겠습니까?") ) {
                     if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
                         this.$('#detailPrmisnYn').val('N');
                     }
 
-                    var inputVO=this.makeFormArgs('#gamCntnrQuayRentMngtForm');
+                    var inputVO=this.makeFormArgs('#gamAssetRentForm');
 
                     this.doAction('<c:url value="/oper/cntnr/gamDeleteCntnrQuayRentMngt.do" />', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtSearchForm');
-                            module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                        	this.loadData();
                         }
 
                         alert(result.resultMsg);
                     });
 
-                    this.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-                    this.$('#gamCntnrQuayRentMngtForm :input').val("");
+                    this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                    this.$('#gamAssetRentForm :input').val("");
                     this.$("#cmd").val('insert');
                 }
             }
@@ -751,7 +759,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
         //코멘트저장
         case 'btnSaveComment':
-            var inputVO=this.makeFormArgs('#gamCntnrQuayRentMngtForm');
+            var inputVO=this.makeFormArgs('#gamAssetRentForm');
 
             /* if( this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 코멘트저장이 불가능합니다.");
@@ -760,8 +768,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
             this.doAction('<c:url value="/oper/cntnr/gamUpdateCntnrQuayRentMngtComment.do" />', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
-                    var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtSearchForm');
-                    module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                	this.loadData();
                 }
 
                 alert(result.resultMsg);
@@ -769,10 +776,12 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
             break;
 
-          //컨테이너부두임대상세추가
+        //임대상세추가
         case 'btnInsertItemDetail':
-        	 this.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
-             this.$('#gamCntnrQuayRentMngtDetailForm').find(':input').val('');
+        	 this.$("#assetRentListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
+             this.$('#gamAssetRentDetailForm').find(':input').val('');
+
+        	 this.$('#olnlpList').empty();
 
              this.$("#detailCmd").val('insert');
              this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
@@ -781,26 +790,27 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
              this.$('#detailMngNo').val( this.$('#mngNo').val() );
              this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
 
-             this._editData=this.getFormValues('#gamCntnrQuayRentMngtDetailForm', {_updtId:'I'});
-             this._editRow=this.$('#cntnrQuayRentMngtDetailList').flexGetData().length;
+             this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I'});
+//             this._editRow=this.$('#assetRentDetailList').flexGetData().length;
+				this._editRow=null;
 
             break;
 
-         // 컨테이너부두임대상세 삭제 (Grid상에서만 삭제됨)
+        // 자산임대상세 삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveItemDetail':
-            var rows = this.$('#cntnrQuayRentMngtDetailList').selectedRows();
+            var rows = this.$('#assetRentDetailList').selectedRows();
 
             if(rows.length == 0) {
-                alert("컨테이너부두임대상세목록에서 삭제할 행을 선택하십시오.");
+                alert("자산임대상세목록에서 삭제할 행을 선택하십시오.");
             } else {
-                if(this.$('#cntnrQuayRentMngtDetailList').selectedRowIds().length>0) {
-                    for(var i=this.$('#cntnrQuayRentMngtDetailList').selectedRowIds().length-1; i>=0; i--) {
-                        var row=this.$('#cntnrQuayRentMngtDetailList').flexGetRow(this.$('#cntnrQuayRentMngtDetailList').selectedRowIds()[i]);
+                if(this.$('#assetRentDetailList').selectedRowIds().length>0) {
+                    for(var i=this.$('#assetRentDetailList').selectedRowIds().length-1; i>=0; i--) {
+                        var row=this.$('#assetRentDetailList').flexGetRow(this.$('#assetRentDetailList').selectedRowIds()[i]);
 
                         if(row._updtId==undefined || row._updtId!='I') {
                             this._deleteDataList[this._deleteDataList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
-                        this.$('#cntnrQuayRentMngtDetailList').flexRemoveRow(this.$('#cntnrQuayRentMngtDetailList').selectedRowIds()[i]);
+                        this.$('#assetRentDetailList').flexRemoveRow(this.$('#assetRentDetailList').selectedRowIds()[i]);
                     }
 
                     /* 총사용료, 총면적 계산 시작 */
@@ -812,8 +822,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                     var minUsagePdFrom = 0;
                     var maxUsagePdTo = 0;
 
-                    for( var i = 0 ; i < this.$('#cntnrQuayRentMngtDetailList').flexGetData().length ; i++ ) {
-                        var row = this.$('#cntnrQuayRentMngtDetailList').flexGetRow(i);
+                    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
+                        var row = this.$('#assetRentDetailList').flexGetRow(i);
 
                         if( row['fee'] != '' && row['fee'] != null ) {
                             var feeStr = row['fee']+"";
@@ -888,7 +898,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                         }
                     }
 
-                    if( this.$('#cntnrQuayRentMngtDetailList').flexGetData().length == 0 ) {
+                    if( this.$('#assetRentDetailList').flexGetData().length == 0 ) {
                     	this.$('#grFee').val( "" ); //총사용료
                         this.$('#grRdcxptFee').val( "" ); //총감면사용료
                         this.$('#grAr').val( "" ); //총사용면적
@@ -900,16 +910,16 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                 }
             }
 
-            this.$('#gamCntnrQuayRentMngtDetailForm').find(':input').val('');
+            this.$('#gamAssetRentDetailForm').find(':input').val('');
             this.$("#detailCmd").val('insert');
 
             break;
 
-         // 컨테이너부두임대상세 저장
+        // 자산임대상세 저장
         /*
         case 'btnSaveItemDetail':
 
-            var inputVO=this.makeFormArgs('#gamCntnrQuayRentMngtDetailForm');
+            var inputVO=this.makeFormArgs('#gamAssetRentDetailForm');
 
 
             if(this.$("#detailCmd").val()=='insert') {
@@ -917,8 +927,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                 this.doAction('<c:url value="/asset/rent/gamInsertAssetRentDetail.do" />', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
 
                     if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-                        module.$('#cntnrQuayRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                        module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -927,8 +937,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
             else {
                 this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
-                        var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-                        module.$('#cntnrQuayRentMngtDetailList').flexOptions({params:searchOpt}).flexReload();
+                        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                        module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
                     }
 
                     alert(result.resultMsg);
@@ -950,7 +960,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-        case 'popupEntrpsInfoInput': // 팝업을 호출한다.
+        case 'popupEntrpsInfoInput': // 팝업을 호출한다.(자산임대입력)
             var opts;
 
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
@@ -958,8 +968,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
 
         case 'btnPrmisn': // 사용승낙
-            var rows = this.$('#cntnrQuayRentMngtList').selectedRows();
-            var row = this.$('#cntnrQuayRentMngtList').selectedRows()[0];
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            var row = this.$('#assetRentMngtList').selectedRows()[0];
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 사용승낙이 불가능합니다.");
@@ -984,7 +994,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                     'mngCnt': rows[0]['mngCnt']
                 };
 
-                this.doExecuteDialog('insertHtldRentMngtPrmisnPopup', '승낙', '<c:url value="/oper/cntnr/popup/showCntnrQuayRentMngtPrmisn.do"/>', opts);
+                this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/oper/cntnr/popup/showCntnrQuayRentMngtPrmisn.do"/>', opts);
 
             } else {
                 alert("목록에서 선택하십시오.");
@@ -994,8 +1004,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
         /*
         case 'btnPrmisn': // 사용승낙
-            var rows = this.$('#cntnrQuayRentMngtList').selectedRows();
-            var row = this.$('#cntnrQuayRentMngtList').selectedRows()[0];
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            var row = this.$('#assetRentMngtList').selectedRows()[0];
 
             if( row['prmisnYn'] == 'Y' ) {
                 alert("이미 사용승낙된 상태 입니다.");
@@ -1011,8 +1021,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                 if( confirm("승낙을 하시겠습니까?") ) {
                     this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-                            module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                            var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
                         }
 
                         alert(result.resultMsg);
@@ -1026,8 +1036,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
         */
 
         case 'btnPrmisnCancel': // 승낙취소
-            var rows = this.$('#cntnrQuayRentMngtList').selectedRows();
-            var row = this.$('#cntnrQuayRentMngtList').selectedRows()[0];
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            var row = this.$('#assetRentMngtList').selectedRows()[0];
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 승낙취소가 불가능합니다.");
@@ -1043,8 +1053,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
                     this.doAction('<c:url value="/oper/cntnr/gamUpdateCntnrQuayRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-                            module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+                            var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+                            module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
                         }
 
                         alert(result.resultMsg);
@@ -1062,9 +1072,9 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
             break;
 
-        case 'btnRentDetailApply':  //컨테이너부두임대상세적용
+        case 'btnRentDetailApply': //임대상세적용
 
-        	if(!validateGamCntnrQuayRentMngtDetailVld(this.$('#gamCntnrQuayRentMngtDetailForm')[0])) {
+        	if(!validateGamAssetRentDetail(this.$('#gamAssetRentDetailForm')[0])) {
                 return;
             }
 
@@ -1125,119 +1135,27 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
             }
 
             if(this._editData==null) return;   // 추가나 삭제가 없으면 적용 안됨 2014-03-11 추가
-            this._editData=this.getFormValues('#gamCntnrQuayRentMngtDetailForm', this._editData);
-            //this._editData=this.getFormValues('#gamCntnrQuayRentMngtDetailForm', this._editData);
+            this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
+            //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
 
             if(this._editRow!=null) {  // 이전에 _updtId 로 선택 한 것을 _editRow 로 변경 2014-03-14.001
-
+            	this._editData._updtId!='I'
                 if(this._editData._updtId!='I') this._editData._updtId='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
-                this.$('#cntnrQuayRentMngtDetailList').flexUpdateRow(this._editRow, this._editData);
+                this.$('#assetRentDetailList').flexUpdateRow(this._editRow, this._editData);
                 this._editRow=null;    // 편집 저장 하였으므로 로우 편집을 종료 한다.
             }
             else {
-                this.$('#cntnrQuayRentMngtDetailList').flexAddRow(this._editData);
+                this.$('#assetRentDetailList').flexAddRow(this._editData);
             }
 
-            this.$('#gamCntnrQuayRentMngtDetailForm').find(':input').val('');
+            this.$('#gamAssetRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
 
-
-            /* 총사용료, 총면적 계산 시작 */
-            var fee = 0;
-            var rdcxptFee = 0;
-            var usageAr = 0;
-            var usagePdFrom = 0;
-            var usagePdTo = 0;
-            var minUsagePdFrom = 0;
-            var maxUsagePdTo = 0;
-
-            for( var i = 0 ; i < this.$('#cntnrQuayRentMngtDetailList').flexGetData().length ; i++ ) {
-                var row = this.$('#cntnrQuayRentMngtDetailList').flexGetRow(i);
-
-                if( row['fee'] != '' && row['fee'] != null ) {
-                    var feeStr = row['fee']+"";
-                    feeStr = feeStr.replace(/,/g,"");
-                    fee += Number(feeStr);
-                }
-
-                if( row['rdcxptFee'] != '' && row['rdcxptFee'] != null ) {
-                    var rdcxptFeeStr = row['rdcxptFee']+"";
-                    rdcxptFeeStr = rdcxptFeeStr.replace(/,/g,"");
-                    rdcxptFee += Number(rdcxptFeeStr);
-                }
-
-                if( row['usageAr'] != '' && row['usageAr'] != null ) {
-                    var usageArStr = row['usageAr']+"";
-                    usageArStr = usageArStr.replace(/,/g,"");
-                    usageAr += Number(usageArStr);
-                }
-
-                if( row['usagePdFrom'] != '' && row['usagePdFrom'] != null ) {
-                    var usagePdFromStr = row['usagePdFrom']+"";
-                    usagePdFromStr = usagePdFromStr.replace(/-/g,"");
-                    usagePdFrom = Number(usagePdFromStr);
-
-                    if( minUsagePdFrom == 0 ) {
-                        minUsagePdFrom = usagePdFrom;
-                    } else {
-                        if( minUsagePdFrom > usagePdFrom ) {
-                            minUsagePdFrom = usagePdFrom;
-                        }
-                    }
-                }
-
-                if( row['usagePdTo'] != '' && row['usagePdTo'] != null ) {
-                    var usagePdToStr = row['usagePdTo']+"";
-                    usagePdToStr = usagePdToStr.replace(/-/g,"");
-                    usagePdTo = Number(usagePdToStr);
-
-                    if( maxUsagePdTo == 0 ) {
-                        maxUsagePdTo = usagePdTo;
-                    } else {
-                        if( maxUsagePdTo < usagePdTo ) {
-                            maxUsagePdTo = usagePdTo;
-                        }
-                    }
-                }
-            }
-
-            this.$('#grFee').val( fee ); //총사용료
-            this.$('#grRdcxptFee').val( rdcxptFee ); //총감면사용료
-            this.$('#grAr').val( usageAr ); //총사용면적
-
-            if( minUsagePdFrom > 0 ) {
-                var minUsagePdFromStr = minUsagePdFrom+"";
-
-                if( minUsagePdFromStr.length == 8 ) {
-                    minUsagePdFromStr = minUsagePdFromStr.substring(0,4) + "-" + minUsagePdFromStr.substring(4,6) + "-" + minUsagePdFromStr.substring(6,8);
-                    this.$('#grUsagePdFrom').val( minUsagePdFromStr ); //총사용기간FROM
-                } else {
-                    this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
-                }
-            }
-
-            if( maxUsagePdTo > 0 ) {
-                var maxUsagePdToStr = maxUsagePdTo+"";
-
-                if( maxUsagePdToStr.length == 8 ) {
-                    maxUsagePdToStr = maxUsagePdToStr.substring(0,4) + "-" + maxUsagePdToStr.substring(4,6) + "-" + maxUsagePdToStr.substring(6,8);
-                    this.$('#grUsagePdTo').val( maxUsagePdToStr ); //총사용기간FROM
-                } else {
-                    this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
-                }
-            }
-
-            if( this.$('#cntnrQuayRentMngtDetailList').flexGetData().length == 0 ) {
-                this.$('#grFee').val( "" ); //총사용료
-                this.$('#grRdcxptFee').val( "" ); //총감면사용료
-                this.$('#grAr').val( "" ); //총사용면적
-                this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
-                this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
-            }
+			this.calcRentMasterValues();
 
             /* 총사용료, 총면적 계산 종료 */
 
-            this.$("#cntnrQuayRentMngtListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
+            this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
 
             break;
 
@@ -1247,18 +1165,19 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
                 var userid='admin';
                 $.each(result, function(){
-                    //module.$('#cntnrQuayRentMngtFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    //module.$('#cntnrQuayRentMngtFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    module.$('#cntnrQuayRentMngtFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    //module.$('#assetRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    //module.$('#assetRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    module.$('#assetRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                 });
             }, '첨부파일 업로드');
 
-            //this._editDataFile=this.getFormValues('#gamCntnrQuayRentMngtFileForm', {_updtId:'I'});
-            //this._editRowFile=this.$('#cntnrQuayRentMngtFileList').flexGetData().length;
+            //this._editDataFile=this.getFormValues('#gamAssetRentFileForm', {_updtId:'I'});
+            //this._editRowFile=this.$('#assetRentFileList').flexGetData().length;
 
             break;
+
         case 'btnDownloadFile':
-    		var selectRow = this.$('#cntnrQuayRentMngtFileList').selectedRows();
+    		var selectRow = this.$('#assetRentFileList').selectedRows();
     		if(selectRow.length > 0) {
     			var row=selectRow[0];
     			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
@@ -1270,36 +1189,36 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
         // 파일 삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveFile':
-            var rows = this.$('#cntnrQuayRentMngtFileList').selectedRows();
+            var rows = this.$('#assetRentFileList').selectedRows();
 
             if(rows.length == 0) {
                 alert("파일목록에서 삭제할 행을 선택하십시오.");
             } else {
-                if(this.$('#cntnrQuayRentMngtFileList').selectedRowIds().length>0) {
-                    for(var i=this.$('#cntnrQuayRentMngtFileList').selectedRowIds().length-1; i>=0; i--) {
-                        var row=this.$('#cntnrQuayRentMngtFileList').flexGetRow(this.$('#cntnrQuayRentMngtFileList').selectedRowIds()[i]);
+                if(this.$('#assetRentFileList').selectedRowIds().length>0) {
+                    for(var i=this.$('#assetRentFileList').selectedRowIds().length-1; i>=0; i--) {
+                        var row=this.$('#assetRentFileList').flexGetRow(this.$('#assetRentFileList').selectedRowIds()[i]);
 
                         //alert( row._updtId );
 
                         if(row._updtId==undefined || row._updtId!='I') {
                             this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
-                        this.$('#cntnrQuayRentMngtFileList').flexRemoveRow(this.$('#cntnrQuayRentMngtFileList').selectedRowIds()[i]);
+                        this.$('#assetRentFileList').flexRemoveRow(this.$('#assetRentFileList').selectedRowIds()[i]);
                     }
                 }
             }
 
-            this.$('#gamCntnrQuayRentMngtFileForm').find(':input').val('');
+            this.$('#gamAssetRentFileForm').find(':input').val('');
             this._editDataFile = null;
 
             break;
 
         case 'btnEApproval':    // 전자결재 테스트
-            if(this.$('#cntnrQuayRentMngtList').selectedRowCount()>0) {
+            if(this.$('#assetRentMngtList').selectedRowCount()>0) {
 
                 //alert(EMD.context_root);
 
-                var rows = this.$('#cntnrQuayRentMngtList').selectedRows()[0];
+                var rows = this.$('#assetRentMngtList').selectedRows()[0];
 
                 /* if( rows['quayGroupCd'] != 'P' ) {
                     alert("해당 건은 자산임대관리 메뉴에서 결재가 불가능합니다.");
@@ -1313,7 +1232,7 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 
                 if( confirm("결재요청을 하시겠습니까?") ) {
 	                var opts = {
-	                        type: 'CCU',
+	                        type: 'ARU',
 	                        prtAtCode: rows['prtAtCode'],
 	                        mngYear: rows['mngYear'],
 	                        mngNo: rows['mngNo'],
@@ -1327,8 +1246,8 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
 	                this.requestEApproval(opts, function(module, msg){
 						alert(msg);
 		                //재조회 안됨..
-		                var searchOpt=module.makeFormArgs('#gamCntnrQuayRentMngtForm');
-		                module.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+		                var searchOpt=module.makeFormArgs('#gamAssetRentForm');
+		                module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
                 	});
                 }
             } else {
@@ -1341,43 +1260,45 @@ GamCntnrQuayRentMngtModule.prototype.onCalc = function() {
     }
 };
 
-GamCntnrQuayRentMngtModule.prototype.applyPhotoData = function() {
+GamAssetRentMngtModule.prototype.applyPhotoData = function() {
 
-	if(!validateGamCntnrQuayRentMngtPhotoVld(this.$('#gamCntnrQuayRentMngtFileForm')[0])) {
+	if(!validateGamAssetRentFile(this.$('#gamAssetRentFileForm')[0])) {
         return;
     }
 
-	var selectRow = this.$('#cntnrQuayRentMngtFileList').selectedRows();
+	var selectRow = this.$('#assetRentFileList').selectedRows();
 	if(selectRow.length > 0) {
 
     var row=selectRow[0];
-	  		var rowid=this.$("#cntnrQuayRentMngtFileList").selectedRowIds()[0];
-	  		row=this.getFormValues('#gamCntnrQuayRentMngtFileForm', row);
+	  		var rowid=this.$("#assetRentFileList").selectedRowIds()[0];
+	  		row=this.getFormValues('#gamAssetRentFileForm', row);
         if(row["_updtId"]!='I') row["_updtId"]='U';   // 삽입된 데이터가 아니면 업데이트 플래그를 추가한다.
-        this.$('#cntnrQuayRentMngtFileList').flexUpdateRow(rowid, row);
+        this.$('#assetRentFileList').flexUpdateRow(rowid, row);
     }
     else {
     }
 };
 
-GamCntnrQuayRentMngtModule.prototype.onSubmit = function() {
+GamAssetRentMngtModule.prototype.onSubmit = function() {
     //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
     this.loadData();
 };
 
-GamCntnrQuayRentMngtModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamCntnrQuayRentMngtSearchForm');
-    //this.showAlert(searchOpt);
-    this.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+GamAssetRentMngtModule.prototype.loadData = function() {
+    this.$("#assetRentListTab").tabs("option", {active: 0});
+    var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+    this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+	console.log('debug');
+
 };
 
-GamCntnrQuayRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        var row = this.$('#cntnrQuayRentMngtList').selectedRows();
+        var row = this.$('#assetRentMngtList').selectedRows();
         if(row.length==0) {
             this.$('#cmd').val('insert');
         }
@@ -1389,7 +1310,7 @@ GamCntnrQuayRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) 
 
         break;
     case 'tabs3':
-        var row = this.$('#cntnrQuayRentMngtDetailList').selectedRows();
+        var row = this.$('#assetRentDetailList').selectedRows();
         if(row.length==0) {
             this.$('#detailCmd').val('insert');
         }
@@ -1409,7 +1330,7 @@ GamCntnrQuayRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) 
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamCntnrQuayRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
      case 'selectEntrpsInfoPopup':
          if (msg != 'cancel') {
@@ -1427,11 +1348,10 @@ GamCntnrQuayRentMngtModule.prototype.onClosePopup = function(popupId, msg, value
              alert('취소 되었습니다');
          }
          break;
-     case 'insertHtldRentMngtPrmisnPopup':
+     case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
              if( value == "0" ) {
-                 var searchOpt=this.makeFormArgs('#gamCntnrQuayRentMngtSearchForm');
-                 this.$('#cntnrQuayRentMngtList').flexOptions({params:searchOpt}).flexReload();
+					this.loadData();
              }
          } else {
              alert('취소 되었습니다');
@@ -1451,6 +1371,8 @@ GamCntnrQuayRentMngtModule.prototype.onClosePopup = function(popupId, msg, value
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
+
+             this.loadOlnlpList(value);
          } else {
              alert('취소 되었습니다');
          }
@@ -1463,8 +1385,26 @@ GamCntnrQuayRentMngtModule.prototype.onClosePopup = function(popupId, msg, value
      }
 };
 
+GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
+    this.doAction('<c:url value="/asset/rent/selectOlnlpInfo.do" />', prtFcltyCd, function(module, result) {
+        if(result.resultCode=='0') {
+       	 var olnlplist = module.$('#olnlpList');
+       	 olnlplist.off('change');
+       	 olnlplist.empty();
+   		 olnlplist.append('<option value="">공시지가선택</option>')
+       	 $.each(result.resultList, function() {
+       		 olnlplist.append('<option value="'+this.olnlp+'">'+this.olnlpApplyDates+'</option>')
+       	 });
+   		 olnlplist.on('change', {module: module}, function(event) {
+   			 event.data.module.$('#olnlp').val($.number($(this).children(':selected').val()));
+   			event.data.module.onCalc();
+   		 });
+        }
+    });
+}
+
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamCntnrQuayRentMngtModule();
+var module_instance = new GamAssetRentMngtModule();
 
 </script>
 <!-- 아래는 고정 -->
@@ -1473,7 +1413,7 @@ var module_instance = new GamCntnrQuayRentMngtModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamCntnrQuayRentMngtSearchForm">
+            <form id="gamAssetRentMngtSearchForm">
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
@@ -1530,7 +1470,7 @@ var module_instance = new GamCntnrQuayRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="cntnrQuayRentMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">컨테이너부두임대 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">컨테이너부두임대 내역</a></li>
@@ -1539,7 +1479,7 @@ var module_instance = new GamCntnrQuayRentMngtModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <table id="cntnrQuayRentMngtList" style="display:none" class="fillHeight"></table>
+                <table id="assetRentMngtList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">
 					<form id="form1">
@@ -1565,8 +1505,8 @@ var module_instance = new GamCntnrQuayRentMngtModule();
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="addCntnrQuayRentMngtFirst">최초신청</button>
-	                                <button id="addCntnrQuayRentMngtRenew">연장신청</button>
+	                                <button id="addAssetRentFirst">최초신청</button>
+	                                <button id="addAssetRentRenew">연장신청</button>
 	                                <button id="btnRemoveItem">신청삭제</button>
 	                                <button id="btnEApproval">결재요청</button>
 	                                <button id="btnPrmisn">사용승낙</button>
@@ -1579,13 +1519,13 @@ var module_instance = new GamCntnrQuayRentMngtModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
+            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
-                    <form id="gamCntnrQuayRentMngtForm">
+                    <form id="gamAssetRentForm">
                         <input type="hidden" id="cmd"/>
                         <!-- <input type="hidden" id="quayGroupCd"/> -->
 
-                        <table class="searchPanel">
+                        <table class="editForm">
                             <tr>
 								<th width="10%" height="18">항코드</th>
                                 <td>
@@ -1679,22 +1619,22 @@ var module_instance = new GamCntnrQuayRentMngtModule();
 	                    <tr>
 	                        <th width="70%">컨테이너부두임대 상세목록</th>
 	                        <th style="text-align:right">
-	                        	<button id="btnInsertItemDetail" class="buttonAdd">컨테이너부두임대상세추가</button>
-	                        	<button id="btnRemoveItemDetail" class="buttonDelete">컨테이너부두임대상세삭제</button>
+	                        	<button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>
+	                        	<button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button>
 	                        </th>
 	                    </tr>
 	                    </tbody>
 	                 </table>
 
-	                 <!-- <table id="cntnrQuayRentMngtDetailList" style="display:none" class="fillHeight"></table> -->
-	                 <table id="cntnrQuayRentMngtDetailList" style="display:none"></table>
+	                 <!-- <table id="assetRentDetailList" style="display:none" class="fillHeight"></table> -->
+	                 <table id="assetRentDetailList" style="display:none"></table>
 
 	                 <table style="width:100%">
-<!--	                 
+<!--
 	                    <tr>
-	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">컨테이너부두임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">컨테이너부두임대상세삭제</button></td>
+	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
 	                    </tr>
--->	                    
+-->
 	                    <tr>
 	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
@@ -1710,13 +1650,12 @@ var module_instance = new GamCntnrQuayRentMngtModule();
             <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 
                 <!-- <div class="emdControlPanel"><button id="btnSaveItemDetail">저장</button></div>  -->
-                    <form id="gamCntnrQuayRentMngtDetailForm">
+                    <form id="gamAssetRentDetailForm">
                         <input type="hidden" id="detailCmd"/>
                         <input type="hidden" id="detailPrtAtCode" data-column-id="prtAtCode"/>
 
                         <input type="hidden" id="detailPrmisnYn"/>
-                        <table class="searchPanel">
-                            <tr>
+                        <table class="editForm">
                             <tr>
 								<th width="10%" height="18">자산사용순번</th>
                                 <td><input type="text" size="28" id="assetsUsageSeq" disabled/></td>
@@ -1759,11 +1698,11 @@ var module_instance = new GamCntnrQuayRentMngtModule();
 								<th width="10%" height="18">실제임대면적</th>
                                 <td><input type="text" size="28" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
 								<th width="10%" height="18">사용면적</th>
-                                <td><input type="text" size="20" class="calcInput" id="usageAr" onkeyup="$(this).trigger('change')" maxlength="8"/></td>
+                                <td><input type="text" size="20" class="calcInput" id="usageAr" maxlength="8"/></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" onkeyup="$(this).trigger('change')" readonly/>~ 
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" onkeyup="$(this).trigger('change')" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" readonly/>~
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -1774,7 +1713,7 @@ var module_instance = new GamCntnrQuayRentMngtModule();
                                         <option value="" selected="selected">선택</option>
                                     </select>
                                      -->
-                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" onkeyup="$(this).trigger('change')" data-code-id=GAM023 />
+                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM023 />
                                     <!--
                                     <input type="text" size="14" id="applcTariffStr" readonly/>
                                      -->
@@ -1782,21 +1721,18 @@ var module_instance = new GamCntnrQuayRentMngtModule();
                                 </td>
 								<th width="10%" height="18">적용방법</th>
                                 <td>
-                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM014 />
+                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" />
                                 </td>
 								<th width="10%" height="18">공시지가목록</th>
                                 <td>
                                     <select id="olnlpList">
                                         <option value="">선택</option>
-                                        <c:forEach items="${olnlpList}" var="olnlpItem">
-                                            <option value="${olnlpItem.code }">${olnlpItem.codeNm }</option>
-                                        </c:forEach>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">공시지가</th>
-                                <td><input type="text" size="27" class="calcInput" id="olnlp" onkeyup="$(this).trigger('change')" maxlength="13"/></td>
+                                <td><input type="text" size="27" class="ygpaNumber calcInput" id="olnlp" maxlength="13"/></td>
 								<th width="10%" height="18">면제구분</th>
                                 <td>
                                     <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM009  data-column-label-id='exemptSeNm'/>
@@ -1825,7 +1761,7 @@ var module_instance = new GamCntnrQuayRentMngtModule();
 								<th width="10%" height="18">사용료</th>
                                 <td><input type="text" size="27" class="ygpaCurrency" id="fee" /></td>
 								<th width="10%" height="18">감면사용료</th>
-                                <td><input type="text" size="20" class="calcInput" id="rdcxptFee" onkeyup="$(this).trigger('change')"/></td>
+                                <td><input type="text" size="20" class="calcInput" id="rdcxptFee"/></td>
 								<th width="10%" height="18">부두코드</th>
                                 <td>
                                 	<input type="text" id="quayCd" size="10" disabled/>
@@ -1959,7 +1895,7 @@ var module_instance = new GamCntnrQuayRentMngtModule();
                     <tr>
                         <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><button id="xxxx">취소</button><button id="btnRentDetailApply">컨테이너부두임대상세적용</button>
+                        <td style="text-align:right"><!-- <button id="xxxx">취소</button> --><button id="btnRentDetailApply">임대상세적용</button>
                         </td>
                     </tr>
                  </table>
@@ -1968,16 +1904,16 @@ var module_instance = new GamCntnrQuayRentMngtModule();
 
             <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
 
-                <table id="cntnrQuayRentMngtFileList" style="display:none"></table>
+                <table id="assetRentFileList" style="display:none"></table>
                 <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
-                <form id="gamCntnrQuayRentMngtFileForm">
+                <form id="gamAssetRentFileForm">
                     <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
                     <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
                     <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
                     <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
                     <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
 
-                    <table class="searchPanel">
+                    <table class="editForm">
                         <tr>
 							<th width="10%" height="18">사진제목</th>
                             <td>
