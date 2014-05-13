@@ -1441,9 +1441,9 @@ var module_instance = new GamAssetRentMngtModule();
                         <tr>
                             <th>관리번호</th>
                             <td>
-                                <input id="sMngYear" type="text" size="2">
-                                <input id="sMngNo" type="text" size="1">
-                                <input id="sMngCnt" type="text" size="1">
+                                <input id="sMngYear" type="text" class="mngYear">
+                                <input id="sMngNo" type="text" class="mngNo">
+                                <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>승낙구분</th>
                             <td>
