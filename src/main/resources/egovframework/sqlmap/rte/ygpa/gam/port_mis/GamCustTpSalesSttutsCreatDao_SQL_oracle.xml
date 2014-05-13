@@ -117,10 +117,10 @@
 			                    		</isNotEmpty>
 			                		</isNotEmpty>
 					        		<isNotEmpty property="chrgeKndCd">
-			                    		AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                    		AND T1.CHRGEKNDCD LIKE '%' || #chrgeKndCd# || '%'
 			                		</isNotEmpty>
 					        		<isNotEmpty property="sEntrpscd">
-			                    		AND T1.ENTRPSCD = #sEntrpscd#
+			                    		AND T1.ENTRPSCD LIKE '%' || #sEntrpscd# || '%'
 			                		</isNotEmpty>			                		
                 ) S
              ) A
@@ -156,10 +156,10 @@
               	</isNotEmpty>
        
 				<isNotEmpty property="chrgeKndCd">
-			        AND T1.CHRGEKNDCD = #chrgeKndCd#
+			        AND T1.CHRGEKNDCD LIKE '%' || #chrgeKndCd# || '%'
 			    </isNotEmpty>
 				<isNotEmpty property="sEntrpscd">
-			       	AND T1.ENTRPSCD = #sEntrpscd#
+			       AND T1.ENTRPSCD LIKE '%' || #sEntrpscd# || '%'
 			    </isNotEmpty>			                		
     </select>
     
@@ -193,10 +193,10 @@
               	</isNotEmpty>
        
 				<isNotEmpty property="chrgeKndCd">
-			        AND T1.CHRGEKNDCD = #chrgeKndCd#
+			        AND T1.CHRGEKNDCD LIKE '%' || #chrgeKndCd# || '%'
 			    </isNotEmpty>
 				<isNotEmpty property="sEntrpscd">
-			       	AND T1.ENTRPSCD = #sEntrpscd#
+			       	AND T1.ENTRPSCD LIKE '%' || #sEntrpscd# || '%'
 			    </isNotEmpty>			                		
     </select>
 
@@ -241,10 +241,10 @@
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                    AND T1.CHRGEKNDCD LIKE '%' || #chrgeKndCd# || '%'
 			                </isNotEmpty>
 					        <isNotEmpty property="sEntrpscd">
-			                    AND T1.ENTRPSCD = #sEntrpscd#
+			                    AND T1.ENTRPSCD LIKE '%' || #sEntrpscd# || '%'
 			                </isNotEmpty>			                		
                 ) S
              ) A
@@ -282,10 +282,10 @@
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                    AND T1.CHRGEKNDCD LIKE '%' || #chrgeKndCd# || '%'
 			                </isNotEmpty>
 					        <isNotEmpty property="sEntrpscd">
-			                    AND T1.ENTRPSCD = #sEntrpscd#
+			                   AND T1.ENTRPSCD LIKE '%' || #sEntrpscd# || '%'
 			                </isNotEmpty>			                		
     </select>
     
@@ -322,10 +322,10 @@
 			                    </isNotEmpty>
 			                </isNotEmpty>
 					        <isNotEmpty property="chrgeKndCd">
-			                    AND T1.CHRGEKNDCD = #chrgeKndCd#
+			                    AND T1.CHRGEKNDCD LIKE '%' || #chrgeKndCd# || '%'
 			                </isNotEmpty>
 					        <isNotEmpty property="sEntrpscd">
-			                    AND T1.ENTRPSCD = #sEntrpscd#
+			                    AND T1.ENTRPSCD LIKE '%' || #sEntrpscd# || '%'
 			                </isNotEmpty>			                		
     </select>
 

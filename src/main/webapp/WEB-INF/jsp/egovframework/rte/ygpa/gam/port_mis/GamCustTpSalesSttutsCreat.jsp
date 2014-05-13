@@ -282,32 +282,20 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
 			break;
 		
-		case 'popupchrgeKndCd': // 팝업을 호출한다.(요금조회)
-			/*
-			var opts = {
-			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
-			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
-			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
-			};
-			*/
+		case 'popupchrgeKndCd1': // 팝업을 호출한다.(요금조회)
+			
 			var opts;
-		
-			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
+			
+			this.doExecuteDialog('selectChrgeKndCd1', '요금 선택',
 					'<c:url value="/popup/showPayCd.do"/>', opts);
 			break;
 		
 			
 		case 'popupchrgeKndCd2': // 팝업을 호출한다.(요금조회)
-			/*
-			var opts = {
-			    'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
-			    'gisAssetsCd': this.$('#gisAssetsCd').val(),
-			    'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
-			};
-			*/
+			
 			var opts;
-		
-			this.doExecuteDialog('selectChrgeKndCd2', '요금 선택2',
+			
+			this.doExecuteDialog('selectChrgeKndCd2', '요금 선택',
 					'<c:url value="/popup/showPayCd.do"/>', opts);
 			break;
 		
@@ -335,7 +323,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 				alert('취소 되었습니다');
 			}
 			break;
-		case 'selectChrgeKndCd':
+		case 'selectChrgeKndCd1':
 			if (msg != 'cancel') {
 				this.$('#prtAtCode1').val(value.prtAtCode);
 				this.$('#chrgeKndCd1').val(value.feeTp);
@@ -583,7 +571,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 		                            <td>
 		                                <input id="chrgeKndCd1" type="text" size="2" data-column-id="chrgeKndCd">
 		                                <input id="chrgeKndNm1" type="text" size="11" disabled="disabled">
-		                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
+		                                <button id="popupChrgeKndCd1" class="popupButton">선택</button>
 		                            </td>
 		                            <th>조회업체</th>
 		                            <td>
