@@ -22,6 +22,7 @@ import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeVO;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 
 /**
  *
@@ -58,6 +59,14 @@ public class GamBupJungDongCodeMngtController {
 
     	return "/ygpa/gam/code/GamBupJungDongMngt";
     }
+	
+    @RequestMapping(value="/popup/showAddrPopup.do")
+    String showAssetsCd(GamPopupGisAssetsCdVO searchOpt, ModelMap model) throws Exception {
+    	model.addAttribute("searchOpt", searchOpt);
+
+    	return "/ygpa/gam/popup/GamPopupAddr";
+    }
+
 
     @RequestMapping(value="/code/selectBupJungDongCodeList.do")
 	@ResponseBody Map<String, Object> selectBupJungDongCodeList (GamBupJungDongCodeDefaultVO searchVO) throws Exception {
