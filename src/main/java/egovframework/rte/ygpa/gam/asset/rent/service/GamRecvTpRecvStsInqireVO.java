@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.asset.rent.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -14,6 +16,7 @@ import egovframework.com.cmm.ComDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamRecvTpRecvStsInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
 
@@ -23,6 +26,9 @@ public class GamRecvTpRecvStsInqireVO extends ComDefaultVO {
     /** 조회 조건 (업체코드) */
     private String sEntrpscd;
 
+    /** 조회 조건 (업체명) */
+    private String sEntrpsNm;
+    
     /** 조회 조건 (요금종류) */
     private String sChrgeKnd;
     
@@ -67,6 +73,20 @@ public class GamRecvTpRecvStsInqireVO extends ComDefaultVO {
 	 */
 	public void setsEntrpscd(String sEntrpscd) {
 		this.sEntrpscd = sEntrpscd;
+	}
+
+	/**
+	 * @return the sEntrpsNm
+	 */
+	public String getsEntrpsNm() {
+		return sEntrpsNm;
+	}
+
+	/**
+	 * @param sEntrpsNm the sEntrpsNm to set
+	 */
+	public void setsEntrpsNm(String sEntrpsNm) {
+		this.sEntrpsNm = sEntrpsNm;
 	}
 
 	/**

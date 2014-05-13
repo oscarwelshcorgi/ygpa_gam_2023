@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,16 +12,26 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.utl.fcc.service.EgovDateUtil;
+import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamRecvTpRecvStsInqireService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamRecvTpRecvStsInqireVO;
 
@@ -71,7 +82,7 @@ public class GamRecvTpRecvStsInqireController {
      */
 	@RequestMapping(value="/asset/rent/gamRecvTpRecvStsInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
+
 		model.addAttribute("windowId", windowId);
     	
     	return "/ygpa/gam/asset/rent/GamRecvTpRecvStsInqire"; 
@@ -121,5 +132,35 @@ public class GamRecvTpRecvStsInqireController {
     	map.put("totSumRcvdAmt", resultSum.getTotSumRcvdAmt());
     	map.put("totSumNotRcvdAmt", resultSum.getTotSumNotRcvdAmt());
     	return map;
+    }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/rent/gamSelectRecvTpRecvStsInqireListExcel.do", method=RequestMethod.POST)
+	public @ResponseBody ModelAndView selectRecvTpRecvStsInqireListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		GamRecvTpRecvStsInqireVO searchVO= new GamRecvTpRecvStsInqireVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamRecvTpRecvStsInqireVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+    	List assetRentList = gamRecvTpRecvStsInqireService.selectRecvTpRecvStsInqireList(searchVO);
+
+    	map.put("resultList", assetRentList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
 }

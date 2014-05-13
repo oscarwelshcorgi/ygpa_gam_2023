@@ -228,9 +228,10 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
 								<td><input type="text" size="18" id="totSumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">미수납금액</th>
 								<td><input type="text" size="18" id="totSumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
-                                <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
+								<td><button class="buttonExcel" data-flexi-grid="recvTpRecvStsInqireList" data-url="<c:url value='/asset/rent/gamSelectRecvTpRecvStsInqireListExcel.do' />">엑셀</button></td>
                                 <!--
-                       			<td><button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button></td>
+                                <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
+                       			<td><button id="printList" data-flexi-grid="recvTpRecvStsInqireList">인쇄</button></td>
                        			-->
 							</tr>
 						</table>
