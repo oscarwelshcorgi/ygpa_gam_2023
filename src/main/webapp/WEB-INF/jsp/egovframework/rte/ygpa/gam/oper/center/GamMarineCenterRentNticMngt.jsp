@@ -36,18 +36,21 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/center/gamSelectMarineCenterRentFeePayDtlsMngtList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'청코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-					{display:'회계년도', name:'accnutYear',width:64, sortable:false,align:'center'},
-					{display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
-					{display:'요금', name:'chrgeKnd',width:40, sortable:false,align:'center'},
-					{display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'center'},
-					{display:'업체코드', name:'entrpscd',width:64, sortable:false,align:'center'},
-					{display:'업체명', name:'entrpsNm',width:100, sortable:false,align:'center'},
-					{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat:'number'},
-					{display:'고지일자', name:'nticDt',width:88, sortable:false,align:'center'},
-					{display:'납부기한일자', name:'payTmlmt',width:100, sortable:false,align:'center'},
-					{display:'수납구분', name:'rcivSe',width:44, sortable:false,align:'center'},
-					{display:'수납일자', name:'rcivDt',width:88, sortable:false,align:'center'}
+					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
+					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},
+					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
+					{display:'회계년도', name:'accnutYear',width:55, sortable:false,align:'center'},
+					{display:'고지번호', name:'nticno',width:55, sortable:false,align:'center'},
+					{display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
+					{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
+					{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
+                    {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'수납구분', name:'rcivSe',width:55, sortable:false,align:'center'},
+					{display:'수납일자', name:'rcivDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -273,8 +276,12 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
                         <tr>
                             <th style="width: 70px">항코드</th>
                             <td style="width: 170px"><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th style="width: 70px">업체명</th>
-                            <td><input id="sEntrpscd" type="text" size="5"><input id="sEntrpsNm" type="text" size="10"> <button id="popupEntrpsInfo" class="popupButton">업체</button></td>
+                            <th style="width: 70px">고지업체</th>
+                            <td>
+                                <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
+                                <input type="text" size="15" id="sEntrpsNm" disabled/>
+                                <button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            </td>
                             <th style="width: 70px">납부구분</th>
                             <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체"></td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -282,7 +289,11 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
 
                         <tr>
                             <th>관리번호</th>
-                            <td><input id="sMngYear" type="text" size="3">-<input id="sMngNo" type="text" size="2">-<input id="sMngCnt" type="text" size="1"></td>
+                            <td>
+                            	<input id="sMngYear" type="text" size="3">-
+                            	<input id="sMngNo" type="text" size="2">-
+                            	<input id="sMngCnt" type="text" size="1">
+                            </td>
                             <th>고지일자</th>
                             <td><input id="sNticDtFrom" data-column-id="nticDtFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticDtTo" type="text"class="emdcal" size="8"></td>
                             <th>요금종류</th>
@@ -324,7 +335,14 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
                 <div class="emdPanel">
-                	<h2>고지 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>고지내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>고지 내역</h2> -->
                     <table id="masterPayInfo" class="detailPanel">
                         <tr>
                         	<th style="width: 100px"><span class="label">항구분</span></th>
@@ -358,12 +376,22 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
                         </tr>
                     </table>
                     <div id="arrrgDetail">
-                    <h2>연체 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th width="90%">연체내역</th>
+							<th style="text-align:right">
+								<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
+							</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>연체 내역</h2> -->
                     <form id="arrrgDetailVO">
                       <table id="arrrgDetailInfo" class="detailPanel">
                         <tr>
                         	<th><span class="label">연체일수</span></th>
-                            <td><span data-column-id="arrrgDates"></span></td>
+                            <td width="125px"><span data-column-id="arrrgDates"></span></td>
                             <th>이체상태</th>
                             <td><span data-column-id="icheStatusNm"></span></td>
                             <th>결과코드</th>
@@ -371,7 +399,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
                         </tr>
                         <tr>
                         	<th><span class="label">연체고지납부기한</span></th>
-                            <td><span id="newPayTmlmt" data-column-id="newPayTmlmt"></span></td>
+                            <td width="125px"><span id="newPayTmlmt" data-column-id="newPayTmlmt"></span></td>
                         	<th><span class="label">연체적용일수</span></th>
                             <td><input id="applyPayDates" data-column-id="applyPayDates" /></td>
                             <th><span class="label">연체요율</span></th>
@@ -381,25 +409,34 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
                         </tr>
                     </table>
                     </form>
+                    <!-- 
 	                  <div class="emdControlPanel" style="vertical-align: middle;">
 						<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
 					</div>
+					-->
                     </div>
 
             	</div>
-				<h2>전체 사용료 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>전체사용료내역</th>
+						</tr>
+					</tbody>
+					</table>
+	               	<!-- <h2>전체 사용료 내역</h2> -->
                		<table class="detailPanel">
                     	<thead>
                     		<tr>
-	                            <th style="text-align:center; width: 52px"><span class="label">회차</span></th>
-	                            <th style="text-align:center; width: 76px"><span class="label">회계년도</span></th>
-	                            <th style="text-align:center; width: 76px"><span class="label">고지번호</span></th>
-	                        	<th style="text-align:center; width: 130px"><span class="label">요금</span></th>
-	                        	<th style="text-align:center; width: 84px"><span class="label">고지금액</span></th>
-	                            <th style="text-align:center; width: 110px"><span class="label">고지일자</span></th>
+	                            <th style="text-align:center; width: 60px"><span class="label">회차</span></th>
+	                            <th style="text-align:center; width: 80px"><span class="label">회계년도</span></th>
+	                            <th style="text-align:center; width: 80px"><span class="label">고지번호</span></th>
+	                        	<th style="text-align:center; width: 130px"><span class="label">요금종류</span></th>
+	                        	<th style="text-align:center; width: 100px"><span class="label">고지금액</span></th>
+	                            <th style="text-align:center; width: 80px"><span class="label">고지일자</span></th>
 	                            <th style="text-align:center; width: 110px"><span class="label">납부기한일자</span></th>
-	                        	<th style="text-align:center; width: 76px"><span class="label">수납구분</span></th>
-	                            <th style="text-align:center; width: 110px"><span class="label">수납일자</span></th>
+	                        	<th style="text-align:center; width: 80px"><span class="label">수납구분</span></th>
+	                            <th style="text-align:center; width: 80px"><span class="label">수납일자</span></th>
                             </tr>
                     	</thead>
                     	<tbody id="detailPayInfo" >
@@ -407,7 +444,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
 	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="accnutYear"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="nticno"></span></td>
-	                            <td style="text-align:center;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+	                            <td style="text-align:left;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
 	                            <td style="text-align:right;"><span data-column-id="fee" class="ygpaNumber"> 원</span></td>
 	                            <td style="text-align:center;"><span data-column-id="nticDt"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="payTmlmt"></span></td>
