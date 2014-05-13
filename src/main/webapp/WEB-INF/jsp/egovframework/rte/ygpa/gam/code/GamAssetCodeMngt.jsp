@@ -632,7 +632,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 								<th>ERP 자산코드</th>
 								<td colspan="3"><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
 								<th>자산코드</th>
-								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
+								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" class="gisAssetsCd">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" class="gisAssetsSubCd" type="text"></td>
 								<td rowSpan="3"><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
@@ -675,6 +675,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-style="default">맵조회</button>
+					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCode">위치등록</button>
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->

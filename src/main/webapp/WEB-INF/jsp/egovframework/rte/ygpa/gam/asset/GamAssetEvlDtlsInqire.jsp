@@ -240,7 +240,9 @@ var module_instance = new GamAssetEvlDtlsInqireModule();
                         <tr>
                             <th style="width:120px;">자료수</th>
                             <td style="width:200px;" colspan="3"><input id="sumCnt" size="62" class="ygpaNumber" readonly >개</td>
-							<td><button id="loadMap" data-flexi-grid="assetEvlDtlsInqireList">맵조회</button></td>
+							<td>
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetEvlDtlsInqireList" data-style="default">맵조회</button>
+							</td>
 							<td>
 								<button class="buttonExcel" data-flexi-grid="assetEvlDtlsInqireList" data-url="<c:url value='/asset/gamSelectAssetEvlDtlsInqireListExcel.do' />">엑셀</button>
 							</td>

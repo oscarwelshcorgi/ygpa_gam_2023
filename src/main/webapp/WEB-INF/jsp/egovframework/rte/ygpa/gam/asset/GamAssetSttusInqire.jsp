@@ -189,8 +189,8 @@ var module_instance = new GamAssetSttusInqireModule();
 
                             <th style="width: 40px"><span class="label">자산코드</span></th>
                             <td style="width: 120px">
-                                <input id="sGisAssetsCd" type="text" size="2" class="gisAssetsCd"/>&nbsp;-&nbsp;
-                                <input id="sGisAssetsSubCd" type="text" size="2" class="gisAssetsSubCd"/>
+                                <input id="sGisAssetsCd" type="text" class="gisAssetsCd"/>&nbsp;-&nbsp;
+                                <input id="sGisAssetsSubCd" type="text" class="gisAssetsSubCd"/>
                             </td>
 
                             <th style="width: 40px"><span class="label">업체</span></th>

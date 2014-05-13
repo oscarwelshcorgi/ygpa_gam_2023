@@ -51,6 +51,8 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 		};
 		module.doExecuteDialog('selectMenuCreate', '메뉴 생성', '<c:url value="/cmmn/popup/showMenuCreat.do"/>', opts);
 	});
+
+	console.log('hello');
 };
 
 

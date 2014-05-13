@@ -50,7 +50,13 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
 					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],
-		height: "auto"
+		height: "auto",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.chkRole='';
+			})
+			return data;
+		}
 	});
 };
 
@@ -80,7 +86,7 @@ GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
 					this.$("#searchKeyword").focus();
 					return;
 				}
-				
+
 				var roleCodes = "";
 				var regYns = "";
 				for(var i=0; i<reglist.length; i++){
@@ -90,18 +96,18 @@ GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
 							regYns += reglist[i].regYn + ";";
 						}else{
 							roleCodes += reglist[i].roleCode;
-							regYns += reglist[i].regYn;	
+							regYns += reglist[i].regYn;
 						}
 					}
 				}
-				
+
 				var inputVO = {roleCodes: roleCodes, regYns:regYns, authorCode:this.$("#searchKeyword").val()};
 				this.doAction('<c:url value="/cmmn/gamAuthorRoleInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#authorRoleForm");
 			 			module.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
-			 		alert(result.resultMsg);			 		
+			 		alert(result.resultMsg);
 			 	});
 			}else{
 				alert("선택 된 값이 없습니다.");
