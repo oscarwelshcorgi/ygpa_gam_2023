@@ -243,15 +243,17 @@ var module_instance = new GamCmpyRecvStsInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="10%" height="20">자료수</th>
-								<td><input type="text" size="7" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">고지금액</th>
-								<td><input type="text" size="15" id="sumNticAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="18" id="sumNticAmtSum" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">수납금액</th>
-								<td><input type="text" size="15" id="sumRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="18" id="sumRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">미수납금액</th>
-								<td><input type="text" size="15" id="sumNotRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="18" id="sumNotRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
                                 <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
+                                <!--
                        			<td><button id="printList" data-flexi-grid="cmpyRecvStsInqireList">인쇄</button></td>
+                       			-->
 							</tr>
 						</table>
 					</form>
