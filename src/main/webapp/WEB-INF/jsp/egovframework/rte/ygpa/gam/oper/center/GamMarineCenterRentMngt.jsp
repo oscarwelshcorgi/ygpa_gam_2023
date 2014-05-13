@@ -1305,7 +1305,10 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
             this.$('#cmd').val('modify');
         }
 
-        this._deleteDataList=[];    // 삭제 목록 초기화
+        if(oldTabId=='tabs1') {
+        	this._deleteDataList=[];    // 삭제 목록 초기화
+        	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
+        }
 
         break;
     case 'tabs3':
@@ -1319,7 +1322,6 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         break;
 
     case 'tabs4':
-        this._deleteDataFileList=[];    // 파일삭제 목록 초기화
 
         break;
     }
@@ -1477,7 +1479,7 @@ var module_instance = new GamAssetRentMngtModule();
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
+            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
                 <table id="assetRentMngtList" style="display:none" class="fillHeight"></table>
 
                 <div class="emdControlPanel">
