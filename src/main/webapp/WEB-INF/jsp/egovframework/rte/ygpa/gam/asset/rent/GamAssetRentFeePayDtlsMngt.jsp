@@ -74,8 +74,6 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
     this.$('#arrrgDetail :input').on('change keyup', {module: this}, function(event) {
     	event.data.module.calculateArrrgFee();
     });
-
-    console.log('loadCompleted');
 };
 
 /**
@@ -410,7 +408,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                         </tr>
                     </table>
                     </form>
-                    <!-- 
+                    <!--
 	                  <div class="emdControlPanel" style="vertical-align: middle;">
 						<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
 					</div>

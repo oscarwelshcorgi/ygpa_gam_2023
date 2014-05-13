@@ -245,7 +245,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                 });
             }
             else {
-                module.$("#previewImage").attr(src, '#');
+                module.$("#previewImage").attr('src', '');
             }
         }
     });
@@ -1166,7 +1166,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 $.each(result, function(){
                     //module.$('#assetRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#assetRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    module.$('#assetRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+                    module.$('#assetRentFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')) , filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                 });
             }, '첨부파일 업로드');
 
@@ -1203,6 +1203,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                             this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                         }
                         this.$('#assetRentFileList').flexRemoveRow(this.$('#assetRentFileList').selectedRowIds()[i]);
+                        this.$("#previewImage").attr('src', '');
                     }
                 }
             }
@@ -1757,10 +1758,10 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="44" id="exemptRsn" maxlength="95"/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">사용료</th>
-                                <td><input type="text" size="27" class="ygpaCurrency" id="fee" /></td>
 								<th width="10%" height="18">감면사용료</th>
                                 <td><input type="text" size="20" class="calcInput" id="rdcxptFee"/></td>
+								<th width="10%" height="18">사용료</th>
+                                <td><input type="text" size="27" class="ygpaCurrency" id="fee" /></td>
 								<th width="10%" height="18">부두코드</th>
                                 <td>
                                 	<input type="text" id="quayCd" size="10" disabled/>
