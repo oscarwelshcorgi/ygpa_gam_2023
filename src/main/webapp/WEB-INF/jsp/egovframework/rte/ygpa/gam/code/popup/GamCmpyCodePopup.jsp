@@ -8,14 +8,14 @@
   * @Class Name : GamCmpyCodePopup.jsp
   * @Description : 업체코드 조회 팝업
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2013.12.30  장은성          최초 생성
   *
   * author 장은성
   * since 2013.12.30
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -30,7 +30,7 @@ GamCmpyCodePopupModule.prototype = new EmdPopupModule(800, 600);
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCmpyCodePopupModule.prototype.loadComplete = function() {
 	this.$('#prtAtCode').val('820');	// 기본 항코드 설정
-	
+
 	// 테이블 설정
 	this.$("#cmpyCodeList").flexigrid({
 		url: '<c:url value="/code/popup/selecterpCmpyCodeList.do"/>',
@@ -49,15 +49,12 @@ GamCmpyCodePopupModule.prototype.loadComplete = function() {
 				{display:'우편번호', name:'ZIP_CODE', width:56, sortable:true, align:'left'},
 				{display:'한글주소', name:'ADDR', width:640, sortable:true, align:'left'}
 			],
-		usepager: false,
-		rp: 24,
-		showTableToggleBtn: false,
 		height: '300',
-		selectedRows: true,
 		singleSelect: true
 	});
+
 };
-		
+
 // 사용자 설정 함수 추가
 // 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
 
@@ -65,7 +62,7 @@ GamCmpyCodePopupModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'selectCmpyList':
 		var searchOpt=this.makeFormArgs('#searchCmpyCode');
-	 	this.$('#cmpyCodeList').flexOptions({params:searchOpt}).flexReload(); 
+	 	this.$('#cmpyCodeList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'selectCmpyCd':
 		this.returnValue(this.$('#cmpyCodeList').selectedRows());

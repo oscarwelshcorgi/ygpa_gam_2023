@@ -10,7 +10,7 @@
 	<insert id="gamGisAssetCodeDao.insertAssetCode_S">
 		<![CDATA[
 			INSERT INTO GIS_ASSETS_CD_F
-				( 					
+				(
 					GIS_ASSETS_PRT_AT_CODE,
 					GIS_ASSETS_SUB_CD,
 					GIS_ASSETS_CD,
@@ -31,6 +31,7 @@
 					REGISTDT,
 					UPD_USR,
 					UPDTDT,
+					GIS_ASSETS_BUPJUNGDONG_CD,
 					GIS_ASSETS_QUAY_GROUP_CD,
 					GIS_ASSETS_LOC_CD,
 					GIS_ASSETS_SE_CD,
@@ -70,6 +71,7 @@
 					#registdt#,
 					#updUsr#,
 					#updtdt#,
+					#gisAssetsBupjungdongCd#
 					#gisAssetsQuayGroupCd#,
 					#gisAssetsLocCd#,
 					#gisAssetsSeCd#,
@@ -223,6 +225,7 @@
 					GIS_ASSETS_QUAY_CD,
 					GIS_ASSETS_NM,
 					GIS_ASSETS_LOCPLC,
+					GIS_ASSETS_BUPJUNGDONG_CD,
 					GIS_ASSETS_MNG_DEPT_CD,
 					GIS_ASSETS_OPER_DEPT_CD,
 					GIS_ASSETS_LNM,
@@ -286,6 +289,7 @@
 						GIS_ASSETS_QUAY_CD,
 						GAM_GETCODENAME('GAM003', GIS_ASSETS_QUAY_CD) GIS_ASSETS_QUAY_NM,
 						GIS_ASSETS_LOCPLC,
+						GIS_ASSETS_BUPJUNGDONG_CD,
 						GIS_ASSETS_LNM,
 						GIS_ASSETS_LNM_SUB,
 						GIS_ASSETS_AR,
@@ -293,6 +297,7 @@
 						GIS_ASSETS_ACQ_PRI,
 						GIS_ASSETS_STNDRD,
 						GIS_ASSETS_BLDDATE,
+						GIS_ASSETS_RM,
 						TO_CHAR(GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') AS GIS_ASSETS_BLD_DT,
 						TO_CHAR(GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT,
 						GIS_ASSETS_MNG_DEPT_CD,
@@ -377,6 +382,9 @@
 				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
 					GIS_ASSETS_LOC_CD=#gisAssetsLocCd#
 				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="gisAssetsBupjungdongCd">
+					GIS_ASSETS_BUPJUNGDONG_CD=#gisAssetsBupjungdongCd#
+				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsQuayCd">
 					GIS_ASSETS_QUAY_CD=#gisAssetsQuayCd#
 				</isNotEmpty>
@@ -407,6 +415,7 @@
 					GIS_ASSETS_CD,
 					GIS_ASSETS_NM,
 					GIS_ASSETS_LOCPLC,
+					GIS_ASSETS_BUPJUNGDONG_CD,
 					GIS_ASSETS_LNM,
 					GIS_ASSETS_LNM_SUB,
 					GIS_ASSETS_AR

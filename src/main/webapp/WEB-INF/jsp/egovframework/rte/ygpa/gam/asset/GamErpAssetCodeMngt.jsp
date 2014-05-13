@@ -257,6 +257,7 @@ GamAssetCodeModule.prototype.removeGisAssetItem = function() {
 			var row=this.$('#assetCodeList').flexGetRow(this.$('#assetCodeList').selectedRowIds()[i]);
 			if(row._updtId==undefined || row._updtId!='I')  this._deleteDataList[this._deleteDataList.length]=row;	// 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			this.$('#assetCodeList').flexRemoveRow(this.$('#assetCodeList').selectedRowIds()[i]);
+			this.$('#editGisAssetCode :input').val('');
 			this._edited=true;
 		}
 	}
@@ -352,6 +353,9 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	 	// throw 0;
 		break;
+	case 'selectAddr':
+        this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', opts);
+		break;
 	case 'selectGisAssetPhoto':	// 자산 사진 조회
 		if(this.$('#searchGisAssetPrtAtCode').val()=='') {
 			alert('항구분을 선택 하세요.');
@@ -428,13 +432,11 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		this._editData={};
 //		this.clearCodePage();
-		this.$('#editGisAssetCode :input').val('');
 
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
 		break;
 	case 'btnCancelGisAssetsCode':
-		this.clearCodePage();
-		// this.$('#btnApplyGisAssetCode').removeAttr('disabled');
+		this.$('#editGisAssetCode :input').val('');
 		break;
 	case 'removeAssetCdItem':
 		break;
@@ -563,6 +565,15 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
          if (msg != 'cancel') {
              this.$('#sEntrpscd').val(value.entrpscd);
              this.$('#sEntrpsNm').val(value.entrpsNm);
+         } else {
+             alert('취소 되었습니다');
+         }
+         break;
+     case 'selectAddrPopup':
+         if (msg != 'cancel') {
+        	 console.log("test");
+             this.$('#gisAssetsBupjungdongCd').val(value.bupjungdongCd);
+             this.$('#gisAssetsLocplc').val(value.bupjungdongNm+" "+value.detailAddr);
          } else {
              alert('취소 되었습니다');
          }
@@ -722,13 +733,15 @@ var module_instance = new GamAssetCodeModule();
 									<input id="searchAssetNoSeq" type="text" size="1" maxlength="16"></td>
 								<th>취득일자</th>
 								<td><input id="searchStartDt" type="text" class="emdcal" size="8"> ~ <input id="searchEndDt" type="text" class="emdcal" size="8"></td>
+								<th>모델명</th>
+								<td><input id="searchModelName" size="30"></td>
 								<td rowSpan="2"><button id="selectErpAssetCode" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
 								<th>품명</th>
-								<td><input id="searchItemName" size="40"></td>
+								<td colspan="3"><input id="searchItemName" size="30"></td>
 								<th>규격</th>
-								<td><input id="searchAssetSize" size="40"/></td>
+								<td><input id="searchAssetSize" size="30"/></td>
 							</tr>
 						</tbody>
 					</table>
@@ -757,7 +770,7 @@ var module_instance = new GamAssetCodeModule();
 									<th>항구분</th>
 									<td><input id="searchGisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" data-column-id="gisAssetsPrtAtCode" /></td>
 									<th>자산코드</th>
-									<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" maxlength="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2" maxlength="2"></td>
+									<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3" maxlength="3" style="text-transform: uppercase" >-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2" maxlength="2"></td>
 									<td><button id="selectGisAssetPhoto" class="buttonSearch">조회</button></td>
 								</tr>
 							</tbody>
@@ -791,6 +804,7 @@ var module_instance = new GamAssetCodeModule();
 					<button id="btnSaveGisAssetsCode">저장</button>
 				</div>
 				<form id="editGisAssetCode" name="gisAssetCode">
+				<input id="gisAssetsBupjungdongCd" type="hidden"/>
 				<table class="editForm">
 					<colGroup>
 						<col width="120" />
@@ -839,7 +853,7 @@ var module_instance = new GamAssetCodeModule();
 					</tr>
 					<tr>
 						<th><span class="label">자산소재지</span></th>
-						<td colspan="3"><input type="text" size="60" id="gisAssetsLocplc"></td>
+						<td colspan="3"><input type="text" size="60" id="gisAssetsLocplc" readonly><button id="selectAddr" class="popupButton">주소조회</button></td>
 						<th><span class="label">지번</span></th>
 						<td><input type="text" size="4" id="gisAssetsLnm" maxlength="4">-<input type="text" size="3" id="gisAssetsLnmSub" maxlength="4"></td>
 					</tr>

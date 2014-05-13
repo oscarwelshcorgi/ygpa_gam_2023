@@ -601,6 +601,7 @@
 	<p><img alt="로딩중 입니다." style="width:100%; height:10px;" src="<c:url value='/images/egovframework/rte/progress.gif' />" /></p>
 </div>
 <div id="__templateXls" style="display:none;"></div>
+<div id="__tempDiv" style="display:none;"></div>
 <div id="file_upload_dialog" title="업로드 파일">
 <form id="fileupload" method="POST" enctype="multipart/form-data">
 	<input name="type" type="hidden" value="genericFileMulti"/>
@@ -611,8 +612,8 @@
                 <span>파일 추가...</span>
                 <input type="file" name="files[]" multiple>
             </span>
-            <button type="submit" class="start">업로드 시작</button>
-            <button type="reset" class="cancel">업로드 취소</button>
+<!--             <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button> -->
             <button type="button" class="delete">삭제</button>
             <input type="checkbox" class="toggle">
             <!-- The global file processing state -->
@@ -695,6 +696,101 @@
 </form>
 
 </div>
+<div id="pfPhoto_upload_dialog" title="시설 사진 업로드">
+<form id="pfPhotoupload" method="POST" enctype="multipart/form-data">
+	<input name="type" type="hidden" value="genericFileMulti"/>
+    <div class="fileupload-buttonbar">
+        <div class="fileupload-buttons">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+            <span class="fileinput-button">
+                <span>파일 추가...</span>
+                <input type="file" name="files[]" multiple>
+            </span>
+<!--             <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button> -->
+            <button type="button" class="delete">삭제</button>
+            <input type="checkbox" class="toggle">
+            <!-- The global file processing state -->
+            <span class="fileupload-process"></span>
+        </div>
+        <!-- The global progress state -->
+        <div class="fileupload-progress fade" style="display:none">
+            <!-- The global progress bar -->
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+            <!-- The extended global progress state -->
+            <div class="progress-extended">&nbsp;</div>
+        </div>
+    </div>
+    <!-- The table listing the files available for upload/download -->
+    <table role="presentation"><tbody class="files"></tbody></table>
+    <!-- The blueimp Gallery widget -->
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
+    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+<!-- The template to display files available for upload -->
+<script id="template-pfupload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error"></strong>
+        </td>
+        <td>
+            <p class="size">전송중...</p>
+            <div class="progress"></div>
+        </td>
+        <td>
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="start" disabled>전송시작</button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="cancel">취소</button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-pfdownload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade" data-physcal-file-nm="{%=file.fileName%}" data-logical-file-nm="{%=file.orizinalFileName%}">
+        <td>
+            <span class="preview">
+                    <a href="{%=EMD.context_root%}/cmm/getPfImage.do?physicalFileNm={%=file.fileName%}" target="_blank" title="{%=file.orizinalFileName%}" download="{%=EMD.context_root%}/cmm/getPfImage.do?physicalFileNm={%=file.fileName%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                <a href="{%=EMD.context_root%}/cmm/getPfImage.do?physicalFileNm={%=file.fileName%}" title="{%=file.orizinalFileName%}" download="{%=EMD.context_root%}/cmm/getPfImage.do?physicalFileNm={%=file.fileName%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.orizinalFileName%}</a>
+            </p>
+            {% if (file.error) { %}
+                <div><span class="error">에러</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.fileSize)%}</span>
+        </td>
+        <td>
+            <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>삭제</button>
+            <input type="checkbox" name="delete" value="1" class="toggle">
+        </td>
+    </tr>
+{% } %}
+</script>
+
+</form>
+
+</div>	<!-- 시설 사진 업로드 -->
+
 <div id="xlsfile_upload_dialog" title="엑셀 업로드 파일">
 <form id="xlsfileupload" action="<c:url value='/code/GamExcelOlnlpRegist.do'/>" method="POST" enctype="multipart/form-data">
 	<input name="type" type="hidden" value="genericFileMulti"/>
@@ -705,8 +801,8 @@
                 <span>파일 업로드...</span>
                 <input type="file" name="files[]" multiple>
             </span>
-            <button type="submit" class="start">업로드 시작</button>
-            <button type="reset" class="cancel">업로드 취소</button>
+<!--             <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button> -->
             <button type="button" class="delete">삭제</button>
             <input type="checkbox" class="toggle">
             <!-- The global file processing state -->

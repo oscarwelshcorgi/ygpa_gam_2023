@@ -631,8 +631,8 @@
                 <span>파일 추가...</span>
                 <input type="file" name="files[]" multiple>
             </span>
-            <button type="submit" class="start">업로드 시작</button>
-            <button type="reset" class="cancel">업로드 취소</button>
+<!--             <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button> -->
             <button type="button" class="delete">삭제</button>
             <input type="checkbox" class="toggle">
             <!-- The global file processing state -->
@@ -725,8 +725,8 @@
                 <span>파일 추가...</span>
                 <input type="file" name="files[]" multiple>
             </span>
-            <button type="submit" class="start">업로드 시작</button>
-            <button type="reset" class="cancel">업로드 취소</button>
+<!--             <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button> -->
             <button type="button" class="delete">삭제</button>
             <input type="checkbox" class="toggle">
             <!-- The global file processing state -->
@@ -820,8 +820,8 @@
                 <span>파일 업로드...</span>
                 <input type="file" name="files[]" multiple>
             </span>
-            <button type="submit" class="start">업로드 시작</button>
-            <button type="reset" class="cancel">업로드 취소</button>
+<!--             <button type="submit" class="start">업로드 시작</button>
+            <button type="reset" class="cancel">업로드 취소</button> -->
             <button type="button" class="delete">삭제</button>
             <input type="checkbox" class="toggle">
             <!-- The global file processing state -->

@@ -60,6 +60,8 @@ public class ErpAssetCdDefaultVO implements Serializable {
 
     private String searchItemName;
 
+    private String searchModelName;
+
     private String searchAssetSize;
 
     private String searchStartDt;
@@ -206,6 +208,14 @@ public class ErpAssetCdDefaultVO implements Serializable {
 
 	public void setSearchAssetSize(String searchAssetSize) {
 		this.searchAssetSize = searchAssetSize;
+	}
+
+	public String getSearchModelName() {
+		return searchModelName;
+	}
+
+	public void setSearchModelName(String searchModelName) {
+		this.searchModelName = searchModelName;
 	}
 
 }

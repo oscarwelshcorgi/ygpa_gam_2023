@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.asset.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -11,72 +13,73 @@ import egovframework.com.cmm.ComDefaultVO;
  * @since 2014-01-29
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
+
     /** 항코드 */
     private String sPrtAtCode;
 
     /** GIS 자산 코드 */
     private String sGisAssetsCd;
-	
+
     /** GIS 자산 명 */
     private String sGisAssetsNm;
-    
+
     /** 사용기간 FORM */
     private String sUsagePdFrom;
-    
+
     /** 사용기간 TO */
     private String sUsagePdTo;
-    
+
     /**  GIS 자산 가치 조회 일자 FORM */
     private String sGisAssetsValInqireDtFrom;
 
     /**  GIS 자산 가치 조회 일자 TO */
     private String sGisAssetsValInqireDtTo;
-    
+
     /** GIS 자산 준공년도(검색조건) */
     private String sGisAssetsBlddate;
-    
+
     /** GIS 자산 위치 코드(검색조건) */
-    private String sGisAssetsLocCd; 
-    
+    private String sGisAssetsLocCd;
+
     /** GIS 자산 부두 코드(검색조건) */
     private String sGisAssetsQuayCd;
-    
+
     /** GIS 자산 구분 코드(검색조건) */
-    private String sGisAssetsSeCd;	   
-    
+    private String sGisAssetsSeCd;
+
     /** GIS 자산 재산 구분 코드(검색조건) */
     private String sGisAssetsPrprtySeCd;
-    
+
     /** GIS 자산 준공년도 */
     private String gisAssetsBlddate;
-    
+
     /** GIS 자산 위치 코드 */
-    private String gisAssetsLocCd; 
-    
+    private String gisAssetsLocCd;
+
     /** GIS 자산 부두 코드 */
     private String gisAssetsQuayCd;
-    
+
     /** GIS 자산 구분 코드 */
-    private String gisAssetsSeCd;	   
-    
+    private String gisAssetsSeCd;
+
     /** GIS 자산 재산 구분 코드 */
     private String gisAssetsPrprtySeCd;
-    
+
     /** ERP 자산 구분 코드 */
     private String erpAssetsSeCd;
-    
+
     /** ERP 자산 번호 */
     private String erpAssetsNo;
-    
+
     /** ERP 자산 번호 순번 */
     private String erpAssetsNoSeq;
-    
+
     /** [ERP] 상각연도 */
     private String deprctnYear;
 
@@ -130,28 +133,28 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 
     /** [ERP] 수정일자 */
     private String updateDate;
-    
-    private String sumRevalAmt;       
-    
-    private String sumThisTermIncreAmt; 
-    
-    private String sumBsThisCurAmt;     
-    
-    private String sumBsPreDeprctnSum;   
-    
-    private String sumBsNoDeprctnBal;  
-    
-    private String sumPreEndAssetBuySum;  
-    
-    private String sumAssetBuyAmt;        
-    
-    private String sumGnrlDeprctnRate;    
-    
-    private String sumThisTermDeprctnAmt; 
-    
-    private String sumCurAmt;             
-    
-    private String sumCnt;             
+
+    private String sumRevalAmt;
+
+    private String sumThisTermIncreAmt;
+
+    private String sumBsThisCurAmt;
+
+    private String sumBsPreDeprctnSum;
+
+    private String sumBsNoDeprctnBal;
+
+    private String sumPreEndAssetBuySum;
+
+    private String sumAssetBuyAmt;
+
+    private String sumGnrlDeprctnRate;
+
+    private String sumThisTermDeprctnAmt;
+
+    private String sumCurAmt;
+
+    private String sumCnt;
 
     /**
 	 * @return the sPrtAtCode
@@ -824,7 +827,7 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 	public void setSumCurAmt(String sumCurAmt) {
 		this.sumCurAmt = sumCurAmt;
 	}
-	
+
 	/**
 	 * @return the sumCnt
 	 */
@@ -838,5 +841,5 @@ public class GamAssetEvlDtlsInqireVO extends ComDefaultVO {
 	public void setSumCnt(String sumCnt) {
 		this.sumCnt = sumCnt;
 	}
-	
+
 }

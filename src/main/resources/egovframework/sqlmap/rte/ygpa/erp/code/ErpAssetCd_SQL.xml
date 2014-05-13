@@ -233,6 +233,12 @@ SELECT * FROM (
 					<isNotEmpty prepend="AND" property="searchItemName">
 						ITEM_NAME_ASSET LIKE '%' || #searchItemName# || '%'
 					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchModelName">
+						SEARCH_MODEL_NAME LIKE '%' || #searchModelName# || '%'
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchAssetSize">
+						ASSET_SIZE LIKE '%' || #searchAssetSize# || '%'
+					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="searchStartDt">
 						<![CDATA[
 						BUY_DATE  >= REPLACE(#searchStartDt#, '-', '')

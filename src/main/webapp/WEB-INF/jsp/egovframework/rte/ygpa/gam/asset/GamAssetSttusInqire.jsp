@@ -8,14 +8,14 @@
   * @Class Name : GamAssetSttusInqire.jsp
   * @Description : 자산정보현황조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.07  heroine          최초 생성
   *
   * author heroine
   * since 2014.02.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,8 +29,8 @@ GamAssetSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetSttusInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#assetSttusInqireList").flexigrid({
      module: this,
      url: '<c:url value="/asset/gamAssetSttusInqireList.do"/>',
@@ -65,29 +65,29 @@ GamAssetSttusInqireModule.prototype.loadComplete = function() {
          return data;
      }
 });
- 
- 
+
+
 	// 오늘날짜로 기준일자 설정 처리
 	var today = new Date();
-	
+
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
-	
+
 	if(serchMn < 10){
 		serchMn = "0" + serchMn;
 	}
-	
+
 	var serchday = today.getDate();
 	if(serchday < 10){
 		serchday = "0" + serchday;
 	}
-	
+
 	var displayDate = serchYr + "-" + serchMn + "-" + serchday;
 
 	this.$("#sUsagePdFrom").val(displayDate);
 	this.$("#sUsagePdTo").val(displayDate);
 };
-     
+
 /**
 * 정의 된 버튼 클릭 시
 */
@@ -97,7 +97,7 @@ GamAssetSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
      // 조회
      case 'searchBtn':
-    	 
+
     	 if(this.$("#sUsagePdFrom").val() == ""){
     		 alert("사용시작일을 선택하세요.");
     		 return;
@@ -106,23 +106,23 @@ GamAssetSttusInqireModule.prototype.onButtonClick = function(buttonId) {
     		 alert("사용종료일을 선택하세요.");
     		 return;
     	 }
-    	 
+
          var searchOpt=this.makeFormArgs('#gamAssetSttusInqireSearchForm');
          this.$('#assetSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
          break;
-         
+
      case 'popupEntrpsInfo': // 업체팝업을 호출한다.(조회)
          var opts;
 
          this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
          break;
-         
+
 	// 자산코드 팝업
 	case "searchPopupBtn":
 		this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
 		break;
-		
+
  }
 };
 
@@ -161,7 +161,7 @@ GamAssetSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value)
            alert('취소 되었습니다');
        }
        break;
-       
+
    default:
        alert('알수없는 팝업 이벤트가 호출 되었습니다.');
        throw 0;
@@ -186,34 +186,34 @@ var module_instance = new GamAssetSttusInqireModule();
                             <td style="width: 230px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
-                            
+
                             <th style="width: 40px"><span class="label">자산코드</span></th>
                             <td style="width: 120px">
-                                <input id="sGisAssetsCd" type="text" size="2">&nbsp;-&nbsp; 
-                                <input id="sGisAssetsSubCd" type="text" size="2">
+                                <input id="sGisAssetsCd" type="text" size="2" style="width: 30px; text-transform: uppercase" maxlength="3" />&nbsp;-&nbsp;
+                                <input id="sGisAssetsSubCd" type="text" size="2" maxlength="2" style="width: 20px;"/>
                             </td>
-                            
+
                             <th style="width: 40px"><span class="label">업체</span></th>
                             <td>
                             	<input id="sEntrpscd" type="text" size="6">
-                	        <!-- 
+                	        <!--
                             	<input id="sEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
                     	     -->
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
-                            
+
                             <th style="width: 40px"><span class="label">부두</span></th>
                             <td style="width: 100px">
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
-                            </td>                           
+                            </td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                          </tr>
-                         <tr>   
+                         <tr>
                             <th>기준일자</th>
                             <td><input id="sUsagePdFrom" type="text" class="emdcal"
                                 size="8"> ~ <input id="sUsagePdTo" type="text"
                                 class="emdcal" size="8"></td>
-                            
+
                             <th>승낙구분</th>
                             <td>
                                 <select id="sPrmisnYn">
@@ -222,16 +222,16 @@ var module_instance = new GamAssetSttusInqireModule();
                                     <option value="N">N</option>
                                 </select>
                             </td>
-                            
+
                             <th><span class="label">담당부서</span></th>
                             <td>
                                 <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="전체" />
                             </td>
-                            
+
                             <td></td>
                             <td></td>
                         </tr>
-                        <!-- 
+                        <!--
                         <tr>
                             <th>GIS자산코드</th>
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
@@ -244,7 +244,7 @@ var module_instance = new GamAssetSttusInqireModule();
                             <td rowSpan="2"><button id="searchBtn" class="submit">조회</button></td>
                         </tr>
                         -->
-                        <!-- 
+                        <!--
                         <tr>
                             <th>관리부서</th>
                             <td><select id="mngDeptCd"></select></td>
@@ -261,11 +261,11 @@ var module_instance = new GamAssetSttusInqireModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <!-- 
+                <!--
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">자산정보현황 상세</a></li>
                  -->
-                 
+
                 <li><a href="#tabs1" class="emdTab">자산정보현황</a></li>
             </ul>
 
@@ -289,8 +289,8 @@ var module_instance = new GamAssetSttusInqireModule();
 						</table>
 					</form>
                 </div>
-                
-                <!-- 
+
+                <!--
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <tr>
@@ -313,15 +313,15 @@ var module_instance = new GamAssetSttusInqireModule();
                 </div>
                  -->
             </div>
-            
-            <!-- 
+
+            <!--
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
 
                 <div class="emdControlPanel">
                     <button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="saveNticDetailBtn">고지의뢰</button><button id="cancelNticDetailBtn">고지취소</button>
                     <form id="gamAssetRentFeeForm">
                         <input type="hidden" id="cmd"/>
-                        
+
                         <table>
                             <tr>
                                 <th><span class="label">고지 횟수</span></th>
@@ -348,14 +348,14 @@ var module_instance = new GamAssetSttusInqireModule();
                                 <th><span class="label">고지 일자</span></th>
                                 <td><input type="text" size="10" id="nticDt"/></td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">납부 기한</span></th>
                                 <td><input type="text" size="10" id="payTmlmt"/></td>
                                 <th><span class="label">공시지가</span></th>
                                 <td><input type="text" size="10" id="olnlp"/></td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">사용료</span></th>
                                 <td><input type="text" size="10" id="fee"/></td>
@@ -368,14 +368,14 @@ var module_instance = new GamAssetSttusInqireModule();
                                     </select>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">부가세</span></th>
                                 <td><input type="text" size="10" id="vat"/></td>
                                 <th><span class="label">고지 금액</span></th>
                                 <td><input type="text" size="10" id="nticAmt"/></td>
                             </tr>
-                            
+
                             <tr>
                                 <th><span class="label">비고</span></th>
                                 <td><input type="text" size="10" id="rm"/></td>

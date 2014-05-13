@@ -40,7 +40,7 @@ GamBupJungDongModule.prototype.loadComplete = function() {
 			{display:'법정동 코드', name:'bupjungdongCd', width:200, sortable:true, align:'center'},
 			{display:'법정동 명', name:'bupjungdongNm', width:480, sortable:true, align:'center'}
 			],
-		height: 'auto',
+		height: '420',
 	});
 
 	this.$("#addrList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -54,7 +54,7 @@ GamBupJungDongModule.prototype.onButtonClick = function(buttonId) {
 		this.loadData();
 		break;
 	case "btnOk":
-		var row = this.$("#assetCodeList").selectedRows();
+		var row = this.$("#addrList").selectedRows();
 		if(row.length>0) {
 			row[0].detailAddr=this.$('#detailAddr').val();
 			this.closeDialog("ok", row[0]);
@@ -114,13 +114,15 @@ var popup_instance = new GamBupJungDongModule();
 	<div class="emdPanel fillHeight">
 		<table id="addrList" style="display:none" class="fillHeight"></table>
 		<div class="emdControlPanel">
-			<div class="emdControlPanel">
-				<div class="editForm">
+				<table class="editForm" style="display: inline; float:left;">
+					<tr>
+					<th>나머지 주소 </th>
+					<td>
 					<input id="detailAddr" size="20" />
-				</div>
+					</td></tr>
+				</table>
 				<button id="btnOk">주소입력</button>
 				<button id="cancel">취소</button>
-			</div>
 		</div>
 	</div>
 </div>
