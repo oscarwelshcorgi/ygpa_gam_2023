@@ -110,7 +110,7 @@ var module_instance = new GamMenuMngCreateModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>보안설정대상ID</th>
+							<th>권한코드</th>
 							<td>&nbsp;<input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
 							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>

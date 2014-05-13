@@ -258,8 +258,8 @@ var module_instance = new GamMenuMngModule();
 						<tr>
 							<th width="20%" height="23" class="required_text">파일명</th>
 							<td colspan="3">
-								<input type="text" size="30" id="progrmFileNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
-								<input type="text" size="30" id="progrmKoreanNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
+								<input type="text" size="36" id="progrmFileNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
+								<input type="text" size="36" id="progrmKoreanNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
 								<button id="popupBtn">프로그램파일명 검색</button>
 							</td>
 						</tr>
@@ -271,7 +271,7 @@ var module_instance = new GamMenuMngModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴설명</th>
-							<td colspan="3"><textarea cols="76" rows="10" id="menuDc" maxlength="250"></textarea></td>
+							<td colspan="3"><textarea cols="80" rows="10" id="menuDc" maxlength="250"></textarea></td>
 						</tr>
 					</table>
 				</form>
