@@ -48,14 +48,11 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 					{display:"사용여부",					name:"gisAssetsUsageYn",	width:80, 	sortable:true, align:"center"}
 					//{display:"지번", 					name:"gisAssetsLnm", 		width:40, 	sortable:true, align:"center"}
 					],
-		//usepager: false,
-		//rp: 24,
-		//showTableToggleBtn: false,
-		height: "auto",
+		height: '300',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
-				this.gisAssetsLocplc = this.gisAssetsLocplc+" "+this.gisAssetsLnm;
-				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
+				if(this.gisAssetsLnm!=undefined && this.gisAssetsLnm!=null) this.gisAssetsLocplc+=" "+this.gisAssetsLnm;
+				if(this.gisAssetsLnmSub!=undefined && this.gisAssetsLnmSub!=null) {
 					this.gisAssetsLocplc = this.gisAssetsLocplc+"-"+this.gisAssetsLnmSub;
 				}
 			});
@@ -64,10 +61,11 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#assetCodeList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.closeDialog("ok", row);
 	});
+
+	console.log('load complete');
 };
 
 
@@ -77,7 +75,6 @@ GamAssetCodePopupModule.prototype.onButtonClick = function(buttonId) {
 	case "selectGisAssetCode":
 		var searchOpt=this.makeFormArgs("#searchPopupGisAssetCode");
 	 	this.$("#assetCodeList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
 		break;
 	case "btnOk":
 		var row = this.$("#assetCodeList").selectedRows();
@@ -101,7 +98,7 @@ GamAssetCodePopupModule.prototype.loadData = function() {
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamAssetCodePopupModule();
 </script>
-<div class="dialog fillHeight">
+<div class="dialog">
 	<div class="emdPanel">
 		<form id="searchPopupGisAssetCode">
 			<table class="searchPanel">
@@ -122,7 +119,7 @@ var popup_instance = new GamAssetCodePopupModule();
 				</tbody>
 			</table>
 		</form>
-		</div>
+	</div>
 	<div class="emdPanel fillHeight">
 		<table id="assetCodeList" style="display: none" class="fillHeight"></table>
 		<div class="emdControlPanel">

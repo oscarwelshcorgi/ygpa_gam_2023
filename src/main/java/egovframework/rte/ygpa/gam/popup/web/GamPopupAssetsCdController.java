@@ -41,7 +41,7 @@ public class GamPopupAssetsCdController {
     	return "/ygpa/gam/popup/GamPopupAssetsCd";
     }
 
-    
+
     /**
      * 자산코드 목록 가져오기
      * @param searchVO
@@ -50,11 +50,8 @@ public class GamPopupAssetsCdController {
      */
     @RequestMapping(value="/popup/selectAssetCodeList.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> selectAssetCodeList(GamPopupGisAssetsCdVO searchVO) throws Exception {
-    	
-    	Map<String, Object> map = new HashMap<String, Object>();
 
-    	searchVO.setPageUnit(10);
-    	searchVO.setPageSize(10);
+    	Map<String, Object> map = new HashMap<String, Object>();
 
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
