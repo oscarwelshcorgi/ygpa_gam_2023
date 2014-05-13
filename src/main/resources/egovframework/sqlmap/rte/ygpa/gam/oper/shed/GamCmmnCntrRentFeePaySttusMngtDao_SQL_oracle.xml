@@ -36,11 +36,13 @@
                    	S.NTIC_CNT,
 			        S.ENTRPSCD,
 			        S.ENTRPS_NM,
+                   	MIN(S.PRT_AT_CODE_NM) PRT_AT_CODE_NM,
                    	MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
                    	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
                    	MAX(S.NTICNO) NTICNO,
                    	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
     				GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+                   	SUM(S.VAT) VAT,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
                    	SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
@@ -314,6 +316,7 @@
     						       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+							       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
 							  FROM ASSETS_RENT_F A,
 							       LEV_REQEST_F L
 							 WHERE 1 = 1
