@@ -297,8 +297,8 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
     <div class="emdPanel fillHeight">
         <div id="marineCenterRentNticListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
-                <li><a href="#tabs1" class="emdTab">마린센터임대료납부 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">마린센터임대료납부 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">마린센터임대납부현황 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">마린센터임대납부현황 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
