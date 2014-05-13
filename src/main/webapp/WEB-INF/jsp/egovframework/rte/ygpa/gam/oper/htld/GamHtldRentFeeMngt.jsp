@@ -375,18 +375,18 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         <tr>
                             <th>항코드</th>
                             <td>
-								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" data-column-id="gisAssetsPrtAtCode" />
+								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"  />
                             </td>
                             <th>관리번호</th>
                             <td style="width: 200px">
-                                <input id="sMngYear" type="text" width="80" size="3" maxlength="4">-
-                                <input id="sMngNo" type="text" size="3" maxlength="2">-
-                                <input id="sMngCnt" type="text" size="2" maxlength="2">
+                                <input id="sMngYear" type="text" class="mngYear">
+                                <input id="sMngNo" type="text" class="mngNo">
+                                <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>신청업체</th>
                             <td>
-                                <input type="text" size="6" id="entrpscd" maxlength="10"/>
-                                <input type="text" size="25" id="entrpsNm" disabled/>
+                                <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
+                                <input type="text" size="25" id="sEntrpsNm" disabled/>
                                 <button id="popupEntrpsInfoFee" class="popupButton">선택</button>
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>

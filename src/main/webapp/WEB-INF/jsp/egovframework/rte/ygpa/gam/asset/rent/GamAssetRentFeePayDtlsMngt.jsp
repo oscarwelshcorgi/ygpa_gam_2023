@@ -289,12 +289,12 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                         <tr>
                             <th>관리번호</th>
                             <td>
-                            	<input id="sMngYear" type="text" size="3">-
-                            	<input id="sMngNo" type="text" size="2">-
-                            	<input id="sMngCnt" type="text" size="1">
+                            	<input id="sMngYear" type="text" class="mngYear">
+                                <input id="sMngNo" type="text" class="mngNo">
+                                <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>고지일자</th>
-                            <td><input id="sNticDtFrom" data-column-id="nticDtFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticDtTo" type="text"class="emdcal" size="8"></td>
+                            <td><input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8"></td>
                             <th>요금종류</th>
                             <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
                         </tr>

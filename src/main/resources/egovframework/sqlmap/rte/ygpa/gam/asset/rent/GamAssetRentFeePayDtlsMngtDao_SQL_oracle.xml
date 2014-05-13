@@ -149,6 +149,10 @@
 							   <isNotEmpty property="rcivSe">
 							   	AND L.RCIV_SE = #rcivSe#
 							   </isNotEmpty>
+							   
+							   <isNotEmpty property="sChrgeKnd">
+							   	AND L.CHRGE_KND = #sChrgeKnd#
+							   </isNotEmpty>
 
                 ) S
                 GROUP BY S.PRT_AT_CODE, S.MNG_YEAR, S.MNG_NO, S.MNG_CNT, S.NTIC_CNT, S.ACCNUT_YEAR, S.ENTRPSCD, S.ENTRPS_NM
@@ -216,6 +220,10 @@
 							   <isNotEmpty property="rcivSe">
 							   	AND L.RCIV_SE = #rcivSe#
 							   </isNotEmpty>
+							   
+							   <isNotEmpty property="sChrgeKnd">
+							   	AND L.CHRGE_KND = #sChrgeKnd#
+							   </isNotEmpty>
     </select>
 
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultClass="int">
@@ -262,6 +270,10 @@
 
 							   <isNotEmpty property="rcivSe">
 							   	AND L.RCIV_SE = #rcivSe#
+							   </isNotEmpty>
+							   
+							   <isNotEmpty property="sChrgeKnd">
+							   	AND L.CHRGE_KND = #sChrgeKnd#
 							   </isNotEmpty>
 
           GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.ENTRPSCD
