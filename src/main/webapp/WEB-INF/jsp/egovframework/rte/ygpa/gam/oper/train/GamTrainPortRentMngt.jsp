@@ -968,12 +968,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
-            var row = this.$('#assetRentMngtList').selectedRows()[0];
-
-            /* if( rows[0]['quayGroupCd'] != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 사용승낙이 불가능합니다.");
-                return;
-            } */
+            var row = rows[0];
 
             if(rows.length>=1) {
             	if( row['prmisnYn'] == 'Y' ) {
