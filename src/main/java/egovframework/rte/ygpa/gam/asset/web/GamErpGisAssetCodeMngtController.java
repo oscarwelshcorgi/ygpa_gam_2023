@@ -260,13 +260,13 @@ public class GamErpGisAssetCodeMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
+		Map<String, Object> userMap = new HashMap<String, Object>();
 		ObjectMapper mapper = new ObjectMapper();
 
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
+    	List<HashMap<String,Object>> insertList=null;
+    	List<HashMap<String,Object>> updateList=null;
+    	List<HashMap<String,Object>> deleteList=null;
+    	List<Map<String,Object>> userList=null;
 
     	int resultCode = -1;
     	String resultMsg = "";
@@ -279,20 +279,20 @@ public class GamErpGisAssetCodeMngtController {
     	}
 
 		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
+		    new TypeReference<List<HashMap<String,Object>>>(){});
 
 		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
+    		    new TypeReference<List<HashMap<String,Object>>>(){});
 
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
+    		    new TypeReference<List<HashMap<String,Object>>>(){});
 
 		userList = new ArrayList();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
-		
+
 		insertList.addAll(updateList);
 
 		mergeMap.put("CU", insertList);

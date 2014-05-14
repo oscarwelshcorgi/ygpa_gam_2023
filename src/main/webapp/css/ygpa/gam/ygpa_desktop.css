@@ -356,3 +356,38 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
  input.gisAssetsSubCd {
  	width: 20px;
  }
+
+ div.olControlFinishEditShapeFeaturesItemActive {
+    background-image: url(../../../images/egovframework/ygpa/gam/maps/save_features_on.png);
+    background-repeat: no-repeat;
+    background-position: 0 1px;
+}
+div.olControlFinishEditShapeFeaturesItemInactive {
+    background-image: url(../../../images/egovframework/ygpa/gam/maps/save_features_off.png);
+    background-repeat: no-repeat;
+    background-position: 0 1px;
+}
+
+div.olControlEditShpaePointFeaturesItemActive {
+    background-image: url(../../../images/egovframework/ygpa/gam/maps/add_point_on.png);
+    background-repeat: no-repeat;
+    background-position: 0 1px;
+}
+
+div.olControlEditShpaePointFeaturesItemInactive {
+    background-image: url(../../../images/egovframework/ygpa/gam/maps/add_point_off.png);
+    background-repeat: no-repeat;
+    background-position: 0 1px;
+}
+
+div.olControlMoveShpaeFeaturesItemActive {
+    background-image: url(../../../images/egovframework/ygpa/gam/maps/move_feature_on.png);
+    background-repeat: no-repeat;
+    background-position: 0 1px;
+}
+
+div.olControlMoveShpaeFeaturesItemInactive {
+    background-image: url(../../../images/egovframework/ygpa/gam/maps/move_feature_off.png);
+    background-repeat: no-repeat;
+    background-position: 0 1px;
+}

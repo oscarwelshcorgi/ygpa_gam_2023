@@ -258,8 +258,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			//alert(this._regMode);
 			var inputVO = this.makeFormArgs("#editGisAssetCode");
 			if (this._regMode == "I") {
-				this
-						.doAction(
+				this.doAction(
 								'<c:url value="/code/assets/insertGamGisAssetCode.do" />',
 								inputVO, function(module, result) {
 									if (result.resultCode == "0") {
@@ -275,9 +274,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 												}).flexReload();
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
-											module.modifyAssetCdFeature(
-													result.assetsCode,
-													this._params.feature);
+											module.modifyFeatureCode(module, 'gisAssetsCd',
+													module.selectedItem,
+													module._params.feature);
 											alert(result.resultMsg);
 											// 창을 닫는다.
 											//module.closeWindow();
@@ -313,9 +312,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 												.val("");
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
-											module.modifyAssetCdFeature(
-													result.assetsCode,
-													this._params.feature);
+											module.modifyFeatureCode('gisAssetsCd',
+													module.selectedItem,
+													module._params.feature);
 											alert(result.resultMsg);
 											// 창을 닫는다.
 											module.closeWindow();
@@ -569,6 +568,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					if (result.resultCode == "0") {
 						module.makeFormValues('#editGisAssetCode',
 								result.result); // 결과값을 채운다.
+						module.selectedItem=result.result;
 						module._editData = result.result;
 								module._state="";
 								module._regMode="U";
@@ -805,7 +805,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr> -->
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-<!-- 					<button id="btnAddGisMap">위치등록</button> -->
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">맵조회</button>
+					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">위치등록</button>
 					<button id="btnCancelGisAssetsCode">취소</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
 					<button id="removeAssetGisCdDetailItem">삭제</button>
