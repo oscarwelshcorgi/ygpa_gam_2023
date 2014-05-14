@@ -664,7 +664,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-style="default">맵조회</button>
-					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCode">위치등록</button>
+<!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCode">위치등록</button> -->
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->
@@ -795,7 +795,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
 					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">맵조회</button>
-					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">위치등록</button>
+<!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">위치등록</button> -->
 					<button id="btnCancelGisAssetsCode">취소</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
 					<button id="removeAssetGisCdDetailItem">삭제</button>
