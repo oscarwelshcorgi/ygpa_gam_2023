@@ -776,8 +776,8 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnShowMap">맵조회</button>
-								-->
                                  <button id="addCmmnCntrRentSttusInqireRenew">연장신청</button>
+								-->
 	                            </td>
 	                        </tr>
 						</table>

@@ -773,8 +773,8 @@ var module_instance = new GamHtldRentSttusInqireModule();
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnShowMap">맵조회</button>
-								-->
                                  <button id="addHtldRentSttusInqireRenew">연장신청</button>
+								-->
 	                            </td>
 	                        </tr>
 						</table>
