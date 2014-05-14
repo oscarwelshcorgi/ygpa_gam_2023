@@ -230,7 +230,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 				alert("자료가 선택되지 않았습니다.");
 			}
 			break;
-			
+
 	}
 };
 
@@ -319,7 +319,7 @@ var module_instance = new GamFcltyMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap" data-flexi-grid="fcltyMngtList">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="fcltyMngtList" data-style="default">맵조회</button>
 				</div>
 			</div>
 

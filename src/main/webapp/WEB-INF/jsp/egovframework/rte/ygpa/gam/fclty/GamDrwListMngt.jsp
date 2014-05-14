@@ -417,7 +417,9 @@ var module_instance = new GamFcltyDrwListMngtModule();
 			<div id="tabs1" class="emdTabPage fillHeight">
 				<table id="drwListMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
+				<!--
 					<button id="loadMap" data-flexi-grid="drwListMngtList">맵조회</button>
+					 -->
 					<button id="addBtn">추가</button>
 					<button id="deleteBtn">삭제</button>
 				</div>
@@ -469,9 +471,11 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
+				<!--
 					<button id="btnEditMap">위치등록</button>
 					<button id="btnRemoveMap">위치삭제</button>
 					<button id="btnGotoMap">위치조회</button>
+					 -->
 					<button id="btnDeleteFile" class="buttonDelete">삭제</button>
 					<button id="btnSaveFile" class="buttonSave">저장</button>
 				</div>

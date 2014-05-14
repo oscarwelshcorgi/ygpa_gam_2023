@@ -681,7 +681,7 @@ var module_instance = new GamFcltyMngtModule();
 				<div class="emdControlPanel">
 					<button id="addBtn">시설추가</button>
 					<button id="deleteBtn">시설삭제</button>
-					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="fcltyMngtList" data-style="default">맵조회</button>
 				</div>
 			</div>
 
@@ -689,12 +689,6 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 기계시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
-			<!--
-					<input type="hidden" id="laCrdnt" />
-					<input type="hidden" id="loCrdnt" />
-			-->
-					<!-- 신경 쓸 필요 없다 함.2014-03-07
-					<input type="hidden" id="prtFcltyGisCd" /> -->
 					<table class="searchPanel">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>

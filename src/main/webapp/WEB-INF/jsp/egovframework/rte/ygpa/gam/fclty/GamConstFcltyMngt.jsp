@@ -681,7 +681,7 @@ var module_instance = new GamFcltyMngtModule();
 				<div class="emdControlPanel">
 					<button id="addBtn">시설추가</button>
 					<button id="deleteBtn">시설삭제</button>
-					<button id="loadMap" data-flexi-grid="assetCodeList">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="fcltyMngtList" data-style="default">맵조회</button>
 				</div>
 			</div>
 

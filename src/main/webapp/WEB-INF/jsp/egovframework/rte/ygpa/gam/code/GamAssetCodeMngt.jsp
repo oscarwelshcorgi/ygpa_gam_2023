@@ -274,7 +274,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 												}).flexReload();
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
-											module.modifyFeatureCode(module, 'gisAssetsCd',
+											module.modifyFeatureCode('gisAssetsCd',
 													module.selectedItem,
 													module._params.feature);
 											alert(result.resultMsg);
@@ -534,19 +534,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 
 		}
-
-
-
-
 	};
 
-	/*
-	 GamAssetCodeModule.prototype.onUploadFileDone = function(uploadId, result) {
-	 $.each(result, function() {
-	 this.$)
-	 });
-	 }
-	 */
 	GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		switch (newTabId) {
 		case 'tabs1':

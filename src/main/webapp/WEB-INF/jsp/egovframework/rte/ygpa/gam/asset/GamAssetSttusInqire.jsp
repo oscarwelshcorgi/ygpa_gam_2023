@@ -284,7 +284,9 @@ var module_instance = new GamAssetSttusInqireModule();
 								<td><input type="text" size="18" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">감면사용료</th>
 								<td><input type="text" size="18" id="sumRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
-								<td><button id="loadMap" data-flexi-grid="assetSttusInqireList">맵조회</button></td>
+								<td>
+									<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetSttusInqireList" data-style="default">맵조회</button>
+								</td>
 							</tr>
 						</table>
 					</form>
