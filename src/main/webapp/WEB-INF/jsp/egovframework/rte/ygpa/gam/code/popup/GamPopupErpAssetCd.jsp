@@ -25,7 +25,7 @@
  */
 function GamErpAssetCodePopupModule() {}
 
-GamErpAssetCodePopupModule.prototype = new EmdPopupModule(600, 400);
+GamErpAssetCodePopupModule.prototype = new EmdPopupModule(600, 460);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamErpAssetCodePopupModule.prototype.loadComplete = function(params) {
@@ -47,6 +47,7 @@ GamErpAssetCodePopupModule.prototype.loadComplete = function(params) {
 			{display:'취득단가', name:'buyPrice', width:128, sortable:true, align:'right', displayFormat: 'number'},
 			{display:'취득일자', name:'buyDate', width:64, sortable:true, align:'center'}
 			],
+		height:'280',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq;
