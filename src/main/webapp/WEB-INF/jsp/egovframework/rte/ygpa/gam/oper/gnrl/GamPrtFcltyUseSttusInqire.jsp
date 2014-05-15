@@ -245,7 +245,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
 
     this.$("#prtFcltyUseSttusInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyUseSttusInqireListTab").tabs("option", {active: 1});    
-        module.$('#cmd').val('modify');
+        /* module.$('#cmd').val('modify');
         module.$('#gamPrtFcltyUseSttusInqireForm :input').val('');
 
         module.makeFormValues('#gamPrtFcltyUseSttusInqireForm', row);
@@ -254,7 +254,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         
         if(row!=null) {
             module.$('#cmd').val('modify');  
-        }
+        } */
     });
     
     this.$("#prtFcltyUseSttusInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -774,8 +774,8 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnShowMap">맵조회</button>
-                                 <button id="addPrtFcltyUseSttusInqireRenew">연장신청</button>
 								-->
+                                 <button id="addPrtFcltyUseSttusInqireRenew">연장신청</button>
 	                            </td>
 	                        </tr>
 						</table>
