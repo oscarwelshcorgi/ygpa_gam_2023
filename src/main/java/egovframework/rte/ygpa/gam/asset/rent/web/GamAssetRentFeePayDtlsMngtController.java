@@ -337,9 +337,9 @@ public class GamAssetRentFeePayDtlsMngtController {
         	return map;
     	}
 
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+//		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		searchVO.setUpdUsr(loginVO.getId());
+		searchVO.setUpdUsr("TEST1");	// 감리대비
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
 

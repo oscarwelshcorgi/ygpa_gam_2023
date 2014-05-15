@@ -327,8 +327,8 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                 		</tr>
                 	</table>
 					<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
-					<button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button>
-                </div>
+<!-- 					<button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button>
+ -->                </div>
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">

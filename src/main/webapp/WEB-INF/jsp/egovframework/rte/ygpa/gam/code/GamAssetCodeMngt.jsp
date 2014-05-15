@@ -232,8 +232,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			}
 			break;
 		case 'removeAssetGisCdItem':
-					if (this.$('#editGisAssetCode').selectedRowIds().length != 1) {
+					if (this.$('#assetCodeList').selectedRowIds().length != 1) {
 						alert('삭제할 항목을 선택 하십시요');
+						console.debug('delete error');
 						return;
 					}
 				if (confirm('선택한 자산을 삭제 하시겠습니까?')) {
@@ -733,17 +734,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr>
 					<tr>
 						<th><span class="label">자산구분</span></th>
-						<td>
+						<td colspan="3">
 							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013'>
-						</td>
-						<th><span class="label">출자방식</span></th>
-						<td>
-							<select id="gisAssetsInvstmntMthd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${assetsInvstmntMthdList}" var="assetsInvstmntMthd">
-										<option value="${assetsInvstmntMthd.codeId }">${assetsInvstmntMthd.codeNm }</option>
-									</c:forEach>
-							</select>
 						</td>
 						<th><span class="label">취득가액</span></th>
 						<td><input type="text" size="18" id="gisAssetsAcqPri" class="ygpaNumber"> 원</td>

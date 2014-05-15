@@ -88,8 +88,10 @@ GamNticArrrgPopupModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#prtAtcode_select').addClass('ui-state-error');
 			return;
 		}
-		else {
-			this.$('#prtAtcode_select').removeClass('ui-state-error');
+		if(this.$('#prtAtCode').val()=="") {
+			alert('수납 구분을 선택 하십시요.');
+			this.$('#prtAtcode_select').addClass('ui-state-error');
+			return;
 		}
 		this.loadData();
 		break;
@@ -124,6 +126,7 @@ var popup_instance = new GamNticArrrgPopupModule();
 <div class="dialog fillHeight">
 	<div class="emdPanel">
 		<form id="gamNticArrrgListVO">
+			<input type="hidden" id="rcivSe" value="0" />
 			<table class="searchPanel">
 				<tbody>
                         <tr>
@@ -139,9 +142,9 @@ var popup_instance = new GamNticArrrgPopupModule();
                             <th>요금종류</th>
                             <td><input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
                             <th>납부기한</th>
-                            <td><input id="payTmlmtFrom" type="text" class="emdcal" size="8"> ~ <input id="payTmlmtTo" type="text"class="emdcal" size="8"></td>
-                            <th>수납 구분</th>
-                            <td><input id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-value="0"/></td>
+                            <td colSpan="3"><input id="payTmlmtFrom" type="text" class="emdcal" size="8"> ~ <input id="payTmlmtTo" type="text"class="emdcal" size="8"></td>
+<!--                             <th>수납 구분</th>
+                            <td><input id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체"/></td> -->
                         </tr>
 				</tbody>
 			</table>

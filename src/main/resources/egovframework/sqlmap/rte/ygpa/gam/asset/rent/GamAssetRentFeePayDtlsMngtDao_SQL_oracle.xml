@@ -502,6 +502,9 @@
           AND AR.MNG_NO = L.MNG_NO
           AND AR.MNG_CNT = L.MNG_CNT
           AND AR.QUAY_GROUP_CD = 'P'
+          <![CDATA[
+          AND L.PAY_TMLMT < SYSDATE
+          ]]>
         <isNotEmpty property="payTmlmtFrom">
           AND A.DUE_DATE      &gt;= TO_DATE(#payTmlmtFrom#,'YYYY-MM-DD')
         </isNotEmpty>
@@ -626,6 +629,9 @@
           AND AR.MNG_NO = L.MNG_NO
           AND AR.MNG_CNT = L.MNG_CNT
           AND AR.QUAY_GROUP_CD = 'P'
+          <![CDATA[
+          AND L.PAY_TMLMT < SYSDATE
+          ]]>
         <isNotEmpty property="payTmlmtFrom">
           AND A.DUE_DATE      &gt;= TO_DATE(#payTmlmtFrom#,'YYYY-MM-DD')
         </isNotEmpty>

@@ -223,6 +223,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 		case 'insertExcel':
+			console.log('excel');
 			this.uploadXlsFile('xlsUpload', function(module, result) {
 				var searchOpt = module.makeFormArgs("#olnlpManageVO");
 				module.$('#olnlpInsertList').flexOptions({params:searchOpt}).flexReload();
@@ -369,7 +370,8 @@ var module_instance = new GamOlnlpMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="insertExcel" class="buttonExcel">엑셀등록</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpInsertList" data-style="default">맵조회</button>
+					<!-- <button id="insertExcel" class="buttonExcel">엑셀등록</button> -->
 				</div>
 			</div>
 

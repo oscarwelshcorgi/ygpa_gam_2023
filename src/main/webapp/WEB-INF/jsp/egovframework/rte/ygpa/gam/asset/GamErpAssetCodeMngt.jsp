@@ -485,7 +485,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 
 		// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 		this.uploadFile('uploadPhoto', function(module, result) {
- 			var userid=EMD.util.getLoginUserVO().userNm;
+ 			var userid=EMD.util.getLoginUserVO().id;
+ 			//var userid='TEST1';
 
 //			var userid='admin';
 			$.each(result, function(){
