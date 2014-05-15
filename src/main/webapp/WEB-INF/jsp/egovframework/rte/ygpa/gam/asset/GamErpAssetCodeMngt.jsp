@@ -347,7 +347,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'selectAddr':
-        this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', opts);
+        this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', []);
 		break;
 	case 'selectGisAssetPhoto':	// 자산 사진 조회
 		if(this.$('#searchGisAssetPrtAtCode').val()=='') {
