@@ -212,13 +212,15 @@ GamMarineCenterRentSttusInqireModule.prototype.loadComplete = function() {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
         module.$('#gamMarineCenterRentSttusInqireDetailForm :input').val('');
         
-        module.makeFormValues('#gamMarineCenterRentSttusInqireDetailForm', row);
+        //module.makeFormValues('#gamMarineCenterRentSttusInqireDetailForm', row);
+        module.makeDivValues('#gamMarineCenterRentSttusInqireDetailForm', row);
         module._editData=module.getFormValues('#gamMarineCenterRentSttusInqireDetailForm', row);
         module._editRow=module.$('#marineCenterRentSttusInqireDetailList').selectedRowIds()[0];
     });
     
     this.$("#marineCenterRentSttusInqireFileList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamMarineCenterRentSttusInqireFileForm', row);
+        //module.makeFormValues('#gamMarineCenterRentSttusInqireFileForm', row);
+        module.makeDivValues('#gamMarineCenterRentSttusInqireFileForm', row);
         module._editDataFile=module.getFormValues('#gamMarineCenterRentSttusInqireFileForm', row);
         module._editRowFile=module.$('#marineCenterRentSttusInqireFileList').selectedRowIds()[0];
         
@@ -257,7 +259,8 @@ GamMarineCenterRentSttusInqireModule.prototype.loadComplete = function() {
     this.$("#marineCenterRentSttusInqireDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 2});
         module.$('#gamMarineCenterRentSttusInqireDetailForm :input').val('');
-        module.makeFormValues('#gamMarineCenterRentSttusInqireDetailForm', row);
+        //module.makeFormValues('#gamMarineCenterRentSttusInqireDetailForm', row);
+        module.makeDivValues('#gamMarineCenterRentSttusInqireDetailForm', row);
         module._editData=module.getFormValues('#gamMarineCenterRentSttusInqireDetailForm', row);
         module._editRow=module.$('#marineCenterRentSttusInqireDetailList').selectedRowIds()[0];
 
@@ -1397,113 +1400,113 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                         <table class="searchPanel">
                             <tr>
 								<th width="10%" height="18">자산사용순번</th>
-                                <td><input type="text" size="20" id="assetsUsageSeq" disabled/></td>
+                                <td><span id="assetsUsageSeq" ></span></td>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                	<input type="text" size="5" id="dtlPrtAtCode" disabled/>
-	                                <input type="text" size="13" id="dtlPrtAtCodeNm" disabled/>
+                                	<span id="dtlPrtAtCode" ></span>
+	                                <span id="dtlPrtAtCodeNm" ></span>
                                 </td>
 								<th width="10%" height="18">관리번호</th>
                                 <td>
-									<input type="text" size="5" id="detailMngYear" data-column-id="mngYear" disabled/>-
-									<input type="text" size="5" id="detailMngNo" data-column-id="mngNo" disabled/>-
-									<input type="text" size="5" id="detailMngCnt" data-column-id="mngCnt" disabled/>
+									<span id="detailMngYear" data-column-id="mngYear" ></span>-
+									<span id="detailMngNo" data-column-id="mngNo" ></span>-
+									<span id="detailMngCnt" data-column-id="mngCnt" ></span>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="text" size="5" id="gisAssetsPrtAtCode" disabled/>-
-                                	<input type="text" size="4" id="gisAssetsCd" disabled/>-
-                                	<input type="text" size="4" id="gisAssetsSubCd" disabled/>
+                                	<span id="gisAssetsPrtAtCode" ></span>-
+                                	<span id="gisAssetsCd" ></span>-
+                                	<span id="gisAssetsSubCd" ></span>
                                     <input type="hidden" id="assetsCdStr"/>
                                 </td>
 								<th width="10%" height="18">자산면적</th>
-                                <td><input type="text" size="21" class="ygpaNumber" id="gisAssetsAr" disabled/></td>
+                                <td><span class="ygpaNumber" id="gisAssetsAr" ></span></td>
 								<th width="10%" height="18">자산명</th>
-                                <td><input type="text" size="52" id="gisAssetsNm" disabled/></td>
+                                <td><span id="gisAssetsNm" ></span></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">지번</th>
                                 <td>
-                                	<input type="text" size="8" id="gisAssetsLnm" disabled/>-
-                                	<input type="text" size="8" id="gisAssetsLnmSub" disabled/>
+                                	<span id="gisAssetsLnm" ></span>-
+                                	<span id="gisAssetsLnmSub" ></span>
                                 </td>
 								<th width="10%" height="18">소재지</th>
-                                <td colspan="3"><input type="text" size="94" id="gisAssetsLocplc" disabled/></td>
+                                <td colspan="3"><span id="gisAssetsLocplc" ></span></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
+                                <td><span class="ygpaNumber" id="gisAssetsRealRentAr" ></span></td>
 								<th width="10%" height="18">사용면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="usageAr" disabled/></td>
+                                <td><span class="ygpaNumber" id="usageAr" ></span></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" size="24" id="usagePdFrom" disabled/>~
-                                	<input type="text" size="24" id="usagePdTo" disabled/>
+                                	<span id="usagePdFrom" ></span>~
+                                	<span id="usagePdTo" ></span>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">적용요율</th>
                                 <td>
-                                    <input type="text" size="5" id="applcTariff" disabled/>
-                                    <input type="text" size="12" class="ygpaNumber" id="applcTariffNm" disabled/>
+                                    <span id="applcTariff" ></span>
+                                    <span class="ygpaNumber" id="applcTariffNm" ></span>
                                 </td>
 								<th width="10%" height="18">적용방법</th>
                                 <td>
-                                    <input type="text" size="5" id="applcMth" disabled/>
-                                    <input type="text" size="13" id="applcMthNm" disabled/>
+                                    <span id="applcMth" ></span>
+                                    <span id="applcMthNm" ></span>
                                 </td>
 								<th width="10%" height="18">공시지가목록</th>
                                 <td>
-                                	<input type="text" size="52" id="empty" disabled/>
+                                	<span id="empty" ></span>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">공시지가</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="olnlp" disabled/></td>
+                                <td><span class="ygpaNumber" id="olnlp" ></span></td>
 								<th width="10%" height="18">면제구분</th>
                                 <td>
-                                    <input type="text" size="5" id="exemptSe" disabled/>
-                                    <input type="text" size="13" id="exemptSeNm" disabled/>
+                                    <span id="exemptSe" ></span>
+                                    <span id="exemptSeNm" ></span>
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td>
-                                	<input type="text" size="24" id="exemptPdFrom" disabled/>~
-                                	<input type="text" size="24" id="exemptPdTo" disabled/>
+                                	<span id="exemptPdFrom" ></span>~
+                                	<span id="exemptPdTo" ></span>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제사유코드</th>
                                 <td colspan="3">
-                                    <input type="text" size="5" id="exemptRsnCd" disabled/>
-                                    <input type="text" size="53" id="exemptRsnCdNm" disabled/>
+                                    <span id="exemptRsnCd" ></span>
+                                    <span id="exemptRsnCdNm" ></span>
                                 </td>
 								<th width="10%" height="18">면제사유</th>
-                                <td><input type="text" size="52" id="exemptRsn" disabled/></td>
+                                <td><span id="exemptRsn" ></span></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용료</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="fee" disabled/></td>
+                                <td><span class="ygpaNumber" id="fee" ></span></td>
 								<th width="10%" height="18">감면사용료</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="rdcxptFee" disabled/></td>
+                                <td><span class="ygpaNumber" id="rdcxptFee" ></span></td>
 								<th width="10%" height="18">부두코드</th>
                                 <td>
-                                	<input type="text" id="quayCd" size="15" disabled/>
-                                	<input type="text" id="quayCdNm" size="34" disabled/>
+                                	<span id="quayCd" ></span>
+                                	<span id="quayCdNm" ></span>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>
-                                <td colspan="5"><input type="text" size="134" id="computDtls" disabled/></td>
+                                <td colspan="5"><span id="computDtls" ></span></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용목적</th>
-                                <td colspan="5"><input type="text" size="134" id="usagePurps" disabled/></td>
+                                <td colspan="5"><span id="usagePurps" ></span></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용내역</th>
-                                <td colspan="5"><input type="text" size="134" id="usageDtls" disabled/></td>
+                                <td colspan="5"><span id="usageDtls" ></span></td>
                             </tr>
 
                             <!--
@@ -1641,23 +1644,23 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                         <tr>
 							<th width="10%" height="18">사진제목</th>
                             <td>
-                                <input id="photoSj" type="text" size="83" disabled/>
+                                <span id="photoSj"></span>
                             </td>
 							<th width="10%" height="18">촬영일자</th>
                             <td>
-                                <input id="shotDt" type="text" size="20" disabled>
+                                <span id="shotDt"></span>
                             </td>
                         </tr>
                         <tr>
 							<th width="10%" height="18">사진파일명</th>
                             <td colspan="3">
-                                <input id="filenmLogic" type="text" size="135" disabled/>
+                                <span id="filenmLogic"></span>
                             </td>
                         </tr>
                         <tr>
 							<th width="10%" height="18">사진설명</th>
                             <td colspan="3">
-                                <input id="photoDesc" type="text" size="135" disabled/>
+                                <span id="photoDesc"></span>
                             </td>
                         </tr>
                     </table>
