@@ -86,6 +86,7 @@
                SET MBER_TY_CODE=#mberTyCode#
                  , AUTHOR_CODE=#authorCode#
              WHERE SCRTY_DTRMN_TRGET_ID=#uniqId#
+             	AND AUTHOR_CODE=#authorGroup.authorCode#
         ]]>
     </update>
 

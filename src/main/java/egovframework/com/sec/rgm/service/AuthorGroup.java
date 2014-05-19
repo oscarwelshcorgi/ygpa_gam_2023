@@ -1,5 +1,7 @@
 package egovframework.com.sec.rgm.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 
@@ -20,6 +22,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthorGroup extends ComDefaultVO {
 	/**
 	 * serialVersionUID

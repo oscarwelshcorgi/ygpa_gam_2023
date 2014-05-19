@@ -31,7 +31,8 @@ GamAuthorGrpMngModule.prototype = new EmdModule(800, 600);
 GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	var dOption = [
 	               <c:forEach var="authorManage" items="${authorManageList}" varStatus="status">
-	               		{value: '<c:out value="${authorManage.authorCode}"/>', name: '<c:out value="${authorManage.authorNm}"/>'} <c:if test="${!status.last}">,</c:if>
+	               		{value: '<c:out value="${authorManage.authorCode}"/>', name: '<c:out value="${authorManage.authorNm}"/>'}
+	               		<c:if test="${!status.last}">,</c:if>
 	           	   </c:forEach>
 	               ];
 
@@ -48,12 +49,36 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
 					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
 					],
-		height: "auto"
+		height: "380",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.authorGroup={authorCode: this.authorCode};
+			});
+			return data;
+		}
 	});
+	this.$("#searchCondition").on("change", {module: this}, function(event) {
+		var sel=$(this).find(":selected").val();
+		switch(sel) {
+		case "1":
+		case "2":
+			event.data.module.$("#popupGroupId").hide();
+			break;
+		case "3":
+			event.data.module.$("#popupGroupId").show();
+			break;
+		}
+	});
+	this.$("#popupGroupId").hide();
 };
 
+GamAuthorGrpMngModule.prototype.loadData = function() {
+	var searchOpt = this.makeFormArgs("#authorGrpMngForm");
+ 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+ 	console.log('debug');
+}
 
-/**
+	/**
  * 정의 된 버튼 클릭 시
  */
 GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
@@ -61,16 +86,26 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 
 		// 그룹조회 팝업
-		case "popupBtn":
+		case "popupGroupId":
 			this.doExecuteDialog('selectPopDataList', '그룹조회', '<c:url value="/cmmn/popup/gamPopupGroupView.do"/>', {searchKeyword: this.$("#searchKeyword").val()});
 		break;
 
 		// 조회
 		case "searchBtn":
-			var searchOpt = this.makeFormArgs("#authorGrpMngForm");
-		 	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
+			this.loadData();
 		break;
-
+		
+		case "btnAddAuthor":
+/* 			var newRole = {chkRole: false, userId: ''};
+		{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
+		{display:"사용자 ID", 	name:"userId",		width:100, 	sortable:false,		align:"left"},
+		{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"left"},
+		{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"left"},
+		{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
+		{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
+ */
+ 			//if()
+			break;
 		// 등록
 		case "saveBtn":
 
@@ -78,28 +113,10 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			var reglist = this.$("#authorGrpMngList").selectFilterData(filter);
 
 			if(reglist.length > 0){
+				var inputVO = [
+	               {name: 'authorList', value :JSON.stringify(reglist) }
+				];
 
-				var esntlIds = "";
-				var authorCodes = "";
-				var regYns = "";
-				var mberTyCodes = "";
-				for(var i=0; i<reglist.length; i++){
-					if(reglist[i].chkRole == true){
-						if(i < (reglist.length-1)){
-							esntlIds += reglist[i].uniqId + ";";
-							authorCodes += reglist[i].authorCode + ";";
-							regYns += reglist[i].regYn + ";";
-							mberTyCodes += reglist[i].mberTyCode + ";";
-						}else{
-							esntlIds += reglist[i].uniqId;
-							authorCodes += reglist[i].authorCode;
-							regYns += reglist[i].regYn;
-							mberTyCodes += reglist[i].mberTyCode;	
-						}
-					}
-				}
-
-				var inputVO = {esntlIds: esntlIds, authorCodes:authorCodes, regYns:regYns, mberTyCodes:mberTyCodes};
 				this.doAction('<c:url value="/cmmn/gamAuthorGroupInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
@@ -175,11 +192,12 @@ var module_instance = new GamAuthorGrpMngModule();
 							<th>조회조건</th>
 							<td>
 								<select id="searchCondition" title="검색조건선택">
-				                    <option value="1">사용자 ID</option>
+				                    <option value="1" selected>사용자 ID</option>
 				                    <option value="2">사용자 명</option>
 				                    <option value="3">그룹</option>
 				                </select>
-								<input id="searchKeyword" type="text" size="30" title="검색" />&nbsp;&nbsp;<button id="popupBtn">그룹조회 팝업</button>
+								<input id="searchKeyword" type="text" size="30" title="검색" />&nbsp;&nbsp;
+									<button id="popupGroupId" class="popupButton">그룹조회</button>
 							</td>
 							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -188,11 +206,56 @@ var module_instance = new GamAuthorGrpMngModule();
 			</form>
 		</div>
 	</div>
-	<div class="emdTabPage fillHeight" style="overflow: hidden;">
-		<table id="authorGrpMngList" style="display:none" class="fillHeight"></table>
-	</div>
-	<div class="emdControlPanel">
-		<button id="saveBtn" class="buttonSave"><span class="ui-icon-save"></span>권한그룹 등록</button>
-		<button id="deleteBtn" class="buttonTrash"><span class="ui-icon-trash"></span>권한그룹 해제</button>
+	<div id="groupMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<ul>
+			<li><a href="#tabs1" class="emdTab">그룹목록</a></li>
+			<li><a href="#tabs2" class="emdTab">그룹상세</a></li>
+		</ul>
+		<div id="tabs1" class="emdTabPage fillHeight">
+			<table id="authorGrpMngList" style="display:none"></table>
+			<div class="emdControlPanel">
+				<button id="btnAddAuthor" class="buttonAdd">권한 추가</button>
+				<button id="saveBtn" class="buttonSave"><span class="ui-icon-save"></span>권한그룹 등록</button>
+				<button id="deleteBtn" class="buttonTrash"><span class="ui-icon-trash"></span>권한그룹 해제</button>
+			</div>
+		</div>
+		<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
+			<form id="groupManage">
+				<table class="searchPanel">
+					<colgroup>
+						<col width="30%" />
+						<col />
+						<col width="30%" />
+						<col />
+					</colgroup>
+					<tr>
+						<th width="20%" height="23" class="required_text">사용자 ID</th>
+						<td><input type="text" size="25" id="groupId" disabled="disabled"/></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23" class="required_text">사용자 명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+						<td><input type="text" size="25" id="groupNm"/></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23" class="required_text">권한<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+						<td>
+						<SELECT id="authorCode">
+		               <c:forEach var="authorManage" items="${authorManageList}" varStatus="status">
+	               			<OPTION value='<c:out value="${authorManage.authorCode}"/>'><c:out value="${authorManage.authorNm}"/></OPTION>
+	           	   		</c:forEach>
+	           	   		</SELECT>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%" height="23">등록일자</th>
+						<td><input type="text" size="20" id="groupCreatDe" disabled="disabled"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="emdControlPanel">
+				<button id="addUserRole">권한 추가</button>
+			</div>
+		</div>
 	</div>
 </div>

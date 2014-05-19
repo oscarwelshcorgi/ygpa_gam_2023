@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManageVO;
@@ -107,25 +110,20 @@ public class GamAuthorGrpMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/cmmn/gamAuthorGroupInsert.do")
-	@ResponseBody Map<String, Object> insertAuthorGroup(@RequestParam("esntlIds") String esntlIds,@RequestParam("authorCodes") String authorCodes,
-				@RequestParam("regYns") String regYns,@RequestParam("mberTyCodes") String mberTyCodes,
-			                        @ModelAttribute("authorGroup") AuthorGroup authorGroup) throws Exception {
-		
+	@ResponseBody Map<String, Object> insertAuthorGroup(@RequestParam Map<String, Object> dataList) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-    	String [] strEsntlIds = esntlIds.split(";");
-    	String [] strAuthorCodes = authorCodes.split(";");
-    	String [] strRegYns = regYns.split(";");
-    	String [] strMberTyCodes = mberTyCodes.split(";");// 2011.08.04 수정 부분
-    	
-    	for(int i=0; i<strEsntlIds.length;i++) {
-    		authorGroup.setUniqId(strEsntlIds[i]);
-    		authorGroup.setAuthorCode(strAuthorCodes[i]);
-    		authorGroup.setMberTyCode(strMberTyCodes[i]);// 2011.08.04 수정 부분
-    		if(strRegYns[i].equals("N"))
-    		    egovAuthorGroupService.insertAuthorGroup(authorGroup);
+		ObjectMapper mapper = new ObjectMapper();
+
+		List<AuthorGroup> updateList = mapper.readValue((String)dataList.get("authorList"),
+    		    new TypeReference<List<AuthorGroup>>(){});
+
+    	for(int i=0; i<updateList.size();i++) {
+    		AuthorGroup group=updateList.get(i);
+    		if("Y".equals(group.getRegYn()))
+    		    egovAuthorGroupService.updateAuthorGroup(group);
     		else 
-    		    egovAuthorGroupService.updateAuthorGroup(authorGroup);
+    		    egovAuthorGroupService.insertAuthorGroup(group);
     	}
 
     	map.put("resultCode", 0);		

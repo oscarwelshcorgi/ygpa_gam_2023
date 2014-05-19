@@ -224,7 +224,6 @@ var module_instance = new GamAuthorGrpMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="listBtn">목록</button>
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>
