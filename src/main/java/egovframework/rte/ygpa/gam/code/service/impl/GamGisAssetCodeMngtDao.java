@@ -20,6 +20,35 @@ public class GamGisAssetCodeMngtDao extends YGPAAbstractDAO {
         update("gamGisAssetCodeDao.updateAssetCode_S", vo);
     }
 
+
+    public String selectAssetCodeGetSubCode(Map vo) throws Exception {
+        return (String)selectByPk("gamGisAssetCodeDao.selectAssetCodeGetSubCode_S", vo);
+    }
+
+    public void changeAssetCodePkGisAssetsPhoto(Map vo) throws Exception {
+        update("gamGisAssetCodeDao.changeAssetCodePkGisAssetsPhoto", vo);
+    }
+
+    public void changeAssetCodePkPrtFcltyPhoto(Map vo) throws Exception {
+        update("gamGisAssetCodeDao.changeAssetCodePkPrtFcltyPhoto", vo);
+    }
+
+    public void changeAssetCodePkPrtFcltyCd(Map vo) throws Exception {
+        update("gamGisAssetCodeDao.changeAssetCodePkPrtFcltyCd", vo);
+    }
+
+    public void changeAssetCodePkLevReqestPlotByFee(Map vo) throws Exception {
+        update("gamGisAssetCodeDao.changeAssetCodePkLevReqestPlotByFee", vo);
+    }
+
+    public void changeAssetCodePkAssetsRentDetail(Map vo) throws Exception {
+        update("gamGisAssetCodeDao.changeAssetCodePkAssetsRentDetail", vo);
+    }
+
+    public void changeAssetCodePk(Map vo) throws Exception {
+        update("gamGisAssetCodeDao.changeAssetCodePk", vo);
+    }
+
     public void deleteAssetCode(Map vo) throws Exception {
         delete("gamGisAssetCodeDao.deleteAssetCode_S", vo);
     }

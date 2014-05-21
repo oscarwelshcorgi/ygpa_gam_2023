@@ -62,6 +62,10 @@
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
 
     <script type="text/javascript">
+	    OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
+	    OpenLayers.theme = "<c:url value='/css/'/>";
+	    Proj4js.libPath = "<c:url value='/js/Proj4js/'/>";
+
        jQuery(document).ready(function() {
     	   EMD.go("${pageContext.request.contextPath}", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
@@ -552,7 +556,7 @@
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamProgListMng.do'/>">프로그램 목록 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamMenuMng.do'/>">메뉴 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamMenuMngCreat.do'/>">메뉴 생성 관리</a></li>
-                        
+
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorMng.do'/>">권한 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/cmmn/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
                         <li><a href="#" data-role="LoadModule" data-url="<c:url value='/sec/gmt/gamGroupMng.do'/>">권한 그룹 관리</a></li>

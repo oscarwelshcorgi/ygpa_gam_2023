@@ -165,6 +165,7 @@ public class GamAssetCodeMngtController {
 	@RequestMapping(value="/code/assets/updateGamGisAssetCode.do")
 	@ResponseBody Map<String, Object> updateGamGisAssetCode(@RequestParam Map<String, Object> insertVO) throws Exception {
     	Map map = new HashMap();
+    	Map result;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -177,7 +178,7 @@ public class GamAssetCodeMngtController {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     		insertVO.put("updUsr", loginVo.getId());
-        	gamGisAssetCodeMngtService.updateAssetCode(insertVO);
+        	result=gamGisAssetCodeMngtService.updateAssetCode(insertVO);
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -188,6 +189,7 @@ public class GamAssetCodeMngtController {
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	map.put("resultVo", result);
 
     	return map;
 	}

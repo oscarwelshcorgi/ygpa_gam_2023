@@ -31,9 +31,26 @@ public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	@Override
-	public void updateAssetCode(Map vo) throws Exception {
-		// TODO Auto-generated method stub
+	public Map updateAssetCode(Map vo) throws Exception {
+		String gisAssetsCd=(String)vo.get("gisAssetsCd");
+		String newGisAssetsCd=(String)vo.get("gisAssetsPrprtySeCd")+(String)vo.get("gisAssetsLocCd")+(String)vo.get("gisAssetsQuayCd");
+
+		if(!gisAssetsCd.equals(newGisAssetsCd)) {
+			// change pk data;
+			vo.put("newGisAssetsCd", newGisAssetsCd);
+			String newGisAssetsSubCd=gamGisAssetCodeMngtDao.selectAssetCodeGetSubCode(vo);
+			vo.put("newGisAssetsSubCd", newGisAssetsSubCd);
+			gamGisAssetCodeMngtDao.changeAssetCodePkGisAssetsPhoto(vo);
+			gamGisAssetCodeMngtDao.changeAssetCodePkPrtFcltyPhoto(vo);
+			gamGisAssetCodeMngtDao.changeAssetCodePkPrtFcltyCd(vo);
+			gamGisAssetCodeMngtDao.changeAssetCodePkLevReqestPlotByFee(vo);
+			gamGisAssetCodeMngtDao.changeAssetCodePkAssetsRentDetail(vo);
+			gamGisAssetCodeMngtDao.changeAssetCodePk(vo);
+			vo.put("gisAssetsCd", newGisAssetsCd);
+			vo.put("gisAssetsSubCd", newGisAssetsSubCd);
+		}
 		gamGisAssetCodeMngtDao.updateAssetCode(vo);
+		return vo;
 	}
 
 	@Override

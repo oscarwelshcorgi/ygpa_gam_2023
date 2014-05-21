@@ -150,6 +150,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		m.$('#assetCodePhotoList').flexUpdateRow(rowIdx[0], row);
 	});
 
+	this.changeAssetPk=false;
+	this.$('.changeAssetPk').on('change', {module: this}, function(event) {
+		var m = event.data.module;
+		if(!m.changeAssetpk) alert('주의! 키 값이 변경 됩니다.');
+		m.changeAssetpk=true;
+	});
+
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다. _params 널체크가 귀찮아서
 
 	this._params = params;	// 파라미터를 저장한다.
@@ -263,12 +270,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 								'<c:url value="/code/assets/insertGamGisAssetCode.do" />',
 								inputVO, function(module, result) {
 									if (result.resultCode == "0") {
-										var searchOpt = module
-												.makeFormArgs("#searchForm");
-										module.$("#assetCodeTab").tabs(
-												"option", {
-													active : 0
-												});
+										var searchOpt = module.makeFormArgs("#searchForm");
+										module.$("#assetCodeTab").tabs("option", {active : 0});
 										module.$("#assetCodeList").flexOptions(
 												{
 													params : searchOpt
@@ -293,24 +296,18 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 									alert(result.resultMsg);
 								});
 			} else {
-				this
-						.doAction(
+				this.doAction(
 								'<c:url value="/code/assets/updateGamGisAssetCode.do" />',
 								inputVO,
 								function(module, result) {
 									if (result.resultCode == "0") {
-										var searchOpt = module
-												.makeFormArgs("#cmmnCodeClMngtForm");
-										module.$("#cmmnCodeClMngList")
-												.flexOptions({
-													params : searchOpt
-												}).flexReload();
-										module.$("#cmmnCodeClMngListTab").tabs(
-												"option", {
-													active : 0
-												});
-										module.$("#cmmnCodeClManageVO :input")
-												.val("");
+										if(module.changeAssetpk) {
+											module.changeAssetpk=false;
+											var oldCode=module.selectedItem;
+											module.selectedItem=result.resultVo;
+											module.loadDetail();
+											module.changeFeatureCode(oldCode, module.selectedItem);
+										}
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
 											module.modifyFeatureCode('gisAssetsCd',
@@ -537,6 +534,27 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		}
 	};
 
+	GamAssetCodeModule.prototype.loadDetail = function() {
+		var assetCd = [
+		               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},
+		               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
+		               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
+		             ];
+   	 	this.doAction('<c:url value="/code/assets/selectGisAssetCodeByPk.do" />', assetCd, function(module, result) {
+			if (result.resultCode == "0") {
+				module.makeFormValues('#editGisAssetCode',
+						result.result); // 결과값을 채운다.
+				module.selectedItem=result.result;
+				module._editData = result.result;
+						module._state="";
+						module._regMode="U";
+			} else {
+				alert(result.resultMsg);
+			}
+		});
+
+	};
+
 	GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		switch (newTabId) {
 		case 'tabs1':
@@ -549,23 +567,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			}
 			console.log(this._regMode);
 			if(this._regMode!="I") {
-				var assetCd = [
-				               { name: 'gisAssetsPrtAtCode', value: this.selectedItem.gisAssetsPrtAtCode},
-				               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
-				               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
-				             ];
-		   	 	this.doAction('<c:url value="/code/assets/selectGisAssetCodeByPk.do" />', assetCd, function(module, result) {
-					if (result.resultCode == "0") {
-						module.makeFormValues('#editGisAssetCode',
-								result.result); // 결과값을 채운다.
-						module.selectedItem=result.result;
-						module._editData = result.result;
-								module._state="";
-								module._regMode="U";
-					} else {
-						alert(result.resultMsg);
-					}
-							});
+				this.loadDetail();
 			}
 			break;
 		case 'tabs3':
@@ -703,15 +705,15 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<tr>
 						<th><span class="label">재산구분</span></th>
 						<td>
-							<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001' data-required="true">
+							<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM001' data-required="true">
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
-							<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM002'data-required="true">
+							<input id="gisAssetsLocCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM002'data-required="true">
 						</td>
 						<th><span class="label">부두구분</span></th>
 						<td>
-							<input id="gisAssetsQuayCd" class="ygpaCmmnCd" data-code-id='GAM003' data-required="true">
+							<input id="gisAssetsQuayCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM003' data-required="true">
 						</td>
 					</tr>
 					<tr>

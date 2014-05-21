@@ -205,6 +205,75 @@
 				AND GIS_ASSETS_CD=UPPER(#gisAssetsCd#)
 	</update>
 
+	<select id="gamGisAssetCodeDao.selectAssetCodeGetSubCode_S" resultClass="java.lang.String">
+		<![CDATA[
+			SELECT LPAD(NVL(MAX(GIS_ASSETS_SUB_CD), 0)+1, 2, '0')
+			FROM GIS_ASSETS_CD_F
+			WHERE GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD=#gisAssetsCd#
+		]]>
+	</select>
+
+	<update  id="gamGisAssetCodeDao.changeAssetCodePkGisAssetsPhoto">
+		UPDATE GIS_ASSETS_PHOTO_F
+		SET GIS_ASSETS_CD=#newGisAssetsCd#,
+			GIS_ASSETS_SUB_CD=#newGisAssetsSubCd#
+		WHERE
+			GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND GIS_ASSETS_CD=#gisAssetsCd#
+			AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	</update>
+
+	<update  id="gamGisAssetCodeDao.changeAssetCodePkPrtFcltyPhoto">
+		UPDATE PRT_FCLTY_PHOTO_F
+		SET GIS_ASSETS_CD=#newGisAssetsCd#,
+			GIS_ASSETS_SUB_CD=#newGisAssetsSubCd#
+		WHERE
+			GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND GIS_ASSETS_CD=#gisAssetsCd#
+			AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	</update>
+
+	<update  id="gamGisAssetCodeDao.changeAssetCodePkPrtFcltyCd">
+		UPDATE GIS_PRT_FCLTY_CD_F
+		SET GIS_ASSETS_CD=#newGisAssetsCd#,
+			GIS_ASSETS_SUB_CD=#newGisAssetsSubCd#
+		WHERE
+			GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND GIS_ASSETS_CD=#gisAssetsCd#
+			AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	</update>
+
+	<update  id="gamGisAssetCodeDao.changeAssetCodePkLevReqestPlotByFee">
+		UPDATE LEV_REQEST_PLOT_BY_FEE_F
+		SET GIS_ASSETS_CD=#newGisAssetsCd#,
+			GIS_ASSETS_SUB_CD=#newGisAssetsSubCd#
+		WHERE
+			GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND GIS_ASSETS_CD=#gisAssetsCd#
+			AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	</update>
+
+	<update  id="gamGisAssetCodeDao.changeAssetCodePkAssetsRentDetail">
+		UPDATE ASSETS_RENT_DETAIL_F
+		SET GIS_ASSETS_CD=#newGisAssetsCd#,
+			GIS_ASSETS_SUB_CD=#newGisAssetsSubCd#
+		WHERE
+			GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND GIS_ASSETS_CD=#gisAssetsCd#
+			AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	</update>
+
+	<update  id="gamGisAssetCodeDao.changeAssetCodePk">
+		UPDATE GIS_ASSETS_CD_F
+		SET GIS_ASSETS_CD=#newGisAssetsCd#,
+			GIS_ASSETS_SUB_CD=#newGisAssetsSubCd#
+		WHERE
+			GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND GIS_ASSETS_CD=#gisAssetsCd#
+			AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	</update>
+
 	<delete id="gamGisAssetCodeDao.deleteAssetCode_S">
 		<![CDATA[
 			DELETE FROM GIS_ASSETS_CD_F

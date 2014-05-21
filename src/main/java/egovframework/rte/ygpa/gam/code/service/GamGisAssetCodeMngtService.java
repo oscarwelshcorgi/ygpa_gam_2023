@@ -9,7 +9,7 @@ public interface GamGisAssetCodeMngtService {
 
 	String insertAssetCode(Map vo) throws Exception;
 
-    void updateAssetCode(Map vo) throws Exception;
+	Map updateAssetCode(Map vo) throws Exception;
 
     void deleteAssetCode(Map vo) throws Exception;
 
