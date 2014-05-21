@@ -68,7 +68,7 @@
             WHERE 1=1
             ]]>
             <isEqual prepend="AND" property="haveDetailCondition" compareValue="Y">
-                ORGNZT_ID  LIKE  #detailConditionValue#
+                ORGNZT_ID  LIKE  #detailCondition#
             </isEqual>
     </select>
 
