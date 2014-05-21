@@ -74,7 +74,7 @@ public class GamMarineCenterRentSttusInqireController {
 	
     
     /**
-     * 마린센터임대현황 화면을 로딩한다. 
+     * 마린센터임대관리 화면을 로딩한다. 
      *
      * @param windowId
      * @param model the model
@@ -1174,7 +1174,6 @@ public class GamMarineCenterRentSttusInqireController {
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetFileList);
-    	map.put("searchOption", searchVO);
     	
     	return map;
     }
@@ -1232,5 +1231,4 @@ public class GamMarineCenterRentSttusInqireController {
         
 		return map;
     }
-    
 }

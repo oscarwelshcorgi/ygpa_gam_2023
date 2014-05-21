@@ -15,7 +15,7 @@ import java.util.List;
  *  Copyright (C)  All right reserved.
  */
 public interface GamMarineCenterRentSttusInqireService {
-	
+		
 	/**
 	 * 마린센터임대 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO

@@ -25,9 +25,9 @@ import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentSttusIn
 public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	
 	/**
-	 * 마린센터임대관리 목록을 조회한다.
+	 * MarineCenterRent임대관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
     public List selectMarineCenterRentSttusInqireList(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -35,9 +35,9 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 마린센터임대관리 목록 총 갯수를 조회한다.
+	 * MarineCenterRent임대관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록 총 갯수
+	 * @return MarineCenterRent임대관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectMarineCenterRentSttusInqireListTotCnt(GamMarineCenterRentSttusInqireVO searchVO) {
@@ -47,7 +47,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireSum(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -55,7 +55,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
     
 	/**
-	 * 마린센터임대 최초 신청을 등록한다.
+	 * MarineCenterRent임대 최초 신청을 등록한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -67,7 +67,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	/**
 	 * 해당건에 대한 (MAX)관리번호
 	 * @param searchMap - GamMarineCenterRentSttusInqireVO
-	 * @return 마린센터임대관리 목록 총 갯수
+	 * @return MarineCenterRent임대관리 목록 총 갯수
 	 * @exception
 	 */
     public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireMaxNo(GamMarineCenterRentSttusInqireVO vo) {
@@ -75,7 +75,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     }
     
     /**
-	 * 마린센터임대 연장 신청을 등록한다.
+	 * MarineCenterRent임대 연장 신청을 등록한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -84,9 +84,9 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 연장 신청된 MaxMngCnt 조회한다.
+	 * MarineCenterRent임대 연장 신청된 MaxMngCnt 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록 총 갯수
+	 * @return MarineCenterRent임대관리 목록 총 갯수
 	 * @exception
 	 */
     public String selectMarineCenterRentSttusInqireMaxMngCnt(GamMarineCenterRentSttusInqireVO searchVO) {
@@ -94,7 +94,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     }
 	
 	/**
-	 * 마린센터임대 연장 신청시 마린센터임대 상세를 복사하여 등록한다.
+	 * MarineCenterRent임대 연장 신청시 MarineCenterRent임대 상세를 복사하여 등록한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -103,7 +103,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 정보를 수정한다.
+	 * MarineCenterRent임대 정보를 수정한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -112,9 +112,9 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대관리 상세목록을 조회한다.
+	 * MarineCenterRent임대관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
     public List selectMarineCenterRentSttusInqireDetailList(GamMarineCenterRentSttusInqireVO vo) throws Exception {
@@ -122,9 +122,9 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 마린센터임대관리 상세목록 총 갯수를 조회한다.
+	 * MarineCenterRent임대관리 상세목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록 총 갯수
+	 * @return MarineCenterRent임대관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectMarineCenterRentSttusInqireDetailListTotCnt(GamMarineCenterRentSttusInqireVO vo) {
@@ -134,7 +134,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록 총 갯수
+	 * @return MarineCenterRent임대관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectMarineCenterRentSttusInqireLevReqestCnt(GamMarineCenterRentSttusInqireVO vo) {
@@ -142,7 +142,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     }
     
     /**
-	 * 마린센터임대 사진정보를 삭제한다.
+	 * MarineCenterRent임대 사진정보를 삭제한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -151,7 +151,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
     
 	/**
-	 * 마린센터임대 정보를 삭제한다.
+	 * MarineCenterRent임대 정보를 삭제한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -160,7 +160,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
     
 	/**
-	 * 마린센터임대 상세정보를 삭제한다.
+	 * MarineCenterRent임대 상세정보를 삭제한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -169,7 +169,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 상세를 등록한다.
+	 * MarineCenterRent임대 상세를 등록한다.
 	 * @param vo GamMarineCenterRentSttusInqireDetailVO
 	 * @exception Exception
 	 */
@@ -178,7 +178,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 상세를 수정한다.
+	 * MarineCenterRent임대 상세를 수정한다.
 	 * @param vo GamMarineCenterRentSttusInqireDetailVO
 	 * @exception Exception
 	 */
@@ -187,7 +187,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 상세를 삭제한다.
+	 * MarineCenterRent임대 상세를 삭제한다.
 	 * @param vo GamMarineCenterRentSttusInqireDetailVO
 	 * @exception Exception
 	 */
@@ -196,9 +196,9 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 승낙할 마린센터임대 정보 조회.
+	 * 승낙할 MarineCenterRent임대 정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대정보
+	 * @return MarineCenterRent임대정보
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqirePrmisnInfo(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -206,7 +206,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 허가여부를 수정한다.
+	 * MarineCenterRent임대 허가여부를 수정한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -224,7 +224,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 마린센터임대 허가여부를 취소한다.
+	 * MarineCenterRent임대 허가여부를 취소한다.
 	 * @param vo GamMarineCenterRentSttusInqireVO
 	 * @exception Exception
 	 */
@@ -243,9 +243,9 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     }
     
 	/**
-	 * 마린센터임대상세 목록을 조회한다.
+	 * MarineCenterRent임대상세 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대상세 목록
+	 * @return MarineCenterRent임대상세 목록
 	 * @exception Exception
 	 */
     public List selectMarineCenterRentSttusInqireDetailInfo(GamMarineCenterRentSttusInqireVO vo) throws Exception {
@@ -265,7 +265,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     /**
 	 * 파일 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
     public List selectMarineCenterRentSttusInqireFileList(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -275,7 +275,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     /**
 	 * 파일 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록 총 갯수
+	 * @return MarineCenterRent임대관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectMarineCenterRentSttusInqireFileListTotCnt(GamMarineCenterRentSttusInqireVO searchVO) {
@@ -312,7 +312,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	/**
 	 * 임대신규저장시 키값 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireMaxKey(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -331,7 +331,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireRenewInfo(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -350,7 +350,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireCurrRenewInfo(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -360,7 +360,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	/**
 	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireDetailQuaycd(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -389,7 +389,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireBeforeQuarterInfo(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
@@ -399,7 +399,7 @@ public class GamMarineCenterRentSttusInqireDao extends YGPAAbstractDAO {
 	/**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 마린센터임대관리 목록
+	 * @return MarineCenterRent임대관리 목록
 	 * @exception Exception
 	 */
 	public GamMarineCenterRentSttusInqireVO selectMarineCenterRentSttusInqireCofixInfo(GamMarineCenterRentSttusInqireVO searchVO) throws Exception {
