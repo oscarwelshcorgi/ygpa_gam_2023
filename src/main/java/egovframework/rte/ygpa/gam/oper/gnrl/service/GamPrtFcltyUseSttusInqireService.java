@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
 import java.util.List;
 
+import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentSttusInqireVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireVO;
 
 /**
@@ -73,4 +74,41 @@ public interface GamPrtFcltyUseSttusInqireService {
 	 * @exception
 	 */
     int selectPrtFcltyUseSttusInqireFileListTotCnt(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 공시지가 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectOlnlpInfo() throws Exception;
+    
+    
+    /**
+   	 * 코픽스 이자율 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectCofixInfo() throws Exception;
+    
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireBeforeQuarterInfo(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception;
+    
+    
+    
+    /**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireCofixInfo(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception;
 }

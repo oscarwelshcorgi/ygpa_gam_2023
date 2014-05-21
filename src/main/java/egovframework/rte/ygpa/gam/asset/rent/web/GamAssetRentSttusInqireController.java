@@ -84,7 +84,7 @@ public class GamAssetRentSttusInqireController {
 	@RequestMapping(value="/asset/rent/gamAssetRentSttusInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-		//login정보
+		//login정보 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		//공시지가정보

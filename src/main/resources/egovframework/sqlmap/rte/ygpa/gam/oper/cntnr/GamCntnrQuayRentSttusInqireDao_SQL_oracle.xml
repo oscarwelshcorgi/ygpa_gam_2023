@@ -14,6 +14,28 @@
         <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
         <result property="sumGrRdcxptFee" column="SUM_GR_RDCXPT_FEE" columnIndex="4"/>
     </resultMap>
+    
+    
+    <resultMap id="CmmCodeDetail" class="egovframework.com.cmm.service.CmmnDetailCode">
+        <result property="codeId"       column="CODE_ID"    columnIndex="1"/>
+        <result property="code"         column="CODE"       columnIndex="2"/>
+        <result property="codeNm"       column="CODE_NM"    columnIndex="3"/>
+        <result property="codeDc"       column="CODE_DC"    columnIndex="4"/>
+    </resultMap>
+    
+    <resultMap id="gamCntnrQuayRentSttusInqireBeforeQuarterInfoMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentSttusInqireVO">
+        <result property="thisYear" column="THIS_YEAR" columnIndex="1"/>
+        <result property="divSt" column="DIV_ST" columnIndex="2"/>
+        <result property="divEnd" column="DIV_END" columnIndex="3"/>
+    </resultMap>
+    
+    <resultMap id="gamCntnrQuayRentSttusInqireCofixInfoMap" class="egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentSttusInqireVO">
+        <result property="objYrmt" column="OBJ_YRMT" columnIndex="1"/>
+        <result property="blceStdrIntrrate" column="BLCE_STDR_INTRRATE" columnIndex="2"/>
+        <result property="blceStdrIntrrateShow" column="BLCE_STDR_INTRRATE_SHOW" columnIndex="3"/>
+        <result property="newManipAmtStdrIntrrate" column="NEW_MANIP_AMT_STDR_INTRRATE" columnIndex="4"/>
+        <result property="annodt" column="ANNODT" columnIndex="5"/>
+    </resultMap>
 
 	<select id="gamCntnrQuayRentSttusInqireDao.selectCntnrQuayRentSttusInqireList_D" parameterClass="gamCntnrQuayRentSttusInqireVO" resultClass="egovMap">
            SELECT A.*
@@ -467,6 +489,104 @@
                AND MNG_YEAR    = #mngYear#
                AND MNG_NO      = #mngNo#
                AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    
+    <select id="gamCntnrQuayRentSttusInqireDao.selectOlnlpInfo_S" resultMap="CmmCodeDetail">
+            SELECT
+                '' CODE_ID,
+                OLNLP CODE,
+                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원]') CODE_NM,
+                '' CODE_DC
+            FROM
+                OLNLP_F
+            WHERE 1=1
+            ORDER BY BEGIN_DT DESC
+    </select>
+    
+    
+    <select id="gamCntnrQuayRentSttusInqireDao.selectCofixInfo_S" resultMap="CmmCodeDetail">
+            SELECT
+                    '' CODE_ID
+                  , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) CODE
+                  , (TO_CHAR(TO_DATE(OBJ_YRMT, 'YYYY-MM'), 'YYYY-MM') || ' : ' || (BLCE_STDR_INTRRATE * 100) || '% [' || TO_CHAR(ANNODT,'YYYY-MM-DD') || ']') CODE_NM
+                  , '' CODE_DC
+              FROM COFIX_INTRRATE_F
+             ORDER BY OBJ_YRMT DESC
+    </select>
+    
+    
+    <select id="gamCntnrQuayRentSttusInqireDao.selectCntnrQuayRentSttusInqireBeforeQuarterInfo_S" parameterClass="gamCntnrQuayRentSttusInqireVO" resultMap="gamCntnrQuayRentSttusInqireBeforeQuarterInfoMap">
+        SELECT
+                CASE
+                    WHEN CHK_DIV = 'DI_1'
+                    THEN TO_NUMBER(C_YEAR) - 1
+                    ELSE TO_NUMBER(C_YEAR)
+                END THIS_YEAR
+                , CASE
+                    WHEN CHK_DIV = 'DI_1'
+                    THEN '10'
+                    WHEN CHK_DIV = 'DI_2'
+                    THEN '01'
+                    WHEN CHK_DIV = 'DI_3'
+                    THEN '04'
+                    WHEN CHK_DIV = 'DI_4'
+                    THEN '07'
+                    ELSE CHK_DIV
+                END DIV_ST
+                , CASE
+                    WHEN CHK_DIV = 'DI_1'
+                    THEN '12'
+                    WHEN CHK_DIV = 'DI_2'
+                    THEN '03'
+                    WHEN CHK_DIV = 'DI_3'
+                    THEN '06'
+                    WHEN CHK_DIV = 'DI_4'
+                    THEN '09'
+                    ELSE CHK_DIV
+                END DIV_END
+            FROM (
+                SELECT
+                    C_YEAR
+                    , CASE
+                        WHEN C_DIY BETWEEN '01' AND '03'
+                        THEN 'DI_1'
+                        WHEN C_DIY BETWEEN '04' AND '06'
+                        THEN 'DI_2'
+                        WHEN C_DIY BETWEEN '07' AND '09'
+                        THEN 'DI_3'
+                        WHEN C_DIY BETWEEN '10' AND '12'
+                        THEN 'DI_4'
+                        ELSE 'NO'
+                    END CHK_DIV
+                FROM (
+                    SELECT
+                          SUBSTR(#cYear#,1,4) C_YEAR   <!-- 입력받은 스트링 날짜 201403-->
+                        , SUBSTR(#cYear#,5,2) C_DIY    <!-- 입력받은 스트링 날짜 201403 -->
+                    FROM DUAL
+                )
+            )
+    </select>
+    
+    
+    <select id="gamCntnrQuayRentSttusInqireDao.selectCntnrQuayRentSttusInqireCofixInfo_S" parameterClass="gamCntnrQuayRentSttusInqireVO" resultMap="gamCntnrQuayRentSttusInqireCofixInfoMap">
+           SELECT
+                   OBJ_YRMT
+                 , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) BLCE_STDR_INTRRATE
+                 , TRIM(TO_CHAR(BLCE_STDR_INTRRATE * 100, '0.00')) BLCE_STDR_INTRRATE_SHOW
+                 , NEW_MANIP_AMT_STDR_INTRRATE
+                 , TO_CHAR(ANNODT,'YYYYMMDD') ANNODT
+              FROM (
+                    SELECT
+                             OBJ_YRMT
+                           , BLCE_STDR_INTRRATE
+                           , NEW_MANIP_AMT_STDR_INTRRATE
+                           , ANNODT
+                       FROM COFIX_INTRRATE_F
+                    WHERE SUBSTR(OBJ_YRMT,1,4) = #thisYear# <!-- '2013' -->
+                    AND SUBSTR(OBJ_YRMT,5,2) BETWEEN #divSt# AND #divEnd# <!-- '10' AND '12' -->
+                    ORDER BY OBJ_YRMT DESC
+                  ) WHERE ROWNUM = 1
     </select>
 
 </sqlMap>

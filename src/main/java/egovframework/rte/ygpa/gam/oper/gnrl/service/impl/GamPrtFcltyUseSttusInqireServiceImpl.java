@@ -97,4 +97,47 @@ public class GamPrtFcltyUseSttusInqireServiceImpl extends AbstractServiceImpl im
     public int selectPrtFcltyUseSttusInqireFileListTotCnt(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
 		return gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileListTotCnt(searchVO);
 	}
+    
+    /**
+   	 * 공시지가 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectOlnlpInfo() throws Exception {
+        return gamPrtFcltyUseSttusInqireDao.selectOlnlpInfo();
+    }
+    
+    
+    /**
+   	 * 코픽스 이자율 목록을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return list
+   	 * @exception Exception
+   	 */
+    public List selectCofixInfo() throws Exception {
+        return gamPrtFcltyUseSttusInqireDao.selectCofixInfo();
+    }
+    
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireBeforeQuarterInfo(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
+        return gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireBeforeQuarterInfo(searchVO);
+    }
+    
+    /**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대목록
+	 * @exception Exception
+	 */
+    public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireCofixInfo(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
+        return gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireCofixInfo(searchVO);
+    }
+    
 }

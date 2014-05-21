@@ -91,5 +91,48 @@ public class GamPrtFcltyUseSttusInqireDao extends YGPAAbstractDAO {
     public int selectPrtFcltyUseSttusInqireFileListTotCnt(GamPrtFcltyUseSttusInqireVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileListTotCnt_S", searchVO);
     }
+    
+    
+    /**
+	 * 공시지가 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 공시지가 목록
+	 * @exception Exception
+	 */
+    public List selectOlnlpInfo() throws Exception {
+        return list("gamPrtFcltyUseSttusInqireDao.selectOlnlpInfo_S", null);
+    }
+    
+    
+    /**
+	 * 코픽스 이자율 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 공시지가 목록
+	 * @exception Exception
+	 */
+    public List selectCofixInfo() throws Exception {
+        return list("gamPrtFcltyUseSttusInqireDao.selectCofixInfo_S", null);
+    }
+    
+    
+    /**
+	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireBeforeQuarterInfo(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
+		return (GamPrtFcltyUseSttusInqireVO) selectByPk("gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireBeforeQuarterInfo_S", searchVO);
+	}
+	
+	/**
+	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 자산임대관리 목록
+	 * @exception Exception
+	 */
+	public GamPrtFcltyUseSttusInqireVO selectPrtFcltyUseSttusInqireCofixInfo(GamPrtFcltyUseSttusInqireVO searchVO) throws Exception {
+		return (GamPrtFcltyUseSttusInqireVO) selectByPk("gamPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireCofixInfo_S", searchVO);
+	}
 
 }
