@@ -288,7 +288,7 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
                 <div class="emdControlPanel">
                     <form id="gamAssetRentFeeForm">
                         <input type="hidden" id="cmd"/>
-                        <table class="searchPanel">
+                        <table class="detailForm"  style="width:100%;">
                             <tr>
 								<th width="20%" height="23">항코드</th>
 								<td><span size="43" id="prtAtCode"></span></td>

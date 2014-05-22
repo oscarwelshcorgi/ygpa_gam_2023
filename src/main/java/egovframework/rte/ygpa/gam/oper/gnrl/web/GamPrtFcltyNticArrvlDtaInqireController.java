@@ -177,6 +177,8 @@ public class GamPrtFcltyNticArrvlDtaInqireController {
 		totalCnt = gamPrtFcltyNticArrvlDtaInqireService.selectPrtFcltyNticArrvlDtaInqireDetailListTotCnt(searchVO);
 		List resultList = gamPrtFcltyNticArrvlDtaInqireService.selectPrtFcltyNticArrvlDtaInqireDetailList(searchVO);
 		
+//		System.out.print("test ****************************** : " + resultList);
+		
 		paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
     	

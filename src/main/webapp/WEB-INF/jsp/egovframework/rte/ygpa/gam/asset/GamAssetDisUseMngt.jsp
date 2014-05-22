@@ -340,7 +340,7 @@ var module_instance = new GamAssetDisUseMngtModule();
                     <form id="gamAssetDisUseForm">
                         <input type="hidden" id="cmd"/>
 
-                        <table class="searchPanel">
+                        <table class="detailForm"  style="width:100%;">
                             <tr>
                                 <th>GIS 자산 항코드</th>
                                 <td>
