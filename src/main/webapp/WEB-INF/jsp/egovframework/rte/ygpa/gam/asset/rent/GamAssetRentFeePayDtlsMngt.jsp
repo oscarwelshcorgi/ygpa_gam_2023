@@ -170,6 +170,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt }
 	             ];
+	console.debug('hello');
 	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
