@@ -295,7 +295,7 @@ var module_instance = new GamTrainPortRentSttusInqireModule();
                             <td>
                                 <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />
                             </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit" class="buttonSearch">조회</button></td>
+                            <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
                             <th>관리번호</th>
