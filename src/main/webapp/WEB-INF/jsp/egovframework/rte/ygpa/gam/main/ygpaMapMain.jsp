@@ -129,6 +129,9 @@
                 <li>
                     <a href="#" data-role="logout">로그아웃</a>
                 </li>
+                <li>
+                    <a href="#" data-role="getUserInfo">사용자정보 갱신</a>
+                </li>
             </ul>
         </li>
         </ul>
