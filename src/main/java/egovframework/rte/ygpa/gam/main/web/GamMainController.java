@@ -55,6 +55,8 @@ public class GamMainController {
     String indexMain(ModelMap model) throws Exception {
     	//
     	// 메뉴 로딩
+    	LOG.debug("##### gamMain access auth : "+EgovUserDetailsHelper.class.toString());
+
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
     		model.addAttribute("resultCode", 1);

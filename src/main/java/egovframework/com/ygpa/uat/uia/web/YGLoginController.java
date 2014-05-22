@@ -191,13 +191,15 @@ public class YGLoginController {
 
     }
 
-    @RequestMapping(value="/uat/uia/getUserInfo.do")
+    @RequestMapping(value="/main/getUserInfo.do")
 	public @ResponseBody Map<String, Object> getUserInfo()
 			throws Exception {
 
     	Map <String, Object> map = new HashMap();
 
     	// 1. Spring Security 사용자권한 처리
+    	logger.debug("##### getUserInfo access auth : "+EgovUserDetailsHelper.class.toString());
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
     		map.put("resultCode", 1);
