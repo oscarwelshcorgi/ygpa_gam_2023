@@ -58,7 +58,7 @@
 			<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totalFee }" type="number" /> 원</td></tr>
 		</tbody></table>
 		</c:if>
-		<c:if test="${fn:containsIgnoreCase(auth,'ROLE_ADMIN')||fn:containsIgnoreCase(auth,'ROLE_ASSET_MNGT') }">
+		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
 			<button data-role="assetMngt" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산코드 관리</button>
 		</c:if>
 		<button data-role="assetInqire" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산정보 조회</button>
