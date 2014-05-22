@@ -163,7 +163,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     */
                     ],
         showTableToggleBtn: true,
-        height: '115'
+        height: '102'
     });
 
     // 첨부파일 테이블 설정
@@ -1675,7 +1675,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>
+                                	<input type="text" size="2" id="gisAssetsPrtAtCode" readonly/>
                                 	<input type="text" size="3" id="gisAssetsCd" readonly/>
                                 	<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <input type="hidden" id="assetsCdStr"/>
@@ -1762,7 +1762,7 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">감면사용료</th>
                                 <td><input type="text" size="20" class="calcInput" id="rdcxptFee"/></td>
 								<th width="10%" height="18">사용료</th>
-                                <td><input type="text" size="22" class="ygpaCurrency" id="fee" /></td>
+                                <td><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
 								<th width="10%" height="18">부두코드</th>
                                 <td>
                                 	<input type="text" id="quayCd" size="10" disabled/>
