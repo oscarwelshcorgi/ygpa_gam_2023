@@ -53,29 +53,13 @@ GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
 			var checkedAuthorForInsert = this.$('#authorCode').val();
 			var checkedMenuNoForInsert = "";
 
-			var createMenuList=[];
-			$.each(this.menuList, function(i) {
-				if($(this).attr("ischecked")) {
-					checkedMenuNoForInsert += this.id + ",";
-				}
-			});
-
-
-			// 선택된 목록을 생성합니다.
-			if(checkedMenuNoForInsert != ""){
-
-				var last = checkedMenuNoForInsert.lastIndexOf(',');
-				checkedMenuNoForInsert = checkedMenuNoForInsert.substr(0,last);
-
-				this.doAction('<c:url value="/cmmn/gamMenuCreatInsert.do" />', {checkedAuthorForInsert:checkedAuthorForInsert, checkedMenuNoForInsert:checkedMenuNoForInsert}, function(module, result) {
-			 		if(result.resultCode == 0){
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-				alert("선택 된 값이 없습니다.");
-			}
-			//this.closeDialog('ok');
+			this.doAction('<c:url value="/cmmn/gamMenuCreatInsert.do" />', {checkedAuthorForInsert:checkedAuthorForInsert, checkedMenuNoForInsert:this.tree.getAllCheckedBranches()}, function(module, result) {
+		 		if(result.resultCode == 0){
+		 			module.closeDialog('ok');
+		 			return;
+		 		}
+		 		alert(result.resultMsg);
+		 	});
 		break;
 
 		case "cancel":
@@ -88,44 +72,45 @@ GamMenuCreatPopupModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
+GamMenuCreatPopupModule.prototype.findMenuItem=function(menuObj, mnuItem) {
+	var obj;
+	for(var i=0; i<menuObj.length; i++) {
+		obj=menuObj[i];
+		if(obj.id==mnuItem.upperMenuNo) {
+			return menuObj;
+		}
+	}
+	if(menuObj.item!=null) {
+		return this.findMenuItem(menuObj.item, mnuItem);
+	}
+	return null;
+};
+
 GamMenuCreatPopupModule.prototype.loadData = function() {
 	$("#menuTreeList").empty();
 
 	this.doAction('<c:url value="/cmmn/gamMenuCreatSelect.do" />', {authorCode: this.$('#authorCode').val()}, function(module, result) {
  		if(result.resultCode == 0){
- 			var tree = module.$("#menuTreeList");
- 			for(var i=0; i<result.listMenulist.length; i++) {
- 				var obj = result.listMenulist[i];
- 				// console.log("obj.chkYeoBu : "+obj.chkYeoBu);
- 				// 해당 리스트를 트리 라이브러리에 맞게 변경 한다.
- 				obj.parentid = obj.upperMenuId;
- 				obj.id = obj.menuNo;
- 				obj.name = obj.menuNm;
- 				obj.ischecked = obj.chkYeoBu == "Y";	// 생성할때 다시 ischecked를 chkYeoBu 로 변경하여 생성한다.
+ 			var treeNode=module.$('#menuTreeList');
+  			var treeItems = [];
+
+  			for(var i=0; i<result.listMenulist.length; i++) {
+				var mnuItem=result.listMenulist[i];
+				treeItems[treeItems.length]=[mnuItem.menuNo, mnuItem.upperMenuId, mnuItem.menuNm, mnuItem.chkYeoBu == "Y"?true:false];
+			}
+
+
+			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
+
+			module.tree.setSkin('dhx_skyblue');
+			module.tree.setImagePath('<c:url value="/js/codebase/imgs/csh_dhx_skyblue/" />');
+			module.tree.enableCheckBoxes(1);
+			module.tree.enableThreeStateCheckboxes(true);
+			module.tree.loadJSArray(treeItems);
+ 			for(var i=0; i<treeItems.length; i++) {
+ 				module.tree.setCheck(treeItems[i][0], treeItems[i][3]);
  			}
 
- 			var data_obj = {"root" : result.listMenulist};
-
- 			module.menuList = result.listMenulist;	// 메뉴를 저장한다.
-
- 			tree.empty();
-
- 			tree.btechcotree({
-                containerid: tree.attr("id")
-                , module: module
-                , dataset: data_obj
-                , datatype: $treedatatype.Json
-                , dataformat: $treedataformat.Linear
-                , class_node_collapse: "ui-icon-circle-plus"
-                , class_node_expand: "ui-icon-circle-minus"
-                , class_node_item: "ui-icon-clipboard"
-                , collapse_tree: false
-                , class_node_highlight: "ui-state-highlight"
-                , show_button_check: true
- 			});
- 			tree.on("onNodeCheckSelected", function(event, module, id, node, sender ){
- 				// 체크박스가 선택 됨
- 			});
  		}
  	});
 };

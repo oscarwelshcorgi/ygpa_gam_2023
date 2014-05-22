@@ -61,6 +61,8 @@ GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 	case 'selectMenuCreate':
 		if (msg != 'cancel') {
 			alert('메뉴가 생성 되었습니다.');
+			var searchOpt = this.makeFormArgs("#menuMngCreateForm");
+		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload();
 		} else {
 			alert('취소 되었습니다');
 		}

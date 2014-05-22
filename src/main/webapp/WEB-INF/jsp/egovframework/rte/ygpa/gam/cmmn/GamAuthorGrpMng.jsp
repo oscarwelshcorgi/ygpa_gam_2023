@@ -47,7 +47,7 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 					{display:"사용자 명", 	name:"userNm",		width:100, 	sortable:false,		align:"left"},
 					{display:"사용자 유형", 	name:"mberTyNm",	width:180, 	sortable:false,		align:"left"},
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
-					{display:"등록여부", 	name:"regYn",		width:80, 	sortable:false,		align:"center"}
+					{display:"등록여부", 	name:"regYn",		width:60, 	sortable:false,		align:"center"}
 					],
 		height: "380",
 		preProcess: function(module, data) {
@@ -75,7 +75,6 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 GamAuthorGrpMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#authorGrpMngForm");
  	this.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
- 	console.log('debug');
 }
 
 	/**
@@ -94,7 +93,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchBtn":
 			this.loadData();
 		break;
-		
+
 		case "btnAddAuthor":
 /* 			var newRole = {chkRole: false, userId: ''};
 		{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
@@ -122,7 +121,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
 			 			module.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
-			 		alert(result.resultMsg);			 		
+			 		alert(result.resultMsg);
 			 	});
 			}else{
 				alert("선택 된 값이 없습니다.");
@@ -131,7 +130,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 삭제
 		case "deleteBtn":
-			
+
 			var filter = [{ 'col': 'chkRole', 'filter': true}];
 			var reglist = this.$("#authorGrpMngList").selectFilterData(filter);
 
@@ -149,7 +148,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
 			 			module.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
-			 		alert(result.resultMsg);			 		
+			 		alert(result.resultMsg);
 			 	});
 			}else{
 				alert("선택 된 값이 없습니다.");
@@ -162,12 +161,12 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 
 
 GamAuthorGrpMngModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
 		case "selectPopDataList":
 			this.$("#searchKeyword").val(value);
 		break;
-	
+
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			throw 0;
@@ -206,20 +205,21 @@ var module_instance = new GamAuthorGrpMngModule();
 			</form>
 		</div>
 	</div>
-	<div id="groupMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+<!-- 	<div id="groupMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 		<ul>
 			<li><a href="#tabs1" class="emdTab">그룹목록</a></li>
 			<li><a href="#tabs2" class="emdTab">그룹상세</a></li>
 		</ul>
-		<div id="tabs1" class="emdTabPage fillHeight">
+ -->
+ 		<div id="tabs1" class="emdPanel fillHeight">
 			<table id="authorGrpMngList" style="display:none"></table>
 			<div class="emdControlPanel">
-				<button id="btnAddAuthor" class="buttonAdd">권한 추가</button>
-				<button id="saveBtn" class="buttonSave"><span class="ui-icon-save"></span>권한그룹 등록</button>
+<!-- 				<button id="btnAddAuthor" class="buttonAdd">권한 추가</button> -->
+ 				<button id="saveBtn" class="buttonSave"><span class="ui-icon-save"></span>권한그룹 등록</button>
 				<button id="deleteBtn" class="buttonTrash"><span class="ui-icon-trash"></span>권한그룹 해제</button>
 			</div>
 		</div>
-		<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
+<%-- 		<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
 			<form id="groupManage">
 				<table class="searchPanel">
 					<colgroup>
@@ -256,6 +256,6 @@ var module_instance = new GamAuthorGrpMngModule();
 			<div class="emdControlPanel">
 				<button id="addUserRole">권한 추가</button>
 			</div>
-		</div>
+		</div> --%>
 	</div>
 </div>
