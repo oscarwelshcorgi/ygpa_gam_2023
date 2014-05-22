@@ -492,11 +492,11 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         	<th style="width: 100px"><span class="label">항구분</span></th>
                             <td style="width: 180px"><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
                             <th style="width: 100px"><span class="label">회계년도</span></th>
-                            <td style="width: 80px"><span data-column-id="accnutYear"></span></td>
-                            <th style="width: 60px"><span class="label">고지횟수</span></th>
-                            <td style="width: 80px"><span data-column-id="nticCnt"></span></td>
+                            <td style="width: 70px"><span data-column-id="accnutYear"></span></td>
+                            <th style="width: 100px"><span class="label">고지횟수</span></th>
+                            <td style="width: 70px"><span data-column-id="nticCnt"></span></td>
                             <th style="width: 100px"><span class="label">고지번호</span></th>
-                            <td style="width: 160px"><span data-column-id="nticno"></span></td>
+                            <td style="width: 120px"><span data-column-id="nticno"></span></td>
                         </tr>
                         <tr>
                         	<th><span class="label">요금종류</span></th>
@@ -554,7 +554,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                    		<tr>
                    			<th>비고</th>
                    			<td colspan="7" style="vertical-align:middle;">
-                   				<textarea rows="3" cols="116" data-column-id='rm'></textarea> 
+                   				<textarea rows="3" cols="85" data-column-id='rm'></textarea> 
                    				<button id="btnSaveRmk" class="buttonSave">저장</button>
                    			</td>
                  		</tr>
