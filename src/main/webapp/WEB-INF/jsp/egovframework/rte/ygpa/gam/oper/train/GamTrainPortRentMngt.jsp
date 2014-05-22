@@ -1654,11 +1654,11 @@ var module_instance = new GamAssetRentMngtModule();
                         <table class="editForm">
                             <tr>
 								<th width="10%" height="18">자산사용순번</th>
-                                <td><input type="text" size="28" id="assetsUsageSeq" disabled/></td>
+                                <td><input type="text" size="26" id="assetsUsageSeq" disabled/></td>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                	<input type="text" size="5" id="dtlPrtAtCode" disabled/>
-	                                <input type="text" size="13" id="dtlPrtAtCodeNm" disabled/>
+                                	<input type="text" size="4" id="dtlPrtAtCode" disabled/>
+	                                <input type="text" size="12" id="dtlPrtAtCodeNm" disabled/>
                                 </td>
 								<th width="10%" height="18">관리번호</th>
                                 <td>
@@ -1670,9 +1670,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="text" size="2" id="gisAssetsPrtAtCode" readonly/>
-                                	<input type="text" size="3" id="gisAssetsCd" readonly/>
-                                	<input type="text" size="2" id="gisAssetsSubCd" readonly/>
+                                	<input type="text" size="1" id="gisAssetsPrtAtCode" readonly/><input type="text" size="1" id="gisAssetsCd" readonly/><input type="text" size="1" id="gisAssetsSubCd" readonly/>
                                     <input type="hidden" id="assetsCdStr"/>
                                     <button id="popupFcltyCd" class="popupButton">선택</button>
                                 </td>
@@ -1684,20 +1682,20 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">지번</th>
                                 <td>
-                                	<input type="text" size="12" id="gisAssetsLnm" disabled/>-
-                                	<input type="text" size="12" id="gisAssetsLnmSub" disabled/>
+                                	<input type="text" size="10" id="gisAssetsLnm" disabled/> -
+                                	<input type="text" size="10" id="gisAssetsLnmSub" disabled/>
                                 </td>
 								<th width="10%" height="18">소재지</th>
                                 <td colspan="3"><input type="text" size="87" id="gisAssetsLocplc" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대면적</th>
-                                <td><input type="text" size="28" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
+                                <td><input type="text" size="26" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/></td>
 								<th width="10%" height="18">사용면적</th>
                                 <td><input type="text" size="20" class="calcInput" id="usageAr" maxlength="8"/></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" readonly/>~
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" readonly/> ~
                                 	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" readonly/>
                                 </td>
                             </tr>
@@ -1728,7 +1726,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">공시지가</th>
-                                <td><input type="text" size="27" class="ygpaNumber calcInput" id="olnlp" maxlength="13"/></td>
+                                <td><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp" maxlength="13"/></td>
 								<th width="10%" height="18">면제구분</th>
                                 <td>
                                     <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM009  data-column-label-id='exemptSeNm'/>
@@ -1738,7 +1736,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdFrom" readonly/>~
+                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdFrom" readonly/> ~
                                 	<input type="text" class="emdcal calcInput" size="17" id="exemptPdTo" readonly/>
                                 </td>
                             </tr>
@@ -1755,7 +1753,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">감면사용료</th>
-                                <td><input type="text" size="20" class="calcInput" id="rdcxptFee"/></td>
+                                <td><input type="text" size="25" class="calcInput" id="rdcxptFee"/></td>
 								<th width="10%" height="18">사용료</th>
                                 <td><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
 								<th width="10%" height="18">부두코드</th>
