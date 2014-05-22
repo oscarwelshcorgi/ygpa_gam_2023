@@ -1450,9 +1450,9 @@ var module_instance = new GamAssetRentMngtModule();
                             </td>
                             <th>사용기간</th>
                             <td>
-                            <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                            <input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo"
                                 size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8">
+                                class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
                             </td>
                             <th>총면적</th>
                             <td>
@@ -1697,8 +1697,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="20" class="calcInput" id="usageAr" maxlength="8"/></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" readonly/>~
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" readonly/>~
+                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -1738,8 +1738,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdFrom" readonly/>~
-                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdTo" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/>~
+                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
                                 </td>
                             </tr>
                             <tr>

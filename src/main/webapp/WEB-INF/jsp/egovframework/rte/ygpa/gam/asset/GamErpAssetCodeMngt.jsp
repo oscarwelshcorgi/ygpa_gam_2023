@@ -724,7 +724,7 @@ var module_instance = new GamAssetCodeModule();
 									<input id="searchAssetNo" type="text" size="4" maxlength="16">-
 									<input id="searchAssetNoSeq" type="text" size="1" maxlength="16"></td>
 								<th>취득일자</th>
-								<td><input id="searchStartDt" type="text" class="emdcal" size="8"> ~ <input id="searchEndDt" type="text" class="emdcal" size="8"></td>
+								<td><input id="searchStartDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="searchEndDt" size="8"> ~ <input id="searchEndDt" type="text" class="emdcal" data-role="dtFrom"  data-dt-from="searchStartDt" size="8"></td>
 								<th>모델명</th>
 								<td><input id="searchModelName" size="30"></td>
 								<td rowSpan="2"><button id="selectErpAssetCode" class="buttonSearch">조회</button></td>
