@@ -55,45 +55,45 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		module.$("#menuMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
 		if(row != null) {
-			
+
 			module.$("#menuNo").attr("disabled","disabled");
-			module.$("#upperMenuId").attr("disabled","disabled");
-			
+			//module.$("#upperMenuId").attr("disabled","disabled");
+
 			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
 			module.$("#menuNo").val(row["menuNo"]);						// 메뉴No
 			module.$("#menuOrdr").val(row["menuOrdr"]);					// 메뉴순서
 			module.$("#menuNm").val(row["menuNm"]);						// 메뉴명
-			module.$("#upperMenuId").val(row["upperMenuId"]);			// 상위메뉴No					
-			module.$("#progrmFileNm").val(row["progrmFileNm"]);			// 파일명				
+			module.$("#upperMenuId").val(row["upperMenuId"]);			// 상위메뉴No
+			module.$("#progrmFileNm").val(row["progrmFileNm"]);			// 파일명
 			module.$("#relateImageNm").val(row["relateImageNm"]);		// 관련이미지명
 			module.$("#relateImagePath").val(row["relateImagePath"]);	// 관련이미지경로
 			module.$("#menuDc").val(row["menuDc"]);						// 메뉴설명
 			module.$("#progrmKoreanNm").val(row["progrmKoreanNm"]);
 			throw 0;
-			
+
 		}
 	});
 };
-		
+
 /**
  * 정의 된 버튼 클릭 시
  */
  GamMenuMngModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
-	
+
 		// 조회
 		case "searchBtn":
 			var searchOpt=this.makeFormArgs("#menuMngForm");
-			this.$("#menuMngListTab").tabs("option", {active: 0}); 
-		 	this.$("#menuMngList").flexOptions({params:searchOpt}).flexReload(); 
+			this.$("#menuMngListTab").tabs("option", {active: 0});
+		 	this.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();
 		break;
 
 		// 목록
 		case "listBtn":
-			this.$("#menuMngListTab").tabs("option", {active: 0}); 
+			this.$("#menuMngListTab").tabs("option", {active: 0});
 		break;
-		
+
 		// 추가
 		case "addBtn":
 			this.$("#menuNo").removeAttr("disabled");
@@ -102,17 +102,17 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			this.$("#menuManageVO :input").val("");
 			this.$("#cmd").val("insert");
 		break;
-			
+
 		// 프로그램목록조회 팝업
 		case "popupBtn":
 			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '<c:url value="/cmmn/popup/gamPopupProgramView.do"/>', {progrmFileNm: this.$("#progrmFileNm").val()});
 		break;
-		
+
 		// 저장
 		case "saveBtn":
-			
+
 			if(!validateGamMenuMng(this.$("#menuManageVO")[0])) return;
-			
+
 		 	var inputVO = this.makeFormArgs("#menuManageVO");
 			if(this.$("#cmd").val() == "insert") {
 			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(module, result) {
@@ -137,7 +137,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			 	});
 			}
 		break;
-		
+
 		// 삭제
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
@@ -162,10 +162,10 @@ GamMenuMngModule.prototype.loadComplete = function() {
  */
 GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
-	
+
 		case "tabs1":
 			break;
-			
+
 		case "tabs2":
 			var row = this.$("#menuMngList").selectedRows();
 			if(row.length == 0){
@@ -175,8 +175,8 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$("#menuNo").val(row["menuNo"]);						// 메뉴No
 				this.$("#menuOrdr").val(row["menuOrdr"]);					// 메뉴순서
 				this.$("#menuNm").val(row["menuNm"]);						// 메뉴명
-				this.$("#upperMenuId").val(row["upperMenuId"]);				// 상위메뉴No					
-				this.$("#progrmFileNm").val(row["progrmFileNm"]);			// 파일명				
+				this.$("#upperMenuId").val(row["upperMenuId"]);				// 상위메뉴No
+				this.$("#progrmFileNm").val(row["progrmFileNm"]);			// 파일명
 				this.$("#relateImageNm").val(row["relateImageNm"]);			// 관련이미지명
 				this.$("#relateImagePath").val(row["relateImagePath"]);		// 관련이미지경로
 				this.$("#menuDc").val(row["menuDc"]);						// 메뉴설명
@@ -186,13 +186,13 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 };
 
 GamMenuMngModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
 		case "selectProgramPopList":
 			this.$("#progrmFileNm").val(value.progrmFileNm);
 			this.$("#progrmKoreanNm").val(value.progrmKoreanNm);
 		break;
-	
+
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			throw 0;

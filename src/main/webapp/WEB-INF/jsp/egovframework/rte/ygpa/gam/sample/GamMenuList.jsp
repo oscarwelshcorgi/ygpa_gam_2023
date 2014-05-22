@@ -39,54 +39,29 @@ GamMenuMngModule.prototype.loadMenu = function() {
 
 	this.doAction('<c:url value="/sample/mnu/selectMenuList.do" />', null, function(module, result) {
  		if(result.resultCode == 0){
- 			var tree = module.$("#menuTreeList");
- 			for(var i=0; i<result.listMenulist.length; i++) {
- 				var obj = result.listMenulist[i];
- 				obj.parentid = obj.upperMenuId;
- 				obj.id = obj.menuNo;
- 				obj.name = obj.menuNm;
- 			}
+ 			var treeNode=module.$('#menuTreeList');
+  			var treeItems = [];
 
- 			var data_obj = {
- 					"root" : result.listMenulist
- 			};
+  			for(var i=0; i<result.listMenulist.length; i++) {
+				var mnuItem=result.listMenulist[i];
+				treeItems[treeItems.length]=[mnuItem.menuNo, mnuItem.upperMenuId, mnuItem.menuNm];
+			}
 
- 			module.menuList = result.listMenulist;	// 메뉴를 저장한다.
 
- 			tree.btechcotree({
-                containerid: tree.attr("id")
-                , module: module
-                , dataset: data_obj
-                , datatype: $treedatatype.Json
-                , dataformat: $treedataformat.Linear
-                , class_node_collapse: "ui-icon-circle-plus"
-                , class_node_expand: "ui-icon-circle-minus"
-                , class_node_item: "ui-icon-clipboard"
-                , collapse_tree: true
-                , class_node_highlight: "ui-state-highlight"
-                , show_button_check: false
- 			});
- 			tree.on("onNodeCheckSelected", function(event, module, id, node, sender ){
- 				// 체크박스가 선택 됨
+			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
 
- 			});
- 			tree.on("onSelectedNode", function(event, module, id, node, sender ) {
- 				$.each(module.menuList, function() {
- 					if($(this).attr('menuNo')==id) {
- 		 				module.$("#menuNo").val($(this).attr('menuNo'));
- 		 				module.$('#menuNo').val($(this).attr('menuNo'));						// 메뉴No
- 		 				module.$('#menuOrdr').val($(this).attr('menuOrdr'));					// 메뉴순서
- 		 				module.$('#menuNm').val($(this).attr('menuNm'));						// 메뉴명
- 		 				module.$('#upperMenuId').val($(this).attr('upperMenuId'));				// 상위메뉴No
- 		 				module.$('#progrmFileNm').val($(this).attr('progrmFileNm'));			// 파일명
- 		 				module.$('#relateImageNm').val($(this).attr('relateImageNm'));			// 관련이미지명
- 		 				module.$('#relateImagePath').val($(this).attr('relateImagePath'));		// 관련이미지경로
- 		 				module.$('#menuDc').val($(this).attr('menuDc'));						// 메뉴설명
- 						return false;
- 					}
- 					return true;
- 				});
- 			});
+			module.tree.setSkin('dhx_skyblue');
+			module.tree.setImagePath('<c:url value="/js/codebase/imgs/csh_dhx_skyblue/" />');
+//			module.tree.enableCheckBoxes(1);
+//			module.tree.enableThreeStateCheckboxes(true);
+			module.tree.loadJSArray(treeItems);
+
+			module.tree.setUserData('module', module);
+			module.tree.module=module;
+			module.tree.attachEvent("onSelect", function(id){
+				console.debug('id :'+id+' selected');
+				this.module.$('#menuNo').val(id);
+			});
  		}
  	});
 };
