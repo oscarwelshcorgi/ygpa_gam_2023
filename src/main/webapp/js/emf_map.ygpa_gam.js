@@ -51,6 +51,9 @@ var EMD = function($, window, document, undefined) {
     }
     EMD.context_root = ctr;
     EMD.serverUrl = serverUrl;
+    OpenLayers.ImgPath = EMD.context_root + "/images/egovframework/ygpa/gam/maps/";
+    OpenLayers.theme = EMD.context_root + "/css/";
+    Proj4js.libPath = EMD.context_root + "/js/Proj4js/";
     switch(serverUrl) {
       case "http://lfitsvr.iptime.org":
         EMD.vworldKey = "B60CBFE2-E105-39B4-B7E7-C737F1512A16";
@@ -256,7 +259,7 @@ var EMD = function($, window, document, undefined) {
     d.on("mousedown", "#show_desktop", function() {
       if ($("div.window:visible").length) {
         $("div.window").hide();
-        EMD.map.setCenter(new OpenLayers.LonLat(1.421146137E7, 4151377.18), 5);
+        EMD.map.setCenter(new OpenLayers.LonLat(126.644, 34.397), 5);
       } else {
         $("#dock li:visible a").each(function() {
           $($(this).attr("href")).show();
@@ -393,15 +396,11 @@ var EMD = function($, window, document, undefined) {
           if (fclty.prtFcltyNm != null) {
             htmlInfo += "<tr><th>\uc2dc\uc124\uba85</th><td>" + fclty.prtFcltyNm + "</td></tr>";
           }
-          if (fclty.filenmPhysicl != null) {
-            htmlInfo += "<tr><th>\uc2dc\uc124\uc0ac\uc9c4</th><td><img src='" + EMD.context_root + "/cmm/getPfImage.do?physicalFileNm=" + fclty.filenmPhysicl + "' style='width:300px;' /></td></tr>";
-          }
           switch(fclty.prtFcltySe) {
             case "S":
               if (EMD.user.hasAuth("ROLE_ADMIN,ROLE_S_PRTFCLTY_MNGT")) {
                 htmlInfo += "<tr><td colSpan='2' style='align: right;'>";
                 htmlInfo += "<button id='btnPrtfcltyMngt' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uad00\ub9ac</button>";
-                htmlInfo += "<button id='btnPrtfcltyInqire' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uc870\ud68c</button>";
                 htmlInfo += "</td></tr>";
               } else {
                 if (EMD.user.hasAuth("ROLE_USER,ROLE_S_PRTFCLTY_INQIRE")) {
@@ -415,12 +414,10 @@ var EMD = function($, window, document, undefined) {
               if (EMD.user.hasAuth("ROLE_ADMIN,ROLE_C_PRTFCLTY_MNGT")) {
                 htmlInfo += "<tr><td colSpan='2' style='align: right;'>";
                 htmlInfo += "<button id='btnPrtfcltyMngt' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uad00\ub9ac</button>";
-                htmlInfo += "<button id='btnPrtfcltyInqire' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uc870\ud68c</button>";
                 htmlInfo += "</td></tr>";
               } else {
                 if (EMD.user.hasAuth("ROLE_USER,ROLE_C_PRTFCLTY_INQIRE")) {
                   htmlInfo += "<tr><td colSpan='2' style='align: right;'>";
-                  htmlInfo += "<button id='btnPrtfcltyInqire' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uc870\ud68c</button>";
                   htmlInfo += "</td></tr>";
                 }
               }
@@ -429,7 +426,6 @@ var EMD = function($, window, document, undefined) {
               if (EMD.user.hasAuth("ROLE_ADMIN,ROLE_E_PRTFCLTY_MNGT")) {
                 htmlInfo += "<tr><td colSpan='2' style='align: right;'>";
                 htmlInfo += "<button id='btnPrtfcltyMngt' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uad00\ub9ac</button>";
-                htmlInfo += "<button id='btnPrtfcltyInqire' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uc870\ud68c</button>";
                 htmlInfo += "</td></tr>";
               } else {
                 if (EMD.user.hasAuth("ROLE_USER,ROLE_E_PRTFCLTY_INQIRE")) {
@@ -443,7 +439,6 @@ var EMD = function($, window, document, undefined) {
               if (EMD.user.hasAuth("ROLE_ADMIN,ROLE_M_PRTFCLTY_MNGT")) {
                 htmlInfo += "<tr><td colSpan='2' style='align: right;'>";
                 htmlInfo += "<button id='btnPrtfcltyMngt' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uad00\ub9ac</button>";
-                htmlInfo += "<button id='btnPrtfcltyInqire' data-role='frmwrkButton' data-assets-prt-at-code='" + fclty.gisAssetsPrtAtCode + "' data-assets-cd='" + fclty.gisAssetsCd + "' data-assets-sub-cd='" + fclty.gisAssetsSubCd + "' data-prt-fclty-cd='" + fclty.gisPrtFcltyCd + "' data-prt-fclty-seq='" + fclty.gisPrtFcltySeq + "' data-prt-fclty-se='" + fclty.prtFcltySe + "' >\uc2dc\uc124\uc870\ud68c</button>";
                 htmlInfo += "</td></tr>";
               } else {
                 if (EMD.user.hasAuth("ROLE_USER,ROLE_M_PRTFCLTY_INQIRE")) {
@@ -505,7 +500,7 @@ var EMD = function($, window, document, undefined) {
                 url = "/fclty/gamMechFcltyInqire.do";
                 break;
             }
-            EMD.util.create_window(title, EMD.context_root + url, null, {action:"prtFcltyInqire", gisPrtAtCode:$(this).data("assets-prt-at-code"), gisAssetsCd:$(this).data("assets-cd"), gisAssetsSubCd:$(this).data("assets-sub-cd"), gisPrtFcltyCd:$(this).data("prt-fclty-cd"), gisPrtFcltySeq:$(this).data("prt-fclty-seq"), gisPrtFcltySe:$(this).data("prt-fclty-se")});
+            EMD.util.create_window(title, EMD.context_root + url, null, {action:"prtFcltyMngt", gisPrtAtCode:$(this).data("assets-prt-at-code"), gisAssetsCd:$(this).data("assets-cd"), gisAssetsSubCd:$(this).data("assets-sub-cd"), gisPrtFcltyCd:$(this).data("prt-fclty-cd"), gisPrtFcltySeq:$(this).data("prt-fclty-seq"), gisPrtFcltySe:$(this).data("prt-fclty-se")});
           });
           $(".prtFcltyInfo td > img").load(function(e) {
             var title = $("h2", EMD.popup.prtFcltyInfo.contentDiv);
@@ -587,8 +582,8 @@ var EMD = function($, window, document, undefined) {
     $("#sideMenu").sidr("open", "sidr-main");
   }, user_init:function() {
     $.ajax({url:EMD.context_root + "/uat/uia/getUserInfo.do", type:"POST", dataType:"json", global:false, contentType:"application/x-www-form-urlencoded; charset=UTF-8", data:""}).done(function(data) {
-      EMD.userinfo = data;
-      $("#logUserName").text(EMD.userinfo.userInfo.name);
+      EMD.userinfo = data.userInfo;
+      $("#logUserName").text(EMD.userinfo.name);
     });
   }, fileupload_init:function() {
     $("#fileupload").fileupload({url:EMD.context_root + "/upload/genericMulti.do", autoUpload:true});
@@ -835,8 +830,8 @@ var EMD = function($, window, document, undefined) {
       feature = layer.features[i];
       if (feature && feature.attributes) {
         if (EMD.gis.compareLayerObject(layer, feature, row)) {
-          EMD.map.zoomToExtent(feature);
           EMD.selectControl.select(feature);
+          EMD.map.zoomToExtent(feature);
           return;
         }
       }
@@ -884,6 +879,38 @@ var EMD = function($, window, document, undefined) {
         EMD.modifyFeature.selectFeature(foundFeatures[0]);
       }
     }
+  }, removeFeatureCode:function(module, layerName, grid, code_id, value_id) {
+    var layer = EMD.gis.getUserLayer(layerName);
+    var row = module[code];
+    var i, feature;
+    len = layer.features.length;
+    var foundFeatures = [];
+    EMD.selectControl.unselectAll();
+    for (i = 0;i < len;i++) {
+      feature = layer.features[i];
+      if (feature && feature.attributes) {
+        if (EMD.gis.compareLayerObject(layer, feature, row)) {
+          foundFeatures.push(feature);
+          break;
+        }
+      }
+    }
+    if (foundFeatures.length == 0) {
+      return false;
+    } else {
+      var ext;
+      if (foundFeatures.length > 0) {
+        for (var i = 0;i < foundFeatures.length;i++) {
+          if (foundFeatures[i].state != OpenLayers.State.INSERT) {
+            foundFeatures[i].state = OpenLayers.State.DELETE;
+          }
+          layer.removeFeatures(foundFeatures);
+          EMD.saveStrategy.save();
+        }
+        layer.redraw();
+      }
+    }
+    return true;
   }, modifyFeatureCode:function(module, layerName, value, newfeature) {
     var layer = EMD.gis.getUserLayer(layerName);
     var i, feature;
@@ -900,7 +927,7 @@ var EMD = function($, window, document, undefined) {
     }
     if (foundFeatures.length == 0) {
       var polygon = newfeature.geometry;
-      newfeature.geometry = polygon.transform(layer, projection, EMD.map.getProjection());
+      newfeature.geometry = polygon.transform(layer.projection, EMD.map.getProjection());
       EMD.gis.storeLayerObject(layer, newfeature, value);
       newfeature.state = OpenLayers.State.INSERT;
       layer.addFeatures([newfeature]);
@@ -925,6 +952,23 @@ var EMD = function($, window, document, undefined) {
         }});
         EMD.saveStrategy.save();
       }
+    }
+  }, changeFeatureAttribute:function(module, layerName, oldattr, newattr) {
+    var layer = EMD.gis.getUserLayer(layerName);
+    var i, feature;
+    len = layer.features.length;
+    var changed = false;
+    for (i = 0;i < len;i++) {
+      feature = layer.features[i];
+      if (feature && feature.attributes) {
+        if (EMD.gis.compareLayerObject(layer, feature, oldattr)) {
+          EMD.gis.storeLayerObject(layer, feature, newattr);
+          changed = true;
+        }
+      }
+    }
+    if (changed) {
+      EMD.saveStrategy.save();
     }
   }, addFeatureFlexGrid:function(module, layerName, grid, code_id, value_id) {
     var row = module.$("#" + grid).selectedRows();
@@ -970,6 +1014,34 @@ var EMD = function($, window, document, undefined) {
       EMD.map.addControl(modifyFeature);
       modifyFeature.selectFeature(foundFeatures[0]);
     }
+  }, removeFeatureFlexGrid:function(module, layerName, grid, code_id, value_id) {
+    var row = module.$("#" + grid).selectedRows();
+    var layer = EMD.gis.getUserLayer(layerName);
+    var i, feature;
+    len = layer.features.length;
+    var foundFeatures = [];
+    if (row.length == 0) {
+      alert("\ud56d\ubaa9\uc744 \uc120\ud0dd \ud558\uc2ed\uc2dc\uc694.");
+      return;
+    }
+    for (i = 0;i < len;i++) {
+      feature = layer.features[i];
+      if (feature && feature.attributes) {
+        for (var j = 0;j < row.length;j++) {
+          var r = row[j];
+          if (EMD.gis.compareLayerObject(layer, feature, r)) {
+            foundFeatures.push(feature);
+          }
+        }
+      }
+    }
+    if (foundFeatures.length == 0) {
+      return false;
+    } else {
+      layer.removeFeatures(e.feature);
+      EMD.saveStrategy.save();
+    }
+    return true;
   }, showEditPanel:function(module) {
     var shape = new OpenLayers.Control.Button({title:"\ud3b8\uc9d1", trigger:function() {
       EMD.modifyFeatyure.mode = OpenLayers.Control.ModifyFeature.RESHAPE;
@@ -1022,6 +1094,11 @@ var EMD = function($, window, document, undefined) {
       feature.attributes["GIS_ASSETS_CD"] = obj["gisAssetsCd"];
       feature.attributes["GIS_ASSETS_SUB_CD"] = obj["gisAssetsSubCd"];
       feature.attributes["GIS_ASSETS_NM"] = obj["gisAssetsNm"];
+      feature.attributes["GIS_MNG_DEPT_CD"] = obj["gisMngDeptCd"];
+      feature.attributes["GIS_OPER_DEPT_CD"] = obj["gisOperDeptCd"];
+      if (feature.state != OpenLayers.State.INSERT) {
+        feature.state = OpenLayers.State.UPDATE;
+      }
     }
   }, getWfsData:function(url, option) {
     var shapeParams = OpenLayers.Util.getParameterString({SERVICE:"WFS", VERSION:"1.1.0", REQUEST:"GetFeature", BBOX:postioncd, SRSNAME:"EPSG:900913", OUTPUT:"text/xml;subType=gml/3.1.1/profiles/gmlsf/1.0.0/0", EXCEPTIONS:"text/xml"});
@@ -1170,7 +1247,7 @@ var EMD = function($, window, document, undefined) {
         }
       }
     }
-    return false;
+    return true;
   }, userId:function() {
     return EMD.userinfo.userId;
   }}, util:{printObj:function(obj) {
@@ -1272,7 +1349,7 @@ var EMD = function($, window, document, undefined) {
     }
     return true;
   }, getLoginUserVO:function() {
-    return EMD.userinfo.userInfo;
+    return EMD.userinfo;
   }, showProgress:function() {
     $("#progress_dialog").dialog("open");
   }, hideProgress:function() {
@@ -2197,6 +2274,14 @@ var EMD = function($, window, document, undefined) {
           EMD.gis.showMapDataFlexGrid(module, button.data("gis-layer"), button.data("flexi-grid"), button.data("code-id"), button.data("value"));
         }
         break;
+      case "removeFeature":
+        var src = button.data("flexi-grid");
+        if (src == null) {
+          EMD.gis.removeMapDataCode(module, button.data("gis-layer"), button.data("code-id"), button.data("value"));
+        } else {
+          EMD.gis.removeMapDataFlexGrid(module, button.data("gis-layer"), button.data("flexi-grid"), button.data("code-id"), button.data("value"));
+        }
+        break;
       case "addFearutre":
         var src = button.data("flexi-grid");
         if (src == null) {
@@ -2204,12 +2289,20 @@ var EMD = function($, window, document, undefined) {
         } else {
           EMD.gis.addFeatureFlexGrid(module, button.data("gis-layer"), button.data("flexi-grid"), button.data("code-id"), button.data("value"));
         }
+        if (EMD.popup.lotAreaInfo != null) {
+          EMD.map.removePopup(EMD.popup.lotAreaInfo);
+          EMD.popup.lotAreaInfo.destroy();
+        }
         break;
       default:
         if (button.hasClass("buttonExcel")) {
           var grid = button.data("flexi-grid");
           var url = button.data("url");
-          module.$("#" + grid).flexExcelDown(url);
+          if (grid != undefined && url != undefined) {
+            module.$("#" + grid).flexExcelDown(url);
+          } else {
+            module.onButtonClick(button_id);
+          }
         } else {
           module.onButtonClick(button_id);
         }
@@ -2248,6 +2341,9 @@ EmdModule.prototype.showMap = function(gridId, layerName) {
 };
 EmdModule.prototype.modifyFeatureCode = function(layerName, value, newfeature) {
   EMD.gis.modifyFeatureCode(this, layerName, value, newfeature);
+};
+EmdModule.prototype.changeFeatureAttrib = function(layerName, oldAttr, newAttr) {
+  EMD.gis.changeFeatureAttribute(layerName, oldAttr, newAttr);
 };
 EmdModule.prototype.getSelect = function(selector) {
   alert("get select = " + this._window_id + " " + selector);

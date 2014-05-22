@@ -108,6 +108,8 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
 
  			module.menuList = result.listMenulist;	// 메뉴를 저장한다.
 
+ 			tree.empty();
+
  			tree.btechcotree({
                 containerid: tree.attr("id")
                 , module: module

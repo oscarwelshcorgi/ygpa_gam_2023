@@ -306,7 +306,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 											var oldCode=module.selectedItem;
 											module.selectedItem=result.resultVo;
 											module.loadDetail();
-											module.changeFeatureCode(oldCode, module.selectedItem);
+											module.changeFeatureAttrib('gisAssetCd', oldCode, module.selectedItem);
 										}
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
@@ -382,7 +382,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			}
 			this.addGisAssetsCdMap('AC', this._editData);
 			break;
-
+		case 'selectAddr':
+	        this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', []);
+			break;
 		case 'btnUploadFile':
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 			this.uploadFile('uploadPhoto', function(module, result) {
@@ -486,7 +488,15 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				alert('취소 되었습니다');
 			}
 			break;
-		case 'selectEntrpsInfoPopup':
+	     case 'selectAddrPopup':
+	         if (msg != 'cancel') {
+	             this.$('#gisAssetsBupjungdongCd').val(value.bupjungdongCd);
+	             this.$('#gisAssetsLocplc').val(value.bupjungdongNm+" "+value.detailAddr);
+	         } else {
+	             alert('취소 되었습니다');
+	         }
+	         break;
+        case 'selectEntrpsInfoPopup':
 			if (msg != 'cancel') {
 				this.$('#sEntrpscd').val(value.entrpscd);
 				this.$('#sEntrpsNm').val(value.entrpsNm);
@@ -723,7 +733,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<tr>
 						<th><span class="label">자산소재지</span></th>
 						<td colspan="3">
-							<input type="text" size="92" id="gisAssetsLocplc">
+							<input type="text" size="60" id="gisAssetsLocplc"><button id="selectAddr" class="popupButton">주소조회</button>
 							<input type="hidden" id="gisAssetsBupjungdongCd" />
 						</td>
 						<th><span class="label">지번</span></th>

@@ -37,8 +37,10 @@ public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implemen
 
 		if(!gisAssetsCd.equals(newGisAssetsCd)) {
 			// change pk data;
-			vo.put("newGisAssetsCd", newGisAssetsCd);
+			vo.put("gisAssetsCd", newGisAssetsCd);
 			String newGisAssetsSubCd=gamGisAssetCodeMngtDao.selectAssetCodeGetSubCode(vo);
+			vo.put("gisAssetsCd", gisAssetsCd);
+			vo.put("newGisAssetsCd", newGisAssetsCd);
 			vo.put("newGisAssetsSubCd", newGisAssetsSubCd);
 			gamGisAssetCodeMngtDao.changeAssetCodePkGisAssetsPhoto(vo);
 			gamGisAssetCodeMngtDao.changeAssetCodePkPrtFcltyPhoto(vo);
