@@ -290,11 +290,6 @@ public class GamUserMngController {
      */
     @RequestMapping(value="/cmmn/popup/gamPopupChgPwView.do", method=RequestMethod.POST)
     String updatePasswordView(@RequestParam("emplyrId") String emplyrId, @RequestParam("uniqId") String uniqId, ModelMap model) throws Exception {
-    	
-    	/*String userTyForPassword = (String)commandMap.get("userTyForPassword");
-    	userManageVO.setUserTy(userTyForPassword);
-    	*/
-
     	model.addAttribute("emplyrId", emplyrId);
     	model.addAttribute("uniqId", uniqId);
     	return "/ygpa/gam/cmmn/popup/GamPopupChgPwView";

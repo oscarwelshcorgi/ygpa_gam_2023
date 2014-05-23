@@ -375,7 +375,7 @@ var module_instance = new GamUserMngListModule();
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" id="checkId"/>
 					<input type="hidden" id="uniqId" />
-					<table class="searchPanel">
+					<table class="editForm">
 			            <tr>
 			                <th width="15%" height="23">사용자 아아디</th>
 			                <td colspan="3">

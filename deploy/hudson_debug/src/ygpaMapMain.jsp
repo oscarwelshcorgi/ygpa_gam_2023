@@ -46,7 +46,6 @@
         padding: 0px
       }
  */    </style>
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ko"></script>
 
     <script src="<c:url value='/js/OpenLayers.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
