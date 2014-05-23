@@ -130,8 +130,12 @@ public class GamMarineCenterRentFeeMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -181,8 +185,17 @@ public class GamMarineCenterRentFeeMngtController {
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
- 
-         gamMarineCenterRentFeeMngtVO.setUpdUsr("admin1"); //수정자 (세션 로그인 아이디)
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+         
+     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+     	
+         gamMarineCenterRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
          
          gamMarineCenterRentFeeMngtService.updateMarineCenterRentFee(gamMarineCenterRentFeeMngtVO);
          
@@ -321,6 +334,13 @@ public class GamMarineCenterRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
         
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+       
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
         
         System.out.println("############ prtAtCodes => " + prtAtCodes);
@@ -465,7 +485,14 @@ public class GamMarineCenterRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
         
-        LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
         
         System.out.println("############ prtAtCodes => " + prtAtCodes);
         
@@ -589,6 +616,15 @@ public class GamMarineCenterRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
  
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+        
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
         System.out.println("######################################### 고지의뢰(단일처리) START!! ");
         
         paramMap.put("nticCnt", gamMarineCenterRentFeeMngtVO.getNticCnt());
@@ -599,6 +635,8 @@ public class GamMarineCenterRentFeeMngtController {
  		
  		System.out.println("##################################### paramMap => " + paramMap);
         
+ 		gamMarineCenterRentFeeMngtVO.setRegUsr(loginVo.getId());
+ 		gamMarineCenterRentFeeMngtVO.setUpdUsr(loginVo.getId());
  		 //이곳에 고지의뢰 서비스콜!! 삽입할것!!
         //gamMarineCenterRentFeeMngtService.insertAnlrveLev(gamMarineCenterRentFeeMngtInfo);
  		
@@ -630,6 +668,13 @@ public class GamMarineCenterRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
  
+        Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
         System.out.println("######################################### 고지취소(단일처리) START!! ");
         
         paramMap.put("nticCnt", gamMarineCenterRentFeeMngtVO.getNticCnt());
@@ -669,6 +714,13 @@ public class GamMarineCenterRentFeeMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+         Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+     	
  		 LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
  		 gamMarineCenterRentFeeMngtVO.setRegUsr(loginVO.getId()); 
          gamMarineCenterRentFeeMngtVO.setUpdUsr(loginVO.getId()); 
@@ -703,7 +755,7 @@ public class GamMarineCenterRentFeeMngtController {
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
-
+        
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);

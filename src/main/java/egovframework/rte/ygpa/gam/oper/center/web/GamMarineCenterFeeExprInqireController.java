@@ -56,7 +56,7 @@ public class GamMarineCenterFeeExprInqireController {
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -115,8 +115,12 @@ public class GamMarineCenterFeeExprInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -162,8 +166,12 @@ public class GamMarineCenterFeeExprInqireController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -203,7 +211,7 @@ public class GamMarineCenterFeeExprInqireController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		ObjectMapper mapper = new ObjectMapper();
-
+		
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -212,7 +220,14 @@ public class GamMarineCenterFeeExprInqireController {
     	List<HashMap<String,String>> deleteFileList=null;
     	HashMap<String,String> form=null;
     	
-    	try {
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	try {    		
     		insertList = mapper.readValue((String)dataList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
@@ -271,7 +286,7 @@ public class GamMarineCenterFeeExprInqireController {
 			saveVO.setRm(form.get("rm"));         
 			saveVO.setCmt(form.get("cmt")); 
     		saveVO.setUpdUsr(loginVO.getId());
-    		
+    	
     		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
     		if( form.get("mngYear") == null || "".equals(form.get("mngYear")) ) {
     			GamMarineCenterFeeExprInqireVO keyVO = new GamMarineCenterFeeExprInqireVO();
@@ -526,6 +541,14 @@ public class GamMarineCenterFeeExprInqireController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+
+        Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         
         /*
         String sLocationUrl = null;
@@ -555,9 +578,11 @@ public class GamMarineCenterFeeExprInqireController {
     	
     	if("insert".equals(cmd)) {
 	    	//확인후 변경혀라~~
+    		LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
 	    	gamMarineCenterFeeExprInqireVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamMarineCenterFeeExprInqireVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamMarineCenterFeeExprInqireVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	gamMarineCenterFeeExprInqireVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	    	gamMarineCenterFeeExprInqireVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 	    	//gamMarineCenterFeeExprInqireVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
 	        gamMarineCenterFeeExprInqireService.insertMarineCenterFeeExprInqireFirst(gamMarineCenterFeeExprInqireVO);
@@ -571,7 +596,6 @@ public class GamMarineCenterFeeExprInqireController {
 		
     	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-        
 		return map;
     }
     
@@ -592,12 +616,22 @@ public class GamMarineCenterFeeExprInqireController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
+ 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	GamMarineCenterFeeExprInqireVO resultVO = gamMarineCenterFeeExprInqireService.selectMarineCenterFeeExprInqireMaxNo(gamMarineCenterFeeExprInqireVO);
     	
     	if( gamMarineCenterFeeExprInqireVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
     		//키 같고 max관리번호가 같으면 연장신청 등록
-        	
+    		LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    		gamMarineCenterFeeExprInqireVO.setUpdUsr(loginVo.getId());
+    		gamMarineCenterFeeExprInqireVO.setRegUsr(loginVo.getId());
+
     		gamMarineCenterFeeExprInqireService.insertMarineCenterFeeExprInqireRenew(gamMarineCenterFeeExprInqireVO);
     		
     		resultCode = 0; // return ok
@@ -631,11 +665,20 @@ public class GamMarineCenterFeeExprInqireController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
         
+		LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+  
     	if("modify".equals(cmd)) {
 	    	//확인후 변경혀라~~
 	    	gamMarineCenterFeeExprInqireVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamMarineCenterFeeExprInqireVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	gamMarineCenterFeeExprInqireVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 	    	//gamMarineCenterFeeExprInqireVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
 	        gamMarineCenterFeeExprInqireService.updateMarineCenterFeeExprInqire(gamMarineCenterFeeExprInqireVO);
@@ -674,7 +717,16 @@ public class GamMarineCenterFeeExprInqireController {
         int resultCode = 1;
         
         int resultLevReqestCnt = -1;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
         
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
         if( EgovStringUtil.isEmpty(gamMarineCenterFeeExprInqireVO.getPrmisnYn()) || gamMarineCenterFeeExprInqireVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
         	deleteFlag = "Y";
         } else {
@@ -722,7 +774,15 @@ public class GamMarineCenterFeeExprInqireController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();        
         /*
         String sLocationUrl = null;
     	// 0. Spring Security 사용자권한 처리
@@ -765,8 +825,8 @@ public class GamMarineCenterFeeExprInqireController {
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 등록가능
         	if("insert".equals(detailCmd)) {
     	    	//확인후 변경혀라~~
-    	    	gamMarineCenterFeeExprInqireDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-    	    	gamMarineCenterFeeExprInqireDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+    	    	gamMarineCenterFeeExprInqireDetailVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+    	    	gamMarineCenterFeeExprInqireDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
     	    	
     	        gamMarineCenterFeeExprInqireService.insertMarineCenterFeeExprInqireDetail(gamMarineCenterFeeExprInqireDetailVO);
     	    	
@@ -806,7 +866,15 @@ public class GamMarineCenterFeeExprInqireController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
         /*
         String sLocationUrl = null;
     	// 0. Spring Security 사용자권한 처리
@@ -847,7 +915,7 @@ public class GamMarineCenterFeeExprInqireController {
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
 	    	if("modify".equals(detailCmd)) {
-		    	gamMarineCenterFeeExprInqireDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+		    	gamMarineCenterFeeExprInqireDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 		    	
 		        gamMarineCenterFeeExprInqireService.updateMarineCenterFeeExprInqireDetail(gamMarineCenterFeeExprInqireDetailVO);
 		    	
@@ -884,7 +952,14 @@ public class GamMarineCenterFeeExprInqireController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         /*
         String sLocationUrl = null;
     	// 0. Spring Security 사용자권한 처리
@@ -961,6 +1036,14 @@ public class GamMarineCenterFeeExprInqireController {
         String resultMsg = "";
         int resultCode = 1;
         
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
         
         //승낙할 임대정보조회
         GamMarineCenterFeeExprInqireVO rentPrmisnInfo = gamMarineCenterFeeExprInqireService.selectMarineCenterFeeExprInqirePrmisnInfo(gamMarineCenterFeeExprInqireVO);
@@ -1042,8 +1125,8 @@ public class GamMarineCenterFeeExprInqireController {
 		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
 		
         levReqestInfo.setPrmisnYn("Y"); //허가여부
-        levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-        levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+        levReqestInfo.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+        levReqestInfo.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
         
         //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
         gamMarineCenterFeeExprInqireService.updateMarineCenterFeeExprInqirePrmisn(levReqestInfo);
@@ -1073,7 +1156,16 @@ public class GamMarineCenterFeeExprInqireController {
      	Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
-         
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
          //승낙할 임대정보조회
          GamMarineCenterFeeExprInqireVO rentPrmisnInfo = gamMarineCenterFeeExprInqireService.selectMarineCenterFeeExprInqirePrmisnInfo(gamMarineCenterFeeExprInqireVO);
          
@@ -1101,8 +1193,8 @@ public class GamMarineCenterFeeExprInqireController {
          levReqestInfo.setMngCnt( rentPrmisnInfo.getMngCnt() );
  		
          levReqestInfo.setPrmisnYn("N"); //허가여부
-         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+         levReqestInfo.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+         levReqestInfo.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
          
          //임대정보의 허가여부를 N으로 업데이트
          gamMarineCenterFeeExprInqireService.updateMarineCenterFeeExprInqirePrmisnCancel(levReqestInfo);
@@ -1129,9 +1221,13 @@ public class GamMarineCenterFeeExprInqireController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -1175,6 +1271,15 @@ public class GamMarineCenterFeeExprInqireController {
         String resultMsg  = "";
         String updateFlag = "";
         int resultCode = 1;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
         
         /*
         int resultLevReqestCnt = -1;
@@ -1196,6 +1301,7 @@ public class GamMarineCenterFeeExprInqireController {
         }
         
     	if("Y".equals(updateFlag)) {
+    		gamMarineCenterFeeExprInqireVO.setUpdUsr(loginVo.getId());
 	        gamMarineCenterFeeExprInqireService.updateMarineCenterFeeExprInqireComment(gamMarineCenterFeeExprInqireVO);
 	    	
 	        resultCode = 0; // return ok
