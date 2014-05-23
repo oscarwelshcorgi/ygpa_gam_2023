@@ -57,6 +57,13 @@ public class FlexiGridExcelView extends AbstractExcelView {
 //		setText(cell, "조회 결과 ");
 		Map<String, Object> map= (Map<String, Object>) model.get("gridResultMap");
 
+		if(map.containsKey("resultCode")) {
+			if((Integer)map.get("resultCode")!=0) {
+				cell = getCell(sheet, 1, 1);
+				setText(cell, "권한이 없습니다.  에러코드 : "+(String)map.get("resultCode"));
+				return;
+			}
+		}
 		List<Map> headerList= (List<Map>) map.get("header");
 		List<Object> resultList = (List<Object>) map.get("resultList");
 
