@@ -212,7 +212,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.$("#assetCodeTab").tabs("option", {
 				active : 0
 			}); // 탭 전환
-			throw 0;
+			console.log('debug');
 			break;
 		case 'addAssetGisCdItem': // gis 자산 추가
 			this._regMode = "I";
@@ -306,7 +306,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 											var oldCode=module.selectedItem;
 											module.selectedItem=result.resultVo;
 											module.loadDetail();
-											module.changeFeatureAttrib('gisAssetCd', oldCode, module.selectedItem);
+											module.changeFeatureAttrib('gisAssetsCd', oldCode, module.selectedItem);
 										}
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
