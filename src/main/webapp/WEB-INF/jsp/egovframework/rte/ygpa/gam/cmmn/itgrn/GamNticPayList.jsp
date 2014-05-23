@@ -324,13 +324,13 @@ var module_instance = new GamNticPayListModule();
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="10%" height="20">자료수</th>
-								<td><input type="text" size="8" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="6" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">고지금액합계</th>
-								<td><input type="text" size="17" id="totalBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="15" id="totalBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">수납금액합계</th>
-								<td><input type="text" size="17" id="totalRcvdAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="15" id="totalRcvdAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">미수납금액합계</th>
-								<td><input type="text" size="17" id="totalNotRcvdAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="15" id="totalNotRcvdAmnt" class="ygpaNumber" disabled="disabled" /></td>
                             	<td>
                             		<button id="btnNticPayListExcelDownload">엑셀</button>
                             	</td>
@@ -352,7 +352,7 @@ var module_instance = new GamNticPayListModule();
 								<th width="20%" height="23">자료수</th>
 								<td><input type="text" size="25" id="totalResultCnt1" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="20%" height="23">연체고지금액합계</th>
-								<td><input type="text" size="47" id="totalDlyBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="40" id="totalDlyBillAmnt" class="ygpaNumber" disabled="disabled" /></td>
 	                            <td>
     	                        	<button id="btnDelayNticPayListExcelDownload">엑셀</button>
         	                    </td>
