@@ -134,6 +134,15 @@ public class GamAssetRentMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	List olnlpList = gamAssetRentMngtService.selectOlnlpInfo(searchVO);
 
@@ -156,6 +165,15 @@ public class GamAssetRentMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -203,6 +221,15 @@ public class GamAssetRentMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -245,6 +272,14 @@ public class GamAssetRentMngtController {
 
 		Map<String,Object> map = new HashMap<String,Object>();
 		ObjectMapper mapper = new ObjectMapper();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
@@ -484,6 +519,10 @@ public class GamAssetRentMngtController {
     			updateFileVO.setPhotoSj(resultMap.get("photoSj").toString());
     			updateFileVO.setShotDt(resultMap.get("shotDt").toString());
     			updateFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			
+    			updateFileVO.setUpdUsr(loginVO.getId());
+    			
+    			
 
     			System.out.println("############################################### updateFileVO => " + updateFileVO);
 
@@ -537,6 +576,8 @@ public class GamAssetRentMngtController {
     				quaycdVO.setMngNo(paramVO.getMngNo());
     				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
     			}
+    			
+    			quaycdVO.setUpdUsr(loginVO.getId());
 
     			gamAssetRentMngtService.updateAssetRentQuaycd(quaycdVO);
     		}
@@ -578,6 +619,14 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         /*
         String sLocationUrl = null;
@@ -604,21 +653,33 @@ public class GamAssetRentMngtController {
 			resultMsg = egovMessageSource.getMessage("success.common.insert");
         }
         */
+    	
+    	try {
+    		
+	    	LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	    	
+	    	if("insert".equals(cmd)) {
+		    	//확인후 변경혀라~~
+		    	gamAssetRentMngtVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+		    	gamAssetRentMngtVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+		    	gamAssetRentMngtVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+		    	//gamAssetRentMngtVO.setDeptcd("A001");   //부서코드 (세션?)
+	
+		        gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
+	
+		        resultCode = 0; // return ok
+				resultMsg  = egovMessageSource.getMessage("success.common.insert");
+	    	} else {
+	    		resultCode = 1; // return fail
+	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+	    	}
+    	
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-    	if("insert".equals(cmd)) {
-	    	//확인후 변경혀라~~
-	    	gamAssetRentMngtVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamAssetRentMngtVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamAssetRentMngtVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	//gamAssetRentMngtVO.setDeptcd("A001");   //부서코드 (세션?)
-
-	        gamAssetRentMngtService.insertAssetRentFirst(gamAssetRentMngtVO);
-
-	        resultCode = 0; // return ok
-			resultMsg  = egovMessageSource.getMessage("success.common.insert");
-    	} else {
-    		resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+        	return map;
     	}
 
     	map.put("resultCode", resultCode);
@@ -644,12 +705,23 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+        // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         try {
+        	LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 	    	GamAssetRentMngtVO resultVO = gamAssetRentMngtService.selectAssetRentMaxNo(gamAssetRentMngtVO);
 
 	    	if( gamAssetRentMngtVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
 	    		//키 같고 max관리번호가 같으면 연장신청 등록
+	    		
+	    		gamAssetRentMngtVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 
 	    		gamAssetRentMngtService.insertAssetRentRenew(gamAssetRentMngtVO);
 
@@ -690,17 +762,38 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+        // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
 
     	if("modify".equals(cmd)) {
-	    	//확인후 변경혀라~~
-	    	gamAssetRentMngtVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamAssetRentMngtVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	//gamAssetRentMngtVO.setDeptcd("A001");   //부서코드 (세션?)
+    		
+    		try {
+        		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		    	//확인후 변경혀라~~
+		    	gamAssetRentMngtVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
+		    	gamAssetRentMngtVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+		    	//gamAssetRentMngtVO.setDeptcd("A001");   //부서코드 (세션?)
+	
+		        gamAssetRentMngtService.updateAssetRent(gamAssetRentMngtVO);
+	
+		        resultCode = 0; // return ok
+		        resultMsg  = egovMessageSource.getMessage("success.common.update");
+		        
+    		}
+        	catch(Exception e) {
+            	map.put("resultCode", -1);	// return ok
+            	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-	        gamAssetRentMngtService.updateAssetRent(gamAssetRentMngtVO);
-
-	        resultCode = 0; // return ok
-	        resultMsg  = egovMessageSource.getMessage("success.common.update");
+            	return map;
+        	}
+    		
     	} else {
     		resultCode = 1; // return fail
     		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
@@ -733,6 +826,14 @@ public class GamAssetRentMngtController {
         int resultCode = 1;
 
         int resultLevReqestCnt = -1;
+        
+        // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         try {
 	        if( EgovStringUtil.isEmpty(gamAssetRentMngtVO.getPrmisnYn()) || gamAssetRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
@@ -788,6 +889,14 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         /*
         String sLocationUrl = null;
@@ -830,14 +939,25 @@ public class GamAssetRentMngtController {
 
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 등록가능
         	if("insert".equals(detailCmd)) {
-    	    	//확인후 변경혀라~~
-    	    	gamAssetRentDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-    	    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+        		
+        		try {
+        			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	    	    	//확인후 변경혀라~~
+	    	    	gamAssetRentDetailVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	    	    	gamAssetRentDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	
+	    	        gamAssetRentMngtService.insertAssetRentDetail(gamAssetRentDetailVO);
+	
+	    	        resultCode = 0; // return ok
+	    			resultMsg  = egovMessageSource.getMessage("success.common.insert");
+	    			
+        		}
+            	catch(Exception e) {
+                	map.put("resultCode", -1);	// return ok
+                	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-    	        gamAssetRentMngtService.insertAssetRentDetail(gamAssetRentDetailVO);
-
-    	        resultCode = 0; // return ok
-    			resultMsg  = egovMessageSource.getMessage("success.common.insert");
+                	return map;
+            	}
         	} else {
         		resultCode = 1; // return fail
         		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
@@ -872,6 +992,14 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         /*
         String sLocationUrl = null;
@@ -913,12 +1041,23 @@ public class GamAssetRentMngtController {
 
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
 	    	if("modify".equals(detailCmd)) {
-		    	gamAssetRentDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    		
+	    		try {
+	    			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			    	gamAssetRentDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	
+			        gamAssetRentMngtService.updateAssetRentDetail(gamAssetRentDetailVO);
+	
+			        resultCode = 0; // return ok
+					resultMsg  = egovMessageSource.getMessage("success.common.update");
+					
+	    		}
+	        	catch(Exception e) {
+	            	map.put("resultCode", -1);	// return ok
+	            	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-		        gamAssetRentMngtService.updateAssetRentDetail(gamAssetRentDetailVO);
-
-		        resultCode = 0; // return ok
-				resultMsg  = egovMessageSource.getMessage("success.common.update");
+	            	return map;
+	        	}
 	    	} else {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
@@ -950,6 +1089,14 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         /*
         String sLocationUrl = null;
@@ -1026,6 +1173,14 @@ public class GamAssetRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 
         //승낙할 임대정보조회
@@ -1108,11 +1263,22 @@ public class GamAssetRentMngtController {
 		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
 
         levReqestInfo.setPrmisnYn("Y"); //허가여부
-        levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-        levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+        
+        try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	        levReqestInfo.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	        levReqestInfo.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	
+	        //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
+	        gamAssetRentMngtService.updateAssetRentPrmisn(levReqestInfo);
+	        
+        }
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-        //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
-        gamAssetRentMngtService.updateAssetRentPrmisn(levReqestInfo);
+        	return map;
+    	}
 
         resultCode = 0;
 		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 처리되었습니다.
@@ -1201,6 +1367,14 @@ public class GamAssetRentMngtController {
      	 Map paramMap = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
+         
+      // 0. Spring Security 사용자권한 처리
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -1217,6 +1391,7 @@ public class GamAssetRentMngtController {
          paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("updUsr", loginVO.getId());
          paramMap.put("chrgeKnd", gamAssetRentMngtVO.getChrgeKnd());
 
          System.out.println("##################################### paramMap => " + paramMap);
@@ -1226,10 +1401,19 @@ public class GamAssetRentMngtController {
         	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
          }
          else {
-        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+        	 try {
+     			
+	        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+	
+		         resultCode = 0;
+		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+        	 }
+         	catch(Exception e) {
+             	map.put("resultCode", -1);	// return ok
+             	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+             	return map;
+         	}
          }
 
      	 map.put("resultCode", resultCode);
@@ -1255,6 +1439,14 @@ public class GamAssetRentMngtController {
      	 Map paramMap = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
+         
+      // 0. Spring Security 사용자권한 처리
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -1270,6 +1462,7 @@ public class GamAssetRentMngtController {
          paramMap.put("mngNo", gamAssetRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("updUsr", loginVO.getId());
 
          System.out.println("##################################### paramMap => " + paramMap);
 
@@ -1278,10 +1471,18 @@ public class GamAssetRentMngtController {
         	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
          }
          else {
-        	 gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
+        	 try {
+	        	 gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
+	
+		         resultCode = 0;
+		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+        	 }
+         	catch(Exception e) {
+             	map.put("resultCode", -1);	// return ok
+             	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+             	return map;
+         	}
          }
 
      	 map.put("resultCode", resultCode);
@@ -1304,6 +1505,14 @@ public class GamAssetRentMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -1350,6 +1559,14 @@ public class GamAssetRentMngtController {
         String resultMsg  = "";
         String updateFlag = "";
         int resultCode = 1;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         /*
         int resultLevReqestCnt = -1;
@@ -1371,10 +1588,23 @@ public class GamAssetRentMngtController {
         }
 
     	if("Y".equals(updateFlag)) {
-	        gamAssetRentMngtService.updateAssetRentComment(gamAssetRentMngtVO);
+    		
+    		try {
+        		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+        		
+        		gamAssetRentMngtVO.setUpdUsr(loginVo.getId());
+        		
+		        gamAssetRentMngtService.updateAssetRentComment(gamAssetRentMngtVO);
+	
+		        resultCode = 0; // return ok
+		        resultMsg  = egovMessageSource.getMessage("success.common.insert");
+    		}
+        	catch(Exception e) {
+            	map.put("resultCode", -1);	// return ok
+            	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-	        resultCode = 0; // return ok
-	        resultMsg  = egovMessageSource.getMessage("success.common.insert");
+            	return map;
+        	}
     	} else {
     		resultCode = 1; // return fail
     		resultMsg  = "신청 저장후 코멘트 저장이 가능합니다.";

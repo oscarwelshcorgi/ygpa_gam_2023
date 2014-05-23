@@ -102,6 +102,14 @@ public class GamAssetDisUseMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -162,12 +170,28 @@ public class GamAssetDisUseMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
+        
+        // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	try {
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	
+	        gamAssetDisUseMngtVO.setUpdUsr(loginVO.getId());
+	
+	        gamAssetDisUseMngtService.updateAssetDisUse(gamAssetDisUseMngtVO);
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-        gamAssetDisUseMngtVO.setUpdUsr(loginVO.getId());
-
-        gamAssetDisUseMngtService.updateAssetDisUse(gamAssetDisUseMngtVO);
+        	return map;
+    	}
 
         resultCode = 0; // return ok
         resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.

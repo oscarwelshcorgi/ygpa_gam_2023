@@ -100,6 +100,14 @@ public class GamAssetLndValInqireController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -137,6 +145,14 @@ public class GamAssetLndValInqireController {
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
 
     	// 환경설정
     	/** EgovPropertyService */

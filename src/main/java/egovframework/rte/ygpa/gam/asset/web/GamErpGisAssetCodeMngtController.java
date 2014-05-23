@@ -193,6 +193,15 @@ public class GamErpGisAssetCodeMngtController {
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+		
 
     	// 환경설정
     	/** EgovPropertyService */
@@ -277,6 +286,7 @@ public class GamErpGisAssetCodeMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
+    	
 
 		insertList = mapper.readValue((String)dataList.get("insertList"),
 		    new TypeReference<List<HashMap<String,Object>>>(){});
@@ -298,8 +308,21 @@ public class GamErpGisAssetCodeMngtController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
+		
+		try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		gamErpGisAssetCodeMngtService.mergeErpGisAssetCodeMngt(mergeMap);
+			mergeMap.put("updUsr", loginVo.getId());
+			mergeMap.put("regUsr", loginVo.getId());
+			
+			gamErpGisAssetCodeMngtService.mergeErpGisAssetCodeMngt(mergeMap);
+		}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+
+        	return map;
+    	}
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
@@ -351,8 +374,20 @@ public class GamErpGisAssetCodeMngtController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
+		
+		try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+			mergeMap.put("updUsr", loginVo.getId());
+			mergeMap.put("regUsr", loginVo.getId());
+			gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+		}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+
+        	return map;
+    	}
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
@@ -435,8 +470,21 @@ public class GamErpGisAssetCodeMngtController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
+		
+		
+		try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+			mergeMap.put("updUsr", loginVo.getId());
+			mergeMap.put("regUsr", loginVo.getId());
+			gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+		}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);	// return ok
+        	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+
+        	return map;
+    	}
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));

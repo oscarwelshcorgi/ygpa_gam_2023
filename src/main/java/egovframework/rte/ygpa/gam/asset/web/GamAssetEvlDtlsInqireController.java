@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -121,6 +122,14 @@ public class GamAssetEvlDtlsInqireController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -168,6 +177,14 @@ public class GamAssetEvlDtlsInqireController {
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
 
 		GamAssetEvlDtlsInqireVO searchVO= new GamAssetEvlDtlsInqireVO();
 
@@ -208,6 +225,14 @@ public class GamAssetEvlDtlsInqireController {
 												  ,@ModelAttribute("gamAssetEvlDtlsInqireVO") GamAssetEvlDtlsInqireVO searchVO
 		     								     ) throws Exception {
 		Map map = new HashMap();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 		GamAssetEvlDtlsInqireVO result = gamAssetEvlDtlsInqireService.selectAssetEvlDtlsInqireErp(searchVO);
 
