@@ -22,7 +22,7 @@
 <!DOCTYPE html>
 <html lang="ko" xml:lang="ko">
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (RELEASE)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 
@@ -68,15 +68,9 @@
 
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
-    OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
-    OpenLayers.theme = "<c:url value='/css/'/>";
-    Proj4js.libPath = "<c:url value='/js/Proj4js/'/>";
-
        jQuery(document).ready(function() {
     	   EMD.go("${pageContext.request.contextPath}", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
-
-
     </script>
   </head>
   <body>
