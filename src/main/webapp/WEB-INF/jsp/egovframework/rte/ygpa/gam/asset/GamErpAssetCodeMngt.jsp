@@ -915,7 +915,7 @@ var module_instance = new GamAssetCodeModule();
 							<col width="200" />
 						</colGroup>
 						<tr>
-							<th><span class="label">제 목</span></th>
+							<th><span class="label">제목</span></th>
 							<td colspan="3">
 								<input id="photoSj" type="text" size="60" class="photoEditItem" />
 							</td>
