@@ -25,7 +25,7 @@
 				      A.Relate_Image_Nm   As "relateImageNm" ,
 				      A.Progrm_File_Nm    As "progrmFileNm" ,
 				      B.PROGRM_KOREAN_NM AS "progrmKoreanNm"
-				  	  From Comtnmenuinfo A 
+				  	  From Comtnmenuinfo A
 			   		 LEFT OUTER JOIN COMTNPROGRMLIST B on ( A.Progrm_File_Nm = B.Progrm_File_Nm)
 					WHERE MENU_NM like '%'|| #searchKeyword#||'%'
 		       ) TB )  WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
@@ -83,14 +83,15 @@
 	<update id="menuManageDAO.updateMenuManage_S">
 		<![CDATA[
 			UPDATE COMTNMENUINFO
-			SET  MENU_ORDR         = #menuOrdr#
+			SET MENU_NO = #menuNo#
+			, MENU_ORDR         = #menuOrdr#
             , MENU_NM           = #menuNm#
             , UPPER_MENU_NO     = #upperMenuId#
             , MENU_DC           = #menuDc#
             , RELATE_IMAGE_PATH = #relateImagePath#
             , RELATE_IMAGE_NM   = #relateImageNm#
             , PROGRM_FILE_NM    = #progrmFileNm#
-			WHERE MENU_NO=#menuNo#
+			WHERE MENU_NO=#beforeMenuNo#
 		]]>
 	</update>
 

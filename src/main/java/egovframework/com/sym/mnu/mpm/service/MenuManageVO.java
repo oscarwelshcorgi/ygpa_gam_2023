@@ -1,6 +1,6 @@
 package egovframework.com.sym.mnu.mpm.service;
 
-/** 
+/**
  * 메뉴목록관리 처리를 위한 VO 클래스르를 정의한다
  * @author 개발환경 개발팀 이용
  * @since 2009.06.01
@@ -9,7 +9,7 @@ package egovframework.com.sym.mnu.mpm.service;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.03.20  이  용          최초 생성
@@ -37,6 +37,8 @@ public class MenuManageVO{
    /** 프로그램파일명 */
    private   String   progrmFileNm;
 
+   private int beforeMenuNo;
+
    /** 사이트맵 */
    /** 생성자ID **/
    private   String   creatPersonId;
@@ -47,8 +49,8 @@ public class MenuManageVO{
 
    /** 기타VO변수 */
    private   String   tempValue;
-   private   int      tempInt; 
-   
+   private   int      tempInt;
+
 
    /** Login 메뉴관련 VO변수 */
    /** tmp_Id */
@@ -67,7 +69,7 @@ public class MenuManageVO{
    private   String   tmpUniqId;
    /** tmp_Cmd */
    private   String   tmpCmd;
-   
+
 	/**
 	 * menuNo attribute를 리턴한다.
 	 * @return int
@@ -321,7 +323,7 @@ public class MenuManageVO{
 	public void setTmpCmd(String tmp_Cmd) {
 		this.tmpCmd = tmp_Cmd;
 	}
-	   
+
 	  /**
 	 * tempValue attribute를 리턴한다.
 	 * @return String
@@ -349,5 +351,11 @@ public class MenuManageVO{
 	 */
 	public void setTempInt(int tempInt) {
 		this.tempInt = tempInt;
+	}
+	public int getBeforeMenuNo() {
+		return beforeMenuNo;
+	}
+	public void setBeforeMenuNo(int beforeMenuNo) {
+		this.beforeMenuNo = beforeMenuNo;
 	}
 }

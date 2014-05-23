@@ -44,7 +44,7 @@
 				, A.MENU_NM AS "menuNm"
 				, A.UPPER_MENU_NO AS "upperMenuId"
 				, DECODE(
-					(SELECT count(B.MENU_NO) FROM COMTNMENUCREATDTLS B 
+					(SELECT count(B.MENU_NO) FROM COMTNMENUCREATDTLS B
 				    	WHERE B.MENU_NO = A.MENU_NO
 				        AND B.AUTHOR_CODE = #authorCode#
 					), '0','N','Y') AS "chkYeoBu"
@@ -80,8 +80,14 @@
 	<delete id="menuManageDAO.deleteMenuCreat_S">
 		<![CDATA[
 			DELETE FROM COMTNMENUCREATDTLS
-			 WHERE AUTHOR_CODE=#authorCode#
+			 WHERE 1=1
 		]]>
+		 <isNotEmpty prepend="AND" property="authorCode">
+			AUTHOR_CODE=#authorCode#
+		 </isNotEmpty>
+		 <isNotEqual prepend="AND" property="menuNo" compareValue="0">
+		 	MENU_NO=#menuNo#
+		 </isNotEqual>
 	</delete>
 
 	<select id="menuManageDAO.selectAuthorByUsr" parameterClass="comDefaultVO" resultClass="MenuCreatVO">

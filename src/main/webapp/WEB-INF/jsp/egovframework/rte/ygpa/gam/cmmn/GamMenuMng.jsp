@@ -56,10 +56,11 @@ GamMenuMngModule.prototype.loadComplete = function() {
 
 		if(row != null) {
 
-			module.$("#menuNo").attr("disabled","disabled");
+			//module.$("#menuNo").attr("disabled","disabled");
 			//module.$("#upperMenuId").attr("disabled","disabled");
 
 			module.$("#cmd").val("modify");	 							// 더블클릭한 아이템을 수정한다
+			module.$("#beforeMenuNo").val(row["menuNo"]);						// 메뉴No
 			module.$("#menuNo").val(row["menuNo"]);						// 메뉴No
 			module.$("#menuOrdr").val(row["menuOrdr"]);					// 메뉴순서
 			module.$("#menuNm").val(row["menuNm"]);						// 메뉴명
@@ -96,8 +97,8 @@ GamMenuMngModule.prototype.loadComplete = function() {
 
 		// 추가
 		case "addBtn":
-			this.$("#menuNo").removeAttr("disabled");
-			this.$("#upperMenuId").removeAttr("disabled");
+			//this.$("#menuNo").removeAttr("disabled");
+			//this.$("#upperMenuId").removeAttr("disabled");
 			this.$("#menuMngListTab").tabs("option", {active: 1});
 			this.$("#menuManageVO :input").val("");
 			this.$("#cmd").val("insert");
@@ -236,6 +237,7 @@ var module_instance = new GamMenuMngModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="menuManageVO">
 					<input type="hidden" id="cmd"/>
+					<input type="hidden" id="beforeMenuNo"/>
 					<table class="searchPanel">
 						<colgroup>
 							<col width="30%" />
