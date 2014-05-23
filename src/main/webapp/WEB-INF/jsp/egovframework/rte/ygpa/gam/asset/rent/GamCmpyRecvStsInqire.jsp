@@ -243,13 +243,13 @@ var module_instance = new GamCmpyRecvStsInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="10%" height="20">자료수</th>
-								<td><input type="text" size="10" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="8" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">고지금액</th>
-								<td><input type="text" size="18" id="sumNticAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="sumNticAmtSum" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">수납금액</th>
-								<td><input type="text" size="18" id="sumRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="sumRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">미수납금액</th>
-								<td><input type="text" size="18" id="sumNotRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="sumNotRcvdAmtSum" class="ygpaNumber" disabled="disabled" /></td>
 								<td><button class="buttonExcel" data-flexi-grid="cmpyRecvStsInqireList" data-url="<c:url value='/asset/rent/gamSelectCmpyRecvStsInqireListExcel.do' />">엑셀</button></td>
                                 <!--
                                 <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>

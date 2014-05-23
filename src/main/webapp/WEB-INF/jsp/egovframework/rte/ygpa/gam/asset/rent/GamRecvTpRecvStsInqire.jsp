@@ -221,13 +221,13 @@ var module_instance = new GamRecvTpRecvStsInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="10%" height="20">자료수</th>
-								<td><input type="text" size="10" id="totSumCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="8" id="totSumCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">고지금액</th>
-								<td><input type="text" size="18" id="totSumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="totSumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">수납금액</th>
-								<td><input type="text" size="18" id="totSumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="totSumRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">미수납금액</th>
-								<td><input type="text" size="18" id="totSumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="totSumNotRcvdAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<td><button class="buttonExcel" data-flexi-grid="recvTpRecvStsInqireList" data-url="<c:url value='/asset/rent/gamSelectRecvTpRecvStsInqireListExcel.do' />">엑셀</button></td>
                                 <!--
                                 <td><button id="btnErpAssetCodeListExcelDownload">엑셀</button></td>
