@@ -711,7 +711,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<th width="20%" height="23">자료수</th>
 								<td><input type="text" size="20" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="20%" height="23">매출액합계</th>
-								<td><input type="text" size="45" id="totalCostval" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="40" id="totalCostval" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>
@@ -726,7 +726,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 								<th width="20%" height="23">자료수</th>
 								<td><input type="text" size="20" id="totalResultCnt1" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="20%" height="23">매출액합계</th>
-								<td><input type="text" size="45" id="totalCostval1" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="40" id="totalCostval1" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>
