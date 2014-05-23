@@ -350,62 +350,62 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
 
                         <table class="detailForm" style="width:100%;">
                             <tr>
-								<th width="17%" height="23">항코드/담당부서</th>
+								<th width="15%" height="23">항코드/담당부서</th>
 								<td>
 									<span id="prtAtCode"></span>&nbsp;-&nbsp; 
 									<span id="prtAtCodeNm"></span>&nbsp;／&nbsp;
 									<span id="deptcdNm"></span>
 								</td>
-								<th width="17%" height="23">납부방법/고지방법</th>
+								<th width="15%" height="23">납부방법/고지방법</th>
 								<td>
 									<span id="payMthNm"></span>&nbsp;／&nbsp; 
 									<span id="nticMthNm"></span>
 								</td>
                             </tr>
                             <tr>
-								<th width="17%" height="23">관리번호</th>
+								<th width="15%" height="23">관리번호</th>
 								<td>
 									<span id="mngYear"></span>&nbsp;-&nbsp;
 									<span id="mngNo"></span>&nbsp;-&nbsp;
 									<span id="mngCnt"></span>
 								</td>
-								<th width="17%" height="23">신청업체</th>
+								<th width="15%" height="23">신청업체</th>
 								<td>
 									<span id="entrpscd"></span>&nbsp;-&nbsp; 
 									<span id="entrpsNm"></span>
 								</td>
                             </tr>
                             <tr>
-								<th width="17%" height="23">최초신청일자</th>
+								<th width="15%" height="23">최초신청일자</th>
 								<td><span id="frstReqstDt"></span></td>
-								<th width="17%" height="23">신청일자</th>
+								<th width="15%" height="23">신청일자</th>
 								<td><span id="reqstDt"></span></td>
                             </tr>
                             <tr>
-								<th width="17%" height="23">승낙여부</th>
+								<th width="15%" height="23">승낙여부</th>
 								<td><span id="prmisnYn"></span></td>
-								<th width="17%" height="23">승낙일자</th>
+								<th width="15%" height="23">승낙일자</th>
 								<td><span id="prmisnDt"></span></td>
                             </tr>
                             <tr>
-								<th width="17%" height="23">총사용기간</th>
+								<th width="15%" height="23">총사용기간</th>
 								<td>
 									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp; 
 									<span id="grUsagePdTo"></span>
 								</td>
-								<th width="17%" height="23">총사용면적</th>
+								<th width="15%" height="23">총사용면적</th>
 								<td><span class="ygpaNumber" id="grAr"></span></td>
                             </tr>
                             <tr>
-								<th width="17%" height="23">총사용료</th>
+								<th width="15%" height="23">총사용료</th>
 								<td><span class="ygpaNumber" id="grFee"></span></td>
-								<th width="17%" height="23">총감면사용료</th>
+								<th width="15%" height="23">총감면사용료</th>
 								<td><span class="ygpaNumber" id="grRdcxptFee"></span></td>
                             </tr>
                             <tr>
-								<th width="17%" height="23">비고</th>
+								<th width="15%" height="23">비고</th>
 								<td><span id="rm"></span></td>
-								<th width="17%" height="23">코멘트</th>
+								<th width="15%" height="23">코멘트</th>
 								<td><span id="cmt"></span></td>
                             </tr>
                         </table>
@@ -415,35 +415,35 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
 					<div id="cmmnCntrNticArrvlDtaInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">
                         	<tr>
-                        		<th>항코드</th>
+                        		<th width="15%" height="23">항코드</th>
                                 <td>
                                 	<span data-column-id="gisAssetsPrtAtCode"></span> 
                                 	(<span data-column-id="prtAtCodeNm"></span>)
                                 </td>
-								<th>자산코드</th>
+								<th width="15%" height="23">자산코드</th>
                                 <td>
                                 	<span data-column-id="gisAssetsCd"></span>-
                                 	<span data-column-id="gisAssetsSubCd"></span>
                                 </td>
-								<th>자산명</th>
+								<th width="15%" height="23">자산명</th>
                                 <td><span data-column-id="gisAssetsNm"></span></td>
                             </tr>
                             <tr>
-								<th>사용시작</th>
+								<th width="15%" height="23">사용시작</th>
                                 <td><span data-column-id="usagePdFrom"></span></td>
-								<th>사용종료</th>
+								<th width="15%" height="23">사용종료</th>
                                 <td><span data-column-id="usagePdTo"></span></td>
-                                <th>사용료</th>
+                                <th width="15%" height="23">사용료</th>
                                 <td><span data-column-id="fee" class="ygpaNumber" ></span></td>
                             </tr>
                             <tr>
-                            	<th>사용면적</th>
+                            	<th width="15%" height="23">사용면적</th>
                                 <td><span data-column-id="usageAr" class="ygpaNumber"></span></td>
-								<th>적용요율</th>
+								<th width="15%" height="23">적용요율</th>
                                 <td>
                                     <span data-column-id="applcTariff"></span>
                                 </td>
-								<th>면제구분</th>
+								<th width="15%" height="23">면제구분</th>
                                 <td>
                                     <span data-column-id="exemptSe"></span>
                                     <span data-column-id="exemptSeNm"></span>
