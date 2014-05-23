@@ -59,7 +59,7 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
 					{display:'납부기한', name:'dueDate',width:100, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: '350',
+        height: '320',
         preProcess: function(module,data) {
             module.$('#totSumCnt').val(data.totSumCnt);
             module.$('#totSumNticAmt').val(data.totSumNticAmt);
@@ -290,63 +290,63 @@ var module_instance = new GamAssetRentfeePayDtlsInqireModule();
                         <input type="hidden" id="cmd"/>
                         <table class="detailForm"  style="width:100%;">
                             <tr>
-								<th width="20%" height="23">항코드</th>
+								<th width="15%" height="23">항코드</th>
 								<td><span size="43" id="prtAtCode"></span></td>
-								<th width="20%" height="23">항코드명</th>
+								<th width="15%" height="23">항코드명</th>
 								<td><span size="43" id="prtAtCodeNm"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">요금종류코드</th>
+								<th width="15%" height="23">요금종류코드</th>
 								<td><span size="43" id="chrgeKnd"></span></td>
-								<th width="20%" height="23">요금종류명</th>
+								<th width="15%" height="23">요금종류명</th>
 								<td><span size="43" id="chrgeKndNm"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">회계년도</th>
+								<th width="15%" height="23">회계년도</th>
 								<td><span size="43" id="accnutYear"></span></td>
-								<th width="20%" height="23">고지번호</th>
+								<th width="15%" height="23">고지번호</th>
 								<td><span size="43" id="nticno"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">고지횟수</th>
+								<th width="15%" height="23">고지횟수</th>
 								<td><span size="43" id="nticCnt"></span></td>
-								<th width="20%" height="23">고지일자</th>
+								<th width="15%" height="23">고지일자</th>
 								<td><span size="43" id="nticDt"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">사용시작일</th>
+								<th width="15%" height="23">사용시작일</th>
 								<td><span size="43" id="nticPdFrom"></span></td>
-								<th width="20%" height="23">사용종료일</th>
+								<th width="15%" height="23">사용종료일</th>
 								<td><span size="43" id="nticPdTo"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">사용료</th>
+								<th width="15%" height="23">사용료</th>
 								<td><span size="43" id="fee" class="ygpaNumber"></span></td>
-								<th width="20%" height="23">부가세</th>
+								<th width="15%" height="23">부가세</th>
 								<td><span size="43" id="vat" class="ygpaNumber"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">과세구분</th>
+								<th width="15%" height="23">과세구분</th>
 								<td><span size="43" id="vatYn"></span></td>
-								<th width="20%" height="23">고지금액</th>
+								<th width="15%" height="23">고지금액</th>
 								<td><span size="43" id="nticAmt" class="ygpaNumber"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">수납구분</th>
+								<th width="15%" height="23">수납구분</th>
 								<td><span size="43" id="rcvdTp"></span></td>
-								<th width="20%" height="23">수납일자</th>
+								<th width="15%" height="23">수납일자</th>
 								<td><span size="43" id="rcvdDt"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">관리번호</th>
+								<th width="15%" height="23">관리번호</th>
 								<td><span size="43" id="rentMngNo"></span></td>
-								<th width="20%" height="23">고지서출력여부</th>
+								<th width="15%" height="23">고지서출력여부</th>
 								<td><span size="43" id="billPrtYn"></span></td>
                             </tr>
                             <tr>
-								<th width="20%" height="23">납부기한</th>
+								<th width="15%" height="23">납부기한</th>
 								<td><span size="43" id="dueDate"></span></td>
-								<th width="20%" height="23">비고</th>
+								<th width="15%" height="23">비고</th>
 								<td><span size="43" id="rm"></span></td>
                             </tr>
                         </table>
