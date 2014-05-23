@@ -155,7 +155,6 @@ public class GamMenuMngSampleController {
 	    		resultMsg = egovMessageSource.getMessage("common.isExist.msg");
 			}
     	}
-
         map.put("resultMsg", resultMsg);
       	return map;
     }
@@ -192,7 +191,6 @@ public class GamMenuMngSampleController {
 
 		ComDefaultVO searchVO = new ComDefaultVO();
 		searchVO.setSearchKeyword(menuManageVO.getProgrmFileNm());
-
 		if(progrmManageService.selectProgrmNMTotCnt(searchVO)==0){
 			map.put("resultCode", 1);
     		resultMsg = egovMessageSource.getMessage("fail.common.update");
@@ -309,4 +307,32 @@ public class GamMenuMngSampleController {
     	return map;
    }
 
+    
+    /**
+     * 
+     * 메뉴 Detail 조회
+     * 
+     */
+    @RequestMapping(value="/sample/mnu/selectMenuDetail.do")
+    @ResponseBody public Map selectMenuDetail(@RequestParam("id") String id,ModelMap model)throws Exception {
+    	Map map = new HashMap();
+    	String resultMsg    = "";
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+    		resultMsg = egovMessageSource.getMessage("fail.common.login");
+        	map.put("resultCode", 1);	// return error
+        	map.put("resultMsg", resultMsg);	// return error message
+        	return map;
+    	}
+    	MenuManageVO menuManageVO = (MenuManageVO)menuManageService.selectMenuDetail(id);
+    	resultMsg = egovMessageSource.getMessage("success.common.select");
+    	map.put("resultVO",menuManageVO);
+    	map.put("resultMsg", resultMsg);
+    	map.put("resultCode", 0);
+    	return map;
+   }
+    
 }

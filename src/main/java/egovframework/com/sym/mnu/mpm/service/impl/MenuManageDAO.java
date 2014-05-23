@@ -204,4 +204,15 @@ public class MenuManageDAO extends EgovComAbstractDAO{
 	public int selectLastMenuNoCnt(MenuManageVO vo) throws Exception{
 		return (Integer)getSqlMapClientTemplate().queryForObject("menuManageDAO.selectLastMenuNoCnt", vo);
 	} 	
+	
+	
+	/**
+	 * 메뉴 상세
+	 * @param vo MenuManageVO
+	 * @exception Exception
+	 */
+	public MenuManageVO selectMenuDetail(String id){
+		
+		return (MenuManageVO)getSqlMapClientTemplate().queryForObject("menuManageDAO.selectMenuDetail", id);
+	}
 }

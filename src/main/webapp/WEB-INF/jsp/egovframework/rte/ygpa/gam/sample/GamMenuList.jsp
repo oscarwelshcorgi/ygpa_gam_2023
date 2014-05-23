@@ -59,8 +59,13 @@ GamMenuMngModule.prototype.loadMenu = function() {
 			module.tree.setUserData('module', module);
 			module.tree.module=module;
 			module.tree.attachEvent("onSelect", function(id){
+				
 				console.debug('id :'+id+' selected');
-				this.module.$('#menuNo').val(id);
+// 				this.module.$('#menuNo').val(id);
+				module.doAction('<c:url value="/sample/mnu/selectMenuDetail.do" />', {id : id }, function(module, result) {
+					result.resultVO.beforeMenuNo=result.resultVO.menuNo;
+					module.makeFormValues('#menuManageVO', result.resultVO); 
+				})
 			});
  		}
  	});
@@ -96,20 +101,22 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		case "saveBtn":
 		 	var inputVO=this.makeFormArgs("#menuManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(result) {
+			 	this.doAction('<c:url value="/sample/gamMenuListInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#menuMngListTab").tabs("option", {active: 0});
-			 			this.$("#menuManageVO :input").val("");
+			 			module.$("#menuMngListTab").tabs("option", {active: 0});
+			 			module.$("#menuManageVO :input").val("");
 			 		}
+			 		module.loadMenu();
 			 		alert(result.resultMsg);
 			 	});
 			}
 			else {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListUpdt.do" />', inputVO, function(result) {
+			 	this.doAction('<c:url value="/sample/gamMenuListUpdt.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#menuMngListTab").tabs("option", {active: 0});
-			 			this.$("#menuManageVO :input").val("");
+			 			module.$("#menuMngListTab").tabs("option", {active: 0});
+			 			module.$("#menuManageVO :input").val("");
 			 		}
+				 		module.loadMenu();
 			 		alert(result.resultMsg);
 			 	});
 			}
@@ -119,14 +126,19 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO=this.makeFormArgs("#menuManageVO");
-			 	this.doAction('<c:url value="/cmmn/gamMenuListDelete.do" />', inputVO, function(result) {
+			 	this.doAction('<c:url value="/cmmn/gamMenuListDelete.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
-			 			this.$("#menuMngListTab").tabs("option", {active: 0});
-			 			this.$("#menuManageVO :input").val("");
+			 			module.$("#menuMngListTab").tabs("option", {active: 0});
+			 			module.$("#menuManageVO :input").val("");
 			 		}
+			 		module.loadMenu();
 			 		alert(result.resultMsg);
 			 	});
 			}
+		break;
+		// 프로그램 조회 팝업
+		case "popupBtn":
+			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '<c:url value="/cmmn/popup/gamPopupProgramView.do"/>', {progrmFileNm: this.$("#progrmFileNm").val()});
 		break;
 	}
 };
@@ -157,6 +169,22 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 	}
 };
+/*
+ * 
+ */
+ GamMenuMngModule.prototype.onClosePopup = function(popupId, msg, value){
+
+	switch(popupId){
+		case "selectProgramPopList":
+			this.$("#progrmFileNm").val(value.progrmFileNm);
+		break;
+
+		default:
+			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+			throw 0;
+		break;
+	}
+};
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamMenuMngModule();
 </script>
@@ -169,13 +197,12 @@ var module_instance = new GamMenuMngModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>메뉴 명</th>
-							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="${searchVO.searchKeyword }"  maxlength="60" title="검색조건" /></td>
-							<td>
-								<button id="searchBtn">조회</button>
-								<button id="addBtn">추가</button>
-								<button id="refreshBtn">새로고침</button>
-							</td>
+<!-- 							<th>메뉴 명</th> -->
+<!-- 							<td><input name="searchKeyword" id="searchKeyword" type="text" size="80" value="${searchVO.searchKeyword }"  maxlength="60" title="검색조건" /></td> -->
+<!-- 							<td> -->
+<!-- 								<button id="searchBtn">조회</button> -->
+<!-- 								<button id="refreshBtn">새로고침</button> -->
+<!-- 							</td> -->
 						</tr>
 					</tbody>
 				</table>
@@ -193,6 +220,7 @@ var module_instance = new GamMenuMngModule();
 				<td>
 					<form id="menuManageVO">
 						<input type="hidden" id="cmd"/>
+						<input type="hidden" id="beforeMenuNo"/>
 						<table class="tableForm">
 							<colgroup>
 								<col width="30%"/>
@@ -216,7 +244,7 @@ var module_instance = new GamMenuMngModule();
 							</tr>
 							<tr>
 								<th><span class="label">파일명</span></th>
-								<td><input type="text" size="75" id="progrmFileNm"/></td>
+								<td><input type="text" size="25" id="progrmFileNm"/><button id="popupBtn">프로그램파일명 검색</button></td>
 							</tr>
 							<tr>
 								<th><span class="label">관련이미지명</span></th>
@@ -233,9 +261,10 @@ var module_instance = new GamMenuMngModule();
 						</table>
 					</form>
 					<div class="emdControlPanel">
-						<button id="listBtn">목록</button>
+						<button id="addBtn">추가</button>
 						<button id="saveBtn">저장</button>
 						<button id="deleteBtn">삭제</button>
+<!-- 						<button id="refreshBtn">새로고침</button> -->
 					</div>
 				</td>
 			</tr>

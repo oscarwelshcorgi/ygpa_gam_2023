@@ -567,4 +567,12 @@ public class EgovMenuManageServiceImpl extends AbstractServiceImpl implements Eg
 		progrmManageDAO.deleteAllProgrmDtls();
 		return  true;
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.com.sym.mnu.mpm.service.EgovMenuManageService#selectMenuDetail(java.lang.String)
+	 */
+	@Override
+	public MenuManageVO selectMenuDetail(String id) throws Exception {
+		return menuManageDAO.selectMenuDetail(id);
+	}
 }

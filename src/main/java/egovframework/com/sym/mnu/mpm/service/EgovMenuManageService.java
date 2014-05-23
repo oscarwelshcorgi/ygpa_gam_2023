@@ -143,6 +143,14 @@ public interface EgovMenuManageService {
 	 * @exception Exception
 	 */
 	String menuBndeRegist(MenuManageVO vo, InputStream inputStream) throws Exception;
+	
+	/**
+	 * 메뉴 상세 detail
+	 * @param  vo menuManageVO  
+	 * @param  inputStream InputStream 
+	 * @exception Exception
+	 */
+	MenuManageVO selectMenuDetail(String id) throws Exception;
 
 
 }
