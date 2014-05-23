@@ -342,105 +342,105 @@ var module_instance = new GamAssetDisUseMngtModule();
 
                         <table class="detailForm"  style="width:100%;">
                             <tr>
-                                <th>GIS 자산 항코드</th>
+                                <th width="16%">GIS 자산 항코드</th>
                                 <td>
                                 	<span type="text" id="gisAssetsPrtAtCode" ></span>&nbsp;-&nbsp;
                                 	<span type="text" id="gisAssetsPrtAtCodeNm" ></span>
                                 </td>
-                                <th>GIS 자산 코드</th>
+                                <th width="16%">GIS 자산 코드</th>
                                 <td><span type="text" id="gisAssetsCd" ></span></td>
-                                <th>GIS 자산 SUB 코드</th>
+                                <th width="16%">GIS 자산 SUB 코드</th>
                                 <td><span type="text" id="gisAssetsSubCd" ></span></td>
                             </tr>
                             <tr>
-                                <th>GIS 자산명</th>
+                                <th width="16%">GIS 자산명</th>
                                 <td><span type="text" id="gisAssetsNm" ></span></td>
-                                <th>GIS 자산 소재지</th>
+                                <th width="16%">GIS 자산 소재지</th>
                                 <td><span type="text" id="gisAssetsLocplc" ></span></td>
-                                <th>GIS 자산 지번</th>
+                                <th width="16%">GIS 자산 지번</th>
                                 <td>
                                 	<span type="text" id="gisAssetsLnm" ></span>&nbsp;-&nbsp;
                                 	<span type="text" id="gisAssetsLnmSub" ></span>
                                 </td>
                             </tr>
                             <tr>
-                                <th>자산관리부서</th>
+                                <th width="16%">자산관리부서</th>
                                 <td><span type="text" id="gisAssetsMngDeptCdNm" ></span></td>
-                                <th>자산운영부서</th>
+                                <th width="16%">자산운영부서</th>
                                 <td><span type="text" id="gisAssetsOperDeptCdNm" ></span></td>
-                                <th>GIS 자산 면적</th>
+                                <th width="16%">GIS 자산 면적</th>
                                 <td><span type="text" class="ygpaNumber" id="gisAssetsAr" ></span></td>
                             </tr>
                             <tr>
-                                <th>GIS 자산 사용 여부</th>
+                                <th width="16%">GIS 자산 사용여부</th>
                                 <td><span type="text" id="gisAssetsUsageYn" ></span></td>
-                                <th>GIS 자산 취득가액</th>
+                                <th width="16%">GIS 자산 취득가액</th>
                                 <td><span type="text" class="ygpaNumber" id="gisAssetsAcqPri" ></span></td>
-                                <th>GIS 자산 규격</th>
+                                <th width="16%">GIS 자산 규격</th>
                                 <td><span type="text" id="gisAssetsStndrd" ></span></td>
                             </tr>
                             <tr>
-                                <th>GIS 자산 준공년도</th>
+                                <th width="16%">GIS 자산 준공년도</th>
                                 <td><span type="text" id="gisAssetsBlddate" ></span></td>
-                                <th>GIS 자산 준공 일자</th>
+                                <th width="16%">GIS 자산 준공일자</th>
                                 <td><span type="text" id="gisAssetsBldDt" ></span></td>
-                                <th>GIS 자산 비고</th>
+                                <th width="16%">GIS 자산 비고</th>
                                 <td><span type="text" id="gisAssetsRm" ></span></td>
                             </tr>
                             <tr>
-                                <th>등록자</th>
+                                <th width="16%">등록자</th>
                                 <td><span type="text" id="regUsr" ></span></td>
-                                <th>등록일자</th>
+                                <th width="16%">등록일자</th>
                                 <td><span type="text" id="registdt" ></span></td>
-                                <th>수정자</th>
+                                <th width="16%">수정자</th>
                                 <td><span type="text" id="updUsr" ></span></td>
                             </tr>
                             <tr>
-                                <th>수정일자</th>
+                                <th width="16%">수정일자</th>
                                 <td><span type="text" id="updtdt" ></span></td>
-                                <th>GIS 자산 부두 그룹 코드</th>
+                                <th width="16%">GIS 자산 부두그룹코드</th>
                                 <td><span type="text" id="gisAssetsQuayGroupCd" ></span></td>
-                                <th>GIS 자산 위치 코드</th>
+                                <th width="16%">GIS 자산 위치코드</th>
                                 <td><span type="text" id="gisAssetsLocCd" ></span></td>
                             </tr>
                             <tr>
-                                <th>GIS 자산 구분 코드</th>
+                                <th width="16%">GIS 자산 구분코드</th>
                                 <td><span type="text" id="gisAssetsSeCd" ></span></td>
-                                <th>GIS 자산 재산 구분 코드</th>
+                                <th width="16%">GIS 자산 재산구분코드</th>
                                 <td><span type="text" id="gisAssetsPrprtySeCd" ></span></td>
-                                <th>GIS 자산 출자 방식</th>
+                                <th width="16%">GIS 자산 출자방식</th>
                                 <td><span type="text" id="gisAssetsInvstmntMthd" ></span></td>
                             </tr>
                             <tr>
-                                <th>GIS 자산 GIS 코드</th>
+                                <th width="16%">GIS 자산 GIS 코드</th>
                                 <td><span type="text" id="gisAssetsGisCd" ></span></td>
-                                <th>GIS 자산 실제 임대 면적</th>
+                                <th width="16%">GIS 자산 실제임대면적</th>
                                 <td><span type="text" id="gisAssetsRealRentAr" ></span></td>
-                                <th>도면 목록 등록 년도</th>
+                                <th width="16%">도면목록 등록년도</th>
                                 <td><span type="text" id="drwLstRegistYear" ></span></td>
                             </tr>
                             <tr>
-                                <th>도면 목록 순번</th>
+                                <th width="16%">도면목록 순번</th>
                                 <td><span type="text" id="drwLstSeq" ></span></td>
-                                <th>GIS 자산 가치 금액</th>
+                                <th width="16%">GIS 자산 가치금액</th>
                                 <td><span type="text" id="gisAssetsValAmt" ></span></td>
-                                <th>GIS 자산 가치 조회 일자</th>
+                                <th width="16%">GIS 자산 가치조회일자</th>
                                 <td><span type="text" id="gisAssetsValInqireDt" ></span></td>
                             </tr>
                             <tr>
-                                <th>ERP 자산 구분 코드</th>
+                                <th width="16%">ERP 자산 구분코드</th>
                                 <td><span type="text" id="erpAssetsSeCd" ></span></td>
-                                <th>ERP 자산 번호</th>
+                                <th width="16%">ERP 자산 번호</th>
                                 <td><span type="text" id="erpAssetsNo" ></span></td>
-                                <th>ERP 자산 번호 순번</th>
+                                <th width="16%">ERP 자산 번호순번</th>
                                 <td><span type="text" id="erpAssetsNoSeq" ></span></td>
                             </tr>
                             <tr>
-                                <th>ERP 자산 폐기 등록 여부</th>
+                                <th width="16%">ERP 자산 폐기등록여부</th>
                                 <td><span type="text" id="erpAssetsDisuseRegistYn" ></span></td>
-                                <th>ERP 자산 폐기 사유</th>
+                                <th width="16%">ERP 자산 폐기사유</th>
                                 <td><span type="text" id="erpAssetsDisuseRsn" ></span></td>
-                                <th>사용 여부</th>
+                                <th width="16%">사용여부</th>
                                 <td><span type="text" id="gisAssetsUsageYnNm" ></span></td>
                             </tr>
                         </table>

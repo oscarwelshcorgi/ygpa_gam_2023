@@ -191,31 +191,35 @@ var module_instance = new GamAssetTypeValueStsModule();
 					<table style="width:100%;" class="summaryPanel">
 						<tr>
 							<th style="width:120px;">재평가금액</th>
-							<td style="width:200px;"><input id="sumRevalAmt" size="15" class="ygpaNumber" readonly >원</td>
+							<td style="width:200px;"><input id="sumRevalAmt" size="16" class="ygpaNumber" readonly ></td>
 							<th style="width:130px;">당기자산증가금액</th>
-							<td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<td style="width:200px;"><input id="sumThisTermIncreAmt" type="text" size="16" class="ygpaNumber" readonly ></td>
 							<th style="width:165px;">대차대조기말현재금액</th>
-							<td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<td style="width:200px;"><input id="sumBsThisCurAmt" type="text" size="16" class="ygpaNumber" readonly ></td>
 						</tr>
 						<tr>
 							<th>대차대조전기말상각누계금액</th>
-							<td><input id="sumBsPreDeprctnSum" type="text" size="15" class="ygpaNumber" readonly>원</td>
+							<td><input id="sumBsPreDeprctnSum" type="text" size="16" class="ygpaNumber" readonly></td>
 							<th>대차대조미상각잔액</th>
-							<td><input id="sumBsNoDeprctnBal" type="text" size="15" class="ygpaNumber" readonly>원</td>
+							<td><input id="sumBsNoDeprctnBal" type="text" size="16" class="ygpaNumber" readonly></td>
 							<th>전기말자본적지출금액 누계</th>
-							<td><input id="sumPreEndAssetBuySum" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<td><input id="sumPreEndAssetBuySum" type="text" size="16" class="ygpaNumber" readonly ></td>
 						</tr>
 						<tr>
 							<th>자본적지출금액</th>
-							<td><input id="sumAssetBuyAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<td><input id="sumAssetBuyAmt" type="text" size="16" class="ygpaNumber" readonly ></td>
 							<th>당기상각금액</th>
-							<td><input id="sumThisTermDeprctnAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<td><input id="sumThisTermDeprctnAmt" type="text" size="16" class="ygpaNumber" readonly ></td>
 							<th>잔존금액</th>
-							<td><input id="sumCurAmt" type="text" size="15" class="ygpaNumber" readonly >원</td>
+							<td><input id="sumCurAmt" type="text" size="16" class="ygpaNumber" readonly ></td>
 						</tr>
 						<tr>
-							<th style="width:165px;">자료수</th>
-							<td style="width:200px;" colspan="5"><input id="totalResultCnt" type="text" size="116" class="ygpaNumber" readonly >개</td>
+							<th>자료수</th>
+							<td><input id="totalResultCnt" type="text" size="16" class="ygpaNumber" readonly ></td>
+                            <th></th>
+                            <td></td>
+                            <th></th>
+                            <td></td>
 						</tr>
 					</table>
 				</div>          

@@ -279,11 +279,11 @@ var module_instance = new GamAssetSttusInqireModule();
 								<th width="10%" height="20">자료수</th>
 								<td><input type="text" size="8" id="sumCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">면적</th>
-								<td><input type="text" size="18" id="sumAr" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="sumAr" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">사용료</th>
-								<td><input type="text" size="18" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">감면사용료</th>
-								<td><input type="text" size="18" id="sumRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="16" id="sumRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
 									<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetSttusInqireList" data-style="default">맵조회</button>
 								</td>
