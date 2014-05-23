@@ -131,9 +131,13 @@ public class GamCntnrQuayRentFeeMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -183,7 +187,16 @@ public class GamCntnrQuayRentFeeMngtController {
          String resultMsg = "";
          int resultCode = 1;
  
-         gamCntnrQuayRentFeeMngtVO.setUpdUsr("admin1"); //수정자 (세션 로그인 아이디)
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+     	
+     	gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
          
          gamCntnrQuayRentFeeMngtService.updateCntnrQuayRentFeeMngt(gamCntnrQuayRentFeeMngtVO);
          
@@ -324,6 +337,13 @@ public class GamCntnrQuayRentFeeMngtController {
         
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
         
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         System.out.println("############ prtAtCodes => " + prtAtCodes);
         
         String [] arrNticCnts = nticCnts.split(";");
@@ -465,7 +485,14 @@ public class GamCntnrQuayRentFeeMngtController {
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
-        
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
         
         System.out.println("############ prtAtCodes => " + prtAtCodes);
@@ -590,7 +617,16 @@ public class GamCntnrQuayRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
  
-        System.out.println("######################################### 고지의뢰(단일처리) START!! ");
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		
+    	System.out.println("######################################### 고지의뢰(단일처리) START!! ");
         
         paramMap.put("nticCnt", gamCntnrQuayRentFeeMngtVO.getNticCnt());
  		paramMap.put("prtAtCode", gamCntnrQuayRentFeeMngtVO.getPrtAtCode());
@@ -631,6 +667,13 @@ public class GamCntnrQuayRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
  
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         System.out.println("######################################### 고지취소(단일처리) START!! ");
         
         paramMap.put("nticCnt", gamCntnrQuayRentFeeMngtVO.getNticCnt());
@@ -670,6 +713,13 @@ public class GamCntnrQuayRentFeeMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
  		 LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
  		 gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId()); 
          gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId()); 
@@ -898,8 +948,12 @@ public class GamCntnrQuayRentFeeMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
