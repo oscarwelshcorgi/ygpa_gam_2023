@@ -144,9 +144,13 @@ public class GamTrainPortRentMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -191,9 +195,13 @@ public class GamTrainPortRentMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
     	
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -235,6 +243,13 @@ public class GamTrainPortRentMngtController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		ObjectMapper mapper = new ObjectMapper();
  
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -560,16 +575,14 @@ public class GamTrainPortRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
-        /*
-        String sLocationUrl = null;
-    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	*/
 
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	/*
         if("insert".equals(cmd)) {
 	        beanValidator.validate(gamTrainPortRentMngtVO, bindingResult);
@@ -589,8 +602,8 @@ public class GamTrainPortRentMngtController {
     	if("insert".equals(cmd)) {
 	    	//확인후 변경혀라~~
 	    	gamTrainPortRentMngtVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamTrainPortRentMngtVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-	    	gamTrainPortRentMngtVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	gamTrainPortRentMngtVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+	    	gamTrainPortRentMngtVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 	    	//gamTrainPortRentMngtVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
 	        gamTrainPortRentMngtService.insertTrainPortRentMngtFirst(gamTrainPortRentMngtVO);
@@ -626,12 +639,20 @@ public class GamTrainPortRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();        
         try {
 	    	GamTrainPortRentMngtVO resultVO = gamTrainPortRentMngtService.selectTrainPortRentMngtMaxNo(gamTrainPortRentMngtVO);
 	    	
 	    	if( gamTrainPortRentMngtVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
 	    		//키 같고 max관리번호가 같으면 연장신청 등록
-	        	
+	        	gamTrainPortRentMngtVO.setUpdUsr(loginVo.getId());
 	    		gamTrainPortRentMngtService.insertTrainPortRentMngtRenew(gamTrainPortRentMngtVO);
 	    		
 	    		resultCode = 0; // return ok
@@ -672,10 +693,19 @@ public class GamTrainPortRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
     	if("modify".equals(cmd)) {
 	    	//확인후 변경혀라~~
 	    	gamTrainPortRentMngtVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-	    	gamTrainPortRentMngtVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+	    	gamTrainPortRentMngtVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 	    	//gamTrainPortRentMngtVO.setDeptcd("A001");   //부서코드 (세션?) 
 	    	
 	        gamTrainPortRentMngtService.updateTrainPortRentMngt(gamTrainPortRentMngtVO);
@@ -715,6 +745,13 @@ public class GamTrainPortRentMngtController {
         
         int resultLevReqestCnt = -1;
         
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         try {
 	        if( EgovStringUtil.isEmpty(gamTrainPortRentMngtVO.getPrmisnYn()) || gamTrainPortRentMngtVO.getPrmisnYn().equals("N") ) { //허가여부가 'N'이면 삭제가능
 	        	deleteFlag = "Y";
@@ -770,16 +807,15 @@ public class GamTrainPortRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
-        /*
-        String sLocationUrl = null;
-    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	*/
 
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
     	/*
         if("insert".equals(cmd)) {
 	        beanValidator.validate(gamTrainPortRentMngtVO, bindingResult);
@@ -812,8 +848,8 @@ public class GamTrainPortRentMngtController {
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 등록가능
         	if("insert".equals(detailCmd)) {
     	    	//확인후 변경혀라~~
-    	    	gamTrainPortRentMngtDetailVO.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-    	    	gamTrainPortRentMngtDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+    	    	gamTrainPortRentMngtDetailVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+    	    	gamTrainPortRentMngtDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
     	    	
     	        gamTrainPortRentMngtService.insertTrainPortRentMngtDetail(gamTrainPortRentMngtDetailVO);
     	    	
@@ -854,16 +890,15 @@ public class GamTrainPortRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
-        /*
-        String sLocationUrl = null;
-    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	*/
 
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
     	log.debug("######################################## detailCmd => " + detailCmd);
     	log.debug("######################################## gamTrainPortRentMngtVO.getDetailPrtAtCode() => " + gamTrainPortRentMngtDetailVO.getDetailPrtAtCode());
     	
@@ -894,7 +929,7 @@ public class GamTrainPortRentMngtController {
         
         if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
 	    	if("modify".equals(detailCmd)) {
-		    	gamTrainPortRentMngtDetailVO.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+		    	gamTrainPortRentMngtDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 		    	
 		        gamTrainPortRentMngtService.updateTrainPortRentMngtDetail(gamTrainPortRentMngtDetailVO);
 		    	
@@ -932,15 +967,12 @@ public class GamTrainPortRentMngtController {
         String resultMsg = "";
         int resultCode = 1;
         
-        /*
-        String sLocationUrl = null;
-    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	*/
 
     	/*
         if("insert".equals(cmd)) {
@@ -1007,7 +1039,15 @@ public class GamTrainPortRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();        
         
         //승낙할 임대정보조회
         GamTrainPortRentMngtVO rentPrmisnInfo = gamTrainPortRentMngtService.selectTrainPortRentMngtPrmisnInfo(gamTrainPortRentMngtVO);
@@ -1089,8 +1129,8 @@ public class GamTrainPortRentMngtController {
 		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
 		
         levReqestInfo.setPrmisnYn("Y"); //허가여부
-        levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-        levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
+        levReqestInfo.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+        levReqestInfo.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
         
         //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
         gamTrainPortRentMngtService.updateTrainPortRentMngtPrmisn(levReqestInfo);
@@ -1183,6 +1223,13 @@ public class GamTrainPortRentMngtController {
          String resultMsg = "";
          int resultCode = 1;
          
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
          
          System.out.println("##################################### 승낙시작!!");
@@ -1239,7 +1286,14 @@ public class GamTrainPortRentMngtController {
      	 Map paramMap = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
-         
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
          
          System.out.println("##################################### 승낙취소시작!!");
@@ -1291,9 +1345,13 @@ public class GamTrainPortRentMngtController {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
-    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -1336,7 +1394,16 @@ public class GamTrainPortRentMngtController {
         String resultMsg  = "";
         String updateFlag = "";
         int resultCode = 1;
-        
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
         if( gamTrainPortRentMngtVO.getMngYear() == null || "".equals(gamTrainPortRentMngtVO.getMngYear()) ) {
         	updateFlag = "N";
         } else {
@@ -1344,6 +1411,7 @@ public class GamTrainPortRentMngtController {
         }
         
     	if("Y".equals(updateFlag)) {
+    		gamTrainPortRentMngtVO.setUpdUsr(loginVo.getId());
 	        gamTrainPortRentMngtService.updateTrainPortRentMngtComment(gamTrainPortRentMngtVO);
 	    	
 	        resultCode = 0; // return ok
