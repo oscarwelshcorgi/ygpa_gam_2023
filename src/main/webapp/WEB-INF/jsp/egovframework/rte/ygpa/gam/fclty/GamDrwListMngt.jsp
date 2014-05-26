@@ -431,7 +431,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<input type="hidden" id="cmd" />
 					<input type="hidden" id="laCrdnt" />
 					<input type="hidden" id="loCrdnt" />
-					<table class="searchPanel">
+					<table class="editForm">
 						<tr>
 							<th width="150" height="23" class="required_text">도면목록 등록년도<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
 							<td colspan="3"><input type="text" size="4" id="drwLstRegistYear" maxlength="4" />-<input type="text" size="4" id="drwLstSeq" disabled="disabled"/>     (등록년도를 입력하면 순번이 자동으로 부여됩니다.)</td>

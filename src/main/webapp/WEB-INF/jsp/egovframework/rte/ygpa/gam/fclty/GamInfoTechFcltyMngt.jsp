@@ -695,7 +695,7 @@ var module_instance = new GamFcltyMngtModule();
 			-->
 					<!-- 신경 쓸 필요 없다 함.2014-03-07
 					<input type="hidden" id="prtFcltyGisCd" /> -->
-					<table class="searchPanel">
+					<table class="editForm">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>
 							<td><input type="text" size="50" id="gisAssetsPrtAtCodeStr" disabled="disabled"/></td>
