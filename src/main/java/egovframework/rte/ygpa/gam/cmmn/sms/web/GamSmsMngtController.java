@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 
 
+
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtService;
@@ -48,6 +52,10 @@ public class GamSmsMngtController {
     @Resource(name="gamSmsIdGnrService")
     private EgovIdGnrService gamSmsIdGnrService;
     
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
+    
     /**
      * SMS목록관리 화면을 로딩한다. 
      *
@@ -73,6 +81,14 @@ public class GamSmsMngtController {
     public @ResponseBody Map selectGamSendMesgList(GamSmsMngtVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	String sttus = searchVO.getTransmisSttus();
     	String[] array = sttus.split(",");
@@ -121,6 +137,14 @@ public class GamSmsMngtController {
 	@RequestMapping(value="/cmmn/sms/smsRetransmit.do", method=RequestMethod.POST)
     public @ResponseBody Map smsRetransmit(GamSmsMngtVO createVO) throws Exception {
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	createVO.setNewSmsSeq(String.valueOf(gamSmsIdGnrService.getNextLongId()));
     	

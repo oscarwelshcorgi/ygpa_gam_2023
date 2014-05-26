@@ -38,6 +38,9 @@ public class MenuManageVO{
    private   String   progrmFileNm;
 
    private int beforeMenuNo;
+   
+   private String regUsr;
+   private String updUsr;
 
    /** 사이트맵 */
    /** 생성자ID **/
@@ -357,5 +360,29 @@ public class MenuManageVO{
 	}
 	public void setBeforeMenuNo(int beforeMenuNo) {
 		this.beforeMenuNo = beforeMenuNo;
+	}
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
 	}
 }

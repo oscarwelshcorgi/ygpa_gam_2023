@@ -18,6 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sec.ram.service.AuthorManage;
 import egovframework.com.sec.ram.service.AuthorManageVO;
 import egovframework.com.sec.ram.service.EgovAuthorManageService;
@@ -69,6 +70,14 @@ public class GamAuthorMngController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
     	/** paging */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(authorManageVO.getPageIndex());
@@ -113,6 +122,14 @@ public class GamAuthorMngController {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
     	try {
     		egovAuthorManageService.insertAuthor(authorManage);
 
@@ -140,6 +157,14 @@ public class GamAuthorMngController {
     @ResponseBody Map<String, Object> updateAuthor(@ModelAttribute("authorManage") AuthorManage authorManage) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 			
 		try {
 			egovAuthorManageService.updateAuthor(authorManage);
@@ -165,6 +190,14 @@ public class GamAuthorMngController {
     @ResponseBody Map<String, Object> deleteAuthor(@ModelAttribute("authorManage") AuthorManage authorManage) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	try {
         	egovAuthorManageService.deleteAuthor(authorManage);

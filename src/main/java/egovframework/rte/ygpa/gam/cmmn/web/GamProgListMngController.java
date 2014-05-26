@@ -19,6 +19,8 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
 import egovframework.com.sym.prm.service.ProgrmManageVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -61,6 +63,14 @@ public class GamProgListMngController {
     @ResponseBody Map selectProgrmList(@ModelAttribute("searchVO") ComDefaultVO searchVO) throws Exception {
 
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -99,8 +109,18 @@ public class GamProgListMngController {
     public @ResponseBody Map<String, Object> insertProgrmList(@RequestParam("cmd") String cmd, @ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 		try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			progrmManageVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 			progrmManageService.insertProgrm(progrmManageVO);
 	    	map.put("resultCode", 0);
 	        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));	
@@ -126,8 +146,18 @@ public class GamProgListMngController {
     public @ResponseBody Map<String, Object> updateProgrmList(Map<String, Object> commandMap,@ModelAttribute("progrmManageVO") ProgrmManageVO progrmManageVO,BindingResult bindingResult)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 		
 		try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			progrmManageVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 			progrmManageService.updateProgrm(progrmManageVO);
 
 	        map.put("resultCode", 0);			// return ok
@@ -152,6 +182,14 @@ public class GamProgListMngController {
     public @ResponseBody Map<String, Object> deleteProgrmList(ProgrmManageVO progrmManageVO)throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
         
     	// DATA 삭제
     	try {

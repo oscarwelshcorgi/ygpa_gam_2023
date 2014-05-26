@@ -17,6 +17,8 @@ package egovframework.com.uss.umt.service;
  * </pre>
  */
 public class UserManageUpdateVO extends UserDefaultVO{
+	
+	private String updUsr;
 
     /**
 	 * 가입일
@@ -138,6 +140,18 @@ public class UserManageUpdateVO extends UserDefaultVO{
 	 * DN 값
 	 */	
 	private String subDn;
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
 	/**
 	 * sbscrbDe attribute 값을  리턴한다.
 	 * @return String

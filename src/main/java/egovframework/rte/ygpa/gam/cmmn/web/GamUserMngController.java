@@ -19,7 +19,9 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.uss.umt.service.UserManageUpdateVO;
@@ -107,6 +109,14 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> selectUserMngList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         /** pageing */
         PaginationInfo paginationInfo = new PaginationInfo();
@@ -160,8 +170,18 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 		try {
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			userManageVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 			userManageService.insertUser(userManageVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -186,6 +206,14 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> updateUser(@ModelAttribute("userManageUpdateVO") UserManageUpdateVO userManageUpdateVO,BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         beanValidator.validate(userManageUpdateVO, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -203,6 +231,8 @@ public class GamUserMngController {
 //			if(userManageUpdateVO.getGroupId().equals("")){
 //				userManageUpdateVO.setGroupId(null);
 //			}
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			userManageUpdateVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 			userManageService.updateUser(userManageUpdateVO);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -223,6 +253,14 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> updateUserView(@RequestParam("uniqId") String uniqId, @ModelAttribute("searchVO") UserDefaultVO userSearchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         UserManageVO userManageVO = new UserManageVO();
         userManageVO = userManageService.selectUser(uniqId);
@@ -245,6 +283,14 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> deleteUser(@RequestParam("uniqId") String uniqId) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	// 삭제타입 설정필요[USR03]
         userManageService.deleteUser("USR03:"+uniqId);
@@ -265,6 +311,14 @@ public class GamUserMngController {
     @ResponseBody Map<String, Object> checkIdDplct(@RequestParam("checkId") String checkId)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	checkId =  new String(checkId.getBytes("ISO-8859-1"), "UTF-8");
 
@@ -312,6 +366,14 @@ public class GamUserMngController {
     	Map<String, Object> map = new HashMap<String, Object>();
     	String resultCode = "";
     	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
 //    	String oldPassword = (String)commandMap.get("oldPassword");
 //        String newPassword = (String)commandMap.get("newPassword");
 //        String newPassword2 = (String)commandMap.get("newPassword2");
@@ -347,6 +409,8 @@ public class GamUserMngController {
     	}
 
     	if (isCorrectPassword){
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		userManageVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 //    		userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword));
     		userManageService.updatePassword(userManageVO);
             map.put("userManageVO", userManageVO);

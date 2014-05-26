@@ -22,7 +22,9 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.port_mis.service.GamCustTpSalesSttutsCreatService;
@@ -138,6 +140,14 @@ public class GamCustTpSalesSttutsCreatController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -199,6 +209,14 @@ public class GamCustTpSalesSttutsCreatController {
 	public @ResponseBody Map insertGamCustTpSalesSttutsCreatList(GamCustTpSalesSttutsCreatVO searchVO) throws Exception {
 
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 		String grCreatYr = searchVO.getGrCreatYr();
 		String grCreatMn = searchVO.getGrCreatMn();
@@ -218,9 +236,9 @@ public class GamCustTpSalesSttutsCreatController {
 				searchVO.setGrCreatMn(grCreatMn);
 				searchVO.setYrMt(grCreatYr + grCreatMn);
 			}
-			// 관리자 아이디 임의로 생성
-			// TODO : 로그인 처리완료 시 향후 삭제...
-			searchVO.setUpdUsr("admin");
+
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			searchVO.setUpdUsr(loginVo.getId());
 			
 			gamCustTpSalesSttutsCreatService.createCustTpSalesSttuts(searchVO);
 			resultMsg = searchVO.getResult();
@@ -245,6 +263,14 @@ public class GamCustTpSalesSttutsCreatController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -322,6 +348,14 @@ public class GamCustTpSalesSttutsCreatController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));

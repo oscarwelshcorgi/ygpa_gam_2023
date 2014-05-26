@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.cmmn.AjaxXmlView;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -53,6 +56,10 @@ public class EapGwCallInterfaceController {
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
+    
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
 
     /**
      * 전자결재 목록 화면을 호출한다. (전자결재 테스트용)
@@ -79,6 +86,14 @@ public class EapGwCallInterfaceController {
     @RequestMapping(value="/eap/selectEapGwCallInterfaceList.do", method=RequestMethod.POST)
     @ResponseBody public Map<String, Object> selectEapGwCallInterfaceList(@RequestParam Map<String, Object> searchVO) throws Exception {
     	Map<String, Object>map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -109,6 +124,19 @@ public class EapGwCallInterfaceController {
             @RequestParam Map gwCall)
             throws Exception {
     	Map map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	gwCall.put("updUsr", loginVo.getId());
+    	gwCall.put("regUsr", loginVo.getId());
 
     	eapGwCallInterfaceService.eApprovalTest(gwCall);
 
@@ -123,6 +151,14 @@ public class EapGwCallInterfaceController {
             @ModelAttribute("gwCall") Map gwCall, SessionStatus status)
             throws Exception {
     	Map map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	eapGwCallInterfaceService.deleteEapGwCallInterface(gwCall);
         status.setComplete();
@@ -135,6 +171,14 @@ public class EapGwCallInterfaceController {
     @RequestMapping("/eapGwCallInterface/selectEapGwCallInterface.do")
     public @ModelAttribute("eapGwCallInterfaceVO")
     @ResponseBody Map selectEapGwCallInterface(Map<String, Object> gwCall) throws Exception {
+    	Map map = new HashMap<String, Object>();
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
         return eapGwCallInterfaceService.selectEapGwCallInterface(gwCall);
     }
 

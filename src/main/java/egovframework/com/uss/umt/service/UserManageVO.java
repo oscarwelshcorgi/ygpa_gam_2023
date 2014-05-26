@@ -27,6 +27,10 @@ public class UserManageVO extends UserDefaultVO{
     /** 새비밀번호중복체크 - 비밀번호 변경시 사용*/
     private String newPassword2 = "";
     
+ 
+	private String regUsr;
+	private String updUsr;
+    
     /**
 	 * 가입일
 	 */
@@ -151,6 +155,30 @@ public class UserManageVO extends UserDefaultVO{
 	 * DN 값
 	 */	
 	private String subDn;
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
 	/**
 	 * oldPassword attribute 값을  리턴한다.
 	 * @return String

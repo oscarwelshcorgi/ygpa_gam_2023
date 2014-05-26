@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManageVO;
 import egovframework.com.sec.ram.service.AuthorManageVO;
@@ -72,6 +73,14 @@ public class GamAuthorGrpMngController {
 			                            @ModelAttribute("authorManageVO") AuthorManageVO authorManageVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	/** paging */
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -113,6 +122,14 @@ public class GamAuthorGrpMngController {
 	@ResponseBody Map<String, Object> insertAuthorGroup(@RequestParam Map<String, Object> dataList) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
 		ObjectMapper mapper = new ObjectMapper();
 
 		List<AuthorGroup> updateList = mapper.readValue((String)dataList.get("authorList"),
@@ -144,6 +161,14 @@ public class GamAuthorGrpMngController {
 	@ResponseBody Map<String, Object> deleteAuthorGroup(@RequestParam("esntlIds") String esntlIds, @ModelAttribute("authorGroup") AuthorGroup authorGroup) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	String [] strEsntlIds = esntlIds.split(";");
     	for(int i=0; i<strEsntlIds.length;i++) {
     		authorGroup.setUniqId(strEsntlIds[i]);
@@ -180,6 +205,14 @@ public class GamAuthorGrpMngController {
     @ResponseBody Map<String, Object> selectGroupSearchList(@ModelAttribute("groupManageVO") GroupManageVO groupManageVO) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	/** paging */
     	PaginationInfo paginationInfo = new PaginationInfo();

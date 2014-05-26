@@ -19,6 +19,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.mnu.mpm.service.EgovMenuManageService;
 import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
@@ -122,6 +123,14 @@ public class GamMenuMngController {
     	Map<String, Object> map = new HashMap<String, Object>();
     	String resultMsg    = "";
     	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
 	    if(menuManageService.selectMenuNoByPk(menuManageVO) == 0){
 			ComDefaultVO searchVO = new ComDefaultVO();
 			searchVO.setSearchKeyword(menuManageVO.getProgrmFileNm());
@@ -131,6 +140,8 @@ public class GamMenuMngController {
 			}else{
 				
 				try {
+					LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+					menuManageVO.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 					menuManageService.insertMenuManage(menuManageVO);
 		        	map.put("resultCode", 0);			// return ok
 		    		resultMsg = egovMessageSource.getMessage("success.common.insert");	
@@ -162,6 +173,14 @@ public class GamMenuMngController {
     	
 		Map<String, Object> map = new HashMap<String, Object>();
 		String resultMsg = "";
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
 		ComDefaultVO searchVO = new ComDefaultVO();
 		searchVO.setSearchKeyword(menuManageVO.getProgrmFileNm());
@@ -171,6 +190,8 @@ public class GamMenuMngController {
     		resultMsg = egovMessageSource.getMessage("fail.common.update");
 		}else{
 			try {
+				LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+				menuManageVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 				menuManageService.updateMenuManage(menuManageVO);
 				map.put("resultCode", 0);
 		    	resultMsg = egovMessageSource.getMessage("success.common.update");	
@@ -197,6 +218,14 @@ public class GamMenuMngController {
     @ResponseBody Map<String, Object> deleteMenuList(@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,BindingResult bindingResult)throws Exception {
         
     	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         try {
         	menuManageService.deleteMenuManage(menuManageVO);
@@ -238,6 +267,14 @@ public class GamMenuMngController {
 	@ResponseBody Map<String, Object> selectProgrmListSearch(@ModelAttribute("searchVO") ComDefaultVO searchVO)throws Exception { 
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	
     	// 내역 조회
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));

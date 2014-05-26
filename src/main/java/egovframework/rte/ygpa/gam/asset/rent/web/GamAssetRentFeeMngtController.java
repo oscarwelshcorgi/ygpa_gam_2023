@@ -131,6 +131,14 @@ public class GamAssetRentFeeMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -180,6 +188,14 @@ public class GamAssetRentFeeMngtController {
 
 			int totalCnt, page, firstIndex;
 	    	Map map = new HashMap();
+	    	
+	    	// 0. Spring Security 사용자권한 처리
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+		        map.put("resultCode", 1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	        	return map;
+	    	}
 
 	    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 	    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -269,8 +285,17 @@ public class GamAssetRentFeeMngtController {
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
-
-         gamAssetRentFeeMngtVO.setUpdUsr("admin1"); //수정자 (세션 로그인 아이디)
+         
+      // 0. Spring Security 사용자권한 처리
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+     	
+     	LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+         gamAssetRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
 
          gamAssetRentFeeMngtService.updateAssetRentFee(gamAssetRentFeeMngtVO);
 
@@ -408,6 +433,14 @@ public class GamAssetRentFeeMngtController {
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -552,6 +585,14 @@ public class GamAssetRentFeeMngtController {
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
+        
+     // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -782,6 +823,14 @@ public class GamAssetRentFeeMngtController {
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
+         
+      // 0. Spring Security 사용자권한 처리
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
 
  		 LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
  		 gamAssetRentFeeMngtVO.setRegUsr(loginVO.getId());

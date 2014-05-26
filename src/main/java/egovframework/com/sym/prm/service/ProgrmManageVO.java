@@ -29,6 +29,9 @@ public class ProgrmManageVO{
 	private String url;
 	/** 프로그램설명	 */
 	private String progrmDc;
+	
+	private String regUsr;
+	private String updUsr;
 
 	/**
 	 * progrmFileNm attribute를 리턴한다.
@@ -99,6 +102,30 @@ public class ProgrmManageVO{
 	 */
 	public void setProgrmDc(String progrmDc) {
 		this.progrmDc = progrmDc;
+	}
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
 	}
 
 }
