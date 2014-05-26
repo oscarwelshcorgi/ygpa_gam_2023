@@ -40,8 +40,8 @@ GamProgramSearchPopupModule.prototype.loadComplete = function() {
 		url: '<c:url value="/cmmn/popup/gamPopupProgramList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"프로그램파일명",	name:"progrmFileNm",		width:200, 	sortable:false,		align:"center"},
-					{display:"프로그램명", 		name:"progrmKoreanNm",		width:200, 	sortable:false,		align:"center"}
+					{display:"프로그램파일명",	name:"progrmFileNm",		width:275, 	sortable:false,		align:"center"},
+					{display:"프로그램명", 		name:"progrmKoreanNm",		width:275, 	sortable:false,		align:"center"}
 					],
 		usepager: true,
 		useRp: true,
@@ -65,11 +65,11 @@ GamProgramSearchPopupModule.prototype.loadComplete = function() {
 
 		// 조회
 		case "searchBtn":
-			if(this.$("#searchKeyword").val() == ""){
-				alert("프로그램명을 입력하세요.");
-				this.$("#searchKeyword").focus();
-				return;
-			}
+// 			if(this.$("#searchKeyword").val() == ""){
+// 				alert("프로그램명을 입력하세요.");
+// 				this.$("#searchKeyword").focus();
+// 				return;
+// 			}
 			var searchOpt = this.makeFormArgs("#programSearchPopupForm");
 		 	this.$("#programSearchPopupList").flexOptions({params:searchOpt}).flexReload();
 		 	throw 0;
@@ -89,12 +89,13 @@ var popup_instance = new GamProgramSearchPopupModule();
 						<tr>
 							<th><img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" />프로그램명 : </th>
 							<td><input id="searchKeyword" type="text" size="30" title="검색" /></td>
+							<td><button id="searchBtn">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-				</div>
+<!-- 				<div class="emdControlPanel"> -->
+<!-- 					<button id="searchBtn">조회</button> -->
+<!-- 				</div> -->
 			</form>
 		</div>
 	</div>
