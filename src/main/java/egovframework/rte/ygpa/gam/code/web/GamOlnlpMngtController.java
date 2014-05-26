@@ -205,6 +205,13 @@ public class GamOlnlpMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         beanValidator.validate(olnlpVO, bindingResult);
 		if (bindingResult.hasErrors()){
 	        map.put("resultCode", 1);
@@ -243,6 +250,13 @@ public class GamOlnlpMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
         beanValidator.validate(olnlpVO, bindingResult);
 		if (bindingResult.hasErrors()){
 	        map.put("resultCode", 1);
@@ -279,6 +293,13 @@ public class GamOlnlpMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	try {
     		gamOlnlpMngtService.deleteOlnlpMngt(olnlpVO);
 
@@ -304,6 +325,13 @@ public class GamOlnlpMngtController {
 		Map<String, String> userMap = new HashMap<String, String>();
 		ObjectMapper mapper = new ObjectMapper();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -311,13 +339,6 @@ public class GamOlnlpMngtController {
 
     	int resultCode = -1;
     	String resultMsg = "";
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
 
 		insertList = mapper.readValue((String)dataList.get("insertList"),
 		    new TypeReference<List<HashMap<String,String>>>(){});
@@ -365,10 +386,12 @@ public class GamOlnlpMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-//		String sCmd = commandMap.get("cmd") == null ? "" : (String)commandMap.get("cmd");
-//    	if (sCmd.equals("")) {
-//    		return map;
-//    	}
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();

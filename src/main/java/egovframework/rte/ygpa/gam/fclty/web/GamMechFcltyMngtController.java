@@ -155,6 +155,13 @@ public class GamMechFcltyMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
 		// 내역 조회
 		/** pageing */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -236,6 +243,13 @@ public class GamMechFcltyMngtController {
     	Map<String, Object> map = new HashMap<String, Object>();
     	EgovMap result=null;
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	try {
         	result = gamFcltyMngtService.fcltyMngSelectView(fcltyManageVO);
     	}
@@ -301,6 +315,13 @@ public class GamMechFcltyMngtController {
     @ResponseBody Map<String, Object> deleteFclty(@RequestParam Map fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 

@@ -98,6 +98,13 @@ public class GamCmmnCodeMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -133,6 +140,14 @@ public class GamCmmnCodeMngtController {
  	@ResponseBody Map<String, Object> selectCmmnCodeDetail (@RequestParam("codeId") String codeId) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
 		CmmnCode cmmncode = new CmmnCode();
 		cmmncode.setCodeId(codeId);
 
@@ -155,6 +170,13 @@ public class GamCmmnCodeMngtController {
 	@ResponseBody Map<String, Object> insertCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode, BindingResult bindingResult) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
         beanValidator.validate(cmmnCode, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -208,6 +230,13 @@ public class GamCmmnCodeMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
 		if (cmd.equals("")) {
     		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
     		map.put("cmmnCode", vo);
@@ -257,6 +286,13 @@ public class GamCmmnCodeMngtController {
 	@ResponseBody Map<String, Object> deleteCmmnCode (@ModelAttribute("clCode") CmmnCode cmmnCode) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	try{
     		cmmnCodeManageService.deleteCmmnCode(cmmnCode);

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.CmmnDetailCode;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeVO;
@@ -43,9 +45,13 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 @Controller
 public class GamBupJungDongCodeMngtController {
 
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
+	
 	@Resource(name = "gamBupJungDongCodeMngtService")
 	GamBupJungDongCodeMngtService gamBupJungDongCodeMngtService;
-
+	
 	/**
 	 * 법정동 코드 조회 화면 호출
 	 * @param windowId
@@ -73,7 +79,14 @@ public class GamBupJungDongCodeMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-        List<?> bupjungdongCodeList = gamBupJungDongCodeMngtService.selectBupJungDongCodeList(searchVO);
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List<?> bupjungdongCodeList = gamBupJungDongCodeMngtService.selectBupJungDongCodeList(searchVO);
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", bupjungdongCodeList.size());
@@ -88,6 +101,14 @@ public class GamBupJungDongCodeMngtController {
 	@ResponseBody Map selectBupJungDongCodeList(@RequestParam("cmd") String code) throws Exception {
 		// 자산코드
 		Map optMap = new HashMap();
+		
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        optMap.put("resultCode", 1);
+    		optMap.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return optMap;
+    	}
+
 		GamBupJungDongCodeDefaultVO searchVO = new GamBupJungDongCodeDefaultVO();
 		searchVO.setSearchBupjungdongCd(code);
 		List<Map<String, Object>> bupjungdongCodeList = gamBupJungDongCodeMngtService.selectBupJungDongCodeList(searchVO);

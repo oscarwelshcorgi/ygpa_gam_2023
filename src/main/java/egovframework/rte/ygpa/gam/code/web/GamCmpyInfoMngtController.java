@@ -126,7 +126,14 @@ public class GamCmpyInfoMngtController {
 			@RequestParam("searchEntrpsNm") String searchEntrpsNm, @RequestParam("searchBizrno") String searchBizrno) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -166,7 +173,15 @@ public class GamCmpyInfoMngtController {
  	@ResponseBody Map<String, Object> selectCmpyInfoMngtDetail (@RequestParam("entrpscd") String entrpscd) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		GamEntrpsInfoFVO vo = new GamEntrpsInfoFVO();
+		
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	GamEntrpsInfoFVO vo = new GamEntrpsInfoFVO();
 		vo.setEntrpscd(entrpscd);
 		
 		GamEntrpsInfoFVO detail = gamCmpyInfoMngtService.selectCmpyInfoMngtDetail(vo);
@@ -187,7 +202,14 @@ public class GamCmpyInfoMngtController {
 	@ResponseBody Map<String, Object> selectCmpyMngtList(GamEntrpsChargerFVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -223,6 +245,14 @@ public class GamCmpyInfoMngtController {
  	@ResponseBody Map<String, Object> selectCmpyMngtDetail (@RequestParam("entrpscd") String entrpscd, @RequestParam("chargerNo") Integer chargerNo) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
 		GamEntrpsChargerFVO vo = new GamEntrpsChargerFVO();
 		vo.setChargerNo(chargerNo);
 		vo.setEntrpscd(entrpscd);
@@ -244,7 +274,14 @@ public class GamCmpyInfoMngtController {
 	@ResponseBody Map<String, Object> checkEntrpscd (@RequestParam("entrpscd") String entrpscd) throws Exception {    
     	
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	int codeCount = gamCmpyInfoMngtService.checkEntrpscd(entrpscd);
     	
     	map.put("codeCount", codeCount);
@@ -264,6 +301,13 @@ public class GamCmpyInfoMngtController {
 	@ResponseBody Map<String, Object> insertCmpyInfoMngt(@RequestParam Map<String, Object> cmpyMngtList) throws Exception {    
     	
     	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	cmpyMngtList.put("USERID", user.getId());
     	try {
@@ -293,6 +337,13 @@ public class GamCmpyInfoMngtController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	cmpyMngtList.put("USERID", user.getId());
     	try {
     		gamCmpyInfoMngtService.updateCmpyInfoMngt(cmpyMngtList);
@@ -320,7 +371,14 @@ public class GamCmpyInfoMngtController {
 	@ResponseBody Map<String, Object> deleteCmmnCode (@RequestParam("entrpscd") String entrpscd) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	try {
     		gamCmpyInfoMngtService.deleteCmpyInfoMngt(entrpscd);
     		map.put("resultCode", 0);

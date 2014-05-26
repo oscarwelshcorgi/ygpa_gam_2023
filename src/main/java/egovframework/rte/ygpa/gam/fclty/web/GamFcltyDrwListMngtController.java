@@ -152,6 +152,13 @@ public class GamFcltyDrwListMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
 		// 내역 조회
 		/** pageing */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -193,6 +200,13 @@ public class GamFcltyDrwListMngtController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
     	try {
     		drwListMngtList.put("USERID",user.getId());
 
@@ -220,6 +234,13 @@ public class GamFcltyDrwListMngtController {
     @ResponseBody Map<String, Object> deleteDrwListMng(@RequestParam Map vo) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	try {
 
@@ -316,6 +337,13 @@ public class GamFcltyDrwListMngtController {
 		Map<String, Object> map = new HashMap<String, Object>();
     	Map detailMaster=null;
     	List detailFileList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
     	try {
     		detailMaster = gamFcltyDrwMngtService.selectDrwListDetailMaster(fcltyManageVO);
