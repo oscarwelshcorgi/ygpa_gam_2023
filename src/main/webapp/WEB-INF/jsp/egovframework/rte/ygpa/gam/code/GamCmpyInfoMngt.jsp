@@ -160,34 +160,58 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 저장
 		case "saveBtn":
+
+			var detailParam = [
+				               { 'entrpscd': this.$("#entrpscd").text(),
+				                'rprsntvNm': this.$("#rprsntvNm").text(),
+				                'entrpsNm': this.$("#entrpsNm").text(),
+				                'bizrno': this.$("#bizrno").text(),
+				                'induty': this.$("#induty").text(),
+				                'bsnmSe': this.$("#bsnmSe").text(),
+				                'tlphonNo': this.$("#tlphonNo").text(),
+				                'fax': this.$("#fax").text(),
+				                'zip': this.$("#zip").text(),
+				                'adres': this.$("#adres").text()}
+				             ];
+			
+			console.log(detailParam);
 			
 			var inputVO=[{}];
+
 			inputVO[inputVO.length]={name: "updateList", value :JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'U'}])) };
 			inputVO[inputVO.length]={name: "insertList", value: JSON.stringify(this.$("#cmpyMngtList").selectFilterData([{col: '_updtId', filter: 'I'}])) };
 			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
-			inputVO[inputVO.length]={name: "form", value: JSON.stringify(this.getFormValues("#cmpyInfoMngtManageVO", {})) };	
+			inputVO[inputVO.length]={name: "form", value: JSON.stringify(detailParam) };	
+			//inputVO[inputVO.length]={name: "form", value: detailParam };	
+			console.log(inputVO);
 
 			if(this.$("#cmd").val() == "insert") {
 
 				this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
+			 		/* if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
-						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
+			 			var detailParam = [
+							               { name: 'entrpscd', value: this.$("#entrpscd").text()}
+							             ];
+						module.$("#cmpyInfoMngtList").flexOptions({params:detailParam}).flexReload();
 						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg);
+			 		alert(result.resultMsg); */
 			 	});
 			}else{
 				
 			 	this.doAction('<c:url value="/code/gamCmpyInfoMngtModify.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
+			 		/* if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
-						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
+			 			var detailParam = [
+							               { name: 'entrpscd', value: this.$("#entrpscd").text()}
+							             ];
+						module.$("#cmpyInfoMngtList").flexOptions({params:detailParam}).flexReload();
 						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0}); 
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg);
+			 		alert(result.resultMsg); */
 			 	});
 			}
 		break;
@@ -424,7 +448,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">담당 업무</th>
-							<td><input id="chrgJob" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM045" /></td>
+							<td><input id="chrgJobDisplay" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM045" /></td>
 							<th width="20%" height="23" class="required_text">관리부서</th>
 							<td>
 								<select class="select" id="mngDeptCd">
