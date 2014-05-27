@@ -85,6 +85,10 @@ GamCntnrQuayRentSttusInqireModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+            module.$('#totalCount').val(data.totalCount);
+            module.$('#sumGrAr').val(data.sumGrAr);
+            module.$('#sumGrFee').val(data.sumGrFee);
+            module.$('#sumGrRdcxptFee').val(data.sumGrRdcxptFee);
             module.makeDivValues('#rentListSum', data);
             return data;
         }
@@ -341,23 +345,32 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                 <table id="cntnrQuayRentSttusInqireList" style="display:none" class="fillHeight"></table>
 
                 <div id="rentListSum" class="emdControlPanel">
+					<form id="form1">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="12%" height="20">자료수</th>
-								<td><span data-column-id="totalCount" class="ygpaNumber"></span></td>
+								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총면적</th>
-								<td><span data-column-id="sumGrAr" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrAr" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총사용료</th>
-								<td><span data-column-id="sumGrFee" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총감면사용료</th>
-								<td><span data-column-id="sumGrRdcxptFee" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
+					</form>
                 </div>
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
-            	<h2>컨테이너부두임대 내역</h2>
+            	<!-- <h2>컨테이너부두임대 내역</h2> -->
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>컨테이너부두임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
                     <div id="gamCntnrQuayRentSttusInqireForm">
                         <table class="detailForm">
                             <tr>
@@ -435,7 +448,14 @@ var module_instance = new GamCntnrQuayRentSttusInqireModule();
                             </tr>
                         </table>
                     </div>
-            	<h2>컨테이너부두임대 상세 내역</h2>
+            	<!-- <h2>컨테이너부두임대 상세내역</h2> -->
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>컨테이너부두임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
                     <div id="gamCntnrQuayRentSttusInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">
                         	<tr>

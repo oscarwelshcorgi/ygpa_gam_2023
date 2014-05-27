@@ -85,6 +85,10 @@ GamMarineCenterRentSttusInqireModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+            module.$('#totalCount').val(data.totalCount);
+            module.$('#sumGrAr').val(data.sumGrAr);
+            module.$('#sumGrFee').val(data.sumGrFee);
+            module.$('#sumGrRdcxptFee').val(data.sumGrRdcxptFee);
             module.makeDivValues('#rentListSum', data);
             return data;
         }
@@ -332,8 +336,8 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
     <div class="emdPanel fillHeight">
         <div id="marineCenterRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
-                <li><a href="#tabs1" class="emdTab">자산임대 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">자산임대 내역</a></li>
+                <li><a href="#tabs1" class="emdTab">마린센터임대 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">마린센터임대 내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
@@ -341,23 +345,32 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                 <table id="marineCenterRentSttusInqireList" style="display:none" class="fillHeight"></table>
 
                 <div id="rentListSum" class="emdControlPanel">
+					<form id="form1">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="12%" height="20">자료수</th>
-								<td><span data-column-id="totalCount" class="ygpaNumber"></span></td>
+								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총면적</th>
-								<td><span data-column-id="sumGrAr" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrAr" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총사용료</th>
-								<td><span data-column-id="sumGrFee" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총감면사용료</th>
-								<td><span data-column-id="sumGrRdcxptFee" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
+					</form>
                 </div>
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
-            	<h2>자산 임대 내역</h2>
+            	<!-- <h2>마린센터임대 내역</h2> -->
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>마린센터임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
                     <div id="gamMarineCenterRentSttusInqireForm">
                         <table class="detailForm">
                             <tr>
@@ -435,7 +448,14 @@ var module_instance = new GamMarineCenterRentSttusInqireModule();
                             </tr>
                         </table>
                     </div>
-            	<h2>자산 임대 상세 내역</h2>
+            	<!-- <h2>마린센터임대 상세내역</h2> -->
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>마린센터임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
                     <div id="gamMarineCenterRentSttusInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">
                         	<tr>
