@@ -54,6 +54,10 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+            module.$('#totalCount').val(data.totalCount);
+            module.$('#sumGrAr').val(data.sumGrAr);
+            module.$('#sumGrFee').val(data.sumGrFee);
+            module.$('#sumGrRdcxptFee').val(data.sumGrRdcxptFee);
             module.makeDivValues('#useListSum', data);
             return data;        	
         }
@@ -243,23 +247,32 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
                 <table id="prtFcltyUseExprInqireList" style="display:none" class="fillHeight"></table>
 
                 <div id="useListSum" class="emdControlPanel">
+					<form id="form1">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="12%" height="20">자료수</th>
-								<td><span data-column-id="totalCount" class="ygpaNumber"></span></td>
+								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총면적</th>
-								<td><span data-column-id="sumGrAr" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrAr" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총사용료</th>
-								<td><span data-column-id="sumGrFee" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">총감면사용료</th>
-								<td><span data-column-id="sumGrRdcxptFee" class="ygpaNumber"></span></td>
+								<td><input type="text" size="18" id="sumGrRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
+					</form>
                 </div>
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>자산 임대 내역</h2>    
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>항만시설사용 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>항만시설사용 내역</h2> -->
                 	<div id="gamPrtFcltyUseExprInqireForm">
                         <table class="detailForm" style="width:100%;">
                             <tr>
@@ -323,7 +336,14 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
                             </tr>
                         </table>
                     </div>
-                 <h2>자산 임대 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>항만시설사용 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>항만시설사용 상세내역</h2> -->
                  	<div id="gamPrtFcltyUseExprInqireDetailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
