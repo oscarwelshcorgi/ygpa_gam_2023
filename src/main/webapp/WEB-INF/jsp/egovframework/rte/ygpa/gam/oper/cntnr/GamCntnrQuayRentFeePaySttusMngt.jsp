@@ -55,6 +55,10 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+            module.$('#sumCnt').val(data.sumCnt);
+            module.$('#sumNhtIsueAmt').val(data.sumNhtIsueAmt);
+            module.$('#sumVat').val(data.sumVat);
+            module.$('#sumPayAmt').val(data.sumPayAmt);
         	module.makeDivValues('#cntnrQuayRentFeePaySttusMngtListSum', data);
             return data;
         }
@@ -295,7 +299,7 @@ var module_instance = new GamCntnrQuayRentFeePaySttusMngtModule();
                                 <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>고지일자</th>
-                            <td><input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticPdFrom" type="text"class="emdcal" size="8"></td>
+                            <td><input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8"></td>
                             <th>요금종류</th>
                             <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
                         </tr>
@@ -308,27 +312,29 @@ var module_instance = new GamCntnrQuayRentFeePaySttusMngtModule();
     <div class="emdPanel fillHeight">
         <div id="cntnrQuayRentFeePaySttusMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
-                <li><a href="#tabs1" class="emdTab">컨테이너부두임대납부현황 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">컨테이너부두임대납부현황 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">컨테이너부두임대료납부현황 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">컨테이너부두임대료납부현황 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="cntnrQuayRentFeePaySttusMngtList" style="display:none" class="fillHeight"></table>
-                <div class="emdControlPanel" style="vertical-align: middle;">
-                	<table id="cntnrQuayRentFeePaySttusMngtListSum" class="summaryPanel" style="display:inline-table; vertical-align: middle; float:left;">
+                <div id="cntnrQuayRentFeePaySttusMngtListSum" class="emdControlPanel">
+					<form id="form1">
+   	               	<table style="width:100%;" class="summaryPanel">
                 		<tr>
-                			<th>자료수</th>
-                			<td style="text-align:right; width:50px;"><span data-column-id="sumCnt" class="ygpaNumber"></span></td>
-                			<th>총 고지금액</th>
-                			<td style="text-align:right; width:110px;"><span data-column-id="sumNhtIsueAmt" class="ygpaNumber"></span></td>
-                			<th>부가세</th>
-                			<td style="text-align:right; width:110px;"><span data-column-id="sumVat" class="ygpaNumber"></span></td>
-                			<th>총 납부금액</th>
-                			<td style="text-align:right; width:110px;"><span data-column-id="sumPayAmt" class="ygpaNumber"></span></td>
+                			<th width="10%" >자료수</th>
+							<td><input type="text" size="6" id="sumCnt" class="ygpaNumber" disabled="disabled" /></td>
+                			<th width="10%" >총고지금액</th>
+							<td><input type="text" size="16" id="sumNhtIsueAmt" class="ygpaNumber" disabled="disabled" /></td>
+                			<th width="10%" >부가세</th>
+							<td><input type="text" size="16" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
+                			<th width="10%" >총납부금액</th>
+							<td><input type="text" size="16" id="sumPayAmt" class="ygpaNumber" disabled="disabled" /></td>
+							<td><button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button></td>
+							<!-- <td><button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button></td> -->
                 		</tr>
                 	</table>
-					<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
-					<button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button>
+					</form>
                 </div>
             </div>
 

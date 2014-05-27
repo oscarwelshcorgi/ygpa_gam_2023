@@ -166,16 +166,16 @@
 
     <select id="gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtSum_S" parameterClass="gamAssetRentFeePayDtlsMngtVO" resultMap="gamAssetRentFeePayDtlsMngtSumMap">
          SELECT
-                 COUNT(*) SUM_CNT
-               , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
-                   	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
-                   	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
-                   	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
-                   	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
-                , SUM(NVL(L.NTIC_AMT, 0)) SUM_NHT_ISUE_AMT
-               , SUM(NVL(L.VAT, 0)) SUM_VAT
-               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
-               , SUM(DECODE(L.RCIV_SE, '3', L.FEE, 0)) SUM_PAY_AMT
+                 TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)), '999,999,999,999')) SUM_FEE
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)), '999,999,999,999')) SUM_FEE_A3
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)), '999,999,999,999')) SUM_FEE_A4
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)), '999,999,999,999')) SUM_FEE_D1
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)), '999,999,999,999')) SUM_FEE_D2
+                , TRIM(TO_CHAR(SUM(NVL(L.NTIC_AMT, 0)), '999,999,999,999')) SUM_NHT_ISUE_AMT
+               , TRIM(TO_CHAR(SUM(NVL(L.VAT, 0)), '999,999,999,999')) SUM_VAT
+               , TRIM(TO_CHAR(SUM(NVL(L.NTIC_AMT,0)), '999,999,999,999')) SUM_NTIC_AMT
+               , TRIM(TO_CHAR(SUM(DECODE(L.RCIV_SE, '3', L.FEE, 0)), '999,999,999,999')) SUM_PAY_AMT
           FROM ASSETS_RENT_F A, LEV_REQEST_F L
          WHERE 1 = 1
              AND A.QUAY_GROUP_CD='P'
