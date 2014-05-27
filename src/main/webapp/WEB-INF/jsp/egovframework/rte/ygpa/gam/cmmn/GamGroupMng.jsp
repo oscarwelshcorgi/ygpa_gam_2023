@@ -173,12 +173,13 @@ var module_instance = new GamAuthorGrpMngModule();
 							<td>
 								<input id="searchKeyword" type="text" size="30" title="검색" />
 							</td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-				</div>
+<!-- 				<div class="emdControlPanel"> -->
+<!-- 					<button id="searchBtn">조회</button> -->
+<!-- 				</div> -->
 			</form>
 		</div>
 	</div>
@@ -196,7 +197,7 @@ var module_instance = new GamAuthorGrpMngModule();
 		</div>
 				<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
 				<form id="groupManage">
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<colgroup>
 							<col width="30%" />
 							<col />

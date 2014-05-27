@@ -191,7 +191,7 @@ var module_instance = new GamProgListMngModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="progrmManageVO">
 					<input type="hidden" id="cmd"/>
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램파일명</th>
 							<td><input type="text" size="118" id="progrmFileNm" maxlength="60" data-required="true"/></td>

@@ -168,12 +168,14 @@ var module_instance = new GamRoleMngModule();
 							<td>
 								<input id="searchKeyword" type="text" size="30" title="검색" />
 							</td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
+							
 						</tr>
 					</tbody>
 				</table>
-				<div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-				</div>
+<!-- 				<div class="emdControlPanel"> -->
+<!-- 					<button id="searchBtn">조회</button> -->
+<!-- 				</div> -->
 			</form>
 		</div>
 	</div>

@@ -359,7 +359,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmpyInfoMngtManageVO" class="fillHeight">
 					<input type="hidden" id="cmd"/>
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 코드</th>
 							<td><input type="text" size="30" id="entrpscd" disabled="disabled" /></td>
@@ -405,7 +405,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 			<div id="tabs3" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmpyChargerMngtManageVO" class="fillHeight">
 					<input type="hidden" id="chargerEntrpscd"/>
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">담당자 명</th>
 							<td><input type="text" size="30" id="chargerNm" maxlength="40" /></td>

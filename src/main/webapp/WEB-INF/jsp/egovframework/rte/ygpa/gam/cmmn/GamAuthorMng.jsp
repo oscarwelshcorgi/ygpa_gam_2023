@@ -189,7 +189,7 @@ var module_instance = new GamAuthorMngModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="authorManageVO" style="height:370px;">
 					<input type="hidden" id="cmd"/>
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">권한코드</th>
 							<td><input type="text" size="92" id="authorCode" maxlength="30" data-required="true"/></td>

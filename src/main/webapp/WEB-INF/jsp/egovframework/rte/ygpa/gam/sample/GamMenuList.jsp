@@ -221,7 +221,7 @@ var module_instance = new GamMenuMngModule();
 					<form id="menuManageVO">
 						<input type="hidden" id="cmd"/>
 						<input type="hidden" id="beforeMenuNo"/>
-						<table class="tableForm">
+						<table class="tableForm editForm">
 							<colgroup>
 								<col width="30%"/>
 								<col />
