@@ -525,7 +525,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                     <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
                     <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
                     <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
-
+					<!--
                     <table class="searchPanel">
                         <tr>
 							<th width="10%" height="18">사진제목</th>
@@ -550,6 +550,7 @@ var module_instance = new GamPrtFcltyUseSttusInqireModule();
                             </td>
                         </tr>
                     </table>
+                    -->
                 </form>
                     <!-- <button id="btnApplyPhotoData">첨부파일 적용</button>  -->
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
