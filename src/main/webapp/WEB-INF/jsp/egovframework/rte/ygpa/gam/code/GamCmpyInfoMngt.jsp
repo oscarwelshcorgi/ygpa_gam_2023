@@ -105,6 +105,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 	// 업체 담당자 목록 선택
 	this.$("#cmpyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		
+		module.makeFormValues("#cmpyChargerMngtManageVO", row);
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 2});			// 탭을 전환 한다.
 	});
@@ -161,20 +162,21 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 
-			var detailParam = [
-				               { 'entrpscd': this.$("#entrpscd").text(),
+			var detailParam = 
+				               { 
+								'cmd' : this.$("#cmd").val(),
+								'entrpscd': this.$("#entrpscd").text(),
 				                'rprsntvNm': this.$("#rprsntvNm").text(),
 				                'entrpsNm': this.$("#entrpsNm").text(),
 				                'bizrno': this.$("#bizrno").text(),
 				                'induty': this.$("#induty").text(),
-				                'bsnmSe': this.$("#bsnmSe").text(),
 				                'tlphonNo': this.$("#tlphonNo").text(),
 				                'fax': this.$("#fax").text(),
 				                'zip': this.$("#zip").text(),
-				                'adres': this.$("#adres").text()}
-				             ];
+				                'adres': this.$("#adres").text()
+				                }
+				             ;
 			
-			console.log(detailParam);
 			
 			var inputVO=[{}];
 
@@ -183,35 +185,28 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
 			inputVO[inputVO.length]={name: "form", value: JSON.stringify(detailParam) };	
 			//inputVO[inputVO.length]={name: "form", value: detailParam };	
-			console.log(inputVO);
 
 			if(this.$("#cmd").val() == "insert") {
 
 				this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
-			 		/* if(result.resultCode == "0"){
+			 		 if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
-			 			var detailParam = [
-							               { name: 'entrpscd', value: this.$("#entrpscd").text()}
-							             ];
-						module.$("#cmpyInfoMngtList").flexOptions({params:detailParam}).flexReload();
+						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0});
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg); */
+			 		alert(result.resultMsg); 
 			 	});
 			}else{
 				
 			 	this.doAction('<c:url value="/code/gamCmpyInfoMngtModify.do" />', inputVO, function(module, result) {
-			 		/* if(result.resultCode == "0"){
+			 		 if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
-			 			var detailParam = [
-							               { name: 'entrpscd', value: this.$("#entrpscd").text()}
-							             ];
-						module.$("#cmpyInfoMngtList").flexOptions({params:detailParam}).flexReload();
+						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#cmpyInfoMngtListTab").tabs("option", {active: 0}); 
 						module.$("#cmmnCodeDetailManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg); */
+			 		alert(result.resultMsg); 
 			 	});
 			}
 		break;
@@ -225,10 +220,8 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			}
 			
 			if(!validateGamCmpyCode(this.$("#cmpyChargerMngtManageVO")[0])) return;
-
 			this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", this._editInfoData);
 			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", this._editData);
-
 			if(this._editData._updtId == undefined || this._editData._updtId != "I"){
 				this._editData._updtId = "U";
 				this.$("#cmpyMngtList").flexUpdateRow(this._editRow, this._editData);
@@ -448,7 +441,7 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">담당 업무</th>
-							<td><input id="chrgJobDisplay" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM045" /></td>
+							<td><input type="text" id="chrgJob" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM045" /></td>
 							<th width="20%" height="23" class="required_text">관리부서</th>
 							<td>
 								<select class="select" id="mngDeptCd">
