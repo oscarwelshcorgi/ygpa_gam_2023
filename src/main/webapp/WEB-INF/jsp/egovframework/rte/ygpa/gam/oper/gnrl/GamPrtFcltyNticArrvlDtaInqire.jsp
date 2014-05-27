@@ -343,7 +343,14 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>항만시설사용 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>항만시설사용 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>항만시설사용 내역</h2> -->
                     <div id="gamPrtFcltyNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -410,7 +417,14 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                             </tr>
                         </table>
                     </div>
-				<h2>항만시설사용 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>항만시설사용 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>항만시설사용 상세내역</h2> -->
 
 					<div id="prtFcltyNticArrvlDtaInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">

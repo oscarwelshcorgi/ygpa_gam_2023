@@ -343,7 +343,14 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>철송장사용 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>철송장임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>철송장임대 내역</h2> -->
                     <div id="gamTrainPortNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -410,7 +417,14 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             </tr>
                         </table>
                     </div>
-				<h2>철송장사용 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>철송장임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>철송장임대 상세내역</h2> -->
 
 					<div id="trainPortNticArrvlDtaInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">

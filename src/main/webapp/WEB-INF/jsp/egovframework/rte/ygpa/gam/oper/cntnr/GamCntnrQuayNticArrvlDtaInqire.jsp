@@ -343,7 +343,14 @@ var module_instance = new GamCntnrQuayNticArrvlDtaInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>컨테이너부두사용 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>컨테이너부두임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>컨테이너부두임대 내역</h2> -->
                     <div id="gamCntnrQuayNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -410,7 +417,14 @@ var module_instance = new GamCntnrQuayNticArrvlDtaInqireModule();
                             </tr>
                         </table>
                     </div>
-				<h2>컨테이너부두사용 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>컨테이너부두임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>컨테이너부두임대 상세내역</h2> -->
 
 					<div id="cntnrQuayNticArrvlDtaInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">

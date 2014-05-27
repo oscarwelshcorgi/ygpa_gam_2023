@@ -343,7 +343,14 @@ var module_instance = new GamMarineCenterFeeExprInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>마린센터사용 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>마린센터임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>마린센터임대 내역</h2> -->
                     <div id="gamMarineCenterFeeExprInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -410,7 +417,14 @@ var module_instance = new GamMarineCenterFeeExprInqireModule();
                             </tr>
                         </table>
                     </div>
-				<h2>마린센터사용 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>마린센터임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>마린센터임대 상세내역</h2> -->
 
 					<div id="marineCenterFeeExprInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">

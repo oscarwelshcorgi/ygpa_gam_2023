@@ -340,7 +340,14 @@ var module_instance = new GamAssetFeeExprInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>자산임대사용 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>자산임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>자산임대 내역</h2> -->
                     <div id="gamAssetFeeExprInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -407,7 +414,14 @@ var module_instance = new GamAssetFeeExprInqireModule();
                             </tr>
                         </table>
                     </div>
-				<h2>자산임대사용 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>자산임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>자산임대 상세내역</h2> -->
 
 					<div id="assetFeeExprInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">

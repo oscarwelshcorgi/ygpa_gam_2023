@@ -343,7 +343,14 @@ var module_instance = new GamHtldNticArrvlDtaInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-                <h2>배후단지사용 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>배후단지임대 내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>배후단지임대 내역</h2> -->
                     <div id="gamHtldNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -410,7 +417,14 @@ var module_instance = new GamHtldNticArrvlDtaInqireModule();
                             </tr>
                         </table>
                     </div>
-				<h2>배후단지사용 상세 내역</h2>
+					<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>배후단지임대 상세내역</th>
+						</tr>
+					</tbody>
+					</table>
+                	<!-- <h2>배후단지임대 상세내역</h2> -->
 
 					<div id="htldNticArrvlDtaInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">
