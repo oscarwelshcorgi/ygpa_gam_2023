@@ -58,16 +58,22 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.makeDivValues('#fcltyManageVO', row); // 결과값을 채운다.
-		/* module.$("#fcltyManageVO :input").val("");
+		module.$("#fcltyManageVO :input").val("");
 		module.makeFormValues("#fcltyManageVO", row);
 		module.getFormValues("#fcltyManageVO", row);
 		module.$("#fcltyMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
-
-        var searchOpt=module.makeFormArgs("#fcltyManageVO");
+		var searchOpt = 
+        [
+         {	name: 'gisPrtFcltyCd' , value: module.$("#gisPrtFcltyCd").text()},
+         {	name: 'gisPrtFcltySeq' , value: module.$("#gisPrtFcltySeq").text()},
+         {  name: 'gisAssetsPrtAtCode' , value:  module.$("#gisAssetsPrtAtCode").text()},
+         {	name: 'gisAssetsCd' , value:  module.$("#gisAssetsCd").text()},
+         {  name: 'gisAssetsSubCd' , value:  module.$("#gisAssetsSubCd").text()},
+         {	name: 'prtFcltySe' , value:  module.$("#prtFcltySe").text()}
+         ];
         module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
-
-        module._fcltyItem = row; */
+        module._fcltyItem = row; 
 	});
 
 	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
