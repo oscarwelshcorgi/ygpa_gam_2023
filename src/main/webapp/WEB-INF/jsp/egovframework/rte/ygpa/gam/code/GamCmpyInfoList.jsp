@@ -50,11 +50,12 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.makeFormValues("#cmpyInfoMngtManageVO", row);
+		module.makeDivValues('#cmpyInfoMngtManageVO', row); // 결과값을 채운다.
+		/* module.makeFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoData = module.getFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoRow = module.$("#cmpyInfoMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
-		module.$("#entrpscd").attr("disabled","disabled");
+		module.$("#entrpscd").attr("disabled","disabled"); */
 	});
 	
 	// 업체정보 목록 선택
@@ -369,36 +370,36 @@ var module_instance = new GamCmpyInfoMngtModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmpyInfoMngtManageVO">
 					<input type="hidden" id="cmd"/>
-					<table class="searchPanel">
+					<table class="detailForm" style="width:100%;">
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 코드</th>
-							<td><input type="text" size="30" id="entrpscd" disabled="disabled" /></td>
+							<td><span id="entrpscd"></span></td>
 							<th width="20%" height="23" class="required_text">대표자 명</th>
-							<td><input type="text" size="50" id="rprsntvNm" disabled="disabled" /></td>
+							<td><span id="rprsntvNm"></span></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업체 명</th>
-							<td><input type="text" size="30" id="entrpsNm" disabled="disabled" /></td>
+							<td><span id="entrpsNm"></span></td>
 							<th width="20%" height="23" class="required_text">사업자등록번호</th>
-							<td><input type="text" size="50" id="bizrno" disabled="disabled" /></td>
+							<td><span id="bizrno"></span></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">업종</th>
-							<td><input type="text" id="induty" title="업종" size="30" disabled="disabled" /></td>
+							<td><span id="induty" title="업종"></span></td>
 							<th width="20%" height="23" class="required_text">업종코드</th>
-							<td><input type="text" size="50" id="bsnmSe" disabled="disabled" /></td>
+							<td><span id="bsnmSe"></span></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">전화번호</th>
-							<td><input type="text" size="30" id="tlphonNo" disabled="disabled" /></td>
+							<td><span id="tlphonNo"></span></td>
 							<th width="20%" height="23" class="required_text">팩스</th>
-							<td><input type="text" size="50" id="fax" disabled="disabled" /></td>
+							<td><span id="fax"></span></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">우편번호</th>
-							<td><input type="text" size="30" id="zip" disabled="disabled" /></td>
+							<td><span id="zip"></span></td>
 							<th width="20%" height="23" class="required_text">주소</th>
-							<td><input type="text" size="50" id="adres" disabled="disabled" /></td>
+							<td><span id="adres"></span></td>
 						</tr>
 					</table>
 					<br />

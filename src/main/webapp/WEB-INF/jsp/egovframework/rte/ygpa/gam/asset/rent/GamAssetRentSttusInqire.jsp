@@ -526,7 +526,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                     <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
                     <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
 
-                    <table class="searchPanel">
+                    <!-- <table class="searchPanel">
                         <tr>
 							<th width="10%" height="18">사진제목</th>
                             <td>
@@ -549,7 +549,7 @@ var module_instance = new GamAssetRentSttusInqireModule();
                                 <input id="photoDesc" type="text" size="135" disabled/>
                             </td>
                         </tr>
-                    </table>
+                    </table> -->
                 </form>
                     <!-- <button id="btnApplyPhotoData">첨부파일 적용</button>  -->
                 <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
