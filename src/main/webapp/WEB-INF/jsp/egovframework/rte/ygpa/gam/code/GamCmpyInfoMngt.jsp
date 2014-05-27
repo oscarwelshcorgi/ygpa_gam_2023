@@ -62,14 +62,19 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 	
 	// 업체정보 목록 선택
 	this.$("#cmpyInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		var row = module.$('#cmpyInfoMngtList').selectedRows()[0];
+
+		var detailParam = [
+		               { name: 'entrpscd', value: row.entrpscd}
+		             ];
 		
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
+		//module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
 
-			var searchOpt = module.makeFormArgs("#cmpyInfoMngtManageVO");
-			module.$("#cmpyMngtList").flexOptions({params:searchOpt}).flexReload();
+			//var searchOpt = module.makeFormArgs("#cmpyInfoMngtManageVO");
+			module.$("#cmpyMngtList").flexOptions({params:detailParam}).flexReload();
 			module.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
-	 	});
+	 	//});
 	});
 	
 	// 업체목록 조회
