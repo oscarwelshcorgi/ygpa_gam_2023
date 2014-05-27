@@ -491,7 +491,7 @@ var module_instance = new GamFcltyDrwListMngtModule();
 					<button id="btnSaveFile2">저장</button>
 				</div>
 				<form id="drwListPhotoForm">
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23">도면자료코드</th>
 							<td><input type="text" size="40" id="drwDtaCd" disabled="disabled" maxlength="20" /></td>

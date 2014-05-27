@@ -201,7 +201,7 @@ var module_instance = new GamCmmnCodeClMngtModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmmnCodeClManageVO" style="height:370px;">
 					<input type="hidden" id="cmd"/>
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드</th>
 							<td><input type="text" size="80" id="clCode" maxlength="3" /></td>

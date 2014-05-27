@@ -218,7 +218,7 @@ var module_instance = new GamCmmnCodeDetailMngtModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="cmmnCodeDetailManageVO" style="height:370px;">
 					<input type="hidden" id="cmd"/>
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">코드ID</th>
 							<td>

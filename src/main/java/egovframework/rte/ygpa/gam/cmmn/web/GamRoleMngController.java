@@ -65,7 +65,7 @@ public class GamRoleMngController {
      * @return String
      * @throws Exception
      */
-	@RequestMapping(value="/sec/rmt/gamRoleMng.do'")
+	@RequestMapping(value="/sec/rmt/gamRoleMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/GamRoleMng";

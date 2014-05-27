@@ -780,7 +780,7 @@ var module_instance = new GamFcltyMngtModule();
 					<button id="btnSaveFile">저장</button>
 				</div>
 				<form id="fcltyGisPhotoForm">
-					<table class="searchPanel">
+					<table class="searchPanel editForm">
 						<tr>
 							<th width="15%" height="23" class="required_text">사진제목</th>
 							<td><input id="photoSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
