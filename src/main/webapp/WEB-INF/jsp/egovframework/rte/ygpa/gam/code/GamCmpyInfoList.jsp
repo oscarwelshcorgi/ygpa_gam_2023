@@ -50,7 +50,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 	});
 	
 	this.$("#cmpyInfoMngtList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.makeDivValues('#cmpyInfoMngtManageVO', row); // 결과값을 채운다.
+		//module.makeDivValues('#cmpyInfoMngtManageVO', row); // 결과값을 채운다.
 		/* module.makeFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoData = module.getFormValues("#cmpyInfoMngtManageVO", row);
 		module._editInfoRow = module.$("#cmpyInfoMngtList").selectedRowIds()[0];
@@ -60,14 +60,14 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 	
 	// 업체정보 목록 선택
 	this.$("#cmpyInfoMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
+		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
 		// 이벤트내에선 모듈에 대해 선택한다.
-		module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
+		/* module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
 
 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtManageVO");
 			module.$("#cmpyMngtList").flexOptions({params:searchOpt}).flexReload();
 			module.$("#cmpyInfoMngtListTab").tabs("option", {active: 1});
-	 	});
+	 	}); */
 	});
 	
 	// 업체목록 조회
@@ -100,6 +100,26 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 2});			// 탭을 전환 한다.
+	});
+};
+
+GamCmpyInfoMngtModule.prototype.loadDetailForm = function() {
+ 	var row = this.$('#cmpyInfoMngtList').selectedRows()[0];
+
+	var detailParam = [
+	               { name: 'entrpscd', value: row.entrpscd}
+	             ];
+	this.makeDivValues('#cmpyInfoMngtManageVO', row); // 결과값을 채운다.
+
+	this.doAction('<c:url value="/code/gamCmpyMngtList.do" />', detailParam, function(module, result) {
+
+		if (result.resultCode == "0") {
+			
+			module.makeMultiDivValues('#cmpyInfoMngtDetailForm',result.resultList , function(row) {
+			} );	// 리스트 값을 채운다
+		} else {
+			alert(result.resultMsg);
+		}
 	});
 };
 		
@@ -279,8 +299,9 @@ GamCmpyInfoMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 	
 		case "tabs2":
-			this.$("#searchViewStack")[0].changePanelId(1);
-			this._deleteDataList = [];
+			this.loadDetailForm();
+			/* this.$("#searchViewStack")[0].changePanelId(1);
+			this._deleteDataList = []; */
 			/*
 			var row = this.$("#cmpyMngtList").selectedRows();
 			if(row.length == 0) this.$("#cmd").val("insert");
@@ -403,8 +424,40 @@ var module_instance = new GamCmpyInfoMngtModule();
 						</tr>
 					</table>
 					<br />
-					<table id="cmpyMngtList" style="display:none" class="fillHeight"></table>
+					<!-- <table id="cmpyMngtList" style="display:none" class="fillHeight"></table> -->
 				</form>
+				<h2>업체정보 상세 내역</h2>
+
+					<div id="cmpyInfoMngtDetailForm">
+                        <table class="detailPanel" style="width:100%;">
+                        	<tr>
+                        		<th width="15%" height="23">담당자명</th>
+                                <td>
+                                	<span data-column-id="chargerNm"></span>
+                                </td>
+								<th width="15%" height="23">부서</th>
+                                <td>
+                                	<span data-column-id="chargerDept"></span>
+                                </td>
+								<th width="15%" height="23">직위</th>
+                                <td><span data-column-id="chargerOfcPos"></span></td>
+                            </tr>
+                            <tr>
+								<th width="15%" height="23">업무</th>
+                                <td><span data-column-id="chrgJobDisplay"></span></td>
+								<th width="15%" height="23">휴대폰번호</th>
+                                <td><span data-column-id="chargerMoblphonNo"></span></td>
+                                <th width="15%" height="23">전화번호</th>
+                                <td><span data-column-id="chargerTlphonNo"></span></td>
+                            </tr>
+                            <tr>
+								<th width="15%" height="23">팩스번호</th>
+                                <td><span data-column-id="chargerFax"></span></td>
+								<th width="15%" height="23">이메일</th>
+                                <td colspan="3"><span data-column-id="chargerEmail"></span></td>
+                            </tr>
+                        </table>
+                    </div>
 			</div>
 		</div>
 	</div>
