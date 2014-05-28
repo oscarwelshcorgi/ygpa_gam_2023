@@ -215,11 +215,11 @@ var module_instance = new GamMenuMngModule();
 		<table style="width:100%; height:100%;">
 			<tr>
 				<td width="240 px">
-					<div id="menuTreeList" class="tree" style="position:relative; left:8px; top:8px; width:224px; height:442px; z-index:10; overflow: scroll" data-resize="contentFill">
+					<div id="menuTreeList" class="tree" style="position:relative; left:8px; top:8px; width:224px; height:400px; z-index:10; overflow: scroll; border: 1px solid; margin-right: 8px; border-radius: 7px; padding : 8px;" data-resize="contentFill">
 					</div>
 				</td>
 				<td>
-					<form id="menuManageVO">
+					<form id="menuManageVO" style="border :1px solid; margin: 8px; padding:9px; border-radius:7px; height:400px;">
 						<input type="hidden" id="cmd"/>
 						<input type="hidden" id="beforeMenuNo"/>
 						<table class="tableForm editForm">
@@ -257,14 +257,14 @@ var module_instance = new GamMenuMngModule();
 							</tr>
 							<tr>
 								<th><span class="label">메뉴설명</span></th>
-								<td colspan="3"><textarea cols="40" rows="8" id="menuDc"></textarea></td>
+								<td colspan="3"><textarea cols="50" rows="12" id="menuDc"></textarea></td>
 							</tr>
 						</table>
 					</form>
 					<div class="emdControlPanel">
 						<button id="addBtn">추가</button>
 						<button id="saveBtn">저장</button>
-						<button id="deleteBtn">삭제</button>
+						<button id="deleteBtn" style="margin-right:13px;">삭제</button>
 <!-- 						<button id="refreshBtn">새로고침</button> -->
 					</div>
 				</td>
