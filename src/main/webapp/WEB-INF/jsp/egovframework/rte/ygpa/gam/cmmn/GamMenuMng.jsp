@@ -240,40 +240,40 @@ var module_instance = new GamMenuMngModule();
 					<input type="hidden" id="beforeMenuNo"/>
 					<table class="searchPanel editForm">
 						<colgroup>
-							<col width="30%" />
+							<col width="20%" />
 							<col />
-							<col width="30%" />
+							<col width="20%" />
 							<col />
 						</colgroup>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴No</th>
-							<td><input type="text" size="25" id="menuNo" maxlength="20" data-required="true"/></td>
+							<td><input type="text" size="51" id="menuNo" maxlength="20" data-required="true"/></td>
 							<th width="20%" height="23" class="required_text">메뉴순서</th>
-							<td><input type="text" size="25" id="menuOrdr" maxlength="5" data-required="true"/></td>
+							<td><input type="text" size="51" id="menuOrdr" maxlength="5" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴명</th>
-							<td><input type="text" size="25" id="menuNm" maxlength="60" data-required="true"/></td>
+							<td><input type="text" size="51" id="menuNm" maxlength="60" data-required="true"/></td>
 							<th width="20%" height="23" class="required_text">상위메뉴No</th>
-							<td><input type="text" size="25" id="upperMenuId" maxlength="20" /></td>
+							<td><input type="text" size="51" id="upperMenuId" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">파일명</th>
 							<td colspan="3">
-								<input type="text" size="36" id="progrmFileNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
-								<input type="text" size="36" id="progrmKoreanNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
+								<input type="text" size="48" id="progrmFileNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
+								<input type="text" size="48" id="progrmKoreanNm" maxlength="40" disabled="disabled" data-required="true"/>&nbsp;&nbsp;
 								<button id="popupBtn">프로그램파일명 검색</button>
 							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">관련이미지명</th>
-							<td><input type="text" size="25" id="relateImageNm" maxlength="60" /></td>
+							<td><input type="text" size="51" id="relateImageNm" maxlength="60" /></td>
 							<th width="20%" height="23" class="required_text">관련이미지경로</th>
-							<td><input type="text" size="25" id="relateImagePath" maxlength="100" /></td>
+							<td><input type="text" size="51" id="relateImagePath" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">메뉴설명</th>
-							<td colspan="3"><textarea cols="80" rows="10" id="menuDc" maxlength="250"></textarea></td>
+							<td colspan="3"><textarea cols="98" rows="10" id="menuDc" maxlength="250"></textarea></td>
 						</tr>
 					</table>
 				</form>

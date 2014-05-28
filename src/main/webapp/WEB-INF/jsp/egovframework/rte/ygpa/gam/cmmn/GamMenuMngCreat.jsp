@@ -38,7 +38,7 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'권한코드',		name:'authorCode',		width:218,		sortable:false,		align:'left'},
 					{display:'권한명', 		name:'authorNm',		width:140, 		sortable:false,		align:'left'},
-					{display:'권한 설명', 		name:'authorDc',		width:220, 		sortable:false,		align:'left'},
+					{display:'권한설명', 		name:'authorDc',		width:220, 		sortable:false,		align:'left'},
 					{display:'메뉴생성수', 		name:'chkYeoBu',		width:60, 		sortable:false,		align:'center'},
 					{display:'메뉴생성', 		name:'regYn',			width:70, 		sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'메뉴생성', className:'selectRoleButton'}}
 					],

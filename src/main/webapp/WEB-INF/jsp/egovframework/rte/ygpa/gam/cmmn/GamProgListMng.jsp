@@ -194,23 +194,23 @@ var module_instance = new GamProgListMngModule();
 					<table class="searchPanel editForm">
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램파일명</th>
-							<td><input type="text" size="118" id="progrmFileNm" maxlength="60" data-required="true"/></td>
+							<td><input type="text" size="130" id="progrmFileNm" maxlength="60" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text"> 한글명</th>
-							<td><input type="text" size="118" id="progrmKoreanNm" maxlength="60" data-required="true"/></td>
+							<td><input type="text" size="130" id="progrmKoreanNm" maxlength="60" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램경로</th>
-							<td><input type="text" size="118" id="progrmStrePath" maxlength="100" data-required="true"/></td>
+							<td><input type="text" size="130" id="progrmStrePath" maxlength="100" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">URL</th>
-							<td><input type="text" size="118" id="URL" maxlength="100" data-required="true"/></td>
+							<td><input type="text" size="130" id="URL" maxlength="100" data-required="true"/></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">프로그램설명</th>
-							<td><textarea cols="116" rows="10" id="progrmDc" maxlength="200"></textarea></td>
+							<td><textarea cols="98" rows="10" id="progrmDc" maxlength="200"></textarea></td>
 						</tr>
 					</table>
 				</form>
