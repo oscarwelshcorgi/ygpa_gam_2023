@@ -249,6 +249,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				if (result.resultCode == "0") {
 					module.makeFormValues('#editGisAssetCode',
 							result.result); // 결과값을 채운다.
+					module.makeDivValues('#editGisAssetCode', result.result);
 					module._editData = result.result;
 							module._state="";
 				} else {
@@ -353,122 +354,134 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<button id="loadMap">맵조회</button>
 				</div>
 			</div>
-			<div id="tabs2" class="emdTabPage" style="overflow: scroll">
-				<form id="editGisAssetCode" name="gisAssetCode">
-				<table class="editForm">
-					<tr>
-						<th><span class="label">항구분</span></th>
-						<td>
-							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-code='P' disabled="disabled" />
-						</td>
-						<th><span class="label">자산코드</span></th>
-						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
-					</tr>
-					<!-- <tr>
-						<th><span class="label">자산코드</span></th>
-						<td colspan="5"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
-					</tr> -->
-					<tr>
-						<th><span class="label">ERP자산코드</span></th>
-						<td>
-							<input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd" disabled="disabled" >-
-							<input type="text" size="8" id="erpAssetsNo" disabled="disabled" >-
-							<input type="text" size="2" id="erpAssetsNoSeq" disabled="disabled">
-						</td>
-						<th><span class="label">ERP자산명</span></th>
-						<td colspan="5"><input type="text" size="62" id="itemName" data-column-id="itemName" disabled="disabled" ></td>
-					</tr>
-					<tr>
-						<th><span class="label">재산구분</span></th>
-						<td>
-								<input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-code-id='GAM001' disabled="disabled">
-						</td>
-						<th><span class="label">위치구분</span></th>
-						<td>
-							<input id="gisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM002' disabled="disabled">
-						</td>
-						<th><span class="label">부두구분</span></th>
-						<td>
-							<input id="gisAssetsQuayCd" class="ygpaCmmnCd" data-code-id='GAM003' disabled="disabled">
-						</td>
-					</tr>
-					<tr>
-						<th><span class="label">자산명</span></th>
-						<td colspan="5"><input type="text" size="133" id="gisAssetsNm" disabled="disabled"></td>
-					</tr>
-					<tr>
-						<th><span class="label">자산소재지</span></th>
-						<td colspan="3">
-							<input type="text" size="92" id="gisAssetsLocplc" disabled="disabled">
-							<input type="hidden" id="gisAssetsBupjungdongCd" />
-						</td>
-						<th><span class="label">지번</span></th>
-						<td>
-							<input type="text" size="7" id="gisAssetsLnm" disabled="disabled">-
-							<input type="text" size="7" id="gisAssetsLnmSub" disabled="disabled">
-						</td>
-					</tr>
-					<tr>
-					</tr>
-					<tr>
-						<th><span class="label">자산구분</span></th>
-						<td colspan="3">
-							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' disabled="disabled">
-						</td>
-						<th><span class="label">취득가액</span></th>
-						<td><input type="text" size="18" id="gisAssetsAcqPri" class="ygpaNumber"disabled="disabled"> 원</td>
-					</tr>
-					<tr>
-						<th><span class="label">면적</span></th>
-						<td><input type="text" size="20" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2" disabled="disabled"> ㎡</td>
-						<th><span class="label">실제임대면적</span></th>
-						<td><input type="text" size="20" id="gisAssetsRealRentAr" class="ygpaNumber" disabled="disabled"> ㎡</td>
-						<th><span class="label">자산규격</span></th>
-						<td><input type="text" size="20" id="gisAssetsStndrd" disabled="disabled"></td>
-					</tr>
-					<tr>
-						<th><span class="label">관리부서</span></th>
-						<td><input type="text" size="16" id="gisAssetsMngDeptCd" class="ygpaDeptSelect" disabled="disabled"></td>
-						<th><span class="label">운영부서</span></th>
-						<td><input type="text" size="16" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" disabled="disabled"></td>
-						<th><span class="label">사용여부</span></th>
-						<td>
-							<select id="gisAssetsUsageYn"  disabled="disabled">
-									<option value="Y">사용</option>
-									<option value="N">사용안함</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th><span class="label">자산가치금액</span></th>
-						<td><input type="text" size="15" id="gisAssetsValAmt" class="ygpaNumber" disabled="disabled"> 원 (조회일자 : <input type="text" size="14" id="gisAssetsValInqireDt" disabled="disabled">)</td>
-						<th><span class="label">준공년도</span></th>
-						<td><input type="text" size="20" id="gisAssetsBlddate" disabled="disabled"></td>
-						<th><span class="label">준공일자</span></th>
-						<td><input type="text" size="16" id="gisAssetsBldDt" disabled="disabled"></td>
-					</tr>
-					<tr>
-						<th><span class="label">비고</span></th>
-						<td colspan="5"><textarea cols="133" rows="3" id="gisAssetsRm" disabled="disabled"></textarea></td>
-					</tr>
-					<!-- <tr>
-						<th><span class="label">사용여부</span></th>
-						<td colspan="5">
-							<select id="gisAssetsUsageYn">
-									<option value="" selected="selected">선택</option>
-									<option value="Y">사용</option>
-									<option value="N">사용안함</option>
-							</select>
-						</td>
-					</tr> -->
-				</table>
-				<!--
-				<div style="vertical-align: bottom; text-align: right;">
-					<button id="btnAddGisMap">위치조회</button>
+
+			<div id="tabs2"	class="emdTabPage" style="overflow:	scroll">
+				<div id="editGisAssetCode">
+					<table class="detailForm" style="width:100%;">
+						<tr>
+							<th width="12%" height="23">항구분</th>
+							<td width="30%">
+								<span data-column-id="gisAssetsPrtAtCode"></span>-
+								<span data-column-id="gisAssetsPrtAtCodeNm"></span>
+							</td>
+							<th width="12%" height="23">자산코드</th>
+							<td colspan="5">
+								<span data-column-id="gisAssetsCd"></span>-
+								<span data-column-id="gisAssetsSubCd"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">ERP자산코드</th>
+							<td width="30%">
+								<span data-column-id="erpAssetsCls"></span>-
+								<span data-column-id="erpAssetsNo"></span>-
+								<span data-column-id="erpAssetsNoSeq"></span>
+							</td>
+							<th width="12%" height="23">ERP자산명</th>
+							<td	colspan="5">
+								<span data-column-id="itemName"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">재산구분</th>
+							<td width="30%">
+								<span data-column-id="gisAssetsPrprtySeCd"></span>-
+								<span data-column-id="gisAssetsPrprtySeCdNm"></span>
+							</td>
+							<th width="12%" height="23">위치구분</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsLocCd"></span>-
+								<span data-column-id="gisAssetsLocCdNm"></span>
+							</td>
+							<th width="12%" height="23">부두구분</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsQuayCd"></span>-
+								<span data-column-id="gisAssetsQuayCdNm"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">자산명</th>
+							<td	colspan="5">
+								<span data-column-id="gisAssetsNm"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">자산소재지</th>
+							<td	colspan="3">
+								<span data-column-id="gisAssetsLocplc"></span>
+							</td>
+							<th width="12%" height="23">지번</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsLnm"></span>-
+								<span data-column-id="gisAssetsLnmSub"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">자산구분</th>
+							<td	colspan="3">
+								<span data-column-id="gisAssetsSeCd"></span>-
+								<span data-column-id="gisAssetsSeCdNm"></span>
+							</td>
+							<th width="12%" height="23">취득가액</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsAcqPri" class="ygpaNumber"></span> 원
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">면적</th>
+							<td width="30%">
+								<span data-column-id="gisAssetsAr" class="ygpaNumber"></span> ㎡
+							</td>
+							<th width="12%" height="23">실제임대면적</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsRealRentAr" class="ygpaNumber"></span> ㎡
+							</td>
+							<th width="12%" height="23">자산규격</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsStndrd"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">관리부서</th>
+							<td width="30%">
+								<span data-column-id="gisAssetsMngDeptCd"></span>-
+								<span data-column-id="gisAssetsMngDeptCdNm"></span>
+							</td>
+							<th width="12%" height="23">운영부서</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsOperDeptCd"></span>-
+								<span data-column-id="gisAssetsOperDeptCdNm"></span>
+							</td>
+							<th width="12%" height="23">사용여부</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsUsageYn"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">자산가치금액</th>
+							<td width="30%">
+								<span data-column-id="gisAssetsValAmt" class="ygpaNumber" ></span> 원 (
+								<span data-column-id="gisAssetsValInqireDt"></span>)
+							</td>
+							<th width="12%" height="23">준공년도</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsBlddate"></span>
+							</td>
+							<th width="12%" height="23">준공일자</th>
+							<td width="15%">
+								<span data-column-id="gisAssetsBldDt"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="23">비고</th>
+							<td	colspan="5">
+								<textarea cols="98" rows="3" id="gisAssetsRm" disabled="disabled"></textarea>
+							</td>
+						</tr>
+					</table>
 				</div>
-				-->
-				</form>
 			</div>
+
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;" data-onactivate="onShowTab3Activate">
 				<table id="assetCodePhotoList" style="display:none"></table>
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>

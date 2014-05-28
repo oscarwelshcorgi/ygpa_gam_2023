@@ -389,6 +389,14 @@ var module_instance = new GamCmpyInfoMngtModule();
 				<table id="cmpyInfoMngtList" style="display:none" class="fillHeight"></table>
 			</div>
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
+				<table class="searchPanel">
+				<tbody>
+					<tr>
+						<th>업체정보 내역</th>
+					</tr>
+				</tbody>
+				</table>
+               	<!-- <h2>업체정보 내역</h2> -->
 				<form id="cmpyInfoMngtManageVO">
 					<input type="hidden" id="cmd"/>
 					<table class="detailForm" style="width:100%;">
@@ -423,37 +431,44 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<td><span id="adres"></span></td>
 						</tr>
 					</table>
-					<br />
+					<!-- <br /> -->
 					<!-- <table id="cmpyMngtList" style="display:none" class="fillHeight"></table> -->
 				</form>
-				<h2>업체정보 상세 내역</h2>
+				<table class="searchPanel">
+				<tbody>
+					<tr>
+						<th>업체정보 상세내역(담당자)</th>
+					</tr>
+				</tbody>
+				</table>
+               	<!-- <h2>업체정보 상세내역</h2> -->
 
 					<div id="cmpyInfoMngtDetailForm">
                         <table class="detailPanel" style="width:100%;">
                         	<tr>
-                        		<th width="15%" height="23">담당자명</th>
-                                <td>
+                        		<th width="12%" height="23">담당자명</th>
+                                <td width="20%">
                                 	<span data-column-id="chargerNm"></span>
                                 </td>
-								<th width="15%" height="23">부서</th>
-                                <td>
+								<th width="12%" height="23">부서</th>
+                                <td width="20%">
                                 	<span data-column-id="chargerDept"></span>
                                 </td>
-								<th width="15%" height="23">직위</th>
-                                <td><span data-column-id="chargerOfcPos"></span></td>
+								<th width="12%" height="23">직위</th>
+                                <td width="20%"><span data-column-id="chargerOfcPos"></span></td>
                             </tr>
                             <tr>
-								<th width="15%" height="23">업무</th>
-                                <td><span data-column-id="chrgJobDisplay"></span></td>
-								<th width="15%" height="23">휴대폰번호</th>
-                                <td><span data-column-id="chargerMoblphonNo"></span></td>
-                                <th width="15%" height="23">전화번호</th>
-                                <td><span data-column-id="chargerTlphonNo"></span></td>
+								<th width="12%" height="23">업무</th>
+                                <td width="20%"><span data-column-id="chrgJobDisplay"></span></td>
+								<th width="12%" height="23">휴대폰번호</th>
+                                <td width="20%"><span data-column-id="chargerMoblphonNo"></span></td>
+                                <th width="12%" height="23">전화번호</th>
+                                <td width="20%"><span data-column-id="chargerTlphonNo"></span></td>
                             </tr>
                             <tr>
-								<th width="15%" height="23">팩스번호</th>
-                                <td><span data-column-id="chargerFax"></span></td>
-								<th width="15%" height="23">이메일</th>
+								<th width="12%" height="23">팩스번호</th>
+                                <td width="20%"><span data-column-id="chargerFax"></span></td>
+								<th width="12%" height="23">이메일</th>
                                 <td colspan="3"><span data-column-id="chargerEmail"></span></td>
                             </tr>
                         </table>

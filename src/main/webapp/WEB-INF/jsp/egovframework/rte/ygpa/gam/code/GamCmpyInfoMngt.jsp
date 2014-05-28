@@ -436,11 +436,11 @@ var module_instance = new GamCmpyInfoMngtModule();
 							<th width="20%" height="23" class="required_text">담당자 명</th>
 							<td><input type="text" size="30" id="chargerNm" maxlength="40" /></td>
 							<th width="20%" height="23" class="required_text">담당자 직위</th>
-							<td><input type="text" size="10" id="chargerOfcPos" maxlength="10" /></td>
+							<td><input type="text" size="30" id="chargerOfcPos" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">부서</th>
-							<td colspan="3"><input type="text" size="10" id="chargerDept" maxlength="80" /></td>
+							<td colspan="3"><input type="text" size="30" id="chargerDept" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">담당 업무</th>
