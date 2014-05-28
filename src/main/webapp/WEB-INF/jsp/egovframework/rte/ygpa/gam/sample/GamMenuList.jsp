@@ -59,12 +59,12 @@ GamMenuMngModule.prototype.loadMenu = function() {
 			module.tree.setUserData('module', module);
 			module.tree.module=module;
 			module.tree.attachEvent("onSelect", function(id){
-				
+
 				console.debug('id :'+id+' selected');
 // 				this.module.$('#menuNo').val(id);
 				module.doAction('<c:url value="/sample/mnu/selectMenuDetail.do" />', {id : id }, function(module, result) {
 					result.resultVO.beforeMenuNo=result.resultVO.menuNo;
-					module.makeFormValues('#menuManageVO', result.resultVO); 
+					module.makeFormValues('#menuManageVO', result.resultVO);
 				})
 			});
  		}
@@ -94,6 +94,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		case "addBtn":
 			this.$("#menuMngListTab").tabs("option", {active: 1});
 			this.$("#menuManageVO :input").val("");
+			this.$("#beforeMenuNo").val(-1);
 			this.$("#cmd").val("insert");
 		break;
 
@@ -170,7 +171,7 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	}
 };
 /*
- * 
+ *
  */
  GamMenuMngModule.prototype.onClosePopup = function(popupId, msg, value){
 

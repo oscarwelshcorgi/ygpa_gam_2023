@@ -161,6 +161,10 @@ vertical-align: middle;
   color: #fff;
 }
 
+table.detailPanel {
+	margin-bottom: 3px;
+}
+
 .detailPanel table {
 	width: 100%;
 	background: white;

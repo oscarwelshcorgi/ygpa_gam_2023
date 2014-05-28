@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.cmmn.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uss.umt.service.EgovUserManageService;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -39,17 +42,49 @@ public class GamUserInfoMngController {
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** userManageService */
     @Resource(name = "userManageService")
     private EgovUserManageService userManageService;
 
+    /** cmmUseService */
+    @Resource(name="EgovCmmUseService")
+    private EgovCmmUseService cmmUseService;
+
 	@RequestMapping(value="/cmmn/gamUserInfoMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	model.addAttribute("windowId", windowId);
+    	ComDefaultCodeVO vo = new ComDefaultCodeVO();
+
+        //패스워드힌트목록을 코드정보로부터 조회
+        vo.setCodeId("COM022");
+        List passwordHint_result = cmmUseService.selectCmmCodeDetail(vo);
+        //성별구분코드를 코드정보로부터 조회
+        vo.setCodeId("COM014");
+        List sexdstnCode_result = cmmUseService.selectCmmCodeDetail(vo);
+        //사용자상태코드를 코드정보로부터 조회
+        vo.setCodeId("COM013");
+        List emplyrSttusCode_result = cmmUseService.selectCmmCodeDetail(vo);
+        //소속기관코드를 코드정보로부터 조회 - COM025
+        vo.setCodeId("COM025");
+        List insttCode_result = cmmUseService.selectCmmCodeDetail(vo);
+        //조직정보를 조회 - ORGNZT_ID정보
+        vo.setTableNm("COMTNORGNZTINFO");
+        List orgnztId_result = cmmUseService.selectOgrnztIdDetail(vo);
+        //그룹정보를 조회 - GROUP_ID정보
+        vo.setTableNm("COMTNORGNZTINFO");
+        List groupId_result = cmmUseService.selectGroupIdDetail(vo);
+
+        model.addAttribute("passwordHint_result", passwordHint_result);			// 패스워트힌트목록
+        model.addAttribute("sexdstnCode_result", sexdstnCode_result);			// 성별구분코드목록
+        model.addAttribute("emplyrSttusCode_result", emplyrSttusCode_result);	// 사용자상태코드목록
+        model.addAttribute("insttCode_result", insttCode_result);				// 소속기관코드목록
+        model.addAttribute("orgnztId_result", orgnztId_result);					// 조직정보 목록
+        model.addAttribute("groupId_result", groupId_result);					// 그룹정보 목록
+
+		model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/GamUserInfoMng";
     }
-	
+
     @RequestMapping("/cmmn/selectGamUserInfo.do")
     @ResponseBody Map<String, Object> selectGamUserInfo() throws Exception {
 		Map map = new HashMap();
@@ -62,7 +97,7 @@ public class GamUserInfoMngController {
     	}
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    	
+
         UserManageVO userManageVO = new UserManageVO();
         userManageVO = userManageService.selectUser(loginVO.getUniqId());
 
@@ -70,7 +105,7 @@ public class GamUserInfoMngController {
 
 	        return map;
     }
-    
+
     @RequestMapping(value="/cmmn/popup/gamPopupChgUserPw.do", method=RequestMethod.POST)
     String gamPopupChgUserPw(ModelMap model) throws Exception {
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -81,17 +116,17 @@ public class GamUserInfoMngController {
     	}
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    	
+
     	model.addAttribute("emplyrId", loginVO.getId());
-    	
+
     	return "/ygpa/gam/cmmn/popup/GamPopupChgUserPw";
     }
-    
+
     @RequestMapping(value="/cmmn/popup/gamPopupChgUserPwUpdt.do")
     @ResponseBody Map<String, Object> updatePassword(@RequestParam UserManageVO userManageVO)throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
     	String resultCode = "";
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
     		map.put("resultCode", 1);
@@ -145,7 +180,7 @@ public class GamUserInfoMngController {
 
         return map;
     }
-   
+
     /**
      * 사용자정보를 수정한다.
      * @param userManageVO
@@ -157,7 +192,7 @@ public class GamUserInfoMngController {
     @ResponseBody Map<String, Object> updateUser(@ModelAttribute("userManageUpdateVO") UserManageUpdateVO userManageUpdateVO,BindingResult bindingResult)throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
     	String resultCode = "";
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
     		map.put("resultCode", 1);
@@ -166,7 +201,7 @@ public class GamUserInfoMngController {
     	}
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		userManageUpdateVO.setUniqId(loginVO.getUniqId());
 
         beanValidator.validate(userManageUpdateVO, bindingResult);

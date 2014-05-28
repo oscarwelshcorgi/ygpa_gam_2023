@@ -35,6 +35,8 @@
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.sidr.light.css'/>">
 
+<link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlxgrid.css'/>">
+<link rel="stylesheet" href="<c:url value='/js/codebase/skins/dhtmlxgrid_dhx_skyblue.css'/>">
 <link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlxtree.css'/>">
 
 <%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
@@ -61,6 +63,8 @@
 	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
 
     <script src="<c:url value='/js/codebase/dhtmlxcommon.js'/>"></script>
+    <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
+    <script src="<c:url value='/js/codebase/dhtmlxgridcell.js'/>"></script>
     <script src="<c:url value='/js/codebase/dhtmlxtree.js'/>"></script>
     <script src="<c:url value='/js/codebase/ext/dhtmlxtree_json.js'/>"></script>
 
