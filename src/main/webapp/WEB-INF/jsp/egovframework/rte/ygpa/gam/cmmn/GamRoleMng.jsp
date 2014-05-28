@@ -27,7 +27,7 @@ function GamRoleMngModule() {
 	this._cmd='';
 }
 
-GamRoleMngModule.prototype = new EmdModule(840, 530);
+GamRoleMngModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamRoleMngModule.prototype.loadComplete = function() {
@@ -38,20 +38,21 @@ GamRoleMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/sec/gmt/selectRoleList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"선택", 		name:"delYn",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
-					{display:"롤 ID", 	name:"roleId",		width:200, 	sortable:false,		align:"center"},
-					{display:"롤 명", 	name:"roleNm",		width:180, 	sortable:false,		align:"center"},
-					{display:"롤 타입", 	name:"roleTyp",		width:80, 	sortable:false,		align:"center"},
-					{display:"롤 Sort", 	name:"roleSort",		width:80, 	sortable:false,		align:"center"},
-					{display:"롤 설명", 	name:"roleDc",	width:180, 	sortable:false,		align:"center"},
-					{display:"등록일자", 		name:"roleCreatDe",	width:100, 	sortable:false,		align:"center"}
+					{display:"선택", 		name:"delYn",		width:30, 	sortable:false,		align:"center", displayFormat:"checkbox"},
+					{display:"롤 ID", 	name:"roleCode",	width:100, 	sortable:false,		align:"center"},
+					{display:"롤명", 		name:"roleNm",		width:150, 	sortable:false,		align:"left"},
+					{display:"롤타입", 	name:"roleTyp",		width:50, 	sortable:false,		align:"center"},
+					{display:"롤 Sort", 	name:"roleSort",	width:50, 	sortable:false,		align:"center"},
+					{display:"롤설명", 	name:"roleDc",		width:180, 	sortable:false,		align:"left"},
+					{display:"등록일자", 	name:"roleCreatDe",	width:80, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 20,
-		showTableToggleBtn: false,
-		width: "730",
-		height: "300",
+		//usepager: true,
+		//useRp: true,
+		//rp: 20,
+		//showTableToggleBtn: false,
+		//width: "730",
+		//height: "300",
+		height: "auto",
 		preProcess: function(module, data){
 			for(var i=0; i<data.length; i++) {
 				data[i].delYn=false;
@@ -78,6 +79,7 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#roleMngForm");
+			this.$("#roleMngListTab").tabs("option", {active: 0});
 		 	this.$("#roleMngList").flexOptions({params:searchOpt}).flexReload();
 		 	//throw 0;
 		break;
@@ -184,57 +186,57 @@ var module_instance = new GamRoleMngModule();
 			<li><a href="#tabs1" class="emdTab">롤 목록</a></li>
 			<li><a href="#tabs2" class="emdTab">롤 상세</a></li>
 		</ul>
-		<div id="tabs1" class="emdTabPage fillHeight">
-			<table id="roleMngList" style="display:none"></table>
+		<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+			<table id="roleMngList" style="display:none" class="fillHeight"></table>
 			<div class="emdControlPanel">
 				<button id="addBtn">등록</button>
 				<button id="deleteBtn">삭제</button>
 			</div>
 		</div>
-				<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
-				<form id="roleManage">
-					<table class="detailForm">
-						<colgroup>
-							<col width="30%" />
-							<col />
-							<col width="30%" />
-							<col />
-						</colgroup>
-						  <tr>
-							    <th width="20%" scope="row"  nowrap="nowrap">롤  코드</th>
-							    <td nowrap="nowrap"><input name="roleCode" id="roleCode" type="text" size="30" title="롤 코드" readonly="readonly" /></td>
-							  </tr>
-							  <tr>
-							    <th width="20%" scope="row"  nowrap="nowrap">롤 명</th>
-							    <td nowrap="nowrap"><input name="roleNm" id="roleNm" data-role="required" type="text" maxLength="50" size="30" title="롤명"/>&nbsp;<span data-role="errors" data-column-id="roleNm" ></span></td>
-							  </tr>
-							  <tr>
-							    <th width="20%" scope="row"  nowrap="nowrap">롤 패턴</th>
-							    <td nowrap="nowrap"><input name="rolePtn" id="rolePtn" data-role="required" type="text" maxLength="200" size="50" title="롤패턴"/>&nbsp;<span data-role="errors" data-column-id="rolePtn" ></span></td>
-							  </tr>
-							  <tr>
-							    <th width="20%" scope="row"  nowrap="nowrap">설명</th>
-							    <td nowrap="nowrap"><input name="roleDc" id="roleDc" type="text" maxLength="50" size="50" title="설명"/></td>
-							  </tr>
-							  <tr>
-							    <th width="20%" scope="row"  nowrap="nowrap">롤 타입</th>
-							    <td nowrap="nowrap">
-							      <input class="ygpaCmmnCd" data-role="required" data-code-id="COM029" data-column-id="roleTyp" title="롤타입" data-default-prompt="롤 타입 선택" />&nbsp;<span data-role="errors" data-column-id="roleTyp" ></span>
-							   </td>
-							  </tr>
-							  <tr>
-							    <th class="required_text" width="20%" scope="row"  nowrap="nowrap">롤 Sort</th>
-							    <td nowrap="nowrap"><input name="roleSort" id="roleSort" type="text" value="<c:out value='${roleManage.roleSort}'/>" maxLength="10" size="10" title="롤sort"/></td>
-							  </tr>
-							  <tr>
-							    <th class="required_text" width="20%" scope="row"  nowrap="nowrap">등록일자</th>
-							    <td nowrap="nowrap"><input name="roleCreatDe" id="roleCreatDe" type="text" value="<c:out value='${roleManage.roleCreatDe}'/>" maxLength="50" size="20" readonly="readonly" title="등록일자"/></td>
-							  </tr>
-					</table>
-				</form>
-				<div class="emdControlPanel">
-					<button id="saveBtn">저장</button>
-				</div>
+		<div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;">
+			<form id="roleManage">
+				<table class="searchPanel editForm">
+					<colgroup>
+						<col width="20%" />
+						<col />
+						<col width="20%" />
+						<col />
+					</colgroup>
+					<tr>
+						<th width="20%" height="23">롤코드</th>
+						<td><input name="roleCode" id="roleCode" type="text" size="90" title="롤 코드" readonly="readonly" /></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23">롤명</th>
+						<td><input name="roleNm" id="roleNm" data-role="required" type="text" maxLength="50" size="90" title="롤명"/>&nbsp;<span data-role="errors" data-column-id="roleNm" ></span></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23">롤패턴</th>
+						<td><input name="rolePtn" id="rolePtn" data-role="required" type="text" maxLength="200" size="90" title="롤패턴"/>&nbsp;<span data-role="errors" data-column-id="rolePtn" ></span></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23">설명</th>
+						<td><input name="roleDc" id="roleDc" type="text" maxLength="50" size="90" title="설명"/></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23">롤타입</th>
+						<td>
+							<input class="ygpaCmmnCd" data-role="required" data-code-id="COM029" data-column-id="roleTyp" title="롤타입" data-default-prompt="롤 타입 선택" />&nbsp;<span data-role="errors" data-column-id="roleTyp" ></span>
+						</td>
+					</tr>
+					<tr>
+						<th class="required_text" width="20%" height="23">롤 Sort</th>
+						<td><input name="roleSort" id="roleSort" type="text" value="<c:out value='${roleManage.roleSort}'/>" maxLength="10" size="90" title="롤sort"/></td>
+					</tr>
+					<tr>
+						<th class="required_text" width="20%" height="23">등록일자</th>
+						<td><input name="roleCreatDe" id="roleCreatDe" type="text" value="<c:out value='${roleManage.roleCreatDe}'/>" maxLength="50" size="90" readonly="readonly" title="등록일자"/></td>
+					</tr>
+				</table>
+			</form>
+			<div class="emdControlPanel">
+				<button id="saveBtn">저장</button>
 			</div>
+		</div>
 	</div>
 </div>

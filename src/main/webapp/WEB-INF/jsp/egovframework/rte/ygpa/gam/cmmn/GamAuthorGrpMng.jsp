@@ -49,7 +49,8 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 					{display:"권한", 		name:"authorCode",	width:200, 	sortable:false,		align:"center", displayFormat:"select", displayOption:dOption},
 					{display:"등록여부", 	name:"regYn",		width:60, 	sortable:false,		align:"center"}
 					],
-		height: "380",
+		//height: "380",
+		height: "auto",
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.authorGroup={authorCode: this.authorCode};
@@ -212,7 +213,7 @@ var module_instance = new GamAuthorGrpMngModule();
 		</ul>
  -->
  		<div id="tabs1" class="emdPanel fillHeight">
-			<table id="authorGrpMngList" style="display:none"></table>
+			<table id="authorGrpMngList" style="display:none" class="fillHeight"></table>
 			<div class="emdControlPanel">
 <!-- 				<button id="btnAddAuthor" class="buttonAdd">권한 추가</button> -->
  				<button id="saveBtn" class="buttonSave"><span class="ui-icon-save"></span>권한그룹 등록</button>

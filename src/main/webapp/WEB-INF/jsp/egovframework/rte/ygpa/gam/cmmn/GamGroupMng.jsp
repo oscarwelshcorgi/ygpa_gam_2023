@@ -27,7 +27,7 @@ function GamAuthorGrpMngModule() {
 	this._cmd='';
 }
 
-GamAuthorGrpMngModule.prototype = new EmdModule(840, 530);
+GamAuthorGrpMngModule.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAuthorGrpMngModule.prototype.loadComplete = function() {
@@ -38,18 +38,19 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 		url: '<c:url value="/sec/gmt/selectGroupList.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"선택", 		name:"delYn",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
-					{display:"그룹 ID", 	name:"groupId",		width:200, 	sortable:false,		align:"center"},
-					{display:"그룹 명", 	name:"groupNm",		width:180, 	sortable:false,		align:"center"},
-					{display:"설명", 	name:"groupDc",	width:180, 	sortable:false,		align:"center"},
-					{display:"등록일자", 		name:"groupCreatDe",	width:100, 	sortable:false,		align:"center"}
+					{display:"선택", 		name:"delYn",			width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
+					{display:"그룹 ID", 	name:"groupId",			width:200, 	sortable:false,		align:"center"},
+					{display:"그룹명", 	name:"groupNm",			width:180, 	sortable:false,		align:"left"},
+					{display:"설명",	 	name:"groupDc",			width:180, 	sortable:false,		align:"left"},
+					{display:"등록일자", 	name:"groupCreatDe",	width:100, 	sortable:false,		align:"center"}
 					],
-		usepager: true,
-		useRp: true,
-		rp: 20,
-		showTableToggleBtn: false,
-		width: "730",
-		height: "300",
+		//usepager: true,
+		//useRp: true,
+		//rp: 20,
+		//showTableToggleBtn: false,
+		//width: "730",
+		//height: "300",
+		height: "auto",
 		preProcess: function(module, data){
 			for(var i=0; i<data.length; i++) {
 				data[i].delYn=false;
@@ -83,6 +84,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 		// 조회
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#groupMngForm");
+			this.$("#groupMngListTab").tabs("option", {active: 0});
 		 	this.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();
 		 	//throw 0;
 		break;
@@ -188,45 +190,45 @@ var module_instance = new GamAuthorGrpMngModule();
 			<li><a href="#tabs1" class="emdTab">그룹목록</a></li>
 			<li><a href="#tabs2" class="emdTab">그룹상세</a></li>
 		</ul>
-		<div id="tabs1" class="emdTabPage fillHeight">
-			<table id="groupMngList" style="display:none"></table>
+		<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+			<table id="groupMngList" style="display:none" class="fillHeight"></table>
 			<div class="emdControlPanel">
 				<button id="addBtn">등록</button>
 				<button id="deleteBtn">삭제</button>
 			</div>
 		</div>
-				<div id="tabs2" class="emdTabPage fillHeight" style="overflow: scroll;">
-				<form id="groupManage">
-					<table class="searchPanel editForm">
-						<colgroup>
-							<col width="30%" />
-							<col />
-							<col width="30%" />
-							<col />
-						</colgroup>
-						<tr>
-							<th width="20%" height="23" class="required_text">그룹 ID</th>
-							<td><input type="text" size="25" id="groupId" disabled="disabled"/></td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">그룹명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="25" id="groupNm"/></td>
-						</tr>
-						<tr>
-							<th width="20%" height="23" class="required_text">설명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
-							<td><input type="text" size="40" id="groupDc"/>
-							</td>
-						</tr>
-						<tr>
-							<th width="20%" height="23">등록일자</th>
-							<td><input type="text" size="20" id="groupCreatDe" disabled="disabled"/>
-							</td>
-						</tr>
-					</table>
-				</form>
-				<div class="emdControlPanel">
-					<button id="saveBtn">저장</button>
-				</div>
+		<div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;">
+			<form id="groupManage">
+				<table class="searchPanel editForm">
+					<colgroup>
+						<col width="20%" />
+						<col />
+						<col width="20%" />
+						<col />
+					</colgroup>
+					<tr>
+						<th width="20%" height="23" class="required_text">그룹 ID</th>
+						<td><input type="text" size="95" id="groupId" disabled="disabled"/></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23" class="required_text">그룹명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+						<td><input type="text" size="95" id="groupNm"/></td>
+					</tr>
+					<tr>
+						<th width="20%" height="23" class="required_text">설명<img src="<c:url value='/images/egovframework/com/cmm/icon/required.gif' />" width="15" height="15" alt="필수입력표시" /></th>
+						<td><input type="text" size="95" id="groupDc"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%" height="23">등록일자</th>
+						<td><input type="text" size="95" id="groupCreatDe" disabled="disabled"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="emdControlPanel">
+				<button id="saveBtn">저장</button>
 			</div>
+		</div>
 	</div>
 </div>

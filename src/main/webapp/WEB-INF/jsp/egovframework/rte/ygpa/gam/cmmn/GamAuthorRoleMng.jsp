@@ -42,11 +42,11 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
                     {display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
-					{display:"롤 ID", 		name:"roleCode",	width:100, 	sortable:false,		align:"center"},
-					{display:"롤 명", 		name:"roleNm",		width:120, 	sortable:false,		align:"left"},
-					{display:"롤 타입", 		name:"roleTyp",		width:40, 	sortable:false,		align:"center"},
-					{display:"롤 Sort", 		name:"roleSort",	width:50, 	sortable:false,		align:"center"},
-					{display:"롤 설명", 		name:"roleDc",		width:190, 	sortable:false,		align:"left"},
+					{display:"롤 ID", 	name:"roleCode",	width:100, 	sortable:false,		align:"center"},
+					{display:"롤명", 		name:"roleNm",		width:120, 	sortable:false,		align:"left"},
+					{display:"롤타입", 	name:"roleTyp",		width:40, 	sortable:false,		align:"center"},
+					{display:"롤 Sort", 	name:"roleSort",	width:50, 	sortable:false,		align:"center"},
+					{display:"롤설명", 	name:"roleDc",		width:190, 	sortable:false,		align:"left"},
 					{display:"등록일자", 	name:"creatDt",		width:80, 	sortable:false,		align:"center"},
 					{display:'등록여부', 	name:'regYn',		width:60, 	sortable:false,		align:'center', 	displayFormat:'select', displayOption: nyOption}
 					],

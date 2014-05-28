@@ -375,7 +375,7 @@ var module_instance = new GamUserMngListModule();
 					<input type="hidden" id="cmd"/>
 					<input type="hidden" id="checkId"/>
 					<input type="hidden" id="uniqId" />
-					<table class="editForm">
+					<table class="editForm" style="width:100%;">
 			            <tr>
 			                <th width="15%" height="23">사용자 아아디</th>
 			                <td colspan="3">
@@ -455,7 +455,7 @@ var module_instance = new GamUserMngListModule();
 			                    우편번호
 			                </th>
 			                <td width="35%" >
-			                    <input id="zip" type="text" title="우편번호" size="27" disabled="disabled"/>&nbsp;&nbsp;
+			                    <input id="zip" type="text" title="우편번호" size="26" disabled="disabled"/>&nbsp;&nbsp;
 			                    <button id="searchZipBtn">우편번호 검색</button>
 			                </td>
 			            </tr>
