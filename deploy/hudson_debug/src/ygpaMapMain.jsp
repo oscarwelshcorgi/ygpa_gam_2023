@@ -69,7 +69,7 @@
     <script type="text/javascript">
 
        jQuery(document).ready(function() {
-    	   EMD.go("${pageContext.request.contextPath}", "${pageContext.request.scheme}://${pageContext.request.serverName}");
+    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
 
 
