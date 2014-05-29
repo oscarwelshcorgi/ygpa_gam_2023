@@ -45,6 +45,7 @@ public class GamAuthorRoleMngController {
 	@RequestMapping(value="/cmmn/gamAuthorRoleMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	AuthorManageVO authorManageVO = new AuthorManageVO();
+    	authorManageVO.setRecordCountPerPage(9999);
     	List<AuthorManageVO> AuthorList = egovAuthorManageService.selectAuthorList(authorManageVO);
     	model.addAttribute("windowId", windowId);
     	model.addAttribute("authorlist", AuthorList);
