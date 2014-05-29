@@ -104,7 +104,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		var selectRowCnt = event.data.module.$('#olnlpMngtList').selectedRowCount();
 		if(selectRowCnt==1) event.data.module._edited=true;
 		if(event.data.module.$('#beginDt').is(event.target)) {
-			var bDt = EMD.util.trToDate(event.data.module.$('#beginDt').val());
+			var bDt = EMD.util.strToDate(event.data.module.$('#beginDt').val());
 			var eDt = EMD.util.addMonths(bDt, 12);
 			event.data.module.$('#endDt').val(EMD.util.getDate(eDt));
 		}
