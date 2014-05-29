@@ -68,19 +68,19 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#totalNticAmt').val(data.totalNticAmt);
+            module.$('#totalResultCnt').text(data.totalCount);
+            module.$('#totalNticAmt').text(data.totalNticAmt);
             return data;
         }
     });
 
-    
+
 
     this.$("#prtFcltyNticArrvlDtaInqireList").on('onItemSelected', function(event, module, row, grid, param) {
-        
+
     });
 
-    
+
 
     this.$("#prtFcltyNticArrvlDtaInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#prtFcltyNticArrvlDtaInqireListTab").tabs("option", {active: 1});
@@ -93,15 +93,9 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
 
     });
 
-
     //로드될 때 사용기간에 오늘날짜 처리
- 	var today = new Date();
- 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
- 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
- 	var sToday = today.getFullYear() + '-' + month + '-' + date;
-    
-    this.$('#sGrUsagePdFrom').val(sToday);
-    this.$('#sGrUsagePdTo').val(sToday);
+    this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+    this.$('#sGrUsagePdTo').val(EMD.util.getDate(EMD.util.addDates(20)));
 };
 
 GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadRentList = function() {
@@ -126,7 +120,7 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	this.doAction('<c:url value="/oper/gnrl/gamSelectPrtFcltyNticArrvlDtaInqireDetailList.do" />', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
-			
+
 			module.makeMultiDivValues('#prtFcltyNticArrvlDtaInqireDetailForm',result.resultList , function(row) {
 			} );	// 리스트 값을 채운다
 		} else {
@@ -147,23 +141,23 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
     switch(buttonId) {
 
         // 조회
-        case 'searchBtn':            
+        case 'searchBtn':
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("고지도래기간(시작일)을 선택하십시오.");
             	return;
             }
-            
+
             if( this.$('#sGrUsagePdTo').val() == '' ) {
                 alert("고지도래기간(종료일)을 선택하십시오.");
                 return;
             }
-            
+
             this.loadRentList();
 
             break;
 
-        
-        
+
+
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             /*
             var opts = {
@@ -177,7 +171,22 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-            
+        case 'openRentFee':	// 사용료 관리 화면을 호출 한다.
+	        if(this.$('#prtFcltyNticArrvlDtaInqireList').selectedRowCount()==1) {
+	         	var row = this.$('#prtFcltyNticArrvlDtaInqireList').selectedRows()[0];
+
+	        	var params = {
+	        	               'prtAtCode': row.prtAtCode,
+	        	               'mngYear': row.mngYear,
+	        	               'mngNo': row.mngNo,
+	        	               'mngCnt': row.mngCnt,
+	        	               'nticno': row.nticno
+	        	               };
+
+	        	EMD.util.create_window('항만시설사용료관리', EMD.context_root+'/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	    	}
+	        else alert('고지내역을 선택 하십시요.')
+			break;
     }
 };
 
@@ -272,8 +281,8 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                             <td width="100px">
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
                             </td>
-                            
-                            <!-- 
+
+                            <!--
                             <th>승낙구분</th>
                             <td>
                                 <select id="sPrmisnYn">
@@ -283,27 +292,31 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                                 </select>
                             </td>
                             -->
-                            
+
                             <th>고지도래기간</th>
                             <td>
-                            <input id="sGrUsagePdFrom" type="text" class="emdcal"
+<%--                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
+ --%>
+                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                                size="8" readonly> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8" readonly>
                             </td>
 
                             <th>요금종류</th>
                             <td>
                             <input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
-                           <!--  
-                                <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp; 
-                                <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
+                           <!--
+                                <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp;
+                                <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp;
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             -->
-                                
+
                             </td>
-                            
-                            
-                            <!-- 
+
+
+                            <!--
                             <th>총면적</th>
                             <td>
                                 <input id="sGrAr" type="text" size="5">
@@ -333,9 +346,10 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="20%" height="23">자료수</th>
-								<td><input type="text" size="30" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="20%" height="23">고지금액</th>
-								<td><input type="text" size="50" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="20" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><button id="openRentFee">사용료관리</button></td>
 							</tr>
 						</table>
 					</form>
@@ -359,13 +373,13 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                             <tr>
 								<th width="15%" height="23">항코드/담당부서</th>
 								<td>
-									<span id="prtAtCode"></span>&nbsp;-&nbsp; 
+									<span id="prtAtCode"></span>&nbsp;-&nbsp;
 									<span id="prtAtCodeNm"></span>&nbsp;／&nbsp;
 									<span id="deptcdNm"></span>
 								</td>
 								<th width="15%" height="23">납부방법/고지방법</th>
 								<td>
-									<span id="payMthNm"></span>&nbsp;／&nbsp; 
+									<span id="payMthNm"></span>&nbsp;／&nbsp;
 									<span id="nticMthNm"></span>
 								</td>
                             </tr>
@@ -378,7 +392,7 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
 								</td>
 								<th width="15%" height="23">신청업체</th>
 								<td>
-									<span id="entrpscd"></span>&nbsp;-&nbsp; 
+									<span id="entrpscd"></span>&nbsp;-&nbsp;
 									<span id="entrpsNm"></span>
 								</td>
                             </tr>
@@ -397,7 +411,7 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                             <tr>
 								<th width="15%" height="23">총사용기간</th>
 								<td>
-									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp; 
+									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp;
 									<span id="grUsagePdTo"></span>
 								</td>
 								<th width="15%" height="23">총사용면적</th>
@@ -431,7 +445,7 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                         	<tr>
                         		<th width="15%" height="23">항코드</th>
                                 <td>
-                                	<span data-column-id="gisAssetsPrtAtCode"></span> 
+                                	<span data-column-id="gisAssetsPrtAtCode"></span>
                                 	(<span data-column-id="prtAtCodeNm"></span>)
                                 </td>
 								<th width="15%" height="23">자산코드</th>

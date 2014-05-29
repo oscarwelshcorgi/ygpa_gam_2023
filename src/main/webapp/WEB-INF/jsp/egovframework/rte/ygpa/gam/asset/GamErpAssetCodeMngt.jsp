@@ -221,6 +221,8 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		}
  */
 	});
+
+	this.$('#searchStartDt').val(EMD.util.getDate(EMD.util.addMonths(-1)));
 };
 
 // 사용자 설정 함수 추가

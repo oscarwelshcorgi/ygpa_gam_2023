@@ -25,7 +25,7 @@
  */
 function GamPopupAssetRentPrmisnModule() {}
 
-GamPopupAssetRentPrmisnModule.prototype = new EmdPopupModule(320, 100);
+GamPopupAssetRentPrmisnModule.prototype = new EmdPopupModule(340, 100);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupAssetRentPrmisnModule.prototype.loadComplete = function() {
@@ -38,23 +38,23 @@ GamPopupAssetRentPrmisnModule.prototype.loadComplete = function() {
 GamPopupAssetRentPrmisnModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnPrmisnExec':
-		
+
 		if( this.$('#chrgeKnd').val() == '' ) {
             alert("요금종류를 선택하십시오.");
             return;
         }
-		
+
 		if( confirm("승낙 하시겠습니까?") ) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
-	        
-	        //this.doAction('<c:url value="/asset/rent/gamInsertAssetRentPrmisn.do" />', inputVO, function(module, result) {   
-	        this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', inputVO, function(module, result) {   
+
+	        //this.doAction('<c:url value="/asset/rent/gamInsertAssetRentPrmisn.do" />', inputVO, function(module, result) {
+	        this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', inputVO, function(module, result) {
 	            alert(result.resultMsg);
-	            
+
 	            module.closeDialog('ok', result.resultCode);
 	        });
 	    }
-	        
+
 		break;
 	case 'cancel':
 		this.cancelDialog();
@@ -93,9 +93,9 @@ var popup_instance = new GamPopupAssetRentPrmisnModule();
                                 <c:forEach  items="${chrgeKndCdList}" var="chrgeKndCdItem">
 	                                <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
 	                            </c:forEach>
-                            </select>  
+                            </select>
                         </td>
-                        <!-- 
+                        <!--
                         <th>부가세 여부</th>
                         <td>
                             <select id="vatYn">

@@ -1365,7 +1365,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-             this.$('#quayCd').val(value.gisAssetsQuayCd);
+             //this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
 
              this.loadOlnlpList(value);
@@ -1755,12 +1755,12 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">감면사용료</th>
                                 <td><input type="text" size="25" class="calcInput" id="rdcxptFee"/></td>
 								<th width="10%" height="18">사용료</th>
-                                <td><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
-								<th width="10%" height="18">부두코드</th>
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
+<!-- 								<th width="10%" height="18">부두코드</th>
                                 <td>
                                 	<input type="text" id="quayCd" size="10" disabled/>
                                 	<input type="text" id="quayCdNm" size="32" disabled/>
-                                </td>
+                                </td> -->
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>

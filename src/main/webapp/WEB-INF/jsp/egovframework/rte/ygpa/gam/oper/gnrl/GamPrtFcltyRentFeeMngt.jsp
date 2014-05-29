@@ -28,7 +28,7 @@ function GamAssetRentFeeMngtModule() {}
 GamAssetRentFeeMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
+GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
     // 테이블 설정 //
     this.$("#assetRentFeeList").flexigrid({
@@ -81,9 +81,18 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function() {
         module.$("#assetRentFeeListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
     });
 
-    this.$('#sUsagePdFrom').val(EMD.util.getDate());
-    this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
-
+    if(params!=null) {
+    	if(params.action=="selectRentFee") {
+        	this.$('#sPrtAtCode').val(params.nticVo.prtAtCode);
+        	this.$('#sMngYear').val(params.nticVo.mngYear);
+        	this.$('#sMngNo').val(params.nticVo.mngNo);
+        	this.$('#sMngCnt').val(params.nticVo.mngCnt);
+        	this.loadData();
+    	}
+    } else {
+        this.$('#sUsagePdFrom').val(EMD.util.getDate());
+        this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+    }
 };
 
 /**
@@ -403,7 +412,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                             <th>사용시작일자</th>
                             <td>
-                            	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~ 
+                            	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~
                             	<input id="sUsagePdTo" type="text" class="emdcal" size="10">
                             </td>
                         </tr>
@@ -478,9 +487,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                    <div class="emdPanel">
-<!--	                 
+<!--
                    	<h2>시설사용내역</h2>
- -->					
+ -->
                    	<form id="gamAssetRentFeeForm">
                    	<input type="hidden" data-column-id="prtAtCode"/>
                    	<input type="hidden" data-column-id="mngYear"/>
@@ -555,7 +564,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                    		<tr>
                    			<th>비고</th>
                    			<td colspan="7" style="vertical-align:middle;">
-                   				<textarea rows="3" cols="85" data-column-id='rm'></textarea> 
+                   				<textarea rows="3" cols="85" data-column-id='rm'></textarea>
                    				<button id="btnSaveRmk" class="buttonSave">저장</button>
                    			</td>
                  		</tr>
@@ -576,9 +585,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
 						</tr>
 					</tbody>
 					</table>
-<!--	                 
+<!--
 					<h2>전체 사용료 목록</h2>
- -->					
+ -->
                		<table class="detailPanel">
                     	<thead>
                     		<tr>
@@ -624,7 +633,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         </tr>
                     </table>
 				</div>
-<!--	                 
+<!--
 				<div class="emdControlPanel">
 					<button id="btnEApproval2">결재요청</button>
 					<button id="btnExecNticIssue2">고지</button>
@@ -632,7 +641,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 					<button id="btnNticIssuePrint2">고지서출력</button>
 					<button id="btnTaxPrint2">계산서출력</button>
 				</div>
- -->	            
+ -->
 	        </div>
 	    </div>
 	</div>
