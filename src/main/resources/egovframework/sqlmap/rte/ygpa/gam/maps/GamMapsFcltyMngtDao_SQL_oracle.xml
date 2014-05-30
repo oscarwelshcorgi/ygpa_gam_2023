@@ -51,6 +51,8 @@
 				, F.PRT_FCLTY_UNIT
 				, F.LA_CRDNT
 				, F.LO_CRDNT
+				, F.LAT
+				, F.LNG
 				, A.GIS_ASSETS_NM
 				, A.GIS_ASSETS_LOCPLC
 				, A.GIS_ASSETS_LNM
