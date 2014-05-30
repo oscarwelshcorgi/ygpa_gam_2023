@@ -389,5 +389,50 @@ public class GamMarineCenterRentNticMngtController {
 		return map;
     }	
 	
+    /**
+     * 마린센터연체현황관리 목록을 조회한다.
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/center/selectMarineCenterRentNticMngtDlyList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectMarineCenterRentNticMngtDlyList(GamMarineCenterRentNticMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+    	List resultList = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticMngtDlyList(searchVO);
+    	
+    	int totCnt = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticMngtDlyListTotCnt(searchVO);
+    	Map summary = gamMarineCenterRentNticMngtService.selectMarineCenterRentNticMngtDlyListSum(searchVO);
+
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+    	map.put("totCnt", totCnt);
+    	map.put("resultSummary", summary);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
 	
 }

@@ -187,4 +187,28 @@ public class GamMarineCenterRentNticMngtServiceImpl  extends AbstractServiceImpl
 		return gamMarineCenterRentNticMngtDao.selectNticArrrgDetail(searchVO);
 	}
 
+	@Override
+	public List selectMarineCenterRentNticMngtDlyList(GamMarineCenterRentNticMngtVO searchVO) throws Exception {
+        return gamMarineCenterRentNticMngtDao.selectMarineCenterRentNticMngtDlyList(searchVO);
+	}
+	
+	
+	/**change**
+	 * 항만시설연체 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectMarineCenterRentNticMngtDlyListTotCnt(GamMarineCenterRentNticMngtVO searchVO) throws Exception {
+		return gamMarineCenterRentNticMngtDao.selectMarineCenterRentNticMngtDlyListTotCnt(searchVO);
+	}
+    
+	/* (non-Javadoc)change**
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public EgovMap selectMarineCenterRentNticMngtDlyListSum(GamMarineCenterRentNticMngtVO searchVO) throws Exception {
+		return gamMarineCenterRentNticMngtDao.selectMarineCenterRentNticMngtDlyListSum(searchVO);
+	}
+	
 }

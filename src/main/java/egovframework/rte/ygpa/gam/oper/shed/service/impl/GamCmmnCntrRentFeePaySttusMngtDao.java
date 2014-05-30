@@ -108,4 +108,25 @@ public class GamCmmnCntrRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	public void updateRevArrrgAnlrveBndeRcvdTp(Map map) throws Exception {
 		this.update("gamCmmnCntrRentFeePaySttusMngtDao.updateRevArrrgAnlrveBndeRcvdTp", map);
 	}
+	
+	public List selectCmmnCntrRentFeePaySttusMngtDlyList(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
+        return list("gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtDlyList_D", searchVO);
+    }
+	
+	
+	/** change**
+	 * 항만시설납부현황관리 목록 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설납부현황관리 목록 총 갯수
+	 * @exception
+	 */
+    public int selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt(GamCmmnCntrRentFeePaySttusMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt_S", searchVO);
+    }
+    
+    /** change** */
+    public EgovMap selectCmmnCntrRentFeePaySttusMngtDlyListSum(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtDlyListSum_D", searchVO);
+    }
+	
 }

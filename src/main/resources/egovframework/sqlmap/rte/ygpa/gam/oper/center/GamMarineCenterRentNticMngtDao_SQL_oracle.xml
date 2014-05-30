@@ -694,5 +694,159 @@
     <insert id="gamMarineCenterRentNticMngtDao.insertUnpaidArrrg_S" parameterClass="hashMap">
 
     </insert>
+
+    <select id="gamMarineCenterRentNticMngtDao.selectMarineCenterRentNticMngtDlyList_D" parameterClass="gamMarineCenterRentNticMngtVO" resultClass="egovMap">
+			SELECT A.* 
+				  FROM 
+				       (SELECT Z.*, 
+				              ROWNUM AS RNUM 
+				         FROM 
+				              (
+								SELECT 
+									T1.PRT_AT_CODE
+									,T1.FEE_TP
+									,T1.FISCAL_YR
+									,T1.BILL_NO
+									,T1.DLY_SER_NO
+									,T1.AGENT_CODE
+									,T1.BZ_RGST_ID
+									,T1.DLY_BILL_AMNT
+									,TO_CHAR(T1.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
+									,T1.DLY_BILL_PRT_YN
+									,T1.DLY_BILL_RSN
+									,TO_CHAR(T1.DLY_DUE_DT, 'YYYY-MM-DD') AS DLY_DUE_DT
+									,TO_CHAR(T1.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
+									,TO_CHAR(T1.DLY_RCVD_DT, 'YYYY-MM-DD') AS DLY_RCVD_DT
+									,T1.DC_RATE
+									,TO_CHAR(T1.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
+									,TO_CHAR(T1.STR_DATE, 'YYYY-MM-DD') AS STR_DATE
+									,TO_CHAR(T1.END_DATE, 'YYYY-MM-DD') AS END_DATE
+									,T4.PRT_KOR_NM
+									,T3.FEE_TP_KOR_NM
+									,T2.FIRM_KOR_NM
+								FROM 
+									PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
+								LEFT OUTER JOIN 
+									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+								ON 
+									(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
+								LEFT OUTER JOIN 
+									PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+								ON 
+									(
+									T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+									AND T1.FEE_TP=T3.FEE_TP
+									)
+								LEFT OUTER JOIN 
+									P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+								ON 
+									(T1.AGENT_CODE=T2.AGENT_CODE)
+								WHERE 1=1 
+								
+									<isNotEmpty property="prtAtCode">
+					                    AND T1.PRT_AT_CODE = #prtAtCode#
+					                </isNotEmpty>
+					                
+					                <isNotEmpty property="chrgeKnd">
+					                    AND T1.FEE_TP = #chrgeKnd#
+					                </isNotEmpty>
+					                
+					                <isNotEmpty property="accnutYear">
+					                    AND T1.FISCAL_YR = #accnutYear#
+					                </isNotEmpty>
+					                
+					                <isNotEmpty property="nticno">
+					                    AND T1.BILL_NO = #nticno#
+					                </isNotEmpty>
+									
+								ORDER BY 
+									T1.DLY_BILL_DT
+				              )Z 
+				       )A
+				       
+	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    
+    <select id="gamMarineCenterRentNticMngtDao.selectMarineCenterRentNticMngtDlyListTotCnt_S" parameterClass="gamMarineCenterRentNticMngtVO" resultClass="int">
+    
+            SELECT COUNT(*) totcnt
+				FROM 
+					PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
+				LEFT OUTER JOIN 
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+				ON 
+					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
+				LEFT OUTER JOIN 
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+				ON 
+					(
+					T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+					AND T1.FEE_TP=T3.FEE_TP
+					)
+				LEFT OUTER JOIN 
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+				ON 
+					(T1.AGENT_CODE=T2.AGENT_CODE)
+				WHERE 1=1 
+				
+					<isNotEmpty property="prtAtCode">
+	                    AND T1.PRT_AT_CODE = #prtAtCode#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="chrgeKnd">
+	                    AND T1.FEE_TP = #chrgeKnd#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="accnutYear">
+	                    AND T1.FISCAL_YR = #accnutYear#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="nticno">
+	                    AND T1.BILL_NO = #nticno#
+	                </isNotEmpty>
+
+    </select>
+    
+    
+    <select id="gamMarineCenterRentNticMngtDao.selectMarineCenterRentNticMngtDlyListSum_D" parameterClass="gamMarineCenterRentNticMngtVO" resultClass="egovMap">
+            SELECT 
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
+            	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT 
+			FROM 
+					PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
+				LEFT OUTER JOIN 
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
+				ON 
+					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
+				LEFT OUTER JOIN 
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
+				ON 
+					(
+					T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+					AND T1.FEE_TP=T3.FEE_TP
+					)
+				LEFT OUTER JOIN 
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
+				ON 
+					(T1.AGENT_CODE=T2.AGENT_CODE)
+				WHERE 1=1 
+				
+					<isNotEmpty property="prtAtCode">
+	                    AND T1.PRT_AT_CODE = #prtAtCode#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="chrgeKnd">
+	                    AND T1.FEE_TP = #chrgeKnd#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="accnutYear">
+	                    AND T1.FISCAL_YR = #accnutYear#
+	                </isNotEmpty>
+	                
+	                <isNotEmpty property="nticno">
+	                    AND T1.BILL_NO = #nticno#
+	                </isNotEmpty>
+    </select>
      
 </sqlMap>

@@ -390,4 +390,52 @@ public class GamTrainPortRentFeePaySttusMngtController {
 
 		return map;
     }	
+
+    /**
+     * 항만시설연체현황관리 목록을 조회한다.
+     *change**
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/train/selectTrainPortRentFeePaySttusMngtDlyList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectTrainPortRentFeePaySttusMngtDlyList(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+    	List resultList = gamTrainPortRentFeePaySttusMngtService.selectTrainPortRentFeePaySttusMngtDlyList(searchVO);
+    	
+    	int totCnt = gamTrainPortRentFeePaySttusMngtService.selectTrainPortRentFeePaySttusMngtDlyListTotCnt(searchVO);
+    	Map summary = gamTrainPortRentFeePaySttusMngtService.selectTrainPortRentFeePaySttusMngtDlyListSum(searchVO);
+
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+    	map.put("totCnt", totCnt);
+    	map.put("resultSummary", summary);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+    
 }
