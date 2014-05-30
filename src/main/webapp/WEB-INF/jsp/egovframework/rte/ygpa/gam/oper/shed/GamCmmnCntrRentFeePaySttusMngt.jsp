@@ -262,7 +262,10 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId, 
     case 'tabs2':
 		this.loadDetailPage();
         break;
-    }
+	case 'tabs3':
+		this.$("#cmmnCntrRentFeePaySttusMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
+	    break;
+	}
 };
 
 //팝업이 종료 될때 리턴 값이 오출 된다.

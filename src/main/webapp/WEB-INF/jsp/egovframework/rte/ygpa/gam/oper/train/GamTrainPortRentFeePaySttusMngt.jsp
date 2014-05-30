@@ -262,6 +262,9 @@ GamTrainPortRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId,
     case 'tabs2':
 		this.loadDetailPage();
         break;
+	case 'tabs3':
+		this.$("#trainPortRentFeePaySttusMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
+	    break;        
     }
 };
 
