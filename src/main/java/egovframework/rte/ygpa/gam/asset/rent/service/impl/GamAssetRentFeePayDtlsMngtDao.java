@@ -115,4 +115,26 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 	public void updateRevArrrgAnlrveBndeRcvdTp(Map map) throws Exception {
 		this.update("gamAssetRentFeePayDtlsMngtDao.updateRevArrrgAnlrveBndeRcvdTp", map);
 	}
+	
+	/** change** */
+	public List selectAssetRentFeePayDtlsMngtDlyList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return list("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyList_D", searchVO);
+    }
+	
+	
+	/** change**
+	 * 자산임대료납부현황관리 목록 총 갯수를 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 항만시설납부현황관리 목록 총 갯수
+	 * @exception
+	 */
+    public int selectAssetRentFeePayDtlsMngtDlyListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListTotCnt_S", searchVO);
+    }
+    
+    /** change** */
+    public EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListSum_D", searchVO);
+    }
+	
 }

@@ -187,4 +187,28 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgDetail(searchVO);
 	}
 
+	@Override
+	public List selectAssetRentFeePayDtlsMngtDlyList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyList(searchVO);
+	}
+	
+	
+	/**change**
+	 * 항만시설연체 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    public int selectAssetRentFeePayDtlsMngtDlyListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListTotCnt(searchVO);
+	}
+    
+	/* (non-Javadoc)change**
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListSum(searchVO);
+	}
+	
 }
