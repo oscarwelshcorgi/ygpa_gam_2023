@@ -174,7 +174,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt }
 	             ];
-	 	this.doAction('<c:url value="/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtDetail.do" />', nticDetail, function(module, result) {
+	 this.doAction('<c:url value="/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtDetail.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
 			module.makeMultiDivValues('#detailPayInfo',result.resultList, function(row) {
@@ -193,6 +193,30 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 				module.makeDivValues('#arrrgDetail', result.resultArrrg); // 결과값을 채운다.
 				module.makeFormValues('#arrrgDetailVO', result.resultArrrg); // 결과값을 폼에 채운다.
 			}
+
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+	 
+	//change**
+	// tabs3 -- 연체목록을 채운다 
+	
+	var dlyList = [
+	               { name: 'prtAtCode', value: row.prtAtCode},
+	               { name: 'chrgeKnd', value: row.chrgeKnd },
+	               { name: 'accnutYear', value: row.accnutYear },
+	               { name: 'nticno', value: row.nticno }
+	             ];
+	this.doAction('<c:url value="/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtDlyList.do" />', dlyList, function(module, result) {
+		if (result.resultCode == "0") {
+			
+			module.makeMultiDivValues('#prtFcltyRentFeePaySttusMngtListForm',result.resultList , function(row) {
+			} );	// 리스트 값을 채운다
+
+			module.makeDivValues('#prtFcltyRentFeePaySttusMngtSum', result.resultSummary); // 결과값을 채운다.
+
+			
 		} else {
 			alert(result.resultMsg);
 		}
@@ -221,7 +245,8 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
 };
 
 GamPrtFcltyRentFeePaySttusMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-	if(newTabId=='tabs2') {
+	//change**
+	if(newTabId=='tabs2' || newTabId=='tabs3') {
 		if(this.$('#prtFcltyRentFeePaySttusMngtList').selectedRowCount()!=1) {
 			alert('상세 내역을 조회 할 납부 항목을 선택 하세요.');
 			return false;
@@ -238,7 +263,11 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId, 
     case 'tabs2':
 		this.loadDetailPage();
         break;
-    }
+    // change**
+	case 'tabs3':
+		this.$("#prtFcltyRentFeePaySttusMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
+	    break;
+	}
 };
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
@@ -313,8 +342,10 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
             <ul>
                 <li><a href="#tabs1" class="emdTab">항만시설사용료납부현황 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">항만시설사용료납부현황 상세</a></li>
+                <!-- change** -->
+                <li><a href="#tabs3" class="emdTab">항만시설사용료연체현황 목록</a></li>
             </ul>
-
+			
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="prtFcltyRentFeePaySttusMngtList" style="display:none" class="fillHeight"></table>
                 <div id="prtFcltyRentFeePaySttusMngtListSum" class="emdControlPanel">
@@ -475,6 +506,79 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                         </tr>
                     </table>
 			</div>
+			<!-- change** --> 
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+
+                <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
+                    <form id="prtFcltyRentFeePaySttusMngtListForm">
+                        <table class="detailForm"  style="width:100%;">
+                            <tr>
+                                <th width="16%">항코드</th>
+                                <td><span id="prtAtCode" ></span></td>
+                                <th width="16%">항코드명</th>
+                                <td><span id="prtKorNm" ></span></td>
+                                <th width="16%">회계년도</th>
+                                <td><span id="fiscalYr" ></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">요금종류</th>
+                                <td><span id="feeTp" ></span></td>
+                                <th width="16%">요금종류명</th>
+                                <td><span id="feeTpKorNm" ></span></td>
+                                <th width="16%">고지번호</th>
+                                <td><span id="billNo" ></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">업체코드</th>
+                                <td><span id="agentCode" ></span></td>
+                                <th width="16%">업체명</th>
+                                <td><span id="firmKorNm" ></span></td>
+                                <th width="16%">연체횟수</th>
+                                <td><span id="dlySerNo" class="ygpaNumber" style="text-align:right;"></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">연체고지금액</th>
+                                <td><span id="dlyBillAmnt" class="ygpaNumber" style="text-align:right;"></span></td>
+                                <th width="16%">연체고지일자</th>
+                                <td><span id="dlyBillDt" ></span></td>
+                                <th width="16%">연체고지서발부여부</th>
+                                <td><span id="dlyBillPrtYn" ></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">사업자등록번호</th>
+                                <td><span id="bzRgstId" ></span></td>
+                                <th width="16%">산출내역</th>
+                                <td><span id="dlyBillRsn" ></span></td>
+                                <th width="16%">연체납부기한</th>
+                                <td><span id="dlyDueDt" ></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">최초고지일자</th>
+                                <td><span id="firstBillDt" ></span></td>
+                                <th width="16%">연체수납일자</th>
+                                <td><span id="dlyRcvdDt" ></span></td>
+                                <th width="16%">할인율코드</th>
+                                <td><span id="dcRate" ></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">금융기관수납일자</th>
+                                <td><span id="recptEpdt" ></span></td>
+                                <th width="16%">시작일자</th>
+                                <td><span id="strDate" ></span></td>
+                                <th width="16%">종료일자</th>
+                                <td><span id="endDate" ></span></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <table style="width:100%;" id="prtFcltyRentFeePaySttusMngtSum" class="summaryPanel">
+						<tr>
+							<th width="30%" height="23">자료수</th>
+							<td><span id="dpTotCnt" class="ygpaNumber" style="text-align:right;"></span></td>
+							<th width="30%" height="23">연체고지금액합계</th>
+							<td><span id="sumDlyBillAmnt" class="ygpaNumber" style="text-align:right;"></span></td>
+						</tr>
+					</table>
+            </div>
         </div>
     </div>
 </div>
