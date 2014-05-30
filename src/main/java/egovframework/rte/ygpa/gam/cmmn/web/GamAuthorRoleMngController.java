@@ -27,10 +27,10 @@ public class GamAuthorRoleMngController {
 
 	@Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-	
+
 	@Resource(name = "egovAuthorRoleManageService")
     private EgovAuthorRoleManageService egovAuthorRoleManageService;
-	
+
 	@Resource(name = "egovAuthorManageService")
     private EgovAuthorManageService egovAuthorManageService;
 
@@ -45,14 +45,15 @@ public class GamAuthorRoleMngController {
 	@RequestMapping(value="/cmmn/gamAuthorRoleMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	AuthorManageVO authorManageVO = new AuthorManageVO();
+    	authorManageVO.setFirstIndex(0);
     	authorManageVO.setRecordCountPerPage(9999);
     	List<AuthorManageVO> AuthorList = egovAuthorManageService.selectAuthorList(authorManageVO);
     	model.addAttribute("windowId", windowId);
     	model.addAttribute("authorlist", AuthorList);
     	return "/ygpa/gam/cmmn/GamAuthorRoleMng";
     }
-	
-	
+
+
 	/**
 	 * 권한별 할당된 롤 목록 조회
 	 * @param authorRoleManageVO AuthorRoleManageVO
@@ -63,7 +64,7 @@ public class GamAuthorRoleMngController {
     @ResponseBody Map<String, Object> selectAuthorRoleList(@ModelAttribute("authorRoleManageVO") AuthorRoleManageVO authorRoleManageVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -71,19 +72,19 @@ public class GamAuthorRoleMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-		
+
     	/** paging */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(authorRoleManageVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(authorRoleManageVO.getPageUnit());
 		paginationInfo.setPageSize(authorRoleManageVO.getPageSize());
-		
+
 		authorRoleManageVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		authorRoleManageVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		authorRoleManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		/** List Data */
-		List<AuthorRoleManageVO> authorRoleList = egovAuthorRoleManageService.selectAuthorRoleList(authorRoleManageVO); 
+		List<AuthorRoleManageVO> authorRoleList = egovAuthorRoleManageService.selectAuthorRoleList(authorRoleManageVO);
         int totCnt = egovAuthorRoleManageService.selectAuthorRoleListTotCnt(authorRoleManageVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
@@ -96,8 +97,8 @@ public class GamAuthorRoleMngController {
 
     	return map;
 	}
-	
-	
+
+
 	/**
 	 * 권한정보에 롤을 할당하여 데이터베이스에 등록
 	 * @param authorCode
@@ -112,7 +113,7 @@ public class GamAuthorRoleMngController {
 			                       @RequestParam("regYns") String regYns,@ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -120,13 +121,13 @@ public class GamAuthorRoleMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-		
+
     	String [] strRoleCodes = roleCodes.split(";");
     	String [] strRegYns = regYns.split(";");
-    	
-    	
+
+
     	authorRoleManage.setRoleCode(authorCode);
-    	
+
     	for(int i=0; i<strRoleCodes.length;i++) {
     		authorRoleManage.setRoleCode(strRoleCodes[i]);
     		authorRoleManage.setRegYn(strRegYns[i]);
@@ -139,8 +140,8 @@ public class GamAuthorRoleMngController {
     		}
     	}
 
-    	map.put("resultCode", 0);		
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));		
+    	map.put("resultCode", 0);
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		return map;
 	}
 }
