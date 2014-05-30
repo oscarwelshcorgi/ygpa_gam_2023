@@ -121,5 +121,34 @@ public interface GamHtldRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
+	
+	
+	
+	
+	/** change**
+     * 납부관리 연체 내역을 조회한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
+    
+    
+    /** change**
+	 * 항만시설 연체 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectHtldRentFeePaySttusMngtDlyListTotCnt(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
+	
+	
+	/** change**
+	 * 연체 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectHtldRentFeePaySttusMngtDlyListSum(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
     
 }

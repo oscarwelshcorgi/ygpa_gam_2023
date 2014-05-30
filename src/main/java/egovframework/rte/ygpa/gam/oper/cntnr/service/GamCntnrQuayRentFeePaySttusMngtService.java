@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 
 
 /**
@@ -123,5 +124,33 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
+	
+	
+	
+	/** change**
+     * 납부관리 연체 내역을 조회한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectCntnrQuayRentFeePaySttusMngtDlyList(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+    
+    
+    /** change**
+	 * 항만시설 연체 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectCntnrQuayRentFeePaySttusMngtDlyListTotCnt(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
+	
+	
+	/** change**
+	 * 연체 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCntnrQuayRentFeePaySttusMngtDlyListSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
     
 }

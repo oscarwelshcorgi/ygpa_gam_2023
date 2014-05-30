@@ -29,6 +29,7 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 
 
 /**
@@ -397,6 +398,54 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
 
 		return map;
+    }
+    
+    
+    /**
+     * 항만시설연체현황관리 목록을 조회한다.
+     *change**
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/selectCntnrQuayRentFeePaySttusMngtListDlyList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectCntnrQuayRentFeePaySttusMngtDlyList(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+    	List resultList = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyList(searchVO);
+    	
+    	int totCnt = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyListTotCnt(searchVO);
+    	Map summary = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyListSum(searchVO);
+
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+    	map.put("totCnt", totCnt);
+    	map.put("resultSummary", summary);
+    	map.put("searchOption", searchVO);
+
+    	return map;
     }
 	
 }
