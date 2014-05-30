@@ -71,7 +71,7 @@
     <script type="text/javascript">
 
        jQuery(document).ready(function() {
-    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "${pageContext.request.scheme}://${pageContext.request.serverName}");
+    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
 
     </script>

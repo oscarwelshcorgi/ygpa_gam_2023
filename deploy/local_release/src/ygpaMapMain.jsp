@@ -73,7 +73,7 @@
     Proj4js.libPath = "<c:url value='/js/Proj4js/'/>";
 
        jQuery(document).ready(function() {
-    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "${pageContext.request.scheme}://${pageContext.request.serverName}");
+    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://lfitsvr.iptime.org:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
 
 
