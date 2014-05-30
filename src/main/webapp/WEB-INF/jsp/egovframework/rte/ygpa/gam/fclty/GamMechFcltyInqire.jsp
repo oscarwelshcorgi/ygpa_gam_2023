@@ -55,14 +55,14 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
-		
+
 		module.makeDivValues('#fcltyManageVO', row); // 결과값을 채운다.
 		module.$("#fcltyManageVO :input").val("");
 		module.makeFormValues("#fcltyManageVO", row);
 		module.getFormValues("#fcltyManageVO", row);
 		module.$("#fcltyMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
-		var searchOpt = 
+		var searchOpt =
         [
          {	name: 'gisPrtFcltyCd' , value: module.$("#gisPrtFcltyCd").text()},
          {	name: 'gisPrtFcltySeq' , value: module.$("#gisPrtFcltySeq").text()},
@@ -72,7 +72,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
          {	name: 'prtFcltySe' , value:  module.$("#prtFcltySe").text()}
          ];
         module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
-        module._fcltyItem = row; 
+        module._fcltyItem = row;
 	});
 
 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -151,6 +151,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "gotoLocation":	// 위치 조회
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
+				EMD.gis.selectPrtFclty(this._fcltyItem);
+			} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
+				EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
 				EMD.gis.selectPrtFclty(this._fcltyItem);
 			} else {
 				alert("시설위치가 등록되지 않았습니다.");

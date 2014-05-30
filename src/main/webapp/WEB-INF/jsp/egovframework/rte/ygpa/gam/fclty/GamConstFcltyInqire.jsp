@@ -63,7 +63,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		module.getFormValues("#fcltyManageVO", row);
 		module.$("#fcltyMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
-		var searchOpt = 
+		var searchOpt =
         [
          {	name: 'gisPrtFcltyCd' , value: module.$("#gisPrtFcltyCd").text()},
          {	name: 'gisPrtFcltySeq' , value: module.$("#gisPrtFcltySeq").text()},
@@ -73,7 +73,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
          {	name: 'prtFcltySe' , value:  module.$("#prtFcltySe").text()}
          ];
         module.$("#fcltyPhotoList").flexOptions({params:searchOpt}).flexReload();
-        module._fcltyItem = row; 
+        module._fcltyItem = row;
 	});
 
 	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
@@ -222,6 +222,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "gotoLocation":	// 위치 조회
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
+				EMD.gis.selectPrtFclty(this._fcltyItem);
+			} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
+				EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
 				EMD.gis.selectPrtFclty(this._fcltyItem);
 			} else {
 				alert("시설위치가 등록되지 않았습니다.");

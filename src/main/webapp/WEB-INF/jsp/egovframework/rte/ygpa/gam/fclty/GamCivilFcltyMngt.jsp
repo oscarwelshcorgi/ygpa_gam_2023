@@ -339,6 +339,9 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
 				EMD.gis.selectPrtFclty(this._fcltyItem);
+			} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
+				EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
+				EMD.gis.selectPrtFclty(this._fcltyItem);
 			} else {
 				alert("시설위치가 등록되지 않았습니다.");
 			}
