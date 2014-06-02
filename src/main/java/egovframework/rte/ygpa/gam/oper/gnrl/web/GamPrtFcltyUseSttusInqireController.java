@@ -38,88 +38,88 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamPrtFcltyUseSttusInqireController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
-	
+
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-	
+
     @Resource(name = "gamPrtFcltyUseSttusInqireService")
     private GamPrtFcltyUseSttusInqireService gamPrtFcltyUseSttusInqireService;
-    
+
     /**
 	 * 항만시설사용현황조회 화면으로 이동한다.
-	 * 
+	 *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/asset/GamPrtFcltyUseSttusInqireMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
 	 */
 	@RequestMapping(value="/oper/gnrl/gamPrtFcltyUseSttusInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-		//login정보 
+
+		//login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		//공시지가정보
-		List olnlpList = gamPrtFcltyUseSttusInqireService.selectOlnlpInfo();
-		
+//		List olnlpList = gamPrtFcltyUseSttusInqireService.selectOlnlpInfo();
+
 		//코픽스 이자율
 		List cofixList = gamPrtFcltyUseSttusInqireService.selectCofixInfo();
-		
+
 		//현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져와서 해당하는 코픽스 이자율 가져오기.
 		GamPrtFcltyUseSttusInqireVO cofixVO = new GamPrtFcltyUseSttusInqireVO();
 		GamPrtFcltyUseSttusInqireVO cofixResultVO = new GamPrtFcltyUseSttusInqireVO();
-		
-		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6)); 
+
+		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6));
 		cofixVO = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireBeforeQuarterInfo(cofixVO);
-		
+
 		if( cofixVO != null ) {
 			cofixResultVO = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireCofixInfo(cofixVO);
-			
+
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}
-			
+
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrateShow() != null ) {
 				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
 			}
 		}
-		
-		model.addAttribute("olnlpList", olnlpList);
+
+//		model.addAttribute("olnlpList", olnlpList);
 		model.addAttribute("cofixList", cofixList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("windowId", windowId);
-    	
+
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyUseSttusInqire";
     }
 
 	/**
-     * 항만시설사용현황을 조회한다. 
+     * 항만시설사용현황을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/gnrl/selectPrtFcltyUseSttusInqireList.do", method=RequestMethod.POST)
@@ -139,21 +139,21 @@ public class GamPrtFcltyUseSttusInqireController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//항만시설사용현황
     	totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireListTotCnt(searchVO);
     	List resultList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	//총면적, 총사용료
     	GamPrtFcltyUseSttusInqireVO resultSum = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireSum(searchVO);
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -161,16 +161,16 @@ public class GamPrtFcltyUseSttusInqireController {
     	map.put("sumGrAr", resultSum.getSumGrAr());
     	map.put("sumGrFee", resultSum.getSumGrFee());
     	map.put("sumGrRdcxptFee", resultSum.getSumGrRdcxptFee());
-    	
+
     	return map;
     }
-	
+
 	/**
-     * 항만시설사용현황 상세리스트를 조회한다. 
+     * 항만시설사용현황 상세리스트를 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/gnrl/selectPrtFcltyUseSttusInqireDetailList.do", method=RequestMethod.POST)
@@ -178,7 +178,7 @@ public class GamPrtFcltyUseSttusInqireController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -190,11 +190,11 @@ public class GamPrtFcltyUseSttusInqireController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//log.debug("##############################################");
 		//log.debug("### searchVO : " + searchVO);
 		//log.debug("##############################################");
@@ -202,10 +202,10 @@ public class GamPrtFcltyUseSttusInqireController {
 		// 항만시설사용현황 상세리스트 및 총건수
 		totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireDetailListTotCnt(searchVO);
 		List resultList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireDetailList(searchVO);
-		
+
 		paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -215,11 +215,11 @@ public class GamPrtFcltyUseSttusInqireController {
     }
 
 	/**
-     * 파일목록을 조회한다. 
+     * 파일목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyUseSttusInqireFileList.do", method=RequestMethod.POST)
@@ -239,23 +239,23 @@ public class GamPrtFcltyUseSttusInqireController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//파일목록
     	totalCnt = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireFileListTotCnt(searchVO);
     	List assetFileList = gamPrtFcltyUseSttusInqireService.selectPrtFcltyUseSttusInqireFileList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetFileList);
     	map.put("searchOption", searchVO);
-    	
+
     	return map;
     }
 }

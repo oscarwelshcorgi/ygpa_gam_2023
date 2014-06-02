@@ -38,88 +38,88 @@ import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentSttusInqire
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamCntnrQuayRentSttusInqireController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
-	
+
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-	
+
     @Resource(name = "gamCntnrQuayRentSttusInqireService")
     private GamCntnrQuayRentSttusInqireService gamCntnrQuayRentSttusInqireService;
-    
+
     /**
 	 * 컨테이너부두임대현황조회 화면으로 이동한다.
-	 * 
+	 *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/asset/GamCntnrQuayRentSttusInqireMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
 	 */
 	@RequestMapping(value="/oper/cntnr/gamCntnrQuayRentSttusInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-		//login정보 
+
+		//login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		//공시지가정보
-		List olnlpList = gamCntnrQuayRentSttusInqireService.selectOlnlpInfo();
-		
+//		List olnlpList = gamCntnrQuayRentSttusInqireService.selectOlnlpInfo();
+
 		//코픽스 이자율
 		List cofixList = gamCntnrQuayRentSttusInqireService.selectCofixInfo();
-		
+
 		//현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져와서 해당하는 코픽스 이자율 가져오기.
 		GamCntnrQuayRentSttusInqireVO cofixVO = new GamCntnrQuayRentSttusInqireVO();
 		GamCntnrQuayRentSttusInqireVO cofixResultVO = new GamCntnrQuayRentSttusInqireVO();
-		
-		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6)); 
+
+		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6));
 		cofixVO = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireBeforeQuarterInfo(cofixVO);
-		
+
 		if( cofixVO != null ) {
 			cofixResultVO = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireCofixInfo(cofixVO);
-			
+
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
 				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
 			}
-			
+
 			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrateShow() != null ) {
 				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
 			}
 		}
-		
-		model.addAttribute("olnlpList", olnlpList);
+
+//		model.addAttribute("olnlpList", olnlpList);
 		model.addAttribute("cofixList", cofixList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("windowId", windowId);
-    	
+
     	return "/ygpa/gam/oper/cntnr/GamCntnrQuayRentSttusInqire";
     }
 
 	/**
-     * 컨테이너부두임대현황을 조회한다. 
+     * 컨테이너부두임대현황을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/cntnr/selectCntnrQuayRentSttusInqireList.do", method=RequestMethod.POST)
@@ -135,27 +135,27 @@ public class GamCntnrQuayRentSttusInqireController {
         	return map;
     	}
 
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();    	
-    	
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//컨테이너부두임대현황
     	totalCnt = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireListTotCnt(searchVO);
     	List resultList = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	//총면적, 총사용료
     	GamCntnrQuayRentSttusInqireVO resultSum = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireSum(searchVO);
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -163,16 +163,16 @@ public class GamCntnrQuayRentSttusInqireController {
     	map.put("sumGrAr", resultSum.getSumGrAr());
     	map.put("sumGrFee", resultSum.getSumGrFee());
     	map.put("sumGrRdcxptFee", resultSum.getSumGrRdcxptFee());
-    	
+
     	return map;
     }
-	
+
 	/**
-     * 컨테이너부두임대현황 상세리스트를 조회한다. 
+     * 컨테이너부두임대현황 상세리스트를 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/cntnr/selectCntnrQuayRentSttusInqireDetailList.do", method=RequestMethod.POST)
@@ -180,7 +180,7 @@ public class GamCntnrQuayRentSttusInqireController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -188,17 +188,17 @@ public class GamCntnrQuayRentSttusInqireController {
         	return map;
     	}
 
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();    	
-    	
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//log.debug("##############################################");
 		//log.debug("### searchVO : " + searchVO);
 		//log.debug("##############################################");
@@ -206,10 +206,10 @@ public class GamCntnrQuayRentSttusInqireController {
 		// 컨테이너부두임대현황 상세리스트 및 총건수
 		totalCnt = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireDetailListTotCnt(searchVO);
 		List resultList = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireDetailList(searchVO);
-		
+
 		paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -219,11 +219,11 @@ public class GamCntnrQuayRentSttusInqireController {
     }
 
 	/**
-     * 파일목록을 조회한다. 
+     * 파일목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/cntnr/gamSelectCntnrQuayRentSttusInqireFileList.do", method=RequestMethod.POST)
@@ -239,29 +239,29 @@ public class GamCntnrQuayRentSttusInqireController {
         	return map;
     	}
 
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();    	
-    	
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//파일목록
     	totalCnt = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireFileListTotCnt(searchVO);
     	List assetFileList = gamCntnrQuayRentSttusInqireService.selectCntnrQuayRentSttusInqireFileList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", assetFileList);
     	map.put("searchOption", searchVO);
-    	
+
     	return map;
     }
 }

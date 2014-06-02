@@ -252,6 +252,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							module.loadData();
 						});
 						this._editData = null;
+						EMD.gis.removeAssetCdFeature(row);
 					}
 				}
 			break;
@@ -270,12 +271,6 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 								'<c:url value="/code/assets/insertGamGisAssetCode.do" />',
 								inputVO, function(module, result) {
 									if (result.resultCode == "0") {
-										var searchOpt = module.makeFormArgs("#searchForm");
-										module.$("#assetCodeTab").tabs("option", {active : 0});
-										module.$("#assetCodeList").flexOptions(
-												{
-													params : searchOpt
-												}).flexReload();
 										switch (module._params.action) {
 										case 'addLotcodeFeature':
 											module.modifyFeatureCode('gisAssetsCd',
@@ -287,11 +282,15 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 											return;
 										case 'addFeature':
 										case 'modifyFeature':
-											module.modifyAssetsCodeFeature(
-													result.assetsCode,
-													this._params.feature);
+											alert('저장된 코드를 다시 조회 하여 저장 해 주십시요');
 											break;
 										}
+										var searchOpt = module.makeFormArgs("#searchGisAssetCode");
+										module.$("#assetCodeTab").tabs("option", {active : 0});
+										module.$("#assetCodeList").flexOptions(
+												{
+													params : searchOpt
+												}).flexReload();
 									}
 									alert(result.resultMsg);
 								});
@@ -320,6 +319,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 										case 'addFeature':
 											break;
 										case 'modifyFeature':
+											module.changeFeatureAttrib('gisAssetsCd',
+													module._params.feature.attributes,
+													module.selectedItem
+													);
 											break;
 										}
 									}
@@ -350,6 +353,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			break;
 		case 'removeAssetGisCdDetailItem':
 			if(confirm('선택한 자산을 삭제 하시겠습니까?')){
+				if(this._editData==null) {
+					EMD.gis.removeFeatureCode('gisAssetsCd', '_editData');
+				}
 				if (this._editData._updtId==null || this._editData._updtId!='I') {
 					this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', this._editData, function(module, result) {
 						module.loadData();
@@ -357,8 +363,9 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							active : 0
 						});
 					});
-					this._editData = null;
 				}
+				EMD.gis.removeFeatureCode('gisAssetsCd', '_editData');
+				this._editData = null;
 			}
 			break;
 		case 'editAssetCd':
@@ -719,7 +726,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
-							<input id="gisAssetsLocCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM002'data-required="true">
+							<input id="gisAssetsLocCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM002' data-required="true">
 						</td>
 						<th><span class="label">부두구분</span></th>
 						<td>

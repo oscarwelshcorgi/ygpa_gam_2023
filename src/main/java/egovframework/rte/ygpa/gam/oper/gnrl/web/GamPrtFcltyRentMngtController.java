@@ -94,7 +94,7 @@ public class GamPrtFcltyRentMngtController {
 
 		//공시지가정보
 		//GamPrtFcltyRentMngtVO gvo = new GamPrtFcltyRentMngtVO();
-		List olnlpList = gamPrtFcltyRentMngtService.selectOlnlpInfo();
+//		List olnlpList = gamPrtFcltyRentMngtService.selectOlnlpInfo();
 
 		//코픽스 이자율
 		List cofixList = gamPrtFcltyRentMngtService.selectCofixInfo();
@@ -122,7 +122,7 @@ public class GamPrtFcltyRentMngtController {
 			}
 		}
 
-		model.addAttribute("olnlpList", olnlpList);
+//		model.addAttribute("olnlpList", olnlpList);
 		model.addAttribute("cofixList", cofixList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
@@ -143,7 +143,7 @@ public class GamPrtFcltyRentMngtController {
     @RequestMapping(value="/oper/gnrl/gamSelectPrtFcltyRentMngtList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectPrtFcltyRentMngtList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex; 
+		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -376,7 +376,7 @@ public class GamPrtFcltyRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+    			//insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
@@ -709,7 +709,7 @@ public class GamPrtFcltyRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	
+
     	if("modify".equals(cmd)) {
 	    	//확인후 변경혀라~~
 	    	gamPrtFcltyRentMngtVO.setReqstSeCd("3");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
@@ -822,7 +822,7 @@ public class GamPrtFcltyRentMngtController {
         	return map;
     	}
 
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();        
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
         /*
         String sLocationUrl = null;
     	// 0. Spring Security 사용자권한 처리
@@ -914,7 +914,7 @@ public class GamPrtFcltyRentMngtController {
         	return map;
     	}
 
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();        
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
         /*
         String sLocationUrl = null;
     	// 0. Spring Security 사용자권한 처리
@@ -1084,7 +1084,7 @@ public class GamPrtFcltyRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-        
+
     	//승낙할 임대정보조회
         GamPrtFcltyRentMngtVO rentPrmisnInfo = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtPrmisnInfo(gamPrtFcltyRentMngtVO);
 
@@ -1430,7 +1430,7 @@ public class GamPrtFcltyRentMngtController {
         String resultMsg  = "";
         String updateFlag = "";
         int resultCode = 1;
-    	
+
         Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -1439,7 +1439,7 @@ public class GamPrtFcltyRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
     	if( gamPrtFcltyRentMngtVO.getMngYear() == null || "".equals(gamPrtFcltyRentMngtVO.getMngYear()) ) {
         	updateFlag = "N";
         } else {

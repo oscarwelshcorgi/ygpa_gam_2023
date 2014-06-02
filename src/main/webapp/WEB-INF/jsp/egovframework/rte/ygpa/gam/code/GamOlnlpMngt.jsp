@@ -371,7 +371,7 @@ var module_instance = new GamOlnlpMngtModule();
 				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpInsertList" data-style="default">맵조회</button>
-					<!-- <button id="insertExcel" class="buttonExcel">엑셀등록</button> -->
+					<button id="insertExcel" class="buttonExcel">엑셀등록</button>
 				</div>
 			</div>
 
