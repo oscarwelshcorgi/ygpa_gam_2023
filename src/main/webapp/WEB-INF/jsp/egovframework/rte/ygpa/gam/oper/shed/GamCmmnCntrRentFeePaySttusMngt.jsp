@@ -432,13 +432,13 @@ var module_instance = new GamCmmnCntrRentFeePaySttusMngtModule();
                         </tr>
                         <tr>
                         	<th><span class="label">연체고지납부기한</span></th>
-                            <td width="125px"><span id="newPayTmlmt" data-column-id="newPayTmlmt"></span></td>
+                            <td width="125px"><input id="newPayTmlmt" data-column-id="newPayTmlmt" class="emdcal" style="width:90px"></td>
                         	<th><span class="label">연체적용일수</span></th>
-                            <td><input id="applyPayDates" data-column-id="applyPayDates" /></td>
+                            <td><input id="applyPayDates" data-column-id="applyPayDates" style="width:50px"/></td>
                             <th><span class="label">연체요율</span></th>
-                            <td><input id="arrrgRate" data-column-id="arrrgRate" /></td>
+                            <td><input id="arrrgRate" data-column-id="arrrgRate" style="width:80px"/></td>
                         	<th><span class="label">연체금액</span></th>
-                            <td><input id="arrrgAmt" data-column-id="arrrgAmt" class="ygpaNumber" /></td>
+                            <td><input id="arrrgAmt" data-column-id="arrrgAmt" class="ygpaNumber" style="width:110px"/></td>
                         </tr>
                     </table>
                     </form>

@@ -68,8 +68,8 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#sumNticAmt').val(data.sumNticAmt);
+            module.$('#totalResultCnt').text(data.totalCount);
+            module.$('#sumNticAmt').text(data.sumNticAmt);
 
             return data;
         }
@@ -100,13 +100,8 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
     });
 
     //로드될 때 사용기간에 오늘날짜 처리
- 	var today = new Date();
- 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
- 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
- 	var sToday = today.getFullYear() + '-' + month + '-' + date;
-    
-    this.$('#sGrUsagePdFrom').val(sToday);
-    this.$('#sGrUsagePdTo').val(sToday);
+    this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+    this.$('#sGrUsagePdTo').val(EMD.util.getDate(EMD.util.addDates(20)));
 };
 
 
@@ -179,6 +174,23 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
+            
+        case 'openRentFee':	// 사용료 관리 화면을 호출 한다.
+	        if(this.$('#assetFeeExprInqireList').selectedRowCount()==1) {
+	         	var row = this.$('#assetFeeExprInqireList').selectedRows()[0];
+
+	        	var params = {
+	        	               'prtAtCode': row.prtAtCode,
+	        	               'mngYear': row.mngYear,
+	        	               'mngNo': row.mngNo,
+	        	               'mngCnt': row.mngCnt,
+	        	               'nticno': row.nticno
+	        	               };
+
+	        	EMD.util.create_window('자산임대료고지관리', EMD.context_root+'/asset/rent/gamAssetRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	    	}
+	        else alert('고지내역을 선택 하십시요.')
+			break;
             
     }
 
@@ -290,9 +302,14 @@ var module_instance = new GamAssetFeeExprInqireModule();
 
                             <th>고지도래기간</th>
                             <td>
+                            <!-- 
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
+                             -->
+                                 <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                                size="8" readonly> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8" readonly>
                             </td>
 
                             <th>사용용도</th>
@@ -321,7 +338,6 @@ var module_instance = new GamAssetFeeExprInqireModule();
                 <!-- <li><a href="#tabs3" class="emdTab">자산임대 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li> -->
             </ul>
-
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="assetFeeExprInqireList" style="display:none" class="fillHeight"></table>
 
@@ -329,10 +345,11 @@ var module_instance = new GamAssetFeeExprInqireModule();
 					<form id="form1">
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
-								<th width="20%" height="23">자료수</th>
-								<td><input type="text" size="30" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="20%" height="23">고지금액</th>
-								<td><input type="text" size="50" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="10">자료수</th>
+								<td><input type="text" size="10" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="20">고지금액</th>
+								<td><input type="text" size="20" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><button id="openRentFee">사용료관리</button></td>
 							</tr>
 						</table>
 					</form>

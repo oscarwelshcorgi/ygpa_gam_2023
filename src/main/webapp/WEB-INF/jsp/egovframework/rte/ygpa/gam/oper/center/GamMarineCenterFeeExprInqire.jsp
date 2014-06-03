@@ -68,8 +68,8 @@ GamMarineCenterFeeExprInqireModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#totalNticAmt').val(data.totalNticAmt);
+            module.$('#totalResultCnt').text(data.totalCount);
+            module.$('#totalNticAmt').text(data.totalNticAmt);
             return data;
         }
     });
@@ -95,13 +95,8 @@ GamMarineCenterFeeExprInqireModule.prototype.loadComplete = function() {
 
 
     //로드될 때 사용기간에 오늘날짜 처리
- 	var today = new Date();
- 	var month = ((today.getMonth() + 1) >= 10) ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
- 	var date = (today.getDate() >= 10) ? today.getDate() : '0' + today.getDate(); 
- 	var sToday = today.getFullYear() + '-' + month + '-' + date;
-    
-    this.$('#sGrUsagePdFrom').val(sToday);
-    this.$('#sGrUsagePdTo').val(sToday);
+    this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+    this.$('#sGrUsagePdTo').val(EMD.util.getDate(EMD.util.addDates(20)));
 };
 
 GamMarineCenterFeeExprInqireModule.prototype.loadRentList = function() {
@@ -177,8 +172,24 @@ GamMarineCenterFeeExprInqireModule.prototype.loadDetailForm = function() {
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-            
+        case 'openRentFee':	// 사용료 관리 화면을 호출 한다.
+	        if(this.$('#marineCenterFeeExprInqireList').selectedRowCount()==1) {
+	         	var row = this.$('#marineCenterFeeExprInqireList').selectedRows()[0];
+
+	        	var params = {
+	        	               'prtAtCode': row.prtAtCode,
+	        	               'mngYear': row.mngYear,
+	        	               'mngNo': row.mngNo,
+	        	               'mngCnt': row.mngCnt,
+	        	               'nticno': row.nticno
+	        	               };
+
+	        	EMD.util.create_window('마린센터임대료관리', EMD.context_root+'/oper/center/gamMarineCenterRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	    	}
+	        else alert('고지내역을 선택 하십시요.')
+			break;
     }
+  
 };
 
 GamMarineCenterFeeExprInqireModule.prototype.onSubmit = function() {
@@ -286,9 +297,14 @@ var module_instance = new GamMarineCenterFeeExprInqireModule();
                             
                             <th>고지도래기간</th>
                             <td>
+                            <!-- 
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
+                             -->
+                              <input id="sGrUsagePdFrom" type="text" class="emdcal"
+                                size="8" readonly> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8" readonly>
                             </td>
 
                             <th>요금종류</th>
@@ -333,9 +349,10 @@ var module_instance = new GamMarineCenterFeeExprInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="20%" height="23">자료수</th>
-								<td><input type="text" size="30" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="20%" height="23">고지금액</th>
-								<td><input type="text" size="50" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="20" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><button id="openRentFee">사용료관리</button></td>
 							</tr>
 						</table>
 					</form>

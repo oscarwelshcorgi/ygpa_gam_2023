@@ -1364,7 +1364,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-             this.$('#quayCd').val(value.gisAssetsQuayCd);
+//              this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
 
              this.loadOlnlpList(value);
@@ -1755,11 +1755,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="25" class="calcInput" id="rdcxptFee"/></td>
 								<th width="10%" height="18">사용료</th>
                                 <td><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
+								<!-- 
 								<th width="10%" height="18">부두코드</th>
                                 <td>
                                 	<input type="text" id="quayCd" size="10" disabled/>
                                 	<input type="text" id="quayCdNm" size="32" disabled/>
                                 </td>
+								 -->
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>
@@ -1888,7 +1890,9 @@ var module_instance = new GamAssetRentMngtModule();
                     <tr>
                         <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><!-- <button id="xxxx">취소</button> --><button id="btnRentDetailApply">임대상세적용</button>
+                        <td style="text-align:right">
+                        <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
+                        <button id="btnRentDetailApply">임대상세적용</button>
                         </td>
                     </tr>
                  </table>

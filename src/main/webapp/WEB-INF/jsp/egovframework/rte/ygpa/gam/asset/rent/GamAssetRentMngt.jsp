@@ -1889,7 +1889,9 @@ var module_instance = new GamAssetRentMngtModule();
                     <tr>
                         <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
-                        <td style="text-align:right"><!-- <button id="xxxx">취소</button> --><button id="btnRentDetailApply">임대상세적용</button>
+                        <td style="text-align:right">
+                        <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
+                        <button id="btnRentDetailApply">임대상세적용</button>
                         </td>
                     </tr>
                  </table>
