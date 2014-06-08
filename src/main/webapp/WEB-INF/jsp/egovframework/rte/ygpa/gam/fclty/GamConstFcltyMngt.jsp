@@ -247,7 +247,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#fcltyManageVO :input").val("");
 			this.$("#selectedGAM005_select").show();
 			this.$("#prtFcltySeNm").hide();
-			this.$("#gisCodePopupBtn").show();
+			//this.$("#gisCodePopupBtn").show();
 		break;
 
 		// 자산코드 팝업
@@ -509,6 +509,10 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 	     	 			module.clearCodePage();
 		 	     	 			module._fcltyItem=result.result;
 		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+		 	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
+		 	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
+		 	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
+
 		 	     	 		}
 		 	     	 		else {
 		 	     	 			alert(result.resultMsg);
@@ -531,6 +535,9 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+ 	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
+ 	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
+ 	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
@@ -607,6 +614,8 @@ GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
 			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
+
+			if(this._cmd!="insert") alert('변경된 내용은 페이지를 새로고침을 해야 반영 됩니다.');
 		break;
 
 		// 조회화면
@@ -692,12 +701,9 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
-			<!--
-					<input type="hidden" id="laCrdnt" />
-					<input type="hidden" id="loCrdnt" />
-			-->
-					<!-- 신경 쓸 필요 없다 함.2014-03-07
-					<input type="hidden" id="prtFcltyGisCd" /> -->
+				<input id="beforeGisAssetsPrtAtCode" type="hidden" />
+				<input id="beforeGisAssetsCd" type="hidden" />
+				<input id="beforeGisAssetsSubCd" type="hidden" />
 					<table  class="editForm"  style="width:100%;">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>

@@ -124,11 +124,16 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
+			module._leftBuyPrice=module._buyPrice;
 			$.each(data.resultList, function() {
 				this.assetCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
 				this.lotcode = this.gisAssetsLnm;
 				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length>0) {
 					this.lotcode += "-"+this.gisAssetsLnmSub;
+				}
+				if(module._leftBuyPrice>0) {
+					module._leftBuyPrice-=this.gisAssetsAcqPri;
+					if(module._leftBuyPrice>0) module._leftBuyPrice=0;
 				}
 				this.assetCodeObj = {gisAssetsPrtAtcode: this.gisAssetsPrtAtcode, gisAssetsCd: this.gisAssetsCd, gisAssetsSubCd: this.gisAssetsSubCd};	// for show map
 			});
@@ -232,6 +237,18 @@ GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
 	this.$('#prtCode').val(msg);
 };
 
+GamAssetCodeModule.prototype.calcLeftBuyPrice = function() {
+	var leftBuyPrice=this._leftBuyPrice;
+	var data = this.$('#assetCodeList').flexGetData();
+	for(var i=0; i<data.length; i++) {
+		if(leftBuyPrice>0) {
+			leftBuyPrice-=data[i].gisAssetsAcqPri;
+			if(leftBuyPrice>0) leftBuyPrice=0;
+		}
+	}
+	this._leftBuyPrice=leftBuyPrice;
+};
+
 GamAssetCodeModule.prototype.addGisAssetItem = function() {
 	this._edited=true;
 
@@ -245,6 +262,7 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 	this.$('#erpAssetsNoSeq').readonly(false);
 
 	this.$('#itemName').val(this._itemNameAsset);
+	this.$('#gisAssetsAcqPri').val(this._leftBuyPrice);
 	this.$('#itemName').disable();
 
 	this.$('#gisAssetsPrtAtCode').enable();
@@ -263,6 +281,7 @@ GamAssetCodeModule.prototype.removeGisAssetItem = function() {
 			this.$('#editGisAssetCode :input').val('');
 			this._edited=true;
 		}
+		this.calcLeftBuyPrice();
 	}
 };
 
@@ -426,6 +445,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			}
 		}
 		this._editData={};
+		this.calcLeftBuyPrice();
+
 //		this.clearCodePage();
 
 //		this.$('#btnApplyGisAssetsCode').attr('disabled', 'disabled');
@@ -649,6 +670,9 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			this.$('#searchGisAssetErpAssetsCls').val(row['assetCls']);
 			this.$('#searchGisAssetErpAssetsNo').val(row['assetNo']);
 			this.$('#searchGisAssetErpAssetsNoSeq').val(row['assetNoSeq']);
+			this._buyPrice = row['buyPrice'];
+			this._leftBuyPrice = this._buyPrice;
+			console.log('price : '+this._leftBuyPrice);
 			this._itemNameAsset = row['itemNameAsset'];// 자산명 저장
 
 			// 해당하는 자산 목록을 불러온다/

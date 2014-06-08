@@ -324,9 +324,36 @@
 		       PRT_FCLTY_GIS_CD = #prtFcltyGisCd#,
 		       LA_CRDNT = #laCrdnt#,
 		       LO_CRDNT = #loCrdnt#
-		 WHERE GIS_ASSETS_CD = #gisAssetsCd#
-		       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-		       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+        ]]>
+        		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend=",">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsCd" prepend=",">
+	        		GIS_ASSETS_CD = #gisAssetsCd#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsSubCd" prepend=",">
+	        		GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+        		</isNotEmpty>
+		 WHERE 1=1
+         		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend="AND">
+			       GIS_ASSETS_PRT_AT_CODE = #beforeGisAssetsPrtAtCode#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsCd" prepend="AND">
+					GIS_ASSETS_CD = #beforeGisAssetsCd#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsSubCd" prepend="AND">
+			       GIS_ASSETS_SUB_CD = #beforeGisAssetsSubCd#
+        		</isNotEmpty>
+        		<isEmpty property="beforeGisAssetsPrtAtCode" prepend="AND">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+        		</isEmpty>
+        		<isEmpty property="beforeGisAssetsCd" prepend="AND">
+	        		GIS_ASSETS_CD = #gisAssetsCd#
+        		</isEmpty>
+        		<isEmpty property="beforeGisAssetsSubCd" prepend="AND">
+	        		GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+        		</isEmpty>
+        <![CDATA[
 		       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
 		       AND PRT_FCLTY_SE = #prtFcltySe#
@@ -355,14 +382,39 @@
 			       SET PHOTO_SJ = #photoSj#,
 			       SHOT_DT = #shotDt#,
 			       PHOTO_DESC = #photoDesc#
-			WHERE GIS_ASSETS_CD = #gisAssetsCd#
-			       AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-			       AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+        ]]>
+        		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend=",">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsCd" prepend=",">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsCd#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsSubCd" prepend=",">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsSubCd#
+        		</isNotEmpty>
+			WHERE 1=1
+        		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend="AND">
+			       GIS_ASSETS_PRT_AT_CODE = #beforeGisAssetsPrtAtCode#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsCd" prepend="AND">
+					GIS_ASSETS_CD = #beforeGisAssetsCd#
+        		</isNotEmpty>
+        		<isNotEmpty property="beforeGisAssetsSubCd" prepend="AND">
+			       GIS_ASSETS_SUB_CD = #beforeGisAssetsSubCd#
+        		</isNotEmpty>
+        		<isEmpty property="beforeGisAssetsPrtAtCode" prepend="AND">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+        		</isEmpty>
+        		<isEmpty property="beforeGisAssetsCd" prepend="AND">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsCd#
+        		</isEmpty>
+        		<isEmpty property="beforeGisAssetsSubCd" prepend="AND">
+	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsSubCd#
+        		</isEmpty>
 			       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 			       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
 			       AND PRT_FCLTY_PHOTO_SEQ = #prtFcltyPhotoSeq#
 			       AND PRT_FCLTY_SE = #prtFcltySe#
-        ]]>
     </update>
 
 
