@@ -21,7 +21,7 @@
                      FROM (
                            SELECT 
 							T1.PRT_AT_CODE
-							,TO_CHAR(TO_DATE(T1.PRCT_DT,'yyyymmdd'), 'YYYY-MM-DD') AS PRCT_DT
+							,YYYY||'-'||MM||'-'||DD AS PRCT_DT
 							,T1.FAC_CODE||T1.FAC_SUB_CODE AS FAC_CODE
 							,T1.FEE_TP
 							,NVL(T1.BILL_AMNT,0) AS BILL_AMNT 
@@ -60,9 +60,9 @@
 		                </isNotEmpty>
 		                
 		                <isNotEmpty property="sGrUsagePdFrom">
-	                  		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+	                  		<![CDATA[AND (T1.YYYY||T1.MM||T1.DD) >= #sGrUsagePdFrom#]]>
 	                  		<isNotEmpty property="sGrUsagePdTo">
-	                  			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+	                  			<![CDATA[AND (T1.YYYY||T1.MM||T1.DD) <= #sGrUsagePdTo#]]>
 	                  		</isNotEmpty>
 	                  	</isNotEmpty>
 	                  	
@@ -118,9 +118,9 @@
                </isNotEmpty>
                
                <isNotEmpty property="sGrUsagePdFrom">
-                		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+                		<![CDATA[AND (T1.YYYY||T1.MM||T1.DD) >= #sGrUsagePdFrom#]]>
                 		<isNotEmpty property="sGrUsagePdTo">
-                			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+                			<![CDATA[AND (T1.YYYY||T1.MM||T1.DD) <= #sGrUsagePdTo#]]>
                 		</isNotEmpty>
                 	</isNotEmpty>
                 	
@@ -173,9 +173,9 @@
                </isNotEmpty>
                
                <isNotEmpty property="sGrUsagePdFrom">
-                		<![CDATA[AND T1.PRCT_DT >= #sGrUsagePdFrom#]]>
+                		<![CDATA[AND (T1.YYYY||T1.MM||T1.DD) >= #sGrUsagePdFrom#]]>
                 		<isNotEmpty property="sGrUsagePdTo">
-                			<![CDATA[AND T1.PRCT_DT <= #sGrUsagePdTo#]]>
+                			<![CDATA[AND (T1.YYYY||T1.MM||T1.DD) <= #sGrUsagePdTo#]]>
                 		</isNotEmpty>
                 	</isNotEmpty>
                 	
