@@ -93,19 +93,19 @@ public class GamErpGisAssetCodeMngtController {
 
     	ErpCmmnCdVO searchVO = new ErpCmmnCdVO();
 
-    	searchVO.setBigClsCd("0401");	// 제코드구분
-    	searchVO.setFirstIndex(0);
-    	searchVO.setLastIndex(99);
-    	List erpAssetClsList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpAssetClsList", erpAssetClsList);
-
-    	searchVO.setBigClsCd("0402");	// 취득구분
-    	List erpPurchaseSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpPurchaseSeList", erpPurchaseSeList);
-
-    	searchVO.setBigClsCd("0409");	// 자산구분
-    	List erpAssetSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpAssetSeList", erpAssetSeList);
+//    	searchVO.setBigClsCd("0401");	// 제코드구분
+//    	searchVO.setFirstIndex(0);
+//    	searchVO.setLastIndex(99);
+//    	List erpAssetClsList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
+//    	model.addAttribute("erpAssetClsList", erpAssetClsList);
+//
+//    	searchVO.setBigClsCd("0402");	// 취득구분
+//    	List erpPurchaseSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
+//    	model.addAttribute("erpPurchaseSeList", erpPurchaseSeList);
+//
+//    	searchVO.setBigClsCd("0409");	// 자산구분
+//    	List erpAssetSeList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
+//    	model.addAttribute("erpAssetSeList", erpAssetSeList);
 
     	// 코드 조회
 //        CmmnDetailCodeVO searchCodeVO;

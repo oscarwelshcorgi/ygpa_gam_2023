@@ -61,6 +61,7 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 			gamAssetsUsePermMngtDAO.insertBillCreateOnce(vo);
 		}
 		else {
+//			vo.put("payinstIntrrate", assetsRent.get("payinstIntrrate"));
 			// 분납
 			if("2".equals(assetsRent.get("nticMth"))) {
 				// 반기납
