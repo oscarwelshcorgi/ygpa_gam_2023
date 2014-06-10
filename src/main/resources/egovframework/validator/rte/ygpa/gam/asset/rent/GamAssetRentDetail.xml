@@ -24,14 +24,14 @@
                     <var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
-            <field property="olnlp" depends="required">
+            <field property="olnlp" depends="maxlength">
                 <arg0 key="공시지가" resource="false"/>
                 <arg1 key="13" resource="false"/>
                 <var>
                 <var-name>maxlength</var-name>
                 <var-value>13</var-value>
                 </var>
-            </field>   
+            </field>
             <field property="usageAr" depends="required">
                 <arg0 key="사용면적" resource="false"/>
                 <arg1 key="8" resource="false"/>
@@ -39,7 +39,7 @@
                 <var-name>maxlength</var-name>
                 <var-value>8</var-value>
                 </var>
-            </field>  
+            </field>
             <field property="applcTariff" depends="required">
                 <arg0 key="적용요율" resource="false"/>
             </field>

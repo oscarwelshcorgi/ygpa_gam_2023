@@ -74,6 +74,7 @@
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
        jQuery(document).ready(function() {
+    	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
     	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://lfitsvr.iptime.org:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
     </script>

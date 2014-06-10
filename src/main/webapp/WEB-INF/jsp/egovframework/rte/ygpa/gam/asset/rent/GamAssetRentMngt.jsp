@@ -1314,6 +1314,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
         else {
             this.$('#detailCmd').val('modify');
+            this._selectAssetsCd=row;
         }
         break;
 
@@ -1367,6 +1368,8 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              //this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
+
+             this._selectAssetsCd=value;
 
              this.loadOlnlpList(value);
          } else {
@@ -1615,7 +1618,8 @@ var module_instance = new GamAssetRentMngtModule();
 	                    <tr>
 	                        <th width="70%">자산임대 상세목록</th>
 	                        <th style="text-align:right">
-	                        	<button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
+	                        <button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>
 	                        	<button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button>
 	                        </th>
 	                    </tr>
@@ -1634,7 +1638,8 @@ var module_instance = new GamAssetRentMngtModule();
 	                    <tr>
 	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
-	                        <td style="text-align:right"><button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
+	                        <td style="text-align:right">
+	                        	<button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
 	                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
 	                            <!-- <button id="btnCancelItem">취소</button>  -->
 	                        </td>
@@ -1890,7 +1895,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
                         <td style="text-align:right">
-                        <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
+                        <button data-role="showMap" data-gis-layer="gisAssetsCd" data-value-name="_selectAssetsCd" data-style="default">맵조회</button>
                         <button id="btnRentDetailApply">임대상세적용</button>
                         </td>
                     </tr>

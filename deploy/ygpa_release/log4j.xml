@@ -12,7 +12,7 @@
 
 	<appender name="dailyRollingFile" class="org.apache.log4j.DailyRollingFileAppender">
 		<!-- 로그 파일명 정의를 위한 parameter -->
-		<param name="File" value="/app/logs/ygpa_gam.log"/>
+		<param name="File" value="/home/ygam/logs/ygpa_gam.log"/>
 		<param name="DatePattern" value=".yyyy-MM-dd"/>
 	    <layout class="org.apache.log4j.PatternLayout">
 	        <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n" />
@@ -25,23 +25,23 @@
     </logger>
 
     <logger name="egovframework" additivity="false">
-        <level value="ERROR"/>
+        <level value="DEBUG"/>
         <appender-ref ref="dailyRollingFile"/>
     </logger>
 
 	<!-- log SQL with timing information, post execution -->
 	<logger name="jdbc.sqltiming" additivity="false">
-		<level value="ERROR" />
+		<level value="DEBUG" />
 		<appender-ref ref="dailyRollingFile" />
 	</logger>
 
 	<logger name="org.springframework" additivity="false">
-		<level value="ERROR" />
+		<level value="DEBUG" />
 		<appender-ref ref="dailyRollingFile" />
 	</logger>
 
 	<root>
-		<level value="ERROR" />
+		<level value="DEBUG" />
 		<appender-ref ref="dailyRollingFile" />
 	</root>
 

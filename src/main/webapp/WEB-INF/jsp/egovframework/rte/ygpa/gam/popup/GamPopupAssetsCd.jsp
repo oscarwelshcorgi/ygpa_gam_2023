@@ -108,13 +108,15 @@ var popup_instance = new GamAssetCodePopupModule();
 						<td><input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 						<th>자산코드</th>
 						<td><input id="gisAssetsCd" type="text" size="3" />&nbsp;-&nbsp;<input id="gisAssetsSubCd" type="text" size="2" /></td>
+						<th>자산명</th>
+						<td><input id="gisAssetsNm" type="text" size="20" /></td>
 						<td rowspan="2"><button id="selectGisAssetCode">조회</button></td>
 					</tr>
 					<tr>
-						<th>자산명</th>
-						<td><input id="gisAssetsNm" type="text" size="30" /></td>
 						<th>소재지</th>
-						<td><input id="gisAssetsLocplc" type="text" size="40"></td>
+						<td colspan="3"><input id="gisAssetsLocplc" type="text" size="30"></td>
+						<th>지번</th>
+						<td><input id="gisAssetsLnm" type="text" size="4">-<input id="gisAssetsLnmSub" type="text" size="4"></td>
 					</tr>
 				</tbody>
 			</table>

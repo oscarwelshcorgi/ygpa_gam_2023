@@ -49,7 +49,6 @@
         padding: 0px
       }
  */    </style>
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ko"></script>
 
     <script src="<c:url value='/js/OpenLayers.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
@@ -71,7 +70,7 @@
     <script type="text/javascript">
 
        jQuery(document).ready(function() {
-    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}");
+    	   EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}");
     	 });
 
     </script>

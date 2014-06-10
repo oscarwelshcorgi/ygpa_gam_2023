@@ -48,7 +48,7 @@
 
 	<insert id="erpAssetCdDAO.insertErpAssetCd_S">
 		<![CDATA[
-			INSERT INTO EGMFA1000
+			INSERT INTO EGMISDB.EGMFA1000
 				( ASSET_CLS,
 					ASSET_NO,
 					ASSET_NO_SEQ,
@@ -163,7 +163,7 @@
 					INPUT_DATE,
 					UPDATE_EMP_NO,
 					UPDATE_DATE
-			FROM EGMFA1000
+			FROM EGMISDB.EGMFA1000
 						WHERE ASSET_CLS=#assetCls#
 								AND ASSET_NO=#assetNo#
 								AND ASSET_NO_SEQ=#assetNoSeq#
@@ -219,7 +219,7 @@ SELECT * FROM (
 								TO_CHAR(INPUT_DATE, 'YYYY-MM-DD') INPUT_DATE,
 								UPDATE_EMP_NO,
 								TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD') UPDATE_DATE
-						FROM EGMFA1000
+						FROM EGMISDB.EGMFA1000
 				WHERE 1=1
 					<isNotEmpty prepend="AND" property="searchAssetCls">
 						ASSET_CLS = #searchAssetCls#
@@ -266,7 +266,7 @@ SELECT * FROM (
 	</select>
 	<select id="erpAssetCdDAO.selectErpAssetCdListTotCnt_S" parameterClass="erpAssetCdSerarchVO" resultClass="int">
 			SELECT COUNT(*) totcnt
-			FROM EGMFA1000
+			FROM EGMISDB.EGMFA1000
 			WHERE 1=1
 					<isNotEmpty prepend="AND" property="searchAssetCls">
 						ASSET_CLS = #searchAssetCls#
@@ -317,7 +317,7 @@ SELECT * FROM (
 								EMP_NO,
 								MODEL_NAME,
 								ASSET_SIZE
-						FROM EGMFA1000
+						FROM EGMISDB.EGMFA1000
 				WHERE 1=1
 					<isNotEmpty prepend="AND" property="searchAssetCls">
 						ASSET_CLS = #searchAssetCls#
@@ -358,7 +358,7 @@ SELECT * FROM (
 	</select>
 	<select id="erpAssetCdDAO.selectErpAssetCdPopupListTotCnt_S" parameterClass="erpAssetCdSerarchVO" resultClass="int">
 			SELECT COUNT(*) totcnt
-			FROM EGMFA1000
+			FROM EGMISDB.EGMFA1000
 			WHERE 1=1
 					<isNotEmpty prepend="AND" property="searchAssetCls">
 						ASSET_CLS = #searchAssetCls#
