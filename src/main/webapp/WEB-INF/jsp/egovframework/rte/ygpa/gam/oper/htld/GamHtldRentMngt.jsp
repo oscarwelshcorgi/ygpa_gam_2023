@@ -45,6 +45,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/htld/gamSelectHtldRentMngtList.do" />',
         dataType: 'json',
         colModel : [
+					{display:'선택', name:'chkItem',width:40, sortable:false,align:'center', displayFormat:'checkbox'},
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
                     {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
