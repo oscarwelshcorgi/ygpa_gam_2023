@@ -119,7 +119,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				module.$("#previewImage").attr(src, '#');
 			}
 		}
-//		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+//		// console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
 	this.$('#gisAssetsLocCd').on('change', function() {

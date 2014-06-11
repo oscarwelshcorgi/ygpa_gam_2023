@@ -136,7 +136,7 @@ GamFcltyDrwListMngtModule.prototype.loadList = function() {
 	var searchOpt=this.makeFormArgs("#drwListForm");
  	this.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();
 	this.$("#drwListMngtListTab").tabs("option", {active: 0});
-// 	console.log("list loaded");
+// 	// console.log("list loaded");
 }
 
 GamFcltyDrwListMngtModule.prototype.loadDetailData = function() {
@@ -165,7 +165,7 @@ GamFcltyDrwListMngtModule.prototype.loadDetailData = function() {
 	 		}
 	 	});
 	}
-//	console.log("detail data loaded");
+//	// console.log("detail data loaded");
 };
 
 GamFcltyDrwListMngtModule.prototype.applyPhotoChanged = function(target) {
@@ -321,7 +321,7 @@ GamFcltyDrwListMngtModule.prototype.clearPhotoPage = function() {
 GamFcltyDrwListMngtModule.prototype.loadPhotoList = function() {
 	var row = this.$('#drwListMngtList').selectedRows();
 	if(row.length <= 0) {
-		// console.log(row.length);
+		// // console.log(row.length);
  		this.clearPhotoPage();
 		return;
 	}

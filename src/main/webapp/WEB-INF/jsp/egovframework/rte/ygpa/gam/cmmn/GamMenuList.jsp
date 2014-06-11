@@ -60,7 +60,6 @@ GamMenuMngModule.prototype.loadMenu = function() {
 			module.tree.module=module;
 			module.tree.attachEvent("onSelect", function(id){
 
-				console.debug('id :'+id+' selected');
 // 				this.module.$('#menuNo').val(id);
 				module.doAction('<c:url value="/cmmn/mnu/selectMenuDetail.do" />', {id : id }, function(module, result) {
 					result.resultVO.beforeMenuNo=result.resultVO.menuNo;

@@ -75,7 +75,7 @@ GamNticArrrgPopupModule.prototype.loadComplete = function(searchOpt) {
 	this._searchOpts = searchOpt;
 
 	this.$('#arrrgRate').val("12");
-	console.log("popup loadcomplete");
+	// console.log("popup loadcomplete");
 };
 
 

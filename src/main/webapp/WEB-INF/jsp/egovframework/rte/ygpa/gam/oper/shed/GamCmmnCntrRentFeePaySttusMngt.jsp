@@ -79,7 +79,7 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.loadComplete = function() {
     	event.data.module.calculateArrrgFee();
     });
 
-    console.log('loadCompleted');
+    // console.log('loadCompleted');
 };
 
 /**
@@ -92,7 +92,7 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
         	this.loadData();
-        	console.log("debug");
+        	// console.log("debug");
             break;
 
         // 팝업을 호출한다.(업체)
@@ -225,7 +225,7 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 
 GamCmmnCntrRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
 	// 연체료 계산
-	console.log('arrrg calc');
+	// console.log('arrrg calc');
 
 	var arrrgRate=this.$('#arrrgRate').val()/100;
 	var applyPayDates=this.$('#applyPayDates').val()*1;

@@ -350,7 +350,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$(".photoEditItem").bind("keyup change", {module: this}, function(event) {
-    	// console.log("keyup or change event occur");
+    	// // console.log("keyup or change event occur");
     	event.data.module.applyPhotoData();
     });
 
@@ -389,7 +389,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 };
 
 GamAssetRentMngtModule.prototype.onCalc = function() {
-	console.debug('calc start');
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
     ) {
@@ -705,7 +704,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
                 inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
 
-                //console.log(inputVO);
+                //// console.log(inputVO);
                 // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
                 this.doAction('<c:url value="/oper/cntnr/gamSaveCntnrQuayRentMngt.do" />', inputVO, function(module, result) {
@@ -1283,7 +1282,7 @@ GamAssetRentMngtModule.prototype.loadData = function() {
     this.$("#assetRentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
     this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-	console.log('debug');
+	// console.log('debug');
 
 };
 

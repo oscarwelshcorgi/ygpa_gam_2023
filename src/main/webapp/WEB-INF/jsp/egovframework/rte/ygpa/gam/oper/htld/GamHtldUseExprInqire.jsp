@@ -78,7 +78,7 @@ GamHtldUseExprInqireModule.prototype.loadUseList = function() {
     this.$("#htldUseExprInqireListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamHtldUseExprInqireSearchForm');
     this.$('#htldUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
-    console.log('load use list');
+    // console.log('load use list');
 };
 
 GamHtldUseExprInqireModule.prototype.loadDetailForm = function() {

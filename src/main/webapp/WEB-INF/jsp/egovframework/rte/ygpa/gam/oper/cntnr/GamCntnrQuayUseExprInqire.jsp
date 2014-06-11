@@ -78,7 +78,7 @@ GamCntnrQuayUseExprInqireModule.prototype.loadUseList = function() {
     this.$("#cntnrQuayUseExprInqireListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamCntnrQuayUseExprInqireSearchForm');
     this.$('#cntnrQuayUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
-    console.log('load use list');
+    // console.log('load use list');
 };
 
 GamCntnrQuayUseExprInqireModule.prototype.loadDetailForm = function() {

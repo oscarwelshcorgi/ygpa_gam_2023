@@ -154,7 +154,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             this.$("#assetDisUseListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
             this.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
 
-            // console.log('select disuse assets list');
+            // // console.log('select disuse assets list');
             break;
 
         // 자산폐기
@@ -238,7 +238,7 @@ GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) 
     switch (popupId) {
      case 'updateDisUseAssetPopup':
          if (msg != 'cancel') {
-        	 console.log('disuse accept');
+        	 // console.log('disuse accept');
          	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', [{name: 'erpAssetsDisuseRsn', value:value.result.erpAssetsDisuseRsn}
          			, {name: 'erpAssetsDisuseRegistYn', value:'Y'}
          			, {name: 'gisAssetsPrtAtCode', value:value.result.gisAssetsPrtAtCode}

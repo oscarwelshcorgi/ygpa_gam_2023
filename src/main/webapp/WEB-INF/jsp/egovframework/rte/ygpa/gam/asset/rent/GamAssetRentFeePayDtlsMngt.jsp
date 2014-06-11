@@ -90,7 +90,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
         	this.loadData();
-        	console.log("debug");
+        	// console.log("debug");
             break;
 
         // 팝업을 호출한다.(업체)
@@ -174,7 +174,6 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt }
 	             ];
-	console.debug('hello');
 	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
@@ -224,7 +223,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 
 GamAssetRentFeePayDtlsMngtModule.prototype.calculateArrrgFee = function() {
 	// 연체료 계산
-	console.log('arrrg calc');
+	// console.log('arrrg calc');
 
 	var arrrgRate=this.$('#arrrgRate').val()/100;
 	var applyPayDates=this.$('#applyPayDates').val()*1;

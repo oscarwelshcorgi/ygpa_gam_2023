@@ -189,7 +189,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 				module.$("#previewImage").attr(src, '#');
 			}
 		}
-//		console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
+//		// console.log('row ' + row['assetCls']+'-'+row['assetNo']+'-'+row['assetNoSeq']+' is selected');
 	});
 
 	this.$("#assetCodePhotoList").on('onLoadDataComplete', function(event, module, data, grid, param) {
@@ -468,7 +468,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			}
 			else {
 				alert('저장된 시설에만 위치 등록이 가능합니다.');
-				// console.log("error add gis feature");
+				// // console.log("error add gis feature");
 			}
 //			this.btnAddGisMap('GAC', {row.gisAssetsCd, row.gisAssetsSubCd});
 		}
@@ -569,7 +569,7 @@ GamAssetCodeModule.prototype.applyPhotoItem = function() {
 	if(row["_updtId"]!='I') row["_updtId"]='U';
 	this.$('#assetCodePhotoList').flexUpdateRow(rownum, row);
 
-	// console.log('_updtId : ' + row["_updtId"]);
+	// // console.log('_updtId : ' + row["_updtId"]);
 
 	this._edited=true;
 };
@@ -586,7 +586,7 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
          break;
      case 'selectAddrPopup':
          if (msg != 'cancel') {
-        	 console.log("test");
+        	 // console.log("test");
              this.$('#gisAssetsBupjungdongCd').val(value.bupjungdongCd);
              this.$('#gisAssetsLocplc').val(value.bupjungdongNm+" "+value.detailAddr);
          } else {
@@ -672,7 +672,7 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			this.$('#searchGisAssetErpAssetsNoSeq').val(row['assetNoSeq']);
 			this._buyPrice = row['buyPrice'];
 			this._leftBuyPrice = this._buyPrice;
-			console.log('price : '+this._leftBuyPrice);
+			// console.log('price : '+this._leftBuyPrice);
 			this._itemNameAsset = row['itemNameAsset'];// 자산명 저장
 
 			// 해당하는 자산 목록을 불러온다/

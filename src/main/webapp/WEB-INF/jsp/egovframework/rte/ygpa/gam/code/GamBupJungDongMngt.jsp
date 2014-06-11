@@ -142,7 +142,7 @@ GamBupJungDongModule.prototype.onButtonClick = function(buttonId) {
  		inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 		inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-		// console.log(inputVO);
+		// // console.log(inputVO);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
 	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', inputVO, function(result) {

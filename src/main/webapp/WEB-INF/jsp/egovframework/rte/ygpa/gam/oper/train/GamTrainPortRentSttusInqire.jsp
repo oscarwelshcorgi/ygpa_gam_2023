@@ -157,7 +157,7 @@ GamTrainPortRentSttusInqireModule.prototype.loadRentList = function() {
 
     var searchOpt=this.makeFormArgs('#gamTrainPortRentSttusInqireSearchForm');
     this.$('#trainPortRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-    console.log('load rent list');
+    // console.log('load rent list');
 };
 
 GamTrainPortRentSttusInqireModule.prototype.loadDetailForm = function() {

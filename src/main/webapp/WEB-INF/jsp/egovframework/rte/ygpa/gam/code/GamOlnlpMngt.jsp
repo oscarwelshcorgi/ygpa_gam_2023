@@ -84,9 +84,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 			module._maxOlnlpSeq=0;
 			$.each(data.resultList, function() {
 				if(this.olnlpSeq>module._maxOlnlpSeq) module._maxOlnlpSeq=this.olnlpSeq*1;
-				//console.log('olnlpSeq : '+this.olnlpSeq);
+				//// console.log('olnlpSeq : '+this.olnlpSeq);
 			});
-			console.log('grid last olnlpSeq : '+module._maxOlnlpSeq);
+			// console.log('grid last olnlpSeq : '+module._maxOlnlpSeq);
 			return data;
 		}
 	});
@@ -110,7 +110,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		}
 	});
 
-	console.log("gamOlnlpLoad complete");
+	// console.log("gamOlnlpLoad complete");
 
 /*
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -151,7 +151,7 @@ GamOlnlpMngtModule.prototype.applyOlnlp = function() {
 	if(row["_updtId"]!='I') row["_updtId"]='U';
 	this.$('#olnlpMngtList').flexUpdateRow(this._editRow, row);
 
-	// console.log('_updtId : ' + row["_updtId"]);
+	// // console.log('_updtId : ' + row["_updtId"]);
 	this._editData=null;
 	this._editRow=null;
 	this._edited=false;
@@ -178,7 +178,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt = this.makeFormArgs("#olnlpForm");
 		 	this.$("#olnlpMngtListTab").tabs("option", {active: 0});
 		 	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
-		 	console.log("olnlp loaded");
+		 	// console.log("olnlp loaded");
 		break;
 
 		// 추가
@@ -223,7 +223,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 		case 'insertExcel':
-			console.log('excel');
+			// console.log('excel');
 			this.uploadXlsFile('xlsUpload', function(module, result) {
 				var searchOpt = module.makeFormArgs("#olnlpManageVO");
 				module.$('#olnlpInsertList').flexOptions({params:searchOpt}).flexReload();

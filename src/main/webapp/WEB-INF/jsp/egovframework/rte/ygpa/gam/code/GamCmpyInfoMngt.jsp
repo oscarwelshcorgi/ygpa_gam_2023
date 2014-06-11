@@ -100,7 +100,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		module.makeFormValues("#cmpyChargerMngtManageVO", row);
 		module._editData = module.getFormValues("#cmpyChargerMngtManageVO", row);
 		module._editRow = module.$("#cmpyMngtList").selectedRowIds()[0];
-		console.log(module._editData);
+		// console.log(module._editData);
 	});
 	
 	// 업체 담당자 목록 선택
@@ -110,7 +110,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 2});			// 탭을 전환 한다.
 		module._editData = module.getFormValues("#cmpyChargerMngtManageVO", row);
-		console.log(module._editData);
+		// console.log(module._editData);
 	});
 };
 		

@@ -65,7 +65,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		module.closeDialog("ok", row);
 	});
 
-	console.log('load complete');
+	// console.log('load complete');
 };
 
 

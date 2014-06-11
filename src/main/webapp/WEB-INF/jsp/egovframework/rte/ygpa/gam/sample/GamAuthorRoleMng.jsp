@@ -54,7 +54,7 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 
 	this.$("#authorRoleMngList").on("onCheckBoxChanged", function(event, module, row, grid, param) {
 //		var selectedValue = $(this).find(":selected").val();
-//		console.log("the value you selected: " + selectedValue);
+//		// console.log("the value you selected: " + selectedValue);
 		throw 0;
 	});
 

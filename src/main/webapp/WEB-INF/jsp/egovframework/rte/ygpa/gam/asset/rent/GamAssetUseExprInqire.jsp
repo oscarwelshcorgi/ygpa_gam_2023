@@ -78,7 +78,7 @@ GamAssetUseExprInqireModule.prototype.loadUseList = function() {
     this.$("#assetUseExprInqireListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamAssetUseExprInqireSearchForm');
     this.$('#assetUseExprInqireList').flexOptions({params:searchOpt}).flexReload();
-    console.log('load use list');
+    // console.log('load use list');
 };
 
 GamAssetUseExprInqireModule.prototype.loadDetailForm = function() {

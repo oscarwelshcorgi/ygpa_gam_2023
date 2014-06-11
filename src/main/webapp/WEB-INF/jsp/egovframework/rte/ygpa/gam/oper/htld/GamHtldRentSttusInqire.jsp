@@ -157,7 +157,7 @@ GamHtldRentSttusInqireModule.prototype.loadRentList = function() {
 
     var searchOpt=this.makeFormArgs('#gamHtldRentSttusInqireSearchForm');
     this.$('#htldRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-    console.log('load rent list');
+    // console.log('load rent list');
 };
 
 GamHtldRentSttusInqireModule.prototype.loadDetailForm = function() {

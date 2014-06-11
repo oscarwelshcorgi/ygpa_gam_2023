@@ -96,7 +96,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 			 		}
 			 		else {
 			 			alert(result.resultMsg);
-			 			// console.log(result.resultMsg);
+			 			// // console.log(result.resultMsg);
 			 			return;
 			 		}
 			 	});				

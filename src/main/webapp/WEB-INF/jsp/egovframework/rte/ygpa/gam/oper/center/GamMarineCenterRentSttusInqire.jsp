@@ -157,7 +157,7 @@ GamMarineCenterRentSttusInqireModule.prototype.loadRentList = function() {
 
     var searchOpt=this.makeFormArgs('#gamMarineCenterRentSttusInqireSearchForm');
     this.$('#marineCenterRentSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-    console.log('load rent list');
+    // console.log('load rent list');
 };
 
 GamMarineCenterRentSttusInqireModule.prototype.loadDetailForm = function() {
