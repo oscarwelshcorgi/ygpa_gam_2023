@@ -25,7 +25,7 @@
  */
 function GamPopupPrtOperRentModule() {} GamPopupPrtOperRentModule
 
-GamPopupPrtOperRentModule.prototype = new EmdPopupModule(320, 100);
+GamPopupPrtOperRentModule.prototype = new EmdPopupModule(500, 100);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupPrtOperRentModule.prototype.loadComplete = function() {
