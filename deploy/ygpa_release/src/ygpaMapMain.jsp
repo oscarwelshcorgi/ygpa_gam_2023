@@ -70,7 +70,35 @@
     <script type="text/javascript">
 
        jQuery(document).ready(function() {
-    	   EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}");
+    	   var frmwrkMenu = [
+    	      	  					{
+    	    	  						menuNo: '2100000',
+    	    	  						menuNm: '시작',
+    	    	  						url: '/',
+    	    	  						submenu: [
+    	    	  									{
+    	    	  										menuNo: '2101000',
+    	    	  										menuNm: '자산임대관리팝업',
+    	    	  										url: '/asset/rent/gamAssetPopupInqire.do',
+    	    	  									},
+    	    	  						          ]
+    	    	  					},
+    	    	  					{
+    	    	  						menuNo: '2200000',
+    	    	  						menuNm: '기능',
+    	    	  						url: '/',
+    	    	  						submenu: [
+    	    	  									{
+    	    	  										menuNo: '2201000',
+    	    	  										menuNm: '법정동 조회',
+    	    	  										url: '/code/gamBupJungDongCodeMngt.do',
+    	    	  									},
+    	    	  						          ]
+    	    	  					},
+			];
+    	    Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
+
+	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://lfitsvr.iptime.org:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
     	 });
 
     </script>

@@ -981,8 +981,11 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 }
 
                 if( row['sanctnSttus'] != '1' ) {
-                    alert("결재완료 상태가 아닙니다.");
-                    return;
+                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 사용승낙을 하시겠습니까?")) {
+                        return;
+                	}
+/*                     alert("결재완료 상태가 아닙니다.");
+                    return; */
                 }
 
             	var opts = {
@@ -1760,7 +1763,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="25" class="calcInput" id="rdcxptFee"/></td>
 								<th width="10%" height="18">사용료</th>
                                 <td><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
-                                <!-- 
+                                <!--
 								<th width="10%" height="18">부두코드</th>
                                 <td>
                                 	<input type="text" id="quayCd" size="10" disabled/>

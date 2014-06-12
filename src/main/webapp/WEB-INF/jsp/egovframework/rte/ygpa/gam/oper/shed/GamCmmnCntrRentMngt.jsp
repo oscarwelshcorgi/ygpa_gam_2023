@@ -977,8 +977,11 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 }
 
                 if( row['sanctnSttus'] != '1' ) {
-                    alert("결재완료 상태가 아닙니다.");
-                    return;
+                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 사용승낙을 하시겠습니까?")) {
+                        return;
+                	}
+/*                     alert("결재완료 상태가 아닙니다.");
+                    return; */
                 }
 
             	var opts = {

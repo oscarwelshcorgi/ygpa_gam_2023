@@ -6,16 +6,16 @@
 <%
   /**
   * @Class Name : GamHtldRentFeeMngt.jsp
-  * @Description : 배후단지임대료관리 
+  * @Description : 배후단지임대료관리
   * @Modification Information
-  * 
-  *   수정일          수정자                   수정내용 
+  *
+  *   수정일          수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.14  domh          최초 생성
   *
   * author domh
   * since 2014.01.14
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -155,8 +155,11 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
                 if( rows['sanctnSttus'] != '1' ) {
-                	alert("결재가 완료 되지 않았습니다.");
-                	return;
+                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
+                        return;
+                	}
+                	/*                 	alert("결재가 완료 되지 않았습니다.");
+                	return; */
                 }
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
@@ -188,11 +191,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] != '1' ) {
-                	alert("결재가 완료 되지 않았습니다.");
-                	return;
-                }
-
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("고지되지 않았습니다.");
                 	return;
@@ -223,11 +221,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] != '1' ) {
-                	alert("해당 건은 결재가 완료 되지 않았습니다.");
-                	return;
-                }
-
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("해당 건은 아직 고지되지 않았습니다.");
                 	return;
@@ -246,11 +239,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 //alert(EMD.context_root);
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
-
-                if( rows['sanctnSttus'] != '1' ) {
-                	alert("해당 건은 결재가 완료 되지 않았습니다.");
-                	return;
-                }
 
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("해당 건은 아직 고지되지 않았습니다.");
@@ -411,7 +399,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                             <th>사용시작일자</th>
                             <td>
-                            	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~ 
+                            	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~
                             	<input id="sUsagePdTo" type="text" class="emdcal" size="10">
                             </td>
                         </tr>
@@ -486,9 +474,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                    <div class="emdPanel">
-<!--	                 
+<!--
                    	<h2>시설사용내역</h2>
- -->					
+ -->
                    	<form id="gamAssetRentFeeForm">
                    	<input type="hidden" data-column-id="prtAtCode"/>
                    	<input type="hidden" data-column-id="mngYear"/>
@@ -563,7 +551,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                    		<tr>
                    			<th>비고</th>
                    			<td colspan="7" style="vertical-align:middle;">
-                   				<textarea rows="3" cols="85" data-column-id='rm'></textarea> 
+                   				<textarea rows="3" cols="85" data-column-id='rm'></textarea>
                    				<button id="btnSaveRmk" class="buttonSave">저장</button>
                    			</td>
                  		</tr>
@@ -584,9 +572,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
 						</tr>
 					</tbody>
 					</table>
-<!--	                 
+<!--
 					<h2>전체 사용료 목록</h2>
- -->					
+ -->
                		<table class="detailPanel">
                     	<thead>
                     		<tr>
@@ -632,7 +620,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         </tr>
                     </table>
 				</div>
-<!--	                 
+<!--
 				<div class="emdControlPanel">
 					<button id="btnEApproval2">결재요청</button>
 					<button id="btnExecNticIssue2">고지</button>
@@ -640,7 +628,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 					<button id="btnNticIssuePrint2">고지서출력</button>
 					<button id="btnTaxPrint2">계산서출력</button>
 				</div>
- -->	            
+ -->
 	        </div>
 	    </div>
 	</div>

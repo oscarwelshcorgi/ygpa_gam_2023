@@ -155,8 +155,11 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
                 if( rows['sanctnSttus'] != '1' ) {
-                	alert("결재가 완료 되지 않았습니다.");
-                	return;
+                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
+                        return;
+                	}
+                	/*                 	alert("결재가 완료 되지 않았습니다.");
+                	return; */
                 }
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
@@ -188,11 +191,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] != '1' ) {
-                	alert("결재가 완료 되지 않았습니다.");
-                	return;
-                }
-
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("고지되지 않았습니다.");
                 	return;
@@ -223,11 +221,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] != '1' ) {
-                	alert("해당 건은 결재가 완료 되지 않았습니다.");
-                	return;
-                }
-
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("해당 건은 아직 고지되지 않았습니다.");
                 	return;
@@ -246,11 +239,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 //alert(EMD.context_root);
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
-
-                if( rows['sanctnSttus'] != '1' ) {
-                	alert("해당 건은 결재가 완료 되지 않았습니다.");
-                	return;
-                }
 
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("해당 건은 아직 고지되지 않았습니다.");

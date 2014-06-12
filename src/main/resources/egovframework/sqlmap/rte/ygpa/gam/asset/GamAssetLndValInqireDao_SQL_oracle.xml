@@ -12,7 +12,7 @@
 		<result property="sumArOlnlp" column="SUM_AR_OLNLP" columnIndex="2"/>
 		<result property="sumGisAssetsAcqPri" column="SUM_GIS_ASSETS_ACQ_PRI" columnIndex="3"/>
 	</resultMap>
-	
+
     <select id="gamAssetLndValInqireDao.selectAssetLndValInqireList_D" parameterClass="gamAssetLndValInqireVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -62,7 +62,8 @@
 							      , NVL(O.OLNLP,0) OLNLP
 							  FROM GIS_ASSETS_CD_F G
 							     , OLNLP_F O
-							 WHERE G.GIS_ASSETS_PRT_AT_CODE = O.GIS_ASSETS_PRT_AT_CODE
+							 WHERE GIS_ASSETS_PRPRTY_SE_CD='L'
+							 	 AND G.GIS_ASSETS_PRT_AT_CODE = O.GIS_ASSETS_PRT_AT_CODE
 							   AND G.GIS_ASSETS_CD = O.GIS_ASSETS_CD
 							   AND G.GIS_ASSETS_SUB_CD = O.GIS_ASSETS_SUB_CD
 				<isNotEmpty prepend="AND" property="sPrtAtCode">

@@ -58,7 +58,7 @@
 							     , E.UPDATE_EMP_NO
 							     , E.UPDATE_DATE
 							FROM GIS_ASSETS_CD_F A LEFT JOIN
-							     YGPAERP.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
+							     EGMISDB.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
  						   WHERE 1=1
@@ -106,7 +106,7 @@
     <select id="gamAssetEvlDtlsInqireDao.selectAssetEvlDtlsInqireListTotCnt_S" parameterClass="gamAssetEvlDtlsInqireVO" resultClass="int">
             SELECT COUNT(*) totcnt
 							FROM GIS_ASSETS_CD_F A LEFT JOIN
-							     YGPAERP.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
+							     EGMISDB.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
  						   WHERE 1=1
@@ -159,7 +159,7 @@
 		      , SUM(NVL(E.THIS_TERM_DEPRCTN_AMT,0)) SUM_THIS_TERM_DEPRCTN_AMT
 		      , SUM(NVL(E.CUR_AMT,0)) SUM_CUR_AMT
 							FROM GIS_ASSETS_CD_F A LEFT JOIN
-							     YGPAERP.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
+							     EGMISDB.EGMFA2000 E ON A.ERP_ASSETS_CLS    = E.ASSET_CLS
 							 AND A.ERP_ASSETS_NO     = E.ASSET_NO
 							 AND A.ERP_ASSETS_NO_SEQ = E.ASSET_NO_SEQ
  						   WHERE 1=1

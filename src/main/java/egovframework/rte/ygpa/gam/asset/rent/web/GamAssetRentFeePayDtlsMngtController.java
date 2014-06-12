@@ -79,6 +79,8 @@ public class GamAssetRentFeePayDtlsMngtController {
     @Resource(name = "gamAssetRentFeePayDtlsMngtService")
     private GamAssetRentFeePayDtlsMngtService gamAssetRentFeePayDtlsMngtService;
 
+    @Resource(name="gamAssetRentFeeMngtService")
+    private GamAssetRentFeeMngtService gamAssetRentFeeMngtService;
 
     /**
      * 자산임대료납부관리 화면을 로딩한다.
@@ -128,7 +130,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/asset/rent/GamAssetRentFeePayDtlsMngt";
-    } 
+    }
 
 	/**
      * 자산임대료납부관리 목록을 조회한다.
@@ -143,7 +145,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -205,7 +207,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -243,6 +245,98 @@ public class GamAssetRentFeePayDtlsMngtController {
 
     	return map;
     }
+
+	    /**
+	     * 수납확인을 하거나 취소 한다.
+	     * @param nticCnt
+	     * @param prtAtCode
+	     * @param mngYear
+	     * @param mngNo
+	     * @param mngCnt
+	     * @param accnutYear
+	     * @param nticno
+	     * @return
+	     * @throws Exception
+	     */
+	    @RequestMapping(value="/asset/rent/updateNticPayment.do")
+	    @ResponseBody Map<String, Object> updateNticPayment (
+					  @RequestParam("nticCnt") String nticCnt
+					 ,@RequestParam("prtAtCode") String prtAtCode
+					 ,@RequestParam("mngYear") String mngYear
+					 ,@RequestParam("mngNo") String mngNo
+					 ,@RequestParam("mngCnt") String mngCnt
+					 ,@RequestParam("accnutYear") String accnutYear
+					 ,@RequestParam("nticno") String nticno
+					 ,@RequestParam("option") String option
+	    		     ) throws Exception {
+
+	    	GamAssetRentFeeMngtVO gamAssetRentFeeMngtVO = new GamAssetRentFeeMngtVO();
+	        Map map = new HashMap();
+	        Map paramMap = new HashMap();
+	        String resultMsg = "";
+	        int resultCode = 1;
+	        int anlrveLevCnt = 0;
+
+	     // 0. Spring Security 사용자권한 처리
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+		        map.put("resultCode", 1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	        	return map;
+	    	}
+
+	        LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+	        if("ok".equals(option)) {
+	        	//세입징수 취소
+	     		gamAssetRentFeeMngtVO.setNticCnt(nticCnt);
+	     		gamAssetRentFeeMngtVO.setPrtAtCode(prtAtCode);
+	     		gamAssetRentFeeMngtVO.setMngYear(mngYear);
+	     		gamAssetRentFeeMngtVO.setMngNo(mngNo);
+	     		gamAssetRentFeeMngtVO.setMngCnt(mngCnt);
+	     		gamAssetRentFeeMngtVO.setRegUsr(loginVO.getId());
+	     		gamAssetRentFeeMngtVO.setUpdUsr(loginVO.getId());
+	     		gamAssetRentFeeMngtVO.setRcivSe("3");
+
+	     		paramMap.put("nticCnt", nticCnt);
+	     		paramMap.put("prtAtCode", prtAtCode);
+	     		paramMap.put("mngYear", mngYear);
+	     		paramMap.put("mngNo", mngNo);
+	     		paramMap.put("mngCnt", mngCnt);
+
+	     		gamNticRequestMngtService.cancelNticRequest(paramMap);
+
+		 		gamAssetRentFeeMngtService.updateAssetRentFee(gamAssetRentFeeMngtVO);
+	 		}
+	        else {
+	     		gamAssetRentFeeMngtVO.setNticCnt(nticCnt);
+	     		gamAssetRentFeeMngtVO.setPrtAtCode(prtAtCode);
+	     		gamAssetRentFeeMngtVO.setMngYear(mngYear);
+	     		gamAssetRentFeeMngtVO.setMngNo(mngNo);
+	     		gamAssetRentFeeMngtVO.setMngCnt(mngCnt);
+	     		gamAssetRentFeeMngtVO.setRegUsr(loginVO.getId());
+	     		gamAssetRentFeeMngtVO.setUpdUsr(loginVO.getId());
+	     		gamAssetRentFeeMngtVO.setRcivSe("0");
+
+	     		paramMap.put("nticCnt", nticCnt);
+	     		paramMap.put("prtAtCode", prtAtCode);
+	     		paramMap.put("mngYear", mngYear);
+	     		paramMap.put("mngNo", mngNo);
+	     		paramMap.put("mngCnt", mngCnt);
+
+	     		gamNticRequestMngtService.sendNticRequest(paramMap);	//  다시 고지한다.
+
+		 		gamAssetRentFeeMngtService.updateAssetRentFee(gamAssetRentFeeMngtVO);
+	        }
+
+	 		resultCode = 0;
+	        resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+
+	     	map.put("resultCode", resultCode);
+	        map.put("resultMsg", resultMsg);
+
+	 		return map;
+	     }
 
 	    @SuppressWarnings("unchecked")
 		@RequestMapping(value="/asset/rent/updateAssetRentFeePayDtlsMngtList.do")
@@ -286,6 +380,11 @@ public class GamAssetRentFeePayDtlsMngtController {
 	     }
 
 
+	    @RequestMapping(value="/asset/rent/showNticPaymentPopup.do")
+	    String showNticPaymentPopup(ModelMap model) throws Exception {
+	    	return "/ygpa/gam/asset/rent/GamNticPaymentPopup";
+	    }
+
     /**
      *  연체 세입 조회
      * @param searchOpt
@@ -310,7 +409,7 @@ public class GamAssetRentFeePayDtlsMngtController {
     @ResponseBody Map<String, Object> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -410,7 +509,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 
 		return map;
     }
-    
+
     /**
      * 항만시설연체현황관리 목록을 조회한다.
      *change**
@@ -442,7 +541,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
     	List resultList = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDlyList(searchVO);
-    	
+
     	int totCnt = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDlyListTotCnt(searchVO);
     	Map summary = gamAssetRentFeePayDtlsMngtService.selectAssetRentFeePayDtlsMngtDlyListSum(searchVO);
 

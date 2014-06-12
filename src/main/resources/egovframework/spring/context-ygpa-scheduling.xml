@@ -15,7 +15,7 @@
 	<bean id="updateAssetRentFeePayDtlsMngtTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="updateAssetRentFeePayDtlsMngt" />
 		<property name="startDelay" value="60000" />
-		<property name="cronExpression" value="0 15 08 ? * *" />
+		<property name="cronExpression" value="0 15 10 ? * *" />
 	</bean>
 
 	<!-- 포트미스 납부확인 스케줄  -->

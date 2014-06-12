@@ -118,6 +118,11 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         case 'btnNticArrrgSingle':
 			this.nticArrrgSingle();
         	break;
+        case 'btnNticPayment':	// 납부 확인
+        	var row = this.$('#assetRentFeePayList').selectedRows()[0];
+
+            this.doExecuteDialog('btnNticPayPopup', '수납 확인', '<c:url value="/asset/rent/showNticPaymentPopup.do"/>', null, row);
+        	break;
     }
 };
 
@@ -197,8 +202,8 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 			alert(result.resultMsg);
 		}
 	});
-		// tabs3 -- 연체목록을 채운다 
-		
+		// tabs3 -- 연체목록을 채운다
+
 		var dlyList = [
 		               { name: 'prtAtCode', value: row.prtAtCode},
 		               { name: 'chrgeKnd', value: row.chrgeKnd },
@@ -207,18 +212,18 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 		             ];
 		this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDlyList.do" />', dlyList, function(module, result) {
 			if (result.resultCode == "0") {
-				
+
 				module.makeMultiDivValues('#assetRentFeePayDtlsMngtListForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
 
 				module.makeDivValues('#assetRentFeePayDtlsMngtSum', result.resultSummary); // 결과값을 채운다.
 
-				
+
 			} else {
 				alert(result.resultMsg);
 			}
 		});
-	 	
+
 };
 
 GamAssetRentFeePayDtlsMngtModule.prototype.calculateArrrgFee = function() {
@@ -281,6 +286,11 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onClosePopup = function(popupId, msg,
         }
         break;
     case 'nticArrrgPopup':
+    	break;
+    case 'btnNticPayPopup':
+    	if(msg!='cancel') {
+    		this.loadDetailPage();
+    	}
     	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -370,6 +380,9 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
 					<tbody>
 						<tr>
 							<th>고지내역</th>
+ 							<th style="text-align:right">
+								<button id="btnNticPayment" data-icon="ui-icon-clock">수납확인</button>
+							</th>
 						</tr>
 					</tbody>
 					</table>
@@ -501,7 +514,7 @@ var module_instance = new GamAssetRentFeePayDtlsMngtModule();
                         </tr>
                     </table>
 			</div>
-			<!-- change** --> 
+			<!-- change** -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->

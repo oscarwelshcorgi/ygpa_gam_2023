@@ -93,6 +93,9 @@ public class GamMainController {
 
     		model.addAttribute("mainMenu", (List)((Map)mainMenu.get(0)).get("submenu"));
     		if(mainMenu.size()>1) model.addAttribute("frmwrkMenu", (List)((Map)mainMenu.get(1)).get("submenu"));
+    		else {
+    			model.addAttribute("frmwrkMenu", null);
+    		}
 //    		model.addAttribute("authorities", EgovUserDetailsHelper.getAuthorities());
     	}
 
