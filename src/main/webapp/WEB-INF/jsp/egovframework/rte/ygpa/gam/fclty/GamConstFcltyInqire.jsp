@@ -43,7 +43,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 				{display:"건축시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 				{display:"건축시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 				{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
-				{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
+// 				{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
 				{display:"건축시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
 				{display:"건축시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
 				{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
@@ -379,8 +379,10 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td><span id="prtFcltySeNm"></span></td>
+							<!-- 
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><span id="gisAssetsLocNm"></span></td>
+							 -->
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">건축시설규격</th>
