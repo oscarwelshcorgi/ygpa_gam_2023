@@ -396,3 +396,38 @@ div.olControlMoveShpaeFeaturesItemInactive {
     background-repeat: no-repeat;
     background-position: 0 1px;
 }
+
+div.olControlMeasureAreaItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/ruler.png");
+    background-repeat: no-repeat;
+    margin: 0 0 5px 5px;
+    width: 24px;
+    height: 22px;
+    cursor: pointer
+}
+div.olControlMeasureAreaItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/ruler.png");
+    background-repeat: no-repeat;
+    margin: 0 0 5px 5px;
+    width: 24px;
+    height: 22px;
+    cursor: pointer
+}
+
+div.olControlMeasureDistItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measuring-stick-off.png");
+    background-repeat: no-repeat;
+    margin: 0 0 5px 5px;
+    width: 24px;
+    height: 22px;
+    cursor: pointer
+}
+div.olControlMeasureDistItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measuring-stick-on.png");
+    background-repeat: no-repeat;
+    margin: 0 0 5px 5px;
+    width: 24px;
+    height: 22px;
+    cursor: pointer
+}
+

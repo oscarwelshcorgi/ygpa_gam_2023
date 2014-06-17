@@ -103,7 +103,7 @@ public class PrtFcltyPhotoUpDownController {
 				FileInfoVO fileInfoVO = new FileInfoVO();
 				fileInfoVO.setFileName(gamPrtFcltyPhotoIdGnrService.getNextStringId()+"."+tokens[1]);
 				fileInfoVO.setOrizinalFileName(file.getOriginalFilename());
-				filePath = uploadPath + "\\" + fileInfoVO.getFileName();
+				filePath = uploadPath + fileInfoVO.getFileName();
 				file.transferTo(new File(filePath));
 
 				fileInfoVO.setFilePath("");
@@ -180,7 +180,7 @@ public class PrtFcltyPhotoUpDownController {
 				FileInfoVO fileInfoVO = new FileInfoVO();
 				fileInfoVO.setFileName(gamPrtFcltyPhotoIdGnrService.getNextStringId()+"."+tokens[1]);
 				fileInfoVO.setOrizinalFileName(file.getOriginalFilename());
-				filePath = uploadPath + "\\" + fileInfoVO.getFileName();
+				filePath = uploadPath + fileInfoVO.getFileName();
 				file.transferTo(new File(filePath));
 
 				fileInfoVO.setFilePath("");

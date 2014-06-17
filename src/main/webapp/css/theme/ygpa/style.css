@@ -388,7 +388,7 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 }
 .olControlNavToolbar div,
 .olControlEditingToolbar div {
-    background-image: url("img/editing_tool_bar.png");
+    background-image: url("editing_tool_bar.png");
     background-repeat: no-repeat;
     margin: 0 0 5px 5px;
     width: 24px;
