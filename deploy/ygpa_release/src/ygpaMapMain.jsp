@@ -69,6 +69,7 @@
 
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
+	var $DEBUG=false;
 
        jQuery(document).ready(function() {
     	   var frmwrkMenu=null;

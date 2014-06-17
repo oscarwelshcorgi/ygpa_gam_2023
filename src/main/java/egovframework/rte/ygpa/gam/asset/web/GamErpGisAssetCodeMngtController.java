@@ -91,7 +91,7 @@ public class GamErpGisAssetCodeMngtController {
 
     	model.addAttribute("windowId", windowId);
 
-    	ErpCmmnCdVO searchVO = new ErpCmmnCdVO();
+//    	ErpCmmnCdVO searchVO = new ErpCmmnCdVO();
 
 //    	searchVO.setBigClsCd("0401");	// 제코드구분
 //    	searchVO.setFirstIndex(0);

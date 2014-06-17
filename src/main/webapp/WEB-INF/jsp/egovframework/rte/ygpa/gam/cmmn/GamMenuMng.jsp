@@ -101,6 +101,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			//this.$("#upperMenuId").removeAttr("disabled");
 			this.$("#menuMngListTab").tabs("option", {active: 1});
 			this.$("#menuManageVO :input").val("");
+			this.$('#beforeMenuNo').val("-1");
 			this.$("#cmd").val("insert");
 		break;
 

@@ -26,7 +26,7 @@
 					, dbms_lob.substr(PROGRM_DC, 10, 1)||'...' AS "progrmDc"
 					, URL              AS "URL"
 				FROM COMTNPROGRMLIST
-				WHERE PROGRM_KOREAN_NM like  '%'|| #searchKeyword#||'%'
+				WHERE PROGRM_KOREAN_NM like  '%'|| #searchKeyword#||'%' OR PROGRM_FILE_NM like  '%'|| #searchKeyword#||'%'
 	       ) TB )  WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
 		 ]]>
 	</select> 
@@ -36,7 +36,7 @@
 		<![CDATA[
 		SELECT COUNT(*) AS "totcnt"
 		  FROM COMTNPROGRMLIST
-	    WHERE PROGRM_KOREAN_NM like  '%'|| #searchKeyword#||'%'
+				WHERE PROGRM_KOREAN_NM like  '%'|| #searchKeyword#||'%' OR PROGRM_FILE_NM like  '%'|| #searchKeyword#||'%'
 		]]>
 	</select>
 

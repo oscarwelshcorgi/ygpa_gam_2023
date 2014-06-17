@@ -380,6 +380,7 @@
     
     <insert id="gamMarineCenterRentMngtDao.insertMarineCenterRentFirst_S">     
         INSERT INTO ASSETS_RENT_F (
+        G2_ID,
                                      PRT_AT_CODE
                                    , MNG_YEAR
                                    , MNG_NO
@@ -413,6 +414,7 @@
                                    , PAYINST_INTRRATE
                                    )
                             VALUES (
+                            (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F),
                                      #prtAtCode#
                                    , TO_CHAR(SYSDATE,'YYYY')
                                    , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0')
@@ -458,6 +460,7 @@
     
     <insert id="gamMarineCenterRentMngtDao.insertMarineCenterRentRenew_S">     
         INSERT INTO ASSETS_RENT_F (
+        	G2_ID,
                                      PRT_AT_CODE
                                    , MNG_YEAR
                                    , MNG_NO
@@ -491,7 +494,8 @@
                                    , REQST_DT
                                    , PAYINST_INTRRATE
                                )
-                         SELECT    A.PRT_AT_CODE
+                         SELECT    (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F),
+                         			A.PRT_AT_CODE
                                  , A.MNG_YEAR
                                  , A.MNG_NO
                                  , #maxMngCnt#
@@ -689,6 +693,7 @@
     
     <insert id="gamMarineCenterRentMngtDao.insertMarineCenterRentDetail_S">
         INSERT INTO ASSETS_RENT_DETAIL_F (
+        	G2_ID,
 		                                     ASSETS_USAGE_SEQ
 		                                   , MNG_YEAR
                                            , MNG_NO
@@ -720,6 +725,7 @@
                                            , USAGE_AR
 		                                 )
 		                          VALUES (
+		                          (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_DETAIL_F),
 		                                     ( SELECT NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1
 											     FROM ASSETS_RENT_DETAIL_F
 											    WHERE MNG_YEAR    = #detailMngYear#
@@ -1020,6 +1026,7 @@
 	    </selectKey>
 
 	    INSERT INTO ASSETS_RENT_DETAIL_F (
+	    	G2_ID,
                                              ASSETS_USAGE_SEQ
                                            , GIS_ASSETS_CD
                                            , GIS_ASSETS_SUB_CD
@@ -1059,6 +1066,7 @@
                                            , QUAY_CD
                                          )
                                   VALUES (
+                                  (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F),
                                              #maxAssetsUsageSeq#
                                            , #gisAssetsCd#
                                            , #gisAssetsSubCd#
