@@ -274,7 +274,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
 			this.$("#prtFcltyExprDt").val(this.$("#prtFcltyExprDt").val().replace(/\-/g,""));
-			console.log();
 		 	if(this._cmd == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamInfoTechFcltyInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
