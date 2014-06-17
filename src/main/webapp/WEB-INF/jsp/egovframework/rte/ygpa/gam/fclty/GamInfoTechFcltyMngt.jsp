@@ -106,9 +106,9 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
-			module.$("#selectedGAM005_select").hide();
+//			module.$("#selectedGAM005_select").hide();
+//			module.$("#gisCodePopupBtn").hide();
 			module.$("#prtFcltySeNm").show();
-			module.$("#gisCodePopupBtn").hide();
 			module._cmd="modify";
 			module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});

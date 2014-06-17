@@ -34,7 +34,6 @@
 <script>
 
 function actionLogin(event) {
-//	event.preventDefault();
 	if (document.loginForm.id.value =="") {
 		alert("아이디를 입력하세요");
 	} else if (document.loginForm.password.value =="") {
