@@ -56,7 +56,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
-					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
+					{display:"만료일자",		name:"prtFcltyExprDt",	width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -273,8 +273,8 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
-			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
-
+			this.$("#prtFcltyExprDt").val(this.$("#prtFcltyExprDt").val().replace(/\-/g,""));
+			console.log();
 		 	if(this._cmd == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamInfoTechFcltyInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
@@ -760,8 +760,8 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
-							<th width="15%" height="23" class="required_text">변경일자</th>
-							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
+							<th width="15%" height="23" class="required_text">만료일자</th>
+							<td><input id="prtFcltyExprDt" type="text" class="emdcal" size="20" title="만료일자" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">위도좌표</th>
