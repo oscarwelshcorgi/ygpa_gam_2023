@@ -78,7 +78,6 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnAssetRent':
-     case 'btnAssetRent2':
     	 EMD.util.create_window('자산임대관리', '<c:url value="/asset/rent/gamAssetRentMngt.do"/>', null);
     	 break;
      case 'btnAssetFeeMngt':
@@ -86,6 +85,9 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
     	 break;
      case 'btnAssetRentFeePayDtlsMngt':
     	 EMD.util.create_window('자산임대료납부관리', '<c:url value="/asset/rent/gamAssetRentFeePayDtlsMngt.do"/>', null);
+    	 break;
+     case 'btnAssetUseExprInqire':
+    	 EMD.util.create_window('자산임대만기도래자료조회', '<c:url value="/asset/rent/gamAssetUseExprInqire.do"/>', null);
     	 break;
  }
 };
@@ -183,7 +185,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnAssetRent2">자산임대관리</button>
+                                <button id="btnAssetUseExprInqire">만기도래자료조회</button>
                             </td>
                         </tr>
                         </form>
