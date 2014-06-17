@@ -8,14 +8,14 @@
   * @Class Name : GamAssetPopupInqire.jsp
   * @Description : 자산정보현황알림
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.07  heroine          최초 생성
   *
   * author heroine
   * since 2014.02.07
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -25,12 +25,12 @@
  */
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(300, 250);
+GamAssetLndValInqireModule.prototype = new EmdModule(460, 265);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
      url: '<c:url value="/asset/rent/gamSelectAssetLndValInqireList.do"/>',
@@ -46,14 +46,14 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
                  {display:'GIS 자산 사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},          
-                 {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},     
+                 {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},
+                 {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},
+                 {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},
                  {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},
-                 {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},                   
-                 {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},                    
-                 {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},                                   
-                 {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},                                  
+                 {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
+                 {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},
+                 {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
+                 {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},
                  ],
      usepager: true,
      useRp: true,
@@ -62,7 +62,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
      height: '290'
  });
 };
-     
+
 /**
 * 정의 된 버튼 클릭 시
 */
@@ -76,6 +76,17 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          this.$('#assetLndValInqireList').flexOptions({params:searchOpt}).flexReload();
 
          break;
+
+     case 'btnAssetRent':
+     case 'btnAssetRent2':
+    	 EMD.util.create_window('자산임대관리', '<c:url value="/asset/rent/gamAssetRentMngt.do"/>', null);
+    	 break;
+     case 'btnAssetFeeMngt':
+    	 EMD.util.create_window('자산임대료고지관리', '<c:url value="/asset/rent/gamAssetRentFeeMngt.do"/>', null);
+    	 break;
+     case 'btnAssetRentFeePayDtlsMngt':
+    	 EMD.util.create_window('자산임대료납부관리', '<c:url value="/asset/rent/gamAssetRentFeePayDtlsMngt.do"/>', null);
+    	 break;
  }
 };
 
@@ -107,36 +118,39 @@ var module_instance = new GamAssetLndValInqireModule();
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
 
-    
+
 
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <!-- 
+                <!--
                 <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">자산정보현황 상세</a></li>
                  -->
-                 
+
                 <li><a href="#tabs1" class="emdTab">자산정보현황알림</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <!-- 
+                <!--
                 <div style="width: 100%; height: 100%; overflow:auto">
                         <table id="assetLndValInqireList" style="display:none"></table>
                 </div>
                 -->
-                
-                
+
+
                 <div class="emdControlPanel">
                     <table style="width:100%;" >
                         <form id="form1">
                         <tr>
                             <th>
-                                * 자산임대/사용신청 건수 
+                                * 자산임대/사용신청 건수
                             </th>
                             <td>
                                 <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
+                            </td>
+                            <td>
+                                <button id="btnAssetRent">자산임대관리</button>
                             </td>
                         </tr>
                         <tr>
@@ -146,15 +160,21 @@ var module_instance = new GamAssetLndValInqireModule();
                             <td>
                                 <input id="totalResultCnt2" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
                             </td>
-                        </tr>                                                
+                            <td>
+                                <button id="btnAssetFeeMngt">임대료고지관리</button>
+                            </td>
+                        </tr>
                         <tr>
                             <th>
-                                * 미수납자료 건수 
+                                * 미수납자료 건수
                             </th>
                             <td>
                                 <input id="totalResultCnt3" size="10" readonly value="<c:out value="${nhtIsueCnt}"/>">
                             </td>
-                        </tr>       
+                            <td>
+                                <button id="btnAssetRentFeePayDtlsMngt">사용료납부관리</button>
+                            </td>
+                        </tr>
                         <tr>
                             <th>
                                 * 계약만료자료 건수
@@ -162,11 +182,14 @@ var module_instance = new GamAssetLndValInqireModule();
                             <td>
                                 <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
                             </td>
-                        </tr>    
+                            <td>
+                                <button id="btnAssetRent2">자산임대관리</button>
+                            </td>
+                        </tr>
                         </form>
                     </table>
                 </div>
-                
+
             </div>
     </div>
 </div>

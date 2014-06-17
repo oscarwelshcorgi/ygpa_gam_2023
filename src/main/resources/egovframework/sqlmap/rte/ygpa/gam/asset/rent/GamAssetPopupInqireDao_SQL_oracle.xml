@@ -30,8 +30,8 @@
 			            AND L.MNG_NO      = F.MNG_NO
 			            AND L.MNG_CNT     = F.MNG_CNT
 			            AND F.QUAY_GROUP_CD      = 'P'
-			            AND TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(SYSDATE - 15,'YYYYMMDD')
-                        AND TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+			            AND L.NTIC_PD_FROM <![CDATA[>=]]> SYSDATE
+                        AND L.NTIC_PD_FROM <![CDATA[<]]> SYSDATE+15
 			         <!--
 			         WHERE L.NTIC_PD_FROM <![CDATA[>=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
 			           AND L.CONST_PER_TO <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
@@ -46,14 +46,14 @@
                         AND L.MNG_CNT     = F.MNG_CNT
                         AND F.QUAY_GROUP_CD      = 'P'
 					    AND L.NHT_ISUE_YN = 'Y'
-					    AND L.RCIV_SE     = 'N'
+					    AND L.RCIV_SE     <![CDATA[<>]]> '3'
                    ) NHT_ISUE_CNT
 			      ,(
 			        SELECT COUNT(*)
                       FROM ASSETS_RENT_F F
                      WHERE F.QUAY_GROUP_CD      = 'P'
-                       AND TO_CHAR(F.GR_USAGE_PD_TO,'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(SYSDATE - 30,'YYYYMMDD')
-                       AND TO_CHAR(F.GR_USAGE_PD_TO,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+                       AND F.GR_USAGE_PD_TO <![CDATA[>=]]> SYSDATE
+                       AND F.GR_USAGE_PD_TO <![CDATA[<]]> SYSDATE+30
 			       ) RCIV_SE_CNT
 			 FROM DUAL
     </select>
