@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.rent">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamAssetPopupInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO"/>
+
+    <resultMap id="gamAssetPopupInqireMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO">
+        <result property="prmisnYnCnt" column="PRMISN_YN_CNT" columnIndex="1"/>
+        <result property="nticPdCnt" column="NTIC_PD_CNT" columnIndex="2"/>
+        <result property="rcivSeCnt" column="RCIV_SE_CNT" columnIndex="3"/>
+        <result property="nhtIsueCnt" column="NHT_ISUE_CNT" columnIndex="4"/>
+    </resultMap>
+
+    <select id="gamCntnrQuayPopupInqireDao.selectCntnrQuayPopupInqire_S" parameterClass="gamAssetPopupInqireVO" resultMap="gamAssetPopupInqireMap">
+           SELECT
+			       (
+			        SELECT COUNT(*)
+			          FROM ASSETS_RENT_F F
+			         WHERE F.PRMISN_YN IS NULL OR F.PRMISN_YN = 'N'
+			           AND F.QUAY_GROUP_CD = 'C'
+			       ) PRMISN_YN_CNT
+			      ,(
+			         SELECT COUNT(*)
+			           FROM LEV_REQEST_F L, ASSETS_RENT_F F
+			          WHERE L.PRT_AT_CODE = F.PRT_AT_CODE
+			            AND L.MNG_YEAR    = F.MNG_YEAR
+			            AND L.MNG_NO      = F.MNG_NO
+			            AND L.MNG_CNT     = F.MNG_CNT
+			            AND F.QUAY_GROUP_CD      = 'C'
+			            AND L.NTIC_PD_FROM <![CDATA[>=]]> SYSDATE
+                        AND L.NTIC_PD_FROM <![CDATA[<]]> SYSDATE+15
+			         <!--
+			         WHERE L.NTIC_PD_FROM <![CDATA[>=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
+			           AND L.CONST_PER_TO <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
+			         -->
+			       ) NTIC_PD_CNT
+			      ,(
+                    SELECT COUNT(*)
+                       FROM LEV_REQEST_F L, ASSETS_RENT_F F
+                      WHERE L.PRT_AT_CODE = F.PRT_AT_CODE
+                        AND L.MNG_YEAR    = F.MNG_YEAR
+                        AND L.MNG_NO      = F.MNG_NO
+                        AND L.MNG_CNT     = F.MNG_CNT
+                        AND F.QUAY_GROUP_CD      = 'C'
+					    AND L.NHT_ISUE_YN = 'Y'
+					    AND L.RCIV_SE     <![CDATA[<>]]> '3'
+                   ) NHT_ISUE_CNT
+			      ,(
+			        SELECT COUNT(*)
+                      FROM ASSETS_RENT_F F
+                     WHERE F.QUAY_GROUP_CD      = 'C'
+                       AND F.GR_USAGE_PD_TO <![CDATA[>=]]> SYSDATE
+                       AND F.GR_USAGE_PD_TO <![CDATA[<]]> SYSDATE+30
+			       ) RCIV_SE_CNT
+			 FROM DUAL
+    </select>
+
+</sqlMap>
