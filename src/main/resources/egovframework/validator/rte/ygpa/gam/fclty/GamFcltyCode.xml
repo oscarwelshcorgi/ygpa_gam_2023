@@ -44,8 +44,8 @@
                 	<var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
-            <field property="prtFcltyChangeDt" depends="date">
-                <arg0 key="변경 일자" resource="false"/>
+            <field property="prtFcltyExprDt" depends="date">
+                <arg0 key="만료 일자" resource="false"/>
                 <var>
                 	<var-name>datePatternStrict</var-name>
                 	<var-value>yyyy-MM-dd</var-value>

@@ -49,7 +49,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
-					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
+					{display:"만료일자",		name:"prtFcltyExprDt",	width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -329,7 +329,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">설치일자</th>
 							<td><span id="prtFcltyInstlDt"></span></td>
 							<th width="15%" height="23" class="required_text">변경일자</th>
-							<td><span id="prtFcltyChangeDt"></span></td>
+							<td><span id="prtFcltyExprDt"></span></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">위도좌표</th>

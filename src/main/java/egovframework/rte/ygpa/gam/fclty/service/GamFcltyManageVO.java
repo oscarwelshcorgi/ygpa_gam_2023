@@ -101,8 +101,25 @@ public class GamFcltyManageVO extends ComDefaultVO{
     private String gisAssetsPrtAtName;
     private String prtFcltyMngEntrpsNm;
     private String prtFcltyPhotoSeq;
+    
+    /**	만료 일자		*/
+    private String prtFcltyExprDt;
 
     /**
+	 * @return the prtFcltyExprDt
+	 */
+	public String getPrtFcltyExprDt() {
+		return prtFcltyExprDt;
+	}
+
+	/**
+	 * @param prtFcltyExprDt the prtFcltyExprDt to set
+	 */
+	public void setPrtFcltyExprDt(String prtFcltyExprDt) {
+		this.prtFcltyExprDt = prtFcltyExprDt;
+	}
+
+	/**
      * @return the prtFcltyPhotoSeq
      */
     public String getPrtFcltyPhotoSeq() {

@@ -31,6 +31,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
+import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltyMngtService;
 
 /**
  *
@@ -56,8 +57,8 @@ public class GamInfoTechFcltyMngtController {
 	@Autowired
 	private DefaultBeanValidator beanValidator;
 
-	@Resource(name = "gamFcltyMngtService")
-	protected GamFcltyMngtService gamFcltyMngtService;
+	@Resource(name = "gamInfoTechFcltyMngtService")
+	protected GamInfoTechFcltyMngtService gamInfoTechFcltyMngtService;
 
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -129,8 +130,8 @@ public class GamInfoTechFcltyMngtController {
 
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
-		List<ComDefaultVO> fcltyMngtList = gamFcltyMngtService.selectFcltyMngtList(searchVO);
-        int totCnt = gamFcltyMngtService.selectFcltyMngtListTotCnt(searchVO);
+		List<ComDefaultVO> fcltyMngtList = gamInfoTechFcltyMngtService.selectInfoTechFcltyMngtList(searchVO);
+        int totCnt = gamInfoTechFcltyMngtService.selectInfoTechFcltyMngtListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -176,8 +177,8 @@ public class GamInfoTechFcltyMngtController {
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 
-		List<ComDefaultVO> fcltyMngtPhotoList = gamFcltyMngtService.selectFcltyMngtPhotoList(searchVO);
-		int totCnt = gamFcltyMngtService.selectFcltyMngtPhotoListTotCnt(searchVO);
+		List<ComDefaultVO> fcltyMngtPhotoList = gamInfoTechFcltyMngtService.selectInfoTechFcltyMngtPhotoList(searchVO);
+		int totCnt = gamInfoTechFcltyMngtService.selectInfoTechFcltyMngtPhotoListTotCnt(searchVO);
 
 		paginationInfo.setTotalRecordCount(totCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -217,7 +218,7 @@ public class GamInfoTechFcltyMngtController {
     	fcltyItem.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamFcltyMngtService.insertFclty(fcltyItem);
+    		gamInfoTechFcltyMngtService.insertInfoTechFclty(fcltyItem);
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -253,7 +254,7 @@ public class GamInfoTechFcltyMngtController {
     	}
 
     	try {
-        	result = gamFcltyMngtService.fcltyMngSelectView(fcltyManageVO);
+        	result = gamInfoTechFcltyMngtService.InfoTechfcltyMngSelectView(fcltyManageVO);
     	}
     	catch(Exception e) {
             map.put("resultCode", 2);
@@ -293,7 +294,7 @@ public class GamInfoTechFcltyMngtController {
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamFcltyMngtService.updateFclty(fcltyMngtList);
+    		gamInfoTechFcltyMngtService.updateInfoTechFclty(fcltyMngtList);
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
@@ -328,7 +329,7 @@ public class GamInfoTechFcltyMngtController {
     	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamFcltyMngtService.deleteFclty(fcltyManageVO);
+    		gamInfoTechFcltyMngtService.deleteInfoTechFclty(fcltyManageVO);
 
             map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -388,7 +389,7 @@ public class GamInfoTechFcltyMngtController {
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
 
-		gamFcltyMngtService.mergeFcltyPhotoMngt(mergeMap, this.prtFcltySe);
+		gamInfoTechFcltyMngtService.mergeInfoTechFcltyPhotoMngt(mergeMap, this.prtFcltySe);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
