@@ -37,20 +37,6 @@
 	                <var-value>10</var-value>
                 </var>
             </field>
-            <field property="prtFcltyInstlDt" depends="date">
-                <arg0 key="설치 일자" resource="false"/>
-                <var>
-                	<var-name>datePatternStrict</var-name>
-                	<var-value>yyyy-MM-dd</var-value>
-                </var>
-            </field>
-            <field property="prtFcltyExprDt" depends="date">
-                <arg0 key="만료 일자" resource="false"/>
-                <var>
-                	<var-name>datePatternStrict</var-name>
-                	<var-value>yyyy-MM-dd</var-value>
-                </var>
-            </field>
         </form>
     </formset>
 </form-validation>
