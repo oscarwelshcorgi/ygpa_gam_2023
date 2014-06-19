@@ -1000,7 +1000,7 @@ public class GamHtldNticArrvlDtaInqireController {
      * @return "/ygpa/gam/oper/htld/GamPopupHtldNticArrvlDtaInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/htld/popup/showHtldNticArrvlDtaInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/htld/popup/showHtldNticArrvlDtaInqirePrmisn.do")
     String showEntrpsInfo(GamHtldNticArrvlDtaInqireLevReqestVO gamHtldNticArrvlDtaInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1013,7 +1013,7 @@ public class GamHtldNticArrvlDtaInqireController {
 
     	return "/ygpa/gam/oper/htld/GamPopupHtldNticArrvlDtaInqirePrmisn";
     }
-
+*/
     /**
      * 배후단지임대 승낙(허가)을 한다.
      * @param gamHtldNticArrvlDtaInqireVO
@@ -1021,7 +1021,7 @@ public class GamHtldNticArrvlDtaInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamInsertHtldNticArrvlDtaInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/htld/gamInsertHtldNticArrvlDtaInqirePrmisn.do")
     public @ResponseBody Map insertHtldNticArrvlDtaInqireLevReqest(
     	   @ModelAttribute("gamHtldNticArrvlDtaInqireVO") GamHtldNticArrvlDtaInqireVO gamHtldNticArrvlDtaInqireVO,
     	   BindingResult bindingResult)
@@ -1134,7 +1134,7 @@ public class GamHtldNticArrvlDtaInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 배후단지임대 승낙취소(허가취소)를 한다.
      * @param gamHtldNticArrvlDtaInqireVO
@@ -1142,7 +1142,7 @@ public class GamHtldNticArrvlDtaInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamUpdateHtldNticArrvlDtaInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/htld/gamUpdateHtldNticArrvlDtaInqirePrmisnCancel.do")
     public @ResponseBody Map updateHtldNticArrvlDtaInqirePrmisnCancel(
      	   @ModelAttribute("gamHtldNticArrvlDtaInqireVO") GamHtldNticArrvlDtaInqireVO gamHtldNticArrvlDtaInqireVO,
      	   BindingResult bindingResult)
@@ -1201,7 +1201,7 @@ public class GamHtldNticArrvlDtaInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

@@ -985,7 +985,7 @@ public class GamTrainPortRentSttusInqireController {
      * @return "/ygpa/gam/oper/train/GamPopupTrainPortRentSttusInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/train/popup/showTrainPortRentSttusInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/train/popup/showTrainPortRentSttusInqirePrmisn.do")
     String showEntrpsInfo(GamTrainPortRentSttusInqireLevReqestVO gamTrainPortRentSttusInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -998,7 +998,7 @@ public class GamTrainPortRentSttusInqireController {
 
     	return "/ygpa/gam/oper/train/GamPopupTrainPortRentSttusInqirePrmisn";
     }
-
+*/
     /**
      * 자산임대 승낙(허가)을 한다.
      * @param gamTrainPortRentSttusInqireVO
@@ -1006,7 +1006,7 @@ public class GamTrainPortRentSttusInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/train/gamInsertTrainPortRentSttusInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/train/gamInsertTrainPortRentSttusInqirePrmisn.do")
     public @ResponseBody Map insertTrainPortRentSttusInqireLevReqest(
     	   @ModelAttribute("gamTrainPortRentSttusInqireVO") GamTrainPortRentSttusInqireVO gamTrainPortRentSttusInqireVO,
     	   BindingResult bindingResult)
@@ -1120,7 +1120,7 @@ public class GamTrainPortRentSttusInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 자산임대 승낙취소(허가취소)를 한다.
      * @param gamTrainPortRentSttusInqireVO
@@ -1128,7 +1128,7 @@ public class GamTrainPortRentSttusInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/train/gamUpdateTrainPortRentSttusInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/train/gamUpdateTrainPortRentSttusInqirePrmisnCancel.do")
     public @ResponseBody Map updateTrainPortRentSttusInqirePrmisnCancel(
      	   @ModelAttribute("gamTrainPortRentSttusInqireVO") GamTrainPortRentSttusInqireVO gamTrainPortRentSttusInqireVO,
      	   BindingResult bindingResult)
@@ -1188,7 +1188,7 @@ public class GamTrainPortRentSttusInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

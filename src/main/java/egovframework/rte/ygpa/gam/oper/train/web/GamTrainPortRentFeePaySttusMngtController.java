@@ -39,50 +39,50 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamTrainPortRentFeePaySttusMngtController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
     @Resource(name="gamNticRequestMngtService")
     private GamNticRequestMngtService gamNticRequestMngtService;
-    
+
     @Resource(name = "gamTrainPortRentFeePaySttusMngtService")
     private GamTrainPortRentFeePaySttusMngtService gamTrainPortRentFeePaySttusMngtService;
-	
-    
+
+
 
     /**
-     * 철송장임대납부현황관리 화면을 로딩한다. 
+     * 철송장임대납부현황관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/oper/train/GamTrainPortRentFeePaySttusMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/train/gamTrainPortRentFeePaySttusMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+/*		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
 		codeVo.setCodeId("GAM019"); //항코드
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
@@ -115,7 +115,7 @@ public class GamTrainPortRentFeePaySttusMngtController {
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
-		model.addAttribute("quayCdList", quayCdList);
+		model.addAttribute("quayCdList", quayCdList);*/
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/oper/train/GamTrainPortRentFeePaySttusMngt";
@@ -389,7 +389,7 @@ public class GamTrainPortRentFeePaySttusMngtController {
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
 
 		return map;
-    }	
+    }
 
     /**
      * 항만시설연체현황관리 목록을 조회한다.
@@ -422,7 +422,7 @@ public class GamTrainPortRentFeePaySttusMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
     	List resultList = gamTrainPortRentFeePaySttusMngtService.selectTrainPortRentFeePaySttusMngtDlyList(searchVO);
-    	
+
     	int totCnt = gamTrainPortRentFeePaySttusMngtService.selectTrainPortRentFeePaySttusMngtDlyListTotCnt(searchVO);
     	Map summary = gamTrainPortRentFeePaySttusMngtService.selectTrainPortRentFeePaySttusMngtDlyListSum(searchVO);
 
@@ -437,5 +437,5 @@ public class GamTrainPortRentFeePaySttusMngtController {
 
     	return map;
     }
-    
+
 }

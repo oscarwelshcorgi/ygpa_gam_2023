@@ -963,7 +963,7 @@ public class GamTrainPortNticArrvlDtaInqireController {
      * @return "/ygpa/gam/oper/train/GamPopupTrainPortNticArrvlDtaInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/train/popup/showTrainPortNticArrvlDtaInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/train/popup/showTrainPortNticArrvlDtaInqirePrmisn.do")
     String showEntrpsInfo(GamTrainPortNticArrvlDtaInqireLevReqestVO gamTrainPortNticArrvlDtaInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -976,7 +976,7 @@ public class GamTrainPortNticArrvlDtaInqireController {
 
     	return "/ygpa/gam/oper/train/GamPopupTrainPortNticArrvlDtaInqirePrmisn";
     }
-
+*/
     /**
      * 철송장임대 승낙(허가)을 한다.
      * @param gamTrainPortNticArrvlDtaInqireVO
@@ -984,7 +984,7 @@ public class GamTrainPortNticArrvlDtaInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/train/gamInsertTrainPortNticArrvlDtaInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/train/gamInsertTrainPortNticArrvlDtaInqirePrmisn.do")
     public @ResponseBody Map insertTrainPortNticArrvlDtaInqireLevReqest(
     	   @ModelAttribute("gamTrainPortNticArrvlDtaInqireVO") GamTrainPortNticArrvlDtaInqireVO gamTrainPortNticArrvlDtaInqireVO,
     	   BindingResult bindingResult)
@@ -1097,7 +1097,7 @@ public class GamTrainPortNticArrvlDtaInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 철송장임대 승낙취소(허가취소)를 한다.
      * @param gamTrainPortNticArrvlDtaInqireVO
@@ -1105,7 +1105,7 @@ public class GamTrainPortNticArrvlDtaInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/train/gamUpdateTrainPortNticArrvlDtaInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/train/gamUpdateTrainPortNticArrvlDtaInqirePrmisnCancel.do")
     public @ResponseBody Map updateTrainPortNticArrvlDtaInqirePrmisnCancel(
      	   @ModelAttribute("gamTrainPortNticArrvlDtaInqireVO") GamTrainPortNticArrvlDtaInqireVO gamTrainPortNticArrvlDtaInqireVO,
      	   BindingResult bindingResult)
@@ -1165,7 +1165,7 @@ public class GamTrainPortNticArrvlDtaInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

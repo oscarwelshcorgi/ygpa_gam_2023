@@ -66,7 +66,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
     @Resource(name = "gamPrtFcltyRentFeeMngtService")
     private GamPrtFcltyRentFeeMngtService gamPrtFcltyRentFeeMngtService;
-    
+
     @Resource(name = "gamNticRequestMngtService")
     private GamNticRequestMngtService gamNticRequestMngtService;
 
@@ -82,7 +82,7 @@ public class GamPrtFcltyRentFeeMngtController {
 	@RequestMapping(value="/oper/gnrl/gamPrtFcltyRentFeeMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+/*		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
 		codeVo.setCodeId("GAM019"); //항코드
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
@@ -111,7 +111,7 @@ public class GamPrtFcltyRentFeeMngtController {
 		model.addAttribute("usagePrposCdList", usagePrposCdList);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
-		model.addAttribute("rcivSeCdList", rcivSeCdList);
+		model.addAttribute("rcivSeCdList", rcivSeCdList);*/
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeeMngt";
@@ -195,7 +195,7 @@ public class GamPrtFcltyRentFeeMngtController {
      	}
 
      	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-         
+
      	gamPrtFcltyRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
 
          gamPrtFcltyRentFeeMngtService.updatePrtFcltyRentFeeMngt(gamPrtFcltyRentFeeMngtVO);
@@ -624,8 +624,8 @@ public class GamPrtFcltyRentFeeMngtController {
         	return map;
     	}
 
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();        
-        
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
     	System.out.println("######################################### 고지의뢰(단일처리) START!! ");
 
         paramMap.put("nticCnt", gamPrtFcltyRentFeeMngtVO.getNticCnt());
@@ -734,7 +734,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
  		return map;
      }
-    
+
     /**
      * 고지의뢰를 한다.(단일처리)
      * @param gamAssetRentFeeMngtVO
@@ -842,7 +842,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
  		return map;
      }
-    
+
     /**
      * 고지서를 출력한다.
      * @param approvalOpt
@@ -874,9 +874,9 @@ public class GamPrtFcltyRentFeeMngtController {
     	return "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
     	}
 
-    
-    
-    
+
+
+
         @RequestMapping(value="/oper/gnrl/printPrtFcltyRentFeeTaxNotice.do")
         String printAssetRentFeeTaxNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
         	model.addAttribute("searchOpt", approvalOpt);
@@ -900,7 +900,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
         	return "ygpa/gam/oper/gnrl/GamPrtfcltyRentPrintTaxNoticeIssue";
         	}
-        
+
         @RequestMapping(value="/oper/gnrl/updatePrtFcltyRentFeeMngtListDetail.do")
 	    public @ResponseBody Map updateAssetRentFeeMngtListDetail(
 	     	   @ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO,
@@ -935,7 +935,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
 	 		return map;
 	     }
-        
+
         /**
 	     * 자산임대료고지관리 상세정보를 조회한다.
 	     *
@@ -982,5 +982,5 @@ public class GamPrtFcltyRentFeeMngtController {
 
 	    	return map;
 	    }
-        
+
 }

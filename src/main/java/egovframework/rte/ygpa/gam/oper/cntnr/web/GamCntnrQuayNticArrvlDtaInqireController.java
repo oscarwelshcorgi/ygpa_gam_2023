@@ -1001,7 +1001,7 @@ public class GamCntnrQuayNticArrvlDtaInqireController {
      * @return "/ygpa/gam/oper/cntnr/GamPopupCntnrQuayNticArrvlDtaInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/cntnr/popup/showCntnrQuayNticArrvlDtaInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/cntnr/popup/showCntnrQuayNticArrvlDtaInqirePrmisn.do")
     String showEntrpsInfo(GamCntnrQuayNticArrvlDtaInqireLevReqestVO gamCntnrQuayNticArrvlDtaInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1014,7 +1014,7 @@ public class GamCntnrQuayNticArrvlDtaInqireController {
 
     	return "/ygpa/gam/oper/cntnr/GamPopupCntnrQuayNticArrvlDtaInqirePrmisn";
     }
-
+*/
     /**
      * 컨테이너부두임대 승낙(허가)을 한다.
      * @param gamCntnrQuayNticArrvlDtaInqireVO

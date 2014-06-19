@@ -949,7 +949,7 @@ public class GamCmmnCntrNticArrvlDtaInqireController {
      * @return "/ygpa/gam/oper/shed/GamPopupCmmnCntrNticArrvlDtaInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/shed/popup/showCmmnCntrNticArrvlDtaInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/shed/popup/showCmmnCntrNticArrvlDtaInqirePrmisn.do")
     String showEntrpsInfo(GamCmmnCntrNticArrvlDtaInqireLevReqestVO gamCmmnCntrNticArrvlDtaInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -962,7 +962,7 @@ public class GamCmmnCntrNticArrvlDtaInqireController {
 
     	return "/ygpa/gam/oper/shed/GamPopupCmmnCntrNticArrvlDtaInqirePrmisn";
     }
-
+*/
     /**
      * 공컨장치장임대 승낙(허가)을 한다.
      * @param gamCmmnCntrNticArrvlDtaInqireVO
@@ -970,7 +970,7 @@ public class GamCmmnCntrNticArrvlDtaInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/shed/gamInsertCmmnCntrNticArrvlDtaInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/shed/gamInsertCmmnCntrNticArrvlDtaInqirePrmisn.do")
     public @ResponseBody Map insertCmmnCntrNticArrvlDtaInqireLevReqest(
     	   @ModelAttribute("gamCmmnCntrNticArrvlDtaInqireVO") GamCmmnCntrNticArrvlDtaInqireVO gamCmmnCntrNticArrvlDtaInqireVO,
     	   BindingResult bindingResult)
@@ -1083,7 +1083,7 @@ public class GamCmmnCntrNticArrvlDtaInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 공컨장치장임대 승낙취소(허가취소)를 한다.
      * @param gamCmmnCntrNticArrvlDtaInqireVO
@@ -1091,7 +1091,7 @@ public class GamCmmnCntrNticArrvlDtaInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/shed/gamUpdateCmmnCntrNticArrvlDtaInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/shed/gamUpdateCmmnCntrNticArrvlDtaInqirePrmisnCancel.do")
     public @ResponseBody Map updateCmmnCntrNticArrvlDtaInqirePrmisnCancel(
      	   @ModelAttribute("gamCmmnCntrNticArrvlDtaInqireVO") GamCmmnCntrNticArrvlDtaInqireVO gamCmmnCntrNticArrvlDtaInqireVO,
      	   BindingResult bindingResult)
@@ -1151,7 +1151,7 @@ public class GamCmmnCntrNticArrvlDtaInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

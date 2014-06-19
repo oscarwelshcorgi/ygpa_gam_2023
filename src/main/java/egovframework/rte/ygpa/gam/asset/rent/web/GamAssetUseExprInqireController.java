@@ -1022,7 +1022,7 @@ public class GamAssetUseExprInqireController {
      * @return "/ygpa/gam/asset/rent/GamPopupAssetUseExprInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/asset/rent/popup/showAssetUseExprInqirePrmisn.do")
+/*	@RequestMapping(value="/asset/rent/popup/showAssetUseExprInqirePrmisn.do")
     String showEntrpsInfo(GamAssetUseExprInqireLevReqestVO gamAssetUseExprInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1035,7 +1035,7 @@ public class GamAssetUseExprInqireController {
 
     	return "/ygpa/gam/asset/rent/GamPopupAssetUseExprInqirePrmisn";
     }
-
+*/
     /**
      * 자산임대 승낙(허가)을 한다.
      * @param gamAssetUseExprInqireVO

@@ -39,26 +39,26 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamCmmnCntrRentFeePaySttusMngtController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
@@ -68,21 +68,21 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 
     @Resource(name = "gamCmmnCntrRentFeePaySttusMngtService")
     private GamCmmnCntrRentFeePaySttusMngtService gamCmmnCntrRentFeePaySttusMngtService;
-	
-    
-	
+
+
+
     /**
-     * 공컨장치장임대납부현황관리 화면을 로딩한다. 
+     * 공컨장치장임대납부현황관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/oper/shed/GamCmmnCntrRentFeePaySttusMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+/*		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
 		codeVo.setCodeId("GAM019"); //항코드
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
@@ -115,7 +115,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
-		model.addAttribute("quayCdList", quayCdList);
+		model.addAttribute("quayCdList", quayCdList);*/
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/oper/shed/GamCmmnCntrRentFeePaySttusMngt";
@@ -389,7 +389,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
 
 		return map;
-    }	
+    }
 
     /**
      * 항만시설연체현황관리 목록을 조회한다.
@@ -422,7 +422,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
     	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyList(searchVO);
-    	
+
     	int totCnt = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt(searchVO);
     	Map summary = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyListSum(searchVO);
 

@@ -1002,7 +1002,7 @@ public class GamPrtFcltyNticArrvlDtaInqireController {
      * @return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyNticArrvlDtaInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyNticArrvlDtaInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyNticArrvlDtaInqirePrmisn.do")
     String showEntrpsInfo(GamPrtFcltyNticArrvlDtaInqireLevReqestVO gamPrtFcltyNticArrvlDtaInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1015,7 +1015,7 @@ public class GamPrtFcltyNticArrvlDtaInqireController {
 
     	return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyNticArrvlDtaInqirePrmisn";
     }
-
+*/
     /**
      * 항만시설사용 승낙(허가)을 한다.
      * @param gamPrtFcltyNticArrvlDtaInqireVO

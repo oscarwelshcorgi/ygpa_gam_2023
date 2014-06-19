@@ -93,40 +93,6 @@ public class GamAssetRentFeePayDtlsMngtController {
 	@RequestMapping(value="/asset/rent/gamAssetRentFeePayDtlsMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-
-		codeVo.setCodeId("GAM019"); //항코드
-		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM011"); //신청구분코드
-		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM008"); //고지방법 코드
-		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM007"); //사용 용도 코드
-		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM024"); //요금종류
-		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM005"); //시설구분
-		List fcltySeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM025"); //수납구분
-		List rcivSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		codeVo.setCodeId("GAM003"); //부두코드
-		List quayCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-
-		model.addAttribute("prtAtCdList", prtAtCdList);
-		model.addAttribute("reqstCdList", reqstCdList);
-		model.addAttribute("nticMthCdList", nticMthCdList);
-		model.addAttribute("usagePrposCdList", usagePrposCdList);
-		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
-		model.addAttribute("fcltySeCdList", fcltySeCdList);
-		model.addAttribute("rcivSeCdList", rcivSeCdList);
-		model.addAttribute("quayCdList", quayCdList);
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/asset/rent/GamAssetRentFeePayDtlsMngt";

@@ -39,49 +39,49 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamHtldRentFeePaySttusMngtController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
     @Resource(name="gamNticRequestMngtService")
     private GamNticRequestMngtService gamNticRequestMngtService;
-    
+
     @Resource(name = "gamHtldRentFeePaySttusMngtService")
     private GamHtldRentFeePaySttusMngtService gamHtldRentFeePaySttusMngtService;
-	
-    
+
+
     /**
-     * 배후단지임대납부현황관리 화면을 로딩한다. 
+     * 배후단지임대납부현황관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/oper/htld/GamHtldRentFeePaySttusMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/htld/gamHtldRentFeePaySttusMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+
+/*		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
 		codeVo.setCodeId("GAM019"); //항코드
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
@@ -114,18 +114,18 @@ public class GamHtldRentFeePaySttusMngtController {
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);
-		model.addAttribute("quayCdList", quayCdList);
+		model.addAttribute("quayCdList", quayCdList);*/
 		model.addAttribute("windowId", windowId);
-    	
+
     	return "/ygpa/gam/oper/htld/GamHtldRentFeePaySttusMngt";
     }
-	
+
 	/**
-     * 배후단지임대납부현황관리 목록을 조회한다. 
+     * 배후단지임대납부현황관리 목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/gamSelectHtldRentFeePaySttusMngtList.do", method=RequestMethod.POST)
@@ -149,18 +149,18 @@ public class GamHtldRentFeePaySttusMngtController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//목록
     	totalCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	//자료수, 사용료, 부가세, 고지액
     	GamHtldRentFeePaySttusMngtVO resultSum = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtSum(searchVO);
     	//GamHtldRentFeePaySttusMngtVO resultSum = new GamHtldRentFeePaySttusMngtVO();
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -176,7 +176,7 @@ public class GamHtldRentFeePaySttusMngtController {
     	map.put("sumFeeD1", resultSum.getSumFeeD1());
     	map.put("sumFeeD2", resultSum.getSumFeeD2());
     	map.put("sumPayAmt", resultSum.getSumPayAmt());
-    	
+
     	/*
     	map.put("sumFee", "");
     	map.put("sumVat", "");
@@ -184,8 +184,8 @@ public class GamHtldRentFeePaySttusMngtController {
     	*/
     	return map;
     }
-	
-	
+
+
 	/**
      * 배후단지임대납부현황관리 상세정보를 조회한다.
      *
@@ -233,7 +233,7 @@ public class GamHtldRentFeePaySttusMngtController {
 
     	return map;
     }
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/oper/htld/updateHtldRentFeePaySttusMngtList.do")
     public @ResponseBody Map updateHtldRentFeePaySttusMngtList()
@@ -274,7 +274,7 @@ public class GamHtldRentFeePaySttusMngtController {
 
  		return map;
      }
-	
+
 	/**
      *  연체 세입 조회
      * @param searchOpt
@@ -288,7 +288,7 @@ public class GamHtldRentFeePaySttusMngtController {
 
     	return "/ygpa/gam/oper/htld/GamNticArrrgPopup";
     }
-    
+
     /**
      * 연체 세입 목록 가져오기
      * @param searchVO
@@ -369,9 +369,9 @@ public class GamHtldRentFeePaySttusMngtController {
 
 		return map;
     }
-    
-    
-    
+
+
+
     @RequestMapping(value="/oper/htld/insertNticArrrg.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> insertNticArrrg(@RequestParam Map nticVo) throws Exception {
 
@@ -399,8 +399,8 @@ public class GamHtldRentFeePaySttusMngtController {
 
 		return map;
     }
-    
-    
+
+
     /**
      * 배후단지연체현황관리 목록을 조회한다.
      *change**
@@ -432,7 +432,7 @@ public class GamHtldRentFeePaySttusMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
     	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyList(searchVO);
-    	
+
     	int totCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListTotCnt(searchVO);
     	Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
 
@@ -447,5 +447,5 @@ public class GamHtldRentFeePaySttusMngtController {
 
     	return map;
     }
-	
+
 }

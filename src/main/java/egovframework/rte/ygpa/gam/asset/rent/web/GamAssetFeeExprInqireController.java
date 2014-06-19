@@ -1013,7 +1013,7 @@ public class GamAssetFeeExprInqireController {
 		return map;
     }
 
-    /**
+    /*
      * 승낙 팝업화면을 로딩한다.
      *
      * @param gamAssetFeeExprInqireLevReqestVO
@@ -1021,7 +1021,7 @@ public class GamAssetFeeExprInqireController {
      * @return "/ygpa/gam/asset/rent/GamPopupAssetFeeExprInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/asset/rent/popup/showAssetFeeExprInqirePrmisn.do")
+/*	@RequestMapping(value="/asset/rent/popup/showAssetFeeExprInqirePrmisn.do")
     String showEntrpsInfo(GamAssetFeeExprInqireLevReqestVO gamAssetFeeExprInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1034,7 +1034,7 @@ public class GamAssetFeeExprInqireController {
 
     	return "/ygpa/gam/asset/rent/GamPopupAssetFeeExprInqirePrmisn";
     }
-
+*/
     /**
      * 자산임대 승낙(허가)을 한다.
      * @param gamAssetFeeExprInqireVO

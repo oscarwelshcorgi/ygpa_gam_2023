@@ -1001,7 +1001,7 @@ public class GamHtldUseExprInqireController {
      * @return "/ygpa/gam/oper/htld/GamPopupHtldUseExprInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/htld/popup/showHtldUseExprInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/htld/popup/showHtldUseExprInqirePrmisn.do")
     String showEntrpsInfo(GamHtldUseExprInqireLevReqestVO gamHtldUseExprInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1014,7 +1014,7 @@ public class GamHtldUseExprInqireController {
 
     	return "/ygpa/gam/oper/htld/GamPopupHtldUseExprInqirePrmisn";
     }
-
+*/
     /**
      * 배후단지임대 승낙(허가)을 한다.
      * @param gamHtldUseExprInqireVO
@@ -1022,7 +1022,7 @@ public class GamHtldUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamInsertHtldUseExprInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/htld/gamInsertHtldUseExprInqirePrmisn.do")
     public @ResponseBody Map insertHtldUseExprInqireLevReqest(
     	   @ModelAttribute("gamHtldUseExprInqireVO") GamHtldUseExprInqireVO gamHtldUseExprInqireVO,
     	   BindingResult bindingResult)
@@ -1136,7 +1136,7 @@ public class GamHtldUseExprInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 배후단지임대 승낙취소(허가취소)를 한다.
      * @param gamHtldUseExprInqireVO
@@ -1144,7 +1144,7 @@ public class GamHtldUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamUpdateHtldUseExprInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/htld/gamUpdateHtldUseExprInqirePrmisnCancel.do")
     public @ResponseBody Map updateHtldUseExprInqirePrmisnCancel(
      	   @ModelAttribute("gamHtldUseExprInqireVO") GamHtldUseExprInqireVO gamHtldUseExprInqireVO,
      	   BindingResult bindingResult)
@@ -1204,7 +1204,7 @@ public class GamHtldUseExprInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

@@ -1014,7 +1014,7 @@ public class GamTrainPortRentMngtController {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
-		codeVo.setCodeId("GAM024"); //요금종류
+		codeVo.setCodeId("GAM055"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 
 		model.addAttribute("gamTrainPortRentMngtInfo", gamTrainPortRentMngtLevReqestVO);

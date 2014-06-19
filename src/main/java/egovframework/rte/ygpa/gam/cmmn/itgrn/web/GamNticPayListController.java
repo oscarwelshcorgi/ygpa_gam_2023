@@ -47,31 +47,17 @@ public class GamNticPayListController {
 	/** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
-    
+
+
 	@RequestMapping(value="/cmmn/itgrn/gamNticPayList.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		
-		codeVo.setCodeId("GAM019"); //항코드 
-		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM024"); //요금종류
-		List<?> chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM025"); //수납구분 
-		List<?> rcivSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
 		model.addAttribute("windowId", windowId);
-		model.addAttribute("prtAtCdList", prtAtCdList);
-		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
-		model.addAttribute("rcivSeCdList", rcivSeCdList);
-		
+
     	return "/ygpa/gam/cmmn/itgrn/GamNticPayList";
     }
 
@@ -86,7 +72,7 @@ public class GamNticPayListController {
     @ResponseBody Map<String, Object> selectNticPayList(GamNticPayListVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-		
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -112,19 +98,19 @@ public class GamNticPayListController {
 		/** List Data */
 		int totCnt = gamNticPayListService.selectNticPayListTotCnt(searchVO);
 		List nticPayList = gamNticPayListService.selectNticPayList(searchVO);
-		
+
 		//자료수와 고지금액합계,수납금액(수납구분이 2나 3)합계
 		GamNticPayListVO resultSum = gamNticPayListService.selectNticPayListSum(searchVO);
-		
+
 //		System.out.print("test *************************** : " + nticPayList);
-        
+
         paginationInfo.setTotalRecordCount(totCnt);
-		
+
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", nticPayList);
     	map.put("searchOption", searchVO);
-    	
+
     	map.put("sumBillAmnt", resultSum.getSumBillAmnt());
     	map.put("sumRcvdAmnt", resultSum.getSumRcvdAmnt());
     	map.put("sumNotRcvdAmnt", resultSum.getSumNotRcvdAmnt());
@@ -132,7 +118,7 @@ public class GamNticPayListController {
 
     	return map;
     }
-    
+
     /**
 	 * 세입목록을 엑셀로 다운로드한다.
 	 * @param searchVO
@@ -145,7 +131,7 @@ public class GamNticPayListController {
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -179,8 +165,8 @@ public class GamNticPayListController {
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
-    
-    
+
+
     /**
 	 * 연체세입목록을 조회한다.
 	 * @param searchVO
@@ -191,7 +177,7 @@ public class GamNticPayListController {
     @ResponseBody Map<String, Object> selectDelayNticPayList(GamNticPayListVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-		
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -217,26 +203,26 @@ public class GamNticPayListController {
 		/** List Data */
 		List nticPayList = gamNticPayListService.selectDelayNticPayList(searchVO);
         int totCnt = gamNticPayListService.selectDelayNticPayListTotCnt(searchVO);
-        
+
         //자료수와 미납고지금액합계
         GamNticPayListVO resultSum = gamNticPayListService.selectDelayNticPayListSum(searchVO);
-        
+
 
         paginationInfo.setTotalRecordCount(totCnt);
-		
+
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", nticPayList);
     	map.put("searchOption", searchVO);
-    	
-    	
+
+
     	map.put("sumDlyBillAmnt", resultSum.getSumDlyBillAmnt());
     	map.put("dpTotCnt", resultSum.getDpTotCnt());
 
     	return map;
     }
-    
-    
+
+
     /**
 	 * 연체세입목록을 엑셀로 다운로드한다.
 	 * @param searchVO
@@ -249,7 +235,7 @@ public class GamNticPayListController {
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {

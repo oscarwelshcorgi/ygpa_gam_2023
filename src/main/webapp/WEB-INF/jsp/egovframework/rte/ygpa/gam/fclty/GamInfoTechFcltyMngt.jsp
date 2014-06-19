@@ -646,7 +646,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>정보통신시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -733,7 +733,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" id="selectedGAM005" data-required="true"/>
 								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<!--
@@ -761,12 +761,6 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
 							<th width="15%" height="23" class="required_text">만료일자</th>
 							<td><input id="prtFcltyExprDt" type="text" class="emdcal" size="20" title="만료일자" /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">위도좌표</th>
-							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
-							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><input id="loCrdnt" type="text" size="50" disabled="disabled" /></td>
 						</tr>
 					</table>
 				</form>

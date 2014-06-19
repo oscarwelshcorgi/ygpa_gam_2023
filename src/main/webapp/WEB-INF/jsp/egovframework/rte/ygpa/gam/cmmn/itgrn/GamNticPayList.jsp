@@ -264,13 +264,7 @@ var module_instance = new GamNticPayListModule();
 						<tr>
 							<th>항코드</th>
                             <td width="15%">
-                                <select id="prtAtCode">
-                                    <option value="" selected="selected">선택</option>
-
-                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
-                                    </c:forEach>
-                                </select>
+                            <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
 							<th>고지일자</th>
                             <td>
@@ -289,12 +283,7 @@ var module_instance = new GamNticPayListModule();
 						<tr>
 							<th>수납구분</th>
 							<td>
-								<select id="rcivSe">
-                                    <option value="">선택</option>
-                                    <c:forEach items="${rcivSeCdList}" var="rcivSeItem">
-                                        <option value="${rcivSeItem.code }">${rcivSeItem.codeNm}</option>
-                                    </c:forEach>
-                                </select>
+                            <input id="rcivSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM025" />
 							</td>
 							<th>회계년도</th>
 							<td>

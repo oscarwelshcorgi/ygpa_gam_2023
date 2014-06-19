@@ -962,7 +962,7 @@ public class GamCmmnCntrUseExprInqireController {
      * @return "/ygpa/gam/oper/shed/GamPopupCmmnCntrUseExprInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/shed/popup/showCmmnCntrUseExprInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/shed/popup/showCmmnCntrUseExprInqirePrmisn.do")
     String showEntrpsInfo(GamCmmnCntrUseExprInqireLevReqestVO gamCmmnCntrUseExprInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -975,7 +975,7 @@ public class GamCmmnCntrUseExprInqireController {
 
     	return "/ygpa/gam/oper/shed/GamPopupCmmnCntrUseExprInqirePrmisn";
     }
-
+*/
     /**
      * 공컨장치장임대 승낙(허가)을 한다.
      * @param gamCmmnCntrUseExprInqireVO
@@ -983,7 +983,7 @@ public class GamCmmnCntrUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/shed/gamInsertCmmnCntrUseExprInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/shed/gamInsertCmmnCntrUseExprInqirePrmisn.do")
     public @ResponseBody Map insertCmmnCntrUseExprInqireLevReqest(
     	   @ModelAttribute("gamCmmnCntrUseExprInqireVO") GamCmmnCntrUseExprInqireVO gamCmmnCntrUseExprInqireVO,
     	   BindingResult bindingResult)
@@ -1096,7 +1096,7 @@ public class GamCmmnCntrUseExprInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 공컨장치장임대 승낙취소(허가취소)를 한다.
      * @param gamCmmnCntrUseExprInqireVO
@@ -1104,7 +1104,7 @@ public class GamCmmnCntrUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/shed/gamUpdateCmmnCntrUseExprInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/shed/gamUpdateCmmnCntrUseExprInqirePrmisnCancel.do")
     public @ResponseBody Map updateCmmnCntrUseExprInqirePrmisnCancel(
      	   @ModelAttribute("gamCmmnCntrUseExprInqireVO") GamCmmnCntrUseExprInqireVO gamCmmnCntrUseExprInqireVO,
      	   BindingResult bindingResult)
@@ -1163,7 +1163,7 @@ public class GamCmmnCntrUseExprInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

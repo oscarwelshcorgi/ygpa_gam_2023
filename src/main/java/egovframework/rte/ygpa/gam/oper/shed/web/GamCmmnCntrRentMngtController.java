@@ -1013,7 +1013,7 @@ public class GamCmmnCntrRentMngtController {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
-		codeVo.setCodeId("GAM024"); //요금종류
+		codeVo.setCodeId("GAM054"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 
 		model.addAttribute("gamCmmnCntrRentMngtInfo", gamCmmnCntrRentMngtLevReqestVO);

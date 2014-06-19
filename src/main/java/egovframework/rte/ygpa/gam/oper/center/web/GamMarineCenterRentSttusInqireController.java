@@ -1023,7 +1023,7 @@ public class GamMarineCenterRentSttusInqireController {
      * @return "/ygpa/gam/oper/center/GamPopupMarineCenterRentSttusInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/center/popup/showMarineCenterRentSttusInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/center/popup/showMarineCenterRentSttusInqirePrmisn.do")
     String showEntrpsInfo(GamMarineCenterRentSttusInqireLevReqestVO gamMarineCenterRentSttusInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1036,7 +1036,7 @@ public class GamMarineCenterRentSttusInqireController {
 
     	return "/ygpa/gam/oper/center/GamPopupMarineCenterRentSttusInqirePrmisn";
     }
-
+*/
     /**
      * 마린센터임대 승낙(허가)을 한다.
      * @param gamMarineCenterRentSttusInqireVO

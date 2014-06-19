@@ -964,7 +964,7 @@ public class GamTrainPortUseExprInqireController {
      * @return "/ygpa/gam/oper/train/GamPopupTrainPortUseExprInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/train/popup/showTrainPortUseExprInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/train/popup/showTrainPortUseExprInqirePrmisn.do")
     String showEntrpsInfo(GamTrainPortUseExprInqireLevReqestVO gamTrainPortUseExprInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -977,7 +977,7 @@ public class GamTrainPortUseExprInqireController {
 
     	return "/ygpa/gam/oper/train/GamPopupTrainPortUseExprInqirePrmisn";
     }
-
+*/
     /**
      * 철송장임대 승낙(허가)을 한다.
      * @param gamTrainPortUseExprInqireVO
@@ -985,7 +985,7 @@ public class GamTrainPortUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/train/gamInsertTrainPortUseExprInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/train/gamInsertTrainPortUseExprInqirePrmisn.do")
     public @ResponseBody Map insertTrainPortUseExprInqireLevReqest(
     	   @ModelAttribute("gamTrainPortUseExprInqireVO") GamTrainPortUseExprInqireVO gamTrainPortUseExprInqireVO,
     	   BindingResult bindingResult)
@@ -1098,7 +1098,7 @@ public class GamTrainPortUseExprInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 철송장임대 승낙취소(허가취소)를 한다.
      * @param gamTrainPortUseExprInqireVO
@@ -1106,7 +1106,7 @@ public class GamTrainPortUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/train/gamUpdateTrainPortUseExprInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/train/gamUpdateTrainPortUseExprInqirePrmisnCancel.do")
     public @ResponseBody Map updateTrainPortUseExprInqirePrmisnCancel(
      	   @ModelAttribute("gamTrainPortUseExprInqireVO") GamTrainPortUseExprInqireVO gamTrainPortUseExprInqireVO,
      	   BindingResult bindingResult)
@@ -1166,7 +1166,7 @@ public class GamTrainPortUseExprInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

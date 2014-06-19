@@ -41,88 +41,88 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamCntnrQuayRentFeeMngtController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
     @Resource(name = "gamCntnrQuayRentFeeMngtService")
     private GamCntnrQuayRentFeeMngtService gamCntnrQuayRentFeeMngtService;
-	
+
     @Resource(name = "gamNticRequestMngtService")
     private GamNticRequestMngtService gamNticRequestMngtService;
-    
+
     /**
-     * 컨테이너부두임대료관리 화면을 로딩한다. 
+     * 컨테이너부두임대료관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/oper/cntnr/GamCntnrQuayRentFeeMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/cntnr/gamCntnrQuayRentFeeMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		
-		codeVo.setCodeId("GAM019"); //항코드 
+
+/*		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+
+		codeVo.setCodeId("GAM019"); //항코드
 		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM011"); //신청구분코드 
+
+		codeVo.setCodeId("GAM011"); //신청구분코드
 		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
+
 		codeVo.setCodeId("GAM008"); //고지방법 코드
 		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM007"); //사용 용도 코드 
+
+		codeVo.setCodeId("GAM007"); //사용 용도 코드
 		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
+
 		codeVo.setCodeId("GAM024"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
+
 		codeVo.setCodeId("GAM005"); //시설구분
 		List fcltySeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
-		codeVo.setCodeId("GAM025"); //수납구분 
+
+		codeVo.setCodeId("GAM025"); //수납구분
 		List rcivSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
-		
+
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("reqstCdList", reqstCdList);
 		model.addAttribute("nticMthCdList", nticMthCdList);
 		model.addAttribute("usagePrposCdList", usagePrposCdList);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
-		model.addAttribute("rcivSeCdList", rcivSeCdList);
+		model.addAttribute("rcivSeCdList", rcivSeCdList);*/
 		model.addAttribute("windowId", windowId);
-    	
+
     	return "/ygpa/gam/oper/cntnr/GamCntnrQuayRentFeeMngt";
     }
-	
+
 	/**
-     * 컨테이너부두임대료관리 목록을 조회한다. 
+     * 컨테이너부두임대료관리 목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/cntnr/gamSelectCntnrQuayRentFeeMngtList.do", method=RequestMethod.POST)
@@ -142,21 +142,21 @@ public class GamCntnrQuayRentFeeMngtController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//자산임대목록
     	totalCnt = gamCntnrQuayRentFeeMngtService.selectCntnrQuayRentFeeMngtListTotCnt(searchVO);
     	List resultList = gamCntnrQuayRentFeeMngtService.selectCntnrQuayRentFeeMngtList(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-    	
+
     	//자료수, 사용료, 연체, 부가세, 고지액
     	GamCntnrQuayRentFeeMngtVO resultSum = gamCntnrQuayRentFeeMngtService.selectCntnrQuayRentFeeMngtSum(searchVO);
-    	
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
@@ -166,10 +166,10 @@ public class GamCntnrQuayRentFeeMngtController {
     	map.put("sumVat", resultSum.getSumVat());
     	map.put("sumNticAmt", resultSum.getSumNticAmt());
     	map.put("sumNhtIsueAmt", resultSum.getSumNhtIsueAmt());
-    	
+
     	return map;
     }
-	
+
 	/**
      * 컨테이너부두임대료관리정보를 수정한다.
      * @param gamCntnrQuayRentFeeMngtVO
@@ -177,16 +177,16 @@ public class GamCntnrQuayRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/cntnr/gamUpdateCntnrQuayRentFeeMngtFee.do") 
+    @RequestMapping(value="/oper/cntnr/gamUpdateCntnrQuayRentFeeMngtFee.do")
     public @ResponseBody Map updateCntnrQuayRentFeeMngtFee(
-     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO, 
+     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
- 	
+
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
- 
+
      	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
      	if(!isAuthenticated) {
  	        map.put("resultCode", 1);
@@ -195,17 +195,17 @@ public class GamCntnrQuayRentFeeMngtController {
      	}
 
      	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-     	
+
      	gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
-         
+
          gamCntnrQuayRentFeeMngtService.updateCntnrQuayRentFeeMngt(gamCntnrQuayRentFeeMngtVO);
-         
-         resultCode = 0; 
+
+         resultCode = 0;
  		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-         
+
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
 
@@ -217,7 +217,7 @@ public class GamCntnrQuayRentFeeMngtController {
      * @throws Exception
      */
     /*
-    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNtic.do") 
+    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> insertCntnrQuayRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -228,14 +228,14 @@ public class GamCntnrQuayRentFeeMngtController {
 				 ,@RequestParam("accnutYears") String accnutYears
 				 ,@ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO
     		     ) throws Exception {
- 	
+
         Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
-        
+
         System.out.println("############ prtAtCodes => " + prtAtCodes);
-        
+
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -243,7 +243,7 @@ public class GamCntnrQuayRentFeeMngtController {
      	String [] arrMngCnts = mngCnts.split(";");
      	String [] arrNticnos = nticnos.split(";");
      	String [] arrAccnutYears = accnutYears.split(";");
-        
+
  		//세입징수에 등록하기전 validation 체크
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -253,36 +253,36 @@ public class GamCntnrQuayRentFeeMngtController {
      		gamCntnrQuayRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
      		gamCntnrQuayRentFeeMngtVO.setNticno(arrNticnos[i]);
      		gamCntnrQuayRentFeeMngtVO.setAccnutYear(arrAccnutYears[i]);
-     		
+
      		//세입징수에 기등록  여부
      		anlrveLevCnt = gamCntnrQuayRentFeeMngtService.selectAnlrveLevCnt(gamCntnrQuayRentFeeMngtVO);
-     		
+
      		if( anlrveLevCnt > 0 ) {
      			map.put("resultCode", 1);
                 map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
-                 
+
          		return map;
      		}
-     		
+
      		//징수의뢰 정보조회
             GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtInfo = gamCntnrQuayRentFeeMngtService.selectCntnrQuayRentFeeMngtFeeInfo(gamCntnrQuayRentFeeMngtVO);
-            
+
             if( EgovStringUtil.isEmpty(gamCntnrQuayRentFeeMngtInfo.getAccnutYear()) ) {
             	map.put("resultCode", 1);
                 map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject2")); //회계년도가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
-                 
+
          		return map;
             }
-            
+
             if( EgovStringUtil.isEmpty(gamCntnrQuayRentFeeMngtInfo.getNticno()) ) {
             	map.put("resultCode", 1);
                 map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject3")); //고지번호가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
-                 
+
          		return map;
             }
-            
+
     	}
-     	
+
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -290,26 +290,26 @@ public class GamCntnrQuayRentFeeMngtController {
      		gamCntnrQuayRentFeeMngtVO.setMngYear(arrMngYears[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngNo(arrMngNos[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
-     		
+
      		//징수의뢰 정보조회
             GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtInfo = gamCntnrQuayRentFeeMngtService.selectCntnrQuayRentFeeMngtFeeInfo(gamCntnrQuayRentFeeMngtVO);
-            
+
             gamCntnrQuayRentFeeMngtInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
             gamCntnrQuayRentFeeMngtInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-            
+
             gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
  		}
- 		
- 		resultCode = 0; 
+
+ 		resultCode = 0;
         resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-         
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
     */
-    
+
     /**
      * 고지의뢰를 한다. (다중처리)
      * @param gamCntnrQuayRentFeeMngtVO
@@ -317,7 +317,7 @@ public class GamCntnrQuayRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNtic.do") 
+    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> insertCntnrQuayRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -328,15 +328,15 @@ public class GamCntnrQuayRentFeeMngtController {
 				 ,@RequestParam("accnutYears") String accnutYears
 				 ,@ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO
     		     ) throws Exception {
- 	
+
         Map map = new HashMap();
         Map paramMap = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
-        
+
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-        
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -345,7 +345,7 @@ public class GamCntnrQuayRentFeeMngtController {
     	}
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
-        
+
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -353,7 +353,7 @@ public class GamCntnrQuayRentFeeMngtController {
      	String [] arrMngCnts = mngCnts.split(";");
      	String [] arrNticnos = nticnos.split(";");
      	String [] arrAccnutYears = accnutYears.split(";");
-        
+
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -361,31 +361,31 @@ public class GamCntnrQuayRentFeeMngtController {
      		gamCntnrQuayRentFeeMngtVO.setMngYear(arrMngYears[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngNo(arrMngNos[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
-     		gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId()); 
-     		gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId()); 
-            
+     		gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId());
+     		gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId());
+
      		System.out.println("############################# 고지의뢰 CALL!! START ");
-            
+
      		paramMap.put("nticCnt", gamCntnrQuayRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamCntnrQuayRentFeeMngtVO.getPrtAtCode());
      		paramMap.put("mngYear", gamCntnrQuayRentFeeMngtVO.getMngYear());
      		paramMap.put("mngNo", gamCntnrQuayRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamCntnrQuayRentFeeMngtVO.getMngCnt());
             System.out.println("##################################### paramMap => " + paramMap);
-            
+
             //이곳에 고지의뢰 서비스콜!! 삽입할것!!
             //gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
  		}
- 		
- 		resultCode = 0; 
+
+ 		resultCode = 0;
         resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-         
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
-    
+
     /**
      * 고지취소를 한다. (다중처리)
      * @param gamCntnrQuayRentFeeMngtVO
@@ -394,7 +394,7 @@ public class GamCntnrQuayRentFeeMngtController {
      * @throws Exception
      */
     /*
-    @RequestMapping(value="/oper/cntnr/gamDeleteCntnrQuayRentFeeMngtFeeNtic.do") 
+    @RequestMapping(value="/oper/cntnr/gamDeleteCntnrQuayRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> deleteCntnrQuayRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -405,12 +405,12 @@ public class GamCntnrQuayRentFeeMngtController {
 				 ,@RequestParam("accnutYears") String accnutYears
 				 ,@ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO
     		     ) throws Exception {
- 	
+
         Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
-         
+
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -418,7 +418,7 @@ public class GamCntnrQuayRentFeeMngtController {
      	String [] arrMngCnts = mngCnts.split(";");
      	String [] arrNticnos = nticnos.split(";");
      	String [] arrAccnutYears = accnutYears.split(";");
-        
+
  		//징수의뢰 삭제전 세입징수의 등록건수 체크
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -428,18 +428,18 @@ public class GamCntnrQuayRentFeeMngtController {
      		gamCntnrQuayRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
      		gamCntnrQuayRentFeeMngtVO.setNticno(arrNticnos[i]);
      		gamCntnrQuayRentFeeMngtVO.setAccnutYear(arrAccnutYears[i]);
-     		
+
      		//세입징수에 기등록  여부
      		anlrveLevCnt = gamCntnrQuayRentFeeMngtService.selectAnlrveLevCnt(gamCntnrQuayRentFeeMngtVO);
-     		
+
      		if( anlrveLevCnt > 0 ) {
      			map.put("resultCode", 1);
                 map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
-                 
+
          		return map;
      		}
     	}
-     	
+
      	//징수의뢰 삭제
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -447,20 +447,20 @@ public class GamCntnrQuayRentFeeMngtController {
      		gamCntnrQuayRentFeeMngtVO.setMngYear(arrMngYears[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngNo(arrMngNos[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
-     		
+
             gamCntnrQuayRentFeeMngtService.deleteCntnrQuayRentFeeMngtFee(gamCntnrQuayRentFeeMngtVO);
  		}
- 		
- 		resultCode = 0; 
+
+ 		resultCode = 0;
         resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-         
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
     */
-    
+
     /**
      * 고지취소를 한다. (다중처리)
      * @param gamCntnrQuayRentFeeMngtVO
@@ -468,7 +468,7 @@ public class GamCntnrQuayRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/cntnr/gamDeleteCntnrQuayRentFeeMngtFeeNtic.do") 
+    @RequestMapping(value="/oper/cntnr/gamDeleteCntnrQuayRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> deleteCntnrQuayRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -479,7 +479,7 @@ public class GamCntnrQuayRentFeeMngtController {
 				 ,@RequestParam("accnutYears") String accnutYears
 				 ,@ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO
     		     ) throws Exception {
- 	
+
     	Map map = new HashMap();
         Map paramMap = new HashMap();
         String resultMsg = "";
@@ -494,9 +494,9 @@ public class GamCntnrQuayRentFeeMngtController {
     	}
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-        
+
         System.out.println("############ prtAtCodes => " + prtAtCodes);
-        
+
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -504,7 +504,7 @@ public class GamCntnrQuayRentFeeMngtController {
      	String [] arrMngCnts = mngCnts.split(";");
      	String [] arrNticnos = nticnos.split(";");
      	String [] arrAccnutYears = accnutYears.split(";");
-        
+
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -512,9 +512,9 @@ public class GamCntnrQuayRentFeeMngtController {
      		gamCntnrQuayRentFeeMngtVO.setMngYear(arrMngYears[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngNo(arrMngNos[i]);
      		gamCntnrQuayRentFeeMngtVO.setMngCnt(arrMngCnts[i]);
-     		gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId()); 
-     		gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId()); 
-            
+     		gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId());
+     		gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId());
+
      		System.out.println("############################# 고지취소 CALL!! START ");
             //gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
      		paramMap.put("nticCnt", gamCntnrQuayRentFeeMngtVO.getNticCnt());
@@ -523,20 +523,20 @@ public class GamCntnrQuayRentFeeMngtController {
      		paramMap.put("mngNo", gamCntnrQuayRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamCntnrQuayRentFeeMngtVO.getMngCnt());
             System.out.println("##################################### paramMap => " + paramMap);
-            
+
             //이곳에 고지취소 서비스콜!! 삽입할것!!
             //gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
  		}
- 		
- 		resultCode = 0; 
+
+ 		resultCode = 0;
         resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-         
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
-    
+
     /**
      * 고지의뢰를 한다.(단일처리)
      * @param gamCntnrQuayRentFeeMngtVO
@@ -545,59 +545,59 @@ public class GamCntnrQuayRentFeeMngtController {
      * @throws Exception
      */
     /*
-    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNticSingle.do") 
+    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNticSingle.do")
     public @ResponseBody Map insertCntnrQuayRentFeeMngtFeeNticSingle(
-     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO, 
+     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
- 	
+
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
          int anlrveLevCnt = 0;
- 
+
        //세입징수에 기등록  여부
   		anlrveLevCnt = gamCntnrQuayRentFeeMngtService.selectAnlrveLevCnt(gamCntnrQuayRentFeeMngtVO);
-  		
+
   		if( anlrveLevCnt > 0 ) {
   			map.put("resultCode", 1);
             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject1")); //세입징수에 기존재하는 건이 있습니다. 확인후 다시 시도하십시오.
-              
+
       		return map;
   		}
-  		
+
   		//징수의뢰 정보조회
         GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtInfo = gamCntnrQuayRentFeeMngtService.selectCntnrQuayRentFeeMngtFeeInfo(gamCntnrQuayRentFeeMngtVO);
-        
+
         if( EgovStringUtil.isEmpty(gamCntnrQuayRentFeeMngtInfo.getAccnutYear()) ) {
         	map.put("resultCode", 1);
             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject2")); //회계년도가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
-             
+
      		return map;
         }
-        
+
         if( EgovStringUtil.isEmpty(gamCntnrQuayRentFeeMngtInfo.getNticno()) ) {
         	map.put("resultCode", 1);
             map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.fee.reject3")); //고지번호가 없는 데이터가 존재합니다. 확인후 다시 시도하십시오.
-             
+
      		return map;
         }
-        
+
         gamCntnrQuayRentFeeMngtInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
         gamCntnrQuayRentFeeMngtInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-        
+
         gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
-         
-        resultCode = 0; 
+
+        resultCode = 0;
  		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-        
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
      */
-    
+
     /**
      * 고지의뢰를 한다.(단일처리)
      * @param gamCntnrQuayRentFeeMngtVO
@@ -605,18 +605,18 @@ public class GamCntnrQuayRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNticSingle.do") 
+    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFeeNticSingle.do")
     public @ResponseBody Map insertCntnrQuayRentFeeMngtFeeNticSingle(
-     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO, 
+     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
- 	
+
      	Map map = new HashMap();
      	Map paramMap = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
- 
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -625,29 +625,29 @@ public class GamCntnrQuayRentFeeMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
     	System.out.println("######################################### 고지의뢰(단일처리) START!! ");
-        
+
         paramMap.put("nticCnt", gamCntnrQuayRentFeeMngtVO.getNticCnt());
  		paramMap.put("prtAtCode", gamCntnrQuayRentFeeMngtVO.getPrtAtCode());
  		paramMap.put("mngYear", gamCntnrQuayRentFeeMngtVO.getMngYear());
  		paramMap.put("mngNo", gamCntnrQuayRentFeeMngtVO.getMngNo());
  		paramMap.put("mngCnt", gamCntnrQuayRentFeeMngtVO.getMngCnt());
- 		
+
  		System.out.println("##################################### paramMap => " + paramMap);
-        
+
  		 //이곳에 고지의뢰 서비스콜!! 삽입할것!!
         //gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
- 		
-        resultCode = 0; 
+
+        resultCode = 0;
  		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-        
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
-    
+
     /**
      * 고지취소를 한다.(단일처리)
      * @param gamCntnrQuayRentFeeMngtVO
@@ -655,18 +655,18 @@ public class GamCntnrQuayRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/cntnr/gamDeleteCntnrQuayRentFeeMngtFeeNticSingle.do") 
+    @RequestMapping(value="/oper/cntnr/gamDeleteCntnrQuayRentFeeMngtFeeNticSingle.do")
     public @ResponseBody Map deleteCntnrQuayRentFeeMngtFeeNticSingle(
-     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO, 
+     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
- 	
+
     	Map map = new HashMap();
      	Map paramMap = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
- 
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -675,27 +675,27 @@ public class GamCntnrQuayRentFeeMngtController {
     	}
 
         System.out.println("######################################### 고지취소(단일처리) START!! ");
-        
+
         paramMap.put("nticCnt", gamCntnrQuayRentFeeMngtVO.getNticCnt());
  		paramMap.put("prtAtCode", gamCntnrQuayRentFeeMngtVO.getPrtAtCode());
  		paramMap.put("mngYear", gamCntnrQuayRentFeeMngtVO.getMngYear());
  		paramMap.put("mngNo", gamCntnrQuayRentFeeMngtVO.getMngNo());
  		paramMap.put("mngCnt", gamCntnrQuayRentFeeMngtVO.getMngCnt());
- 		
+
  		System.out.println("##################################### paramMap => " + paramMap);
-        
+
  		 //이곳에 고지의뢰 서비스콜!! 삽입할것!!
         //gamCntnrQuayRentFeeMngtService.insertAnlrveLev(gamCntnrQuayRentFeeMngtInfo);
- 		
-        resultCode = 0; 
+
+        resultCode = 0;
  		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-        
+
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
-    
+
     /**
      * 컨테이너부두임대료관리정보를 등록한다.
      * @param gamCntnrQuayRentFeeMngtVO
@@ -703,16 +703,16 @@ public class GamCntnrQuayRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFee.do") 
+    @RequestMapping(value="/oper/cntnr/gamInsertCntnrQuayRentFeeMngtFee.do")
     public @ResponseBody Map insertCntnrQuayRentFeeMngtFee(
-     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO, 
+     	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
- 	
+
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
-         
+
      	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
      	if(!isAuthenticated) {
  	        map.put("resultCode", 1);
@@ -721,20 +721,20 @@ public class GamCntnrQuayRentFeeMngtController {
      	}
 
  		 LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
- 		 gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId()); 
-         gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId()); 
-         
+ 		 gamCntnrQuayRentFeeMngtVO.setRegUsr(loginVO.getId());
+         gamCntnrQuayRentFeeMngtVO.setUpdUsr(loginVO.getId());
+
          gamCntnrQuayRentFeeMngtService.insertCntnrQuayRentFeeMngtLevReqest(gamCntnrQuayRentFeeMngtVO);
-         
-         resultCode = 0; 
+
+         resultCode = 0;
  		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-         
+
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
-         
+
  		return map;
      }
-    
+
     /**
      * 고지의뢰를 한다.(단일처리)
      * @param gamAssetRentFeeMngtVO
@@ -842,8 +842,8 @@ public class GamCntnrQuayRentFeeMngtController {
 
  		return map;
      }
-    
-    
+
+
     /**
      * 고지서를 출력한다.
      * @param approvalOpt
@@ -874,7 +874,7 @@ public class GamCntnrQuayRentFeeMngtController {
 
     	return "ygpa/gam/oper/cntnr/GamPrtfcltyPrintNoticeIssue";
     	}
-    
+
     @RequestMapping(value="/oper/cntnr/printCntnrQuayRentFeeTaxNotice.do")
     String printAssetRentFeeTaxNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
     	model.addAttribute("searchOpt", approvalOpt);
@@ -898,7 +898,7 @@ public class GamCntnrQuayRentFeeMngtController {
 
     	return "ygpa/gam/oper/cntnr/GamPrtfcltyRentPrintTaxNoticeIssue";
     	}
-    
+
     @RequestMapping(value="/oper/cntnr/updateCntnrQuayRentFeeMngtListDetail.do")
     public @ResponseBody Map updateAssetRentFeeMngtListDetail(
      	   @ModelAttribute("gamCntnrQuayRentFeeMngtVO") GamCntnrQuayRentFeeMngtVO gamCntnrQuayRentFeeMngtVO,
@@ -933,7 +933,7 @@ public class GamCntnrQuayRentFeeMngtController {
 
  		return map;
      }
-    
+
     /**
      * 자산임대료고지관리 상세정보를 조회한다.
      *
@@ -980,5 +980,5 @@ public class GamCntnrQuayRentFeeMngtController {
 
     	return map;
     }
-    
+
 }

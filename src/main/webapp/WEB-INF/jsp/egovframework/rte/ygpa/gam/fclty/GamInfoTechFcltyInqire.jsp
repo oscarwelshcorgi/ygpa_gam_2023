@@ -230,7 +230,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>정보통신시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -308,7 +308,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td><span id="prtFcltySeNm"></span></td>
-							<!-- 
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><span id="gisAssetsLocNm"></span></td>
 							 -->
@@ -330,12 +330,6 @@ var module_instance = new GamFcltyMngtModule();
 							<td><span id="prtFcltyInstlDt"></span></td>
 							<th width="15%" height="23" class="required_text">변경일자</th>
 							<td><span id="prtFcltyExprDt"></span></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">위도좌표</th>
-							<td><span id="laCrdnt"></span></td>
-							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><span id="loCrdnt"></span></td>
 						</tr>
 					</table>
 				</form>

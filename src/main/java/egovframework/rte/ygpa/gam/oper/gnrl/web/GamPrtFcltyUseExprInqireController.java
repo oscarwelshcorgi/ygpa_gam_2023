@@ -1001,7 +1001,7 @@ public class GamPrtFcltyUseExprInqireController {
      * @return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyUseExprInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyUseExprInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyUseExprInqirePrmisn.do")
     String showEntrpsInfo(GamPrtFcltyUseExprInqireLevReqestVO gamPrtFcltyUseExprInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -1013,7 +1013,7 @@ public class GamPrtFcltyUseExprInqireController {
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
     	return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyUseExprInqirePrmisn";
-    }
+    }*/
 
     /**
      * 항만시설사용 승낙(허가)을 한다.
@@ -1022,7 +1022,7 @@ public class GamPrtFcltyUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/gnrl/gamInsertPrtFcltyUseExprInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/gnrl/gamInsertPrtFcltyUseExprInqirePrmisn.do")
     public @ResponseBody Map insertPrtFcltyUseExprInqireLevReqest(
     	   @ModelAttribute("gamPrtFcltyUseExprInqireVO") GamPrtFcltyUseExprInqireVO gamPrtFcltyUseExprInqireVO,
     	   BindingResult bindingResult)
@@ -1135,7 +1135,7 @@ public class GamPrtFcltyUseExprInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 항만시설사용 승낙취소(허가취소)를 한다.
      * @param gamPrtFcltyUseExprInqireVO
@@ -1143,7 +1143,7 @@ public class GamPrtFcltyUseExprInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/gnrl/gamUpdatePrtFcltyUseExprInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/gnrl/gamUpdatePrtFcltyUseExprInqirePrmisnCancel.do")
     public @ResponseBody Map updatePrtFcltyUseExprInqirePrmisnCancel(
      	   @ModelAttribute("gamPrtFcltyUseExprInqireVO") GamPrtFcltyUseExprInqireVO gamPrtFcltyUseExprInqireVO,
      	   BindingResult bindingResult)
@@ -1203,7 +1203,7 @@ public class GamPrtFcltyUseExprInqireController {
 
  		return map;
      }
-
+*/
     /**
      * 파일목록을 조회한다.
      *

@@ -984,7 +984,7 @@ public class GamCmmnCntrRentSttusInqireController {
      * @return "/ygpa/gam/oper/shed/GamPopupCmmnCntrRentSttusInqirePrmisn"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/shed/popup/showCmmnCntrRentSttusInqirePrmisn.do")
+/*	@RequestMapping(value="/oper/shed/popup/showCmmnCntrRentSttusInqirePrmisn.do")
     String showEntrpsInfo(GamCmmnCntrRentSttusInqireLevReqestVO gamCmmnCntrRentSttusInqireLevReqestVO, ModelMap model) throws Exception {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
@@ -997,7 +997,7 @@ public class GamCmmnCntrRentSttusInqireController {
 
     	return "/ygpa/gam/oper/shed/GamPopupCmmnCntrRentSttusInqirePrmisn";
     }
-
+*/
     /**
      * 공컨장치장임대 승낙(허가)을 한다.
      * @param gamCmmnCntrRentSttusInqireVO
@@ -1005,7 +1005,7 @@ public class GamCmmnCntrRentSttusInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/shed/gamInsertCmmnCntrRentSttusInqirePrmisn.do")
+/*    @RequestMapping(value="/oper/shed/gamInsertCmmnCntrRentSttusInqirePrmisn.do")
     public @ResponseBody Map insertCmmnCntrRentSttusInqireLevReqest(
     	   @ModelAttribute("gamCmmnCntrRentSttusInqireVO") GamCmmnCntrRentSttusInqireVO gamCmmnCntrRentSttusInqireVO,
     	   BindingResult bindingResult)
@@ -1118,7 +1118,7 @@ public class GamCmmnCntrRentSttusInqireController {
 
 		return map;
     }
-
+*/
     /**
      * 공컨장치장임대 승낙취소(허가취소)를 한다.
      * @param gamCmmnCntrRentSttusInqireVO
@@ -1126,7 +1126,7 @@ public class GamCmmnCntrRentSttusInqireController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/shed/gamUpdateCmmnCntrRentSttusInqirePrmisnCancel.do")
+/*    @RequestMapping(value="/oper/shed/gamUpdateCmmnCntrRentSttusInqirePrmisnCancel.do")
     public @ResponseBody Map updateCmmnCntrRentSttusInqirePrmisnCancel(
      	   @ModelAttribute("gamCmmnCntrRentSttusInqireVO") GamCmmnCntrRentSttusInqireVO gamCmmnCntrRentSttusInqireVO,
      	   BindingResult bindingResult)
@@ -1185,7 +1185,7 @@ public class GamCmmnCntrRentSttusInqireController {
          map.put("resultMsg", resultMsg);
 
  		return map;
-     }
+     }*/
 
     /**
      * 파일목록을 조회한다.
