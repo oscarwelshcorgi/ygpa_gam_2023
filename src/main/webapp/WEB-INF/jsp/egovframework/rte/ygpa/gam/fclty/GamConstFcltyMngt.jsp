@@ -192,7 +192,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		break;
 	}
 
-
+	this.$('#drwLstMngDeptCd').makeSelectCmmnCd();
 };
 
 GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
@@ -746,7 +746,7 @@ var module_instance = new GamFcltyMngtModule();
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
 								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
 							</td>
-							<!-- 
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
 							 -->
@@ -776,7 +776,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">위도좌표</th>
 							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
 							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><input id="loCrdnt" type="text" size="50" disabled="disabled" /></td>
+							<td><input type="text" id="drwLstMngDeptCd" data-code-id="GAM019"/></td>
 						</tr>
 					</table>
 				</form>
