@@ -68,8 +68,6 @@
 
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
-    OpenLayers.ImgPath = "<c:url value='/images/egovframework/ygpa/gam/maps/'/>";
-    OpenLayers.theme = "<c:url value='/css/'/>";
     Proj4js.libPath = "<c:url value='/js/Proj4js/'/>";
 	var $DEBUG=false;
 
