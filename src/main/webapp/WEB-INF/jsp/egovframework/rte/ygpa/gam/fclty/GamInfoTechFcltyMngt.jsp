@@ -588,8 +588,6 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
                  	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
                  }
               	module.$("#gisPrtFcltyCdSub").find(":value="+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
-
-                console.log(result.result);
               }
               else {
                 alert(result.resultMsg);
