@@ -37,19 +37,21 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
-					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
-					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
-					{display:"정보통신시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"정보통신시설명",	name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
-					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
-// 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
-					{display:"정보통신시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
-					{display:"정보통신시설단위", 	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
-					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
-					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
-					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
-					{display:"만료일자",		name:"prtFcltyExprDt",	width:80,		sortable:false,		align:"center"}
+		          {display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
+		          {display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
+		          {display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
+		          {display:"시설코드", name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+		          {display:"시설명",	name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
+		          {display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
+		          {display:"시설구분",	 	name:"gisPrtFcltyCdSub",		width:100,		sortable:false,		align:"left"},
+		// 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
+		          {display:"시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
+		          {display:"시설수량",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
+		          {display:"시설담당",  	name:"prtPrtFcltyMnger",		width:80,		sortable:false,		align:"left"},
+		//           {display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
+		//           {display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
+		          {display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
+		          {display:"만료일자",		name:"prtFcltyExprDt",	width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -207,6 +209,25 @@ GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 		break;
 	}
 };
+
+this.$("#searchFcltyCd").on("change", {module: this}, function(event) {
+    if($(this).val()==10){
+    	event.data.module.$("#searchFcltySeq").empty();
+    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="스피드 돔">스피드 돔</option><option value="고정 형">고정 형</option><option value="고정 형">RFID 출입</option><option value="기타">기타</option>');
+
+    }else if($(this).val()==11){
+    	event.data.module.$("#searchFcltySeq").empty();
+    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타">기타</option>');
+
+    }else if($(this).val()==12){
+    	event.data.module.$("#searchFcltySeq").empty();
+    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타">기타</option>');
+
+    }else{
+    	event.data.module.$("#searchFcltySeq").empty();
+    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타">기타</option>');
+    };
+  });
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamFcltyMngtModule();
 </script>
@@ -231,7 +252,8 @@ var module_instance = new GamFcltyMngtModule();
 							<th>정보통신시설코드</th>
 							<td>
 								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" />&nbsp;-&nbsp;
-								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
+								<select id="searchFcltySeq"></select>
+<!-- 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" /> -->
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -302,12 +324,14 @@ var module_instance = new GamFcltyMngtModule();
 								<span id="gisPrtFcltyCd"></span>&nbsp;-&nbsp;
 								<span id="gisPrtFcltySeq"></span>
 							</td>
-							<th width="15%" height="23" class="required_text">정보통신시설명</th>
-							<td><span id="prtFcltyNm"></span></td>
+<!-- 							<th width="15%" height="23" class="required_text">정보통신시설명</th> -->
+<!-- 							<td><span id="prtFcltyNm"></span></td> -->
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td><span id="prtFcltySeNm"></span></td>
+							<th width="15%" height="23" class="required_text">시설구분</th>
+							<td><span id="gisPrtFcltyCdSub"></span></td>
 							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><span id="gisAssetsLocNm"></span></td>
@@ -320,10 +344,14 @@ var module_instance = new GamFcltyMngtModule();
 							<td><span id="prtFcltyUnit"></span></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">관리업체코드</th>
-							<td><span id="prtFcltyMngEntrpsCd" ></span></td>
-							<th width="15%" height="23" class="required_text">관리업체명</th>
-							<td><span id="prtFcltyMngEntrpsNm" ></span></td>
+							<th width="15%" height="23" class="required_text">정보통신시설명</th>
+							<td><span id="prtFcltyNm"></span></td>
+							<th width="15%" height="23" class="required_text">시설담당</th>
+							<td><span id="prtPrtFcltyMnger" ></span></td>
+<!-- 							<th width="15%" height="23" class="required_text">관리업체코드</th> -->
+<!-- 							<td><span id="prtFcltyMngEntrpsCd" ></span></td> -->
+<!-- 							<th width="15%" height="23" class="required_text">관리업체명</th> -->
+<!-- 							<td><span id="prtFcltyMngEntrpsNm" ></span></td> -->
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>

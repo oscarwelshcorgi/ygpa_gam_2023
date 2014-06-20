@@ -52,7 +52,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
           {display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
           {display:"시설구분",	 	name:"gisPrtFcltyCdSub",		width:100,		sortable:false,		align:"left"},
 // 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
-          {display:"시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
+          {display:"시설수량",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
           {display:"시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
           {display:"시설담당",  	name:"prtPrtFcltyMnger",		width:80,		sortable:false,		align:"left"},
 //           {display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
@@ -135,6 +135,26 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
     	event.data.module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
     };
   });
+
+  this.$("#searchFcltyCd").on("change", {module: this}, function(event) {
+	    if($(this).val()==10){
+	    	event.data.module.$("#searchFcltySeq").empty();
+	    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="스피드 돔">스피드 돔</option><option value="고정 형">고정 형</option><option value="고정 형">RFID 출입</option><option value="기타">기타</option>');
+
+	    }else if($(this).val()==11){
+	    	event.data.module.$("#searchFcltySeq").empty();
+	    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타">기타</option>');
+
+	    }else if($(this).val()==12){
+	    	event.data.module.$("#searchFcltySeq").empty();
+	    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타">기타</option>');
+
+	    }else{
+	    	event.data.module.$("#searchFcltySeq").empty();
+	    	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타">기타</option>');
+	    };
+	  });
+
 
 /* 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
     // 이벤트내에선 모듈에 대해 선택한다.
@@ -290,7 +310,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
       var inputVO = this.makeFormArgs("#fcltyManageVO");
       // 날짜 설정
-      console.log(inputVO);
       this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
       this.$("#prtFcltyExprDt").val(this.$("#prtFcltyExprDt").val().replace(/\-/g,""));
        if(this._cmd == "insert") {
@@ -709,7 +728,8 @@ var module_instance = new GamFcltyMngtModule();
               <th>정보통신시설코드</th>
               <td>
                 <input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" />&nbsp;-&nbsp;
-                <input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
+                <select id="searchFcltySeq" ></select>
+<!--                 <input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" /> -->
               </td>
               <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
             </tr>
