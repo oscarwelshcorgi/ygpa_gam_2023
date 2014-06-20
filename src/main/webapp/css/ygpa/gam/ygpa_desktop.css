@@ -261,6 +261,7 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
 .prtFcltyInfo div {
 	  width: 100%;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .prtFcltyInfo h2 {
