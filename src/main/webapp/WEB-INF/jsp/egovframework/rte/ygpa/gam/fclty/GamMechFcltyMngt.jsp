@@ -47,16 +47,17 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
-					{display:"기계시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"기계시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
+					{display:"시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
 // 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
-					{display:"기계시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
-					{display:"기계시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
-					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
-					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
+					{display:"시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
+					{display:"시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
+ 					{display:"시설담당",		name:"prtPrtFcltyMnger",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
-					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
+// 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -116,6 +117,19 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
+		if($(this).val()==10){
+			event.data.module.$(".no1, .no2, .no3").hide();
+			event.data.module.$(".no1").show();
+	    }else if($(this).val()==11){
+	    	event.data.module.$(".no1, .no2, .no3").hide();
+			event.data.module.$(".no2").show();
+	    }else if($(this).val()==12){
+	    	event.data.module.$(".no1, .no2, .no3").hide();
+			event.data.module.$(".no3").show();
+	    }else{
+	    	event.data.module.$(".no1, .no2, .no3").hide();
+	    };
+
 	});
 
 /* 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -271,14 +285,30 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
+			var info = "||";
+			info += "||"+this.$("#info1").val() + "||";
+			info += "||"+this.$("#info2").val() + "||";
+			info += "||"+this.$("#info3").val() + "||";
+			info += "||"+this.$("#info4").val() + "||";
+			info += "||"+this.$("#info5").val() + "||";
+			info += "||"+this.$("#info6").val() + "||";
+			info += "||"+this.$("#info7").val() + "||";
+			info += "||"+this.$("#info8").val() + "||";
+			info += "||"+this.$("#info9").val() + "||";
+			info += "||"+this.$("#info10").val() + "||";
+			info += "||"+this.$("#info11").val() + "||";
+			console.log(inputVO);
+			inputVO[inputVO.length]={name: 'info', value: info};
+			console.log(inputVO);
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
-			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
+// 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
 
 		 	if(this._cmd == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamMechFcltyInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
+
 						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#fcltyMngtListTab").tabs("option", {active: 0});
 						module.$("#fcltyManageVO :input").val("");
@@ -289,6 +319,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			 	this.doAction('<c:url value="/fclty/gamMechFcltyUpdate.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
+
 						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#fcltyMngtListTab").tabs("option", {active: 0});
 						module.$("#fcltyManageVO :input").val("");
@@ -490,6 +521,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	case "tabs1":
 		break;
 	case "tabs2":
+
+		this.$(".no1, .no2, .no3").hide();
 		if(this._cmd!="insert") {
 			var row = this.$('#fcltyMngtList').selectedRows();
 			if(row.length <= 0) {
@@ -505,10 +538,41 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 			                { name: 'prtFcltySe', value: this._params.prtFcltySe }
 		 			              ];
 		 	     	 	this.doAction('<c:url value="/fclty/gamMechFcltyDetail.do" />', prtFclty, function(module, result) {
+
 		 	     	 		if(result.resultCode == "0"){
+
 		 	     	 			module.clearCodePage();
 		 	     	 			module._fcltyItem=result.result;
 		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+		 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+			                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+		 	     	 			console.log(result.result.gisPrtFcltyCd);
+		 	     	 			if(result.result.gisPrtFcltyCd == 10){
+		 	     	 				event.data.module.$(".no1, .no2, .no3").hide();
+		 	     	 				event.data.module.$(".no1").show();
+		 	     	 			}else if(result.result.gisPrtFcltyCd == 11){
+		 	     	 				event.data.module.$(".no1, .no2, .no3").hide();
+		 	     	 				event.data.module.$(".no2").show();
+		 	     	 			}else if(result.result.gisPrtFcltyCd == 12){
+		 	     	 				event.data.module.$(".no1, .no2, .no3").hide();
+		 	     	 				event.data.module.$(".no3").show();
+		 	     	 			}else{
+		 	     	 				event.data.module.$(".no1, .no2, .no3").hide();
+		 	     	 			}
+
+		 	     	 			var data=result.result.info.split('||||');
+		 	     	 			module.$('#info1').val(data[0]);
+		 	     	 			module.$('#info2').val(data[1]);
+		 	     	 			module.$('#info3').val(data[2]);
+		 	     	 			module.$('#info4').val(data[3]);
+		 	     	 			module.$('#info5').val(data[4]);
+		 	     	 			module.$('#info6').val(data[5]);
+		 	     	 			module.$('#info7').val(data[6]);
+		 	     	 			module.$('#info8').val(data[7]);
+		 	     	 			module.$('#info9').val(data[8]);
+		 	     	 			module.$('#info10').val(data[9]);
+		 	     	 			module.$('#info11').val(data[10]);
+
 		 	     	 		}
 		 	     	 		else {
 		 	     	 			alert(result.resultMsg);
@@ -527,10 +591,39 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 			                { name: 'prtFcltySe', value: row['prtFcltySe'] }
 			              ];
 	     	 	this.doAction('<c:url value="/fclty/gamMechFcltyDetail.do" />', prtFclty, function(module, result) {
+
 	     	 		if(result.resultCode == "0"){
+
+	     	 			if(result.result.gisPrtFcltyCd == 10){
+ 	     	 				module.$(".no1, .no2, .no3").hide();
+ 	     	 				module.$(".no1").show();
+ 	     	 			}else if(result.result.gisPrtFcltyCd == 11){
+ 	     	 				module.$(".no1, .no2, .no3").hide();
+ 	     	 				module.$(".no2").show();
+ 	     	 			}else if(result.result.gisPrtFcltyCd == 12){
+ 	     	 				module.$(".no1, .no2, .no3").hide();
+ 	     	 				module.$(".no3").show();
+ 	     	 			}else{
+ 	     	 				event.data.module.$(".no1, .no2, .no3").hide();
+ 	     	 			}
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+	     	 			var data=result.result.info.split('||||');
+ 	     	 			module.$('#info1').val(data[1]);
+ 	     	 			module.$('#info2').val(data[2]);
+ 	     	 			module.$('#info3').val(data[3]);
+ 	     	 			module.$('#info4').val(data[4]);
+ 	     	 			module.$('#info5').val(data[5]);
+ 	     	 			module.$('#info6').val(data[6]);
+ 	     	 			module.$('#info7').val(data[7]);
+ 	     	 			module.$('#info8').val(data[8]);
+ 	     	 			module.$('#info9').val(data[9]);
+ 	     	 			module.$('#info10').val(data[10]);
+ 	     	 			module.$('#info11').val(data[11]);
+
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
@@ -692,6 +785,8 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 기계시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
+				<input type="text" id="beforeGisPrtFcltyCd">
+          		<input type="text" id="beforeGisPrtFcltySeq">
 					<table class="editForm"  style="width:100%;">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>
@@ -725,27 +820,34 @@ var module_instance = new GamFcltyMngtModule();
 								<input type="text" size="5" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="5" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="15%" height="23" class="required_text">기계시설명</th>
-							<td><input type="text" size="50" id="prtFcltyNm" maxlength="80" /></td>
-						</tr>
-						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
-								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
 							</td>
-							<!-- 
+						</tr>
+<!-- 						<tr> -->
+
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
 							 -->
-						</tr>
+<!-- 						</tr> -->
+<!--
 						<tr>
 							<th width="15%" height="23" class="required_text">기계시설규격</th>
 							<td><input type="text" size="50" id="prtFcltyStndrd" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">기계시설단위</th>
 							<td><input type="text" size="50" id="prtFcltyUnit" maxlength="10" /></td>
 						</tr>
+ -->
 						<tr>
+						    <th width="15%" height="23" class="required_text">기계시설명</th>
+							<td colspan="4"><input type="text" size="128" id="prtFcltyNm" maxlength="80" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">시설담당</th>
+							<td colspan="4"><input type="text" size="128" id="prtPrtFcltyMnger"  maxlength="80"/></td>
+						<!--
 							<th width="15%" height="23" class="required_text">관리업체</th>
 							<td>
 								<input type="text" size="10" id="prtFcltyMngEntrpsCd" disabled="disabled"/>&nbsp; &nbsp;
@@ -753,18 +855,57 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th width="15%" height="23" class="required_text">관리업체명</th>
 							<td><input type="text" size="50" id="prtFcltyMngEntrpsNm" disabled="disabled"/></td>
+						 -->
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>
-							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
+							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" readonly="readonly"/></td>
+							<!--
 							<th width="15%" height="23" class="required_text">변경일자</th>
 							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
+							 -->
 						</tr>
+						<!--
 						<tr>
 							<th width="15%" height="23" class="required_text">위도좌표</th>
 							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
 							<th width="15%" height="23" class="required_text">경도좌표</th>
 							<td><input id="loCrdnt" type="text" size="50" disabled="disabled" /></td>
+						</tr>
+						 -->
+						 <tr class="no1">
+							<th width="15%" height="23" class="required_text">정격하중</th>
+							<td><input type="text" size="50" id="info1" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">아웃리치</th>
+							<td><input type="text" size="50" id="info2" maxlength="40" /></td>
+						</tr>
+						<tr class="no1">
+							<th width="15%" height="23" class="required_text">처리능력</th>
+							<td><input type="text" size="50" id="info3" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">주행족</th>
+							<td><input type="text" size="50" id="info4" maxlength="40" /></td>
+						</tr>
+						<tr class="no2">
+							<th width="15%" height="23" class="required_text">냉난방방식</th>
+							<td><input type="text" size="50" id="info5" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">보일러용량</th>
+							<td><input type="text" size="50" id="info6" maxlength="40" /></td>
+						</tr>
+						<tr class="no2">
+							<th width="15%" height="23" class="required_text">조수조</th>
+							<td><input type="text" size="50" id="info7" maxlength="40" /></td>
+						</tr>
+						<tr class="no3">
+							<th width="15%" height="23" class="required_text">적재톤수</th>
+							<td><input type="text" size="50" id="info8" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">적재크기</th>
+							<td><input type="text" size="50" id="info9" maxlength="40" /></td>
+						</tr>
+						<tr class="no3">
+							<th width="15%" height="23" class="required_text">연결도교</th>
+							<td><input type="text" size="50" id="info10" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">전기방식</th>
+							<td><input type="text" size="50" id="info11" maxlength="40" /></td>
 						</tr>
 					</table>
 				</form>

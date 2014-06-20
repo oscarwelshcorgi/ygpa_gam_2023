@@ -21,6 +21,8 @@
 	                <var-value>80</var-value>
                 </var>
             </field>
+
+<!--
             <field property="prtFcltyStndrd" depends="maxlength">
                 <arg0 key="시설 규격" resource="false"/>
                 <arg1 key="40" resource="false"/>
@@ -37,6 +39,7 @@
 	                <var-value>10</var-value>
                 </var>
             </field>
+-->
         </form>
     </formset>
 </form-validation>
