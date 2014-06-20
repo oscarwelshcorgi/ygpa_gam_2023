@@ -527,6 +527,24 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
                      module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
                      module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 
+                     if(result.result.gisPrtFcltyCd==10){
+                    	module.$("#gisPrtFcltyCdSub").empty();
+                    	module.$("#gisPrtFcltyCdSub").append('<option value="스피드 돔">스피드 돔</option><option value="고정 형">고정 형</option><option value="고정 형">RFID 출입</option><option value="기타">기타</option>');
+
+                     }else if(result.result.gisPrtFcltyCd==11){
+                     	module.$("#gisPrtFcltyCdSub").empty();
+                     	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
+
+                     }else if(result.result.gisPrtFcltyCd==12){
+                     	module.$("#gisPrtFcltyCdSub").empty();
+                     	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
+
+                     }else{
+                     	module.$("#gisPrtFcltyCdSub").empty();
+                     	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
+                     }
+                  	module.$("#gisPrtFcltyCdSub").find(":value="+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
+
 
                    }
                    else {
@@ -552,6 +570,25 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
                 module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
                 module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
                 module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+
+                if(result.result.gisPrtFcltyCd==10){
+                	module.$("#gisPrtFcltyCdSub").empty();
+                	module.$("#gisPrtFcltyCdSub").append('<option value="스피드 돔">스피드 돔</option><option value="고정 형">고정 형</option><option value="고정 형">RFID 출입</option><option value="기타">기타</option>');
+
+                 }else if(result.result.gisPrtFcltyCd==11){
+                 	module.$("#gisPrtFcltyCdSub").empty();
+                 	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
+
+                 }else if(result.result.gisPrtFcltyCd==12){
+                 	module.$("#gisPrtFcltyCdSub").empty();
+                 	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
+
+                 }else{
+                 	module.$("#gisPrtFcltyCdSub").empty();
+                 	module.$("#gisPrtFcltyCdSub").append('<option value="기타">기타</option>');
+                 }
+              	module.$("#gisPrtFcltyCdSub").find(":value="+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
+
                 console.log(result.result);
               }
               else {
@@ -758,7 +795,7 @@ var module_instance = new GamFcltyMngtModule();
 	              </td>
 						<th width="15%" height="23" class="required_text">시설분류</th>
               <td>
-                <input class="ygpaCmmnCd" data-code-id="GAM059" id="selectedGAM005" data-required="true"/>
+                <input class="ygpaCmmnCd" data-code-id="GAM059" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
                 <select id="gisPrtFcltyCdSub"></select>
               </td>
             </tr>

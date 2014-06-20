@@ -76,7 +76,7 @@ public class GamFcltyManageVO extends ComDefaultVO{
 
     /** GIS 자산 항코드명 */
     private String gisAssetsPrtAtNm;
-    
+
     /** GIS 자산 코드 */
     private String gisAssetsCd;
 
@@ -101,11 +101,97 @@ public class GamFcltyManageVO extends ComDefaultVO{
     private String gisAssetsPrtAtName;
     private String prtFcltyMngEntrpsNm;
     private String prtFcltyPhotoSeq;
-    
+
     /**	만료 일자		*/
     private String prtFcltyExprDt;
 
+    /**예전 시설 코드*/
+    private String beforeGisPrtFcltyCd;
+
+    /**예전 시설 서브 코드*/
+    private String beforeGisPrtFcltySeq;
+
+    /**예전 시설 개수*/
+    private String prtPrtFcltyCnt;
+
+    /**예전 시설 시설 담당*/
+    private String prtPrtFcltyMnger;
+
+    /**예전 시설 시설 코드 서브*/
+    private String gisPrtFcltyCdSub;
+
+
     /**
+	 * @return the gisPrtFcltyCdSub
+	 */
+	public String getGisPrtFcltyCdSub() {
+		return gisPrtFcltyCdSub;
+	}
+
+	/**
+	 * @param gisPrtFcltyCdSub the gisPrtFcltyCdSub to set
+	 */
+	public void setGisPrtFcltyCdSub(String gisPrtFcltyCdSub) {
+		this.gisPrtFcltyCdSub = gisPrtFcltyCdSub;
+	}
+
+	/**
+	 * @return the prtPrtFcltyCnt
+	 */
+	public String getPrtPrtFcltyCnt() {
+		return prtPrtFcltyCnt;
+	}
+
+	/**
+	 * @param prtPrtFcltyCnt the prtPrtFcltyCnt to set
+	 */
+	public void setPrtPrtFcltyCnt(String prtPrtFcltyCnt) {
+		this.prtPrtFcltyCnt = prtPrtFcltyCnt;
+	}
+
+	/**
+	 * @return the prtPrtFcltyMnger
+	 */
+	public String getPrtPrtFcltyMnger() {
+		return prtPrtFcltyMnger;
+	}
+
+	/**
+	 * @param prtPrtFcltyMnger the prtPrtFcltyMnger to set
+	 */
+	public void setPrtPrtFcltyMnger(String prtPrtFcltyMnger) {
+		this.prtPrtFcltyMnger = prtPrtFcltyMnger;
+	}
+
+	/**
+	 * @return the beforeGisPrtFcltyCd
+	 */
+	public String getBeforeGisPrtFcltyCd() {
+		return beforeGisPrtFcltyCd;
+	}
+
+	/**
+	 * @param beforeGisPrtFcltyCd the beforeGisPrtFcltyCd to set
+	 */
+	public void setBeforeGisPrtFcltyCd(String beforeGisPrtFcltyCd) {
+		this.beforeGisPrtFcltyCd = beforeGisPrtFcltyCd;
+	}
+
+	/**
+	 * @return the beforeGisPrtFcltySeq
+	 */
+	public String getBeforeGisPrtFcltySeq() {
+		return beforeGisPrtFcltySeq;
+	}
+
+	/**
+	 * @param beforeGisPrtFcltySeq the beforeGisPrtFcltySeq to set
+	 */
+	public void setBeforeGisPrtFcltySeq(String beforeGisPrtFcltySeq) {
+		this.beforeGisPrtFcltySeq = beforeGisPrtFcltySeq;
+	}
+
+	/**
 	 * @return the prtFcltyExprDt
 	 */
 	public String getPrtFcltyExprDt() {
