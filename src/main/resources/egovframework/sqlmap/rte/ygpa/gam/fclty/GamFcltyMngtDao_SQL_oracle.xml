@@ -103,6 +103,7 @@
 			                    , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
 			                    , GAM_GETCODENAME('GAM058', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
 			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
+			                    , F.INFO INFO
 		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
 		                WHERE 1 = 1
                         AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD

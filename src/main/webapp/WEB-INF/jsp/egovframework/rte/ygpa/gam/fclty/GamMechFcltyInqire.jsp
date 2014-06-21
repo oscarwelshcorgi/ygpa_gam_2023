@@ -40,16 +40,17 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
-					{display:"기계시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"기계시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
+					{display:"시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
 // 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
-					{display:"기계시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
-					{display:"기계시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
-					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
-					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
+// 					{display:"시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
+// 					{display:"시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
+ 					{display:"시설담당",		name:"prtPrtFcltyMnger",	width:100,		sortable:false,		align:"center"},
+// 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
-					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
+// 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -60,6 +61,31 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		module.$("#fcltyManageVO :input").val("");
 		module.makeFormValues("#fcltyManageVO", row);
 		module.getFormValues("#fcltyManageVO", row);
+		console.log(module.$("#gisPrtFcltyCd").val());
+		if(module.$("#gisPrtFcltyCd").text() ==10){
+			module.$(".no1, .no2, .no3").hide();
+			module.$(".no1").show();
+	    }else if(module.$("#gisPrtFcltyCd").text() ==11){
+	    	module.$(".no1, .no2, .no3").hide();
+			module.$(".no2").show();
+	    }else if(module.$("#gisPrtFcltyCd").text() ==12){
+	    	module.$(".no1, .no2, .no3").hide();
+			module.$(".no3").show();
+	    }else{
+	    	module.$(".no1, .no2, .no3").hide();
+	    };
+	    var data=row.info.split('||||');
+			module.$('#info1').text(data[1]);
+			module.$('#info2').text(data[2]);
+			module.$('#info3').text(data[3]);
+			module.$('#info4').text(data[4]);
+			module.$('#info5').text(data[5]);
+			module.$('#info6').text(data[6]);
+			module.$('#info7').text(data[7]);
+			module.$('#info8').text(data[8]);
+			module.$('#info9').text(data[9]);
+			module.$('#info10').text(data[10]);
+			module.$('#info11').text(data[11]);
 		module.$("#fcltyMngtList").selectedRowIds()[0];
 		module.$("#cmd").val("modify");
 		var searchOpt =
@@ -231,8 +257,8 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>기계시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
-								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" />
+<!-- 								&nbsp;-&nbsp;<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" /> -->
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -303,40 +329,79 @@ var module_instance = new GamFcltyMngtModule();
 								<span id="gisPrtFcltyCd"></span>&nbsp;-&nbsp;
 								<span id="gisPrtFcltySeq"></span>
 							</td>
-							<th width="15%" height="23" class="required_text">기계시설명</th>
-							<td><span id="prtFcltyNm"></span></td>
-						</tr>
-						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td><span id="prtFcltySeNm"></span></td>
-							<!-- 
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">기계시설명</th>
+							<td><span id="prtFcltyNm"></span></td>
+							<th width="15%" height="23" class="required_text">시설담당</th>
+							<td><span id="prtPrtFcltyMnger"></span></td>
+
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><span id="gisAssetsLocNm"></span></td>
 							 -->
 						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">기계시설규격</th>
-							<td><span id="prtFcltyStndrd"></span></td>
-							<th width="15%" height="23" class="required_text">기계시설단위</th>
-							<td><span id="prtFcltyUnit"></span></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">관리업체코드</th>
-							<td><span id="prtFcltyMngEntrpsCd"></span></td>
-							<th width="15%" height="23" class="required_text">관리업체명</th>
-							<td><span id="prtFcltyMngEntrpsNm"></span></td>
-						</tr>
+<!-- 						<tr> -->
+<!-- 							<th width="15%" height="23" class="required_text">기계시설규격</th> -->
+<!-- 							<td><span id="prtFcltyStndrd"></span></td> -->
+<!-- 							<th width="15%" height="23" class="required_text">기계시설단위</th> -->
+<!-- 							<td><span id="prtFcltyUnit"></span></td> -->
+<!-- 						</tr> -->
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>
 							<td><span id="prtFcltyInstlDt"></span></td>
-							<th width="15%" height="23" class="required_text">변경일자</th>
-							<td><span id="prtFcltyChangeDt"></span></td>
+<!-- 							<th width="15%" height="23" class="required_text">관리업체코드</th> -->
+<!-- 							<td><span id="prtFcltyMngEntrpsCd"></span></td> -->
+<!-- 							<th width="15%" height="23" class="required_text">관리업체명</th> -->
+<!-- 							<td><span id="prtFcltyMngEntrpsNm"></span></td> -->
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">위도좌표</th>
-							<td><span id="laCrdnt"></span></td>
-							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><span id="loCrdnt"></span></td>
+
+<!-- 							<th width="15%" height="23" class="required_text">변경일자</th> -->
+<!-- 							<td><span id="prtFcltyChangeDt"></span></td> -->
+						</tr>
+<!-- 						<tr> -->
+<!-- 							<th width="15%" height="23" class="required_text">위도좌표</th> -->
+<!-- 							<td><span id="laCrdnt"></span></td> -->
+<!-- 							<th width="15%" height="23" class="required_text">경도좌표</th> -->
+<!-- 							<td><span id="loCrdnt"></span></td> -->
+<!-- 						</tr> -->
+
+						<tr class="no1">
+							<th width="15%" height="23" class="required_text">정격하중</th>
+							<td><span id="info1" /></span></td>
+							<th width="15%" height="23" class="required_text">아웃리치</th>
+							<td><span id="info2" /></span></td>
+						</tr>
+						<tr class="no1">
+							<th width="15%" height="23" class="required_text">처리능력</th>
+							<td><span id="info3" /></span></td>
+							<th width="15%" height="23" class="required_text">주행족</th>
+							<td><span id="info4" /></span></td>
+						</tr>
+						<tr class="no2">
+							<th width="15%" height="23" class="required_text">냉난방방식</th>
+							<td><span id="info5" /></span></td>
+							<th width="15%" height="23" class="required_text">보일러용량</th>
+							<td><span id="info6" /></span></td>
+						</tr>
+						<tr class="no2">
+							<th width="15%" height="23" class="required_text">조수조</th>
+							<td><span id="info7" /></span></td>
+						</tr>
+						<tr class="no3">
+							<th width="15%" height="23" class="required_text">적재톤수</th>
+							<td><span id="info8" /></span></td>
+							<th width="15%" height="23" class="required_text">적재크기</th>
+							<td><span id="info9" /></span></td>
+						</tr>
+						<tr class="no3">
+							<th width="15%" height="23" class="required_text">연결도교</th>
+							<td><span id="info10" /></span></td>
+							<th width="15%" height="23" class="required_text">전기방식</th>
+							<td><span id="info11" ></span></td>
 						</tr>
 					</table>
 				</div>
