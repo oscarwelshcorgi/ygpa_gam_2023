@@ -13,7 +13,7 @@
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.05  kok          최초 생성
-  *  2014.06.016  sj          추가 
+  *  2014.06.016  sj          추가
   *
   * author kok
   * since 2014.02.05
@@ -48,14 +48,15 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
-					{display:"전기시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"전기시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
+					{display:"시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
 // 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
-					{display:"전기시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
-					{display:"전기시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
-					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
-					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
+					{display:"시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
+					{display:"수량",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
+					{display:"시설담당",		name:"prtPrtFcltyMnger",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
@@ -107,7 +108,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 				alert('시설코드에 오류가 있습니다.');
 				return;
 			}
-			module.$("#selectedGAM005_select").hide();
+// 			module.$("#selectedGAM005_select").hide();
 			module.$("#prtFcltySeNm").show();
 			module.$("#gisCodePopupBtn").hide();
 			module._cmd="modify";
@@ -117,6 +118,22 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
+		if($(this).val()==10){
+			event.data.module.$("#gisPrtFcltyCdSub").empty();
+			event.data.module.$("#gisPrtFcltyCdSub").append('<option value="10-1" id="가로등">가로등</option><option value="10-2" id="조명탑">조명탑</option><option value="10-3" id="신호등">신호등</option><option value="10-4" id="보안등">보안등</option><option value="10-5" id="기타">기타</option>');
+
+         }else if($(this).val()==11){
+        	 event.data.module.$("#gisPrtFcltyCdSub").empty();
+        	 event.data.module.$("#gisPrtFcltyCdSub").append('<option value="11-1" id="이동식">이동식</option><option value="11-2" id="고정식">고정식</option><option value="11-3" id="기타">기타</option>');
+
+         }else if($(this).val()==12){
+        	 event.data.module.$("#gisPrtFcltyCdSub").empty();
+        	 event.data.module.$("#gisPrtFcltyCdSub").append('<option value="12-1" id="태양광">태양광</option><option value="12-2" id="풍력">풍력</option><option value="12-3" id="지력">지력</option><option value="12-4" id="수력">수력</option><option value="12-5" id="기타">기타</option>');
+
+         }else{
+        	 event.data.module.$("#gisPrtFcltyCdSub").empty();
+         	event.data.module.$("#gisPrtFcltyCdSub").append('<option value="99" id="기타">기타</option>');
+         }
 	});
 
 /* 	this.$("#fcltyMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -491,6 +508,7 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	case "tabs1":
 		break;
 	case "tabs2":
+		console.log('debug');
 		if(this._cmd!="insert") {
 			var row = this.$('#fcltyMngtList').selectedRows();
 			if(row.length <= 0) {
@@ -510,6 +528,26 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 	     	 			module.clearCodePage();
 		 	     	 			module._fcltyItem=result.result;
 		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+		 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+			                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+
+			                    if(result.result.gisPrtFcltyCd==10){
+			                    	module.$("#gisPrtFcltyCdSub").empty();
+			                    	module.$("#gisPrtFcltyCdSub").append('<option value="10-1" id="가로등">가로등</option><option value="10-2" id="조명탑">조명탑</option><option value="10-3" id="신호등">신호등</option><option value="10-4" id="보안등">보안등</option><option value="10-5" id="기타">기타</option>');
+
+			                     }else if(result.result.gisPrtFcltyCd==11){
+			                     	module.$("#gisPrtFcltyCdSub").empty();
+			                     	module.$("#gisPrtFcltyCdSub").append('<option value="11-1" id="이동식">이동식</option><option value="11-2" id="고정식">고정식</option><option value="11-3" id="기타">기타</option>');
+
+			                     }else if(result.result.gisPrtFcltyCd==12){
+			                     	module.$("#gisPrtFcltyCdSub").empty();
+			                     	module.$("#gisPrtFcltyCdSub").append('<option value="12-1" id="태양광">태양광</option><option value="12-2" id="풍력">풍력</option><option value="12-3" id="지력">지력</option><option value="12-4" id="수력">수력</option><option value="12-5" id="기타">기타</option>');
+
+			                     }else{
+			                     	module.$("#gisPrtFcltyCdSub").empty();
+			                     	module.$("#gisPrtFcltyCdSub").append('<option value="99" id="기타">기타</option>');
+			                     }
+			                    module.$("#gisPrtFcltyCdSub").find("#"+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
 		 	     	 		}
 		 	     	 		else {
 		 	     	 			alert(result.resultMsg);
@@ -532,6 +570,26 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+
+	                    if(result.result.gisPrtFcltyCd==10){
+	                    	module.$("#gisPrtFcltyCdSub").empty();
+	                    	module.$("#gisPrtFcltyCdSub").append('<option value="10-1" id="가로등">가로등</option><option value="10-2" id="조명탑">조명탑</option><option value="10-3" id="신호등">신호등</option><option value="10-4" id="보안등">보안등</option><option value="10-5" id="기타">기타</option>');
+
+	                     }else if(result.result.gisPrtFcltyCd==11){
+	                     	module.$("#gisPrtFcltyCdSub").empty();
+	                     	module.$("#gisPrtFcltyCdSub").append('<option value="11-1" id="이동식">이동식</option><option value="11-2" id="고정식">고정식</option><option value="11-3" id="기타">기타</option>');
+
+	                     }else if(result.result.gisPrtFcltyCd==12){
+	                     	module.$("#gisPrtFcltyCdSub").empty();
+	                     	module.$("#gisPrtFcltyCdSub").append('<option value="12-1" id="태양광">태양광</option><option value="12-2" id="풍력">풍력</option><option value="12-3" id="지력">지력</option><option value="12-4" id="수력">수력</option><option value="12-5" id="기타">기타</option>');
+
+	                     }else{
+	                     	module.$("#gisPrtFcltyCdSub").empty();
+	                     	module.$("#gisPrtFcltyCdSub").append('<option value="99" id="기타">기타</option>');
+	                     }
+	                    module.$("#gisPrtFcltyCdSub").find("#"+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
@@ -693,6 +751,8 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 전기시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
+				<input type="hidden" id="beforeGisPrtFcltyCd">
+          		<input type="hidden" id="beforeGisPrtFcltySeq">
 					<table class="editForm"  style="width:100%;">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>
@@ -721,39 +781,41 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">전기시설코드</th>
+							<th width="15%" height="23" class="required_text">시설코드</th>
 							<td>
 								<input type="text" size="5" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="5" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="15%" height="23" class="required_text">전기시설명</th>
-							<td><input type="text" size="50" id="prtFcltyNm" maxlength="80" /></td>
-						</tr>
-						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
-								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<select id="gisPrtFcltyCdSub"></select>
 							</td>
-							<!-- 
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">시설규격</th>
+							<td><input type="text" size="50" id="prtFcltyStndrd" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">시설수량</th>
+							<td><input type="text" size="50" id="prtFcltyUnit" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">시설명</th>
+							<td colspan="4"><input type="text" size="128" id="prtFcltyNm" maxlength="80" /></td>
+
+<!-- 								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" /> -->
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
 							 -->
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">전기시설규격</th>
-							<td><input type="text" size="50" id="prtFcltyStndrd" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">전기시설단위</th>
-							<td><input type="text" size="50" id="prtFcltyUnit" maxlength="10" /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">관리업체</th>
-							<td>
-								<input type="text" size="10" id="prtFcltyMngEntrpsCd" disabled="disabled"/>&nbsp; &nbsp;
-								<button id="searchEntrpsCdBtn" class="popupButton">선택</button>
-							</td>
-							<th width="15%" height="23" class="required_text">관리업체명</th>
-							<td><input type="text" size="50" id="prtFcltyMngEntrpsNm" disabled="disabled"/></td>
+<!-- 							<th width="15%" height="23" class="required_text">관리업체</th> -->
+<!-- 							<td> -->
+<!-- 								<input type="text" size="10" id="prtFcltyMngEntrpsCd" disabled="disabled"/>&nbsp; &nbsp; -->
+<!-- 								<button id="searchEntrpsCdBtn" class="popupButton">선택</button> -->
+<!-- 							</td> -->
+							<th width="15%" height="23" class="required_text">시설담당</th>
+							<td colspan="4"><input type="text" size="128" id="prtPrtFcltyMnger" maxlength="80"/></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>

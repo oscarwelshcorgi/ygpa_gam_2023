@@ -37,6 +37,9 @@
 			, GIS_ASSETS_SUB_CD
 			, LA_CRDNT
 			, LO_CRDNT
+			, PRT_PRT_FCLTY_MNGER
+			, GIS_PRT_FCLTY_CD_SUB
+
 			)
 			VALUES
 			( #gisPrtFcltyCd#
@@ -56,6 +59,8 @@
 			, #gisAssetsSubCd#
 			, #laCrdnt#
 			, #loCrdnt#
+			, #prtPrtFcltyMnger#
+			, #gisPrtFcltyCdSub#
 			)
 		]]>
 	</insert>
@@ -97,7 +102,9 @@
 								, F.LNG
 								, F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
 			                    , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
-			                    , GAM_GETCODENAME('GAM003', F.PRT_FCLTY_SE) PRT_FCLTY_SE_NM
+			                    , GAM_GETCODENAME('GAM061', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
+			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
+			                    , F.GIS_PRT_FCLTY_CD_SUB GIS_PRT_FCLTY_CD_SUB
 		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
 		                WHERE 1 = 1
                         AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
@@ -246,7 +253,9 @@
 		       C.LNG,
 		       C.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR,
 		       GAM_GETCODENAME('GAM002', P.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM,
-		       GAM_GETCODENAME('GAM003', C.PRT_FCLTY_SE) PRT_FCLTY_SE_NM
+		       GAM_GETCODENAME('GAM003', C.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM,
+		       C.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER,
+		       C.GIS_PRT_FCLTY_CD_SUB GIS_PRT_FCLTY_CD_SUB
 		  FROM GIS_PRT_FCLTY_CD_F C,
 		       GIS_ASSETS_CD_F P
 		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
@@ -323,7 +332,12 @@
 		       PRT_FCLTY_MNG_ENTRPS_CD = #prtFcltyMngEntrpsCd#,
 		       PRT_FCLTY_GIS_CD = #prtFcltyGisCd#,
 		       LA_CRDNT = #laCrdnt#,
-		       LO_CRDNT = #loCrdnt#
+		       LO_CRDNT = #loCrdnt#,
+		       PRT_PRT_FCLTY_MNGER = #prtPrtFcltyMnger#,
+		       GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#,
+		       GIS_PRT_FCLTY_CD_SUB = #gisPrtFcltyCdSub#
+
+
         ]]>
         		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend=",">
 	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
@@ -354,8 +368,8 @@
 	        		GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
         		</isEmpty>
         <![CDATA[
-		       AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
-		       AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		       AND GIS_PRT_FCLTY_CD = #beforeGisPrtFcltyCd#
+		       AND GIS_PRT_FCLTY_SEQ = #beforeGisPrtFcltySeq#
 		       AND PRT_FCLTY_SE = #prtFcltySe#
         ]]>
     </update>

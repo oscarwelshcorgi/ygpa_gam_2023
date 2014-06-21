@@ -41,14 +41,15 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
-					{display:"전기시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"전기시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
+					{display:"시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
 // 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
-					{display:"기계시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
-					{display:"기계시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
-					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
-					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
+					{display:"시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
+					{display:"수량",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
+					{display:"시설담당",		name:"prtPrtFcltyMnger",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
@@ -232,7 +233,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>전기시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -267,6 +268,7 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 기계시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<div id="fcltyManageVO">
+
 					<input type="hidden" id="cmd" />
 			<!--
 					<input type="hidden" id="laCrdnt" />
@@ -304,28 +306,33 @@ var module_instance = new GamFcltyMngtModule();
 								<span id="gisPrtFcltyCd"></span>&nbsp;-&nbsp;
 								<span id="gisPrtFcltySeq"></span>
 							</td>
-							<th width="15%" height="23" class="required_text">전기시설명</th>
-							<td><span id="prtFcltyNm"></span></td>
+
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td><span id="prtFcltySeNm"></span></td>
-							<!-- 
+							<th width="15%" height="23" class="required_text">시설구분</th>
+							<td><span id="gisPrtFcltyCdSub"></span></td>
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><span id="gisAssetsLocNm"></span></td>
 							 -->
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">전기시설규격</th>
+							<th width="15%" height="23" class="required_text">시설규격</th>
 							<td><span id="prtFcltyStndrd"></span></td>
-							<th width="15%" height="23" class="required_text">전기시설단위</th>
+							<th width="15%" height="23" class="required_text">시설수량</th>
 							<td><span id="prtFcltyUnit"></span></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">관리업체코드</th>
-							<td><span id="prtFcltyMngEntrpsCd"></span></td>
-							<th width="15%" height="23" class="required_text">관리업체명</th>
-							<td><span id="prtFcltyMngEntrpsNm"></span></td>
+							<th width="15%" height="23" class="required_text">시설담당</th>
+							<td><span id="prtPrtFcltyMnger"></span></td>
+							<th width="15%" height="23" class="required_text">전기시설명</th>
+							<td><span id="prtFcltyNm"></span></td>
+<!-- 							<th width="15%" height="23" class="required_text">관리업체코드</th> -->
+<!-- 							<td><span id="prtFcltyMngEntrpsCd"></span></td> -->
+<!-- 							<th width="15%" height="23" class="required_text">관리업체명</th> -->
+<!-- 							<td><span id="prtFcltyMngEntrpsNm"></span></td> -->
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>
