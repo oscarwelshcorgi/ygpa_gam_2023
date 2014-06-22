@@ -120,19 +120,19 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 		if($(this).val()==10){
 			event.data.module.$("#gisPrtFcltyCdSub").empty();
-			event.data.module.$("#gisPrtFcltyCdSub").append('<option value="10-1" id="가로등">가로등</option><option value="10-2" id="조명탑">조명탑</option><option value="10-3" id="신호등">신호등</option><option value="10-4" id="보안등">보안등</option><option value="10-5" id="기타">기타</option>');
+			event.data.module.$("#gisPrtFcltyCdSub").append('<option value="가로등" id="가로등">가로등</option><option value="조명탑" id="조명탑">조명탑</option><option value="신호등" id="신호등">신호등</option><option value="보안등" id="보안등">보안등</option><option value="기타" id="기타">기타</option>');
 
          }else if($(this).val()==11){
         	 event.data.module.$("#gisPrtFcltyCdSub").empty();
-        	 event.data.module.$("#gisPrtFcltyCdSub").append('<option value="11-1" id="이동식">이동식</option><option value="11-2" id="고정식">고정식</option><option value="11-3" id="기타">기타</option>');
+        	 event.data.module.$("#gisPrtFcltyCdSub").append('<option value="이동식" id="이동식">이동식</option><option value="고정식" id="고정식">고정식</option><option value="기타" id="기타">기타</option>');
 
          }else if($(this).val()==12){
         	 event.data.module.$("#gisPrtFcltyCdSub").empty();
-        	 event.data.module.$("#gisPrtFcltyCdSub").append('<option value="12-1" id="태양광">태양광</option><option value="12-2" id="풍력">풍력</option><option value="12-3" id="지력">지력</option><option value="12-4" id="수력">수력</option><option value="12-5" id="기타">기타</option>');
+        	 event.data.module.$("#gisPrtFcltyCdSub").append('<option value="태양광" id="태양광">태양광</option><option value="풍력" id="풍력">풍력</option><option value="지력" id="지력">지력</option><option value="수력" id="수력">수력</option><option value="기타" id="기타">기타</option>');
 
          }else{
         	 event.data.module.$("#gisPrtFcltyCdSub").empty();
-         	event.data.module.$("#gisPrtFcltyCdSub").append('<option value="99" id="기타">기타</option>');
+         	event.data.module.$("#gisPrtFcltyCdSub").append('<option value="기타" id="기타">기타</option>');
          }
 	});
 
@@ -533,19 +533,19 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 
 			                    if(result.result.gisPrtFcltyCd==10){
 			                    	module.$("#gisPrtFcltyCdSub").empty();
-			                    	module.$("#gisPrtFcltyCdSub").append('<option value="10-1" id="가로등">가로등</option><option value="10-2" id="조명탑">조명탑</option><option value="10-3" id="신호등">신호등</option><option value="10-4" id="보안등">보안등</option><option value="10-5" id="기타">기타</option>');
+			                    	module.$("#gisPrtFcltyCdSub").append('<option value="가로등" id="가로등">가로등</option><option value="조명탑" id="조명탑">조명탑</option><option value="신호등" id="신호등">신호등</option><option value="보안등" id="보안등">보안등</option><option value="기타" id="기타">기타</option>');
 
 			                     }else if(result.result.gisPrtFcltyCd==11){
 			                     	module.$("#gisPrtFcltyCdSub").empty();
-			                     	module.$("#gisPrtFcltyCdSub").append('<option value="11-1" id="이동식">이동식</option><option value="11-2" id="고정식">고정식</option><option value="11-3" id="기타">기타</option>');
+			                     	module.$("#gisPrtFcltyCdSub").append('<option value="이동식" id="이동식">이동식</option><option value="고정식" id="고정식">고정식</option><option value="기타" id="기타">기타</option>');
 
 			                     }else if(result.result.gisPrtFcltyCd==12){
 			                     	module.$("#gisPrtFcltyCdSub").empty();
-			                     	module.$("#gisPrtFcltyCdSub").append('<option value="12-1" id="태양광">태양광</option><option value="12-2" id="풍력">풍력</option><option value="12-3" id="지력">지력</option><option value="12-4" id="수력">수력</option><option value="12-5" id="기타">기타</option>');
+			                     	module.$("#gisPrtFcltyCdSub").append('<option value="태양광" id="태양광">태양광</option><option value="풍력" id="풍력">풍력</option><option value="지력" id="지력">지력</option><option value="수력" id="수력">수력</option><option value="기타" id="기타">기타</option>');
 
 			                     }else{
 			                     	module.$("#gisPrtFcltyCdSub").empty();
-			                     	module.$("#gisPrtFcltyCdSub").append('<option value="99" id="기타">기타</option>');
+			                     	module.$("#gisPrtFcltyCdSub").append('<option value="기타" id="기타">기타</option>');
 			                     }
 			                    module.$("#gisPrtFcltyCdSub").find("#"+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
 		 	     	 		}
@@ -575,19 +575,19 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 
 	                    if(result.result.gisPrtFcltyCd==10){
 	                    	module.$("#gisPrtFcltyCdSub").empty();
-	                    	module.$("#gisPrtFcltyCdSub").append('<option value="10-1" id="가로등">가로등</option><option value="10-2" id="조명탑">조명탑</option><option value="10-3" id="신호등">신호등</option><option value="10-4" id="보안등">보안등</option><option value="10-5" id="기타">기타</option>');
+	                    	module.$("#gisPrtFcltyCdSub").append('<option value="가로등" id="가로등">가로등</option><option value="조명탑" id="조명탑">조명탑</option><option value="신호등" id="신호등">신호등</option><option value="보안등" id="보안등">보안등</option><option value="기타" id="기타">기타</option>');
 
 	                     }else if(result.result.gisPrtFcltyCd==11){
 	                     	module.$("#gisPrtFcltyCdSub").empty();
-	                     	module.$("#gisPrtFcltyCdSub").append('<option value="11-1" id="이동식">이동식</option><option value="11-2" id="고정식">고정식</option><option value="11-3" id="기타">기타</option>');
+	                     	module.$("#gisPrtFcltyCdSub").append('<option value="이동식" id="이동식">이동식</option><option value="고정식" id="고정식">고정식</option><option value="기타" id="기타">기타</option>');
 
 	                     }else if(result.result.gisPrtFcltyCd==12){
 	                     	module.$("#gisPrtFcltyCdSub").empty();
-	                     	module.$("#gisPrtFcltyCdSub").append('<option value="12-1" id="태양광">태양광</option><option value="12-2" id="풍력">풍력</option><option value="12-3" id="지력">지력</option><option value="12-4" id="수력">수력</option><option value="12-5" id="기타">기타</option>');
+	                     	module.$("#gisPrtFcltyCdSub").append('<option value="태양광" id="태양광">태양광</option><option value="풍력" id="풍력">풍력</option><option value="지력" id="지력">지력</option><option value="수력" id="수력">수력</option><option value="기타" id="기타">기타</option>');
 
 	                     }else{
 	                     	module.$("#gisPrtFcltyCdSub").empty();
-	                     	module.$("#gisPrtFcltyCdSub").append('<option value="99" id="기타">기타</option>');
+	                     	module.$("#gisPrtFcltyCdSub").append('<option value="기타" id="기타">기타</option>');
 	                     }
 	                    module.$("#gisPrtFcltyCdSub").find("#"+result.result.gisPrtFcltyCdSub).attr("selected", "selected");
 	     	 		}
