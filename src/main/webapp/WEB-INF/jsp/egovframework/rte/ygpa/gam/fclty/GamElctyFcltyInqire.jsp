@@ -117,7 +117,24 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 		}
 	});
 };
+this.$("#searchFcltyCd").on("change", {module: this}, function(event) {
+	if($(this).val()==10){
+		event.data.module.$("#searchFcltySeq").empty();
+		event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="가로등" id="가로등">가로등</option><option value="조명탑" id="조명탑">조명탑</option><option value="신호등" id="신호등">신호등</option><option value="보안등" id="보안등">보안등</option><option value="기타" id="기타">기타</option>');
 
+     }else if($(this).val()==11){
+    	 event.data.module.$("#searchFcltySeq").empty();
+    	 event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="이동식" id="이동식">이동식</option><option value="고정식" id="고정식">고정식</option><option value="기타" id="기타">기타</option>');
+
+     }else if($(this).val()==12){
+    	 event.data.module.$("#searchFcltySeq").empty();
+    	 event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="태양광" id="태양광">태양광</option><option value="풍력" id="풍력">풍력</option><option value="지력" id="지력">지력</option><option value="수력" id="수력">수력</option><option value="기타" id="기타">기타</option>');
+
+     }else{
+    	 event.data.module.$("#searchFcltySeq").empty();
+     	event.data.module.$("#searchFcltySeq").append('<option value="">전체</option><option value="기타" id="기타">기타</option>');
+     }
+});
 
 /**
  * 정의 된 버튼 클릭 시

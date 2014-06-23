@@ -124,7 +124,7 @@
 	           				AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchFcltySeq">
-	           				AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
+	           				AND F.GIS_PRT_FCLTY_CD_SUB = #searchFcltySeq#
 	           			</isNotEmpty>
 		                <isNotEmpty property="searchKeyword">
 	           				AND F.PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
@@ -160,7 +160,7 @@
            		AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
            	</isNotEmpty>
 	        <isNotEmpty property="searchFcltySeq">
-           		AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
+           		AND F.GIS_PRT_FCLTY_CD_SUB = #searchFcltySeq#
            	</isNotEmpty>
 	        <isNotEmpty property="searchKeyword">
            		AND PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
