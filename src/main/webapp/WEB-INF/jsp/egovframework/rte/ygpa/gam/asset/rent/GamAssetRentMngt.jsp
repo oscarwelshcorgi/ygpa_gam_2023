@@ -712,10 +712,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     	module.loadData();
                     }
                     alert(result.resultMsg);
+                    module.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
                 });
-
-
-                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
             }
 
             break;

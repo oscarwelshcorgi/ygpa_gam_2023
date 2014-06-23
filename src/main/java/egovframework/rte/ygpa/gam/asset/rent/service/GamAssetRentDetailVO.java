@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.asset.rent.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -11,165 +13,166 @@ import egovframework.com.cmm.ComDefaultVO;
  * @since 2014-01-10
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamAssetRentDetailVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
-    /** 자산 사용 순번 */                                               
-    private String assetsUsageSeq;                         
-                                                       
-    /** GIS 자산 코드 */                                                   
-    private String gisAssetsCd;                           
-                                                            
-    /** GIS 자산 SUB 코드 */                                                   
-    private String gisAssetsSubCd;    
-    
-    /** GIS 자산 명 */                                                   
+
+    /** 자산 사용 순번 */
+    private String assetsUsageSeq;
+
+    /** GIS 자산 코드 */
+    private String gisAssetsCd;
+
+    /** GIS 자산 SUB 코드 */
+    private String gisAssetsSubCd;
+
+    /** GIS 자산 명 */
     private String gisAssetsNm;
 
-    /** 자산코드 */                                                   
-    private String assetsCdStr;	    
-    
-    /**  사용 면적 */                                                    
-    private String usageAr;                               
-                                                              
-    /**  사용 기간 FROM */                                              
-    private String usagePdFrom;                             
-                                                              
-    /** 사용 기간 TO */                                                    
-    private String usagePdTo;                                  
-                                                              
-    /**  사용 목적 */                                                   
-    private String usagePurps;                                 
-                                                       
-    /**  사용 내역 */                                       
-    private String usageDtls;                                
-                                                                  
-    /**  사용 용도 코드 */                                                   
-    private String usagePrposCd;                              
-                                                                
-    /** 면제 구분 */                                                       
-    private String exemptSe;         
-    
-    /** 면제 구분 명*/                                                       
+    /** 자산코드 */
+    private String assetsCdStr;
+
+    /**  사용 면적 */
+    private String usageAr;
+
+    /**  사용 기간 FROM */
+    private String usagePdFrom;
+
+    /** 사용 기간 TO */
+    private String usagePdTo;
+
+    /**  사용 목적 */
+    private String usagePurps;
+
+    /**  사용 내역 */
+    private String usageDtls;
+
+    /**  사용 용도 코드 */
+    private String usagePrposCd;
+
+    /** 면제 구분 */
+    private String exemptSe;
+
+    /** 면제 구분 명*/
     private String exemptSeNm;
-                                                                  
-    /**  면제 사유 코드 */                                                     
-    private String exemptRsnCd;                                    
-                                                         
-    /**  면제 사유 */                                                   
-    private String exemptRsn;                                  
-                                                             
-    /**  면제 기간 FROM */                                                             
-    private String exemptPdFrom;   
-            
+
+    /**  면제 사유 코드 */
+    private String exemptRsnCd;
+
+    /**  면제 사유 */
+    private String exemptRsn;
+
+    /**  면제 기간 FROM */
+    private String exemptPdFrom;
+
     /**  면제 기간 TO */
-    private String exemptPdTo;   
+    private String exemptPdTo;
 
     /**  산출 내역 */
-    private String computDtls;  
-                 
+    private String computDtls;
+
     /**  공시지가 */
-    private String olnlp;        
-                
+    private String olnlp;
+
     /**  적용 요율 */
-    private String applcTariff;    
-              
+    private String applcTariff;
+
     /**  적용 방법 */
-    private String applcMth;     
-                
+    private String applcMth;
+
     /**  포장 구분 */
-    private String packSe; 
-                      
+    private String packSe;
+
     /**  업체 구분 */
-    private String entrpsSe; 
-                    
+    private String entrpsSe;
+
     /**  사용료 계산 구분 */
-    private String feeCalcSe;  
-                  
+    private String feeCalcSe;
+
     /**  감면 사용료 계산 구분  */
-    private String rdcxptFeeCalcSe;   
-           
+    private String rdcxptFeeCalcSe;
+
     /**  감면 사용료 */
-    private String rdcxptFee;    
-                
+    private String rdcxptFee;
+
     /** 사용료 */
-    private String fee;      
-                    
+    private String fee;
+
     /**  해지 일자 */
-    private String trmnatDt;  
-                   
+    private String trmnatDt;
+
     /**  해지 사유 */
-    private String trmnatRsn; 
-                   
+    private String trmnatRsn;
+
     /** GIS 코드 */
-    private String gisCd;  
-                      
+    private String gisCd;
+
     /** 등록자 */
-    private String regUsr;    
-                   
+    private String regUsr;
+
     /** 등록일시 */
-    private String registDt;  
-                   
+    private String registDt;
+
     /** 수정자 */
-    private String updUsr;  
-                     
+    private String updUsr;
+
     /** 수정일시 */
-    private String updtDt; 
-                      
+    private String updtDt;
+
     /** 항코드 */
-    private String prtAtCode;  
-                  
+    private String prtAtCode;
+
     /** GIS 자산 항코드 */
-    private String gisAssetsPrtAtCode;  
-         
+    private String gisAssetsPrtAtCode;
+
     /**  관리 년도 */
-    private String mngYear;        
-              
+    private String mngYear;
+
     /**  관리 번호 */
-    private String mngNo;    
-                    
+    private String mngNo;
+
     /**  관리 횟수  */
     private String mngCnt;
-    
+
     /**  관리 년도 (상세)  */
     private String detailMngYear;
-    
+
     /**  관리 번호 (상세)  */
     private String detailMngNo;
-    
+
     /**  관리 횟수 (상세)  */
     private String detailMngCnt;
-    
+
     /**  항코드 (상세)  */
-    private String detailPrtAtCode; 
-    
+    private String detailPrtAtCode;
+
     /**  GIS코드 (상세)  */
     private String detailGisCd;
-    
+
     /** 등록자 */
-    private String detailRegUsr;    
-                   
+    private String detailRegUsr;
+
     /** 등록일시 */
-    private String detailRegistDt;  
-                   
+    private String detailRegistDt;
+
     /** 수정자 */
-    private String detailUpdUsr;  
-                     
+    private String detailUpdUsr;
+
     /** 수정일시 */
-    private String detailUpdtDt; 
+    private String detailUpdtDt;
 
     /** 허가 여부 */
     private String detailPrmisnYn;
-    
+
     /** 부두코드 */
     private String quayCd;
-    
+
     /** 자산순번MAX+1 */
     private int maxAssetsUsageSeq;
-    
+
 	/**
 	 * @return the assetsUsageSeq
 	 */
@@ -883,5 +886,5 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	public void setExemptSeNm(String exemptSeNm) {
 		this.exemptSeNm = exemptSeNm;
 	}
-	
+
 }

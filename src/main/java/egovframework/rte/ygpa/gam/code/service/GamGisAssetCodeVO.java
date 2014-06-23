@@ -117,6 +117,9 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
     /** ERP 자산 구분 코드 */
     private String erpAssetsSeCd;
 
+    /** ERP 자산 구분 클래스 */
+    private String erpAssetCls;
+
     /** ERP 자산 번호 */
     private String erpAssetsNo;
 
@@ -717,6 +720,14 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 
 	public void setGisAssetsBupjungdongCd(String gisAssetsBupjungdongCd) {
 		this.gisAssetsBupjungdongCd = gisAssetsBupjungdongCd;
+	}
+
+	public String getErpAssetCls() {
+		return erpAssetCls;
+	}
+
+	public void setErpAssetCls(String erpAssetCls) {
+		this.erpAssetCls = erpAssetCls;
 	}
 
 }

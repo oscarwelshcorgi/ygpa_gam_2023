@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService;
@@ -266,8 +268,9 @@ public class GamAssetRentMngtController {
      */
 	@RequestMapping(value="/asset/rent/gamSaveAssetRent.do")
 	@ResponseBody Map<String, Object> saveAssetRent(@RequestParam Map<String, Object> dataList) throws Exception {
+		Map<String, String> userMap = new HashMap<String, String>();
+    	List<Map<String,String>> userList=null;
 
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		GamAssetRentDetailVO saveDetailVO = new GamAssetRentDetailVO();
 
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -281,6 +284,8 @@ public class GamAssetRentMngtController {
         	return map;
     	}
 
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -289,10 +294,21 @@ public class GamAssetRentMngtController {
     	List<HashMap<String,String>> deleteFileList=null;
     	HashMap<String,String> form=null;
 
+    	Map mergeDetail=null;
+    	Map mergeFile=null;
+
     	int resultCode = -1;
     	String resultMsg = "";
 
+    	userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+
     	try {
+    		GamAssetRentMngtVO masterVO= new GamAssetRentMngtVO();
+    		masterVO = mapper.convertValue(dataList.get("form"), GamAssetRentMngtVO.class);
+
     		insertList = mapper.readValue((String)dataList.get("insertList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
@@ -302,9 +318,7 @@ public class GamAssetRentMngtController {
     		deleteList = mapper.readValue((String)dataList.get("deleteList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		form = mapper.readValue((String)dataList.get("form"),
-        		    new TypeReference<HashMap<String,String>>(){});
-
+    		insertList.addAll(updateList);
 
     		insertFileList = mapper.readValue((String)dataList.get("insertFileList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
@@ -315,275 +329,26 @@ public class GamAssetRentMngtController {
     		deleteFileList = mapper.readValue((String)dataList.get("deleteFileList"),
         		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    		log.debug("##############################################################################################");
-    		log.debug("###################################################### dataList : "+dataList);
-    		log.debug("###################################################### form : "+form);
-    		log.debug("###################################################### cmd : "+form.get("cmd"));
-    		log.debug("----------------------------------------------------------------------------------------------");
-    		log.debug("###################################################### insertList : "+insertList);
-    		log.debug("###################################################### updateList : "+updateList);
-    		log.debug("###################################################### deleteList : "+deleteList);
-    		log.debug("###################################################### insertList.size() => "+insertList.size());
-    		log.debug("###################################################### updateList.size() => "+updateList.size());
-    		log.debug("###################################################### deleteList.size() => "+deleteList.size());
-    		log.debug("----------------------------------------------------------------------------------------------");
-    		log.debug("###################################################### insertFileList : "+insertFileList);
-    		log.debug("###################################################### updateFileList : "+updateFileList);
-    		log.debug("###################################################### deleteFileList : "+deleteFileList);
-    		log.debug("###################################################### insertFileList.size() => "+insertFileList.size());
-    		log.debug("###################################################### updateFileList.size() => "+updateFileList.size());
-    		log.debug("###################################################### deleteFileList.size() => "+deleteFileList.size());
-    		log.debug("##############################################################################################");
+    		insertFileList.addAll(updateFileList);
 
+    		masterVO.setUpdUsr(loginVO.getId());
 
-    		//자산임대저장
-    		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
-			saveVO.setPrtAtCode(form.get("prtAtCode"));
-			saveVO.setDeptcd(loginVO.getOrgnztId());
-			saveVO.setMngYear(form.get("mngYear"));
-			saveVO.setMngNo(form.get("mngNo"));
-			saveVO.setMngCnt(form.get("mngCnt"));
-			saveVO.setEntrpscd(form.get("entrpscd"));
-			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
-			saveVO.setReqstDt(form.get("reqstDt"));
-			saveVO.setPayMth(form.get("payMth"));
-			saveVO.setNticMth(form.get("nticMth"));
-			saveVO.setRm(form.get("rm"));
-			saveVO.setCmt(form.get("cmt"));
-			saveVO.setPayinstIntrrate(form.get("payinstIntrrate"));
-    		saveVO.setUpdUsr(loginVO.getId());
+    		mergeDetail = new HashMap();
+    		mergeFile = new HashMap();
 
-    		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
-    		if( form.get("mngYear") == null || "".equals(form.get("mngYear")) ) {
-    			GamAssetRentMngtVO keyVO = new GamAssetRentMngtVO();
-    			keyVO = gamAssetRentMngtService.selectAssetRentMaxKey(saveVO);
+    		mergeDetail.put("CU", insertList);
+    		mergeDetail.put("D", deleteList);
+    		mergeDetail.put("USER", userList);
 
-    			saveVO.setMngYear(keyVO.getMngYear());
-    			saveVO.setMngNo(keyVO.getMngNo());
-    			saveVO.setMngCnt(keyVO.getMngCnt());
-    			saveVO.setReqstSeCd("1");  //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
-    			saveVO.setRegUsr(loginVO.getId());
+    		mergeFile.put("CU", insertFileList);
+    		mergeFile.put("D", deleteFileList);
+    		mergeFile.put("USER", userList);
 
-    			gamAssetRentMngtService.insertAssetRentFirst(saveVO);
-
-    			//임대상세저장을 위한 키
-    			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
-        		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
-        		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
-        		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt());
-    		} else {
-    			//saveVO.setReqstSeCd("3"); //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
-
-    	        gamAssetRentMngtService.updateAssetRent(saveVO);
-
-    			//임대상세저장을 위한 키
-    			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
-        		saveDetailVO.setDetailMngYear(form.get("mngYear"));
-        		saveDetailVO.setDetailMngNo(form.get("mngNo"));
-        		saveDetailVO.setDetailMngCnt(form.get("mngCnt"));
-    		}
-
-    		//자산임대상세저장
-    		for( int i = 0 ; i < insertList.size() ; i++ ) {
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
-
-    			Map resultMap = insertList.get(i);
-
-    			GamAssetRentDetailVO insertDetailVO = new GamAssetRentDetailVO();
-
-    			insertDetailVO.setDetailPrtAtCode(saveDetailVO.getDetailPrtAtCode());
-    			insertDetailVO.setDetailMngYear(saveDetailVO.getDetailMngYear());
-    			insertDetailVO.setDetailMngNo(saveDetailVO.getDetailMngNo());
-    			insertDetailVO.setDetailMngCnt(saveDetailVO.getDetailMngCnt());
-
-    			insertDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
-    			insertDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
-    			insertDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
-    			insertDetailVO.setUsageAr(resultMap.get("usageAr").toString());
-    			insertDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
-    			insertDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
-    			insertDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
-    			insertDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
-    			insertDetailVO.setOlnlp(resultMap.get("olnlp").toString());
-    			insertDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
-    			insertDetailVO.setApplcMth(resultMap.get("applcMth").toString());
-    			insertDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
-    			insertDetailVO.setExemptRsnCd(resultMap.get("exemptRsnCd").toString());
-    			insertDetailVO.setExemptRsn(resultMap.get("exemptRsn").toString());
-    			insertDetailVO.setRdcxptFee(resultMap.get("rdcxptFee").toString());
-    			insertDetailVO.setFee(resultMap.get("fee").toString());
-    			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
-    			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
-    			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-//    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
-
-    			insertDetailVO.setRegUsr(loginVO.getId());
-    			insertDetailVO.setUpdUsr(loginVO.getId());
-
-    			/*saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
-        		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
-        		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
-        		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt()); */
-
-    			//resultMap.get("gisAssetsPrtAtCode")
-    			gamAssetRentMngtService.insertAssetRentDetail(insertDetailVO);
-    		}
-
-    		for( int i = 0 ; i < updateList.size() ; i++ ) {
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ updateList.get(i) String => " + updateList.get(i));
-
-    			Map resultMap = updateList.get(i);
-
-    			GamAssetRentDetailVO updateDetailVO = new GamAssetRentDetailVO();
-    			updateDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
-    			updateDetailVO.setDetailPrtAtCode(resultMap.get("prtAtCode").toString());
-    			updateDetailVO.setDetailMngYear(resultMap.get("mngYear").toString());
-    			updateDetailVO.setDetailMngNo(resultMap.get("mngNo").toString());
-    			updateDetailVO.setDetailMngCnt(resultMap.get("mngCnt").toString());
-    			updateDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
-    			updateDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
-    			updateDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
-    			updateDetailVO.setUsageAr(resultMap.get("usageAr").toString());
-    			updateDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
-    			updateDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
-    			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
-    			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
-    			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
-    			updateDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
-    			updateDetailVO.setApplcMth(resultMap.get("applcMth").toString());
-    			updateDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
-    			updateDetailVO.setExemptRsnCd(resultMap.get("exemptRsnCd").toString());
-    			updateDetailVO.setExemptRsn(resultMap.get("exemptRsn").toString());
-    			updateDetailVO.setRdcxptFee(resultMap.get("rdcxptFee").toString());
-    			updateDetailVO.setFee(resultMap.get("fee").toString());
-    			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
-    			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
-    			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
-
-    			updateDetailVO.setRegUsr(loginVO.getId());
-    			updateDetailVO.setUpdUsr(loginVO.getId());
-
-    			gamAssetRentMngtService.updateAssetRentDetail(updateDetailVO);
-    		}
-
-    		for( int i = 0 ; i < deleteList.size() ; i++ ) {
-    			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ deleteList.get(i) String => " + deleteList.get(i));
-
-    			Map resultMap = deleteList.get(i);
-
-    			GamAssetRentDetailVO deleteDetailVO = new GamAssetRentDetailVO();
-    			deleteDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
-    			deleteDetailVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
-    			deleteDetailVO.setMngYear(resultMap.get("mngYear").toString());
-    			deleteDetailVO.setMngNo(resultMap.get("mngNo").toString());
-    			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
-
-    			gamAssetRentMngtService.deleteAssetRentDetail2(deleteDetailVO);
-    		}
-
-    		//파일저장
-    		for( int i = 0 ; i < insertFileList.size() ; i++ ) {
-    			Map resultMap = insertFileList.get(i);
-
-    			GamAssetRentMngtVO insertFileVO = new GamAssetRentMngtVO();
-
-    			insertFileVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
-    			insertFileVO.setMngYear(saveDetailVO.getDetailMngYear());
-    			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());
-    			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
-
-    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
-    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
-    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
-    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
-    			insertFileVO.setRegUsr(loginVO.getId());
-
-    			System.out.println("############################################### insertFileVO => " + insertFileVO);
-
-    			gamAssetRentMngtService.insertAssetRentFile(insertFileVO);
-    		}
-
-    		for( int i = 0 ; i < updateFileList.size() ; i++ ) {
-    			Map resultMap = updateFileList.get(i);
-
-    			GamAssetRentMngtVO updateFileVO = new GamAssetRentMngtVO();
-
-    			updateFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
-    			updateFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
-    			updateFileVO.setMngYear(resultMap.get("mngYear").toString());
-    			updateFileVO.setMngNo(resultMap.get("mngNo").toString());
-    			updateFileVO.setMngCnt(resultMap.get("mngCnt").toString());
-
-    			updateFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			updateFileVO.setShotDt(resultMap.get("shotDt").toString());
-    			updateFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
-
-    			updateFileVO.setUpdUsr(loginVO.getId());
-
-
-
-    			System.out.println("############################################### updateFileVO => " + updateFileVO);
-
-    			gamAssetRentMngtService.updateAssetRentFile(updateFileVO);
-    		}
-
-    		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
-    			Map resultMap = deleteFileList.get(i);
-
-    			GamAssetRentMngtVO deleteFileVO = new GamAssetRentMngtVO();
-
-    			deleteFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
-    			deleteFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
-    			deleteFileVO.setMngYear(resultMap.get("mngYear").toString());
-    			deleteFileVO.setMngNo(resultMap.get("mngNo").toString());
-    			deleteFileVO.setMngCnt(resultMap.get("mngCnt").toString());
-
-    			System.out.println("############################################### deleteFileVO => " + deleteFileVO);
-
-    			gamAssetRentMngtService.deleteAssetRentPhotoSingle(deleteFileVO);
-    		}
-
-    		//총사용료, 총면적, 총사용기간 조회
-    		GamAssetRentMngtVO paramVO = new GamAssetRentMngtVO();
-    		paramVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
-    		paramVO.setMngYear(saveDetailVO.getDetailMngYear());
-    		paramVO.setMngNo(saveDetailVO.getDetailMngNo());
-    		paramVO.setMngCnt(saveDetailVO.getDetailMngCnt());
-
-    		GamAssetRentMngtVO updRentVO = new GamAssetRentMngtVO();
-    		updRentVO = gamAssetRentMngtService.selectAssetRentCurrRenewInfo(paramVO);
-
-    		if( updRentVO != null ) {
-    			updRentVO.setPrtAtCode(paramVO.getPrtAtCode());
-    			updRentVO.setMngYear(paramVO.getMngYear());
-    			updRentVO.setMngNo(paramVO.getMngNo());
-    			updRentVO.setMaxMngCnt(paramVO.getMngCnt());
-
-    			//총사용료, 총면적, 총사용기간 업데이트
-    			gamAssetRentMngtService.updateAssetRentRenewInfo(updRentVO);
-
-    			//부두코드 가져오기
-    			GamAssetRentMngtVO quaycdVO = new GamAssetRentMngtVO();
-    			quaycdVO = gamAssetRentMngtService.selectAssetRentDetailQuaycd(updRentVO);
-
-    			//부두코드 업데이트
-    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
-    				quaycdVO = new GamAssetRentMngtVO();
-    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
-    				quaycdVO.setMngYear(paramVO.getMngYear());
-    				quaycdVO.setMngNo(paramVO.getMngNo());
-    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
-    			}
-
-    			quaycdVO.setUpdUsr(loginVO.getId());
-
-    			gamAssetRentMngtService.updateAssetRentQuaycd(quaycdVO);
-    		}
+    		masterVO=gamAssetRentMngtService.mergeAssetRent(masterVO, mergeDetail, mergeFile);
 
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
+    		map.put("masterResult", masterVO);
 
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -599,6 +364,309 @@ public class GamAssetRentMngtController {
 		map.put("resultMsg", resultMsg);
 		return map;
     }
+
+//	@RequestMapping(value="/asset/rent/gamSaveAssetRent.do")
+//	@ResponseBody Map<String, Object> saveAssetRent(@RequestParam Map<String, Object> dataList) throws Exception {
+//
+//		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+//		GamAssetRentDetailVO saveDetailVO = new GamAssetRentDetailVO();
+//
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		ObjectMapper mapper = new ObjectMapper();
+//
+//		// 0. Spring Security 사용자권한 처리
+//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//    	if(!isAuthenticated) {
+//	        map.put("resultCode", 1);
+//    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//        	return map;
+//    	}
+//
+//    	List<HashMap<String,String>> insertList=null;
+//    	List<HashMap<String,String>> updateList=null;
+//    	List<HashMap<String,String>> deleteList=null;
+//    	List<HashMap<String,String>> insertFileList=null;
+//    	List<HashMap<String,String>> updateFileList=null;
+//    	List<HashMap<String,String>> deleteFileList=null;
+//    	HashMap<String,String> form=null;
+//
+//    	int resultCode = -1;
+//    	String resultMsg = "";
+//
+//    	try {
+//    		insertList = mapper.readValue((String)dataList.get("insertList"),
+//    		    new TypeReference<List<HashMap<String,String>>>(){});
+//
+//    		updateList = mapper.readValue((String)dataList.get("updateList"),
+//        		    new TypeReference<List<HashMap<String,String>>>(){});
+//
+//    		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+//        		    new TypeReference<List<HashMap<String,String>>>(){});
+//
+////    		form = mapper.readValue((String)dataList.get("form"),
+////        		    new TypeReference<HashMap<String,String>>(){});
+//    		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
+//    		saveVO = mapper.convertValue(dataList.get("form"), GamAssetRentMngtVO.class);
+//
+//
+//    		insertFileList = mapper.readValue((String)dataList.get("insertFileList"),
+//        		    new TypeReference<List<HashMap<String,String>>>(){});
+//
+//    		updateFileList = mapper.readValue((String)dataList.get("updateFileList"),
+//        		    new TypeReference<List<HashMap<String,String>>>(){});
+//
+//    		deleteFileList = mapper.readValue((String)dataList.get("deleteFileList"),
+//        		    new TypeReference<List<HashMap<String,String>>>(){});
+//
+//    		//자산임대저장
+////    		GamAssetRentMngtVO saveVO= new GamAssetRentMngtVO();
+////			saveVO.setPrtAtCode(form.get("prtAtCode"));
+////			saveVO.setDeptcd(loginVO.getOrgnztId());
+////			saveVO.setMngYear(form.get("mngYear"));
+////			saveVO.setMngNo(form.get("mngNo"));
+////			saveVO.setMngCnt(form.get("mngCnt"));
+////			saveVO.setEntrpscd(form.get("entrpscd"));
+////			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
+////			saveVO.setReqstDt(form.get("reqstDt"));
+////			saveVO.setPayMth(form.get("payMth"));
+////			saveVO.setNticMth(form.get("nticMth"));
+////			saveVO.setRm(form.get("rm"));
+////			saveVO.setCmt(form.get("cmt"));
+////			saveVO.setPayinstIntrrate(form.get("payinstIntrrate"));
+//    		saveVO.setUpdUsr(loginVO.getId());
+//
+//    		//if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
+//    		if( saveVO.getMngYear() == null || "".equals(saveVO.getMngYear()) ) {
+//    			GamAssetRentMngtVO keyVO = new GamAssetRentMngtVO();
+//    			keyVO = gamAssetRentMngtService.selectAssetRentMaxKey(saveVO);
+//
+//    			saveVO.setMngYear(keyVO.getMngYear());
+//    			saveVO.setMngNo(keyVO.getMngNo());
+//    			saveVO.setMngCnt(keyVO.getMngCnt());
+//    			saveVO.setReqstSeCd("1");  //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
+//    			saveVO.setRegUsr(loginVO.getId());
+//
+//    			gamAssetRentMngtService.insertAssetRentFirst(saveVO);
+//
+//    		} else {
+//    			//saveVO.setReqstSeCd("3"); //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
+//
+//    	        gamAssetRentMngtService.updateAssetRent(saveVO);
+//
+//    		}
+//			//임대상세저장을 위한 키
+////			saveDetailVO.setDetailPrtAtCode(saveVO.getPrtAtCode());
+////    		saveDetailVO.setDetailMngYear(saveVO.getMngYear());
+////    		saveDetailVO.setDetailMngNo(saveVO.getMngNo());
+////    		saveDetailVO.setDetailMngCnt(saveVO.getMngCnt());
+//
+//    		//자산임대상세저장
+//    		for( int i = 0 ; i < insertList.size() ; i++ ) {
+////    			Map resultMap = insertList.get(i);
+//
+//    			GamAssetRentDetailVO insertDetailVO = mapper.convertValue(insertList.get(i), GamAssetRentDetailVO.class);
+//
+//    			insertDetailVO.setDetailPrtAtCode(saveVO.getPrtAtCode());
+//    			insertDetailVO.setDetailMngYear(saveVO.getMngYear());
+//    			insertDetailVO.setDetailMngNo(saveVO.getMngNo());
+//    			insertDetailVO.setDetailMngCnt(saveVO.getMngCnt());
+//
+///*    			insertDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
+//    			insertDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+//    			insertDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+//    			insertDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+//    			insertDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
+//    			insertDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
+//    			insertDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
+//    			insertDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
+//    			insertDetailVO.setOlnlp(resultMap.get("olnlp").toString());
+//    			insertDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
+//    			insertDetailVO.setApplcMth(resultMap.get("applcMth").toString());
+//    			insertDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
+//    			insertDetailVO.setExemptRsnCd(resultMap.get("exemptRsnCd").toString());
+//    			insertDetailVO.setExemptRsn(resultMap.get("exemptRsn").toString());
+//    			insertDetailVO.setRdcxptFee(resultMap.get("rdcxptFee").toString());
+//    			insertDetailVO.setFee(resultMap.get("fee").toString());
+//    			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
+//    			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
+//    			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+////    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+//*/
+//    			insertDetailVO.setRegUsr(loginVO.getId());
+//    			insertDetailVO.setUpdUsr(loginVO.getId());
+//
+//    			/*saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
+//        		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
+//        		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
+//        		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt()); */
+//
+//    			//resultMap.get("gisAssetsPrtAtCode")
+//    			gamAssetRentMngtService.insertAssetRentDetail(insertDetailVO);
+//    		}
+//
+//    		for( int i = 0 ; i < updateList.size() ; i++ ) {
+//    			GamAssetRentDetailVO updateDetailVO = mapper.convertValue(updateList.get(i), GamAssetRentDetailVO.class);
+//
+////    			GamAssetRentDetailVO updateDetailVO = new GamAssetRentDetailVO();
+////    			updateDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
+////    			updateDetailVO.setDetailPrtAtCode(resultMap.get("prtAtCode").toString());
+////    			updateDetailVO.setDetailMngYear(resultMap.get("mngYear").toString());
+////    			updateDetailVO.setDetailMngNo(resultMap.get("mngNo").toString());
+////    			updateDetailVO.setDetailMngCnt(resultMap.get("mngCnt").toString());
+////    			updateDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
+////    			updateDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
+////    			updateDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+////    			updateDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+////    			updateDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
+////    			updateDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
+////    			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
+////    			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
+////    			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
+////    			updateDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
+////    			updateDetailVO.setApplcMth(resultMap.get("applcMth").toString());
+////    			updateDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
+////    			updateDetailVO.setExemptRsnCd(resultMap.get("exemptRsnCd").toString());
+////    			updateDetailVO.setExemptRsn(resultMap.get("exemptRsn").toString());
+////    			updateDetailVO.setRdcxptFee(resultMap.get("rdcxptFee").toString());
+////    			updateDetailVO.setFee(resultMap.get("fee").toString());
+////    			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
+////    			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
+////    			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+////    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+//
+//    			updateDetailVO.setRegUsr(loginVO.getId());
+//    			updateDetailVO.setUpdUsr(loginVO.getId());
+//
+//    			gamAssetRentMngtService.updateAssetRentDetail(updateDetailVO);
+//    		}
+//
+//    		for( int i = 0 ; i < deleteList.size() ; i++ ) {
+//    			GamAssetRentDetailVO deleteDetailVO = mapper.convertValue(deleteList.get(i), GamAssetRentDetailVO.class);
+//
+////    			Map resultMap = deleteList.get(i);
+//
+////    			GamAssetRentDetailVO deleteDetailVO = new GamAssetRentDetailVO();
+////    			deleteDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
+////    			deleteDetailVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+////    			deleteDetailVO.setMngYear(resultMap.get("mngYear").toString());
+////    			deleteDetailVO.setMngNo(resultMap.get("mngNo").toString());
+////    			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
+//
+//    			gamAssetRentMngtService.deleteAssetRentDetail2(deleteDetailVO);
+//    		}
+//
+//    		//파일저장
+//    		for( int i = 0 ; i < insertFileList.size() ; i++ ) {
+////    			Map resultMap = insertFileList.get(i);
+//    			GamAssetRentMngtVO insertFileVO = mapper.convertValue(insertFileList.get(i), GamAssetRentMngtVO.class);
+//
+////    			GamAssetRentMngtVO insertFileVO = new GamAssetRentMngtVO();
+//
+//    			insertFileVO.setPrtAtCode(saveVO.getPrtAtCode());
+//    			insertFileVO.setMngYear(saveVO.getMngYear());
+//    			insertFileVO.setMngNo(saveVO.getMngNo());
+//    			insertFileVO.setMngCnt(saveVO.getMngCnt());
+//
+////    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
+////    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
+////    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
+////    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
+////    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+//    			insertFileVO.setRegUsr(loginVO.getId());
+//
+//    			gamAssetRentMngtService.insertAssetRentFile(insertFileVO);
+//    		}
+//
+//    		for( int i = 0 ; i < updateFileList.size() ; i++ ) {
+////    			Map resultMap = updateFileList.get(i);
+//    			GamAssetRentMngtVO updateFileVO = mapper.convertValue(updateFileList.get(i), GamAssetRentMngtVO.class);
+//
+////    			GamAssetRentMngtVO updateFileVO = new GamAssetRentMngtVO();
+//
+////    			updateFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
+////    			updateFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+////    			updateFileVO.setMngYear(resultMap.get("mngYear").toString());
+////    			updateFileVO.setMngNo(resultMap.get("mngNo").toString());
+////    			updateFileVO.setMngCnt(resultMap.get("mngCnt").toString());
+////
+////    			updateFileVO.setPhotoSj(resultMap.get("photoSj").toString());
+////    			updateFileVO.setShotDt(resultMap.get("shotDt").toString());
+////    			updateFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+//
+//    			updateFileVO.setUpdUsr(loginVO.getId());
+//
+//    			gamAssetRentMngtService.updateAssetRentFile(updateFileVO);
+//    		}
+//
+//    		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
+////    			Map resultMap = deleteFileList.get(i);
+//
+//    			GamAssetRentMngtVO deleteFileVO = mapper.convertValue(deleteFileList.get(i), GamAssetRentMngtVO.class);
+////    			GamAssetRentMngtVO deleteFileVO = new GamAssetRentMngtVO();
+//
+////    			deleteFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
+////    			deleteFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
+////    			deleteFileVO.setMngYear(resultMap.get("mngYear").toString());
+////    			deleteFileVO.setMngNo(resultMap.get("mngNo").toString());
+////    			deleteFileVO.setMngCnt(resultMap.get("mngCnt").toString());
+//
+//    			gamAssetRentMngtService.deleteAssetRentPhotoSingle(deleteFileVO);
+//    		}
+//
+//    		//총사용료, 총면적, 총사용기간 조회
+//    		GamAssetRentMngtVO paramVO = new GamAssetRentMngtVO();
+//    		paramVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
+//    		paramVO.setMngYear(saveDetailVO.getDetailMngYear());
+//    		paramVO.setMngNo(saveDetailVO.getDetailMngNo());
+//    		paramVO.setMngCnt(saveDetailVO.getDetailMngCnt());
+//
+//    		GamAssetRentMngtVO updRentVO = new GamAssetRentMngtVO();
+//    		updRentVO = gamAssetRentMngtService.selectAssetRentCurrRenewInfo(paramVO);
+//
+//    		if( updRentVO != null ) {
+//    			updRentVO.setPrtAtCode(paramVO.getPrtAtCode());
+//    			updRentVO.setMngYear(paramVO.getMngYear());
+//    			updRentVO.setMngNo(paramVO.getMngNo());
+//    			updRentVO.setMaxMngCnt(paramVO.getMngCnt());
+//
+//    			//총사용료, 총면적, 총사용기간 업데이트
+//    			gamAssetRentMngtService.updateAssetRentRenewInfo(updRentVO);
+//
+//    			//부두코드 가져오기
+//    			GamAssetRentMngtVO quaycdVO = new GamAssetRentMngtVO();
+//    			quaycdVO = gamAssetRentMngtService.selectAssetRentDetailQuaycd(updRentVO);
+//
+//    			//부두코드 업데이트
+//    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+//    				quaycdVO = new GamAssetRentMngtVO();
+//    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+//    				quaycdVO.setMngYear(paramVO.getMngYear());
+//    				quaycdVO.setMngNo(paramVO.getMngNo());
+//    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+//    			}
+//
+//    			quaycdVO.setUpdUsr(loginVO.getId());
+//
+//    			gamAssetRentMngtService.updateAssetRentQuaycd(quaycdVO);
+//    		}
+//
+//    		resultCode = 0;
+//        	resultMsg  = egovMessageSource.getMessage("success.common.merge");
+//
+//    	} catch (Exception e) {
+//    		e.printStackTrace();
+//
+//    		resultCode = 1;
+//    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
+//    	}
+//    	log.debug("insert list : "+insertList.size());
+//    	log.debug("updateList list : "+updateList.size());
+//    	log.debug("deleteList list : "+deleteList.size());
+//
+//		map.put("resultCode", resultCode);
+//		map.put("resultMsg", resultMsg);
+//		return map;
+//    }
 
 
 	/**

@@ -34,7 +34,7 @@ GamErpAssetCodePopupModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#erpAssetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/asset/selectErpAssetCodeList.do"/>',
+		url: '<c:url value="/popup/selectErpAssetCodeList.do"/>',
 		dataType: 'json',
 		colModel : [
 			{display:'ERP자산코드', name:'erpAssetCode', width:80, sortable:true, align:'left'},

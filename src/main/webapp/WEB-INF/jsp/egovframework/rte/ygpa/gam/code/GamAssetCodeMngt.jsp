@@ -710,7 +710,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
 						<td>
-							<input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsSeCd">-
+							<input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsCls">-
 							<input type="text" size="8" id="erpAssetsNo">-
 							<input type="text" size="2" id="erpAssetsNoSeq">
 							<button id="popupErpAssetList" class="popupButton">ERP코드조회</button>

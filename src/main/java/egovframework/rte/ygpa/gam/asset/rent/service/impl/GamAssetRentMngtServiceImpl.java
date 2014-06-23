@@ -1,13 +1,18 @@
 package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovProperties;
@@ -596,5 +601,78 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCofixInfoMax(searchVO);
     }
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService#c(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO, java.util.Map, java.util.Map)
+	 */
+	@SuppressWarnings({ "rawtypes", "unused", "unchecked", "unchecked" })
+	@Override
+	public GamAssetRentMngtVO mergeAssetRent(GamAssetRentMngtVO master, Map detailMap, Map fileMap) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+
+		if( "".equals(master.getMngYear()) ) {	// 최초 신청
+			GamAssetRentMngtVO keyVO = new GamAssetRentMngtVO();
+			keyVO = gamAssetRentMngtDao.selectAssetRentMaxKey(master);
+
+			master.setMngYear(keyVO.getMngYear());
+			master.setMngNo(keyVO.getMngNo());
+			master.setMngCnt(keyVO.getMngCnt());
+			master.setReqstSeCd("1");  //신청구분코드(1:최초, 2:연장, 3:변경, 4:취소)
+
+			gamAssetRentMngtDao.insertAssetRentFirst(master);
+		}
+		else {
+			gamAssetRentMngtDao.updateAssetRent(master);
+		}
+
+        ArrayList arraylistCU = (ArrayList)detailMap.get("CU");
+        HashMap[] hmCU = (HashMap[])arraylistCU.toArray(new HashMap[arraylistCU.size()]);
+        Map result;
+
+		//자산임대상세저장
+		for( int i = 0 ; i < arraylistCU.size() ; i++ ) {
+			Map insertMap = (Map)arraylistCU.get(i);
+
+			insertMap.put("prtAtCode",master.getPrtAtCode());
+			insertMap.put("mngYear",master.getMngYear());
+			insertMap.put("mngNo",master.getMngNo());
+			insertMap.put("mngCnt",master.getMngCnt());
+
+			insertMap.put("regUsr",master.getUpdUsr());
+			insertMap.put("updUsr",master.getUpdUsr());
+		}
+
+		gamAssetRentMngtDao.mergeAssetRentDetail(detailMap);
+
+        arraylistCU = (ArrayList)fileMap.get("CU");
+		for( int i = 0 ; i < arraylistCU.size() ; i++ ) {
+			Map insertMap = (Map)arraylistCU.get(i);
+
+			insertMap.put("prtAtCode",master.getPrtAtCode());
+			insertMap.put("mngYear",master.getMngYear());
+			insertMap.put("mngNo",master.getMngNo());
+			insertMap.put("mngCnt",master.getMngCnt());
+
+			insertMap.put("regUsr",master.getUpdUsr());
+			insertMap.put("updUsr",master.getUpdUsr());
+		}
+
+		gamAssetRentMngtDao.mergeAssetRentFile(fileMap);
+
+		//총사용료, 총면적, 총사용기간 업데이트
+		GamAssetRentMngtVO updRentVO = new GamAssetRentMngtVO();
+		updRentVO = gamAssetRentMngtDao.selectAssetRentCurrRenewInfo(master);
+
+		if( updRentVO != null ) {
+			updRentVO.setPrtAtCode(master.getPrtAtCode());
+			updRentVO.setMngYear(master.getMngYear());
+			updRentVO.setMngNo(master.getMngNo());
+			updRentVO.setMaxMngCnt(master.getMngCnt());
+
+			//총사용료, 총면적, 총사용기간 업데이트
+			gamAssetRentMngtDao.updateAssetRentRenewInfo(updRentVO);
+		}
+		return master;
+	}
 
 }
