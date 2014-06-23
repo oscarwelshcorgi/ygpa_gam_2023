@@ -52,7 +52,7 @@
 							      , G.DRW_LST_SEQ
 							      , G.GIS_ASSETS_VAL_AMT
 							      , TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') GIS_ASSETS_VAL_INQIRE_DT
-							      , G.ERP_ASSETS_SE_CD
+							      , G.ERP_ASSETS_CLS
 							      , G.ERP_ASSETS_NO
 							      , G.ERP_ASSETS_NO_SEQ
 							      , G.ERP_ASSETS_DISUSE_REGIST_YN
@@ -146,7 +146,7 @@
 							      , G.DRW_LST_SEQ
 							      , G.GIS_ASSETS_VAL_AMT
 							      , TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') GIS_ASSETS_VAL_INQIRE_DT
-							      , G.ERP_ASSETS_SE_CD
+							      , G.ERP_ASSETS_CLS
 							      , G.ERP_ASSETS_NO
 							      , G.ERP_ASSETS_NO_SEQ
 							      , G.ERP_ASSETS_DISUSE_REGIST_YN
