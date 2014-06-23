@@ -47,14 +47,13 @@
 		                     G.DRW_LST_REGIST_YEAR,
 		                     G.DRW_LST_SEQ,
 		                     G.GIS_ASSETS_VAL_AMT,
-		                     G.ERP_ASSETS_SE_CD,
+		                     G.ERP_ASSETS_CLS,
 		                     G.ERP_ASSETS_NO,
 		                     G.ERP_ASSETS_NO_SEQ,
 		                     G.ERP_ASSETS_DISUSE_REGIST_YN,
 		                     G.ERP_ASSETS_DISUSE_RSN,
 		                     G.GIS_ASSETS_QUAY_CD,
-		                     TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT,
-		                     G.ERP_ASSETS_CLS
+		                     TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT
 						FROM GIS_ASSETS_CD_F G
 							LEFT OUTER JOIN (SELECT * FROM OLNLP_F WHERE SYSDATE BETWEEN BEGIN_DT AND END_DT) O
 							ON G.GIS_ASSETS_PRT_AT_CODE=O.GIS_ASSETS_PRT_AT_CODE

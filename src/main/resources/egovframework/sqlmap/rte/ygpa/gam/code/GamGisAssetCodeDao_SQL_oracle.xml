@@ -43,7 +43,7 @@
 					DRW_LST_SEQ,
 					GIS_ASSETS_VAL_AMT,
 					GIS_ASSETS_VAL_INQIRE_DT,
-					ERP_ASSETS_SE_CD,
+					ERP_ASSETS_CLS,
 					ERP_ASSETS_NO,
 					ERP_ASSETS_NO_SEQ,
 					ERP_ASSETS_DISUSE_REGIST_YN,
@@ -96,8 +96,8 @@
 	<update id="gamGisAssetCodeDao.updateAssetCode_S">
 			UPDATE GIS_ASSETS_CD_F
 			SET
-			<isNotNull property="erpAssetsSeCd">
-				ERP_ASSETS_SE_CD=#erpAssetsSeCd#,
+			<isNotNull property="erpAssetsCls">
+				ERP_ASSETS_CLS=#erpAssetsCls#,
 			</isNotNull>
 			<isNotNull property="erpAssetsNo">
 				ERP_ASSETS_NO=#erpAssetsNo#,
@@ -191,9 +191,6 @@
 			</isNotNull>
 			<isNotNull property="drwLstSeq">
 				DRW_LST_SEQ=#drwLstSeq#,
-			</isNotNull>
-			<isNotNull property="erpAssetsCls">
-				ERP_ASSETS_CLS=#erpAssetsCls#
 			</isNotNull>
 			<isNotNull property="updUsr">
 				UPD_USR=#updUsr#,
@@ -322,7 +319,6 @@
 					DRW_LST_SEQ,
 					GIS_ASSETS_VAL_AMT,
 					TO_CHAR(GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD') AS GIS_ASSETS_VAL_INQIRE_DT,
-					ERP_ASSETS_SE_CD,
 					ERP_ASSETS_NO,
 					ERP_ASSETS_NO_SEQ,
 					ERP_ASSETS_DISUSE_REGIST_YN,
@@ -384,7 +380,7 @@
 						GIS_ASSETS_SE_CD,
 						GAM_GETCODENAME('GAM013', GIS_ASSETS_SE_CD) GIS_ASSETS_SE_NM,
 						GIS_ASSETS_USAGE_YN,
-						ERP_ASSETS_SE_CD,
+						ERP_ASSETS_CLS,
 						ERP_ASSETS_NO,
 						ERP_ASSETS_NO_SEQ,
 						ERP_ASSETS_DISUSE_REGIST_YN,
@@ -421,8 +417,8 @@
 				<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
 					GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
 				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="erpAssetsCls">
-					ERP_ASSETS_CLS=#erpAssetsCls#
+				<isNotEmpty prepend="AND" property="erpAssetCls">
+					ERP_ASSET_CLS=#erpAssetCls#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNo">
 					ERP_ASSETS_NO=#erpAssetsNo#
