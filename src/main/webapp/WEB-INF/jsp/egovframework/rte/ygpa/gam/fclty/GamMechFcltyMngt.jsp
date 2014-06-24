@@ -879,7 +879,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr class="no1">
 							<th width="15%" height="23" class="required_text">처리능력</th>
 							<td><input type="text" size="50" id="info3" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">주행족</th>
+							<th width="15%" height="23" class="required_text">주행폭</th>
 							<td><input type="text" size="50" id="info4" maxlength="40" /></td>
 						</tr>
 						<tr class="no2">
@@ -889,13 +889,13 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input type="text" size="50" id="info6" maxlength="40" /></td>
 						</tr>
 						<tr class="no2">
-							<th width="15%" height="23" class="required_text">조수조</th>
+							<th width="15%" height="23" class="required_text">저수조</th>
 							<td><input type="text" size="50" id="info7" maxlength="40" /></td>
 						</tr>
 						<tr class="no3">
 							<th width="15%" height="23" class="required_text">적재톤수</th>
 							<td><input type="text" size="50" id="info8" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">적재크기</th>
+							<th width="15%" height="23" class="required_text">규격</th>
 							<td><input type="text" size="50" id="info9" maxlength="40" /></td>
 						</tr>
 						<tr class="no3">
