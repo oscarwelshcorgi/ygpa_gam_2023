@@ -29,7 +29,7 @@
 function GamFcltyMngtModule() {
 }
 
-GamFcltyMngtModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
+GamFcltyMngtModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyMngtModule.prototype.loadComplete = function(params) {
@@ -57,6 +57,20 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
+			],
+		height: "auto"
+	});
+
+	this.$("#fcltyinfo9").flexigrid({
+		module: this,
+		url: '<c:url value="/fclty/gamConstFcltyMngtList.do" />',
+		dataType: "json",
+		colModel : [
+					{display:"구분",		name:"no1",	width:140,		sortable:false,		align:"center"},
+					{display:"층별",		name:"no2",	width:140,		sortable:false,		align:"center"},
+					{display:"구조",		name:"no3",	width:140,		sortable:false,		align:"center"},
+					{display:"용도",		name:"no4",	width:140,		sortable:false,		align:"center"},
+					{display:"면적",		name:"no5",	width:140,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -108,7 +122,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 			}
 //			module.$("#selectedGAM005_select").hide();
 //			module.$("#gisCodePopupBtn").hide();
-			module.$("#prtFcltySeNm").show();
+// 			module.$("#prtFcltySeNm").show();
 			module._cmd="modify";
 			module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
@@ -192,7 +206,6 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		break;
 	}
 
-	this.$('#drwLstMngDeptCd').makeSelectCmmnCd();
 };
 
 GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
@@ -271,6 +284,24 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
+			var info = "||"+this.$("#info1").val();
+			info += "||"+this.$("#info2").val();
+			info += "||"+this.$("#info3").val();
+			info += "||"+this.$("#info4").val();
+			info += "||"+this.$("#info5").val();
+			info += "||"+this.$("#info6").val();
+			info += "||"+this.$("#info7").val();
+			info += "||"+this.$("#info8").val();
+			info += "||"+this.$("#info9").val();
+			info += "||"+this.$("#info10").val();
+			info += "||"+this.$("#info11").val();
+			info += "||"+this.$("#info12").val();
+			info += "||"+this.$("#info13").val();
+			info += "||"+this.$("#info14").val();
+			info += "||"+this.$("#info15").val();
+			info += "||"+this.$("#info16").val();
+
+			inputVO[inputVO.length]={name: 'info', value: info};
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
@@ -509,9 +540,33 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 	     	 			module.clearCodePage();
 		 	     	 			module._fcltyItem=result.result;
 		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+		 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+			                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+/*
 		 	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
 		 	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
 		 	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
+ */
+		 	     	 			var data=result.result.info.split('||');
+		 	     	 			module.$('#info1').val(data[1]);
+		 	     	 			module.$('#info2').val(data[2]);
+		 	     	 			module.$('#info3').val(data[3]);
+		 	     	 			module.$('#info4').val(data[4]);
+		 	     	 			module.$('#info5').val(data[5]);
+		 	     	 			module.$('#info6').val(data[6]);
+		 	     	 			module.$('#info7').val(data[7]);
+		 	     	 			module.$('#info8').val(data[8]);
+		 	     	 			module.$('#info9').val(data[9]);
+		 	     	 			module.$('#info10').val(data[10]);
+		 	     	 			module.$('#info11').val(data[11]);
+		 	     	 			module.$('#info12').val(data[12]);
+		 	     	 			module.$('#info13').val(data[13]);
+		 	     	 			module.$('#info14').val(data[14]);
+		 	     	 			module.$('#info15').val(data[15]);
+		 	     	 			module.$('#info16').val(data[16]);
+		 	     	 			console.log('debug');
+		 	     	 			var tt = [{'no1':'1no','no2':'2no','no3':'3no','no4':'4no','no5':'5no'},{'no1':'1no','no2':'2no','no3':'3no','no4':'4no','no5':'5no'}];
+		 	     	 			module.$("#fcltyinfo9").flexAddData({resultList: [{'no1':'1no','no2':'2no','no3':'3no','no4':'4no','no5':'5no'},{'no1':'1no','no2':'2no','no3':'3no','no4':'4no','no5':'5no'}] });
 
 		 	     	 		}
 		 	     	 		else {
@@ -535,9 +590,33 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+
+ 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+/*
  	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
  	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
  	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
+ */
+ 	     	 			var data=result.result.info.split('||');
+ 	     	 			module.$('#info1').val(data[1]);
+ 	     	 			module.$('#info2').val(data[2]);
+ 	     	 			module.$('#info3').val(data[3]);
+ 	     	 			module.$('#info4').val(data[4]);
+ 	     	 			module.$('#info5').val(data[5]);
+ 	     	 			module.$('#info6').val(data[6]);
+ 	     	 			module.$('#info7').val(data[7]);
+ 	     	 			module.$('#info8').val(data[8]);
+ 	     	 			module.$('#info9').val(data[9]);
+ 	     	 			module.$('#info10').val(data[10]);
+ 	     	 			module.$('#info11').val(data[11]);
+ 	     	 			module.$('#info12').val(data[12]);
+ 	     	 			module.$('#info13').val(data[13]);
+ 	     	 			module.$('#info14').val(data[14]);
+ 	     	 			module.$('#info15').val(data[15]);
+ 	     	 			module.$('#info16').val(data[16]);
+ 	     	 			module.$("#fcltyinfo9").flexAddData({resultList: [{'no1':'1no','no2':'2no','no3':'3no','no4':'4no','no5':'5no'},{'no1':'1no','no2':'2no','no3':'3no','no4':'4no','no5':'5no'}] });
+
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
@@ -659,7 +738,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>건축시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -701,9 +780,11 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
-				<input id="beforeGisAssetsPrtAtCode" type="hidden" />
-				<input id="beforeGisAssetsCd" type="hidden" />
-				<input id="beforeGisAssetsSubCd" type="hidden" />
+				<input type="hidden" id="beforeGisPrtFcltyCd">
+          		<input type="hidden" id="beforeGisPrtFcltySeq">
+<!-- 				<input id="beforeGisAssetsPrtAtCode" type="hidden" /> -->
+<!-- 				<input id="beforeGisAssetsCd" type="hidden" /> -->
+<!-- 				<input id="beforeGisAssetsSubCd" type="hidden" /> -->
 					<table  class="editForm"  style="width:100%;">
 						<tr>
 							<th width="15%" height="23" class="required_text">항코드</th>
@@ -737,26 +818,30 @@ var module_instance = new GamFcltyMngtModule();
 								<input type="text" size="5" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="5" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="15%" height="23" class="required_text">건축시설명</th>
-							<td><input type="text" size="50" id="prtFcltyNm" maxlength="80" /></td>
-						</tr>
-						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
-								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true"/>
+								<input type="hidden" size="50" id="prtFcltySeNm" disabled="disabled" />
 							</td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">건축시설명</th>
+							<td colspan="4"><input type="text" size="128" id="prtFcltyNm" maxlength="80" /></td>
+
 							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
 							 -->
 						</tr>
+						<!--
 						<tr>
 							<th width="15%" height="23" class="required_text">건축시설규격</th>
 							<td><input type="text" size="50" id="prtFcltyStndrd" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">건축시설단위</th>
 							<td><input type="text" size="50" id="prtFcltyUnit" maxlength="10" /></td>
 						</tr>
+						 -->
+						 <!--
 						<tr>
 							<th width="15%" height="23" class="required_text">관리업체</th>
 							<td>
@@ -766,6 +851,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">관리업체명</th>
 							<td><input type="text" size="50" id="prtFcltyMngEntrpsNm" disabled="disabled"/></td>
 						</tr>
+						  -->
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
@@ -773,12 +859,58 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">위도좌표</th>
-							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
-							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><input type="text" id="drwLstMngDeptCd" data-code-id="GAM019"/></td>
+							<th width="15%" height="23" class="required_text">대지위치</th>
+							<td><input type="text" size="50" id="info1" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">지번</th>
+							<td><input type="text" size="50" id="info2" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">명칭 및 번호</th>
+							<td><input type="text" size="50" id="info3" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">대지면적</th>
+							<td><input type="text" size="50" id="info4" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">연면적</th>
+							<td><input type="text" size="50" id="info5" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">건축면적</th>
+							<td><input type="text" size="50" id="info6" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">주구조</th>
+							<td><input type="text" size="50" id="info7" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">주용도</th>
+							<td><input type="text" size="50" id="info8" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">층수</th>
+							<td><input type="text" size="50" id="info9" maxlength="40" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">건축주</th>
+							<td><input type="text" size="50" id="info10" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">설계자</th>
+							<td><input type="text" size="50" id="info11" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">공사감리자</th>
+							<td><input type="text" size="50" id="info12" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">공사시공자</th>
+							<td><input type="text" size="50" id="info13" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">허가일자</th>
+							<td><input id="info14" type="text" class="emdcal" size="20" title="허가일자" /></td>
+							<th width="15%" height="23" class="required_text">착공일자</th>
+							<td><input id="info15" type="text" class="emdcal" size="20" title="착공일자" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">사용승인일자</th>
+							<td><input id="info16" type="text" class="emdcal" size="20" title="사용승인일자" /></td>
 						</tr>
 					</table>
+					<table id="fcltyinfo9" style="display:none" class="fillHeight"></table>
+<!-- 					<table id="fcltyMngtList" style="display:none" class="fillHeight"></table> -->
 				</form>
 				<div class="emdControlPanel">
 					<button id="registLocation">위치등록</button>
