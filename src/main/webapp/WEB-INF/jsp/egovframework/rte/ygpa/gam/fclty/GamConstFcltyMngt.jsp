@@ -192,6 +192,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		break;
 	}
 
+	this.$('#drwLstMngDeptCd').makeSelectCmmnCd();
 };
 
 GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
@@ -770,6 +771,12 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
 							<th width="15%" height="23" class="required_text">변경일자</th>
 							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">위도좌표</th>
+							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
+							<th width="15%" height="23" class="required_text">경도좌표</th>
+							<td><input type="text" id="drwLstMngDeptCd" data-code-id="GAM019"/></td>
 						</tr>
 					</table>
 				</form>

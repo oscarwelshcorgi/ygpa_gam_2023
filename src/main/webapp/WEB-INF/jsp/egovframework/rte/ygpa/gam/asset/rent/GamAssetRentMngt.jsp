@@ -227,6 +227,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
+        module._editData['feature']=null;	// 2014.06.23
+        module.selectAssetRentDetail(module._editData, module._editData.feature);	// 2014.06.23
     });
 
     this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -709,11 +711,14 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
                 this.doAction('<c:url value="/asset/rent/gamSaveAssetRent.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
+                    	EMD.saveStrategy.save();
                     	module.loadData();
                     }
                     alert(result.resultMsg);
-                    module.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
                 });
+
+
+                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
             }
 
             break;
@@ -786,7 +791,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
              this.$('#detailMngNo').val( this.$('#mngNo').val() );
              this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
 
-             this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I'});
+             this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I', feature:null});
 //             this._editRow=this.$('#assetRentDetailList').flexGetData().length;
 				this._editRow=null;
 
@@ -1065,6 +1070,24 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
             break;
 
+        case 'btnModifyFeature':
+        	if(this._editData==null || this._editData.feature==null) {
+        		alert('정의된 영역이 없습니다.');
+        		return;
+        	}
+       		EMD.gis.modifyAssetRentDetailFeature(this, this._editData, this._editData.feature, function(module, feature){
+       			console.log("assetRentDetailFeature");
+       			alert('feature added');
+       		});
+			EMD.map.zoomToExtent(this._editData.feature.geometry.getBounds());
+        	break;
+        case 'btnShowFeature':
+        	if(this._editData==null || this._editData.feature==null || this._editData.feature.geometry.components.length==0) {
+        		alert('정의된 영역이 없습니다.');
+        		return;
+        	}
+			EMD.map.zoomToExtent(this._editData.feature.geometry.getBounds());
+        	break;
         case 'btnRentDetailApply': //임대상세적용
 
         	if(!validateGamAssetRentDetail(this.$('#gamAssetRentDetailForm')[0])) {
@@ -1140,6 +1163,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             else {
                 this.$('#assetRentDetailList').flexAddRow(this._editData);
             }
+			EMD.gis.setAssetRentDetailFeature(this, this._editData);
 
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가
@@ -1349,6 +1373,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          if (msg != 'cancel') {
              if( value == "0" ) {
 					this.loadData();
+					EMD.gis.assetRentStatsRedraw();
              }
          } else {
              alert('취소 되었습니다');
@@ -1368,6 +1393,15 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              //this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
+
+             if(this._editData.feature==undefined) this._editData['feature']=null;
+             this._editData['gisAssetsPrtAtCode']=value.gisAssetsPrtAtCode;
+             this._editData['gisAssetsCd']=value.gisAssetsCd;
+             this._editData['gisAssetsSubCd']=value.gisAssetsSubCd;
+
+             EMD.gis.selectAssetCdToAssetRentDetailFeature(this, this._editData, function(module, a) {
+            	 module._editData.feature=a;
+             });
 
              this._selectAssetsCd=value;
 
@@ -1895,8 +1929,11 @@ var module_instance = new GamAssetRentMngtModule();
                         <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
                         <td style="text-align:right">
-                        <button data-role="showMap" data-gis-layer="gisAssetsCd" data-value-name="_selectAssetsCd" data-style="default">맵조회</button>
-                        <button id="btnRentDetailApply">임대상세적용</button>
+<!--                         <button data-role="showMap" data-gis-layer="gisAssetsCd" data-value-name="_selectAssetsCd" data-style="default">맵조회</button>
+ -->
+ 							<button id="btnModifyFeature">맵편집</button>
+ 							<button id="btnShowFeature">맵조회</button>
+ 	                        <button id="btnRentDetailApply">임대상세적용</button>
                         </td>
                     </tr>
                  </table>

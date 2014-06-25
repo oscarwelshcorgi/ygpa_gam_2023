@@ -375,7 +375,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"  />
                             </td>
                             <th>관리번호</th>
-                            <td style="width: 200px">
+                            <td style="width: 200px" colspan="3">
                                 <input id="sMngYear" type="text" class="mngYear">
                                 <input id="sMngNo" type="text" class="mngNo">
                                 <input id="sMngCnt" type="text" class="mngCnt">
@@ -383,7 +383,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <th>신청업체</th>
                             <td>
                                 <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
-                                <input type="text" size="25" id="sEntrpsNm" disabled/>
+                                <input type="text" size="15" id="sEntrpsNm" disabled/>
                                 <button id="popupEntrpsInfoFee" class="popupButton">선택</button>
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -396,6 +396,10 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         	<th>고지여부</th>
                             <td width="100px">
                          		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-value="N" data-column-id="sNhtIsueYn" />
+                            </td>
+                        	<th>고지방법</th>
+                            <td width="100px">
+                         		<input id="sNticMth" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM008" data-column-id="sNticMth" />
                             </td>
                             <th>사용시작일자</th>
                             <td>

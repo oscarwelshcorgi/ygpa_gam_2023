@@ -426,7 +426,7 @@ public class GamMarineCenterRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+//    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());

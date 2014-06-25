@@ -1,7 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.service;
 
 import java.util.List;
-import java.util.Map;
 
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
@@ -284,13 +283,4 @@ public interface GamAssetRentMngtService {
    	 * @exception Exception
    	 */
     public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception;
-
-    /**
-     * 자산 임대 정보를 저장한다.
-     * @param master	- 자산 임대 정보
-     * @param detailMap - 상세 정보
-     * @param fileMap - 파일 정보
-     * @return master - 마스터 정보를 리턴한다.
-     */
-    public GamAssetRentMngtVO mergeAssetRent(GamAssetRentMngtVO master, Map detailMap, Map fileMap) throws Exception;
 }

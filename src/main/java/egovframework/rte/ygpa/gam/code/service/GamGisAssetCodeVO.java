@@ -115,10 +115,7 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
     private String gisAssetsValInqireDt;
 
     /** ERP 자산 구분 코드 */
-    private String erpAssetsSeCd;
-
-    /** ERP 자산 구분 클래스 */
-    private String erpAssetCls;
+    private String erpAssetsCls;
 
     /** ERP 자산 번호 */
     private String erpAssetsNo;
@@ -583,15 +580,15 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 	/**
 	 * @return the erpAssetsSeCd
 	 */
-	public String getErpAssetsSeCd() {
-		return erpAssetsSeCd;
+	public String getErpAssetsCls() {
+		return erpAssetsCls;
 	}
 
 	/**
 	 * @param erpAssetsSeCd the erpAssetsSeCd to set
 	 */
-	public void setErpAssetsSeCd(String erpAssetsSeCd) {
-		this.erpAssetsSeCd = erpAssetsSeCd;
+	public void setErpAssetsCls(String erpAssetsCls) {
+		this.erpAssetsCls = erpAssetsCls;
 	}
 
 	/**
@@ -720,14 +717,6 @@ public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
 
 	public void setGisAssetsBupjungdongCd(String gisAssetsBupjungdongCd) {
 		this.gisAssetsBupjungdongCd = gisAssetsBupjungdongCd;
-	}
-
-	public String getErpAssetCls() {
-		return erpAssetCls;
-	}
-
-	public void setErpAssetCls(String erpAssetCls) {
-		this.erpAssetCls = erpAssetCls;
 	}
 
 }

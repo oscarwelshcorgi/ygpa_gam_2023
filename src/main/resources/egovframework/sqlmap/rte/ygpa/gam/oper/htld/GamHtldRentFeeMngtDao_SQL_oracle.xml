@@ -151,17 +151,19 @@
 							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
-
+				               <isNotEmpty property="sNticMth">
+				                   AND A.NTIC_MTH = #sNticMth#
+				               </isNotEmpty>
 							   <isNotEmpty property="sReqstSeCd">
 								   AND (
 								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-								                                                              SELECT   R.PRT_AT_CODE
-								                                                                     , R.MNG_YEAR
-								                                                                     , R.MNG_NO
-								                                                                     , R.MNG_CNT
-								                                                                FROM ASSETS_RENT_F R
-								                                                               WHERE R.REQST_SE_CD = #sReqstSeCd#
-								                                                             )
+                                            SELECT   R.PRT_AT_CODE
+                                                   , R.MNG_YEAR
+                                                   , R.MNG_NO
+                                                   , R.MNG_CNT
+                                              FROM ASSETS_RENT_F R
+                                             WHERE R.REQST_SE_CD = #sReqstSeCd#
+                                           )
 								       )
 							   </isNotEmpty>
 
@@ -263,6 +265,10 @@
                    AND L.PRT_AT_CODE = #sPrtAtCode#
                </isNotEmpty>
 
+               <isNotEmpty property="sNticMth">
+                   AND A.NTIC_MTH = #sNticMth#
+               </isNotEmpty>
+
                <isNotEmpty property="sReqstSeCd">
                    AND (
                          (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
@@ -348,7 +354,7 @@
                    	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
                    	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
                    	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
-                , SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) SUM_NHT_ISUE_AMT 
+                , SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) SUM_NHT_ISUE_AMT
                , SUM(NVL(L.VAT, 0)) SUM_VAT
                , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
           FROM ASSETS_RENT_F A, LEV_REQEST_F L
@@ -361,6 +367,10 @@
          <isNotEmpty property="sPrtAtCode">
              AND L.PRT_AT_CODE = #sPrtAtCode#
          </isNotEmpty>
+
+               <isNotEmpty property="sNticMth">
+                   AND A.NTIC_MTH = #sNticMth#
+               </isNotEmpty>
 
          <isNotEmpty property="sReqstSeCd">
              AND (
@@ -472,7 +482,7 @@
 		AND    MNG_CNT      = #mngCnt#
     </update>
 
-    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtInfo_S" parameterClass="gamHtldRentFeeMngtVO" resultMap="gamHtldRentFeeMngtInfoMap"> 
+    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtInfo_S" parameterClass="gamHtldRentFeeMngtVO" resultMap="gamHtldRentFeeMngtInfoMap">
         SELECT
                  L.NTIC_CNT
                , L.FCLTY_SE
@@ -521,7 +531,7 @@
            AND L.MNG_CNT     = #mngCnt#
     </select>
 
-    <select id="gamHtldRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="int"> 
+    <select id="gamHtldRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="int">
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
          WHERE 1=1

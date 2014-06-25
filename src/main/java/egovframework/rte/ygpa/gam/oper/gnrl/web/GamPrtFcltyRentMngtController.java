@@ -305,6 +305,7 @@ public class GamPrtFcltyRentMngtController {
 			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
 			saveVO.setReqstDt(form.get("reqstDt"));
 			saveVO.setPayMth(form.get("payMth"));
+			saveVO.setTaxtSe(form.get("taxtSe"));
 			saveVO.setNticMth(form.get("nticMth"));
 			saveVO.setRm(form.get("rm"));
 			saveVO.setCmt(form.get("cmt"));
@@ -420,7 +421,7 @@ public class GamPrtFcltyRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+//    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());
@@ -526,15 +527,15 @@ public class GamPrtFcltyRentMngtController {
     			quaycdVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtDetailQuaycd(updRentVO);
 
     			//부두코드 업데이트
-    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
-    				quaycdVO = new GamPrtFcltyRentMngtVO();
-    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
-    				quaycdVO.setMngYear(paramVO.getMngYear());
-    				quaycdVO.setMngNo(paramVO.getMngNo());
-    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
-    			}
-
-    			gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtQuaycd(quaycdVO);
+//    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+//    				quaycdVO = new GamPrtFcltyRentMngtVO();
+//    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+//    				quaycdVO.setMngYear(paramVO.getMngYear());
+//    				quaycdVO.setMngNo(paramVO.getMngNo());
+//    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+//    			}
+//
+//    			gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtQuaycd(quaycdVO);
     		}
 
     		resultCode = 0;
@@ -1050,7 +1051,7 @@ public class GamPrtFcltyRentMngtController {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
-		codeVo.setCodeId("GAM051"); //요금종류
+		codeVo.setCodeId("GAM024"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 
 		model.addAttribute("gamPrtFcltyRentMngtInfo", gamPrtFcltyRentMngtLevReqestVO);
@@ -1268,13 +1269,6 @@ public class GamPrtFcltyRentMngtController {
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-         System.out.println("##################################### 승낙시작!!");
-         System.out.println("##################################### getPrtAtCode => " +  gamPrtFcltyRentMngtVO.getPrtAtCode());
-         System.out.println("##################################### getMngYear => " +  gamPrtFcltyRentMngtVO.getMngYear());
-         System.out.println("##################################### getMngNo => " +  gamPrtFcltyRentMngtVO.getMngNo());
-         System.out.println("##################################### getMngCnt => " +  gamPrtFcltyRentMngtVO.getMngCnt());
-         System.out.println("##################################### getChrgeKnd => " +  gamPrtFcltyRentMngtVO.getChrgeKnd());
-
          //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamPrtFcltyRentMngtVO.getPrtAtCode());
          paramMap.put("mngYear", gamPrtFcltyRentMngtVO.getMngYear());
@@ -1282,8 +1276,6 @@ public class GamPrtFcltyRentMngtController {
          paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("chrgeKnd", gamPrtFcltyRentMngtVO.getChrgeKnd());
-
-         System.out.println("##################################### paramMap => " + paramMap);
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙

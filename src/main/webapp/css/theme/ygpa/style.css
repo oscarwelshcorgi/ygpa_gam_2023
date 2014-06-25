@@ -160,17 +160,6 @@ div.olControlMousePosition {
    background-position: -24px -24px;
 }
 
-div.olControlSaveFeaturesItemActive {
-    background-image: url(img/save_features_on.png);
-    background-repeat: no-repeat;
-    background-position: 0 1px;
-}
-div.olControlSaveFeaturesItemInactive {
-    background-image: url(img/save_features_off.png);
-    background-repeat: no-repeat;
-    background-position: 0 1px;
-}
-
 .olHandlerBoxZoomBox {
     border: 2px solid red;
     position: absolute;

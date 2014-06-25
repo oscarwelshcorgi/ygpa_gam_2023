@@ -1589,11 +1589,11 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">납부방법</th>
                                 <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
                                 </td>
 								<th width="10%" height="18">고지방법</th>
                                 <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
 								<th width="10%" height="18">분납이자율</th>
                                 <td>

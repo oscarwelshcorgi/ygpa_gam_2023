@@ -417,8 +417,8 @@
 				<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
 					GIS_ASSETS_LNM_SUB=#gisAssetsLnmSub#
 				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="erpAssetCls">
-					ERP_ASSET_CLS=#erpAssetCls#
+				<isNotEmpty prepend="AND" property="erpAssetsCls">
+					ERP_ASSET_CLS=#erpAssetsCls#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="erpAssetsNo">
 					ERP_ASSETS_NO=#erpAssetsNo#

@@ -661,7 +661,8 @@ ul.submenu li:hover ul {
 /* Map Editing CSS */
 .customEditingToolbar {
 	float: right;
-	right: 0px;
+	top: 2px;
+	right: 2px;
 	height: 30px;
 }
 
@@ -882,12 +883,13 @@ div.olControlScale {
    background-position: -24px -24px;
 }
 
-div.olControlSaveFeaturesItemActive {
+.olControlEditingToolbar .olControlSaveFeaturesItemActive {
     background-image: url(../../../images/egovframework/ygpa/gam/maps/save_features_on.png);
     background-repeat: no-repeat;
     background-position: 0 1px;
 }
-div.olControlSaveFeaturesItemInactive {
+
+.olControlEditingToolbar .olControlSaveFeaturesItemInactive {
     background-image: url(../../../images/egovframework/ygpa/gam/maps/save_features_off.png);
     background-repeat: no-repeat;
     background-position: 0 1px;

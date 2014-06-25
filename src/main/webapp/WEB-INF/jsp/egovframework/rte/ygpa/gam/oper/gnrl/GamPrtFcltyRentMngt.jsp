@@ -388,6 +388,173 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
 };
 
+/**
+ * 무역항 규정
+ */
+GamAssetRentMngtModule.prototype.onCalcTradePort = function() {
+	// console.debug('calc start');
+    if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
+        && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
+    ) {
+        var calFee      = 0;  //계산된 사용료
+        var olnlp       = 0;  //공시지가
+        var usageAr     = 0;  //사용면적
+        var applcTariff = 0;  //적용요율(계산용)
+        var applcTariffStr = "";  //적용요율
+        var rdcxptFee   = 0;  //감면사용료
+        var dayUseCnt   = 0;  //사용일수
+        var usagePdFrom = ""; //사용기간 from
+        var usagePdTo   = ""; //사용기간 to
+        var exemptPdFrom = "";    // 면제기간
+        var exemptPdTo = "";      // 면제기간
+        var exemptCnt   = 0;      // 면제일수
+        var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
+
+        olnlp = this.$('#olnlp').number(true).val();
+        usageAr = Number(this.$('#usageAr').number(true).val());
+        applcTariff = Number(this.$('#applcTariff').number(true).val());
+        applcTariffStr = this.$('#applcTariff').getSelectedCodeLabel();
+        usagePdFrom = this.$('#usagePdFrom').val();
+        usagePdTo = this.$('#usagePdTo').val();
+        exemptPdFrom = this.$('#exemptPdFrom').val();
+        exemptPdTo = this.$('#exemptPdTo').val();
+        exemptSe = this.$('#exemptSe').val();
+
+        if( exemptSe == '1' ) {        // 일부면제
+              if( this.$('#exemptPdFrom').val() == '' ) {
+                  return;
+              }
+              if( this.$('#exemptPdTo').val() == '' ) {
+                  return;
+              }
+        }
+
+        if( exemptSe == '0' ) {               // 면제없음.
+            rdcxptFee = 0;
+        } else if( exemptSe == '1' ) {   // 일부면제
+        	var dtFr = EMD.util.strToDate(exemptPdFrom);
+        	var dtTo = EMD.util.strToDate(exemptPdTo);
+
+        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
+
+            /* 면제 일수 계산 */
+            exemptCnt = Number(days);
+
+            rdcxptFee = olnlp * exemptCnt / 365 * usageAr * applcTariff;
+        }
+
+        /* 날짜계산 */
+
+              	var dtFr = EMD.util.strToDate(usagePdFrom);
+        	var dtTo = EMD.util.strToDate(usagePdTo);
+
+        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)))+1;
+        dayUseCnt = parseInt(days);
+
+        //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
+        if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
+        	rdcxptFee = calFee;
+        	exemptCnt = dayUseCnt;
+            calFee = 0;
+        } else {
+            calFee = olnlp*dayUseCnt/365*usageAr*applcTariff - rdcxptFee;
+        }
+        this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
+
+        calFee = Math.ceil(calFee/10)*10;
+        rdcxptFee = Math.ceil(rdcxptFee/10)*10;
+
+        this.$('#fee').val($.number(calFee));
+        this.$('#rdcxptFee').val($.number(rdcxptFee));
+    } else {
+        this.$('#fee').val('');
+        this.$('#rdcxptFee').val('');
+    }
+
+};
+
+GamAssetRentMngtModule.prototype.onCalcNationAsset = function() {
+	// console.debug('calc start');
+    if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
+        && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
+    ) {
+        var calFee      = 0;  //계산된 사용료
+        var olnlp       = 0;  //공시지가
+        var usageAr     = 0;  //사용면적
+        var applcTariff = 0;  //적용요율(계산용)
+        var applcTariffStr = "";  //적용요율
+        var rdcxptFee   = 0;  //감면사용료
+        var dayUseCnt   = 0;  //사용일수
+        var usagePdFrom = ""; //사용기간 from
+        var usagePdTo   = ""; //사용기간 to
+        var exemptPdFrom = "";    // 면제기간
+        var exemptPdTo = "";      // 면제기간
+        var exemptCnt   = 0;      // 면제일수
+        var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
+
+        olnlp = this.$('#olnlp').number(true).val();
+        usageAr = Number(this.$('#usageAr').number(true).val());
+        applcTariff = Number(this.$('#applcTariff').number(true).val());
+        applcTariffStr = this.$('#applcTariff').getSelectedCodeLabel();
+        usagePdFrom = this.$('#usagePdFrom').val();
+        usagePdTo = this.$('#usagePdTo').val();
+        exemptPdFrom = this.$('#exemptPdFrom').val();
+        exemptPdTo = this.$('#exemptPdTo').val();
+        exemptSe = this.$('#exemptSe').val();
+
+        if( exemptSe == '1' ) {        // 일부면제
+              if( this.$('#exemptPdFrom').val() == '' ) {
+                  return;
+              }
+              if( this.$('#exemptPdTo').val() == '' ) {
+                  return;
+              }
+        }
+
+        if( exemptSe == '0' ) {               // 면제없음.
+            rdcxptFee = 0;
+        } else if( exemptSe == '1' ) {   // 일부면제
+        	var dtFr = EMD.util.strToDate(exemptPdFrom);
+        	var dtTo = EMD.util.strToDate(exemptPdTo);
+
+        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
+
+            /* 면제 일수 계산 */
+            exemptCnt = Number(days);
+
+            rdcxptFee = olnlp * exemptCnt / 365 * usageAr * applcTariff;
+        }
+
+        /* 날짜계산 */
+
+              	var dtFr = EMD.util.strToDate(usagePdFrom);
+        	var dtTo = EMD.util.strToDate(usagePdTo);
+
+        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)))+1;
+        dayUseCnt = parseInt(days);
+
+        //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
+        if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
+        	rdcxptFee = calFee;
+        	exemptCnt = dayUseCnt;
+            calFee = 0;
+        } else {
+            calFee = olnlp*dayUseCnt/365*usageAr*applcTariff - rdcxptFee;
+        }
+        this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
+
+        calFee = Math.ceil(calFee/10)*10;
+        rdcxptFee = Math.ceil(rdcxptFee/10)*10;
+
+        this.$('#fee').val($.number(calFee));
+        this.$('#rdcxptFee').val($.number(rdcxptFee));
+    } else {
+        this.$('#fee').val('');
+        this.$('#rdcxptFee').val('');
+    }
+
+};
+
 GamAssetRentMngtModule.prototype.onCalc = function() {
 	// console.debug('calc start');
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
@@ -1584,16 +1751,16 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">납부방법</th>
                                 <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
                                 </td>
 								<th width="10%" height="18">고지방법</th>
                                 <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
 								<th width="10%" height="18">분납이자율</th>
                                 <td>
                                     <input type="text" size="19" id="payinstIntrrate" maxlength="4"/>
-                                    <select id="cofixList">
+                                    <select id="">
                                         <option value="">선택</option>
                                         <c:forEach items="${cofixList}" var="cofixListItem">
                                             <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
@@ -1602,9 +1769,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
+								<th width="10%" height="18">과세구분</th>
+                                <td>
+                                    <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
+                                </td>
 								<th width="10%" height="18">코멘트</th>
                                 <td colspan="5">
-                                	<input type="text" size="116" id="cmt" maxlength="90"/>
+                                	<input type="text" size="116" id="cmt" maxlength="80"/>
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>
@@ -1706,6 +1877,10 @@ var module_instance = new GamAssetRentMngtModule();
                                 	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" readonly/>
                                 </td>
                             </tr>
+								<th width="10%" height="18">적용방법</th>
+                                <td>
+                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" />
+                                </td>
                             <tr>
 								<th width="10%" height="18">적용요율</th>
                                 <td>
@@ -1719,10 +1894,6 @@ var module_instance = new GamAssetRentMngtModule();
                                     <input type="text" size="14" id="applcTariffStr" readonly/>
                                      -->
                                     <input type="hidden" id="applcTariffNm"/>
-                                </td>
-								<th width="10%" height="18">적용방법</th>
-                                <td>
-                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" />
                                 </td>
 								<th width="10%" height="18">공시지가목록</th>
                                 <td>
@@ -1750,7 +1921,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">면제사유코드</th>
                                 <td colspan="3">
-                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM017 />
+                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" />
                                     <!--
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
                                      -->
