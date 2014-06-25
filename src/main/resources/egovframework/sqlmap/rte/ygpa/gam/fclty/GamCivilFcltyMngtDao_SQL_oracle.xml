@@ -8,7 +8,7 @@
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="fcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO"/>
 
-    <insert id="gamFcltyMngtDao.insertCivilFclty">
+    <insert id="gamCivilFcltyMngtDao.insertCivilFclty">
    		<selectKey keyProperty="maxFcltySeq" resultClass="String">
 	       	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0')
 				FROM GIS_PRT_FCLTY_CD_F

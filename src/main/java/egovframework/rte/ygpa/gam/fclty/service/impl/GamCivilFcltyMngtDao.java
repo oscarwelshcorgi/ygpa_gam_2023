@@ -172,7 +172,7 @@ public class GamCivilFcltyMngtDao extends YGPAAbstractDAO{
     }
 
     public List mergeCivilFcltyPhoto(Map vo) throws Exception{
-		return this.merge(vo, "gamCivilFcltyMngtDao.inserCiviltFcltyFile", "gamCivilFcltyMngtDao.updateCivilFcltyFile", "gamCivilFcltyMngtDao.deleteCivilFcltyFile");
+		return this.merge(vo, "gamCivilFcltyMngtDao.insertCivilFcltyFile", "gamCivilFcltyMngtDao.updateCivilFcltyFile", "gamCivilFcltyMngtDao.deleteCivilFcltyFile");
     }
 
     public Integer selectCivilFcltyPhotoMaxSeq(Map vo) throws Exception {

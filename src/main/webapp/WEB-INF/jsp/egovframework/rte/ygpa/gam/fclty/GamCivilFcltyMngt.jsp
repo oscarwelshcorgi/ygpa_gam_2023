@@ -53,8 +53,8 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 // 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
 					{display:"토목시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
 					{display:"토목시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
-					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
-					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
+// 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
+// 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
@@ -108,7 +108,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 			}
 //			module.$("#selectedGAM005_select").hide();
 //			module.$("#gisCodePopupBtn").hide();
-			module.$("#prtFcltySeNm").show();
+// 			module.$("#prtFcltySeNm").show();
 			module._cmd="modify";
 			module.$("#fcltyMngtListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
@@ -737,15 +737,16 @@ var module_instance = new GamFcltyMngtModule();
 								<input type="text" size="5" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="5" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="15%" height="23" class="required_text">토목시설명</th>
-							<td><input type="text" size="50" id="prtFcltyNm" maxlength="80" /></td>
-						</tr>
-						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
-								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
+<!-- 								<input type="hidden" size="50" id="prtFcltySeNm" disabled="disabled" /> -->
 							</td>
+
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">토목시설명</th>
+							<td colspan="4"><input type="text" size="128" id="prtFcltyNm" maxlength="80" /></td>
 							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
@@ -758,6 +759,9 @@ var module_instance = new GamFcltyMngtModule();
 							<td><input type="text" size="50" id="prtFcltyUnit" maxlength="10" /></td>
 						</tr>
 						<tr>
+
+							<th width="15%" height="23" class="required_text">시설담당</th>
+							<td colspan="4"><input type="text" size="128" id="prtPrtFcltyMnger" maxlength="80"/></td>						<!--
 							<th width="15%" height="23" class="required_text">관리업체</th>
 							<td>
 								<input type="text" size="10" id="prtFcltyMngEntrpsCd" disabled="disabled"/>&nbsp; &nbsp;
@@ -765,6 +769,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th width="15%" height="23" class="required_text">관리업체명</th>
 							<td><input type="text" size="50" id="prtFcltyMngEntrpsNm" disabled="disabled"/></td>
+						 -->
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설치일자</th>
