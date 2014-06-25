@@ -295,7 +295,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		}
 			 		alert(result.resultMsg);
 			 	});
-			}
+			}Gis_Prt_Fclty_Cd
 		break;
 
 		// 삭제
@@ -509,6 +509,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 	     	 			module.clearCodePage();
 		 	     	 			module._fcltyItem=result.result;
 		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+		 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+			                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 		 	     	 		}
 		 	     	 		else {
 		 	     	 			alert(result.resultMsg);
@@ -531,6 +533,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
@@ -692,6 +696,8 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 토목시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
+					<input type="hidden" id="beforeGisPrtFcltyCd">
+          			<input type="hidden" id="beforeGisPrtFcltySeq">
 			<!--
 					<input type="hidden" id="laCrdnt" />
 					<input type="hidden" id="loCrdnt" />
@@ -740,7 +746,7 @@ var module_instance = new GamFcltyMngtModule();
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
 								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
 							</td>
-							<!-- 
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
 							 -->
