@@ -1452,11 +1452,11 @@ var module_instance = new GamAssetRentMngtModule();
                         <tr>
                             <th>항코드</th>
                             <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
                             <th>신청구분</th>
                             <td width="100px">
-                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
+                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM011" />
                             </td>
                             <th>신청업체</th>
                             <td>
@@ -1466,7 +1466,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </td>
                             <th>사용용도</th>
                             <td>
-                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM007 />
+                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />
                             </td>
                             <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
@@ -1562,7 +1562,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
+                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
                                     <input type="text" size="4" id="prtAtCodeStr" disabled/>
                                 </td>
 								<th width="10%" height="18">담당부서</th>
@@ -1616,11 +1616,11 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">납부방법</th>
                                 <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
                                 </td>
 								<th width="10%" height="18">고지방법</th>
                                 <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
 								<th width="10%" height="18">분납이자율</th>
                                 <td>
@@ -1746,7 +1746,7 @@ var module_instance = new GamAssetRentMngtModule();
                                         <option value="" selected="selected">선택</option>
                                     </select>
                                      -->
-                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id=GAM023 />
+                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM023" />
                                     <!--
                                     <input type="text" size="14" id="applcTariffStr" readonly/>
                                      -->
@@ -1782,7 +1782,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">면제사유코드</th>
                                 <td colspan="3">
-                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM017 />
+                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" />
                                     <!--
                                     <input type="text" size="15" id="exemptRsnCdStr" readonly/>
                                      -->
