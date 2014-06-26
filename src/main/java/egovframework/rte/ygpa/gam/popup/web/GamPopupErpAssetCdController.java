@@ -65,8 +65,8 @@ public class GamPopupErpAssetCdController {
     	searchVO.setBigClsCd("0401");	// 제코드구분
     	searchVO.setFirstIndex(0);
     	searchVO.setLastIndex(99);
-    	List erpAssetClsList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
-    	model.addAttribute("erpAssetClsList", erpAssetClsList);
+//    	List erpAssetClsList = erpCmmnCdService.selectErpCmmnCdList(searchVO);
+    	model.addAttribute("erpAssetClsList", null);
 
 /*
  		searchVO.setBigClsCd("0402");	// 취득구분
