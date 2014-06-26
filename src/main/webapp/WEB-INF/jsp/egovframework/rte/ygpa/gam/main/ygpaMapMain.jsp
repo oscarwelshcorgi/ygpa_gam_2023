@@ -76,36 +76,38 @@
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
 	var $DEBUG=false;
-       jQuery(document).ready(function() {
-    	   var frmwrkMenu=null;
-    	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
-    	   <c:if test="${frmwrkMenu!=null}">
-    	   	frmwrkMenu = [
-				<c:forEach items="${frmwrkMenu }" var="menuItem" varStatus="menuStatus">
-					{
-						menuNo: '<c:out value="${menuItem.menuNo }"/>',
-						menuNm: '<c:out value="${menuItem.menuNm }"/>',
-						url: '<c:out value="${menuItem.url }"/>',
-						<c:if test="${fn:contains(menuItem, 'submenu')}">
-						submenu: [
-									<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
-									{
-										menuNo: '<c:out value="${subMenu.menuNo }"/>',
-										menuNm: '<c:out value="${subMenu.menuNm }"/>',
-										url: '<c:out value="${subMenu.url }"/>',
-										progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
-									}
-									<c:if test="${!status.last}">,</c:if>
-									</c:forEach>
-						          ]
-						</c:if>
-					}
-					<c:if test="${!menuStatus.last}">,</c:if>
-				</c:forEach>
-			];
-    	   </c:if>
-    	   EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://lfitsvr.iptime.org:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-    	 });
+
+    jQuery(document).ready(function() {
+ 	   var frmwrkMenu=null;
+ 	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
+	    	<c:if test="${frmwrkMenu!=null}">
+	   	   	frmwrkMenu = [
+					<c:forEach items="${frmwrkMenu }" var="menuItem" varStatus="menuStatus">
+						{
+							menuNo: '<c:out value="${menuItem.menuNo }"/>',
+							menuNm: '<c:out value="${menuItem.menuNm }"/>',
+							url: '<c:out value="${menuItem.url }"/>',
+							<c:if test="${fn:contains(menuItem, 'submenu')}">
+							submenu: [
+										<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
+										{
+											menuNo: '<c:out value="${subMenu.menuNo }"/>',
+											menuNm: '<c:out value="${subMenu.menuNm }"/>',
+											url: '<c:out value="${subMenu.url }"/>',
+											progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
+										}
+										<c:if test="${!status.last}">,</c:if>
+										</c:forEach>
+							          ]
+							</c:if>
+						}
+						<c:if test="${!menuStatus.last}">,</c:if>
+					</c:forEach>
+				];
+	   	   </c:if>
+//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://lfitsvr.iptime.org:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+ 	 });
     </script>
   </head>
   <body>

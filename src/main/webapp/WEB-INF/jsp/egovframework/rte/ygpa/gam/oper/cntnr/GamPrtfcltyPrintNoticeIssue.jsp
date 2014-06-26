@@ -266,7 +266,7 @@ div.notice {
 	width: 4.6cm;
 	height: 0.65cm;
 	font-size: 0.4cm;
-	font-family: 굴림체;
+	font-family: OCR-B-10 BT;
 	text-align: right;
 	padding: 0.1cm;
 	text-align: right;
@@ -279,7 +279,7 @@ div.notice {
 	width: 6.8cm;
 	height: 0.8cm;
 	font-size: 0.4cm;
-	font-family: 굴림체;
+	font-family: OCR-B-10 BT;
 	text-align: left;
 	padding: 0.15cm;
  }
@@ -291,7 +291,7 @@ div.notice {
 	width: 13.2cm;
 	height: 0.4cm;
 	font-size: 0.35cm;
-	font-family: 돋움체;
+	font-family: OCR-B-1;
  }
 
  #girono {
@@ -753,8 +753,8 @@ div.notice {
   </head>
   <body>
   <c:if test="${resultCode==0 }">
-  <fmt:parseDate value='${resultList[0].nticDt}' var='nticDate' pattern="yyyy-mm-dd" scope="page"/>
-  <fmt:parseDate value='${resultList[0].payTmlmt}' var='payTmlmtDate' pattern="yyyy-mm-dd" scope="page"/>
+  <fmt:parseDate value='${resultList[0].nticDt}' var='nticDate' pattern="yyyy-MM-dd" scope="page"/>
+  <fmt:parseDate value='${resultList[0].payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">

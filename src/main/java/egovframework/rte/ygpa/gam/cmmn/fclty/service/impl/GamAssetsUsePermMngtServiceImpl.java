@@ -83,6 +83,11 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 				vo.put("blTpNum", 1);
 				gamAssetsUsePermMngtDAO.insertBillCreatePreMonth(vo);
 			}
+			else if("6".equals(assetsRent.get("nticMth"))) {
+				// 연납
+				vo.put("blTpNum", 12);
+				gamAssetsUsePermMngtDAO.insertBillCreatePreYear(vo);
+			}
 			else throw processException("fail.levinsert.type");
 		}
 		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);

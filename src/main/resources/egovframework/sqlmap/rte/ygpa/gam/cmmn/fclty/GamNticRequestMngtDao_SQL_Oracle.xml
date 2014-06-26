@@ -105,7 +105,7 @@
   </select>
 
     <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollF" parameterClass="hashMap" >
-        INSERT INTO P2MGR.REV_COLL_F@YGPA_P2MGR (
+        INSERT INTO PAYEOSU.REV_COLL_F@YGPA_P2MGR (
       PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
       AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
       BILL_DT, DUE_DATE, BILL_PRT_YN,
@@ -114,9 +114,9 @@
       UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE
       )
         SELECT
-      PRT_AT_CODE, CHRGE_KND FEE_TP, #accnutYear# FISCAL_YR, NTICNO BILL_NO,
+      PRT_AT_CODE, CHRGE_KND FEE_TP, #accnutYear# FISCAL_YR, #nticno# BILL_NO,
       ENTRPSCD, (SELECT BZ_RGST_ID FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
-      SYSDATE, PAY_TMLMT, NHT_PRINT_YN,
+      SYSDATE, TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), NHT_PRINT_YN,
       NTIC_AMT, RDCXPT_FEE, 0, 0,
 		'0',
       #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO
@@ -129,7 +129,7 @@
     </insert>
 
     <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollFC1" parameterClass="hashMap" >
-        INSERT INTO UNPAID_F@YGPA_PORTMIS (
+        INSERT INTO PAYEOSU.UNPAID_F@YGPA_PORTMIS (
       PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
       DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_RCVD_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP,
       FIRST_BILL_DT, DBILL_AMNT,
@@ -140,11 +140,11 @@
               L.PRT_AT_CODE, L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
       (SELECT LPAD(NVL(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F@YGPA_PORTMIS WHERE PRT_AT_CODE=L.PRT_AT_CODE
       	AND FEE_TP=L.CHRGE_KND AND FISCAL_YR=L.ACCNUT_YEAR AND BILL_NO=L.NTICNO) DLY_BILL_NO,
-      	L.ARRRG_AMT, SYSDATE, (SYSDATE+15) PAY_TMLMT, null, 'N', '1',
+      	L.ARRRG_AMT, SYSDATE, TO_DATE(#newPayTmlmt#, 'YYYY-MM-DD') PAY_TMLMT, null, 'N', '1',
       	L.NTIC_DT, L.ARRRG_AMT,
       	(SELECT BZ_RGST_ID FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=L.ENTRPSCD),
-      	'(' || TO_CHAR(L.NTIC_AMT, '999,999,999,999') || '*' || TO_CHAR(0.12) || '*' || TO_CHAR(43) || '/365' || ')'
-      	NULL, #updUSr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N',TO_CHAR(,'YYYYMMDD'),TO_CHAR(,'YYYYMMDD')
+      	'(' || TO_CHAR(L.NTIC_AMT, '999,999,999,999') || '*' || TO_CHAR(L.ARRRG_TARIFF, '999,999,999,999') || '*' || TO_CHAR(L.ARRRG_PAY_DATES,'9,999') || '/365' || ')',
+      	#updUSr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N',TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD'),TO_CHAR(L.NTIC_PD_TO,'YYYYMMDD')
       FROM LEV_REQEST_F L
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
@@ -153,11 +153,25 @@
       	AND NTIC_CNT=#nticCnt#
     </insert>
 
-      <select id="gamNticRequestMngtDAO.selectNticNoAccnutYear_S" parameterClass="hashMap" resultClass="egovMap">
-		SELECT LPAD(NVL(MAX(NTICNO), 0) + 1, 6, '0') NTICNO,
-		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
+    <delete id="gamNticRequestMngtDAO.removeNticRequestRevCollFC1" parameterClass="hashMap" >
+            DELETE FROM PAYEOSU.UNPAID_F@YGPA_PORTMIS WHERE FEE_TP='C1' AND (PRT_AT_CODE, FISCAL_YR, BILL_NO) IN
+     (
+     	SELECT
+              PRT_AT_CODE, ACCNUT_YEAR, NTICNO
 		FROM LEV_REQEST_F
-		WHERE PRT_AT_CODE = #prtAtCode# AND CHRGE_KND = #chrgeKnd# AND ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')
+      	WHERE PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+      	)
+    </delete>
+
+      <select id="gamNticRequestMngtDAO.selectNticNoAccnutYear_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
+		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
+		FROM PAYEOSU.REV_COLL_F@YGPA_P2MGR
+		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = #chrgeKnd# AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
 		</select>
 
 
@@ -165,7 +179,7 @@
 		SELECT BILL_NO,
 				RCVD_TP,
 		       RCVD_DT
-		FROM P2MGR.REV_COLL_F@YGPA_P2MGR
+		FROM PAYEOSU.REV_COLL_F@YGPA_P2MGR
 		WHERE PRT_AT_CODE = #prtAtCode#
 			AND FEE_TP = (SELECT MAX(DECODE(CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', CHRGE_KND)) CHRGE_KND
 									FROM LEV_REQEST_F
@@ -182,7 +196,7 @@
 		</select>
 
       <delete id="gamNticRequestMngtDAO.deleteNticRequestRevCollF">
-        DELETE P2MGR.REV_COLL_F@YGPA_P2MGR
+        DELETE PAYEOSU.REV_COLL_F@YGPA_P2MGR
 		WHERE PRT_AT_CODE = #prtAtCode#
 			AND FEE_TP = (SELECT MAX(DECODE(CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', CHRGE_KND)) CHRGE_KND
 									FROM LEV_REQEST_F
@@ -200,7 +214,7 @@
 
     <update id="gamNticRequestMngtDAO.updateLevReqestArrrgAmt" parameterClass="hashMap">
         UPDATE LEV_REQEST_F SET
-        	PAY_TMLMT=TRUNC(SYSDATE)+15,
+        	PAY_TMLMT=TO_DATE(#payTmlmt#, 'YYYY-MM-DD'),
       		ARRRG_NO=(SELECT NVL(ARRRG_NO,0)+1 FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
 		      	AND MNG_YEAR=#mngYear#
 		      	AND MNG_NO=#mngNo#
@@ -224,6 +238,9 @@
       		NHT_ISUE_YN=#nhtIsueYn#,
       		NTICNO=#nticno#,
       		ACCNUT_YEAR=#accnutYear#
+       <isNotEmpty prepend="," property="payTmlmt">
+       		PAY_TMLMT=#payTmlmt#
+     	</isNotEmpty>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
        		NTIC_DT=SYSDATE
      	</isEqual>

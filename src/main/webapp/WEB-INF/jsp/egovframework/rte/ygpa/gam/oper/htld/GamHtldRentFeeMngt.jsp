@@ -168,6 +168,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 }
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
+                	rows['payTmlmt']=this.$('#payTmlmt').val();
                     this.doAction('<c:url value="/oper/htld/insertHtldFeeNticSingle.do" />', rows, function(module, result) {
 
                         if(result.resultCode=='0') {
@@ -245,7 +246,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 	return;
                 }
 
-                this.printTaxNotice('<c:url value="/oper/htld/printHtldRentFeeTaxNotice.do" />', rows);
+                this.printTaxNotice('<c:url value="/oper/gnrl/printPrtFcltyRentFeeTaxNotice.do" />', rows);
             } else {
             	alert("목록에서 고지서를 출력 할 항목을 선택하십시오.");
             	return;
@@ -546,7 +547,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         </tr>
                         <tr>
                             <th><span class="label">납부기한일자</span></th>
-                            <td><span data-column-id="payTmlmt"></span></td>
+                            <td><input id="payTmlmt" data-column-id="payTmlmt" class="emdcal" /></td>
                         	<th><span class="label">수납구분</span></th>
                             <td colspan="3"><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
                             <th><span class="label">수납일자</span></th>

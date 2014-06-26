@@ -23,7 +23,7 @@
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
   <c:if test="${resultCode==0 }">
-    <meta http-equiv="refresh" content="0; url=http://192.168.0.32/jsp/call/UcheckSancData.jsp?T=<c:out value="${tNo}"/>&E=<c:out value="${emplyrNo}"/>" />
+    <meta http-equiv="refresh" content="0; url=http://192.168.0.32/jsp/GAM/UcheckSancData.jsp?T=<c:out value="${tNo}"/>&E=<c:out value="${emplyrNo}"/>" />
     </c:if>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">

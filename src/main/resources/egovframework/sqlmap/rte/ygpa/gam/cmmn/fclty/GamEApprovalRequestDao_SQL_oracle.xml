@@ -89,7 +89,7 @@
     </select>
 
     <insert id="gamEApprovalRequestDAO.sendEApprovalAssetUsePermRequest_S">
-        INSERT INTO GWCALL_FWD_IF (
+        INSERT INTO GWCALL.GWCALL_FWD_IF (
             T_NO,
             EMP_CD,
 			SYS_ID,
@@ -121,7 +121,7 @@
     </insert>
 
     <insert id="gamEApprovalRequestDAO.sendEApprovalAssetNticIssueRequest_S">
-        INSERT INTO GWCALL_FWD_IF (
+        INSERT INTO GWCALL.GWCALL_FWD_IF (
             T_NO,
             EMP_CD,
 			SYS_ID,

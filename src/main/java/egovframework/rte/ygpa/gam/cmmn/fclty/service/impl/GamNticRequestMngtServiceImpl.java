@@ -144,6 +144,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 //			vo.put("arrrgAmt", +1);
 //		}
 		gamNticRequestMngtDAO.updateLevReqestArrrgAmt(vo);
+		gamNticRequestMngtDAO.removeNticRequestRevCollFC1(vo);
 		gamNticRequestMngtDAO.insertNticRequestRevCollFC1(vo);
 	}
 

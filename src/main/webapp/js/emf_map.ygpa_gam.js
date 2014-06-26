@@ -514,10 +514,10 @@ var EMD = function($, window, document, undefined) {
     for (var i in EMD.init) {
       EMD.init[i]();
     }
-  }, _frmwrkMenu:null, context_root:"", map_base_url:"", gis_engine_url:"", serverUrl:"", vworldKey:"", window_seq:0, win_x:80, win_y:40, drag_handle:null, dragging:false, drag_ui:null, userinfo:null, popupCaller:null, popupId:null, popupParams:null, map:null, map_state:null, map_value:null, map_callback:null, gyhmap:null, wfs:null, lotarea:null, lotareaProtocol:null, panel:null, controls:{measureDist:null, measureArea:null}, draw:null, edit:null, edit_win:null, del:null, info:null, save:null, cancel:null, 
-  saveStrategy:null, transaction:{type:null, callbackWindowId:null}, map_panel:null, userLayer:{landCode:null, prtFclty:null, gisAssetsCd:null, assetRent:null, assetRentDetail:null, assetRentStats:null, gnrlRentStats:null, cntrRentStats:null, htldRentStats:null, ccntRentStats:null, trnpRentStats:null, portArea:null, quayGroup:null, quayCd:null, berthCd:null, constructCd:null, fcltyConstMarker:null, fcltySocMarker:null, fcltyMechMarker:null, fcltyInfoTeleMarker:null, fcltyElecPowerMarker:null}, userStyle:{assetCdStyle:{"default":null, 
-  "useSttus":null, "notUsgArea":null, "feeSttus":null, "reqSttus":null, "evlDtls":null}, assetRentStyle:{"default":null, "useSttus":null}, assetRentDetailStyle:{"default":null, "useSttus":null}, quayStyle:{"default":null, "useSttus":null, "notUsgArea":null, "feeSttus":null, "reqSttus":null}}, popup:{prtFcltyInfo:null, lotAreaInfo:null}, popupMenu:{}, layerDisplay:{}, userFunc:{}, startLogLotarea:false, lotareaStackCnt:0, lotareaFeatures:[], protocols:{prtFclty:null, landCode:null, gisAssetsCd:null, 
-  assetRent:null, assetRentDetail:null}, filters:{assetRent:null}, strategies:{assetRent:null, assetRentStats:null, gnrlRentStats:null, htldRentStats:null, cntrRentStats:null, ccntRentStats:null, trnpRentStats:null}, selectControl:null, selectInfoControl:null, dragFeature:null, maxBounds:new OpenLayers.Bounds(-3E4, -6E4, 494288, 988576), maxRes:0.0439453125, maxZoom:14, module_instance:[], init:{frame_breaker:function() {
+  }, _frmwrkMenu:null, context_root:"", map_base_url:"", gis_engine_url:"", serverUrl:"", vworldKey:"", window_seq:0, loadAtStartWindow:[], win_x:80, win_y:40, drag_handle:null, dragging:false, drag_ui:null, userinfo:null, popupCaller:null, popupId:null, popupParams:null, map:null, map_state:null, map_value:null, map_callback:null, gyhmap:null, wfs:null, lotarea:null, lotareaProtocol:null, panel:null, controls:{measureDist:null, measureArea:null}, draw:null, edit:null, edit_win:null, del:null, info:null, 
+  save:null, cancel:null, saveStrategy:null, transaction:{type:null, callbackWindowId:null}, map_panel:null, userLayer:{landCode:null, prtFclty:null, gisAssetsCd:null, assetRent:null, assetRentDetail:null, assetRentStats:null, gnrlRentStats:null, cntrRentStats:null, htldRentStats:null, ccntRentStats:null, trnpRentStats:null, portArea:null, quayGroup:null, quayCd:null, berthCd:null, constructCd:null, fcltyConstMarker:null, fcltySocMarker:null, fcltyMechMarker:null, fcltyInfoTeleMarker:null, fcltyElecPowerMarker:null}, 
+  userStyle:{assetCdStyle:{"default":null, "useSttus":null, "notUsgArea":null, "feeSttus":null, "reqSttus":null, "evlDtls":null}, assetRentStyle:{"default":null, "useSttus":null}, assetRentDetailStyle:{"default":null, "useSttus":null}, quayStyle:{"default":null, "useSttus":null, "notUsgArea":null, "feeSttus":null, "reqSttus":null}}, popup:{prtFcltyInfo:null, lotAreaInfo:null}, popupMenu:{}, layerDisplay:{}, userFunc:{}, startLogLotarea:false, lotareaStackCnt:0, lotareaFeatures:[], protocols:{prtFclty:null, 
+  landCode:null, gisAssetsCd:null, assetRent:null, assetRentDetail:null}, filters:{assetRent:null}, strategies:{assetRent:null, assetRentStats:null, gnrlRentStats:null, htldRentStats:null, cntrRentStats:null, ccntRentStats:null, trnpRentStats:null}, selectControl:null, selectInfoControl:null, dragFeature:null, maxBounds:new OpenLayers.Bounds(-3E4, -6E4, 494288, 988576), maxRes:0.0439453125, maxZoom:14, module_instance:[], init:{frame_breaker:function() {
     if (window.location !== window.top.location) {
       window.top.location = window.location;
     }
@@ -544,9 +544,7 @@ var EMD = function($, window, document, undefined) {
           case "2100000":
             var sub = mnu[i].submenu;
             if (sub instanceof Array) {
-              for (var j = 0;j < sub.length;j++) {
-                EMD.util.create_window(sub[j].menuNm, EMD.context_root + sub[j].url, null, {action:"loadStart"});
-              }
+              EMD.loadAtStartWindow = sub;
             }
             break;
           case "2200000":
@@ -1754,6 +1752,9 @@ var EMD = function($, window, document, undefined) {
     $("#xlsfileupload").fileupload({autoUpload:true});
     $("#xlsfileupload").fileupload("option", "redirect", window.location.href.replace(/\/[^\/]*$/, "/cors/result.html?%s"));
   }, loadCompleteWindow:function() {
+    for (var j = 0;j < EMD.loadAtStartWindow.length;j++) {
+      EMD.util.create_window(EMD.loadAtStartWindow[j].menuNm, EMD.context_root + EMD.loadAtStartWindow[j].url, null, {action:"loadStart"});
+    }
   }}, closeWindow:function(win) {
     var dock_id = "#" + win.attr("id").replace("window", "dock");
     $("#" + win.attr("id")).hide("scale", {percent:0}, 800, function() {
@@ -2935,9 +2936,13 @@ var EMD = function($, window, document, undefined) {
   }, getLoginUserVO:function() {
     return EMD.userinfo;
   }, showProgress:function() {
-    $("#progress_dialog").dialog("open");
+    if (!$("#progress_dialog").dialog("isOpen")) {
+      $("#progress_dialog").dialog("open");
+    }
   }, hideProgress:function() {
-    $("#progress_dialog").dialog("close");
+    if ($("#progress_dialog").dialog("isOpen")) {
+      $("#progress_dialog").dialog("close");
+    }
   }, clear_active:function() {
     $("a.active, tr.active").removeClass("active");
     $("ul.menu").hide();
@@ -4419,7 +4424,7 @@ EmdModule.prototype.requestEApproval = function(params, retfunc) {
   $(form).append(type);
   $(form).attr("action", EMD.context_root + "/cmmn/fclty/openApprovalRequest.do");
   $("#__tempDiv").append(form);
-  var win = window.open("", "Window", "width=300, height=400, menubar=no,status=yes,scrollbars=no");
+  var win = window.open("", "Window", "width=1024, height=768, menubar=no,status=yes,scrollbars=no");
   var module = this;
   form.target = "Window";
   form.submit();

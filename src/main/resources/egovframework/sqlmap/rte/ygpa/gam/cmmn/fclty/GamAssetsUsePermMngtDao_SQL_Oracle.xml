@@ -112,9 +112,18 @@
 		  'N',
 		  MAX(PFUD.OLNLP),
 		  MAX(AR.GR_FEE),
-		  MAX(AR.GR_FEE)/10,
-		  'Y',
-		  TRUNC(MAX(AR.GR_FEE) + (MAX(AR.GR_FEE) / 10), -1),
+		  case
+		  when MAX(AR.TAXT_SE)='2' THEN trunc(MAX(AR.GR_FEE)/10, -1)
+		  else 0
+		  END,
+		  case
+		  when MAX(AR.TAXT_SE)='2' THEN 'Y'
+		  else 'N'
+		  END,
+		  case
+		  when MAX(AR.TAXT_SE)='2' THEN MAX(AR.GR_FEE)+trunc(MAX(AR.GR_FEE)/10, -1)
+		  else MAX(AR.GR_FEE)
+		  END,
 		  MAX(AR.RM),
 		  MAX(AR.NTIC_MTH), #regUsr#, SYSDATE
 		FROM   ASSETS_RENT_F AR, ASSETS_RENT_DETAIL_F PFUD, ENTRPS_INFO_F EI

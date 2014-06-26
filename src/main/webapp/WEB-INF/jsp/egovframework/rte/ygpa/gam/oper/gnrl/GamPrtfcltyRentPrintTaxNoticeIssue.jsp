@@ -10,7 +10,7 @@
 <%
   /**
   * @Class Name : GamAssetRentPrintNoticeIssue.jsp
-  * @Description : 고지서 출력 화면
+  * @Description : 세금계산서 출력 화면
   * @Modification Information
   *
   *   수정일         수정자                   수정내용

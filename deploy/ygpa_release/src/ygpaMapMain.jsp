@@ -88,6 +88,7 @@
 											menuNo: '<c:out value="${subMenu.menuNo }"/>',
 											menuNm: '<c:out value="${subMenu.menuNm }"/>',
 											url: '<c:out value="${subMenu.url }"/>',
+											progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
 										}
 										<c:if test="${!status.last}">,</c:if>
 										</c:forEach>

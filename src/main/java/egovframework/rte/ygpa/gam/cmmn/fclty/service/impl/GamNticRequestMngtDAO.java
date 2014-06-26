@@ -68,6 +68,10 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	public String insertNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
         return (String)insert("gamNticRequestMngtDAO.insertNticRequestRevCollFC1", vo);
     }
+
+	public String removeNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamNticRequestMngtDAO.removeNticRequestRevCollFC1", vo);
+    }
 	/**
 	 * 고지 취소 정보를 전송한다.
 	 */

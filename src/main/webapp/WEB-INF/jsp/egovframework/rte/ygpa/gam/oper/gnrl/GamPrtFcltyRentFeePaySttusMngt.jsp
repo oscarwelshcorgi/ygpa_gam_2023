@@ -133,6 +133,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	var arrrgRate=this.$('#arrrgRate').val();
 	var applyPayDates=this.$('#applyPayDates').val();
 	var arrrgAmt=this.$('#arrrgAmt').number(true).val();
+	var newPayTmlmt=this.$('#newPayTmlmt').val();
 
 	var nticDetail = [
 	               { name: 'prtAtCode', value: row.prtAtCode},
@@ -141,6 +142,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt },
 	               { name: 'arrrgTariff', value: arrrgRate },
+	               { name: 'newPayTmlmt', value: newPayTmlmt },
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
 	             ];
@@ -198,10 +200,10 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 			alert(result.resultMsg);
 		}
 	});
-	 
+
 	//change**
-	// tabs3 -- 연체목록을 채운다 
-	
+	// tabs3 -- 연체목록을 채운다
+
 	var dlyList = [
 	               { name: 'prtAtCode', value: row.prtAtCode},
 	               { name: 'chrgeKnd', value: row.chrgeKnd },
@@ -210,13 +212,13 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	             ];
 	this.doAction('<c:url value="/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtDlyList.do" />', dlyList, function(module, result) {
 		if (result.resultCode == "0") {
-			
+
 			module.makeMultiDivValues('#prtFcltyRentFeePaySttusMngtListForm',result.resultList , function(row) {
 			} );	// 리스트 값을 채운다
 
 			module.makeDivValues('#prtFcltyRentFeePaySttusMngtSum', result.resultSummary); // 결과값을 채운다.
 
-			
+
 		} else {
 			alert(result.resultMsg);
 		}
@@ -345,7 +347,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                 <!-- change** -->
                 <li><a href="#tabs3" class="emdTab">항만시설사용료연체현황 목록</a></li>
             </ul>
-			
+
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="prtFcltyRentFeePaySttusMngtList" style="display:none" class="fillHeight"></table>
                 <div id="prtFcltyRentFeePaySttusMngtListSum" class="emdControlPanel">
@@ -506,7 +508,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                         </tr>
                     </table>
 			</div>
-			<!-- change** --> 
+			<!-- change** -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
