@@ -904,6 +904,12 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">전기방식</th>
 							<td><input type="text" size="50" id="info11" maxlength="40" /></td>
 						</tr>
+						<tr style="display: none;">
+							<th width="15%" height="23" class="required_text">위도좌표</th>
+							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
+							<th width="15%" height="23" class="required_text">경도좌표</th>
+							<td><input id="loCrdnt" type="text" size="50" disabled="disabled" /></td>
+						</tr>
 					</table>
 				</form>
 				<div class="emdControlPanel">

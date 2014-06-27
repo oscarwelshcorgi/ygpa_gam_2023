@@ -845,6 +845,12 @@ var module_instance = new GamFcltyMngtModule();
               <th width="15%" height="23" class="required_text">만료일자</th>
               <td><input id="prtFcltyExprDt" type="text" class="emdcal" size="20" title="만료일자" readonly="readonly"/></td>
             </tr>
+            <tr style="display: none;">
+							<th width="15%" height="23" class="required_text">위도좌표</th>
+							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
+							<th width="15%" height="23" class="required_text">경도좌표</th>
+							<td><input id="loCrdnt" type="text" size="50" disabled="disabled" /></td>
+			</tr>
           </table>
         </form>
         <div class="emdControlPanel">
