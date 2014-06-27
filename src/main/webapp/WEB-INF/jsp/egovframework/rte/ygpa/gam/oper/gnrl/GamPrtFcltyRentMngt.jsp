@@ -1760,7 +1760,7 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">분납이자율</th>
                                 <td>
                                     <input type="text" size="19" id="payinstIntrrate" maxlength="4"/>
-                                    <select id="">
+                                    <select id="cofixList">
                                         <option value="">선택</option>
                                         <c:forEach items="${cofixList}" var="cofixListItem">
                                             <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>

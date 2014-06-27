@@ -25,7 +25,7 @@
  */
 function GamPopupPrtOperRentModule() {} GamPopupPrtOperRentModule
 
-GamPopupPrtOperRentModule.prototype = new EmdPopupModule(320, 100);
+GamPopupPrtOperRentModule.prototype = new EmdPopupModule(360, 100);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupPrtOperRentModule.prototype.loadComplete = function() {
@@ -42,18 +42,18 @@ GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
             alert("요금종류를 선택하십시오.");
             return;
         }
-		
+
 		if( confirm("승낙 하시겠습니까?") ) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
-	        
-	        //this.doAction('<c:url value="/oper/train/gamInsertTrainPortRentMngtPrmisn.do" />', inputVO, function(module, result) {   
-	        this.doAction('<c:url value="/oper/train/gamUpdateTrainPortRentMngtPrmisn.do" />', inputVO, function(module, result) {   
+
+	        //this.doAction('<c:url value="/oper/train/gamInsertTrainPortRentMngtPrmisn.do" />', inputVO, function(module, result) {
+	        this.doAction('<c:url value="/oper/train/gamUpdateTrainPortRentMngtPrmisn.do" />', inputVO, function(module, result) {
 	            alert(result.resultMsg);
-	            
+
 	            module.closeDialog('ok', result.resultCode);
 	        });
 	    }
-		
+
 		break;
 	case 'cancel':
 		this.cancelDialog();
@@ -92,9 +92,9 @@ var popup_instance = new GamPopupPrtOperRentModule();
                                 <c:forEach  items="${chrgeKndCdList}" var="chrgeKndCdItem">
 	                                <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
 	                            </c:forEach>
-                            </select>  
+                            </select>
                         </td>
-                        <!-- 
+                        <!--
                         <th>부가세 여부</th>
                         <td>
                             <select id="vatYn">
