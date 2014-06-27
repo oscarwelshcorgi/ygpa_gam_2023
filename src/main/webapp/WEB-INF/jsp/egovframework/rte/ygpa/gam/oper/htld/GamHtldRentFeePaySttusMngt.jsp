@@ -133,6 +133,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	var arrrgRate=this.$('#arrrgRate').val();
 	var applyPayDates=this.$('#applyPayDates').val();
 	var arrrgAmt=this.$('#arrrgAmt').number(true).val();
+	var newPayTmlmt=this.$('#newPayTmlmt').val();
 
 	var nticDetail = [
 	               { name: 'prtAtCode', value: row.prtAtCode},
@@ -141,10 +142,11 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt },
 	               { name: 'arrrgTariff', value: arrrgRate },
+	               { name: 'newPayTmlmt', value: newPayTmlmt },
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
 	             ];
-	 	this.doAction('<c:url value="/oper/htld/insertNticArrrg.do" />', nticDetail, function(module, result) {
+	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 		} else {
 		}
@@ -197,9 +199,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 			alert(result.resultMsg);
 		}
 	});
-	 	
-	 // tabs3 -- 연체목록을 채운다 
-		
+
+	 // tabs3 -- 연체목록을 채운다
+
 		var dlyList = [
 		               { name: 'prtAtCode', value: row.prtAtCode},
 		               { name: 'chrgeKnd', value: row.chrgeKnd },
@@ -208,13 +210,13 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 		             ];
 		this.doAction('<c:url value="/oper/gnrl/selectHtldRentFeePaySttusMngtDlyList.do" />', dlyList, function(module, result) {
 			if (result.resultCode == "0") {
-				
+
 				module.makeMultiDivValues('#htldRentFeePaySttusMngtListForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
 
 				module.makeDivValues('#htldRentFeePaySttusMngtSum', result.resultSummary); // 결과값을 채운다.
 
-				
+
 			} else {
 				alert(result.resultMsg);
 			}
@@ -440,7 +442,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                         </tr>
                     </table>
                     </form>
-                    <!-- 
+                    <!--
 	                  <div class="emdControlPanel" style="vertical-align: middle;">
 						<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
 					</div>

@@ -20,7 +20,7 @@
         <result property="sumFeeD2" column="SUM_FEE_D2" columnIndex="12"/>
         <result property="sumPayAmt" column="SUM_PAY_AMT" columnIndex="13"/>
    </resultMap>
-    
+
    <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtList_D" parameterClass="gamCntnrQuayRentFeePaySttusMngtVO" resultClass="egovMap">
     	SELECT Z.* FROM (
            SELECT ROWNUM RNUM, A.*
@@ -149,7 +149,7 @@
 							   <isNotEmpty property="rcivSe">
 							   	AND L.RCIV_SE = #rcivSe#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sChrgeKnd">
 							   	AND L.CHRGE_KND = #sChrgeKnd#
 							   </isNotEmpty>
@@ -220,7 +220,7 @@
 							   <isNotEmpty property="rcivSe">
 							   	AND L.RCIV_SE = #rcivSe#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sChrgeKnd">
 							   	AND L.CHRGE_KND = #sChrgeKnd#
 							   </isNotEmpty>
@@ -271,7 +271,7 @@
 							   <isNotEmpty property="rcivSe">
 							   	AND L.RCIV_SE = #rcivSe#
 							   </isNotEmpty>
-							   
+
 							   <isNotEmpty property="sChrgeKnd">
 							   	AND L.CHRGE_KND = #sChrgeKnd#
 							   </isNotEmpty>
@@ -490,7 +490,7 @@
                A.ORIGIN_FEE_TP,
                A.ORIGIN_FISCAL_YR,
                A.ORIGIN_BILL_NO
-    FROM REV_COLL_F@YGPA_PORTMIS A, ASSETS_RENT_F AR,
+    FROM PAYEOSU.REV_COLL_F@YGPA_PORTMIS A, ASSETS_RENT_F AR,
       LEV_REQEST_F L
     WHERE A.PRT_AT_CODE = #prtAtCode#
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
@@ -588,7 +588,7 @@
                A.ORIGIN_FEE_TP,
                A.ORIGIN_FISCAL_YR,
                A.ORIGIN_BILL_NO
-    FROM REV_COLL_F@YGPA_PORTMIS A, ASSETS_RENT_F AR,
+    FROM PAYEOSU.REV_COLL_F@YGPA_PORTMIS A, ASSETS_RENT_F AR,
       LEV_REQEST_F L
     WHERE A.PRT_AT_CODE   = L.PRT_AT_CODE
     AND A.FEE_TP        = L.CHRGE_KND
@@ -615,7 +615,7 @@
 
     <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S" parameterClass="gamCntnrQuayRentArrrgMngtVO" resultClass="int">
           SELECT COUNT(*) totcnt
-				FROM   REV_COLL_F@YGPA_PORTMIS A, ASSETS_RENT_F AR, LEV_REQEST_F L
+				FROM   PAYEOSU.REV_COLL_F@YGPA_PORTMIS A, ASSETS_RENT_F AR, LEV_REQEST_F L
         WHERE A.PRT_AT_CODE   = #prtAtCode#
           AND A.PRT_AT_CODE = L.PRT_AT_CODE
           AND A.FEE_TP = L.CHRGE_KND
@@ -670,17 +670,17 @@
 	<update id="gamCntnrQuayRentFeePaySttusMngtDao.updateCntnrQuayRentFeePaySttusMngtList">
        	<![CDATA[
 			UPDATE LEV_REQEST_F L
-			SET RCIV_DT=(SELECT RCVD_DT FROM REV_COLL_F@YGPA_PORTMIS R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			SET RCIV_DT=(SELECT RCVD_DT FROM PAYEOSU.REV_COLL_F@YGPA_PORTMIS R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
 			  AND L.CHRGE_KND    =R.FEE_TP
 			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
 			  AND L.NTICNO       =R.BILL_NO),
-			  RCIV_SE  =(SELECT RCVD_TP FROM REV_COLL_F@YGPA_PORTMIS R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  RCIV_SE  =(SELECT RCVD_TP FROM PAYEOSU.REV_COLL_F@YGPA_PORTMIS R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
 			  AND L.CHRGE_KND    =R.FEE_TP
 			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
 			  AND L.NTICNO       =R.BILL_NO)
 			WHERE EXISTS
 			  (SELECT 1
-			  FROM REV_COLL_F@YGPA_PORTMIS R
+			  FROM PAYEOSU.REV_COLL_F@YGPA_PORTMIS R
 			  WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
 			  AND L.CHRGE_KND    =R.FEE_TP
 			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
@@ -694,16 +694,16 @@
     <insert id="gamCntnrQuayRentFeePaySttusMngtDao.insertUnpaidArrrg_S" parameterClass="hashMap">
 
     </insert>
-    
-    
+
+
     <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyList_D" parameterClass="GamCntnrQuayRentFeePaySttusMngtVO" resultClass="egovMap">
-			SELECT A.* 
-				  FROM 
-				       (SELECT Z.*, 
-				              ROWNUM AS RNUM 
-				         FROM 
+			SELECT A.*
+				  FROM
+				       (SELECT Z.*,
+				              ROWNUM AS RNUM
+				         FROM
 				              (
-								SELECT 
+								SELECT
 									T1.PRT_AT_CODE
 									,T1.FEE_TP
 									,T1.FISCAL_YR
@@ -725,129 +725,129 @@
 									,T4.PRT_KOR_NM
 									,T3.FEE_TP_KOR_NM
 									,T2.FIRM_KOR_NM
-								FROM 
+								FROM
 									PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
-								LEFT OUTER JOIN 
-									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
-								ON 
+								LEFT OUTER JOIN
+									P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
+								ON
 									(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
-								LEFT OUTER JOIN 
-									PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
-								ON 
+								LEFT OUTER JOIN
+									PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3
+								ON
 									(
-									T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+									T1.PRT_AT_CODE=T3.PRT_AT_CODE
 									AND T1.FEE_TP=T3.FEE_TP
 									)
-								LEFT OUTER JOIN 
-									P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
-								ON 
+								LEFT OUTER JOIN
+									P2MGR.SHP_OWOP_F@YGPA_P2MGR T2
+								ON
 									(T1.AGENT_CODE=T2.AGENT_CODE)
-								WHERE 1=1 
-								
+								WHERE 1=1
+
 									<isNotEmpty property="prtAtCode">
 					                    AND T1.PRT_AT_CODE = #prtAtCode#
 					                </isNotEmpty>
-					                
+
 					                <isNotEmpty property="chrgeKnd">
 					                    AND T1.FEE_TP = #chrgeKnd#
 					                </isNotEmpty>
-					                
+
 					                <isNotEmpty property="accnutYear">
 					                    AND T1.FISCAL_YR = #accnutYear#
 					                </isNotEmpty>
-					                
+
 					                <isNotEmpty property="nticno">
 					                    AND T1.BILL_NO = #nticno#
 					                </isNotEmpty>
-									
-								ORDER BY 
+
+								ORDER BY
 									T1.DLY_BILL_DT
-				              )Z 
+				              )Z
 				       )A
-				       
+
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
-    
+
+
     <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyListTotCnt_S" parameterClass="GamCntnrQuayRentFeePaySttusMngtVO" resultClass="int">
-    
+
             SELECT COUNT(*) totcnt
-				FROM 
+				FROM
 					PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
-				LEFT OUTER JOIN 
-					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
-				ON 
+				LEFT OUTER JOIN
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
+				ON
 					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
-				LEFT OUTER JOIN 
-					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
-				ON 
+				LEFT OUTER JOIN
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3
+				ON
 					(
-					T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+					T1.PRT_AT_CODE=T3.PRT_AT_CODE
 					AND T1.FEE_TP=T3.FEE_TP
 					)
-				LEFT OUTER JOIN 
-					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
-				ON 
+				LEFT OUTER JOIN
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2
+				ON
 					(T1.AGENT_CODE=T2.AGENT_CODE)
-				WHERE 1=1 
-				
+				WHERE 1=1
+
 					<isNotEmpty property="prtAtCode">
 	                    AND T1.PRT_AT_CODE = #prtAtCode#
 	                </isNotEmpty>
-	                
+
 	                <isNotEmpty property="chrgeKnd">
 	                    AND T1.FEE_TP = #chrgeKnd#
 	                </isNotEmpty>
-	                
+
 	                <isNotEmpty property="accnutYear">
 	                    AND T1.FISCAL_YR = #accnutYear#
 	                </isNotEmpty>
-	                
+
 	                <isNotEmpty property="nticno">
 	                    AND T1.BILL_NO = #nticno#
 	                </isNotEmpty>
 
     </select>
-    
-    
+
+
     <select id="gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyListSum_D" parameterClass="GamCntnrQuayRentFeePaySttusMngtVO" resultClass="egovMap">
-            SELECT 
-            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT 
-            	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT 
-			FROM 
+            SELECT
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT
+            	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT
+			FROM
 					PAYEOSU.UNPAID_F@YGPA_PORTMIS T1
-				LEFT OUTER JOIN 
-					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4 
-				ON 
+				LEFT OUTER JOIN
+					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
+				ON
 					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
-				LEFT OUTER JOIN 
-					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3 
-				ON 
+				LEFT OUTER JOIN
+					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3
+				ON
 					(
-					T1.PRT_AT_CODE=T3.PRT_AT_CODE 
+					T1.PRT_AT_CODE=T3.PRT_AT_CODE
 					AND T1.FEE_TP=T3.FEE_TP
 					)
-				LEFT OUTER JOIN 
-					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2 
-				ON 
+				LEFT OUTER JOIN
+					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2
+				ON
 					(T1.AGENT_CODE=T2.AGENT_CODE)
-				WHERE 1=1 
-				
+				WHERE 1=1
+
 					<isNotEmpty property="prtAtCode">
 	                    AND T1.PRT_AT_CODE = #prtAtCode#
 	                </isNotEmpty>
-	                
+
 	                <isNotEmpty property="chrgeKnd">
 	                    AND T1.FEE_TP = #chrgeKnd#
 	                </isNotEmpty>
-	                
+
 	                <isNotEmpty property="accnutYear">
 	                    AND T1.FISCAL_YR = #accnutYear#
 	                </isNotEmpty>
-	                
+
 	                <isNotEmpty property="nticno">
 	                    AND T1.BILL_NO = #nticno#
 	                </isNotEmpty>
     </select>
- 
+
 </sqlMap>

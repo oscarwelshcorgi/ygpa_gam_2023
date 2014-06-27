@@ -472,7 +472,7 @@
 		AND    MNG_CNT      = #mngCnt#
     </update>
 
-    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtInfo_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtInfoMap"> 
+    <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtInfo_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtInfoMap">
         SELECT
                  L.NTIC_CNT
                , L.FCLTY_SE
@@ -521,7 +521,7 @@
            AND L.MNG_CNT     = #mngCnt#
     </select>
 
-    <select id="gamPrtFcltyRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int"> 
+    <select id="gamPrtFcltyRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="int">
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
          WHERE 1=1
@@ -1043,7 +1043,7 @@
 			      AND A.MNG_YEAR      = L.MNG_YEAR
 			      AND A.MNG_NO        = L.MNG_NO
 			      AND A.MNG_CNT       = L.MNG_CNT
-			      AND A.QUAY_GROUP_CD = 'G'
+			      <!-- AND A.QUAY_GROUP_CD = 'G' -->
 			      AND L.PRT_AT_CODE   = #prtAtCode#
 			      AND L.MNG_YEAR      = #mngYear#
 			      AND L.MNG_NO        = #mngNo#

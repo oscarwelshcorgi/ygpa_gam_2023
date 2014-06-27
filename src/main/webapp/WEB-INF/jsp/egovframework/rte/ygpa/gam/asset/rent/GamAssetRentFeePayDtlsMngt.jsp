@@ -138,6 +138,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.nticArrrgSingle = function() {
 	var arrrgRate=this.$('#arrrgRate').val();
 	var applyPayDates=this.$('#applyPayDates').val();
 	var arrrgAmt=this.$('#arrrgAmt').number(true).val();
+	var newPayTmlmt=this.$('#newPayTmlmt').val();
 
 	var nticDetail = [
 	               { name: 'prtAtCode', value: row.prtAtCode},
@@ -146,10 +147,11 @@ GamAssetRentFeePayDtlsMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt },
 	               { name: 'arrrgTariff', value: arrrgRate },
+	               { name: 'newPayTmlmt', value: newPayTmlmt },
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
 	             ];
-	 	this.doAction('<c:url value="/asset/rent/insertNticArrrg.do" />', nticDetail, function(module, result) {
+	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 		} else {
 		}

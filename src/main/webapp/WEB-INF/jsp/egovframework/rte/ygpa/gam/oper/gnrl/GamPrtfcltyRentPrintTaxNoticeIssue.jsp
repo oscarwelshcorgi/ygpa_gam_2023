@@ -496,7 +496,7 @@ else System.out.println( "=============vatAmount is null : "+pageContext.getAttr
 			                <td class="cborder" style="border-top-style:none"><c:if test="${result.fee!=0}"><fmt:formatDate value="${nticDate}" pattern="dd"/></c:if></td>
 			                <td class="cborder" style="border-top-style:none"><c:out value="${result.chrgeKndNm}"/></td>
 			                <td class="cborder" style="border-top-style:none"><c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></td>
-			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.grAr}" /></c:if></td>
+			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.fee!=0}">1</c:if></td>
 			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeAmount}" /></c:if></td>
 			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeAmount}" /></c:if></td>
 			                <td class="cborder" style="border-top-style:none; text-align:right; padding-right: 2px">&nbsp;<c:if test="${result.totalNticAmount!=0}"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vatAmount}" /></c:if></td>

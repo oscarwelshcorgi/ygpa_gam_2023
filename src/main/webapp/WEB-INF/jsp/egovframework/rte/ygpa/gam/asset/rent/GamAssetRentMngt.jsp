@@ -1163,7 +1163,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             else {
                 this.$('#assetRentDetailList').flexAddRow(this._editData);
             }
-			EMD.gis.setAssetRentDetailFeature(this, this._editData);
+			//EMD.gis.setAssetRentDetailFeature(this, this._editData);
 
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this._editData=null;       // 적용 이후 데이터 추가나 삭제 가 되지 않도록 편집 데이터를 제거 함/ 2014-03-11 추가

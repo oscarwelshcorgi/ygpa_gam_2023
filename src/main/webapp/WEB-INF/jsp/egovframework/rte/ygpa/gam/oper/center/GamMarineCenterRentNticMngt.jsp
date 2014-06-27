@@ -134,6 +134,7 @@ GamMarineCenterRentNticMngtModule.prototype.nticArrrgSingle = function() {
 	var arrrgRate=this.$('#arrrgRate').val();
 	var applyPayDates=this.$('#applyPayDates').val();
 	var arrrgAmt=this.$('#arrrgAmt').number(true).val();
+	var newPayTmlmt=this.$('#newPayTmlmt').val();
 
 	var nticDetail = [
 	               { name: 'prtAtCode', value: row.prtAtCode},
@@ -142,10 +143,11 @@ GamMarineCenterRentNticMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'mngCnt', value: row.mngCnt },
 	               { name: 'nticCnt', value: row.nticCnt },
 	               { name: 'arrrgTariff', value: arrrgRate },
+	               { name: 'newPayTmlmt', value: newPayTmlmt },
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
 	             ];
-	 	this.doAction('<c:url value="/oper/center/insertNticArrrg.do" />', nticDetail, function(module, result) {
+	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 		} else {
 		}
@@ -198,8 +200,8 @@ GamMarineCenterRentNticMngtModule.prototype.loadDetailPage = function() {
 			alert(result.resultMsg);
 		}
 	});
-		// tabs3 -- 연체목록을 채운다 
-		
+		// tabs3 -- 연체목록을 채운다
+
 		var dlyList = [
 		               { name: 'prtAtCode', value: row.prtAtCode},
 		               { name: 'chrgeKnd', value: row.chrgeKnd },
@@ -208,13 +210,13 @@ GamMarineCenterRentNticMngtModule.prototype.loadDetailPage = function() {
 		             ];
 		this.doAction('<c:url value="/oper/center/selectMarineCenterRentNticMngtDlyList.do" />', dlyList, function(module, result) {
 			if (result.resultCode == "0") {
-				
+
 				module.makeMultiDivValues('#marineCenterRentRentNticMngtListForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
 
 				module.makeDivValues('#marineCenterRentNticMngtSum', result.resultSummary); // 결과값을 채운다.
 
-				
+
 			} else {
 				alert(result.resultMsg);
 			}
@@ -338,7 +340,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
             <ul>
                 <li><a href="#tabs1" class="emdTab">마린센터임대료납부현황 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">마린센터임대료납부현황 상세</a></li>
-                <li><a href="#tabs3" class="emdTab">마린센터임대료연체현황 목록</a></li> 
+                <li><a href="#tabs3" class="emdTab">마린센터임대료연체현황 목록</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
@@ -440,7 +442,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
                         </tr>
                     </table>
                     </form>
-                    <!-- 
+                    <!--
 	                  <div class="emdControlPanel" style="vertical-align: middle;">
 						<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
 					</div>
