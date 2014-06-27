@@ -228,7 +228,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
         module._editData['feature']=null;	// 2014.06.23
-        module.selectAssetRentDetail(module._editData, module._editData.feature);	// 2014.06.23
+        //module.selectAssetRentDetail(module._editData, module._editData.feature);	// 2014.06.23
     });
 
     this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -1399,10 +1399,10 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this._editData['gisAssetsCd']=value.gisAssetsCd;
              this._editData['gisAssetsSubCd']=value.gisAssetsSubCd;
 
-             EMD.gis.selectAssetCdToAssetRentDetailFeature(this, this._editData, function(module, a) {
+/*              EMD.gis.selectAssetCdToAssetRentDetailFeature(this, this._editData, function(module, a) {
             	 module._editData.feature=a;
              });
-
+ */
              this._selectAssetsCd=value;
 
              this.loadOlnlpList(value);
@@ -1634,9 +1634,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
+								<th width="10%" height="18">과세구분</th>
+                                <td>
+                                    <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
+                                </td>
 								<th width="10%" height="18">코멘트</th>
                                 <td colspan="5">
-                                	<input type="text" size="116" id="cmt" maxlength="90"/>
+                                	<input type="text" size="116" id="cmt" maxlength="80"/>
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>
@@ -1931,7 +1935,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <td style="text-align:right">
 <!--                         <button data-role="showMap" data-gis-layer="gisAssetsCd" data-value-name="_selectAssetsCd" data-style="default">맵조회</button>
  -->
- 							<button id="btnModifyFeature">맵편집</button>
+<!--  							<button id="btnModifyFeature">맵편집</button> -->
  							<button id="btnShowFeature">맵조회</button>
  	                        <button id="btnRentDetailApply">임대상세적용</button>
                         </td>

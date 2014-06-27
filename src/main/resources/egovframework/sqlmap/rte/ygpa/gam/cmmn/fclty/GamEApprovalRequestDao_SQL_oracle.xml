@@ -89,7 +89,7 @@
     </select>
 
     <insert id="gamEApprovalRequestDAO.sendEApprovalAssetUsePermRequest_S">
-        INSERT INTO GWCALL.GWCALL_FWD_IF (
+        INSERT INTO GWCALL.GWCALL_GAM_FWD_IF (
             T_NO,
             EMP_CD,
 			SYS_ID,
@@ -99,8 +99,7 @@
 			M_DATA_VALUE1,
 			M_DATA_VALUE2,
 			M_DATA_VALUE3,
-			IP,
-			TEST_EA
+			IP
 		)
         VALUES (
         	#tNo#,
@@ -115,13 +114,12 @@
              		FROM ASSETS_RENT_F A WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
              (SELECT RM || '|' ||  CMT FROM ASSETS_RENT_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
              (SELECT ETC || '|' ||  CMT FROM ASSETS_RENT_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) ,
-             #regIp#,
-             ''
+             #regIp#
 		)
     </insert>
 
     <insert id="gamEApprovalRequestDAO.sendEApprovalAssetNticIssueRequest_S">
-        INSERT INTO GWCALL.GWCALL_FWD_IF (
+        INSERT INTO GWCALL.GWCALL_GAM_FWD_IF (
             T_NO,
             EMP_CD,
 			SYS_ID,

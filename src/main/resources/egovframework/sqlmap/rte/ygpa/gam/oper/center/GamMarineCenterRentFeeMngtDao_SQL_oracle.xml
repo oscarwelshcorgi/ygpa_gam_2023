@@ -77,7 +77,7 @@
                    	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
                    	MAX(S.NTICNO) NTICNO,
                    	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
-    				GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+    				GAM_GETCODENAME('GAM056', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
                    	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
                    	SUM(S.VAT) VAT,
                    	SUM(S.NTIC_AMT) NTIC_AMT,
@@ -348,7 +348,7 @@
                    	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)), '999,999,999,999')) SUM_FEE_A4
                    	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)), '999,999,999,999')) SUM_FEE_D1
                    	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)), '999,999,999,999')) SUM_FEE_D2
-               ,   TRIM(TO_CHAR(SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) , '999,999,999,999')) SUM_NHT_ISUE_AMT 
+               ,   TRIM(TO_CHAR(SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) , '999,999,999,999')) SUM_NHT_ISUE_AMT
                , TRIM(TO_CHAR(SUM(NVL(L.VAT, 0)), '999,999,999,999')) SUM_VAT
                , TRIM(TO_CHAR(SUM(NVL(L.NTIC_AMT,0)), '999,999,999,999')) SUM_NTIC_AMT
           FROM ASSETS_RENT_F A, LEV_REQEST_F L
@@ -472,7 +472,7 @@
 		AND    MNG_CNT      = #mngCnt#
     </update>
 
-    <select id="gamMarineCenterRentFeeMngtDao.selectMarineCenterRentFeeInfo_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultMap="gamMarineCenterRentFeeInfoMap"> 
+    <select id="gamMarineCenterRentFeeMngtDao.selectMarineCenterRentFeeInfo_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultMap="gamMarineCenterRentFeeInfoMap">
         SELECT
                  L.NTIC_CNT
                , L.FCLTY_SE
@@ -521,7 +521,7 @@
            AND L.MNG_CNT     = #mngCnt#
     </select>
 
-    <select id="gamMarineCenterRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="int"> 
+    <select id="gamMarineCenterRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="int">
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
          WHERE 1=1
@@ -763,7 +763,7 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
-			      GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+			      GAM_GETCODENAME('GAM056', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
 			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD
@@ -936,7 +936,7 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
-			      GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+			      GAM_GETCODENAME('GAM056', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
 			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) RPRSNTV_NM,
@@ -1073,7 +1073,7 @@
 				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
 				       , L.FCLTY_SE
 				       , L.CHRGE_KND
-				       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
+				       , GAM_GETCODENAME('GAM056', L.CHRGE_KND) CHRGE_KND_NM
 				       , L.ENTRPSCD
 				       , L.ENTRPS_NM
 				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
@@ -1141,7 +1141,7 @@
 		        , L.NTIC_CNT
 		       , L.FCLTY_SE
 		       , L.CHRGE_KND
-		       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
+		       , GAM_GETCODENAME('GAM056', L.CHRGE_KND) CHRGE_KND_NM
 		       , L.ENTRPSCD
 		       , L.ENTRPS_NM
 		       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM

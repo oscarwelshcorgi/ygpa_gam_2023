@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="ygpa.gam.asset.rent"> 
+<sqlMap namespace="ygpa.gam.asset.rent">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamAssetRentfeePayDtlsInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentfeePayDtlsInqireVO"/>
-    
+
 	<resultMap id="gamAssetRentfeePayDtlsInqireSumMap" class="gamAssetRentfeePayDtlsInqireVO">
         <result property="totSumNticAmt" column="TOT_SUM_NTIC_AMT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
         <result property="totSumRcvdAmt" column="TOT_SUM_RCVD_AMT" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
         <result property="totSumCnt" column="TOT_SUM_CNT" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
         <result property="totSumNotRcvdAmt" column="TOT_SUM_NOT_RCVD_AMT" columnIndex="4" javaType="string" jdbcType="VARCHAR"/>
     </resultMap>
-    
+
     <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireList_D" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
@@ -23,7 +23,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , T1.NTIC_CNT
                                   , T1.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM050' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
                                   , T1.ACCNUT_YEAR
                                   , T1.NTICNO
                                   , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -34,7 +34,7 @@
                                   , (CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세' WHEN T1.VAT_YN='1' THEN '영세' WHEN T1.VAT_YN='2' THEN '과세' WHEN T1.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
                                   , T1.NTIC_AMT
                                   , T1.ENTRPSCD
-                                  , ( SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = T1.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM 
+                                  , ( SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = T1.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM
                                   , T1.MNG_YEAR
                                   , T1.MNG_NO
                                   , T1.MNG_CNT
@@ -50,21 +50,21 @@
                              AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sEntrpscd">
-					         AND T1.ENTRPSCD = #sEntrpscd#  
+					         AND T1.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngYear">
 					         AND T1.MNG_YEAR = #sMngYear#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngNo">
 					         AND T1.MNG_NO = #sMngNo#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngCnt">
 					         AND T1.MNG_CNT = #sMngCnt#
 					         </isNotEmpty>
@@ -79,16 +79,16 @@
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireListTotCnt_S" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultClass="int">
-            SELECT 
+            SELECT
             		COUNT(*) totcnt
               FROM (
                            SELECT T1.PRT_AT_CODE
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , T1.NTIC_CNT
                                   , T1.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM050' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
                                   , T1.ACCNUT_YEAR
                                   , T1.NTICNO
                                   , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -99,7 +99,7 @@
                                   , (CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세' WHEN T1.VAT_YN='1' THEN '영세' WHEN T1.VAT_YN='2' THEN '과세' WHEN T1.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
                                   , T1.NTIC_AMT
                                   , T1.ENTRPSCD
-                                  , ( SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = T1.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM 
+                                  , ( SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = T1.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM
                                   , T1.MNG_YEAR
                                   , T1.MNG_NO
                                   , T1.MNG_CNT
@@ -115,21 +115,21 @@
                              AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sEntrpscd">
-					         AND T1.ENTRPSCD = #sEntrpscd#  
+					         AND T1.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngYear">
 					         AND T1.MNG_YEAR = #sMngYear#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngNo">
 					         AND T1.MNG_NO = #sMngNo#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngCnt">
 					         AND T1.MNG_CNT = #sMngCnt#
 					         </isNotEmpty>
@@ -141,14 +141,14 @@
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY T1.NTIC_DT
               )
-							                    
-							
+
+
     </select>
-    
+
     <select id="gamAssetRentfeePayDtlsInqireDao.selectAssetRentfeePayDtlsInqireSum_S" parameterClass="gamAssetRentfeePayDtlsInqireVO" resultMap="gamAssetRentfeePayDtlsInqireSumMap">
-            SELECT 
+            SELECT
             	TRIM(TO_CHAR(NVL(SUM(S.NTIC_AMT),0), '999,999,999,999')) AS TOT_SUM_NTIC_AMT
-            	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN S.RCVD_TP IN ('2','3') THEN S.NTIC_AMT END),0), '999,999,999,999')) AS TOT_SUM_RCVD_AMT 
+            	,TRIM(TO_CHAR(NVL(SUM(CASE WHEN S.RCVD_TP IN ('2','3') THEN S.NTIC_AMT END),0), '999,999,999,999')) AS TOT_SUM_RCVD_AMT
             	,TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS TOT_SUM_CNT
                 ,TRIM(TO_CHAR(NVL(SUM(CASE WHEN S.RCVD_TP IN ('2','3') THEN 0 ELSE S.NTIC_AMT END),0), '999,999,999,999')) AS TOT_SUM_NOT_RCVD_AMT
               FROM (
@@ -156,7 +156,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , T1.NTIC_CNT
                                   , T1.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM050' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
                                   , T1.ACCNUT_YEAR
                                   , T1.NTICNO
                                   , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -167,7 +167,7 @@
                                   , (CASE WHEN T1.VAT_YN='0' OR T1.VAT_YN IS NULL THEN '면세' WHEN T1.VAT_YN='1' THEN '영세' WHEN T1.VAT_YN='2' THEN '과세' WHEN T1.VAT_YN='3' THEN '교부면제영세' END) AS VAT_YN
                                   , T1.NTIC_AMT
                                   , T1.ENTRPSCD
-                                  , ( SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = T1.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM 
+                                  , ( SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = T1.ENTRPSCD AND ROWNUM = 1 ) AS ENTRPS_NM
                                   , T1.MNG_YEAR
                                   , T1.MNG_NO
                                   , T1.MNG_CNT
@@ -183,21 +183,21 @@
                              AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sEntrpscd">
-					         AND T1.ENTRPSCD = #sEntrpscd#  
+					         AND T1.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngYear">
 					         AND T1.MNG_YEAR = #sMngYear#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngNo">
 					         AND T1.MNG_NO = #sMngNo#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sMngCnt">
 					         AND T1.MNG_CNT = #sMngCnt#
 					         </isNotEmpty>
@@ -210,6 +210,6 @@
                              ORDER BY T1.NTIC_DT
               ) S
     </select>
-    
-    
+
+
 </sqlMap>

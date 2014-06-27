@@ -129,7 +129,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , A.NTIC_CNT
                                   , A.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM053' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
                                   , A.ACCNUT_YEAR
                                   , A.NTICNO
                                   , TO_CHAR(A.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -220,7 +220,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , A.NTIC_CNT
                                   , A.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM053' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
                                   , A.ACCNUT_YEAR
                                   , A.NTICNO
                                   , TO_CHAR(A.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -306,7 +306,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , A.NTIC_CNT
                                   , A.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM024' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM053' AND CD.CODE = A.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
                                   , A.ACCNUT_YEAR
                                   , A.NTICNO
                                   , TO_CHAR(A.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT

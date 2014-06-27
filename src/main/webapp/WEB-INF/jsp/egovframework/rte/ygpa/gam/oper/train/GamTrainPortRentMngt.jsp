@@ -1602,9 +1602,13 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
                             </tr>
                             <tr>
+								<th width="10%" height="18">과세구분</th>
+                                <td>
+                                    <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
+                                </td>
 								<th width="10%" height="18">코멘트</th>
                                 <td colspan="5">
-                                	<input type="text" size="116" id="cmt" maxlength="90"/>
+                                	<input type="text" size="116" id="cmt" maxlength="80"/>
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>

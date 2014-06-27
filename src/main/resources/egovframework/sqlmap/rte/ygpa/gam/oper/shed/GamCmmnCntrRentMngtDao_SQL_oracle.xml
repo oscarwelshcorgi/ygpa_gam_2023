@@ -152,6 +152,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
                                   , NVL(A.GR_AR,0) GR_AR
                                   , NVL(A.GR_FEE,0) GR_FEE
+                                  , A.TAXT_SE
                                   , A.NTIC_MTH
                                   , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                                   , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
@@ -179,6 +180,7 @@
                                   , A.QUAY_GROUP_CD
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
                                   , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
+                                  , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
                                   , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
@@ -390,6 +392,7 @@
                                    , REQST_SE_CD
                                    , GR_AR
                                    , GR_FEE
+                                   , TAXT_SE
                                    , NTIC_MTH
                                    <!--, FRST_PRMISN_DT
                                    , PRMISN_DT
@@ -474,6 +477,7 @@
                                    , DOC_NO
                                    , RM
                                    , CMT
+                                   , TAXT_SE
                                    , ETC
                                    , REG_USR
                                    , REGIST_DT
@@ -508,6 +512,7 @@
                                  , A.DOC_NO
                                  , A.RM
                                  , A.CMT
+                                 , A.TAXT_SE
                                  , A.ETC
                                  , #regUsr#
                                  , SYSDATE
@@ -557,6 +562,7 @@
 		       , GIS_CD           = #gisCd# -->
 		       , DEPTCD           = #deptcd#
 		       , PAY_MTH          = #payMth#
+		       , TAXT_SE = #taxtSe#
 
 		       <isEmpty property="payinstIntrrate">
 		       , PAYINST_INTRRATE = 0
@@ -825,6 +831,7 @@
                , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
                , A.PRMISN_YN
+               , A.TAXT_SE
                , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
                , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
                , A.DOC_NO

@@ -6,14 +6,14 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamRecvTpRecvStsInqireVO" type="egovframework.rte.ygpa.gam.asset.rent.service.GamRecvTpRecvStsInqireVO"/>
-    
+
     <resultMap id="gamRecvTpRecvStsInqireSumMap" class="egovframework.rte.ygpa.gam.asset.rent.service.GamRecvTpRecvStsInqireVO">
         <result property="totSumCnt" column="TOT_SUM_CNT" columnIndex="1"/>
         <result property="totSumNticAmt" column="TOT_SUM_NTIC_AMT" columnIndex="2"/>
         <result property="totSumRcvdAmt" column="TOT_SUM_RCVD_AMT" columnIndex="3"/>
         <result property="totSumNotRcvdAmt" column="TOT_SUM_NOT_RCVD_AMT" columnIndex="4"/>
     </resultMap>
-    
+
     <select id="gamRecvTpRecvStsInqireDao.selectRecvTpRecvStsInqireList_D" parameterClass="gamRecvTpRecvStsInqireVO" resultClass="egovMap">
 				SELECT A.*
 				FROM
@@ -29,18 +29,18 @@
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                              FROM LEV_REQEST_F T1
-                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM024'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
+                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM050'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
                              LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
                             WHERE 1 = 1
                              AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                              AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sEntrpscd">
-			                 AND T1.ENTRPSCD = #sEntrpscd#  
+			                 AND T1.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
 
 					         <isNotEmpty property="sChrgeKnd">
@@ -53,10 +53,10 @@
 				  ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamRecvTpRecvStsInqireDao.selectRecvTpRecvStsInqireListTotCnt_S" parameterClass="gamRecvTpRecvStsInqireVO" resultClass="int">
         SELECT COUNT(*) totcnt
-          FROM (    
+          FROM (
                            SELECT T1.CHRGE_KND
                                   , MIN(T2.CODE_NM) AS CHRGE_KND_NM
                                   , NVL(SUM(T1.FEE),0) AS SUM_FEE
@@ -65,18 +65,18 @@
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                              FROM LEV_REQEST_F T1
-                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM024'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
+                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM050'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
                              LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
                             WHERE 1 = 1
                              AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                              AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sEntrpscd">
-			                 AND T1.ENTRPSCD = #sEntrpscd#  
+			                 AND T1.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
 
 					         <isNotEmpty property="sChrgeKnd">
@@ -103,18 +103,18 @@
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
                              FROM LEV_REQEST_F T1
-                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM024'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
+                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM050'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
                              LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
                             WHERE 1 = 1
                              AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                              AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
 
                              <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#  
+					         AND T1.PRT_AT_CODE = #sPrtAtCode#
 					         </isNotEmpty>
-					         
+
 					         <isNotEmpty property="sEntrpscd">
-			                 AND T1.ENTRPSCD = #sEntrpscd#  
+			                 AND T1.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
 
 					         <isNotEmpty property="sChrgeKnd">
@@ -123,7 +123,7 @@
 
                              GROUP BY T1.CHRGE_KND
                              ORDER BY MIN(T2.CODE_NM)
-              )    
+              )
   	</select>
-    
+
 </sqlMap>

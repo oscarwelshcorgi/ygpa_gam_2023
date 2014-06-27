@@ -155,6 +155,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
                                   , NVL(A.GR_AR,0) GR_AR
                                   , NVL(A.GR_FEE,0) GR_FEE
+                                  , A.TAXT_SE
                                   , A.NTIC_MTH
                                   , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                                   , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
@@ -182,6 +183,7 @@
                                   , A.QUAY_GROUP_CD
                                   , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
                                   , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
+                                  , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
                                   , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
@@ -393,6 +395,7 @@
                                    , REQST_SE_CD
                                    , GR_AR
                                    , GR_FEE
+                                   , TAXT_SE
                                    , NTIC_MTH
                                    <!--, FRST_PRMISN_DT
                                    , PRMISN_DT
@@ -474,6 +477,7 @@
                                    , GR_FEE
                                    , NTIC_MTH
                                    , PRMISN_YN
+                                   , TAXT_SE
                                    , DOC_NO
                                    , RM
                                    , CMT
@@ -508,6 +512,7 @@
                                  , A.NTIC_MTH
                                  , 'N'
                                  , A.DOC_NO
+                                 , A.TAXT_SE
                                  , A.RM
                                  , A.CMT
                                  , A.ETC
@@ -559,6 +564,7 @@
 		       , GIS_CD           = #gisCd# -->
 		       , DEPTCD           = #deptcd#
 		       , PAY_MTH          = #payMth#
+		       , TAXT_SE = #taxtSe#
 
 		       <isEmpty property="payinstIntrrate">
 		       , PAYINST_INTRRATE = 0
@@ -727,14 +733,14 @@
 		                          	(SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_DETAIL_F),
 		                                     ( SELECT NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0) + 1
 											     FROM ASSETS_RENT_DETAIL_F
-											    WHERE MNG_YEAR    = #mngYear#
-											      AND MNG_NO      = #mngNo#
-											      AND MNG_CNT     = #mngCnt#
-											      AND PRT_AT_CODE = #prtAtCode# )
-										   , #mngYear#
-                                           , #mngNo#
-                                           , #mngCnt#
-                                           , #prtAtCode#
+											    WHERE MNG_YEAR    = #detailMngYear#
+											      AND MNG_NO      = #detailMngNo#
+											      AND MNG_CNT     = #detailMngCnt#
+											      AND PRT_AT_CODE = #detailPrtAtCode# )
+										   , #detailMngYear#
+                                           , #detailMngNo#
+                                           , #detailMngCnt#
+                                           , #detailPrtAtCode#
 		                                   , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
                                            , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
 		                                   , REPLACE(#olnlp#,',','')
@@ -795,10 +801,10 @@
 		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		       , QUAY_CD                = #quayCd#
 		  WHERE  ASSETS_USAGE_SEQ       = #assetsUsageSeq#
-		    AND  MNG_YEAR               = #mngYear#
-		    AND  MNG_NO                 = #mngNo#
-		    AND  MNG_CNT                = #mngCnt#
-		    AND  PRT_AT_CODE            = #prtAtCode#
+		    AND  MNG_YEAR               = #detailMngYear#
+		    AND  MNG_NO                 = #detailMngNo#
+		    AND  MNG_CNT                = #detailMngCnt#
+		    AND  PRT_AT_CODE            = #detailPrtAtCode#
     </update>
 
     <delete id="gamAssetRentMngtDao.deleteAssetRentDetail2_S">
@@ -830,6 +836,7 @@
                , A.RM
                , A.CMT
                , A.ETC
+               , A.TAXT_SE
                , A.REG_USR
                , A.REGIST_DT
                , A.UPD_USR
@@ -1109,7 +1116,7 @@
     <select id="gamAssetRentMngtDao.selectOlnlpInfo_S" parameterClass="gamGisAssetCodeVO" resultClass="egovMap">
             SELECT
                 OLNLP,
-                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원]') OLNLP_APPLY_DATES
+                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '??') OLNLP_APPLY_DATES
             FROM
                 OLNLP_F
             WHERE 1=1
@@ -1365,8 +1372,8 @@
 			        END CHK_DIV
 			    FROM (
 			        SELECT
-			              SUBSTR(#cYear#,1,4) C_YEAR   <!-- 입력받은 스트링 날짜 201403-->
-			            , SUBSTR(#cYear#,5,2) C_DIY    <!-- 입력받은 스트링 날짜 201403 -->
+			              SUBSTR(#cYear#,1,4) C_YEAR
+			            , SUBSTR(#cYear#,5,2) C_DIY
 			        FROM DUAL
 			    )
 			)
