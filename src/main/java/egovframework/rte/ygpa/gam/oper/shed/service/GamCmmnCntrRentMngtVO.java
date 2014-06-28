@@ -5,236 +5,249 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
  * @Class Name : GamCmmnCntrRentMngtVO.java
- * @Description : 공컨장치장임대목록관리 
+ * @Description : 공컨장치장임대목록관리
  * @Modification Information
  *
  * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public class GamCmmnCntrRentMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
+
     /** 항코드 */
     private String prtAtCode;
-    
+
     /** 관리 년도 */
     private String mngYear;
-    
+
     /** 관리 번호 */
     private String mngNo;
-    
+
     /** 관리 횟수 */
     private String mngCnt;
-    
+
     /** 업체코드 */
     private String entrpscd;
-    
+
     /** 업체 명 */
     private String entrpsNm;
-    
+
     /** 날짜 */
     private String dt;
-    
+
     /** 신청 구분 코드 */
     private String reqstSeCd;
-    
+
     /** 총 면적 */
     private String grAr;
-    
+
     /** 총 사용료 */
     private String grFee;
-    
+
     /** 고지 방법 */
     private String nticMth;
-    
+
     /** 최초 허가 일자 */
     private String frstPrmisnDt;
-    
+
     /** 허가 일자 */
     private String prmisnDt;
-    
+
     /** 허가 여부 */
     private String prmisnYn;
-    
+
     /** 총 사용 기간 FROM */
     private String grUsagePdFrom;
-    
+
     /** 총 사용 기간 TO */
     private String grUsagePdTo;
-    
+
     /** 문서 번호 */
     private String docNo;
-    
+
     /** 비고 */
     private String rm;
-    
+
     /** 코멘트 */
     private String cmt;
-    
+
     /** 기타 */
     private String etc;
-    
+
     /** 등록자 */
     private String regUsr;
-    
+
     /** 등록일시 */
     private String registDt;
-    
+
     /** 수정자 */
     private String updUsr;
-    
+
     /** 수정일시 */
     private String updtDt;
-    
+
     /** 총 감면 사용료 */
     private String grRdcxptFee;
-    
+
     /** GIS 코드 */
     private String gisCd;
-    
+
     /** 부서코드 */
     private String deptcd;
-    
+
     /** 항이름 */
     private String prtAtCodeNm;
-    
+
     /** 신청구분명 */
     private String reqstSeCdNm;
-    
+
     /** 결재 상태 */
-    private String sanctnSttus;	
-    
+    private String sanctnSttus;
+
     /** 결재자 사원 번호 */
-    private String sanctnerEmplNo;  
-    
+    private String sanctnerEmplNo;
+
     /** 부두 코드 */
-    private String quayCd;	  
-    
+    private String quayCd;
+
     /** 최초 신청 일자 */
-    private String frstReqstDt;  
-    
+    private String frstReqstDt;
+
     /** 결재 일시 */
-    private String sanctnDt;	
-    
+    private String sanctnDt;
+
     /** 분납이자율 */
     private String payinstIntrrate;
 
     /** 검색조건 */
     private String sPrtAtCode;
-    
+
     /** 검색조건 */
     private String sReqstSeCd;
-    
+
     /** 검색조건 */
     private String sEntrpscd;
-    
+
     /** 검색조건 */
     private String sPrmisnYn;
-    
+
     /** 검색조건 */
     private String sGrUsagePdFrom;
-    
+
     /** 검색조건 */
     private String sGrUsagePdTo;
-    
+
     /** 검색조건 */
     private String sGrAr;
-    
+
     /** 검색조건 */
     private String sMngYear;
-    
+
     /** 검색조건 */
     private String sMngNo;
-    
+
     /** 검색조건 */
     private String sMngCnt;
-    
-    /** 검색조건(사용 용도 코드) */                                                   
-    private String sUsagePrposCd; 
-    
+
+    /** 검색조건(사용 용도 코드) */
+    private String sUsagePrposCd;
+
     /** 자료수 */
     private String sumCnt;
-    
+
     /** 총면적 */
     private String sumGrAr;
-    
+
     /** 총사용료 */
     private String sumGrFee;
-    
+
     /** 관리번호(MAX) */
-    private String maxMngCnt; 
-    
+    private String maxMngCnt;
+
     /** 항코드(연장신청) */
     private String rPrtAtCode;
-    
+
     /** 관리 년도(연장신청) */
     private String rMngYear;
-    
+
     /** 관리 번호(연장신청) */
     private String rMngNo;
-    
+
     /** 관리 횟수(연장신청) */
     private String rMngCnt;
-    
+
     /** 관리 번호(조합) */
     private String rentMngNo;
-    
+
     /** 요금 종류 */
-    private String chrgeKnd;	
+    private String chrgeKnd;
 
     /** 부가세 여부 */
     private String vatYn;
-    
+
     /** 납부방법코드 */
     private String payMth;
-    
+
     /** 사진 순번 */
     private String photoSeq;
-    	    
+
     /** 사진 제목 */
-    private String photoSj;	    
-    
+    private String photoSj;
+
     /** 파일명 물리 */
-    private String filenmPhysicl;  
-    
+    private String filenmPhysicl;
+
     /** 파일명 논리 */
-    private String filenmLogic;	
-    
+    private String filenmLogic;
+
     /** 촬영 일시 */
-    private String shotDt;	        
-    
+    private String shotDt;
+
     /** 사진 설명  */
-    private String photoDesc;	    
-    
+    private String photoDesc;
+
     /** 신청일자 */
     private String reqstDt;
-    
+
     private String thisYear;
 
     private String divSt;
 
     private String divEnd;
-    
+
     private String cYear;
-    
+
     private String cDiy;
-    
-    private String objYrmt;          
-    
-    private String blceStdrIntrrate;   
-    
+
+    private String objYrmt;
+
+    private String blceStdrIntrrate;
+
     private String newManipAmtStdrIntrrate;
-    
-    private String annodt;                 
-    
+
+    private String annodt;
+
     private String blceStdrIntrrateShow;
-    
+
     /** 총감면사용료 */
     private String sumGrRdcxptFee;
+
+    /**
+     * 과세구분
+     */
+    private String taxtSe;
+
+    public String getTaxtSe() {
+		return taxtSe;
+	}
+
+	public void setTaxtSe(String taxtSe) {
+		this.taxtSe = taxtSe;
+	}
 
 	/**
 	 * @return the prtAtCode
@@ -1285,7 +1298,7 @@ public class GamCmmnCntrRentMngtVO extends ComDefaultVO {
 	public void setBlceStdrIntrrateShow(String blceStdrIntrrateShow) {
 		this.blceStdrIntrrateShow = blceStdrIntrrateShow;
 	}
-	
+
 	/**
 	 * @return the sumGrRdcxptFee
 	 */
@@ -1299,5 +1312,5 @@ public class GamCmmnCntrRentMngtVO extends ComDefaultVO {
 	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
 		this.sumGrRdcxptFee = sumGrRdcxptFee;
 	}
-	
+
 }

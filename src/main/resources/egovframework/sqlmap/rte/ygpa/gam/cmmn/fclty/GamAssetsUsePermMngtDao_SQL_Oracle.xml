@@ -167,7 +167,7 @@
 			SELECT A.FEE_TP, NTIC_CNT, DECODE(A.FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(RATE_DAY)/365*A.RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
 			FROM (
 			SELECT #chrgeKnd# FEE_TP, 1 RATE FROM dual
-			UNION ALL SELECT 'A3', TO_NUMBER(NVL(#payinstIntrrate#, 0), '0.0000') FROM dual
+			UNION ALL SELECT 'A3', #payinstIntrrate# FROM dual
 			) A, (
 			SELECT ROWNUM  as NTIC_CNT,
 				  TRUNC(#grFee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1), -1) as RNTFEE,
