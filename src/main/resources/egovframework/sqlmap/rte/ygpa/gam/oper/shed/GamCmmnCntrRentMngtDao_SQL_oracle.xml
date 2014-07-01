@@ -1306,6 +1306,7 @@
 		                               AND MNG_YEAR    = #mngYear#
 		                               AND MNG_NO      = #mngNo#
 		                               AND MNG_CNT     = #maxMngCnt#
+		                               		                          )
     </select>
 
     <update id="gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtQuaycd_S">
