@@ -314,6 +314,7 @@ public class GamMarineCenterRentMngtController {
 			saveVO.setFrstReqstDt(form.get("frstReqstDt"));
 			saveVO.setReqstDt(form.get("reqstDt"));
 			saveVO.setPayMth(form.get("payMth"));
+			saveVO.setTaxtSe(form.get("taxtSe"));
 			saveVO.setNticMth(form.get("nticMth"));
 			saveVO.setRm(form.get("rm"));
 			saveVO.setCmt(form.get("cmt"));
