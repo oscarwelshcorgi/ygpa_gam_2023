@@ -192,7 +192,6 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 		break;
 	}
 
-	this.$('#drwLstMngDeptCd').makeSelectCmmnCd();
 };
 
 GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
@@ -512,6 +511,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
 		 	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
 		 	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
+		 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+			                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 
 		 	     	 		}
 		 	     	 		else {
@@ -538,6 +539,8 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
  	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
  	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
  	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
+ 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
@@ -659,7 +662,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>건축시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />&nbsp;-&nbsp;
 								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -701,6 +704,8 @@ var module_instance = new GamFcltyMngtModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
+				<input type="hidden" id="beforeGisPrtFcltyCd">
+          		<input type="hidden" id="beforeGisPrtFcltySeq">
 				<input id="beforeGisAssetsPrtAtCode" type="hidden" />
 				<input id="beforeGisAssetsCd" type="hidden" />
 				<input id="beforeGisAssetsSubCd" type="hidden" />
@@ -743,7 +748,7 @@ var module_instance = new GamFcltyMngtModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true"/>
 								<input type="text" size="50" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<!--
@@ -776,7 +781,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">위도좌표</th>
 							<td><input id="laCrdnt" type="text" size="50" disabled="disabled" /></td>
 							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><input type="text" id="drwLstMngDeptCd" data-code-id="GAM019"/></td>
+							<td><input id="loCrdnt" type="text" size="50" disabled="disabled" /></td>
 						</tr>
 					</table>
 				</form>
