@@ -40,6 +40,7 @@ public class EgovTestUserDetailsServiceImpl extends AbstractServiceImpl implemen
 		loginVO.setName("더미사용자");
 		loginVO.setOrgnztId("ORGNZT_0000000000000");
 		loginVO.setUniqId("USRCNFRM_00000000000");
+		loginVO.setDeptCd("000001");
 		return loginVO;
 
 		// return

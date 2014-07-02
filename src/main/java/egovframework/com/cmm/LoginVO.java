@@ -54,6 +54,11 @@ public class LoginVO implements Serializable{
 	private String ip;
 	/** GPKI인증 DN */
 	private String dn;
+
+	/**
+	 * ERP 연동용 부서 코드 (YGPA)
+	 */
+	private String deptCd;
 	/**
 	 * id attribute 를 리턴한다.
 	 * @return String
@@ -253,6 +258,12 @@ public class LoginVO implements Serializable{
 	}
 	public void setEmplNo(String emplNo) {
 		this.emplNo = emplNo;
+	}
+	public String getDeptCd() {
+		return deptCd;
+	}
+	public void setDeptCd(String deptCd) {
+		this.deptCd = deptCd;
 	}
 
 }
