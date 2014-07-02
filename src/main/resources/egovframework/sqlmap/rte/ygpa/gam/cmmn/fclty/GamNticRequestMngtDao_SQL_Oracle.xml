@@ -121,7 +121,7 @@
       NTIC_AMT, RDCXPT_FEE, 0, 0,
 		'0',
       #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO,
-      #dept#
+      #deptCd#
       FROM LEV_REQEST_F
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
@@ -148,7 +148,7 @@
       	(SELECT BZ_RGST_ID FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=L.ENTRPSCD),
       	'(' || TO_CHAR(L.NTIC_AMT, '999,999,999,999') || '*' || TO_CHAR(L.ARRRG_TARIFF, '999,999,999,999') || '*' || TO_CHAR(L.ARRRG_PAY_DATES,'9,999') || '/365' || ')',
       	#updUSr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N',TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD'),TO_CHAR(L.NTIC_PD_TO,'YYYYMMDD'),
-      	#dept#
+      	#deptCd#
       FROM LEV_REQEST_F L
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
