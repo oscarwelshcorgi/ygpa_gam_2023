@@ -315,29 +315,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
     this.$('#applcMth').on('change', {module: this}, function(event) {
         var m = event.data.module;
-    	switch(m.$('#applcMth').val()) {
-    	case '1':	// 국유재산법
-            m.$('#nationAssetLaw').show();
-            m.$('#tradePortLaw').hide();
-    		break;
-    	case '2':	// 공사규정
-            m.$('#nationAssetLaw').show();
-            m.$('#tradePortLaw').hide();
-    		break;
-    	case '3':	// 입찰
-            m.$('#nationAssetLaw').show();
-            m.$('#tradePortLaw').hide();
-    		break;
-    	case '4':	// 무역항규정
-            m.$('#nationAssetLaw').hide();
-            m.$('#tradePortLaw').show();
-    		break;
-    	default:	// 기타
-            m.$('#nationAssetLaw').show();
-            m.$('#tradePortLaw').hide();
-    		break;
-    	}
-        m.onCalc();
+        m.onApplcMthChange(m.$('#applcMth').val());
     });
 
 	// 국유재산법
@@ -418,6 +396,32 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	this.$("#sGrUsagePdTo").val(searchEndDate);
 
 };
+
+GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
+	switch(applcMth) {
+	case '1':	// 국유재산법
+		this.$('#nationAssetLaw').show();
+		this.$('#tradePortLaw').hide();
+		break;
+	case '2':	// 공사규정
+		this.$('#nationAssetLaw').show();
+		this.$('#tradePortLaw').hide();
+		break;
+	case '3':	// 입찰
+		this.$('#nationAssetLaw').show();
+		this.$('#tradePortLaw').hide();
+		break;
+	case '4':	// 무역항규정
+		this.$('#nationAssetLaw').hide();
+		this.$('#tradePortLaw').show();
+		break;
+	default:	// 기타
+		this.$('#nationAssetLaw').show();
+		this.$('#tradePortLaw').hide();
+		break;
+	}
+    this.onCalc();
+}
 
 GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
@@ -1437,6 +1441,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         	this._deleteDataList=[];    // 삭제 목록 초기화
         	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
         }
+
         break;
     case 'tabs3':
         var row = this.$('#assetRentDetailList').selectedRows();
@@ -1446,6 +1451,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         else {
             this.$('#detailCmd').val('modify');
             this._selectAssetsCd=row;
+			this.onApplcMthChange(row[0]['applcMth']);
         }
         break;
 
@@ -1500,8 +1506,6 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
 //              this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
-
-             this._selectAssetsCd=value;
 
              this.loadOlnlpList(value);
          } else {
