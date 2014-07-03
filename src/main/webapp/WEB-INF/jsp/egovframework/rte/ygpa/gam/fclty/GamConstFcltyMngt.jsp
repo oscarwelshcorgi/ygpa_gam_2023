@@ -235,7 +235,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt=this.makeFormArgs("#fcltyForm");
 		 	this.$("#fcltyMngtListTab").tabs("option", {active: 0});
 		 	this.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 		// 추가
@@ -635,7 +635,7 @@ GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-			throw 0;
+			
 		break;
 	}
 };

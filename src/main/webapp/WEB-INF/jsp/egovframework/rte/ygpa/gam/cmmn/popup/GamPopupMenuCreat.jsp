@@ -44,7 +44,7 @@ GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
 		// 메뉴 조회
 		case 'selectMenuList':
 			this.loadData();
-			throw 0;
+			
 		break;
 
 		// 메뉴생성

@@ -71,7 +71,7 @@ GamSearchZipPopupModule.prototype.loadComplete = function() {
 			}
 			var searchOpt = this.makeFormArgs("#searchZipPopupForm");
 		 	this.$("#searchZipPopupList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 	}

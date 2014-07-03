@@ -68,7 +68,7 @@ GamErpAssetCodePopupModule.prototype.onButtonClick = function(buttonId) {
 	case "selectErpAssetCode":
 		var searchOpt=this.makeFormArgs("#searchErpAssetCode");
 	 	this.$("#erpAssetCodeList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
+	 	
 		break;
 	case "btnOk":
 		var row = this.$("#assetCodeList").selectedRows();

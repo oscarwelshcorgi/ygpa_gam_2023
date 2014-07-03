@@ -40,9 +40,9 @@
                 <var-value>8</var-value>
                 </var>
             </field>
-            <field property="applcTariff" depends="required">
+<!--             <field property="applcTariff" depends="required">
                 <arg0 key="적용요율" resource="false"/>
-            </field>
+            </field> -->
             <field property="applcMth" depends="required">
                 <arg0 key="적용방법" resource="false"/>
             </field>

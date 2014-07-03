@@ -112,7 +112,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt = this.makeFormArgs("#userMngForm");
 			this.$("#userMngListTab").tabs("option", {active: 0});
 		 	this.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 		// 추가
@@ -320,7 +320,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-			throw 0;
+			
 		break;
 	}
 };

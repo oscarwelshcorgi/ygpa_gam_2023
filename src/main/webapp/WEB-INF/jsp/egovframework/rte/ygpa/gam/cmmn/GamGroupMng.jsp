@@ -86,7 +86,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt = this.makeFormArgs("#groupMngForm");
 			this.$("#groupMngListTab").tabs("option", {active: 0});
 		 	this.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();
-		 	//throw 0;
+		 	//
 		break;
 		case "listBtn":
 			this.$("#groupMngListTab").tabs("option", {active: 0});
@@ -150,7 +150,7 @@ GamAuthorGrpMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			throw 0;
+			
 		break;
 	}
 };

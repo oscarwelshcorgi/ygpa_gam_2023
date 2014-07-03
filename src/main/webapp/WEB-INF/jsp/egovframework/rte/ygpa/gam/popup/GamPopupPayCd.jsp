@@ -75,7 +75,7 @@ GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 		 */
 		var searchOpt=this.makeFormArgs("#gamPopupPayForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
+	 	
 		break;
 	case "btnOk":
 		var row = this.$("#grdInfoList").selectedRows();

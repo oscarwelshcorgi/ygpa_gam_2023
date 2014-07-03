@@ -81,7 +81,7 @@ GamBupJungDongModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'selectBupJungDongCodeList':
 		this.loadData();
-	 	throw 0;
+	 	
 		break;
 	case 'showBupjungdongLocation':
 		if(this._selectedItem==null) {

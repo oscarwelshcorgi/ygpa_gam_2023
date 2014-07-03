@@ -66,8 +66,13 @@ public class GamCntnrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
     private String olnlp;        
                 
     /**  적용 요율 */
-    private String applcTariff;    
-              
+    private String applcTariff;
+
+    /**
+     * 적용단가
+     */
+    private String applcPrice;
+
     /**  적용 방법 */
     private String applcMth;     
                 
@@ -833,4 +838,11 @@ public class GamCntnrRentMngtDetailVO extends ErpCmmnCdDefaultVO {
 		this.maxAssetsUsageSeq = maxAssetsUsageSeq;
 	}
     
+	public String getApplcPrice() {
+		return applcPrice;
+	}
+
+	public void setApplcPrice(String applcPrice) {
+		this.applcPrice = applcPrice;
+	}
 }

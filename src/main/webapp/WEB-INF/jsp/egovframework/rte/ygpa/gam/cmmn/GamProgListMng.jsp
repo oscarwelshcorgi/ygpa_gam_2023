@@ -59,7 +59,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 			module.$("#progrmKoreanNm").val(row["progrmKoreanNm"]);		// 프로그램 경로
 			module.$("#URL").val(row["url"]);							// URL
 			module.$("#progrmDc").val(row["progrmDc"]);					// 프로그램 설명
-			throw 0;
+			
 		}
 	});
 };

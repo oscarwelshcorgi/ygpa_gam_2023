@@ -27,7 +27,7 @@
 			<isNotEmpty prepend="AND" property="code">
 				CODE=#code#
 			</isNotEmpty>
-
+			ORDER BY CODE, CODE_NM
 	</select>
 
 	<select id="CmmUseDAO.selectCmmClList" parameterClass="hashMap" resultClass="egovMap">

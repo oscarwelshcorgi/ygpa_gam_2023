@@ -247,13 +247,13 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		var searchOpt=this.makeFormArgs('#searchErpAssetCode');
 	 	this.$('#erpAssetCodeList').flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
+	 	
 		break;
 
 	case 'selectGisAssetCode':
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
+	 	
 		break;
 	case 'addAssetGisCd':	// gis 자산 추가
 		var row = this.$('#erpAssetCodeList').selectedRows();

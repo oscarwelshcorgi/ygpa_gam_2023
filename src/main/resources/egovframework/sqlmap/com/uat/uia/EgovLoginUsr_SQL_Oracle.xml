@@ -134,9 +134,9 @@
 			     , email_adres AS email
 			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
-			     , dept_cd AS deptCd
+			     , (SELECT DEPT_CD FROM COMTNORGNZTINFO WHERE B.orgnzt_id=orgnzt_id) deptCd
 			     , esntl_id AS uniqId
-			  FROM COMTNEMPLYRINFO
+			  FROM COMTNEMPLYRINFO B
 			 WHERE emplyr_id = #id#
 			   AND password = #password#
 			   AND emplyr_sttus_code = 'P'

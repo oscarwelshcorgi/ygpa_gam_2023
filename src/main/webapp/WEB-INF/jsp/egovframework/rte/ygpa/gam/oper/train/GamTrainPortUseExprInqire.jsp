@@ -175,7 +175,7 @@ GamTrainPortUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, 
          break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         throw 0;
+         
          break;
      }
 };

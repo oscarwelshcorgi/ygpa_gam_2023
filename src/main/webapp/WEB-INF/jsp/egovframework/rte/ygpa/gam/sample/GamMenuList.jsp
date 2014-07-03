@@ -81,7 +81,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		break;
 		// 조회
 		case "searchBtn":
-			throw 0;
+			
 		break;
 
 		// 목록
@@ -181,7 +181,7 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			throw 0;
+			
 		break;
 	}
 };

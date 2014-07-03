@@ -55,12 +55,12 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 	this.$("#authorRoleMngList").on("onCheckBoxChanged", function(event, module, row, grid, param) {
 //		var selectedValue = $(this).find(":selected").val();
 //		// console.log("the value you selected: " + selectedValue);
-		throw 0;
+		
 	});
 
 	this.$("#authorRoleMngList").on("onButtonClicked", function(event, module, row, grid, param) {
 		alert('row is clicked '+ row.roleCode);
-		throw 0;
+		
 	});
 };
 

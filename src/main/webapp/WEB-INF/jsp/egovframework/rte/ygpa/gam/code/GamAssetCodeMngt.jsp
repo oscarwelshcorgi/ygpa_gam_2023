@@ -106,7 +106,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		module._deletePhotoList=[];
 		module._edited=false;
 		module.$('#previewImage').attr('src', '#');
-		throw 0;
+		
 	});
 
 	this.$("#assetCodePhotoList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -543,7 +543,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			throw 0;
+			
 			break;
 
 

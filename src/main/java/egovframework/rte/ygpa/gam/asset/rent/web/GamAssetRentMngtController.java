@@ -405,6 +405,7 @@ public class GamAssetRentMngtController {
     			insertDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			insertDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			insertDetailVO.setOlnlp(resultMap.get("olnlp").toString());
+    			insertDetailVO.setApplcPrice(resultMap.get("applcPrice").toString());
     			insertDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
     			insertDetailVO.setApplcMth(resultMap.get("applcMth").toString());
     			insertDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
@@ -449,6 +450,7 @@ public class GamAssetRentMngtController {
     			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
     			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
     			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
+    			updateDetailVO.setApplcPrice(resultMap.get("applcPrice").toString());
     			updateDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
     			updateDetailVO.setApplcMth(resultMap.get("applcMth").toString());
     			updateDetailVO.setExemptSe(resultMap.get("exemptSe").toString());

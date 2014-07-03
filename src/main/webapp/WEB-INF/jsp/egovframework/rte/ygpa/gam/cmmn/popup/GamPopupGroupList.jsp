@@ -67,7 +67,7 @@ GamGroupSearchPopupModule.prototype.loadComplete = function() {
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#groupSearchPopupForm");
 		 	this.$("#groupSearchPopupList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 		// 등록

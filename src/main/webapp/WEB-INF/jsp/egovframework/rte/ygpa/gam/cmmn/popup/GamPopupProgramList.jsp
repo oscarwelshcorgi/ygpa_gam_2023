@@ -72,7 +72,7 @@ GamProgramSearchPopupModule.prototype.loadComplete = function() {
 // 			}
 			var searchOpt = this.makeFormArgs("#programSearchPopupForm");
 		 	this.$("#programSearchPopupList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 	}

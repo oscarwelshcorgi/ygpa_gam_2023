@@ -70,7 +70,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			module.$("#relateImagePath").val(row["relateImagePath"]);	// 관련이미지경로
 			module.$("#menuDc").val(row["menuDc"]);						// 메뉴설명
 			module.$("#progrmKoreanNm").val(row["progrmKoreanNm"]);
-			throw 0;
+			
 
 		}
 	});
@@ -197,7 +197,7 @@ GamMenuMngModule.prototype.onClosePopup = function(popupId, msg, value){
 
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			throw 0;
+			
 		break;
 	}
 };

@@ -78,7 +78,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			var searchOpt = this.makeFormArgs("#cmmnCodeClMngtForm");
 			this.$("#cmmnCodeClMngListTab").tabs("option", {active: 0});
 		 	this.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 			// 목록

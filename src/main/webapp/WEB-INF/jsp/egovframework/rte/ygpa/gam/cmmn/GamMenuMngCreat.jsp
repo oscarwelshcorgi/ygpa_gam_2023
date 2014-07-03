@@ -69,7 +69,7 @@ GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 		break;
 	default:
 		alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-		throw 0;
+		
 		break;
 	}
 };
@@ -85,7 +85,7 @@ GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#menuMngCreateForm");
 		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload();
-		 	throw 0;
+		 	
 		break;
 
 		// 신규저장

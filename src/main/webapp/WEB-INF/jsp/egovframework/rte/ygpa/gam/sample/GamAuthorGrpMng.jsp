@@ -65,12 +65,12 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 
 	this.$("#authorGrpMngList").on("onCheckBoxChanged", function(event, module, row, grid, param) {
 //		var selectedValue = $(this).val();
-		throw 0;
+		
 	});
 
 	this.$("#authorGrpMngList").on("onSelectChanged", function(event, module, row, grid, param) {
 		alert('row is clicked '+ row.authorCode);
-		throw 0;
+		
 	});
 };
 

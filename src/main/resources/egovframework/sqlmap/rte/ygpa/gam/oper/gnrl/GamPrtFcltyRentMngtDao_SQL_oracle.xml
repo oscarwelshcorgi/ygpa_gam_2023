@@ -75,6 +75,7 @@
 	    <result property="exemptPdTo" column="EXEMPT_PD_TO" columnIndex="14"/>
 	    <result property="computDtls" column="COMPUT_DTLS" columnIndex="15"/>
 	    <result property="olnlp" column="OLNLP" columnIndex="16"/>
+	    <result property="applcPrice" column="APPLC_PRICE"/>
 	    <result property="applcTariff" column="APPLC_TARIFF" columnIndex="17"/>
 	    <result property="applcMth" column="APPLC_MTH" columnIndex="18"/>
 	    <result property="packSe" column="PACK_SE" columnIndex="19"/>
@@ -613,6 +614,7 @@
                                 , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
                                 , A.COMPUT_DTLS
                                 , A.OLNLP
+                                , A.APPLC_PRICE
                                 , A.APPLC_TARIFF
                                 , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM023' AND CD.CODE = A.APPLC_TARIFF AND ROWNUM = 1) APPLC_TARIFF_NM
                                 , A.APPLC_MTH
@@ -713,6 +715,7 @@
 		                                   , USAGE_PD_FROM
                                            , USAGE_PD_TO
                                            , OLNLP
+                                           , APPLC_PRICE
                                            , APPLC_TARIFF
                                            , APPLC_MTH
                                            , EXEMPT_SE
@@ -750,6 +753,7 @@
 		                                   , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
                                            , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
 		                                   , REPLACE(#olnlp#,',','')
+		                                   , REPLACE(#applcPrice#,',','')
 		                                   , REPLACE(#applcTariff#,',','')
                                            , #applcMth#
                                            , #exemptSe#
@@ -791,6 +795,7 @@
 		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
 		       , COMPUT_DTLS            = #computDtls#
 		       , OLNLP                  = REPLACE(#olnlp#,',','')
+		       , APPLC_PRICE	= REPLACE(#applcPrice#,',','')
 		       , APPLC_TARIFF           = REPLACE(#applcTariff#,',','')
 		       , APPLC_MTH              = #applcMth#
 		       <!-- , PACK_SE                = #packSe# -->
@@ -997,6 +1002,7 @@
              , TO_CHAR(A.EXEMPT_PD_TO, 'YYYY-MM-DD') EXEMPT_PD_TO
              , A.COMPUT_DTLS
              , A.OLNLP
+             , A.APPLC_PRICE
              , A.APPLC_TARIFF
              , A.APPLC_MTH
              , A.PACK_SE
@@ -1055,6 +1061,7 @@
                                            , EXEMPT_PD_TO
                                            , COMPUT_DTLS
                                            , OLNLP
+                                           , APPLC_PRICE
                                            , APPLC_TARIFF
                                            , APPLC_MTH
                                            , PACK_SE
@@ -1095,6 +1102,7 @@
                                            , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
                                            , #computDtls#
                                            , #olnlp#
+                                           , #applcPrice#
                                            , #applcTariff#
                                            , #applcMth#
                                            , #packSe#
@@ -1123,7 +1131,7 @@
             SELECT
                 '' CODE_ID,
                 OLNLP CODE,
-                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원]') CODE_NM,
+                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원') CODE_NM,
                 '' CODE_DC
             FROM
                 OLNLP_F
@@ -1378,8 +1386,8 @@
 			        END CHK_DIV
 			    FROM (
 			        SELECT
-			              SUBSTR(#cYear#,1,4) C_YEAR   <!-- 입력받은 스트링 날짜 201403-->
-			            , SUBSTR(#cYear#,5,2) C_DIY    <!-- 입력받은 스트링 날짜 201403 -->
+			              SUBSTR(#cYear#,1,4) C_YEAR
+			            , SUBSTR(#cYear#,5,2) C_DIY
 			        FROM DUAL
 			    )
 			)

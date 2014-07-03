@@ -58,7 +58,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 			module.$("#authorCreatDe").val(row["authorCreatDe"]);			// 등록일자
 			
 			module.$("#authorCode").attr("disabled","disabled");			// 수정불가능
-			throw 0;
+			
 		}
 	});
 };

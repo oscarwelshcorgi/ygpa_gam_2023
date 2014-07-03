@@ -135,7 +135,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
             module.$('#erpAssetsNoSeq').val(row['erpAssetsNoSeq']);
             module.$('#erpAssetsDisuseRegistYn').val(row['erpAssetsDisuseRegistYn']);
             module.$('#erpAssetsDisuseRsn').val(row['erpAssetsDisuseRsn']); */
-            //throw 0;
+            //
         }
     });
 
@@ -255,7 +255,7 @@ GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) 
          break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         throw 0;
+         
          break;
      }
 };
