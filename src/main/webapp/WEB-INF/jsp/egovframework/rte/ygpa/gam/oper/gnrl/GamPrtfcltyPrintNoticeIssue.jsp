@@ -753,10 +753,11 @@ div.notice {
   </head>
   <body>
   <c:if test="${resultCode==0 }">
-  <fmt:parseDate value='${resultList[0].nticDt}' var='nticDate' pattern="yyyy-MM-dd" scope="page"/>
-  <fmt:parseDate value='${resultList[0].payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
+  <fmt:parseDate value='${result.nticDt}' var='nticDate' pattern="yyyy-MM-dd" scope="page"/>
+  <fmt:parseDate value='${result.payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
+    <c:forEach var="result" items="${resultList }">
     <div class="page">
         <div class="subpage">
 			<div class="sender">
@@ -769,16 +770,16 @@ div.notice {
 			</div>
 			<div class="receiver">
 				<div id="companyName">
-					<c:out value="${resultList[0].entrpsNm}"/>
+					<c:out value="${result.entrpsNm}"/>
 				</div>
 				<div id="ceoName">
-					<c:out value="${resultList[0].rprsntvNm}"/>
+					<c:out value="${result.rprsntvNm}"/>
 				</div>
 				<div id="recAddress">
-					<c:out value="${resultList[0].adres}"/>
+					<c:out value="${result.adres}"/>
 				</div>
 				<div id="recPostcode">
-					<c:out value="${fn:substring(resultList[0].zip, 0, 3)}"/>-<c:out value="${fn:substring(resultList[0].zip, 3, 6)}"/>
+					<c:out value="${fn:substring(result.zip, 0, 3)}"/>-<c:out value="${fn:substring(result.zip, 3, 6)}"/>
 				</div>
 			</div>
 			<div class="letterMsg">고 지 서  재 중</div>
@@ -789,60 +790,61 @@ div.notice {
         		<p>* 전자납부이용은 고지서를 발부 받으신 당일 19시 이후부터 인터넷 뱅킹 등을 이용하여 납부하실 수 있습니다.</p>
         		<p class="bold">* 금융기관에서는 온라인 수납처리 바랍니다.</p>
        		</div>
-       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].fee}" /></div>
+       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
       		<div class="feeDetail">
       			<ul>
-      				<li class="cstmrRefNo"><c:out value="${fn:substring(resultList[0].cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(resultList[0].cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(resultList[0].cstmrRefCode, 10,17)}"/></li>
-      				<li class="chrgeKndNm"><c:out value="${resultList[0].chrgeKndNm}"/></li>
-      				<li class="entrpsNm"><c:out value="${resultList[0].entrpsNm}"/></li>
-      				<li class="entrpsNm"><c:out value="${resultList[0].rprsntvNm}"/></li>
+      				<li class="cstmrRefNo"><c:out value="${fn:substring(result.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 10,17)}"/></li>
+      				<li class="chrgeKndNm"><c:out value="${result.chrgeKndNm}"/></li>
+      				<li class="entrpsNm"><c:out value="${result.entrpsNm}"/></li>
+      				<li class="entrpsNm"><c:out value="${result.rprsntvNm}"/></li>
       				<li class="nticDate"><fmt:formatDate value="${nticDate}" pattern="yyyy년 MM월 dd일"/></li>
       				<li class="payTmlmt"><fmt:formatDate value="${payTmlmtDate}" pattern="yyyy년 MM월 dd일"/></li>
-      				<li class="bizrNo"><c:out value="${fn:substring(resultList[0].bizrno, 0,3)}"/>-**-*****</li>
+      				<li class="bizrNo"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</li>
    				</ul>
       		</div>
       		<div class="rmk">
       			<h2>부과내역</h2>
-      			<p>시설명 : <c:out value="${resultList[0].gisAssetsNm}"/></p>
-      			<p>소재지 : <c:out value="${resultList[0].gisAssetsLocplc}"/>&nbsp;<c:out value="${resultList[0].gisAssetsLnm}"/><c:if test="${resultList[0].gisAssetsLnmSub!=null}">-<c:out value="${resultList[0].gisAssetsLnmSub}"/></c:if></p>
-      			<p>업 체 : <c:out value="${resultList[0].entrpsNm}"/> (<c:out value="${resultList[0].entrpscd}"/>)</p>
-      			<p>면 적 : <c:out value="${resultList[0].grAr}"/></p>
+      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/></p>
+      			<p>소재지 : <c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></p>
+      			<p>업 체 : <c:out value="${result.entrpsNm}"/> (<c:out value="${result.entrpscd}"/>)</p>
+      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
       			<h2>산출근거</h2>
-      			<p>야적장 사용료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].fee}" /> 원</p>
-      			<p>산출공식 : <c:out value="${resultList[0].computDtls}"/></p>
-      			<c:if test="${resultList[0].feeA3>0}">
-	      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].feeA3}" /> 원</p>
+      			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
+      			<p>산출공식 : <c:out value="${result.computDtls}"/></p>
+      			<c:if test="${result.feeA3>0}">
+	      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원</p>
       			</c:if>
-      			<c:if test="${resultList[0].feeA4>0}">
-	      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].feeA4}" /> 원</p>
+      			<c:if test="${result.feeA4>0}">
+	      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원</p>
       			</c:if>
-      			<c:if test="${resultList[0].feeD1>0}">
-	      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].feeD1}" /> 원</p>
+      			<c:if test="${result.feeD1>0}">
+	      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원</p>
       			</c:if>
-      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].fee}" /> 원</p>
-      			<p class="summary">부가세(과세) : 0 원</p>
-      			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].fee}" /> 원</p>
+      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1}" /> 원</p>
+      			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
+      			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
       		</div>
 			<div class="giro">
-	       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${resultList[0].fee}" /></div>
-	       		<div id="elecPayNo"><c:out value="${resultList[0].elecPayNo}"/></div>
+	       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
+	       		<div id="elecPayNo"><c:out value="${result.elecPayNo}"/></div>
 	       		<div class="girocode">
-	       			<div id="girono">&lt;6374594+</div>
-		       		<div id="cstmrrefcode">+<c:out value="${resultList[0].cstmrRefCode}"/>+</div>
-		       		<div id="giroamount">+<c:out value="${resultList[0].fee}"/>&lt;</div>
+	       			<div id="girono">&lt;${result.giroNo}+</div>
+		       		<div id="cstmrrefcode">+<c:out value="${result.cstmrRefCode}"/>+</div>
+		       		<div id="giroamount">+<c:out value="${result.fee}"/>&lt;</div>
 		       		<div id="girocc">&lt;11&lt;</div>
 	       		</div>
 	       		<div class="giroDetail">
-		       		<div id="girobizrno"><c:out value="${fn:substring(resultList[0].bizrno, 0,3)}"/>-**-*****</div>
-      				<div id="nticno"><c:out value="${resultList[0].prtAtCode}"/>-<c:out value="${resultList[0].chrgeKnd}"/>-<c:out value="${resultList[0].accnutYear}"/>-<c:out value="${resultList[0].nticCnt}"/></div>
+		       		<div id="girobizrno"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</div>
+      				<div id="nticno"><c:out value="${result.prtAtCode}"/>-<c:out value="${result.chrgeKnd}"/>-<c:out value="${result.accnutYear}"/>-<c:out value="${result.nticCnt}"/></div>
       				<div id="nticDate"><fmt:formatDate value="${nticDate}" pattern="yyyy년 MM월 dd일"/></div>
       				<div id="payTmlmt"><fmt:formatDate value="${payTmlmtDate}" pattern="yyyy년 MM월 dd일"/></div>
-      				<div id="girormk">항코드 : <c:out value="${resultList[0].prtAtcode}"/> 관리번호 : <c:out value="${resultList[0].mngYear}"/>-<c:out value="${resultList[0].mngNo}"/>-<c:out value="${resultList[0].mngCnt}"/> 고지회차 : <c:out value="${resultList[0].nticCnt}"/>회차</div>
+      				<div id="girormk">항코드 : <c:out value="${result.prtAtcode}"/> 관리번호 : <c:out value="${result.mngYear}"/>-<c:out value="${result.mngNo}"/>-<c:out value="${result.mngCnt}"/> 고지회차 : <c:out value="${result.nticCnt}"/>회차</div>
 	       		</div>
 	       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
 			</div>
         </div>
     </div>
+    </c:forEach>
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

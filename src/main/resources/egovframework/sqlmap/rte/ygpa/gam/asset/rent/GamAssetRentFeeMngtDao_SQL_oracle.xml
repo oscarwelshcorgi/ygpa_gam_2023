@@ -729,7 +729,7 @@
                          )
     </insert>
 
-	<!--  고지서 출력  -->
+
     <select id="gamAssetRentFeeMngtDao.selectNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
 			FROM
@@ -749,6 +749,8 @@
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
 			    AND FEE_TP        = A.CHRGE_KND
 			    ) ELEC_PAY_NO,
+			    DECODE(A.PRT_AT_CODE, '620', '6374594', '621', '6374594', '6374594') GIRO_NO,
+			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,
 			    A.*
 			  FROM
 			    (SELECT S.PRT_AT_CODE,
@@ -790,6 +792,7 @@
 			      SUM(S.VAT) VAT,
 			      SUM(S.NTIC_AMT) NTIC_AMT,
 			      MAX(S.VAT_YN) VAT_YN,
+			      MAX(S.TAXT_SE_NM) TAXT_SE_NM,
 			      MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
 			      MAX(S.SANCTN_STTUS) SANCTN_STTUS,
 			      MAX(S.NHT_ISUE_YN) NHT_ISUE_YN,
@@ -816,6 +819,7 @@
 			        GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM ,
 			        NVL(L.OLNLP,0) OLNLP ,
 			        NVL(L.FEE,0) FEE ,
+			        GAM_GETCODENAME('GAM016', A.TAXT_SE) TAXT_SE_NM ,
 			        L.VAT_YN ,
 			        NVL(L.VAT,0) VAT ,
 			        NVL(L.NTIC_AMT,0) NTIC_AMT ,
