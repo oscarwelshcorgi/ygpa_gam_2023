@@ -748,7 +748,7 @@
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
 			    AND FEE_TP        = A.CHRGE_KND
 			    ) ELEC_PAY_NO,
-			    DECODE(A.PRT_AT_CODE, '620', '6374594', '621', '6374594', '6374594') GIRO_NO,
+			    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,
 			    A.*
 			  FROM
