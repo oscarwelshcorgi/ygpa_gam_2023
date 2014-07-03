@@ -116,6 +116,10 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		if("3".equals((String)map.get("rcvdTp"))) {	// 수납 여부 확인
 			throw processException("fail.cancelNticIssue.msg");
 		}
+		if("Y".equals((String)map.get("billPrtYn"))) {
+			vo.put("nhtPrintYn", "N");
+			gamNticRequestMngtDAO.updateRevCollFBillPrintYn(vo);
+		}
 		gamNticRequestMngtDAO.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
 		vo.put("accnutYear", "");
 		vo.put("nticno", "");
@@ -154,6 +158,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void updateNticPrintYn(Map<String, Object> vo) throws Exception {
 		gamNticRequestMngtDAO.updateLevReqestNhtPrintYn(vo);
+		gamNticRequestMngtDAO.updateRevCollFBillPrintYn(vo);
 	}
 
     /**

@@ -90,6 +90,9 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 			}
 			else throw processException("fail.levinsert.type");
 		}
+		gamAssetsUsePermMngtDAO.deleteAssetsUsagePdByStats(vo);	// 이전 통계 정보를 삭제한다.
+		gamAssetsUsePermMngtDAO.insertAssetsUsagePdByStats(vo);	// 새로운 통계 정보를 생성한다.
+
 		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);
 	}
 

@@ -46,6 +46,95 @@
 		]]>
 	</delete>
 
+	<insert id="gamAssetsUsePermMngtDao.insertAssetsUsagePdByStats_D" parameterClass="hashMap">
+		<![CDATA[
+		INSERT INTO USAGE_PD_BY_STATS_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, ASSETS_USAGE_SEQ,
+				USAGE_YEAR, USAGE_QU, USAGE_MT, USAGE_YRMT,
+				GIS_ASSETS_CD, GIS_ASSETS_SUB_CD,
+				QUAY_GROUP_CD,
+				USAGE_PRPOS_CD, REQST_ENTRPS_CD,
+				USAGE_CND, USAGE_PD_FROM, USAGE_PD_TO,
+				EXEMPT_SE, FEE, RDCXPT_FEE,
+				UPD_USR, UPDT_DT
+		)
+		SELECT
+    PRT_AT_CODE,
+    MNG_YEAR,
+    MNG_NO,
+    MNG_CNT,
+    ASSETS_USAGE_SEQ,
+    TO_CHAR(START_DATE, 'YYYY') USAGE_YEAR,
+    (
+      CASE
+        WHEN TO_CHAR(START_DATE, 'MM') < 4
+        THEN '1'
+        WHEN TO_CHAR(START_DATE, 'MM') < 7
+        THEN '2'
+        WHEN TO_CHAR(START_DATE, 'MM') < 10
+        THEN '3'
+        ELSE '4'
+      END
+    ) AS USAGE_QU,
+    TO_CHAR(START_DATE, 'MM') USAGE_MT,
+    TO_CHAR(START_DATE, 'YYYYMM') USAGE_YRMT,
+    GIS_ASSETS_CD, GIS_ASSETS_SUB_CD,
+    QUAY_GROUP_CD,
+				USAGE_PRPOS_CD, REQST_ENTRPS_CD,
+				USAGE_CND, USAGE_PD_FROM, USAGE_PD_TO,
+				EXEMPT_SE,
+        FEE,
+        RDCXPT_FEE,
+				UPD_USR, UPDT_DT
+  FROM
+    (SELECT ROWNUM                                                                                                                                              AS NTIC_CNT,
+    A.PRT_AT_CODE,
+    A.MNG_YEAR,
+    A.MNG_NO,
+    A.MNG_CNT,
+    A.ASSETS_USAGE_SEQ,
+        A.GIS_ASSETS_CD, A.GIS_ASSETS_SUB_CD,
+        (SELECT QUAY_GROUP_CD FROM ASSETS_RENT_F WHERE A.PRT_AT_CODE=PRT_AT_CODE AND
+    A.MNG_YEAR=MNG_YEAR  AND
+    A.MNG_NO=MNG_NO  AND
+    A.MNG_CNT=MNG_CNT ) QUAY_GROUP_CD,
+  a.usage_prpos_cd,
+          (SELECT entrpscd FROM ASSETS_RENT_F WHERE A.PRT_AT_CODE=PRT_AT_CODE AND
+    A.MNG_YEAR=MNG_YEAR  AND
+    A.MNG_NO=MNG_NO  AND
+    A.MNG_CNT=MNG_CNT ) reqst_entrps_cd,
+    '' usage_cnd, A.usage_pd_from, A.USAGE_PD_TO,
+    a.exempt_se,
+      TRUNC(A.FEE                                                         / (TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1), -1)                            AS FEE,
+      TRUNC(A.RDCXPT_FEE                                                         / (TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1), -1)                            AS RDCXPT_FEE,
+      TRUNC(A.FEE                                                         - ((A.FEE/(TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1)) * (ROWNUM-1)), -1) AS REFE,
+      ADD_MONTHS(a.usage_pd_from, '1'                      * (ROWNUM-1))                                                                                                                             AS START_DATE,
+      DECODE(ROWNUM, 1, 0, ADD_MONTHS(a.usage_pd_from, '1' * (ROWNUM-1))-ADD_MONTHS(a.usage_pd_from, 1 * (ROWNUM-1)-1))                                                         AS RATE_DAY,
+      LAG(ADD_MONTHS(a.usage_pd_from, '1'                  * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM)                                                                                                  AS PREV_DUE_DATE,
+      ADD_MONTHS(a.usage_pd_from, '1'                      * (ROWNUM-1))+14                                                                                                                          AS DUE_DATE,
+      (
+      CASE
+        WHEN a.usage_pd_to < ADD_MONTHS(a.usage_pd_from, 1 * ROWNUM) - 1
+        THEN a.usage_pd_to
+        ELSE ADD_MONTHS(a.usage_pd_from, 1 * ROWNUM) - 1
+      END ) AS END_DATE,
+      				#updUsr# UPD_USR, SYSDATE UPDT_DT
+    FROM ASSETS_RENT_DETAIL_F A LEFT OUTER JOIN COMTCCMMNDETAILCODE ON
+    	A.PRT_AT_CODE=#prtAtCode#
+				AND A.MNG_YEAR=#mngYear#
+				AND A.MNG_NO=#mngNo#
+				AND A.MNG_CNT=#mngCnt#
+    WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1)
+            	AND A.PRT_AT_CODE=#prtAtCode#
+				AND A.MNG_YEAR=#mngYear#
+				AND A.MNG_NO=#mngNo#
+				AND A.MNG_CNT=#mngCnt#
+
+    ) B
+
+		]]>
+	</insert>
+
 	<delete id="gamAssetsUsePermMngtDao.deleteLevRequest_D" parameterClass="hashMap">
 		<![CDATA[
 			DELETE FROM LEV_REQEST_F

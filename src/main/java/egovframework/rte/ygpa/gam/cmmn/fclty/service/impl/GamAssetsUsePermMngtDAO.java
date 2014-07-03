@@ -114,4 +114,13 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
     public void deleteAssetsUsagePdByStats(Map<String, Object> vo) throws Exception {
     	delete("gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D", vo);
     }
+
+    /**
+     * 사용료 통계 정보를 생성한다.
+     * @param vo
+     * @throws Exception
+     */
+    public String insertAssetsUsagePdByStats(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamAssetsUsePermMngtDao.insertAssetsUsagePdByStats_D", vo);
+    }
 }

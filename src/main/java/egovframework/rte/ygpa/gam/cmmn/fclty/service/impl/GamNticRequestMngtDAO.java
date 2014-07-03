@@ -72,6 +72,17 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	public String removeNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
         return (String)insert("gamNticRequestMngtDAO.removeNticRequestRevCollFC1", vo);
     }
+
+	/**
+	 * 통계 정보를 생성한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String insertLevReqestPlotByFee(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamNticRequestMngtDAO.insertLevReqestPlotByFee", vo);
+    }
+
 	/**
 	 * 고지 취소 정보를 전송한다.
 	 */
@@ -118,6 +129,15 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	 */
 	public void updateLevReqestNhtPrintYn(Map<String, Object> vo) throws Exception {
         update("gamNticRequestMngtDAO.updateLevReqestNhtPrintYn", vo);
+	}
+
+	/**
+	 * 포트미스에 고지서 출력 여부를 저장한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateRevCollFBillPrintYn(Map<String, Object> vo) throws Exception {
+        update("gamNticRequestMngtDAO.updateRevCollFBillPrintYn", vo);
 	}
 
 	/**
