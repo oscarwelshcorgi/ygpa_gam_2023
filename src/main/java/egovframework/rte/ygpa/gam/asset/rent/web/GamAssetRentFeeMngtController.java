@@ -737,6 +737,7 @@ public class GamAssetRentFeeMngtController {
 	 		paramMap.put("mngCnt", gamAssetRentFeeMngtVO.getMngCnt());
 	 		paramMap.put("chrgeKnd", gamAssetRentFeeMngtVO.getChrgeKnd());
 	 		paramMap.put("deptCd", loginVo.getDeptCd());
+	 		paramMap.put("nhtPrintYn", "N"); //고지서 출력 여부 기본 N 설정
 
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);
 

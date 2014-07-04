@@ -242,7 +242,8 @@
         UPDATE LEV_REQEST_F SET
       		NHT_ISUE_YN=#nhtIsueYn#,
       		NTICNO=#nticno#,
-      		ACCNUT_YEAR=#accnutYear#
+      		ACCNUT_YEAR=#accnutYear#,
+      		NHT_PRINT_YN = #nhtPrintYn#
        <isNotEmpty prepend="," property="payTmlmt">
        		PAY_TMLMT=#payTmlmt#
      	</isNotEmpty>

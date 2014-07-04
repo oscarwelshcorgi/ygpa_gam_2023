@@ -746,7 +746,28 @@ div.notice {
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
-			window.print();
+			var vo = [
+			          {name : 'prtAtCode', value: '<c:out value="${resultList[0].prtAtCode}"/>'},
+			          {name : 'mngYear', value: '<c:out value="${resultList[0].mngYear}"/>'},
+			          {name : 'mngNo', value: '<c:out value="${resultList[0].mngNo}"/>'},
+			          {name : 'mngCnt', value: '<c:out value="${resultList[0].mngCnt}"/>'},
+			          {name : 'nticCnt', value: '<c:out value="${resultList[0].nticCnt}"/>'},
+			          {name : 'chrgeKnd', value: '<c:out value="${resultList[0].chrgeKnd}"/>'}
+			          ];
+
+			$.ajax({
+				url: '<c:url value="/asset/rent/printAssetRentFeePayNoticeIssue.do" />',
+				type: 'POST',
+				module: this,
+				dataType: 'json',
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: vo
+				}).done(function(data) {
+	                if(data.resultCode=='0') {
+	        			window.print();
+	                }
+	                else alert(data.resultMsg);
+			});
 		});
 	});
 	</script>
