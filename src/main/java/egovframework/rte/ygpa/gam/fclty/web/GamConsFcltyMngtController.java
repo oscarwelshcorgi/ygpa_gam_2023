@@ -31,6 +31,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
 
 /**
  *
@@ -393,5 +394,17 @@ public class GamConsFcltyMngtController {
 
 		return map;
 	}
+
+	/**
+     * /건축물현황/층수 추가편집 팝업
+     *
+     * 건축물 층수 팝업
+     */
+	@RequestMapping(value="/popup/fcltyinfo9ListPopup.do")
+    String showEntrpsInfo(@RequestParam Map fcltyinfo9List, ModelMap model) throws Exception {
+
+		model.addAttribute("fcltyinfo9List", fcltyinfo9List);
+    	return "/ygpa/gam/fclty/GamPopupFcltyPopup";
+    }
 
 }

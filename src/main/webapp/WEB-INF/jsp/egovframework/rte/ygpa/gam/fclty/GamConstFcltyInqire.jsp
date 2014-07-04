@@ -58,6 +58,30 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 
 	this.$("#fcltyMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.makeDivValues('#fcltyManageVO', row); // 결과값을 채운다.
+		console.log(row);
+		var data=row.info.split('||');
+			module.$('#info1').text(data[1]);
+			module.$('#info2').text(data[2]);
+			module.$('#info3').text(data[3]);
+			module.$('#info4').text(data[4]);
+			module.$('#info5').text(data[5]);
+			module.$('#info6').text(data[6]);
+			module.$('#info7').text(data[7]);
+			module.$('#info8').text(data[8]);
+			module.$('#info9').text(data[9]);
+			module.$('#info10').text(data[10]);
+			module.$('#info11').text(data[11]);
+			module.$('#info12').text(data[12]);
+			module.$('#info13').text(data[13]);
+			module.$('#info14').text(data[14]);
+			module.$('#info15').text(data[15]);
+			module.$('#info16').text(data[16]);
+			var row = data[17];
+			console.log(row);
+			module.makeMultiDivValues('#fcltyinfo9List',JSON.parse(data[17]), function(row) {
+				console.log(data[17]);
+
+			})
 		module.$("#fcltyManageVO :input").val("");
 		module.makeFormValues("#fcltyManageVO", row);
 		module.getFormValues("#fcltyManageVO", row);
@@ -274,7 +298,7 @@ GamFcltyMngtModule.prototype.onClosePopup = function(popupId, msg, value){
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-			
+
 		break;
 	}
 };
@@ -301,8 +325,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th>건축시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />&nbsp;-&nbsp;
-								<input id="searchFcltySeq" type="text" size="4" maxlength="4" title="검색조건" />
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -373,43 +396,103 @@ var module_instance = new GamFcltyMngtModule();
 								<span id="gisPrtFcltyCd"></span>&nbsp;-&nbsp;
 								<span id="gisPrtFcltySeq"></span>
 							</td>
-							<th width="15%" height="23" class="required_text">건축시설명</th>
-							<td><span id="prtFcltyNm"></span></td>
-						</tr>
-						<tr>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td><span id="prtFcltySeNm"></span></td>
-							<!-- 
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">건축시설명</th>
+							<td colspan="2"><span id="prtFcltyNm"></span></td>
+							<!--
 							<th width="15%" height="23" class="required_text">위치</th>
 							<td><span id="gisAssetsLocNm"></span></td>
 							 -->
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">건축시설규격</th>
-							<td><span id="prtFcltyStndrd"></span></td>
-							<th width="15%" height="23" class="required_text">건축시설단위</th>
-							<td><span id="prtFcltyUnit"></span></td>
+							<th width="15%" height="23" class="required_text">대지위치</th>
+							<td><span id="info1"></span></td>
+							<th width="15%" height="23" class="required_text">지번</th>
+							<td><span id="info2"></span></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">관리업체코드</th>
-							<td><span id="prtFcltyMngEntrpsCd"></span></td>
-							<th width="15%" height="23" class="required_text">관리업체명</th>
-							<td><span id="prtFcltyMngEntrpsNm"></span></td>
+							<th width="15%" height="23" class="required_text">명칭 및 번호</th>
+							<td><span id="info3"></span></td>
+							<th width="15%" height="23" class="required_text">대지면적</th>
+							<td><span id="info4"></span></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">설치일자</th>
-							<td><span id="prtFcltyInstlDt"></span></td>
-							<th width="15%" height="23" class="required_text">변경일자</th>
-							<td><span id="prtFcltyChangeDt"></span></td>
+							<th width="15%" height="23" class="required_text">연면적</th>
+							<td><span id="info5"></span></td>
+							<th width="15%" height="23" class="required_text">건축면적</th>
+							<td><span id="info6"></span></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">위도좌표</th>
-							<td><span id="laCrdnt"></span></td>
-							<th width="15%" height="23" class="required_text">경도좌표</th>
-							<td><span id="loCrdnt"></span></td>
+							<th width="15%" height="23" class="required_text">주구조</th>
+							<td><span id="info7"></span></td>
+							<th width="15%" height="23" class="required_text">주용도</th>
+							<td><span id="info8"></span></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">층수</th>
+							<td><span id="info9"></span></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">건축주</th>
+							<td><span id="info10"></span></td>
+							<th width="15%" height="23" class="required_text">설계자</th>
+							<td><span id="info11"></span></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">공사감리자</th>
+							<td><span id="info12"></span></td>
+							<th width="15%" height="23" class="required_text">공사시공자</th>
+							<td><span id="info13"></span></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">허가일자</th>
+							<td><span id="info14"></span></td>
+							<th width="15%" height="23" class="required_text">착공일자</th>
+							<td><span id="info15"></span></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">사용승인일자</th>
+							<td><span id="info16"></span></td>
 						</tr>
 					</table>
 				</form>
+				<div id="fcltyinfo9List" style="margin-top: 1px">
+                        <table class="detailPanel" style="width:100%;">
+                        	<tr>
+                        		<th width="15%" height="23">순번</th>
+                                <td>
+                                	<span data-column-id="rnum"></span>
+                                </td>
+								<th width="15%" height="23">구분</th>
+                                <td>
+                                	<span data-column-id="no1"></span>
+                                </td>
+                            </tr>
+                        	<tr>
+                        		<th width="15%" height="23">층별</th>
+                                <td>
+                                	<span data-column-id="no2"></span>
+                                </td>
+								<th width="15%" height="23">구조</th>
+                                <td>
+                                	<span data-column-id="no3"></span>
+                                </td>
+                            </tr>
+                        	<tr>
+                        		<th width="15%" height="23">용도</th>
+                                <td>
+                                	<span data-column-id="no4"></span>
+                                </td>
+								<th width="15%" height="23">면적</th>
+                                <td>
+                                	<span data-column-id="no5"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 				<div class="emdControlPanel">
 					<button id="gotoLocation">위치조회</button>
 				</div>

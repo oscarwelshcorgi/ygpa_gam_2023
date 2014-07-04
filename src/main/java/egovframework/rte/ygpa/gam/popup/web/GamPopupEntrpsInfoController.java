@@ -32,55 +32,55 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
  * @since 2014-01-10
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamPopupEntrpsInfoController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
     @Resource(name = "gamPopupEntrpsInfoService")
     private GamPopupEntrpsInfoService gamPopupEntrpsInfoService;
-	
-    
+
+
 	/**
-     * 업체정보 팝업화면을 로딩한다. 
+     * 업체정보 팝업화면을 로딩한다.
      *
      * @param searchOpt
      * @param model the model
      * @return "/ygpa/gam/popup/GamPopupEntrpsInfo"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/popup/showEntrpsInfo.do")
     String showEntrpsInfo(GamPopupEntrpsInfoVO searchOpt, ModelMap model) throws Exception {
-    	
+
 		model.addAttribute("searchOpt", searchOpt);
-    	return "/ygpa/gam/popup/GamPopupEntrpsInfo";  
+    	return "/ygpa/gam/popup/GamPopupEntrpsInfo";
     }
-	
+
 	/**
-     * 업체정보목록을 조회한다. 
+     * 업체정보목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/popup/selectEntrpsInfoList.do", method=RequestMethod.POST)
@@ -93,22 +93,22 @@ public class GamPopupEntrpsInfoController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		List resultList = gamPopupEntrpsInfoService.selectEntrpsInfoList(searchVO);
     	totalCnt = gamPopupEntrpsInfoService.selectEntrpsInfoListTotCnt(searchVO);
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-		
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-    	
+
     	return map;
     }
 }
