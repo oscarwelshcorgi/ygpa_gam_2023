@@ -41,10 +41,10 @@
 						        
 						        <isNotEmpty property="serchStartYr">
 				        			<isNotEmpty property="serchStartMn">
-		                    			<![CDATA[AND T1.USAGE_YEARMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
+		                    			<![CDATA[AND T1.USAGE_YRMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
 		                    			<isNotEmpty property="serchEndYr">
 		                    				<isNotEmpty property="serchEndMn">
-		                    					<![CDATA[AND T1.USAGE_YEARMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
+		                    					<![CDATA[AND T1.USAGE_YRMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
 		                    				</isNotEmpty>
 		                    			</isNotEmpty>
 		                    		</isNotEmpty>
@@ -107,10 +107,10 @@
 				        
 				        <isNotEmpty property="serchStartYr">
 		        			<isNotEmpty property="serchStartMn">
-                    			<![CDATA[AND T1.USAGE_YEARMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
+                    			<![CDATA[AND T1.USAGE_YRMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
                     			<isNotEmpty property="serchEndYr">
                     				<isNotEmpty property="serchEndMn">
-                    					<![CDATA[AND T1.USAGE_YEARMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
+                    					<![CDATA[AND T1.USAGE_YRMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
                     				</isNotEmpty>
                     			</isNotEmpty>
                     		</isNotEmpty>
@@ -166,10 +166,10 @@
 				        
 				        <isNotEmpty property="serchStartYr">
 		        			<isNotEmpty property="serchStartMn">
-                    			<![CDATA[AND T1.USAGE_YEARMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
+                    			<![CDATA[AND T1.USAGE_YRMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
                     			<isNotEmpty property="serchEndYr">
                     				<isNotEmpty property="serchEndMn">
-                    					<![CDATA[AND T1.USAGE_YEARMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
+                    					<![CDATA[AND T1.USAGE_YRMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
                     				</isNotEmpty>
                     			</isNotEmpty>
                     		</isNotEmpty>

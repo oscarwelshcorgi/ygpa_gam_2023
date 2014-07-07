@@ -45,12 +45,12 @@
 						</isNotEmpty>
 						<isNotEmpty property="sStartYr">
 							<isNotEmpty property="sStartMn">
-								<![CDATA[ AND T1.USAGE_YEARMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
+								<![CDATA[ AND T1.USAGE_YRMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
 							</isNotEmpty>
 						</isNotEmpty>
 						<isNotEmpty property="sEndYr">
 							<isNotEmpty property="sEndMn">						
-								<![CDATA[ AND T1.USAGE_YEARMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
+								<![CDATA[ AND T1.USAGE_YRMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
 							</isNotEmpty>
 						</isNotEmpty>
 						<isNotEmpty property="sEntrpscd">													         
@@ -103,12 +103,12 @@
 						</isNotEmpty>
 						<isNotEmpty property="sStartYr">
 							<isNotEmpty property="sStartMn">
-								<![CDATA[ AND T1.USAGE_YEARMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
+								<![CDATA[ AND T1.USAGE_YRMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
 							</isNotEmpty>
 						</isNotEmpty>
 						<isNotEmpty property="sEndYr">
 							<isNotEmpty property="sEndMn">						
-								<![CDATA[ AND T1.USAGE_YEARMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
+								<![CDATA[ AND T1.USAGE_YRMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
 							</isNotEmpty>
 						</isNotEmpty>
 						<isNotEmpty property="sEntrpscd">													         
@@ -161,12 +161,12 @@
 						</isNotEmpty>
 						<isNotEmpty property="sStartYr">
 							<isNotEmpty property="sStartMn">
-								<![CDATA[ AND T1.USAGE_YEARMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
+								<![CDATA[ AND T1.USAGE_YRMT>=CONCAT(#sStartYr#, #sStartMn#)]]>
 							</isNotEmpty>
 						</isNotEmpty>
 						<isNotEmpty property="sEndYr">
 							<isNotEmpty property="sEndMn">						
-								<![CDATA[ AND T1.USAGE_YEARMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
+								<![CDATA[ AND T1.USAGE_YRMT<=CONCAT(#sEndYr#, #sEndMn#)]]>
 							</isNotEmpty>
 						</isNotEmpty>
 						<isNotEmpty property="sEntrpscd">													         
