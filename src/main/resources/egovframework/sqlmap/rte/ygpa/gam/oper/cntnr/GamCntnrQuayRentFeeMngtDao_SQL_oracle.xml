@@ -89,6 +89,7 @@
                    	MAX(S.SANCTN_STTUS) SANCTN_STTUS,
                    	MAX(S.NTIC_DT) NTIC_DT,
                    	MAX(S.NHT_ISUE_YN) NHT_ISUE_YN,
+                   	MAX(S.NHT_PRINT_YN) NHT_PRINT_YN,
                    	MAX(S.DEPTCD_NM) DEPTCD_NM,
                    	MAX(S.GR_AR) GR_AR,
                    	MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
@@ -120,6 +121,7 @@
 							       , L.RCIV_SE
 							       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 							       , L.NHT_ISUE_YN
+							       , NVL(L.NHT_PRINT_YN,'N') AS NHT_PRINT_YN
 							       , L.ARRRG_NO
 							       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
 							       , L.REQEST_SEQ
@@ -472,7 +474,7 @@
 		AND    MNG_CNT      = #mngCnt#
     </update>
 
-    <select id="gamCntnrQuayRentFeeMngtDao.selectCntnrQuayRentFeeMngtInfo_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultMap="gamCntnrQuayRentFeeMngtInfoMap"> 
+    <select id="gamCntnrQuayRentFeeMngtDao.selectCntnrQuayRentFeeMngtInfo_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultMap="gamCntnrQuayRentFeeMngtInfoMap">
         SELECT
                  L.NTIC_CNT
                , L.FCLTY_SE
@@ -521,7 +523,7 @@
            AND L.MNG_CNT     = #mngCnt#
     </select>
 
-    <select id="gamCntnrQuayRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultClass="int"> 
+    <select id="gamCntnrQuayRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultClass="int">
         SELECT COUNT(*) totcnt
           FROM ANLRVE_LEV_F A
          WHERE 1=1
@@ -1098,6 +1100,7 @@
 				       , L.RCIV_SE
 				       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 				       , L.NHT_ISUE_YN
+				       , NVL(L.NHT_PRINT_YN, 'N') AS NHT_PRINT_YN
 				       , L.ARRRG_NO
 				       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
 				       , L.REQEST_SEQ
@@ -1166,6 +1169,7 @@
 		       , L.RCIV_SE
 		       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 		       , L.NHT_ISUE_YN
+		       , NVL(L.NHT_PRINT_YN,'N') AS NHT_PRINT_YN
 		       , L.ARRRG_NO
 		       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
 		       , L.DEPTCD
@@ -1195,6 +1199,7 @@
 	       AND L.MNG_NO = #mngNo#
 	       AND L.MNG_CNT = #mngCnt#
 	       AND L.NTIC_CNT = #nticCnt#
+	       AND L.CHRGE_KND = #chrgeKnd#
     </select>
 
     <select id="gamCntnrQuayRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S" parameterClass="gamCntnrQuayRentFeeMngtVO" resultClass="egovMap">

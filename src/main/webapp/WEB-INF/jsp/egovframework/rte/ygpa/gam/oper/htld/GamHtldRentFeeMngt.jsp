@@ -51,6 +51,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     {display:'이자', name:'feeA3',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
                     {display:'고지여부', name:'nhtIsueYn',width:55, sortable:false,align:'center'},
+                    {display:'고지서출력여부', name:'nhtPrintYn',width:100, sortable:false,align:'center'},
                     {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
                     {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
                     {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
@@ -308,7 +309,8 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		               { name: 'mngYear', value: row.mngYear },
 		               { name: 'mngNo', value: row.mngNo },
 		               { name: 'mngCnt', value: row.mngCnt },
-		               { name: 'nticCnt', value: row.nticCnt }
+		               { name: 'nticCnt', value: row.nticCnt },
+		               { name: 'chrgeKnd', value: row.chrgeKnd }
 		             ];
 		this.doAction('<c:url value="/oper/htld/gamSelectHtldRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
@@ -354,7 +356,7 @@ GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value)
         break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -547,9 +549,11 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         </tr>
                         <tr>
                             <th><span class="label">납부기한일자</span></th>
-                            <td><input id="payTmlmt" data-column-id="payTmlmt" class="emdcal" /></td>
+                            <td><span data-column-id="payTmlmt"></span></td>
                         	<th><span class="label">수납구분</span></th>
-                            <td colspan="3"><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+                            <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+                        	<th><span class="label">고지서출력여부</span></th>
+                            <td><span data-column-id="nhtPrintYn" ></span></td>
                             <th><span class="label">수납일자</span></th>
                             <td colspan="5"><span data-column-id="rcivDt"></span></td>
                         </tr>
