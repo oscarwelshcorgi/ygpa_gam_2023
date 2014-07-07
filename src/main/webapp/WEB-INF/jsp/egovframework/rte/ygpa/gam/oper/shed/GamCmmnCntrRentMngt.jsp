@@ -728,6 +728,12 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
+            this.$('#prtAtCode').val('622');
+            this.$('#payMth').val('Pre');
+            this.$('#nticMth').val('1');
+            this.$('#taxtSe').val('2');
+            this.$('#deptcd').val("<c:out value="${loginOrgnztId}"/>");
+
             break;
 
         // 연장신청
@@ -1501,6 +1507,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsLnm').val(value.gisAssetsLnm);
              this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
+             this.$('#usageAr').val(value.gisAssetsRealRentAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              //this.$('#quayCd').val(value.gisAssetsQuayCd);

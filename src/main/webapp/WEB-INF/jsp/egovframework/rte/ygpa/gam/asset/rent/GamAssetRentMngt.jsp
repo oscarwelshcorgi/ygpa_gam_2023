@@ -200,7 +200,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.makeFormValues('#gamAssetRentForm', row);
         module._editData=module.getFormValues('#gamAssetRentForm', row);
         module._editRow=module.$('#assetRentMngtList').selectedRowIds()[0];
-
         //해당하는 자산임대상세 목록과 파일목록를 불러온다.
         module.$('#detailPrtAtCode').val(row['prtAtCode']);
         module.$('#prtAtCodeStr').val(row['prtAtCode']);
@@ -729,6 +728,12 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#popupEntrpsInfoInput').removeAttr('disabled');
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
+
+            this.$('#prtAtCode').val('622');
+            this.$('#payMth').val('Pre');
+            this.$('#nticMth').val('1');
+            this.$('#taxtSe').val('2');
+            this.$('#deptcd').val("<c:out value="${loginOrgnztId}"/>");
 
             break;
 
@@ -1525,6 +1530,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
              this.$('#gisAssetsAr').val(value.gisAssetsAr);
              this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
+             this.$('#usageAr').val(value.gisAssetsRealRentAr);
              this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              //this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
