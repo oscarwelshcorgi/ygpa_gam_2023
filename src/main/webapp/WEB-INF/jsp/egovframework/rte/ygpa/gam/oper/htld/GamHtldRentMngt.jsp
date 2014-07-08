@@ -218,6 +218,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
         module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
 
+        module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
+
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
@@ -264,6 +266,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             module.$('#cmd').val('modify');
         }
 
+        module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
@@ -337,6 +340,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         	event.data.module.$('#cofixList').val("");
         	event.data.module.$('#payinstIntrrate').val("");
         }
+        // calc first payment amount
+        event.data.module.calcFirstPaymentAmount();
     });
 
     this.$('#cofixList').on('change', {module: this}, function(event) {
@@ -396,6 +401,103 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	this.$("#sGrUsagePdFrom").val(searchStartDate);
 	this.$("#sGrUsagePdTo").val(searchEndDate);
 
+};
+
+GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
+	var firstAmt=0;
+	var nticMth=this.$('#nticMth').val();
+	var totalAmount=Number(this.$('#grFee').val().replace(/,/gi, ""));
+    var grUsagePdFrom = new Date(Date.parse(this.$('#grUsagePdFrom').val())); //총사용기간FROM
+    var grUsagePdTo = new Date(Date.parse(this.$('#grUsagePdTo').val())); //총사용기간To
+    var fromDt, toDt;
+//    console.log("calc Start : "+ nticMth);
+	switch(nticMth) {
+	case '2':	// 반기납
+		fromDt = grUsagePdFrom;
+		toDt = new Date(fromDt);
+		if(grUsagePdFrom.getMonth()<6) {
+			toDt.setMonth(6);
+		}
+		else {
+			toDt.setFullYear(toDt.getFullYear()+1);
+			toDt.setMonth(0);
+		}
+		toDt.setDate(1);
+		toDt=toDt-(1000*60*60*24);
+		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		else {
+			var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
+			var ndays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
+			firstAmt=Math.floor(totalAmount*ndays/totalDays/10)*10;
+		}
+		break;
+	case '3':	// 3분납
+		fromDt = grUsagePdFrom;
+		toDt = new Date(fromDt);
+		if(grUsagePdFrom.getMonth()<4) {
+			toDt.setMonth(4);
+		}
+		else if(grUsagePdFrom.getMonth()<8) {
+			toDt.setMonth(8);
+		}
+		else  {
+			toDt.setFullYear(toDt.getFullYear()+1);
+			toDt.setMonth(0);
+		}
+		toDt.setDate(1);
+		toDt=toDt-(1000*60*60*24);
+		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		else {
+			var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
+			var ndays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
+			firstAmt=Math.floor(totalAmount*ndays/totalDays/10)*10;
+		}
+		break;
+	case '4':	// 분기납
+		fromDt = grUsagePdFrom;
+		toDt = new Date(fromDt);
+		if(grUsagePdFrom.getMonth()<3) {
+			toDt.setMonth(3);
+		}
+		else if(grUsagePdFrom.getMonth()<6) {
+			toDt.setMonth(6);
+		}
+		else if(grUsagePdFrom.getMonth()<9) {
+			toDt.setMonth(9);
+		}
+		else {
+			toDt.setFullYear(toDt.getFullYear()+1);
+			toDt.setMonth(0);
+		}
+		toDt.setDate(1);
+		toDt=toDt-(1000*60*60*24);
+		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		else {
+			var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
+			var ndays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
+			firstAmt=Math.floor(totalAmount*ndays/totalDays/10)*10;
+		}
+		break;
+	case '5':	// 월납
+		fromDt = grUsagePdFrom;
+		toDt = new Date(fromDt);
+		toDt.setMonth(grUsagePdFrom.getMonth()+1);
+		toDt.setDate(1);
+		toDt=toDt-(1000*60*60*24);
+		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		else {
+			var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
+			var ndays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
+			firstAmt=Math.floor(totalAmount*ndays/totalDays/10)*10;
+		}
+		break;
+	default:
+		firstAmt=totalAmount;
+		break;
+	}
+    console.log("calc first Amount : "+ firstAmt);
+
+	this.$('#firstPayVal').val($.number(firstAmt));
 };
 
 GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
@@ -1748,6 +1850,12 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td>
                                     <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
                                 </td>
+								<th width="10%" height="18">1회차 사용료</th>
+                                <td colspan="3">
+                                	<input type="text" size="13" id="firstPayVal" class="skipValue"/> 원
+                                </td>
+                            </tr>
+                            <tr>
 								<th width="10%" height="18">코멘트</th>
                                 <td colspan="5">
                                 	<input type="text" size="116" id="cmt" maxlength="80"/>
