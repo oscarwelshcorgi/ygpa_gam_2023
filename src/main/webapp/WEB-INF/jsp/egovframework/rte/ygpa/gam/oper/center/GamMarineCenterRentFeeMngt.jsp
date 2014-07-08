@@ -38,8 +38,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
                     {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
-                    {display:'관리번호', name:'rentMngNo',width:70, sortable:false,align:'center'},
-                    {display:'고지횟수', name:'nticCnt',width:55, sortable:false,align:'center'},
+                    {display:'관리번호', name:'rentMngNo',width:102, sortable:false,align:'center'},
+                    {display:'횟수', name:'nticCnt',width:30, sortable:false,align:'center'},
                     {display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
                     {display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
                     {display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
@@ -48,10 +48,9 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'이자', name:'feeA3',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
                     {display:'고지여부', name:'nhtIsueYn',width:55, sortable:false,align:'center'},
-                    {display:'고지서출력여부', name:'nhtPrintYn',width:100, sortable:false,align:'center'},
+                    {display:'출력여부', name:'nhtPrintYn',width:55, sortable:false,align:'center'},
                     {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
                     {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
                     {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
@@ -117,6 +116,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
         	if(row==undefined) {
         		alert('사용료를 선택 하십시요.');
+        		return;
+        	}
+        	if(row.chrgeKnd=='A3' || row.chrgeKnd=='A4') {
+        		alert('요금종류가 '+row.chrgeKndNm+'에는 관리비를 입력 할 수 없습니다.');
         		return;
         	}
     		var opts = [

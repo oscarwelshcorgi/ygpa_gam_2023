@@ -409,6 +409,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
     var grUsagePdFrom = new Date(Date.parse(this.$('#grUsagePdFrom').val())); //총사용기간FROM
     var grUsagePdTo = new Date(Date.parse(this.$('#grUsagePdTo').val())); //총사용기간To
     var fromDt, toDt;
+	var totalMonths = grUsagePdTo.getMonth() - grUsagePdFrom.getMonth()+1;
 	var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
     var nDays;
 //    console.log("calc Start : "+ nticMth);
@@ -423,12 +424,13 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 			toDt.setFullYear(toDt.getFullYear()+1);
 			toDt.setMonth(0);
 		}
-		toDt.setDate(1);
+//		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		if(6>=totalMonths) firstAmt=totalAmount;
 		else {
-			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
+			//nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
+			//firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
+			firstAmt = Math.floor(totalAmount*6/totalMonths/10)*10;
 		}
 		break;
 	case '3':	// 3분납
@@ -444,12 +446,12 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 			toDt.setFullYear(toDt.getFullYear()+1);
 			toDt.setMonth(0);
 		}
-		toDt.setDate(1);
+//		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		if(4>=totalMonths) firstAmt=totalAmount;
 		else {
-			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
+//			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
+			firstAmt=Math.floor(totalAmount*4/totalMonths/10)*10;
 		}
 		break;
 	case '4':	// 분기납
@@ -468,24 +470,24 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 			toDt.setFullYear(toDt.getFullYear()+1);
 			toDt.setMonth(0);
 		}
-		toDt.setDate(1);
+//		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		if(3>=totalMonths) firstAmt=totalAmount;
 		else {
 			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
+			firstAmt=Math.floor(totalAmount*3/totalMonths/10)*10;
 		}
 		break;
 	case '5':	// 월납
 		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
 		toDt.setMonth(grUsagePdFrom.getMonth()+1);
-		toDt.setDate(1);
+//		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(toDt>=grUsagePdTo) firstAmt=totalAmount;
+		if(1>=totalMonths) firstAmt=totalAmount;
 		else {
 			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
+			firstAmt=Math.floor(totalAmount*1/totalMonths/10)*10;
 		}
 		break;
 	default:
