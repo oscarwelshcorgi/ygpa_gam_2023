@@ -733,7 +733,6 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#payMth').val('Pre');
             this.$('#nticMth').val('1');
             this.$('#taxtSe').val('2');
-            this.$('#deptcd').val("<c:out value="${loginOrgnztId}"/>");
             this.$('#applcMth').val('1'); //적용방법
             this.$('#applcTariff').val('0.05'); //적용요율
             this.$('#exemptSe').val('0'); // 면제구분

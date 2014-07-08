@@ -91,8 +91,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	this.loadData();
     	}
     } else {
+    	/* 컨테이너부두  사항 날짜 미지정 담당자 요청
     this.$('#sUsagePdFrom').val(EMD.util.getDate());
     this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+    	*/
     }
 };
 
