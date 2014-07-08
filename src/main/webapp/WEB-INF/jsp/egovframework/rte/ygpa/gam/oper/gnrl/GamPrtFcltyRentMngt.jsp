@@ -803,6 +803,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
         this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
     }
+
+    this.calcFirstPaymentAmount();
 };
 
 /**
@@ -1969,19 +1971,19 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="20" class="calcInput" id="usageAr" maxlength="8"/></td>
 								<th width="10%" height="18">사용기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" readonly/> ~
-                                	<input type="text" class="emdcal calcInput" size="17" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" readonly/> ~
+                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" readonly/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">적용방법</th>
                                 <td colspan="5">
-                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" data-value="1"/>
+                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="1"/>
                                 </td>
                               </tr>
                              <tr id="nationAssetLaw">
                                 <th width="10%" height="18">적용요율</th>
-                                <td>
+                                <td colspan="4">
                                     <!--
                                     <select id="applcTariff">
                                         <option value="" selected="selected">선택</option>
@@ -1993,8 +1995,10 @@ var module_instance = new GamAssetRentMngtModule();
                                      -->
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
+                              </tr>
+                            <tr>
 								<th width="10%" height="18">공시지가목록</th>
-                                <td>
+                                <td colspan="3">
                                     <select id="olnlpList">
                                         <option value="">선택</option>
                                     </select>
@@ -2013,8 +2017,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td colspan="3">
-                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/> ~
-                                	<input type="text" class="emdcal calcInput" size="17" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/> ~
+                                	<input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -2041,15 +2045,15 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>
-                                <td colspan="5"><input type="text" size="134" id="computDtls" maxlength="95"/></td>
+                                <td colspan="5"><input type="text" size="100" id="computDtls" maxlength="95"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용목적</th>
-                                <td colspan="5"><input type="text" size="134" id="usagePurps" maxlength="95"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usagePurps" maxlength="95"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용내역</th>
-                                <td colspan="5"><input type="text" size="134" id="usageDtls" maxlength="45"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usageDtls" maxlength="45"/></td>
                             </tr>
 
                             <!--
