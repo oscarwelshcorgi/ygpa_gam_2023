@@ -46,17 +46,19 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
-					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
+					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"건축시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"건축시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
-					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
-// 					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
+					{display:"건축시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
+					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"}
+					/*
+					{display:"위치",		 	name:"gisAssetsLocNm",		width:120,		sortable:false,		align:"left"},
 					{display:"건축시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
 					{display:"건축시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
 					{display:"관리업체",		name:"prtFcltyMngEntrpsCd",	width:60,		sortable:false,		align:"center"},
 					{display:"관리업체명", 		name:"prtFcltyMngEntrpsNm",	width:180,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
+					*/
 			],
 		height: "auto"
 	});
@@ -917,23 +919,23 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">건축주</th>
 							<td><input class="text" type="text" size="50" id="info10" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">설계자</th>
-							<td><input class="text" type="text" size="50" id="info11" maxlength="10" /></td>
+							<td><input class="text" type="text" size="50" id="info11" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">공사감리자</th>
 							<td><input class="text" type="text" size="50" id="info12" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">공사시공자</th>
-							<td><input class="text" type="text" size="50" id="info13" maxlength="10" /></td>
+							<td><input class="text" type="text" size="50" id="info13" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">허가일자</th>
-							<td><input class="text" id="info14" type="text" class="emdcal" size="20" title="허가일자" /></td>
+							<td><input id="info14" type="text" class="emdcal" size="20" title="허가일자" readonly="readonly"/></td>
 							<th width="15%" height="23" class="required_text">착공일자</th>
-							<td><input class="text" id="info15" type="text" class="emdcal" size="20" title="착공일자" /></td>
+							<td><input  id="info15" type="text" class="emdcal" size="20" title="착공일자" readonly="readonly"/></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">사용승인일자</th>
-							<td><input class="text" id="info16" type="text" class="emdcal" size="20" title="사용승인일자" /></td>
+							<td><input id="info16" type="text" class="emdcal" size="20" title="사용승인일자" readonly="readonly"/></td>
 							<th width="15%" height="23" class="required_text">건축물현황</th>
 							<td><button class="text" id="fcltyinfo9PopupBtn">추가/편집</button></td>
 						</tr>

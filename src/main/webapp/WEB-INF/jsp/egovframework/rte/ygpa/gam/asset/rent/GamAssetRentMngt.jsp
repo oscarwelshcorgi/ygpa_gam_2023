@@ -734,6 +734,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#nticMth').val('1');
             this.$('#taxtSe').val('2');
             this.$('#deptcd').val("<c:out value="${loginOrgnztId}"/>");
+            this.$('#applcMth').val('1'); //적용방법
+            this.$('#applcTariff').val('0.05'); //적용요율
+            this.$('#exemptSe').val('0'); // 면제구분
 
             break;
 
@@ -930,6 +933,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
              this.$('#detailMngYear').val( this.$('#mngYear').val() );
              this.$('#detailMngNo').val( this.$('#mngNo').val() );
              this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
+             this.$('#applcMth').val('1'); //적용방법
+             this.$('#applcTariff').val('0.05'); //적용요율
+             this.$('#exemptSe').val('0'); // 면제구분
 
              this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I', feature:null});
 //             this._editRow=this.$('#assetRentDetailList').flexGetData().length;
@@ -1535,10 +1541,13 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              //this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
 
+/*
+ *
              if(this._editData.feature==undefined) this._editData['feature']=null;
              this._editData['gisAssetsPrtAtCode']=value.gisAssetsPrtAtCode;
              this._editData['gisAssetsCd']=value.gisAssetsCd;
              this._editData['gisAssetsSubCd']=value.gisAssetsSubCd;
+ */
 
 /*              EMD.gis.selectAssetCdToAssetRentDetailFeature(this, this._editData, function(module, a) {
             	 module._editData.feature=a;
@@ -1547,6 +1556,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this._selectAssetsCd=value;
 
              this.loadOlnlpList(value);
+
          } else {
              alert('취소 되었습니다');
          }
@@ -1573,6 +1583,9 @@ GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
    			 event.data.module.$('#olnlp').val($.number($(this).children(':selected').val()));
    			event.data.module.onCalc();
    		 });
+   		olnlplist.find('option:eq(1)').attr("selected","selected");
+   		module.$('#olnlp').val(olnlplist.find('option:eq(1)').val());
+
         }
     });
 }
