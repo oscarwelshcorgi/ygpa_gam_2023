@@ -131,4 +131,5 @@ public interface GamAssetRentFeeMngtService {
 	 * 징수의뢰 정보를 수정한다.
 	 */
 	void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo) throws Exception;
+
 }

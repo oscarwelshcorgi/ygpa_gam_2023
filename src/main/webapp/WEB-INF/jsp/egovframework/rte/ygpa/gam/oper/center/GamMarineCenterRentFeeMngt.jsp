@@ -111,6 +111,25 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             var opts={};
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
+        case 'btnMngFee': 	// 관리비 입력
+        case 'btnMngFee2': 	// 관리비 입력
+        	var row = this.$('#assetRentFeeList').selectedRows()[0];
+
+        	if(row==undefined) {
+        		alert('사용료를 선택 하십시요.');
+        		return;
+        	}
+    		var opts = [
+    		               { name: 'prtAtCode', value: row.prtAtCode},
+    		               { name: 'mngYear', value: row.mngYear },
+    		               { name: 'mngNo', value: row.mngNo },
+    		               { name: 'mngCnt', value: row.mngCnt },
+    		               { name: 'nticCnt', value: row.nticCnt },
+    		               { name: 'chrgeKnd', value: row.chrgeKnd }
+    		             ];
+
+            this.doExecuteDialog('updateMngFeePopup', '관리비 입력', '<c:url value="/popup/showMngFeePopup.do"/>', opts);
+        	break;
         case 'btnEApproval':    // 전자결재
         case 'btnEApproval2':    // 전자결재
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
@@ -340,6 +359,13 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
+    case 'updateMngFeePopup':
+        if (msg != 'cancel') {
+            this.loadData();
+        } else {
+            alert('취소 되었습니다');
+        }
+        break;
     case 'selectEntrpsInfoFeePopup':
         if (msg != 'cancel') {
             this.$('#sEntrpscd').val(value.entrpscd);
@@ -469,6 +495,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                            	</td>
                         </tr>
                     </table>
+					<button id="btnMngFee">관리비 입력</button>
                     <button id="btnEApproval">결재요청</button>
                     <button id="btnExecNticIssue">고지</button>
                     <button id="btnCancelNticIssue">고지취소</button>
@@ -570,6 +597,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 						<tr>
 							<th width="40%">사용료목록</th>
 							<th style="text-align:right">
+								<button id="btnMngFee2">관리비 입력</button>
 								<button id="btnEApproval2">결재요청</button>
 								<button id="btnExecNticIssue2">고지</button>
 								<button id="btnCancelNticIssue2">고지취소</button>

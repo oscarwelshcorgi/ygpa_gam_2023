@@ -1239,4 +1239,5 @@
 		AND    MNG_NO       = #mngNo#
 		AND    MNG_CNT      = #mngCnt#
     </update>
+
 </sqlMap>

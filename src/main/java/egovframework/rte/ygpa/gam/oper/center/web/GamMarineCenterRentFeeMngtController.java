@@ -982,8 +982,62 @@ public class GamMarineCenterRentFeeMngtController {
 	    	return map;
 	    }
 
+	    /**
+	     *  관리비 입력
+	     * @param searchOpt
+	     * @param model
+	     * @return
+	     * @throws Exception
+	     */
+	    @RequestMapping(value="/popup/showMngFeePopup.do")
+	    String showMngFeePopup(GamMarineCenterRentFeeMngtVO searchOpt, ModelMap model) throws Exception {
+	    	model.addAttribute("searchOpt", searchOpt);
+
+	    	Map mngFeeInfo =gamMarineCenterRentFeeMngtService.selectAssetRentMngFeeInfo(searchOpt);
+	    	Map mngFeeData =gamMarineCenterRentFeeMngtService.selectAssetRentMngFeeData(searchOpt);
+	    	Map mngFee =gamMarineCenterRentFeeMngtService.selectAssetRentMngFeeVal(searchOpt);
+
+	    	model.addAttribute("mngFeeInfo", mngFeeInfo);
+	    	model.addAttribute("mngFee", mngFee);
+	    	model.addAttribute("mngFeeData", mngFeeData);
+
+	    	return "ygpa/gam/oper/center/GamMarineCenterMngFeePopup";
+	    }
 
 
+        @RequestMapping(value="/oper/center/updateMarineCenterMngFee.do")
+	    public @ResponseBody Map updateMarineCenterMngFee(
+	     	   @ModelAttribute("gamMarineCenterRentFeeMngtVO") GamMarineCenterRentFeeMngtVO gamMarineCenterRentFeeMngtVO,
+	     	   BindingResult bindingResult)
+	            throws Exception {
 
+		     	 Map map = new HashMap();
+		         String resultMsg = "";
+		         int resultCode = 1;
+
+		    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		    	if(!isAuthenticated) {
+			        map.put("resultCode", 1);
+		    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		        	return map;
+		    	}
+
+		    	try {
+		    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		    		gamMarineCenterRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
+		    		gamMarineCenterRentFeeMngtService.updateAssetRentMngFee(gamMarineCenterRentFeeMngtVO);
+			         resultCode = 0;
+			 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+		    	}
+		    	catch(Exception e) {
+			         resultCode = 0;
+			 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
+		    	}
+
+		     	 map.put("resultCode", resultCode);
+		         map.put("resultMsg", resultMsg);
+
+		 		return map;
+		     }
 
 }

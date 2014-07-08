@@ -11,12 +11,12 @@ import egovframework.com.cmm.ComDefaultVO;
  * @since 2014-01-23
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public class GamMarineCenterRentFeeMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
+
     /** 고지 횟수 */
     private String nticCnt;
 
@@ -64,9 +64,71 @@ public class GamMarineCenterRentFeeMngtVO extends ComDefaultVO {
     /**
      * 결재자 사원번호
      */
-    private String sanctnerEmplNo;;
+    private String sanctnerEmplNo;
 
-    /**
+    private String mngFee;
+
+    private String facilMngFee;
+
+    private String elctyFee;
+
+    private String waterFee;
+
+    private String gasFee;
+
+    private String envFee;
+
+    private String mngFeeSj;
+
+    public String getMngFee() {
+		return mngFee;
+	}
+
+	public void setMngFee(String mngFee) {
+		this.mngFee = mngFee;
+	}
+
+	public String getFacilMngFee() {
+		return facilMngFee;
+	}
+
+	public void setFacilMngFee(String facilMngFee) {
+		this.facilMngFee = facilMngFee;
+	}
+
+	public String getWaterFee() {
+		return waterFee;
+	}
+
+	public void setWaterFee(String waterFee) {
+		this.waterFee = waterFee;
+	}
+
+	public String getGasFee() {
+		return gasFee;
+	}
+
+	public void setGasFee(String gasFee) {
+		this.gasFee = gasFee;
+	}
+
+	public String getEnvFee() {
+		return envFee;
+	}
+
+	public void setEnvFee(String envFee) {
+		this.envFee = envFee;
+	}
+
+	public String getMngFeeSj() {
+		return mngFeeSj;
+	}
+
+	public void setMngFeeSj(String mngFeeSj) {
+		this.mngFeeSj = mngFeeSj;
+	}
+
+	/**
      * 결재 일시
      */
     private String sanctnDt;
@@ -261,7 +323,7 @@ public class GamMarineCenterRentFeeMngtVO extends ComDefaultVO {
     private String sumNticAmt;
 
     private String sumArrrgAmt;
-    
+
     /******* 세입징수 ********/
 
     /** 회계 구분 코드 */
@@ -1518,6 +1580,14 @@ public class GamMarineCenterRentFeeMngtVO extends ComDefaultVO {
 
 	public void setNticDtTo(String nticDtTo) {
 		this.nticDtTo = nticDtTo;
+	}
+
+	public String getElctyFee() {
+		return elctyFee;
+	}
+
+	public void setElctyFee(String elctyFee) {
+		this.elctyFee = elctyFee;
 	}
 
 

@@ -868,8 +868,6 @@ public class GamAssetRentFeeMngtController {
     	return "/ygpa/gam/asset/rent/GamNticArrrgPopup";
     }
 
-
-
     /**
      * 고지서를 출력한다.
      * @param approvalOpt

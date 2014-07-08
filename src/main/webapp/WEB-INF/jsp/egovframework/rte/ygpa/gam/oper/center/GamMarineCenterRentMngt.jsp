@@ -1452,6 +1452,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         if(oldTabId=='tabs1') {
         	this._deleteDataList=[];    // 삭제 목록 초기화
         	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
+
         }
         break;
     case 'tabs3':
@@ -1566,7 +1567,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <tr>
                             <th>항코드</th>
                             <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" value="640" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
                             <th>신청구분</th>
                             <td width="100px">
@@ -1676,12 +1677,12 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">항코드</th>
                                 <td>
-                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM019 />
+                                    <input id="prtAtCode" class="ygpaCmmnCd" value="640" data-default-prompt="선택" data-code-id="GAM019" />
                                     <input type="text" size="4" id="prtAtCodeStr" disabled/>
                                 </td>
 								<th width="10%" height="18">담당부서</th>
                                 <td>
-                                    <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
+                                    <input id="deptcd" class="ygpaDeptSelect" value="ORGNZT_0000000000002" data-default-prompt="선택" data-value="<c:out value="${loginOrgnztId}"/>" />
                                 </td>
 								<th width="10%" height="18">관리번호</th>
                                 <td>

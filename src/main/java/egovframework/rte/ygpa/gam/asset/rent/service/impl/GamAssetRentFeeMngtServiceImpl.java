@@ -171,5 +171,4 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 		gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail(vo);
 	}
 
-
 }
