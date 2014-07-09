@@ -66,7 +66,11 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  });
 
 	this.$('#chk').on('click', {module: this}, function(event) {
-	  	document.cookie = "ygpa_popup_c=" + "/oper/cntnr/gamCntnrQuayPopupInqire.do;" +new Date();
+		var d = new Date();
+		d.setDate(d.getDate()+1);
+		d.setHours(0);
+		console.log(d);
+	  	document.cookie = "ygpa_popup_c1=/oper/cntnr/gamCntnrQuayPopupInqire.do; expires=" +d.toUTCString();
 	  	event.data.module.closeWindow();
 	});
 
