@@ -1873,7 +1873,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td>
                                     <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
                                 </td>
-								<th width="10%" height="18">1회차 사용료</th>
+								<th width="10%" height="18">1회 사용료</th>
                                 <td colspan="3">
                                 	<input type="text" size="13" id="firstPayVal" class="skipValue"/> 원
                                 </td>
