@@ -64,6 +64,12 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
      showTableToggleBtn: false,
      height: '290'
  });
+
+	this.$('#chk').on('click', {module: this}, function(event) {
+	  	document.cookie = "ygpa_popup_c=" + "/oper/cntnr/gamCntnrQuayPopupInqire.do;" +new Date();
+	  	event.data.module.closeWindow();
+	});
+
 };
 
 /**
@@ -94,10 +100,7 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
     	 break;
  }
 };
-	this.$('#chk').on('click', {module: this}, function(event) {
-	  	document.cookie = "ygpa_popup_c" + "/oper/cntnr/gamCntnrQuayPopupInqire.do ;" ;
-	  	event.data.module.EMD.closeWindow();
-	});
+
 GamAssetLndValInqireModule.prototype.onSubmit = function() {
  //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
