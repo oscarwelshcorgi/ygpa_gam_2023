@@ -96,7 +96,7 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 };
 	this.$('#chk').on('click', {module: this}, function(event) {
 	  	document.cookie = "ygpa_popup_c" + "/oper/cntnr/gamCntnrQuayPopupInqire.do ;" ;
-	  	event.data.module.closeWindow();
+	  	event.data.module.EMD.closeWindow();
 	});
 GamAssetLndValInqireModule.prototype.onSubmit = function() {
  //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
