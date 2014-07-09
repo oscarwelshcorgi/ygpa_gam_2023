@@ -74,11 +74,11 @@ GamMarineCenterMngFeePopupModule.prototype.calcMngFee = function() {
 	console.log("calc mngFee");
 
 	$.each(this.$('.calcMngFee'), function() {
-		mngFeeAmount+=Number($(this).val().replace(",", ""));
+		mngFeeAmount+=Number($(this).val().replace(/,/gi, ""));
 	});
 
 	this.$('#mngFeeAmount').val($.number(mngFeeAmount));
-	var usageAr = Number(this.$('#usageAr').val().replace(",", ""));
+	var usageAr = Number(this.$('#usageAr').val().replace(/,/gi, ""));
 	this.$('#facilMngFee').val($.number(mngFeeAmount * usageAr / 18237));	// 개별 관리비
 };
 
@@ -88,7 +88,7 @@ GamMarineCenterMngFeePopupModule.prototype.calcMngFeeTotal = function() {
 	console.log("calc calcMngFeeTotal");
 
 	$.each(this.$('.mngFee'), function() {
-		mngFeeTotalAmount+=Number($(this).val().replace(",", ""));
+		mngFeeTotalAmount+=Number($(this).val().replace(/,/gi, ""));
 	});
 
 	this.$('#mngTotalFee').val($.number(mngFeeTotalAmount));	// 관리비 합계
@@ -134,15 +134,15 @@ var popup_instance = new GamMarineCenterMngFeePopupModule();
 					<tbody>
 	                        <tr>
 	                            <th style="width: 70px">업체명</th>
-	                            <td><input id="entrpscd" type="text" size="5" value="${mngFeeInfo.entrpscd}"><input id="entrpsNm" type="text" size="40" value="${mngFeeInfo.entrpsNm }"></td>
+	                            <td><input id="entrpscd" type="text" size="5" value="${mngFeeInfo.entrpscd}" readonly="readonly"><input id="entrpsNm" type="text" size="40" value="${mngFeeInfo.entrpsNm }" readonly="readonly"></td>
 	                        </tr>
 							<tr>
 								<th>사용시설명</th>
-								<td><input id="gisAssetNm" value="${mngFeeInfo.gisAssetsNm }"/></td>
+								<td><input id="gisAssetNm" value="${mngFeeInfo.gisAssetsNm }" size="50" readonly="readonly"/></td>
 	                        </tr>
 							<tr>
 								<th>사용면적</th>
-								<td><input id="usageAr" value="${mngFeeInfo.grAr }"/></td>
+								<td><input id="usageAr" value="${mngFeeInfo.grAr }"/> m<sup>2</sup></td>
 	                        </tr>
 							<tr>
 	                            <th style="width: 70px">관리비 제목</th>
@@ -150,7 +150,7 @@ var popup_instance = new GamMarineCenterMngFeePopupModule();
 	                        </tr>
 	                        <tr>
 	                            <th>시설관리용역</th>
-	                            <td><input id="mngFee1" class="ygpaNumber calcMngFee" /> 원</td>
+	                            <td><input id="mngFee1" class="ygpaNumber calcMngFee" /> 원 <span class="comment">월별 한번만 입력 합니다.</span></td>
 	                        </tr>
 	                        <tr>
 	                            <th>방역소독/저수조</th>
@@ -170,7 +170,7 @@ var popup_instance = new GamMarineCenterMngFeePopupModule();
 	                        </tr>
 	                        <tr>
 								<th>시설유지 관리비 합계</th>
-								<td><input id="mngFeeAmount" class="ygpaNumber" readonly="readonly" /></td>
+								<td><input id="mngFeeAmount" class="ygpaNumber skipValue" readonly="readonly" /> 원</td>
 	                        </tr>
 					</tbody>
 				</table>
@@ -180,7 +180,7 @@ var popup_instance = new GamMarineCenterMngFeePopupModule();
 	                        <tr>
 	                        <tr>
 	                            <th>관리비</th>
-	                            <td><input id="facilMngFee" class="ygpaNumber mngFee" value="${mngFeeData.facilMngFee }"/> 원</td>
+	                            <td><input id="facilMngFee" class="ygpaNumber mngFee" value="${mngFeeData.facilMngFee }" readonly="readonly" /> 원</td>
 	                            <th>전기요금</th>
 	                            <td><input id="elctyFee" class="ygpaNumber mngFee" value="${mngFeeData.elctyFee }"/> 원</td>
 	                            <th>상하수도</th>

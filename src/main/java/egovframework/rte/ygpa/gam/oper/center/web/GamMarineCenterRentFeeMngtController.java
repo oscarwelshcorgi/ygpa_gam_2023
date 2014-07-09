@@ -1030,7 +1030,7 @@ public class GamMarineCenterRentFeeMngtController {
 			 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
 		    	}
 		    	catch(Exception e) {
-			         resultCode = 0;
+			         resultCode = 1;
 			 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
 		    	}
 

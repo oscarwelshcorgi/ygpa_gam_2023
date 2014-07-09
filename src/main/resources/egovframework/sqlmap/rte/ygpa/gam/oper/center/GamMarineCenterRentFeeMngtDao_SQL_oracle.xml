@@ -434,7 +434,6 @@
     <update id="gamMarineCenterRentFeeMngtDao.updateMarineCenterRentFee_S">
         UPDATE LEV_REQEST_F SET
 		       FCLTY_SE     = #fcltySe#
-		     , CHRGE_KND    = #chrgeKnd#
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
 		     , NTIC_PD_FROM = TO_DATE(#nticPdFrom#,'YYYY-MM-DD')
@@ -464,6 +463,7 @@
 		AND    MNG_YEAR     = #mngYear#
 		AND    MNG_NO       = #mngNo#
 		AND    MNG_CNT      = #mngCnt#
+	      AND CHRGE_KND      = #chrgeKnd#
     </update>
 
     <select id="gamMarineCenterRentFeeMngtDao.selectMarineCenterRentFeeInfo_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultMap="gamMarineCenterRentFeeInfoMap">
@@ -513,6 +513,7 @@
            AND L.MNG_YEAR    = #mngYear#
            AND L.MNG_NO      = #mngNo#
            AND L.MNG_CNT     = #mngCnt#
+           AND L.CHRGE_KND     = #chrgeKnd#
     </select>
 
     <select id="gamMarineCenterRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="int">
@@ -526,6 +527,7 @@
 		   AND MNG_YEAR    = #mngYear#
 		   AND MNG_NO      = #mngNo#
 		   AND MNG_CNT     = #mngCnt#
+           AND CHRGE_KND     = #chrgeKnd#
     </select>
 
     <insert id="gamMarineCenterRentFeeMngtDao.insertAnlrveLev_S">
@@ -641,14 +643,15 @@
 		                        )
     </insert>
 
-    <update id="gamMarineCenterRentFeeMngtDao.deleteMarineCenterRentFee_S">
+    <delete id="gamMarineCenterRentFeeMngtDao.deleteMarineCenterRentFee_S">
          DELETE FROM LEV_REQEST_F
           WHERE NTIC_CNT    = #nticCnt#
             AND PRT_AT_CODE = #prtAtCode#
             AND MNG_YEAR    = #mngYear#
             AND MNG_NO      = #mngNo#
             AND MNG_CNT     = #mngCnt#
-    </update>
+            AND L.CHRGE_KND     = #chrgeKnd#
+    </delete>
 
     <insert id="gamMarineCenterRentFeeMngtDao.insertMarineCenterRentLevReqest_S">
         INSERT INTO LEV_REQEST_F (
@@ -895,6 +898,7 @@
 			      AND L.MNG_NO        = #mngNo#
 			      AND L.MNG_CNT       = #mngCnt#
 			      AND L.NTIC_CNT      = #nticCnt#
+			      AND L.CHRGE_KND      = #chrgeKnd#
 			      ) S
 			    ORDER BY S.ENTRPS_NM ASC,
 			      S.NTIC_CNT ASC
@@ -1305,6 +1309,7 @@
 			       AND L.MNG_YEAR = #mngYear#
 			       AND L.MNG_NO = #mngNo#
 			       AND L.MNG_CNT = #mngCnt#
+                  AND L.CHRGE_KND     = #chrgeKnd#
                 ORDER BY L.NTIC_CNT ASC, L.NTIC_DT ASC
              ) A
     </select>
@@ -1370,6 +1375,7 @@
 	       AND L.MNG_NO = #mngNo#
 	       AND L.MNG_CNT = #mngCnt#
 	       AND L.NTIC_CNT = #nticCnt#
+			AND L.CHRGE_KND     = #chrgeKnd#
     </select>
 
     <select id="gamMarineCenterRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="egovMap">
@@ -1407,29 +1413,31 @@
 		AND    MNG_YEAR     = #mngYear#
 		AND    MNG_NO       = #mngNo#
 		AND    MNG_CNT      = #mngCnt#
+		AND	CHRGE_KND = #chrgeKnd#
     </update>
 
-       	<select id="gamMarineCenterRentFeeMngtDao.selectAssetRentMngFeeVal_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="egovMap">
-		SELECT
-			B.NTIC_YRMT
-		    , MAX(A.MNG_FEE_SJ) MNG_FEE_SJ
-		    , MAX(A.MNG_FEE) MNG_FEE
-       FROM
-		       LEV_REQEST_F A,
-		       (
-		       SELECT TO_CHAR(L.NTIC_PD_FROM, 'YYYYMM') NTIC_YRMT, L.NTIC_PD_FROM, L.NTIC_PD_TO
-		  FROM LEV_REQEST_F L
-		 WHERE 1 = 1
-	       AND L.PRT_AT_CODE = #prtAtCode#
-	       AND L.MNG_YEAR = #mngYear#
-	       AND L.MNG_NO = #mngNo#
-	       AND L.MNG_CNT = #mngCnt#
-	       AND L.NTIC_CNT = #nticCnt#
-	       AND L.CHRGE_KND='A4'
-	       ) B
-		WHERE A.NTIC_PD_FROM=B.NTIC_PD_FROM
-		  	AND A.NTIC_PD_TO=B.NTIC_PD_TO
-		  	GROUP BY B.NTIC_YRMT
+      	<select id="gamMarineCenterRentFeeMngtDao.selectAssetRentMngFeeVal_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="egovMap">
+	       	SELECT B.NTIC_YRMT ,
+			  MAX(A.MNG_FEE_SJ) MNG_FEE_SJ ,
+			  MAX(A.MNG_FEE) MNG_FEE
+			FROM LEV_REQEST_F A,
+			  (
+			  SELECT TO_CHAR(L.NTIC_PD_FROM, 'YYYYMM') NTIC_YRMT,
+			    L.NTIC_PD_FROM,
+			    L.NTIC_PD_TO,
+			    L.CHRGE_KND
+			  FROM LEV_REQEST_F L
+			  WHERE 1           = 1
+				       AND L.PRT_AT_CODE = #prtAtCode#
+				       AND L.MNG_YEAR = #mngYear#
+				       AND L.MNG_NO = #mngNo#
+				       AND L.MNG_CNT = #mngCnt#
+				       AND L.NTIC_CNT = #nticCnt#
+				       AND L.CHRGE_KND= #chrgeKnd#
+			  ) B
+			WHERE A.NTIC_PD_FROM BETWEEN TO_DATE(B.NTIC_YRMT||'01', 'YYYYMMDD') AND ADD_MONTHS(TO_DATE(B.NTIC_YRMT||'01', 'YYYYMMDD'), 1)
+			AND A.CHRGE_KND = 'A4'
+	GROUP BY B.NTIC_YRMT
     </select>
 
    	<select id="gamMarineCenterRentFeeMngtDao.selectAssetRentMngFeeInfo_S" parameterClass="gamMarineCenterRentFeeMngtVO" resultClass="egovMap">
@@ -1545,7 +1553,9 @@
         ) SELECT
         	        				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, 'A4', ENTRPSCD, ENTRPS_NM,
 				NTIC_PD_FROM, NTIC_PD_TO, PAY_TMLMT, NTICNO, NTIC_DT, RCIV_SE, NHT_ISUE_YN,
-				 OLNLP, #facilMngFee#+#elctyFee#+#waterFee#+#gasFee#, VAT, VAT_YN, NTIC_AMT, RM, NTIC_MTH, #updUsr#, SYSDATE
+				 OLNLP, #facilMngFee#+#elctyFee#+#waterFee#+#gasFee#, DECODE(VAT_YN, 'Y', trunc((#facilMngFee#+#elctyFee#+#waterFee#+#gasFee#)/10, -1), 0), VAT_YN,
+				#facilMngFee#+#elctyFee#+#waterFee#+#gasFee#+DECODE(VAT_YN, 'Y', trunc((#facilMngFee#+#elctyFee#+#waterFee#+#gasFee#)/10, -1), 0),
+				RM, NTIC_MTH, #updUsr#, SYSDATE
 		     , #mngFee#
 		     , #facilMngFee#
 		     , #elctyFee#

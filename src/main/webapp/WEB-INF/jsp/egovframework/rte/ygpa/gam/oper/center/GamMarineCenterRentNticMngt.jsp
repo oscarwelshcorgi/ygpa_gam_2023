@@ -49,7 +49,7 @@ GamMarineCenterRentNticMngtModule.prototype.loadComplete = function() {
 					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'수납구분', name:'rcivSe',width:55, sortable:false,align:'center'},
+					{display:'수납구분', name:'rcivSeNm',width:55, sortable:false,align:'center'},
 					{display:'수납일자', name:'rcivDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
@@ -135,6 +135,7 @@ GamMarineCenterRentNticMngtModule.prototype.nticArrrgSingle = function() {
 	var applyPayDates=this.$('#applyPayDates').val();
 	var arrrgAmt=this.$('#arrrgAmt').number(true).val();
 	var newPayTmlmt=this.$('#newPayTmlmt').val();
+	var chrgeKnd=this.$('#chrgeKnd').val();
 
 	var nticDetail = [
 	               { name: 'prtAtCode', value: row.prtAtCode},
@@ -146,6 +147,7 @@ GamMarineCenterRentNticMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'newPayTmlmt', value: newPayTmlmt },
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
+	               { name: 'chrgeKnd', value: chrgeKnd },
 	             ];
 	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
@@ -175,7 +177,8 @@ GamMarineCenterRentNticMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'mngYear', value: row.mngYear },
 	               { name: 'mngNo', value: row.mngNo },
 	               { name: 'mngCnt', value: row.mngCnt },
-	               { name: 'nticCnt', value: row.nticCnt }
+	               { name: 'nticCnt', value: row.nticCnt },
+	               { name: 'chrgeKnd', value: row.chrgeKnd }
 	             ];
 	 	this.doAction('<c:url value="/oper/center/selecMarineCenterRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
@@ -187,7 +190,7 @@ GamMarineCenterRentNticMngtModule.prototype.loadDetailPage = function() {
 				}
 			} );	// 리스트 값을 채운다
 			module.makeDivValues('#summaryPayInfo', result.resultSummary); // 결과값을 채운다.
-			if(result.resultArrrg==undefined) {
+			if(result.resultArrrg==undefined || result.resultArrrg.arrrgDates<=0) {
 				module.$('#arrrgDetail').hide();
 			}
 			else {
@@ -201,6 +204,30 @@ GamMarineCenterRentNticMngtModule.prototype.loadDetailPage = function() {
 		}
 	});
 		// tabs3 -- 연체목록을 채운다
+
+		var dlyList = [
+		               { name: 'prtAtCode', value: row.prtAtCode},
+		               { name: 'chrgeKnd', value: row.chrgeKnd },
+		               { name: 'accnutYear', value: row.accnutYear },
+		               { name: 'nticno', value: row.nticno }
+		             ];
+		this.doAction('<c:url value="/oper/center/selectMarineCenterRentNticMngtDlyList.do" />', dlyList, function(module, result) {
+			if (result.resultCode == "0") {
+
+				module.makeMultiDivValues('#marineCenterRentRentNticMngtListForm',result.resultList , function(row) {
+				} );	// 리스트 값을 채운다
+
+				module.makeDivValues('#marineCenterRentNticMngtSum', result.resultSummary); // 결과값을 채운다.
+
+
+			} else {
+				alert(result.resultMsg);
+			}
+		});
+};
+
+GamMarineCenterRentNticMngtModule.prototype.loadArrrgPage = function() {
+	var row = this.$('#marineCenterRentNticList').selectedRows()[0];
 
 		var dlyList = [
 		               { name: 'prtAtCode', value: row.prtAtCode},
@@ -263,7 +290,8 @@ GamMarineCenterRentNticMngtModule.prototype.onTabChange = function(newTabId, old
 		this.loadDetailPage();
         break;
 	case 'tabs3':
-		this.$("#marineCenterRentNticMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
+//		this.loadArrrgPage();
+//		this.$("#marineCenterRentNticMngtListTab").tabs("option", {active: 2});    // 탭을 전환 한다.
 	    break;
     }
 };
@@ -286,7 +314,7 @@ GamMarineCenterRentNticMngtModule.prototype.onClosePopup = function(popupId, msg
     	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -421,6 +449,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
 					</table>
                 	<!-- <h2>연체 내역</h2> -->
                     <form id="arrrgDetailVO">
+                    <input id="chrgeKnd" type="hidden" />
                       <table id="arrrgDetailInfo" class="detailPanel">
                         <tr>
                         	<th><span class="label">연체일수</span></th>
@@ -505,7 +534,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
 			</div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
-                    <form id="prtFcltyRentFeePaySttusMngtListForm">
+                    <form id="marineCenterRentRentNticMngtListForm">
                         <table class="detailForm"  style="width:100%;">
                             <tr>
                                 <th width="16%">항코드</th>
@@ -565,7 +594,7 @@ var module_instance = new GamMarineCenterRentNticMngtModule();
                             </tr>
                         </table>
                     </form>
-                    <table style="width:100%;" id="prtFcltyRentFeePaySttusMngtSum" class="summaryPanel">
+                    <table style="width:100%;" id="marineCenterRentNticMngtSum" class="summaryPanel">
 						<tr>
 							<th width="30%" height="23">자료수</th>
 							<td><span id="dpTotCnt" class="ygpaNumber" style="text-align:right;"></span></td>
