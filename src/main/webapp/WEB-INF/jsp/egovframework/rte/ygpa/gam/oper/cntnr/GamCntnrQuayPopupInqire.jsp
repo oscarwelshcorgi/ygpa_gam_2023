@@ -23,9 +23,12 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
+
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(585, 265);
+
+
+GamAssetLndValInqireModule.prototype = new EmdModule(585, 285);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
@@ -91,7 +94,10 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
     	 break;
  }
 };
-
+	this.$('#chk').on('click', {module: this}, function(event) {
+	  	document.cookie = "ygpa_popup_c" + "/oper/cntnr/gamCntnrQuayPopupInqire.do ;" ;
+	  	event.data.module.closeWindow();
+	});
 GamAssetLndValInqireModule.prototype.onSubmit = function() {
  //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
@@ -113,9 +119,11 @@ GamAssetLndValInqireModule.prototype.onTabChange = function(newTabId, oldTabId) 
  }
 };
 
+
 //다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAssetLndValInqireModule();
 </script>
+
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
@@ -152,7 +160,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnCntnrQuayRent">컨테이너부두 목록 관리</button>
+                                <button id="btnCntnrQuayRent">컨테이너부두 목록 관리&nbsp&nbsp</button>
                             </td>
                         </tr>
                         <tr>
@@ -191,7 +199,11 @@ var module_instance = new GamAssetLndValInqireModule();
                         </form>
                     </table>
                 </div>
-
+				<form>
+					<div align="right">
+						하루팝업 창 닫기 <input type="checkbox" id="chk">
+					</div>
+				</form>
             </div>
     </div>
 </div>
