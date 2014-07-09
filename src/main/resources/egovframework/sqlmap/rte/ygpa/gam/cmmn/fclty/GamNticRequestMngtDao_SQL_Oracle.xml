@@ -117,7 +117,7 @@
         SELECT
       PRT_AT_CODE, CHRGE_KND FEE_TP, #accnutYear# FISCAL_YR, #nticno# BILL_NO,
       ENTRPSCD, (SELECT BZ_RGST_ID FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) BZ_RGST_ID, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) AGENT_NAME,(SELECT SSN FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=ENTRPSCD) SSN,
-      SYSDATE, TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), NHT_PRINT_YN,
+      SYSDATE, TO_DATE(NVL(#payTmlmt#, SYSDATE+15), 'YYYY-MM-DD'), NHT_PRINT_YN,
       NTIC_AMT, RDCXPT_FEE, 0, 0,
 		'0',
       #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO,
@@ -128,6 +128,7 @@
       	AND MNG_NO=#mngNo#
       	AND MNG_CNT=#mngCnt#
       	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
     </insert>
 
     <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollFC1" parameterClass="hashMap" >
@@ -141,7 +142,7 @@
       )
       SELECT
               L.PRT_AT_CODE, L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
-      (SELECT LPAD(NVL(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F@YGPA_PORTMIS WHERE PRT_AT_CODE=L.PRT_AT_CODE
+      (SELECT LPAD(NVL(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM PAYEOSU.UNPAID_F@YGPA_PORTMIS WHERE PRT_AT_CODE=L.PRT_AT_CODE
       	AND FEE_TP=L.CHRGE_KND AND FISCAL_YR=L.ACCNUT_YEAR AND BILL_NO=L.NTICNO) DLY_BILL_NO,
       	L.ARRRG_AMT, SYSDATE, TO_DATE(#newPayTmlmt#, 'YYYY-MM-DD') PAY_TMLMT, null, 'N', '1',
       	L.NTIC_DT, L.ARRRG_AMT,
@@ -155,6 +156,7 @@
       	AND MNG_NO=#mngNo#
       	AND MNG_CNT=#mngCnt#
       	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
     </insert>
 
     <delete id="gamNticRequestMngtDAO.removeNticRequestRevCollFC1" parameterClass="hashMap" >
@@ -184,20 +186,16 @@
 				RCVD_TP,
 		       RCVD_DT,
 		       BILL_PRT_YN
-		FROM PAYEOSU.REV_COLL_F@YGPA_P2MGR
-		WHERE PRT_AT_CODE = #prtAtCode#
-			AND FEE_TP = (SELECT MAX(DECODE(CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', CHRGE_KND)) CHRGE_KND
-									FROM LEV_REQEST_F
-									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
-									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
-			AND FISCAL_YR = (SELECT MAX(ACCNUT_YEAR)
-									FROM LEV_REQEST_F
-									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
-									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
-			AND BILL_NO=(SELECT MAX(NTICNO)
-									FROM LEV_REQEST_F
-									WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
-									GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT)
+		FROM PAYEOSU.REV_COLL_F@YGPA_P2MGR P,
+				(
+					SELECT PRT_AT_CODE, ACCNUT_YEAR, NTICNO, CHRGE_KND
+					FROM LEV_REQEST_F
+					WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt# AND CHRGE_KND=#chrgeKnd#
+				) L
+		WHERE P.PRT_AT_CODE = L.PRT_AT_CODE
+			AND P.FISCAL_YR=L.ACCNUT_YEAR
+			AND P.FEE_TP = L.CHRGE_KND
+			AND BILL_NO=L.NTICNO
 		</select>
 
       <delete id="gamNticRequestMngtDAO.deleteNticRequestRevCollF">
@@ -205,8 +203,8 @@
 			WHERE EXISTS (
 				SELECT '1' FROM (SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO
 					FROM LEV_REQEST_F
-					WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt#
-					GROUP BY PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT) B
+					WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt# AND CHRGE_KND=#chrgeKnd#
+					) B
 				WHERE P.PRT_AT_CODE = B.PRT_AT_CODE
 					AND P.FEE_TP = B.CHRGE_KND
 					AND P.FISCAL_YR = B.ACCNUT_YEAR
@@ -216,12 +214,13 @@
 
     <update id="gamNticRequestMngtDAO.updateLevReqestArrrgAmt" parameterClass="hashMap">
         UPDATE LEV_REQEST_F SET
-        	PAY_TMLMT=TO_DATE(#payTmlmt#, 'YYYY-MM-DD'),
+        	PAY_TMLMT=TO_DATE(#newPayTmlmt#, 'YYYY-MM-DD'),
       		ARRRG_NO=(SELECT NVL(ARRRG_NO,0)+1 FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
 		      	AND MNG_YEAR=#mngYear#
 		      	AND MNG_NO=#mngNo#
 		      	AND MNG_CNT=#mngCnt#
-		      	AND NTIC_CNT=#nticCnt#),
+		      	AND NTIC_CNT=#nticCnt#
+		        AND CHRGE_KND=#chrgeKnd#),
       		ARRRG_AMT=TO_NUMBER(#arrrgAmt#),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#)/100,
       		ARRRG_PAY_DATES=TO_NUMBER(#arrrgPayDates#),
@@ -233,6 +232,7 @@
 	      	AND MNG_NO=#mngNo#
 	      	AND MNG_CNT=#mngCnt#
 	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
   </update>
 
     <update id="gamNticRequestMngtDAO.updateLevReqestIssueYn" parameterClass="hashMap">
@@ -256,6 +256,7 @@
 	      	AND MNG_NO=#mngNo#
 	      	AND MNG_CNT=#mngCnt#
 	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
   </update>
 
   <update id="gamNticRequestMngtDAO.updateLevReqestNhtPrintYn" parameterClass="hashMap">
@@ -267,6 +268,7 @@
       	AND MNG_NO=#mngNo#
       	AND MNG_CNT=#mngCnt#
       	AND NTIC_CNT=#nticCnt#
+	    AND CHRGE_KND=#chrgeKnd#
       	<!-- AND CHRGE_KND=#chrgeKnd# -->
   </update>
 
@@ -374,8 +376,115 @@
         AND MNG_YEAR=#mngYear#
         AND MNG_NO=#mngNo#
         AND MNG_CNT=#mngCnt#
+	    AND CHRGE_KND=#chrgeKnd#
     ]]>
   </delete>
+
+      <insert id="gamNticRequestMngtDAO.insertEgiroPrint" parameterClass="map">
+        /* ygpam.fdr.rev.mgt.insertEgiroPrint */
+        /* 전자고지 체계 구축 고지출력 kang */
+        INSERT INTO PAYEOSU.EGIRO (
+           PRT_AT_CODE
+         , TRANID
+         , WORK_DT
+         , PRINT_DT
+         , CANCEL_DT
+         , EGIRO_TYPE
+         , DATA_TYPE
+         , SEQ_NUM
+         , CUSTOMER_NUM
+         , AMOUNT
+         , AMOUNT_AF
+         , DATA_FORMAT
+         , DUE_DATE
+         , CLOSE_DATE
+         , GIRO_NUM
+         , EGIRO_NUM
+         , AGENT_CODE
+         , BILL_TYPE
+         , ETC_TYPE
+         , KOR_NM
+         , BZ_RGST_ID
+         , BILL_YYYYMM
+         , ADDR
+         , RET_CODE
+         , RCVD_SEQ
+         , CHENAP_TIME
+         , CHENAP_MM
+         , ETC_COUNT
+         , ETC_TITLE
+         , ETC_TXT
+         , SEND_YN
+         , FEE_TP
+         , FISCAL_YR
+         , BILL_NO
+         , DLY_SER_NO)
+        VALUES (
+           #prtAtCode#
+         , TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSSSSFF')||RPAD(NVL(#prtAtCode#,' '),3)
+         , TO_CHAR(SYSDATE, 'YYYYMMDD')
+         , #printDt#
+         , #cancelDt#
+         , 'GR6533'
+         , '22'
+         , ''
+         , SF_MAKEDIGIT( #prtAtCode# || TO_CHAR(ASCII(SUBSTR(#feeTp#,1,1))) || SUBSTR(#feeTp#,2,1) || #fiscalYr# || #billNo# || #customerNum#, 'BILLNO')
+         , #amount#
+         , #amouuntAf#
+         , 'A'
+         , #dueDate#
+         , TO_CHAR(ADD_MONTHS(to_date(#closeDate#,'yyyymmdd'),1),'YYYYMMDD')
+         , #giroNum#
+         , #egiroNum#
+         , #agentCode#
+         , #billType#
+         , '00'
+         , #korNm#
+         , #bzRgstId#
+         , #billYyyymm#
+         , #addr#
+         , ' '
+         , '0'
+         , ''
+         , ''
+         , '00'
+         , ''
+         , ''
+         , ''
+         , #feeTp#
+         , #fiscalYr#
+         , #billNo#
+         , #dlySerNo#
+        )
+    </insert>
+
+    <update id="gamNticRequestMngtDAO.updateEgiroPrintCancel" parameterClass="map">
+        /*+ ygpam.fdr.rev.mgt.updateEgiroPrintCancel */
+        /* 전자고지 체계 구축 고지출력취소 kang */
+        UPDATE PAYEOSU.EGIRO
+        SET CANCEL_DT = #cancelDt#
+          , DUE_DATE = #dueDate#
+        WHERE PRT_AT_CODE = #prtAtCode#
+          AND FEE_TP      = #feeTp#
+          AND FISCAL_YR   = #fiscalYr#
+          AND BILL_NO     = #billNo#
+          AND DLY_SER_NO  = #dlySerNo#
+          AND TRANID	  = #tranId#
+    </update>
+
+    <select id="gamNticRequestMngtDAO.getWorkDtSysdateInfo" parameterClass="map" resultClass="egovMap">
+        /*+ ygpam.fdr.rev.mgt.getWorkDtSysdateInfo */
+        /* [전자고지] 당일고지발행했다가 취소하는 건인지 구분 kang */
+        SELECT TRANID, WORK_DT, CANCEL_DT, PRINT_DT
+        FROM PAYEOSU.EGIRO
+        WHERE PRT_AT_CODE = #prtAtCode#
+          AND FEE_TP = #feeTp#
+          AND FISCAL_YR = #fiscalYr#
+          AND BILL_NO = #billNo#
+          AND DLY_SER_NO = #dlySerNo#
+          AND CANCEL_DT IS NULL
+    </select>
+
 
 </sqlMap>
 

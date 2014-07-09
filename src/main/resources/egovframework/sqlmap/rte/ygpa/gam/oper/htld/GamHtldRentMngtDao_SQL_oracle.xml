@@ -200,6 +200,10 @@
 					             AND A.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
 
+					         <isEqual prepend="AND" property="sUsageYn" compareValue="Y">
+					                    SYSDATE BETWEEN A.GR_USAGE_PD_FROM AND A.GR_USAGE_PD_TO
+					         </isEqual>
+
 					         <isNotEmpty property="sGrUsagePdFrom">
                                  AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                              </isNotEmpty>
@@ -291,9 +295,16 @@
                  AND A.MNG_CNT = #sMngCnt#
              </isNotEmpty>
 
-             <isNotEmpty property="sPrmisnYn">
-                 AND A.PRMISN_YN = #sPrmisnYn#
-             </isNotEmpty>
+	         <isEqual prepend="AND" property="sUsageYn" compareValue="Y">
+	                    SYSDATE BETWEEN A.GR_USAGE_PD_FROM AND A.GR_USAGE_PD_TO
+	                    AND A.PRMISN_YN = 'Y'
+	         </isEqual>
+
+	         <isNotEqual prepend="AND" property="sUsageYn" compareValue="Y">
+	             <isNotEmpty property="sPrmisnYn">
+	                 AND A.PRMISN_YN = #sPrmisnYn#
+	             </isNotEmpty>
+			</isNotEqual>
 
              <isNotEmpty property="sUsagePrposCd">
                  AND (

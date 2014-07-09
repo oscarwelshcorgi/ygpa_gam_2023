@@ -290,7 +290,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     });
 
     this.$('#applcTariff').on('change', {module: this}, function(event) {
-    	if( $(this).val() == '1' ) {
+/*     	if( $(this).val() == '1' ) {
     		event.data.module.$('#applcTariffStr').val("0.05");
     	} else if( $(this).val() == '2' ) {
     		event.data.module.$('#applcTariffStr').val("0.025");
@@ -299,7 +299,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     	} else {
     		event.data.module.$('#applcTariffStr').val("");
     	}
-
+ */
         if( $(this).val() == '' ) {
             event.data.module.$('#applcTariffNm').val("");
         } else {
@@ -322,8 +322,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     });
 
 	// 국유재산법
-	this.$('#nationAssetLaw').show();
-	this.$('#tradePortLaw').hide();
+	this.$('.nationAssetLaw').show();
+	this.$('.tradePortLaw').hide();
 
     this.$('.calcInput').on('change keyup', {module: this}, function(event) {
         var m = event.data.module;
@@ -504,26 +504,33 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 };
 
 GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
+	console.log("applc mth change");
 	switch(applcMth) {
 	case '1':	// 국유재산법
-		this.$('#nationAssetLaw').show();
-		this.$('#tradePortLaw').hide();
+		this.$('.nationAssetLaw').show();
+		this.$('.tradePortLaw').hide();
 		break;
 	case '2':	// 공사규정
-		this.$('#nationAssetLaw').show();
-		this.$('#tradePortLaw').hide();
+		this.$('.nationAssetLaw').show();
+		this.$('.tradePortLaw').hide();
 		break;
 	case '3':	// 입찰
-		this.$('#nationAssetLaw').show();
-		this.$('#tradePortLaw').hide();
+		this.$('.nationAssetLaw').show();
+		this.$('.tradePortLaw').hide();
 		break;
 	case '4':	// 무역항규정
-		this.$('#nationAssetLaw').hide();
-		this.$('#tradePortLaw').show();
+		this.$('.nationAssetLaw').hide();
+		this.$('.tradePortLaw').show();
+		break;
+	case '5':	// 임대계약서
+		this.$('.nationAssetLaw').show();
+		this.$('.tradePortLaw').hide();
+		this.$('#applcTariff').val('0');
+//		this.$('#applcTariff_select').f('0');
 		break;
 	default:	// 기타
-		this.$('#nationAssetLaw').show();
-		this.$('#tradePortLaw').hide();
+		this.$('.nationAssetLaw').show();
+		this.$('.tradePortLaw').hide();
 		break;
 	}
     this.onCalc();
@@ -704,6 +711,8 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 		break;
 	case '4':	// 무역항규정
 		this.calcTradePortLaw();
+		break;
+	case '5':	// 임대계약서
 		break;
 	case '9':	// 기타
 		break;
@@ -1833,16 +1842,16 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">총사용료</th>
                                 <td><input type="text" size="20" class="ygpaNumber" id="grFee" disabled/></td>
 								<th width="10%" height="18">총감면사용료</th>
-                                <td><input type="text" size="53" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
+                                <td><input type="text" size="20" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">납부방법</th>
                                 <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM043 />
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
                                 </td>
 								<th width="10%" height="18">고지방법</th>
                                 <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM008 />
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
 								<th width="10%" height="18">분납이자율</th>
                                 <td>
@@ -1976,7 +1985,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="1"/>
                                 </td>
                               </tr>
-                             <tr id="nationAssetLaw">
+                             <tr class="nationAssetLaw">
                                 <th width="10%" height="18">적용요율</th>
                                 <td colspan="4">
                                     <!--
@@ -1991,7 +2000,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <input type="hidden" id="applcTariffNm"/>
                                 </td>
                               </tr>
-                            <tr>
+                            <tr class="nationAssetLaw">
 								<th width="10%" height="18">공시지가목록</th>
                                 <td colspan="3">
                                     <select id="olnlpList">
@@ -2001,9 +2010,9 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">공시지가</th>
                                 <td><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp" maxlength="13"/></td>
                             </tr>
-                            <tr id="tradePortLaw">
+                            <tr class="tradePortLaw">
                                 <th width="10%" height="18">적용단가</th>
-                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" maxlength="13"/></td>
+                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1" maxlength="13"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제구분</th>

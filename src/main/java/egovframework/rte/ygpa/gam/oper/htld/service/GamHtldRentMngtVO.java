@@ -183,6 +183,8 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
     /** 관리 번호(조합) */
     private String rentMngNo;
 
+    private String sUsageYn;
+
     /** 요금 종류 */
     private String chrgeKnd;
 
@@ -1312,6 +1314,14 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
 	 */
 	public void setSumGrRdcxptFee(String sumGrRdcxptFee) {
 		this.sumGrRdcxptFee = sumGrRdcxptFee;
+	}
+
+	public String getsUsageYn() {
+		return sUsageYn;
+	}
+
+	public void setsUsageYn(String sUsageYn) {
+		this.sUsageYn = sUsageYn;
 	}
 
 }

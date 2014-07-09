@@ -35,31 +35,27 @@
                    	S.NTIC_CNT,
 			        S.ENTRPSCD,
 			        S.ENTRPS_NM,
-                   	MIN(S.PRT_AT_CODE_NM) PRT_AT_CODE_NM,
-                   	MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
-                   	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
-                   	MAX(S.NTICNO) NTICNO,
-                   	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
-    				GAM_GETCODENAME('GAM050', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
-                   	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
-                   	SUM(S.VAT) VAT,
-                   	SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
-                   	SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
-                   	SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
-                   	SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
-                   	MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
-                   	MAX(S.SANCTN_STTUS) SANCTN_STTUS,
-                   	SUM(S.NTIC_AMT) TOTAL_NTIC_AMOUNT,
-                   	MAX(S.NTIC_DT) NTIC_DT,
-                   	MAX(S.PAY_TMLMT) PAY_TMLMT,
-                   	MAX(S.DEPTCD_NM) DEPTCD_NM,
-                   	MAX(S.RCIV_SE) RCIV_SE,
-                   	MAX(S.RCIV_DT) RCIV_DT,
-                   	GAM_GETCODENAME('GAM025',MAX(S.RCIV_SE)) RCIV_SE_NM,
-                   	MAX(S.GR_AR) GR_AR,
-                   	MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
-                   	MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
-                   	MAX(S.PRMISN_DT) PRMISN_DT
+                   	S.PRT_AT_CODE_NM,
+                   	S.NTIC_PD_FROM,
+                   	S.NTIC_PD_TO,
+                   	S.NTICNO,
+                   	S.CHRGE_KND,
+    				GAM_GETCODENAME('GAM050', S.CHRGE_KND) CHRGE_KND_NM,
+                   	S.CHRGE_KND FEE,
+                   	S.VAT,
+                   	S.SANCTN_STTUS_NM,
+                   	S.SANCTN_STTUS,
+                   	S.NTIC_AMT TOTAL_NTIC_AMOUNT,
+                   	S.NTIC_DT,
+                   	S.PAY_TMLMT,
+                   	S.DEPTCD_NM,
+                   	S.RCIV_SE,
+                   	S.RCIV_DT,
+                   	GAM_GETCODENAME('GAM025',S.RCIV_SE) RCIV_SE_NM,
+                   	S.GR_AR,
+                   	S.GR_USAGE_PD_FROM,
+                   	S.GR_USAGE_PD_TO,
+                   	S.PRMISN_DT
                      FROM (
                            SELECT
 							         L.NTIC_CNT
@@ -155,7 +151,6 @@
 							   </isNotEmpty>
 
                 ) S
-                GROUP BY S.PRT_AT_CODE, S.MNG_YEAR, S.MNG_NO, S.MNG_CNT, S.NTIC_CNT, S.ACCNUT_YEAR, S.ENTRPSCD, S.ENTRPS_NM
                 ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
              ) A
              ) Z
@@ -276,7 +271,6 @@
 							   	AND L.CHRGE_KND = #sChrgeKnd#
 							   </isNotEmpty>
 
-          GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.ENTRPSCD
           ) Z
     </select>
 

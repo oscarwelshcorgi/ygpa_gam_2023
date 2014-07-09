@@ -160,4 +160,5 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return delete("gamNticRequestMngtDAO.deleteLevReqestPdByStats", vo);
     }
 
+
 }
