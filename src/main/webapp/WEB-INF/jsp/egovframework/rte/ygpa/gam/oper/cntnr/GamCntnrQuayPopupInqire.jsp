@@ -69,7 +69,6 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
 		var d = new Date();
 		d.setDate(d.getDate()+1);
 		d.setHours(0);
-		console.log(d);
 	  	document.cookie = "ygpa_popup_c1=/oper/cntnr/gamCntnrQuayPopupInqire.do; expires=" +d.toUTCString();
 	  	event.data.module.closeWindow();
 	});
@@ -208,7 +207,7 @@ var module_instance = new GamAssetLndValInqireModule();
                 </div>
 				<form>
 					<div align="right">
-						하루팝업 창 닫기 <input type="checkbox" id="chk">
+						하루 동안 알람 창 닫기 <input type="checkbox" id="chk">
 					</div>
 				</form>
             </div>

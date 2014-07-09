@@ -25,7 +25,7 @@
  */
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(585, 265);
+GamAssetLndValInqireModule.prototype = new EmdModule(585, 285);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
@@ -60,8 +60,15 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
      rp: 24,
      showTableToggleBtn: false,
      height: '290'
- });
-};
+	 });
+	 this.$('#chk').on('click', {module: this}, function(event) {
+			var d = new Date();
+			d.setDate(d.getDate()+1);
+			d.setHours(0);
+		  	document.cookie = "ygpa_popup_c3=/oper/gnrl/gamPrtFcltyPopupInqire.do; expires=" +d.toUTCString();
+		  	event.data.module.closeWindow();
+		});
+	};
 
 /**
 * 정의 된 버튼 클릭 시
@@ -191,7 +198,11 @@ var module_instance = new GamAssetLndValInqireModule();
                         </form>
                     </table>
                 </div>
-
+				<form>
+					<div align="right">
+						하루 동안 알람 창 닫기 <input type="checkbox" id="chk">
+					</div>
+				</form>
             </div>
     </div>
 </div>

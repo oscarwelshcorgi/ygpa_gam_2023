@@ -1605,7 +1605,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <tr>
                             <th>항코드</th>
                             <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" value="622" data-default-prompt="전체" data-code-id="GAM019" />
+                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
                             <th>신청구분</th>
                             <td width="100px">
