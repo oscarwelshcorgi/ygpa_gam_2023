@@ -106,7 +106,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		module._deletePhotoList=[];
 		module._edited=false;
 		module.$('#previewImage').attr('src', '#');
-		
+
 	});
 
 	this.$("#assetCodePhotoList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -543,7 +543,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			
+
 			break;
 
 
@@ -560,6 +560,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			if (result.resultCode == "0") {
 				module.makeFormValues('#editGisAssetCode',
 						result.result); // 결과값을 채운다.
+				module.$('#beforeGisAssetsPrtAtCode').val(result.result.gisAssetsPrtAtCode);
 				module.selectedItem=result.result;
 				module._editData = result.result;
 						module._state="";
@@ -696,6 +697,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						<th><span class="label">항구분</span></th>
 						<td>
 							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-code='P' data-required="true"/>
+							<input type="hidden" id="beforeGisAssetsPrtAtCode" value="ddd">
 						</td>
 						<th><span class="label">자산코드</span></th>
 						<td colspan="3">
