@@ -72,29 +72,24 @@
                    	S.NTIC_CNT,
 			        S.ENTRPSCD,
 			        S.ENTRPS_NM,
-                   	MIN(S.PRT_AT_CODE_NM) PRT_AT_CODE_NM,
-                   	MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
-                   	MAX(S.NTIC_PD_TO) NTIC_PD_TO,
-                   	MAX(S.NTICNO) NTICNO,
-                   	MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
-    				GAM_GETCODENAME('GAM055', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
-                   	SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
-                   	SUM(S.VAT) VAT,
-                   	SUM(S.NTIC_AMT) NTIC_AMT,
-                   	SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
-                   	SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
-                   	SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
-                   	SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
-                   	MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
-                   	MAX(S.SANCTN_STTUS) SANCTN_STTUS,
-                   	MAX(S.NTIC_DT) NTIC_DT,
-                   	MAX(S.NHT_ISUE_YN) NHT_ISUE_YN,
-                   	MAX(S.NHT_PRINT_YN) NHT_PRINT_YN,
-                   	MAX(S.DEPTCD_NM) DEPTCD_NM,
-                   	MAX(S.GR_AR) GR_AR,
-                   	MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
-                   	MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
-                   	MAX(S.PRMISN_DT) PRMISN_DT
+                   	S.PRT_AT_CODE_NM,
+                   	S.NTIC_PD_FROM,
+                   	S.NTIC_PD_TO,
+                   	S.NTICNO,
+                   	S.CHRGE_KND,
+    				GAM_GETCODENAME('GAM055', S.CHRGE_KND) CHRGE_KND_NM,
+                   	S.FEE,
+                   	S.VAT,
+                   	S.NTIC_AMT,
+                   	S.SANCTN_STTUS_NM,
+                   	S.SANCTN_STTUS,
+                   	S.NTIC_DT,
+                   	S.NHT_ISUE_YN,
+                   	S.DEPTCD_NM,
+                   	S.GR_AR,
+                   	S.GR_USAGE_PD_FROM,
+                   	S.GR_USAGE_PD_TO,
+                   	S.PRMISN_DT
                      FROM (
                            SELECT
 							         L.NTIC_CNT
@@ -157,13 +152,13 @@
 							   <isNotEmpty property="sReqstSeCd">
 								   AND (
 								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-								                                                              SELECT   R.PRT_AT_CODE
-								                                                                     , R.MNG_YEAR
-								                                                                     , R.MNG_NO
-								                                                                     , R.MNG_CNT
-								                                                                FROM ASSETS_RENT_F R
-								                                                               WHERE R.REQST_SE_CD = #sReqstSeCd#
-								                                                             )
+                                            SELECT   R.PRT_AT_CODE
+                                                   , R.MNG_YEAR
+                                                   , R.MNG_NO
+                                                   , R.MNG_CNT
+                                              FROM ASSETS_RENT_F R
+                                             WHERE R.REQST_SE_CD = #sReqstSeCd#
+                                           )
 								       )
 							   </isNotEmpty>
 
@@ -242,7 +237,6 @@
 	                           </isNotEmpty>
 
                 ) S
-                GROUP BY S.PRT_AT_CODE, S.MNG_YEAR, S.MNG_NO, S.MNG_CNT, S.NTIC_CNT, S.ENTRPSCD, S.ENTRPS_NM
                 ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
              ) A
              ) Z
@@ -344,15 +338,15 @@
 
     <select id="gamTrainPortRentFeeMngtDao.selectTrainPortRentFeeMngtSum_S" parameterClass="gamTrainPortRentFeeMngtVO" resultMap="gamTrainPortRentFeeMngtSumMap">
         SELECT
-                 COUNT(*) SUM_CNT
-               , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
-                   	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
-                   	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
-                   	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
-                   	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
-               , SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) SUM_NHT_ISUE_AMT
-               , SUM(NVL(L.VAT, 0)) SUM_VAT
-               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
+                 TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)), '999,999,999,999')) SUM_FEE
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)), '999,999,999,999')) SUM_FEE_A3
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)), '999,999,999,999')) SUM_FEE_A4
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)), '999,999,999,999')) SUM_FEE_D1
+                   	,TRIM(TO_CHAR(SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)), '999,999,999,999')) SUM_FEE_D2
+               ,   TRIM(TO_CHAR(SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) , '999,999,999,999')) SUM_NHT_ISUE_AMT
+               , TRIM(TO_CHAR(SUM(NVL(L.VAT, 0)), '999,999,999,999')) SUM_VAT
+               , TRIM(TO_CHAR(SUM(NVL(L.NTIC_AMT,0)), '999,999,999,999')) SUM_NTIC_AMT
           FROM ASSETS_RENT_F A, LEV_REQEST_F L
          WHERE 1 = 1
              AND A.QUAY_GROUP_CD='T'
@@ -442,7 +436,6 @@
     <update id="gamTrainPortRentFeeMngtDao.updateTrainPortRentFeeMngt_S">
         UPDATE LEV_REQEST_F SET
 		       FCLTY_SE     = #fcltySe#
-		     , CHRGE_KND    = #chrgeKnd#
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
 		     , NTIC_PD_FROM = TO_DATE(#nticPdFrom#,'YYYY-MM-DD')
@@ -472,6 +465,7 @@
 		AND    MNG_YEAR     = #mngYear#
 		AND    MNG_NO       = #mngNo#
 		AND    MNG_CNT      = #mngCnt#
+	      AND CHRGE_KND      = #chrgeKnd#
     </update>
 
     <select id="gamTrainPortRentFeeMngtDao.selectTrainPortRentFeeMngtInfo_S" parameterClass="gamTrainPortRentFeeMngtVO" resultMap="gamTrainPortRentFeeMngtInfoMap">
@@ -521,6 +515,7 @@
            AND L.MNG_YEAR    = #mngYear#
            AND L.MNG_NO      = #mngNo#
            AND L.MNG_CNT     = #mngCnt#
+           AND L.CHRGE_KND     = #chrgeKnd#
     </select>
 
     <select id="gamTrainPortRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamTrainPortRentFeeMngtVO" resultClass="int">
@@ -534,6 +529,7 @@
 		   AND MNG_YEAR    = #mngYear#
 		   AND MNG_NO      = #mngNo#
 		   AND MNG_CNT     = #mngCnt#
+           AND CHRGE_KND     = #chrgeKnd#
     </select>
 
     <insert id="gamTrainPortRentFeeMngtDao.insertAnlrveLev_S">
@@ -649,14 +645,15 @@
 		                        )
     </insert>
 
-    <update id="gamTrainPortRentFeeMngtDao.deleteTrainPortRentFeeMngt_S">
+    <delete id="gamTrainPortRentFeeMngtDao.deleteTrainPortRentFeeMngt_S">
          DELETE FROM LEV_REQEST_F
           WHERE NTIC_CNT    = #nticCnt#
             AND PRT_AT_CODE = #prtAtCode#
             AND MNG_YEAR    = #mngYear#
             AND MNG_NO      = #mngNo#
             AND MNG_CNT     = #mngCnt#
-    </update>
+            AND L.CHRGE_KND     = #chrgeKnd#
+    </delete>
 
 	<insert id="gamTrainPortRentFeeMngtDao.insertTrainPortRentFeeMngtLevReqest_S">
         INSERT INTO LEV_REQEST_F (
@@ -773,35 +770,31 @@
 			      ) RPRSNTV_NM,
 			      (SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ADRES,
 			      (SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ZIP,
-			      MAX(S.NTIC_DT) NTIC_DT,
-			      MAX(S.PAY_TMLMT) PAY_TMLMT,
+			      S.NTIC_DT,
+			      S.PAY_TMLMT,
 			      (SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) BIZRNO,
-			      MAX(S.GIS_ASSETS_NM) GIS_ASSETS_NM,
-			      MAX(S.GIS_ASSETS_LOCPLC) GIS_ASSETS_LOCPLC,
-			      MAX(S.GIS_ASSETS_LNM) GIS_ASSETS_LNM,
-			      MAX(S.GIS_ASSETS_LNM_SUB) GIS_ASSETS_LNM_SUB,
-			      COUNT(S.GIS_ASSETS_NM) GIS_ASSETS_CNT,
-			      MAX(S.COMPUT_DTLS) COMPUT_DTLS,
-			      MIN(S.NTIC_PD_FROM) NTIC_PD_FROM,
-			      MAX(S.NTIC_PD_TO) NTIC_PD_TO,
-			      MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND,
-			      SUM(DECODE(S.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, S.FEE)) FEE,
-			      SUM(DECODE(S.CHRGE_KND, 'A3', S.FEE, 0)) FEE_A3,
-			      SUM(DECODE(S.CHRGE_KND, 'A4', S.FEE, 0)) FEE_A4,
-			      SUM(DECODE(S.CHRGE_KND, 'D1', S.FEE, 0)) FEE_D1,
-			      SUM(DECODE(S.CHRGE_KND, 'D2', S.FEE, 0)) FEE_D2,
-			      SUM(S.VAT) VAT,
-			      SUM(S.NTIC_AMT) NTIC_AMT,
-			      MAX(S.VAT_YN) VAT_YN,
-			      MAX(S.TAXT_SE_NM) TAXT_SE_NM,
-			      MAX(S.SANCTN_STTUS_NM) SANCTN_STTUS_NM,
-			      MAX(S.SANCTN_STTUS) SANCTN_STTUS,
-			      MAX(S.NHT_ISUE_YN) NHT_ISUE_YN,
-			      MAX(S.DEPTCD_NM) DEPTCD_NM,
-			      MAX(S.GR_AR) GR_AR,
-			      MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
-			      MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
-			      MAX(S.PRMISN_DT) PRMISN_DT
+			      S.GIS_ASSETS_NM,
+			      S.GIS_ASSETS_LOCPLC,
+			      S.GIS_ASSETS_LNM,
+			      S.GIS_ASSETS_LNM_SUB,
+			      '1' GIS_ASSETS_CNT,
+			      S.COMPUT_DTLS,
+			      S.NTIC_PD_FROM,
+			      S.NTIC_PD_TO,
+			      S.CHRGE_KND,
+			      S.FEE,
+			      S.VAT,
+			      S.NTIC_AMT,
+			      S.VAT_YN,
+			      S.TAXT_SE_NM,
+			      S.SANCTN_STTUS_NM,
+			      S.SANCTN_STTUS,
+			      S.NHT_ISUE_YN,
+			      S.DEPTCD_NM,
+			      S.GR_AR,
+			      S.GR_USAGE_PD_FROM,
+			      S.GR_USAGE_PD_TO,
+			      S.PRMISN_DT
 			    FROM
 			      (SELECT L.NTIC_CNT ,
 			        L.FCLTY_SE ,
@@ -907,16 +900,8 @@
 			      AND L.MNG_NO        = #mngNo#
 			      AND L.MNG_CNT       = #mngCnt#
 			      AND L.NTIC_CNT      = #nticCnt#
+			      AND L.CHRGE_KND      = #chrgeKnd#
 			      ) S
-			    GROUP BY S.PRT_AT_CODE,
-			      S.MNG_YEAR,
-			      S.MNG_NO,
-			      S.MNG_CNT,
-			      S.NTIC_CNT,
-			      S.ENTRPSCD,
-			      S.ENTRPS_NM,
-			      S.ACCNUT_YEAR,
-			      S.NTICNO
 			    ORDER BY S.ENTRPS_NM ASC,
 			      S.NTIC_CNT ASC
 			    ) A
@@ -1133,6 +1118,7 @@
 			       AND L.MNG_YEAR = #mngYear#
 			       AND L.MNG_NO = #mngNo#
 			       AND L.MNG_CNT = #mngCnt#
+                  AND L.CHRGE_KND     = #chrgeKnd#
                 ORDER BY L.NTIC_CNT ASC, L.NTIC_DT ASC
              ) A
     </select>
@@ -1237,5 +1223,6 @@
 		AND    MNG_YEAR     = #mngYear#
 		AND    MNG_NO       = #mngNo#
 		AND    MNG_CNT      = #mngCnt#
+		AND	CHRGE_KND = #chrgeKnd#
     </update>
 </sqlMap>

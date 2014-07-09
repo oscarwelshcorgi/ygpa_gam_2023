@@ -335,14 +335,14 @@ public class GamCntnrQuayRentFeeMngtController {
         int resultCode = 1;
         int anlrveLevCnt = 0;
 
-        LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
+
+        LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
