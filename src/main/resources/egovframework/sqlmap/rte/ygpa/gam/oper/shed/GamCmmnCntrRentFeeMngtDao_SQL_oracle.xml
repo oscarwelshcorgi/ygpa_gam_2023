@@ -237,7 +237,6 @@
 	                           </isNotEmpty>
 
                 ) S
-                GROUP BY S.PRT_AT_CODE, S.MNG_YEAR, S.MNG_NO, S.MNG_CNT, S.NTIC_CNT, S.ENTRPSCD, S.ENTRPS_NM
                 ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
              ) A
              ) Z
