@@ -6,16 +6,16 @@
 <%
   /**
   * @Class Name : GamCmmnCntrEntrpsRentFeeSttusInqire.jsp
-  * @Description : 공컨장치장임대업체별사용료현황조회
+  * @Description : 항만관련부지임대업체별사용료현황조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.14  domh          최초 생성
   *
   * author domh
   * since 2014.01.14
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,8 +29,8 @@ GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#cmmnCntrEntrpsRentFeeSttusInqireList").flexigrid({
      module: this,
      url: '<c:url value="/oper/shed/gamSelectCmmnCntrEntrpsRentFeeSttusInqireList.do"/>',
@@ -60,32 +60,32 @@ GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.loadComplete = function() {
      preProcess: function(module,data) {
          module.$('#totalResultCnt').val(data.dpTotCnt);
          module.$('#sumTotalFeeSum').val(data.sumTotalFeeSum);
-   
+
          return data;
      }
  });
 //전월로 셀렉트박스 날짜 정의
 	var today = new Date();
-	
+
 	var toMonth = today.getMonth();
 	today.setDate(1);
 	today.setMonth(toMonth - 1);
-	
+
 	var serchYr = today.getFullYear();
 	var serchMn = today.getMonth() + 1;
 
 	this.$("#serchStartYr").val(serchYr);
 	this.$("#serchStartMn").val(serchMn);
 	this.$("#serchEndYr").val(serchYr);
-	this.$("#serchEndMn").val(serchMn); 
+	this.$("#serchEndMn").val(serchMn);
 
 };
 
 this.$("#cmmnCntrEntrpsRentFeeSttusInqireList").on("onItemSelected", function(event, module, row, grid, param) {
     //alert("row " + row["erpAssetsSeCd"]+"-"+row["erpAssetsNo"]+"-"+row["erpAssetsNoSeq"]+" is selected");
-    
-     
-    
+
+
+
 });
 
 /**
@@ -94,33 +94,33 @@ this.$("#cmmnCntrEntrpsRentFeeSttusInqireList").on("onItemSelected", function(ev
 GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
-	
+
 	    // 조회
 	    case 'searchBtn':
 	    	if( this.$('#serchStartYr').val() == '' ) {
             	alert("사용기간 시작년을 선택하십시오.");
             	return;
             }
-            
+
             if( this.$('#serchStartMn').val() == '' ) {
                 alert("사용기간 시작월을 선택하십시오.");
                 return;
             }
 	        var searchOpt=this.makeFormArgs('#gamCmmnCntrEntrpsRentFeeSttusInqireSearchForm');
 	        this.$('#cmmnCntrEntrpsRentFeeSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-	
+
 	        break;
-	        
+
 	     // 자산코드 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
 		break;
-	        
+
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-            break;      
+            break;
 	}
 };
 
@@ -129,10 +129,10 @@ GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(but
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
-	
+
 	switch (popupId) {
-	
-	
+
+
 		// 자산코드 조회
 		case "searchGisCodePopup":
 			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
@@ -147,7 +147,7 @@ GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.onClosePopup = function(popu
 	           alert('취소 되었습니다');
 	       }
 	       break;
-	}     
+	}
 };
 
 GamCmmnCntrEntrpsRentFeeSttusInqireModule.prototype.onSubmit = function() {
@@ -214,7 +214,7 @@ var module_instance = new GamCmmnCntrEntrpsRentFeeSttusInqireModule();
                                     <c:forEach  items="${monthsList}" var="monthsItem">
                                         <option value="${monthsItem }">${monthsItem }</option>
                                     </c:forEach>
-                                </select> ~ 
+                                </select> ~
                                 <select id="serchEndYr">
                                     <option value="" selected="selected">년도</option>
 
@@ -240,7 +240,7 @@ var module_instance = new GamCmmnCntrEntrpsRentFeeSttusInqireModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대업체별사용료 고지현황</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대업체별사용료 고지현황</a></li>
             </ul>
             <div id="tabs1" class="emdTabPage" data-onactivate="onShowTab1Activate">
             <table id="cmmnCntrEntrpsRentFeeSttusInqireList" style="display:none" class="fillHeight"></table>
@@ -257,6 +257,6 @@ var module_instance = new GamCmmnCntrEntrpsRentFeeSttusInqireModule();
 				</form>
             </div>
 		</div>
-            
+
     </div>
 </div>

@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamCmmnCntrPopupInqire.jsp
-  * @Description : 공컨장치장 정보현황알림
+  * @Description : 항만관련부지 정보현황알림
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -85,16 +85,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnCmmnCntrRent':
-    	 EMD.util.create_window('공컨장치장 목록 관리', '<c:url value="/oper/shed/gamCmmnCntrRentMngt.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 목록 관리', '<c:url value="/oper/shed/gamCmmnCntrRentMngt.do"/>', null);
     	 break;
      case 'btnCmmnFeeMngt':
-    	 EMD.util.create_window('공컨장치장 사용료 관리', '<c:url value="/oper/shed/gamCmmnCntrRentFeeMngt.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 사용료 관리', '<c:url value="/oper/shed/gamCmmnCntrRentFeeMngt.do"/>', null);
     	 break;
      case 'btnCmmnCntrRentFeePayDtlsMngt':
-    	 EMD.util.create_window('공컨장치장 사용료납부관리', '<c:url value="/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 사용료납부관리', '<c:url value="/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do"/>', null);
     	 break;
      case 'btnCmmnUseExprInqire':
-    	 EMD.util.create_window('공컨장치장 만기도래자료조회', '<c:url value="/oper/shed/gamCmmnCntrUseExprInqire.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 만기도래자료조회', '<c:url value="/oper/shed/gamCmmnCntrUseExprInqire.do"/>', null);
     	 break;
  }
 };
@@ -159,7 +159,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnCmmnCntrRent">공컨장치장 목록 관리</button>
+                                <button id="btnCmmnCntrRent">항만관련부지 목록 관리</button>
                             </td>
                         </tr>
                         <tr>
@@ -170,7 +170,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <input id="totalResultCnt2" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnCmmnFeeMngt">공컨장치장 사용료고지 관리</button>
+                                <button id="btnCmmnFeeMngt">항만관련부지 사용료고지 관리</button>
                             </td>
                         </tr>
                         <tr>
@@ -181,7 +181,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <input id="totalResultCnt3" size="10" readonly value="<c:out value="${nhtIsueCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnCmmnCntrRentFeePayDtlsMngt">공컨장치장 사용료납부관리</button>
+                                <button id="btnCmmnCntrRentFeePayDtlsMngt">항만관련부지 사용료납부관리</button>
                             </td>
                         </tr>
                         <tr>
@@ -192,7 +192,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnCmmnUseExprInqire">공컨장치장 만기도래자료조회</button>
+                                <button id="btnCmmnUseExprInqire">항만관련부지 만기도래자료조회</button>
                             </td>
                         </tr>
                         </form>

@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamCmmnCntrUseExprInqire.jsp
-  * @Description : 공컨장치장임대만기도래자료조회 
+  * @Description : 항만관련부지임대만기도래자료조회 
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -239,8 +239,8 @@ var module_instance = new GamCmmnCntrUseExprInqireModule();
     <div class="emdPanel fillHeight">
         <div id="cmmnCntrUseExprInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대(만기도래) 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">공컨장치장임대 내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대(만기도래) 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만관련부지임대 내역</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
@@ -268,11 +268,11 @@ var module_instance = new GamCmmnCntrUseExprInqireModule();
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>공컨장치장임대 내역</th>
+							<th>항만관련부지임대 내역</th>
 						</tr>
 					</tbody>
 					</table>
-                	<!-- <h2>공컨장치장임대 내역</h2> -->
+                	<!-- <h2>항만관련부지임대 내역</h2> -->
                 	<div id="gamCmmnCntrUseExprInqireForm">
                         <table class="detailForm" style="width:100%;">
                             <tr>
@@ -339,11 +339,11 @@ var module_instance = new GamCmmnCntrUseExprInqireModule();
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>공컨장치장임대 상세내역</th>
+							<th>항만관련부지임대 상세내역</th>
 						</tr>
 					</tbody>
 					</table>
-                	<!-- <h2>공컨장치장임대 상세내역</h2> -->
+                	<!-- <h2>항만관련부지임대 상세내역</h2> -->
                  	<div id="gamCmmnCntrUseExprInqireDetailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>

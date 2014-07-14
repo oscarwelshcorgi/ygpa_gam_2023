@@ -7,7 +7,7 @@
 <%
   /**
   * @Class Name : GamCmmnCntrRentMngt.jsp
-  * @Description : 공컨장치장임대목록관리
+  * @Description : 항만관련부지임대목록관리
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -1736,9 +1736,9 @@ var module_instance = new GamAssetRentMngtModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">공컨장치장임대 내역</a></li>
-                <li><a href="#tabs3" class="emdTab">공컨장치장임대 상세내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만관련부지임대 내역</a></li>
+                <li><a href="#tabs3" class="emdTab">항만관련부지임대 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
@@ -1891,7 +1891,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                 <table class="searchPanel">
 	                    <tbody>
 	                    <tr>
-	                        <th width="70%">공컨장치장임대 상세목록</th>
+	                        <th width="70%">항만관련부지임대 상세목록</th>
 	                        <th style="text-align:right">
 	                        	<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
 	                        	<button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>

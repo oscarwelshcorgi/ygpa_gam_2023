@@ -6,16 +6,16 @@
 <%
   /**
   * @Class Name : GamCmmnCntrRentSttusInqire.jsp
-  * @Description : 공컨장치장임대현황조회 
+  * @Description : 항만관련부지장임대현황조회
   * @Modification Information
-  * 
-  *   수정일          수정자                   수정내용 
+  *
+  *   수정일          수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.14  domh          최초 생성
   *
   * author domh
   * since 2014.01.14
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -262,7 +262,7 @@ GamCmmnCntrRentSttusInqireModule.prototype.onClosePopup = function(popupId, msg,
          break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -336,8 +336,8 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
     <div class="emdPanel fillHeight">
         <div id="cmmnCntrRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">공컨장치장임대 내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만관련부지임대 내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
@@ -363,11 +363,11 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow:hidden;">
-            	<!-- <h2>공컨장치장임대 내역</h2> -->
+            	<!-- <h2>항만관련부지장임대 내역</h2> -->
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>공컨장치장임대 내역</th>
+							<th>항만관련부지임대 내역</th>
 						</tr>
 					</tbody>
 					</table>
@@ -448,11 +448,11 @@ var module_instance = new GamCmmnCntrRentSttusInqireModule();
                             </tr>
                         </table>
                     </div>
-            	<!-- <h2>공컨장치장임대 상세내역</h2> -->
+            	<!-- <h2>항만관련부지장임대 상세내역</h2> -->
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>공컨장치장임대 상세내역</th>
+							<th>항만관련부지임대 상세내역</th>
 						</tr>
 					</tbody>
 					</table>

@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamCmmnCntrRentFeePaySttusMngt.jsp
-  * @Description : 공컨장치장납부현황관리
+  * @Description : 항만관련부지납부현황관리
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -288,7 +288,7 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, 
     	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -340,9 +340,9 @@ var module_instance = new GamCmmnCntrRentFeePaySttusMngtModule();
     <div class="emdPanel fillHeight">
         <div id="cmmnCntrRentFeePaySttusMngtListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대료납부현황 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">공컨장치장임대료납부현황 상세</a></li>
-                <li><a href="#tabs3" class="emdTab">공컨장치장임대료연체현황 목록</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대료납부현황 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만관련부지임대료납부현황 상세</a></li>
+                <li><a href="#tabs3" class="emdTab">항만관련부지임대료연체현황 목록</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">

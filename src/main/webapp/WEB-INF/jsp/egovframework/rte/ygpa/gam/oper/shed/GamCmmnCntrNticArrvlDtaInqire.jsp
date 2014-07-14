@@ -6,7 +6,7 @@
 <%
 /**
  * @Class Name : GamCmmnCntrNticArrvlDtaInqire.jsp
- * @Description : 공컨장치장임대고지도래현황조회 
+ * @Description : 항만관련부지임대고지도래현황조회
  * @Modification Information
  *
  *   수정일         수정자                   수정내용
@@ -74,13 +74,13 @@ GamCmmnCntrNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         }
     });
 
-    
+
 
     this.$("#cmmnCntrNticArrvlDtaInqireList").on('onItemSelected', function(event, module, row, grid, param) {
-        
+
     });
 
-    
+
 
     this.$("#cmmnCntrNticArrvlDtaInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#cmmnCntrNticArrvlDtaInqireListTab").tabs("option", {active: 1});
@@ -121,7 +121,7 @@ GamCmmnCntrNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	this.doAction('<c:url value="/oper/shed/gamSelectCmmnCntrNticArrvlDtaInqireDetailList.do" />', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
-			
+
 			module.makeMultiDivValues('#cmmnCntrNticArrvlDtaInqireDetailForm',result.resultList , function(row) {
 			} );	// 리스트 값을 채운다
 		} else {
@@ -142,23 +142,23 @@ GamCmmnCntrNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
     switch(buttonId) {
 
         // 조회
-        case 'searchBtn':            
+        case 'searchBtn':
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("고지도래기간(시작일)을 선택하십시오.");
             	return;
             }
-            
+
             if( this.$('#sGrUsagePdTo').val() == '' ) {
                 alert("고지도래기간(종료일)을 선택하십시오.");
                 return;
             }
-            
+
             this.loadRentList();
 
             break;
 
-        
-        
+
+
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             /*
             var opts = {
@@ -184,7 +184,7 @@ GamCmmnCntrNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	        	               'nticno': row.nticno
 	        	               };
 
-	        	EMD.util.create_window('공컨장치장임대료관리', EMD.context_root+'/oper/shed/gamCmmnCntrRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	        	EMD.util.create_window('항만관련부지임대료관리', EMD.context_root+'/oper/shed/gamCmmnCntrRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;
@@ -240,7 +240,7 @@ GamCmmnCntrNticArrvlDtaInqireModule.prototype.onClosePopup = function(popupId, m
 
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -282,8 +282,8 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             <td width="100px">
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
                             </td>
-                            
-                            <!-- 
+
+                            <!--
                             <th>승낙구분</th>
                             <td>
                                 <select id="sPrmisnYn">
@@ -293,10 +293,10 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                                 </select>
                             </td>
                             -->
-                            
+
                             <th>고지도래기간</th>
                             <td>
-                            <!-- 
+                            <!--
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
@@ -309,16 +309,16 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             <th>요금종류</th>
                             <td>
                             <input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
-                           <!--  
-                                <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp; 
-                                <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
+                           <!--
+                                <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp;
+                                <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp;
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             -->
-                                
+
                             </td>
-                            
-                            
-                            <!-- 
+
+
+                            <!--
                             <th>총면적</th>
                             <td>
                                 <input id="sGrAr" type="text" size="5">
@@ -334,8 +334,8 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
     <div class="emdPanel fillHeight">
         <div id="cmmnCntrNticArrvlDtaInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대(고지도래) 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">공컨장치장임대 내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대(고지도래) 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만관련부지임대 내역</a></li>
                 <!-- <li><a href="#tabs3" class="emdTab">항만시설 상세내역</a></li>
                 <li><a href="#tabs4" class="emdTab">첨부파일</a></li> -->
             </ul>
@@ -362,11 +362,11 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>공컨장치장임대 내역</th>
+							<th>항만관련부지임대 내역</th>
 						</tr>
 					</tbody>
 					</table>
-                	<!-- <h2>공컨장치장임대 내역</h2> -->
+                	<!-- <h2>항만관련부지임대 내역</h2> -->
                     <div id="gamCmmnCntrNticArrvlDtaInqireForm">
                         <input type="hidden" id="cmd"/>
                         <input type="hidden" id="quayGroupCd"/>
@@ -375,13 +375,13 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             <tr>
 								<th width="15%" height="23">항코드/담당부서</th>
 								<td>
-									<span id="prtAtCode"></span>&nbsp;-&nbsp; 
+									<span id="prtAtCode"></span>&nbsp;-&nbsp;
 									<span id="prtAtCodeNm"></span>&nbsp;／&nbsp;
 									<span id="deptcdNm"></span>
 								</td>
 								<th width="15%" height="23">납부방법/고지방법</th>
 								<td>
-									<span id="payMthNm"></span>&nbsp;／&nbsp; 
+									<span id="payMthNm"></span>&nbsp;／&nbsp;
 									<span id="nticMthNm"></span>
 								</td>
                             </tr>
@@ -394,7 +394,7 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
 								</td>
 								<th width="15%" height="23">신청업체</th>
 								<td>
-									<span id="entrpscd"></span>&nbsp;-&nbsp; 
+									<span id="entrpscd"></span>&nbsp;-&nbsp;
 									<span id="entrpsNm"></span>
 								</td>
                             </tr>
@@ -413,7 +413,7 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
                             <tr>
 								<th width="15%" height="23">총사용기간</th>
 								<td>
-									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp; 
+									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp;
 									<span id="grUsagePdTo"></span>
 								</td>
 								<th width="15%" height="23">총사용면적</th>
@@ -436,18 +436,18 @@ var module_instance = new GamCmmnCntrNticArrvlDtaInqireModule();
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>공컨장치장임대 상세내역</th>
+							<th>항만관련부지임대 상세내역</th>
 						</tr>
 					</tbody>
 					</table>
-                	<!-- <h2>공컨장치장임대 상세내역</h2> -->
+                	<!-- <h2>항만관련부지임대 상세내역</h2> -->
 
 					<div id="cmmnCntrNticArrvlDtaInqireDetailForm">
                         <table class="detailPanel" style="width:100%;">
                         	<tr>
                         		<th width="15%" height="23">항코드</th>
                                 <td>
-                                	<span data-column-id="gisAssetsPrtAtCode"></span> 
+                                	<span data-column-id="gisAssetsPrtAtCode"></span>
                                 	(<span data-column-id="prtAtCodeNm"></span>)
                                 </td>
 								<th width="15%" height="23">자산코드</th>

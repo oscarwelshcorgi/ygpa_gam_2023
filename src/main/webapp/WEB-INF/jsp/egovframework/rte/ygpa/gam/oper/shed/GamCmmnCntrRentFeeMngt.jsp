@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamCmmnCntrRentFeeMngt.jsp
-  * @Description : 공컨장치장임대료관리
+  * @Description : 항만관련부지임대료관리
   * @Modification Information
   *
   *   수정일          수정자                   수정내용
@@ -414,8 +414,8 @@ var module_instance = new GamAssetRentFeeMngtModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
-                <li><a href="#tabs1" class="emdTab">공컨장치장임대고지 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">공컨장치장임대고지 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">항만관련부지임대고지 목록</a></li>
+                <li><a href="#tabs2" class="emdTab">항만관련부지임대고지 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">

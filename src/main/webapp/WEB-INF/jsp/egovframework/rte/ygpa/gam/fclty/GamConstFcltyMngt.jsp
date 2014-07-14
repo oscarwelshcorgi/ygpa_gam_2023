@@ -909,7 +909,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">주구조</th>
 							<td><input class="text" type="text" size="50" id="info7" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">주용도</th>
-							<td><input class="text" type="text" size="50" id="info8" maxlength="10" /></td>
+							<td><input class="text" type="text" size="50" id="info8" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">층수</th>
