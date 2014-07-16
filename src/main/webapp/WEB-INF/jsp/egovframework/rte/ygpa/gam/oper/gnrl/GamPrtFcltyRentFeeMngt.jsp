@@ -259,7 +259,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             var row = this.$('#assetRentFeeList').selectedRows()[0];
 
             if( row['aditNticYn'] == 'Y' ) {
-                alert("승낙된 상태가 아닙니다.");
+                alert("추가 고지건에 대해 추가 고지 할 수 없습니다.");
                 return;
             }
 

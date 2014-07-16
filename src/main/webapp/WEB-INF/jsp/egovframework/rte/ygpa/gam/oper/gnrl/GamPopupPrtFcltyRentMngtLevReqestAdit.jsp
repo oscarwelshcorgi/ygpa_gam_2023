@@ -143,7 +143,7 @@ var popup_instance = new GamPopupLevReqestAditModule();
 					<tr>
                         <th>납부기한</th>
                         <td>
-                        	<input class="emdcal" id="payTmllmt"  size="10"/>
+                        	<input class="emdcal" id="payTmlmt"  size="10"/>
                         </td>
                         <th>요금종류</th>
                         <td colspan="3">
@@ -158,7 +158,7 @@ var popup_instance = new GamPopupLevReqestAditModule();
 					<tr>
                         <th>비고</th>
                         <td colspan="5">
-                        	<input class="emdRemark" id="payTmllmt" type="text" size="50"/>
+                        	<input class="emdRemark" id="rm" type="text" size="50"/>
                         </td>
                      </tr>
                  	 <tr>
