@@ -125,4 +125,13 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#insertBillCreateAdit(java.util.Map)
+	 */
+	@Override
+	public void insertBillCreateAdit(Map<String, Object> vo) throws Exception {
+		// TODO Auto-generated method stub
+		gamAssetsUsePermMngtDAO.insertBillCreateAdit(vo);
+	}
+
 }

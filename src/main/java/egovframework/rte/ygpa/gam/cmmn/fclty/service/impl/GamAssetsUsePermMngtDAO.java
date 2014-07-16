@@ -123,4 +123,15 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
     public String insertAssetsUsagePdByStats(Map<String, Object> vo) throws Exception {
         return (String)insert("gamAssetsUsePermMngtDao.insertAssetsUsagePdByStats_D", vo);
     }
+
+    /**
+     * 추가고지 정보를 생성한다.
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    public String insertBillCreateAdit(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateAdit", vo);
+    }
+
 }

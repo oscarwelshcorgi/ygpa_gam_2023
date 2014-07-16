@@ -52,4 +52,10 @@ public interface GamAssetsUsePermMngtService {
 	 */
 	public void cancelPrtFcltyUsePerm(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * 항만시설 사용분에 대해 추가고지한다
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류, payTmlmt: 납부기한, fee: 사용료, vat: 부가세, vatYn: 부가세 여부, rm: 주석, regUsr: 등록자)
+	 * @throws Exception
+	 */
+	public void insertBillCreateAdit(Map<String, Object> vo) throws Exception;
 }

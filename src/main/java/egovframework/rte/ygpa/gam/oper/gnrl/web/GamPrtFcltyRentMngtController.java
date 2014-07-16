@@ -1473,4 +1473,25 @@ public class GamPrtFcltyRentMngtController {
     	return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyPenaltyFee";
    }
 
+	/**
+	 * 추가고지 팝업화면을 로딩한다.
+	 * @param gamPrtFcltyRentMngtLevReqestVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/oper/gnrl/popupLevReqestAdit.do")
+  String popupLevReqestAdit(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO, ModelMap model) throws Exception {
+
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+
+		codeVo.setCodeId("GAM024"); //요금종류
+		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		model.addAttribute("gamPrtFcltyRentMngtInfo", gamPrtFcltyRentMngtVO);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+
+  	return "ygpa/gam/oper/gnrl/GamPopupPrtFcltyRentMngtLevReqestAdit";
+  }
+
 }

@@ -281,5 +281,45 @@
 		]]>
     </insert>
 
+	<!-- 추가고지 -->
+     <insert id="gamAssetsUsePermMngtDao.insertBillCreateAdit" parameterClass="hashMap">
+		INSERT INTO LEV_REQEST_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT,
+				FCLTY_SE,
+				CHRGE_KND, ENTRPSCD, ENTRPS_NM,
+				NTIC_PD_FROM, NTIC_PD_TO, PAY_TMLMT, NTICNO, NTIC_DT, RCIV_SE, NHT_ISUE_YN,
+				 OLNLP, FEE, VAT, VAT_YN, NTIC_AMT, RM, NTIC_MTH,
+				 ADIT_NTIC_YN, REG_USR, REGIST_DT
+		)
+		SELECT
+			AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT, (SELECT NVL(MAX(NTIC_CNT), 0)+1 FROM LEV_REQEST_F WHERE AR.PRT_AT_CODE=PRT_AT_CODE AND AR.MNG_YEAR=MNG_YEAR AND AR.MNG_NO=MNG_NO AND AR.MNG_CNT=MNG_CNT),
+			'1',
+		  #chrgeKnd#,
+		  AR.ENTRPSCD,
+		  EI.ENTRPS_NM,
+			  AR.GR_USAGE_PD_FROM,
+			  AR.GR_USAGE_PD_TO,
+			  TO_DATE(#payTmlmt#, 'YYYY-MM-DD'),
+		  '',
+		  '',
+		  '0',
+		  'N',
+		  '0',
+		  #fee#,
+		  #vat#,
+		  #vatYn#,
+		  '0',
+		  #rm#,
+		  '1',
+		  'Y',
+		  #regUsr#, SYSDATE
+		FROM   ASSETS_RENT_F AR, ENTRPS_INFO_F EI
+		WHERE AR.ENTRPSCD=EI.ENTRPSCD
+			AND AR.PRT_AT_CODE=#prtAtCode#
+			AND AR.MNG_YEAR=#mngYear#
+			AND AR.MNG_NO=#mngNo#
+			AND AR.MNG_CNT=#mngCnt#
+    </insert>
+
 </sqlMap>
 
