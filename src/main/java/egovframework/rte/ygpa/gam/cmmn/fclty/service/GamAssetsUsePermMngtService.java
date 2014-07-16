@@ -58,4 +58,11 @@ public interface GamAssetsUsePermMngtService {
 	 * @throws Exception
 	 */
 	public void insertBillCreateAdit(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 고지된 사용료를 삭제 한다. (추가 고지건만 처리 할 지 검토 요망)
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류, nticCnt: 고지 횟수)
+	 * @throws Exception
+	 */
+	public void deleteBillAdit(Map<String, Object> vo) throws Exception;
 }

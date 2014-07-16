@@ -145,6 +145,17 @@
 		]]>
 	</delete>
 
+	<delete id="gamAssetsUsePermMngtDao.deleteLevRequest_S" parameterClass="hashMap">
+		<![CDATA[
+			DELETE FROM LEV_REQEST_F
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+				AND NTIC_CNT=#nticCnt#
+		]]>
+	</delete>
+
 	<select id="gamAssetsUsePermMngtDao.selectAssetRentByPk_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
 				AR.PRT_AT_CODE
@@ -292,7 +303,7 @@
 				 ADIT_NTIC_YN, REG_USR, REGIST_DT
 		)
 		SELECT
-			AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT, (SELECT NVL(MAX(NTIC_CNT), 0)+1 FROM LEV_REQEST_F WHERE AR.PRT_AT_CODE=PRT_AT_CODE AND AR.MNG_YEAR=MNG_YEAR AND AR.MNG_NO=MNG_NO AND AR.MNG_CNT=MNG_CNT),
+			AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT, (SELECT LPAD(NVL(MAX(NTIC_CNT), 0)+1, 2, '0') FROM LEV_REQEST_F WHERE AR.PRT_AT_CODE=PRT_AT_CODE AND AR.MNG_YEAR=MNG_YEAR AND AR.MNG_NO=MNG_NO AND AR.MNG_CNT=MNG_CNT),
 			'1',
 		  #chrgeKnd#,
 		  AR.ENTRPSCD,

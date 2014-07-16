@@ -107,6 +107,15 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
     }
 
     /**
+     * 사용료 정보를 한건 삭제한다.
+     * @param vo
+     * @throws Exception
+     */
+    public void deleteLevRequestSingle(Map<String, Object> vo) throws Exception {
+        delete("gamAssetsUsePermMngtDao.deleteLevRequest_S", vo);
+    }
+
+    /**
      * 사용료 통계 정보를 삭제한다.
      * @param vo
      * @throws Exception

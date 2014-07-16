@@ -134,4 +134,12 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 		gamAssetsUsePermMngtDAO.insertBillCreateAdit(vo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#deleteBillAdit(java.util.Map)
+	 */
+	@Override
+	public void deleteBillAdit(Map<String, Object> vo) throws Exception {
+		gamAssetsUsePermMngtDAO.deleteLevRequestSingle(vo);
+	}
+
 }

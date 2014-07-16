@@ -84,4 +84,32 @@ public class GamAssetsUsePermMngtController {
     	return map;
     }
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/cmmn/fclty/gamDeleteLevreqestAdit.do")
+	@ResponseBody Map<String, Object> gamDeleteLevreqestAdit(@RequestParam Map<String, Object> levReqest, ModelMap model) throws Exception {
+		Map map = new HashMap();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return map;
+    	}
+
+    	try {
+    		gamAssetsUsePermMngtService.deleteBillAdit(levReqest);
+    	}
+    	catch(Exception e) {
+            map.put("resultCode", -1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+
+    	}
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+
+    	return map;
+    }
+
 }
