@@ -104,7 +104,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         // 조회
         case 'searchBtn':
         	this.loadData();
-        	console.log("debug");
             break;
 
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
@@ -268,7 +267,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             } else {
                 alert("목록에서 선택하십시오.");
             }
-
+            var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+            this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
             break;
         case 'btnNoticeAditDel':	// 추가 고지 삭제
             var rows = this.$('#assetRentFeeList').selectedRows();

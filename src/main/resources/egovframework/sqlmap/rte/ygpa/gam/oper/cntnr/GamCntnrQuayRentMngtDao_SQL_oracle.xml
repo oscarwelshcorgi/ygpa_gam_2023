@@ -1334,8 +1334,8 @@
     <select id="gamCntnrQuayRentMngtDao.selectCofixInfo_S" resultMap="CmmCodeDetail">
             SELECT
 			        '' CODE_ID
-			      , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) CODE
-			      , (TO_CHAR(TO_DATE(OBJ_YRMT, 'YYYY-MM'), 'YYYY-MM') || ' : ' || (BLCE_STDR_INTRRATE * 100) || '% [' || TO_CHAR(ANNODT,'YYYY-MM-DD') || ']') CODE_NM
+			      , TRIM(TO_CHAR(NEW_MANIP_AMT_STDR_INTRRATE, '0.0000')) CODE
+			      , (TO_CHAR(TO_DATE(OBJ_YRMT, 'YYYY-MM'), 'YYYY-MM') || ' : ' || (NEW_MANIP_AMT_STDR_INTRRATE * 100) || '% [' || TO_CHAR(ANNODT,'YYYY-MM-DD') || ']') CODE_NM
 			      , '' CODE_DC
 			  FROM COFIX_INTRRATE_F
 			 ORDER BY OBJ_YRMT DESC

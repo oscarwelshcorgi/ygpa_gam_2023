@@ -6,7 +6,7 @@
 <%
 /**
  * @Class Name : GamTrainPortNticArrvlDtaInqire.jsp
- * @Description : 철송장임대고지도래현황조회 
+ * @Description : 철송장임대고지도래현황조회
  * @Modification Information
  *
  *   수정일         수정자                   수정내용
@@ -74,13 +74,13 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         }
     });
 
-    
+
 
     this.$("#trainPortNticArrvlDtaInqireList").on('onItemSelected', function(event, module, row, grid, param) {
-        
+
     });
 
-    
+
 
     this.$("#trainPortNticArrvlDtaInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#trainPortNticArrvlDtaInqireListTab").tabs("option", {active: 1});
@@ -121,7 +121,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	this.doAction('<c:url value="/oper/train/gamSelectTrainPortNticArrvlDtaInqireDetailList.do" />', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
-			
+
 			module.makeMultiDivValues('#trainPortNticArrvlDtaInqireDetailForm',result.resultList , function(row) {
 			} );	// 리스트 값을 채운다
 		} else {
@@ -142,23 +142,23 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
     switch(buttonId) {
 
         // 조회
-        case 'searchBtn':            
+        case 'searchBtn':
             if( this.$('#sGrUsagePdFrom').val() == '' ) {
             	alert("고지도래기간(시작일)을 선택하십시오.");
             	return;
             }
-            
+
             if( this.$('#sGrUsagePdTo').val() == '' ) {
                 alert("고지도래기간(종료일)을 선택하십시오.");
                 return;
             }
-            
+
             this.loadRentList();
 
             break;
 
-        
-        
+
+
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             /*
             var opts = {
@@ -172,7 +172,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
-            
+
         case 'openRentFee':	// 사용료 관리 화면을 호출 한다.
 	        if(this.$('#trainPortNticArrvlDtaInqireList').selectedRowCount()==1) {
 	         	var row = this.$('#trainPortNticArrvlDtaInqireList').selectedRows()[0];
@@ -241,7 +241,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.onClosePopup = function(popupId, 
 
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -283,8 +283,8 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             <td width="100px">
                                 <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
                             </td>
-                            
-                            <!-- 
+
+                            <!--
                             <th>승낙구분</th>
                             <td>
                                 <select id="sPrmisnYn">
@@ -294,10 +294,10 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                                 </select>
                             </td>
                             -->
-                            
+
                             <th>고지도래기간</th>
                             <td>
-                            <!-- 
+                            <!--
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
@@ -310,16 +310,16 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             <th>요금종류</th>
                             <td>
                             <input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id=GAM024 />
-                           <!--  
-                                <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp; 
-                                <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp; 
+                           <!--
+                                <input id="sChrgeKnd" type="text" size="6">&nbsp; &nbsp;
+                                <input id="sChrgeKndNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp;
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             -->
-                                
+
                             </td>
-                            
-                            
-                            <!-- 
+
+
+                            <!--
                             <th>총면적</th>
                             <td>
                                 <input id="sGrAr" type="text" size="5">
@@ -348,10 +348,10 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
 					<form id="form1">
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
-								<th width="20%" height="10">자료수</th>
-								<td><input type="text" size="30" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="20%" height="20">고지금액</th>
-								<td><input type="text" size="50" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">자료수</th>
+								<td><input type="text" size="10" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="20%" height="23">고지금액</th>
+								<td><input type="text" size="20" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<td><button id="openRentFee">사용료관리</button></td>
 							</tr>
 						</table>
@@ -376,13 +376,13 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             <tr>
 								<th width="15%" height="23">항코드/담당부서</th>
 								<td>
-									<span id="prtAtCode"></span>&nbsp;-&nbsp; 
+									<span id="prtAtCode"></span>&nbsp;-&nbsp;
 									<span id="prtAtCodeNm"></span>&nbsp;／&nbsp;
 									<span id="deptcdNm"></span>
 								</td>
 								<th width="15%" height="23">납부방법/고지방법</th>
 								<td>
-									<span id="payMthNm"></span>&nbsp;／&nbsp; 
+									<span id="payMthNm"></span>&nbsp;／&nbsp;
 									<span id="nticMthNm"></span>
 								</td>
                             </tr>
@@ -395,7 +395,7 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
 								</td>
 								<th width="15%" height="23">신청업체</th>
 								<td>
-									<span id="entrpscd"></span>&nbsp;-&nbsp; 
+									<span id="entrpscd"></span>&nbsp;-&nbsp;
 									<span id="entrpsNm"></span>
 								</td>
                             </tr>
@@ -414,7 +414,7 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                             <tr>
 								<th width="15%" height="23">총사용기간</th>
 								<td>
-									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp; 
+									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp;
 									<span id="grUsagePdTo"></span>
 								</td>
 								<th width="15%" height="23">총사용면적</th>
@@ -448,7 +448,7 @@ var module_instance = new GamTrainPortNticArrvlDtaInqireModule();
                         	<tr>
                         		<th width="15%" height="23">항코드</th>
                                 <td>
-                                	<span data-column-id="gisAssetsPrtAtCode"></span> 
+                                	<span data-column-id="gisAssetsPrtAtCode"></span>
                                 	(<span data-column-id="prtAtCodeNm"></span>)
                                 </td>
 								<th width="15%" height="23">자산코드</th>

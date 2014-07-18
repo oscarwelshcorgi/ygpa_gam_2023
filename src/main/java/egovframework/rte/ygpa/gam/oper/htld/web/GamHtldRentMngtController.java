@@ -1468,4 +1468,24 @@ public class GamHtldRentMngtController {
 
 		return map;
     }
+    /**
+	 * 추가고지 팝업화면을 로딩한다.
+	 * @param GamHtldRentMngtVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/oper/htld/popupLevReqestAdit.do")
+  String popupLevReqestAdit(GamHtldRentMngtVO gamHtldRentMngtVO, ModelMap model) throws Exception {
+
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+
+		codeVo.setCodeId("GAM053"); //요금종류 배후단지
+		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		model.addAttribute("gamPrtFcltyRentMngtInfo", gamHtldRentMngtVO);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+
+  	return "ygpa/gam/oper/htld/GamPopupHtldRentMngtLevReqestAdit";
+  }
 }

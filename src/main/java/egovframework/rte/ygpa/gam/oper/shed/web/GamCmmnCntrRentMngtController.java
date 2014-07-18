@@ -1427,4 +1427,26 @@ public class GamCmmnCntrRentMngtController {
 
 		return map;
     }
+
+    /**
+	 * 추가고지 팝업화면을 로딩한다.
+	 * @param GamCmmnCntrRentMngtVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/oper/shed/popupLevReqestAdit.do")
+  String popupLevReqestAdit(GamCmmnCntrRentMngtVO gamCmmnCntrRentMngtVO, ModelMap model) throws Exception {
+
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+
+		codeVo.setCodeId("GAM054"); //요금종류
+		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		model.addAttribute("gamPrtFcltyRentMngtInfo", gamCmmnCntrRentMngtVO);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+
+  	return "ygpa/gam/oper/shed/GamPopupCmmnCntrRentMngtLevReqestAdit";
+  }
+
 }

@@ -275,6 +275,53 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             	return;
             }
         	break;
+        case 'btnNoticeAdit':	// 추가고지
+        case 'btnNoticeAdit2':
+            var rows = this.$('#assetRentFeeList').selectedRows();
+            var row = this.$('#assetRentFeeList').selectedRows()[0];
+
+            if( row['aditNticYn'] == 'Y' ) {
+            	alert("추가 고지건에 대해 추가 고지 할 수 없습니다.");
+                return;
+            }
+
+            if(rows.length>=1) {
+                this.doExecuteDialog('insertLevReqestAdit', '사용료 추가', '<c:url value="/oper/center/popupLevReqestAdit.do"/>', rows[0]);
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+
+            break;
+        case 'btnNoticeAditDel':	// 추가 고지 삭제
+            var rows = this.$('#assetRentFeeList').selectedRows();
+            var row = this.$('#assetRentFeeList').selectedRows()[0];
+
+            if( row['aditNticYn'] != 'Y' ) {
+                alert("추가 고지건이 아닙니다. 추가 고지 된 건만 삭제가 가능합니다");
+                return;
+            }
+            if( rows['nhtIsueYn']== 'Y' ) {
+            	alert("해당 건은 이미 고지되었습니다.");
+            	return;
+            }
+
+            if(rows.length>=1) {
+                if( confirm("선택한 추가사용료 항목을 삭제 하시겠습니까?") ) {
+                    this.doAction('<c:url value="/cmmn/fclty/gamDeleteLevreqestAdit.do" />', row, function(module, result) {
+
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                        }
+
+                        alert(result.resultMsg);
+                    });
+                }
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+
+        break;
         case 'btnSaveRmk':	// 비고 저장
         	var ntcUpdate = this.makeFormArgs('#gamAssetRentFeeForm');
     	   	 	this.doAction('<c:url value="/oper/center/updateMarineCenterRentFeeMngtListDetail.do" />', ntcUpdate, function(module, result) {
@@ -385,6 +432,12 @@ GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value)
             alert('취소 되었습니다');
         }
         break;
+    case 'insertLevReqestAdit':
+    	if(msg == 'ok') {
+ 	       var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+ 	       this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+     	}
+    	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
@@ -504,6 +557,8 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnCancelNticIssue">고지취소</button>
                     <button id="btnNticIssuePrint">고지서출력</button>
                     <button id="btnTaxPrint">계산서출력</button>
+					<button id="btnNoticeAdit">추가고지</button>
+                    <button id="btnNoticeAditDel">추가고지삭제</button>
                 </div>
             </div>
 
@@ -606,6 +661,8 @@ var module_instance = new GamAssetRentFeeMngtModule();
 								<button id="btnCancelNticIssue2">고지취소</button>
 								<button id="btnNticIssuePrint2">고지서출력</button>
 								<button id="btnTaxPrint2">계산서출력</button>
+								<button id="btnNoticeAdit2">추가고지</button>
+			                    <button id="btnNoticeAditDel2">추가고지삭제</button>
 							</th>
 						</tr>
 					</tbody>

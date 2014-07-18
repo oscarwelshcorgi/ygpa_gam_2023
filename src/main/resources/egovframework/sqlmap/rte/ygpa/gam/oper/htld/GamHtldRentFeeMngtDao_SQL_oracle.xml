@@ -89,7 +89,8 @@
                    	S.GR_AR,
                    	S.GR_USAGE_PD_FROM,
                    	S.GR_USAGE_PD_TO,
-                   	S.PRMISN_DT
+                   	S.PRMISN_DT,
+                    S.ADIT_NTIC_YN
                      FROM (
                            SELECT
 							         L.NTIC_CNT
@@ -137,6 +138,7 @@
     						       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+    						       , ADIT_NTIC_YN
 							  FROM ASSETS_RENT_F A,
 							       LEV_REQEST_F L
 							 WHERE 1 = 1
