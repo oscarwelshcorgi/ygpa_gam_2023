@@ -101,6 +101,7 @@ public class GamUserInfoMngController {
         UserManageVO userManageVO = new UserManageVO();
         userManageVO = userManageService.selectUser(loginVO.getUniqId());
 
+        map.put("resultCode", 0);
         map.put("userManageVO", userManageVO);
 
 	        return map;
