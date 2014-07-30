@@ -1419,4 +1419,20 @@
 		 WHERE A.OBJ_YRMT = ( SELECT MAX(B.OBJ_YRMT) FROM COFIX_INTRRATE_F B )
     </select>
 
+    <select id="gamAssetRentMngtDao.selectEntrpsChargerList_D" resultClass="egovMap">
+			SELECT CHARGER_NO,
+			  nvl(CHARGER_NM, ' ') CHARGER_NM,
+			  nvl(CHARGER_OFC_POS, ' ') CHARGER_OFC_POS,
+			  nvl(CHRG_JOB, ' ') CHRG_JOB,
+			  nvl(CHARGER_MOBLPHON_NO, ' ') CHARGER_MOBLPHON_NO,
+			  nvl(CHARGER_TLPHON_NO, ' ') CHARGER_TLPHON_NO,
+			  nvl(CHARGER_FAX, ' ') CHARGER_FAX,
+			  nvl(CHARGER_EMAIL, ' ') CHARGER_EMAIL,
+			  nvl(CHARGER_DEPT, ' ') CHARGER_DEPT,
+			  MNG_DEPT_CD
+			  FROM ENTRPS_CHARGER_F
+			  WHERE ENTRPSCD = #entrpscd#
+			 ORDER BY CHARGER_NM
+    </select>
+
 </sqlMap>

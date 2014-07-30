@@ -18,12 +18,12 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Repository("gamPrtFcltyRentMngtDao")
 public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
-	
+
 	/**
 	 * 항만시설사용관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -43,7 +43,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public int selectPrtFcltyRentMngtListTotCnt(GamPrtFcltyRentMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtListTotCnt_S", searchVO);
     }
-    
+
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -53,7 +53,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtSum(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtSum_S", searchVO);
 	}
-    
+
 	/**
 	 * 항만시설사용 최초 신청을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -62,8 +62,8 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtFirst(GamPrtFcltyRentMngtVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFirst_S", vo);
 	}
-    
-	
+
+
 	/**
 	 * 해당건에 대한 (MAX)관리번호
 	 * @param searchMap - GamPrtFcltyRentMngtVO
@@ -73,7 +73,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtMaxNo(GamPrtFcltyRentMngtVO vo) {
         return (GamPrtFcltyRentMngtVO)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxNo_S", vo);
     }
-    
+
     /**
 	 * 항만시설사용 연장 신청을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -82,7 +82,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtRenew(GamPrtFcltyRentMngtVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtRenew_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 연장 신청된 MaxMngCnt 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -92,7 +92,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public String selectPrtFcltyRentMngtMaxMngCnt(GamPrtFcltyRentMngtVO searchVO) {
         return (String)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxMngCnt_S", searchVO);
     }
-	
+
 	/**
 	 * 항만시설사용 연장 신청시 항만시설사용 상세를 복사하여 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -101,7 +101,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtDetailRenew(GamPrtFcltyRentMngtDetailVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetailRenew_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 정보를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -110,7 +110,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngt(GamPrtFcltyRentMngtVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngt_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -130,7 +130,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public int selectPrtFcltyRentMngtDetailListTotCnt(GamPrtFcltyRentMngtVO vo) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailListTotCnt_S", vo);
     }
-	
+
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -140,7 +140,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public int selectPrtFcltyRentMngtLevReqestCnt(GamPrtFcltyRentMngtVO vo) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtLevReqestCnt_S", vo);
     }
-    
+
     /**
 	 * 항만시설사용 사진정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -149,7 +149,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void deletePrtFcltyRentMngtPhoto(GamPrtFcltyRentMngtVO vo){
 		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhoto_S", vo);
 	}
-    
+
 	/**
 	 * 항만시설사용 정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -158,7 +158,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void deletePrtFcltyRentMngt(GamPrtFcltyRentMngtVO vo){
 		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngt_S", vo);
 	}
-    
+
 	/**
 	 * 항만시설사용 상세정보를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -167,7 +167,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void deletePrtFcltyRentMngtDetail(GamPrtFcltyRentMngtVO vo){
 		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtDetail_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 상세를 등록한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
@@ -176,7 +176,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtDetail(GamPrtFcltyRentMngtDetailVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtDetail_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 상세를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
@@ -185,7 +185,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtDetail(GamPrtFcltyRentMngtDetailVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtDetail_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 상세를 삭제한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
@@ -204,7 +204,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtPrmisnInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtPrmisnInfo_S", searchVO);
 	}
-	
+
 	/**
 	 * 항만시설사용 허가여부를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -213,7 +213,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtPrmisn(GamPrtFcltyRentMngtLevReqestVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisn_S", vo);
 	}
-	
+
 	/**
 	 * 징수의뢰를 등록한다.
 	 * @param vo GamPrtFcltyRentMngtLevReqestVO
@@ -222,7 +222,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtLevReqest(GamPrtFcltyRentMngtLevReqestVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtLevReqest_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 허가여부를 취소한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -231,7 +231,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtPrmisnCancel(GamPrtFcltyRentMngtLevReqestVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtPrmisnCancel_S", vo);
 	}
-	
+
 	/**
 	 * 해당기간의 월 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -241,7 +241,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public int selectUsagePdMonthCnt(GamPrtFcltyRentMngtLevReqestVO vo) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectUsagePdMonthCnt_S", vo);
     }
-    
+
 	/**
 	 * 항만시설사용상세 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -251,7 +251,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public List selectPrtFcltyRentMngtDetailInfo(GamPrtFcltyRentMngtVO vo) throws Exception {
         return list("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailInfo_S", vo);
     }
-    
+
     /**
 	 * 공시지가 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -261,7 +261,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public List selectOlnlpInfo() throws Exception {
         return list("gamPrtFcltyRentMngtDao.selectOlnlpInfo_S", null);
     }
-    
+
     /**
 	 * 파일 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -281,7 +281,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public int selectPrtFcltyRentMngtFileListTotCnt(GamPrtFcltyRentMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtFileListTotCnt_S", searchVO);
     }
-    
+
     /**
 	 * 파일을 등록한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -290,7 +290,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo){
 		insert("gamPrtFcltyRentMngtDao.insertPrtFcltyRentMngtFile_S", vo);
 	}
-	
+
 	/**
 	 * 파일을 수정한다.
 	 * @param vo GamAssetRentVO
@@ -299,7 +299,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtFile(GamPrtFcltyRentMngtVO vo){
 		insert("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtFile_S", vo);
 	}
-    
+
 	/**
 	 * 파일을 삭제한다.(1row)
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -308,7 +308,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void deletePrtFcltyRentMngtPhotoSingle(GamPrtFcltyRentMngtVO vo){
 		delete("gamPrtFcltyRentMngtDao.deletePrtFcltyRentMngtPhotoSingle_S", vo);
 	}
-	
+
 	/**
 	 * 항만시설사용 신규저장시 키값 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -318,7 +318,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtMaxKey(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMaxKey_S", searchVO);
 	}
-	
+
 	/**
 	 * 코멘트를 수정한다.
 	 * @param vo GamPrtFcltyRentMngtVO
@@ -327,7 +327,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtComment(GamPrtFcltyRentMngtVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtComment_S", vo);
 	}
-	
+
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -337,7 +337,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtRenewInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtRenewInfo_S", searchVO);
 	}
-	
+
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
 	 * @param vo GamAssetRentDetailVO
@@ -346,7 +346,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtRenewInfo(GamPrtFcltyRentMngtVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtRenewInfo_S", vo);
 	}
-	
+
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -356,7 +356,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCurrRenewInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCurrRenewInfo_S", searchVO);
 	}
-	
+
 	/**
 	 * 신청저장시 항만시설사용상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -366,7 +366,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtDetailQuaycd(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailQuaycd_S", searchVO);
 	}
-	
+
 	/**
 	 * 신청저장시 항만시설사용테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamPrtFcltyRentMngtDetailVO
@@ -375,7 +375,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentMngtQuaycd(GamPrtFcltyRentMngtVO vo){
 		update("gamPrtFcltyRentMngtDao.updatePrtFcltyRentMngtQuaycd_S", vo);
 	}
-	
+
 	/**
 	 * 코픽스 이자율 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -385,7 +385,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
     public List selectCofixInfo() throws Exception {
         return list("gamPrtFcltyRentMngtDao.selectCofixInfo_S", null);
     }
-    
+
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -395,7 +395,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtBeforeQuarterInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtBeforeQuarterInfo_S", searchVO);
 	}
-	
+
 	/**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -405,7 +405,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfo_S", searchVO);
 	}
-	
+
 	/**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -414,5 +414,9 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 	 */
 	public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfoMax(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfoMax_S", searchVO);
+	}
+
+	public List selectChargeKndList() throws Exception {
+		return list("gamPrtFcltyRentMngtDao.selectChargeKndList_D", null);
 	}
 }

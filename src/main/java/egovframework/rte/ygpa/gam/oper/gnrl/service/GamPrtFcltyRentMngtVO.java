@@ -238,6 +238,11 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     /** 총감면사용료 */
     private String sumGrRdcxptFee;
 
+    /**
+     * 업체 담당자 번호
+     */
+    private String chargerNo;
+
 	/**
 	 * @return the prtAtCode
 	 */
@@ -1308,6 +1313,14 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 
 	public void setTaxtSe(String taxtSe) {
 		this.taxtSe = taxtSe;
+	}
+
+	public String getChargerNo() {
+		return chargerNo;
+	}
+
+	public void setChargerNo(String chargerNo) {
+		this.chargerNo = chargerNo;
 	}
 
 }

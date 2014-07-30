@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -596,5 +597,14 @@ public class GamAssetRentMngtServiceImpl  extends AbstractServiceImpl implements
     public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
         return gamAssetRentMngtDao.selectAssetRentCofixInfoMax(searchVO);
     }
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService#selectEntrpsChargerList(java.util.Map)
+	 */
+	@Override
+	public List selectEntrpsChargerList(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentMngtDao.selectEntrpsChargerList(searchVO);
+	}
 
 }

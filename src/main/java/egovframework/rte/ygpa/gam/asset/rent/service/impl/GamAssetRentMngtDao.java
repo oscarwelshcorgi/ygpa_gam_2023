@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -415,5 +416,9 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	 */
 	public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
 		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentCofixInfoMax_S", searchVO);
+	}
+
+	public List selectEntrpsChargerList(Map searchVO) throws Exception {
+		return list("gamAssetRentMngtDao.selectEntrpsChargerList_D", searchVO);
 	}
 }

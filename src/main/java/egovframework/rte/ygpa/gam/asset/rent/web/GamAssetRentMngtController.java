@@ -152,6 +152,31 @@ public class GamAssetRentMngtController {
     	return map;
     }
 
+	// 업체 사용자 정보
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/rent/selectEntrpsChargerList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectEntrpsChargerList(@RequestParam Map searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List olnlpList = gamAssetRentMngtService.selectEntrpsChargerList(searchVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", olnlpList);
+
+    	return map;
+    }
+
 	/**
      * 자산임대목록을 조회한다.
      *

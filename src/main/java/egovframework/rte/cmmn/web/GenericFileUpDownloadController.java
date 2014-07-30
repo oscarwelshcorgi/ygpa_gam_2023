@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -203,6 +204,7 @@ public class GenericFileUpDownloadController {
 	public void downloadFile(
 			@RequestParam(value = "requestedFile") String requestedFile,
 			@RequestParam(value = "downloadFileName") String downloadFileName,
+			HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath");
@@ -216,11 +218,21 @@ public class GenericFileUpDownloadController {
 					new FileInputStream(uFile));
 			// String mimetype = servletContext.getMimeType(requestedFile);
 			String mimetype = "text/html";
+			String downName=null;
+
+	       	 String browser = request.getHeader("User-Agent");
+	    	 if(browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")){
+		    		 downName = URLEncoder.encode(downloadFileName,"UTF-8").replaceAll("\\+", "%20");
+		    		 LOG.debug("$$$ FileDownload from Chrome or msie executed, filename = "+ downName);
+	       	 } else {
+		       		 downName = new String(downloadFileName.getBytes("UTF-8"), "ISO-8859-1");
+		    		 LOG.debug("$$$ FileDownload from Other Browser executed, filename = "+ downName);
+	       	 }
 
 			response.setBufferSize(fSize);
 			response.setContentType(mimetype);
 			response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ downloadFileName + "\"");
+					+ downName + "\"");
 			response.setContentLength(fSize);
 
 			FileCopyUtils.copy(in, response.getOutputStream());
