@@ -310,6 +310,7 @@ public class GamCmmnCntrRentMngtController {
 			saveVO.setNticMth(form.get("nticMth"));
 			saveVO.setRm(form.get("rm"));
 			saveVO.setCmt(form.get("cmt"));
+			saveVO.setChargerNo(form.get("chargerNo"));	// 담당자 번호
 			saveVO.setPayinstIntrrate(form.get("payinstIntrrate"));
     		saveVO.setUpdUsr(loginVO.getId());
 
@@ -1014,10 +1015,7 @@ public class GamCmmnCntrRentMngtController {
 	@RequestMapping(value="/oper/shed/popup/showCmmnCntrRentMngtPrmisn.do")
     String showEntrpsInfo(GamCmmnCntrRentMngtLevReqestVO gamCmmnCntrRentMngtLevReqestVO, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-
-		codeVo.setCodeId("GAM054"); //요금종류
-		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		List chrgeKndCdList = gamCmmnCntrRentMngtService.selectChargeKndList();
 
 		model.addAttribute("gamCmmnCntrRentMngtInfo", gamCmmnCntrRentMngtLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);

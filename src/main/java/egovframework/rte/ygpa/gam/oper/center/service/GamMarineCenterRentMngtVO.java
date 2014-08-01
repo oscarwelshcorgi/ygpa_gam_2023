@@ -232,7 +232,26 @@ public class GamMarineCenterRentMngtVO extends ComDefaultVO {
 
     private String blceStdrIntrrateShow;
 
-    /** 총감면사용료 */
+    /**
+     * 업체 담당자 번호
+     */
+    private String chargerNo;
+
+    /**
+	 * @return the chargerNo
+	 */
+	public String getChargerNo() {
+		return chargerNo;
+	}
+
+	/**
+	 * @param chargerNo the chargerNo to set
+	 */
+	public void setChargerNo(String chargerNo) {
+		this.chargerNo = chargerNo;
+	}
+
+	/** 총감면사용료 */
     private String sumGrRdcxptFee;
 
     /**

@@ -774,6 +774,8 @@ public class GamCntnrQuayRentFeeMngtController {
 	 		paramMap.put("chrgeKnd", gamAssetRentFeeMngtVO.getChrgeKnd());
 	 		paramMap.put("deptCd", loginVo.getDeptCd());
 	 		paramMap.put("nhtPrintYn", "N");
+	 		paramMap.put("payTmlmt", gamAssetRentFeeMngtVO.getPayTmlmt());
+	 		paramMap.put("userName", loginVo.getName());
 
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);
 

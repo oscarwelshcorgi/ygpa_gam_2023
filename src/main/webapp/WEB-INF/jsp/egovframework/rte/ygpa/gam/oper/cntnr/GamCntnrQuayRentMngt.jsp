@@ -218,6 +218,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.$('#assetRentFileList').flexOptions({params:searchOpt}).flexReload();
 
         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
+        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
@@ -229,6 +230,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
+
+        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
+
     });
 
     this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -255,7 +259,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     this.$("#assetRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
-        module.$('#gamAssetRentForm :input').val('');
+//      module.$('#gamAssetRentForm :input').val('');	// makeFormValues 에서 값을 지우므로 특별 한 일이 없는 한 각각 지우지 않는다. 클래스 특성을 반영 못 하는 경우가 생긴다
 
         module.makeFormValues('#gamAssetRentForm', row);
         module._editData=module.getFormValues('#gamAssetRentForm', row);
@@ -409,6 +413,54 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	this.$("#sGrUsagePdTo").val(searchEndDate);
 
 };
+GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
+	var entrpsCd=this.$('#entrpscd').val();
+	this.$('#chargerTlphonNo').text('');
+	this.$('#chargerMoblphonNo').text('');
+	if(entrpsCd!=null && entrpsCd.length>0) {
+		//var loadOpt = [{name: 'entrpscd', value: entrpsCd}];
+		var loadOpt = {'entrpscd': entrpsCd};
+	    this.doAction('<c:url value="/asset/rent/selectEntrpsChargerList.do" />', loadOpt, function(module, result) {
+	    	console.log('charger list load completed');
+	        if(result.resultCode=='0') {
+		       	 var selectCharger = module.$('#selectCharger');
+		       	selectCharger.off('change');
+		       	selectCharger.empty();
+		       	selectCharger.append('<option value="">선택</option>')
+		       	 $.each(result.resultList, function() {
+		       		selectCharger.append('<option value="'+this.chargerNo+'" data-moblphonno="'+this.chargerMoblphonNo+'" data-tlphonno="'+this.chargerTlphonNo+'" data-fax="'+this.chargerFax+'" data-email="'+ +this.chargerEmail+'">'+this.chargerNm+'</option>')
+		       	 });
+		       	selectCharger.on('change', {module: module}, function(event) {
+		       		var sel = $(this).children(':selected');
+		       		var m = event.data.module;
+		       		console.log('charger selected : '+sel);
+		   			m.$('#chargerNo').val(sel.val());
+		   			if(sel.val()!=null && sel.val()!='') {
+		   				var tlNo=sel.data('tlphonno');
+		   				if(sel.data('fax')!=null && sel.data('fax').length>0) {
+		   					tlNo+= ', FAX:'+sel.data('fax');
+		   				}
+		   				m.$('#chargerTlphonNo').text(tlNo);
+		   				m.$('#chargerMoblphonNo').text(sel.data('moblphonno'));
+		   			}
+		   		 });
+		       	var selected = module.$('#chargerNo').val();
+		       	if(selected!=null && selected!='') {
+		       		selectCharger.val(selected);
+		       		var sel = selectCharger.children(':selected');
+		   			if(sel.val()!=null && sel.val()!='') {
+		   				var tlNo=sel.data('tlphonno');
+		   				if(sel.data('fax')!=null && sel.data('fax').length>0) {
+		   					tlNo+= ' FAX:'+sel.data('fax');
+		   				}
+		   				module.$('#chargerTlphonNo').text(tlNo);
+		   				module.$('#chargerMoblphonNo').text(sel.data('moblphonno'));
+		   			}
+		        }
+	        }
+	    });
+	}
+};
 
 GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	var firstAmt=0;
@@ -426,13 +478,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	case '2':	// 반기납
 		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
-		if(grUsagePdFrom.getMonth()<6) {
-			toDt.setMonth(6);
-		}
-		else {
-			toDt.setFullYear(toDt.getFullYear()+1);
-			toDt.setMonth(0);
-		}
+		toDt.setMonth(fromDt.getMonth()+6);
 //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
 		if(6>=totalMonths) firstAmt=totalAmount;
@@ -443,7 +489,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		}
 		// 이자율 계산
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /2;
-		firstAmt = Math.floor(firstAmt/10)*10;
+		firstAmt = Math.floor(firstAmt);
 		break;
 	case '3':	// 3분납
 		fromDt = grUsagePdFrom;
@@ -467,7 +513,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		}
 		// 이자율 계산
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /3;
-		firstAmt = Math.floor(firstAmt/10)*10;
+		firstAmt = Math.floor(firstAmt);
 		break;
 	case '4':	// 분기납
 		fromDt = grUsagePdFrom;
@@ -490,10 +536,10 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		if(3>=totalMonths) firstAmt=totalAmount;
 		else {
 			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*3/totalMonths/10)*10;
+			firstAmt=Math.floor(totalAmount*3/totalMonths);
 		}
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /4;
-		firstAmt = Math.floor(firstAmt/10)*10;
+// 		firstAmt = Math.floor(firstAmt/10)*10;
 		break;
 	case '5':	// 월납
 		fromDt = grUsagePdFrom;
@@ -504,11 +550,11 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		if(1>=totalMonths) firstAmt=totalAmount;
 		else {
 			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*1/totalMonths/10)*10;
+			firstAmt=Math.floor(totalAmount*1/totalMonths);
 //			firstAmt=totalAmount*1-firstAmt
 		}
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /12;
-		firstAmt = Math.floor(firstAmt/10)*10;
+		firstAmt = Math.floor(firstAmt);
 		break;
 	default:
 		firstAmt=totalAmount;
@@ -954,6 +1000,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#gamAssetRentForm').find(':input').val('');
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this.$('#gamAssetRentFileForm').find(':input').val('');
+            this.$('#selectCharger').empty();
+            this.$('#chargerTlphonNo').text('');
+            this.$('#chargerMoblphonNo').text('');
 
             //this.$("#assetRentDetailList").flexRemove();
             this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
@@ -1648,7 +1697,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             	return;
             }
             break;
-
+        case 'btnMangeCharger': // 업체정보관리
+       	 	EMD.util.create_window('업체정보 관리', '<c:url value="/code/gamCmpyInfoMngt.do"/>', null, {entrpscd:this.$('#entrpscd').val()});
+        	break;
 
     }
 };
@@ -1741,6 +1792,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          if (msg != 'cancel') {
              this.$('#entrpscd').val(value.entrpscd);
              this.$('#entrpsNm').val(value.entrpsNm);
+             this.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
          } else {
              alert('취소 되었습니다');
          }
@@ -1994,7 +2046,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
 								<th width="10%" height="18">분납이자율</th>
                                 <td>
-                                    <input type="text" size="19" id="payinstIntrrate" maxlength="4"/>
+									<input type="text" size="19" id="payinstIntrrate" maxlength="4" size="5"/>
                                     <select id="cofixList">
                                         <option value="">선택</option>
                                         <c:forEach items="${cofixList}" var="cofixListItem">
@@ -2008,7 +2060,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td>
                                     <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
                                 </td>
-								<th width="10%" height="18">1회차 사용료</th>
+								<th width="10%" height="18">첫회 사용료</th>
                                 <td colspan="3">
                                 	<input type="text" size="13" id="firstPayVal" class="skipValue" disabled="disabled"/> 원
                                 </td>
@@ -2024,6 +2076,24 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">비고</th>
                                 <td colspan="5"><input type="text" size="133" id="rm" maxlength="90"/></td>
                             </tr>
+                            <tr>
+								<th width="10%" height="18">담당자</th>
+                                <td>
+									<input id="chargerNo" type="hidden" />
+									<select id="selectCharger" class="skipValue">
+                                        <option value="">선택</option>
+                                    </select>
+								</td>
+								<th width="10%" height="18">담당자 전화</th>
+                                <td>
+                                	<span id="chargerTlphonNo"></span>
+								</td>
+								<th width="10%" height="18">휴대전화</th>
+                                <td>
+                                	<span id="chargerMoblphonNo" style="width:120px; display: inline-block;"></span>
+                                    <button id="btnMangeCharger">담당자관리</button>
+								</td>
+							</tr>
                         </table>
                     </form>
 

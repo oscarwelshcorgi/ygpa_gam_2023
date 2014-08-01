@@ -239,11 +239,30 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
     private String sumGrRdcxptFee;
 
     /**
+    * 업체 담당자 번호
+    */
+   private String chargerNo;
+
+    /**
      * 과세구분
      */
     private String taxtSe;
 
-    public String getTaxtSe() {
+    /**
+	 * @return the chargerNo
+	 */
+	public String getChargerNo() {
+		return chargerNo;
+	}
+
+	/**
+	 * @param chargerNo the chargerNo to set
+	 */
+	public void setChargerNo(String chargerNo) {
+		this.chargerNo = chargerNo;
+	}
+
+	public String getTaxtSe() {
 		return taxtSe;
 	}
 

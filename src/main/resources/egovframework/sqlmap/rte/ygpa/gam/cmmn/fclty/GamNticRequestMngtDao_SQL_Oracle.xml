@@ -115,7 +115,7 @@
       BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
 		RCVD_TP,
       UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
-      DEPT
+      DEPT,USER_NAME
       )
         SELECT
       PRT_AT_CODE,
@@ -127,7 +127,8 @@
       NTIC_AMT, RDCXPT_FEE, 0, 0,
 		'0',
       #updUsr#, SYSDATE, SYSDATE, VAT_YN, VAT, NTIC_PD_FROM, NTIC_PD_TO,
-      #deptCd#
+      #deptCd#,
+      #userName#
       FROM LEV_REQEST_F
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#

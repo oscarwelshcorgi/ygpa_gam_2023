@@ -22,19 +22,19 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtVO;
 
 /**
  * @Class Name : GamTrainPortRentMngtServiceImpl.java
- * @Description : 철송장임대목록관리 
+ * @Description : 철송장임대목록관리
  * @Modification Information
  *
  * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamTrainPortRentMngtService")
 public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl implements GamTrainPortRentMngtService {
-	
+
 	@Resource(name="gamTrainPortRentMngtDao")
     private GamTrainPortRentMngtDao gamTrainPortRentMngtDao;
 
@@ -96,45 +96,45 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	 */
     public void insertTrainPortRentMngtRenew(GamTrainPortRentMngtVO vo) throws Exception {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		//철송장임대 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamTrainPortRentMngtDao.selectTrainPortRentMngtMaxMngCnt(vo);
-		
+
 		//철송장임대 복사등록
 		vo.setMaxMngCnt(maxMngCnt);
 		vo.setRegUsr(loginVO.getId());
 		vo.setUpdUsr(loginVO.getId());
 		vo.setReqstSeCd("2");
-		gamTrainPortRentMngtDao.insertTrainPortRentMngtRenew(vo); 
-		
+		gamTrainPortRentMngtDao.insertTrainPortRentMngtRenew(vo);
+
 		//철송장임대상세정보 조회
 		List detailList = gamTrainPortRentMngtDao.selectTrainPortRentMngtDetailInfo(vo);
-		
+
 		GamTrainPortRentMngtDetailVO resultVo = null;
-		
+
 		for( int i = 0 ; i < detailList.size() ; i++ ) {
 			resultVo = new GamTrainPortRentMngtDetailVO();
 			resultVo = (GamTrainPortRentMngtDetailVO)detailList.get(i);
-			
+
 			resultVo.setMngCnt(maxMngCnt);
 			resultVo.setRegUsr(loginVO.getId());
 			resultVo.setUpdUsr(loginVO.getId());
-			
+
 			//철송장임대상세 복사등록
-			gamTrainPortRentMngtDao.insertTrainPortRentMngtDetailRenew(resultVo); 
+			gamTrainPortRentMngtDao.insertTrainPortRentMngtDetailRenew(resultVo);
 		}
-		
+
 		GamTrainPortRentMngtVO updRentVO = new GamTrainPortRentMngtVO();
-		
+
 		//총사용료, 총면적, 총사용기간 조회
 		updRentVO = gamTrainPortRentMngtDao.selectTrainPortRentMngtRenewInfo(vo);
-		
+
 		if( updRentVO != null ) {
 			updRentVO.setPrtAtCode(vo.getPrtAtCode());
 			updRentVO.setMngYear(vo.getMngYear());
 			updRentVO.setMngNo(vo.getMngNo());
 			updRentVO.setMaxMngCnt(maxMngCnt);
-			
+
 			gamTrainPortRentMngtDao.updateTrainPortRentMngtRenewInfo(updRentVO);
 		}
 	}
@@ -167,7 +167,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public int selectTrainPortRentMngtDetailListTotCnt(GamTrainPortRentMngtVO vo) throws Exception {
 		return gamTrainPortRentMngtDao.selectTrainPortRentMngtDetailListTotCnt(vo);
 	}
-    
+
     /**
    	 * 공시지가 목록을 조회한다.
    	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -264,16 +264,16 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 		int[] dayCnt = null; //고지방법별 해당기간의 날짜수
 		int totDayCnt = 0; // 사용기간 총 일수
 		int dayFee = 0; //일별 사용료
-		
-		int propNticPdFrom = 0; //고지기간 FROM 
-		int propNticPdTo   = 0; //고지기간 TO 
+
+		int propNticPdFrom = 0; //고지기간 FROM
+		int propNticPdTo   = 0; //고지기간 TO
 		int propPayTmlmt   = 0; //납부기한
 
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
 		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
-		
+
 		int monthCnt = gamTrainPortRentMngtDao.selectUsagePdMonthCnt(vo);
-		
+
 		log.debug("################################################ monthCnt => " + monthCnt);
 
 		if( vo.getNticMth().equals("1") ) {	// 일시납
@@ -362,7 +362,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 				} else {
 					startRetVal[i] = EgovDateUtil.addYearMonthDay(cStartDt, 0, i, 0);
 				}
-				
+
 				int j = monthCnt-1;
 				if( i == j ) {
 					endRetVal[i] = cEndDt;
@@ -381,7 +381,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 			int thisTimeVat = 0;
 
 			vo.setNticCnt(Integer.toString(i+1)); //고지횟수
-			
+
 			if( "Pre".equals(vo.getPayMth()) ) { //납부방법(선납)
 				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
 				propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
@@ -391,7 +391,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 				propNticPdTo = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdToAfter"));
 				propPayTmlmt = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmtAfter"));
 			}
-			
+
 			vo.setNticPdFrom(EgovDateUtil.addDay(startRetVal[i], propNticPdFrom)); //고지기간 FROM
 			vo.setConstPerTo(EgovDateUtil.addDay(startRetVal[i], propNticPdTo)); //고지기간 TO
 		    vo.setPayTmlmt(EgovDateUtil.addDay(startRetVal[i], propPayTmlmt));   //납부기한
@@ -399,16 +399,16 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 		    if( dayCnt[i] > 0 ) {
 				thisTimeFee = dayFee * dayCnt[i]; //사용료
 				vo.setFee(Integer.toString(thisTimeFee));
-	
+
 				if( "Y".equals(vo.getVatYn()) ) {
 					thisTimeVat = thisTimeFee / 10;
 					thisTimeFee = thisTimeFee + thisTimeVat;
-	
+
 					vo.setVat(Integer.toString(thisTimeVat)); //부가세
 				}
-	
+
 				vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
-				
+
 				log.debug("################################################ for => " + i + "##################################");
 				log.debug("################################################ 월별 시작일 => " + startRetVal[i]);
 				log.debug("################################################ 월별 종료일 => " + endRetVal[i]);
@@ -421,11 +421,11 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 				log.debug("################################################ 부가세 => " + vo.getVat());
 				log.debug("################################################ 고지금액 => " + vo.getNticAmt());
 				log.debug("---------------------------------------------------------------------------------------------------");
-				
+
 				//징수의뢰 insert
 				gamTrainPortRentMngtDao.insertTrainPortRentMngtLevReqest(vo);
 		    }
-			
+
 		}
 
 		//철송장임대 허가여부를 수정
@@ -440,7 +440,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void updateTrainPortRentMngtPrmisnCancel(GamTrainPortRentMngtLevReqestVO vo) throws Exception {
 		gamTrainPortRentMngtDao.updateTrainPortRentMngtPrmisnCancel(vo);
 	}
-	
+
 	/**
 	 * 파일 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -460,7 +460,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public int selectTrainPortRentMngtFileListTotCnt(GamTrainPortRentMngtVO searchVO) throws Exception {
 		return gamTrainPortRentMngtDao.selectTrainPortRentMngtFileListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 파일을 등록한다.
 	 * @param vo GamTrainPortRentMngtVO
@@ -469,7 +469,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void insertTrainPortRentMngtFile(GamTrainPortRentMngtVO vo) throws Exception {
 		gamTrainPortRentMngtDao.insertTrainPortRentMngtFile(vo);
 	}
-	
+
 	/**
 	 * 파일을 수정한다.
 	 * @param vo GamTrainPortRentMngtVO
@@ -478,7 +478,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void updateTrainPortRentMngtFile(GamTrainPortRentMngtVO vo) throws Exception {
 		gamTrainPortRentMngtDao.updateTrainPortRentMngtFile(vo);
 	}
-	
+
 	/**
 	 * 파일을 삭제한다.
 	 * @param vo GamTrainPortRentMngtVO
@@ -487,7 +487,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void deleteTrainPortRentMngtPhotoSingle(GamTrainPortRentMngtVO vo) throws Exception {
 		gamTrainPortRentMngtDao.deleteTrainPortRentMngtPhotoSingle(vo);
 	}
-	
+
 	/**
 	 * 철송장임대 신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -497,7 +497,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtMaxKey(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtMaxKey(searchVO);
     }
-	
+
     /**
 	 * 코멘트를 수정한다.
 	 * @param vo GamTrainPortRentMngtVO
@@ -506,7 +506,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void updateTrainPortRentMngtComment(GamTrainPortRentMngtVO vo) throws Exception {
 		gamTrainPortRentMngtDao.updateTrainPortRentMngtComment(vo);
 	}
-	
+
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -516,7 +516,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtRenewInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtRenewInfo(searchVO);
     }
-    
+
     /**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
 	 * @param vo GamAssetRentDetailVO
@@ -525,7 +525,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void updateTrainPortRentMngtRenewInfo(GamTrainPortRentMngtVO vo) throws Exception {
 		gamTrainPortRentMngtDao.updateTrainPortRentMngtRenewInfo(vo);
 	}
-	
+
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -535,7 +535,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtCurrRenewInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtCurrRenewInfo(searchVO);
     }
-    
+
     /**
 	 * 신청저장시 철송장임대상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -545,7 +545,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtDetailQuaycd(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtDetailQuaycd(searchVO);
     }
-    
+
     /**
 	 * 신청저장시 철송장임대테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamTrainPortRentMngtDetailVO
@@ -554,7 +554,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
 	public void updateTrainPortRentMngtQuaycd(GamTrainPortRentMngtVO vo) throws Exception {
 		gamTrainPortRentMngtDao.updateTrainPortRentMngtQuaycd(vo);
 	}
-	
+
 	/**
    	 * 코픽스 이자율 목록을 조회한다.
    	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -564,7 +564,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public List selectCofixInfo() throws Exception {
         return gamTrainPortRentMngtDao.selectCofixInfo();
     }
-    
+
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -574,7 +574,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtBeforeQuarterInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtBeforeQuarterInfo(searchVO);
     }
-    
+
     /**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -584,7 +584,7 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtCofixInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtCofixInfo(searchVO);
     }
-    
+
     /**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -594,4 +594,13 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamTrainPortRentMngtVO selectTrainPortRentMngtCofixInfoMax(GamTrainPortRentMngtVO searchVO) throws Exception {
         return gamTrainPortRentMngtDao.selectTrainPortRentMngtCofixInfoMax(searchVO);
     }
+
+    /* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService#selectChargeKndList()
+	 */
+	@Override
+	public List selectChargeKndList() throws Exception {
+		// TODO Auto-generated method stub
+		return gamTrainPortRentMngtDao.selectChargeKndList();
+	}
 }

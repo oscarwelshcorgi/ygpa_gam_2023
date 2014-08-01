@@ -734,8 +734,8 @@
 			FROM
 			  (SELECT ROWNUM RNUM,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.PRT_AT_CODE
-			    || ASCII(SUBSTR(A.CHRGE_KND,1,1))
-			    || SUBSTR(A.CHRGE_KND,2,1)
+			    || ASCII(SUBSTR(A.FEE_TP,1,1))
+			    || SUBSTR(A.FEE_TP,2,1)
 			    || A.ACCNUT_YEAR
 			    || A.NTICNO
 			    || '0','BILLNO') CSTMR_REF_CODE,
@@ -764,6 +764,7 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
+			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
 			      GAM_GETCODENAME('GAM056', S.CHRGE_KND) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,

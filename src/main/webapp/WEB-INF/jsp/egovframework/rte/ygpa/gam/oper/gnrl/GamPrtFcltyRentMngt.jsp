@@ -426,12 +426,16 @@ GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 		       	 var selectCharger = module.$('#selectCharger');
 		       	selectCharger.off('change');
 		       	selectCharger.empty();
-		       	selectCharger.append('<option value="">선택</option>')
+		       	selectCharger.append('<option value="">선택</option>');
 		       	 $.each(result.resultList, function() {
 		       		selectCharger.append('<option value="'+this.chargerNo+'" data-moblphonno="'+this.chargerMoblphonNo+'" data-tlphonno="'+this.chargerTlphonNo+'" data-fax="'+this.chargerFax+'" data-email="'+ +this.chargerEmail+'">'+this.chargerNm+'</option>')
 		       	 });
 		       	selectCharger.on('change', {module: module}, function(event) {
+		       		console.log(module);
 		       		var sel = $(this).children(':selected');
+
+		       		console.log($(this));
+		       		console.log(sel);
 		       		var m = event.data.module;
 		       		console.log('charger selected : '+sel);
 		   			m.$('#chargerNo').val(sel.val());
@@ -1000,6 +1004,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#gamAssetRentForm').find(':input').val('');
             this.$('#gamAssetRentDetailForm').find(':input').val('');
             this.$('#gamAssetRentFileForm').find(':input').val('');
+            this.$('#selectCharger').empty();
+            this.$('#chargerTlphonNo').text('');
+        	this.$('#chargerMoblphonNo').text('');
 
             //this.$("#assetRentDetailList").flexRemove();
             this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
@@ -1782,7 +1789,6 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          if (msg != 'cancel') {
              this.$('#sEntrpscd').val(value.entrpscd);
              this.$('#sEntrpsNm').val(value.entrpsNm);
-             this.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
          } else {
              alert('취소 되었습니다');
          }
@@ -1791,6 +1797,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          if (msg != 'cancel') {
              this.$('#entrpscd').val(value.entrpscd);
              this.$('#entrpsNm').val(value.entrpsNm);
+             this.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
          } else {
              alert('취소 되었습니다');
          }

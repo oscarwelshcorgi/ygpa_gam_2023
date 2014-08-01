@@ -774,6 +774,8 @@ public class GamHtldRentFeeMngtController {
 	 		paramMap.put("mngNo", gamHtldRentFeeMngtVO.getMngNo());
 	 		paramMap.put("mngCnt", gamHtldRentFeeMngtVO.getMngCnt());
 	 		paramMap.put("chrgeKnd", gamHtldRentFeeMngtVO.getChrgeKnd());
+	 		paramMap.put("payTmlmt", gamHtldRentFeeMngtVO.getPayTmlmt());
+	 		paramMap.put("userName", loginVo.getName());
 	 		paramMap.put("deptCd", loginVo.getDeptCd());
 	 		paramMap.put("nhtPrintYn", "N");
 

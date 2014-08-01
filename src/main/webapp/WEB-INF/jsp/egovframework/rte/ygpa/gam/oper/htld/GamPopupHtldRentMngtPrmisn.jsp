@@ -42,18 +42,18 @@ GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
             alert("요금종류를 선택하십시오.");
             return;
         }
-		
+
 		if( confirm("승낙 하시겠습니까?") ) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
-	        
-	        //this.doAction('<c:url value="/oper/htld/gamInsertHtldRentMngtPrmisn.do" />', inputVO, function(module, result) {   
-	        this.doAction('<c:url value="/oper/htld/gamUpdateHtldRentMngtPrmisn.do" />', inputVO, function(module, result) {   
+
+	        //this.doAction('<c:url value="/oper/htld/gamInsertHtldRentMngtPrmisn.do" />', inputVO, function(module, result) {
+	        this.doAction('<c:url value="/oper/htld/gamUpdateHtldRentMngtPrmisn.do" />', inputVO, function(module, result) {
 	            alert(result.resultMsg);
-	            
+
 	            module.closeDialog('ok', result.resultCode);
 	        });
 	    }
-		
+
 		break;
 	case 'cancel':
 		this.cancelDialog();
@@ -92,9 +92,9 @@ var popup_instance = new GamPopupPrtOperRentModule();
                                 <c:forEach  items="${chrgeKndCdList}" var="chrgeKndCdItem">
 	                                <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
 	                            </c:forEach>
-                            </select>  
+                            </select>
                         </td>
-                        <!-- 
+                        <!--
                         <th>부가세 여부</th>
                         <td>
                             <select id="vatYn">

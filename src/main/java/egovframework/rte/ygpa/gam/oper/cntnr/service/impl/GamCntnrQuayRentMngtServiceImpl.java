@@ -594,4 +594,13 @@ public class GamCntnrQuayRentMngtServiceImpl extends AbstractServiceImpl impleme
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtCofixInfoMax(GamCntnrQuayRentMngtVO searchVO) throws Exception {
         return gamCntnrQuayRentMngtDao.selectCntnrQuayRentMngtCofixInfoMax(searchVO);
     }
+    
+    /* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService#selectChargeKndList()
+	 */
+	@Override
+	public List selectChargeKndList() throws Exception {
+		// TODO Auto-generated method stub
+		return gamCntnrQuayRentMngtDao.selectChargeKndList();
+	}
 }

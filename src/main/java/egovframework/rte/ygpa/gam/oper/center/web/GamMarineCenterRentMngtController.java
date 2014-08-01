@@ -318,6 +318,7 @@ public class GamMarineCenterRentMngtController {
 			saveVO.setNticMth(form.get("nticMth"));
 			saveVO.setRm(form.get("rm"));
 			saveVO.setCmt(form.get("cmt"));
+			saveVO.setChargerNo(form.get("chargerNo"));	// 담당자 번호
 			saveVO.setPayinstIntrrate(form.get("payinstIntrrate"));
     		saveVO.setUpdUsr(loginVO.getId());
 
@@ -1047,10 +1048,7 @@ public class GamMarineCenterRentMngtController {
 	@RequestMapping(value="/oper/center/popup/showMarineCenterRentPrmisn.do")
     String showEntrpsInfo(GamMarineCenterRentLevReqestVO gamMarineCenterRentLevReqestVO, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-
-		codeVo.setCodeId("GAM056"); //요금종류
-		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		List chrgeKndCdList = gamMarineCenterRentMngtService.selectChargeKndList();
 
 		model.addAttribute("gamMarineCenterRentInfo", gamMarineCenterRentLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);

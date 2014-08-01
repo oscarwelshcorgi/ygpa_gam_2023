@@ -110,6 +110,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function(args) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#cmpyInfoMngtListTab").tabs("option", {active: 2});			// 탭을 전환 한다.
 		module._editData = module.getFormValues("#cmpyChargerMngtManageVO", row);
+		module._editData._updtId = "U";
 		// console.log(module._editData);
 	});
 
@@ -197,7 +198,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			inputVO[inputVO.length]={name: "deleteList", value: JSON.stringify(this._deleteDataList) };
 			inputVO[inputVO.length]={name: "form", value: JSON.stringify(detailParam) };
 			//inputVO[inputVO.length]={name: "form", value: detailParam };
-
+			console.log(this.$("#cmd").val());
 			if(this.$("#cmd").val() == "insert") {
 
 				this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
@@ -234,14 +235,17 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(!validateGamCmpyCode(this.$("#cmpyChargerMngtManageVO")[0])) return;
 			this._editInfoData = this.getFormValues("#cmpyInfoMngtManageVO", this._editInfoData);
 			this._editData = this.getFormValues("#cmpyChargerMngtManageVO", this._editData);
+			console.log(this._editData);
 			if(this._editData._updtId == undefined || this._editData._updtId != "I"){
 				this._editData._updtId = "U";
+				console.log('1');
 				this.$("#cmpyMngtList").flexUpdateRow(this._editRow, this._editData);
 			}else{
 				var cnt = this.$('#cmpyMngtList').flexRowCount();
 				var addSeq = cnt + 1;
 				this._editData.rnum = addSeq;
 
+				console.log('2');
 				this.$("#cmpyMngtList").flexAddRow(this._editData);
 			}
 

@@ -22,19 +22,19 @@ import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO;
 
 /**
  * @Class Name : GamCmmnCntrRentMngtServiceImpl.java
- * @Description : 공컨장치장임대목록관리 
+ * @Description : 공컨장치장임대목록관리
  * @Modification Information
  *
  * @author domh
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamCmmnCntrRentMngtService")
 public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implements GamCmmnCntrRentMngtService {
-	
+
 	@Resource(name="gamCmmnCntrRentMngtDao")
     private GamCmmnCntrRentMngtDao gamCmmnCntrRentMngtDao;
 
@@ -96,45 +96,45 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	 */
     public void insertCmmnCntrRentMngtRenew(GamCmmnCntrRentMngtVO vo) throws Exception {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		//공컨장치장임대 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtMaxMngCnt(vo);
-		
+
 		//공컨장치장임대 복사등록
 		vo.setMaxMngCnt(maxMngCnt);
 		vo.setRegUsr(loginVO.getId());
 		vo.setUpdUsr(loginVO.getId());
 		vo.setReqstSeCd("2");
-		gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtRenew(vo); 
-		
+		gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtRenew(vo);
+
 		//공컨장치장임대상세정보 조회
 		List detailList = gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtDetailInfo(vo);
-		
+
 		GamCmmnCntrRentMngtDetailVO resultVo = null;
-		
+
 		for( int i = 0 ; i < detailList.size() ; i++ ) {
 			resultVo = new GamCmmnCntrRentMngtDetailVO();
 			resultVo = (GamCmmnCntrRentMngtDetailVO)detailList.get(i);
-			
+
 			resultVo.setMngCnt(maxMngCnt);
 			resultVo.setRegUsr(loginVO.getId());
 			resultVo.setUpdUsr(loginVO.getId());
-			
+
 			//공컨장치장임대상세 복사등록
-			gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtDetailRenew(resultVo); 
+			gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtDetailRenew(resultVo);
 		}
-		
+
 		GamCmmnCntrRentMngtVO updRentVO = new GamCmmnCntrRentMngtVO();
-		
+
 		//총사용료, 총면적, 총사용기간 조회
 		updRentVO = gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtRenewInfo(vo);
-		
+
 		if( updRentVO != null ) {
 			updRentVO.setPrtAtCode(vo.getPrtAtCode());
 			updRentVO.setMngYear(vo.getMngYear());
 			updRentVO.setMngNo(vo.getMngNo());
 			updRentVO.setMaxMngCnt(maxMngCnt);
-			
+
 			gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtRenewInfo(updRentVO);
 		}
 	}
@@ -167,7 +167,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public int selectCmmnCntrRentMngtDetailListTotCnt(GamCmmnCntrRentMngtVO vo) throws Exception {
 		return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtDetailListTotCnt(vo);
 	}
-    
+
     /**
    	 * 공시지가 목록을 조회한다.
    	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -264,16 +264,16 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 		int[] dayCnt = null; //고지방법별 해당기간의 날짜수
 		int totDayCnt = 0; // 사용기간 총 일수
 		int dayFee = 0; //일별 사용료
-		
-		int propNticPdFrom = 0; //고지기간 FROM 
-		int propNticPdTo   = 0; //고지기간 TO 
+
+		int propNticPdFrom = 0; //고지기간 FROM
+		int propNticPdTo   = 0; //고지기간 TO
 		int propPayTmlmt   = 0; //납부기한
 
 		totDayCnt = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(vo.getGrUsagePdTo(), 0, 0, 1)).getTime() - sdf.parse(vo.getGrUsagePdFrom()).getTime()) / 1000 / 60 / 60 / 24); //해당기간의 총 일자 수
 		dayFee    = Integer.parseInt(vo.getGrFee()) / totDayCnt;
-		
+
 		int monthCnt = gamCmmnCntrRentMngtDao.selectUsagePdMonthCnt(vo);
-		
+
 		log.debug("################################################ monthCnt => " + monthCnt);
 
 		if( vo.getNticMth().equals("1") ) {	// 일시납
@@ -362,7 +362,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 				} else {
 					startRetVal[i] = EgovDateUtil.addYearMonthDay(cStartDt, 0, i, 0);
 				}
-				
+
 				int j = monthCnt-1;
 				if( i == j ) {
 					endRetVal[i] = cEndDt;
@@ -381,7 +381,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 			int thisTimeVat = 0;
 
 			vo.setNticCnt(Integer.toString(i+1)); //고지횟수
-			
+
 			if( "Pre".equals(vo.getPayMth()) ) { //납부방법(선납)
 				propNticPdFrom = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdFrom"));
 				propNticPdTo   = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdTo"));
@@ -391,7 +391,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 				propNticPdTo = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propNticPdToAfter"));
 				propPayTmlmt = Integer.parseInt(EgovProperties.getProperty("ygam.asset.rent.propPayTmlmtAfter"));
 			}
-			
+
 			vo.setNticPdFrom(EgovDateUtil.addDay(startRetVal[i], propNticPdFrom)); //고지기간 FROM
 			vo.setConstPerTo(EgovDateUtil.addDay(startRetVal[i], propNticPdTo)); //고지기간 TO
 		    vo.setPayTmlmt(EgovDateUtil.addDay(startRetVal[i], propPayTmlmt));   //납부기한
@@ -399,16 +399,16 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 		    if( dayCnt[i] > 0 ) {
 				thisTimeFee = dayFee * dayCnt[i]; //사용료
 				vo.setFee(Integer.toString(thisTimeFee));
-	
+
 				if( "Y".equals(vo.getVatYn()) ) {
 					thisTimeVat = thisTimeFee / 10;
 					thisTimeFee = thisTimeFee + thisTimeVat;
-	
+
 					vo.setVat(Integer.toString(thisTimeVat)); //부가세
 				}
-	
+
 				vo.setNticAmt(Integer.toString(thisTimeFee)); //고지금액
-				
+
 				log.debug("################################################ for => " + i + "##################################");
 				log.debug("################################################ 월별 시작일 => " + startRetVal[i]);
 				log.debug("################################################ 월별 종료일 => " + endRetVal[i]);
@@ -421,11 +421,11 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 				log.debug("################################################ 부가세 => " + vo.getVat());
 				log.debug("################################################ 고지금액 => " + vo.getNticAmt());
 				log.debug("---------------------------------------------------------------------------------------------------");
-				
+
 				//징수의뢰 insert
 				gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtLevReqest(vo);
 		    }
-			
+
 		}
 
 		//공컨장치장임대 허가여부를 수정
@@ -440,7 +440,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void updateCmmnCntrRentMngtPrmisnCancel(GamCmmnCntrRentMngtLevReqestVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtPrmisnCancel(vo);
 	}
-	
+
 	/**
 	 * 파일 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -460,7 +460,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public int selectCmmnCntrRentMngtFileListTotCnt(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 		return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtFileListTotCnt(searchVO);
 	}
-    
+
     /**
 	 * 파일을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
@@ -469,7 +469,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void insertCmmnCntrRentMngtFile(GamCmmnCntrRentMngtVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtFile(vo);
 	}
-	
+
 	/**
 	 * 파일을 수정한다.
 	 * @param vo GamCmmnCntrRentMngtVO
@@ -478,7 +478,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void updateCmmnCntrRentMngtFile(GamCmmnCntrRentMngtVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtFile(vo);
 	}
-	
+
 	/**
 	 * 파일을 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtVO
@@ -487,7 +487,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void deleteCmmnCntrRentMngtPhotoSingle(GamCmmnCntrRentMngtVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngtPhotoSingle(vo);
 	}
-	
+
 	/**
 	 * 공컨장치장임대 신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -497,7 +497,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxKey(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtMaxKey(searchVO);
     }
-	
+
     /**
 	 * 코멘트를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtVO
@@ -506,7 +506,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void updateCmmnCntrRentMngtComment(GamCmmnCntrRentMngtVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtComment(vo);
 	}
-	
+
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -516,7 +516,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtRenewInfo(searchVO);
     }
-    
+
     /**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적을 업데이트 한다.
 	 * @param vo GamAssetRentDetailVO
@@ -525,7 +525,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void updateCmmnCntrRentMngtRenewInfo(GamCmmnCntrRentMngtVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtRenewInfo(vo);
 	}
-	
+
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -535,7 +535,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCurrRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCurrRenewInfo(searchVO);
     }
-    
+
     /**
 	 * 신청저장시 공컨장치장임대상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -545,7 +545,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtDetailQuaycd(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtDetailQuaycd(searchVO);
     }
-    
+
     /**
 	 * 신청저장시 공컨장치장임대테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
@@ -554,7 +554,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	public void updateCmmnCntrRentMngtQuaycd(GamCmmnCntrRentMngtVO vo) throws Exception {
 		gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngtQuaycd(vo);
 	}
-	
+
 	/**
    	 * 코픽스 이자율 목록을 조회한다.
    	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -564,7 +564,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public List selectCofixInfo() throws Exception {
         return gamCmmnCntrRentMngtDao.selectCofixInfo();
     }
-    
+
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -574,7 +574,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtBeforeQuarterInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtBeforeQuarterInfo(searchVO);
     }
-    
+
     /**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -584,7 +584,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCofixInfo(searchVO);
     }
-    
+
     /**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -594,4 +594,14 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfoMax(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCofixInfoMax(searchVO);
     }
+
+    /* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService#selectChargeKndList()
+	 */
+	@Override
+	public List selectChargeKndList() throws Exception {
+		// TODO Auto-generated method stub
+		return gamCmmnCntrRentMngtDao.selectChargeKndList();
+	}
+
 }

@@ -735,8 +735,8 @@
 			FROM
 			  (SELECT ROWNUM RNUM,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.PRT_AT_CODE
-			    || ASCII(SUBSTR(A.CHRGE_KND,1,1))
-			    || SUBSTR(A.CHRGE_KND,2,1)
+			    || ASCII(SUBSTR(A.FEE_TP,1,1))
+			    || SUBSTR(A.FEE_TP,2,1)
 			    || A.ACCNUT_YEAR
 			    || A.NTICNO
 			    || '0','BILLNO') CSTMR_REF_CODE,
@@ -765,7 +765,8 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
-			      GAM_GETCODENAME('GAM054', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
+			      GAM_GETCODENAME('GAM054', DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND)) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
 			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD
