@@ -1419,6 +1419,7 @@ public class GamAssetRentMngtController {
          paramMap.put("mngCnt", gamAssetRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("updUsr", loginVO.getId());
+         paramMap.put("deptCd", loginVO.getDeptCd());
          paramMap.put("chrgeKnd", gamAssetRentMngtVO.getChrgeKnd());
 
          System.out.println("##################################### paramMap => " + paramMap);

@@ -65,6 +65,6 @@ public interface GamNticRequestMngtService {
 	 * @param vo
 	 * @throws Exception
 	 */
-	public void updateNticPrintYn(Map<String, Object> vo) throws Exception;
+	public void updateNticPrintState(Map<String, Object> vo) throws Exception;
 
 }

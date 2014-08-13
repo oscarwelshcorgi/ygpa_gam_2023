@@ -129,6 +129,32 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	 */
 	public void updateLevReqestNhtPrintYn(Map<String, Object> vo) throws Exception {
         update("gamNticRequestMngtDAO.updateLevReqestNhtPrintYn", vo);
+        // 고지를 한다.
+	}
+
+	public String insertEgiroPrint(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamNticRequestMngtDAO.insertEgiroPrint", vo);
+	}
+
+	public void updateEgiroPrintCancel(Map<String, Object> vo) throws Exception {
+        update("gamNticRequestMngtDAO.updateEgiroPrintCancel", vo);
+	}
+
+	public EgovMap getWorkDtSysdateInfo(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.getWorkDtSysdateInfo", vo);
+	}
+
+	public EgovMap getEgiroAgentInfo(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.getEgiroAgentInfo", vo);
+	}
+
+	public EgovMap getEgiroFeeTpMap(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.getEgiroFeeTpMap", vo);
+	}
+
+
+	public EgovMap selectRevCollF(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectRevCollF", vo);
 	}
 
 	/**

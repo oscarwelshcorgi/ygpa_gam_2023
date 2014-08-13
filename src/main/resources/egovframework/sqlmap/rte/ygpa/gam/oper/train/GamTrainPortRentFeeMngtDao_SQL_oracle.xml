@@ -85,6 +85,7 @@
                    	S.SANCTN_STTUS,
                    	S.NTIC_DT,
                    	S.NHT_ISUE_YN,
+                   	S.NHT_PRINT_YN,
                    	S.DEPTCD_NM,
                    	S.GR_AR,
                    	S.GR_USAGE_PD_FROM,

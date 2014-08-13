@@ -5,6 +5,7 @@ package egovframework.rte.ygpa.gam.cmmn.fclty.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +19,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 
 /**
@@ -118,6 +118,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		}
 		vo.put("nhtPrintYn", "N");
 		if("Y".equals((String)map.get("billPrtYn"))) {
+			egiroPrintCancel(vo);    // 고지가 된 경우 고지 취소를 한다. 2014-08-13 eunsungj.
 			gamNticRequestMngtDAO.updateRevCollFBillPrintYn(vo);
 		}
 		gamNticRequestMngtDAO.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
@@ -126,6 +127,233 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		vo.put("nhtIsueYn", "N");
 		gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);	// 고지를 취소한다.
 	}
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void egiroPrint(Map map) throws Exception{
+    	Map mapResult = new HashMap();
+    	Date date = new Date();
+    	SimpleDateFormat formater = new SimpleDateFormat("yyyyMMdd");
+    	String currentDate = formater.format(date);
+
+    	logger.debug("******************** 전자고지체계구축 고지출력 시작 !!!! ******************** \n * map : " + map);
+
+    	Map revCollF = gamNticRequestMngtDAO.selectRevCollF(map);
+
+    	String strPrtAtCode = (String)revCollF.get("prtAtCode") ;
+    	String strPrtAtNum = "" ;
+    	//String strCustomerNum = (String)map.get("customerNum") ;
+    	String strCustomerNum = "" ;
+    	BigDecimal bdAmount = new BigDecimal(revCollF.get("billAmnt").toString());
+//    	BigDecimal bdBillSumAmnt = new BigDecimal(map.get("billSumAmnt").toString());
+    	String strDueDate = (String)revCollF.get("dueDate") ;
+    	String strCloseDate = (String)revCollF.get("dueDate") ;
+    	String strBillDate =  (String)revCollF.get("billDt") ;
+    	String strGiroNum = "" ;
+    	String strEgiroNum = "" ;
+    	String strAgentCode = (String)revCollF.get("agentCode") ;
+    	String strBillType = "" ;
+    	String strBzRgstId = (String)revCollF.get("bzRgstId") ;
+    	String strBillYyyymm = strBillDate.substring(0, 6) ;
+    	String strKorNm = "" ;		// SELECT SHP_OWOP_F
+    	String strAddr = "" ;		// SELECT SHP_OWOP_F
+    	String strFeeTp = (String)revCollF.get("feeTp") ;
+    	String strFiscalYr = (String)revCollF.get("fiscalYr") ;
+    	String strBillNo = (String)revCollF.get("billNo") ;
+    	String strDlySerNo = (String)revCollF.get("dlySerNo");
+    	String strFeeTpNum = "" ;
+
+    	if ( "620".equals(strPrtAtCode) ) {			// 여수
+    		strPrtAtNum = "1" ;
+    		strGiroNum = "6374604" ;
+    	} else if ( "621".equals(strPrtAtCode) ) {	// 여천
+    		strPrtAtNum = "2" ;
+    		strGiroNum = "6374604" ;
+    	} else if ( "622".equals(strPrtAtCode) ) {	// 광양
+    		strPrtAtNum = "3" ;
+    		strGiroNum = "6374594" ;
+    	}
+
+    	// 연체건인지 아닌지를 판단
+    	if( "".equals(strDlySerNo) || strDlySerNo == null ) {
+    		strDlySerNo = "00" ;
+    		strBillType = "0" ;
+    		strCustomerNum = "0" ;
+    	} else {
+    		strBillType = "1" ;
+    		strCustomerNum = strDlySerNo ;
+    	}
+
+    	mapResult.put("prtAtCode", strPrtAtCode );
+    	mapResult.put("feeTp", strFeeTp );
+    	mapResult.put("fiscalYr", strFiscalYr );
+    	mapResult.put("billNo", strBillNo );
+    	mapResult.put("dlySerNo", strDlySerNo );
+
+    	// 고지발행건인지 아닌지 확인
+    	Map egiroMap = gamNticRequestMngtDAO.getWorkDtSysdateInfo(mapResult);
+
+    	if( egiroMap == null || egiroMap.isEmpty() ){
+
+        	// 대표자명, 주소를 찾아오는 쿼리
+        	Map agentMap = gamNticRequestMngtDAO.getEgiroAgentInfo(revCollF);
+        	strKorNm = (String)agentMap.get("korNm");
+        	strAddr = (String)agentMap.get("addr");
+
+        	// 요금종류코드(3자리)
+        	Map feeMap = gamNticRequestMngtDAO.getEgiroFeeTpMap(mapResult);
+        	strFeeTpNum = (String)feeMap.get("feeTpMap");
+
+        	strEgiroNum = strPrtAtNum + strFeeTpNum + strFiscalYr.substring(2, 4) + strBillNo + strDlySerNo ;
+
+        	mapResult.put("customerNum", strCustomerNum );
+        	mapResult.put("amount", bdAmount );
+        	mapResult.put("amouuntAf", bdAmount );
+        	mapResult.put("dueDate", strDueDate.substring(0, 8) );
+        	mapResult.put("closeDate", strCloseDate.substring(0, 8) );
+        	mapResult.put("giroNum", strGiroNum );
+        	mapResult.put("egiroNum", strEgiroNum );
+        	mapResult.put("agentCode", strAgentCode );
+        	mapResult.put("billType", strBillType );
+        	mapResult.put("korNm", strKorNm );
+        	mapResult.put("bzRgstId", strBzRgstId );
+        	mapResult.put("billYyyymm", strBillYyyymm );
+        	mapResult.put("addr", strAddr );
+        	mapResult.put("printDt", currentDate);
+        	mapResult.put("cancelDt", "");
+
+        	// 전자고지체계구축 고지출력
+        	gamNticRequestMngtDAO.insertEgiroPrint(mapResult);
+    	} else {
+    		logger.debug("*** [고지서출력취소하지 않고 연속적 출력이므로 EGIRO 에  INSERT 불가함] ***");
+    	}
+
+    	logger.debug("******************** 전자고지체계구축 고지출력 끝 ********************");
+
+    	//return mapResult ;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public void egiroPrintCancel(Map map) throws Exception{
+    	Map mapResult = new HashMap();
+
+    	// (서버)현재날짜
+    	Date date = new Date();
+    	SimpleDateFormat formater = new SimpleDateFormat("yyyyMMdd");
+    	String currentDate = formater.format(date);
+
+    	logger.debug("******************** 전자고지체계구축 고지출력취소 시작 !!!! ******************** \n * map : " + map);
+
+    	Map revCollF = gamNticRequestMngtDAO.selectRevCollF(map);
+    	/*** 변수세팅 시작 ***/
+    	String strPrtAtCode = (String)revCollF.get("prtAtCode") ;
+    	String strPrtAtNum = "" ;
+    	//String strCustomerNum = (String)map.get("customerNum") ;
+    	String strCustomerNum = "" ;
+    	BigDecimal bdAmount = new BigDecimal(revCollF.get("billAmnt").toString());
+//    	BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("billSumAmnt").toString());
+    	String strDueDate = (String)revCollF.get("dueDate") ;
+    	String strCloseDate = (String)revCollF.get("dueDate") ;
+    	String strBillDate =  (String)revCollF.get("billDt") ;
+    	String strGiroNum = "" ;
+    	String strEgiroNum = "" ;
+    	String strAgentCode = (String)revCollF.get("agentCode") ;
+    	String strBillType = "" ;
+    	String strBzRgstId = (String)revCollF.get("bzRgstId") ;
+    	String strBillYyyymm = strBillDate.substring(0, 6) ;
+    	String strKorNm = "" ;		// SELECT SHP_OWOP_F
+    	String strAddr = "" ;		// SELECT SHP_OWOP_F
+    	String strFeeTp = (String)revCollF.get("feeTp") ;
+    	String strFiscalYr = (String)revCollF.get("fiscalYr") ;
+    	String strBillNo = (String)revCollF.get("billNo") ;
+    	String strDlySerNo = (String)revCollF.get("dlySerNo");
+    	String strFeeTpNum = "" ;
+
+    	if ( "620".equals(strPrtAtCode) ) {			// 여수
+    		strPrtAtNum = "1" ;
+    		strGiroNum = "6374604" ;
+    	} else if ( "621".equals(strPrtAtCode) ) {	// 여천
+    		strPrtAtNum = "2" ;
+    		strGiroNum = "6374604" ;
+    	} else if ( "622".equals(strPrtAtCode) ) {	// 광양
+    		strPrtAtNum = "3" ;
+    		strGiroNum = "6374594" ;
+    	}
+
+    	// 연체건인지 아닌지를 판단
+    	if( "".equals(strDlySerNo) || strDlySerNo == null ) {
+    		strDlySerNo = "00" ;
+    		strBillType = "0" ;
+    		strCustomerNum = "0" ;
+    	} else {
+    		strBillType = "1" ;
+    		strCustomerNum = strDlySerNo ;
+    	}
+
+    	// 대표자명, 주소를 찾아오는 쿼리
+    	Map agentMap = gamNticRequestMngtDAO.getEgiroAgentInfo(revCollF);
+    	strKorNm = (String)agentMap.get("korNm");
+    	strAddr = (String)agentMap.get("addr");
+
+    	mapResult.put("prtAtCode", strPrtAtCode );
+    	mapResult.put("feeTp", strFeeTp );
+    	mapResult.put("fiscalYr", strFiscalYr );
+    	mapResult.put("billNo", strBillNo );
+    	mapResult.put("dlySerNo", strDlySerNo );
+
+    	// 요금종류코드(3자리)
+    	Map feeMap = gamNticRequestMngtDAO.getEgiroFeeTpMap(revCollF);
+    	strFeeTpNum = (String)feeMap.get("feeTpMap");
+
+    	strEgiroNum = strPrtAtNum + strFeeTpNum + strFiscalYr.substring(2, 4) + strBillNo + strDlySerNo ;
+    	/*** 변수세팅 끝 ***/
+
+    	// 고지발행건인지 아닌지 확인
+    	Map egiroMap = gamNticRequestMngtDAO.getWorkDtSysdateInfo(mapResult);
+    	if( egiroMap == null || egiroMap.isEmpty() ){
+    		logger.debug("*** [고지서가 출력된 적이 없는 데이터이므로 고지서출력취소 자체가 불가함] ***");
+    	} else {
+        	String egiroWorkDt 		= (String)egiroMap.get("workDt") ;
+        	String egiroCancelDt 	= (String)egiroMap.get("cancelDt") ;
+        	String egiroPrintDt 	= (String)egiroMap.get("printDt") ;
+        	String egiroTranId 		= (String)egiroMap.get("tranid") ;
+        	String egiroCurrDt = (String)egiroMap.get("currDt") ;
+        	String currAfterOneDay	= "";
+        	//logger.debug(" *** egiroMap : " + egiroMap);
+        	//logger.debug(" *** currentDate : " + currentDate);
+        	//logger.debug(" *** egiroWorkDt : " + egiroWorkDt);
+        	//logger.debug(" *** egiroCancelDt : " + egiroCancelDt);
+        	//logger.debug(" *** currentDate.equals(egiroWorkDt) : " + currentDate.equals(egiroWorkDt) );
+        	//logger.debug(" *** (egiroCancelDt == null || .equals(egiroCancelDt)) : " + (egiroCancelDt == null || "".equals(egiroCancelDt)) );
+
+        	mapResult.put("tranId", egiroTranId );
+        	mapResult.put("cancelDt", currentDate );
+
+        	// 전자고지체계구축 고지출력취소
+        	if( egiroCurrDt.equals(egiroWorkDt) && (egiroCancelDt == null || "".equals(egiroCancelDt)) ){
+        		// 당일고지발행 했다가 취소했을 경우(고지건이 취소시 이미 생성되어 있으므로 UPDATE)
+        		gamNticRequestMngtDAO.updateEgiroPrintCancel(mapResult);
+        	} else {
+        		mapResult.put("printDt", "" );
+        		mapResult.put("customerNum", strCustomerNum );
+        		mapResult.put("amount", bdAmount );
+        		mapResult.put("amouuntAf", bdAmount );
+        		mapResult.put("dueDate", strDueDate.substring(0, 8) );
+        		mapResult.put("closeDate", strCloseDate.substring(0, 8) );
+        		mapResult.put("giroNum", strGiroNum );
+        		mapResult.put("egiroNum", strEgiroNum );
+        		mapResult.put("agentCode", strAgentCode );
+        		mapResult.put("billType", strBillType );
+        		mapResult.put("korNm", strKorNm );
+        		mapResult.put("bzRgstId", strBzRgstId );
+        		mapResult.put("billYyyymm", strBillYyyymm );
+        		mapResult.put("addr", strAddr );
+        		// 전일 고지서 발행건을 당일 취소할 경우(당일 WORK_DT 인 고지건이 없으므로 INSERT)
+        		gamNticRequestMngtDAO.insertEgiroPrint(mapResult);
+        	}
+    	}
+
+    	logger.debug("******************** 전자고지체계구축 고지출력취소 끝 !!!! ********************");
+    }
 
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#sendUnpaidRequest(java.util.Map)
@@ -156,9 +384,16 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#updateNticPrintYn(java.util.Map)
 	 */
 	@Override
-	public void updateNticPrintYn(Map<String, Object> vo) throws Exception {
+	public void updateNticPrintState(Map<String, Object> vo) throws Exception {
 		gamNticRequestMngtDAO.updateLevReqestNhtPrintYn(vo);
 		gamNticRequestMngtDAO.updateRevCollFBillPrintYn(vo);
+		// 2014-08-13 전자고지 출력
+		if("Y".equals(vo.get("nhtPrintYn"))) {
+	    	egiroPrint(vo);
+		}
+		else {
+			egiroPrintCancel(vo);
+		}
 	}
 
     /**

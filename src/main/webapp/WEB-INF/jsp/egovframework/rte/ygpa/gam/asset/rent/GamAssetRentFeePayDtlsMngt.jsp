@@ -179,7 +179,8 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'mngYear', value: row.mngYear },
 	               { name: 'mngNo', value: row.mngNo },
 	               { name: 'mngCnt', value: row.mngCnt },
-	               { name: 'nticCnt', value: row.nticCnt }
+	               { name: 'nticCnt', value: row.nticCnt },
+	               { name: 'chrgeKnd', value: row.chrgeKnd }
 	             ];
 	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
@@ -296,7 +297,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.onClosePopup = function(popupId, msg,
     	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };

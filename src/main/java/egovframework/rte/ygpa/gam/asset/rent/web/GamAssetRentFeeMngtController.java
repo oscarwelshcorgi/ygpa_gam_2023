@@ -925,7 +925,7 @@ public class GamAssetRentFeeMngtController {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
     		vo.put("updUsr", loginVo.getId());
     		vo.put("nhtPrintYn", "Y");
-    		gamNticRequestMngtService.updateNticPrintYn(vo);
+    		gamNticRequestMngtService.updateNticPrintState(vo);
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
     	}

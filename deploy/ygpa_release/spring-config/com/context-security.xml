@@ -110,10 +110,9 @@
     <b:bean id="jdbcUserService"
             class="egovframework.com.sec.security.userdetails.jdbc.EgovJdbcUserDetailsManager" >
 
-        <b:property name="usersByUsernameQuery" value="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, EMPL_NO, USER_ZIP,
-                                                              USER_ADRES, USER_EMAIL, USER_SE, ORGNZT_ID, ESNTL_ID,
-                                                              (select a.ORGNZT_NM from COMTNORGNZTINFO a where a.ORGNZT_ID = m.ORGNZT_ID) ORGNZT_NM
-                                                         FROM COMVNUSERMASTER m WHERE CONCAT(USER_SE, USER_ID) = ? "/>
+        <b:property name="usersByUsernameQuery" value="SELECT U.USER_ID, U.ESNTL_ID AS PASSWORD, 1 ENABLED, U.USER_NM, U.EMPL_NO,
+        						U.USER_ZIP, U.USER_ADRES, U.USER_EMAIL, U.USER_SE, U.ORGNZT_ID, U.ESNTL_ID, o.ORGNZT_NM, o.dept_cd
+        						FROM COMVNUSERMASTER U, COMTNORGNZTINFO O WHERE U.orgnzt_id=O.orgnzt_id AND CONCAT(U.USER_SE, U.USER_ID) =  ? "/>
         <b:property name="authoritiesByUsernameQuery" value="SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY
                                                                FROM COMTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B
                                                               WHERE A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID AND B.USER_ID = ? "/>

@@ -175,7 +175,8 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'mngYear', value: row.mngYear },
 	               { name: 'mngNo', value: row.mngNo },
 	               { name: 'mngCnt', value: row.mngCnt },
-	               { name: 'nticCnt', value: row.nticCnt }
+	               { name: 'nticCnt', value: row.nticCnt },
+	               { name: 'chrgeKnd', value: row.chrgeKnd }
 	             ];
 	 	this.doAction('<c:url value="/oper/shed/selecCmmnCntrRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
