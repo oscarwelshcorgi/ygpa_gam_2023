@@ -474,7 +474,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
     var grUsagePdFrom = new Date(Date.parse(this.$('#grUsagePdFrom').val())); //총사용기간FROM
     var grUsagePdTo = new Date(Date.parse(this.$('#grUsagePdTo').val())); //총사용기간To
     var fromDt, toDt;
-	var totalMonths = grUsagePdTo.getMonth() - grUsagePdFrom.getMonth()+1;
+	var totalMonths = this.calcMonth(grUsagePdFrom, grUsagePdTo);
 	var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
     var nDays;
 //    console.log("calc Start : "+ nticMth);
@@ -485,11 +485,11 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		toDt.setMonth(fromDt.getMonth()+6);
 //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(6>=totalMonths) firstAmt=totalAmount;
+		if(6>=totalMonths.month) firstAmt=totalAmount;
 		else {
 			//nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
 			//firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
-			firstAmt = totalAmount*6/totalMonths;
+			firstAmt = totalAmount*6/totalMonths.month;
 		}
 		// 이자율 계산
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /2;
@@ -510,10 +510,10 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		}
 //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(4>=totalMonths) firstAmt=totalAmount;
+		if(4>=totalMonths.month) firstAmt=totalAmount;
 		else {
 //			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=totalAmount*4/totalMonths;
+			firstAmt=totalAmount*4/totalMonths.month;
 		}
 		// 이자율 계산
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /3;
@@ -537,10 +537,10 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		}
 //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(3>=totalMonths) firstAmt=totalAmount;
+		if(3>=totalMonths.month) firstAmt=totalAmount;
 		else {
 			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*3/totalMonths);
+			firstAmt=Math.floor(totalAmount*3/totalMonths.month);
 		}
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /4;
 //		firstAmt = Math.floor(firstAmt/10)*10;
@@ -551,10 +551,10 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		toDt.setMonth(grUsagePdFrom.getMonth()+1);
 //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(1>=totalMonths) firstAmt=totalAmount;
+		if(1>=totalMonths.month) firstAmt=totalAmount;
 		else {
 			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*1/totalMonths);
+			firstAmt=Math.floor(totalAmount*1/totalMonths.month);
 //			firstAmt=totalAmount*1-firstAmt
 		}
 		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /12;
