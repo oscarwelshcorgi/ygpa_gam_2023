@@ -398,34 +398,55 @@ div.olControlMoveShpaeFeaturesItemInactive {
     background-position: 0 1px;
 }
 
-div.olControlMeasureAreaItemInactive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/ruler.png");
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 22px;
-    cursor: pointer
+
+.mapMeasureToolBar {
+	float: left;
+	top: 2px;
+	right: 2px;
+	height: 28px;
 }
-div.olControlMeasureAreaItemActive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/ruler.png");
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 22px;
+
+.mapMeasureToolBar div {
+	float: right;
+	margin: 0px;
+    width: 37px;
+    height: 28px;
     cursor: pointer
 }
 
-div.olControlMeasureDistItemInactive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/measuring-stick-off.png");
+.mapMeasureToolBar .olControlMeasureAreaItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-area-off.png");
     background-repeat: no-repeat;
-    width: 24px;
-    height: 22px;
-    cursor: pointer
 }
 
-div.olControlMeasureDistItemActive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/measuring-stick-on.png");
+.mapMeasureToolBar .olControlMeasureAreaItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-area-on.png");
     background-repeat: no-repeat;
-    width: 24px;
-    height: 22px;
-    cursor: pointer
 }
 
+.mapMeasureToolBar .olControlMeasureDistItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-dist-off.png");
+    background-repeat: no-repeat;
+}
+
+.mapMeasureToolBar .olControlMeasureDistItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-dist-on.png");
+    background-repeat: no-repeat;
+}
+
+div.olPopupContent {
+	overflow: visible;
+	background: gray;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.olControlMeasurePopup {
+	border: solid black 1px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}

@@ -220,6 +220,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
+        EMD.gis.selectFeatureData('assetRentDetail', row, true);
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
@@ -1765,6 +1766,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         var row = this.$('#assetRentDetailList').selectedRows();
         if(row.length==0) {
             this.$('#detailCmd').val('insert');
+            this._selectAssetsCd={};	// 데이터 추가시 빈 값을 입력 한다.
         }
         else {
             this.$('#detailCmd').val('modify');
@@ -2393,7 +2395,10 @@ var module_instance = new GamAssetRentMngtModule();
                         <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
                         <td width="100"></td>
                         <td style="text-align:right">
+                        <!--
 						<button data-role="showMap" data-gis-layer="gisAssetsCd" data-value-name="_selectAssetsCd" data-style="default">맵조회</button>
+						 -->
+						<button data-role="addFeature" data-gis-layer="assetRentDetail" data-value-name="_editData" data-style="default">맵편집</button>
                         <button id="btnRentDetailApply">임대상세적용</button>
                         </td>
                     </tr>
