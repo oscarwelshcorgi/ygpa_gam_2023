@@ -74,6 +74,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		if(row==null) return;
 		module.selectedItem = row;
 		module._regMode = '';
+        module.selectFeatureData('assetRentDetail', row, true);
 	});
 
 	this.$("#assetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -306,23 +307,32 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 											module.loadDetail();
 											module.changeFeatureAttrib('gisAssetsCd', oldCode, module.selectedItem);
 										}
-										switch (module._params.action) {
-										case 'addLotcodeFeature':
-											module.modifyFeatureCode('gisAssetsCd',
+										else {
+											if(module.selectedItem['_feature']==undefined) {
+												switch (module._params.action) {
+												case 'addLotcodeFeature':
+													module.modifyFeatureCode('gisAssetsCd',
+															module.selectedItem,
+															module._params.feature);
+													alert(result.resultMsg);
+													// 창을 닫는다.
+													module.closeWindow();
+													return;
+												case 'addFeature':
+													break;
+												case 'modifyFeature':
+													module.changeFeatureAttrib('gisAssetsCd',
+															module._params.feature.attributes,
+															module.selectedItem
+															);
+													break;
+												}
+											}
+											else {
+												module.modifyFeatureCode('gisAssetsCd',
 													module.selectedItem,
-													module._params.feature);
-											alert(result.resultMsg);
-											// 창을 닫는다.
-											module.closeWindow();
-											return;
-										case 'addFeature':
-											break;
-										case 'modifyFeature':
-											module.changeFeatureAttrib('gisAssetsCd',
-													module._params.feature.attributes,
-													module.selectedItem
-													);
-											break;
+													module.selectedItem._feature);
+											}
 										}
 									}
 									alert(result.resultMsg);
@@ -363,7 +373,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						});
 					});
 				}
-				EMD.gis.removeFeatureCode('gisAssetsCd', '_editData');
+				// EMD.gis.removeFeatureCode('gisAssetsCd', '_editData');
 				this._editData = null;
 			}
 			break;
@@ -806,7 +816,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr> -->
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">맵조회</button>
+					<button data-role="addFeature" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">맵편집</button>
 <!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">위치등록</button> -->
 					<button id="btnCancelGisAssetsCode">취소</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
