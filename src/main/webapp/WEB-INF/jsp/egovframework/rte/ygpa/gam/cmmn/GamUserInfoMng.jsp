@@ -8,14 +8,14 @@
   * @Class Name : GamUserInfoMng.jsp
   * @Description : 사용자 정보 수정 화면
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2013.10.29  kok          최초 생성
   *
   * author kok
   * since 2014.01.09
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -25,20 +25,21 @@
  */
 function GamUserInfoModule() {}
 
-GamUserInfoModule.prototype = new EmdModule();
+GamUserInfoModule.prototype = new EmdModule(900, 460);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamUserInfoModule.prototype.loadComplete = function() {
 	this.doAction('<c:url value="/cmmn/selectGamUserInfo.do" />', {}, function(module, result) {
  		if(result.resultCode == 0){
  			module.makeFormValues('#userManageVO', result.userManageVO);
+ 			module.$("#password2").val(result.userManageVO.password);
  		}
  		else {
  			alert('사용자 정보를 불러오지 못했습니다. 로그아웃 이후 다시 로그인 하여 사용해 주시기 바랍니다. 문제가 계속 되면 관리자에게 문의 하십시요.');
  		}
  	});
 };
-		
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -53,7 +54,9 @@ GamUserInfoModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			this.$("#zip").val(this.$("#zip").val().replace(/\-/g,""));
-			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
+// 			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
+			var inputVO = this.makeFormArgs("#userManageVO");
+			console.log(inputVO);
 		 	this.doAction('<c:url value="/cmmn/gamUserInfoUpdt.do" />', inputVO, function(module, result) {
 		 		if(result.resultCode == 0){
 		 		}
@@ -75,7 +78,7 @@ GamUserInfoModule.prototype.onSubmit = function() {
 GamUserInfoModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs('#authorGrpMngForm');
 	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
+ 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 //	this.$('#assetList').flexOptions(searchOpt).flexReload();
 };
 
@@ -97,7 +100,7 @@ GamUserInfoModule.prototype.loadData = function() {
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-			
+
 		break;
 	}
 };
@@ -116,9 +119,11 @@ var module_instance = new GamUserInfoModule();
 			            <tr>
 			                <th width="15%" height="23">사용자 아아디</th>
 			                <td colspan="3">
-			                    <input id="emplyrId" title="사용자아이디" size="48" maxlength="20" />
+			                    <input id="emplyrId" title="사용자아이디" size="48" maxlength="20" readonly="readonly" disabled="disabled"/>
+			                <!--
 			                    &nbsp; &nbsp;<button id="checkUserId">중복아이디 검사</button>
 			                    &nbsp; &nbsp;<button id="inputUserId">아이디 입력</button>
+			                 -->
 			                </td>
 			            </tr>
 			            <tr>
@@ -136,11 +141,11 @@ var module_instance = new GamUserInfoModule();
 			            <tr id="tdpassword">
 			                <th width="15%" height="23">비밀번호</th>
 			                <td width="35%" >
-			                    <input type="password" id="password" title="비밀번호" size="48" maxlength="20" data-required="true"/>
+			                    <input type="password" id="password" title="비밀번호" size="48" maxlength="20" data-required="true" disabled="disabled"/>
 			                </td>
 			                <th width="15%" height="23" class="required_text">비밀번호확인</th>
 			                <td width="35%" >
-			                    <input id="password2" title="비밀번호확인" type="password" size="48" maxlength="20"  data-required="true" />
+			                    <input id="password2" title="비밀번호확인" type="password" size="48" maxlength="20"  data-required="true" disabled="disabled"/>
 			                </td>
 			            </tr>
 			            <tr>

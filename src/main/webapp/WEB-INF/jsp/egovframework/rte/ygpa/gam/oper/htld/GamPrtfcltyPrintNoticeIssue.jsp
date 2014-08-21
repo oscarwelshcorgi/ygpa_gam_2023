@@ -851,7 +851,7 @@ div.notice {
 	       		<div class="girocode">
 	       			<div id="girono">&lt;${result.giroNo}+</div>
 		       		<div id="cstmrrefcode">+<c:out value="${result.cstmrRefCode}"/>+</div>
-		       		<div id="giroamount">+<c:out value="${result.fee}"/>&lt;</div>
+		       		<div id="giroamount">+<c:out value="${result.nticAmt}"/>&lt;</div>
 		       		<div id="girocc">&lt;11&lt;</div>
 	       		</div>
 	       		<div class="giroDetail">
