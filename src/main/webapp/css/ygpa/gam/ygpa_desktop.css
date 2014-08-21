@@ -403,34 +403,36 @@ div.olControlMoveShpaeFeaturesItemInactive {
 	float: left;
 	top: 2px;
 	right: 2px;
-	height: 28px;
+	height: 30px;
 }
 
 .mapMeasureToolBar div {
 	float: right;
 	margin: 0px;
-    width: 37px;
-    height: 28px;
+    width: 38px;
+    height: 30px;
     cursor: pointer
 }
 
 .mapMeasureToolBar .olControlMeasureAreaItemInactive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-area-off.png");
-    background-repeat: no-repeat;
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure_area_off.png");
+    width: 40px;
+	background-repeat: no-repeat;
 }
 
 .mapMeasureToolBar .olControlMeasureAreaItemActive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-area-on.png");
-    background-repeat: no-repeat;
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure_area_on.png");
+    width: 40px;
+	background-repeat: no-repeat;
 }
 
 .mapMeasureToolBar .olControlMeasureDistItemInactive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-dist-off.png");
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure_dist_off.png");
     background-repeat: no-repeat;
 }
 
 .mapMeasureToolBar .olControlMeasureDistItemActive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure-dist-on.png");
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/measure_dist_on.png");
     background-repeat: no-repeat;
 }
 
@@ -449,4 +451,41 @@ div.olPopupContent {
 	padding-right: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
+}
+
+.mapEditToolBar {
+	float: left;
+	top: 2px;
+	right: 102px;
+	height: 30px;
+}
+
+.mapEditToolBar div {
+	float: left;
+	margin: 0px;
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.mapEditToolBar .olControlEditDoneItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_done_off.png");
+	background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditDoneItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_done_on.png");
+	background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditCancelItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_cancel_off.png");
+    width: 64px;
+	background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditCancelItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_cancel_on.png");
+    width: 64px;
+	background-repeat: no-repeat;
 }

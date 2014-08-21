@@ -816,7 +816,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					</tr> -->
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
-					<button data-role="addFeature" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">맵편집</button>
+					<button data-role="addFeature" data-gis-layer="gisAssetsCd" data-value-name="selectedItem">맵편집</button>
 <!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">위치등록</button> -->
 					<button id="btnCancelGisAssetsCode">취소</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
