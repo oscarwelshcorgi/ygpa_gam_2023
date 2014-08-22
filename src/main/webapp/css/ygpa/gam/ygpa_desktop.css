@@ -457,35 +457,73 @@ div.olPopupContent {
 	float: left;
 	top: 2px;
 	right: 102px;
-	height: 30px;
+	height: 31px;
 }
 
 .mapEditToolBar div {
 	float: left;
 	margin: 0px;
-    width: 60px;
-    height: 30px;
+    width: 12px;
+    height: 31px;
     cursor: pointer;
 }
 
+.mapEditToolBar .olControlEditAddItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_add_off.png");
+    width: 27px;
+	background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditAddItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_add_on.png");
+    width: 27px;
+background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditEditItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_edit_off.png");
+    width: 22px;
+	background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditEditItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_edit_on.png");
+    width: 22px;
+background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditDeleteItemInactive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_del_off.png");
+    width: 20px;
+	background-repeat: no-repeat;
+}
+
+.mapEditToolBar .olControlEditDeleteItemActive {
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_del_on.png");
+    width: 20px;
+background-repeat: no-repeat;
+}
+
 .mapEditToolBar .olControlEditDoneItemInactive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_done_off.png");
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_ok_off.png");
+    width: 23px;
 	background-repeat: no-repeat;
 }
 
 .mapEditToolBar .olControlEditDoneItemActive {
-    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_done_on.png");
-	background-repeat: no-repeat;
+    background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_ok_on.png");
+    width: 23px;
+background-repeat: no-repeat;
 }
 
 .mapEditToolBar .olControlEditCancelItemInactive {
     background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_cancel_off.png");
-    width: 64px;
+    width: 30px;
 	background-repeat: no-repeat;
 }
 
 .mapEditToolBar .olControlEditCancelItemActive {
     background-image: url("../../../images/egovframework/ygpa/gam/maps/feature_edit_cancel_on.png");
-    width: 64px;
+    width: 30px;
 	background-repeat: no-repeat;
 }

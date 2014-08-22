@@ -967,6 +967,7 @@ var EMD = (function($, window, document, undefined) {
     	measureArea: null
     },
     measureControls: null,
+    editControls: [],
     draw: null,
     edit: null,
     edit_win: null,
@@ -5971,41 +5972,125 @@ var EMD = (function($, window, document, undefined) {
 					}
 					else {	// edit feature
 			    		var ext;
+			    		var modifyFeatures = [];
+//			    		var attributes = modifyFeatures[0].attributes.clone();
 		    			ext = foundFeatures[0].geometry.getBounds().clone();
+		    			modifyFeatures[modifyFeatures.length] = foundFeatures[0].clone();
 		    			for(var i=1;i<foundFeatures.length;i++) {
 		    				ext.extend(foundFeatures[i].geometry.getBounds());
+		    				modifyFeatures[modifyFeatures.length] = foundFeatures[i].clone();
 		    			}
 		    			EMD.map.zoomToExtent(ext);
 
 		    			EMD.wfs.removeAllFeatures();
-		    			EMD.wfs.addFeatures(foundFeatures);
+		    			EMD.wfs.addFeatures(modifyFeatures);
 		    			layer.removeFeatures(foundFeatures);
 
-						EMD.modifyFeature=new OpenLayers.Control.ModifyFeature(EMD.wfs,
-			            	    {
-									mode: OpenLayers.Control.ModifyFeature.RESHAPE,
-									handlerOptions: {holeModifier: "altKey"},
-									afterfeaturemodified: function(feature) {
-										layer.addFeatures(feature);
-										layer.redraw();
-										module[code]['_feature']=feature;
-										feature.state=OpenLayers.State.UPDATE;
-										EMD.modifyFeature.deactivate();
-										module.showWindow();
-			            	    }});
-			            EMD.map.addControl(EMD.modifyFeature);
-			            EMD.modifyFeature.activate();
-			            EMD.modifyFeature.selectFeature(foundFeatures[0]);
+		    			EMD.editControls={
+  			                  addFeature: new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
+									drawingLayer: EMD.wfs,
+									handlerOptions: {holeModifier: "altKey"}
+			            }),
+			            		editFeature: new OpenLayers.Control.ModifyFeature(EMD.wfs,
+		            	    {
+							mode: OpenLayers.Control.ModifyFeature.RESHAPE,
+							handlerOptions: {holeModifier: "altKey"}
+	            	    }),
+	            	    	delFeature: new DeleteFeature(EMD.wfs, {title: "삭제"})
+
+		    			};
+		                for(var key in EMD.editControls) {
+		                	EMD.map.addControl(EMD.editControls[key]);
+		                }
 
 			            // show edit panel
+			    		var addButton = new OpenLayers.Control.Button({
+			    			title: "추가",
+			    			displayClass: "olControlEditAdd",
+			    			type: OpenLayers.Control.TYPE_TOGGLE,
+			    			eventListeners: {
+				    			activate: function() {
+				    				for(var key in EMD.editControls) {
+				    					var control=EMD.editControls[key];
+				    					if(key=='addFeature') control.activate();
+				    					else control.deactivate();
+				    				}
+				    			},
+				    			deactivate: function() {
+				    				for(var key in EMD.editControls) {
+				    					EMD.editControls[key].deactivate();
+				    				}
+				    			}
+			    			}
+			    		});
+			    		var editButton = new OpenLayers.Control.Button({
+			    			title: "편집",
+			    			displayClass: "olControlEditEdit",
+			    			type: OpenLayers.Control.TYPE_TOGGLE,
+			    			eventListeners: {
+				    			activate: function() {
+				    				for(var key in EMD.editControls) {
+				    					var control=EMD.editControls[key];
+				    					if(key=='editFeature') control.activate();
+				    					else control.deactivate();
+				    				}
+				    			},
+				    			deactivate: function() {
+				    				for(var key in EMD.editControls) {
+				    					EMD.editControls[key].deactivate();
+				    				}
+				    			}
+			    			}
+			    		});
+			    		var delButton = new OpenLayers.Control.Button({
+			    			title: "삭제",
+			    			displayClass: "olControlEditDelete",
+			    			type: OpenLayers.Control.TYPE_TOGGLE,
+			    			eventListeners: {
+				    			activate: function() {
+				    				for(var key in EMD.editControls) {
+				    					var control=EMD.editControls[key];
+				    					if(key=='delFeature') control.activate();
+				    					else control.deactivate();
+				    				}
+				    			},
+				    			deactivate: function() {
+				    				for(var key in EMD.editControls) {
+				    					EMD.editControls[key].deactivate();
+				    				}
+				    			}
+			    			}
+			    		});
 			    		EMD.save = new OpenLayers.Control.Button({
 			    			title: "편집 완료",
 			    			trigger: function() {
 			    				EMD.panel.deactivate();
-				    			EMD.modifyFeature.deactivate();
 			    				EMD.map.removeControl(EMD.panel);
-				    			layer.addFeatures(EMD.wfs.features);
-			    				EMD.saveStrategy.save();
+			    				for(var key in EMD.editControls) {
+			    					EMD.editControls[key].deactivate();
+			    				}
+			    				var polygon;
+			    				if(EMD.wfs.features.length>1) {
+			    					var g=[];
+			    					for(var i=0; i<EMD.wfs.features.length; i++) {
+			    						g[i]=EMD.wfs.features[i].geometry.clone();
+			    					}
+			    					polygon = new OpenLayers.Geometry.MultiPolygon(g);
+			    				}
+			    				else {
+			    					polygon = new OpenLayers.Geometry.Polygon(EMD.wfs.features[0].geometry.clone());
+			    				}
+			    		        f = new OpenLayers.Feature.Vector(polygon);
+			    		        f.attributes = modifyFeatures[0].attributes;
+//			    		        EMD.gis.storeLayerObject(EMD.userLayer.assetRentDetail, f, assetRentDetail);
+//			    		        EMD.protocols.assetRentDetail.update(f);
+			    		        f.state = OpenLayers.State.UPDATE;
+			    		        layer.addFeatures([f]);
+//			    		        EMD.userLayer.assetRentDetail.drawFeature(f);
+
+//			    				EMD.saveStrategy.save();
+			    				EMD.selectControl.activate();
+
 			    				module.showWindow();
 			    			},
 			    			displayClass: "olControlEditDone"
@@ -6015,9 +6100,12 @@ var EMD = (function($, window, document, undefined) {
 			    			title: "편집 취소",
 			    			trigger: function() {
 			    				EMD.panel.deactivate();
-				    			EMD.modifyFeature.deactivate();
 			    				EMD.map.removeControl(EMD.panel);
-			    				EMD.gis.selectFeatureData(module, layerName, module[code], true, true);	// 다시 로드 한다.
+			    				for(var key in EMD.editControls) {
+			    					EMD.editControls[key].deactivate();
+			    				}
+			    				EMD.gis.selectFeatureData(module, layerName, module[code], true, true);	//  취소 되었으므로 다시 로드 한다.
+			    				EMD.selectControl.activate();
 				    			module.showWindow();
 			    			},
 			    			displayClass: "olControlEditCancel"
@@ -6031,7 +6119,9 @@ var EMD = (function($, window, document, undefined) {
 //			    			allowDepress: true
 			    		});
 
-			    		EMD.panel.addControls([EMD.save, EMD.cancel]);
+			    		EMD.selectControl.deactivate();
+
+			    		EMD.panel.addControls([addButton, editButton, delButton, EMD.save, EMD.cancel]);
 			    		EMD.map.addControl(EMD.panel);
 			    		EMD.panel.activate();
 
@@ -6063,6 +6153,78 @@ var EMD = (function($, window, document, undefined) {
 		            EMD.map.addControl(EMD.modifyFeature);
 		            EMD.modifyFeature.activate();
 		            EMD.modifyFeature.selectFeature(row['_feature']);
+
+		            // show edit panel
+		    		var addButton = new OpenLayers.Control.Button({
+		    			title: "추가",
+		    			trigger: function() {
+		    				EMD.panel.deactivate();
+			    			EMD.modifyFeature.deactivate();
+		    				EMD.map.removeControl(EMD.panel);
+			    			layer.addFeatures(EMD.wfs.features);
+		    				EMD.saveStrategy.save();
+		    				module.showWindow();
+		    			},
+		    			displayClass: "olControlEditAdd"
+		    		});
+		    		var editButton = new OpenLayers.Control.Button({
+		    			title: "편집",
+		    			trigger: function() {
+		    				EMD.panel.deactivate();
+			    			EMD.modifyFeature.deactivate();
+		    				EMD.map.removeControl(EMD.panel);
+			    			layer.addFeatures(EMD.wfs.features);
+		    				EMD.saveStrategy.save();
+		    				module.showWindow();
+		    			},
+		    			displayClass: "olControlEditEdit"
+		    		});
+		    		var delButton = new OpenLayers.Control.Button({
+		    			title: "삭제",
+		    			trigger: function() {
+		    				EMD.panel.deactivate();
+			    			EMD.modifyFeature.deactivate();
+		    				EMD.map.removeControl(EMD.panel);
+			    			layer.addFeatures(EMD.wfs.features);
+		    				EMD.saveStrategy.save();
+		    				module.showWindow();
+		    			},
+		    			displayClass: "olControlEditDel"
+		    		});
+		    		EMD.save = new OpenLayers.Control.Button({
+		    			title: "편집 완료",
+		    			trigger: function() {
+		    				EMD.panel.deactivate();
+			    			EMD.modifyFeature.deactivate();
+		    				EMD.map.removeControl(EMD.panel);
+			    			layer.addFeatures(EMD.wfs.features);
+		    				EMD.saveStrategy.save();
+		    				module.showWindow();
+		    			},
+		    			displayClass: "olControlEditDone"
+		    		});
+
+		    		EMD.cancel = new OpenLayers.Control.Button({
+		    			title: "편집 취소",
+		    			trigger: function() {
+		    				EMD.panel.deactivate();
+			    			EMD.modifyFeature.deactivate();
+		    				EMD.map.removeControl(EMD.panel);
+		    				EMD.gis.selectFeatureData(module, layerName, module[code], true, true);	// 다시 로드 한다.
+			    			module.showWindow();
+		    			},
+		    			displayClass: "olControlEditCancel"
+		    		});
+
+		    		if(EMD.panel!=null) {
+		    			EMD.panel.deactivate();
+		    		}
+		    		EMD.panel = new OpenLayers.Control.Panel({
+		    			displayClass: 'mapEditToolBar'
+//		    			allowDepress: true
+		    		});
+
+		    		EMD.panel.addControls([addButton, editButton, delButton, EMD.save, EMD.cancel]);
 				}
 		},
 		removeFeatureCode: function(module, layerName, code) {

@@ -54,7 +54,7 @@
       }
  */    </style>
 
-    <script src="<c:url value='/js/OpenLayers.js'/>"></script>
+    <script src="<c:url value='/js/OpenLayers.debug.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
