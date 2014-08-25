@@ -499,7 +499,7 @@
       <insert id="gamNticRequestMngtDAO.insertEgiroPrint" parameterClass="map">
         /* gamNticRequestMngtDAO.insertEgiroPrint */
         /* 전자고지 체계 구축 고지출력 kang (EGIRO) */
-        INSERT INTO EGIRO (
+        INSERT INTO PAYEOSU.EGIRO@YGPA_PORTMIS (
            PRT_AT_CODE
          , TRANID
          , WORK_DT
@@ -577,7 +577,7 @@
     <update id="gamNticRequestMngtDAO.updateEgiroPrintCancel" parameterClass="map">
         /*+ ygpam.fdr.rev.mgt.updateEgiroPrintCancel */
         /* 전자고지 체계 구축 고지출력취소 kang */
-        UPDATE EGIRO
+        UPDATE PAYEOSU.EGIRO@YGPA_PORTMIS
         SET CANCEL_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
           , DUE_DATE = TO_CHAR(SYSDATE+1, 'YYYYMMDD')
         WHERE PRT_AT_CODE = #prtAtCode#
@@ -592,7 +592,7 @@
         /*+ gamNticRequestMngtDAO.getEgiroAgentInfo */
         /* [전자고지] 당일고지발행했다가 취소하는 건인지 구분 kang */
         SELECT TRANID, WORK_DT, CANCEL_DT, PRINT_DT, TO_CHAR(SYSDATE, 'YYYYMMDD') CURR_DT
-        FROM EGIRO
+        FROM PAYEOSU.EGIRO@YGPA_PORTMIS
         WHERE PRT_AT_CODE = #prtAtCode#
           AND FEE_TP = #feeTp#
           AND FISCAL_YR = #fiscalYr#
