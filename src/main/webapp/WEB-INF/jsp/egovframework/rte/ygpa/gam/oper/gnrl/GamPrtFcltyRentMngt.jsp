@@ -1019,7 +1019,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
-            this.$('#prtAtCode').val('622');
+            this.$('#prtAtCode').val('621');
             this.$('#payMth').val('Pre');
             this.$('#nticMth').val('1');
             this.$('#taxtSe').val('2');
@@ -2195,8 +2195,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="20" class="calcInput" id="usageAr" maxlength="8"/></td>
 								<th width="10%" height="18">신청기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" readonly/> ~
-                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~
+                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" />
                                 </td>
                             </tr>
                             <tr>
