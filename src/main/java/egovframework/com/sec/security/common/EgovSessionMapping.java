@@ -62,6 +62,7 @@ public class EgovSessionMapping extends EgovUsersByUsernameMapping {
         String strUniqId    = rs.getString("esntl_id");
         /**2010.06.30 *이용   *조직명 추가  */
         String strOrgnztNm    = rs.getString("orgnzt_nm");
+        String strDeptCd = rs.getString("dept_cd");
 
 
 
@@ -77,6 +78,7 @@ public class EgovSessionMapping extends EgovUsersByUsernameMapping {
         loginVO.setUniqId(strUniqId);
         /**2010.06.30 *이용   *조직명 추가  */
         loginVO.setOrgnztNm(strOrgnztNm);
+        loginVO.setDeptCd(strDeptCd);
 
         return new EgovUserDetails(strUserId, strPassWord, strEnabled, loginVO);
     }
