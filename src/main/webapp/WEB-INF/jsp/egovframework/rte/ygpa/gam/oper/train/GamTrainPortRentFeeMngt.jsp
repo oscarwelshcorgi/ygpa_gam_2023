@@ -360,8 +360,9 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		             ];
 		this.doAction('<c:url value="/oper/train/gamSelectTrainPortRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
-				result.resultMaster.nticDt = EMD.util.getDate(result.resultMaster.nticDt);
-				result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(EMD.util.strToDate(result.resultMaster.nticDt), 15));
+				if(result.resultMaster.nhtIsueYn == 'N'){
+					result.resultMaster.payTmlmt = '';
+				}
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
 					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
