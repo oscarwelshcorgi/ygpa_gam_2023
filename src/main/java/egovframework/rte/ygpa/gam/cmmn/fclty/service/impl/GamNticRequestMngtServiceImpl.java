@@ -221,6 +221,9 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
         	mapResult.put("printDt", currentDate);
         	mapResult.put("cancelDt", "");
 
+        	Map MakeDigit = gamNticRequestMngtDAO.getSfMakeDigit(mapResult);
+        	mapResult.put("makedigit", (String)MakeDigit.get("makedigit"));
+
         	// 전자고지체계구축 고지출력
         	gamNticRequestMngtDAO.insertEgiroPrint(mapResult);
     	} else {

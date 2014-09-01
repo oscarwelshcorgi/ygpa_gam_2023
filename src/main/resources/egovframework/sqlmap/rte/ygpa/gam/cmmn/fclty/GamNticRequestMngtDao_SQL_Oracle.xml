@@ -544,7 +544,7 @@
          , 'GR6533'
          , '22'
          , ''
-         , SF_MAKEDIGIT( #prtAtCode# || TO_CHAR(ASCII(SUBSTR(#feeTp#,1,1))) || SUBSTR(#feeTp#,2,1) || #fiscalYr# || #billNo# || #customerNum#, 'BILLNO')
+         , #makedigit#
          , #amount#
          , #amouuntAf#
          , 'A'
@@ -631,6 +631,14 @@
         WHERE PRT_AT_CODE = #prtAtCode#
           AND FEE_TP = #feeTp#
     </select>
+
+	<select id="gamNticRequestMngtDAO.getSfMakeDigit" parameterClass="map" resultClass="egovMap">
+	        /*+ gamNticRequestMngtDAO.getSfMakeDigit */
+	        select
+	        SF_MAKEDIGIT( #prtAtCode# || TO_CHAR(ASCII(SUBSTR(#feeTp#,1,1))) || SUBSTR(#feeTp#,2,1) || #fiscalYr# || #billNo# || #customerNum#, 'BILLNO')
+	        AS MAKEDIGIT
+	        from dual
+	    </select>
 
 
 </sqlMap>

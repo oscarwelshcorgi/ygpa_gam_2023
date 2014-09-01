@@ -747,7 +747,7 @@
 			      || '00'
 			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
-			    AND FEE_TP        = A.CHRGE_KND
+			    AND FEE_TP        = GAM_GET_FEE_TP(A.CHRGE_KND)
 			    ) ELEC_PAY_NO,
 			    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,

@@ -186,5 +186,9 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return delete("gamNticRequestMngtDAO.deleteLevReqestPdByStats", vo);
     }
 
+	public EgovMap getSfMakeDigit(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.getSfMakeDigit", vo);
+	}
+
 
 }
