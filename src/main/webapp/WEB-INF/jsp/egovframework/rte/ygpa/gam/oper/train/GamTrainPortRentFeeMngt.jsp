@@ -360,6 +360,8 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		             ];
 		this.doAction('<c:url value="/oper/train/gamSelectTrainPortRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
+				result.resultMaster.nticDt = EMD.util.getDate(result.resultMaster.nticDt);
+				result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(EMD.util.strToDate(result.resultMaster.nticDt), 15));
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
 					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
@@ -592,20 +594,20 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td><span data-column-id="sanctnerEmplNo"></span></td>
                         </tr>
                         <tr>
-                            <th><span class="label">납부기한일자</span></th>
-                            <td><span data-column-id="payTmlmt"></span></td>
-                        	<th><span class="label">수납구분</span></th>
-                            <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
-                        	<th><span class="label">고지서출력여부</span></th>
-                            <td><span data-column-id="nhtPrintYn" ></span></td>
-                            <th><span class="label">수납일자</span></th>
-                            <td colspan="5"><span data-column-id="rcivDt"></span></td>
+                            <th><span class="label">고지여부</span></th>
+                            <td><span data-column-id="nhtIsueYn" class="ygpaYnSelect" data-y-prompt="고지" data-n-prompt="미고지"></span></td>
+                            <th><span class="label">고지일자</span></th>
+                            <td colspan="3"><span data-column-id="nticDt"></span></td>
+                        	<th><span class="label">고지금액</span></th>
+                            <td style="text-align:right;" colspan="3"><span data-column-id="nticAmt" class="ygpaNumber"></span> 원</td>
                         </tr>
                         <tr>
                             <th><span class="label">납부기한일자</span></th>
                             <td><input id="payTmlmt" data-column-id="payTmlmt" class="emdcal" /></td>
                         	<th><span class="label">수납구분</span></th>
-                            <td colspan="3"><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+                            <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+                        	<th><span class="label">고지서출력여부</span></th>
+                            <td><span data-column-id="nhtPrintYn" ></span></td>
                             <th><span class="label">수납일자</span></th>
                             <td colspan="5"><span data-column-id="rcivDt"></span></td>
                         </tr>

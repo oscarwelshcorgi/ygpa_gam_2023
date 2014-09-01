@@ -818,8 +818,8 @@ div.notice {
       				<li class="chrgeKndNm"><c:out value="${result.chrgeKndNm}"/></li>
       				<li class="entrpsNm"><c:out value="${result.entrpsNm}"/></li>
       				<li class="entrpsNm"><c:out value="${result.rprsntvNm}"/></li>
-      				<li class="nticDate"><fmt:formatDate value="${nticDate}" pattern="yyyy년 MM월 dd일"/></li>
-      				<li class="payTmlmt"><fmt:formatDate value="${payTmlmtDate}" pattern="yyyy년 MM월 dd일"/></li>
+      				<li class="nticDate"><c:out value="${result.nticDt}"/></li>
+      				<li class="payTmlmt"><c:out value="${result.payTmlmt}"/></li>
       				<li class="bizrNo"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</li>
    				</ul>
       		</div>
@@ -857,8 +857,8 @@ div.notice {
 	       		<div class="giroDetail">
 		       		<div id="girobizrno"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</div>
       				<div id="nticno"><c:out value="${result.prtAtCode}"/>-<c:out value="${result.chrgeKnd}"/>-<c:out value="${result.accnutYear}"/>-<c:out value="${result.nticCnt}"/></div>
-      				<div id="nticDate"><fmt:formatDate value="${nticDate}" pattern="yyyy년 MM월 dd일"/></div>
-      				<div id="payTmlmt"><fmt:formatDate value="${payTmlmtDate}" pattern="yyyy년 MM월 dd일"/></div>
+      				<div id="nticDate"><c:out value="${result.nticDt}"/></div>
+      				<div id="payTmlmt"><c:out value="${result.payTmlmt}"/></div>
       				<div id="girormk">항코드 : <c:out value="${result.prtAtcode}"/> 관리번호 : <c:out value="${result.mngYear}"/>-<c:out value="${result.mngNo}"/>-<c:out value="${result.mngCnt}"/> 고지회차 : <c:out value="${result.nticCnt}"/>회차</div>
 	       		</div>
 	       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>

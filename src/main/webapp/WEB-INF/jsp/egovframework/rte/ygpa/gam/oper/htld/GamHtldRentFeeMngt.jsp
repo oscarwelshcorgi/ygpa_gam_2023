@@ -360,6 +360,8 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		             ];
 		this.doAction('<c:url value="/oper/htld/gamSelectHtldRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
+				result.resultMaster.nticDt = EMD.util.getDate(result.resultMaster.nticDt);
+				result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(EMD.util.strToDate(result.resultMaster.nticDt), 15));
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
 					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
@@ -603,7 +605,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         </tr>
                         <tr>
                             <th><span class="label">납부기한일자</span></th>
-                            <td><span data-column-id="payTmlmt"></span></td>
+                            <td><input id="payTmlmt" data-column-id="payTmlmt" class="emdcal" /></td>
                         	<th><span class="label">수납구분</span></th>
                             <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
                         	<th><span class="label">고지서출력여부</span></th>
