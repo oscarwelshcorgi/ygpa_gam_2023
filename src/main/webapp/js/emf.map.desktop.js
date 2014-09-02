@@ -1886,7 +1886,7 @@ var EMD = (function($, window, document, undefined) {
 					    			callback: function(resp) {
 					    				EMD.lotareaStackCnt--;
 					    			    if(resp.error) {
-					    			        console.log('find error');
+					    			        //console.log('find error');
 					    			        return 0;
 					    			    }
 					    			    if(resp.features.length==undefined || resp.features.length===0) {
@@ -1907,7 +1907,7 @@ var EMD = (function($, window, document, undefined) {
 					    			          EMD.userLayer.landCode.redraw();
 //					    			        EMD.protocols.landCode.commit([v], {callback:function(resp) {
 //					    			          if (resp.error) {
-//					    			            console.log("error");
+//					    			            //console.log("error");
 //					    			            return-1;
 //					    			          }
 //					    			          $.each(resp.reqFeatures, function() {
@@ -4968,7 +4968,7 @@ var EMD = (function($, window, document, undefined) {
 					var latLng = new OpenLayers.LonLat(prtFclty.lng, prtFclty.lat);
 					var proj = new OpenLayers.Projection('EPSG:4326');
 					var newPos= latLng.transform(proj, new OpenLayers.Projection('EPSG:900913'));
-//					console.log(newPos);
+//					//console.log(newPos);
 					prtFclty.loCrdnt=newPos.lon;
 					prtFclty.laCrdnt=newPos.lat;
 				}
@@ -5136,7 +5136,7 @@ var EMD = (function($, window, document, undefined) {
 	    			filter: filter,
 	    			callback: function(resp) {
 	    			    if(resp.error) {
-	    			        console.log('find error');
+	    			        //console.log('find error');
 	    			        return 0;
 	    			    }
 	    			    if(resp.features.length>0) {
@@ -5185,7 +5185,7 @@ var EMD = (function($, window, document, undefined) {
         			filter: filter,
         			callback: function(resp) {
         			    if(resp.error) {
-        			        console.log('find error');
+        			        //console.log('find error');
         			        return 0;
         			    }
         			    if(resp.features.length>0) {
@@ -5214,7 +5214,7 @@ var EMD = (function($, window, document, undefined) {
             			    EMD.protocols.gisAssetsCd.commit(resp.features, {
             			    	callback:function(resp) {
         		    			    if(resp.error) {
-        		    			        console.log('error');
+        		    			        //console.log('error');
         		    			        return -1;
         		    			    }
         		    			    var gisAssetsCdProjection = new OpenLayers.Projection("EPSG:5186");
@@ -5254,7 +5254,7 @@ var EMD = (function($, window, document, undefined) {
         			        v.state = OpenLayers.State.INSERT;
         			        EMD.protocols.gisAssetsCd.commit([v], {callback:function(resp) {
         			          if (resp.error) {
-        			            console.log("error");
+        			            //console.log("error");
         			            return-1;
         			            commit;
         			          }
@@ -5575,7 +5575,7 @@ var EMD = (function($, window, document, undefined) {
 //    			filter: EMD.protocols.gisAssetsCd,
 //    			callback: function(resp) {
 //    			    if(resp.error) {
-//    			        console.log('error');
+//    			        //console.log('error');
 //    			        return -1;
 //    			    }
 //    			    if(resp.features.length>0) {
@@ -5649,7 +5649,7 @@ var EMD = (function($, window, document, undefined) {
     			filter: filter,
     			callback: function(resp) {
     			    if(resp.error) {
-    			        console.log('find error');
+    			        //console.log('find error');
     			        return 0;
     			    }
     			    if(resp.features.length>0) {
@@ -5659,7 +5659,7 @@ var EMD = (function($, window, document, undefined) {
         			    EMD.protocols.gisAssetsCd.commit(resp.features, {
         			    	callback:function(resp) {
     		    			    if(resp.error) {
-    		    			        console.log('error');
+    		    			        //console.log('error');
     		    			        return -1;
     		    			    }
     		    			    var gisAssetsCdProjection = new OpenLayers.Projection("EPSG:5186");
@@ -5699,7 +5699,7 @@ var EMD = (function($, window, document, undefined) {
     			        v.state = OpenLayers.State.INSERT;
     			        EMD.protocols.gisAssetsCd.commit([v], {callback:function(resp) {
     			          if (resp.error) {
-    			            console.log("error");
+    			            //console.log("error");
     			            return-1;
     			            commit;
     			          }
@@ -5744,7 +5744,7 @@ var EMD = (function($, window, document, undefined) {
     			filter: filter,
     			callback: function(resp) {
     			    if(resp.error) {
-    			        console.log('error');
+    			        //console.log('error');
     			        return -1;
     			    }
 
@@ -5783,7 +5783,7 @@ var EMD = (function($, window, document, undefined) {
         		}),
     			callback: function(resp) {
     			    if(resp.error) {
-    			        console.log('error');
+    			        //console.log('error');
     			        return -1;
     			    }
 //
@@ -5825,7 +5825,7 @@ var EMD = (function($, window, document, undefined) {
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
 					try {
-						console.log(textStatus);
+						//console.log(textStatus);
 					} catch (e) {}
 				}
   				});
@@ -6325,7 +6325,7 @@ var EMD = (function($, window, document, undefined) {
 			        		}),
 			    			callback: function(resp) {
 			    			    if(resp.error) {
-			    			        console.log('error');
+			    			        //console.log('error');
 			    			        return -1;
 			    			    }
 			    			}
@@ -6493,7 +6493,7 @@ var EMD = (function($, window, document, undefined) {
 						}
 					}
 				}
-				console.log("cannot found assetCd.");
+				//console.log("cannot found assetCd.");
 		        f = new OpenLayers.Feature();
 				var polygon= new OpenLayers.Geometry.Polygon();
 
@@ -8187,7 +8187,7 @@ var EMD = (function($, window, document, undefined) {
 					  });
 				  }
 				  else {
-					console.log('unkown button label : '+$(but).text());
+					//console.log('unkown button label : '+$(but).text());
 					  $(but).button().click({module:win[0].module, button_id: id}, function(event) {
 						  event.preventDefault();
 						  EMD.util._clickButtonExec(event.data.module, $(this), event.data.button_id);
@@ -8333,7 +8333,7 @@ var EMD = (function($, window, document, undefined) {
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
 					try {
-						console.log(textStatus);
+						//console.log(textStatus);
 //						if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 					} catch (e) {}
 				}
@@ -8423,7 +8423,7 @@ var EMD = (function($, window, document, undefined) {
 					}
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					console.log(textStatus);
+					//console.log(textStatus);
 //					try {
 //						if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 //					} catch (e) {
@@ -8522,7 +8522,7 @@ var EMD = (function($, window, document, undefined) {
 							}
 						},
 						error: function (XMLHttpRequest, textStatus, errorThrown) {
-							console.log(textStatus);
+							//console.log(textStatus);
 //							try {
 //								if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 //							} catch (e) {
@@ -8575,7 +8575,7 @@ var EMD = (function($, window, document, undefined) {
 						}
 					},
 					error: function (XMLHttpRequest, textStatus, errorThrown) {
-						console.log(textStatus);
+						//console.log(textStatus);
 //						try {
 //							if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 //						} catch (e) {
@@ -8668,7 +8668,7 @@ var EMD = (function($, window, document, undefined) {
 					}
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					console.log(textStatus);
+					//console.log(textStatus);
 //					try {
 //						if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 //					} catch (e) {
@@ -9227,7 +9227,7 @@ EmdModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -9247,7 +9247,7 @@ EmdModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -9268,7 +9268,7 @@ EmdModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -9289,7 +9289,7 @@ EmdModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -9624,7 +9624,7 @@ EmdModule.prototype.doExecuteDialog = function(dlgId, dlgTitle, dlgAddr, dlgOpts
 								},
 								error: function (XMLHttpRequest, textStatus, errorThrown) {
 									try {
-										console.log(textStatus);
+										//console.log(textStatus);
 //										if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 									} catch (e) {}
 								}
@@ -9708,7 +9708,7 @@ EmdModule.prototype.doExecuteDialog = function(dlgId, dlgTitle, dlgAddr, dlgOpts
 									}
 								},
 								error: function (XMLHttpRequest, textStatus, errorThrown) {
-									console.log(textStatus);
+									//console.log(textStatus);
 //									try {
 //										if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 //									} catch (e) {
@@ -10492,7 +10492,7 @@ EmdPopupModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -10512,7 +10512,7 @@ EmdPopupModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -10533,7 +10533,7 @@ EmdPopupModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -10554,7 +10554,7 @@ EmdPopupModule.prototype.makeDivValues = function(selector, obj) {
 							},
 							error: function (XMLHttpRequest, textStatus, errorThrown) {
 								try {
-									console.log(textStatus);
+									//console.log(textStatus);
 									this.module.text("서버오류");
 //									if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 								} catch (e) {}
@@ -11080,7 +11080,7 @@ EmdErrorModule.prototype.getMessage = function() {
 	    				// If we need to re-position the characters.
 	    				if( setPos !== false )
 	    				{
-	    					//console.log('Setpos keydown: ', setPos );
+	    					////console.log('Setpos keydown: ', setPos );
 	    					setSelectionRange.apply(this, [setPos, setPos]);
 	    				}
 
@@ -11137,7 +11137,7 @@ EmdErrorModule.prototype.getMessage = function() {
 		    				}
 	    				}
 
-	    				//console.log( 'Setting pos: ', start, decimals, this.value.length + data.c, this.value.length, data.c );
+	    				////console.log( 'Setting pos: ', start, decimals, this.value.length + data.c, this.value.length, data.c );
 
 	    				if (!$this.get(0).value.length) {
 	    					// If they delete the entire contents of the text field, remove the 'negative' variable
@@ -11523,7 +11523,7 @@ if (!Array.prototype.indexOf) {
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				try {
-					console.log(textStatus);
+					//console.log(textStatus);
 //					if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 				} catch (e) {}
 			}
@@ -11614,7 +11614,7 @@ if (!Array.prototype.indexOf) {
 					}
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					console.log(textStatus);
+					//console.log(textStatus);
 //					try {
 //						if (p.onError) p.onError(XMLHttpRequest, textStatus, errorThrown);
 //					} catch (e) {
