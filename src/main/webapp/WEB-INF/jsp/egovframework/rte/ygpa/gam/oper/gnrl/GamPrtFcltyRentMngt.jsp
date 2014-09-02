@@ -407,10 +407,11 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 		serchday = "0" + serchday;
 	}
 
+/*
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
-
 	this.$("#sGrUsagePdFrom").val(searchStartDate);
 	this.$("#sGrUsagePdTo").val(searchEndDate);
+ */
 
 };
 
@@ -1791,6 +1792,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          if (msg != 'cancel') {
              this.$('#sEntrpscd').val(value.entrpscd);
              this.$('#sEntrpsNm').val(value.entrpsNm);
+			 this.loadData();
          } else {
              alert('취소 되었습니다');
          }
