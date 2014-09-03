@@ -34,7 +34,7 @@
  */
 function GamAssetRentMngtModule() {}
 
-GamAssetRentMngtModule.prototype = new EmdModule(1000, 600);
+GamAssetRentMngtModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetRentMngtModule.prototype.loadComplete = function() {
@@ -2014,7 +2014,7 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">최초신청일자</th>
                                 <td><input type="text" size="20" id="frstReqstDt" disabled/></td>
 								<th width="10%" height="18">신청일자</th>
-                                <td><input type="text" class="emdcal" size="16" id="reqstDt" readonly/></td>
+                                <td><input type="text" class="emdcal" size="14" id="reqstDt" readonly/></td>
 								<th width="10%" height="18">신청업체</th>
                                 <td>
                                     <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
