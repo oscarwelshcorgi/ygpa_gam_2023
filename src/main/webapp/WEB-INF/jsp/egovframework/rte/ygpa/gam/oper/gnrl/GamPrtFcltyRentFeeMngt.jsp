@@ -175,6 +175,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                             module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
                         }
 
