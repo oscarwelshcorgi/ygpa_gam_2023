@@ -127,7 +127,7 @@ div.receiver {
 }
 
 #recAddress {
-	position: absolute;
+ 	position: absolute;
 	left: 0cm;
 	top: 0.6cm;
 	width: 11cm;
@@ -136,9 +136,9 @@ div.receiver {
 }
 
 #recPostcode {
-	position: absolute;
+ 	position: absolute;
 	left: 0cm;
-	top: 1cm;
+	top: 1.4cm;
 	width: 11cm;
 	height: 0.4cm;
 	text-align: right;
@@ -290,9 +290,9 @@ div.notice {
 	top: 1.7cm;
 	width: 13.2cm;
 	height: 0.4cm;
-	font-size: 0.35cm;
-	font-family: OCR-B-1;
- }
+	font-size: 0.4cm;
+	font-family: OCR-B-10 BT;
+	 }
 
  #girono {
 	display: inline;
@@ -481,7 +481,7 @@ div.notice {
 	}
 
 	#recAddress {
-		position: absolute;
+ 		position: absolute;
 		left: 0cm;
 		top: 0.6cm;
 		width: 11cm;
@@ -490,9 +490,9 @@ div.notice {
 	}
 
 	#recPostcode {
-		position: absolute;
+ 		position: absolute;
 		left: 0cm;
-		top: 1cm;
+		top: 1.4cm;
 		width: 11cm;
 		height: 0.4cm;
 		text-align: right;
@@ -620,7 +620,7 @@ div.notice {
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
-	font-family: OCR-B-10 BT;
+		font-family: OCR-B-10 BT;
 		text-align: right;
 		padding: 0.1cm;
 		text-align: right;
@@ -644,8 +644,8 @@ div.notice {
 		top: 1.7cm;
 		width: 13.2cm;
 		height: 0.4cm;
-		font-size: 0.35cm;
-		font-family: OCR-B-1;
+		font-size: 0.4cm;
+		font-family: OCR-B-10 BT;
 	 }
 
 	 #girono {
@@ -851,7 +851,7 @@ div.notice {
 	       		<div class="girocode">
 	       			<div id="girono">&lt;${result.giroNo}+</div>
 		       		<div id="cstmrrefcode">+<c:out value="${result.cstmrRefCode}"/>+</div>
-		       		<div id="giroamount">+<c:out value="${result.nticAmt}"/>&lt;</div>
+		       		<div id="giroamount">+<c:out value="${result.elecNticAmt}"/>&lt;</div>
 		       		<div id="girocc">&lt;11&lt;</div>
 	       		</div>
 	       		<div class="giroDetail">

@@ -290,8 +290,8 @@ div.notice {
 	top: 1.7cm;
 	width: 13.2cm;
 	height: 0.4cm;
-	font-size: 0.35cm;
-	font-family: OCR-B-1;
+	font-size: 0.4cm;
+	font-family: OCR-B-10 BT;
  }
 
  #girono {
@@ -644,8 +644,8 @@ div.notice {
 		top: 1.7cm;
 		width: 13.2cm;
 		height: 0.4cm;
-		font-size: 0.35cm;
-		font-family: OCR-B-1;
+		font-size: 0.4cm;
+		font-family: OCR-B-10 BT;
 	 }
 
 	 #girono {
