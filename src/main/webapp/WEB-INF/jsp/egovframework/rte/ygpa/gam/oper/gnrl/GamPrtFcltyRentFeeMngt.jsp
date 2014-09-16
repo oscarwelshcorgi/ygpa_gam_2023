@@ -95,6 +95,12 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	*/
     }
+    this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		if(event.data.module.$('#sEntrpscd').val() ==''){
+			event.data.module.$('#sEntrpsNm').val('');
+		}
+
+    });
 };
 
 /**

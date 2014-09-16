@@ -406,6 +406,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	if(serchday < 10){
 		serchday = "0" + serchday;
 	}
+	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		if(event.data.module.$('#sEntrpscd').val() ==''){
+			event.data.module.$('#sEntrpsNm').val('');
+		}
+
+    });
 
 /*
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
