@@ -8,18 +8,18 @@ import egovframework.com.cmm.LoginVO;
  * @since 2009.03.06
  * @version 1.0
  * @see
- *  
+ *
  * <pre>
  * << 개정이력(Modification Information) >>
- * 
+ *
  *   수정일      수정자          수정내용
  *  -------    --------    ---------------------------
- *  2009.03.06  박지욱          최초 생성 
+ *  2009.03.06  박지욱          최초 생성
  *  2011.08.26  서준식          EsntlId를 이용한 로그인 추가
  *  </pre>
  */
 public interface EgovLoginService {
-	
+
 	/**
      * 2011.08.26
 	 * EsntlId를 이용한 로그인을 처리한다
@@ -28,7 +28,7 @@ public interface EgovLoginService {
 	 * @exception Exception
 	 */
     public LoginVO actionLoginByEsntlId(LoginVO vo) throws Exception;
-	
+
 	/**
 	 * 일반 로그인을 처리한다
 	 * @param vo LoginVO
@@ -36,7 +36,9 @@ public interface EgovLoginService {
 	 * @exception Exception
 	 */
     LoginVO actionLogin(LoginVO vo) throws Exception;
-    
+
+    LoginVO ygpaLogin(LoginVO vo) throws Exception;
+
     /**
 	 * 인증서 로그인을 처리한다
 	 * @param vo LoginVO
@@ -44,7 +46,7 @@ public interface EgovLoginService {
 	 * @exception Exception
 	 */
     LoginVO actionCrtfctLogin(LoginVO vo) throws Exception;
-    
+
     /**
 	 * 아이디를 찾는다.
 	 * @param vo LoginVO
@@ -52,7 +54,7 @@ public interface EgovLoginService {
 	 * @exception Exception
 	 */
     LoginVO searchId(LoginVO vo) throws Exception;
-    
+
     /**
 	 * 비밀번호를 찾는다.
 	 * @param vo LoginVO
