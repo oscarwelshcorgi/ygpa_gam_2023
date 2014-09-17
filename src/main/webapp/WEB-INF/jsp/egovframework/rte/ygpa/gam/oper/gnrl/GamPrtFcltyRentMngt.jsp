@@ -220,7 +220,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
-        module.selectFeatureData('assetRentDetail', row, true);
+//        module.selectFeatureData('assetRentDetail', row, true);
+
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
