@@ -25,7 +25,7 @@
  */
 function GamUserInfoModule() {}
 
-GamUserInfoModule.prototype = new EmdModule(900, 460);
+GamUserInfoModule.prototype = new EmdModule(1000, 460);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamUserInfoModule.prototype.loadComplete = function() {
