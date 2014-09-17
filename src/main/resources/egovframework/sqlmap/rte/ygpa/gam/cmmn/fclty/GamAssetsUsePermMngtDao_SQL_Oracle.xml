@@ -216,10 +216,7 @@
 		  when MAX(AR.TAXT_SE)='2' THEN trunc(MAX(AR.GR_FEE)/10, -1)
 		  else 0
 		  END,
-		  case
-		  when MAX(AR.TAXT_SE)='2' THEN 'Y'
-		  else 'N'
-		  END,
+		  AR.TAXT_SE,
 		  case
 		  when MAX(AR.TAXT_SE)='2' THEN MAX(AR.GR_FEE)+trunc(MAX(AR.GR_FEE)/10, -1)
 		  else MAX(AR.GR_FEE)
@@ -261,7 +258,7 @@
 			END_DATE,
 			</isEqual>
 		<![CDATA[
-		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, RNTFEE/10, 'Y',TRUNC(RNTFEE + (RNTFEE / 10), -1), #rm#,
+		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, RNTFEE/10, #taxtSe#,TRUNC(RNTFEE + (RNTFEE / 10), -1), #rm#,
 		#nticMth#, #regUsr#, SYSDATE
 		from (
 			SELECT A.FEE_TP, NTIC_CNT, DECODE(A.FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(#blTpNum#)/12*A.RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
