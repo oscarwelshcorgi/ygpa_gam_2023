@@ -101,6 +101,9 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 		}
 
     });
+
+    var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+    this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
 };
 
 /**
@@ -211,6 +214,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                             module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
                         }
 
@@ -371,7 +375,7 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		this.doAction('<c:url value="/oper/gnrl/gamSelectPrtFcltyRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
 				if(result.resultMaster.nhtIsueYn == 'N'){
-					result.resultMaster.payTmlmt = '';
+					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {

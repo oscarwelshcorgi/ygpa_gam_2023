@@ -216,7 +216,7 @@
 		  when MAX(AR.TAXT_SE)='2' THEN trunc(MAX(AR.GR_FEE)/10, -1)
 		  else 0
 		  END,
-		  AR.TAXT_SE,
+		  MAX(AR.TAXT_SE),
 		  case
 		  when MAX(AR.TAXT_SE)='2' THEN MAX(AR.GR_FEE)+trunc(MAX(AR.GR_FEE)/10, -1)
 		  else MAX(AR.GR_FEE)

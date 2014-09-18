@@ -419,7 +419,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	this.$("#sGrUsagePdFrom").val(searchStartDate);
 	this.$("#sGrUsagePdTo").val(searchEndDate);
  */
-
+ 	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+	this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
@@ -619,6 +620,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
     ) {
+    	console.log('debug');
         var calFee      = 0;  //계산된 사용료
         var olnlp       = 0;  //공시지가
         var usageAr     = 0;  //사용면적
@@ -643,7 +645,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
 
-        var monfee=Math.round(olnlp*applcTariff/12);
+        var monfee = olnlp*applcTariff/12;
 
         if( exemptSe == '1' ) {        // 일부면제
               if( exemptPdFrom == '' ) {
@@ -676,28 +678,60 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         var dtTo = EMD.util.strToDate(usagePdTo);
 
             usageMonths = this.calcMonth(dtFr, dtTo);
-
-
+           var  usageDay = this.calcDay(dtFr, dtTo);
+			console.log(usageDay);
         //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
         if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
         	rdcxptFee = calFee;
         	exemptCnt = dayUseCnt;
             calFee = 0;
         } else {
-            calFee = monfee*usageAr*usageMonths.month+monfee*usageAr*usageMonths.day/usageMonths.lastMonthDay - rdcxptFee;
+        	if(this.$("#loginUserId").val() == 'TEST1'){
+            calFee = olnlp*applcTariff/365*usageAr*usageDay - rdcxptFee;
+            // 서용복 과장님 일단위 계산
+        	}
+        	else{
+        		calFee = monfee*usageAr*usageMonths.month+monfee*usageAr*usageMonths.day/usageMonths.lastMonthDay - rdcxptFee;
+        	}
         }
         var calcStr="";
-        if(usageMonths.month) {
-        	if(usageMonths.day) {
-        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
-        	}
-        	else {
-        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
-        	}
-        }
-        else {
-    		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
 
+        if(this.$("#loginUserId").val() == 'TEST1'){
+	        if(usageMonths.month/12 > 0) {
+	        	if(usageMonths.month%12 == 0){
+	        		if(usageMonths.day) {
+	        			var usageMonthTmp = usageMonths.month/12*12;
+		        		var usageDayTmp = usageDay -usageMonthTmp/12*365;
+		        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/12*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+usageMonthTmp+"개월"+usageDayTmp+"일/"+")";
+	        		}
+	        		else{
+	        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/12*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+
+	        		}
+	        	}
+	        	else{
+	        		var usageMonthTmp = usageMonths.month/12*12;
+	        		var usageDayTmp = usageDay -usageMonthTmp/12*365;
+	        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/365*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+usageDay+"일/)";
+	        	}
+	        }
+	        else {
+	    		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/365*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+usageDay+"일)";
+	        }
+        }
+        else{
+        	 if(usageMonths.month) {
+ 	        	if(usageMonths.day) {
+ 	        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
+ 	        	}
+ 	        	else {
+ 	        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+ 	        	}
+ 	        }
+ 	        else {
+ 	    		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+
+ 	        }
         }
         if(rdcxptFee>0) {
 			if(exemptMonths.month) {
@@ -730,7 +764,13 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         }
         this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
  */
-        calFee = Math.ceil(calFee/10)*10;
+
+    	if(this.$("#loginUserId").val() == 'TEST1'){
+    		calFee = Math.round(calFee/10)*10;
+        	}
+        	else{
+        		calFee = Math.ceil(calFee/10)*10;
+        	}
         rdcxptFee = Math.ceil(rdcxptFee/10)*10;
 
         this.$('#fee').val($.number(calFee));
@@ -767,6 +807,21 @@ GamAssetRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 	retval.day = Math.floor(Math.abs((dtTo-dtCurr)/(1000*60*60*24)));
 
 	return retval;
+}
+
+GamAssetRentMngtModule.prototype.calcDay = function(dtFrom, dtTo) {
+
+
+	var ONE_DAY = 1000 * 60 * 60 * 24;
+
+    var dtFrom_ms = dtFrom.getTime();
+    var dtTo_ms = dtTo.getTime();
+
+    var difference_ms = Math.abs(dtFrom_ms - dtTo_ms);
+
+    // Convert back to days and return
+    return Math.round(difference_ms/ONE_DAY);
+
 }
 
 GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {

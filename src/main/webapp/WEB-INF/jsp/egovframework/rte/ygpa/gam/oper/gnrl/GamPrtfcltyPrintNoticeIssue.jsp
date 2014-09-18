@@ -798,6 +798,7 @@ div.notice {
 				</div>
 				<div id="recAddress">
 					<c:out value="${result.adres}"/>
+					<c:out value="${result.adres2}"/>
 				</div>
 				<div id="recPostcode">
 					<c:out value="${fn:substring(result.zip, 0, 3)}"/>-<c:out value="${fn:substring(result.zip, 3, 6)}"/>
