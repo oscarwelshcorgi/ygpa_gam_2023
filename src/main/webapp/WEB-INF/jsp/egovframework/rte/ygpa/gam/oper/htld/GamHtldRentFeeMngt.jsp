@@ -90,8 +90,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	this.loadData();
     	}
     } else {
+    	/*
     this.$('#sUsagePdFrom').val(EMD.util.getDate());
     this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+    	*/
     }
 };
 
@@ -453,7 +455,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                         	<th>고지여부</th>
                             <td width="100px">
-                         		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-value="N" data-column-id="sNhtIsueYn" />
+                         		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-column-id="sNhtIsueYn" />
                             </td>
                         	<th>고지방법</th>
                             <td width="100px">

@@ -588,6 +588,7 @@ GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
 		this.$('.tradePortLaw').hide();
 		break;
 	case '4':	// 무역항규정
+	case '6':	// 배후단지
 		this.$('.nationAssetLaw').hide();
 		this.$('.tradePortLaw').show();
 		break;
@@ -806,6 +807,8 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
             exemptMonths = this.calcMonth(dtFr, dtTo);
 
             rdcxptFee = applcPrice * exemptMonths.month * usageAr +applcPrice * exemptMonths.day/exemptMonths.lastMonthDay * usageAr;
+            rdcxptFee = applcPrice * exemptMonths.month * usageAr +applcPrice * exemptMonths.day/exemptMonths.lastMonthDay * usageAr;
+
         }
 
         /* 날짜계산 */
@@ -814,7 +817,7 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         	var dtTo = EMD.util.strToDate(usagePdTo);
 
             usageMonths = this.calcMonth(dtFr, dtTo);
-
+console.log('debug');
         //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
         if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
         	rdcxptFee = calFee;
@@ -826,14 +829,14 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         var calcStr="";
         if(usageMonths.month) {
         	if(usageMonths.day) {
-        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
+        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+usageAr+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
         	}
         	else {
-        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+usageAr+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
         	}
         }
         else {
-    		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+    		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+usageAr+"m²)*(사용일수("+$.number(usageMonths.day, false)+"일)";
 
         }
         if(rdcxptFee>0) {
@@ -878,6 +881,7 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 	case '3':	// 입찰
 		break;
 	case '4':	// 무역항규정
+	case '6':	// 배후단지
 		this.calcTradePortLaw();
 		break;
 	case '5':	// 임대계약서
