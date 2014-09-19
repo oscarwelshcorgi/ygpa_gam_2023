@@ -668,6 +668,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
             exemptCnt = Number(days);
 
             exemptMonths = this.calcMonth(dtFr, dtTo);
+            console.log(exemptMonths);
 
             rdcxptFee = monfee*usageAr*exemptMonths.month+monfee*usageAr*exemptMonths.day/exemptMonths.lastMonthDay;
         }
@@ -678,15 +679,15 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         var dtTo = EMD.util.strToDate(usagePdTo);
 
             usageMonths = this.calcMonth(dtFr, dtTo);
-           var  usageDay = this.calcDay(dtFr, dtTo);
-			console.log(usageDay);
+            var usageDay = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
+
         //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
         if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
         	rdcxptFee = calFee;
         	exemptCnt = dayUseCnt;
             calFee = 0;
         } else {
-        	if(this.$("#loginUserId").val() == 'TEST1'){
+        	if(this.$("#loginUserId").val() == '11046'){
             calFee = olnlp*applcTariff/365*usageAr*usageDay - rdcxptFee;
             // 서용복 과장님 일단위 계산
         	}
@@ -696,24 +697,9 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         }
         var calcStr="";
 
-        if(this.$("#loginUserId").val() == 'TEST1'){
-	        if(usageMonths.month/12 > 0) {
-	        	if(usageMonths.month%12 == 0){
-	        		if(usageMonths.day) {
-	        			var usageMonthTmp = usageMonths.month/12*12;
-		        		var usageDayTmp = usageDay -usageMonthTmp/12*365;
-		        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/12*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+usageMonthTmp+"개월"+usageDayTmp+"일/"+")";
-	        		}
-	        		else{
-	        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/12*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
-
-	        		}
-	        	}
-	        	else{
-	        		var usageMonthTmp = usageMonths.month/12*12;
-	        		var usageDayTmp = usageDay -usageMonthTmp/12*365;
-	        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/365*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+usageDay+"일/)";
-	        	}
+        if(this.$("#loginUserId").val() == '11046'){
+	        if(usageMonths.day) {
+	        	calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/365*사용면적("+usageAr+"m²)*(사용일수("+usageDay+"일/)";
 	        }
 	        else {
 	    		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/365*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+usageDay+"일)";
@@ -765,7 +751,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
  */
 
-    	if(this.$("#loginUserId").val() == 'TEST1'){
+    	if(this.$("#loginUserId").val() == '11046'){
     		calFee = Math.round(calFee/10)*10;
         	}
         	else{
@@ -809,20 +795,6 @@ GamAssetRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 	return retval;
 }
 
-GamAssetRentMngtModule.prototype.calcDay = function(dtFrom, dtTo) {
-
-
-	var ONE_DAY = 1000 * 60 * 60 * 24;
-
-    var dtFrom_ms = dtFrom.getTime();
-    var dtTo_ms = dtTo.getTime();
-
-    var difference_ms = Math.abs(dtFrom_ms - dtTo_ms);
-
-    // Convert back to days and return
-    return Math.round(difference_ms/ONE_DAY);
-
-}
 
 GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
     if( this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
@@ -887,20 +859,30 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         	exemptCnt = dayUseCnt;
             calFee = 0;
         } else {
-            calFee = applcPrice*usageMonths.month*usageAr+applcPrice*usageMonths.day/usageMonths.lastMonthDay*usageAr - rdcxptFee;
+        	if(this.$("#loginUserId").val() == '11046'){
+        			var usageDay = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
+					calFee = applcPrice / 30 * usageAr * usageDay  - rdcxptFee;
+        	}else{
+					calFee = applcPrice*usageMonths.month*usageAr+applcPrice*usageMonths.day/usageMonths.lastMonthDay*usageAr - rdcxptFee;
+        	}
         }
         var calcStr="";
-        if(usageMonths.month) {
-        	if(usageMonths.day) {
-        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
-        	}
-        	else {
-        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
-        	}
-        }
-        else {
-    		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+        if(this.$("#loginUserId").val() == '11046'){
+        	var usageDay = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
+        	calcStr="( 적용단가("+$.number(applcPrice, false)+"원)/30*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+usageDay+"일수)";
+        }else{
+        	if(usageMonths.month) {
+	        	if(usageMonths.day) {
+	        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
+	        	}
+	        	else {
+	        		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
+	        	}
+	        }
+	        else {
+	    		calcStr="( 적용단가("+$.number(applcPrice, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
 
+	        }
         }
         if(rdcxptFee>0) {
 			if(exemptMonths.month) {
