@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamFcltyUseSttusInqire.jsp
+  * @Class Name : GamFcltyUseSttusInqire.jsp 
   * @Description : 항만시설사용현황조회(포트미스정보)
   * @Modification Information
   * 
