@@ -12,12 +12,12 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public class GamHtldRentFeeMngtVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
-	    
+
 	/** 고지 횟수 */
     private String nticCnt;
 
@@ -65,9 +65,49 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
     /**
      * 결재자 사원번호
      */
-    private String sanctnerEmplNo;;
+    private String sanctnerEmplNo;
 
     /**
+     * 결재자 고지방법
+     */
+    private String sNticMth;
+
+    /**
+     * 결재자 횟수
+     */
+    private String sNticCnt;
+
+
+
+    /**
+	 * @return the sNticMth
+	 */
+	public String getsNticMth() {
+		return sNticMth;
+	}
+
+	/**
+	 * @param sNticMth the sNticMth to set
+	 */
+	public void setsNticMth(String sNticMth) {
+		this.sNticMth = sNticMth;
+	}
+
+	/**
+	 * @return the sNticCnt
+	 */
+	public String getsNticCnt() {
+		return sNticCnt;
+	}
+
+	/**
+	 * @param sNticCnt the sNticCnt to set
+	 */
+	public void setsNticCnt(String sNticCnt) {
+		this.sNticCnt = sNticCnt;
+	}
+
+	/**
      * 결재 일시
      */
     private String sanctnDt;
@@ -262,7 +302,7 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
     private String sumNticAmt;
 
     private String sumArrrgAmt;
-    
+
     /******* 세입징수 ********/
 
     /** 회계 구분 코드 */

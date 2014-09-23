@@ -91,7 +91,8 @@
                    	S.GR_USAGE_PD_FROM,
                    	S.GR_USAGE_PD_TO,
                    	S.PRMISN_DT,
-                    S.ADIT_NTIC_YN
+                    S.ADIT_NTIC_YN,
+                    S.NTIC_MTH
                      FROM (
                            SELECT
 							         L.NTIC_CNT
@@ -237,6 +238,12 @@
 	                           <isNotEmpty property="sNhtIsueYn">
 	                               AND L.NHT_ISUE_YN = #sNhtIsueYn#
 	                           </isNotEmpty>
+	                           <isNotEmpty property="sNticMth">
+							       AND L.NTIC_MTH = #sNticMth#
+							   </isNotEmpty>
+							   <isNotEmpty property="sNticCnt">
+							       AND L.NTIC_CNT = #sNticCnt#
+							   </isNotEmpty>
 
                 ) S
                 ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
@@ -334,6 +341,14 @@
                <isNotEmpty property="sNhtIsueYn">
                    AND L.NHT_ISUE_YN = #sNhtIsueYn#
                </isNotEmpty>
+
+               <isNotEmpty property="sNticMth">
+					AND L.NTIC_MTH = #sNticMth#
+				</isNotEmpty>
+
+				<isNotEmpty property="sNticCnt">
+					AND L.NTIC_CNT = #sNticCnt#
+				</isNotEmpty>
           ) Z
     </select>
 
@@ -746,7 +761,7 @@
 			      || '00'
 			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
-			    AND FEE_TP        = A.CHRGE_KND
+			    AND FEE_TP        = GAM_GET_FEE_TP(A.CHRGE_KND)
 			    ) ELEC_PAY_NO,
 			    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,

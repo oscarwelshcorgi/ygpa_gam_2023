@@ -1278,6 +1278,7 @@ public class GamMarineCenterRentMngtController {
          paramMap.put("mngCnt", gamMarineCenterRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("chrgeKnd", gamMarineCenterRentMngtVO.getChrgeKnd());
+         paramMap.put("taxtSe", gamMarineCenterRentMngtVO.getTaxtSe());
 
          System.out.println("##################################### paramMap => " + paramMap);
 

@@ -1276,6 +1276,7 @@ public class GamPrtFcltyRentMngtController {
          paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("chrgeKnd", gamPrtFcltyRentMngtVO.getChrgeKnd());
+         paramMap.put("taxtSe", gamPrtFcltyRentMngtVO.getTaxtSe());
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙

@@ -34,7 +34,7 @@
  */
 function GamAssetRentMngtModule() {}
 
-GamAssetRentMngtModule.prototype = new EmdModule(1000, 600);
+GamAssetRentMngtModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetRentMngtModule.prototype.loadComplete = function() {
@@ -45,7 +45,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/htld/gamSelectHtldRentMngtList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'선택', name:'chkItem',width:40, sortable:false,align:'center', displayFormat:'checkbox'},
+// 					{display:'선택', name:'chkItem',width:40, sortable:false,align:'center', displayFormat:'checkbox'},
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
                     {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
@@ -412,6 +412,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
 //	this.$("#sGrUsagePdFrom").val(searchStartDate);
 //	this.$("#sGrUsagePdTo").val(searchEndDate);
+
+    this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		if(event.data.module.$('#sEntrpscd').val() ==''){
+			event.data.module.$('#sEntrpsNm').val('');
+		}
+    });
 
 };
 
@@ -1022,9 +1028,10 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             this.$('#prtAtCode').val('622');
             this.$('#payMth').val('Pre');
-            this.$('#nticMth').val('1');
+            this.$('#payinstIntrrate').val('0');
+            this.$('#nticMth').val('4');
             this.$('#taxtSe').val('2');
-            this.$('#applcMth').val('4'); //적용방법
+            this.$('#applcMth').val('6'); //적용방법
             this.$('#applcTariff').val('0.05'); //적용요율
             this.$('#exemptSe').val('0'); // 면제구분
 
@@ -1222,7 +1229,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
              this.$('#detailMngYear').val( this.$('#mngYear').val() );
              this.$('#detailMngNo').val( this.$('#mngNo').val() );
              this.$('#detailMngCnt').val( this.$('#mngCnt').val() );
-             this.$('#applcMth').val('1'); //적용방법
+             this.$('#applcMth').val('6'); //적용방법
+             this.onApplcMthChange(this.$('#applcMth').val());
              this.$('#applcTariff').val('0.05'); //적용요율
              this.$('#exemptSe').val('0'); // 면제구분
              this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I'});
@@ -1422,7 +1430,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
                     'mngNo': rows[0]['mngNo'],
-                    'mngCnt': rows[0]['mngCnt']
+                    'mngCnt': rows[0]['mngCnt'],
+                    'taxtSe': rows[0]['taxtSe']
                 };
 
                 this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/oper/htld/popup/showHtldRentMngtPrmisn.do"/>', opts);
@@ -2014,7 +2023,7 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">신청업체</th>
                                 <td>
                                     <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
-                                    <input type="text" size="29" id="entrpsNm" disabled/>
+                                    <input type="text" size="20" id="entrpsNm" disabled/>
                                     <button id="popupEntrpsInfoInput" class="popupButton">선택</button>
                                 </td>
                             </tr>
@@ -2028,20 +2037,20 @@ var module_instance = new GamAssetRentMngtModule();
                                     </select>
                                 </td>
 								<th width="10%" height="18">승낙일자</th>
-                                <td><input type="text" size="20" id="prmisnDt" disabled></td>
+                                <td><input type="text" size="16" id="prmisnDt" disabled></td>
 								<th width="10%" height="18">총사용기간</th>
                                 <td>
-                                    <input type="text" size="24" id="grUsagePdFrom" disabled/>~
-                                    <input type="text" size="24" id="grUsagePdTo" disabled/>
+                                    <input type="text" size="16" id="grUsagePdFrom" disabled/>~
+                                    <input type="text" size="16" id="grUsagePdTo" disabled/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">총사용면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="grAr" disabled/></td>
+                                <td><input type="text" size="16" class="ygpaNumber" id="grAr" disabled/></td>
 								<th width="10%" height="18">총사용료</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="grFee" disabled/></td>
+                                <td><input type="text" size="16" class="ygpaNumber" id="grFee" disabled/></td>
 								<th width="10%" height="18">총감면사용료</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
+                                <td><input type="text" size="16" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">납부방법</th>
@@ -2076,13 +2085,13 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">코멘트</th>
                                 <td colspan="5">
-                                	<input type="text" size="116" id="cmt" maxlength="80"/>
+                                	<input type="text" size="106" id="cmt" maxlength="80"/>
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">비고</th>
-                                <td colspan="5"><input type="text" size="133" id="rm" maxlength="90"/></td>
+                                <td colspan="5"><input type="text" size="120" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">담당자</th>
@@ -2200,7 +2209,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">적용방법</th>
                                 <td colspan="5">
-                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="2"/>
+                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="6"/>
                                 </td>
                               </tr>
                              <tr class="nationAssetLaw">

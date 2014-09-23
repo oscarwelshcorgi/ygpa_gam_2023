@@ -1286,6 +1286,7 @@ public class GamHtldRentMngtController {
          paramMap.put("mngCnt", gamHtldRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("chrgeKnd", gamHtldRentMngtVO.getChrgeKnd());
+         paramMap.put("taxtSe", gamHtldRentMngtVO.getTaxtSe());
 
          System.out.println("##################################### paramMap => " + paramMap);
 

@@ -95,6 +95,12 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	*/
     }
+
+    this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		if(event.data.module.$('#sEntrpscd').val() ==''){
+			event.data.module.$('#sEntrpsNm').val('');
+		}
+    });
 };
 
 /**
@@ -175,6 +181,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                             module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
                         }
 
@@ -204,6 +211,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                             module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
                         }
 
@@ -329,6 +337,7 @@ GamAssetRentFeeMngtModule.prototype.onSubmit = function() {
 
 GamAssetRentFeeMngtModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+    console.log(searchOpt);
     this.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
     this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
 
@@ -363,7 +372,7 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		this.doAction('<c:url value="/oper/htld/gamSelectHtldRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
 				if(result.resultMaster.nhtIsueYn == 'N'){
-					result.resultMaster.payTmlmt = '';
+					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
@@ -435,10 +444,14 @@ var module_instance = new GamAssetRentFeeMngtModule();
 								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"  />
                             </td>
                             <th>관리번호</th>
-                            <td style="width: 200px" colspan="3">
-                                <input id="sMngYear" type="text" class="mngYear">
-                                <input id="sMngNo" type="text" class="mngNo">
-                                <input id="sMngCnt" type="text" class="mngCnt">
+                            <td>
+                                <input id="sMngYear" type="text" class="mngYear" style="width: 30px">
+                                <input id="sMngNo" type="text" class="mngNo" style="width: 25px">
+                                <input id="sMngCnt" type="text" class="mngCnt" style="width: 20px">
+                            </td>
+                            <th>횟수</th>
+                            <td width="100px">
+                         		<input id="sNticCnt" type="text" size="5"/>
                             </td>
                             <th>신청업체</th>
                             <td>
