@@ -111,7 +111,7 @@ public class GamSocExmpMngtController {
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("windowId", windowId);
-
+		System.out.println("test#############################################");
     	return "/ygpa/soc/GamSocExmpMngt";
     }
 }
