@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ygpa.gam.soc">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocCmmUseVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO"/>
+
+    <select id="gamSocCmmUseDAO.selectSocCmmUseDetail_D" parameterClass="gamSocCmmUseVO" resultClass="egovMap">
+        <![CDATA[
+			SELECT
+				PRT_AT_CODE
+				,PRT_AT_KOR_NM
+			FROM
+				p2mgr.PRT_AT_CODE_F@ygpa_p2mgr
+			WHERE
+			PA_YN      = 'Y'
+		]]>
+			ORDER BY CODE, CODE_NM
+    </select>
+
+</sqlMap>
