@@ -40,9 +40,9 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 //				{display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
 				{display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
 				{display:'횟수', name:'nticCnt',width:30, sortable:false,align:'center'},
-				{display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
+				{display:'고지업체', name:'entrpscd',width:80, sortable:false,align:'center'},
 				{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
-				{display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
+				{display:'고지대상기간', name:'nticPdDate',width:160, sortable:false,align:'center'},
 				{display:'요금', name:'chrgeKnd',width:30, sortable:false,align:'center'},
 				{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
 				{display:'고지', name:'nhtIsueYn',width:30, sortable:false,align:'center'},
@@ -325,7 +325,9 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
             this.doExecuteDialog('selectEntrpsInfoFeePopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
-
+    	case 'btnExcelDownload':	// 엑셀 다운로드
+    		this.$('#assetRentFeeList').flexExcelDown('<c:url value="/oper/htld/gamSelectHtldRentFeeMngtListExcel.do"/>');
+    		break;
     }
 };
 
@@ -449,7 +451,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                                 <input id="sMngNo" type="text" class="mngNo" style="width: 25px">
                                 <input id="sMngCnt" type="text" class="mngCnt" style="width: 20px">
                             </td>
-                            <th>횟수</th>
+                            <th>고지횟수</th>
                             <td width="100px">
                          		<input id="sNticCnt" type="text" size="5"/>
                             </td>
@@ -548,6 +550,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnTaxPrint">계산서출력</button>
                     <button id="btnNoticeAdit">추가고지</button>
                     <button id="btnNoticeAditDel">추가고지삭제</button>
+                    <button id="btnExcelDownload">엑셀다운로드</button>
                 </div>
             </div>
 
