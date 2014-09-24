@@ -38,23 +38,23 @@ GamPopupMarineCenterRentPrmisnModule.prototype.loadComplete = function() {
 GamPopupMarineCenterRentPrmisnModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
     case 'btnPrmisnExec':
-        
+
         if( this.$('#chrgeKnd').val() == '' ) {
             alert("요금종류를 선택하십시오.");
             return;
         }
-        
+
         if( confirm("승낙 하시겠습니까?") ) {
             var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
-            
-            //this.doAction('<c:url value="/oper/center/gamInsertMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {   
-            this.doAction('<c:url value="/oper/center/gamUpdateMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {   
+
+            //this.doAction('<c:url value="/oper/center/gamInsertMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {
+            this.doAction('<c:url value="/oper/center/gamUpdateMarineCenterRentPrmisn.do" />', inputVO, function(module, result) {
                 alert(result.resultMsg);
-                
+
                 module.closeDialog('ok', result.resultCode);
             });
         }
-            
+
         break;
     case 'cancel':
         this.cancelDialog();
@@ -81,6 +81,7 @@ var popup_instance = new GamPopupMarineCenterRentPrmisnModule();
             <input type="hidden" id="mngYear" value="<c:out value="${gamMarineCenterRentInfo.mngYear }"/>"/>
             <input type="hidden" id="mngNo" value="<c:out value="${gamMarineCenterRentInfo.mngNo }"/>"/>
             <input type="hidden" id="mngCnt" value="<c:out value="${gamMarineCenterRentInfo.mngCnt }"/>"/>
+			<input type="hidden" id="taxtSe" value="<c:out value="${gamPrtFcltyRentMngtInfo.taxtSe }"/>"/>
 
             <table class="searchPanel">
                 <tbody>
@@ -93,9 +94,9 @@ var popup_instance = new GamPopupMarineCenterRentPrmisnModule();
                                 <c:forEach  items="${chrgeKndCdList}" var="chrgeKndCdItem">
                                     <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
                                 </c:forEach>
-                            </select>  
+                            </select>
                         </td>
-                        <!-- 
+                        <!--
                         <th>부가세 여부</th>
                         <td>
                             <select id="vatYn">

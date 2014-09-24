@@ -80,6 +80,7 @@ var popup_instance = new GamPopupPrtOperRentModule();
 		    <input type="hidden" id="mngYear" value="<c:out value="${gamCmmnCntrRentMngtInfo.mngYear }"/>"/>
 		    <input type="hidden" id="mngNo" value="<c:out value="${gamCmmnCntrRentMngtInfo.mngNo }"/>"/>
 		    <input type="hidden" id="mngCnt" value="<c:out value="${gamCmmnCntrRentMngtInfo.mngCnt }"/>"/>
+			<input type="hidden" id="taxtSe" value="<c:out value="${gamCmmnCntrRentMngtInfo.taxtSe }"/>"/>
 
 			<table class="searchPanel">
 				<tbody>

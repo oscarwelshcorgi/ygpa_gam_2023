@@ -1424,7 +1424,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
                     'mngNo': rows[0]['mngNo'],
-                    'mngCnt': rows[0]['mngCnt']
+                    'mngCnt': rows[0]['mngCnt'],
+                    'taxtSe': rows[0]['taxtSe']
                 };
 
                 this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/oper/center/popup/showMarineCenterRentPrmisn.do"/>', opts);

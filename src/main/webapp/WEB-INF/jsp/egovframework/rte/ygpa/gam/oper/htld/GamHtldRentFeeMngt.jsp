@@ -339,7 +339,7 @@ GamAssetRentFeeMngtModule.prototype.onSubmit = function() {
 
 GamAssetRentFeeMngtModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
-    console.log(searchOpt);
+//    console.log(searchOpt);
     this.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
     this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
 
