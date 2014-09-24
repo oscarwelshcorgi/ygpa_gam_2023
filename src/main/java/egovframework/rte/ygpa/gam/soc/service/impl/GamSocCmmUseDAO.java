@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
@@ -41,7 +40,6 @@ public class GamSocCmmUseDAO  extends YGPAAbstractDAO {
      */
     @SuppressWarnings("unchecked")
     public List selectSocPortCodeDetail(GamSocCmmUseVO vo) throws Exception {
-    	System.out.println("aaaa");
     	return list("gamSocCmmUseDAO.selectSocCmmUseDetail_D", vo);
     }
 }

@@ -3,7 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.soc.service;
 
-import java.io.Serializable;
+import egovframework.com.cmm.ComDefaultVO;
 
 /**
  * 
@@ -22,7 +22,7 @@ import java.io.Serializable;
  * </pre>
  */
 
-public class GamSocCmmUseVO implements Serializable {
+public class GamSocCmmUseVO extends ComDefaultVO {
 
 	/**
 	 * 

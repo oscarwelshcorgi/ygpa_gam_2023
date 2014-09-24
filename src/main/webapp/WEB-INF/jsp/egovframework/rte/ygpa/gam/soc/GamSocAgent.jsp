@@ -38,22 +38,60 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#socAgentMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtList.do" />',
+        url: '<c:url value="/soc/gamSelectSocAgentList.do" />',
         dataType: 'json',
         colModel : [
 					{display:"선택", 		name:"chkDel",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
 					{display:'업체코드', name:'agentCode',width:80, sortable:false,align:'center'},
-                    {display:'업체명', name:'agentName',width:150, sortable:false,align:'center'},
-                    {display:'보전처리대상금액', name:'rentMngNo',width:150, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'업체명', name:'firmKorNm',width:160, sortable:false,align:'center'},
+                    {display:'보전처리대상금액', name:'totalAmnt',width:150, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'보전처리누계액', name:'accFee',width:150, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'비고', name:'remark',width:260, sortable:false,align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-            module.$('#totalResultCnt').val(data.totalCount);
-            module.$('#totalAmnt').val(data.totalAmnt);
-            module.$('#accFee').val(data.accFee);
+        	//그리드 상단 입력창에 정보 입력
+        	module.$('#prtAtCode').val(data.socAgentInfo.prtAtCode);
+        	module.$('#prtAtCodeStr').val(data.socAgentInfo.prtAtCode);
+        	module.$('#agentOwner').val(data.socAgentInfo.agentOwner);
+        	module.$('#socCnstNm').val(data.socAgentInfo.socCnstNm);
+        	module.$('#aprvDt').val(data.socAgentInfo.aprvDt);
+        	module.$('#cnstLoc').val(data.socAgentInfo.cnstLoc);
+        	module.$('#perfDt').val(data.socAgentInfo.perfDt);
+        	module.$('#agentCode').val(data.socAgentInfo.agentCode);
+        	module.$('#agentName').val(data.socAgentInfo.agentName);
+        	module.$('#cmplDt').val(data.socAgentInfo.cmplDt);
+        	module.$('#agentAddr').val(data.socAgentInfo.agentAddr);
+        	//module.$('#totalBuildFee').val(data.socAgentInfo.);
+        	module.$('#totalAccFee').val($.number(data.socAgentInfo.accFee));
+        	
+        	//항만공사시행허가원부II 정보입력
+        	module.$('#socObj').val(data.socAgentInfo.socObj);
+        	module.$('#socGigian').val(data.socAgentInfo.socGigian);
+        	module.$('#socPrivate').val(data.socAgentInfo.socPrivate);
+        	module.$('#socNation').val(data.socAgentInfo.socNation);
+        	module.$('#socWidth').val(data.socAgentInfo.socWidth);
+        	module.$('#reserachAmnt').val(data.socAgentInfo.reserachAmnt);
+        	module.$('#pureAmnt').val(data.socAgentInfo.pureAmnt);
+        	module.$('#extraAmnt1').val(data.socAgentInfo.extraAmnt1);
+        	module.$('#extraAmnt2').val(data.socAgentInfo.extraAmnt2);
+        	module.$('#extraAmnt3').val(data.socAgentInfo.extraAmnt3);
+        	module.$('#primeTxt').val(data.socAgentInfo.primeTxt);
+        	module.$('#modifyTxt').val(data.socAgentInfo.modifyTxt);
+        	module.$('#startDt').val(data.socAgentInfo.startDt);
+        	module.$('#modifyDt1').val(data.socAgentInfo.modifyDt1);
+        	module.$('#freefrDt').val(data.socAgentInfo.freefrDt);
+        	module.$('#freetoDt').val(data.socAgentInfo.freetoDt);
+        	module.$('#manageDt').val(data.socAgentInfo.manageDt);
+        	module.$('#freeuseDt').val(data.socAgentInfo.freeuseDt);
+        	module.$('#assetDt').val(data.socAgentInfo.assetDt);
+        	module.$('#otherDt').val(data.socAgentInfo.otherDt);
+        	
+			//자료수, 합산금액 입력
+            module.$('#totalCount').val($.number(data.totalCount));
+            module.$('#sumTotalAmnt').val($.number(data.sumTotalAmnt));
+            module.$('#sumAccFee').val($.number(data.sumAccFee));
 
             return data;
         }
@@ -62,7 +100,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
     
 
     this.$("#socAgentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.$('#cmd').val('modify');
+        /* module.$('#cmd').val('modify');
 
         module.$('#gamAssetRentForm :input').val('');
 
@@ -87,14 +125,14 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         module.$('#socAgentFileList').flexOptions({params:searchOpt}).flexReload();
 
         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
-        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
+        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다. */
 
 //        module.selectFeatureData('socAgentDetail', row, true);
 
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
-    this.$("#socAgentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
+    /* this.$("#socAgentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
         module.$('#gamAssetRentDetailForm :input').val('');
 
@@ -104,10 +142,10 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 
         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
-    });
+    }); */
 
     
-    this.$("#socAgentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    /* this.$("#socAgentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#socAgentListTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
 //        module.$('#gamAssetRentForm :input').val('');	// makeFormValues 에서 값을 지우므로 특별 한 일이 없는 한 각각 지우지 않는다. 클래스 특성을 반영 못 하는 경우가 생긴다
@@ -122,9 +160,9 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 
         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
-    });
+    }); */
 
-    this.$("#socAgentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    /* this.$("#socAgentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#socAgentListTab").tabs("option", {active: 2});
         module.$('#gamAssetRentDetailForm :input').val('');
         module.makeFormValues('#gamAssetRentDetailForm', row);
@@ -136,10 +174,10 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         if(row!=null) {
             module.$('#detailCmd').val('modify');
         }
-    });
+    }); */
 
     // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
-    this.$('#prtAtCode').on('change', {module: this}, function(event) {
+    /* this.$('#prtAtCode').on('change', {module: this}, function(event) {
         event.data.module.$('#prtAtCodeStr').val($(this).val());
         //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
     });
@@ -178,7 +216,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
     });
 
  	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-	this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload();
+	this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload(); */
 };
 
 
@@ -198,16 +236,16 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         // 신청저장
         case 'btnSaveItem':
 
-        	if(!validateGamSocAgent(this.$('#gamAssetRentForm')[0])) {
+        	/* if(!validateGamSocAgent(this.$('#gamAssetRentForm')[0])) {
                 return;
-            }
+            } */
 
             /* if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
                 return;
             } */
 
-            if( this.$('#prtAtCode').val() == '' ) {
+            /* if( this.$('#prtAtCode').val() == '' ) {
                 alert("항구분을 선택하십시오.");
                 return;
             }
@@ -257,20 +295,20 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 
 
                 this.$("#socAgentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-            }
+            } */
 
             break;
 
         //신청삭제
         case 'btnRemoveItem':
-            var rows = this.$('#socAgentMngtList').selectedRows();
+            //var rows = this.$('#socAgentMngtList').selectedRows();
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
                 alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
                 return;
             } */
 
-            if(rows.length == 0) {
+            /* if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
             } else {
             	if( confirm("신청삭제를 하시겠습니까?") ) {
@@ -293,7 +331,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
                     this.$('#gamAssetRentForm :input').val("");
                     this.$("#cmd").val('insert');
                 }
-            }
+            } */
 
             break;
 
@@ -322,7 +360,8 @@ GamSocAgentMngtModule.prototype.onSubmit = function() {
 
 GamSocAgentMngtModule.prototype.loadData = function() {
     this.$("#socAgentListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+    var searchOpt=this.makeFormArgs('#gamSocAgentMngtSearchForm');
+
     this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload();
 	// console.log('debug');
 
@@ -333,7 +372,7 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        var row = this.$('#socAgentMngtList').selectedRows();
+        /* var row = this.$('#socAgentMngtList').selectedRows();
         if(row.length==0) {
             this.$('#cmd').val('insert');
         }
@@ -344,7 +383,7 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         if(oldTabId=='tabs1') {
         	this._deleteDataList=[];    // 삭제 목록 초기화
         	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
-        }
+        } */
         break;
     
     }
@@ -434,11 +473,17 @@ var module_instance = new GamSocAgentMngtModule();
                         <tr>
                             <th>항코드</th>
                             <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
+                                <!-- <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /> -->
+                                <select id="sPrtAtCode">
+                                    <option value="" selected="selected">전체</option>
+                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+                                    </c:forEach>
+                                </select>
                             </td>
                             <th>공사준공년도</th>
                             <td width="100px">
-                                <select id="eGrStartYr">
+                                <select id="sCmplYr">
                                     <option value="" selected="selected">년</option>
                                     <c:forEach  items="${yearsList}" var="yearsItem">
                                         <option value="${yearsItem }">${yearsItem }</option>
@@ -471,37 +516,49 @@ var module_instance = new GamSocAgentMngtModule();
                             <tr>
                                 <th width="16%">*공사항만코드</th>
                                 <td>
-                                	<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+                                	<!-- <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" /> -->
+                                	<select id="prtAtCode">
+	                                    <option value="" selected="selected">전체</option>
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+	                                    </c:forEach>
+	                                </select>
                                     <input type="text" size="4" id="prtAtCodeStr" disabled/>
                                 </td>
                                 <th width="16%">대표자</th>
-                                <td><input type="text" id="agentOwner" ></td>
+                                <td><input type="text" id="agentOwner"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*공사명</th>
-                                <td><input type="text" id="socCnstNm" size="40"></td>
+                                <td><input type="text" id="socCnstNm" size="55"></td>
                                 <th width="16%">*공사승인일자</th>
-                                <td><input id="aprvDt" type="text" class="emdcal" size="12"></td>
+                                <td><input id="aprvDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">위치</th>
-                                <td><input type="text" id="cnstLoc" ></td>
+                                <td><input type="text" id="cnstLoc" size="55"></td>
                                 <th width="16%">*공사허가일자</th>
-                                <td><input id="perfDt" type="text" class="emdcal" size="12"></td>
+                                <td><input id="perfDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*업체코드</th>
                                 <td>
-                                	<input id="agentCode" type="text" size="6">&nbsp; &nbsp;
+                                	<input id="agentCode" type="text" size="10">&nbsp; &nbsp;
 	                            	<input id="agentName" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
                                 <th width="16%">*공사준공일자</th>
-                                <td><input id="cmplDt" type="text" class="emdcal" size="12"></td>
+                                <td><input id="cmplDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">주소</th>
                                 <td colspan='3'><input input="text" id="agentAddr" size="120" ></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">*총공사금액</th>
+                                <td><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" ></td>
+                                <th width="16%">보전처리누계액</th>
+                                <td><input id="totalAccFee" type="text" class="ygpaNumber" size="20"></td>
                             </tr>
                         </table>
 					</form>
@@ -513,12 +570,12 @@ var module_instance = new GamSocAgentMngtModule();
 					<form id="form2">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
-								<th width="12%" height="20">자료수</th>
+								<th width="17%" height="20">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="12%" height="20">총공사금액</th>
-								<td><input type="text" size="18" id="totalAmnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="12%" height="20">보전처리누계액</th>
-								<td><input type="text" size="18" id="accFee" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="22%" height="20">총보전처리대상금액</th>
+								<td><input type="text" size="18" id="sumTotalAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="22%" height="20">총보전처리누계액</th>
+								<td><input type="text" size="18" id="sumAccFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 						<table style="width:100%;">
@@ -582,29 +639,29 @@ var module_instance = new GamSocAgentMngtModule();
 							</tr>
 							<tr>
 								<th width="20%" height="18">착공일</th>
-                                <td><input id="cmplDt" type="text" class="emdcal" size="12"></td>
+                                <td><input id="startDt" type="text" class="emdcal" size="20"></td>
                                 <th width="20%" height="18">변경일자</th>
-                                <td><input id="modifyDt1" type="text" class="emdcal" size="12"></td>
+                                <td><input id="modifyDt1" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">무상사용허가기간</th>
-                                <td colspan="3"><input id="modifyDt1" type="text" class="emdcal" size="12"> ~ <input id="modifyDt1" type="text" class="emdcal" size="12"></td>
+                                <td colspan="3"><input id="freefrDt" type="text" class="emdcal" size="20"> ~ <input id="freetoDt" type="text" class="emdcal" size="20"></td>
 							</tr>
 							<tr>
 								<th width="10%" height="18">시설관리권등록일</th>
-                                <td colspan="3"><input id="manageDt" type="text" class="emdcal" size="12"></td>
+                                <td colspan="3"><input id="manageDt" type="text" class="emdcal" size="20"></td>
 							</tr>
 							<tr>
 								<th width="10%" height="18">무상사용승인일</th>
-                                <td colspan="3"><input id="freeuseDt" type="text" class="emdcal" size="12"></td>
+                                <td colspan="3"><input id="freeuseDt" type="text" class="emdcal" size="20"></td>
 							</tr>
 							<tr>
 								<th width="10%" height="18">재산귀속일</th>
-                                <td colspan="3"><input id="assetDt" type="text" class="emdcal" size="12"></td>
+                                <td colspan="3"><input id="assetDt" type="text" class="emdcal" size="20"></td>
 							</tr>
 							<tr>
 								<th width="10%" height="18">타인사용징수승인일</th>
-                                <td colspan="3"><input id="otherDt" type="text" class="emdcal" size="12"></td>
+                                <td colspan="3"><input id="otherDt" type="text" class="emdcal" size="20"></td>
 							</tr>
                         </table>
                     </form>

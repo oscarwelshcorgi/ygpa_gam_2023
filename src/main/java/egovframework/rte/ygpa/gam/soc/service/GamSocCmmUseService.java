@@ -6,7 +6,6 @@ package egovframework.rte.ygpa.gam.soc.service;
 import java.util.List;
 
 
-
 /**
  * 
  * @author HNJ
@@ -34,4 +33,5 @@ public interface GamSocCmmUseService {
      * @throws Exception
      */
     public List selectSocPortCodeDetail(GamSocCmmUseVO vo) throws Exception;
+    
 }
