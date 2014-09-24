@@ -47,20 +47,20 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	var searchOpt = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/gamSelectSocExmpMngtDetailInquire.do" />', searchOpt, function(module, result) {
         		if(result.resultCode == 0) {
-        			//module.$('#prtAtCode').val(result.resultVO.prtAtCode);
-        			module.$('#prtAtKorNm').val(result.resultVO.prtAtKorNm);
+        			module.$('#prtAtCode').val(result.resultVO.prtAtCode);
+        			//module.$('#prtAtKorNm').val(result.resultVO.prtAtKorNm);
         			module.$('#cmplYr').val(result.resultVO.cmplYr);
         			module.$('#constNo').val(result.resultVO.constNo);
-        			//module.$('#appPrtAtCode').val(result.resultVO.appPrtAtCode);
-        			module.$('#appPrtAtKorNm').val(result.resultVO.appPrtAtKorNm);
+        			module.$('#appPrtAtCode').val(result.resultVO.appPrtAtCode);
+        			//module.$('#appPrtAtKorNm').val(result.resultVO.appPrtAtKorNm);
         			module.$('#useNo').val(result.resultVO.useNo);
         			module.$('#appAgentCode').val(result.resultVO.appAgentCode);
         			module.$('#appAgentName').val(result.resultVO.appAgentName);
-        			//module.$('#exmpPrtAtCode').val(result.resultVO.exmpPrtAtCode);
-        			module.$('#exmpPrtAtKorNm').val(result.resultVO.exmpPrtAtKorNm);
+        			module.$('#exmpPrtAtCode').val(result.resultVO.exmpPrtAtCode);
+        			//module.$('#exmpPrtAtKorNm').val(result.resultVO.exmpPrtAtKorNm);
         			module.$('#exmpAgentCode').val(result.resultVO.exmpAgentCode);
         			module.$('#exmpAgentName').val(result.resultVO.exmpAgentName);
-        			//module.$('#exmpType').val(result.resultVO.exmpType);
+        			module.$('#exmpType').val(result.resultVO.exmpType);
         			module.$('#inOut').val(result.resultVO.inOut);
         			module.$('#inOutName').val(result.resultVO.inOutName);
         			module.$('#callLetter').val(result.resultVO.callLetter);
@@ -147,7 +147,13 @@ var module_instance = new GamSocExmpMngtModule();
                             <th>청코드</th>
                             <td>
                                 <!-- <input id="sAppPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />-->
-                                <input id="sAppPrtAtCode" type="text" size="3" />
+                                <!-- <input id="sAppPrtAtCode" type="text" size="3" /> -->
+                                <select id="sAppPrtAtCode">
+	                            	<option value="" selected="selected">선택</option>
+	                                <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+	                                </c:forEach>
+	                            </select>
                             </td>
                             <th>요금종류코드</th>
                             <td width="100px">
@@ -187,8 +193,14 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">공사관리청</th>
                                 <td>
-                                    <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
-                                    <input type="text" size="4" id="prtAtKorNm" disabled/>
+                                    <!--<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+                                    <input type="text" size="4" id="prtAtKorNm" disabled/>-->
+                                	<select id="prtAtCode">
+	                                    <option value="" selected="selected"></option>
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+	                                    </c:forEach>
+	                                </select>                                    
                                 </td>
 								<th width="10%" height="18">공사준공년도</th>
                                 <td>
@@ -202,8 +214,14 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">면제요청청</th>
                                 <td>
-                                    <input id="appPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
-                                    <input type="text" size="4" id="appPrtAtKorNm" disabled/>
+                                    <!--<input id="appPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+                                    <input type="text" size="4" id="appPrtAtKorNm" disabled/>-->
+                                	<select id="appPrtAtCode">
+	                                    <option value="" selected="selected"></option>
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+	                                    </c:forEach>
+	                                </select>                                    
                                 </td>
 								<th width="10%" height="18">신청횟수</th>
                                 <td><input type="text" size="2" id="useNo" readonly/></td>
@@ -226,8 +244,15 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">면제처리청</th>
                                 <td colspan="5">
-                                    <input id="exmpPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
-                                    <input type="text" size="4" id="exmpPrtAtKorNm" disabled/>
+                                    <!--<input id="exmpPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+                                    <input type="text" size="4" id="exmpPrtAtKorNm" disabled/>-->
+                                	<select id="exmpPrtAtCode">
+	                                    <option value="" selected="selected"></option>
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+	                                    </c:forEach>
+	                                </select>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -274,23 +299,23 @@ var module_instance = new GamSocExmpMngtModule();
                                 </td>
 								<th width="10%" height="18">고지일자</th>
                                 <td>
-                                	<input id="billDt" type="text" class="emdcal" size="8" />
+                                	<input id="billDt" type="text" class="emdcal" size="12" />
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">입출항일자</th>
                                 <td colspan="3">
-                                    <input id="ioDt" type="text" class="emdcal" size="8" />
+                                    <input id="ioDt" type="text" class="emdcal" size="12" />
                                 </td>
 								<th width="10%" height="18">면제금액</th>
                                 <td>
-                                	<input type="text" size="12" id="exmpAmnt" class="skipValue" /> 원
+                                	<input type="text" size="12" id="exmpAmnt" class="ygpaNumber" /> 원
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">기본료</th>
                                 <td colspan="3">
-                                    <input type="text" size="6" id="standardFee" class="skipValue" /> 원
+                                    <input type="text" size="12" id="standardFee" class="ygpaNumber" /> 원
                                 </td>
 								<th width="10%" height="18">고지번호</th>
                                 <td>
