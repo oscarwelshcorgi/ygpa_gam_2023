@@ -14,6 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,13 +121,28 @@ public class GamSocExmpMngtController {
     	return "/ygpa/gam/soc/GamSocExmpMngt";
     }
     
-    @RequestMapping(value="/asset/gamSelectSocExmpMngtDetailInquire.do", method=RequestMethod.POST)
-	@ResponseBody Map selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) throws Exception {
+    @RequestMapping(value="/soc/gamSelectSocExmpMngtDetailInquire.do")
+	@ResponseBody Map selectSocExmpMngtDetailInquire(
+			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
+	     	BindingResult bindingResult)
+	        throws Exception {
 		Map map = new HashMap();
-    	
-		GamSocExmpMngtVO resultVO = gamSocExmpMngtService.selectSocExmpMngtDetailInquire(searchVO);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 		
-		map.put("result", resultVO);
+		GamSocExmpMngtVO resultVO = gamSocExmpMngtService.selectSocExmpMngtDetailInquire(gamSocExmpMngtVO);
+
+		map.put("resultCode", 0);
+		if(resultVO == null) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", "검색 조건에 맞는 데이터가 없습니다.");
+		}
+		map.put("resultVO", resultVO);
 		
     	return map;
     }

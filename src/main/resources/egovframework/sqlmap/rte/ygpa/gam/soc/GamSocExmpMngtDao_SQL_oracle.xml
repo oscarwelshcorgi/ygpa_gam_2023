@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="ygpa.gam.soc">
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
@@ -22,17 +20,19 @@
 		<result property="exmpType" column="EXMP_TYPE" columnIndex="14"/>
 		<result property="inOut" column="IN_OUT" columnIndex="15"/>
 		<result property="callLetter" column="CALL_LETTER" columnIndex="16"/>
-		<result property="facCode" column="FAC_CODE" columnIndex="17"/>
-		<result property="facSubCode" column="FAC_SUB_CODE" columnIndex="18"/>
-		<result property="facKorNm" column="FAC_KOR_NM" columnIndex="19"/>
-		<result property="billDt" column="BILL_DT" columnIndex="20"/>
-		<result property="ioDt" column="IO_DT" columnIndex="21"/>
-		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="22"/>
-		<result property="standardFee" column="standardFee" columnIndex="23"/>
-		<result property="billNo" column="BILL_NO" columnIndex="24"/>
-		<result property="realTn" column="REAL_TN" columnIndex="25"/>
-		<result property="jingsuja" column="JINGSUJA" columnIndex="26"/>
-		<result property="remark" column="REMARK" columnIndex="27"/>
+		<result property="yr" column="YR" columnIndex="17"/>
+		<result property="serNo" column="SER_NO" columnIndex="18"/>
+		<result property="facCode" column="FAC_CODE" columnIndex="19"/>
+		<result property="facSubCode" column="FAC_SUB_CODE" columnIndex="20"/>
+		<result property="facKorNm" column="FAC_KOR_NM" columnIndex="21"/>
+		<result property="billDt" column="BILL_DT" columnIndex="22"/>
+		<result property="ioDt" column="IO_DT" columnIndex="23"/>
+		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="24"/>
+		<result property="standardFee" column="STANDARD_FEE" columnIndex="25"/>
+		<result property="billNo" column="BILL_NO" columnIndex="26"/>
+		<result property="realTn" column="REAL_TN" columnIndex="27"/>
+		<result property="jingsuja" column="JINGSUJA" columnIndex="28"/>
+		<result property="remark" column="REMARK" columnIndex="29"/>
 	</resultMap>
 	
 	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetail_D" parameterClass="gamSocExmpMngtVO" resultMap="gamSocExmpMngtSearchMap">
@@ -53,6 +53,8 @@
 		  , E.EXMP_TYPE
 		  , E.IN_OUT
 		  , E.CALL_LETTER
+		  , E.YR
+		  , E.SER_NO
 		  , E.FAC_CODE 
 		  , E.FAC_SUB_CODE
 		  , (SELECT FAC_KOR_NM FROM P2MGR.FACIL_NM_F@YGPA_P2MGR F WHERE E.PRT_AT_CODE = F.PRT_AT_CODE AND E.FAC_CODE = F.FAC_CODE AND E.FAC_SUB_CODE = F.FAC_SUB_CODE) FAC_KOR_NM
