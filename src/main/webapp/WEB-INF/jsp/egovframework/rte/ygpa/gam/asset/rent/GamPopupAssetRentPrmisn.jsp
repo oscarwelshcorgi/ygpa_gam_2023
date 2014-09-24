@@ -81,6 +81,7 @@ var popup_instance = new GamPopupAssetRentPrmisnModule();
 		    <input type="hidden" id="mngYear" value="<c:out value="${gamAssetRentInfo.mngYear }"/>"/>
 		    <input type="hidden" id="mngNo" value="<c:out value="${gamAssetRentInfo.mngNo }"/>"/>
 		    <input type="hidden" id="mngCnt" value="<c:out value="${gamAssetRentInfo.mngCnt }"/>"/>
+		    <input type="hidden" id="taxtSe" value="<c:out value="${gamAssetRentInfo.taxtSe }"/>"/>
 
 			<table class="searchPanel">
 				<tbody>
