@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.soc">
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocExmpMngtVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO" />
+	
+	<resultMap id="gamSocExmpMngtSearchMap" class="egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO">
+        <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>
+		<result property="prtAtKorNm" column="PRT_AT_KOR_NM" columnIndex="2"/>
+		<result property="cmplYr" column="CMPL_YR" columnIndex="3"/>
+		<result property="constNo" column="CONST_NO" columnIndex="4"/>
+		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="5"/>
+		<result property="appPrtAtKorNm" column="APP_PRT_AT_KOR_NM" columnIndex="6"/>
+		<result property="useNo" column="USE_NO" columnIndex="7"/>
+		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="8"/>
+		<result property="appAgentName" column="APP_AGENT_NAME" columnIndex="9"/>
+		<result property="exmpPrtAtCode" column="EXMP_PRT_AT_CODE" columnIndex="10"/>
+		<result property="exmpPrtAtKorNm" column="EXMP_PRT_AT_KOR_NM" columnIndex="11"/>
+		<result property="exmpAgentCode" column="EXMP_AGENT_CODE" columnIndex="12"/>
+		<result property="exmpAgentName" column="EXMP_AGENT_NAME" columnIndex="13"/>
+		<result property="exmpType" column="EXMP_TYPE" columnIndex="14"/>
+		<result property="inOut" column="IN_OUT" columnIndex="15"/>
+		<result property="callLetter" column="CALL_LETTER" columnIndex="16"/>
+		<result property="facCode" column="FAC_CODE" columnIndex="17"/>
+		<result property="facSubCode" column="FAC_SUB_CODE" columnIndex="18"/>
+		<result property="facKorNm" column="FAC_KOR_NM" columnIndex="19"/>
+		<result property="billDt" column="BILL_DT" columnIndex="20"/>
+		<result property="ioDt" column="IO_DT" columnIndex="21"/>
+		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="22"/>
+		<result property="standardFee" column="standardFee" columnIndex="23"/>
+		<result property="billNo" column="BILL_NO" columnIndex="24"/>
+		<result property="realTn" column="REAL_TN" columnIndex="25"/>
+		<result property="jingsuja" column="JINGSUJA" columnIndex="26"/>
+		<result property="remark" column="REMARK" columnIndex="27"/>
+	</resultMap>
+	
+	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetail_D" parameterClass="gamSocExmpMngtVO" resultMap="gamSocExmpMngtSearchMap">
+		SELECT
+		  E.PRT_AT_CODE
+		  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.PRT_AT_CODE = P.PRT_AT_CODE) PRT_AT_KOR_NM
+		  , E.CMPL_YR
+		  , E.CONST_NO
+		  , E.APP_PRT_AT_CODE
+		  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.APP_PRT_AT_CODE = P.PRT_AT_CODE) APP_PRT_AT_KOR_NM
+		  , E.USE_NO
+		  , E.APP_AGENT_CODE
+		  , (SELECT AGENT_NAME FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR AG WHERE E.APP_PRT_AT_CODE = AG.PRT_AT_CODE AND E.CMPL_YR = AG.CMPL_YR AND E.CONST_NO = AG.CONST_NO AND E.APP_AGENT_CODE = AG.AGENT_CODE) APP_AGENT_NAME
+		  , E.EXMP_PRT_AT_CODE
+		  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.EXMP_PRT_AT_CODE = P.PRT_AT_CODE) EXMP_PRT_AT_KOR_NM
+		  , E.EXMP_AGENT_CODE
+		  , (SELECT AGENT_NAME FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR AG WHERE E.APP_PRT_AT_CODE = AG.PRT_AT_CODE AND E.CMPL_YR = AG.CMPL_YR AND E.CONST_NO = AG.CONST_NO AND E.EXMP_AGENT_CODE = AG.AGENT_CODE) EXMP_AGENT_NAME
+		  , E.EXMP_TYPE
+		  , E.IN_OUT
+		  , E.CALL_LETTER
+		  , E.FAC_CODE 
+		  , E.FAC_SUB_CODE
+		  , (SELECT FAC_KOR_NM FROM P2MGR.FACIL_NM_F@YGPA_P2MGR F WHERE E.PRT_AT_CODE = F.PRT_AT_CODE AND E.FAC_CODE = F.FAC_CODE AND E.FAC_SUB_CODE = F.FAC_SUB_CODE) FAC_KOR_NM
+		  , TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') AS BILL_DT
+		  , TO_CHAR(E.IO_DT, 'YYYY-MM-DD') AS IO_DT
+		  , TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+		  , TO_CHAR(E.STANDARD_FEE) AS STANDARD_FEE
+		  , E.BILL_NO
+		  , TO_CHAR(E.REAL_TN) AS REAL_TN
+		  , E.JINGSUJA
+		  , E.REMARK
+		FROM P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+		WHERE 1 = 1
+		  <isNotEmpty prepend="AND" property="sAppPrtAtCode">
+			E.APP_PRT_AT_CODE=#sAppPrtAtCode#
+		  </isNotEmpty>
+		  <isNotEmpty prepend="AND" property="sFeeTp">
+			E.FEE_TP=#sFeeTp#
+		  </isNotEmpty>
+		  <isNotEmpty prepend="AND" property="sFiscalYr">
+			E.FISCAL_YR=#sFiscalYr#
+		  </isNotEmpty>
+		  <isNotEmpty prepend="AND" property="sSocNo">
+			E.SOC_NO=#sSocNo#
+		  </isNotEmpty>
+	</select>	
+</sqlMap>
