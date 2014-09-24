@@ -32,6 +32,6 @@ public interface GamSocCmmUseService {
      * @return List(코드)
      * @throws Exception
      */
-    public List selectSocPortCodeDetail(GamSocCmmUseVO vo) throws Exception;
+    public List selectSocPrtAtCodeDetail() throws Exception;
     
 }

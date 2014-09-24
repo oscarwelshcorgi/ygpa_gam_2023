@@ -81,7 +81,8 @@ public class GamSocAgentController {
     	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
 		
 		codeVo.setCodeId("GAM019"); //항코드 
-		List prtAtCdList = gamSocCmmUseService.selectSocPortCodeDetail(codeVo);
+		
+		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		System.out.print("test : " + prtAtCdList);
 		

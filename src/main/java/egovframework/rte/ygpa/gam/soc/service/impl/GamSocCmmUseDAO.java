@@ -39,7 +39,7 @@ public class GamSocCmmUseDAO  extends YGPAAbstractDAO {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public List selectSocPortCodeDetail(GamSocCmmUseVO vo) throws Exception {
-    	return list("gamSocCmmUseDAO.selectSocCmmUseDetail_D", vo);
+    public List selectSocPrtAtCodeDetail() throws Exception {
+    	return list("gamSocCmmUseDAO.selectSocPrtAtCodeDetail_D", null);
     }
 }

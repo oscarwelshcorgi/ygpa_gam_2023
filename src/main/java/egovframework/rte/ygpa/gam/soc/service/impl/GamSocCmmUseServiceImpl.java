@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
 /**
  * 
@@ -34,16 +33,9 @@ public class GamSocCmmUseServiceImpl implements GamSocCmmUseService {
 	@Resource(name = "gamSocCmmUseDAO")
     private GamSocCmmUseDAO gamSocCmmUseDAO;
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.soc.service.SocCmmService#selectSocPortCodeDetail(egovframework.com.cmm.ComDefaultCodeVO)
-	 */
 	@Override
-	public List selectSocPortCodeDetail(GamSocCmmUseVO vo)
+	public List selectSocPrtAtCodeDetail()
 			throws Exception {
-		// TODO Auto-generated method stub
-		
-		return gamSocCmmUseDAO.selectSocPortCodeDetail(vo);
-
+		return gamSocCmmUseDAO.selectSocPrtAtCodeDetail();
 	}
-
 }
