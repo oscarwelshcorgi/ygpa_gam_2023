@@ -44,6 +44,45 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         // 조회
         case 'searchBtn':
+        	var searchOpt = this.makeFormArgs('#gamSocExmpMngtSearchForm');
+        	this.doAction('<c:url value="/soc/gamSelectSocExmpMngtDetailInquire.do" />', searchOpt, function(module, result) {
+        		if(result.resultCode == 0) {
+        			//module.$('#prtAtCode').val(result.resultVO.prtAtCode);
+        			module.$('#prtAtKorNm').val(result.resultVO.prtAtKorNm);
+        			module.$('#cmplYr').val(result.resultVO.cmplYr);
+        			module.$('#constNo').val(result.resultVO.constNo);
+        			//module.$('#appPrtAtCode').val(result.resultVO.appPrtAtCode);
+        			module.$('#appPrtAtKorNm').val(result.resultVO.appPrtAtKorNm);
+        			module.$('#useNo').val(result.resultVO.useNo);
+        			module.$('#appAgentCode').val(result.resultVO.appAgentCode);
+        			module.$('#appAgentName').val(result.resultVO.appAgentName);
+        			//module.$('#exmpPrtAtCode').val(result.resultVO.exmpPrtAtCode);
+        			module.$('#exmpPrtAtKorNm').val(result.resultVO.exmpPrtAtKorNm);
+        			module.$('#exmpAgentCode').val(result.resultVO.exmpAgentCode);
+        			module.$('#exmpAgentName').val(result.resultVO.exmpAgentName);
+        			//module.$('#exmpType').val(result.resultVO.exmpType);
+        			module.$('#inOut').val(result.resultVO.inOut);
+        			module.$('#inOutName').val(result.resultVO.inOutName);
+        			module.$('#callLetter').val(result.resultVO.callLetter);
+        			module.$('#callLetterName').val(result.resultVO.callLetter);
+        			module.$('#yr').val(result.resultVO.yr);
+        			module.$('#serNo').val(result.resultVO.serNo);
+        			module.$('#facCode').val(result.resultVO.facCode);
+        			module.$('#facSubCode').val(result.resultVO.facCode);
+        			module.$('#facKorNm').val(result.resultVO.facKorNm);
+        			module.$('#billDt').val(result.resultVO.billDt);
+        			module.$('#ioDt').val(result.resultVO.ioDt);
+        			module.$('#exmpAmnt').val(result.resultVO.exmpAmnt);
+        			module.$('#standardFee').val(result.resultVO.standardFee);
+        			module.$('#billNo').val(result.resultVO.billNo);
+        			module.$('#realTn').val(result.resultVO.realTn);
+        			module.$('#jingsuja').val(result.resultVO.jingsuja);
+        			module.$('#remark').val(result.resultVO.remark);
+        		}
+        		else {
+        			alert(result.resultMsg);
+        		}
+        	});
             break;
 	}
 
@@ -54,10 +93,7 @@ GamSocExmpMngtModule.prototype.onSubmit = function() {
 };
 
 GamSocExmpMngtModule.prototype.loadData = function() {
-    //this.$("#assetRentListTab").tabs("option", {active: 0});
-    //var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-    //this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-	// console.log('debug');
+
 };
 
 GamSocExmpMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -104,17 +140,19 @@ var module_instance = new GamSocExmpMngtModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamAssetRentMngtSearchForm">
+            <form id="gamSocExmpMngtSearchForm">
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
                             <th>청코드</th>
                             <td>
-                                <input id="sAppPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
+                                <!-- <input id="sAppPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />-->
+                                <input id="sAppPrtAtCode" type="text" size="3" />
                             </td>
                             <th>요금종류코드</th>
                             <td width="100px">
-                                <input id="sFeeTp" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"/>
+                                <!-- <input id="sFeeTp" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"/>-->
+                                <input id="sFeeTp" type="text" size="9" />
                             </td>
                             <th>회계년도</th>
                             <td>
@@ -140,7 +178,7 @@ var module_instance = new GamSocExmpMngtModule();
 
             <div id="tabs1" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
-                    <form id="gamAssetRentForm">
+                    <form id="gamSocExmpMngtForm">
                         <input type="hidden" id="cmd"/>
                         <table class="editForm">
                         	<tr>
