@@ -31,6 +31,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO;
 
@@ -71,12 +72,15 @@ public class GamSocExmpMngtController {
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
 
-    @Resource(name = "gamPrtFcltyRentMngtService")
+    @Resource(name="gamPrtFcltyRentMngtService")
     private GamPrtFcltyRentMngtService gamPrtFcltyRentMngtService;
 
-    @Resource(name = "gamSocExmpMngtService")
+    @Resource(name="gamSocExmpMngtService")
     private GamSocExmpMngtService gamSocExmpMngtService;
 
+    @Resource(name="gamSocCmmUseService")
+    private GamSocCmmUseService gamSocCmmUseService;
+    
     @RequestMapping(value="/soc/gamSocExmpMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -112,11 +116,15 @@ public class GamSocExmpMngtController {
 				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
 			}
 		}
-
+		
+		//청코드 리스트 읽기
+		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
+		
 		model.addAttribute("cofixList", cofixList);
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
+		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/soc/GamSocExmpMngt";
     }
