@@ -27,5 +27,5 @@ public interface GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	GamSocExmpMngtVO selectSocExmpMngtDetail(GamSocExmpMngtVO searchVO);
+	GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO);
 }

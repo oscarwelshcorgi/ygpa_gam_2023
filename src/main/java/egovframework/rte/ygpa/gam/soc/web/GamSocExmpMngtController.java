@@ -3,7 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -23,9 +26,11 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtService;
+import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO;
 
 /**
  *
@@ -67,8 +72,8 @@ public class GamSocExmpMngtController {
     @Resource(name = "gamPrtFcltyRentMngtService")
     private GamPrtFcltyRentMngtService gamPrtFcltyRentMngtService;
 
-    @Resource(name = "gamAssetsUsePermMngtService")
-    private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
+    @Resource(name = "gamSocExmpMngtService")
+    private GamSocExmpMngtService gamSocExmpMngtService;
 
     @RequestMapping(value="/soc/gamSocExmpMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -111,7 +116,17 @@ public class GamSocExmpMngtController {
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("windowId", windowId);
-		System.out.println("test#############################################");
-    	return "/ygpa/soc/GamSocExmpMngt";
+    	return "/ygpa/gam/soc/GamSocExmpMngt";
+    }
+    
+    @RequestMapping(value="/asset/gamSelectSocExmpMngtDetailInquire.do", method=RequestMethod.POST)
+	@ResponseBody Map selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) throws Exception {
+		Map map = new HashMap();
+    	
+		GamSocExmpMngtVO resultVO = gamSocExmpMngtService.selectSocExmpMngtDetailInquire(searchVO);
+		
+		map.put("result", resultVO);
+		
+    	return map;
     }
 }

@@ -3,9 +3,11 @@
  */
 package egovframework.rte.ygpa.gam.soc.service.impl;
 
-import org.springframework.stereotype.Repository;
+import javax.annotation.Resource;
 
-import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import org.springframework.stereotype.Service;
+
+import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO;
 
 /**
@@ -25,8 +27,12 @@ import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO;
  * </pre>
  */
 
-@Repository("gamSocExmpMngtDAO")
-public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
+@Service("gamSocExmpMngtService")
+public class GamSocExmpMngtServiceImpl implements GamSocExmpMngtService {
+
+	@Resource(name="gamSocExmpMngtDAO")
+	GamSocExmpMngtDAO gamSocExmpMngtDAO;
+	
 	
 	/**
 	 * 투자비보전내역관리 데이터를 조회한다. 
@@ -34,7 +40,7 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) {
-		return (GamSocExmpMngtVO) selectByPk("gamSocExmpMngtDAO.selectSocExmpMngtDetail_D", searchVO);
+	public GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) {
+		return gamSocExmpMngtDAO.selectSocExmpMngtDetailInquire(searchVO);
 	}
 }
