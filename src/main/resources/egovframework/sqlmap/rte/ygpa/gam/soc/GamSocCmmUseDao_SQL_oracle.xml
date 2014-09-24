@@ -4,19 +4,17 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamSocCmmUseVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO"/>
 
-    <select id="gamSocCmmUseDAO.selectSocCmmUseDetail_D" parameterClass="gamSocCmmUseVO" resultClass="egovMap">
-        <![CDATA[
-			SELECT
+    <select id="gamSocCmmUseDAO.selectSocPrtAtCodeDetail_D" resultClass="egovMap">
+		SELECT
 				PRT_AT_CODE
 				,PRT_AT_KOR_NM
-			FROM
+		FROM
 				p2mgr.PRT_AT_CODE_F@ygpa_p2mgr
-			WHERE
-			PA_YN      = 'Y'
-		]]>
-			ORDER BY PRT_AT_CODE, PRT_AT_KOR_NM
+		WHERE
+				PA_YN      = 'Y'
+		ORDER BY 
+				PRT_AT_CODE, PRT_AT_KOR_NM
     </select>
 
 </sqlMap>
