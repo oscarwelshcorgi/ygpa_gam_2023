@@ -11,26 +11,26 @@ import egovframework.com.cmm.ComDefaultVO;
  * @since 2014-01-23
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public class GamMarineCenterRentLevReqestVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
+
     /** 고지 횟수 */
-    private String nticCnt;	
-        
+    private String nticCnt;
+
     /** 시설 구분 */
-    private String fcltySe;	
+    private String fcltySe;
 
     /** 요금 종류 */
-    private String chrgeKnd;	
+    private String chrgeKnd;
 
     /** 업체코드 */
-    private String entrpscd;	
+    private String entrpscd;
 
     /** 업체 명 */
-    private String entrpsNm;	
+    private String entrpsNm;
 
     /** 고지 기간 FROM */
     private String nticPdFrom;
@@ -39,100 +39,117 @@ public class GamMarineCenterRentLevReqestVO extends ComDefaultVO {
     private String constPerTo;
 
     /** 회계 년도 */
-    private String accnutYear;	
+    private String accnutYear;
 
     /** 고지번호 */
-    private String nticno;	    
+    private String nticno;
 
     /** 고지 일자 */
-    private String nticDt;	    
+    private String nticDt;
 
     /** 납부 기한 */
-    private String payTmlmt;	
+    private String payTmlmt;
 
     /** 공시지가 */
-    private String olnlp;	    
+    private String olnlp;
 
     /** 사용료 */
-    private String fee;	        
+    private String fee;
 
     /** 부가세 여부 */
-    private String vatYn;	    
+    private String vatYn;
 
     /** 부가세 */
-    private String vat;	        
+    private String vat;
 
     /** 고지 금액 */
-    private String nticAmt;	
+    private String nticAmt;
 
     /** 비고 */
-    private String rm;	        
+    private String rm;
 
     /** 수납 구분 */
-    private String rcivSe;	    
+    private String rcivSe;
 
     /** 수납 일자 */
-    private String rcivDt;	    
+    private String rcivDt;
 
     /** 고지서 발부 여부 */
-    private String nhtIsueYn;	
+    private String nhtIsueYn;
 
     /** 연체 번호 */
-    private String arrrgNo;	
+    private String arrrgNo;
 
     /** 연체 금액 */
-    private String arrrgAmt;	
+    private String arrrgAmt;
 
     /** 의뢰 순번 */
-    private String reqestSeq;	
+    private String reqestSeq;
 
     /** 부서코드 */
-    private String deptcd;	    
+    private String deptcd;
 
     /** 고지 방법 */
-    private String nticMth;	
+    private String nticMth;
 
     /** 등록자 */
-    private String regUsr;	    
+    private String regUsr;
 
     /** 등록일시 */
-    private String registDt;	
+    private String registDt;
 
     /** 수정자 */
-    private String updUsr;	    
+    private String updUsr;
 
     /** 수정일시 */
-    private String updtDt;	    
+    private String updtDt;
 
     /** 항코드 */
-    private String prtAtCode;	
+    private String prtAtCode;
 
     /** 관리 년도 */
-    private String mngYear;	
+    private String mngYear;
 
     /** 관리 번호 */
-    private String mngNo;	    
+    private String mngNo;
 
     /** 관리 횟수 */
     private String mngCnt;
-    
+
     /** 허가 여부 */
     private String prmisnYn;
-    
+
     /** 총사용기간 FROM */
     private String grUsagePdFrom;
-    
+
     /** 총사용기간 TO */
     private String grUsagePdTo;
-    
+
     /** 총 사용료 */
     private String grFee;
-    
+
     /** 신청 구분 코드 */
     private String reqstSeCd;
-    
+
     /** 납부방법 코드 */
     private String payMth;
+
+    /** 부가세 코드 */
+    private String taxtSe;
+
+	/**
+	 * @return the taxtSe
+	 */
+	public String getTaxtSe() {
+		return taxtSe;
+	}
+
+	/**
+	 * @param taxtSe the taxtSe to set
+	 */
+	public void setTaxtSe(String taxtSe) {
+		this.taxtSe = taxtSe;
+	}
 
 	/**
 	 * @return the nticCnt
@@ -679,5 +696,5 @@ public class GamMarineCenterRentLevReqestVO extends ComDefaultVO {
 	public void setPayMth(String payMth) {
 		this.payMth = payMth;
 	}
-	
+
 }
