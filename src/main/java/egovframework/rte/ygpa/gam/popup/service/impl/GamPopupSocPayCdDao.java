@@ -28,8 +28,7 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupSocPayCdVO;
  */
 
 @Repository("gamPopupSocPayCdDao")
-public class GamPopupSocPayCdDao extends YGPAAbstractDAO {
-	
+public class GamPopupSocPayCdDao extends YGPAAbstractDAO {	
 	/**
 	 * 업체정보 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -37,6 +36,7 @@ public class GamPopupSocPayCdDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public List selectSocPayCdList(GamPopupSocPayCdVO searchVO) throws Exception {
+    	System.out.println("##################test");
         return list("gamPopupSocPayCdDao.selectSocPayCdList_S", searchVO);
     }
 
@@ -49,6 +49,4 @@ public class GamPopupSocPayCdDao extends YGPAAbstractDAO {
     public int selectSocPayCdTotCnt(GamPopupSocPayCdVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPopupSocPayCdDao.selectSocPayCdTotCnt_S", searchVO);
     }
-
-
 }

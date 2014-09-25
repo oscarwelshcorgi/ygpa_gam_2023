@@ -26,6 +26,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocPayCdService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocPayCdVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 
 /**
  * 
@@ -60,10 +61,9 @@ public class GamPopupSocPayCdController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-    /** cmmUseService */
-    @Resource(name="EgovCmmUseService")
-    private EgovCmmUseService cmmUseService;
-    
+    @Resource(name="gamSocCmmUseService")
+    private GamSocCmmUseService gamSocCmmUseService;
+
     @Resource(name = "gamPopupSocPayCdService")
     private GamPopupSocPayCdService gamPopupSocPayCdService;
 	
@@ -79,10 +79,7 @@ public class GamPopupSocPayCdController {
 	@RequestMapping("/popup/showSocPayCd.do")
 	String showPayCd(GamPopupSocPayCdVO searchOpt, ModelMap model) throws Exception {
 		
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-		
-		codeVo.setCodeId("GAM019"); //항코드 
-		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
     	
 		model.addAttribute("searchOpt", searchOpt);
 		model.addAttribute("prtAtCdList", prtAtCdList);
