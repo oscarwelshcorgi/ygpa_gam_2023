@@ -350,6 +350,10 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
         		mapResult.put("bzRgstId", strBzRgstId );
         		mapResult.put("billYyyymm", strBillYyyymm );
         		mapResult.put("addr", strAddr );
+
+            	Map MakeDigit = gamNticRequestMngtDAO.getSfMakeDigit(mapResult);
+            	mapResult.put("makedigit", (String)MakeDigit.get("makedigit"));
+
         		// 전일 고지서 발행건을 당일 취소할 경우(당일 WORK_DT 인 고지건이 없으므로 INSERT)
         		gamNticRequestMngtDAO.insertEgiroPrint(mapResult);
         	}
