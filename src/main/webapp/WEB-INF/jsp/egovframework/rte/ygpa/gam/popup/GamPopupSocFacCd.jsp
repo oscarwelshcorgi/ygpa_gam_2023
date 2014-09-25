@@ -90,6 +90,7 @@ var popup_instance = new GamPopupSocFacCdModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="gamPopupPayForm">
+			<input id="prtAtCode" type="hidden" value="${searchOpt.prtAtCode}" />
 			<table class="searchPanel">
 				<tbody>
 					<tr>
