@@ -32,10 +32,10 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectPayInfoList.do"/>',
+		url: '<c:url value="/popup/selectSocPayInfoList.do"/>',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",			name:"prtAtCode", 	width:150, 		sortable:true, 		align:"center"},
+					{display:"청코드",			name:"prtAtCode", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"요금종류코드",			name:"feeTp", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"요금종류명",			name:"feeTpKorNm", 	width:255, 		sortable:true, 		align:"left"}
 			],
@@ -93,13 +93,12 @@ var popup_instance = new GamPopupSocPayCdModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>항코드</th>
+                        <th>청코드</th>
                         <td>
                         	<select id="prtAtCode">
                                 <option value="" selected="selected">선택</option>
-
                                 <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                    <option value="${prtAtCdItem.code }">${prtAtCdItem.codeNm }</option>
+                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
                                 </c:forEach>
                             </select>
                         </td>
@@ -113,13 +112,6 @@ var popup_instance = new GamPopupSocPayCdModule();
 			</table>
 		</form>
 		
-		<!-- 	
-			
-		<div class="emdControlPanel">
-			<button id="btnPaySearch">조회</button>
-		</div>
-		
-		 -->
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
