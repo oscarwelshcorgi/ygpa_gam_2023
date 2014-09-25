@@ -11,4 +11,4 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFacilInfoDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocEntrpsInfoDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocAgentFInfoDao_SQL.xml" />
-</sqlMapConfig>
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocPayCdDao_SQL.xml" /></sqlMapConfig>

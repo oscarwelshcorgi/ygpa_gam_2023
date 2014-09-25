@@ -16,7 +16,7 @@
  *
  * author 김종민
  * since 2014.09.22
- *aa
+ *
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
