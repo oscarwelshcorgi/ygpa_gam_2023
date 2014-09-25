@@ -59,9 +59,6 @@ public class GamPopupSocFacCdController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-    @Resource(name="gamSocCmmUseService")
-    private GamSocCmmUseService gamSocCmmUseService;
-
     @Resource(name = "gamPopupSocFacCdService")
     private GamPopupSocFacCdService gamPopupSocFacCdService;
 	
@@ -75,14 +72,10 @@ public class GamPopupSocFacCdController {
      * @throws Exception the exception  
      */
 	@RequestMapping("/popup/showSocFacCd.do")
-	String showPayCd(GamPopupSocFacCdVO searchOpt, ModelMap model) throws Exception {
-		
-		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-    	
+	String showFacCd(GamPopupSocFacCdVO searchOpt, ModelMap model) throws Exception {
 		model.addAttribute("searchOpt", searchOpt);
-		model.addAttribute("prtAtCdList", prtAtCdList);
-		
-    	return "/ygpa/gam/popup/GamPopupSocPayCd";  
+
+		return "/ygpa/gam/popup/GamPopupSocFacCd";  
     }
 	
 	
@@ -95,7 +88,7 @@ public class GamPopupSocFacCdController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/popup/selectSocFacInfoList.do", method=RequestMethod.POST)
-	@ResponseBody Map selectPayInfoList(GamPopupSocFacCdVO searchVO) throws Exception {
+	@ResponseBody Map selectFacInfoList(GamPopupSocFacCdVO searchVO) throws Exception {
 
 		int totalCnt;
     	Map map = new HashMap();
