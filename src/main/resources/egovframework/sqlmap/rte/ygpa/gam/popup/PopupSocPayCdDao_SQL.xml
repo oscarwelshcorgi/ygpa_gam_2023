@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupSocPayCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocPayCdVO"/>
+    
+
+    <select id="gamPopupSocPayCdDao.selectSocPayCdList_S" parameterClass="gamPopupSocPayCdVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                     	   Select 
+                     	   		* 
+                     	   From 
+                     	   		Payeosu.Fee_Tp_F@Ygpa_Portmis
+			                WHERE PRT_AT_CODE LIKE '%'||62||'%'
+                             <!-- 항 코드 -->
+                             <isNotEmpty property="prtAtCode">
+                                 AND PRT_AT_CODE = #prtAtCode#  
+                             </isNotEmpty>
+                             <!-- 요금 코드 -->
+                             <isNotEmpty property="feeTp">
+                                 AND FEE_TP = #feeTp#  
+                             </isNotEmpty>
+                             <!-- 요금 명 -->
+                             <isNotEmpty property="feeTpKorNm">
+                                 AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                             </isNotEmpty>
+                             
+                ) S	
+                ORDER BY PRT_AT_CODE, FEE_TP
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupSocPayCdDao.selectSocPayCdTotCnt_S" parameterClass="gamPopupSocPayCdVO" resultClass="int">
+        SELECT COUNT(*) totcnt 
+        
+        	From 
+              	  Payeosu.Fee_Tp_F@Ygpa_Portmis
+            WHERE PRT_AT_CODE LIKE '%'||62||'%'
+                  <!-- 항 코드 -->
+                  <isNotEmpty property="prtAtCode">
+                      AND PRT_AT_CODE = #prtAtCode#  
+                  </isNotEmpty>
+                  <!-- 요금 코드 -->
+                  <isNotEmpty property="feeTp">
+                      AND FEE_TP = #feeTp#  
+                  </isNotEmpty>
+                  <!-- 요금 명 -->
+                  <isNotEmpty property="feeTpKorNm">
+                      AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                  </isNotEmpty>
+    </select>
+</sqlMap>

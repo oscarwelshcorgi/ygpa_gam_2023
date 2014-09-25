@@ -84,8 +84,14 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         		}
         	});
             break;
+        case 'popupChrgeKndCd' : //요금코드조회
+        	alert('aaa');
+        	var opt;
+			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
+					'<c:url value="/popup/showSocPayCd.do"/>', opts);
+			alert('bbb');
+        	break;
 	}
-
 };
 
 GamSocExmpMngtModule.prototype.onSubmit = function() {
@@ -109,6 +115,8 @@ GamSocExmpMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
+     case 'selectChrgeKndCd' : 
+    	 break;
      case 'selectEntrpsInfoPopup':
          break;
      case 'insertEntrpsInfoPopup':
@@ -159,6 +167,7 @@ var module_instance = new GamSocExmpMngtModule();
                             <td width="100px">
                                 <!-- <input id="sFeeTp" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"/>-->
                                 <input id="sFeeTp" type="text" size="9" />
+                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                             <th>회계년도</th>
                             <td>
