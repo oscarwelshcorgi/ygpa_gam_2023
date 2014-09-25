@@ -118,6 +118,7 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      case 'selectChrgeKndCd' : 
     	 this.$("#sAppPrtAtCode").val(value["prtAtCode"]);
     	 this.$("#sFeeTp").val(value["feeTp"]);
+    	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
     	 break;
      case 'selectEntrpsInfoPopup':
          break;
@@ -166,9 +167,10 @@ var module_instance = new GamSocExmpMngtModule();
 	                            </select>
                             </td>
                             <th>요금종류코드</th>
-                            <td width="100px">
+                            <td>
                                 <!-- <input id="sFeeTp" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"/>-->
-                                <input id="sFeeTp" type="text" size="9" />
+                                <input id="sFeeTp" type="text" size="3" />
+                                <input type="text" size="18" id="sFeeTpKorNm" disabled/>
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
