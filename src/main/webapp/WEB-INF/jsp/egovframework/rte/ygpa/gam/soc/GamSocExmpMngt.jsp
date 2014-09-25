@@ -85,11 +85,18 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	});
             break;
         case 'popupChrgeKndCd' : //요금코드조회
-
         	var opts;
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
 					'<c:url value="/popup/showSocPayCd.do"/>', opts);
-
+        	break;
+        case 'popupFacCd' : //시설코드조회
+        	if(this.$('#exmpPrtAtCode').val() == '') {
+        		alert('조회 후 선택하실 수 있습니다.');
+        		break;
+        	}
+        	var opts = { prtAtCode : this.$('#exmpPrtAtCode').val() };
+        	this.doExecuteDialog('selectFacilCd', '시설 선택',
+					'<c:url value="/popup/showSocFacCd.do"/>', opts);
         	break;
 	}
 };
@@ -311,6 +318,7 @@ var module_instance = new GamSocExmpMngtModule();
                                     <input type="text" size="3" id="facCode" />
                                     <input type="text" size="2" id="facSubCode" />
                                     <input type="text" size="18" id="facKorNm" disabled/>
+                                    <button id="popupFacCd" class="popupButton">선택</button>
                                 </td>
 								<th width="10%" height="18">고지일자</th>
                                 <td>
