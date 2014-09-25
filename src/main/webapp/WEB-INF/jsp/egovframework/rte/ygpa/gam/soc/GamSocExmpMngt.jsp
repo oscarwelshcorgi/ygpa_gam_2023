@@ -85,11 +85,11 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	});
             break;
         case 'popupChrgeKndCd' : //요금코드조회
-        	alert('aaa');
-        	var opt;
+
+        	var opts;
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
 					'<c:url value="/popup/showSocPayCd.do"/>', opts);
-			alert('bbb');
+
         	break;
 	}
 };

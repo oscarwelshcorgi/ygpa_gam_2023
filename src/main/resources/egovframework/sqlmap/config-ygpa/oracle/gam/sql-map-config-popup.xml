@@ -7,6 +7,8 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupGisAssetsCdDao_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupEntrpsInfoDao_SQL.xml"/>
 
-<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupPayCdDao_SQL.xml" />
-<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFacilInfoDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupPayCdDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFacilInfoDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocEntrpsInfoDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocAgentFInfoDao_SQL.xml" />
 </sqlMapConfig>

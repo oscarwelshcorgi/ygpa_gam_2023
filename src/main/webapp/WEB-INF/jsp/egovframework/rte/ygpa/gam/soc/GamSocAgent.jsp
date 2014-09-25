@@ -334,8 +334,13 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             } */
 
             break;
+            
+        case 'popupSocAgentFInfo': // 허가원부선택 팝업을 호출한다.(조회)
+            var opts;
+            this.doExecuteDialog('selectSocAgentFInfoPopup', '허가원부선택', '<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+            break;
 
-        case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
+        case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             /*
             var opts = {
                 'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
@@ -344,8 +349,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             };
             */
             var opts;
-
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
             break;
 
     }
@@ -394,12 +398,13 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
+
     switch (popupId) {
-     case 'selectEntrpsInfoPopup':
+     case 'selectSocEntrpsInfoPopup':
          if (msg != 'cancel') {
-             this.$('#sEntrpscd').val(value.entrpscd);
-             this.$('#sEntrpsNm').val(value.entrpsNm);
-			 this.loadData();
+             this.$('#agentCode').val(value.agentCode);
+             this.$('#agentName').val(value.firmKorNm);
+			 //this.loadData();
          } else {
              alert('취소 되었습니다');
          }
@@ -494,7 +499,12 @@ var module_instance = new GamSocAgentMngtModule();
                             <td>
                             	<input id="sConstNo" type="text" size="15">
                             </td>
-                            <td><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td style="text-align:right;">
+				                <button id="popupSocAgentFInfo" class="popupButton">허가원부선택</button>
+                            </td>
+                            <td>
+								<button id="searchBtn" class="buttonSearch">조회</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

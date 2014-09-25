@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupSocAgentFInfoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO"/>
+    
+
+    <select id="gamPopupSocAgentFInfoDao.selectSocAgentFInfoList_S" parameterClass="gamPopupSocAgentFInfoVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+                           		PRT_AT_CODE
+                           		, AGENT_CODE
+                           		, SSN
+                           		, BZ_RGST_ID
+                           		, FIRM_KOR_NM
+                           		, FIRM_ENG_NM
+                           		, KOR_NM
+                           		, ENG_NM
+                           		, ZIP_CODE
+                           		, ADDR
+                           		, PHONE_NO
+                           		, CSTMR_TP
+                           		, CSTMR_TP_KOR_NM
+                           		, CSTMR_TP_ENG_NM
+                           		, RPT_RSN
+                           		, RPT_RSN_KOR_NM
+                           		, RPT_RSN_ENG_NM
+                           		, LCNS_ACQ_DT
+                           		, BF_AGENT_CODE
+                           		, ADMIN_RSN
+                           		, BF_FIRM_NM_KOR
+                           		, BF_FIRM_ID_NO
+                           		, CLOSE_DT
+                           		, CNCL_DT
+                           		, RETIRE_FR
+                           		, RETIRE_TO
+                           		, STOP_FR
+                           		, STOP_TO
+                           		, TP_ID
+                           		, UPDT_UID
+                           		, UPDT_DATE
+                           		, EBNO
+                           		, REQ_REMARK
+                           		, EBPP_NO
+                           		, FAX_NO
+                           		, PHONE1_NO
+                           		, PAYR_DIV_CD
+                           		, ADDR1
+                           		, ADDR2
+                           		, PILOT_AGENT_CODE
+                           		, SHIP_COM_CD
+                           		, SHIP_COM_NM
+                           		, CNV_YN
+                           		, COURT_DIV_CODE 
+			                FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR 
+			                WHERE 1=1
+                             <!-- 업체 코드 -->
+                             <isNotEmpty property="agentCode">
+                                 AND AGENT_CODE LIKE UPPER('%' || #agentCode# || '%')  
+                             </isNotEmpty>
+                             <!-- 업체 명 -->
+                             <isNotEmpty property="firmKorNm">
+                                 AND FIRM_KOR_NM LIKE UPPER('%' || #firmKorNm# || '%')
+                             </isNotEmpty>
+                             <!-- 사업자 등록번호 -->
+                             <isNotEmpty property="bzRgstId">
+                                 AND BZ_RGST_ID LIKE '%' || #bzRgstId# || '%'
+                             </isNotEmpty>
+                             
+                             ORDER BY FIRM_KOR_NM
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupSocAgentFInfoDao.selectSocAgentFInfoListTotCnt_S" parameterClass="gamPopupSocAgentFInfoVO" resultClass="int">
+        SELECT COUNT(*) totcnt FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
+			WHERE 1=1
+        <!-- 업체 코드 -->
+        <isNotEmpty property="agentCode">
+            AND AGENT_CODE LIKE UPPER('%' || #agentCode# || '%')  
+        </isNotEmpty>
+        <!-- 업체 명 -->
+        <isNotEmpty property="firmKorNm">
+            AND FIRM_KOR_NM LIKE UPPER('%' || #firmKorNm# || '%')
+        </isNotEmpty>
+        <!-- 사업자 등록번호 -->
+        <isNotEmpty property="bzRgstId">
+            AND BZ_RGST_ID LIKE '%' || #bzRgstId# || '%'
+        </isNotEmpty>
+    </select>
+</sqlMap>
