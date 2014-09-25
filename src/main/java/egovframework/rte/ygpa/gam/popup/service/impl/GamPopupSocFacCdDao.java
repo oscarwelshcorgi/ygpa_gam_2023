@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.popup.service.GamPopupSocPayCdVO;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupSocFacCdVO;
 
 /**
  * 
@@ -27,25 +27,25 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupSocPayCdVO;
  * </pre>
  */
 
-@Repository("gamPopupSocPayCdDao")
-public class GamPopupSocPayCdDao extends YGPAAbstractDAO {	
+@Repository("gamPopupSocFacCdDao")
+public class GamPopupSocFacCdDao extends YGPAAbstractDAO {	
 	/**
-	 * 요금종류 목록을 조회한다.
+	 * 시설 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 요금종류 목록
+	 * @return 시설 목록
 	 * @exception Exception
 	 */
-    public List selectSocPayCdList(GamPopupSocPayCdVO searchVO) throws Exception {
-        return list("gamPopupSocPayCdDao.selectSocPayCdList_S", searchVO);
+    public List selectSocFacCdList(GamPopupSocFacCdVO searchVO) throws Exception {
+        return list("gamPopupSocFacCdDao.selectSocFacCdList_S", searchVO);
     }
 
     /**
-	 * 요금종류 목록 총 갯수를 조회한다.
+	 * 시설 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 요금종류 목록 총 갯수
+	 * @return 시설 목록 총 갯수
 	 * @exception
 	 */
-    public int selectSocPayCdTotCnt(GamPopupSocPayCdVO searchVO) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamPopupSocPayCdDao.selectSocPayCdTotCnt_S", searchVO);
+    public int selectSocFacCdTotCnt(GamPopupSocFacCdVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamPopupSocFacCdDao.selectSocFacCdTotCnt_S", searchVO);
     }
 }
