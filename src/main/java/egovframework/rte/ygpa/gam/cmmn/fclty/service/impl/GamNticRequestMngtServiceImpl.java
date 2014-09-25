@@ -144,7 +144,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     	//String strCustomerNum = (String)map.get("customerNum") ;
     	String strCustomerNum = "" ;
     	BigDecimal bdAmount = new BigDecimal(revCollF.get("billAmnt").toString());
-    	BigDecimal bdBillSumAmnt = new BigDecimal(map.get("billSumAmnt").toString());
+    	BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("billSumAmnt").toString());
     	String strDueDate = (String)revCollF.get("dueDate") ;
     	String strCloseDate = (String)revCollF.get("dueDate") ;
     	String strBillDate =  (String)revCollF.get("billDt") ;
@@ -189,7 +189,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     	mapResult.put("billNo", strBillNo );
     	mapResult.put("dlySerNo", strDlySerNo );
 
-    	// 고지발행건인지 아닌지 확인
+    	// 당일 고지발행건인지 아닌지 확인
     	Map egiroMap = gamNticRequestMngtDAO.getWorkDtSysdateInfo(mapResult);
 
     	if( egiroMap == null || egiroMap.isEmpty() ){
@@ -311,7 +311,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     	/*** 변수세팅 끝 ***/
 
     	// 고지발행건인지 아닌지 확인
-    	Map egiroMap = gamNticRequestMngtDAO.getWorkDtSysdateInfo(mapResult);
+    	Map egiroMap = gamNticRequestMngtDAO.getWorkDtInfo(mapResult);
     	if( egiroMap == null || egiroMap.isEmpty() ){
     		logger.debug("*** [고지서가 출력된 적이 없는 데이터이므로 고지서출력취소 자체가 불가함] ***");
     	} else {

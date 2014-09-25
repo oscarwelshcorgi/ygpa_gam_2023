@@ -144,6 +144,10 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (EgovMap) selectByPk("gamNticRequestMngtDAO.getWorkDtSysdateInfo", vo);
 	}
 
+	public EgovMap getWorkDtInfo(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.getWorkDtInfo", vo);
+	}
+
 	public EgovMap getEgiroAgentInfo(Map<String, Object> vo) throws Exception {
         return (EgovMap) selectByPk("gamNticRequestMngtDAO.getEgiroAgentInfo", vo);
 	}
