@@ -1,9 +1,14 @@
 package egovframework.rte.ygpa.gam.popup.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoService;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO;
 
 
 /**
@@ -28,5 +33,25 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoService;
 
 @Service("gamPopupSocAgentFInfoService")
 public class GamPopupSocAgentFInfoServiceImpl extends AbstractServiceImpl implements GamPopupSocAgentFInfoService {
+
+	@Resource(name="gamPopupSocAgentFInfoDao")
+    private GamPopupSocAgentFInfoDao gamPopupSocAgentFInfoDao;
+	
+	@Override
+	public List selectSocAgentFInfoList(GamPopupSocAgentFInfoVO searchVO)
+			throws Exception {
+		return gamPopupSocAgentFInfoDao.selectSocAgentFInfoList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoService#selectSocAgentFInfoListTotCnt(egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO)
+	 */
+	@Override
+	public int selectSocAgentFInfoListTotCnt(GamPopupSocAgentFInfoVO searchVO)
+			throws Exception {
+		return gamPopupSocAgentFInfoDao.selectSocAgentFInfoListTotCnt(searchVO);
+	}
+
+
 
 }

@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.popup.service;
 
+import java.util.List;
+
 /**
  * @Class Name : GamPopupAgentFInfoService.java
  * @Description : 허가원부정보 Business class
@@ -21,5 +23,21 @@ package egovframework.rte.ygpa.gam.popup.service;
  */
 
 public interface GamPopupSocAgentFInfoService {
+
+	/**
+	 * 허가원부 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+	List selectSocAgentFInfoList(GamPopupSocAgentFInfoVO searchVO) throws Exception;
+
+	/**
+	 * 허가원부 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+	int selectSocAgentFInfoListTotCnt(GamPopupSocAgentFInfoVO searchVO) throws Exception;
 
 }

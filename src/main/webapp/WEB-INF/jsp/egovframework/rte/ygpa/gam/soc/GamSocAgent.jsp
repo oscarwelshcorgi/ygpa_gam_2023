@@ -398,7 +398,7 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
-
+	alert(popupId);
     switch (popupId) {
      case 'selectSocEntrpsInfoPopup':
          if (msg != 'cancel') {

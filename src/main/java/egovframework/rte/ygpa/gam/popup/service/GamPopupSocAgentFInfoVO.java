@@ -27,4 +27,40 @@ import egovframework.com.cmm.ComDefaultVO;
 
 public class GamPopupSocAgentFInfoVO extends ComDefaultVO {
 
+	private static final long serialVersionUID = 1L;
+
+	/** 청코드 */
+    private String sPrtAtCode;
+    
+    /** 업체코드 */
+    private String sAgentCode;
+
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sAgentCode
+	 */
+	public String getsAgentCode() {
+		return sAgentCode;
+	}
+
+	/**
+	 * @param sAgentCode the sAgentCode to set
+	 */
+	public void setsAgentCode(String sAgentCode) {
+		this.sAgentCode = sAgentCode;
+	}
+
 }

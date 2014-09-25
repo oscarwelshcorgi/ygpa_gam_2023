@@ -14,85 +14,87 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT 
-                           		PRT_AT_CODE
-                           		, AGENT_CODE
-                           		, SSN
-                           		, BZ_RGST_ID
-                           		, FIRM_KOR_NM
-                           		, FIRM_ENG_NM
-                           		, KOR_NM
-                           		, ENG_NM
-                           		, ZIP_CODE
-                           		, ADDR
-                           		, PHONE_NO
-                           		, CSTMR_TP
-                           		, CSTMR_TP_KOR_NM
-                           		, CSTMR_TP_ENG_NM
-                           		, RPT_RSN
-                           		, RPT_RSN_KOR_NM
-                           		, RPT_RSN_ENG_NM
-                           		, LCNS_ACQ_DT
-                           		, BF_AGENT_CODE
-                           		, ADMIN_RSN
-                           		, BF_FIRM_NM_KOR
-                           		, BF_FIRM_ID_NO
-                           		, CLOSE_DT
-                           		, CNCL_DT
-                           		, RETIRE_FR
-                           		, RETIRE_TO
-                           		, STOP_FR
-                           		, STOP_TO
-                           		, TP_ID
-                           		, UPDT_UID
-                           		, UPDT_DATE
-                           		, EBNO
-                           		, REQ_REMARK
-                           		, EBPP_NO
-                           		, FAX_NO
-                           		, PHONE1_NO
-                           		, PAYR_DIV_CD
-                           		, ADDR1
-                           		, ADDR2
-                           		, PILOT_AGENT_CODE
-                           		, SHIP_COM_CD
-                           		, SHIP_COM_NM
-                           		, CNV_YN
-                           		, COURT_DIV_CODE 
-			                FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR 
-			                WHERE 1=1
-                             <!-- 업체 코드 -->
-                             <isNotEmpty property="agentCode">
-                                 AND AGENT_CODE LIKE UPPER('%' || #agentCode# || '%')  
-                             </isNotEmpty>
-                             <!-- 업체 명 -->
-                             <isNotEmpty property="firmKorNm">
-                                 AND FIRM_KOR_NM LIKE UPPER('%' || #firmKorNm# || '%')
-                             </isNotEmpty>
-                             <!-- 사업자 등록번호 -->
-                             <isNotEmpty property="bzRgstId">
-                                 AND BZ_RGST_ID LIKE '%' || #bzRgstId# || '%'
-                             </isNotEmpty>
-                             
-                             ORDER BY FIRM_KOR_NM
+					        		PRT_AT_CODE
+					              , CMPL_YR
+					              , CONST_NO
+					              , AGENT_CODE
+					              , SOC_PRT_AT_CODE
+					              , SOC_CNST_NM
+					              , CNST_LOC
+					              , AGENT_NAME
+					              , AGENT_ADDR
+					        	  , AGENT_OWNER
+					        	  , SOC_OBJ
+					        	  , SOC_GIGIAN
+					        	  , SOC_WIDTH
+					        	  , SOC_NATION
+					        	  , SOC_PRIVATE
+					        	  , TO_CHAR(APRV_DT,'YYYY-MM-DD') AS APRV_DT
+					        	  , TO_CHAR(PERF_DT,'YYYY-MM-DD') AS PERF_DT
+					        	  , TO_CHAR(CMPL_DT,'YYYY-MM-DD') AS CMPL_DT
+					        	  , TO_CHAR(START_DT,'YYYY-MM-DD') AS START_DT
+					        	  , TO_CHAR(MODIFY_DT1,'YYYY-MM-DD') AS MODIFY_DT1
+					        	  , TO_CHAR(MODIFY_DT2,'YYYY-MM-DD') AS MODIFY_DT2
+					        	  , MODIFY_TXT
+					        	  , PRIME_TXT
+					        	  , TOTAL_AMNT
+					        	  , ACC_FEE
+					        	  , RESERACH_AMNT
+					        	  , PURE_AMNT
+					        	  , EXTRA_AMNT1
+					        	  , EXTRA_AMNT2
+					        	  , EXTRA_AMNT3
+					        	  , EXTRA_AMNT4
+					        	  , REMARK
+					        	  , TO_CHAR(MANAGE_DT,'YYYY-MM-DD') AS MANAGE_DT
+					        	  , TO_CHAR(ASSET_DT,'YYYY-MM-DD') AS ASSET_DT
+					        	  , TO_CHAR(FREEUSE_DT,'YYYY-MM-DD') AS FREEUSE_DT
+					        	  , TO_CHAR(OTHER_DT,'YYYY-MM-DD') AS OTHER_DT
+					        	  , TO_CHAR(FREEFR_DT,'YYYY-MM-DD') AS FREEFR_DT
+					        	  , TO_CHAR(FREETO_DT,'YYYY-MM-DD') AS FREETO_DT
+					        	  , RANGE
+					        	  , BZ_RGST_ID
+					        	  , UPDT_UID
+					        	  , TO_CHAR(UPDT_DATE,'YYYY-MM-DD') AS UPDT_DATE
+					        FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR
+					        
+								 <![CDATA[  WHERE 1<>1 ]]>
+					
+						         <isNotEmpty property="sPrtAtCode">
+						             OR (PRT_AT_CODE = #sPrtAtCode#
+							         
+							         <isNotEmpty property="sAgentCode">
+							             AND AGENT_CODE = #sAgentCode#
+							         </isNotEmpty>
+							         
+							         )
+						         </isNotEmpty>
+						         
+						     <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY D.CMPL_YR DESC, D.UPDT_DATE DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
     <select id="gamPopupSocAgentFInfoDao.selectSocAgentFInfoListTotCnt_S" parameterClass="gamPopupSocAgentFInfoVO" resultClass="int">
-        SELECT COUNT(*) totcnt FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR
-			WHERE 1=1
-        <!-- 업체 코드 -->
-        <isNotEmpty property="agentCode">
-            AND AGENT_CODE LIKE UPPER('%' || #agentCode# || '%')  
-        </isNotEmpty>
-        <!-- 업체 명 -->
-        <isNotEmpty property="firmKorNm">
-            AND FIRM_KOR_NM LIKE UPPER('%' || #firmKorNm# || '%')
-        </isNotEmpty>
-        <!-- 사업자 등록번호 -->
-        <isNotEmpty property="bzRgstId">
-            AND BZ_RGST_ID LIKE '%' || #bzRgstId# || '%'
-        </isNotEmpty>
+    
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        FROM 
+        	P2MGR.SOC_AGENT_F@YGPA_P2MGR
+					        
+		<![CDATA[  WHERE 1<>1 ]]>
+	
+	         <isNotEmpty property="sPrtAtCode">
+	             OR (PRT_AT_CODE = #sPrtAtCode#
+		         
+		         <isNotEmpty property="sAgentCode">
+		             AND AGENT_CODE = #sAgentCode#
+		         </isNotEmpty>
+		         
+		         )
+	         </isNotEmpty>
+
     </select>
 </sqlMap>

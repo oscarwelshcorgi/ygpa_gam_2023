@@ -3,6 +3,10 @@
  */
 package egovframework.rte.ygpa.gam.popup.web;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
@@ -11,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO;
 
@@ -63,5 +70,45 @@ public class GamPopupSocAgentFInfoController {
 		model.addAttribute("searchOpt", searchOpt);
     	return "/ygpa/gam/popup/GamPopupSocAgentFInfo";
     }
+	
+	
+	/**
+     * 허가원부정보목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/popup/selectSocAgentFInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectSocAgentFInfoList(GamPopupSocAgentFInfoVO searchVO) throws Exception {
+
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamPopupSocAgentFInfoService.selectSocAgentFInfoList(searchVO);
+    	totalCnt = gamPopupSocAgentFInfoService.selectSocAgentFInfoListTotCnt(searchVO);
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
 
 }

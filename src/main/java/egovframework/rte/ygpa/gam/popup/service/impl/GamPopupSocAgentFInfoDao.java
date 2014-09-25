@@ -3,9 +3,12 @@
  */
 package egovframework.rte.ygpa.gam.popup.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO;
 
 /**
  * @Class Name : GamPopupSocAgentFInfoDao.java
@@ -29,5 +32,21 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 
 @Repository("gamPopupSocAgentFInfoDao")
 public class GamPopupSocAgentFInfoDao extends YGPAAbstractDAO {
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectSocAgentFInfoList(GamPopupSocAgentFInfoVO searchVO) throws Exception {
+		return list("gamPopupSocAgentFInfoDao.selectSocAgentFInfoList_S", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public int selectSocAgentFInfoListTotCnt(GamPopupSocAgentFInfoVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamPopupSocAgentFInfoDao.selectSocAgentFInfoListTotCnt_S", searchVO);
+	}
 
 }
