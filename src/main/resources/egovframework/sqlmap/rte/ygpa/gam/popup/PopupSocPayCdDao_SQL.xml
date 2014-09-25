@@ -13,12 +13,15 @@
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                     	   Select 
-                     	   		* 
-                     	   From 
-                     	   		Payeosu.Fee_Tp_F@Ygpa_Portmis
-			                WHERE PRT_AT_CODE LIKE '%'||62||'%'
-                             <!-- 항 코드 -->
+                     	   	SELECT  
+                     	   		PRT_AT_CODE
+                     	   		,FEE_TP
+                     	   		,FEE_TP_KOR_NM 
+                     	   	FROM 
+                     	   		P2MGR.FEE_TP_F@YGPA_P2MGR
+			                WHERE 
+			                	1 = 1
+                             <!-- 청 코드 -->
                              <isNotEmpty property="prtAtCode">
                                  AND PRT_AT_CODE = #prtAtCode#  
                              </isNotEmpty>
@@ -38,22 +41,22 @@
     </select>
     
     <select id="gamPopupSocPayCdDao.selectSocPayCdTotCnt_S" parameterClass="gamPopupSocPayCdVO" resultClass="int">
-        SELECT COUNT(*) totcnt 
-        
-        	From 
-              	  Payeosu.Fee_Tp_F@Ygpa_Portmis
-            WHERE PRT_AT_CODE LIKE '%'||62||'%'
-                  <!-- 항 코드 -->
-                  <isNotEmpty property="prtAtCode">
-                      AND PRT_AT_CODE = #prtAtCode#  
-                  </isNotEmpty>
-                  <!-- 요금 코드 -->
-                  <isNotEmpty property="feeTp">
-                      AND FEE_TP = #feeTp#  
-                  </isNotEmpty>
-                  <!-- 요금 명 -->
-                  <isNotEmpty property="feeTpKorNm">
-                      AND FEE_TP_KOR_NM = #feeTpKorNm#  
-                  </isNotEmpty>
+        	SELECT COUNT(*) totcnt        
+        	FROM
+            	P2MGR.FEE_TP_F@YGPA_P2MGR
+            WHERE
+            	1 = 1
+                <!-- 항 코드 -->
+                <isNotEmpty property="prtAtCode">
+                    AND PRT_AT_CODE = #prtAtCode#  
+                </isNotEmpty>
+                <!-- 요금 코드 -->
+                <isNotEmpty property="feeTp">
+                    AND FEE_TP = #feeTp#  
+                </isNotEmpty>
+                <!-- 요금 명 -->
+                <isNotEmpty property="feeTpKorNm">
+                    AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                </isNotEmpty>
     </select>
 </sqlMap>
