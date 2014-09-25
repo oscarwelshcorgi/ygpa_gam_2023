@@ -127,6 +127,11 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 this.$("#sFeeTp").val(value["feeTp"]);
     	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
     	 break;
+     case 'selectFacilCd' :
+    	 this.$("#facCode").val(value["facCode"]);
+    	 this.$("#facSubCode").val(value["facSubCode"]);
+    	 this.$("#facKorNm").val(value["facKorNm"]);
+    	 break;
      case 'selectEntrpsInfoPopup':
          break;
      case 'insertEntrpsInfoPopup':
