@@ -116,6 +116,8 @@ GamSocExmpMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
      case 'selectChrgeKndCd' : 
+    	 this.$("#sAppPrtAtCode").val(value["prtAtCode"]);
+    	 this.$("#sFeeTp").val(value["feeTp"]);
     	 break;
      case 'selectEntrpsInfoPopup':
          break;
@@ -169,6 +171,9 @@ var module_instance = new GamSocExmpMngtModule();
                                 <input id="sFeeTp" type="text" size="9" />
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
+                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+						</tr>
+						<tr>                            
                             <th>회계년도</th>
                             <td>
                             	<input id="sFiscalYr" type="text" size="4">&nbsp; &nbsp;
@@ -177,7 +182,6 @@ var module_instance = new GamSocExmpMngtModule();
                             <td>
                                 <input id="sSocNo" type="text" size="6">&nbsp; &nbsp;
                             </td>
-                            <td><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
                 </table>
