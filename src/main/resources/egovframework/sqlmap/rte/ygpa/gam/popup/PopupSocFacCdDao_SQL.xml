@@ -34,12 +34,12 @@
                                  AND FAC_SUB_CODE = #facSubCode#  
                              </isNotEmpty>
                              <!-- 시설명 -->
-                             <isNotEmpty property="feeTpKorNm">
-                                 AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                             <isNotEmpty property="facKorNm">
+                                 AND FAC_KOR_NM LIKE '%' || #facKorNm# || '%'  
                              </isNotEmpty>
                              
                 ) S	
-                ORDER BY PRT_AT_CODE, FEE_TP
+                ORDER BY FAC_CODE, FAC_SUB_CODE
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
@@ -63,8 +63,8 @@
                     AND FAC_SUB_CODE = #facSubCode#  
                 </isNotEmpty>
                 <!-- 시설명 -->
-                <isNotEmpty property="feeTpKorNm">
-                    AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                <isNotEmpty property="facKorNm">
+                    AND FAC_KOR_NM LIKE '%' || #facKorNm# || '%'  
                 </isNotEmpty>
     </select>
 </sqlMap>

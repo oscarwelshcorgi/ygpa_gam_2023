@@ -31,7 +31,7 @@
                              </isNotEmpty>
                              <!-- 요금 명 -->
                              <isNotEmpty property="feeTpKorNm">
-                                 AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                                 AND FEE_TP_KOR_NM LIKE '%' || #feeTpKorNm# || '%'  
                              </isNotEmpty>
                              
                 ) S	
@@ -56,7 +56,7 @@
                 </isNotEmpty>
                 <!-- 요금 명 -->
                 <isNotEmpty property="feeTpKorNm">
-                    AND FEE_TP_KOR_NM = #feeTpKorNm#  
+                    AND FEE_TP_KOR_NM LIKE '%' || #feeTpKorNm# || '%'  
                 </isNotEmpty>
     </select>
 </sqlMap>
