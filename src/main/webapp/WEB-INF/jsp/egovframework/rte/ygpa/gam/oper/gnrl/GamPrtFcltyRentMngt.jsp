@@ -755,7 +755,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
     		calFee = Math.round(calFee/10)*10;
         	}
         	else{
-        		calFee = Math.ceil(calFee/10)*10;
+        		calFee = Math.round(calFee/10)*10;
         	}
         rdcxptFee = Math.ceil(rdcxptFee/10)*10;
 
@@ -902,8 +902,8 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         calcStr += " )";
     	this.$('#computDtls').val(calcStr);
 
-        calFee = Math.floor(calFee/10)*10;
-        rdcxptFee = Math.floor(rdcxptFee/10)*10;
+        calFee = Math.round(calFee/10)*10;
+        rdcxptFee = Math.round(rdcxptFee/10)*10;
 
         this.$('#fee').val($.number(calFee));
         this.$('#rdcxptFee').val($.number(rdcxptFee));

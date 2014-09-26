@@ -34,7 +34,7 @@
  */
 function GamAssetRentMngtModule() {}
 
-GamAssetRentMngtModule.prototype = new EmdModule(1000, 600);
+GamAssetRentMngtModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetRentMngtModule.prototype.loadComplete = function() {
@@ -408,9 +408,11 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 	}
 
 	var searchStartDate = serchYr + "-" + serchMn + "-" + serchday;
-
+/*
+ *
 	this.$("#sGrUsagePdFrom").val(searchStartDate);
 	this.$("#sGrUsagePdTo").val(searchEndDate);
+ */
 
 };
 GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
@@ -463,6 +465,7 @@ GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 };
 
 GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
+	console.log(this);
 	var firstAmt=0;
 	var nticMth=this.$('#nticMth').val();
 	var totalAmount=Number(this.$('#grFee').val().replace(/,/gi, ""));
@@ -603,6 +606,7 @@ GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
 }
 
 GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
+	console.log(this);
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
     ) {
@@ -630,7 +634,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
 
-        var monfee=Math.round(olnlp*applcTariff/12);
+        var monfee= olnlp*applcTariff/12;
 
         if( exemptSe == '1' ) {        // 일부면제
               if( exemptPdFrom == '' ) {
@@ -757,6 +761,7 @@ GamAssetRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 }
 
 GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
+	console.log('debug');
     if( this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcPrice').val() != '' && this.$('#exemptSe').val() != ''
     ) {
@@ -2007,7 +2012,7 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">신청업체</th>
                                 <td>
                                     <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
-                                    <input type="text" size="29" id="entrpsNm" disabled/>
+                                    <input type="text" size="18" id="entrpsNm" disabled/>
                                     <button id="popupEntrpsInfoInput" class="popupButton">선택</button>
                                 </td>
                             </tr>
@@ -2024,17 +2029,17 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="20" id="prmisnDt" disabled></td>
 								<th width="10%" height="18">총사용기간</th>
                                 <td>
-                                    <input type="text" size="24" id="grUsagePdFrom" disabled/>~
-                                    <input type="text" size="24" id="grUsagePdTo" disabled/>
+                                    <input type="text" size="18" id="grUsagePdFrom" disabled/>~
+                                    <input type="text" size="18" id="grUsagePdTo" disabled/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">총사용면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="grAr" disabled/></td>
+                                <td><input type="text" size="18" class="ygpaNumber" id="grAr" disabled/>㎡</td>
 								<th width="10%" height="18">총사용료</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="grFee" disabled/></td>
+                                <td><input type="text" size="18" class="ygpaNumber" id="grFee" disabled/></td>
 								<th width="10%" height="18">총감면사용료</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
+                                <td><input type="text" size="18" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">납부방법</th>
@@ -2069,13 +2074,13 @@ var module_instance = new GamAssetRentMngtModule();
                             <tr>
 								<th width="10%" height="18">코멘트</th>
                                 <td colspan="5">
-                                	<input type="text" size="116" id="cmt" maxlength="80"/>
+                                	<input type="text" size="100" id="cmt" maxlength="80"/>
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">비고</th>
-                                <td colspan="5"><input type="text" size="133" id="rm" maxlength="90"/></td>
+                                <td colspan="5"><input type="text" size="100" id="rm" maxlength="90"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">담당자</th>
@@ -2177,7 +2182,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 	<input type="text" size="10" id="gisAssetsLnmSub" disabled/>
                                 </td>
 								<th width="10%" height="18">소재지</th>
-                                <td colspan="3"><input type="text" size="87" id="gisAssetsLocplc" disabled/></td>
+                                <td colspan="3"><input type="text" size="83" id="gisAssetsLocplc" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대면적</th>
@@ -2260,7 +2265,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>
-                                 <td colspan="5"><input type="text" size="120" id="computDtls" maxlength="200"/></td>
+                                 <td colspan="5"><input type="text" size="100" id="computDtls" maxlength="200"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용목적</th>

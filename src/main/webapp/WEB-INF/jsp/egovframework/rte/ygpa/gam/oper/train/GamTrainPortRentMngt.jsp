@@ -630,7 +630,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
 
-        var monfee=Math.round(olnlp*applcTariff/12);
+        var monfee= olnlp*applcTariff/12;
 
         if( exemptSe == '1' ) {        // 일부면제
               if( exemptPdFrom == '' ) {
@@ -716,8 +716,8 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         }
         this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
  */
-        calFee = Math.ceil(calFee/10)*10;
-        rdcxptFee = Math.ceil(rdcxptFee/10)*10;
+        calFee = Math.round(calFee/10)*10;
+        rdcxptFee = Math.round(rdcxptFee/10)*10;
 
         this.$('#fee').val($.number(calFee));
         this.$('#rdcxptFee').val($.number(rdcxptFee));
@@ -851,8 +851,8 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         calcStr += " )";
     	this.$('#computDtls').val(calcStr);
 
-        calFee = Math.floor(calFee/10)*10;
-        rdcxptFee = Math.floor(rdcxptFee/10)*10;
+        calFee = Math.round(calFee/10)*10;
+        rdcxptFee = Math.round(rdcxptFee/10)*10;
 
         this.$('#fee').val($.number(calFee));
         this.$('#rdcxptFee').val($.number(rdcxptFee));
