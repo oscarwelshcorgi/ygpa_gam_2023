@@ -34,6 +34,11 @@ public class GamPopupSocAgentFInfoVO extends ComDefaultVO {
     
     /** 업체코드 */
     private String sAgentCode;
+    
+    /** 업체명 */
+    private String sAgentName;
+    
+    
 
 	/**
 	 * @return the sPrtAtCode
@@ -61,6 +66,20 @@ public class GamPopupSocAgentFInfoVO extends ComDefaultVO {
 	 */
 	public void setsAgentCode(String sAgentCode) {
 		this.sAgentCode = sAgentCode;
+	}
+
+	/**
+	 * @return the sAgentName
+	 */
+	public String getsAgentName() {
+		return sAgentName;
+	}
+
+	/**
+	 * @param sAgentName the sAgentName to set
+	 */
+	public void setsAgentName(String sAgentName) {
+		this.sAgentName = sAgentName;
 	}
 
 }

@@ -38,6 +38,9 @@ public class GamPopupSocEntrpsInfoVO extends ComDefaultVO {
     
     /** 사업자등록번호 */
     private String bzRgstId;
+    
+    /** 사업자등록번호 */
+    private String windowId;
 
 	/**
 	 * @return the firmKorNm
@@ -79,6 +82,20 @@ public class GamPopupSocEntrpsInfoVO extends ComDefaultVO {
 	 */
 	public void setBzRgstId(String bzRgstId) {
 		this.bzRgstId = bzRgstId;
+	}
+
+	/**
+	 * @return the windowId
+	 */
+	public String getWindowId() {
+		return windowId;
+	}
+
+	/**
+	 * @param windowId the windowId to set
+	 */
+	public void setWindowId(String windowId) {
+		this.windowId = windowId;
 	}
 	
 

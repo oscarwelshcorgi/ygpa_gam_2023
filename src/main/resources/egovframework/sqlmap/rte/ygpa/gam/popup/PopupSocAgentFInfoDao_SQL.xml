@@ -14,64 +14,68 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT 
-					        		PRT_AT_CODE
-					              , CMPL_YR
-					              , CONST_NO
-					              , AGENT_CODE
-					              , SOC_PRT_AT_CODE
-					              , SOC_CNST_NM
-					              , CNST_LOC
-					              , AGENT_NAME
-					              , AGENT_ADDR
-					        	  , AGENT_OWNER
-					        	  , SOC_OBJ
-					        	  , SOC_GIGIAN
-					        	  , SOC_WIDTH
-					        	  , SOC_NATION
-					        	  , SOC_PRIVATE
-					        	  , TO_CHAR(APRV_DT,'YYYY-MM-DD') AS APRV_DT
-					        	  , TO_CHAR(PERF_DT,'YYYY-MM-DD') AS PERF_DT
-					        	  , TO_CHAR(CMPL_DT,'YYYY-MM-DD') AS CMPL_DT
-					        	  , TO_CHAR(START_DT,'YYYY-MM-DD') AS START_DT
-					        	  , TO_CHAR(MODIFY_DT1,'YYYY-MM-DD') AS MODIFY_DT1
-					        	  , TO_CHAR(MODIFY_DT2,'YYYY-MM-DD') AS MODIFY_DT2
-					        	  , MODIFY_TXT
-					        	  , PRIME_TXT
-					        	  , TOTAL_AMNT
-					        	  , ACC_FEE
-					        	  , RESERACH_AMNT
-					        	  , PURE_AMNT
-					        	  , EXTRA_AMNT1
-					        	  , EXTRA_AMNT2
-					        	  , EXTRA_AMNT3
-					        	  , EXTRA_AMNT4
-					        	  , REMARK
-					        	  , TO_CHAR(MANAGE_DT,'YYYY-MM-DD') AS MANAGE_DT
-					        	  , TO_CHAR(ASSET_DT,'YYYY-MM-DD') AS ASSET_DT
-					        	  , TO_CHAR(FREEUSE_DT,'YYYY-MM-DD') AS FREEUSE_DT
-					        	  , TO_CHAR(OTHER_DT,'YYYY-MM-DD') AS OTHER_DT
-					        	  , TO_CHAR(FREEFR_DT,'YYYY-MM-DD') AS FREEFR_DT
-					        	  , TO_CHAR(FREETO_DT,'YYYY-MM-DD') AS FREETO_DT
-					        	  , RANGE
-					        	  , BZ_RGST_ID
-					        	  , UPDT_UID
-					        	  , TO_CHAR(UPDT_DATE,'YYYY-MM-DD') AS UPDT_DATE
-					        FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR
-					        
-								 <![CDATA[  WHERE 1<>1 ]]>
+					        		F.PRT_AT_CODE
+					        	  , (SELECT A.PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR A WHERE A.PRT_AT_CODE=F.PRT_AT_CODE) AS PRT_AT_KOR_NM
+					              , F.CMPL_YR
+					              , F.CONST_NO
+					              , F.AGENT_CODE
+					              , F.SOC_PRT_AT_CODE
+					              , (SELECT A.PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR A WHERE A.PRT_AT_CODE=F.SOC_PRT_AT_CODE) AS SOC_PRT_AT_KOR_NM
+					              , F.SOC_CNST_NM
+					              , F.CNST_LOC
+					              , F.AGENT_NAME
+					              , F.AGENT_ADDR
+					        	  , F.AGENT_OWNER
+					        	  , F.SOC_OBJ
+					        	  , F.SOC_GIGIAN
+					        	  , F.SOC_WIDTH
+					        	  , F.SOC_NATION
+					        	  , F.SOC_PRIVATE
+					        	  , TO_CHAR(F.APRV_DT,'YYYY-MM-DD') AS APRV_DT
+					        	  , TO_CHAR(F.PERF_DT,'YYYY-MM-DD') AS PERF_DT
+					        	  , TO_CHAR(F.CMPL_DT,'YYYY-MM-DD') AS CMPL_DT
+					        	  , TO_CHAR(F.START_DT,'YYYY-MM-DD') AS START_DT
+					        	  , TO_CHAR(F.MODIFY_DT1,'YYYY-MM-DD') AS MODIFY_DT1
+					        	  , TO_CHAR(F.MODIFY_DT2,'YYYY-MM-DD') AS MODIFY_DT2
+					        	  , F.MODIFY_TXT
+					        	  , F.PRIME_TXT
+					        	  , F.TOTAL_AMNT
+					        	  , F.ACC_FEE
+					        	  , F.RESERACH_AMNT
+					        	  , F.PURE_AMNT
+					        	  , F.EXTRA_AMNT1
+					        	  , F.EXTRA_AMNT2
+					        	  , F.EXTRA_AMNT3
+					        	  , F.EXTRA_AMNT4
+					        	  , F.REMARK
+					        	  , TO_CHAR(F.MANAGE_DT,'YYYY-MM-DD') AS MANAGE_DT
+					        	  , TO_CHAR(F.ASSET_DT,'YYYY-MM-DD') AS ASSET_DT
+					        	  , TO_CHAR(F.FREEUSE_DT,'YYYY-MM-DD') AS FREEUSE_DT
+					        	  , TO_CHAR(F.OTHER_DT,'YYYY-MM-DD') AS OTHER_DT
+					        	  , TO_CHAR(F.FREEFR_DT,'YYYY-MM-DD') AS FREEFR_DT
+					        	  , TO_CHAR(F.FREETO_DT,'YYYY-MM-DD') AS FREETO_DT
+					        	  , F.RANGE
+					        	  , F.BZ_RGST_ID
+					        	  , F.UPDT_UID
+					        	  , TO_CHAR(F.UPDT_DATE,'YYYY-MM-DD') AS UPDT_DATE
+					        FROM 
+					        	P2MGR.SOC_AGENT_F@YGPA_P2MGR F
+                            WHERE 1=1
 					
 						         <isNotEmpty property="sPrtAtCode">
-						             OR (PRT_AT_CODE = #sPrtAtCode#
-							         
-							         <isNotEmpty property="sAgentCode">
-							             AND AGENT_CODE = #sAgentCode#
-							         </isNotEmpty>
-							         
-							         )
+						             AND F.PRT_AT_CODE = #sPrtAtCode#
 						         </isNotEmpty>
-						         
+							         
+						         <isNotEmpty property="sAgentCode">
+						             AND F.AGENT_CODE LIKE #sAgentCode#||'%' 
+						         </isNotEmpty>
+						        
+						         <isNotEmpty property="sAgentName">
+						             AND F.AGENT_NAME LIKE '%'||#sAgentName#||'%'
+						         </isNotEmpty>
+
 						     <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY D.CMPL_YR DESC, D.UPDT_DATE DESC
+                             ORDER BY F.CMPL_YR DESC, F.UPDT_DATE DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -82,19 +86,21 @@
         SELECT 
         		COUNT(*) AS TOTAL_CNT
         FROM 
-        	P2MGR.SOC_AGENT_F@YGPA_P2MGR
-					        
-		<![CDATA[  WHERE 1<>1 ]]>
-	
-	         <isNotEmpty property="sPrtAtCode">
-	             OR (PRT_AT_CODE = #sPrtAtCode#
-		         
-		         <isNotEmpty property="sAgentCode">
-		             AND AGENT_CODE = #sAgentCode#
-		         </isNotEmpty>
-		         
-		         )
-	         </isNotEmpty>
+        	P2MGR.SOC_AGENT_F@YGPA_P2MGR F
+
+        WHERE 1=1
+
+        <isNotEmpty property="sPrtAtCode">
+            AND F.PRT_AT_CODE = #sPrtAtCode# 
+        </isNotEmpty>
+         
+        <isNotEmpty property="sAgentCode">
+            AND F.AGENT_CODE LIKE #sAgentCode#||'%' 
+        </isNotEmpty>
+        
+        <isNotEmpty property="sAgentName">
+            AND F.AGENT_NAME LIKE '%'||#sAgentName#||'%'
+        </isNotEmpty>
 
     </select>
 </sqlMap>

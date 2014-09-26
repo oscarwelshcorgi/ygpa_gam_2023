@@ -16,12 +16,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupSocEntrpsInfoVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
+import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
 
 /**
@@ -53,6 +57,9 @@ public class GamPopupSocAgentFInfoController {
 	@Autowired
 	private DefaultBeanValidator beanValidator;
 	
+	@Resource(name = "gamSocCmmUseService")
+    private GamSocCmmUseService gamSocCmmUseService;
+	
 	@Resource(name = "gamPopupSocAgentFInfoService")
     private GamPopupSocAgentFInfoService gamPopupSocAgentFInfoService;
 	
@@ -65,9 +72,19 @@ public class GamPopupSocAgentFInfoController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/popup/showSocAgentFInfo.do")
-    String showAgentFInfo(GamPopupSocAgentFInfoVO searchOpt, ModelMap model) throws Exception {
+	public String showAgentFInfo(GamPopupSocEntrpsInfoVO searchOpt, ModelMap model) throws Exception {
+		
+		String windowId;
+		
+		GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
+		codeVo.setCodeId("GAM019"); //항코드 
+		
+		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
+		
+		windowId = searchOpt.getWindowId();
 
-		model.addAttribute("searchOpt", searchOpt);
+		model.addAttribute("prtAtCdList", prtAtCdList);
+		model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/popup/GamPopupSocAgentFInfo";
     }
 	

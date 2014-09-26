@@ -41,12 +41,12 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocAgentList.do" />',
         dataType: 'json',
         colModel : [
-					{display:"선택", 		name:"chkDel",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
-					{display:'업체코드', name:'agentCode',width:80, sortable:false,align:'center'},
-                    {display:'업체명', name:'firmKorNm',width:160, sortable:false,align:'center'},
-                    {display:'보전처리대상금액', name:'totalAmnt',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'보전처리누계액', name:'accFee',width:150, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'비고', name:'remark',width:260, sortable:false,align:'left'}
+					{display:"선택", 				name:"chkDel",		width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
+					{display:'업체코드', 			name:'agentCode',	width:80, 		sortable:false,		align:'center'},
+                    {display:'업체명', 			name:'firmKorNm',	width:160, 		sortable:false,		align:'center'},
+                    {display:'보전처리대상금액', 	name:'totalAmnt',	width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'보전처리누계액', 		name:'accFee',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'비고', 				name:'remark',		width:260, 		sortable:false,		align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -367,7 +367,7 @@ GamSocAgentMngtModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamSocAgentMngtSearchForm');
 
     this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload();
-	// console.log('debug');
+	//console.log('debug');
 
 };
 
@@ -398,13 +398,23 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
-	alert(popupId);
+
     switch (popupId) {
      case 'selectSocEntrpsInfoPopup':
          if (msg != 'cancel') {
              this.$('#agentCode').val(value.agentCode);
              this.$('#agentName').val(value.firmKorNm);
 			 //this.loadData();
+         } else {
+             alert('취소 되었습니다');
+         }
+         break;
+     case 'selectSocAgentFInfoPopup':
+         if (msg != 'cancel') {
+             this.$('#sPrtAtCode').val(value.prtAtCode);
+             this.$('#sCmplYr').val(value.cmplYr);
+             this.$('#sConstNo').val(value.constNo);
+			 this.loadData();
          } else {
              alert('취소 되었습니다');
          }

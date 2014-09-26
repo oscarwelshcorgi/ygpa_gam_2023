@@ -47,9 +47,9 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 					{display:"공사업체",			name:"agentName", 		width:100, 		sortable:true, 		align:"center"},
 					{display:"공사명",			name:"socCnstNm", 		width:100, 		sortable:true, 		align:"center"},
 					{display:"공사항만청코드",		name:"socPrtAtCode", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"공사항만",			name:"socprtAtKorNm", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"총공사비",			name:"totalBuildFee", 	width:100, 		sortable:true, 		align:"center"},
-					{display:"보전처리누계액",		name:"accFee", 			width:100, 		sortable:true, 		align:"center"},
+					{display:"공사항만",			name:"socPrtAtKorNm", 	width:60, 		sortable:true, 		align:"center"},
+					{display:"총공사비",			name:"totalBuildFee", 	width:100, 		sortable:true, 		align:'right',		displayFormat: 'number'},
+					{display:"보전처리누계액",		name:"accFee", 			width:100, 		sortable:true, 		align:'right', 		displayFormat: 'number'},
 					{display:"준공일자",			name:"cmplDt", 			width:100, 		sortable:true, 		align:"center"},
 					{display:"비고",				name:"remark", 			width:100, 		sortable:true, 		align:"center"}
 			],
@@ -71,8 +71,7 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 
 };
 
-// 사용자 설정 함수 추가
-
+// 사용자 설정 함수 추가 
 GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnAgentFSearch":
@@ -86,26 +85,17 @@ GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
 			}
 		}
 		 */
-		var searchOpt=this.makeFormArgs("#gamPopupSocEntrpsForm");
+		var searchOpt=this.makeFormArgs("#gamPopupSocAgentFForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	
+	 	//console.log('debug');
 		break;
-
-	case "popupEntrpsInfo":   
+	case "popupEntrpsInfo":
 		
-		/*
-        var opts = {
-            'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
-            'gisAssetsCd': this.$('#gisAssetsCd').val(),
-            'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
-        };
-        */
-        
-        // TODO: 메소드를 찾지 못합니다. 해결해야 함
-        var opts;
-        this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
-        break;
-        
+		var opts;
+		alert('kk');
+		EMD.util.create_window('업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', null, opts);
+    	break;
+
 	case "btnOk":
 		var row = this.$("#grdInfoList").selectedRows();
 		if(row.length>0) {
@@ -131,30 +121,6 @@ GamPopupSocAgentFModule.prototype.loadData = function() {
 };
 
 
-//팝업이 종료 될때 리턴 값이 오출 된다.
-//popupId : 팝업 대화상자 아이디
-//msg : 팝업에서 전송한 메시지 (취소는 cancel)
-//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
-
-  switch (popupId) {
-   case 'selectSocAgentFInfoPopup':
-       if (msg != 'cancel') {
-           this.$('#sAgentCode').val(value.agentCode);
-           this.$('#sAgentName').val(value.agentName);
-			 //this.loadData();
-       } else {
-           alert('취소 되었습니다');
-       }
-       break;
-   
-   default:
-       alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-
-       break;
-   }
-};
-
 
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -177,9 +143,11 @@ var popup_instance = new GamPopupSocAgentFModule();
                         </td>
 						<th>업체코드</th>
                         <td>
-                        	<input id="sAgentCode" type="text" size="10">&nbsp; &nbsp;
-                           	<input id="sAgentName" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
-                           	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                        	<input id="sAgentCode" type="text" size="10">
+                        </td>
+                        <th>업체명</th>
+                        <td>
+                           	<input id="sAgentName" type="text" size="15">
                         </td>
 						<td>
 							<button id="btnAgentFSearch" class="buttonSubmit">조회</button>

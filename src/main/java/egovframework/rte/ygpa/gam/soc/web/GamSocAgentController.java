@@ -83,9 +83,6 @@ public class GamSocAgentController {
 		codeVo.setCodeId("GAM019"); //항코드 
 		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-		
-		System.out.print("test : " + prtAtCdList);
-		
 		List yearsList = this.getYears(); // 조회연도
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
