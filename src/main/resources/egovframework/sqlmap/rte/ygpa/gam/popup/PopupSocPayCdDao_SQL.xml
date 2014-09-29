@@ -27,7 +27,7 @@
                              </isNotEmpty>
                              <!-- 요금 코드 -->
                              <isNotEmpty property="feeTp">
-                                 AND FEE_TP = #feeTp#  
+                                 AND FEE_TP LIKE '%' || #feeTp# || '%'  
                              </isNotEmpty>
                              <!-- 요금 명 -->
                              <isNotEmpty property="feeTpKorNm">
@@ -52,7 +52,7 @@
                 </isNotEmpty>
                 <!-- 요금 코드 -->
                 <isNotEmpty property="feeTp">
-                    AND FEE_TP = #feeTp#  
+                    AND FEE_TP LIKE '%' || #feeTp# || '%'  
                 </isNotEmpty>
                 <!-- 요금 명 -->
                 <isNotEmpty property="feeTpKorNm">

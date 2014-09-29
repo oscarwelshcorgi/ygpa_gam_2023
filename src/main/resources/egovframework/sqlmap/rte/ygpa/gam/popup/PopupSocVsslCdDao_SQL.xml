@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupSocVsslCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocVsslCdVO"/>
+    
+
+    <select id="gamPopupSocVsslCdDao.selectSocVsslCdList_S" parameterClass="gamPopupSocVsslCdVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                     	   	SELECT  
+                     	   		VSSL_NO
+                     	   		,VSSL_KOR_NM 
+                     	   	FROM 
+                     	   		P2MGR.VSSL_F@YGPA_P2MGR
+			                WHERE 
+			                	1 = 1
+                             <!-- 선박 번호 -->
+                             <isNotEmpty property="vsslNo">
+                                 AND VSSL_NO LIKE '%' || #vsslNo# || '%'  
+                             </isNotEmpty>
+                             <!-- 선박명 -->
+                             <isNotEmpty property="vsslKorNm">
+                                 AND VSSL_KOR_NM LIKE '%' || #vsslKorNm# || '%'  
+                             </isNotEmpty>
+                             
+                ) S	
+                ORDER BY VSSL_NO, VSSL_KOR_NM
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupSocVsslCdDao.selectSocVsslCdTotCnt_S" parameterClass="gamPopupSocVsslCdVO" resultClass="int">
+        	SELECT COUNT(*) totcnt        
+        	FROM
+            	P2MGR.VSSL_F@YGPA_P2MGR
+            WHERE
+            	1 = 1
+                <!-- 선박 번호 -->
+                <isNotEmpty property="vsslNo">
+                	AND VSSL_NO LIKE '%' || #vsslNo# || '%'  
+                </isNotEmpty>
+                <!-- 선박명 -->
+                <isNotEmpty property="vsslKorNm">
+                    AND VSSL_KOR_NM LIKE '%' || #vsslKorNm# || '%'  
+                </isNotEmpty>
+    </select>
+</sqlMap>

@@ -27,11 +27,11 @@
                              </isNotEmpty>
 			                 <!-- 시설코드 -->
                              <isNotEmpty property="facCode">
-                                 AND FAC_CODE = #facCode#  
+                                 AND FAC_CODE LIKE '%' || #facCode# || '%'  
                              </isNotEmpty>
                              <!-- 시설부코드 -->
                              <isNotEmpty property="facSubCode">
-                                 AND FAC_SUB_CODE = #facSubCode#  
+                                 AND FAC_SUB_CODE LIKE '%' || #facSubCode# || '%'  
                              </isNotEmpty>
                              <!-- 시설명 -->
                              <isNotEmpty property="facKorNm">
@@ -56,11 +56,11 @@
                 </isNotEmpty>
 			    <!-- 시설코드 -->
                 <isNotEmpty property="facCode">
-                    AND FAC_CODE = #facCode#  
+                    AND FAC_CODE LIKE '%' || #facCode# || '%'  
                 </isNotEmpty>
                 <!-- 시설부코드 -->
                 <isNotEmpty property="facSubCode">
-                    AND FAC_SUB_CODE = #facSubCode#  
+                    AND FAC_SUB_CODE LIKE '%' || #facSubCode# || '%'  
                 </isNotEmpty>
                 <!-- 시설명 -->
                 <isNotEmpty property="facKorNm">
