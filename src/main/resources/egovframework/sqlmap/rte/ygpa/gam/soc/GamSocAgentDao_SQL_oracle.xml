@@ -146,19 +146,23 @@
                              	(
                              	D.AGENT_CODE = A.AGENT_CODE 
                              	)
-                            WHERE 1=1
+                            <![CDATA[  WHERE 1<>1 ]]>
 
                              <isNotEmpty property="prtAtCode">
-					             AND D.PRT_AT_CODE = #prtAtCode#
+					             OR (D.PRT_AT_CODE = #prtAtCode#
+					             
+					             <isNotEmpty property="agentCode">
+						             AND D.AGENT_CODE = #agentCode#
+						         </isNotEmpty>
+						         
+						         <isNotEmpty property="sCmplYr">
+						             AND D.CMPL_YR = #sCmplYr#
+						         </isNotEmpty>
+						         
+						         )
 					         </isNotEmpty>
 
-					         <isNotEmpty property="agentCode">
-					             AND D.AGENT_CODE = #agentCode#
-					         </isNotEmpty>
 					         
-					         <isNotEmpty property="sCmplYr">
-					             AND D.CMPL_YR = #sCmplYr#
-					         </isNotEmpty>
 
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY D.CMPL_YR DESC, D.UPDT_DATE DESC
@@ -180,18 +184,20 @@
               	(
               	D.AGENT_CODE = A.AGENT_CODE 
               	)
-             WHERE 1=1
+             <![CDATA[  WHERE 1<>1 ]]>
 
 	         <isNotEmpty property="prtAtCode">
-	             AND D.PRT_AT_CODE = #prtAtCode#
-	         </isNotEmpty>
-
-	         <isNotEmpty property="agentCode">
-	             AND D.AGENT_CODE = #agentCode#
-	         </isNotEmpty>
-	         
-	         <isNotEmpty property="sCmplYr">
-	             AND D.CMPL_YR = #sCmplYr#
+	             OR (D.PRT_AT_CODE = #prtAtCode#
+	             
+	             <isNotEmpty property="agentCode">
+		             AND D.AGENT_CODE = #agentCode#
+		         </isNotEmpty>
+		         
+		         <isNotEmpty property="sCmplYr">
+		             AND D.CMPL_YR = #sCmplYr#
+		         </isNotEmpty>
+		         
+		         )
 	         </isNotEmpty>
     </select>
 

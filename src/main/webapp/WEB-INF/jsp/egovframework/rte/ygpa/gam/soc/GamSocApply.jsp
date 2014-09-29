@@ -20,9 +20,9 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamAssetRent" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<%-- <validator:javascript formName="gamAssetRent" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <validator:javascript formName="gamAssetRentDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamAssetRentFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
 <!--
 <validator:javascript formName="gamAssetRent" staticJavascript="false" xhtml="true" cdata="false" />
 <validator:javascript formName="gamAssetRentDetail" staticJavascript="false" xhtml="true" cdata="false" />
@@ -1927,50 +1927,59 @@ var module_instance = new GamAssetRentMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
+                            <th>공사관리청코드</th>
                             <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
-                            </td>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM011" />
-                            </td>
-                            <th>신청업체</th>
-                            <td>
-                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
-                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                            </td>
-                            <th>사용용도</th>
-                            <td>
-                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
-                        </tr>
-                        <tr>
-                            <th>관리번호</th>
-                            <td>
-                                <input id="sMngYear" type="text" class="mngYear">
-                                <input id="sMngNo" type="text" class="mngNo">
-                                <input id="sMngCnt" type="text" class="mngCnt">
-                            </td>
-                            <th>승낙구분</th>
-                            <td>
-                                <select id="sPrmisnYn">
+                                <!-- <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /> -->
+                                <select id="sPrtAtCode">
                                     <option value="" selected="selected">전체</option>
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
+                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+                                    </c:forEach>
                                 </select>
                             </td>
-                            <th>사용기간</th>
-                            <td>
-                            <input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
+                            <th>공사준공년도</th>
+                            <td width="250px">
+                                <select id="sCmplYr">
+                                    <option value="" selected="selected">년</option>
+                                    <c:forEach  items="${yearsList}" var="yearsItem">
+                                        <option value="${yearsItem }">${yearsItem }</option>
+                                    </c:forEach>
+                                </select>
                             </td>
-                            <th>총면적</th>
+                            <th>공사일련번호</th>
                             <td>
-                                <input id="sGrAr" type="text" size="8">
+                            	<input id="sConstNo" type="text" size="15">
+                            </td>
+                            <td style="text-align:right;">
+				                <button id="popupSocAgentFInfo" class="popupButton">허가원부선택</button>
+                            </td>
+                            <td  rowSpan="2">
+								<button id="searchBtn" class="buttonSearch">조회</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>면제요청청코드</th>
+                            <td>
+                                <!-- <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /> -->
+                                <select id="sPrtAtCode">
+                                    <option value="" selected="selected">전체</option>
+                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                            <th>면제요청업체코드</th>
+                            <td>
+                                <input id="agentCode" type="text" size="5">&nbsp; &nbsp;
+                            	<input id="agentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            </td>
+                            <th>요청횟수</th>
+                            <td>
+                            	<input id="sConstNo" type="text" size="15">
+                            </td>
+                            <td style="text-align:right;">
+				                <button id="popupSocAgentFInfo" class="popupButton">면제요청</button>
                             </td>
                         </tr>
                     </tbody>

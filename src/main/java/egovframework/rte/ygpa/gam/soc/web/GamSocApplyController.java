@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -26,6 +27,8 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
+import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
 /**
  *
@@ -60,15 +63,8 @@ public class GamSocApplyController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    /** cmmUseService */
-    @Resource(name="EgovCmmUseService")
-    private EgovCmmUseService cmmUseService;
-
-    @Resource(name = "gamPrtFcltyRentMngtService")
-    private GamPrtFcltyRentMngtService gamPrtFcltyRentMngtService;
-
-    @Resource(name = "gamAssetsUsePermMngtService")
-    private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
+    @Resource(name = "gamSocCmmUseService")
+    private GamSocCmmUseService gamSocCmmUseService;
 
     @RequestMapping(value="/soc/gamSocApply.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -76,42 +72,35 @@ public class GamSocApplyController {
 		//login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		//공시지가정보
-		//GamPrtFcltyRentMngtVO gvo = new GamPrtFcltyRentMngtVO();
-//		List olnlpList = gamPrtFcltyRentMngtService.selectOlnlpInfo();
-
-		//코픽스 이자율
-		List cofixList = gamPrtFcltyRentMngtService.selectCofixInfo();
-
-		//현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져와서 해당하는 코픽스 이자율 가져오기.
-		GamPrtFcltyRentMngtVO cofixVO = new GamPrtFcltyRentMngtVO();
-		GamPrtFcltyRentMngtVO cofixResultVO = new GamPrtFcltyRentMngtVO();
-
-		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6));
-		cofixVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtBeforeQuarterInfo(cofixVO);
-
-		if( cofixVO != null ) {
-			cofixResultVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtCofixInfo(cofixVO);
-
-			if( cofixResultVO == null ) {
-				cofixResultVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtCofixInfoMax(cofixVO);
-			}
-
-			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
-				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
-			}
-
-			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrateShow() != null ) {
-				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
-			}
-		}
-
-		model.addAttribute("cofixList", cofixList);
-		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
-		model.addAttribute("loginUserId", loginVO.getId());
-		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
+		GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
+		
+		codeVo.setCodeId("GAM019"); //항코드 
+		
+		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
+		List yearsList = this.getYears(); // 조회연도
+		
+		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
+		model.addAttribute("yearsList", yearsList);
 
-    	return "/ygpa/soc/GamSocApply";
+    	return "/ygpa/gam/soc/GamSocApply";
     }
+    
+    /**
+     * 조회기간 연도를 가져온다
+     *
+     */
+	public List getYears(){
+
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		
+   		for (int i = 2000; i <= currentYear; i++) {
+   			
+   			result.add(String.valueOf(i));
+   		}
+
+   		return result;
+   	}
 }

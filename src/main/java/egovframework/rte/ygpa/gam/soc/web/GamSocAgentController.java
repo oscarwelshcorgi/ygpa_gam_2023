@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
+
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -77,6 +79,9 @@ public class GamSocAgentController {
 
     @RequestMapping(value="/soc/gamSocAgent.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    	
+    	//login정보
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
 		
@@ -122,7 +127,7 @@ public class GamSocAgentController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/soc/gamSelectSocAgentList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocAgentList(GamSocAgentVO searchVO) throws Exception {
-
+		
 		int totalCnt, page, firstIndex;
 		long sumTotalAmnt, sumAccFee;
     	Map map = new HashMap();
@@ -143,6 +148,7 @@ public class GamSocAgentController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
+
 		//항만공사허가원부 검색업체 정보
 		GamSocAgentVO socAgentInfo = gamSocAgentService.selectSocAgentInfo(searchVO);
 		
@@ -164,6 +170,7 @@ public class GamSocAgentController {
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
  
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);

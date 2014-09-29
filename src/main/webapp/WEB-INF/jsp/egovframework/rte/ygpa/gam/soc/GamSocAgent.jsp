@@ -52,41 +52,21 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         height: 'auto',
         preProcess: function(module,data) {
         	//그리드 상단 입력창에 정보 입력
-        	module.$('#prtAtCode').val(data.socAgentInfo.prtAtCode);
-        	module.$('#prtAtCodeStr').val(data.socAgentInfo.prtAtCode);
-        	module.$('#agentOwner').val(data.socAgentInfo.agentOwner);
-        	module.$('#socCnstNm').val(data.socAgentInfo.socCnstNm);
-        	module.$('#aprvDt').val(data.socAgentInfo.aprvDt);
-        	module.$('#cnstLoc').val(data.socAgentInfo.cnstLoc);
-        	module.$('#perfDt').val(data.socAgentInfo.perfDt);
-        	module.$('#agentCode').val(data.socAgentInfo.agentCode);
-        	module.$('#agentName').val(data.socAgentInfo.agentName);
-        	module.$('#cmplDt').val(data.socAgentInfo.cmplDt);
-        	module.$('#agentAddr').val(data.socAgentInfo.agentAddr);
-        	//module.$('#totalBuildFee').val(data.socAgentInfo.);
-        	module.$('#totalAccFee').val($.number(data.socAgentInfo.accFee));
-        	
-        	//항만공사시행허가원부II 정보입력
-        	module.$('#socObj').val(data.socAgentInfo.socObj);
-        	module.$('#socGigian').val(data.socAgentInfo.socGigian);
-        	module.$('#socPrivate').val(data.socAgentInfo.socPrivate);
-        	module.$('#socNation').val(data.socAgentInfo.socNation);
-        	module.$('#socWidth').val(data.socAgentInfo.socWidth);
-        	module.$('#reserachAmnt').val(data.socAgentInfo.reserachAmnt);
-        	module.$('#pureAmnt').val(data.socAgentInfo.pureAmnt);
-        	module.$('#extraAmnt1').val(data.socAgentInfo.extraAmnt1);
-        	module.$('#extraAmnt2').val(data.socAgentInfo.extraAmnt2);
-        	module.$('#extraAmnt3').val(data.socAgentInfo.extraAmnt3);
-        	module.$('#primeTxt').val(data.socAgentInfo.primeTxt);
-        	module.$('#modifyTxt').val(data.socAgentInfo.modifyTxt);
-        	module.$('#startDt').val(data.socAgentInfo.startDt);
-        	module.$('#modifyDt1').val(data.socAgentInfo.modifyDt1);
-        	module.$('#freefrDt').val(data.socAgentInfo.freefrDt);
-        	module.$('#freetoDt').val(data.socAgentInfo.freetoDt);
-        	module.$('#manageDt').val(data.socAgentInfo.manageDt);
-        	module.$('#freeuseDt').val(data.socAgentInfo.freeuseDt);
-        	module.$('#assetDt').val(data.socAgentInfo.assetDt);
-        	module.$('#otherDt').val(data.socAgentInfo.otherDt);
+        	if(data.socAgentInfo){
+        		
+        		module.makeFormValues('#form1',data.socAgentInfo);
+	        	
+	        	//항만공사시행허가원부II 정보입력
+        		module.makeFormValues('#gamSocAgentForm',data.socAgentInfo);
+
+       		}else{
+       			//console.log('debug');
+       			module.makeFormValues('#form1',{});
+       			
+       			//항만공사시행허가원부II 초기화
+        		module.makeFormValues('#gamSocAgentForm',{});
+
+       		}
         	
 			//자료수, 합산금액 입력
             module.$('#totalCount').val($.number(data.totalCount));
@@ -483,6 +463,7 @@ var module_instance = new GamSocAgentMngtModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamSocAgentMngtSearchForm">
+            
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
@@ -492,7 +473,7 @@ var module_instance = new GamSocAgentMngtModule();
                                 <select id="sPrtAtCode">
                                     <option value="" selected="selected">전체</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>
                                 </select>
                             </td>
@@ -540,10 +521,10 @@ var module_instance = new GamSocAgentMngtModule();
                                 	<select id="prtAtCode">
 	                                    <option value="" selected="selected">전체</option>
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
 	                                    </c:forEach>
 	                                </select>
-                                    <input type="text" size="4" id="prtAtCodeStr" disabled/>
+                                    <!-- <input type="text" size="4" id="prtAtCodeStr" disabled/> -->
                                 </td>
                                 <th width="16%">대표자</th>
                                 <td><input type="text" id="agentOwner"></td>
@@ -581,6 +562,15 @@ var module_instance = new GamSocAgentMngtModule();
                                 <td><input id="totalAccFee" type="text" class="ygpaNumber" size="20"></td>
                             </tr>
                         </table>
+                        <table style="width:100%;">
+	                        <tr>
+	                            <td style="text-align: right">
+	                                <button id="btnSaveItem">저장</button>
+	                                <button id="btnRemoveItem">삭제</button>
+	                                <button id="btnPrintItem">원부출력</button>
+	                            </td>
+	                        </tr>
+						</table>
 					</form>
                 </div>
                 
@@ -601,9 +591,8 @@ var module_instance = new GamSocAgentMngtModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnSaveItem">저장</button>
-	                                <button id="btnRemoveItem">삭제</button>
-	                                <button id="btnPrintItem">출력</button>
+	                                <button id="btnSaveSubItem">행추가</button>
+	                                <button id="btnRemoveSubItem">선택삭제</button>  
 	                            </td>
 	                        </tr>
 						</table>
@@ -681,7 +670,7 @@ var module_instance = new GamSocAgentMngtModule();
 							</tr>
 							<tr>
 								<th width="10%" height="18">타인사용징수승인일</th>
-                                <td colspan="3"><input id="otherDt" type="text" class="emdcal" size="20"></td>
+                                <td colspan="3"><input id="otherDt" data-column-id="otherDt" type="text" class="emdcal" size="20"></td>
 							</tr>
                         </table>
                     </form>
@@ -689,8 +678,8 @@ var module_instance = new GamSocAgentMngtModule();
 	                    <tr>
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
+	                        	<button id="btnSaveItem" class="buttonSave">저장</button>
 	                            <button id="btnRemoveItem" class="buttonDelete">삭제</button>
-	                            <button id="btnSaveItem" class="buttonSave">저장</button>
 	                        </td>
 	                    </tr>
 	                 </table>

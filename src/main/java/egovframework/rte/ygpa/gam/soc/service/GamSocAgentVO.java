@@ -29,6 +29,7 @@ public class GamSocAgentVO extends ComDefaultVO {
 	 */
 	private static final long serialVersionUID = 1L;
 
+
 	/** 검색항코드 */
     private String sPrtAtCode;
     
@@ -177,7 +178,7 @@ public class GamSocAgentVO extends ComDefaultVO {
     /** 총보전처리누계액 */
     private long sumAccFee;
     
-    
+
 
 	/**
 	 * @return the sPrtAtCode

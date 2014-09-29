@@ -121,8 +121,6 @@ GamPopupSocAgentFModule.prototype.loadData = function() {
 };
 
 
-
-
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupSocAgentFModule();
 </script>
@@ -137,7 +135,7 @@ var popup_instance = new GamPopupSocAgentFModule();
                         	<select id="sPrtAtCode">
                                 <option value="" selected="selected">전체</option>
                                 <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
                                 </c:forEach>
                             </select>
                         </td>

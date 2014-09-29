@@ -8,7 +8,7 @@
     <select id="gamSocCmmUseDAO.selectSocPrtAtCodeDetail_D" resultClass="egovMap">
 		SELECT
 				PRT_AT_CODE
-				,PRT_AT_KOR_NM
+				,PRT_KOR_NM
 		FROM
 				p2mgr.PRT_AT_CODE_F@ygpa_p2mgr
 		WHERE
