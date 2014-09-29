@@ -50,9 +50,8 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});
+	});	
 };
-
 // 사용자 설정 함수 추가
 
 GamPopupSocPayCdModule.prototype.onButtonClick = function(buttonId) {
