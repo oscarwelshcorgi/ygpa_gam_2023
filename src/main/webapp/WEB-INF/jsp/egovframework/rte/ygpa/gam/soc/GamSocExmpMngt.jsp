@@ -85,7 +85,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	});
             break;
         case 'popupChrgeKndCd' : //요금코드조회
-        	var opts;
+        	var opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
 					'<c:url value="/popup/showSocPayCd.do"/>', opts);
         	break;
@@ -197,9 +197,14 @@ var module_instance = new GamSocExmpMngtModule();
 						</tr>
 						<tr>                            
                             <th>회계년도</th>
-                            <td>
-                            	<input id="sFiscalYr" type="text" size="4">&nbsp; &nbsp;
-                            </td>
+                            <td width="100px">
+                                <select id="sFiscalYr">
+                                    <option value="" selected="selected">년</option>
+                                    <c:forEach  items="${yearsList}" var="yearsItem">
+                                        <option value="${yearsItem }">${yearsItem }</option>
+                                    </c:forEach>
+                                </select>
+                            </td>                            
                             <th>관리번호</th>
                             <td>
                                 <input id="sSocNo" type="text" size="6">&nbsp; &nbsp;
