@@ -130,9 +130,18 @@ public class GamSocExmpMngtVO extends ComDefaultVO {
 	/** 비고  **/
 	private String remark;
 
+	/** 요금종류코드  **/
+	private String feeTp;
+	
+	/** 회계년도  **/
+	private String fiscalYr;
+	
+	/** 관리번호  **/
+	private String socNo;
 	/**
 	 * @return the sAppPrtAtCode
 	 */
+	
 	public String getsAppPrtAtCode() {
 		return sAppPrtAtCode;
 	}
@@ -618,5 +627,47 @@ public class GamSocExmpMngtVO extends ComDefaultVO {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	/**
+	 * @return the feeTp
+	 */
+	public String getFeeTp() {
+		return feeTp;
+	}
+
+	/**
+	 * @param feeTp the feeTp to set
+	 */
+	public void setFeeTp(String feeTp) {
+		this.feeTp = feeTp;
+	}
+
+	/**
+	 * @return the fiscalYr
+	 */
+	public String getFiscalYr() {
+		return fiscalYr;
+	}
+
+	/**
+	 * @param fiscalYr the fiscalYr to set
+	 */
+	public void setFiscalYr(String fiscalYr) {
+		this.fiscalYr = fiscalYr;
+	}
+
+	/**
+	 * @return the socNo
+	 */
+	public String getSocNo() {
+		return socNo;
+	}
+
+	/**
+	 * @param socNo the socNo to set
+	 */
+	public void setSocNo(String socNo) {
+		this.socNo = socNo;
 	}
 }

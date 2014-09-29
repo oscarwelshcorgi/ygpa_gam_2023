@@ -37,6 +37,9 @@
 		<result property="realTn" column="REAL_TN" columnIndex="28"/>
 		<result property="jingsuja" column="JINGSUJA" columnIndex="29"/>
 		<result property="remark" column="REMARK" columnIndex="30"/>
+		<result property="feeTp" column="FEE_TP" columnIndex="31"/>
+		<result property="fiscalYr" column="FISCAL_YR" columnIndex="32"/>
+		<result property="socNo" column="SOC_NO" columnIndex="33"/>
 	</resultMap>
 	
 	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetail_D" parameterClass="gamSocExmpMngtVO" resultMap="gamSocExmpMngtSearchMap">
@@ -71,6 +74,9 @@
 		  , TO_CHAR(E.REAL_TN) AS REAL_TN
 		  , E.JINGSUJA
 		  , E.REMARK
+		  , E.FEE_TP
+		  , E.FISCAL_YR
+		  , E.SOC_NO
 		FROM P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 		WHERE 1 = 1
 		  <isNotEmpty prepend="AND" property="sAppPrtAtCode">

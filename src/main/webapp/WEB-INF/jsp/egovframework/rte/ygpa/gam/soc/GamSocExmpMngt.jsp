@@ -40,6 +40,7 @@ GamSocExmpMngtModule.prototype = new EmdModule(1000, 645);
 GamSocExmpMngtModule.prototype.loadComplete = function() {
 };
 
+
 GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         // 조회
@@ -47,6 +48,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	var searchOpt = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/gamSelectSocExmpMngtDetailInquire.do" />', searchOpt, function(module, result) {
         		if(result.resultCode == 0) {
+        			alert(result.resultVO.feeTp);
         			module.$('#prtAtCode').val(result.resultVO.prtAtCode);
         			//module.$('#prtAtKorNm').val(result.resultVO.prtAtKorNm);
         			module.$('#cmplYr').val(result.resultVO.cmplYr);

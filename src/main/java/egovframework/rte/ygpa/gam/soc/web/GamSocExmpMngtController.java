@@ -117,6 +117,26 @@ public class GamSocExmpMngtController {
    		return result;
    	}
     
+	public String getInoutName(String feeTp, String inOut) {
+		String result = null;
+		
+		String[] RCodeName = {"외항", "내항"};
+		String[] LCodeName = {"외항입항", "외항출항", "내항입항", "내항출항", "항내운입", "항내운출"};
+		
+		int index = 0;
+		if((inOut != null) && (inOut.length() == 1)) 
+			index = Integer.parseInt(inOut);
+		
+		if(index > 0) { 
+			if(feeTp.startsWith("L")) {
+				result = LCodeName[index - 1];
+			} else if(feeTp.startsWith("R")) {
+				result = RCodeName[index - 1];
+			} 
+		}
+		return result;
+	}
+	
     @RequestMapping(value="/soc/gamSelectSocExmpMngtDetailInquire.do")
 	@ResponseBody Map selectSocExmpMngtDetailInquire(
 			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
@@ -132,7 +152,8 @@ public class GamSocExmpMngtController {
     	}
 		
 		GamSocExmpMngtVO resultVO = gamSocExmpMngtService.selectSocExmpMngtDetailInquire(gamSocExmpMngtVO);
-
+		resultVO.setInOutName(getInoutName(resultVO.getFeeTp(), resultVO.getInOut()));
+		
 		map.put("resultCode", 0);
 		if(resultVO == null) {
 			map.put("resultCode", 1);
