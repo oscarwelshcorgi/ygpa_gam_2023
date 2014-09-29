@@ -253,7 +253,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     	//String strCustomerNum = (String)map.get("customerNum") ;
     	String strCustomerNum = "" ;
     	BigDecimal bdAmount = new BigDecimal(revCollF.get("billAmnt").toString());
-//    	BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("billSumAmnt").toString());
+    	BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("billSumAmnt").toString());
     	String strDueDate = (String)revCollF.get("dueDate") ;
     	String strCloseDate = (String)revCollF.get("dueDate") ;
     	String strBillDate =  (String)revCollF.get("billDt") ;
@@ -338,8 +338,8 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
         	} else {
         		mapResult.put("printDt", "" );
         		mapResult.put("customerNum", strCustomerNum );
-        		mapResult.put("amount", bdAmount );
-        		mapResult.put("amouuntAf", bdAmount );
+        		mapResult.put("amount", bdBillSumAmnt );
+        		mapResult.put("amouuntAf", bdBillSumAmnt );
         		mapResult.put("dueDate", strDueDate.substring(0, 8) );
         		mapResult.put("closeDate", strCloseDate.substring(0, 8) );
         		mapResult.put("giroNum", strGiroNum );
