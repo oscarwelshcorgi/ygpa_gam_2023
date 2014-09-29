@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,48 +87,35 @@ public class GamSocExmpMngtController {
 
 		//login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-		//공시지가정보
-		//GamPrtFcltyRentMngtVO gvo = new GamPrtFcltyRentMngtVO();
-//		List olnlpList = gamPrtFcltyRentMngtService.selectOlnlpInfo();
-
-		//코픽스 이자율
-		List cofixList = gamPrtFcltyRentMngtService.selectCofixInfo();
-
-		//현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져와서 해당하는 코픽스 이자율 가져오기.
-		GamPrtFcltyRentMngtVO cofixVO = new GamPrtFcltyRentMngtVO();
-		GamPrtFcltyRentMngtVO cofixResultVO = new GamPrtFcltyRentMngtVO();
-
-		cofixVO.setcYear(EgovDateUtil.getToday().substring(0,6));
-		cofixVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtBeforeQuarterInfo(cofixVO);
-
-		if( cofixVO != null ) {
-			cofixResultVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtCofixInfo(cofixVO);
-
-			if( cofixResultVO == null ) {
-				cofixResultVO = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtCofixInfoMax(cofixVO);
-			}
-
-			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrate() != null ) {
-				model.addAttribute("blceStdrIntrrate", cofixResultVO.getBlceStdrIntrrate());
-			}
-
-			if( cofixResultVO != null && cofixResultVO.getBlceStdrIntrrateShow() != null ) {
-				model.addAttribute("blceStdrIntrrateShow", cofixResultVO.getBlceStdrIntrrateShow());
-			}
-		}
 		
 		//청코드 리스트 읽기
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
-		model.addAttribute("cofixList", cofixList);
+		List yearsList = this.getYears();
+		
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/soc/GamSocExmpMngt";
+		model.addAttribute("yearsList", yearsList);
+
+		return "/ygpa/gam/soc/GamSocExmpMngt";
     }
+    
+	public List getYears(){
+
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		int currentYear = cal.get(cal.YEAR);
+		List result = new ArrayList();
+   		
+   		for (int i = 2000; i <= currentYear; i++) {
+   			
+   			result.add(String.valueOf(i));
+   		}
+
+   		return result;
+   	}
     
     @RequestMapping(value="/soc/gamSelectSocExmpMngtDetailInquire.do")
 	@ResponseBody Map selectSocExmpMngtDetailInquire(
