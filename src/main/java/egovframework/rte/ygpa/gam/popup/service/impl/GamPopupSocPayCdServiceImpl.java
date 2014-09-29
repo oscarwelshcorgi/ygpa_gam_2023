@@ -37,7 +37,7 @@ public class GamPopupSocPayCdServiceImpl extends AbstractServiceImpl implements 
     private GamPopupSocPayCdDao gamPopupSocPayCdDao;
 
 	/**
-	 * 업체정보 목록을 조회한다.
+	 * 요금종류정보 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -47,7 +47,7 @@ public class GamPopupSocPayCdServiceImpl extends AbstractServiceImpl implements 
     }
 
     /**
-	 * 업체정보 목록 총 갯수를 조회한다.
+	 * 요금종류정보 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception

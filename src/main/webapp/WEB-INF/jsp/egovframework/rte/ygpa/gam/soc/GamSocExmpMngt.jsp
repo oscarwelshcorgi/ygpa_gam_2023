@@ -64,7 +64,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         			module.$('#inOut').val(result.resultVO.inOut);
         			module.$('#inOutName').val(result.resultVO.inOutName);
         			module.$('#callLetter').val(result.resultVO.callLetter);
-        			module.$('#callLetterName').val(result.resultVO.callLetter);
+        			module.$('#callLetterNm').val(result.resultVO.callLetterNm);
         			module.$('#yr').val(result.resultVO.yr);
         			module.$('#serNo').val(result.resultVO.serNo);
         			module.$('#facCode').val(result.resultVO.facCode);
@@ -98,6 +98,11 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	this.doExecuteDialog('selectFacilCd', '시설 선택',
 					'<c:url value="/popup/showSocFacCd.do"/>', opts);
         	break;
+        case 'popupVsslCd' : //선박호출부호조회
+        	var opts;
+			this.doExecuteDialog('selectVsslCd', '선박 선택',
+					'<c:url value="/popup/showSocVsslCd.do"/>', opts);
+        	break;
 	}
 };
 
@@ -122,16 +127,19 @@ GamSocExmpMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectChrgeKndCd' : 
+     case 'selectChrgeKndCd' : //요금조회
     	 this.$("#sAppPrtAtCode").val(value["prtAtCode"]);
     	 this.$("#sFeeTp").val(value["feeTp"]);
     	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
     	 break;
-     case 'selectFacilCd' :
+     case 'selectFacilCd' : //시설조회
     	 this.$("#facCode").val(value["facCode"]);
     	 this.$("#facSubCode").val(value["facSubCode"]);
     	 this.$("#facKorNm").val(value["facKorNm"]);
     	 break;
+     case 'selectVsslCd' : //선박 호출부호 조회
+    	 this.$("#callLetter").val(value["vsslNo"]);
+    	 this.$("#callLetterNm").val(value["vsslKorNm"]);     
      case 'selectEntrpsInfoPopup':
          break;
      case 'insertEntrpsInfoPopup':
@@ -310,6 +318,7 @@ var module_instance = new GamSocExmpMngtModule();
                                 <td colspan="3">
                                     <input type="text" size="9" id="callLetter" />
                                     <input type="text" size="18" id="callLetterNm" disabled/>
+                                    <button id="popupVsslCd" class="popupButton">선택</button>
                                 </td>
 								<th width="10%" height="18">입항횟수</th>
                                 <td>
