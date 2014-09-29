@@ -51,13 +51,14 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 
 	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
 	});	
+
 };
 // 사용자 설정 함수 추가
 
 GamPopupSocPayCdModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnPaySearch":
-		var searchOpt=this.makeFormArgs("#gamPopupPayForm");
+		var searchOpt=this.makeFormArgs("#gamPopupSocPayForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 		break;
 	case "btnOk":
@@ -88,16 +89,23 @@ var popup_instance = new GamPopupSocPayCdModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="gamPopupPayForm">
+		<form id="gamPopupSocPayForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>
                         <th>청코드</th>
                         <td>
                         	<select id="prtAtCode">
-                                <option value="" selected="selected">선택</option>
+                                <option value="">선택</option>
                                 <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+                                	<c:choose>
+                                		<c:when test="${ prtAtCdItem.prtAtCode eq searchOpt.prtAtCode }">
+                                			<option value="${prtAtCdItem.prtAtCode }" selected="selected">${prtAtCdItem.prtAtKorNm }</option>
+                                		</c:when>
+                                		<c:otherwise>
+                                			<option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+                                		</c:otherwise>
+                                	</c:choose>
                                 </c:forEach>
                             </select>
                         </td>
