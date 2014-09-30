@@ -14,7 +14,7 @@
 		WHERE
 				PA_YN      = 'Y'
 		ORDER BY 
-				PRT_AT_CODE, PRT_AT_KOR_NM
+				PRT_AT_CODE, PRT_KOR_NM
     </select>
 
 </sqlMap>

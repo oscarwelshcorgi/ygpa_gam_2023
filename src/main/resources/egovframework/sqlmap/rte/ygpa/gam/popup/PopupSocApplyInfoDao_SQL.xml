@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.popup">
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupSocApplyInfoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocApplyInfoVO"/>
+    
+
+    <select id="gamPopupSocApplyInfoDao.selectSocApplyInfoList_S" parameterClass="gamPopupSocApplyInfoVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+					        		A.PRT_AT_CODE
+					        	  , (SELECT PRT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR WHERE PRT_AT_CODE=A.PRT_AT_CODE) PRT_KOR_NM
+					              , A.CMPL_YR
+					              , A.CONST_NO
+					              , A.APP_PRT_AT_CODE
+					              , (SELECT PRT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR WHERE PRT_AT_CODE=A.PRT_AT_CODE) APP_PRT_KOR_NM
+					              , A.APP_AGENT_CODE
+					              , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE = A.APP_AGENT_CODE) APP_AGENT_NAME
+					              , A.USE_NO
+					              , TO_CHAR(NVL(A.EXMP_AMNT, 0), '999,999,999,999') EXMP_AMNT
+					              , TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') EXMP_ACC
+					              , TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
+					              , TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
+					              , CASE WHEN A.EXMP_COND = '1' THEN '금액' WHEN A.EXMP_COND = '2' THEN '기간' ELSE '' END EXMP_COND_NM
+								  , A.USE_YN
+					              , A.ITEM
+					              , A.REMARK
+					              , TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
+					        FROM 
+					        	P2MGR.SOC_APPLY_F@YGPA_P2MGR A
+                            WHERE 1=1
+					
+						         <isNotEmpty property="sPrtAtCode">
+						             AND A.PRT_AT_CODE = #sPrtAtCode#
+						         </isNotEmpty>
+							         
+						         <isNotEmpty property="sCmplYr">
+						             AND A.CMPL_YR = #sCmplYr# 
+						         </isNotEmpty>
+						        
+						         <isNotEmpty property="sConstNo">
+						             AND A.CONST_NO = #sConstNo#
+						         </isNotEmpty>
+
+						     <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY A.CMPL_YR DESC, A.CONST_NO DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupSocApplyInfoDao.selectSocApplyInfoListTotCnt_S" parameterClass="gamPopupSocApplyInfoVO" resultClass="int">
+    
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        FROM 
+        	P2MGR.SOC_APPLY_F@YGPA_P2MGR A
+        WHERE 1=1
+
+			<isNotEmpty property="sPrtAtCode">
+			    AND A.PRT_AT_CODE = #sPrtAtCode#
+			</isNotEmpty>
+							         
+			<isNotEmpty property="sCmplYr">
+			    AND A.CMPL_YR = #sCmplYr# 
+			</isNotEmpty>
+						        
+			<isNotEmpty property="sConstNo">
+				AND A.CONST_NO = #sConstNo#
+			</isNotEmpty>
+
+    </select>
+</sqlMap>    

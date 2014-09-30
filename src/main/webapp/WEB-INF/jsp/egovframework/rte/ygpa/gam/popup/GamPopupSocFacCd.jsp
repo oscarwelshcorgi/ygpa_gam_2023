@@ -57,7 +57,7 @@ GamPopupSocFacCdModule.prototype.loadComplete = function() {
 
 GamPopupSocFacCdModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnFacSearch":
+	case "btnSearch":
 		var searchOpt=this.makeFormArgs("#gamPopupFacForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 		break;
@@ -100,7 +100,7 @@ var popup_instance = new GamPopupSocFacCdModule();
                         <td><input id="facSubCode" type="text" size="2" title="요금코드" maxlength="10" /></td>
                     	<th>시설명</th>
 						<td><input id="facKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
-						<td><button id="btnFacSearch">조회</button></td>
+						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
 			</table>

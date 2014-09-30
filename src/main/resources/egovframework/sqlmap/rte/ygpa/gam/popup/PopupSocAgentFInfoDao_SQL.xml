@@ -15,12 +15,12 @@
                      FROM (
                            SELECT 
 					        		F.PRT_AT_CODE
-					              , A.PRT_AT_KOR_NM AS PRT_AT_KOR_NM
+					              , A.PRT_KOR_NM AS PRT_AT_KOR_NM
 					              , F.CMPL_YR
 					              , F.CONST_NO
 					              , F.AGENT_CODE
 					              , F.SOC_PRT_AT_CODE
-					              , B.PRT_AT_KOR_NM AS SOC_PRT_AT_KOR_NM
+					              , B.PRT_KOR_NM AS SOC_PRT_AT_KOR_NM
 					              , F.SOC_CNST_NM
 					              , F.CNST_LOC
 					              , F.AGENT_NAME

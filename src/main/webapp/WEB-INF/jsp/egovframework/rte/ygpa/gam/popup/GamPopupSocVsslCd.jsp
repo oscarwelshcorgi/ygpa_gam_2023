@@ -56,7 +56,7 @@ GamPopupSocVsslCdModule.prototype.loadComplete = function() {
 
 GamPopupSocVsslCdModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnCallSearch":
+	case "btnSearch":
 		var searchOpt=this.makeFormArgs("#gamPopupVsslForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 		break;
@@ -96,7 +96,7 @@ var popup_instance = new GamPopupSocVsslCdModule();
                         <td><input id="feeTp" type="text" size="12" title="호출부호코드" maxlength="12" /></td>
                     	<th>호출선박명</th>
 						<td><input id="feeTpKorNm" type="text" size="30" title="호출선박명" maxlength="40" /></td>
-						<td><button id="btnCallSearch">조회</button></td>
+						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
 			</table>

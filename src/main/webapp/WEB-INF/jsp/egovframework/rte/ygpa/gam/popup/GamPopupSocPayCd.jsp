@@ -35,7 +35,7 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 		url: '<c:url value="/popup/selectSocPayInfoList.do"/>',
 		dataType: "json",
 		colModel : [
-					{display:"청코드",			name:"prtAtCode", 	width:150, 		sortable:true, 		align:"center"},
+					{display:"항코드",			name:"prtAtCode", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"요금종류코드",		name:"feeTp", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"요금종류명",			name:"feeTpKorNm", 	width:255, 		sortable:true, 		align:"left"}
 			],
@@ -57,7 +57,7 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 
 GamPopupSocPayCdModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnPaySearch":
+	case "btnSearch":
 		var searchOpt=this.makeFormArgs("#gamPopupSocPayForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 		break;
@@ -93,17 +93,17 @@ var popup_instance = new GamPopupSocPayCdModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>청코드</th>
+                        <th>항코드</th>
                         <td>
                         	<select id="prtAtCode">
                                 <option value="">선택</option>
                                 <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                 	<c:choose>
                                 		<c:when test="${ prtAtCdItem.prtAtCode eq searchOpt.prtAtCode }">
-                                			<option value="${prtAtCdItem.prtAtCode }" selected="selected">${prtAtCdItem.prtAtKorNm }</option>
+                                			<option value="${prtAtCdItem.prtAtCode }" selected="selected">${prtAtCdItem.prtKorNm }</option>
                                 		</c:when>
                                 		<c:otherwise>
-                                			<option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtAtKorNm }</option>
+                                			<option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
                                 		</c:otherwise>
                                 	</c:choose>
                                 </c:forEach>
@@ -113,7 +113,7 @@ var popup_instance = new GamPopupSocPayCdModule();
                         <td><input id="feeTp" type="text" size="12" title="요금코드" maxlength="10" /></td>
                     	<th>요금명</th>
 						<td><input id="feeTpKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
-						<td><button id="btnPaySearch">조회</button></td>
+						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
 			</table>
