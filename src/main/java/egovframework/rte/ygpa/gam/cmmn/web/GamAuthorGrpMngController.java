@@ -64,7 +64,7 @@ public class GamAuthorGrpMngController {
 	/**
 	 * 그룹별 할당된 권한 목록 조회
 	 * @param authorGroupVO AuthorGroupVO
-	 * @param authorManageVO AuthorManageVO
+	 * @param authorManageVO AuthorManageVO 
 	 * @return String
 	 * @exception Exception
 	 */

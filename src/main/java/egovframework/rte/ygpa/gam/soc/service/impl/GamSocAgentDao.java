@@ -63,5 +63,66 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
     public GamSocAgentVO selectSocAgentInfoSum(GamSocAgentVO searchVO) {
         return (GamSocAgentVO)selectByPk("gamSocAgentDao.selectSocAgentInfoSum_S", searchVO);
     }
+    
+    
+    /**
+	 * 항만공사허가원부 저장
+	 * @param Map
+	 * @exception
+	 */
+	public void insertSocAgentData(Map form){
+		
+		insert("gamSocAgentDao.insertSocAgentData", form);
+
+//		return (String)form.get("maxSocAgentListSeq");
+	}
+	
+	
+	/**
+	 * 항만공사허가원부 수정
+	 * @param Map
+	 * @exception
+	 */
+    public void updateSocAgentData(Map form) {
+    	
+    	// 메인테이블 정보 업데이트
+    	update("gamSocAgentDao.updateSocAgentData",form);
+
+    }
+    
+    
+    /**
+	 * 항만공사허가원부정보 삭제
+	 * @param Map
+	 * @exception
+	 */
+    public void deleteSocAgentData(Map search) {
+    	
+    	// 메인테이블 정보 업데이트
+    	update("gamSocAgentDao.deleteSocAgentData",search);
+
+    }
+    
+	
+    /**
+	 * 항만공사허가원부 하위정보 수정
+	 * @param Map
+	 * @exception
+	 */
+    public void insertSocAgentList(Map form) {
+
+    	insert("gamSocAgentDao.insertNewSocAgentList", form);
+    	
+    }
+    
+    
+    /**
+	 * 항만공사허가원부 하위정보 삭제
+	 * @param Map
+	 * @exception
+	 */
+    public void deleteSocAgentList(Map form) throws Exception{
+    	delete("gamSocAgentDao.deleteOldSocAgentList", form);
+    }
 
 }

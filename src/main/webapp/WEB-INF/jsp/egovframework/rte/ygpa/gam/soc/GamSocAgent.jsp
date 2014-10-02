@@ -41,16 +41,19 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocAgentList.do" />',
         dataType: 'json',
         colModel : [
-					{display:"선택", 				name:"chkDel",		width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
 					{display:'업체코드', 			name:'agentCode',	width:80, 		sortable:false,		align:'center'},
                     {display:'업체명', 			name:'firmKorNm',	width:160, 		sortable:false,		align:'center'},
-                    {display:'보전처리대상금액', 	name:'totalAmnt',	width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'보전처리누계액', 		name:'accFee',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'비고', 				name:'remark',		width:260, 		sortable:false,		align:'left'}
+                    {display:'허가원부일련번호', 	name:'constNo',		width:110, 		sortable:false,		align:'center'},
+                    {display:'보전처리대상금액', 	name:'totalAmnt',	width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'보전처리누계액', 		name:'accFee',		width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'비고', 				name:'remark',		width:240, 		sortable:false,		align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+        	
+        	module._socAgentInfo = data.socAgentInfo;
+        	
         	//그리드 상단 입력창에 정보 입력
         	if(data.socAgentInfo){
         		
@@ -58,7 +61,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 	        	
 	        	//항만공사시행허가원부II 정보입력
         		module.makeFormValues('#gamSocAgentForm',data.socAgentInfo);
-
+				
        		}else{
        			//console.log('debug');
        			module.makeFormValues('#form1',{});
@@ -215,6 +218,39 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         
         // 신청저장
         case 'btnSaveItem':
+        	
+        	var inputVO = [];
+        	
+        	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
+        	var searchData = JSON.stringify(this.makeFormArgs("#gamSocAgentMngtSearchForm"));
+        	var updateData = JSON.stringify(this.makeFormArgs("#form1"));
+        	var updateData1 = JSON.stringify(this.makeFormArgs("#gamSocAgentForm"));
+        	
+        	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
+        	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
+        	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
+        	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
+        	/* if(this._cmd == "insert") {
+			 	this.doAction('<c:url value="/soc/gamInsertSocAgentList.do" />', all_rows, function(module, result) {
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#fcltyForm");
+						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#socAgentListTab").tabs("option", {active: 0});
+						//module.$("#fcltyManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}else{ */
+			 	this.doAction('<c:url value="/soc/gamUpdateSocAgentList.do" />', inputVO, function(module, result) {
+			 		/* if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#fcltyForm");
+						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#socAgentListTab").tabs("option", {active: 0});
+						//module.$("#fcltyManageVO :input").val("");
+			 		}
+			 		alert(result.resultMsg); */
+			 	});
+			//}
 
         	/* if(!validateGamSocAgent(this.$('#gamAssetRentForm')[0])) {
                 return;
@@ -331,6 +367,11 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             var opts;
             this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
             break;
+            
+        case 'btnPopupSaveSocAgent':
+    		var all_rows = this.$('#socAgentMngtList').flexGetData();
+    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
+            break;
 
     }
 };
@@ -399,15 +440,14 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              alert('취소 되었습니다');
          }
          break;
-     case 'insertEntrpsInfoPopup':
-         if (msg != 'cancel') {
-             this.$('#entrpscd').val(value.entrpscd);
-             this.$('#entrpsNm').val(value.entrpsNm);
-             this.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
+     case 'addSocAgentPopup':
+    	 
+    	 if(this['_socAgentInfo']==undefined){
+    		 this['_socAgentInfo'] = null;
+    	 }
+    	 this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
+    	 
+        break;
      case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
              if( value == "0" ) {
@@ -517,7 +557,6 @@ var module_instance = new GamSocAgentMngtModule();
                             <tr>
                                 <th width="16%">*공사항만코드</th>
                                 <td>
-                                	<!-- <input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" /> -->
                                 	<select id="prtAtCode">
 	                                    <option value="" selected="selected">전체</option>
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -559,7 +598,7 @@ var module_instance = new GamSocAgentMngtModule();
                                 <th width="16%">*총공사금액</th>
                                 <td><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" ></td>
                                 <th width="16%">보전처리누계액</th>
-                                <td><input id="totalAccFee" type="text" class="ygpaNumber" size="20"></td>
+                                <td><input id="totalAmnt" type="text" class="ygpaNumber" size="20"></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
@@ -591,8 +630,7 @@ var module_instance = new GamSocAgentMngtModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnSaveSubItem">행추가</button>
-	                                <button id="btnRemoveSubItem">선택삭제</button>  
+	                                <button id="btnPopupSaveSocAgent">행추가/삭제</button>
 	                            </td>
 	                        </tr>
 						</table>

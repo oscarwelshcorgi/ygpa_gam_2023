@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
 <sqlMap namespace="ygpa.gam.soc">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
@@ -200,5 +200,248 @@
 		         )
 	         </isNotEmpty>
     </select>
+    
+    
+    <insert id="gamSocAgentDao.insertSocAgentData">
+  		<![CDATA[
+		INSERT
+		  INTO P2MGR.SOC_AGENT_F@YGPA_P2MGR 
+		       (
+		           PRT_AT_CODE
+	              , CMPL_YR
+	              , CONST_NO
+	              , AGENT_CODE
+	              , SOC_PRT_AT_CODE
+	              , SOC_CNST_NM
+	              , CNST_LOC
+	              , AGENT_NAME
+	              , AGENT_ADDR
+	        	  , AGENT_OWNER
+	        	  , SOC_OBJ
+	        	  , SOC_GIGIAN
+	        	  , SOC_WIDTH
+	        	  , SOC_NATION
+	        	  , SOC_PRIVATE
+	        	  , APRV_DT
+	        	  , PERF_DT
+	        	  , CMPL_DT
+	        	  , START_DT
+	        	  , MODIFY_DT1
+	        	  , MODIFY_DT2
+	        	  , MODIFY_TXT
+	        	  , PRIME_TXT
+	        	  , TOTAL_AMNT
+	        	  , ACC_FEE
+	        	  , RESERACH_AMNT
+	        	  , PURE_AMNT
+	        	  , EXTRA_AMNT1
+	        	  , EXTRA_AMNT2
+	        	  , EXTRA_AMNT3
+	        	  , EXTRA_AMNT4
+	        	  , REMARK
+	        	  , MANAGE_DT
+	        	  , ASSET_DT
+	        	  , FREEUSE_DT
+	        	  , OTHER_DT
+	        	  , FREEFR_DT
+	        	  , FREETO_DT
+	        	  , RANGE
+	        	  , BZ_RGST_ID
+	        	  , UPDT_UID
+	        	  , UPDT_DATE
+		       )
+		       VALUES
+		       (
+		           #prtAtCode# ,
+		           #cmplYr# ,
+		           #constNo# ,
+		           #agentCode# ,
+		           #socPrtAtCode# ,
+		           #socCnstNm# ,
+		           #cnstLoc# ,
+		           #agentName# ,
+		           #agentAddr# ,
+		           #agentOwner# ,
+		           #socObj# ,
+		           #socGigian# ,
+		           #socWidth# ,
+		           #socNation# ,
+		           #socPrivate# ,
+		           #aprvDt# ,
+		           #perfDt# ,
+		           #cmplDt# ,
+		           #startDt# ,
+		           #modifyDt1# ,
+		           #modifyDt2# ,
+		           #modifyTxt# ,
+		           #primeTxt# ,
+		           #totalAmnt# ,
+		           #accFee# ,
+		           #reserachAmnt# ,
+		           #pureAmnt# ,
+		           #extraAmnt1# ,
+		           #extraAmnt2# ,
+		           #extraAmnt3# ,
+		           #extraAmnt4# ,
+		           #remark# ,
+		           #manageDt# ,
+		           #assetDt# ,
+		           #freeuseDt# ,
+		           #otherDt# ,
+		           #freefrDt# ,
+		           #freetoDt# ,
+		           #range# ,
+		           #bzRgstId# ,
+		           #updtUid# ,
+		           SYSDATE
+		        )
+        ]]>
+    </insert>
+    
+    <insert id="gamSocAgentDao.insertNewSocAgentList">
+    
+    	<![CDATA[
+		INSERT
+		  INTO P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR 
+		       (
+		           PRT_AT_CODE
+	              , CMPL_YR
+	              , CONST_NO
+	              , AGENT_CODE
+	        	  , TOTAL_AMNT
+	        	  , ACC_FEE
+	        	  , REMARK
+	        	  , UPDT_UID
+	        	  , UPDT_DATE
+		       )
+		       VALUES 
+		       (
+		           #prtAtCode# ,
+		           #cmplYr# ,
+		           #constNo# ,
+		           #agentCode# ,
+		           #totalAmnt# ,
+		           #accFee# ,
+		           #remark# ,
+		           #updtUid# ,
+		           SYSDATE
+		        )
+        ]]>
+  		
+    </insert>
+    
+    
+    <update id="gamSocAgentDao.updateSocAgentData">
+    
+    	<![CDATA[
+            UPDATE P2MGR.SOC_AGENT_F@YGPA_P2MGR 
+            SET
+		      PRT_AT_CODE = #prtAtCode# ,                  
+              CMPL_YR = #cmplYr# ,      
+              CONST_NO = #constNo# ,     
+              AGENT_CODE = #agentCode# ,   
+              SOC_PRT_AT_CODE = #socPrtAtCode# ,
+              SOC_CNST_NM = #socCnstNm# ,   
+              CNST_LOC = #cnstLoc# ,     
+              AGENT_NAME = #agentName# ,   
+              AGENT_ADDR = #agentAddr# ,   
+        	  AGENT_OWNER = #agentOwner# ,  
+        	  SOC_OBJ = #socObj# ,      
+        	  SOC_GIGIAN = #socGigian# ,   
+        	  SOC_WIDTH = #socWidth# ,    
+        	  SOC_NATION = #socNation# ,   
+        	  SOC_PRIVATE = #socPrivate# ,  
+        	  APRV_DT = #aprvDt# ,      
+        	  PERF_DT = #perfDt# ,      
+        	  CMPL_DT = #cmplDt# ,      
+        	  START_DT = #startDt# ,     
+        	  MODIFY_DT1 = #modifyDt1# ,   
+        	  MODIFY_DT2 = #modifyDt2# ,   
+        	  MODIFY_TXT = #modifyTxt# ,   
+        	  PRIME_TXT = #primeTxt# ,    
+        	  TOTAL_AMNT = #totalAmnt# ,   
+        	  ACC_FEE = #accFee# ,      
+        	  RESERACH_AMNT = #reserachAmnt# ,
+        	  PURE_AMNT = #pureAmnt# ,    
+        	  EXTRA_AMNT1 = #extraAmnt1# ,  
+        	  EXTRA_AMNT2 = #extraAmnt2# ,  
+        	  EXTRA_AMNT3 = #extraAmnt3# ,  
+        	  EXTRA_AMNT4 = #extraAmnt4# ,  
+        	  REMARK = #remark# ,      
+        	  MANAGE_DT = #manageDt# ,    
+        	  ASSET_DT = #assetDt# ,     
+        	  FREEUSE_DT = #freeuseDt# ,   
+        	  OTHER_DT = #otherDt# ,     
+        	  FREEFR_DT = #freefrDt# ,    
+        	  FREETO_DT = #freetoDt# ,    
+        	  RANGE = #range# ,       
+        	  BZ_RGST_ID = #bzRgstId# ,    
+        	  UPDT_UID = #updtUid# ,     
+        	  UPDT_DATE = SYSDATE         
+		       
+			WHERE 1<>1
+        ]]>
+        
+	         <isNotEmpty property="sPrtAtCode">
+	             OR (PRT_AT_CODE = #sPrtAtCode#
+	             
+	             <isNotEmpty property="sCmplYr">
+		             AND CMPL_YR = #sCmplYr#
+		         </isNotEmpty>
+		         
+		         <isNotEmpty property="sConstNo">
+		             AND CONST_NO = #sConstNo#
+		         </isNotEmpty>
+		         
+		         )
+	         </isNotEmpty>
+        
+    </update>
+    
+    <delete id="gamSocAgentDao.deleteSocAgentData">
+    
+    	<![CDATA[
+            DELETE
+			  FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR 
+			 WHERE 1<>1
+		]]>	 
+			<isNotEmpty property="sPrtAtCode">
+	             OR (PRT_AT_CODE = #sPrtAtCode#
+	             
+	             <isNotEmpty property="sCmplYr">
+		             AND CMPL_YR = #sCmplYr#
+		         </isNotEmpty>
+		         
+		         <isNotEmpty property="sConstNo">
+		             AND CONST_NO = #sConstNo#
+		         </isNotEmpty>
+		         
+		         )
+	         </isNotEmpty>
+    </delete>
+    
+    
+    <delete id="gamSocAgentDao.deleteOldSocAgentList">
+    
+    	<![CDATA[
+            DELETE
+			  FROM P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR 
+			 WHERE 1<>1
+		]]>	 
+			<isNotEmpty property="prtAtCode">
+	             OR (D.PRT_AT_CODE = #prtAtCode#
+	             
+	             <isNotEmpty property="agentCode">
+		             AND D.AGENT_CODE = #agentCode#
+		         </isNotEmpty>
+		         
+		         <isNotEmpty property="sCmplYr">
+		             AND D.CMPL_YR = #sCmplYr#
+		         </isNotEmpty>
+		         
+		         )
+	         </isNotEmpty>
+
+    </delete>
 
 </sqlMap>

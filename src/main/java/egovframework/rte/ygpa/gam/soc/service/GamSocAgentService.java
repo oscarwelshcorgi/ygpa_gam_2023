@@ -52,4 +52,45 @@ public interface GamSocAgentService {
 	 * @exception
 	 */
     GamSocAgentVO selectSocAgentInfoSum(GamSocAgentVO searchVO) throws Exception;
+    
+    
+    /**
+	 * 항만공사허가원부 저장
+	 * @param Map
+	 * @exception
+	 */
+    public void insertSocAgentData(Map form) throws Exception;
+    
+    
+    /**
+	 * 항만공사허가원부정보 수정
+	 * @param Map
+	 * @exception
+	 */
+    public void updateSocAgentData(Map form) throws Exception;
+    
+    
+    /**
+	 * 항만공사허가원부정보 삭제
+	 * @param Map
+	 * @exception
+	 */
+    public void deleteSocAgentData(Map search) throws Exception;
+    
+    
+    /**
+	 * 항만공사허가원부하위정보 수정
+	 * @param Map
+	 * @exception
+	 */
+    public void insertSocAgentList(Map form) throws Exception;
+    
+    
+    /**
+	 * 항만공사허가원부 삭제
+	 * @param Map
+	 * @exception
+	 */
+    public void deleteSocAgentList(Map form) throws Exception;
+    
 }

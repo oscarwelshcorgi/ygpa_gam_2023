@@ -306,7 +306,6 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "saveBtn":
 
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
-
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
 			var info = "||"+this.$("#info1").val();
 			info += "||"+this.$("#info2").val();
