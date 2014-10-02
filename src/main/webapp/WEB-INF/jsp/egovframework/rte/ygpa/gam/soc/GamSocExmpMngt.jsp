@@ -64,6 +64,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/gamSelectSocExmpMngtDetailInquire.do" />', opts, function(module, result) {
         		if(result.resultCode == 0) {
+        			module.$('#gamSocExmpMngtForm :input').val('');
         			module.makeFormValues('#gamSocExmpMngtForm', result.resultVO);
         			module.$('#tempAppPrtAtCode').val(result.resultVO.appPrtAtCode);
         		}
@@ -80,10 +81,6 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	this.$('#cmd').val('insert');
         	break;*/
         case 'btnNewSocNo' : //신규관리번호생성
-        	if(this.$('#cmd').val() == 'select') {
-        		alert('신규시에만 새로운 관리번호가 부여됩니다.');
-        		break;
-        	}
         	if(this.$('#sAppPrtAtCode').val() == '') {
         		alert('항코드를 선택하세요.');
         		break;
@@ -99,14 +96,16 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/selectSocExmpMngtGetNextSocNo.do" />', opts, function(module, result) {
         		if(result.resultCode == 0) {
-        			this.$('#gamSocExmpMngtForm :input').val('');
+        			module.$('#gamSocExmpMngtForm :input').val('');
 
         			module.$('#sSocNo').val(result.nextSocNo);
         			module.$('#appPrtAtCode').val(module.$('#sAppPrtAtCode').val());
         			module.$('#tempAppPrtAtCode').val(module.$('#sAppPrtAtCode').val());
         			module.$('#feeTp').val(module.$('#sFeeTp').val());
         			module.$('#fiscalYr').val(module.$('#sFiscalYr').val());
-        			module.$('#socNo').val(module.$('#sSocNo').val());        			
+        			module.$('#socNo').val(module.$('#sSocNo').val());
+        			
+        			module.$('#cmd').val('insert');
         		}
         		else {
         			alert(result.resultMsg);
@@ -147,26 +146,35 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 				//신규등록
 	        	this.doAction('<c:url value="/soc/gamInsertSocExmpMngtDetail.do" />', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
-	        			alert('성공적으로 저장되었습니다.');
-	        			this.$('#gamSocExmpMngtSearchForm :input').val('');
-	            		this.$('#gamSocExmpMngtForm :input').val('');
-	            		this.$('#cmd').val('insert');
+	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
+	            		module.$('#gamSocExmpMngtForm :input').val('');
+	            		module.$('#cmd').val('select');
 	        		}
-	        		else {
-	        			alert(result.resultMsg);
-	        		}	
+	        		alert(result.resultMsg);
 	        	});
 			} else {
 				//수정
-	        	this.doAction('<c:url value="/soc/gamInsertSocExmpMngtDetail.do" />', opts, function(module, result) {
-	        		if(result.resultCode == 0) {
-	        			alert('성공적으로 저장되었습니다.');
-	        		}
-	        		else {
-	        			alert(result.resultMsg);
-	        		}	
+	        	this.doAction('<c:url value="/soc/gamUpdateSocExmpMngtDetail.do" />', opts, function(module, result) {
+	        		alert(result.resultMsg);
 	        	});
 			}        	
+        	break;
+        case 'btnDelete' : //삭제
+			if((this.$('#cmd').val() == 'insert')) {
+				alert('삭제할 데이터를 조회하세요.');
+				break;
+			}
+        	if(confirm('데이터를 삭제하시겠습니까?')) {
+				opts = this.makeFormArgs('#gamSocExmpMngtForm');
+	        	this.doAction('<c:url value="/soc/gamDeleteSocExmpMngtDetail.do" />', opts, function(module, result) {
+	        		if(result.resultCode == 0) {
+	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
+	            		module.$('#gamSocExmpMngtForm :input').val('');
+	            		module.$('#cmd').val('select');
+	        		}
+	        		alert(result.resultMsg);
+	        	});
+        	}
         	break;
         case 'popupChrgeKndCd' : //요금코드조회
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
@@ -222,6 +230,11 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      case 'selectApplyInfo' : //신청업체(투자비 보전 신청업체) 조회
     	 this.$("#appAgentCode").val(value["appAgentCode"]);
     	 this.$("#appAgentName").val(value["appAgentName"]);
+    	 this.$("#useNo").val(value["useNo"]);
+    	 this.$("#cmplYr").val(value["cmplYr"]);
+    	 this.$("#constNo").val(value["constNo"]);
+    	 this.$("#appPrtAtCode").val(value["appPrtAtCode"]);
+    	 this.$("#prtAtCode").val(value["prtAtCode"]);
     	 break;
      case 'selectAgentInfo' : //면제업체 조회
     	 this.$("#exmpAgentCode").val(value["agentCode"]);
@@ -314,7 +327,7 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">공사관리청</th>
                                 <td>
-                            		<input id="cmd" type="hidden" value="insert" />
+                            		<input id="cmd" type="hidden" value="select" />
                                 	<input id="tempAppPrtAtCode" type="hidden" />
                                 	<input id="feeTp" type="hidden"/>
                                 	<input id="fiscalYr" type="hidden"/>
