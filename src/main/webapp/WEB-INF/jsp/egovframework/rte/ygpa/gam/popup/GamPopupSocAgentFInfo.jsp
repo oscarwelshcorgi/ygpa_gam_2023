@@ -130,7 +130,7 @@ var popup_instance = new GamPopupSocAgentFModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>청코드</th>
+                        <th>항코드</th>
                         <td>
                         	<select id="sPrtAtCode">
                                 <option value="" selected="selected">전체</option>

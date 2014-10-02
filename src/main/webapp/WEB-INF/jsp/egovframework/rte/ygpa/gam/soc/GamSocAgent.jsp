@@ -222,9 +222,9 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	var inputVO = [];
         	
         	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
-        	var searchData = JSON.stringify(this.makeFormArgs("#gamSocAgentMngtSearchForm"));
-        	var updateData = JSON.stringify(this.makeFormArgs("#form1"));
-        	var updateData1 = JSON.stringify(this.makeFormArgs("#gamSocAgentForm"));
+        	var searchData = this.makeFormArgs("#gamSocAgentMngtSearchForm");
+        	var updateData = this.makeFormArgs("#form1");
+        	var updateData1 = this.makeFormArgs("#gamSocAgentForm");
         	
         	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
         	inputVO[inputVO.length] = {name: 'searchData',value: searchData};

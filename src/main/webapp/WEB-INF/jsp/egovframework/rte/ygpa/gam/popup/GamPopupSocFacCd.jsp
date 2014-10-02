@@ -94,6 +94,15 @@ var popup_instance = new GamPopupSocFacCdModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
+                        <th>항코드</th>
+                        <td>
+                        	<select id="sPrtAtCode">
+                                <option value="" selected="selected">전체</option>
+                                <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+                                </c:forEach>
+                            </select>
+                        </td>					
                         <th>시설코드</th>
                         <td><input id="facCode" type="text" size="3" title="요금코드" maxlength="10" /></td>
 						<th>시설부코드</th>
