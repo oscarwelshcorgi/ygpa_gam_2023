@@ -7,89 +7,359 @@
     <typeAlias alias="gamSocExmpMngtVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO" />
 	
 	<resultMap id="gamSocExmpMngtSearchMap" class="egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO">
-        <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>
-		<result property="prtAtKorNm" column="PRT_AT_KOR_NM" columnIndex="2"/>
-		<result property="cmplYr" column="CMPL_YR" columnIndex="3"/>
-		<result property="constNo" column="CONST_NO" columnIndex="4"/>
-		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="5"/>
-		<result property="appPrtAtKorNm" column="APP_PRT_AT_KOR_NM" columnIndex="6"/>
-		<result property="useNo" column="USE_NO" columnIndex="7"/>
-		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="8"/>
-		<result property="appAgentName" column="APP_AGENT_NAME" columnIndex="9"/>
-		<result property="exmpPrtAtCode" column="EXMP_PRT_AT_CODE" columnIndex="10"/>
-		<result property="exmpPrtAtKorNm" column="EXMP_PRT_AT_KOR_NM" columnIndex="11"/>
-		<result property="exmpAgentCode" column="EXMP_AGENT_CODE" columnIndex="12"/>
-		<result property="exmpAgentName" column="EXMP_AGENT_NAME" columnIndex="13"/>
-		<result property="exmpType" column="EXMP_TYPE" columnIndex="14"/>
-		<result property="inOut" column="IN_OUT" columnIndex="15"/>
-		<result property="callLetter" column="CALL_LETTER" columnIndex="16"/>
-		<result property="callLetterNm" column="CALL_LETTER_NM" columnIndex="17"/>
-		<result property="yr" column="YR" columnIndex="18"/>
-		<result property="serNo" column="SER_NO" columnIndex="19"/>
-		<result property="facCode" column="FAC_CODE" columnIndex="20"/>
-		<result property="facSubCode" column="FAC_SUB_CODE" columnIndex="21"/>
-		<result property="facKorNm" column="FAC_KOR_NM" columnIndex="22"/>
-		<result property="billDt" column="BILL_DT" columnIndex="23"/>
-		<result property="ioDt" column="IO_DT" columnIndex="24"/>
-		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="25"/>
-		<result property="standardFee" column="STANDARD_FEE" columnIndex="26"/>
-		<result property="billNo" column="BILL_NO" columnIndex="27"/>
-		<result property="realTn" column="REAL_TN" columnIndex="28"/>
-		<result property="jingsuja" column="JINGSUJA" columnIndex="29"/>
-		<result property="remark" column="REMARK" columnIndex="30"/>
-		<result property="feeTp" column="FEE_TP" columnIndex="31"/>
-		<result property="fiscalYr" column="FISCAL_YR" columnIndex="32"/>
-		<result property="socNo" column="SOC_NO" columnIndex="33"/>
+		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="1"/>
+		<result property="appPrtAtKorNm" column="APP_PRT_AT_KOR_NM" columnIndex="2"/>
+		<result property="feeTp" column="FEE_TP" columnIndex="3"/>
+		<result property="fiscalYr" column="FISCAL_YR" columnIndex="4"/>
+		<result property="socNo" column="SOC_NO" columnIndex="5"/>
+		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="6"/>
+		<result property="appAgentName" column="APP_AGENT_NAME" columnIndex="7"/>
+		<result property="useNo" column="USE_NO" columnIndex="8"/>
+        <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="9"/>
+		<result property="prtAtKorNm" column="PRT_AT_KOR_NM" columnIndex="10"/>
+		<result property="cmplYr" column="CMPL_YR" columnIndex="11"/>
+		<result property="constNo" column="CONST_NO" columnIndex="12"/>
+		<result property="exmpAgentCode" column="EXMP_AGENT_CODE" columnIndex="13"/>
+		<result property="exmpAgentName" column="EXMP_AGENT_NAME" columnIndex="14"/>
+		<result property="vsslKey" column="VSSL_KEY" columnIndex="15"/>
+		<result property="yr" column="YR" columnIndex="16"/>
+		<result property="serNo" column="SER_NO" columnIndex="17"/>
+		<result property="billNo" column="BILL_NO" columnIndex="18"/>
+		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="19"/>
+		<result property="inOut" column="IN_OUT" columnIndex="20"/>
+		<result property="billUseNo" column="BILL_USE_NO" columnIndex="21"/>
+		<result property="facCode" column="FAC_CODE" columnIndex="22"/>
+		<result property="facSubCode" column="FAC_SUB_CODE" columnIndex="23"/>
+		<result property="facKorNm" column="FAC_KOR_NM" columnIndex="24"/>
+		<result property="ioDt" column="IO_DT" columnIndex="25"/>
+		<result property="dcCode" column="DC_CODE" columnIndex="26"/>
+		<result property="dcRate" column="DC_RATE" columnIndex="27"/>
+		<result property="billDt" column="BILL_DT" columnIndex="28"/>
+		<result property="standardFee" column="STANDARD_FEE" columnIndex="29"/>
+		<result property="realTn" column="REAL_TN" columnIndex="30"/>
+		<result property="remark" column="REMARK" columnIndex="31"/>
+		<result property="exmpType" column="EXMP_TYPE" columnIndex="32"/>
+		<result property="updtUid" column="UPDT_UID" columnIndex="33" />
+		<result property="updtDate" column="UPDT_DATE" columnIndex="34"/>
+		<result property="callLetter" column="CALL_LETTER" columnIndex="35"/>
+		<result property="callLetterNm" column="CALL_LETTER_NM" columnIndex="36"/>
+		<result property="dcRateNm" column="DC_RATE_NM" columnIndex="37"/>
+		<result property="exmpPrtAtCode" column="EXMP_PRT_AT_CODE" columnIndex="38"/>
+		<result property="exmpPrtAtKorNm" column="EXMP_PRT_AT_KOR_NM" columnIndex="39"/>
+		<result property="jingsuja" column="JINGSUJA" columnIndex="40"/>
 	</resultMap>
 	
 	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetail_D" parameterClass="gamSocExmpMngtVO" resultMap="gamSocExmpMngtSearchMap">
 		SELECT
-		  E.PRT_AT_CODE
-		  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.PRT_AT_CODE = P.PRT_AT_CODE) PRT_AT_KOR_NM
-		  , E.CMPL_YR
-		  , E.CONST_NO
-		  , E.APP_PRT_AT_CODE
-		  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.APP_PRT_AT_CODE = P.PRT_AT_CODE) APP_PRT_AT_KOR_NM
-		  , E.USE_NO
-		  , E.APP_AGENT_CODE
-		  , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR AG WHERE E.EXMP_AGENT_CODE = AG.AGENT_CODE) APP_AGENT_NAME
-		  , E.EXMP_PRT_AT_CODE
-		  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.EXMP_PRT_AT_CODE = P.PRT_AT_CODE) EXMP_PRT_AT_KOR_NM
-		  , E.EXMP_AGENT_CODE
-		  , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR AG WHERE E.EXMP_AGENT_CODE = AG.AGENT_CODE) EXMP_AGENT_NAME
-		  , E.EXMP_TYPE
-		  , E.IN_OUT
-		  , E.CALL_LETTER
-		  , (SELECT VSSL_KOR_NM FROM P2MGR.VSSL_F@YGPA_P2MGR VS WHERE E.CALL_LETTER = VS.VSSL_NO) CALL_LETTER_NM
-		  , E.YR
-		  , E.SER_NO
-		  , E.FAC_CODE 
-		  , E.FAC_SUB_CODE
-		  , (SELECT FAC_KOR_NM FROM P2MGR.FACIL_NM_F@YGPA_P2MGR F WHERE E.PRT_AT_CODE = F.PRT_AT_CODE AND E.FAC_CODE = F.FAC_CODE AND E.FAC_SUB_CODE = F.FAC_SUB_CODE) FAC_KOR_NM
-		  , TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') AS BILL_DT
-		  , TO_CHAR(E.IO_DT, 'YYYY-MM-DD') AS IO_DT
-		  , TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
-		  , TO_CHAR(NVL(E.STANDARD_FEE, '')) AS STANDARD_FEE
-		  , E.BILL_NO
-		  , TO_CHAR(E.REAL_TN) AS REAL_TN
-		  , E.JINGSUJA
-		  , E.REMARK
-		  , E.FEE_TP
-		  , E.FISCAL_YR
-		  , E.SOC_NO
-		FROM P2MGR.SOC_EXMP_F@YGPA_P2MGR E
-		WHERE 1 = 1
-		  <isNotEmpty prepend="AND" property="sAppPrtAtCode">
-			E.APP_PRT_AT_CODE=#sAppPrtAtCode#
-		  </isNotEmpty>
-		  <isNotEmpty prepend="AND" property="sFeeTp">
-			E.FEE_TP=#sFeeTp#
-		  </isNotEmpty>
-		  <isNotEmpty prepend="AND" property="sFiscalYr">
-			E.FISCAL_YR=#sFiscalYr#
-		  </isNotEmpty>
-		  <isNotEmpty prepend="AND" property="sSocNo">
-			E.SOC_NO=#sSocNo#
-		  </isNotEmpty>
-	</select>	
+				E.APP_PRT_AT_CODE
+				, (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.APP_PRT_AT_CODE = P.PRT_AT_CODE) APP_PRT_AT_KOR_NM
+				, E.FEE_TP
+				, E.FISCAL_YR
+				, E.SOC_NO
+				, E.APP_AGENT_CODE
+		  		, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR AG WHERE E.EXMP_AGENT_CODE = AG.AGENT_CODE) APP_AGENT_NAME
+				, E.USE_NO
+				, E.PRT_AT_CODE
+		  		, (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.PRT_AT_CODE = P.PRT_AT_CODE) PRT_AT_KOR_NM
+		  		, E.CMPL_YR
+		  		, E.CONST_NO
+		  		, E.EXMP_AGENT_CODE
+		  		, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR AG WHERE E.EXMP_AGENT_CODE = AG.AGENT_CODE) EXMP_AGENT_NAME
+		  		, E.VSSL_KEY
+		  		, E.YR
+		  		, E.SER_NO
+		  		, E.BILL_NO
+		  		, TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+		  		, E.IN_OUT
+		  		, E.BILL_USE_NO
+		  		, E.FAC_CODE
+		  		, E.FAC_SUB_CODE
+		  		, (SELECT FAC_KOR_NM FROM P2MGR.FACIL_NM_F@YGPA_P2MGR F WHERE E.PRT_AT_CODE = F.PRT_AT_CODE AND E.FAC_CODE = F.FAC_CODE AND E.FAC_SUB_CODE = F.FAC_SUB_CODE) FAC_KOR_NM
+		  		, TO_CHAR(E.IO_DT, 'YYYY-MM-DD') AS IO_DT
+		  		, E.DC_CODE
+		  		, E.DC_RATE
+		  		, TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') AS BILL_DT
+		  		, TO_CHAR(NVL(E.STANDARD_FEE, '')) AS STANDARD_FEE
+		  		, TO_CHAR(E.REAL_TN) AS REAL_TN
+		  		, E.REMARK
+		  		, E.EXMP_TYPE
+		  		, E.UPDT_UID
+		  		, TO_CHAR(E.UPDT_DATE, 'YYYY-MM-DD') AS UPDT_DATE
+		  		, E.CALL_LETTER
+		  		, (SELECT VSSL_KOR_NM FROM P2MGR.VSSL_F@YGPA_P2MGR VS WHERE E.CALL_LETTER = VS.VSSL_NO) CALL_LETTER_NM
+		  		, E.DC_RATE_NM
+		  		, E.EXMP_PRT_AT_CODE
+		  		, (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE E.EXMP_PRT_AT_CODE = P.PRT_AT_CODE) EXMP_PRT_AT_KOR_NM
+		  		, E.JINGSUJA
+		FROM 
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+		WHERE 
+				1 = 1
+			  <isNotEmpty prepend="AND" property="sAppPrtAtCode">
+				E.APP_PRT_AT_CODE=#sAppPrtAtCode#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="sFeeTp">
+				E.FEE_TP=#sFeeTp#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="sFiscalYr">
+				E.FISCAL_YR=#sFiscalYr#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="sSocNo">
+				E.SOC_NO=#sSocNo#
+			  </isNotEmpty>
+	</select>
+
+	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetailTotCnt_S" parameterClass="gamSocExmpMngtVO" resultClass="int">
+		SELECT
+				COUNT(*) TOTCNT
+		FROM
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+		WHERE 
+				1 = 1
+			  <isNotEmpty prepend="AND" property="sAppPrtAtCode">
+				E.APP_PRT_AT_CODE=#sAppPrtAtCode#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="sFeeTp">
+				E.FEE_TP=#sFeeTp#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="sFiscalYr">
+				E.FISCAL_YR=#sFiscalYr#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="sSocNo">
+				E.SOC_NO=#sSocNo#
+			  </isNotEmpty>
+	</select>
+
+	<select id="gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo" parameterClass="gamSocExmpMngtVO" resultClass="String">
+		SELECT
+				TO_CHAR(MAX(TO_NUMBER(SOC_NO)) + 1)
+		FROM
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+		WHERE 
+				1 = 1
+			  <isNotEmpty prepend="AND" property="appPrtAtCode">
+				E.APP_PRT_AT_CODE=#appPrtAtCode#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="feeTp">
+				E.FEE_TP=#feeTp#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="fiscalYr">
+				E.FISCAL_YR=#fiscalYr#
+			  </isNotEmpty>
+	</select>
+	
+	<insert id="gamSocExmpMngtDAO.insertSocExmpMngtDetail" parameterClass="gamSocExmpMngtVO">
+		INSERT INTO P2MGR.SOC_EXMP_F@YGPA_P2MGR
+			(
+				APP_PRT_AT_CODE
+				, FEE_TP
+				, FISCAL_YR
+				, SOC_NO
+				, APP_AGENT_CODE
+				, USE_NO
+				, PRT_AT_CODE
+				, CMPL_YR
+				, CONST_NO
+				, UPDT_DATE
+				<isNotEmpty property="exmpAgentCode">
+					, EXMP_AGENT_CODE
+				</isNotEmpty>
+				<isNotEmpty property="vsslKey">
+					, VSSL_KEY
+				</isNotEmpty>
+				<isNotEmpty property="yr">
+					, YR
+				</isNotEmpty>
+				<isNotEmpty property="serNo">
+					, SER_NO
+				</isNotEmpty>
+				<isNotEmpty property="billNo">
+					, BILL_NO
+				</isNotEmpty>
+				<isNotEmpty property="exmpAmnt">
+					, EXMP_AMNT
+				</isNotEmpty>
+				<isNotEmpty property="inOut">
+					, IN_OUT
+				</isNotEmpty>
+				<isNotEmpty property="billUseNo">
+					, BILL_USE_NO
+				</isNotEmpty>
+				<isNotEmpty property="facCode">
+					, FAC_CODE
+				</isNotEmpty>
+				<isNotEmpty property="facSubCode">
+					, FAC_SUB_CODE
+				</isNotEmpty>
+				<isNotEmpty property="ioDt">
+					, IO_DT
+				</isNotEmpty>
+				<isNotEmpty property="dcCode">
+					, DC_CODE
+				</isNotEmpty>
+				<isNotEmpty property="dcRate">
+					, DC_RATE
+				</isNotEmpty>
+				<isNotEmpty property="billDt">
+					, BILL_DT
+				</isNotEmpty>
+				<isNotEmpty property="standardFee">
+					, STANDARD_FEE
+				</isNotEmpty>
+				<isNotEmpty property="realTn">
+					, REAL_TN
+				</isNotEmpty>
+				<isNotEmpty property="remark">
+					, REMARK
+				</isNotEmpty>
+				<isNotEmpty property="exmpType">
+					, EXMP_TYPE
+				</isNotEmpty>
+				<isNotEmpty property="updtUid">
+					, UPDT_UID
+				</isNotEmpty>
+				<isNotEmpty property="callLetter">
+					, CALL_LETTER
+				</isNotEmpty>
+				<isNotEmpty property="dcRateNm">
+					, DC_RATE_NM
+				</isNotEmpty>
+				<isNotEmpty property="exmpPrtAtCode">
+					, EXMP_PRT_AT_CODE
+				</isNotEmpty>
+				<isNotEmpty property="jingsuja">
+					, JINGSUJA
+				</isNotEmpty>
+			) 
+		VALUES
+			(
+				#appPrtAtCode#
+				, #feeTp#
+				, #fiscalYr#
+				, #socNo#
+				, #appAgentCode#
+				, #useNo#
+				, #prtAtCode#
+				, #cmplYr#
+				, #constNo#
+				, SYSDATE
+				<isNotEmpty property="exmpAgentCode">
+					, #exmpAgentCode#
+				</isNotEmpty>
+				<isNotEmpty property="vsslKey">
+					, #vsslKey#
+				</isNotEmpty>
+				<isNotEmpty property="yr">
+					, #yr#
+				</isNotEmpty>
+				<isNotEmpty property="serNo">
+					, #serNo#
+				</isNotEmpty>
+				<isNotEmpty property="billNo">
+					, #billNo#
+				</isNotEmpty>
+				<isNotEmpty property="exmpAmnt">
+					, TO_NUMBER(REPLACE(#exmpAmnt#, ',', ''))
+				</isNotEmpty>
+				<isNotEmpty property="inOut">
+					, #inOut#
+				</isNotEmpty>
+				<isNotEmpty property="billUseNo">
+					, #billUseNo#
+				</isNotEmpty>
+				<isNotEmpty property="facCode">
+					, #facCode#
+				</isNotEmpty>
+				<isNotEmpty property="facSubCode">
+					, #facSubCode#
+				</isNotEmpty>
+				<isNotEmpty property="ioDt">
+					, TO_DATE(#ioDt#, 'YYYY-MM-DD')
+				</isNotEmpty>
+				<isNotEmpty property="dcCode">
+					, #dcCode#
+				</isNotEmpty>
+				<isNotEmpty property="dcRate">
+					, #dcRate#
+				</isNotEmpty>
+				<isNotEmpty property="billDt">
+					, TO_DATE(#billDt#, 'YYYY-MM-DD')
+				</isNotEmpty>
+				<isNotEmpty property="standardFee">
+					, TO_NUMBER(REPLACE(#standardFee#, ',', ''))
+				</isNotEmpty>
+				<isNotEmpty property="realTn">
+					, TO_NUMBER(REPLACE(#realTn#, ',', ''))
+				</isNotEmpty>
+				<isNotEmpty property="remark">
+					, #remark#
+				</isNotEmpty>
+				<isNotEmpty property="exmpType">
+					, #exmpType#
+				</isNotEmpty>
+				<isNotEmpty property="updtUid">
+					, #updtUid#
+				</isNotEmpty>
+				<isNotEmpty property="callLetter">
+					, #callLetter#
+				</isNotEmpty>
+				<isNotEmpty property="dcRateNm">
+					, #dcRateNm#
+				</isNotEmpty>
+				<isNotEmpty property="exmpPrtAtCode">
+					, #exmpPrtAtCode#
+				</isNotEmpty>
+				<isNotEmpty property="jingsuja">
+					, #jingsuja#
+				</isNotEmpty>
+			)
+	</insert>
+	
+	<update id="gamSocExmpMngtDAO.updateSocExmpMngtDetail" parameterClass="gamSocExmpMngtVO">
+		UPDATE P2MGR.SOC_EXMP_F@YGPA_P2MGR SET
+				APP_AGENT_CODE = #appAgentCode#
+				, USE_NO = #useNo#
+				, PRT_AT_CODE = #prtAtCode#
+				, CMPL_YR = #cmplYr#
+				, CONST_NO = #constNo#
+				, UPDT_DATE = SYSDATE
+				, EXMP_AGENT_CODE = #exmpAgentCode#
+				, VSSL_KEY = #vsslKey#
+				, YR = #yr#
+				, SER_NO = #serNo#
+				, BILL_NO = #billNo#
+				, EXMP_AMNT = #exmpAmnt#
+				, IN_OUT = #inOut#
+				, BILL_USE_NO = #billUseNo#
+				, FAC_CODE = #facCode#
+				, FAC_SUB_CODE = #facSubCode#
+				, IO_DT = #ioDt#
+				, DC_CODE = #dcCode#
+				, DC_RATE = #dcRate#
+				, BILL_DT = #billDt#
+				, STANDARD_FEE = #standardFee#
+				, REAL_TN = #realTn#
+				, REMARK = #remark#
+				, EXMP_TYPE = #exmpType#
+				, UPDT_UID = #updtUid#
+				, CALL_LETTER = #callLetter#
+				, DC_RATE_NM = #dcRateNm#
+				, EXMP_PRT_AT_CODE = #exmpPrtAtCode#
+				, JINGSUJA = #jingsuja#
+		WHERE
+				APP_PRT_AT_CODE=#appPrtAtCode#
+				AND FEE_TP=#feeTp#
+				AND FISCAL_YR=#fiscalYr#
+				AND SOC_NO=#socNo#			
+	</update>
+	
+	<delete id="gamSocExmpMngtDAO.deleteSocExmpMngtDetail" parameterClass="gamSocExmpMngtVO">
+		DELETE FROM 
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR
+		WHERE
+				APP_PRT_AT_CODE=#appPrtAtCode#
+				AND FEE_TP=#feeTp#
+				AND FISCAL_YR=#fiscalYr#
+				AND SOC_NO=#socNo#
+	</delete>
 </sqlMap>
