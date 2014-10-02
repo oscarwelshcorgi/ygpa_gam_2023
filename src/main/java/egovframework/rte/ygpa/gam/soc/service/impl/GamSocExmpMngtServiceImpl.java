@@ -43,4 +43,54 @@ public class GamSocExmpMngtServiceImpl implements GamSocExmpMngtService {
 	public GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) {
 		return gamSocExmpMngtDAO.selectSocExmpMngtDetailInquire(searchVO);
 	}
+
+	/**
+	 * 투자비보전내역관리 데이터의 총 개수를 조회한다. 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 투자비보전내역 데이터 VO
+	 * @exception
+	 */
+	public int selectSocExmpMngtDetailTotCnt(GamSocExmpMngtVO searchVO) {
+		return gamSocExmpMngtDAO.selectSocExmpMngtDetailTotCnt(searchVO);
+	}
+
+	/**
+	 * 투자비보전내역관리 데이터에 새로운 soc 일련번호를 가져온다. 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 새로운 soc 일련번호
+	 * @exception
+	 */
+	public String selectSocExmpMngtGetNextSocNo(GamSocExmpMngtVO searchVO) {
+		return gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo(searchVO);
+	}
+	
+	/**
+	 * 투자비보전내역관리 데이터를 삽입한다. 
+	 * @param insertVO - 삽입할 정보가 담긴 VO
+	 * @return 투자비보전내역 데이터 VO
+	 * @exception
+	 */
+	public void insertSocExmpMngtDetail(GamSocExmpMngtVO insertVO) {
+		gamSocExmpMngtDAO.insertSocExmpMngtDetail(insertVO);
+	}
+
+	/**
+	 * 투자비보전내역관리 데이터를 수정한다. 
+	 * @param searchVO - 수정할 정보가 담긴 VO
+	 * @return 투자비보전내역 데이터 VO
+	 * @exception
+	 */
+	public void updateSocExmpMngtDetail(GamSocExmpMngtVO updateVO) {
+		gamSocExmpMngtDAO.updateSocExmpMngtDetail(updateVO);
+	}
+
+	/**
+	 * 투자비보전내역관리 데이터를 삭제한다. 
+	 * @param searchVO - 삭제할 정보가 담긴 VO
+	 * @return 투자비보전내역 데이터 VO
+	 * @exception
+	 */
+	public void deleteSocExmpMngtDetail(GamSocExmpMngtVO deleteVO) {
+		gamSocExmpMngtDAO.deleteSocExmpMngtDetail(deleteVO);
+	}
 }

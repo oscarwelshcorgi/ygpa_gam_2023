@@ -132,7 +132,9 @@ public class GamSocExmpMngtController {
 				result = LCodeName[index - 1];
 			} else if(feeTp.startsWith("R")) {
 				result = RCodeName[index - 1];
-			} 
+			} else {
+				result = "";
+			}
 		}
 		return result;
 	}
@@ -163,4 +165,90 @@ public class GamSocExmpMngtController {
 		
     	return map;
     }
+
+    @RequestMapping(value="/soc/selectSocExmpMngtGetNextSocNo.do")
+	@ResponseBody Map selectSocExmpMngtGetNextSocNo(
+			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
+	     	BindingResult bindingResult)
+	        throws Exception {
+		Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+		String nextSocNo = gamSocExmpMngtService.selectSocExmpMngtGetNextSocNo(gamSocExmpMngtVO);
+		
+		map.put("resultCode", 0);
+		map.put("nextSocNo", nextSocNo);
+		
+    	return map;
+    }
+    
+    @RequestMapping(value="/soc/gamInsertSocExmpMngtDetail.do")
+	@ResponseBody Map insertSocExmpMngtDetail(
+			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
+	     	BindingResult bindingResult)
+	        throws Exception {
+		Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+		gamSocExmpMngtService.insertSocExmpMngtDetail(gamSocExmpMngtVO);
+		
+		map.put("resultCode", 0);
+		
+    	return map;
+    }
+    
+    @RequestMapping(value="/soc/gamUpdateSocExmpMngtDetail.do")
+	@ResponseBody Map updateSocExmpMngtDetail(
+			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
+	     	BindingResult bindingResult)
+	        throws Exception {
+		Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+		gamSocExmpMngtService.updateSocExmpMngtDetail(gamSocExmpMngtVO);
+		
+		map.put("resultCode", 0);
+		
+    	return map;
+    }
+    
+    @RequestMapping(value="/soc/gamDeleteSocExmpMngtDetail.do")
+	@ResponseBody Map deleteSocExmpMngtDetail(
+			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
+	     	BindingResult bindingResult)
+	        throws Exception {
+		Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+		gamSocExmpMngtService.deleteSocExmpMngtDetail(gamSocExmpMngtVO);
+		
+		map.put("resultCode", 0);
+		
+    	return map;
+    }
+    
 }

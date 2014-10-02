@@ -59,12 +59,15 @@ public class GamPopupSocFacCdController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
+	@Resource(name = "gamSocCmmUseService")
+    private GamSocCmmUseService gamSocCmmUseService;
+    
     @Resource(name = "gamPopupSocFacCdService")
     private GamPopupSocFacCdService gamPopupSocFacCdService;
 	
 	
 	/**
-     * 요금정보 팝업화면을 로딩한다. 
+     * 시설정보 팝업화면을 로딩한다. 
      *
      * @param searchOpt
      * @param model the model
@@ -73,8 +76,11 @@ public class GamPopupSocFacCdController {
      */
 	@RequestMapping("/popup/showSocFacCd.do")
 	String showFacCd(GamPopupSocFacCdVO searchOpt, ModelMap model) throws Exception {
+		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
+		
 		model.addAttribute("searchOpt", searchOpt);
-
+		model.addAttribute("prtAtCdList", prtAtCdList);
+		
 		return "/ygpa/gam/popup/GamPopupSocFacCd";  
     }
 	
