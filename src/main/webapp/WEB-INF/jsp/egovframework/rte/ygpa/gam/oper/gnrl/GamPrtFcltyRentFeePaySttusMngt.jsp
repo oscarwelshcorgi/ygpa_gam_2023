@@ -72,8 +72,10 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         module.$("#prtFcltyRentFeePaySttusMngtListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
     });
 
+    /*
     this.$('#sNticDtFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
     this.$('#sNticDtTo').val(EMD.util.getDate());
+    */
 
     this.$('#arrrgDetail :input').on('change keyup', {module: this}, function(event) {
     	event.data.module.calculateArrrgFee();
@@ -118,6 +120,9 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         case 'btnNticArrrgSingle':
 			this.nticArrrgSingle();
         	break;
+        case 'btnPrtFcltyRentFeePaySttusMngtListExcelDownload':	// 엑셀 다운로드
+    		this.$('#prtFcltyRentFeePaySttusMngtList').flexExcelDown('<c:url value="/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtListExcel.do"/>');
+    		break;
     }
 };
 
@@ -314,7 +319,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                             <th style="width: 70px">고지업체</th>
                             <td>
                                 <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
-                                <input type="text" size="15" id="sEntrpsNm" disabled/>
+                                <input type="text" size="12" id="sEntrpsNm" disabled/>
                                 <button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th style="width: 70px">납부구분</th>
@@ -355,15 +360,16 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 					<form id="form1">
    	               	<table style="width:100%;" class="summaryPanel">
                 		<tr>
-                			<th width="10%" >자료수</th>
+                			<th width="6%" >자료수</th>
 							<td><input type="text" size="6" id="sumCnt" class="ygpaNumber" disabled="disabled" /></td>
-                			<th width="10%" >총고지금액</th>
+                			<th width="8%" >총고지금액</th>
 							<td><input type="text" size="16" id="sumNhtIsueAmt" class="ygpaNumber" disabled="disabled" /></td>
-                			<th width="10%" >부가세</th>
+                			<th width="6%" >부가세</th>
 							<td><input type="text" size="16" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
                 			<th width="10%" >총납부금액</th>
 							<td><input type="text" size="16" id="sumPayAmt" class="ygpaNumber" disabled="disabled" /></td>
 							<td><button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button></td>
+							<td><button id="btnPrtFcltyRentFeePaySttusMngtListExcelDownload">엑셀</button></td>
 							<!-- <td><button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button></td> -->
                 		</tr>
                 	</table>
