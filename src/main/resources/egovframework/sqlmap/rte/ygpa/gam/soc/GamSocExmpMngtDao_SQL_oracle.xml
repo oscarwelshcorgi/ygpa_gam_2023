@@ -116,17 +116,17 @@
 				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 		WHERE 
 				1 = 1
-			  <isNotEmpty prepend="AND" property="sAppPrtAtCode">
-				E.APP_PRT_AT_CODE=#sAppPrtAtCode#
+			  <isNotEmpty prepend="AND" property="appPrtAtCode">
+				E.APP_PRT_AT_CODE=#appPrtAtCode#
 			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="sFeeTp">
-				E.FEE_TP=#sFeeTp#
+			  <isNotEmpty prepend="AND" property="feeTp">
+				E.FEE_TP=#feeTp#
 			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="sFiscalYr">
-				E.FISCAL_YR=#sFiscalYr#
+			  <isNotEmpty prepend="AND" property="fiscalYr">
+				E.FISCAL_YR=#fiscalYr#
 			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="sSocNo">
-				E.SOC_NO=#sSocNo#
+			  <isNotEmpty prepend="AND" property="socNo">
+				E.SOC_NO=#socNo#
 			  </isNotEmpty>
 	</select>
 
@@ -137,14 +137,14 @@
 				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 		WHERE 
 				1 = 1
-			  <isNotEmpty prepend="AND" property="appPrtAtCode">
-				E.APP_PRT_AT_CODE=#appPrtAtCode#
+			  <isNotEmpty prepend="AND" property="sAppPrtAtCode">
+				E.APP_PRT_AT_CODE=#sAppPrtAtCode#
 			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="feeTp">
-				E.FEE_TP=#feeTp#
+			  <isNotEmpty prepend="AND" property="sFeeTp">
+				E.FEE_TP=#sFeeTp#
 			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="fiscalYr">
-				E.FISCAL_YR=#fiscalYr#
+			  <isNotEmpty prepend="AND" property="sFiscalYr">
+				E.FISCAL_YR=#sFiscalYr#
 			  </isNotEmpty>
 	</select>
 	
@@ -161,75 +161,29 @@
 				, CMPL_YR
 				, CONST_NO
 				, UPDT_DATE
-				<isNotEmpty property="exmpAgentCode">
-					, EXMP_AGENT_CODE
-				</isNotEmpty>
-				<isNotEmpty property="vsslKey">
-					, VSSL_KEY
-				</isNotEmpty>
-				<isNotEmpty property="yr">
-					, YR
-				</isNotEmpty>
-				<isNotEmpty property="serNo">
-					, SER_NO
-				</isNotEmpty>
-				<isNotEmpty property="billNo">
-					, BILL_NO
-				</isNotEmpty>
-				<isNotEmpty property="exmpAmnt">
-					, EXMP_AMNT
-				</isNotEmpty>
-				<isNotEmpty property="inOut">
-					, IN_OUT
-				</isNotEmpty>
-				<isNotEmpty property="billUseNo">
-					, BILL_USE_NO
-				</isNotEmpty>
-				<isNotEmpty property="facCode">
-					, FAC_CODE
-				</isNotEmpty>
-				<isNotEmpty property="facSubCode">
-					, FAC_SUB_CODE
-				</isNotEmpty>
-				<isNotEmpty property="ioDt">
-					, IO_DT
-				</isNotEmpty>
-				<isNotEmpty property="dcCode">
-					, DC_CODE
-				</isNotEmpty>
-				<isNotEmpty property="dcRate">
-					, DC_RATE
-				</isNotEmpty>
-				<isNotEmpty property="billDt">
-					, BILL_DT
-				</isNotEmpty>
-				<isNotEmpty property="standardFee">
-					, STANDARD_FEE
-				</isNotEmpty>
-				<isNotEmpty property="realTn">
-					, REAL_TN
-				</isNotEmpty>
-				<isNotEmpty property="remark">
-					, REMARK
-				</isNotEmpty>
-				<isNotEmpty property="exmpType">
-					, EXMP_TYPE
-				</isNotEmpty>
-				<isNotEmpty property="updtUid">
-					, UPDT_UID
-				</isNotEmpty>
-				<isNotEmpty property="callLetter">
-					, CALL_LETTER
-				</isNotEmpty>
-				<isNotEmpty property="dcRateNm">
-					, DC_RATE_NM
-				</isNotEmpty>
-				<isNotEmpty property="exmpPrtAtCode">
-					, EXMP_PRT_AT_CODE
-				</isNotEmpty>
-				<isNotEmpty property="jingsuja">
-					, JINGSUJA
-				</isNotEmpty>
+				, EXMP_AGENT_CODE
+				, VSSL_KEY
+				, YR
+				, SER_NO
+				, BILL_NO
+				, EXMP_AMNT
+				, IN_OUT
+				, BILL_USE_NO
+				, FAC_CODE
+				, FAC_SUB_CODE
+				, IO_DT
+				, DC_CODE
+				, DC_RATE
+				, BILL_DT
+				, STANDARD_FEE
+				, REAL_TN
+				, REMARK
+				, EXMP_TYPE
+				, UPDT_UID
+				, CALL_LETTER
+				, DC_RATE_NM
+				, EXMP_PRT_AT_CODE
+				, JINGSUJA
 			) 
 		VALUES
 			(
@@ -243,75 +197,29 @@
 				, #cmplYr#
 				, #constNo#
 				, SYSDATE
-				<isNotEmpty property="exmpAgentCode">
-					, #exmpAgentCode#
-				</isNotEmpty>
-				<isNotEmpty property="vsslKey">
-					, #vsslKey#
-				</isNotEmpty>
-				<isNotEmpty property="yr">
-					, #yr#
-				</isNotEmpty>
-				<isNotEmpty property="serNo">
-					, #serNo#
-				</isNotEmpty>
-				<isNotEmpty property="billNo">
-					, #billNo#
-				</isNotEmpty>
-				<isNotEmpty property="exmpAmnt">
-					, TO_NUMBER(REPLACE(#exmpAmnt#, ',', ''))
-				</isNotEmpty>
-				<isNotEmpty property="inOut">
-					, #inOut#
-				</isNotEmpty>
-				<isNotEmpty property="billUseNo">
-					, #billUseNo#
-				</isNotEmpty>
-				<isNotEmpty property="facCode">
-					, #facCode#
-				</isNotEmpty>
-				<isNotEmpty property="facSubCode">
-					, #facSubCode#
-				</isNotEmpty>
-				<isNotEmpty property="ioDt">
-					, TO_DATE(#ioDt#, 'YYYY-MM-DD')
-				</isNotEmpty>
-				<isNotEmpty property="dcCode">
-					, #dcCode#
-				</isNotEmpty>
-				<isNotEmpty property="dcRate">
-					, #dcRate#
-				</isNotEmpty>
-				<isNotEmpty property="billDt">
-					, TO_DATE(#billDt#, 'YYYY-MM-DD')
-				</isNotEmpty>
-				<isNotEmpty property="standardFee">
-					, TO_NUMBER(REPLACE(#standardFee#, ',', ''))
-				</isNotEmpty>
-				<isNotEmpty property="realTn">
-					, TO_NUMBER(REPLACE(#realTn#, ',', ''))
-				</isNotEmpty>
-				<isNotEmpty property="remark">
-					, #remark#
-				</isNotEmpty>
-				<isNotEmpty property="exmpType">
-					, #exmpType#
-				</isNotEmpty>
-				<isNotEmpty property="updtUid">
-					, #updtUid#
-				</isNotEmpty>
-				<isNotEmpty property="callLetter">
-					, #callLetter#
-				</isNotEmpty>
-				<isNotEmpty property="dcRateNm">
-					, #dcRateNm#
-				</isNotEmpty>
-				<isNotEmpty property="exmpPrtAtCode">
-					, #exmpPrtAtCode#
-				</isNotEmpty>
-				<isNotEmpty property="jingsuja">
-					, #jingsuja#
-				</isNotEmpty>
+				, #exmpAgentCode#
+				, #vsslKey#
+				, #yr#
+				, #serNo#
+				, #billNo#
+				, TO_NUMBER(REPLACE(#exmpAmnt#, ',', ''))
+				, #inOut#
+				, #billUseNo#
+				, #facCode#
+				, #facSubCode#
+				, TO_DATE(#ioDt#, 'YYYY-MM-DD')
+				, #dcCode#
+				, #dcRate#
+				, TO_DATE(#billDt#, 'YYYY-MM-DD')
+				, TO_NUMBER(REPLACE(#standardFee#, ',', ''))
+				, TO_NUMBER(REPLACE(#realTn#, ',', ''))
+				, #remark#
+				, #exmpType#
+				, #updtUid#
+				, #callLetter#
+				, #dcRateNm#
+				, #exmpPrtAtCode#
+				, #jingsuja#
 			)
 	</insert>
 	
