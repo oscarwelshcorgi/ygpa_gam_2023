@@ -170,6 +170,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 }
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
+                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
                     this.doAction('<c:url value="/oper/cntnr/insertCntnrQuayRentFeeNticSingle.do" />', rows, function(module, result) {
 
                         if(result.resultCode=='0') {

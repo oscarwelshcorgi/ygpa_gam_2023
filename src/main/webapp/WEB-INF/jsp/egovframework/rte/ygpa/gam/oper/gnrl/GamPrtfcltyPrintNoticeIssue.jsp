@@ -405,7 +405,7 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    min-height: 29.7cm;
+	    min-height: 28.7cm;
 	    padding: 1cm;
 	    margin: 0cm auto;
 	    border: 1px #D3D3D3 solid;
@@ -641,7 +641,7 @@ div.notice {
 	 .girocode {
 		position: relative;
 		left: 0.8cm;
-		top: 1.7cm;
+		top: 1.6cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -674,8 +674,8 @@ div.notice {
 
 	 .giroDetail {
 		position: absolute;
-		left: 2.8cm;
-		top: 5.4cm;
+		left: 3.1cm;
+		top: 5.2cm;
 		width: 11.9cm;
 		height: 1.3cm;
 		font-size: 0.35cm;

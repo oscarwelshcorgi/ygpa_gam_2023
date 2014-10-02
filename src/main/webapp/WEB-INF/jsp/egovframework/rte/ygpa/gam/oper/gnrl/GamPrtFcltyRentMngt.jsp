@@ -1064,7 +1064,12 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#frstReqstDt').val(this.$('#currentDateStr').val());
             this.$('#reqstDt').val(this.$('#currentDateStr').val());
 
+
+            if( this.$("#loginUserId").val()=='11076'){
+            	this.$('#prtAtCode').val('622');
+            }else{
             this.$('#prtAtCode').val('621');
+            }
             this.$('#payMth').val('Pre');
             this.$('#nticMth').val('1');
             this.$('#taxtSe').val('2');
