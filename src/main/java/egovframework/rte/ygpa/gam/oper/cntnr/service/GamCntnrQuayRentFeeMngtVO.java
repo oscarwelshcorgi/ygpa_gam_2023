@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
@@ -12,12 +14,13 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamCntnrQuayRentFeeMngtVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
-	    
+
 	/** 고지 횟수 */
     private String nticCnt;
 
@@ -262,7 +265,7 @@ public class GamCntnrQuayRentFeeMngtVO extends ComDefaultVO {
     private String sumNticAmt;
 
     private String sumArrrgAmt;
-    
+
     /******* 세입징수 ********/
 
     /** 회계 구분 코드 */

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -32,6 +33,7 @@ import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService;
@@ -1245,6 +1247,7 @@ public class GamCmmnCntrRentMngtController {
          paramMap.put("mngNo", gamCmmnCntrRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamCmmnCntrRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("deptcd", loginVO.getOrgnztId());
          paramMap.put("chrgeKnd", gamCmmnCntrRentMngtVO.getChrgeKnd());
 
          System.out.println("##################################### paramMap => " + paramMap);
@@ -1448,5 +1451,48 @@ public class GamCmmnCntrRentMngtController {
 
   	return "ygpa/gam/oper/shed/GamPopupCmmnCntrRentMngtLevReqestAdit";
   }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/selectCmmnCntrRentMngtListExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+
+    	// 환경설정
+    	/** EgovPropertyService */
+    	GamCmmnCntrRentMngtVO searchVO= new GamCmmnCntrRentMngtVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamCmmnCntrRentMngtVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+//    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+
+    	List gamAssetList =  gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtList(searchVO);
+
+    	map.put("resultList", gamAssetList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
 
 }

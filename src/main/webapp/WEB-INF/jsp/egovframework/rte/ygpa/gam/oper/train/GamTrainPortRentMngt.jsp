@@ -1704,6 +1704,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
        	 	EMD.util.create_window('업체정보 관리', '<c:url value="/code/gamCmpyInfoMngt.do"/>', null, {entrpscd:this.$('#entrpscd').val()});
         	break;
 
+        case 'btnTrainPortRentMngtListExcelDownload':	// 엑셀 다운로드
+        	this.$('#assetRentMngtList').flexExcelDown('<c:url value="/oper/train/selectTrainPortRentMngtListExcel.do"/>');
+            break;
 
     }
 };
@@ -1969,6 +1972,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                                <button id="btnEApproval">결재요청</button>
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
+	                                <button id="btnTrainPortRentMngtListExcelDownload">승낙취소</button>
 	                                <!-- <button id="btnNoticeAdit">추가고지</button> -->
 	                                <!-- <button id="btnShowMap">맵조회</button> -->
 	                            </td>

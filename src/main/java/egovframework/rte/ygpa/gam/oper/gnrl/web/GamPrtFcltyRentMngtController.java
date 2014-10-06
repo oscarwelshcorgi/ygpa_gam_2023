@@ -1277,6 +1277,7 @@ public class GamPrtFcltyRentMngtController {
          paramMap.put("mngNo", gamPrtFcltyRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("deptcd", loginVO.getOrgnztId());
          paramMap.put("chrgeKnd", gamPrtFcltyRentMngtVO.getChrgeKnd());
          paramMap.put("taxtSe", gamPrtFcltyRentMngtVO.getTaxtSe());
 

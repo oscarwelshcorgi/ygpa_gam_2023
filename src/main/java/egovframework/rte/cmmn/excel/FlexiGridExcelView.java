@@ -44,7 +44,7 @@ public class FlexiGridExcelView extends AbstractExcelView {
 		int i, j;
 		HSSFCell cell = null;
 
-		String fileName = "조회결과.xls";
+		String fileName = "GIS.xls";
 		fileName = new String(fileName.getBytes("euc-kr"), "8859_1");
 		resp.setHeader("Content-Disposition", "attachment; fileName=\"" + fileName + "\";");
 		resp.setHeader("Content-Transfer-Encoding", "binary");

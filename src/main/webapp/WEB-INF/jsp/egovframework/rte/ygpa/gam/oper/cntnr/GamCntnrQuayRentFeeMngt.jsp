@@ -319,6 +319,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             this.doExecuteDialog('selectEntrpsInfoFeePopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
 
+        case 'btnCntnrQuayRentFeeMngtListExcelDownload':	// 엑셀 다운로드
+        	this.$('#assetRentFeeList').flexExcelDown('<c:url value="/oper/gnrl/selectCntnrQuayRentFeeMngtListExcel.do"/>');
+            break;
+
     }
 };
 
@@ -533,6 +537,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnTaxPrint">계산서출력</button>
 					<button id="btnNoticeAdit">추가고지</button>
                     <button id="btnNoticeAditDel">추가고지삭제</button>
+                    <button id="btnCntnrQuayRentFeeMngtListExcelDownload">엑셀</button>
                 </div>
             </div>
 

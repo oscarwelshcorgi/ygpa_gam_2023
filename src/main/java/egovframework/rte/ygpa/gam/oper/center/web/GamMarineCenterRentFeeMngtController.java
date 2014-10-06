@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
@@ -30,6 +34,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentFeeMngtVO;
+import egovframework.rte.ygpa.gam.oper.center.service.GamMarineCenterRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 
 /**
@@ -1042,5 +1047,48 @@ public class GamMarineCenterRentFeeMngtController {
 
 		 		return map;
 		     }
+
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        @RequestMapping(value="/oper/center/selectMarineCenterRentFeeMngtListExcel.do", method=RequestMethod.POST)
+        @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+    		Map map = new HashMap();
+    		List header;
+    		ObjectMapper mapper = new ObjectMapper();
+
+    		// 0. Spring Security 사용자권한 처리
+        	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+        	if(!isAuthenticated) {
+    	        map.put("resultCode", 1);
+        		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        		return new ModelAndView("gridExcelView", "gridResultMap", map);
+        	}
+
+
+        	// 환경설정
+        	/** EgovPropertyService */
+        	GamMarineCenterRentFeeMngtVO searchVO= new GamMarineCenterRentFeeMngtVO();
+
+            header = mapper.readValue((String)excelParam.get("header"),
+    			    new TypeReference<List<HashMap<String,String>>>(){});
+
+            excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+    		// 조회 조건
+    		searchVO = mapper.convertValue(excelParam, GamMarineCenterRentFeeMngtVO.class);
+
+    		searchVO.setFirstIndex(0);
+    		searchVO.setLastIndex(9999);
+    		searchVO.setRecordCountPerPage(9999);
+
+    		/** List Data */
+//        	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+
+        	List gamAssetList =  gamMarineCenterRentFeeMngtService.selectMarineCenterRentFeeList(searchVO);
+
+        	map.put("resultList", gamAssetList);
+        	map.put("header", header);
+
+        	return new ModelAndView("gridExcelView", "gridResultMap", map);
+        }
 
 }
