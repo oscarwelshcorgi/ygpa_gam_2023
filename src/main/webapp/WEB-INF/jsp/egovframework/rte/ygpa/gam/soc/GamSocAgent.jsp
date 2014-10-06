@@ -20,9 +20,8 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamAssetRent" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -56,19 +55,24 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	
         	//그리드 상단 입력창에 정보 입력
         	if(data.socAgentInfo){
-        		
-        		module.makeFormValues('#form1',data.socAgentInfo);
+        		if(data.resultCode == '0'){
+	        		module.makeFormValues('#form1',data.socAgentInfo);
+		        	
+		        	//항만공사시행허가원부II 정보입력
+	        		module.makeFormValues('#gamSocAgentForm',data.socAgentInfo);
+        		}
 	        	
-	        	//항만공사시행허가원부II 정보입력
-        		module.makeFormValues('#gamSocAgentForm',data.socAgentInfo);
-				
+        		module.$("#cmd").val("modify");
+        		
        		}else{
        			//console.log('debug');
-       			module.makeFormValues('#form1',{});
+       			if(data.resultCode == '0'){
+	       			module.makeFormValues('#form1',{});
+	       			//항만공사시행허가원부II 초기화
+	        		module.makeFormValues('#gamSocAgentForm',{});
+       			}
+	        	module.$("#cmd").val("insert");
        			
-       			//항만공사시행허가원부II 초기화
-        		module.makeFormValues('#gamSocAgentForm',{});
-
        		}
         	
 			//자료수, 합산금액 입력
@@ -80,126 +84,6 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         }
     });
 
-    
-
-    this.$("#socAgentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
-        /* module.$('#cmd').val('modify');
-
-        module.$('#gamAssetRentForm :input').val('');
-
-        module.makeFormValues('#gamAssetRentForm', row);
-        module._editData=module.getFormValues('#gamAssetRentForm', row);
-        module._editRow=module.$('#socAgentMngtList').selectedRowIds()[0];
-
-        //해당하는 자산임대상세 목록과 파일목록를 불러온다.
-        module.$('#detailPrtAtCode').val(row['prtAtCode']);
-        module.$('#prtAtCodeStr').val(row['prtAtCode']);
-        module.$('#detailMngYear').val(row['mngYear']);
-        module.$('#detailMngNo').val(row['mngNo']);
-        module.$('#detailMngCnt').val(row['mngCnt']);
-
-        if( row['prmisnYn'] == 'Y' ) {
-            module.$('#entrpscd').attr('readonly', true);
-            module.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
-        }
-
-        var searchOpt=module.makeFormArgs('#gamAssetRentForm');
-        module.$('#socAgentDetailList').flexOptions({params:searchOpt}).flexReload();
-        module.$('#socAgentFileList').flexOptions({params:searchOpt}).flexReload();
-
-        module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
-        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다. */
-
-//        module.selectFeatureData('socAgentDetail', row, true);
-
-        //this._deleteDataFileList=[]; //삭제파일목록 초기화
-    });
-
-    /* this.$("#socAgentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
-        //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
-        module.$('#gamAssetRentDetailForm :input').val('');
-
-        module.makeFormValues('#gamAssetRentDetailForm', row);
-        module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
-        module._editRow=module.$('#socAgentDetailList').selectedRowIds()[0];
-
-        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
-
-    }); */
-
-    
-    /* this.$("#socAgentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#socAgentListTab").tabs("option", {active: 1});
-        module.$('#cmd').val('modify');
-//        module.$('#gamAssetRentForm :input').val('');	// makeFormValues 에서 값을 지우므로 특별 한 일이 없는 한 각각 지우지 않는다. 클래스 특성을 반영 못 하는 경우가 생긴다
-
-        module.makeFormValues('#gamAssetRentForm', row);
-        module._editData=module.getFormValues('#gamAssetRentForm', row);
-        module._editRow=module.$('#socAgentMngtList').selectedRowIds()[0];
-
-        if(row!=null) {
-            module.$('#cmd').val('modify');
-        }
-
-        module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
-        //this._deleteDataFileList=[]; //삭제파일목록 초기화
-    }); */
-
-    /* this.$("#socAgentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#socAgentListTab").tabs("option", {active: 2});
-        module.$('#gamAssetRentDetailForm :input').val('');
-        module.makeFormValues('#gamAssetRentDetailForm', row);
-        module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
-        module._editRow=module.$('#socAgentDetailList').selectedRowIds()[0];
-
-        module.loadOlnlpList(row);
-
-        if(row!=null) {
-            module.$('#detailCmd').val('modify');
-        }
-    }); */
-
-    // 컴포넌트이 이벤트를 추가한다. (기존 코드 데이터에 선택 값이 onchange 안되는 점을 수정 함)
-    /* this.$('#prtAtCode').on('change', {module: this}, function(event) {
-        event.data.module.$('#prtAtCodeStr').val($(this).val());
-        //alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
-    });
-
-   	var today = new Date();
-
-	var serchYr = today.getFullYear();
-	var serchMn = today.getMonth() + 1;
-
-	if(serchMn < 10){
-		serchMn = "0" + serchMn;
-	}
-
-	var serchday = today.getDate();
-	if(serchday < 10){
-		serchday = "0" + serchday;
-	}
-	var searchEndDate = serchYr + "-" + serchMn + "-" + serchday;
-
-	today.setMonth(today.getMonth() - 3);
-
-	serchYr = today.getFullYear();
-	serchMn = today.getMonth() + 1;
-	if(serchMn < 10){
-		serchMn = "0" + serchMn;
-	}
-	serchday = today.getDate();
-	if(serchday < 10){
-		serchday = "0" + serchday;
-	}
-	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
-		if(event.data.module.$('#sEntrpscd').val() ==''){
-			event.data.module.$('#sEntrpsNm').val('');
-		}
-
-    });
-
- 	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-	this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload(); */
 };
 
 
@@ -212,143 +96,93 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	
+        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+        		return;
+        	}
+        	
 			this.loadData();
             break;
+            
+       // 등록포맷으로 변환 -- 초기화 및 상태값 변경
+       case 'btnRegiItem':
+    	    this.makeFormValues('#gamSocAgentMngtSearchForm',{});
+    	    this.makeFormValues('#form1',{});
+    	    this.makeFormValues('#form2',{});
+    	    this.makeFormValues('#gamSocAgentForm',{});
+    	    
+    	    this.loadData();
+    	    
+    	    this.$("#cmd").val("insert");
+    	    
+            break;
+       
 
-        
         // 신청저장
         case 'btnSaveItem':
         	
+        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+        		return;
+        	}
+        	
+        	if(!validateGamSocAgentDetail(this.$('#form1')[0])){ 		
+        		return;
+        	}
+        	return;
         	var inputVO = [];
         	
         	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
-        	var searchData = this.makeFormArgs("#gamSocAgentMngtSearchForm");
-        	var updateData = this.makeFormArgs("#form1");
-        	var updateData1 = this.makeFormArgs("#gamSocAgentForm");
+        	var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
+        	var updateData = JSON.stringify(this.getFormValues("#form1"));
+        	var updateData1 = JSON.stringify(this.getFormValues("#gamSocAgentForm"));
         	
         	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
         	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
         	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
         	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
-        	/* if(this._cmd == "insert") {
-			 	this.doAction('<c:url value="/soc/gamInsertSocAgentList.do" />', all_rows, function(module, result) {
+        	
+        	if(this.$("#cmd").val() == "insert") {
+			 	this.doAction('<c:url value="/soc/gamInsertSocAgentList.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
+			 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#socAgentListTab").tabs("option", {active: 0});
-						//module.$("#fcltyManageVO :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
-			}else{ */
+			}else{
 			 	this.doAction('<c:url value="/soc/gamUpdateSocAgentList.do" />', inputVO, function(module, result) {
-			 		/* if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#socAgentListTab").tabs("option", {active: 0});
-						//module.$("#fcltyManageVO :input").val("");
 			 		}
-			 		alert(result.resultMsg); */
+			 		alert(result.resultMsg);
 			 	});
-			//}
-
-        	/* if(!validateGamSocAgent(this.$('#gamAssetRentForm')[0])) {
-                return;
-            } */
-
-            /* if( this.$("#cmd").val() != 'insert' && this.$('#quayGroupCd').val() != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 저장이 불가능합니다.");
-                return;
-            } */
-
-            /* if( this.$('#prtAtCode').val() == '' ) {
-                alert("항구분을 선택하십시오.");
-                return;
-            }
-
-            if( this.$('#entrpscd').val() == '' ) {
-                alert("신청업체를 선택하십시오.");
-                return;
-            }
-
-            if( confirm("저장하시겠습니까?") ) {
-                // 변경된 자료를 저장한다.
-                var inputVO=[{name: 'test', value:'test hello'}];
-                //var inputVO=[{}];
-
-                //this._editData=this.getFormValues('#gamAssetRentDetailForm', this._editData);
-
-                inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#socAgentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
-                inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#socAgentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
-                inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
-
-                if(this._deleteDataFileList == undefined ) {
-                    this._deleteDataFileList=[];
-                }
-
-                inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#socAgentFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
-                inputVO[inputVO.length]={name: 'insertFileList', value: JSON.stringify(this.$('#socAgentFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
-                inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
-
-                //var otherForm=this.getFormValues('#gamAssetRentForm', {});  // 폼만 있을 경우
-
-                this._editData2=this.getFormValues('#gamAssetRentForm', {_updtId:'I'});
-                inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
-
-                //// console.log(inputVO);
-                // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-
-                this.doAction('<c:url value="/oper/gnrl/gamSavePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
-                    if(result.resultCode == 0){
-                    	module.loadData();
-                    }
-                    alert(result.resultMsg);
-                });
-
-
-                this.$("#socAgentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-            } */
+			}
 
             break;
 
         //신청삭제
         case 'btnRemoveItem':
-            //var rows = this.$('#socAgentMngtList').selectedRows();
+        	
+        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+        		return;
+        	}
+        	
+        	var inputVO = [];
+        	var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
 
-            /* if( rows[0]['quayGroupCd'] != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
-                return;
-            } */
-
-            /* if(rows.length == 0) {
-                alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
-            } else {
-            	if( confirm("신청삭제를 하시겠습니까?") ) {
-                    if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
-                        this.$('#detailPrmisnYn').val('N');
-                    }
-
-                    var inputVO=this.makeFormArgs('#gamAssetRentForm');
-
-                    this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
-
-                        if(result.resultCode=='0') {
-                        	module.loadData();
-                        }
-
-                        alert(result.resultMsg);
-                    });
-
-                    this.$("#socAgentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
-                    this.$('#gamAssetRentForm :input').val("");
-                    this.$("#cmd").val('insert');
-                }
-            } */
-
+        	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
+        	this.doAction('<c:url value="/soc/gamDeleteSocAgentList.do" />', inputVO, function(module, result) {
+		 		if(result.resultCode == "0"){
+		 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
+					module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
+					module.$("#socAgentListTab").tabs("option", {active: 0});
+		 		}
+		 		alert(result.resultMsg);
+		 	});
+        	
             break;
             
         case 'popupSocAgentFInfo': // 허가원부선택 팝업을 호출한다.(조회)
@@ -357,13 +191,6 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            /*
-            var opts = {
-                'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
-                'gisAssetsCd': this.$('#gisAssetsCd').val(),
-                'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
-            };
-            */
             var opts;
             this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
             break;
@@ -378,8 +205,6 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 
 
 GamSocAgentMngtModule.prototype.onSubmit = function() {
-    //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-
     this.loadData();
 };
 
@@ -397,18 +222,6 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        /* var row = this.$('#socAgentMngtList').selectedRows();
-        if(row.length==0) {
-            this.$('#cmd').val('insert');
-        }
-        else {
-            this.$('#cmd').val('modify');
-        }
-
-        if(oldTabId=='tabs1') {
-        	this._deleteDataList=[];    // 삭제 목록 초기화
-        	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
-        } */
         break;
     
     }
@@ -443,47 +256,12 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      case 'addSocAgentPopup':
     	 
     	 if(this['_socAgentInfo']==undefined){
+    		 
     		 this['_socAgentInfo'] = null;
     	 }
     	 this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
     	 
         break;
-     case 'insertAssetRentPrmisnPopup':
-         if (msg != 'cancel') {
-             if( value == "0" ) {
-					this.loadData();
-             }
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'insertLevReqestAdit':
-    	 break;
-     case 'selectAssetsCdRentPopup':
-         if (msg != 'cancel') {
-             this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
-             this.$('#gisAssetsCd').val(value.gisAssetsCd);
-             this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
-             this.$('#gisAssetsNm').val(value.gisAssetsNm);
-             this.$('#gisAssetsLocplc').val(value.gisAssetsLocplc);
-             this.$('#gisAssetsLnm').val(value.gisAssetsLnm);
-             this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
-             this.$('#gisAssetsAr').val(value.gisAssetsAr);
-             this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
-             this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-
-             this.$('#usageAr').val(value.gisAssetsRealRentAr);
-
-             //this.$('#quayCd').val(value.gisAssetsQuayCd);
-             this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
-             this._selectAssetsCd=value;
-
-             this.loadOlnlpList(value);
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
@@ -553,11 +331,12 @@ var module_instance = new GamSocAgentMngtModule();
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
                  <div class="emdControlPanel">
 					<form id="form1">
+						<input type="hidden" id="cmd" value="insert" />
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
                                 <th width="16%">*공사항만코드</th>
                                 <td>
-                                	<select id="prtAtCode">
+                                	<select id="socPrtAtCode">
 	                                    <option value="" selected="selected">전체</option>
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
 	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
@@ -604,6 +383,7 @@ var module_instance = new GamSocAgentMngtModule();
                         <table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
+	                            	<button id="btnRegiItem">등록</button>
 	                                <button id="btnSaveItem">저장</button>
 	                                <button id="btnRemoveItem">삭제</button>
 	                                <button id="btnPrintItem">원부출력</button>

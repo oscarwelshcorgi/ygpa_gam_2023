@@ -31,6 +31,9 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
 
+
+
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -194,15 +197,16 @@ public class GamSocAgentController {
 	
 	
 	/**
-	 * 항만공사시행허가원부 수정
+	 * 항만공사시행허가원부 입력
 	 * @param socAgentList
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping("/soc/gamUpdateSocAgentList.do")
-    @ResponseBody Map<String, Object> updateSocAgentList(@RequestParam Map socAgentList)throws Exception {
+    @RequestMapping("/soc/gamInsertSocAgentList.do")
+    @ResponseBody Map<String, Object> insertSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String, Object> updateTotal = new HashMap<String, Object>();
     	ObjectMapper mapper = new ObjectMapper();
     	
     	List<HashMap<String,String>> updateList=null;
@@ -219,30 +223,139 @@ public class GamSocAgentController {
 //    	socAgentList.put("USERID", user.getId());
 //    	socAgentList.put("prtFcltySe",prtFcltySe);
     	
-    	Map<String, Object> searchData = (Map<String, Object>) socAgentList.get("searchData");
-    	Map<String, Object> updateData = (Map) socAgentList.get("updateData");
-    	Map<String, Object> updateData1 = (Map) socAgentList.get("updateData1");
-    	
-    	Map<String, Object> totUpdateData = new HashMap<String, Object>();
-    	totUpdateData.putAll(searchData);
-    	totUpdateData.putAll(updateData);
-    	totUpdateData.putAll(updateData1);
-    	
-    	System.out.print("test : " + socAgentList.get("searchData"));
-    	
     	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	Map searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	Map updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
+    	Map updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
+
+    	updateTotal.putAll(updateData);
+    	updateTotal.putAll(updateData1);
+    	updateTotal.putAll(searchData);
 
     	try {
     		
-    		gamSocAgentService.updateSocAgentData(totUpdateData);
-    		
-    		gamSocAgentService.deleteSocAgentList(updateData);
+    		gamSocAgentService.insertSocAgentData(updateTotal);
     		
     		for(int i=0;i<updateList.size();i++){
     			HashMap updateSubData = (HashMap)updateList.get(i);
     			
+    			updateSubData.put("prtAtCode", updateTotal.get("sPrtAtCode"));
+    			updateSubData.put("cmplYr", updateTotal.get("sCmplYr"));
+    			updateSubData.put("constNo", updateTotal.get("sConstNo"));
+    			
     			gamSocAgentService.insertSocAgentList(updateSubData);
     		}
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+    	return map;
+    }
+	
+	
+	/**
+	 * 항만공사시행허가원부 수정
+	 * @param socAgentList
+	 * @return map
+	 * @throws Exception
+	 */
+    @RequestMapping("/soc/gamUpdateSocAgentList.do")
+    @ResponseBody Map<String, Object> updateSocAgentList(@RequestParam Map socAgentList)throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String, Object> updateTotal = new HashMap<String, Object>();
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+    	List<HashMap<String,String>> updateList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+//    	socAgentList.put("USERID", user.getId());
+//    	socAgentList.put("prtFcltySe",prtFcltySe);
+    	
+    	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	Map searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	Map updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
+    	Map updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
+
+    	updateTotal.putAll(updateData);
+    	updateTotal.putAll(updateData1);
+    	updateTotal.putAll(searchData);
+
+    	try {
+    		
+    		gamSocAgentService.updateSocAgentData(updateTotal);
+    		
+    		gamSocAgentService.deleteSocAgentList(searchData);
+    		
+    		for(int i=0;i<updateList.size();i++){
+    			HashMap updateSubData = (HashMap)updateList.get(i);
+    			
+    			updateSubData.put("prtAtCode", updateTotal.get("sPrtAtCode"));
+    			updateSubData.put("cmplYr", updateTotal.get("sCmplYr"));
+    			updateSubData.put("constNo", updateTotal.get("sConstNo"));
+    			
+    			gamSocAgentService.insertSocAgentList(updateSubData);
+    		}
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+    	return map;
+    }
+    
+    
+    /**
+	 * 항만공사시행허가원부 삭제
+	 * @param socAgentList
+	 * @return map
+	 * @throws Exception
+	 */
+    @RequestMapping("/soc/gamDeleteSocAgentList.do")
+    @ResponseBody Map<String, Object> deleteSocAgentList(@RequestParam Map socAgentList)throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+//    	socAgentList.put("USERID", user.getId());
+//    	socAgentList.put("prtFcltySe",prtFcltySe);
+    	
+    	Map searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+
+    	try {
+    		
+    		gamSocAgentService.deleteSocAgentData(searchData);
+    		gamSocAgentService.deleteSocAgentList(searchData);
+    		
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {

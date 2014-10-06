@@ -148,15 +148,15 @@
                              	)
                             <![CDATA[  WHERE 1<>1 ]]>
 
-                             <isNotEmpty property="prtAtCode">
-					             OR (D.PRT_AT_CODE = #prtAtCode#
+                             <isNotEmpty property="sPrtAtCode">
+					             OR (D.PRT_AT_CODE = #sPrtAtCode#
 					             
-					             <isNotEmpty property="agentCode">
-						             AND D.AGENT_CODE = #agentCode#
+					             <isNotEmpty property="sCmplYr">
+						             AND D.CMPL_YR = #sCmplYr#
 						         </isNotEmpty>
 						         
-						         <isNotEmpty property="sCmplYr">
-						             AND D.CMPL_YR = #sCmplYr#
+						         <isNotEmpty property="sConstNo">
+						             AND D.CONST_NO = #sConstNo#
 						         </isNotEmpty>
 						         
 						         )
@@ -186,15 +186,15 @@
               	)
              <![CDATA[  WHERE 1<>1 ]]>
 
-	         <isNotEmpty property="prtAtCode">
-	             OR (D.PRT_AT_CODE = #prtAtCode#
+	         <isNotEmpty property="sPrtAtCode">
+	             OR (D.PRT_AT_CODE = #sPrtAtCode#
 	             
-	             <isNotEmpty property="agentCode">
-		             AND D.AGENT_CODE = #agentCode#
+	             <isNotEmpty property="sCmplYr">
+		             AND D.CMPL_YR = #sCmplYr#
 		         </isNotEmpty>
 		         
-		         <isNotEmpty property="sCmplYr">
-		             AND D.CMPL_YR = #sCmplYr#
+		         <isNotEmpty property="sConstNo">
+		             AND D.CONST_NO = #sConstNo#
 		         </isNotEmpty>
 		         
 		         )
@@ -252,9 +252,9 @@
 		       )
 		       VALUES
 		       (
-		           #prtAtCode# ,
-		           #cmplYr# ,
-		           #constNo# ,
+		           #sPrtAtCode# ,
+		           #sCmplYr# ,
+		           #sConstNo# ,
 		           #agentCode# ,
 		           #socPrtAtCode# ,
 		           #socCnstNm# ,
@@ -275,14 +275,14 @@
 		           #modifyDt2# ,
 		           #modifyTxt# ,
 		           #primeTxt# ,
-		           #totalAmnt# ,
-		           #accFee# ,
-		           #reserachAmnt# ,
-		           #pureAmnt# ,
-		           #extraAmnt1# ,
-		           #extraAmnt2# ,
-		           #extraAmnt3# ,
-		           #extraAmnt4# ,
+		           REPLACE(#totalAmnt#,',','') ,
+		           REPLACE(#accFee#,',','') ,
+		           REPLACE(#reserachAmnt#,',','') ,
+		           REPLACE(#pureAmnt#,',','') ,
+		           REPLACE(#extraAmnt1#,',','') ,
+		           REPLACE(#extraAmnt2#,',','') ,
+		           REPLACE(#extraAmnt3#,',','') ,
+		           REPLACE(#extraAmnt4#,',','') ,
 		           #remark# ,
 		           #manageDt# ,
 		           #assetDt# ,
@@ -335,10 +335,7 @@
     
     	<![CDATA[
             UPDATE P2MGR.SOC_AGENT_F@YGPA_P2MGR 
-            SET
-		      PRT_AT_CODE = #prtAtCode# ,                  
-              CMPL_YR = #cmplYr# ,      
-              CONST_NO = #constNo# ,     
+            SET  
               AGENT_CODE = #agentCode# ,   
               SOC_PRT_AT_CODE = #socPrtAtCode# ,
               SOC_CNST_NM = #socCnstNm# ,   
@@ -359,14 +356,14 @@
         	  MODIFY_DT2 = #modifyDt2# ,   
         	  MODIFY_TXT = #modifyTxt# ,   
         	  PRIME_TXT = #primeTxt# ,    
-        	  TOTAL_AMNT = #totalAmnt# ,   
-        	  ACC_FEE = #accFee# ,      
-        	  RESERACH_AMNT = #reserachAmnt# ,
-        	  PURE_AMNT = #pureAmnt# ,    
-        	  EXTRA_AMNT1 = #extraAmnt1# ,  
-        	  EXTRA_AMNT2 = #extraAmnt2# ,  
-        	  EXTRA_AMNT3 = #extraAmnt3# ,  
-        	  EXTRA_AMNT4 = #extraAmnt4# ,  
+        	  TOTAL_AMNT = REPLACE(#totalAmnt#,',','') ,   
+        	  ACC_FEE = REPLACE(#accFee#,',','') ,      
+        	  RESERACH_AMNT = REPLACE(#reserachAmnt#,',','') ,
+        	  PURE_AMNT = REPLACE(#pureAmnt#,',','') ,    
+        	  EXTRA_AMNT1 = REPLACE(#extraAmnt1#,',','') ,  
+        	  EXTRA_AMNT2 = REPLACE(#extraAmnt2#,',','') ,  
+        	  EXTRA_AMNT3 = REPLACE(#extraAmnt3#,',','') ,  
+        	  EXTRA_AMNT4 = REPLACE(#extraAmnt4#,',','') ,  
         	  REMARK = #remark# ,      
         	  MANAGE_DT = #manageDt# ,    
         	  ASSET_DT = #assetDt# ,     
@@ -428,15 +425,15 @@
 			  FROM P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR 
 			 WHERE 1<>1
 		]]>	 
-			<isNotEmpty property="prtAtCode">
-	             OR (D.PRT_AT_CODE = #prtAtCode#
+			<isNotEmpty property="sPrtAtCode">
+	             OR (PRT_AT_CODE = #sPrtAtCode#
 	             
-	             <isNotEmpty property="agentCode">
-		             AND D.AGENT_CODE = #agentCode#
+	             <isNotEmpty property="sCmplYr">
+		             AND CMPL_YR = #sCmplYr#
 		         </isNotEmpty>
 		         
-		         <isNotEmpty property="sCmplYr">
-		             AND D.CMPL_YR = #sCmplYr#
+		         <isNotEmpty property="sConstNo">
+		             AND CONST_NO = #sConstNo#
 		         </isNotEmpty>
 		         
 		         )
