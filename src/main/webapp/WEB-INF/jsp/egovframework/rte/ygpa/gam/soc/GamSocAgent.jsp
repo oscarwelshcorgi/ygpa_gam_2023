@@ -213,7 +213,7 @@ GamSocAgentMngtModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamSocAgentMngtSearchForm');
 
     this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload();
-	//console.log('debug');
+	console.log('debug');
 
 };
 

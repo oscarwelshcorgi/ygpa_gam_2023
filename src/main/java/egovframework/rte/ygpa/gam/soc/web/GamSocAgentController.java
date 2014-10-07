@@ -33,6 +33,8 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
 
+
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -202,11 +204,16 @@ public class GamSocAgentController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping("/soc/gamInsertSocAgentList.do")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/soc/gamInsertSocAgentList.do")
     @ResponseBody Map<String, Object> insertSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	Map<String, Object> updateTotal = new HashMap<String, Object>();
+    	Map<String, Object> updateData = new HashMap<String, Object>();
+    	Map<String, Object> updateData1 = new HashMap<String, Object>();
+    	Map<String, Object> searchData = new HashMap<String, Object>();
+    	Map<String, Object> updateSubData = new HashMap<String, Object>();
     	ObjectMapper mapper = new ObjectMapper();
     	
     	List<HashMap<String,String>> updateList=null;
@@ -225,9 +232,9 @@ public class GamSocAgentController {
     	
     	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
     	
-    	Map searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
-    	Map updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
-    	Map updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
+    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
+    	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
 
     	updateTotal.putAll(updateData);
     	updateTotal.putAll(updateData1);
@@ -238,7 +245,7 @@ public class GamSocAgentController {
     		gamSocAgentService.insertSocAgentData(updateTotal);
     		
     		for(int i=0;i<updateList.size();i++){
-    			HashMap updateSubData = (HashMap)updateList.get(i);
+    			updateSubData = (HashMap)updateList.get(i);
     			
     			updateSubData.put("prtAtCode", updateTotal.get("sPrtAtCode"));
     			updateSubData.put("cmplYr", updateTotal.get("sCmplYr"));
@@ -265,11 +272,16 @@ public class GamSocAgentController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @RequestMapping("/soc/gamUpdateSocAgentList.do")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/soc/gamUpdateSocAgentList.do")
     @ResponseBody Map<String, Object> updateSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	Map<String, Object> updateTotal = new HashMap<String, Object>();
+    	Map<String, Object> updateData = new HashMap<String, Object>();
+    	Map<String, Object> updateData1 = new HashMap<String, Object>();
+    	Map<String, Object> searchData = new HashMap<String, Object>();
+    	Map<String, Object> updateSubData = new HashMap<String, Object>();
     	ObjectMapper mapper = new ObjectMapper();
     	
     	List<HashMap<String,String>> updateList=null;
@@ -288,9 +300,9 @@ public class GamSocAgentController {
     	
     	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
     	
-    	Map searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
-    	Map updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
-    	Map updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
+    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
+    	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
 
     	updateTotal.putAll(updateData);
     	updateTotal.putAll(updateData1);
@@ -303,7 +315,7 @@ public class GamSocAgentController {
     		gamSocAgentService.deleteSocAgentList(searchData);
     		
     		for(int i=0;i<updateList.size();i++){
-    			HashMap updateSubData = (HashMap)updateList.get(i);
+    			updateSubData = (HashMap)updateList.get(i);
     			
     			updateSubData.put("prtAtCode", updateTotal.get("sPrtAtCode"));
     			updateSubData.put("cmplYr", updateTotal.get("sCmplYr"));
@@ -334,6 +346,7 @@ public class GamSocAgentController {
     @ResponseBody Map<String, Object> deleteSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String, Object> searchData = new HashMap<String, Object>();
     	ObjectMapper mapper = new ObjectMapper();
     	
 
@@ -349,7 +362,7 @@ public class GamSocAgentController {
 //    	socAgentList.put("USERID", user.getId());
 //    	socAgentList.put("prtFcltySe",prtFcltySe);
     	
-    	Map searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
 
     	try {
     		
