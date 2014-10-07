@@ -125,4 +125,482 @@ public class GamSocApplyVO extends ComDefaultVO {
 	
 	/** 수정날짜 **/
 	private String updtDate;
+
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sCmplYr
+	 */
+	public String getsCmplYr() {
+		return sCmplYr;
+	}
+
+	/**
+	 * @param sCmplYr the sCmplYr to set
+	 */
+	public void setsCmplYr(String sCmplYr) {
+		this.sCmplYr = sCmplYr;
+	}
+
+	/**
+	 * @return the sConstNo
+	 */
+	public String getsConstNo() {
+		return sConstNo;
+	}
+
+	/**
+	 * @param sConstNo the sConstNo to set
+	 */
+	public void setsConstNo(String sConstNo) {
+		this.sConstNo = sConstNo;
+	}
+
+	/**
+	 * @return the sAppPrtAtCode
+	 */
+	public String getsAppPrtAtCode() {
+		return sAppPrtAtCode;
+	}
+
+	/**
+	 * @param sAppPrtAtCode the sAppPrtAtCode to set
+	 */
+	public void setsAppPrtAtCode(String sAppPrtAtCode) {
+		this.sAppPrtAtCode = sAppPrtAtCode;
+	}
+
+	/**
+	 * @return the sAppAgentCode
+	 */
+	public String getsAppAgentCode() {
+		return sAppAgentCode;
+	}
+
+	/**
+	 * @param sAppAgentCode the sAppAgentCode to set
+	 */
+	public void setsAppAgentCode(String sAppAgentCode) {
+		this.sAppAgentCode = sAppAgentCode;
+	}
+
+	/**
+	 * @return the sUseNo
+	 */
+	public String getsUseNo() {
+		return sUseNo;
+	}
+
+	/**
+	 * @param sUseNo the sUseNo to set
+	 */
+	public void setsUseNo(String sUseNo) {
+		this.sUseNo = sUseNo;
+	}
+
+	/**
+	 * @return the prtAtCode
+	 */
+	public String getPrtAtCode() {
+		return prtAtCode;
+	}
+
+	/**
+	 * @param prtAtCode the prtAtCode to set
+	 */
+	public void setPrtAtCode(String prtAtCode) {
+		this.prtAtCode = prtAtCode;
+	}
+
+	/**
+	 * @return the prtAtCodeNm
+	 */
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
+	}
+
+	/**
+	 * @param prtAtCodeNm the prtAtCodeNm to set
+	 */
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
+	}
+
+	/**
+	 * @return the cmplYr
+	 */
+	public String getCmplYr() {
+		return cmplYr;
+	}
+
+	/**
+	 * @param cmplYr the cmplYr to set
+	 */
+	public void setCmplYr(String cmplYr) {
+		this.cmplYr = cmplYr;
+	}
+
+	/**
+	 * @return the constNo
+	 */
+	public String getConstNo() {
+		return constNo;
+	}
+
+	/**
+	 * @param constNo the constNo to set
+	 */
+	public void setConstNo(String constNo) {
+		this.constNo = constNo;
+	}
+
+	/**
+	 * @return the appPrtAtCode
+	 */
+	public String getAppPrtAtCode() {
+		return appPrtAtCode;
+	}
+
+	/**
+	 * @param appPrtAtCode the appPrtAtCode to set
+	 */
+	public void setAppPrtAtCode(String appPrtAtCode) {
+		this.appPrtAtCode = appPrtAtCode;
+	}
+
+	/**
+	 * @return the appPrtAtCodeNm
+	 */
+	public String getAppPrtAtCodeNm() {
+		return appPrtAtCodeNm;
+	}
+
+	/**
+	 * @param appPrtAtCodeNm the appPrtAtCodeNm to set
+	 */
+	public void setAppPrtAtCodeNm(String appPrtAtCodeNm) {
+		this.appPrtAtCodeNm = appPrtAtCodeNm;
+	}
+
+	/**
+	 * @return the appAgentCode
+	 */
+	public String getAppAgentCode() {
+		return appAgentCode;
+	}
+
+	/**
+	 * @param appAgentCode the appAgentCode to set
+	 */
+	public void setAppAgentCode(String appAgentCode) {
+		this.appAgentCode = appAgentCode;
+	}
+
+	/**
+	 * @return the useNo
+	 */
+	public String getUseNo() {
+		return useNo;
+	}
+
+	/**
+	 * @param useNo the useNo to set
+	 */
+	public void setUseNo(String useNo) {
+		this.useNo = useNo;
+	}
+
+	/**
+	 * @return the agentCode
+	 */
+	public String getAgentCode() {
+		return agentCode;
+	}
+
+	/**
+	 * @param agentCode the agentCode to set
+	 */
+	public void setAgentCode(String agentCode) {
+		this.agentCode = agentCode;
+	}
+
+	/**
+	 * @return the agentName
+	 */
+	public String getAgentName() {
+		return agentName;
+	}
+
+	/**
+	 * @param agentName the agentName to set
+	 */
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+
+	/**
+	 * @return the exmpAmnt
+	 */
+	public String getExmpAmnt() {
+		return exmpAmnt;
+	}
+
+	/**
+	 * @param exmpAmnt the exmpAmnt to set
+	 */
+	public void setExmpAmnt(String exmpAmnt) {
+		this.exmpAmnt = exmpAmnt;
+	}
+
+	/**
+	 * @return the exmpAcc
+	 */
+	public String getExmpAcc() {
+		return exmpAcc;
+	}
+
+	/**
+	 * @param exmpAcc the exmpAcc to set
+	 */
+	public void setExmpAcc(String exmpAcc) {
+		this.exmpAcc = exmpAcc;
+	}
+
+	/**
+	 * @return the periodFr
+	 */
+	public String getPeriodFr() {
+		return periodFr;
+	}
+
+	/**
+	 * @param periodFr the periodFr to set
+	 */
+	public void setPeriodFr(String periodFr) {
+		this.periodFr = periodFr;
+	}
+
+	/**
+	 * @return the periodTo
+	 */
+	public String getPeriodTo() {
+		return periodTo;
+	}
+
+	/**
+	 * @param periodTo the periodTo to set
+	 */
+	public void setPeriodTo(String periodTo) {
+		this.periodTo = periodTo;
+	}
+
+	/**
+	 * @return the exmpCond
+	 */
+	public String getExmpCond() {
+		return exmpCond;
+	}
+
+	/**
+	 * @param exmpCond the exmpCond to set
+	 */
+	public void setExmpCond(String exmpCond) {
+		this.exmpCond = exmpCond;
+	}
+
+	/**
+	 * @return the rateGubun
+	 */
+	public String getRateGubun() {
+		return rateGubun;
+	}
+
+	/**
+	 * @param rateGubun the rateGubun to set
+	 */
+	public void setRateGubun(String rateGubun) {
+		this.rateGubun = rateGubun;
+	}
+
+	/**
+	 * @return the remark
+	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	/**
+	 * @return the item
+	 */
+	public String getItem() {
+		return item;
+	}
+
+	/**
+	 * @param item the item to set
+	 */
+	public void setItem(String item) {
+		this.item = item;
+	}
+
+	/**
+	 * @return the useYn
+	 */
+	public String getUseYn() {
+		return useYn;
+	}
+
+	/**
+	 * @param useYn the useYn to set
+	 */
+	public void setUseYn(String useYn) {
+		this.useYn = useYn;
+	}
+
+	/**
+	 * @return the bzRgstId
+	 */
+	public String getBzRgstId() {
+		return bzRgstId;
+	}
+
+	/**
+	 * @param bzRgstId the bzRgstId to set
+	 */
+	public void setBzRgstId(String bzRgstId) {
+		this.bzRgstId = bzRgstId;
+	}
+
+	/**
+	 * @return the applDate
+	 */
+	public String getApplDate() {
+		return applDate;
+	}
+
+	/**
+	 * @param applDate the applDate to set
+	 */
+	public void setApplDate(String applDate) {
+		this.applDate = applDate;
+	}
+
+	/**
+	 * @return the perfDt
+	 */
+	public String getPerfDt() {
+		return perfDt;
+	}
+
+	/**
+	 * @param perfDt the perfDt to set
+	 */
+	public void setPerfDt(String perfDt) {
+		this.perfDt = perfDt;
+	}
+
+	/**
+	 * @return the r11Rate
+	 */
+	public String getR11Rate() {
+		return r11Rate;
+	}
+
+	/**
+	 * @param r11Rate the r11Rate to set
+	 */
+	public void setR11Rate(String r11Rate) {
+		this.r11Rate = r11Rate;
+	}
+
+	/**
+	 * @return the r12Rate
+	 */
+	public String getR12Rate() {
+		return r12Rate;
+	}
+
+	/**
+	 * @param r12Rate the r12Rate to set
+	 */
+	public void setR12Rate(String r12Rate) {
+		this.r12Rate = r12Rate;
+	}
+
+	/**
+	 * @return the r21Rate
+	 */
+	public String getR21Rate() {
+		return r21Rate;
+	}
+
+	/**
+	 * @param r21Rate the r21Rate to set
+	 */
+	public void setR21Rate(String r21Rate) {
+		this.r21Rate = r21Rate;
+	}
+
+	/**
+	 * @return the r22Rate
+	 */
+	public String getR22Rate() {
+		return r22Rate;
+	}
+
+	/**
+	 * @param r22Rate the r22Rate to set
+	 */
+	public void setR22Rate(String r22Rate) {
+		this.r22Rate = r22Rate;
+	}
+
+	/**
+	 * @return the updtUid
+	 */
+	public String getUpdtUid() {
+		return updtUid;
+	}
+
+	/**
+	 * @param updtUid the updtUid to set
+	 */
+	public void setUpdtUid(String updtUid) {
+		this.updtUid = updtUid;
+	}
+
+	/**
+	 * @return the updtDate
+	 */
+	public String getUpdtDate() {
+		return updtDate;
+	}
+
+	/**
+	 * @param updtDate the updtDate to set
+	 */
+	public void setUpdtDate(String updtDate) {
+		this.updtDate = updtDate;
+	}
+	
+	
 }
