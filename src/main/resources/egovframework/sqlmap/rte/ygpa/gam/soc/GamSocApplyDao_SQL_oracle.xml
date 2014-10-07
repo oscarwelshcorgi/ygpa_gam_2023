@@ -10,26 +10,26 @@
 		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1" />
 		<result property="cmplYr" column="CMPL_YR" columnIndex="2" />
 		<result property="constNo" column="CONST_NO" columnIndex="3" />
-		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="1" />
-		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="1" />
-		<result property="useNo" column="USE_NO" columnIndex="1" />
-		<result property="agentCode" column="AGENT_CODE" columnIndex="1" />
-		<result property="agentName" column="AGENT_NAME" columnIndex="1" />
-		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="1" />
-		<result property="exmpAcc" column="EXMP_ACC" columnIndex="1" />
-		<result property="periodFr" column="PERIOD_FR" columnIndex="1" />
-		<result property="periodTo" column="PERIOD_TO" columnIndex="1" />
-		<result property="exmpCond" column="EXMP_COND" columnIndex="1" />
-		<result property="rateGubun" column="RATE_GUBUN" columnIndex="1" />
-		<result property="remark" column="REMARK" columnIndex="1" />
-		<result property="item" column="ITEM" columnIndex="1" />
-		<result property="useYn" column="USE_YN" columnIndex="1" />
-		<result property="bzRegtId" column="BZ_REGT_ID" columnIndex="1" />
-		<result property="applDate" column="APPL_DATE" columnIndex="1" />
-		<result property="r11Rate" column="R11_RATE" columnIndex="1" />
-		<result property="r12Rate" column="R12_RATE" columnIndex="1" />
-		<result property="r21Rate" column="R21_RATE" columnIndex="1" />
-		<result property="r22Rate" column="R22_RATE" columnIndex="1" />
+		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="4" />
+		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="5" />
+		<result property="useNo" column="USE_NO" columnIndex="6" />
+		<result property="agentCode" column="AGENT_CODE" columnIndex="7" />
+		<result property="agentName" column="AGENT_NAME" columnIndex="8" />
+		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="9" />
+		<result property="exmpAcc" column="EXMP_ACC" columnIndex="10" />
+		<result property="periodFr" column="PERIOD_FR" columnIndex="11" />
+		<result property="periodTo" column="PERIOD_TO" columnIndex="12" />
+		<result property="exmpCond" column="EXMP_COND" columnIndex="13" />
+		<result property="rateGubun" column="RATE_GUBUN" columnIndex="14" />
+		<result property="remark" column="REMARK" columnIndex="15" />
+		<result property="item" column="ITEM" columnIndex="16" />
+		<result property="useYn" column="USE_YN" columnIndex="17" />
+		<result property="bzRgstId" column="BZ_RGST_ID" columnIndex="18" />
+		<result property="applDate" column="APPL_DATE" columnIndex="19" />
+		<result property="r11Rate" column="R11_RATE" columnIndex="20" />
+		<result property="r12Rate" column="R12_RATE" columnIndex="21" />
+		<result property="r21Rate" column="R21_RATE" columnIndex="22" />
+		<result property="r22Rate" column="R22_RATE" columnIndex="23" />
 	</resultMap>
 
 	<select id="gamSocApplyDAO.selectSocApplyDetail_D" parameterClass="gamSocApplyVO" resultMap="gamSocApplySearchMap">
