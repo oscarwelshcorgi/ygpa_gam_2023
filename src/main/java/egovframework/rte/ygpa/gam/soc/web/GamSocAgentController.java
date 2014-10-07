@@ -247,12 +247,12 @@ public class GamSocAgentController {
     			gamSocAgentService.insertSocAgentList(updateSubData);
     		}
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
     	return map;
@@ -357,12 +357,12 @@ public class GamSocAgentController {
     		gamSocAgentService.deleteSocAgentList(searchData);
     		
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;
