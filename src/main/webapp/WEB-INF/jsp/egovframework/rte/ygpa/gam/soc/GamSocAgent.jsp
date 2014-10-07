@@ -128,7 +128,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	if(!validateGamSocAgentDetail(this.$('#form1')[0])){ 		
         		return;
         	}
-        	return;
+
         	var inputVO = [];
         	
         	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
