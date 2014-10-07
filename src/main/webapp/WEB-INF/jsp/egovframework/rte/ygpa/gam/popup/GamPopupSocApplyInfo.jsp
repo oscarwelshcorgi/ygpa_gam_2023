@@ -111,16 +111,23 @@ var popup_instance = new GamPopupSocApplyInfoModule();
                         <th>항코드</th>
                         <td>
                         	<select id="sPrtAtCode">
-	                            <option value="" selected="selected">선택</option>
-	                            <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-	                            	<option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
-	                            </c:forEach>
+                                <option value="">선택</option>
+                                <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+                                	<c:choose>
+                                		<c:when test="${ prtAtCdItem.prtAtCode eq searchOpt.sPrtAtCode }">
+                                			<option value="${prtAtCdItem.prtAtCode }" selected="selected">${prtAtCdItem.prtKorNm }</option>
+                                		</c:when>
+                                		<c:otherwise>
+                                			<option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+                                		</c:otherwise>
+                                	</c:choose>
+                                </c:forEach>
 	                        </select>
                         </td>
 						<th>준공년도</th>
-                        <td><input id="sCmplYr" type="text" size="4" title="준공년도" maxlength="10" /></td>
+                        <td><input id="sCmplYr" type="text" size="4" title="준공년도" maxlength="10" value="${searchOpt.sCmplYr}" /></td>
                     	<th>공사일련번호</th>
-						<td><input id="sConstNo" type="text" size="12" title="공사일련번호" maxlength="12" /></td>
+						<td><input id="sConstNo" type="text" size="12" title="공사일련번호" maxlength="12" value="${searchOpt.sConstNo}" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
