@@ -11,8 +11,6 @@
 				,PRT_KOR_NM
 		FROM
 				p2mgr.PRT_AT_CODE_F@ygpa_p2mgr
-		WHERE
-				PA_YN      = 'Y'
 		ORDER BY 
 				PRT_AT_CODE, PRT_KOR_NM
     </select>
