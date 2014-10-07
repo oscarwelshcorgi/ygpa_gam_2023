@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.soc">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocApplyVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocApplyVO" />
+
+	<resultMap id="gamSocApplySearchMap" class="egovframework.rte.ygpa.gam.soc.service.GamSocApplyVO">
+		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1" />
+		<result property="cmplYr" column="CMPL_YR" columnIndex="2" />
+		<result property="constNo" column="CONST_NO" columnIndex="3" />
+		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="1" />
+		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="1" />
+		<result property="useNo" column="USE_NO" columnIndex="1" />
+		<result property="agentCode" column="AGENT_CODE" columnIndex="1" />
+		<result property="agentName" column="AGENT_NAME" columnIndex="1" />
+		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="1" />
+		<result property="exmpAcc" column="EXMP_ACC" columnIndex="1" />
+		<result property="periodFr" column="PERIOD_FR" columnIndex="1" />
+		<result property="periodTo" column="PERIOD_TO" columnIndex="1" />
+		<result property="exmpCond" column="EXMP_COND" columnIndex="1" />
+		<result property="rateGubun" column="RATE_GUBUN" columnIndex="1" />
+		<result property="remark" column="REMARK" columnIndex="1" />
+		<result property="item" column="ITEM" columnIndex="1" />
+		<result property="useYn" column="USE_YN" columnIndex="1" />
+		<result property="bzRegtId" column="BZ_REGT_ID" columnIndex="1" />
+		<result property="applDate" column="APPL_DATE" columnIndex="1" />
+		<result property="r11Rate" column="R11_RATE" columnIndex="1" />
+		<result property="r12Rate" column="R12_RATE" columnIndex="1" />
+		<result property="r21Rate" column="R21_RATE" columnIndex="1" />
+		<result property="r22Rate" column="R22_RATE" columnIndex="1" />
+	</resultMap>
+
+	<select id="gamSocApplyDAO.selectSocApplyDetail_D" parameterClass="gamSocApplyVO" resultMap="gamSocApplySearchMap">
+		SELECT
+				A.PRT_AT_CODE
+				, A.CMPL_YR
+				, A.CONST_NO
+				, A.APP_PRT_AT_CODE
+				, A.APP_AGENT_CODE
+				, A.USE_NO
+				, A.AGENT_CODE
+				, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.AGENT_CODE) AGENT_NAME
+				, TO_CHAR(NVL(A.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+				, TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') AS EXMP_ACC
+				, TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
+				, TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
+				, A.EXMP_COND
+				, A.RATE_GUBUN
+				, A.ITEM
+				, A.USE_YN
+				, A.BZ_RGST_ID
+				, TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
+				, TO_CHAR(A.PERF_DT, 'YYYY-MM-DD') PERF_DT
+				, TO_CHAR(A.R11_RATE) R11_RATE
+				, TO_CHAR(A.R12_RATE) R12_RATE
+				, TO_CHAR(A.R21_RATE) R21_RATE
+				, TO_CHAR(A.R12_RATE) R22_RATE
+		FROM
+				P2MGR.SOC_APPLY_F@YGPA_P2MGR  A		
+		WHERE
+				1 = 1
+			<isNotEmpty prepend="AND" property="sPrtAtCode">
+				A.PRT_AT_CODE = #sPrtAtCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sCmplYr">
+				A.CMPL_YR = #sCmplYr#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sConstNo">
+				A.CONST_NO = #sConstNo#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+				A.APP_PRT_AT_CODE = #sAppPrtAtCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sAppAgentCode">
+				A.APP_AGENT_CODE = #sAppAgentCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sUseNo">
+				A.PRT_AT_CODE = #sUseNo#
+			</isNotEmpty>
+	</select>
+	
+	<select id="gamSocApplyDAO.selectSocApplyDetailTotCnt_S" parameterClass="gamSocApplyVO" resultClass="int">
+		SELECT
+				COUNT(*) TOTCNT
+		FROM
+				P2MGR.SOC_APPLY_F@YGPA_P2MGR  A		
+		WHERE
+				1 = 1
+			<isNotEmpty prepend="AND" property="sPrtAtCode">
+				A.PRT_AT_CODE = #sPrtAtCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sCmplYr">
+				A.CMPL_YR = #sCmplYr#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sConstNo">
+				A.CONST_NO = #sConstNo#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+				A.APP_PRT_AT_CODE = #sAppPrtAtCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sAppAgentCode">
+				A.APP_AGENT_CODE = #sAppAgentCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sUseNo">
+				A.PRT_AT_CODE = #sUseNo#
+			</isNotEmpty>
+	</select>
+	
+    <select id="gamSocApplyDAO.selectSocApplyList_S" parameterClass="gamSocApplyVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+									A.PRT_AT_CODE
+									, (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = A.PRT_AT_CODE) PRT_AT_KOR_NM
+									, A.CMPL_YR
+									, A.CONST_NO
+									, A.APP_PRT_AT_CODE
+									, (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = A.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+									, A.APP_AGENT_CODE
+									, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.APP_AGENT_CODE) APP_AGENT_NAME
+									, A.USE_NO
+									, A.AGENT_CODE
+									, (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.AGENT_CODE) AGENT_NAME
+									, TO_CHAR(NVL(A.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+									, TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') AS EXMP_ACC
+									, TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
+									, TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
+									, A.EXMP_COND
+									, A.RATE_GUBUN
+									, A.ITEM
+									, A.USE_YN
+									, A.BZ_RGST_ID
+									, TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
+									, TO_CHAR(A.PERF_DT, 'YYYY-MM-DD') PERF_DT
+									, TO_CHAR(A.R11_RATE) R11_RATE
+									, TO_CHAR(A.R12_RATE) R12_RATE
+									, TO_CHAR(A.R21_RATE) R21_RATE
+									, TO_CHAR(A.R12_RATE) R22_RATE
+					        FROM 
+					        	P2MGR.SOC_APPLY_F@YGPA_P2MGR A
+                            WHERE 1=1
+					
+						         <isNotEmpty property="sPrtAtCode">
+						             AND A.PRT_AT_CODE = #sPrtAtCode#
+						         </isNotEmpty>
+							         
+						         <isNotEmpty property="sAppAgentCode">
+						             AND A.APP_AGENT_CODE = #sAppAgentCode# 
+						         </isNotEmpty>
+						        
+						     <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY A.CMPL_YR DESC, A.CONST_NO DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocApplyDao.selectSocApplyListTotCnt_S" parameterClass="gamSocApplyVO" resultClass="int">    
+        SELECT 
+        		COUNT(*) TOTCNT
+        FROM 
+        		P2MGR.SOC_APPLY_F@YGPA_P2MGR A
+        WHERE 1=1
+
+			<isNotEmpty property="sPrtAtCode">
+			    AND A.PRT_AT_CODE = #sPrtAtCode#
+			</isNotEmpty>
+							         
+			<isNotEmpty property="sAppAgentCode">
+			    AND A.APP_AGENT_CODE = #sAppAgentCode# 
+			</isNotEmpty>						        
+    </select>
+    
+    <insert id="gamSocApplyDao.insertSocApplyDetail" parameterClass="gamSocApplyVO">
+    	INSERT INTO P2MGR.SOC_APPLY_F@YGPA_P2MGR
+    		(
+    			PRT_AT_CODE
+    			, CMPL_YR
+    			, CONST_NO
+    			, APP_PRT_AT_CODE
+    			, APP_AGENT_CODE
+    			, USE_NO
+    			, AGENT_CODE
+    			, EXMP_AMNT
+    			, EXMP_ACC
+    			, PERIOD_FR
+    			, PERIOD_TO
+    			, EXMP_COND
+    			, ITEM
+    			, USE_YN
+    			, BZ_RGST_ID
+    			, APPL_DATE
+    			, PERF_DT
+    			, R11_RATE
+    			, R12_RATE
+    			, R21_RATE
+    			, R22_RATE
+    			, UPDT_UID
+    			, UPDT_DATE
+      		)
+      	VALUES
+      		(
+      			#prtAtCode#
+      			, #cmplYr#
+      			, #constNo#
+      			, #appPrtAtCode#
+      			, #appAgentCode#
+      			, #useNo#
+      			, #agentCode#
+      			, TO_NUMBER(REPLACE(#exmpAmnt#, ',', ''))
+      			, TO_NUMBER(REPLACE(#exmpAcc#, ',', ''))
+      			, TO_DATE(#periodFr#, 'YYYY-MM-DD')
+      			, TO_DATE(#periodTo#, 'YYYY-MM-DD')
+      			, #exmpCond#
+      			, #rateGubun#
+      			, #remark#
+      			, #item#
+      			, #useYn#
+      			, #bzRgstId#
+      			, TO_DATE(#applDate#, 'YYYY-MM-DD')
+      			, TO_DATE(#perfDt#, 'YYYY-MM-DD')
+      			, TO_NUMBER(REPLACE(#r11Rate#, ',', ''))
+      			, TO_NUMBER(REPLACE(#r12Rate#, ',', ''))
+      			, TO_NUMBER(REPLACE(#r21Rate#, ',', ''))
+      			, TO_NUMBER(REPLACE(#r22Rate#, ',', ''))
+      			, #updtUid#
+      			, SYSDATE
+      		)
+    </insert>	
+    <update id="gamSocApplyDao.updateSocApplyDetail" parameterClass="gamSocApplyVO">
+    	UPDATE P2MGR.SOC_APPLY_F@YGPA_P2MGR
+    	SET
+      			AGENT_CODE = #agentCode#
+      			, EXMP_AMNT = TO_NUMBER(REPLACE(#exmpAmnt#, ',', ''))
+      			, EXMP_ACC = TO_NUMBER(REPLACE(#exmpAcc#, ',', ''))
+      			, PERIOD_FR = TO_DATE(#periodFr#, 'YYYY-MM-DD')
+      			, PERIOD_TO = TO_DATE(#periodTo#, 'YYYY-MM-DD')
+      			, EXMP_COND = #exmpCond#
+      			, RATE_GUBUN = #rateGubun#
+      			, REMARK = #remark#
+      			, ITEM = #item#
+      			, USE_YN = #useYn#
+      			, BZ_RGST_ID = #bzRgstId#
+      			, APPL_DATE = TO_DATE(#applDate#, 'YYYY-MM-DD')
+      			, PERF_DT = TO_DATE(#perfDt#, 'YYYY-MM-DD')
+      			, R11_RATE = TO_NUMBER(REPLACE(#r11Rate#, ',', ''))
+      			, R12_RATE = TO_NUMBER(REPLACE(#r12Rate#, ',', ''))
+      			, R21_RATE = TO_NUMBER(REPLACE(#r21Rate#, ',', ''))
+      			, R22_RATE = TO_NUMBER(REPLACE(#r22Rate#, ',', ''))
+      			, UPDT_UID = #updtUid#
+      			, UPDT_DATE = SYSDATE
+    	WHERE
+    			PRT_AT_CODE = #prtAtCode#
+    			AND CMPL_YR = #cmplYr#
+    			AND CONST_NO = #constNo#
+    			AND APP_PRT_AT_CODE = #appPrtAtCode#
+    			AND APP_AGENT_CODE = #appAgentCode#
+    			AND USE_NO = #useNo#
+    </update>
+    
+    <delete id="gamSocApplyDao.deleteSocApplyDetail" parameterClass="gamSocApplyVO">
+    	DELETE FROM
+    			P2MGR.SOC_APPLY_F@YGPA_P2MGR
+    	WHERE
+    			PRT_AT_CODE = #prtAtCode#
+    			AND CMPL_YR = #cmplYr#
+    			AND CONST_NO = #constNo#
+    			AND APP_PRT_AT_CODE = #appPrtAtCode#
+    			AND APP_AGENT_CODE = #appAgentCode#
+    			AND USE_NO = #useNo#
+    </delete>
+</sqlMap>

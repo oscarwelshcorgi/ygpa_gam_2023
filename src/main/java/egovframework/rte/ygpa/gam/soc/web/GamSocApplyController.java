@@ -32,8 +32,8 @@ import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
 /**
  *
- * @author Lee
- * @since 2014. 9. 19.
+ * @author 김종민
+ * @since 2014. 10. 06.
  * @version 1.0
  * @see
  * <pre>
@@ -41,7 +41,7 @@ import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 9. 19.		Lee		최초 생성
+ *  2014. 10. 06.	김종민		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
@@ -50,10 +50,6 @@ import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 public class GamSocApplyController {
 
 	protected Log log = LogFactory.getLog(this.getClass());
-
-	/** Validator */
-	@Autowired
-	private DefaultBeanValidator beanValidator;
 
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -71,10 +67,6 @@ public class GamSocApplyController {
 
 		//login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-		GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
-		
-		codeVo.setCodeId("GAM019"); //항코드 
 		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		List yearsList = this.getYears(); // 조회연도
