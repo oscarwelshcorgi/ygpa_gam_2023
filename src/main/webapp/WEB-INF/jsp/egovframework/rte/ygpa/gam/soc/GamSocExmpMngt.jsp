@@ -75,11 +75,6 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         		module.$('#cmd').val('select');
         	});
             break;
-        /*case 'btnAddNew' : //신규
-    		this.$('#gamSocExmpMngtSearchForm :input').val('');
-    		this.$('#gamSocExmpMngtForm :input').val('');
-        	this.$('#cmd').val('insert');
-        	break;*/
         case 'btnNewSocNo' : //신규관리번호생성
         	if(this.$('#sAppPrtAtCode').val() == '') {
         		alert('항코드를 선택하세요.');
