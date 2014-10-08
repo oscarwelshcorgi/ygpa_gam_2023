@@ -27,6 +27,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocApplyService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
@@ -51,6 +52,10 @@ public class GamSocApplyController {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
+	/** Validator */
+	@Autowired
+	private DefaultBeanValidator beanValidator;
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -59,9 +64,16 @@ public class GamSocApplyController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
+    /** cmmUseService */
+    @Resource(name="EgovCmmUseService")
+    private EgovCmmUseService cmmUseService;
+    
     @Resource(name = "gamSocCmmUseService")
     private GamSocCmmUseService gamSocCmmUseService;
-
+    
+    @Resource(name = "gamSocApplyService")
+    private GamSocApplyService gamSocApplyService;
+    
     @RequestMapping(value="/soc/gamSocApply.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -89,7 +101,6 @@ public class GamSocApplyController {
 		List result = new ArrayList();
    		
    		for (int i = 2000; i <= currentYear; i++) {
-   			
    			result.add(String.valueOf(i));
    		}
 

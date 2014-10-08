@@ -73,9 +73,6 @@ public class GamSocExmpMngtController {
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
 
-    @Resource(name="gamPrtFcltyRentMngtService")
-    private GamPrtFcltyRentMngtService gamPrtFcltyRentMngtService;
-
     @Resource(name="gamSocExmpMngtService")
     private GamSocExmpMngtService gamSocExmpMngtService;
 
