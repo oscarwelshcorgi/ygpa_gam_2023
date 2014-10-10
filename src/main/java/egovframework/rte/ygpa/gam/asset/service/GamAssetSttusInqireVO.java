@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.asset.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -11,51 +13,52 @@ import egovframework.com.cmm.ComDefaultVO;
  * @since 2014-01-29
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamAssetSttusInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
+
     /** GIS 자산 코드 */
     private String sGisAssetsCd;
-	
+
     /** GIS 자산 명 */
     private String sGisAssetsNm;
-    
+
     /** 사용기간 FORM */
     private String sUsagePdFrom;
-    
+
     /** 사용기간 TO */
     private String sUsagePdTo;
-    
+
     /** 검색조건 */
     private String sPrtAtCode;
-    
+
     /** 검색조건 */
     private String sGisAssetsSubCd;
-    
+
     /** 검색조건 */
     private String sEntrpscd;
-    
+
     /** 검색조건 */
     private String sPrmisnYn;
-    
+
     /** 검색조건 */
     private String deptcd;
-    
+
     /** 검색조건 */
     private String sQuayCd;
 
     /** 자료수 */
     private String sumCnt;
-    
+
     /** 면적합계 */
     private String sumAr;
-    
+
     /** 사용료합계 */
     private String sumFee;
-    
+
     /** 감면사용료합계 */
     private String sumRdcxptFee;
 
@@ -198,7 +201,7 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
 	public void setsQuayCd(String sQuayCd) {
 		this.sQuayCd = sQuayCd;
 	}
-	
+
 	/**
 	 * @return the sumCnt
 	 */

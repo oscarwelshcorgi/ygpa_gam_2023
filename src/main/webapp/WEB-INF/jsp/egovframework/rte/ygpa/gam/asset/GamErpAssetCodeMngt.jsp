@@ -413,7 +413,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'btnErpAssetCodeListExcelDownload':	// 엑셀 다운로드
-		this.$('#erpAssetCodeList').flexExcelDown('<c:url value="/asset/selectErpAssetCodeListExcel.do"/>');
+		this.$('#erpAssetCodeList').flexExcelDown('<c:url value="/asset/selectErpAssetCodeListExcel.do"/>', 'erpAssetCodeList.xls');
 		break;
 	case 'addAssetGisCdItem':
 		this.addGisAssetItem();

@@ -45,9 +45,6 @@ public class FlexiGridExcelView extends AbstractExcelView {
 		HSSFCell cell = null;
 
 		String fileName = "GIS.xls";
-		fileName = new String(fileName.getBytes("euc-kr"), "8859_1");
-		resp.setHeader("Content-Disposition", "attachment; fileName=\"" + fileName + "\";");
-		resp.setHeader("Content-Transfer-Encoding", "binary");
 
 		HSSFSheet sheet = wb.createSheet("테이블 목록");
 		sheet.setDefaultColumnWidth((short) 12);
@@ -56,6 +53,12 @@ public class FlexiGridExcelView extends AbstractExcelView {
 //		cell = getCell(sheet, 0, 0);
 //		setText(cell, "조회 결과 ");
 		Map<String, Object> map= (Map<String, Object>) model.get("gridResultMap");
+
+		if(map.containsKey("fileName")) fileName=(String)map.get("fileName");
+		fileName = new String(fileName.getBytes("euc-kr"), "8859_1");
+
+		resp.setHeader("Content-Disposition", "attachment; fileName=\"" + fileName + "\";");
+		resp.setHeader("Content-Transfer-Encoding", "binary");
 
 		if(map.containsKey("resultCode")) {
 			if((Integer)map.get("resultCode")!=0) {

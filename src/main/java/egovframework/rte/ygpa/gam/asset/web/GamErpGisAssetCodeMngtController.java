@@ -193,7 +193,7 @@ public class GamErpGisAssetCodeMngtController {
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -201,7 +201,7 @@ public class GamErpGisAssetCodeMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     		return new ModelAndView("gridExcelView", "gridResultMap", map);
     	}
-		
+
 
     	// 환경설정
     	/** EgovPropertyService */
@@ -211,6 +211,7 @@ public class GamErpGisAssetCodeMngtController {
 			    new TypeReference<List<HashMap<String,String>>>(){});
 
         excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+    	map.put("fileName", (String)excelParam.get("fileName"));
 
 		// 조회 조건
 		searchVO = mapper.convertValue(excelParam, ErpAssetCdDefaultVO.class);
@@ -286,7 +287,7 @@ public class GamErpGisAssetCodeMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
 
 		insertList = mapper.readValue((String)dataList.get("insertList"),
 		    new TypeReference<List<HashMap<String,Object>>>(){});
@@ -308,13 +309,13 @@ public class GamErpGisAssetCodeMngtController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-		
+
 		try {
 			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 			mergeMap.put("updUsr", loginVo.getId());
 			mergeMap.put("regUsr", loginVo.getId());
-			
+
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetCodeMngt(mergeMap);
 		}
     	catch(Exception e) {
@@ -374,7 +375,7 @@ public class GamErpGisAssetCodeMngtController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-		
+
 		try {
 			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -470,8 +471,8 @@ public class GamErpGisAssetCodeMngtController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-		
-		
+
+
 		try {
 			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 

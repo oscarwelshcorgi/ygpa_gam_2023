@@ -181,6 +181,7 @@ public class GamHtldRentFeeMngtController {
     @ResponseBody ModelAndView selectHtldRentFeeMngtListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
 		Map map = new HashMap();
 		List header;
+		String fileName="";
 		ObjectMapper mapper = new ObjectMapper();
 
 		// 0. Spring Security 사용자권한 처리
@@ -200,6 +201,8 @@ public class GamHtldRentFeeMngtController {
 			    new TypeReference<List<HashMap<String,String>>>(){});
 
         excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+        fileName = (String)excelParam.get("fileName");
+        excelParam.remove("fileName");	// 파라미터에서 헤더를 삭제 한다.
 		// 조회 조건
 		searchVO = mapper.convertValue(excelParam, GamHtldRentFeeMngtVO.class);
 
@@ -213,6 +216,7 @@ public class GamHtldRentFeeMngtController {
 
     	map.put("resultList", resultList);
     	map.put("header", header);
+    	map.put("fileName", fileName);
 
     	return new ModelAndView("gridHtldFeeView", "gridResultMap", map);
     }

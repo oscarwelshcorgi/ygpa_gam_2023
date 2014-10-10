@@ -164,7 +164,7 @@ GamAssetSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value)
 
    default:
        alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-       
+
        break;
    }
 };
@@ -286,6 +286,7 @@ var module_instance = new GamAssetSttusInqireModule();
 								<td><input type="text" size="16" id="sumRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
 									<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetSttusInqireList" data-style="default">맵조회</button>
+									<button data-role="printPage" data-search-option="gamAssetSttusInqireSearchForm" data-url="<c:url value='/asset/gamAssetSttusInqireListPrint.do'/>">인쇄</button>
 								</td>
 							</tr>
 						</table>
