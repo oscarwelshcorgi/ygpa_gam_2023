@@ -116,6 +116,37 @@ public class GamAssetCodeMngtController {
     	return map;
     }
 
+    @RequestMapping(value="/code/assets/selectGisAssetCodeListPrint.do")
+    public String selectAssetListPrint(@RequestParam Map<String, Object> searchOpt, ModelMap model) throws Exception {
+    	int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	GamGisAssetCodeVO searchVO;
+		ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "ygpa/gam/code/GamAssetCodeListPrint";
+    	}
+
+    	searchVO = mapper.convertValue(searchOpt, GamGisAssetCodeVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+    	List gamAssetList = gamGisAssetCodeMngtService.selectAssetCodeList(searchVO);
+
+    	model.addAttribute("resultList", gamAssetList);
+
+    	model.addAttribute("resultCode", 0);	// return ok
+    	model.addAttribute("resultList", gamAssetList);
+
+    	return "ygpa/gam/code/GamAssetCodeListPrint";
+    }
+
     /**
      * 자산 코드 조회
      * @param searchVO

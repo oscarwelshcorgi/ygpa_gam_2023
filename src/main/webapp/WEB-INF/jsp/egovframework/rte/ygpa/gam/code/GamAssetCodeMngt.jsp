@@ -697,6 +697,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 <!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCode">위치등록</button> -->
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
+					<button data-role="printPage" data-search-option="searchGisAssetCode" data-url="<c:url value='/code/assets/selectGisAssetCodeListPrint.do'/>">인쇄</button>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->
 				</div>
 			</div>

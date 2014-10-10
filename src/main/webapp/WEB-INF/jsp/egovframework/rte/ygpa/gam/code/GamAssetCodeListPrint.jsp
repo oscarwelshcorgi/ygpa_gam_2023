@@ -47,22 +47,22 @@
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-	    	<h1 class="ygpa_report_h1">항만시설 사용 현황 목록</h1>
-
+	    	<h1 class="ygpa_report_h1">자산 코드 목록</h1>
 	<c:if test="${fn:length(resultList) == 0}">
-		<table class="ygpa_report_table1">
+		<table class="rpr_main_table">
 	  		<thead>
 	  			<tr>
 	  				<th>항구분</th>
-	  				<th>관리번호</th>
-	  				<th>신청업체</th>
-	  				<th>신청업체명</th>
 	  				<th>자산코드</th>
 	  				<th>자산명</th>
-	  				<th>사용시작일</th>
-	  				<th>사용종료일</th>
-	  				<th>사용료</th>
-	  				<th>사용면적</th>
+	  				<th>재산</th>
+	  				<th>위치</th>
+	  				<th>부두</th>
+	  				<th>소재지</th>
+	  				<th>지번</th>
+	  				<th>면적</th>
+	  				<th>실임대면적</th>
+	  				<th>취득가액</th>
 	 				</tr>
 	  		</thead>
 	  		<tbody>
@@ -71,7 +71,7 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%80==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+           			<c:if test="${resultStatus.index%20==0 }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -81,49 +81,33 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
-       		        	<table class="ygpa_report_table1">
+       		        	<table class="rpr_main_table">
 			        		<thead>
 			        			<tr>
-			        				<th>항구분</th>
-			        				<th>관리번호</th>
-			        				<th>신청업체</th>
-			        				<th>신청업체명</th>
-			        				<th>자산코드</th>
-			        				<th>자산명</th>
-			        				<th>사용시작일</th>
-			        				<th>사용종료일</th>
-			        				<th>사용료</th>
-			        				<th>사용면적</th>
+	  				<th>항구분</th>
+	  				<th>자산코드</th>
+	  				<th>자산명</th>
+	  				<th>소재지</th>
+	  				<th>지번</th>
+	  				<th>면적</th>
+	  				<th>실임대면적</th>
+	  				<th>취득가액</th>
 			       				</tr>
 			        		</thead>
 			        		<tbody>
         			</c:if>
         			<tr>
         				<td><c:out value="${result.prtAtCodeNm }" /></td>
-        				<td><c:out value="${result.rentMngNo }" /></td>
-        				<td><c:out value="${result.entrpscd }" /></td>
-        				<td><input type="text" value='<c:out value="${result.entrpsNm }" />' style="border:0px"/></td>
-        				<td><c:out value="${result.assetsCdStr }" /></td>
+        				<td><c:out value="${result.assetCode }" /></td>
         				<td><c:out value="${result.gisAssetsNm }" /></td>
-        				<td><c:out value="${result.usagePdFrom }" /></td>
-        				<td><c:out value="${result.usagePdTo }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee}" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.usageAr}" /></td>
+        				<td><c:out value="${result.gisAssetsLocplc }" /></td>
+        				<td><c:out value="${result.lotcode }" /></td>
+        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.gisAssetsAr}" /></td>
+        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.gisAssetsRealRentAr}" /></td>
+        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.gisAssetsAcqPri}" /></td>
         			</tr>
     </c:forEach>
         		</tbody>
-        		<tfoot>
-        			<tr>
-        				<th>총계</th>
-        				<td style="text-align: right"><c:out value="${sumCnt }" /><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumCnt}" /--></td>
-        				<th>총 면적</th>
-        				<td style="text-align: right"><c:out value="${sumAr }" /><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAr}" /--> m<sup>2</sup></td>
-        				<th>총 사용료</th>
-        				<td colspan="2" style="text-align: right"><c:out value="${sumFee }" /><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumFee}" /--> 원</td>
-        				<th>총 면제 금액</th>
-        				<td colspan="2" style="text-align: right"><c:out value="${sumRdcxptFee }" /><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRdcxptFee}" /--> 원</td>
-        			</tr>
-        		</tfoot>
         	</table>
         </div>
     </div>
