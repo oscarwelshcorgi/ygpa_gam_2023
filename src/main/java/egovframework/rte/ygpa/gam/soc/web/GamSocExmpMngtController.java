@@ -203,7 +203,7 @@ public class GamSocExmpMngtController {
     	int count = gamSocExmpMngtService.selectSocExmpMngtDetailTotCnt(gamSocExmpMngtVO);
     	if(count < 1) {
     		gamSocExmpMngtService.insertSocExmpMngtDetail(gamSocExmpMngtVO);
-    		map.put("resultCode", 1);
+    		map.put("resultCode", 0);
     		map.put("resultMsg", "등록이 성공적으로 이루어졌습니다.");
     	}
     	else {

@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.soc.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -38,16 +39,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 		return (GamSocApplyVO) selectByPk("gamSocApplyDAO.selectSocApplyDetail_D", searchVO);
 	}
 	
-	/**
-	 * 면제요청내역관리 데이터의 총 개수를 조회한다. 
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
-	 * @exception
-	 */
-	int selectSocApplyDetailTotCnt(GamSocApplyVO searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDAO.selectSocApplyDetailTotCnt_S", searchVO);
-	}
-	
+
 	/**
 	 * 면제요청내역 리스트를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -74,8 +66,8 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception
 	 */
-	void insertSocApplyDetail(GamSocApplyVO insertVO) {
-		insert("gamSocApplyDao.insertSocApplyDetail", insertVO);
+	void insertSocApplyDetail(Map insertMap) {
+		insert("gamSocApplyDao.insertSocApplyDetail", insertMap);
 	}
 	
 	/**
@@ -84,8 +76,8 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception
 	 */	
-	void updateSocApplyDetail(GamSocApplyVO updateVO) {
-		update("gamSocApplyDao.updateSocApplyDetail", updateVO);
+	void updateSocApplyDetail(Map updateMap) {
+		update("gamSocApplyDao.updateSocApplyDetail", updateMap);
 	}
 	
 	/**
@@ -94,7 +86,108 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyDetail(GamSocApplyVO deleteVO) {
-		delete("gamSocApplyDao.deleteSocApplyDetail", deleteVO);
+	void deleteSocApplyDetail(Map deleteMap) {
+		delete("gamSocApplyDao.deleteSocApplyDetail", deleteMap);
+	}
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 시섧물리스트를  조회한다. 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return
+	 * @exception
+	 */	
+	List selectSocApplyFacilList(GamSocApplyVO searchVO) {
+		return list("gamSocApplyDao.selectSocApplyFacilList", searchVO);
+	}
+
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 시섧물리스트 총갯슈를  조회한다. 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return
+	 * @exception
+	 */	
+	int selectSocApplyFacilListTotCnt(GamSocApplyVO searchVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyFacilListTotCnt", searchVO);
+	}
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 시섧물데이터 유무를  조회한다. 
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return
+	 * @exception
+	 */	
+	int selectSocApplyFacilInfoCnt(Map searchMap) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyFacilInfoCnt", searchMap);
+	}
+	
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 시섧물데이터를 삽입한다. 
+	 * @param insertMap - 삽입할 정보가 담긴 Map
+	 * @return
+	 * @exception
+	 */	
+	void insertSocApplyFacilInfo(Map insertMap) {
+		insert("gamSocApplyDao.insertSocApplyFacilInfo", insertMap);
+	}
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 시섧물데이터전체를 삭제한다. 
+	 * @param deleteVO - 삭제할 정보가 담긴 VO
+	 * @return
+	 * @exception
+	 */	
+	void deleteSocApplyFacilList(Map deleteMap) {
+		delete("gamSocApplyDao.deleteSocApplyFacilList", deleteMap);
+	}
+
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 요금종류리스트를  조회한다. 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return
+	 * @exception
+	 */	
+	List selectSocApplyFeeList(GamSocApplyVO searchVO) {
+		return list("gamSocApplyDao.selectSocApplyFeeList", searchVO);
+	}
+
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 요금종류리스트 총갯슈를  조회한다. 
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return
+	 * @exception
+	 */	
+	int selectSocApplyFeeListTotCnt(GamSocApplyVO searchVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyFeeListTotCnt", searchVO);
+	}
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 요금종류데이터 유무를  조회한다. 
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return
+	 * @exception
+	 */	
+	int selectSocApplyFeeInfoCnt(Map searchMap) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyFeeInfoCnt", searchMap);
+	}
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 요금종류데이터를 삽입한다. 
+	 * @param insertMap - 삽입할 정보가 담긴 Map
+	 * @return
+	 * @exception
+	 */	
+	void insertSocApplyFeeInfo(Map insertMap) {
+		insert("gamSocApplyDao.insertSocApplyFeeInfo", insertMap);
+	}
+	
+	/**
+	 * 면제요청내역관리 데이터에 해당하는 요금종류데이터전체를 삭제한다. 
+	 * @param deleteVO - 삭제할 정보가 담긴 VO
+	 * @return
+	 * @exception
+	 */	
+	void deleteSocApplyFeeList(Map deleteMap) {
+		delete("gamSocApplyDao.deleteSocApplyFeeList", deleteMap);
 	}
 }

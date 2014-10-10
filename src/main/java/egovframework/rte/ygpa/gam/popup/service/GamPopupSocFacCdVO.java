@@ -25,17 +25,75 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamPopupSocFacCdVO extends ComDefaultVO  {
 	private static final long serialVersionUID = 1L;
 
-	/** 청코드 */
-    private String prtAtCode;
+	/** 청코드 (조회조건)*/
+    private String sPrtAtCode;
     
-    /** 시설코드 */
-    private String facCode;
+    /** 시설코드 (조회조건)*/
+    private String sFacCode;
     
-    /** 시설부코드 */
-    private String facSubCode;
+    /** 시설부코드 (조회조건)*/
+    private String sFacSubCode;
 
-    /** 시설명 */
-    private String facKorNm;
+    /** 시설명 (조회조건)*/
+    private String sFacKorNm;
+
+	private String prtAtCode;
+    
+	/**
+	 * @return the sPrtAtCode
+	 */
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
+	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sFacCode
+	 */
+	public String getsFacCode() {
+		return sFacCode;
+	}
+
+	/**
+	 * @param sFacCode the sFacCode to set
+	 */
+	public void setsFacCode(String sFacCode) {
+		this.sFacCode = sFacCode;
+	}
+
+	/**
+	 * @return the sFacSubCode
+	 */
+	public String getsFacSubCode() {
+		return sFacSubCode;
+	}
+
+	/**
+	 * @param sFacSubCode the sFacSubCode to set
+	 */
+	public void setsFacSubCode(String sFacSubCode) {
+		this.sFacSubCode = sFacSubCode;
+	}
+
+	/**
+	 * @return the sFacKorNm
+	 */
+	public String getsFacKorNm() {
+		return sFacKorNm;
+	}
+
+	/**
+	 * @param sFacKorNm the sFacKorNm to set
+	 */
+	public void setsFacKorNm(String sFacKorNm) {
+		this.sFacKorNm = sFacKorNm;
+	}
 
 	/**
 	 * @return the prtAtCode
@@ -49,47 +107,5 @@ public class GamPopupSocFacCdVO extends ComDefaultVO  {
 	 */
 	public void setPrtAtCode(String prtAtCode) {
 		this.prtAtCode = prtAtCode;
-	}
-
-	/**
-	 * @return the facCode
-	 */
-	public String getFacCode() {
-		return facCode;
-	}
-
-	/**
-	 * @param facCode the facCode to set
-	 */
-	public void setFacCode(String facCode) {
-		this.facCode = facCode;
-	}
-
-	/**
-	 * @return the facSubCode
-	 */
-	public String getFacSubCode() {
-		return facSubCode;
-	}
-
-	/**
-	 * @param facSubCode the facSubCode to set
-	 */
-	public void setFacSubCode(String facSubCode) {
-		this.facSubCode = facSubCode;
-	}
-
-	/**
-	 * @return the facKorNm
-	 */
-	public String getFacKorNm() {
-		return facKorNm;
-	}
-
-	/**
-	 * @param facKorNm the facKorNm to set
-	 */
-	public void setFacKorNm(String facKorNm) {
-		this.facKorNm = facKorNm;
 	}
 }
