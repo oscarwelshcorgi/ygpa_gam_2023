@@ -28,7 +28,7 @@
     <meta charset="utf-8">
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report_l.css' />" />	<% /* /css/ygpa/gam/ygpa_report_l.css 은 가로모드 /css/ygpa/gam/ygpa_report.css 는 세로 모드 (인쇄 설정 시 변경 하여야 함) */ %>
 
 	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
 	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
