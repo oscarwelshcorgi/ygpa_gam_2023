@@ -35,7 +35,8 @@ GamPopupSocFacCdModule.prototype.loadComplete = function() {
 		url: '<c:url value="/popup/selectSocFacInfoList.do"/>',
 		dataType: "json",
 		colModel : [
-					{display:"시설코드",		name:"facCode", 	width:150, 		sortable:true, 		align:"center"},
+					{display:"항명",		name:"prtKorNm", 	width:100, 		sortable:true, 		align:"center"},
+					{display:"시설코드",		name:"facCode", 	width:100, 		sortable:true, 		align:"center"},
 					{display:"시설부코드",		name:"facSubCode", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"시설명",		name:"facKorNm", 	width:255, 		sortable:true, 		align:"left"}
 			],
@@ -90,7 +91,6 @@ var popup_instance = new GamPopupSocFacCdModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="gamPopupFacForm">
-			<input id="prtAtCode" type="hidden" value="${searchOpt.prtAtCode}" />
 			<table class="searchPanel">
 				<tbody>
 					<tr>
@@ -99,16 +99,23 @@ var popup_instance = new GamPopupSocFacCdModule();
                         	<select id="sPrtAtCode">
                                 <option value="" selected="selected">전체</option>
                                 <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+                                	<c:choose>
+                                		<c:when test="${ prtAtCdItem.prtAtCode eq searchOpt.prtAtCode }">
+                                			<option value="${prtAtCdItem.prtAtCode }" selected="selected">${prtAtCdItem.prtKorNm }</option>
+                                		</c:when>
+                                		<c:otherwise>
+                                			<option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+                                		</c:otherwise>
+                                	</c:choose>
                                 </c:forEach>
                             </select>
                         </td>					
                         <th>시설코드</th>
-                        <td><input id="facCode" type="text" size="3" title="요금코드" maxlength="10" /></td>
+                        <td><input id="sFacCode" type="text" size="3" title="요금코드" maxlength="10" /></td>
 						<th>시설부코드</th>
-                        <td><input id="facSubCode" type="text" size="2" title="요금코드" maxlength="10" /></td>
+                        <td><input id="sFacSubCode" type="text" size="2" title="요금코드" maxlength="10" /></td>
                     	<th>시설명</th>
-						<td><input id="facKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
+						<td><input id="sFacKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>

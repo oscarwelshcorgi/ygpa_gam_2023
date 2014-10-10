@@ -67,12 +67,12 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         			module.$('#gamSocExmpMngtForm :input').val('');
         			module.makeFormValues('#gamSocExmpMngtForm', result.resultVO);
         			module.$('#tempAppPrtAtCode').val(result.resultVO.appPrtAtCode);
+        			module.$('#cmd').val('modify');
         		}
         		else {
         			alert(result.resultMsg);
         			module.$('#gamSocExmpMngtForm :input').val('');
         		}
-        		module.$('#cmd').val('select');
         	});
             break;
         case 'btnNewSocNo' : //신규관리번호생성
@@ -143,11 +143,10 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
 	            		module.$('#gamSocExmpMngtForm :input').val('');
-	            		module.$('#cmd').val('select');
 	        		}
 	        		alert(result.resultMsg);
 	        	});
-			} else {
+			} else if(this.$('#cmd').val() == 'modify') {
 				//수정
 	        	this.doAction('<c:url value="/soc/gamUpdateSocExmpMngtDetail.do" />', opts, function(module, result) {
 	        		alert(result.resultMsg);
@@ -155,21 +154,22 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 			}        	
         	break;
         case 'btnDelete' : //삭제
-			if((this.$('#cmd').val() == 'insert')) {
+			if((this.$('#cmd').val() == 'modify')) {
+	        	if(confirm('데이터를 삭제하시겠습니까?')) {
+					opts = this.makeFormArgs('#gamSocExmpMngtForm');
+		        	this.doAction('<c:url value="/soc/gamDeleteSocExmpMngtDetail.do" />', opts, function(module, result) {
+		        		if(result.resultCode == 0) {
+		        			module.$('#gamSocExmpMngtSearchForm :input').val('');
+		            		module.$('#gamSocExmpMngtForm :input').val('');
+		        		}
+		        		alert(result.resultMsg);
+		        	});
+	        	}
+			}
+			else {
 				alert('삭제할 데이터를 조회하세요.');
 				break;
 			}
-        	if(confirm('데이터를 삭제하시겠습니까?')) {
-				opts = this.makeFormArgs('#gamSocExmpMngtForm');
-	        	this.doAction('<c:url value="/soc/gamDeleteSocExmpMngtDetail.do" />', opts, function(module, result) {
-	        		if(result.resultCode == 0) {
-	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
-	            		module.$('#gamSocExmpMngtForm :input').val('');
-	            		module.$('#cmd').val('select');
-	        		}
-	        		alert(result.resultMsg);
-	        	});
-        	}
         	break;
         case 'popupChrgeKndCd' : //요금코드조회
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
@@ -322,7 +322,7 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">공사관리청</th>
                                 <td>
-                            		<input id="cmd" type="hidden" value="select" />
+                            		<input id="cmd" type="hidden"/>
                                 	<input id="tempAppPrtAtCode" type="hidden" />
                                 	<input id="feeTp" type="hidden"/>
                                 	<input id="fiscalYr" type="hidden"/>
