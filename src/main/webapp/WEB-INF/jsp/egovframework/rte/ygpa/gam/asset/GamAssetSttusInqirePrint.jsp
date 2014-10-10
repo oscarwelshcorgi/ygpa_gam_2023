@@ -50,7 +50,7 @@
 	    	<h1 class="ygpa_report_h1">항만시설 사용 현황 목록</h1>
 
 	<c:if test="${fn:length(resultList) == 0}">
-		<table class="ygpa_report_table1">
+		<table class="rpr_main_table">
 	  		<thead>
 	  			<tr>
 	  				<th>항구분</th>
@@ -81,7 +81,7 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
-       		        	<table class="ygpa_report_table1">
+       		        	<table class="rpr_main_table">
 			        		<thead>
 			        			<tr>
 			        				<th>항구분</th>
@@ -102,7 +102,7 @@
         				<td><c:out value="${result.prtAtCodeNm }" /></td>
         				<td><c:out value="${result.rentMngNo }" /></td>
         				<td><c:out value="${result.entrpscd }" /></td>
-        				<td><input type="text" value='<c:out value="${result.entrpsNm }" />' style="border:0px"/></td>
+        				<td><c:out value="${result.entrpsNm }" /></td>
         				<td><c:out value="${result.assetsCdStr }" /></td>
         				<td><c:out value="${result.gisAssetsNm }" /></td>
         				<td><c:out value="${result.usagePdFrom }" /></td>
