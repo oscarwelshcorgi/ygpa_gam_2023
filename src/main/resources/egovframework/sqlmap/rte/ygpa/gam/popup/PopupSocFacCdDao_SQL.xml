@@ -13,33 +13,35 @@
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                     	   	SELECT  
-                     	   		FAC_CODE
-                     	   		,FAC_SUB_CODE
-                     	   		,FAC_KOR_NM 
+                     	   	SELECT
+                     	   		F.PRT_AT_CODE
+                     	   		,(SELECT PRT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = F.PRT_AT_CODE) PRT_KOR_NM  
+                     	   		,F.FAC_CODE
+                     	   		,F.FAC_SUB_CODE
+                     	   		,F.FAC_KOR_NM 
                      	   	FROM 
-                     	   		P2MGR.FACIL_NM_F@YGPA_P2MGR
+                     	   		P2MGR.FACIL_NM_F@YGPA_P2MGR F
 			                WHERE 
 			                	1 = 1
 			                 <!-- 청코드 -->
-                             <isNotEmpty property="prtAtCode">
-                                 AND PRT_AT_CODE = #prtAtCode#
+                             <isNotEmpty property="sPrtAtCode">
+                                 AND F.PRT_AT_CODE = #sPrtAtCode#
                              </isNotEmpty>
 			                 <!-- 시설코드 -->
-                             <isNotEmpty property="facCode">
-                                 AND FAC_CODE LIKE '%' || #facCode# || '%'  
+                             <isNotEmpty property="sFacCode">
+                                 AND F.FAC_CODE LIKE '%' || #sFacCode# || '%'  
                              </isNotEmpty>
                              <!-- 시설부코드 -->
-                             <isNotEmpty property="facSubCode">
-                                 AND FAC_SUB_CODE LIKE '%' || #facSubCode# || '%'  
+                             <isNotEmpty property="sFacSubCode">
+                                 AND F.FAC_SUB_CODE LIKE '%' || #sFacSubCode# || '%'  
                              </isNotEmpty>
                              <!-- 시설명 -->
-                             <isNotEmpty property="facKorNm">
-                                 AND FAC_KOR_NM LIKE '%' || #facKorNm# || '%'  
+                             <isNotEmpty property="sFacKorNm">
+                                 AND F.FAC_KOR_NM LIKE '%' || #sFacKorNm# || '%'  
                              </isNotEmpty>
                              
                 ) S	
-                ORDER BY FAC_CODE, FAC_SUB_CODE
+                ORDER BY PRT_AT_CODE, FAC_CODE, FAC_SUB_CODE
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
@@ -51,20 +53,20 @@
             WHERE
             	1 = 1
 			    <!-- 청코드 -->
-                <isNotEmpty property="prtAtCode">
-                    AND PRT_AT_CODE = #prtAtCode#
+                <isNotEmpty property="sPrtAtCode">
+                    AND PRT_AT_CODE = #sPrtAtCode#
                 </isNotEmpty>
 			    <!-- 시설코드 -->
-                <isNotEmpty property="facCode">
-                    AND FAC_CODE LIKE '%' || #facCode# || '%'  
+                <isNotEmpty property="sFacCode">
+                    AND FAC_CODE LIKE '%' || #sFacCode# || '%'  
                 </isNotEmpty>
                 <!-- 시설부코드 -->
-                <isNotEmpty property="facSubCode">
-                    AND FAC_SUB_CODE LIKE '%' || #facSubCode# || '%'  
+                <isNotEmpty property="sFacSubCode">
+                    AND FAC_SUB_CODE LIKE '%' || #sFacSubCode# || '%'  
                 </isNotEmpty>
                 <!-- 시설명 -->
-                <isNotEmpty property="facKorNm">
-                    AND FAC_KOR_NM LIKE '%' || #facKorNm# || '%'  
+                <isNotEmpty property="sFacKorNm">
+                    AND FAC_KOR_NM LIKE '%' || #sFacKorNm# || '%'  
                 </isNotEmpty>
     </select>
 </sqlMap>

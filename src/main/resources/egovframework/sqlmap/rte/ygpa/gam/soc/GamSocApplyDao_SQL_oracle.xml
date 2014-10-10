@@ -48,6 +48,7 @@
 				, TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
 				, A.EXMP_COND
 				, A.RATE_GUBUN
+				, A.REMARK
 				, A.ITEM
 				, A.USE_YN
 				, A.BZ_RGST_ID
@@ -77,36 +78,10 @@
 				A.APP_AGENT_CODE = #sAppAgentCode#
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="sUseNo">
-				A.PRT_AT_CODE = #sUseNo#
+				A.USE_NO = #sUseNo#
 			</isNotEmpty>
 	</select>
 	
-	<select id="gamSocApplyDAO.selectSocApplyDetailTotCnt_S" parameterClass="gamSocApplyVO" resultClass="int">
-		SELECT
-				COUNT(*) TOTCNT
-		FROM
-				P2MGR.SOC_APPLY_F@YGPA_P2MGR  A		
-		WHERE
-				1 = 1
-			<isNotEmpty prepend="AND" property="sPrtAtCode">
-				A.PRT_AT_CODE = #sPrtAtCode#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="sCmplYr">
-				A.CMPL_YR = #sCmplYr#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="sConstNo">
-				A.CONST_NO = #sConstNo#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="sAppPrtAtCode">
-				A.APP_PRT_AT_CODE = #sAppPrtAtCode#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="sAppAgentCode">
-				A.APP_AGENT_CODE = #sAppAgentCode#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="sUseNo">
-				A.PRT_AT_CODE = #sUseNo#
-			</isNotEmpty>
-	</select>
 	
     <select id="gamSocApplyDAO.selectSocApplyList_S" parameterClass="gamSocApplyVO" resultClass="egovMap">
            SELECT A.*
@@ -129,8 +104,8 @@
 									, TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') AS EXMP_ACC
 									, TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
 									, TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
-									, A.EXMP_COND
-									, A.RATE_GUBUN
+									, (CASE WHEN A.EXMP_COND = '1' THEN '금액' WHEN A.EXMP_COND = '2' THEN '기간' ELSE '' END) AS EXMP_COND   
+									, (CASE WHEN A.RATE_GUBUN = '1' THEN '과거' WHEN A.RATE_GUBUN = '2' THEN '현재' ELSE '' END) AS RATE_GUBUN
 									, A.ITEM
 									, A.USE_YN
 									, A.BZ_RGST_ID
@@ -175,7 +150,7 @@
 			</isNotEmpty>						        
     </select>
     
-    <insert id="gamSocApplyDao.insertSocApplyDetail" parameterClass="gamSocApplyVO">
+    <insert id="gamSocApplyDao.insertSocApplyDetail">
     	INSERT INTO P2MGR.SOC_APPLY_F@YGPA_P2MGR
     		(
     			PRT_AT_CODE
@@ -190,6 +165,8 @@
     			, PERIOD_FR
     			, PERIOD_TO
     			, EXMP_COND
+    			, RATE_GUBUN
+    			, REMARK
     			, ITEM
     			, USE_YN
     			, BZ_RGST_ID
@@ -231,7 +208,7 @@
       			, SYSDATE
       		)
     </insert>	
-    <update id="gamSocApplyDao.updateSocApplyDetail" parameterClass="gamSocApplyVO">
+    <update id="gamSocApplyDao.updateSocApplyDetail">
     	UPDATE P2MGR.SOC_APPLY_F@YGPA_P2MGR
     	SET
       			AGENT_CODE = #agentCode#
@@ -262,7 +239,7 @@
     			AND USE_NO = #useNo#
     </update>
     
-    <delete id="gamSocApplyDao.deleteSocApplyDetail" parameterClass="gamSocApplyVO">
+    <delete id="gamSocApplyDao.deleteSocApplyDetail">
     	DELETE FROM
     			P2MGR.SOC_APPLY_F@YGPA_P2MGR
     	WHERE
@@ -273,4 +250,267 @@
     			AND APP_AGENT_CODE = #appAgentCode#
     			AND USE_NO = #useNo#
     </delete>
+    
+    <select id="gamSocApplyDao.selectSocApplyFacilList" parameterClass="gamSocApplyVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                           		F.FAC_CODE
+                           		, F.FAC_SUB_CODE
+                           		, (SELECT FAC_KOR_NM FROM P2MGR.FACIL_NM_F@YGPA_P2MGR N WHERE N.PRT_AT_CODE = F.PRT_AT_CODE AND N.FAC_CODE = F.FAC_CODE AND N.FAC_SUB_CODE = F.FAC_SUB_CODE) FAC_KOR_NM
+					       FROM 
+					        	P2MGR.SOC_FACIL_F@YGPA_P2MGR F
+                           WHERE 1=1
+								<isNotEmpty prepend="AND" property="sPrtAtCode">
+									F.PRT_AT_CODE = #sPrtAtCode#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sCmplYr">
+									F.CMPL_YR = #sCmplYr#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sConstNo">
+									F.CONST_NO = #sConstNo#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+									F.APP_PRT_AT_CODE = #sAppPrtAtCode#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sAppAgentCode">
+									F.APP_AGENT_CODE = #sAppAgentCode#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sUseNo">
+									F.USE_NO = #sUseNo#
+								</isNotEmpty>
+						<!-- ORDER BY REGIST_DT DESC -->
+                            ORDER BY F.FAC_CODE, F.FAC_SUB_CODE
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocApplyDao.selectSocApplyFacilListTotCnt" parameterClass="gamSocApplyVO" resultClass="int">
+      SELECT
+      		COUNT(*) TOTCNT
+      FROM 
+       		P2MGR.SOC_FACIL_F@YGPA_P2MGR F
+      WHERE 1=1
+		<isNotEmpty prepend="AND" property="sPrtAtCode">
+			F.PRT_AT_CODE = #sPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sCmplYr">
+			F.CMPL_YR = #sCmplYr#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sConstNo">
+			F.CONST_NO = #sConstNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+			F.APP_PRT_AT_CODE = #sAppPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppAgentCode">
+			F.APP_AGENT_CODE = #sAppAgentCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sUseNo">
+			F.USE_NO = #sUseNo#
+		</isNotEmpty>
+    </select>
+   
+    <select id="gamSocApplyDao.selectSocApplyFacilInfoCnt" resultClass="int">
+      SELECT
+      		COUNT(*) CNT
+      FROM 
+       		P2MGR.SOC_FACIL_F@YGPA_P2MGR F
+      WHERE 1=1
+		<isNotEmpty prepend="AND" property="sPrtAtCode">
+			F.PRT_AT_CODE = #prtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sCmplYr">
+			F.CMPL_YR = #cmplYr#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sConstNo">
+			F.CONST_NO = #constNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+			F.APP_PRT_AT_CODE = #appPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppAgentCode">
+			F.APP_AGENT_CODE = #appAgentCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sUseNo">
+			F.USE_NO = #useNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sFacCode">
+			F.FAC_CODE = #facCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sFacSubCode">
+			F.FAC_SUB_CODE = #facSubCode#
+		</isNotEmpty>
+    </select>   
+    
+    <insert id="gamSocApplyDao.insertSocApplyFacilInfo">
+		INSERT INTO 
+			P2MGR.SOC_FACIL_F@YGPA_P2MGR
+			(
+				PRT_AT_CODE
+				, CMPL_YR
+				, CONST_NO
+				, APP_PRT_AT_CODE
+				, APP_AGENT_CODE
+				, USE_NO
+				, FAC_CODE
+				, FAC_SUB_CODE
+			)
+		VALUES
+			(
+				#prtAtCode#
+				, #cmplYr#
+				, #constNo#
+				, #appPrtAtCode#
+				, #appAgentCode#
+				, #useNo#
+				, #facCode#
+				, #facSubCode#
+			)	
+	</insert>
+    
+    <delete id="gamSocApplyDao.deleteSocApplyFacilList">
+	    DELETE 
+	    FROM 
+	       		P2MGR.SOC_FACIL_F@YGPA_P2MGR F
+	    WHERE
+				F.PRT_AT_CODE = #prtAtCode#
+				AND F.CMPL_YR = #cmplYr#
+				AND F.CONST_NO = #constNo#
+				AND F.APP_PRT_AT_CODE = #appPrtAtCode#
+				AND F.APP_AGENT_CODE = #appAgentCode#
+				AND F.USE_NO = #useNo#    	
+    </delete>
+    
+    <select id="gamSocApplyDao.selectSocApplyFeeList" parameterClass="gamSocApplyVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                           		F.FEE_TP
+                           		, (SELECT FEE_TP_KOR_NM FROM P2MGR.FEE_TP_F@YGPA_P2MGR N WHERE N.PRT_AT_CODE = F.PRT_AT_CODE AND N.FEE_TP = F.FEE_TP) FEE_TP_KOR_NM
+					       FROM 
+					        	P2MGR.SOC_FEE_F@YGPA_P2MGR F
+                           WHERE 1=1
+								<isNotEmpty prepend="AND" property="sPrtAtCode">
+									F.PRT_AT_CODE = #sPrtAtCode#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sCmplYr">
+									F.CMPL_YR = #sCmplYr#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sConstNo">
+									F.CONST_NO = #sConstNo#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+									F.APP_PRT_AT_CODE = #sAppPrtAtCode#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sAppAgentCode">
+									F.APP_AGENT_CODE = #sAppAgentCode#
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="sUseNo">
+									F.USE_NO = #sUseNo#
+								</isNotEmpty>
+						<!-- ORDER BY REGIST_DT DESC -->
+                            ORDER BY F.FEE_TP
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocApplyDao.selectSocApplyFeeListTotCnt" parameterClass="gamSocApplyVO" resultClass="egovMap">
+      SELECT
+      		COUNT(*) TOTCNT
+      FROM 
+       		P2MGR.SOC_FEE_F@YGPA_P2MGR F
+      WHERE 1=1
+		<isNotEmpty prepend="AND" property="sPrtAtCode">
+			F.PRT_AT_CODE = #sPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sCmplYr">
+			F.CMPL_YR = #sCmplYr#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sConstNo">
+			F.CONST_NO = #sConstNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+			F.APP_PRT_AT_CODE = #sAppPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppAgentCode">
+			F.APP_AGENT_CODE = #sAppAgentCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sUseNo">
+			F.USE_NO = #sUseNo#
+		</isNotEmpty>
+    </select>
+
+    <select id="gamSocApplyDao.selectSocApplyFeeInfoCnt" resultClass="int">
+      SELECT
+      		COUNT(*) CNT
+      FROM 
+       		P2MGR.SOC_FEE_F@YGPA_P2MGR F
+      WHERE 1=1
+		<isNotEmpty prepend="AND" property="sPrtAtCode">
+			F.PRT_AT_CODE = #prtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sCmplYr">
+			F.CMPL_YR = #cmplYr#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sConstNo">
+			F.CONST_NO = #constNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppPrtAtCode">
+			F.APP_PRT_AT_CODE = #appPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sAppAgentCode">
+			F.APP_AGENT_CODE = #appAgentCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sUseNo">
+			F.USE_NO = #useNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sFeeTp">
+			F.FEE_TP = #feeTp#
+		</isNotEmpty>
+    </select>
+    
+    <insert id="gamSocApplyDao.insertSocApplyFeeInfo">
+		INSERT INTO 
+			P2MGR.SOC_FEE_F@YGPA_P2MGR
+			(
+				PRT_AT_CODE
+				, CMPL_YR
+				, CONST_NO
+				, APP_PRT_AT_CODE
+				, APP_AGENT_CODE
+				, USE_NO
+				, FEE_TP
+			)
+		VALUES
+			(
+				#prtAtCode#
+				, #cmplYr#
+				, #constNo#
+				, #appPrtAtCode#
+				, #appAgentCode#
+				, #useNo#
+				, #feeTp#
+			)	
+
+    </insert>
+        
+    <delete id="gamSocApplyDao.deleteSocApplyFeeList">
+	    DELETE 
+	    FROM 
+	       		P2MGR.SOC_FEE_F@YGPA_P2MGR F
+	    WHERE
+				F.PRT_AT_CODE = #prtAtCode#
+				AND F.CMPL_YR = #cmplYr#
+				AND F.CONST_NO = #constNo#
+				AND F.APP_PRT_AT_CODE = #appPrtAtCode#
+				AND F.APP_AGENT_CODE = #appAgentCode#
+				AND F.USE_NO = #useNo#    	
+    </delete>    
 </sqlMap>

@@ -14,24 +14,25 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                      	   	SELECT  
-                     	   		PRT_AT_CODE
-                     	   		,FEE_TP
-                     	   		,FEE_TP_KOR_NM 
+                     	   		F.PRT_AT_CODE
+                     	   		,(SELECT PRT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = F.PRT_AT_CODE) PRT_KOR_NM 
+                     	   		,F.FEE_TP
+                     	   		,F.FEE_TP_KOR_NM 
                      	   	FROM 
-                     	   		P2MGR.FEE_TP_F@YGPA_P2MGR
+                     	   		P2MGR.FEE_TP_F@YGPA_P2MGR F
 			                WHERE 
 			                	1 = 1
                              <!-- 청 코드 -->
                              <isNotEmpty property="prtAtCode">
-                                 AND PRT_AT_CODE = #prtAtCode#  
+                                 AND F.PRT_AT_CODE = #prtAtCode#  
                              </isNotEmpty>
                              <!-- 요금 코드 -->
                              <isNotEmpty property="feeTp">
-                                 AND FEE_TP LIKE '%' || #feeTp# || '%'  
+                                 AND F.FEE_TP LIKE '%' || #feeTp# || '%'  
                              </isNotEmpty>
                              <!-- 요금 명 -->
                              <isNotEmpty property="feeTpKorNm">
-                                 AND FEE_TP_KOR_NM LIKE '%' || #feeTpKorNm# || '%'  
+                                 AND F.FEE_TP_KOR_NM LIKE '%' || #feeTpKorNm# || '%'  
                              </isNotEmpty>
                              
                 ) S	
@@ -43,20 +44,20 @@
     <select id="gamPopupSocPayCdDao.selectSocPayCdTotCnt_S" parameterClass="gamPopupSocPayCdVO" resultClass="int">
         	SELECT COUNT(*) totcnt        
         	FROM
-            	P2MGR.FEE_TP_F@YGPA_P2MGR
+            	P2MGR.FEE_TP_F@YGPA_P2MGR F
             WHERE
             	1 = 1
                 <!-- 항 코드 -->
                 <isNotEmpty property="prtAtCode">
-                    AND PRT_AT_CODE = #prtAtCode#  
+                    AND F.PRT_AT_CODE = #prtAtCode#  
                 </isNotEmpty>
                 <!-- 요금 코드 -->
                 <isNotEmpty property="feeTp">
-                    AND FEE_TP LIKE '%' || #feeTp# || '%'  
+                    AND F.FEE_TP LIKE '%' || #feeTp# || '%'  
                 </isNotEmpty>
                 <!-- 요금 명 -->
                 <isNotEmpty property="feeTpKorNm">
-                    AND FEE_TP_KOR_NM LIKE '%' || #feeTpKorNm# || '%'  
+                    AND F.FEE_TP_KOR_NM LIKE '%' || #feeTpKorNm# || '%'  
                 </isNotEmpty>
     </select>
 </sqlMap>
