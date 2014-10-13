@@ -115,7 +115,7 @@ public class GamSocApplyController {
    	}
 	
     @RequestMapping(value="/soc/gamSelectApplyDetailInquire.do")
-	@ResponseBody Map selectSocExmpMngtDetailInquire(
+	@ResponseBody Map selectSocApplyDetailInquire(
 			@ModelAttribute("gamSocApplyVO") GamSocApplyVO gamSocApplyVO,
 	     	BindingResult bindingResult)
 	        throws Exception {
@@ -132,7 +132,7 @@ public class GamSocApplyController {
 		
 		if(resultVO == null) {
 			map.put("resultCode", 1);
-			map.put("resultMsg", "검색 조건에 맞는 데이터가 없습니다.");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		} else {
 			map.put("resultCode", 0);
 			map.put("resultVO", resultVO);
@@ -180,7 +180,7 @@ public class GamSocApplyController {
     }
 
     @RequestMapping(value="/soc/gamInsertSocApplyDetail.do")
-	@ResponseBody Map insertSocExmpMngtDetail(@RequestParam Map socApplyData) throws Exception {
+	@ResponseBody Map insertSocApplyDetail(@RequestParam Map socApplyData) throws Exception {
     	Map map = new HashMap();
 
     	ObjectMapper mapper = new ObjectMapper();
@@ -293,11 +293,11 @@ public class GamSocApplyController {
 	    		gamSocApplyService.insertSocApplyFeeInfo(subData);
 	    	}
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	} catch (Exception e) {
     		e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 				
     	return map;
@@ -331,11 +331,11 @@ public class GamSocApplyController {
 	    	gamSocApplyService.deleteSocApplyDetail(applyData);
 	    	
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	} catch (Exception e) {
     		e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;
@@ -403,9 +403,9 @@ public class GamSocApplyController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-    	List socApplyFeeList = gamSocApplyService.selectSocApplyFacilList(searchVO);
+    	List socApplyFeeList = gamSocApplyService.selectSocApplyFeeList(searchVO);
     	
-		totalCnt = gamSocApplyService.selectSocApplyFacilListTotCnt(searchVO);
+		totalCnt = gamSocApplyService.selectSocApplyFeeListTotCnt(searchVO);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());

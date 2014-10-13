@@ -114,6 +114,30 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
+        	if(this.$('#sPrtAtCode').val() == '') {
+        		alert('공사관리청을 선택하세요.');
+        		break;
+        	}
+        	if(this.$('#sCmplYr').val() == '') {
+        		alert('준공년도를 입력하세요.');
+        		break;
+        	}
+        	if(this.$('#sConstNo').val() == '') {
+        		alert('공사일련번호를 입력하세요.');
+        		break;
+        	}
+        	if(this.$('#sAppPrtAtCode').val() == '') {
+        		alert('면제요청청을 선택하세요.');
+        		break;
+        	}
+        	if(this.$('#sAppPrtAtCode').val() == '') {
+        		alert('면제요청업체를 입력하세요.');
+        		break;
+        	}
+        	if(this.$('#sUseNo').val() == '') {
+        		alert('요청횟수를 입력하세요.');
+        		break;
+        	}
         	opts = this.makeFormArgs('#gamSocApplySearchForm');
         	this.doAction('<c:url value="/soc/gamSelectApplyDetailInquire.do" />', opts, function(module, result) {
         		if(result.resultCode == 0) {
@@ -206,6 +230,25 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 		        		if(result.resultCode == 0) {
 		        			module.$('#gamSocApplySearchForm :input').val('');
 		            		module.$('#gamSocApplyDetailForm :input').val('');
+		            		
+		            		opts = [
+		     		               { name: 'sPrtAtCode', value: ' '},
+		      		               { name: 'sCmplYr', value: ' '},
+		      		               { name: 'sConstNo', value: ' '},
+		      		               { name: 'sAppPrtAtCode', value: ' '},
+		      		               { name: 'sAppAgentCode', value: ' '},
+		      		               { name: 'sUseNo', value: ' '},
+		     		               { name: 'prtAtCode', value: ' '},
+		      		               { name: 'cmplYr', value: ' '},
+		      		               { name: 'constNo', value: ' '},
+		      		               { name: 'appPrtAtCode', value: ' '},
+		      		               { name: 'appAgentCode', value: ' '},
+		      		               { name: 'useNo', value: ' '},
+		      		           ];
+			     			this.$("#socApplyList").flexOptions({params:opts}).flexReload();
+			     			this.$("#socApplyFacilList").flexOptions({params:opts}).flexReload();
+			     			this.$("#socApplyFeeList").flexOptions({params:opts}).flexReload();
+			     			this.$("#socApplyListTab").tabs("option", {active: 0});
 		        		}
 		        		alert(result.resultMsg);
 		        	});
@@ -366,7 +409,7 @@ var module_instance = new GamSocApplyModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>공사관리청코드</th>
+                            <th>공사관리청</th>
                             <td>
                                 <select id="sPrtAtCode">
                                     <option value="" selected="selected">전체</option>
@@ -384,7 +427,7 @@ var module_instance = new GamSocApplyModule();
                                     </c:forEach>
                                 </select>
                             </td>
-                            <th>공사일련번호</th>
+                            <th>공사번호</th>
                             <td>
                             	<input id="sConstNo" type="text" size="6">
                             </td>
@@ -396,7 +439,7 @@ var module_instance = new GamSocApplyModule();
                             </td>
                         </tr>
                         <tr>
-                            <th>면제요청청코드</th>
+                            <th>면제요청청</th>
                             <td>
                                 <select id="sAppPrtAtCode">
                                     <option value="" selected="selected">전체</option>
@@ -405,7 +448,7 @@ var module_instance = new GamSocApplyModule();
                                     </c:forEach>
                                 </select>
                             </td>
-                            <th>면제요청업체코드</th>
+                            <th>면제요청업체</th>
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7">
                             	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
