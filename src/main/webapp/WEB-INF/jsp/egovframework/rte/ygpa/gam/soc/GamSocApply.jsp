@@ -14,8 +14,8 @@
  *  -------    --------    ---------------------------
  *  2014.10.06    김종민        최초 생성
  *
- * author HNJ
- * since 2014.09.30
+ * author 김종민
+ * since 2014.10.06
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
