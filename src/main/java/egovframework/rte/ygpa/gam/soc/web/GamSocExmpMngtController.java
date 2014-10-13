@@ -154,7 +154,7 @@ public class GamSocExmpMngtController {
 		
 		if(resultVO == null) {
 			map.put("resultCode", 1);
-			map.put("resultMsg", "검색 조건에 맞는 데이터가 없습니다.");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		} else {
 			map.put("resultCode", 0);
 			resultVO.setInOutName(getInoutName(resultVO.getFeeTp(), resultVO.getInOut()));
@@ -200,15 +200,14 @@ public class GamSocExmpMngtController {
         	return map;
     	}
 		
-    	int count = gamSocExmpMngtService.selectSocExmpMngtDetailTotCnt(gamSocExmpMngtVO);
-    	if(count < 1) {
+    	try {
     		gamSocExmpMngtService.insertSocExmpMngtDetail(gamSocExmpMngtVO);
     		map.put("resultCode", 0);
-    		map.put("resultMsg", "등록이 성공적으로 이루어졌습니다.");
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
     	}
-    	else {
+    	catch(Exception e) {
     		map.put("resultCode", 1);
-    		map.put("resultMsg", "이미 키값이 존재하는 데이터입니다.");
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
     	}
 		
     	return map;
@@ -228,17 +227,15 @@ public class GamSocExmpMngtController {
         	return map;
     	}
 
-    	int count = gamSocExmpMngtService.selectSocExmpMngtDetailTotCnt(gamSocExmpMngtVO);
-    	if(count < 1) {
-    		map.put("resultCode", 1);
-    		map.put("resultMsg", "수정할 데이터가 존재하지 않습니다.");
-    	}
-    	else {
+    	try {
     		gamSocExmpMngtService.updateSocExmpMngtDetail(gamSocExmpMngtVO);
     		map.put("resultCode", 0);
-    		map.put("resultMsg", "수정이 성공적으로 이루어졌습니다.");
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	}
-				
+		catch(Exception e) {
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
     	return map;
     }
     
@@ -256,17 +253,16 @@ public class GamSocExmpMngtController {
         	return map;
     	}
 		
-    	int count = gamSocExmpMngtService.selectSocExmpMngtDetailTotCnt(gamSocExmpMngtVO);
-    	if(count < 1) {
-    		map.put("resultCode", 1);
-    		map.put("resultMsg", "삭제할 데이터가 존재하지 않습니다.");
-    	}
-    	else {
+    	try {
     		gamSocExmpMngtService.deleteSocExmpMngtDetail(gamSocExmpMngtVO);
     		map.put("resultCode", 0);
-    		map.put("resultMsg", "삭제가 성공적으로 이루어졌습니다.");
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	}
-
+		catch(Exception e) {
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+    	
     	return map;
     }
     
