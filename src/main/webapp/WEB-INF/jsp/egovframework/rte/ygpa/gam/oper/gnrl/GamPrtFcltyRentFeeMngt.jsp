@@ -318,7 +318,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	var ntcUpdate = this.makeFormArgs('#gamAssetRentFeeForm');
     	   	 	this.doAction('<c:url value="/oper/gnrl/updatePrtFcltyRentFeeMngtListDetail.do" />', ntcUpdate, function(module, result) {
     				if (result.resultCode == "0") {
-
     				} else {
     				}
 					alert(result.resultMsg);
@@ -576,18 +575,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td style="width: 120px"><span data-column-id="nticno"></span></td>
                         </tr>
                         <tr>
-                        	<th><span class="label">요금종류</span></th>
-                            <td>
-                            	<span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)
-                            </td>
-                        	<th><span class="label">업체</span></th>
-                            <td colspan="3">
-                            	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
-                            </td>
-                        	<th><span class="label">사용료</span></th>
-                            <td style="text-align:right;"><span data-column-id="fee" class="ygpaNumber"></span> 원</td>
-                        </tr>
-                        <tr>
                             <th><span class="label">총사용기간</span></th>
                             <td>
                             	<span data-column-id="grUsagePdFrom"></span>~
@@ -597,6 +584,30 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td colspan="3"><span data-column-id="grAr"></span> m²</td>
                         	<th><span class="label">총사용료</span></th>
                             <td style="text-align:right;"><span data-column-id="grFee" class="ygpaNumber"></span> 원</td>
+                        </tr>
+                        <tr>
+                        	<th><span class="label">요금종류</span></th>
+                            <td>
+                            	<span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)
+                            </td>
+                        	<th><span class="label">업체</span></th>
+                            <td colspan="3">
+                            	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
+                            </td>
+                        	<th><span class="label">사용료</span></th>
+                            <td style="text-align:right;"><input data-column-id="fee" class="ygpaNumber" /> 원</td>
+                        </tr>
+                        <tr>
+                        	<th><span class="label">부가세여부</span></th>
+                            <td>
+                            	<span data-column-id="vatYn" class="ygpaCmmnCd" data-code-id="GAM016"></span>
+                            </td>
+                        	<th><span class="label">부가세</span></th>
+                            <td colspan="3">
+                            	<span data-column-id="vat" class="ygpaNumber"></span> 원
+                            </td>
+                        	<th><span class="label">변상금</span></th>
+                            <td style="text-align:right;"><input data-column-id="reimFee" class="ygpaNumber" /> 원</td>
                         </tr>
                         <tr>
                             <th><span class="label">고지기간</span></th>

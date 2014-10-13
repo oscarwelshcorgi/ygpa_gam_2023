@@ -75,6 +75,16 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
      */
     private String sanctnDt;
 
+    /**
+     * 변상금 2014-10-13 추가 (eunsungj)
+     */
+    private String reimFee;
+
+    /**
+     * 변상금 고지번호 2014-10-13 추가 (eunsungj)
+     */
+    private String reimFeeNticno;
+
     public String getSanctnSttus() {
 		return sanctnSttus;
 	}
@@ -1522,6 +1532,22 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 
 	public void setNticDtTo(String nticDtTo) {
 		this.nticDtTo = nticDtTo;
+	}
+
+	public String getReimFee() {
+		return reimFee;
+	}
+
+	public void setReimFee(String reimFee) {
+		this.reimFee = reimFee;
+	}
+
+	public String getReimFeeNticno() {
+		return reimFeeNticno;
+	}
+
+	public void setReimFeeNticno(String reimFeeNticno) {
+		this.reimFeeNticno = reimFeeNticno;
 	}
 
 
