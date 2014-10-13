@@ -48,6 +48,10 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectNticNoAccnutYear_S", vo);
     }
 
+
+	public EgovMap selectReimNticNoAccnutYear(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectReimNticNoAccnutYear_S", vo);
+    }
 	/**
 	 * 고지정보를 불러온다.
 	 * @param vo

@@ -102,8 +102,10 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 //		vo.put("accnutYear", Integer.toString(cal.get(Calendar.YEAR)));	// 회계년도를 입력한다.
         vo.put("accnutYear", map.get("accnutYear"));
 		vo.put("nticno", map.get("nticno"));
-		vo.put("reimFeeNticno", map.get("reimFeeNticno"));
 		vo.put("nhtIsueYn", "Y");
+		Map map2 = gamNticRequestMngtDAO.selectReimNticNoAccnutYear(vo);
+		vo.put("reimFeeNticno", map2.get("reimFeeNticno"));
+
 		gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);
 		gamNticRequestMngtDAO.insertNticRequestRevCollF(vo);
 	}
