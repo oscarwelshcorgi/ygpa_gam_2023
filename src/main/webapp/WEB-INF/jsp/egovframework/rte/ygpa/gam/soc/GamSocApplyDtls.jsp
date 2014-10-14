@@ -84,6 +84,15 @@ GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
         	break;
+        case 'popupFeeTpInfo' : //요금종류버튼
+        	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
+					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+        	break;
+        case 'popupAgentInfo' : //업체코드버튼
+			this.doExecuteDialog('selectAgentInfo', '업체 선택',
+					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        	break;
     }
 };
 
@@ -110,8 +119,14 @@ GamSocApplyDtlsModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocApplyDtlsModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectApplyInfo' : //면제요청 조회
+     case 'selectFeeTpInfo' : //요금 조회
+    	 this.$("#sFeeTp").val(value["feeTp"]);
+    	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
+     case 'selectAgentInfo' : //업체조회
+    	 this.$("#exmpAgentCode").val(value["agentCode"]);
+    	 this.$("#exmpAgentName").val(value["agentName"]);
+		 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;
@@ -159,12 +174,12 @@ var module_instance = new GamSocApplyDtlsModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7">
                             	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	<button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
                             <th>요금종류</th>
                             <td>
                                 <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sFeeTpKorNm" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                         </tr>

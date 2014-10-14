@@ -38,6 +38,7 @@
 							  , TO_CHAR(A.R12_RATE) R12_RATE
 							  , TO_CHAR(A.R21_RATE) R21_RATE
 							  , TO_CHAR(A.R12_RATE) R22_RATE
+							  , TO_CHAR((NVL(A.EXMP_AMNT, 0) - NVL(A.EXMP_ACC, 0)), '999,999,999,999') AS EXMP_REMAIN
 							  , F.FEE_TP
 							  , (SELECT FEE_TP_KOR_NM FROM P2MGR.FEE_TP_F@YGPA_P2MGR N WHERE N.PRT_AT_CODE = F.PRT_AT_CODE AND N.FEE_TP = F.FEE_TP) FEE_TP_KOR_NM
 							FROM SOC_APPLY_F@YGPA_P2MGR A INNER JOIN SOC_FEE_F@YGPA_P2MGR F
@@ -54,7 +55,7 @@
 						             AND A.PRT_AT_CODE = #sPrtAtCode#
 						         </isNotEmpty>
 						         <isNotEmpty property="sAppPrtAtCode">
-						             AND A.PRT_AT_CODE = #sPrtAtCode#
+						             AND A.APP_PRT_AT_CODE = #sAppPrtAtCode#
 						         </isNotEmpty>
 						         <isNotEmpty property="sAppAgentCode">
 						             AND A.APP_AGENT_CODE = #sAppAgentCode# 
@@ -85,7 +86,7 @@
 	            AND A.PRT_AT_CODE = #sPrtAtCode#
 	        </isNotEmpty>
 	        <isNotEmpty property="sAppPrtAtCode">
-	            AND A.PRT_AT_CODE = #sPrtAtCode#
+	            AND A.APP_PRT_AT_CODE = #sAppPrtAtCode#
 	        </isNotEmpty>
 	        <isNotEmpty property="sAppAgentCode">
 	            AND A.APP_AGENT_CODE = #sAppAgentCode# 
