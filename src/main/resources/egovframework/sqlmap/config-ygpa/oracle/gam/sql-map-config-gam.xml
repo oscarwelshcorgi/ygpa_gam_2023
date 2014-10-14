@@ -119,4 +119,4 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocCmmUseDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocAgentDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocExmpMngtDao_SQL_oracle.xml" />
-<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocApplyDao_SQL_oracle.xml" /></sqlMapConfig>
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocApplyDao_SQL_oracle.xml" /><sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocApplyDtlsDao_SQL_oracle.xml" /></sqlMapConfig>

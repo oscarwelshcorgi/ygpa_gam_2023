@@ -79,6 +79,7 @@ GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'searchBtn':
         	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
+        	this.$("#socApplyDtlsList").flexOptions({params:opts}).flexReload();
             break;
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');

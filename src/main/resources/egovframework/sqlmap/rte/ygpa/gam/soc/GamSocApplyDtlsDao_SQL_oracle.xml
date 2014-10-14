@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.soc">
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocApplyDtlsVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocApplyDtlsVO" />
+	
+	<select id="gamSocApplyDtlsDAO.selectSocApplyDtlsList_S" parameterClass="gamSocApplyDtlsVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT
+							  A.PRT_AT_CODE
+							  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = A.PRT_AT_CODE) PRT_AT_KOR_NM
+							  , A.CMPL_YR
+							  , A.CONST_NO
+							  , A.APP_PRT_AT_CODE
+							  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = A.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+							  , A.APP_AGENT_CODE
+							  , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.APP_AGENT_CODE) APP_AGENT_NAME
+							  , A.USE_NO
+							  , A.AGENT_CODE
+							  , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.AGENT_CODE) AGENT_NAME
+							  , TO_CHAR(NVL(A.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+							  , TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') AS EXMP_ACC
+							  , TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
+							  , TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
+							  , A.EXMP_COND
+							  , (CASE WHEN A.RATE_GUBUN = '1' THEN '과거' WHEN A.RATE_GUBUN = '2' THEN '현재' ELSE '' END) AS RATE_GUBUN
+							  , A.REMARK
+							  , A.ITEM
+							  , A.USE_YN
+							  , A.BZ_RGST_ID
+							  , TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
+							  , TO_CHAR(A.PERF_DT, 'YYYY-MM-DD') PERF_DT
+							  , TO_CHAR(A.R11_RATE) R11_RATE
+							  , TO_CHAR(A.R12_RATE) R12_RATE
+							  , TO_CHAR(A.R21_RATE) R21_RATE
+							  , TO_CHAR(A.R12_RATE) R22_RATE
+							  , F.FEE_TP
+							  , (SELECT FEE_TP_KOR_NM FROM P2MGR.FEE_TP_F@YGPA_P2MGR N WHERE N.PRT_AT_CODE = F.PRT_AT_CODE AND N.FEE_TP = F.FEE_TP) FEE_TP_KOR_NM
+							FROM SOC_APPLY_F@YGPA_P2MGR A INNER JOIN SOC_FEE_F@YGPA_P2MGR F
+							ON 
+							  A.PRT_AT_CODE = F.PRT_AT_CODE
+							  AND A.CMPL_YR = F.CMPL_YR
+							  AND A.CONST_NO = F.CONST_NO
+							  AND A.APP_PRT_AT_CODE = F.APP_PRT_AT_CODE
+							  AND A.APP_AGENT_CODE = F.APP_AGENT_CODE
+							  AND A.USE_NO = F.USE_NO
+							  
+                            WHERE 1=1					
+						         <isNotEmpty property="sPrtAtCode">
+						             AND A.PRT_AT_CODE = #sPrtAtCode#
+						         </isNotEmpty>
+						         <isNotEmpty property="sAppPrtAtCode">
+						             AND A.PRT_AT_CODE = #sPrtAtCode#
+						         </isNotEmpty>
+						         <isNotEmpty property="sAppAgentCode">
+						             AND A.APP_AGENT_CODE = #sAppAgentCode# 
+						         </isNotEmpty>
+						         <isNotEmpty property="sFeeTp">
+						             AND F.FEE_TP = #sFeeTp# 
+						         </isNotEmpty>
+						     <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY A.CMPL_YR DESC, A.CONST_NO DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
+	</select>
+	
+	<select id="gamSocApplyDtlsDao.selectSocApplyDtlsListTotCnt_S" parameterClass="gamSocApplyDtlsVO" resultClass="int">
+		SELECT
+		  COUNT(*) TOTCNT
+		FROM SOC_APPLY_F@YGPA_P2MGR A INNER JOIN SOC_FEE_F@YGPA_P2MGR F
+		ON 
+		  A.PRT_AT_CODE = F.PRT_AT_CODE
+		  AND A.CMPL_YR = F.CMPL_YR
+		  AND A.CONST_NO = F.CONST_NO
+		  AND A.APP_PRT_AT_CODE = F.APP_PRT_AT_CODE
+		  AND A.APP_AGENT_CODE = F.APP_AGENT_CODE
+		  AND A.USE_NO = F.USE_NO
+        WHERE 1=1					
+	        <isNotEmpty property="sPrtAtCode">
+	            AND A.PRT_AT_CODE = #sPrtAtCode#
+	        </isNotEmpty>
+	        <isNotEmpty property="sAppPrtAtCode">
+	            AND A.PRT_AT_CODE = #sPrtAtCode#
+	        </isNotEmpty>
+	        <isNotEmpty property="sAppAgentCode">
+	            AND A.APP_AGENT_CODE = #sAppAgentCode# 
+	        </isNotEmpty>
+	        <isNotEmpty property="sFeeTp">
+	            AND F.FEE_TP = #sFeeTp# 
+	        </isNotEmpty>
+	</select>
+</sqlMap>
