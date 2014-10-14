@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
+<sqlMap namespace="ygpa.gam.soc">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocTotalBsnsSetoffDtlsVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsVO"/>
+	
+	<resultMap id="socTotalBsnsSetoffDtlsDetailSumMap" class="gamSocTotalBsnsSetoffDtlsVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumPrtTotalAmnt" column="SUM_PRT_TOTAL_AMNT" columnIndex="2" javaType="java.lang.Long"/>
+        <result property="sumAppTotalAmnt" column="SUM_APP_TOTAL_AMNT" columnIndex="3" javaType="java.lang.Long"/>
+    </resultMap>
+    
+
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    G.SOC_PRT_AT_CODE
+                                  , O.PRT_KOR_NM AS SOC_PRT_KOR_NM
+                                  , G.SOC_CNST_NM
+                                  , G.PRT_AT_CODE
+                                  , P.PRT_KOR_NM AS PRT_KOR_NM
+                                  , G.AGENT_CODE
+                                  , G.CMPL_YR
+                                  , G.CONST_NO
+                             FROM 
+                             	P2MGR.SOC_AGENT_F@YGPA_P2MGR G
+                             LEFT OUTER JOIN 
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
+					         ON 
+					        	(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
+					         LEFT OUTER JOIN 
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
+					         ON 
+					        	(G.PRT_AT_CODE=P.PRT_AT_CODE) 
+                             WHERE 
+                             	(G.PRT_AT_CODE, G.CMPL_YR, G.CONST_NO) 
+                             	IN 
+                             	(
+                             		SELECT 
+                             			PRT_AT_CODE
+                             			, CMPL_YR
+                             			, CONST_NO 
+                             		FROM 
+                             			P2MGR.SOC_EXMP_F@YGPA_P2MGR 
+                             			
+                         			WHERE 1=1
+
+                         				<isNotEmpty property="sPrtAtCode">
+							             	AND APP_PRT_AT_CODE = #sPrtAtCode#
+							         	</isNotEmpty>
+							         
+							         	<isNotEmpty property="sFeeTp">
+								             AND FEE_TP = #sFeeTp#
+								        </isNotEmpty>
+								         
+								        <isNotEmpty property="sExmpAgentCode">
+								             AND APP_AGENT_CODE = #sExmpAgentCode#
+								        </isNotEmpty>
+								         
+								        <isNotEmpty property="sUseNo">
+								             AND USE_NO = #sUseNo#
+								        </isNotEmpty>
+							         	
+							         	<isNotEmpty property="sType">
+											<isNotEmpty property="sFrDt">
+												<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+									        </isNotEmpty>
+									        <isNotEmpty property="sToDt">
+									        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+									        </isNotEmpty>
+										</isNotEmpty>
+                             	)
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY G.CMPL_YR DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListTotCnt" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM 
+               	P2MGR.SOC_AGENT_F@YGPA_P2MGR G
+            LEFT OUTER JOIN 
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
+			ON 
+				(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
+			LEFT OUTER JOIN 
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
+			ON 
+				(G.PRT_AT_CODE=P.PRT_AT_CODE) 
+			WHERE 
+               	(G.PRT_AT_CODE, G.CMPL_YR, G.CONST_NO) 
+                IN 
+                (
+               		SELECT 
+               			PRT_AT_CODE
+               			, CMPL_YR
+               			, CONST_NO 
+               		FROM 
+               			P2MGR.SOC_EXMP_F@YGPA_P2MGR 
+               			
+           			WHERE 1=1
+
+                    <isNotEmpty property="sPrtAtCode">
+		             	AND APP_PRT_AT_CODE = #sPrtAtCode#
+		         	</isNotEmpty>
+		         
+		         	<isNotEmpty property="sFeeTp">
+			             AND FEE_TP = #sFeeTp#
+			        </isNotEmpty>
+			         
+			        <isNotEmpty property="sExmpAgentCode">
+			             AND APP_AGENT_CODE = #sExmpAgentCode#
+			        </isNotEmpty>
+			         
+			        <isNotEmpty property="sUseNo">
+			             AND USE_NO = #sUseNo#
+			        </isNotEmpty>
+		         	
+		         	<isNotEmpty property="sType">
+						<isNotEmpty property="sFrDt">
+							<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+				        </isNotEmpty>
+				        <isNotEmpty property="sToDt">
+				        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+				        </isNotEmpty>
+					</isNotEmpty>
+                 )
+    </select>
+    
+    
+    
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    E.APP_PRT_AT_CODE
+                                  , E.FEE_TP
+                                  , E.FISCAL_YR
+                                  , E.SOC_NO
+                                  , E.APP_AGENT_CODE
+                                  , E.USE_NO
+                                  , E.PRT_AT_CODE
+                                  , E.CMPL_YR
+                                  , E.CONST_NO
+                                  , E.EXMP_AGENT_CODE
+                                  , E.VSSL_KEY
+                                  , E.YR
+                                  , E.SER_NO
+                                  , E.BILL_NO
+                                  , E.EXMP_AMNT
+                                  , E.IN_OUT
+                                  , E.BILL_USE_NO
+                                  , E.FAC_CODE
+                                  , E.FAC_SUB_CODE
+                                  , E.IO_DT
+                                  , E.DC_CODE
+                                  , E.DC_RATE
+                                  , E.BILL_DT
+                                  , E.STANDARD_FEE
+                                  , E.REAL_TN
+                                  , E.REMARK
+                                  , E.EXMP_TYPE
+                                  , E.UPDT_UID
+                                  , E.UPDT_DATE
+                                  , E.CALL_LETTER
+                                  , E.DC_RATE_NM
+                                  , E.EXMP_PRT_AT_CODE
+                                  , E.JINGSUJA
+                                  , E.RPT_AGENT_CODE
+                                  , E.DEPT
+                                  , E.WORK_CODE
+                                  , E.STR_DATE
+                                  , E.END_DATE
+                             FROM 
+                             	P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+
+                            <![CDATA[  WHERE 1<>1 ]]>
+
+                             <isNotEmpty property="prtAtCode">
+					             OR (E.PRT_AT_CODE = #prtAtCode#
+					             
+					             <isNotEmpty property="cmplYr">
+						             AND E.CMPL_YR = #cmplYr#
+						         </isNotEmpty>
+						         
+						         <isNotEmpty property="constNo">
+						             AND E.CONST_NO = #constNo#
+						         </isNotEmpty>
+						         
+						         )
+					         </isNotEmpty>
+
+					         
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY E.CMPL_YR DESC, E.UPDT_DATE DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultMap="socTotalBsnsSetoffDtlsDetailSumMap">
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(E.EXMP_AMNT),0) AS SUM_PRT_TOTAL_AMNT
+        		, NVL(SUM(E.STANDARD_FEE),0) AS SUM_APP_TOTAL_AMNT
+              FROM 
+              	P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+
+ <![CDATA[  WHERE 1<>1 ]]>
+	
+	             <isNotEmpty property="prtAtCode">
+	             	OR (E.PRT_AT_CODE = #prtAtCode#
+	             
+	             <isNotEmpty property="cmplYr">
+		             AND E.CMPL_YR = #cmplYr#
+		         </isNotEmpty>
+		         
+		         <isNotEmpty property="constNo">
+		             AND E.CONST_NO = #constNo#
+		         </isNotEmpty>
+		         
+		         )
+	         </isNotEmpty>
+    </select>
+    
+    
+
+</sqlMap>
