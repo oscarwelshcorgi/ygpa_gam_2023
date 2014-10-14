@@ -240,7 +240,7 @@
 	                           </isNotEmpty>
 
                 ) S
-                ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
+                ORDER BY S.MNG_YEAR DESC, S.MNG_NO DESC, S.MNG_CNT DESC
              ) A
              ) Z
         <![CDATA[

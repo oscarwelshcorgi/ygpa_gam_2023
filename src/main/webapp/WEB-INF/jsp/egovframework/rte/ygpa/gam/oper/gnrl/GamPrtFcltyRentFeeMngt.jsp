@@ -595,7 +595,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
                             </td>
                         	<th><span class="label">사용료</span></th>
-                            <td style="text-align:right;"><input data-column-id="fee" class="ygpaNumber" /> 원</td>
+                            <td style="text-align:right;"><input data-column-id="fee" class="ygpaNumber" size="11"/> 원</td>
                         </tr>
                         <tr>
                         	<th><span class="label">부가세여부</span></th>
@@ -607,7 +607,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             	<span data-column-id="vat" class="ygpaNumber"></span> 원
                             </td>
                         	<th><span class="label">변상금</span></th>
-                            <td style="text-align:right;"><input data-column-id="reimFee" class="ygpaNumber" /> 원</td>
+                            <td style="text-align:right;"><input data-column-id="reimFee" class="ygpaNumber" size="11"/> 원</td>
                         </tr>
                         <tr>
                             <th><span class="label">고지기간</span></th>
