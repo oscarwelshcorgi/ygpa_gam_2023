@@ -46,20 +46,20 @@ GamSocApplyLgerModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'등록항', name:'appPrtAtKorNm',width:50, sortable:false,align:'center'},
-                    {display:'요금종류', name:'feeTpKorNm',width:50, sortable:false,align:'center'},
-                    {display:'신청횟수', name:'useNo',width:65, sortable:false,align:'center'},
-                    {display:'신청보장액', name:'exmpAmnt',width:50, sortable:false,align:'left'},
-                    {display:'보전누계액', name:'exmpAcc',width:100, sortable:false,align:'left'},
-                    {display:'신청기간시작', name:'periodFr',width:50, sortable:false,align:'center'},
-                    {display:'신청기간종료', name:'periodTo',width:50, sortable:false,align:'center'},
+                    {display:'요금종류', name:'feeTpKorNm',width:70, sortable:false,align:'center'},
+                    {display:'신청횟수', name:'useNo',width:50, sortable:false,align:'center'},
+                    {display:'신청보장액', name:'exmpAmnt',width:110, sortable:false,align:'right'},
+                    {display:'보전누계액', name:'exmpAcc',width:110, sortable:false,align:'right'},
+                    {display:'신청기간시작', name:'periodFr',width:80, sortable:false,align:'center'},
+                    {display:'신청기간종료', name:'periodTo',width:80, sortable:false,align:'center'},
                     {display:'적용요율', name:'rateGubun',width:50, sortable:false,align:'center'},
                     {display:'신고일자', name:'applDate',width:50, sortable:false,align:'center'},
-                    {display:'허가일자', name:'perfDt',width:40, sortable:false,align:'center'},
-                    {display:'적용여부', name:'useYn',width:40, sortable:false,align:'center'},
-                    {display:'작업자', name:'updtUid',width:90, sortable:false,align:'center'},
-                    {display:'작업일자', name:'updtDate',width:90, sortable:false,align:'center'},
-                    {display:'특이사항', name:'remark',width:80, sortable:false,align:'center'},
-                    {display:'공사명', name:'item',width:80, sortable:false,align:'center'},
+                    {display:'허가일자', name:'perfDt',width:50, sortable:false,align:'center'},
+                    {display:'적용여부', name:'useYn',width:50, sortable:false,align:'center'},
+                    {display:'작업자', name:'updtUid',width:50, sortable:false,align:'center'},
+                    {display:'작업일자', name:'updtDate',width:50, sortable:false,align:'center'},
+                    {display:'특이사항', name:'remark',width:150, sortable:false,align:'center'},
+                    {display:'공사명', name:'item',width:150, sortable:false,align:'center'},
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -169,7 +169,7 @@ var module_instance = new GamSocApplyLgerModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7">
                             	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	<button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
                             <th>사용유무</th>
                             <td>

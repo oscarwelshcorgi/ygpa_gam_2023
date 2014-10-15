@@ -45,9 +45,10 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocAgentProcessDtlsSttusList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'등록항구', name:'prtAtCode',width:50, sortable:false,align:'center'},
-                    {display:'등록항구명', name:'prtAtKorNm',width:65, sortable:false,align:'center'},
+                    {display:'등록항구', name:'appPrtAtCode',width:50, sortable:false,align:'center'},
+                    {display:'등록항구명', name:'appPrtAtKorNm',width:65, sortable:false,align:'center'},
                     {display:'요금종류', name:'feeTp',width:50, sortable:false,align:'left'},
+                    {display:'요금종류명', name:'feeTpNm',width:65, sortable:false,align:'left'},
                     {display:'횟수', name:'useNo',width:40, sortable:false,align:'left'},
                     {display:'관리번호', name:'constNo',width:70, sortable:false,align:'left'},
                     {display:'신고업체', name:'appAgentCode',width:60, sortable:false,align:'center'},
@@ -78,10 +79,24 @@ GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'searchBtn':
         	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
+        	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
             break;
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
         	break;
+        case 'popupApplyInfo' : //투자비보전신청업체 선택
+			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
+					'<c:url value="/popup/showSocApplyInfo.do"/>', opts);
+        	break;
+        case 'popupFeeTpInfo' : //요금종류 선택
+        	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
+					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+        	break;
+        case 'popupAgentInfo' : //업체코드 선택
+			this.doExecuteDialog('selectAgentInfo', '업체 선택',
+					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        	break;        	
     }
 };
 
@@ -108,8 +123,20 @@ GamSocAgentProcessDtlsSttusModule.prototype.onTabChange = function(newTabId, old
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentProcessDtlsSttusModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectApplyInfo' : //면제요청 조회
+     case 'selectFeeTpInfo' : //요금 조회
+	   	 this.$("#sFeeTp").val(value["feeTp"]);
+	   	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
+     case 'selectApplyInfo' : //투자비 보전 신청업체 조회
+    	 this.$("#sCmplYr").val(value["cmplYr"]);
+    	 this.$("#sConstNo").val(value["constNo"]);
+    	 this.$("#sAppPrtAtCode").val(value["appPrtAtCode"]);
+    	 this.$("#sPrtAtCode").val(value["prtAtCode"]);
+    	 break;	
+     case 'selectAgentInfo' : //업체조회
+    	 this.$("#sAppAgentCode").val(value["agentCode"]);
+    	 this.$("#sAppAgentName").val(value["agentName"]);
+		 break;    	 
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;
@@ -152,7 +179,7 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             <td>
                                 <input id="sCmplYr" type="text" size="4">
                             	<input id="sConstNo" type="text" size="6">
-                            	<button id="popupEntrpsInfo" class="popupButton">찾기</button>
+                            	<button id="popupApplyInfo" class="popupButton">투자보전 신청업체 찾기</button>
                             </td>
                             <td  rowSpan="2">
 								<button id="searchBtn" class="buttonSearch">조회</button>
@@ -163,12 +190,12 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="4">
                             	<input id="sAppAgentName" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	<button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
                             <th>요금종류</th>
                             <td>
                                 <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpName" type="text" size="6" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sFeeTpKorNm" type="text" size="6" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                             <th>고지일자</th>

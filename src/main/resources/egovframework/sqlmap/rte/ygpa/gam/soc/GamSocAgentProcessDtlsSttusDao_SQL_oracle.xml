@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.soc">
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocAgentProcessDtlsSttusVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocAgentProcessDtlsSttusVO" />
+	
+	<select id="gamSocAgentProcessDtlsSttusDAO.selectSocAgentProcessDtlsSttusList_S" parameterClass="gamSocAgentProcessDtlsSttusVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT E.APP_PRT_AT_CODE
+							       , P2MGR.SF_PRT_AT_NM(E.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+							       , E.FEE_TP
+							       , P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP) FEE_TP_NM
+							       , E.FISCAL_YR
+							       , E.SOC_NO
+							       , E.EXMP_AGENT_CODE
+							       , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+							       , E.USE_NO
+							       , P2MGR.SF_VSSL_CALL_LETTER(E.CALL_LETTER) CALL_LETTER
+							       , DECODE(E.FEE_TP, 'R1', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO), 
+									              'R2', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO), 
+									              'R3', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO),
+									              'L0', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO),
+									              P2MGR.SF_VSSL_NM(E.VSSL_KEY)) VSSL_NM
+							       , E.SER_NO
+							       , E.YR
+							       , DECODE(FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
+									                            DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT_NM
+							       , E.EXMP_AMNT
+							       , E.FAC_CODE
+							       , E.FAC_SUB_CODE
+							       , P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE) FACIL_NM
+							       , E.BILL_DT
+							       , E.STANDARD_FEE
+							       , E.REAL_TN
+							FROM
+							       SOC_EXMP_F@YGPA_P2MGR E
+							WHERE
+							        E.APP_PRT_AT_CODE IS NOT NULL
+						         <isNotEmpty property="sPrtAtCode">
+						             AND E.PRT_AT_CODE = #sPrtAtCode#
+						         </isNotEmpty>
+						         <isNotEmpty property="sAppPrtAtCode">
+						             AND E.APP_PRT_AT_CODE = #sAppPrtAtCode#
+						         </isNotEmpty>
+						         <isNotEmpty property="sCmplYr">
+						             AND E.CMPL_YR = #sCmplYr#
+						         </isNotEmpty>
+						         <isNotEmpty property="sConstNo">
+						             AND E.CONST_NO = #sConstNo#
+						         </isNotEmpty>
+						         <isNotEmpty property="sAppAgentCode">
+						             AND E.APP_AGENT_CODE = #sAppAgentCode# 
+						         </isNotEmpty>
+						         <isNotEmpty property="sFeeTp">
+						             AND E.FEE_TP = #sFeeTp# 
+						         </isNotEmpty>
+						         <isNotEmpty property="sBillDtFr">
+						             <![CDATA[ AND E.BILL_DT >= TO_DATE(#sBillDtFr#, 'yyyy-mm-dd') ]]>
+						         </isNotEmpty>
+						         <isNotEmpty property="sBillDtTo">
+						             <![CDATA[ AND E.BILL_DT < TO_DATE(#sBillDtTo#, 'yyyy-mm-dd') + 1 ]]> 
+						         </isNotEmpty>						         
+						     <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY E.FISCAL_YR, SOC_NO
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
+	</select>
+	
+	<select id="gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotCnt_S" parameterClass="gamSocAgentProcessDtlsSttusVO" resultClass="int">
+		SELECT
+		  COUNT(*) TOTCNT
+		FROM SOC_EXMP_F@YGPA_P2MGR E
+        WHERE					
+	        E.APP_PRT_AT_CODE IS NOT NULL
+         <isNotEmpty property="sPrtAtCode">
+             AND E.PRT_AT_CODE = #sPrtAtCode#
+         </isNotEmpty>
+         <isNotEmpty property="sAppPrtAtCode">
+             AND E.APP_PRT_AT_CODE = #sAppPrtAtCode#
+         </isNotEmpty>
+         <isNotEmpty property="sCmplYr">
+             AND E.CMPL_YR = #sCmplYr#
+         </isNotEmpty>
+         <isNotEmpty property="sConstNo">
+             AND E.CONST_NO = #sConstNo#
+         </isNotEmpty>
+         <isNotEmpty property="sAppAgentCode">
+             AND E.APP_AGENT_CODE = #sAppAgentCode# 
+         </isNotEmpty>
+         <isNotEmpty property="sFeeTp">
+             AND E.FEE_TP = #sFeeTp# 
+         </isNotEmpty>
+         <isNotEmpty property="sBillDtFr">
+             <![CDATA[ AND E.BILL_DT >= TO_DATE(#sBillDtFr#, 'yyyy-mm-dd') ]]>
+         </isNotEmpty>
+         <isNotEmpty property="sBillDtTo">
+             <![CDATA[ AND E.BILL_DT < TO_DATE(#sBillDtTo#, 'yyyy-mm-dd') + 1 ]]> 
+         </isNotEmpty>						         
+	</select>
+</sqlMap>
