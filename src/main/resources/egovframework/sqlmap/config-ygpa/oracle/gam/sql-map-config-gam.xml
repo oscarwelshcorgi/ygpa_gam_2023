@@ -122,5 +122,6 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocApplyDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocTotalBsnsSetoffDtlsDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocApplyDtlsDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocApplyLgerDao_SQL_oracle.xml" />
 	
 </sqlMapConfig>

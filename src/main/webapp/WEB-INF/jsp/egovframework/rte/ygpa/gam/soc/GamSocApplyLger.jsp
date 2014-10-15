@@ -45,23 +45,21 @@ GamSocApplyLgerModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocApplyLgerList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'공사항구', name:'appPrtAtCode',width:50, sortable:false,align:'center'},
-                    {display:'공사항구명', name:'appPrtAtKorNm',width:65, sortable:false,align:'center'},
-                    {display:'시행업체', name:'agentCode',width:50, sortable:false,align:'left'},
-                    {display:'시행업체명', name:'agentName',width:100, sortable:false,align:'left'},
-                    {display:'준공년도', name:'cmplYr',width:50, sortable:false,align:'center'},
-                    {display:'공사번호', name:'constNo',width:50, sortable:false,align:'center'},
-                    {display:'요금종류', name:'feeTp',width:50, sortable:false,align:'center'},
-                    {display:'횟수', name:'useNo',width:50, sortable:false,align:'center'},
-                    {display:'요율', name:'rateGubun',width:40, sortable:false,align:'center'},
-                    {display:'적용', name:'useYn',width:40, sortable:false,align:'center'},
-                    {display:'보전기간시작일', name:'periodFr',width:90, sortable:false,align:'center'},
-                    {display:'보전기간종료일', name:'periodTo',width:90, sortable:false,align:'center'},
-                    {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
-                    {display:'허가일자', name:'perfDt',width:80, sortable:false,align:'center'},
-                    {display:'보전신청액', name:'exmpAmnt',width:130, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'exmpAcc',width:130, sortable:false,align:'center'},
-                    {display:'남아있는 잔액', name:'exmpRemain',width:130, sortable:false,align:'center'}
+                    {display:'등록항', name:'appPrtAtKorNm',width:50, sortable:false,align:'center'},
+                    {display:'요금종류', name:'feeTpKorNm',width:50, sortable:false,align:'center'},
+                    {display:'신청횟수', name:'useNo',width:65, sortable:false,align:'center'},
+                    {display:'신청보장액', name:'exmpAmnt',width:50, sortable:false,align:'left'},
+                    {display:'보전누계액', name:'exmpAcc',width:100, sortable:false,align:'left'},
+                    {display:'신청기간시작', name:'periodFr',width:50, sortable:false,align:'center'},
+                    {display:'신청기간종료', name:'periodTo',width:50, sortable:false,align:'center'},
+                    {display:'적용요율', name:'rateGubun',width:50, sortable:false,align:'center'},
+                    {display:'신고일자', name:'applDate',width:50, sortable:false,align:'center'},
+                    {display:'허가일자', name:'perfDt',width:40, sortable:false,align:'center'},
+                    {display:'적용여부', name:'useYn',width:40, sortable:false,align:'center'},
+                    {display:'작업자', name:'updtUid',width:90, sortable:false,align:'center'},
+                    {display:'작업일자', name:'updtDate',width:90, sortable:false,align:'center'},
+                    {display:'특이사항', name:'remark',width:80, sortable:false,align:'center'},
+                    {display:'공사명', name:'item',width:80, sortable:false,align:'center'},
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -79,10 +77,20 @@ GamSocApplyLgerModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'searchBtn':
         	opts = this.makeFormArgs('#gamSocApplyLgerSearchForm');
+        	this.$("#socApplyLgerList").flexOptions({params:opts}).flexReload();
             break;
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocApplyLgerSearchForm');
         	break;
+        case 'popupFeeTpInfo' : //요금종류버튼
+        	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
+					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+        	break;
+        case 'popupAgentInfo' : //업체코드버튼
+			this.doExecuteDialog('selectAgentInfo', '업체 선택',
+					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        	break;        	
     }
 };
 
@@ -109,8 +117,14 @@ GamSocApplyLgerModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocApplyLgerModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectApplyInfo' : //면제요청 조회
+     case 'selectFeeTpInfo' : //요금 조회
+   	 	 this.$("#sFeeTp").val(value["feeTp"]);
+   	 	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
+     case 'selectAgentInfo' : //업체조회
+   	 	 this.$("#sAppAgentCode").val(value["agentCode"]);
+   	 	 this.$("#sAppAgentName").val(value["agentName"]);
+		 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;
@@ -131,7 +145,7 @@ var module_instance = new GamSocApplyLgerModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>등록항구</th>
+                            <th>청코드</th>
                             <td>
                                 <select id="sPrtAtCode">
                                     <option value="" selected="selected">전체</option>
@@ -140,14 +154,11 @@ var module_instance = new GamSocApplyLgerModule();
                                     </c:forEach>
                                 </select>
                             </td>
-                            <th>공사항구</th>
+                            <th>요금종류</th>
                             <td>
-                                <select id="sAppPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
-                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
-                                    </c:forEach>
-                                </select>
+                                <input id="sFeeTp" type="text" size="3">
+                            	<input id="sFeeTpName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
 								<button id="searchBtn" class="buttonSearch">조회</button>
@@ -160,11 +171,9 @@ var module_instance = new GamSocApplyLgerModule();
                             	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
-                            <th>요금종류</th>
+                            <th>사용유무</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupFeeTpInfo" class="popupButton">선택</button>
+                                <input id="sUseYn" type="text" size="1">
                             </td>
                         </tr>
                     </tbody>
@@ -176,7 +185,7 @@ var module_instance = new GamSocApplyLgerModule();
     <div class="emdPanel fillHeight">
         <div id="socApplyLigerListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">투자비보전신청내역</a></li>
+                <li><a href="#tabs1" class="emdTab">투자비보전신청대장</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >

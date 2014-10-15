@@ -124,8 +124,8 @@ GamSocApplyDtlsModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
      case 'selectAgentInfo' : //업체조회
-    	 this.$("#exmpAgentCode").val(value["agentCode"]);
-    	 this.$("#exmpAgentName").val(value["agentName"]);
+    	 this.$("#sAppAgentCode").val(value["agentCode"]);
+    	 this.$("#sAppAgentName").val(value["agentName"]);
 		 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -149,7 +149,7 @@ var module_instance = new GamSocApplyDtlsModule();
                         <tr>
                             <th>등록항구</th>
                             <td>
-                                <select id="sPrtAtCode">
+                                <select id="sAppPrtAtCode">
                                     <option value="" selected="selected">전체</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
@@ -158,7 +158,7 @@ var module_instance = new GamSocApplyDtlsModule();
                             </td>
                             <th>공사항구</th>
                             <td>
-                                <select id="sAppPrtAtCode">
+                                <select id="sPrtAtCode">
                                     <option value="" selected="selected">전체</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>

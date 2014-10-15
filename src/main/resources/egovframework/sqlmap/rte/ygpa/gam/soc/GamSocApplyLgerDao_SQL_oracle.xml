@@ -3,9 +3,9 @@
 <sqlMap namespace="ygpa.gam.soc">
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamSocApplyDtlsVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocApplyDtlsVO" />
+    <typeAlias alias="gamSocApplyLgerVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocApplyLgerVO" />
 	
-	<select id="gamSocApplyDtlsDAO.selectSocApplyDtlsList_S" parameterClass="gamSocApplyDtlsVO" resultClass="egovMap">
+	<select id="gamSocApplyLgerDAO.selectSocApplyLgerList_S" parameterClass="gamSocApplyLgerVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -50,11 +50,11 @@
 						         <isNotEmpty property="sPrtAtCode">
 						             AND A.PRT_AT_CODE = #sPrtAtCode#
 						         </isNotEmpty>
-						         <isNotEmpty property="sAppPrtAtCode">
-						             AND A.APP_PRT_AT_CODE = #sAppPrtAtCode#
-						         </isNotEmpty>
 						         <isNotEmpty property="sAppAgentCode">
 						             AND A.APP_AGENT_CODE = #sAppAgentCode# 
+						         </isNotEmpty>
+						         <isNotEmpty property="sUseYn">
+						             AND A.USE_YN = #sUseYn# 
 						         </isNotEmpty>
 						         <isNotEmpty property="sFeeTp">
 						             AND F.FEE_TP = #sFeeTp# 
@@ -66,7 +66,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 	
-	<select id="gamSocApplyDtlsDao.selectSocApplyDtlsListTotCnt_S" parameterClass="gamSocApplyDtlsVO" resultClass="int">
+	<select id="gamSocApplyLgerDao.selectSocApplyLgerListTotCnt_S" parameterClass="gamSocApplyLgerVO" resultClass="int">
 		SELECT
 		  COUNT(*) TOTCNT
 		FROM SOC_APPLY_F@YGPA_P2MGR A INNER JOIN SOC_FEE_F@YGPA_P2MGR F
@@ -81,11 +81,11 @@
 	        <isNotEmpty property="sPrtAtCode">
 	            AND A.PRT_AT_CODE = #sPrtAtCode#
 	        </isNotEmpty>
-	        <isNotEmpty property="sAppPrtAtCode">
-	            AND A.APP_PRT_AT_CODE = #sAppPrtAtCode#
-	        </isNotEmpty>
 	        <isNotEmpty property="sAppAgentCode">
 	            AND A.APP_AGENT_CODE = #sAppAgentCode# 
+	        </isNotEmpty>
+	        <isNotEmpty property="sUseYn">
+	            AND A.USE_YN = #sUseYn#
 	        </isNotEmpty>
 	        <isNotEmpty property="sFeeTp">
 	            AND F.FEE_TP = #sFeeTp# 
