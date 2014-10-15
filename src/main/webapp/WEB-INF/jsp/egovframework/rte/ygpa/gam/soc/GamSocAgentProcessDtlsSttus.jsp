@@ -50,18 +50,20 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
                     {display:'요금종류', name:'feeTp',width:50, sortable:false,align:'left'},
                     {display:'요금종류명', name:'feeTpNm',width:65, sortable:false,align:'left'},
                     {display:'횟수', name:'useNo',width:40, sortable:false,align:'left'},
-                    {display:'관리번호', name:'constNo',width:70, sortable:false,align:'left'},
+                    {display:'관리번호', name:'socNo',width:70, sortable:false,align:'left'},
                     {display:'신고업체', name:'appAgentCode',width:60, sortable:false,align:'center'},
                     {display:'신고업체명', name:'appAgentName',width:100, sortable:false,align:'center'},
-                    {display:'요율금액', name:'useYn',width:80, sortable:false,align:'center'},
-                    {display:'상계금액', name:'periodFr',width:80, sortable:false,align:'center'},
-                    {display:'호출부호', name:'periodTo',width:50, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'applDate',width:80, sortable:false,align:'center'},
+                    {display:'요율금액', name:'standardFee',width:80, sortable:false,align:'center'},
+                    {display:'상계금액', name:'exmpAmnt',width:80, sortable:false,align:'center'},
+                    {display:'호출부호', name:'callLetter',width:50, sortable:false,align:'center'},
+                    {display:'보전누계액', name:'exmpAcc',width:80, sortable:false,align:'center'},
                     {display:'입항횟수', name:'serNo',width:80, sortable:false,align:'center'},
                     {display:'외내항', name:'inOut',width:40, sortable:false,align:'center'},
-                    {display:'선석', name:'exmpAcc',width:130, sortable:false,align:'center'},
+                    {display:'시설코드', name:'facCode',width:50, sortable:false,align:'center'},
+                    {display:'시설부코드', name:'facSubCode',width:65, sortable:false,align:'center'},
+                    {display:'시설명', name:'facilNm',width:100, sortable:false,align:'center'},
                     {display:'운임톤', name:'realTn',width:80, sortable:false,align:'center'},
-                    {display:'고지일자', name:'billNo',width:60, sortable:false,align:'center'}
+                    {display:'고지일자', name:'billDt',width:60, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -128,8 +130,8 @@ GamSocAgentProcessDtlsSttusModule.prototype.onClosePopup = function(popupId, msg
 	   	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
      case 'selectApplyInfo' : //투자비 보전 신청업체 조회
-    	 this.$("#sCmplYr").val(value["cmplYr"]);
-    	 this.$("#sConstNo").val(value["constNo"]);
+    	 this.$("#sFiscalYr").val(value["cmplYr"]);
+    	 this.$("#sSocNo").val(value["constNo"]);
     	 this.$("#sAppPrtAtCode").val(value["appPrtAtCode"]);
     	 this.$("#sPrtAtCode").val(value["prtAtCode"]);
     	 break;	
@@ -177,8 +179,8 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             </td>
                             <th>허가원부</th>
                             <td>
-                                <input id="sCmplYr" type="text" size="4">
-                            	<input id="sConstNo" type="text" size="6">
+                                <input id="sFiscalYr" type="text" size="4">
+                            	<input id="sSocNo" type="text" size="6">
                             	<button id="popupApplyInfo" class="popupButton">투자보전 신청업체 찾기</button>
                             </td>
                             <td  rowSpan="2">

@@ -30,11 +30,11 @@ public class GamSocAgentProcessDtlsSttusVO extends ComDefaultVO {
 	/** 공사항구(조회조건) **/
 	private String sAppPrtAtCode;
 
-	/** 허가원부 년도(조회조건) **/
-	private String sCmplYr;
+	/** 회계년도(조회조건) **/
+	private String sFiscalYr;
 
-	/** 허가원부 일련번호(조회조건) **/
-	private String sConstNo;
+	/** 일련번호(조회조건) **/
+	private String sSocNo;
 	
 	/** 신청업체(조회조건) **/
 	private String sAppAgentCode;
@@ -77,31 +77,31 @@ public class GamSocAgentProcessDtlsSttusVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sCmplYr
+	 * @return the sFiscalYr
 	 */
-	public String getsCmplYr() {
-		return sCmplYr;
+	public String getsFiscalYr() {
+		return sFiscalYr;
 	}
 
 	/**
-	 * @param sCmplYr the sCmplYr to set
+	 * @param sFiscalYr the sFiscalYr to set
 	 */
-	public void setsCmplYr(String sCmplYr) {
-		this.sCmplYr = sCmplYr;
+	public void setsFiscalYr(String sFiscalYr) {
+		this.sFiscalYr = sFiscalYr;
 	}
 
 	/**
-	 * @return the sConstNo
+	 * @return the sSocNo
 	 */
-	public String getsConstNo() {
-		return sConstNo;
+	public String getsSocNo() {
+		return sSocNo;
 	}
 
 	/**
-	 * @param sConstNo the sConstNo to set
+	 * @param sSocNo the sSocNo to set
 	 */
-	public void setsConstNo(String sConstNo) {
-		this.sConstNo = sConstNo;
+	public void setsSocNo(String sSocNo) {
+		this.sSocNo = sSocNo;
 	}
 
 	/**

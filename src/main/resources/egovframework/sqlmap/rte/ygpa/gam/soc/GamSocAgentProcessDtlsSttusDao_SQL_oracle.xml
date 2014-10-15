@@ -29,12 +29,12 @@
 							       , E.YR
 							       , DECODE(FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
 									                            DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT_NM
-							       , E.EXMP_AMNT
+							       , TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
 							       , E.FAC_CODE
 							       , E.FAC_SUB_CODE
 							       , P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE) FACIL_NM
 							       , E.BILL_DT
-							       , E.STANDARD_FEE
+							       , TO_CHAR(NVL(E.STANDARD_FEE, 0), '999,999,999,999') AS STANDARD_FEE
 							       , E.REAL_TN
 							FROM
 							       SOC_EXMP_F@YGPA_P2MGR E
@@ -46,11 +46,11 @@
 						         <isNotEmpty property="sAppPrtAtCode">
 						             AND E.APP_PRT_AT_CODE = #sAppPrtAtCode#
 						         </isNotEmpty>
-						         <isNotEmpty property="sCmplYr">
-						             AND E.CMPL_YR = #sCmplYr#
+						         <isNotEmpty property="sFiscalYr">
+						             AND E.FISCAL_YR = #sFiscalYr#
 						         </isNotEmpty>
-						         <isNotEmpty property="sConstNo">
-						             AND E.CONST_NO = #sConstNo#
+						         <isNotEmpty property="sSocNo">
+						             AND E.SOC_NO = #sSocNo#
 						         </isNotEmpty>
 						         <isNotEmpty property="sAppAgentCode">
 						             AND E.APP_AGENT_CODE = #sAppAgentCode# 
@@ -83,11 +83,11 @@
          <isNotEmpty property="sAppPrtAtCode">
              AND E.APP_PRT_AT_CODE = #sAppPrtAtCode#
          </isNotEmpty>
-         <isNotEmpty property="sCmplYr">
-             AND E.CMPL_YR = #sCmplYr#
+         <isNotEmpty property="sFiscalYr">
+             AND E.FISCAL_YR = #sFiscalYr#
          </isNotEmpty>
-         <isNotEmpty property="sConstNo">
-             AND E.CONST_NO = #sConstNo#
+         <isNotEmpty property="sSocNo">
+             AND E.SOC_NO = #sSocNo#
          </isNotEmpty>
          <isNotEmpty property="sAppAgentCode">
              AND E.APP_AGENT_CODE = #sAppAgentCode# 
