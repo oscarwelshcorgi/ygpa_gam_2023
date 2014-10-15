@@ -87,6 +87,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonI
     switch(buttonId) {
         case 'searchBtn':
         	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
+        	this.$("#socPrtFcltyFeeExmpRqestSttusList").flexOptions({params:opts}).flexReload();
             break;
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
@@ -162,7 +163,9 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <th>구분</th>
                             <td>
                                 <select id="sGubun">
+                                    <option value="" selected="selected">전체</option>
                                     <option value="" selected="selected">진행</option>
+                                    <option value="" selected="selected">순열</option>
                                 </select>
                             </td>
                             <th>공사준공년도</th>
@@ -179,7 +182,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
     <div class="emdPanel fillHeight">
         <div id="socPrtFcltyFeeExmpRqestSttusListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">투자비보전신청내역</a></li>
+                <li><a href="#tabs1" class="emdTab">항만시설사용료면제요청현황</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
