@@ -45,24 +45,26 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocAgentProcessRealloadNewList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'호출부호', name:'appPrtAtCode',width:50, sortable:false,align:'center'},
-                    {display:'선명', name:'appPrtAtKorNm',width:65, sortable:false,align:'center'},
-                    {display:'요금종류', name:'agentCode',width:50, sortable:false,align:'left'},
-                    {display:'요금종류명', name:'agentName',width:100, sortable:false,align:'left'},
-                    {display:'입항년도', name:'cmplYr',width:50, sortable:false,align:'center'},
-                    {display:'입출항일자', name:'constNo',width:50, sortable:false,align:'center'},
-                    {display:'시설코드', name:'feeTp',width:50, sortable:false,align:'center'},
-                    {display:'회계년도', name:'useNo',width:50, sortable:false,align:'center'},
-                    {display:'고지번호', name:'rateGubun',width:40, sortable:false,align:'center'},
-                    {display:'적용요율', name:'useYn',width:40, sortable:false,align:'center'},
-                    {display:'징수톤', name:'periodFr',width:90, sortable:false,align:'center'},
-                    {display:'고지일자', name:'periodTo',width:90, sortable:false,align:'center'},
-                    {display:'할인율', name:'applDate',width:80, sortable:false,align:'center'},
-                    {display:'면제금액', name:'perfDt',width:80, sortable:false,align:'center'}
+                    {display:'호출부호', name:'callLetter',width:50, sortable:false,align:'center'},
+                    {display:'선명', name:'vsslNm',width:80, sortable:false,align:'center'},
+                    {display:'요금종류', name:'feeTp',width:50, sortable:false,align:'left'},
+                    {display:'요금종류명', name:'feeTpNm',width:100, sortable:false,align:'left'},
+                    {display:'입항년도', name:'yr',width:50, sortable:false,align:'center'},
+                    {display:'입출항일자', name:'ioDt',width:70, sortable:false,align:'center'},
+                    {display:'시설코드', name:'facilNm',width:80, sortable:false,align:'center'},
+                    {display:'회계년도', name:'fiscalYr',width:50, sortable:false,align:'center'},
+                    {display:'고지번호', name:'billNo',width:80, sortable:false,align:'center'},
+                    {display:'적용요율', name:'standardFee',width:50, sortable:false,align:'center'},
+                    {display:'징수톤', name:'realTn',width:50, sortable:false,align:'center'},
+                    {display:'고지일자', name:'billDt',width:80, sortable:false,align:'center'},
+                    {display:'할인율', name:'dcRateNm',width:80, sortable:false,align:'center'},
+                    {display:'면제금액', name:'exmpAmnt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+            module.$('#totalCount').val($.number(data["totalCount"]));
+            module.$('#sumExmpAmnt').val(data["sumExmpAmnt"]);
             return data;
         }
     });
@@ -76,10 +78,20 @@ GamSocAgentProcessRealloadNewModule.prototype.onButtonClick = function(buttonId)
     switch(buttonId) {
         case 'searchBtn':
         	opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
+        	this.$("#socAgentProcessRealloadNewList").flexOptions({params:opts}).flexReload();
             break;
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
         	break;
+        case 'popupFeeTpInfo' : //요금종류 선택
+        	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
+					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+        	break;
+        case 'popupAgentInfo' : //업체코드 선택
+			this.doExecuteDialog('selectAgentInfo', '업체 선택',
+					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        	break;        	        	
     }
 };
 
@@ -106,8 +118,14 @@ GamSocAgentProcessRealloadNewModule.prototype.onTabChange = function(newTabId, o
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentProcessRealloadNewModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectApplyInfo' : //면제요청 조회
+     case 'selectFeeTpInfo' : //요금 조회
+	   	 this.$("#sFeeTp").val(value["feeTp"]);
+	   	 this.$("#sFeeTpName").val(value["feeTpKorNm"]);
 	   	 break;
+     case 'selectAgentInfo' : //업체조회
+	   	 this.$("#sAgentCode").val(value["agentCode"]);
+	   	 this.$("#sAgentName").val(value["agentName"]);
+		 break;    	 
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;
@@ -161,7 +179,7 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                             <td colspan="3">
                                 <input id="sAgentCode" type="text" size="7">
                             	<input id="sAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	<button id="popupAgentInfo" class="popupButton">선택</button>
                             	<select id="sAgentGubun">
                             		<option value="1">신청업체</option>
                             		<option value="2">면제업체</option>
@@ -189,17 +207,29 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
             	<div class="emdControlPanel">
                 </div>
                 <table id="socAgentProcessRealloadNewList" style="display:none" class="fillHeight"></table>
-                <div class="emdControlPanel">
-					<form id="form1">
-    	               	<table style="width:100%;">
+                <div id="socAgentProcessRealloadNewListSum" class="emdControlPanel">
+					<form id="socAgentProcessRealloadNewListSumForm">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="17%" height="25">자료수</th>
+								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">면제금액</th>
+								<td><input type="text" size="18" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+    	                        	<button id="btnPrint">인쇄</button>
+        	                    </td>
+							</tr>
+						</table>
+						<!-- <table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnPrint">인쇄</button>
+	                                <button id="btnPopupSaveSocAgent">행추가/삭제</button>
 	                            </td>
 	                        </tr>
-						</table>
+						</table> -->
 					</form>
                 </div>
+      
             </div>
         </div>
     </div>

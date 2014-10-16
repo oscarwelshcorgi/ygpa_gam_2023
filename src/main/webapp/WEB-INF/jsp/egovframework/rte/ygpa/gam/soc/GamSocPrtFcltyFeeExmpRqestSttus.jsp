@@ -92,6 +92,11 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonI
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
         	break;
+        case 'popupAgentInfo' : //업체코드버튼
+			this.doExecuteDialog('selectAgentInfo', '업체 선택',
+					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        	break;        	
+        	
     }
 };
 
@@ -118,8 +123,10 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onTabChange = function(newTabId,
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectApplyInfo' : //면제요청 조회
-	   	 break;
+     case 'selectAgentInfo' : //업체조회
+  	 	 this.$("#sAppAgentCode").val(value["agentCode"]);
+  	 	 this.$("#sAppAgentName").val(value["agentName"]);
+		 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;
@@ -153,7 +160,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7" />
                             	<input id="sAppAgentName" type="text" size="10" disabled="disabled" />&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	<button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
 								<button id="searchBtn" class="buttonSearch">조회</button>
@@ -162,10 +169,10 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                         <tr>
                             <th>구분</th>
                             <td>
-                                <select id="sGubun">
+                                <select id="sUseYn">
                                     <option value="" selected="selected">전체</option>
-                                    <option value="" selected="selected">진행</option>
-                                    <option value="" selected="selected">순열</option>
+                                    <option value="Y" selected="selected">진행</option>
+                                    <option value="N" selected="selected">순연</option>
                                 </select>
                             </td>
                             <th>공사준공년도</th>
