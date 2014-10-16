@@ -98,7 +98,7 @@
 	
 	<select id="gamSocAgentProcessRealloadNewDao.selectSocAgentProcessRealloadNewListTotCnt_S" parameterClass="gamSocAgentProcessRealloadNewVO" resultMap="gamSocAgentProcessRealloadNewSumMap">
 		SELECT
-		   , COUNT(*) TOT_CNT
+		   COUNT(*) TOT_CNT
 		   , TO_CHAR(NVL(SUM(E.EXMP_AMNT),0), '999,999,999,999') SUM_EXMP_AMNT
 		FROM SOC_EXMP_F@YGPA_P2MGR E
         WHERE					

@@ -3,7 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -21,7 +25,10 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
+import egovframework.rte.ygpa.gam.soc.service.GamSocPrtFcltyFeeExmpRqestSttusService;
+import egovframework.rte.ygpa.gam.soc.service.GamSocPrtFcltyFeeExmpRqestSttusVO;
 
 /**
  * 
@@ -63,6 +70,9 @@ public class GamSocPrtFcltyFeeExmpRqestSttusController {
     @Resource(name = "gamSocCmmUseService")
     private GamSocCmmUseService gamSocCmmUseService;
     
+    @Resource(name = "gamSocPrtFcltyFeeExmpRqestSttusService")
+    private GamSocPrtFcltyFeeExmpRqestSttusService gamSocPrtFcltyFeeExmpRqestSttusService;
+    
     @RequestMapping(value="/soc/gamSocPrtFcltyFeeExmpRqestSttus.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -76,4 +86,42 @@ public class GamSocPrtFcltyFeeExmpRqestSttusController {
 
     	return "/ygpa/gam/soc/GamSocPrtFcltyFeeExmpRqestSttus";
     }
+    
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List socPrtFcltyFeeExmpRqestSttusList = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusList(searchVO);
+    	
+		totalCnt = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusListTotCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", socPrtFcltyFeeExmpRqestSttusList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }       
 }
