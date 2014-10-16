@@ -20,8 +20,7 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="gamSocShipProcessRealloadSearchForm" method="validateGamSocShipProcessRealload" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -73,16 +72,16 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
         colModel : [
 					{display:'업체코드', 			name:'exmpAgentCode',	width:80, 		sortable:false,		align:'center'},
                     {display:'호출부호', 			name:'callLetter',		width:120, 		sortable:false,		align:'center'},
-                    {display:'선박명', 			name:'vsslNm',			width:80, 		sortable:false,		align:'center'},
+                    {display:'선박명', 				name:'vsslNm',			width:150, 		sortable:false,		align:'center'},
                     {display:'입항연도', 			name:'yr',				width:120, 		sortable:false,		align:'center'},
-                    {display:'입출항일자', 		name:'ioDt',			width:320, 		sortable:false,		align:'left'},
+                    {display:'입출항일자', 			name:'ioDt',			width:130, 		sortable:false,		align:'center'},
                     {display:'시설코드', 			name:'facilNm',			width:130, 		sortable:false,		align:'center'},
                     {display:'회계연도', 			name:'fiscalYr',		width:130, 		sortable:false,		align:'center'},
                     {display:'고지번호', 			name:'billNo',			width:130, 		sortable:false,		align:'center'},
                     {display:'적용요율', 			name:'standardFee',		width:130, 		sortable:false,		align:'center'},
-                    {display:'징수톤', 			name:'realTn',			width:130, 		sortable:false,		align:'center'},
+                    {display:'징수톤', 				name:'realTn',			width:130, 		sortable:false,		align:'center'},
                     {display:'고지일자', 			name:'billDt',			width:130, 		sortable:false,		align:'center'},
-                    {display:'할인률(%)', 		name:'rateNm',			width:130, 		sortable:false,		align:'center'},
+                    {display:'할인률(%)', 			name:'rateNm',			width:130, 		sortable:false,		align:'center'},
                     {display:'면제금액', 			name:'exmpAmnt',		width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
@@ -109,6 +108,10 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+        	if(!validateGamSocShipProcessRealload(this.$('#gamSocShipProcessRealloadSearchForm')[0])){ 		
+        		return;
+        	}
+        	
 			this.loadData();
 			
 			var detailInput = [
@@ -123,20 +126,15 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
 
             break;
 
-        case 'popupChrgeKndCd' : //요금코드조회
+        case 'popupVsslCd' : //호출부호조회
         	var opts;
-			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '<c:url value="/popup/showSocPayCd.do"/>', opts);
+        	this.doExecuteDialog('selectVsslCd', '선박 선택','<c:url value="/popup/showSocVsslCd.do"/>', opts);
         	break;
 
         case 'popupAgentInfo' : //면제업체 조회
         	var opts;
 			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
         	break;
-            
-        case 'btnPopupSaveSocAgent':
-    		var all_rows = this.$('#socAgentMngtList').flexGetData();
-    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
-            break;
 
     }
 };
@@ -161,15 +159,9 @@ GamSocShipProcessRealloadModule.prototype.loadData = function() {
 GamSocShipProcessRealloadModule.prototype.onClosePopup = function(popupId, msg, value) {
 
     switch (popupId) {
-     case 'selectChrgeKndCd':
-         if (msg != 'cancel') {
-        	 this.$('#sPrtAtCode').val(value["prtAtCode"]);
-             this.$('#sFeeTp').val(value["feeTp"]);
-             this.$('#sFeeTpKorNm').val(value["feeTpKorNm"]);
-			 //this.loadData();
-         } else {
-             alert('취소 되었습니다');
-         }
+     case 'selectVsslCd':
+    	 this.$("#sVsslKey").val(value["vsslNo"]);
+    	 this.$("#sVsslNm").val(value["vsslKorNm"]);
          break;
          
      case 'selectAgentInfo' : //면제업체 조회
@@ -227,7 +219,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
                             <td>
                                 <input id="sVsslKey" type="text" size="2" />
                                 <input type="text" size="20" id="sVsslNm" disabled/>
-                                <button id="popupChrgeKndCd" class="popupButton">선택</button>
+                                <button id="popupVsslCd" class="popupButton">선택</button>
                             </td>
                         </tr>
                     </tbody>
@@ -252,9 +244,9 @@ var module_instance = new GamSocShipProcessRealloadModule();
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="10%" height="25">자료수</th>
-								<td><input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="30" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="25">총면제금액</th>
-								<td><input type="text" size="22" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="60" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
     	                        	<button id="btnPrint">인쇄</button>
         	                    </td>

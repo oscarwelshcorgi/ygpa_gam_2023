@@ -90,7 +90,7 @@ public class GamSocShipProcessRealloadController {
     
     
     /**
-     * 총사업비상계처리내역상세목록을 조회한다.
+     * 총사업비상계처리내역목록을 조회한다.
      *
      * @param searchVO
      * @return map
