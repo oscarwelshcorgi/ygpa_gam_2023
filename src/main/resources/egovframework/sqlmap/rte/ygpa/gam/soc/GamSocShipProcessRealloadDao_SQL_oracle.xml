@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
+<sqlMap namespace="ygpa.gam.soc">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocShipProcessRealloadVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessRealloadVO"/>
+	
+	<resultMap id="selectSocShipProcessRealloadListSumMap" class="gamSocShipProcessRealloadVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="java.lang.Long"/>
+    </resultMap>
+
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadList" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT 
+							   #sPrtAtCode# AS S_PRT_AT_CODE,
+							   #sFrDt# AS S_FR_DT,
+							   #sToDt# AS S_TO_DT,
+							   #sExmpAgentCode# AS S_EXMP_AGENT_CODE,
+							   #sVsslKey# AS S_VSSL_KEY,
+				               FEE_TP,    
+				               DECODE(P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(#sPrtAtCode#, FEE_TP),'-1','','-2','','-3','',P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(#sPrtAtCode#, FEE_TP)) FEE_TP_NM,
+				               SUM(EXMP_AMNT) SUM_EXMP_AMNT 
+				          	FROM 
+				          		P2MGR.SOC_EXMP_F@YGPA_P2MGR  
+				          	 
+						<![CDATA[  WHERE 1=1 ]]>
+
+								AND APP_PRT_AT_CODE = #sPrtAtCode#
+								<![CDATA[ AND BILL_DT >= #sFrDt# ]]>
+								<![CDATA[ AND BILL_DT <= #sToDt# ]]>
+	
+								<isNotEmpty property="sExmpAgentCode">
+									AND EXMP_AGENT_CODE = #sExmpAgentCode#
+								</isNotEmpty>
+								
+								<isNotEmpty property="sVsslKey">
+									AND VSSL_KEY = #sVsslKey#
+								</isNotEmpty>
+								
+							GROUP BY FEE_TP
+
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListTotCnt" parameterClass="gamSocShipProcessRealloadVO" resultClass="int">
+            SELECT 
+            	COUNT(DISTINCT(FEE_TP)) TOTCNT
+            FROM 
+          		P2MGR.SOC_EXMP_F@YGPA_P2MGR  
+          	 
+		<![CDATA[  WHERE 1=1 ]]>
+
+				AND APP_PRT_AT_CODE = #sPrtAtCode#
+				<![CDATA[ AND BILL_DT >= #sFrDt# ]]>
+				<![CDATA[ AND BILL_DT <= #sToDt# ]]>
+
+				<isNotEmpty property="sExmpAgentCode">
+					AND EXMP_AGENT_CODE = #sExmpAgentCode#
+				</isNotEmpty>
+				
+				<isNotEmpty property="sVsslKey">
+					AND VSSL_KEY = #sVsslKey#
+				</isNotEmpty>
+
+    </select>
+    
+    
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetail" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT PRT_AT_CODE,
+				               CMPL_YR,
+				               CONST_NO,
+				               APP_PRT_AT_CODE,
+				               APP_AGENT_CODE,
+				               USE_NO,
+				               FEE_TP,    
+				               FISCAL_YR,    
+				               SOC_NO,    
+				               EXMP_AMNT,       
+				               EXMP_AGENT_CODE,   
+				               BILL_NO,    
+				               CALL_LETTER,    
+				               YR||' - ' || SER_NO YR,          
+				               IN_OUT,    
+				               BILL_USE_NO,    
+				               FAC_CODE,    
+				               FAC_SUB_CODE,    
+				               IO_DT,    
+				               DECODE(DC_CODE,'1','20','2','50','3', '80','4','100', '0') RATE_NM,
+				               DC_CODE,    
+				               BILL_DT,    
+				               STANDARD_FEE,  
+				               P2MGR.SF_PRT_AT_KOR_NM@YGPA_P2MGR(APP_PRT_AT_CODE) PRT_AT_KOR_NM,
+				               P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(PRT_AT_CODE) PRT_AT_CODE_NM,
+				               DECODE(P2MGR.SF_FACIL_NM@YGPA_P2MGR(APP_PRT_AT_CODE, FAC_CODE, FAC_SUB_CODE),'-1','','-2','','-3','',P2MGR.SF_FACIL_NM@YGPA_P2MGR(APP_PRT_AT_CODE, FAC_CODE, FAC_SUB_CODE)) FACIL_NM,
+				               DECODE(P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(APP_PRT_AT_CODE, FEE_TP),'-1','','-2','','-3','',P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(APP_PRT_AT_CODE, FEE_TP)) FEE_TP_NM, 
+				               DECODE(P2MGR.SF_AGENT_NM@YGPA_P2MGR(EXMP_AGENT_CODE), '-1','','-2','','-3','',P2MGR.SF_AGENT_NM@YGPA_P2MGR(EXMP_AGENT_CODE)) AGENT_NM, 
+				               DECODE(P2MGR.SF_VSSL_NM@YGPA_P2MGR(VSSL_KEY), '-1','','-2','','-3','',P2MGR.SF_VSSL_NM@YGPA_P2MGR(VSSL_KEY)) VSSL_NM, 
+				               REAL_TN, 
+				               (PRT_AT_CODE||CMPL_YR||CONST_NO||FEE_TP) GPFIELD   
+				          	FROM 
+				          		P2MGR.SOC_EXMP_F@YGPA_P2MGR  
+				          	 
+						<![CDATA[  WHERE 1=1 ]]>
+
+								AND APP_PRT_AT_CODE = #sPrtAtCode#
+								<![CDATA[ AND BILL_DT >= #sFrDt# ]]>
+								<![CDATA[ AND BILL_DT <= #sToDt# ]]>
+								
+								AND FEE_TP = #feeTp#
+	
+								<isNotEmpty property="sExmpAgentCode">
+									AND EXMP_AGENT_CODE = #sExmpAgentCode#
+								</isNotEmpty>
+								
+								<isNotEmpty property="sVsslKey">
+									AND VSSL_KEY = #sVsslKey#
+								</isNotEmpty>
+
+                             ORDER BY PRT_AT_CODE, CMPL_YR, CONST_NO, FEE_TP, BILL_DT
+
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetailSum" parameterClass="gamSocShipProcessRealloadVO" resultMap="selectSocShipProcessRealloadListSumMap">
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(EXMP_AMNT),0) AS SUM_EXMP_AMNT
+			FROM 
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR  
+				          	 
+		<![CDATA[  WHERE 1=1 ]]>
+						
+			AND APP_PRT_AT_CODE = #sPrtAtCode#
+			<![CDATA[ AND BILL_DT >= #sFrDt# ]]>
+			<![CDATA[ AND BILL_DT <= #sToDt# ]]>
+			
+			AND FEE_TP = #feeTp#
+
+			<isNotEmpty property="sExmpAgentCode">
+				AND EXMP_AGENT_CODE = #sExmpAgentCode#
+			</isNotEmpty>
+			
+			<isNotEmpty property="sVsslKey">
+				AND VSSL_KEY = #sVsslKey#
+			</isNotEmpty>
+			
+    </select>
+    
+
+</sqlMap>

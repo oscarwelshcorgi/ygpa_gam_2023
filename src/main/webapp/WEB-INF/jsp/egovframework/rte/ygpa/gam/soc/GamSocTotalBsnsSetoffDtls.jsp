@@ -20,8 +20,8 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<%-- <validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
 
 <script>
 /*
@@ -116,15 +116,16 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-        	
-        	/* if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
-        		return;
-        	} */
-        	
+
 			this.loadData();
+        	
+        	var searchOpt = [
+        	                 {prtAtCode:'', cmplYr:'', constNo:''}
+        	                 ];
+
+        	this.$('#socTotalBsnsSetoffDtlsDetail').flexOptions({params:searchOpt}).flexReload();
             break;
-            
-            
+
         case 'popupChrgeKndCd' : //요금코드조회
         	var opts;
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '<c:url value="/popup/showSocPayCd.do"/>', opts);
