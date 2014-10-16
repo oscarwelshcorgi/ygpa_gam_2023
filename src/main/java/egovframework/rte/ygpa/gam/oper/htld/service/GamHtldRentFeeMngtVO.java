@@ -147,6 +147,44 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
 		this.sumNhtIsueAmt = sumNhtIsueAmt;
 	}
 
+	/**
+     * 변상금 2014-10-13 추가 (eunsungj)
+     */
+    private String reimFee;
+
+    /**
+     * 변상금 고지번호 2014-10-13 추가 (eunsungj)
+     */
+    private String reimFeeNticno;
+
+	/**
+	 * @return the reimFee
+	 */
+	public String getReimFee() {
+		return reimFee;
+	}
+
+	/**
+	 * @param reimFee the reimFee to set
+	 */
+	public void setReimFee(String reimFee) {
+		this.reimFee = reimFee;
+	}
+
+	/**
+	 * @return the reimFeeNticno
+	 */
+	public String getReimFeeNticno() {
+		return reimFeeNticno;
+	}
+
+	/**
+	 * @param reimFeeNticno the reimFeeNticno to set
+	 */
+	public void setReimFeeNticno(String reimFeeNticno) {
+		this.reimFeeNticno = reimFeeNticno;
+	}
+
 	/** 공시지가 */
     private String olnlp;
 
