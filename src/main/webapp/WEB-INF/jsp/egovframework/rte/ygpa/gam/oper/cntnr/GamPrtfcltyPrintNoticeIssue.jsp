@@ -838,6 +838,9 @@ div.notice {
       			<c:if test="${result.feeA4>0}">
 	      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원</p>
       			</c:if>
+      			<c:if test="${result.reimFee>0}">
+	      			<p>변상금 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.reimFee}" /> 원</p>
+      			</c:if>
       			<c:if test="${result.feeD1>0}">
 	      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원</p>
       			</c:if>
