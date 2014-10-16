@@ -130,8 +130,8 @@ GamSocAgentProcessDtlsSttusModule.prototype.onClosePopup = function(popupId, msg
 	   	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
      case 'selectApplyInfo' : //투자비 보전 신청업체 조회
-    	 this.$("#sFiscalYr").val(value["cmplYr"]);
-    	 this.$("#sSocNo").val(value["constNo"]);
+    	 this.$("#sCmplYr").val(value["cmplYr"]);
+    	 this.$("#sConstNo").val(value["constNo"]);
     	 this.$("#sAppPrtAtCode").val(value["appPrtAtCode"]);
     	 this.$("#sPrtAtCode").val(value["prtAtCode"]);
     	 break;	
@@ -179,8 +179,8 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             </td>
                             <th>허가원부</th>
                             <td>
-                                <input id="sFiscalYr" type="text" size="4">
-                            	<input id="sSocNo" type="text" size="6">
+                                <input id="sCmplYr" type="text" size="4">
+                            	<input id="sConstNo" type="text" size="6">
                             	<button id="popupApplyInfo" class="popupButton">투자보전 신청업체 찾기</button>
                             </td>
                             <td  rowSpan="2">

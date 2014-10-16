@@ -27,13 +27,13 @@
 									              P2MGR.SF_VSSL_NM(E.VSSL_KEY)) VSSL_NM
 							       , E.SER_NO
 							       , E.YR
-							       , DECODE(FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
+							       , DECODE(E.FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
 									                            DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT_NM
 							       , TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
 							       , E.FAC_CODE
 							       , E.FAC_SUB_CODE
 							       , P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE) FACIL_NM
-							       , E.BILL_DT
+							       , TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') BILL_DT
 							       , TO_CHAR(NVL(E.STANDARD_FEE, 0), '999,999,999,999') AS STANDARD_FEE
 							       , E.REAL_TN
 							FROM
@@ -46,11 +46,11 @@
 						         <isNotEmpty property="sAppPrtAtCode">
 						             AND E.APP_PRT_AT_CODE = #sAppPrtAtCode#
 						         </isNotEmpty>
-						         <isNotEmpty property="sFiscalYr">
-						             AND E.FISCAL_YR = #sFiscalYr#
+						         <isNotEmpty property="sCmplYr">
+						             AND E.CMPL_YR = #sCmplYr#
 						         </isNotEmpty>
-						         <isNotEmpty property="sSocNo">
-						             AND E.SOC_NO = #sSocNo#
+						         <isNotEmpty property="sConstNo">
+						             AND E.CONST_NO = #sConstNo#
 						         </isNotEmpty>
 						         <isNotEmpty property="sAppAgentCode">
 						             AND E.APP_AGENT_CODE = #sAppAgentCode# 
@@ -65,7 +65,7 @@
 						             <![CDATA[ AND E.BILL_DT < TO_DATE(#sBillDtTo#, 'yyyy-mm-dd') + 1 ]]> 
 						         </isNotEmpty>						         
 						     <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY E.FISCAL_YR, SOC_NO
+                             ORDER BY E.CMPL_YR, E.CONST_NO
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
@@ -83,11 +83,11 @@
          <isNotEmpty property="sAppPrtAtCode">
              AND E.APP_PRT_AT_CODE = #sAppPrtAtCode#
          </isNotEmpty>
-         <isNotEmpty property="sFiscalYr">
-             AND E.FISCAL_YR = #sFiscalYr#
+         <isNotEmpty property="sCmplYr">
+             AND E.CMPL_YR = #sCmplYr#
          </isNotEmpty>
-         <isNotEmpty property="sSocNo">
-             AND E.SOC_NO = #sSocNo#
+         <isNotEmpty property="sConstNo">
+             AND E.CONST_NO = #sConstNo#
          </isNotEmpty>
          <isNotEmpty property="sAppAgentCode">
              AND E.APP_AGENT_CODE = #sAppAgentCode# 

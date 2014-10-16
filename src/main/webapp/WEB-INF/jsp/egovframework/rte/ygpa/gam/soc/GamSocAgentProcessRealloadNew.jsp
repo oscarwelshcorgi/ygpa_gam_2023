@@ -130,7 +130,7 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                         <tr>
                             <th>청코드</th>
                             <td>
-                                <select id="sPrtAtCode">
+                                <select id="sAppPrtAtCode">
                                     <option value="" selected="selected">전체</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
@@ -147,8 +147,9 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                             <td>
                                 <input id="sCmplYr" type="text" size="4">
                             	<input id="sConstNo" type="text" size="6">
-                            	<select id="">
-                            		<option value="">보전</option>
+                            	<select id="sBillGubun">
+                            		<option value="1">보전</option>
+                            		<option value="2">고지</option>
                             	</select>
                             </td>
                             <td  rowSpan="2">
@@ -158,16 +159,18 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                         <tr>
                             <th>업체코드</th>
                             <td colspan="3">
-                                <input id="sAppAgentCode" type="text" size="7">
-                            	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                                <input id="sAgentCode" type="text" size="7">
+                            	<input id="sAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                            	<input id="sAgentApplyKnd" type="radio" name="sAgentKnd" value="true" /> 신청업체
-                            	<input id="sAgentExmpKnd" type="radio" name="sAgentKnd"/> 면제업체
+                            	<select id="sAgentGubun">
+                            		<option value="1">신청업체</option>
+                            		<option value="2">면제업체</option>
+                            	</select>
                             </td>
                             <th>기간</th>
                             <td>
-                            	<input id="sBillDtFr" type="text" class="emdcal" size="8"> ~ 
-                            	<input id="sBillDtTo" type="text" class="emdcal" size="8">
+                            	<input id="sSearchDtFr" type="text" class="emdcal" size="8"> ~ 
+                            	<input id="sSearchDtTo" type="text" class="emdcal" size="8">
                             </td>
                         </tr>
                     </tbody>
