@@ -197,7 +197,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
                                 <select id="sPrtAtCode">
 	                            	<option value="" selected="selected">선택</option>
 	                                <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
-	                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }${prtAtCdItem.prtAtCode }</option>
+	                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
 	                                </c:forEach>
 	                            </select>
                             </td>
