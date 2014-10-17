@@ -40,7 +40,7 @@ public class GamSocStatsVO extends ComDefaultVO {
 	/** 조회시작월(조회조건) **/
 	private String sSearchFr;
 	
-	/** 조회끝월(조회조건) **/
+	/** 조회종료월(조회조건) **/
 	private String sSearchTo;
 	
 	/** 조회수 (resultMap) **/
