@@ -70,6 +70,8 @@
 	<select id="gamSocStatsDao.selectSocMonthStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
            SELECT A.*
            FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
 			      SELECT 
 			            TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
 			            , E.FEE_TP
@@ -123,6 +125,8 @@
 	<select id="gamSocStatsDao.selectSocEntprBasisMonthStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
            SELECT A.*
            FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
 			      SELECT 
 			            E.EXMP_AGENT_CODE 
 			            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
@@ -181,6 +185,8 @@
 	<select id="gamSocStatsDao.selectSocMonthBasisEntprStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
            SELECT A.*
            FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
 			      SELECT  
 			            E.EXMP_AGENT_CODE
 			            , TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
