@@ -84,7 +84,7 @@ public class GamOlnlpMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
 
 	/**
      * 공시지가 관리화면호출
@@ -203,6 +203,7 @@ public class GamOlnlpMngtController {
     @RequestMapping("/code/insertOlnlpMngt.do")
     @ResponseBody Map<String, Object> insertOlnlpMngt(GamOlnlpFVO olnlpVO, BindingResult bindingResult)throws Exception {
 
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -248,6 +249,7 @@ public class GamOlnlpMngtController {
     @RequestMapping("/code/updateOlnlpMngt.do")
     @ResponseBody Map<String, Object> updateOlnlpMngt(GamOlnlpFVO olnlpVO, BindingResult bindingResult)throws Exception {
 
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

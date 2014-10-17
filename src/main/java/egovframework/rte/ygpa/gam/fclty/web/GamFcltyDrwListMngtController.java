@@ -67,7 +67,7 @@ public class GamFcltyDrwListMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
 
 
 	/**
@@ -198,6 +198,7 @@ public class GamFcltyDrwListMngtController {
 	@RequestMapping(value="/fclty/gamDrwInfoListMngInsert.do")
 	@ResponseBody Map<String, Object> insertDrwInfoListMng(@RequestParam Map<String, Object> drwListMngtList) throws Exception {
 
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

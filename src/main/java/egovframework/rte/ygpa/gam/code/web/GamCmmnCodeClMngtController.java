@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.code.web;
 
@@ -32,14 +32,14 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 
 /**
- * 
+ *
  * @author Administrator
  * @since 2014. 1. 22.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 1. 22.		kok		최초 생성
@@ -55,20 +55,20 @@ public class GamCmmnCodeClMngtController {
 
 	@Resource(name = "CmmnCodeManageService")
     private EgovCcmCmmnCodeManageService cmmnCodeManageService;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
 
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    
+
+
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -82,8 +82,8 @@ public class GamCmmnCodeClMngtController {
 
     	return "/ygpa/gam/code/GamCmmnCodeClMngt";
     }
-	
-	
+
+
 	/**
 	 * 공통분류코드 목록을 조회한다.
      * @param loginVO
@@ -109,14 +109,14 @@ public class GamCmmnCodeClMngtController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
         List<?> CmmnCodeList = cmmnClCodeManageService.selectCmmnClCodeList(searchVO);
         int totCnt = cmmnClCodeManageService.selectCmmnClCodeListTotCnt(searchVO);
-        
+
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -128,7 +128,7 @@ public class GamCmmnCodeClMngtController {
     	return map;
 	}
 
-    
+
     /**
 	 * 공통분류코드 상세항목을 조회한다.
 	 * @param loginVO
@@ -139,7 +139,7 @@ public class GamCmmnCodeClMngtController {
 	 */
 	@RequestMapping(value="/code/gamCmmnClCodeDetail.do")
  	@ResponseBody Map<String, Object> selectCmmnClCodeDetail (@RequestParam("clCode") String clCode) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -169,7 +169,8 @@ public class GamCmmnCodeClMngtController {
      */
     @RequestMapping(value="/code/gamCmmnClCodeRegist.do")
 	@ResponseBody Map<String, Object> insertCmmnClCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("clCode") CmmnClCode cmmnClCode, BindingResult bindingResult) throws Exception {
-    	
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -192,7 +193,7 @@ public class GamCmmnCodeClMngtController {
 			cmmnClCode.setFrstRegisterId(user.getId());
 			cmmnClCodeManageService.insertCmmnClCode(cmmnClCode);
 			map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));			
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -202,8 +203,8 @@ public class GamCmmnCodeClMngtController {
 
 		return map;
     }
-    
-    
+
+
 	/**
 	 * 공통분류코드를 수정한다.
 	 * @param loginVO
@@ -215,7 +216,8 @@ public class GamCmmnCodeClMngtController {
     @RequestMapping(value="/code/gamCmmnClCodeModify.do")
 	@ResponseBody Map<String, Object> updateCmmnClCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("clCode") CmmnClCode cmmnClCode
 			, BindingResult bindingResult, @ModelAttribute("cmd") String cmd) throws Exception {
-    	
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -243,7 +245,7 @@ public class GamCmmnCodeClMngtController {
         		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
         		return map;
     		}
-    		
+
     		try {
     			cmmnClCode.setLastUpdusrId(user.getId());
     	    	cmmnClCodeManageService.updateCmmnClCode(cmmnClCode);
@@ -262,7 +264,7 @@ public class GamCmmnCodeClMngtController {
     		return map;
     	}
     }
-    
+
     /**
 	 * 공통분류코드를 삭제한다.
 	 * @param loginVO
@@ -273,7 +275,7 @@ public class GamCmmnCodeClMngtController {
 	 */
     @RequestMapping(value="/code/gamCmmnClCodeRemove.do")
 	@ResponseBody Map<String, Object> deleteCmmnClCode (@ModelAttribute("loginVO") LoginVO loginVO,  @RequestParam("clCode") String clCode) throws Exception {
-    	
+
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -286,14 +288,14 @@ public class GamCmmnCodeClMngtController {
     	CmmnCodeVO vo = new CmmnCodeVO();
     	vo.setSearchCondition("clCode");
     	vo.setSearchKeyword(clCode);
-    	
+
     	int codeCheck = cmmnCodeManageService.selectCmmnCodeListTotCnt(vo);
-    	
+
     	if(codeCheck > 0){
     		map.put("resultCode", 1);
     		map.put("resultMsg", "해당 데이터는 삭제가 불가능합니다.");
     	}else{
-    		
+
     		try{
     			CmmnClCode code = new CmmnClCode();
         		code.setClCode(clCode);
@@ -306,8 +308,8 @@ public class GamCmmnCodeClMngtController {
         		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
     		}
     	}
-    	
-    	
+
+
     	return map;
 	}
 }

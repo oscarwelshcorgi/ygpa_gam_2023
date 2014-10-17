@@ -63,7 +63,7 @@ public class GamCmmnCodeMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
 
 	/**
 	 * 화면 호출
@@ -169,6 +169,7 @@ public class GamCmmnCodeMngtController {
     @RequestMapping(value="/code/gamCcmCmmnCodeRegist.do")
 	@ResponseBody Map<String, Object> insertCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode, BindingResult bindingResult) throws Exception {
 
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -228,6 +229,7 @@ public class GamCmmnCodeMngtController {
 	@ResponseBody Map<String, Object> updateCmmnCode (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("cmmnCode") CmmnCode cmmnCode
 			, BindingResult bindingResult, @ModelAttribute("cmd") String cmd) throws Exception {
 
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
