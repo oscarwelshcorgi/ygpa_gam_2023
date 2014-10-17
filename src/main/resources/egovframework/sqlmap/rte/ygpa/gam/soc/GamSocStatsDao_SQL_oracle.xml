@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.soc">
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocStatsVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocStatsVO" />
+
+	<resultMap id="gamSocStatsSumMap" class="gamSocStatsVO">
+		<result property="totCnt" column="TOT_CNT" columnIndex="1" javaType="int"/>
+        <result property="totExmpAmntSum" column="TOT_EXMP_AMNT_SUM" columnIndex="2" javaType="java.lang.String"/>
+        <result property="totExmpAmntPaSum" column="TOT_EXMP_AMNT_PA_SUM" columnIndex="3" javaType="java.lang.String"/>
+        <result property="totExmpAmntTotSum" column="TOT_EXMP_AMNT_TOT_SUM" columnIndex="4" javaType="java.lang.String"/>
+    </resultMap>
+
+	<!-- 업체별 집계 -->
+	<select id="gamSocStatsDao.selectSocEntprStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+					      SELECT 
+					            E.EXMP_AGENT_CODE
+					            , E.FEE_TP
+					            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+					            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM
+					            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+					            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT,0),0)) EXMP_AMNT_PA_SUM
+					            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT,0),0)) ) EXAM_AMNT_TOT_SUM
+					      FROM 
+					            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+					      WHERE 
+					            E.EXMP_AGENT_CODE LIKE #sExamAgentCode# || '%'
+					      GROUP BY 
+					            E.EXMP_AGENT_CODE, E.FEE_TP, P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE), P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) 
+					      ORDER BY 
+					            E.EXMP_AGENT_CODE, E.FEE_TP
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
+	</select>
+	
+	<select id="gamSocStatsDao.selectSocEntprStatsListTotSum_S" parameterClass="gamSocStatsVO" resultMap="gamSocStatsSumMap">
+			SELECT
+			    COUNT(*) TOT_CNT
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_SUM), '999,999,999,999')  TOT_EXMP_AMNT_SUM
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_PA_SUM), '999,999,999,999') TOT_EXMP_AMNT_PA_SUM
+			    , TO_CHAR(SUM(SE.EXAM_AMNT_TOT_SUM), '999,999,999,999') TOT_EXAM_AMNT_TOT_SUM
+			FROM
+			(
+			      SELECT 
+			            E.EXMP_AGENT_CODE
+			            , E.FEE_TP
+			            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT,0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT,0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM 
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            E.EXMP_AGENT_CODE LIKE #sExamAgentCode# || '%'
+			      GROUP BY 
+			            E.EXMP_AGENT_CODE, E.FEE_TP, P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE), P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) 
+			      ORDER BY 
+			            E.EXMP_AGENT_CODE, E.FEE_TP
+			) SE	
+	</select>
+	
+	<!-- 월별 집계 -->
+	<select id="gamSocStatsDao.selectSocMonthStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
+           SELECT A.*
+           FROM (
+			      SELECT 
+			            TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
+			            , E.FEE_TP
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM 
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            <![CDATA[ E.BILL_DT >= TO_DATE((#sSearchFr# || '01'), 'YYYYMMDD')
+			            AND E.BILL_DT < ADD_MONTHS(TO_DATE((#sSearchTo# || '01'), 'YYYYMMDD'), 1) ]]>
+			      GROUP BY 
+			            TO_CHAR(E.BILL_DT,'YYYYMM'), E.FEE_TP
+			      ORDER BY 
+			            EXMP_MONTH
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamSocStatsDao.selectSocMonthStatsListTotSum_S" parameterClass="gamSocStatsVO" resultMap="gamSocStatsSumMap">
+			SELECT
+			    COUNT(*) TOT_CNT
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_SUM), '999,999,999,999')  TOT_EXMP_AMNT_SUM
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_PA_SUM), '999,999,999,999') TOT_EXMP_AMNT_PA_SUM
+			    , TO_CHAR(SUM(SE.EXAM_AMNT_TOT_SUM), '999,999,999,999') TOT_EXAM_AMNT_TOT_SUM
+			FROM
+			(
+			      SELECT 
+			            TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
+			            , E.FEE_TP
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM 
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            <![CDATA[ E.BILL_DT >= TO_DATE((#sSearchFr# || '01'), 'YYYYMMDD')
+			            AND E.BILL_DT < ADD_MONTHS(TO_DATE((#sSearchTo# || '01'), 'YYYYMMDD'), 1) ]]>
+			      GROUP BY 
+			            TO_CHAR(E.BILL_DT,'YYYYMM'), E.FEE_TP
+			      ORDER BY 
+			            EXMP_MONTH
+			) SE
+	
+	</select>
+	
+	<!-- 업체기준 월별 집계 -->
+	<select id="gamSocStatsDao.selectSocEntprBasisMonthStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
+           SELECT A.*
+           FROM (
+			      SELECT 
+			            E.EXMP_AGENT_CODE 
+			            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+			            , TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
+			            , E.FEE_TP
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM 
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM 
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            E.EXMP_AGENT_CODE LIKE #sExmpAgentCode# || '%'
+			            <![CDATA[ AND E.BILL_DT >= TO_DATE((#sSearchFr# || '01'), 'YYYYMMDD')
+			            AND	E.BILL_DT < ADD_MONTHS(TO_DATE((#sSearchTo# || '01'), 'YYYYMMDD'), 1) ]]>
+			      GROUP BY
+			            E.EXMP_AGENT_CODE, TO_CHAR(E.BILL_DT,'YYYYMM'), E.FEE_TP
+			      ORDER BY 
+			            EXMP_MONTH, E.EXMP_AGENT_CODE, E.FEE_TP
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamSocStatsDao.selectSocEntprBasisMonthStatsListTotSum_S" parameterClass="gamSocStatsVO" resultMap="gamSocStatsSumMap">
+			SELECT
+			    COUNT(*) TOT_CNT
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_SUM), '999,999,999,999')  TOT_EXMP_AMNT_SUM
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_PA_SUM), '999,999,999,999') TOT_EXMP_AMNT_PA_SUM
+			    , TO_CHAR(SUM(SE.EXAM_AMNT_TOT_SUM), '999,999,999,999') TOT_EXAM_AMNT_TOT_SUM
+			FROM
+			(
+			      SELECT 
+			            E.EXMP_AGENT_CODE 
+			            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+			            , TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
+			            , E.FEE_TP
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM 
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM 
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            E.EXMP_AGENT_CODE LIKE #sExmpAgentCode# || '%'
+			            <![CDATA[ AND E.BILL_DT >= TO_DATE((#sSearchFr# || '01'), 'YYYYMMDD')
+			            AND	E.BILL_DT < ADD_MONTHS(TO_DATE((#sSearchTo# || '01'), 'YYYYMMDD'), 1) ]]>
+			      GROUP BY
+			            E.EXMP_AGENT_CODE, TO_CHAR(E.BILL_DT,'YYYYMM'), E.FEE_TP
+			      ORDER BY 
+			            EXMP_MONTH, E.EXMP_AGENT_CODE, E.FEE_TP
+			) SE	
+	</select>
+	
+	<!-- 월기준 업체별 집계 -->
+	<select id="gamSocStatsDao.selectSocMonthBasisEntprStatsList_S" parameterClass="gamSocStatsVO" resultClass="hashMap">
+           SELECT A.*
+           FROM (
+			      SELECT  
+			            E.EXMP_AGENT_CODE
+			            , TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
+			            , E.FEE_TP
+			            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            E.EXMP_AGENT_CODE LIKE #sExmpAgentCode# || '%'
+			            <![CDATA[ AND E.BILL_DT >= TO_DATE((#sSearchFr# || '01'), 'YYYY-MM-DD')
+			            AND E.BILL_DT < ADD_MONTHS(TO_DATE((#sSearchTo# || '01'), 'YYYY-MM-DD'), 1) ]]>
+			      GROUP BY 
+			            E.EXMP_AGENT_CODE, TO_CHAR(BILL_DT,'YYYYMM'), E.FEE_TP
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>			
+	</select>
+	
+	<select id="gamSocStatsDao.selectSocMonthBasisEntprStatsListTotSum_S" parameterClass="gamSocStatsVO" resultMap="gamSocStatsSumMap">
+			SELECT
+			    COUNT(*) TOT_CNT
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_SUM), '999,999,999,999')  TOT_EXMP_AMNT_SUM
+			    , TO_CHAR(SUM(SE.EXMP_AMNT_PA_SUM), '999,999,999,999') TOT_EXMP_AMNT_PA_SUM
+			    , TO_CHAR(SUM(SE.EXAM_AMNT_TOT_SUM), '999,999,999,999') TOT_EXAM_AMNT_TOT_SUM
+			FROM
+			(
+			      SELECT  
+			            E.EXMP_AGENT_CODE
+			            , TO_CHAR(E.BILL_DT,'YYYYMM') EXMP_MONTH
+			            , E.FEE_TP
+			            , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+			            , P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) FEE_NM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) EXMP_AMNT_SUM
+			            , SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) EXMP_AMNT_PA_SUM
+			            , ( SUM(DECODE(E.JINGSUJA,'PAT',0,NULL,0,NVL(E.EXMP_AMNT, 0))) + SUM(DECODE(E.JINGSUJA,'PAT',NVL(E.EXMP_AMNT, 0),NULL,NVL(E.EXMP_AMNT, 0),0)) ) EXAM_AMNT_TOT_SUM
+			      FROM
+			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+			      WHERE 
+			            E.EXMP_AGENT_CODE LIKE #sExmpAgentCode# || '%'
+			            <![CDATA[ AND E.BILL_DT >= TO_DATE((#sSearchFr# || '01'), 'YYYY-MM-DD')
+			            AND E.BILL_DT < ADD_MONTHS(TO_DATE((#sSearchTo# || '01'), 'YYYY-MM-DD'), 1) ]]>
+			      GROUP BY 
+			            E.EXMP_AGENT_CODE, TO_CHAR(BILL_DT,'YYYYMM'), E.FEE_TP
+			) SE	
+	</select>	
+</sqlMap>
