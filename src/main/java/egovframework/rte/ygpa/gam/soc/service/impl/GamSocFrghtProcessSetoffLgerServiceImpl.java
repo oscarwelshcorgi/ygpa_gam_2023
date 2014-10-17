@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.soc.service.GamSocFrghtProcessSetoffLgerService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocFrghtProcessSetoffLgerVO;
-import egovframework.rte.ygpa.gam.soc.service.GamSocFrghtProcessSetoffLgerVO;
 
 /**
  * 

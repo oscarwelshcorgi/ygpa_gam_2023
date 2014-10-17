@@ -106,6 +106,8 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
         	//자료수, 합산금액 입력
             module.$('#totalCount').val($.number(data["totalCount"]));
             module.$('#sumExmpAmnt').val($.number(data["sumExmpAmnt"]));
+            module.$('#sumExmpAmntPa').val($.number(data["sumExmpAmntPa"]));
+            module.$('#sumAmnt').val($.number(data["sumAmnt"]));
 
             return data;
         }
@@ -123,9 +125,9 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-        	if(!validateGamSocFrghtProcessSetoffLger(this.$('#gamSocFrghtProcessSetoffLgerSearchForm')[0])){ 		
+        	/* if(!validateGamSocFrghtProcessSetoffLger(this.$('#gamSocFrghtProcessSetoffLgerSearchForm')[0])){ 		
         		return;
-        	}
+        	} */
         	
 			this.loadData();
 			
@@ -140,15 +142,35 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
 			this.$('#socFrghtProcessSetoffLgerDetail').flexOptions({params:detailInput}).flexReload();
 
             break;
-
-        case 'popupVsslCd' : //호출부호조회
+            
+        case 'popupFeeInfo' : //요금종류조회
         	var opts;
-        	this.doExecuteDialog('selectVsslCd', '선박 선택','<c:url value="/popup/showSocVsslCd.do"/>', opts);
+        	this.doExecuteDialog('selectFeeInfo', '금종류 선택','<c:url value="/popup/showSocPayCd.do"/>', opts);
         	break;
 
-        case 'popupAgentInfo' : //면제업체 조회
+        case 'popupAgentInfo' : //신청업체조회
         	var opts;
-			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        	this.doExecuteDialog('selectAgentInfo', '신청업체 선택','<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+        	break;
+
+        case 'popupFcltyInfo' : //신청시설 조회
+        	var opts;
+			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+        	break;
+        	
+        case 'popupTotalPortInfo' : //전체 조회
+        	var opts;
+			this.doExecuteDialog('selectTotalPortInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+        	break;
+        	
+        case 'popupSelectPortInfo' : //해당항별 조회
+        	var opts;
+			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+        	break;
+        	
+        case 'popupIngPortInfo' : //해당항진행 조회
+        	var opts;
+			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
         	break;
 
     }
@@ -174,14 +196,20 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadData = function() {
 GamSocFrghtProcessSetoffLgerModule.prototype.onClosePopup = function(popupId, msg, value) {
 
     switch (popupId) {
-     case 'selectVsslCd':
-    	 this.$("#sVsslKey").val(value["vsslNo"]);
-    	 this.$("#sVsslNm").val(value["vsslKorNm"]);
+     case 'selectFeeInfo':
+    	 this.$("#sFeeTp").val(value["feeTp"]);
+    	 this.$("#sFeeTpNm").val(value["feeTpKorNm"]);
          break;
          
-     case 'selectAgentInfo' : //면제업체 조회
-    	 this.$("#sExmpAgentCode").val(value["agentCode"]);
-    	 this.$("#sExmpAgentName").val(value["agentName"]);
+     case 'selectAgentInfo' : //신청업체 조회
+    	 this.$("#sAppAgentCode").val(value["agentCode"]);
+    	 this.$("#sAppAgentNm").val(value["firmKorNm"]);
+    	 break;
+    	 
+     case 'selectFcltyInfo' : //신청시설 조회
+    	 this.$("#sFacCode").val(value["facCode"]);
+    	 this.$("#sFacSubCode").val(value["facSubCode"]);
+    	 this.$("#sFacKorNm").val(value["facKorNm"]);
     	 break;
      
      default:

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
+<sqlMap namespace="ygpa.gam.soc">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamSocShipProcessSetoffLgerVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessSetoffLgerVO"/>
+	
+	<resultMap id="selectSocShipProcessSetoffLgerListSumMap" class="gamSocShipProcessSetoffLgerVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumR1Fare" column="SUM_R1_FARE" columnIndex="2" javaType="java.lang.Long"/>
+        <result property="sumR2Fare" column="SUM_R2_FARE" columnIndex="3" javaType="java.lang.Long"/>
+        <result property="sumR3Fare" column="SUM_R3_FARE" columnIndex="4" javaType="java.lang.Long"/>
+        <result property="sumR6Fare" column="SUM_R6_FARE" columnIndex="5" javaType="java.lang.Long"/>
+        <result property="sumRFare" column="SUM_R_FARE" columnIndex="6" javaType="java.lang.Long"/>
+        <result property="sumR1FarePa" column="SUM_R1_FARE_PA" columnIndex="7" javaType="java.lang.Long"/>
+        <result property="sumR2FarePa" column="SUM_R2_FARE_PA" columnIndex="8" javaType="java.lang.Long"/>
+        <result property="sumR3FarePa" column="SUM_R3_FARE_PA" columnIndex="9" javaType="java.lang.Long"/>
+        <result property="sumR6FarePa" column="SUM_R6_FARE_PA" columnIndex="10" javaType="java.lang.Long"/>
+        <result property="sumRFarePa" column="SUM_R_FARE_PA" columnIndex="11" javaType="java.lang.Long"/>
+        <result property="sumR1All" column="SUM_R1_ALL" columnIndex="12" javaType="java.lang.Long"/>
+        <result property="sumR2All" column="SUM_R2_ALL" columnIndex="13" javaType="java.lang.Long"/>
+        <result property="sumR3All" column="SUM_R3_ALL" columnIndex="14" javaType="java.lang.Long"/>
+        <result property="sumR6All" column="SUM_R6_ALL" columnIndex="15" javaType="java.lang.Long"/>
+        <result property="sumRAll" column="SUM_R_ALL" columnIndex="16" javaType="java.lang.Long"/>
+    </resultMap>
+
+    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList" parameterClass="gamSocShipProcessSetoffLgerVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                     			SELECT 
+                     					 APP_PRT_AT_CODE
+									     , PRT_KOR_NM
+									     , PRT_AT_CODE
+									     , CMPL_YR
+									     , PRT_AT_NM
+									     , PRT_AT_NM1
+									     , SCTMC
+									     , USE_NO
+									     , FEE_TP
+									     , FEE_TP_KOR_NM
+									     , YR_NO
+									     , CALL_LETTER
+									     , P2MGR.SF_VSSL_NM@YGPA_P2MGR(VSSL_KEY) D_VSSL_KOR_NM
+									     , AGENT_NM1
+									     , AGENT_NM2
+									     , AGENT_CODE1
+									     , YICN
+									     , TO_CHAR(BILL_DT,'YYYY-MM-DD') BILL_DT
+									     , DC_CODE
+									     , EXMP_AGENT_CODE
+									     , IXTN
+									     , YR
+									     , SER_NO
+									     , MCTMC
+									     , REMARK
+									     , AGENT_NM3
+									     , STANDARD_FEE
+									     , EXMP_AMNT
+									     , FAC_CODE
+									     , FAC_KOR_NM
+									     , R1_FARE
+									     , R2_FARE
+									     , R3_FARE
+									     , R6_FARE
+									     , DECODE(FEE_TP, 'R1', R1_FARE, 'R2', R2_FARE, 'R4', R6_FARE, R3_FARE) FARE
+									     , R1_FARE_PA
+									     , R2_FARE_PA
+									     , R3_FARE_PA
+									     , R6_FARE_PA
+									     , DECODE(FEE_TP, 'R1', R1_FARE_PA, 'R2', R2_FARE_PA, R3_FARE_PA) FARE_PA
+									     , FISCAL_YR
+									     , SOC_NO
+									     , USDT
+									     , SOC_CNST_NM
+									     , TOTAL_AMNT
+									     ,ARVL_DT
+									     ,DEP_DT
+									FROM (
+									      SELECT A.APP_PRT_AT_CODE
+									           , B.PRT_KOR_NM
+									           , A.PRT_AT_CODE
+									           , A.CMPL_YR
+									           , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(#sAppPrtAtCode#) PRT_AT_NM
+									           , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(#sPrtAtCode#) PRT_AT_NM1
+									           , A.APP_AGENT_CODE AS SCTMC
+									           , A.USE_NO
+									           , A.FEE_TP
+									           , C.FEE_TP_KOR_NM
+									           , A.FISCAL_YR||'-'||A.SOC_NO YR_NO
+									           , P2MGR.SF_VSSL_CALL_LETTER@YGPA_P2MGR(A.VSSL_KEY) CALL_LETTER
+									           , A.VSSL_KEY
+									           , (SELECT VSSL_NM FROM P2MGR.VSSL_ARVL_F@YGPA_P2MGR 
+									              WHERE PRT_AT_CODE = A.APP_PRT_AT_CODE 
+									              AND   VSSL_KEY = A.VSSL_KEY 
+									              AND   YR = A.YR 
+									              AND   SER_NO = A.SER_NO) D_VSSL_KOR_NM
+									           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(#sAppAgentCode#) AGENT_NM1
+									           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(APP_AGENT_CODE) AGENT_NM2
+									           , SUBSTR(A.APP_AGENT_CODE,1,2)||'-'||SUBSTR(A.APP_AGENT_CODE,3,1)||'-'||SUBSTR(A.APP_AGENT_CODE,4,4) AGENT_CODE1
+									           , A.YR||'-'||A.SER_NO AS YICN
+									           , A.BILL_DT
+									           , A.DC_CODE
+									           , A.EXMP_AGENT_CODE
+									           , DECODE(A.IN_OUT ,'1','외항','2','내항') AS IXTN
+									           , A.YR
+									           , A.SER_NO
+									           , SUBSTRB(A.EXMP_AGENT_CODE,1,2)||'-'||SUBSTRB(A.EXMP_AGENT_CODE,3,1)||'-'||SUBSTRB(A.EXMP_AGENT_CODE,4,4) AS MCTMC
+									           , A.REMARK
+									           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.EXMP_AGENT_CODE) AGENT_NM3
+									           , A.STANDARD_FEE
+									           , A.EXMP_AMNT
+									           , A.FAC_CODE||'-'||A.FAC_SUB_CODE AS FAC_CODE
+									           , E.FAC_KOR_NM
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R1',EXMP_AMNT),0)) AS R1_FARE
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R2',EXMP_AMNT),0)) AS R2_FARE
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R3',EXMP_AMNT),0)) AS R3_FARE
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R1', 0, 'R2', 0, 'R3', 0 , EXMP_AMNT),0)) AS R6_FARE
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R1',EXMP_AMNT),0),0) AS R1_FARE_PA
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R2',EXMP_AMNT),0),0) AS R2_FARE_PA
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R3',EXMP_AMNT),0),0) AS R3_FARE_PA
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R1', 0, 'R2', 0, 'R3', 0 , EXMP_AMNT),0),0) AS R6_FARE_PA 
+									           , A.FISCAL_YR
+									           , A.SOC_NO
+									           , F.SOC_CNST_NM
+									           , F.TOTAL_AMNT
+									           , P2MGR.SF_ARVL_DT_REV@YGPA_P2MGR(A.APP_PRT_AT_CODE, A.VSSL_KEY, A.YR, A.SER_NO ) ARVL_DT
+									           , P2MGR.SF_DEP_DT_REV@YGPA_P2MGR(A.APP_PRT_AT_CODE, A.VSSL_KEY, A.YR, A.SER_NO ) DEP_DT
+									           ,(
+									             SELECT 
+									             		MAX(TO_CHAR(DECODE(A.FEE_TP,'R3', TO_DATE(P2MGR.SF_GET_IO_DATE@YGPA_P2MGR('I',X.PRT_AT_CODE, X.VSSL_KEY, X.YR, X.SER_NO),'YYYYMMDDHH24MISS'), Y.USE_DT_FR), 'YYYY/MM/DD')||'~'||
+									                    TO_CHAR(DECODE(A.FEE_TP,'R3', TO_DATE(P2MGR.SF_GET_IO_DATE@YGPA_P2MGR('O',X.PRT_AT_CODE, X.VSSL_KEY, X.YR, X.SER_NO),'YYYYMMDDHH24MISS'),Y.USE_DT_TO), 'YYYY/MM/DD') )
+									             FROM 
+									             		P2MGR.BILL_RQR_F@YGPA_P2MGR X
+									             		,P2MGR.FACIL_USE_F@YGPA_P2MGR Y
+									             WHERE 
+									             		X.PRT_AT_CODE = A.EXMP_PRT_AT_CODE
+											             AND X.FEE_TP = A.FEE_TP
+											             AND X.FISCAL_YR = A.FISCAL_YR
+											             AND X.BILL_NO = DECODE(X.PAST_YN,'Y',A.SOC_NO,A.BILL_NO)
+											             AND X.VSSL_KEY = A.VSSL_KEY
+											             AND X.SAVE='Y' 
+											             AND (X.PRT_AT_CODE=Y.PRT_AT_CODE(+) AND X.VSSL_KEY=Y.VSSL_KEY(+) AND X.YR=Y.YR(+)
+											             AND X.SER_NO=Y.SER_NO(+) AND X.USE_NO=Y.USE_NO(+))
+									            ) USDT
+									      FROM 
+									      		P2MGR.SOC_EXMP_F@YGPA_P2MGR A
+									      		, P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B
+									      		, PAYEOSU.FEE_TP_F C
+									      		, P2MGR.VSSL_F@YGPA_P2MGR D
+									      		, P2MGR.FACIL_NM_F@YGPA_P2MGR E
+									      		, P2MGR.SOC_AGENT_F@YGPA_P2MGR F
+									      WHERE 1=1
+										      
+										      AND A.APP_PRT_AT_CODE = #sAppPrtAtCode#
+										      AND A.PRT_AT_CODE = #sPrtAtCode#
+										      AND A.CONST_NO = #sConstNo# 
+										      AND A.CMPL_YR = #sCmplYr# 
+										      AND A.APP_AGENT_CODE = #sAppAgentCode# 
+										      AND A.FEE_TP LIKE #sFeeTp# || '%'
+										      <![CDATA[ AND ((A.BILL_DT >= #sDtFr# AND A.BILL_DT < #sDtTo#) OR (A.IO_DT >= #sIoDt# AND A.IO_DT < #sIoDt2#)) ]]>
+										      AND A.FAC_CODE LIKE #sFacCode#||'%'
+										      AND A.FAC_SUB_CODE LIKE #sFacSubCode#||'%'
+										      AND (A.APP_PRT_AT_CODE = B.PRT_AT_CODE(+))
+										      AND (A.APP_PRT_AT_CODE = C.PRT_AT_CODE(+) AND A.FEE_TP = C.FEE_TP(+))
+										      AND (A.CALL_LETTER = D.CALL_LETTER(+))
+										      AND (A.APP_PRT_AT_CODE = E.PRT_AT_CODE (+) AND A.FAC_CODE = E.FAC_CODE(+) AND A.FAC_SUB_CODE = E.FAC_SUB_CODE(+))
+										      AND F.PRT_AT_CODE = A.PRT_AT_CODE
+											  AND F.CMPL_YR = A.CMPL_YR
+											  AND F.CONST_NO = A.CONST_NO
+											  
+									      ORDER BY A.BILL_DT, A.APP_PRT_AT_CODE, A.CALL_LETTER, A.YR,A.SER_NO, A.FISCAL_YR, A.SOC_NO
+									      )
+
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    
+    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListTotCnt" parameterClass="gamSocShipProcessSetoffLgerVO" resultClass="int">
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM 
+					
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR A
+				, P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B
+				, PAYEOSU.FEE_TP_F C
+				, P2MGR.VSSL_F@YGPA_P2MGR D
+				, P2MGR.SOC_AGENT_F@YGPA_P2MGR F 
+				
+			WHERE 
+			
+				A.APP_PRT_AT_CODE = #sAppPrtAtCode# 
+				AND A.PRT_AT_CODE = #sPrtAtCode# 
+				AND A.CMPL_YR = #sCmplYr# 
+				AND A.CONST_NO = #sConstNo# 
+				AND A.APP_AGENT_CODE = #sAppAgentCode# 
+				AND A.USE_NO = #sUseNo# 
+				AND A.FEE_TP LIKE #sFeeTp#  || '%' 
+				<![CDATA[ AND ((A.BILL_DT >= #sDtFr# AND A.BILL_DT < #sDtTo#) OR (A.IO_DT >= #sIoDt# AND A.IO_DT < #sIoDt2#)) ]]>
+				AND (A.APP_PRT_AT_CODE = B.PRT_AT_CODE(+)) 
+				AND (A.APP_PRT_AT_CODE = C.PRT_AT_CODE(+) AND A.FEE_TP = C.FEE_TP(+))
+				AND (A.VSSL_KEY = D.VSSL_KEY(+))
+				AND A.PRT_AT_CODE = F.PRT_AT_CODE
+				AND A.CONST_NO = F.CONST_NO
+				AND A.CMPL_YR = F.CMPL_YR
+
+    </select>
+    
+    
+    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerDetail" parameterClass="gamSocShipProcessSetoffLgerVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT 
+                     					 APP_PRT_AT_CODE
+									     , PRT_KOR_NM
+									     , PRT_AT_CODE
+									     , CMPL_YR
+									     , PRT_AT_NM
+									     , PRT_AT_NM1
+									     , SCTMC
+									     , USE_NO
+									     , FEE_TP
+									     , FEE_TP_KOR_NM
+									     , YR_NO
+									     , CALL_LETTER
+									     , P2MGR.SF_VSSL_NM@YGPA_P2MGR(VSSL_KEY) D_VSSL_KOR_NM
+									     , AGENT_NM1
+									     , AGENT_NM2
+									     , AGENT_CODE1
+									     , YICN
+									     , TO_CHAR(BILL_DT,'YYYY-MM-DD') BILL_DT
+									     , DC_CODE
+									     , EXMP_AGENT_CODE
+									     , IXTN
+									     , YR
+									     , SER_NO
+									     , MCTMC
+									     , REMARK
+									     , AGENT_NM3
+									     , STANDARD_FEE
+									     , EXMP_AMNT
+									     , FAC_CODE
+									     , FAC_KOR_NM
+									     , R1_FARE
+									     , R2_FARE
+									     , R3_FARE
+									     , R6_FARE
+									     , DECODE(FEE_TP, 'R1', R1_FARE, 'R2', R2_FARE, 'R4', R6_FARE, R3_FARE) FARE
+									     , R1_FARE_PA
+									     , R2_FARE_PA
+									     , R3_FARE_PA
+									     , R6_FARE_PA
+									     , DECODE(FEE_TP, 'R1', R1_FARE_PA, 'R2', R2_FARE_PA, R3_FARE_PA) FARE_PA
+									     , FISCAL_YR
+									     , SOC_NO
+									     , USDT
+									     , SOC_CNST_NM
+									     , TOTAL_AMNT
+									     ,ARVL_DT
+									     ,DEP_DT
+									FROM (
+									      SELECT A.APP_PRT_AT_CODE
+									           , B.PRT_KOR_NM
+									           , A.PRT_AT_CODE
+									           , A.CMPL_YR
+									           , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(#sAppPrtAtCode#) PRT_AT_NM
+									           , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(#sPrtAtCode#) PRT_AT_NM1
+									           , A.APP_AGENT_CODE AS SCTMC
+									           , A.USE_NO
+									           , A.FEE_TP
+									           , C.FEE_TP_KOR_NM
+									           , A.FISCAL_YR||'-'||A.SOC_NO YR_NO
+									           , P2MGR.SF_VSSL_CALL_LETTER@YGPA_P2MGR(A.VSSL_KEY) CALL_LETTER
+									           , A.VSSL_KEY
+									           , (SELECT VSSL_NM FROM P2MGR.VSSL_ARVL_F@YGPA_P2MGR 
+									              WHERE PRT_AT_CODE = A.APP_PRT_AT_CODE 
+									              AND   VSSL_KEY = A.VSSL_KEY 
+									              AND   YR = A.YR 
+									              AND   SER_NO = A.SER_NO) D_VSSL_KOR_NM
+									           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(#sAppAgentCode#) AGENT_NM1
+									           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(APP_AGENT_CODE) AGENT_NM2
+									           , SUBSTR(A.APP_AGENT_CODE,1,2)||'-'||SUBSTR(A.APP_AGENT_CODE,3,1)||'-'||SUBSTR(A.APP_AGENT_CODE,4,4) AGENT_CODE1
+									           , A.YR||'-'||A.SER_NO AS YICN
+									           , A.BILL_DT
+									           , A.DC_CODE
+									           , A.EXMP_AGENT_CODE
+									           , DECODE(A.IN_OUT ,'1','외항','2','내항') AS IXTN
+									           , A.YR
+									           , A.SER_NO
+									           , SUBSTRB(A.EXMP_AGENT_CODE,1,2)||'-'||SUBSTRB(A.EXMP_AGENT_CODE,3,1)||'-'||SUBSTRB(A.EXMP_AGENT_CODE,4,4) AS MCTMC
+									           , A.REMARK
+									           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.EXMP_AGENT_CODE) AGENT_NM3
+									           , A.STANDARD_FEE
+									           , A.EXMP_AMNT
+									           , A.FAC_CODE||'-'||A.FAC_SUB_CODE AS FAC_CODE
+									           , E.FAC_KOR_NM
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R1',EXMP_AMNT),0)) AS R1_FARE
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R2',EXMP_AMNT),0)) AS R2_FARE
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R3',EXMP_AMNT),0)) AS R3_FARE
+									           , DECODE(JINGSUJA,'PAT',0, NVL(DECODE(A.FEE_TP,'R1', 0, 'R2', 0, 'R3', 0 , EXMP_AMNT),0)) AS R6_FARE
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R1',EXMP_AMNT),0),0) AS R1_FARE_PA
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R2',EXMP_AMNT),0),0) AS R2_FARE_PA
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R3',EXMP_AMNT),0),0) AS R3_FARE_PA
+									           , DECODE(JINGSUJA,'PAT', NVL(DECODE(A.FEE_TP,'R1', 0, 'R2', 0, 'R3', 0 , EXMP_AMNT),0),0) AS R6_FARE_PA 
+									           , A.FISCAL_YR
+									           , A.SOC_NO
+									           , F.SOC_CNST_NM
+									           , F.TOTAL_AMNT
+									           , P2MGR.SF_ARVL_DT_REV@YGPA_P2MGR(A.APP_PRT_AT_CODE, A.VSSL_KEY, A.YR, A.SER_NO ) ARVL_DT
+									           , P2MGR.SF_DEP_DT_REV@YGPA_P2MGR(A.APP_PRT_AT_CODE, A.VSSL_KEY, A.YR, A.SER_NO ) DEP_DT
+									           ,(
+									             SELECT 
+									             		MAX(TO_CHAR(DECODE(A.FEE_TP,'R3', TO_DATE(P2MGR.SF_GET_IO_DATE@YGPA_P2MGR('I',X.PRT_AT_CODE, X.VSSL_KEY, X.YR, X.SER_NO),'YYYYMMDDHH24MISS'), Y.USE_DT_FR), 'YYYY/MM/DD')||'~'||
+									                    TO_CHAR(DECODE(A.FEE_TP,'R3', TO_DATE(P2MGR.SF_GET_IO_DATE@YGPA_P2MGR('O',X.PRT_AT_CODE, X.VSSL_KEY, X.YR, X.SER_NO),'YYYYMMDDHH24MISS'),Y.USE_DT_TO), 'YYYY/MM/DD') )
+									             FROM 
+									             		P2MGR.BILL_RQR_F@YGPA_P2MGR X
+									             		,P2MGR.FACIL_USE_F@YGPA_P2MGR Y
+									             WHERE 
+									             		X.PRT_AT_CODE = A.EXMP_PRT_AT_CODE
+											             AND X.FEE_TP = A.FEE_TP
+											             AND X.FISCAL_YR = A.FISCAL_YR
+											             AND X.BILL_NO = DECODE(X.PAST_YN,'Y',A.SOC_NO,A.BILL_NO)
+											             AND X.VSSL_KEY = A.VSSL_KEY
+											             AND X.SAVE='Y' 
+											             AND (X.PRT_AT_CODE=Y.PRT_AT_CODE(+) AND X.VSSL_KEY=Y.VSSL_KEY(+) AND X.YR=Y.YR(+)
+											             AND X.SER_NO=Y.SER_NO(+) AND X.USE_NO=Y.USE_NO(+))
+									            ) USDT
+									      FROM 
+									      		P2MGR.SOC_EXMP_F@YGPA_P2MGR A
+									      		, P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B
+									      		, PAYEOSU.FEE_TP_F C
+									      		, P2MGR.VSSL_F@YGPA_P2MGR D
+									      		, P2MGR.FACIL_NM_F@YGPA_P2MGR E
+									      		, P2MGR.SOC_AGENT_F@YGPA_P2MGR F
+									      WHERE 1=1
+										      
+										      AND A.APP_PRT_AT_CODE = #sAppPrtAtCode#
+										      AND A.PRT_AT_CODE = #sPrtAtCode#
+										      AND A.CONST_NO = #sConstNo# 
+										      AND A.CMPL_YR = #sCmplYr# 
+										      AND A.APP_AGENT_CODE = #sAppAgentCode# 
+										      AND A.FEE_TP LIKE #sFeeTp# || '%'
+										      <![CDATA[ AND ((A.BILL_DT >= #sDtFr# AND A.BILL_DT < #sDtTo#) OR (A.IO_DT >= #sIoDt# AND A.IO_DT < #sIoDt2#)) ]]>
+										      AND A.FAC_CODE LIKE #sFacCode#||'%'
+										      AND A.FAC_SUB_CODE LIKE #sFacSubCode#||'%'
+										      AND (A.APP_PRT_AT_CODE = B.PRT_AT_CODE(+))
+										      AND (A.APP_PRT_AT_CODE = C.PRT_AT_CODE(+) AND A.FEE_TP = C.FEE_TP(+))
+										      AND (A.CALL_LETTER = D.CALL_LETTER(+))
+										      AND (A.APP_PRT_AT_CODE = E.PRT_AT_CODE (+) AND A.FAC_CODE = E.FAC_CODE(+) AND A.FAC_SUB_CODE = E.FAC_SUB_CODE(+))
+										      AND F.PRT_AT_CODE = A.PRT_AT_CODE
+											  AND F.CMPL_YR = A.CMPL_YR
+											  AND F.CONST_NO = A.CONST_NO
+											  
+									      ORDER BY A.BILL_DT, A.APP_PRT_AT_CODE, A.CALL_LETTER, A.YR,A.SER_NO, A.FISCAL_YR, A.SOC_NO
+									      )
+
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerDetailSum" parameterClass="gamSocShipProcessSetoffLgerVO" resultMap="selectSocShipProcessSetoffLgerListSumMap">
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(R1_FARE),0) AS SUM_R1_FARE
+        		, NVL(SUM(R2_FARE),0) AS SUM_R2_FARE
+        		, NVL(SUM(R3_FARE),0) AS SUM_R3_FARE
+        		, NVL(SUM(R6_FARE),0) AS SUM_R6_FARE
+        		, NVL(SUM(FARE),0) AS SUM_R_FARE
+        		, NVL(SUM(R1_FARE_PA),0) AS SUM_R1_FARE_PA
+        		, NVL(SUM(R2_FARE_PA),0) AS SUM_R2_FARE_PA
+        		, NVL(SUM(R3_FARE_PA),0) AS SUM_R3_FARE_PA
+        		, NVL(SUM(R6_FARE_PA),0) AS SUM_R6_FARE_PA
+        		, NVL(SUM(FARE_PA),0) AS SUM_R_FARE_PA
+        		, NVL(SUM(R1_FARE + R1_FARE_PA),0) AS SUM_R1_ALL
+        		, NVL(SUM(R2_FARE + R2_FARE_PA),0) AS SUM_R2_ALL
+        		, NVL(SUM(R3_FARE + R3_FARE_PA),0) AS SUM_R3_ALL
+        		, NVL(SUM(R6_FARE + R6_FARE_PA),0) AS SUM_R6_ALL
+        		, NVL(SUM(FARE + FARE_PA),0) AS SUM_R_ALL
+			FROM 
+							
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR A
+				, P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B
+				, PAYEOSU.FEE_TP_F C
+				, P2MGR.VSSL_F@YGPA_P2MGR D
+				, P2MGR.SOC_AGENT_F@YGPA_P2MGR F 
+				
+			WHERE 
+			
+				A.APP_PRT_AT_CODE = #sAppPrtAtCode# 
+				AND A.PRT_AT_CODE = #sPrtAtCode# 
+				AND A.CMPL_YR = #sCmplYr# 
+				AND A.CONST_NO = #sConstNo# 
+				AND A.APP_AGENT_CODE = #sAppAgentCode# 
+				AND A.USE_NO = #sUseNo# 
+				AND A.FEE_TP LIKE #sFeeTp#  || '%' 
+				<![CDATA[ AND ((A.BILL_DT >= #sDtFr# AND A.BILL_DT < #sDtTo#) OR (A.IO_DT >= #sIoDt# AND A.IO_DT < #sIoDt2#)) ]]>
+				AND (A.APP_PRT_AT_CODE = B.PRT_AT_CODE(+)) 
+				AND (A.APP_PRT_AT_CODE = C.PRT_AT_CODE(+) AND A.FEE_TP = C.FEE_TP(+))
+				AND (A.VSSL_KEY = D.VSSL_KEY(+))
+				AND A.PRT_AT_CODE = F.PRT_AT_CODE
+				AND A.CONST_NO = F.CONST_NO
+				AND A.CMPL_YR = F.CMPL_YR
+			
+    </select>
+    
+
+</sqlMap>

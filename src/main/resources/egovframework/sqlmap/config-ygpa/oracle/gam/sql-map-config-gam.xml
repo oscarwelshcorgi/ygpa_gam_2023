@@ -130,4 +130,5 @@
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocShipProcessRealloadDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocFrghtProcessSetoffLgerDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocShipProcessSetoffLgerDao_SQL_oracle.xml" />
 </sqlMapConfig>
