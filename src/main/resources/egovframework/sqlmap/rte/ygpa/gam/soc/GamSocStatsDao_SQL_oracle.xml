@@ -29,7 +29,7 @@
 					      FROM 
 					            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 					      WHERE 
-					            E.EXMP_AGENT_CODE LIKE #sExamAgentCode# || '%'
+					            E.EXMP_AGENT_CODE LIKE #sExmpAgentCode# || '%'
 					      GROUP BY 
 					            E.EXMP_AGENT_CODE, E.FEE_TP, P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE), P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) 
 					      ORDER BY 
@@ -58,7 +58,7 @@
 			      FROM 
 			            P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 			      WHERE 
-			            E.EXMP_AGENT_CODE LIKE #sExamAgentCode# || '%'
+			            E.EXMP_AGENT_CODE LIKE #sExmpAgentCode# || '%'
 			      GROUP BY 
 			            E.EXMP_AGENT_CODE, E.FEE_TP, P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE), P2MGR.SF_FEE_TP_NM(#sPrtAtCode#, E.FEE_TP) 
 			      ORDER BY 
