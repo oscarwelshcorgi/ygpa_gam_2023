@@ -20,7 +20,7 @@
   */
 %>
 <script>
-/*
+/*e
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
 function GamAssetRentFeeMngtModule() {}
@@ -564,19 +564,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td style="width: 120px"><span data-column-id="nticno"></span></td>
                         </tr>
                         <tr>
-                        	<th><span class="label">요금종류</span></th>
-                            <td>
-                            	<span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)
-                            </td>
-                        	<th><span class="label">업체</span></th>
-                            <td colspan="3">
-                            	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
-                            </td>
-                        	<th><span class="label">사용료</span></th>
-                            <td style="text-align:right;"><span data-column-id="fee" class="ygpaNumber"></span> 원</td>
-                        </tr>
-                        <tr>
-                            <th><span class="label">총사용기간</span></th>
+                        	<th><span class="label">총사용기간</span></th>
                             <td>
                             	<span data-column-id="grUsagePdFrom"></span>~
                             	<span data-column-id="grUsagePdTo"></span>
@@ -586,6 +574,29 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         	<th><span class="label">총사용료</span></th>
                             <td style="text-align:right;"><span data-column-id="grFee" class="ygpaNumber"></span> 원</td>
                         </tr>
+                        <tr>
+                        	<th><span class="label">요금종류</span></th>
+                            <td>
+                            	<span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)
+                            </td>
+                        	<th><span class="label">업체</span></th>
+                            <td colspan="3">
+                            	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
+                            </td>
+                        	<th><span class="label">사용료</span></th>
+                            <td style="text-align:right;"><input data-column-id="fee" class="ygpaNumber" size="11"/> 원</td>
+                        </tr>
+                        <tr>
+                        	<th><span class="label">부가세여부</span></th>
+                            <td>
+                            	<span data-column-id="vatYn" class="ygpaCmmnCd" data-code-id="GAM016"></span>
+                            </td>
+                        	<th><span class="label">부가세</span></th>
+                            <td colspan="3">
+                            	<span data-column-id="vat" class="ygpaNumber"></span> 원
+                            </td>
+                        	<th><span class="label">변상금</span></th>
+                            <td style="text-align:right;"><input data-column-id="reimFee" class="ygpaNumber" size="11"/> 원</td>
                         <tr>
                             <th><span class="label">고지기간</span></th>
                             <td>

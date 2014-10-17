@@ -781,6 +781,7 @@ public class GamCntnrQuayRentFeeMngtController {
 	 		paramMap.put("nhtPrintYn", "N");
 	 		paramMap.put("payTmlmt", gamAssetRentFeeMngtVO.getPayTmlmt());
 	 		paramMap.put("userName", loginVo.getName());
+	 		paramMap.put("reimChrgeKnd", "DB");
 
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);
 
@@ -976,6 +977,7 @@ public class GamCntnrQuayRentFeeMngtController {
 
 		//자산임대상세
     	List resultList = gamCntnrQuayRentFeeMngtService.selectAssetRentFeeDetailList(searchVO);
+    	
     	Map master = gamCntnrQuayRentFeeMngtService.selectAssetRentFeeDetailMstPk(searchVO);
     	Map summary = gamCntnrQuayRentFeeMngtService.selectAssetRentFeeDetailSumPk(searchVO);
 
