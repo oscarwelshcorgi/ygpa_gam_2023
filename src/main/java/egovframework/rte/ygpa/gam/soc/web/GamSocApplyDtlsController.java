@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -125,4 +127,40 @@ public class GamSocApplyDtlsController {
 
     	return map;
     }    
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocApplyDtlsListPrint.do")
+	public String selectSocApplyDtlsListPrint(@RequestParam Map<String, Object> socApplyDtlsOpt, ModelMap model) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocApplyDtlsPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocApplyDtlsVO searchVO;
+
+    	searchVO = mapper.convertValue(socApplyDtlsOpt, GamSocApplyDtlsVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+    			
+    	List socApplyDtlsList = gamSocApplyDtlsService.selectSocApplyDtlsList(searchVO);
+		totalCnt = gamSocApplyDtlsService.selectSocApplyDtlsListTotCnt(searchVO);
+    	
+        model.addAttribute("totalCount", totalCnt);
+        model.addAttribute("resultList", socApplyDtlsList);
+
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		
+    	return "/ygpa/gam/soc/GamSocApplyDtlsPrint";
+    }    
+
 }

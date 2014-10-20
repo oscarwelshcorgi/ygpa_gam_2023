@@ -81,9 +81,6 @@ GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
         	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
         	this.$("#socApplyDtlsList").flexOptions({params:opts}).flexReload();
             break;
-        case 'btnPrint' : //인쇄버튼
-        	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
-        	break;
         case 'popupFeeTpInfo' : //요금종류버튼
         	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
@@ -204,7 +201,7 @@ var module_instance = new GamSocApplyDtlsModule();
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnPrint">인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamSocApplyDtlsSearchForm" data-url="<c:url value='/soc/gamSelectSocApplyDtlsListPrint.do'/>">인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
