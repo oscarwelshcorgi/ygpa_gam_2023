@@ -70,6 +70,30 @@ GamSocStatsModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
+        	if(this.$('#sPrtAtCode').val() == '') {
+        		alert('항코드를 선택하세요.');
+        		break;
+        	}
+        	if(this.$('#sSearchTarget').val() == '1') {
+            	if(this.$('#sExmpAgentCode').val() == '') {
+            		alert('업체코드를 선택하세요.');
+            		break;
+            	}
+        	} else if(this.$('#sSearchTarget').val() == '2') {
+            	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+            		alert('조회월을 입력하세요.');
+            		break;
+            	}
+        	} else {
+            	if(this.$('#sExmpAgentCode').val() == '') {
+            		alert('업체코드를 선택하세요.');
+            		break;
+            	}
+            	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+            		alert('조회월을 입력하세요.');
+            		break;
+            	}        	
+            }
         	opts = this.makeFormArgs('#gamSocStatsSearchForm');
         	this.$("#socStatsList").flexOptions({params:opts}).flexReload();
             break;
