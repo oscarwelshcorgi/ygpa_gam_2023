@@ -46,7 +46,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamSocStatsVO selectSocEntprStatsListTotSum(GamSocStatsVO searchVO) {
-		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocEntprStatsListTotSum", searchVO);
+		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocEntprStatsListTotSum_S", searchVO);
 	}
 	
 
@@ -67,7 +67,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamSocStatsVO selectSocMonthStatsListTotSum(GamSocStatsVO searchVO) {
-		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocMonthStatsListTotSum", searchVO);
+		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocMonthStatsListTotSum_S", searchVO);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamSocStatsVO selectSocEntprBasisMonthStatsListTotSum(GamSocStatsVO searchVO) {
-		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocEntprBasisMonthStatsListTotSum", searchVO);
+		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocEntprBasisMonthStatsListTotSum_S", searchVO);
 	}
 	
 	/**
@@ -107,6 +107,6 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamSocStatsVO selectSocMonthBasisEntprStatsListTotSum(GamSocStatsVO searchVO) {
-		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocMonthBasisEntprStatsListTotSum", searchVO);
+		return (GamSocStatsVO) selectByPk("gamSocStatsDao.selectSocMonthBasisEntprStatsListTotSum_S", searchVO);
 	}
 }
