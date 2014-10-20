@@ -383,7 +383,7 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
 							</tr>
 							<tr>
 								<th width="10%" height="22">자료수</th>
-								<td><input type="text" size="9" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;" colspan="9">
     	                        	<button id="btnPrint">인쇄</button>
         	                    </td>
