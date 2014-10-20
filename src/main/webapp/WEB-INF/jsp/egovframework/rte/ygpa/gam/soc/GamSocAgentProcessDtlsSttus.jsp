@@ -95,10 +95,10 @@ GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
 					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
         	break;
-        case 'popupAgentInfo' : //업체코드 선택
-			this.doExecuteDialog('selectAgentInfo', '업체 선택',
-					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
-        	break;        	
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
+					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+        	break;
     }
 };
 
@@ -135,9 +135,9 @@ GamSocAgentProcessDtlsSttusModule.prototype.onClosePopup = function(popupId, msg
     	 this.$("#sAppPrtAtCode").val(value["appPrtAtCode"]);
     	 this.$("#sPrtAtCode").val(value["prtAtCode"]);
     	 break;	
-     case 'selectAgentInfo' : //업체조회
+     case 'selectEntrpsInfo' : //업체조회
     	 this.$("#sAppAgentCode").val(value["agentCode"]);
-    	 this.$("#sAppAgentName").val(value["agentName"]);
+    	 this.$("#sAppAgentName").val(value["firmKorNm"]);
 		 break;    	 
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -192,7 +192,7 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="4">
                             	<input id="sAppAgentName" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupAgentInfo" class="popupButton">선택</button>
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>요금종류</th>
                             <td>

@@ -47,17 +47,17 @@ GamSocStatsModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'요금종류', name:'feeTp',width:100, sortable:false,align:'center'},
                     {display:'요금종류명', name:'feeNm',width:150, sortable:false,align:'center'},
-                    {display:'상계금액(청)', name:'exmpAmntSum',width:200, sortable:false,align:'left'},
-                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:200, sortable:false,align:'left'},
-                    {display:'합계', name:'exmpAmntTotSum',width:250, sortable:false,align:'center'}
+                    {display:'상계금액(청)', name:'exmpAmntSum',width:180, sortable:false,align:'right'},
+                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:180, sortable:false,align:'right'},
+                    {display:'합계', name:'exmpAmntTotSum',width:250, sortable:false,align:'right'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	module.$('totalCount').val($.number(data.totalCount));
-        	module.$('totExmpAmntSum').val(data.totExmpAmntSum);
-        	module.$('totExmpAmntPaSum').val(data.totExmpAmntPaSum);
-        	module.$('totExmpAmntTotSum').val(data.totExmpAmntTotSum);
+        	module.$('#totalCount').val($.number(data.totalCount));
+        	module.$('#totExmpAmntSum').val(data.totExmpAmntSum);
+        	module.$('#totExmpAmntPaSum').val(data.totExmpAmntPaSum);
+        	module.$('#totExmpAmntTotSum').val(data.totExmpAmntTotSum);
             return data;
         }
     });
@@ -76,9 +76,9 @@ GamSocStatsModule.prototype.onButtonClick = function(buttonId) {
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocStatsSearchForm');
         	break;
-        case 'popupAgentInfo' : //업체코드버튼
-			this.doExecuteDialog('selectAgentInfo', '업체 선택',
-					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
+					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
         	break;
     }
 };
@@ -106,9 +106,9 @@ GamSocStatsModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocStatsModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectAgentInfo' : //업체조회
-    	 this.$("#sAppAgentCode").val(value["agentCode"]);
-    	 this.$("#sAppAgentName").val(value["agentName"]);
+     case 'selectEntrpsInfo' : //업체조회
+    	 this.$("#sExmpAgentCode").val(value["agentCode"]);
+    	 this.$("#sExmpAgentName").val(value["firmKorNm"]);
 		 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -133,7 +133,7 @@ var module_instance = new GamSocStatsModule();
                             <th>항코드</th>
                             <td>
                                 <select id="sPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>
@@ -161,9 +161,9 @@ var module_instance = new GamSocStatsModule();
                         <tr>
                             <th>업체코드</th>
                             <td>
-                                <input id="sExamAgentCode" type="text" size="7">
-                            	<input id="sExamAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupAgentInfo" class="popupButton">선택</button>
+                                <input id="sExmpAgentCode" type="text" size="7">
+                            	<input id="sExmpAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>조회월</th>
                             <td>

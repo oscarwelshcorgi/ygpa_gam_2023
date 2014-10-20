@@ -133,9 +133,9 @@ public class GamSocStatsController {
 				resultVO = gamSocStatsService.selectSocMonthBasisEntprStatsListTotSum(searchVO);
 			}
 		}
-    	
+		
     	totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
-    	
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
  
@@ -143,9 +143,9 @@ public class GamSocStatsController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", socStatsList);
     	map.put("searchOption", searchVO);
-    	map.put("totExmpAmntSum", (resultVO != null) ? resultVO.getTotExmpAmntSum() : 0);
-    	map.put("totExmpAmntPaSum", (resultVO != null) ? resultVO.getTotExmpAmntPaSum() : 0);
-    	map.put("totExmpAmntTotSum", (resultVO != null) ? resultVO.getTotExmpAmntTotSum() : 0);
+    	map.put("totExmpAmntSum", (resultVO != null) ? resultVO.getTotExmpAmntSum() : "0");
+    	map.put("totExmpAmntPaSum", (resultVO != null) ? resultVO.getTotExmpAmntPaSum() : "0");
+    	map.put("totExmpAmntTotSum", (resultVO != null) ? resultVO.getTotExmpAmntTotSum() : "0");
     	
     	return map;
     }    

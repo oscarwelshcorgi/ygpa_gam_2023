@@ -92,11 +92,10 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonI
         case 'btnPrint' : //인쇄버튼
         	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
         	break;
-        case 'popupAgentInfo' : //업체코드버튼
-			this.doExecuteDialog('selectAgentInfo', '업체 선택',
-					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
-        	break;        	
-        	
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
+					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+        	break;
     }
 };
 
@@ -125,7 +124,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onClosePopup = function(popupId,
     switch (popupId) {
      case 'selectAgentInfo' : //업체조회
   	 	 this.$("#sAppAgentCode").val(value["agentCode"]);
-  	 	 this.$("#sAppAgentName").val(value["agentName"]);
+  	 	 this.$("#sAppAgentName").val(value["firmKorNm"]);
 		 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -160,7 +159,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7" />
                             	<input id="sAppAgentName" type="text" size="10" disabled="disabled" />&nbsp; &nbsp;
-                            	<button id="popupAgentInfo" class="popupButton">선택</button>
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
 								<button id="searchBtn" class="buttonSearch">조회</button>

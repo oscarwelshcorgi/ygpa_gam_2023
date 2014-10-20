@@ -88,10 +88,10 @@ GamSocAgentProcessRealloadNewModule.prototype.onButtonClick = function(buttonId)
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
 					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
         	break;
-        case 'popupAgentInfo' : //업체코드 선택
-			this.doExecuteDialog('selectAgentInfo', '업체 선택',
-					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
-        	break;        	        	
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
+					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+        	break;
     }
 };
 
@@ -122,9 +122,9 @@ GamSocAgentProcessRealloadNewModule.prototype.onClosePopup = function(popupId, m
 	   	 this.$("#sFeeTp").val(value["feeTp"]);
 	   	 this.$("#sFeeTpName").val(value["feeTpKorNm"]);
 	   	 break;
-     case 'selectAgentInfo' : //업체조회
+     case 'selectEntrpsInfo' : //업체조회
 	   	 this.$("#sAgentCode").val(value["agentCode"]);
-	   	 this.$("#sAgentName").val(value["agentName"]);
+	   	 this.$("#sAgentName").val(value["firmKorNm"]);
 		 break;    	 
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -179,7 +179,7 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                             <td colspan="3">
                                 <input id="sAgentCode" type="text" size="7">
                             	<input id="sAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupAgentInfo" class="popupButton">선택</button>
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             	<select id="sAgentGubun">
                             		<option value="1">신청업체</option>
                             		<option value="2">면제업체</option>

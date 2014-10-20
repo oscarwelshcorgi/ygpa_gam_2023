@@ -180,9 +180,9 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
 					'<c:url value="/popup/showSocApplyInfo.do"/>', opts);
         	break;
-        case 'popupAgentInfo' : //면제업체 조회
-			this.doExecuteDialog('selectAgentInfo', '면제업체 선택',
-					'<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+        case 'popupEntrpsInfo' : //면제업체 조회버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
+					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
         	break;
         case 'popupFacCd' : //시설코드조회
         	opts = { prtAtCode : this.$('#exmpPrtAtCode').val() };
@@ -231,9 +231,9 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 this.$("#appPrtAtCode").val(value["appPrtAtCode"]);
     	 this.$("#prtAtCode").val(value["prtAtCode"]);
     	 break;
-     case 'selectAgentInfo' : //면제업체 조회
+     case 'selectEntrpsInfo' : //면제업체 조회
     	 this.$("#exmpAgentCode").val(value["agentCode"]);
-    	 this.$("#exmpAgentName").val(value["agentName"]);
+    	 this.$("#exmpAgentName").val(value["firmKorNm"]);
     	 break;
      case 'selectFacilCd' : //시설조회
     	 this.$("#facCode").val(value["facCode"]);
@@ -389,7 +389,7 @@ var module_instance = new GamSocExmpMngtModule();
                                 <td colspan="3">
                                     <input type="text" size="9" id="exmpAgentCode" maxlength="10" readonly/>
                                     <input type="text" size="25" id="exmpAgentName" disabled/>
-                                    <button id="popupAgentInfo" class="popupButton">선택</button>
+                                    <button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
 								<th width="10%" height="18">면제유형</th>
                                 <td>
