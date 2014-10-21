@@ -779,6 +779,7 @@ public class GamCmmnCntrRentFeeMngtController {
 	 		paramMap.put("nhtPrintYn", "N");
 	 		paramMap.put("payTmlmt", gamAssetRentFeeMngtVO.getPayTmlmt());
 	 		paramMap.put("userName", loginVo.getName());
+	 		paramMap.put("reimChrgeKnd", "DB");
 
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);
 

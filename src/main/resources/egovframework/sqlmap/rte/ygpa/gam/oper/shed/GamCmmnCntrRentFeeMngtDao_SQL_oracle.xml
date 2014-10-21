@@ -798,13 +798,19 @@
 			      S.GR_AR,
 			      S.GR_USAGE_PD_FROM,
 			      S.GR_USAGE_PD_TO,
-			      S.PRMISN_DT
+			      S.PRMISN_DT,
+			      S.REIM_FEE,
+			      S.REIM_CHRGE_KND,
+			      S.REIM_FEE_NTICNO
 			    FROM
 			      (SELECT L.NTIC_CNT ,
 			        L.FCLTY_SE ,
 			        L.CHRGE_KND ,
 			        L.ENTRPSCD ,
 			        L.ENTRPS_NM ,
+			        L.REIM_FEE,
+			        L.REIM_CHRGE_KND,
+			        L.REIM_FEE_NTICNO,
 			        TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM ,
 			        TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO ,
 			        L.ACCNUT_YEAR ,
@@ -1110,6 +1116,7 @@
 							       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
 							       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
 							       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+							       , L.REIM_FEE
 				  FROM ASSETS_RENT_F A,
 				       LEV_REQEST_F L
 				 WHERE 1 = 1
@@ -1176,6 +1183,7 @@
 		       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
 		       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
 		       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+		       , NVL(L.REIM_FEE, 0) REIM_FEE
 		  FROM ASSETS_RENT_F A,
 		       LEV_REQEST_F L
 		 WHERE 1 = 1
@@ -1222,6 +1230,18 @@
 		     RM     = #rm#
 		     , UPD_USR      = #updUsr#
 		     , UPDT_DT      = SYSDATE
+		     <isNotNull prepend="," property="reimFee" >
+	        	REIM_FEE = #reimFee#
+	        	<isNotEqual prepend="," property="reimFee" compareValue="0">
+	        	REIM_FEE_NTICNO=''
+	        	, REIM_CHRGE_KND = 'DB'
+	        	, NTIC_AMT=FEE+NVL(VAT,0)+#reimFee#
+	        	</isNotEqual>
+	        	<isEqual prepend="," property="reimFee" compareValue="0">
+	        	REIM_CHRGE_KND = ''
+	        	, NTIC_AMT=FEE+NVL(VAT,0)
+	        	</isEqual>
+        	</isNotNull>
 		WHERE  NTIC_CNT     = #nticCnt#
 		AND    PRT_AT_CODE  = #prtAtCode#
 		AND    MNG_YEAR     = #mngYear#
