@@ -646,6 +646,7 @@
                                 , A.QUAY_CD
                                 , A.APPLC_TARIFF APPLC_TARIFF_STR
                                 , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
+                                , NVL(USAGE_PD_CHK,'N')  AS USAGE_PD_CHK
                             FROM ASSETS_RENT_DETAIL_F A
 							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
 																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
@@ -740,6 +741,7 @@
                                            , GIS_ASSETS_SUB_CD
                                            , GIS_ASSETS_PRT_AT_CODE
                                            , USAGE_AR
+                                           , USAGE_PD_CHK
 		                                 )
 		                          VALUES (
 		                          	(SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_DETAIL_F),
@@ -778,6 +780,7 @@
                                            , #gisAssetsSubCd#
                                            , #gisAssetsPrtAtCode#
                                            , REPLACE(#usageAr#,',','')
+                                           , #usagePdChk#
 		                                 )
     </insert>
 
@@ -814,6 +817,7 @@
 		       , UPDT_DT                = SYSDATE
 		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		       , QUAY_CD                = #quayCd#
+		       , USAGE_PD_CHK           = #usagePdChk#
 		  WHERE  ASSETS_USAGE_SEQ       = #assetsUsageSeq#
 		    AND  MNG_YEAR               = #detailMngYear#
 		    AND  MNG_NO                 = #detailMngNo#

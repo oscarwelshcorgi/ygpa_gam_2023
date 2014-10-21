@@ -228,10 +228,16 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
         module.$('#gamAssetRentDetailForm :input').val('');
-
         module.makeFormValues('#gamAssetRentDetailForm', row);
         module._editData=module.getFormValues('#gamAssetRentDetailForm', row);
         module._editRow=module.$('#assetRentDetailList').selectedRowIds()[0];
+		if(module._editData['usagePdChk'] == 'Y') {
+			module.$("#usagePdChk").attr("checked",true);
+			module.$('#usagePdChk').val('Y');
+		}else{
+			module.$("#usagePdChk").attr("checked",false);
+			module.$('#usagePdChk').val('N');
+		}
 
         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
@@ -421,6 +427,17 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
  */
  	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
 	this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+
+	this.$('#usagePdChk').on('change', {module: this}, function(event) {
+		if(event.data.module.$('#usagePdChk').is(":checked")==true){
+			event.data.module.$('#usagePdChk').val('Y');
+			alert('신청시간을 일별 계산 합니다.');
+		}else{
+			event.data.module.$('#usagePdChk').val('N');
+			alert('신청시간을 월별 계산 합니다.');
+		}
+
+    });
 };
 
 GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
@@ -687,7 +704,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         	exemptCnt = dayUseCnt;
             calFee = 0;
         } else {
-        	if(this.$("#loginUserId").val() == '11046'){
+        	if(this.$("#usagePdChk").is(":checked") == true){
             calFee = olnlp*applcTariff/365*usageAr*usageDay - rdcxptFee;
             // 서용복 과장님 일단위 계산
         	}
@@ -697,7 +714,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         }
         var calcStr="";
 
-        if(this.$("#loginUserId").val() == '11046'){
+        if(this.$("#usagePdChk").is(":checked") == true){
 	        if(usageMonths.day) {
 	        	calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)/365*사용면적("+usageAr+"m²)*(사용일수("+usageDay+"일/)";
 	        }
@@ -751,7 +768,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
  */
 
-    	if(this.$("#loginUserId").val() == '11046'){
+    	if(this.$("#usagePdChk").is(":checked") == true){
     		calFee = Math.round(calFee/10)*10;
         	}
         	else{
@@ -859,7 +876,7 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         	exemptCnt = dayUseCnt;
             calFee = 0;
         } else {
-        	if(this.$("#loginUserId").val() == '11046'){
+        	if(this.$("#usagePdChk").is(":checked") == true){
         			var usageDay = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
 					calFee = applcPrice / 30 * usageAr * usageDay  - rdcxptFee;
         	}else{
@@ -867,7 +884,7 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         	}
         }
         var calcStr="";
-        if(this.$("#loginUserId").val() == '11046'){
+        if(this.$("#usagePdChk").is(":checked") == true){
         	var usageDay = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
         	calcStr="( 적용단가("+$.number(applcPrice, false)+"원)/30*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+usageDay+"일수)";
         }else{
@@ -1190,7 +1207,6 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
                 //// console.log(inputVO);
                 // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-
                 this.doAction('<c:url value="/oper/gnrl/gamSavePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
                     if(result.resultCode == 0){
                     	module.loadData();
@@ -1277,7 +1293,14 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
              this._editData=this.getFormValues('#gamAssetRentDetailForm', {_updtId:'I'});
 //             this._editRow=this.$('#assetRentDetailList').flexGetData().length;
 				this._editRow=null;
-
+				// 11046 서용복 과장님 사용일 계산
+				if( this.$("#loginUserId").val()=='11046'){
+		        	this.$("#usagePdChk").attr("checked",true);
+		        	this.$("#usagePdChk").val('Y');
+		        }else{
+		        	this.$("#usagePdChk").attr("checked",false);
+		        	this.$("#usagePdChk").val('N');
+		        }
             break;
 
         // 자산임대상세 삭제 (Grid상에서만 삭제됨)
@@ -2258,8 +2281,12 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">적용방법</th>
-                                <td colspan="5">
+                                <td colspan="3">
                                     <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="1"/>
+                                </td>
+                                <th width="10%" height="18">신청기간 일별 체크</th>
+                                <td>
+                                	<input type="checkbox" class="calcInput" id="usagePdChk" style="width: 20px;height: 20px; vertical-align: middle;" value="N"/>
                                 </td>
                               </tr>
                              <tr class="nationAssetLaw">
