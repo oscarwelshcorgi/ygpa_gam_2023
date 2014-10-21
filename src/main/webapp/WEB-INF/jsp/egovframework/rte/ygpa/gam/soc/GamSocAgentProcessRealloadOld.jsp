@@ -109,8 +109,6 @@ GamSocAgentProcessRealloadOldModule.prototype.onTabChange = function(newTabId, o
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentProcessRealloadOldModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectApplyInfo' : //면제요청 조회
-	   	 break;
 	 default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;

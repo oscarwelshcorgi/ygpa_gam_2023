@@ -47,17 +47,17 @@ GamSocStatsModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'요금종류', name:'feeTp',width:100, sortable:false,align:'center'},
                     {display:'요금종류명', name:'feeNm',width:150, sortable:false,align:'center'},
-                    {display:'상계금액(청)', name:'exmpAmntSum',width:180, sortable:false,align:'right'},
-                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:180, sortable:false,align:'right'},
-                    {display:'합계', name:'exmpAmntTotSum',width:250, sortable:false,align:'right'}
+                    {display:'상계금액(청)', name:'exmpAmntSum',width:180, sortable:false,align:'right',displayFormat:'number'},
+                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:180, sortable:false,align:'right',displayFormat:'number'},
+                    {display:'합계', name:'exmpAmntTotSum',width:250, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
         	module.$('#totalCount').val($.number(data.totalCount));
-        	module.$('#totExmpAmntSum').val(data.totExmpAmntSum);
-        	module.$('#totExmpAmntPaSum').val(data.totExmpAmntPaSum);
-        	module.$('#totExmpAmntTotSum').val(data.totExmpAmntTotSum);
+        	module.$('#totExmpAmntSum').val($.number(data.totExmpAmntSum));
+        	module.$('#totExmpAmntPaSum').val($.number(data.totExmpAmntPaSum));
+        	module.$('#totExmpAmntTotSum').val($.number(data.totExmpAmntTotSum));
             return data;
         }
     });
@@ -224,7 +224,7 @@ var module_instance = new GamSocStatsModule();
 								<th width="18%" height="25">합계금액</th>
 								<td><input type="text" size="20" id="totExmpAmntTotSum" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button id="btnPrint">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocStatsSearchForm" data-url="<c:url value='/soc/gamSelectSocStatsListPrint.do'/>">인쇄</button>
         	                    </td>
 							</tr>
 						</table>
