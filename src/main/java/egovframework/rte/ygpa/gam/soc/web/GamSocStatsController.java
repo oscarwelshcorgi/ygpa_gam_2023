@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -149,5 +151,74 @@ public class GamSocStatsController {
     	
     	return map;
     }    
-    
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocStatsListPrint.do")
+	public String selectSocStatsListPrint(@RequestParam Map<String, Object> socStatsOpt, ModelMap model) throws Exception {
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+    	String printPageName = null;
+   
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocApplyDtlsPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocStatsVO searchVO;
+		
+		searchVO = mapper.convertValue(socStatsOpt, GamSocStatsVO.class);
+		
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List socStatsList = null;
+		GamSocStatsVO resultVO = null;
+		
+		if(searchVO.getsSearchTarget().equals("1")) {
+			//업체별 투자비 보전 집계 조회
+			socStatsList = gamSocStatsService.selectSocEntprStatsList(searchVO);
+			resultVO = gamSocStatsService.selectSocEntprStatsListTotSum(searchVO);
+			printPageName = "/ygpa/gam/soc/GamSocStatsPrint1";
+		} else if(searchVO.getsSearchTarget().equals("2")) {
+			//웗별 투자비 보전 집계 조회
+			socStatsList = gamSocStatsService.selectSocMonthStatsList(searchVO);
+			resultVO = gamSocStatsService.selectSocMonthStatsListTotSum(searchVO);
+			printPageName = "/ygpa/gam/soc/GamSocStatsPrint2";
+		} else {
+			if(searchVO.getsBasis().equals("1")) {
+				//업체기준 월별 투자비 보전 집계 내역
+				socStatsList = gamSocStatsService.selectSocEntprBasisMonthStatsList(searchVO);
+				resultVO = gamSocStatsService.selectSocEntprBasisMonthStatsListTotSum(searchVO);
+				printPageName = "/ygpa/gam/soc/GamSocStatsPrint3";
+			}
+			else {
+				//월기준 업체별 투자비 보전 집계 내역
+				socStatsList = gamSocStatsService.selectSocMonthBasisEntprStatsList(searchVO);
+				resultVO = gamSocStatsService.selectSocMonthBasisEntprStatsListTotSum(searchVO);
+				printPageName = "/ygpa/gam/soc/GamSocStatsPrint4";
+			}
+		}
+    	
+    	model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+    	model.addAttribute("resultList", socStatsList);
+    	model.addAttribute("totalCount", (resultVO != null) ? resultVO.getTotCnt() : 0);
+    	
+    	model.addAttribute("searchFr", searchVO.getsSearchFr());
+    	model.addAttribute("searchTo", searchVO.getsSearchTo());
+    	model.addAttribute("searchAgentCode", searchVO.getsExmpAgentCode());
+    	    	
+    	model.addAttribute("totalCount", (resultVO != null) ? resultVO.getTotCnt() : "0");
+    	model.addAttribute("totExmpAmntSum", (resultVO != null) ? resultVO.getTotExmpAmntSum() : "0");
+    	model.addAttribute("totExmpAmntPaSum", (resultVO != null) ? resultVO.getTotExmpAmntPaSum() : "0");
+    	model.addAttribute("totExmpAmntTotSum", (resultVO != null) ? resultVO.getTotExmpAmntTotSum() : "0");
+		
+		return printPageName;
+	}
+	
 }
