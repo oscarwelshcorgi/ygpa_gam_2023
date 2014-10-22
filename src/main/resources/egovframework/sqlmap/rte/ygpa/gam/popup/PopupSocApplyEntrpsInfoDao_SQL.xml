@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupSocApplyEntrpsInfoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocApplyEntrpsInfoVO"/>
+    
+
+    <select id="gamPopupSocApplyEntrpsInfoDao.selectSocApplyEntrpsInfoList_S" parameterClass="gamPopupSocApplyEntrpsInfoVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+
+							SELECT A.PRT_AT_CODE
+					             , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(A.PRT_AT_CODE) PRT_AT_NM
+					             , A.APP_PRT_AT_CODE
+					             , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(A.APP_PRT_AT_CODE) APP_PRT_AT_NM
+					             , A.CONST_NO
+					             , A.CMPL_YR
+					             , B.FEE_TP
+					             , A.APP_AGENT_CODE
+					             , P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.APP_AGENT_CODE) APP_AGENT_NM
+					             , P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(B.APP_PRT_AT_CODE, B.FEE_TP) FEE_TP_NM
+					             , A.USE_NO
+					             , A.EXMP_AMNT
+					             , A.EXMP_ACC
+					             , TO_CHAR(A.PERIOD_FR,'YYYY-MM-DD') PERIOD_FR
+					             , TO_CHAR(A.PERIOD_TO,'YYYY-MM-DD') PERIOD_TO
+					             , DECODE(A.RATE_GUBUN,'1','과거','2','현재','') RATE_GUBUN_NM
+					             , A.ITEM
+					             , TO_CHAR(A.APPL_DATE,'YYYY-MM-DD') APPL_DATE
+					             , TO_CHAR(A.PERF_DT,'YYYY-MM-DD') PERF_DT
+					             , A.USE_YN
+					        FROM P2MGR.SOC_APPLY_F@YGPA_P2MGR A, P2MGR.SOC_FEE_F@YGPA_P2MGR B
+					        WHERE 1=1
+							
+							<isNotEmpty property="appPrtAtCode">
+								AND A.APP_PRT_AT_CODE LIKE '%' || #appPrtAtCode# || '%'
+							</isNotEmpty>
+							<isEqual property="gubun" compareValue="R">
+								AND B.FEE_TP LIKE 'R%'
+							</isEqual>
+							<isEqual property="gubun" compareValue="L">
+								AND B.FEE_TP = 'L0'
+							</isEqual>
+							<isNotEmpty property="useYn">
+								AND A.USE_YN = 'Y'
+							</isNotEmpty>
+							<isNotEmpty property="appAgentCode">
+								AND A.APP_AGENT_CODE LIKE  '%' || #appAgentCode# || '%'
+							</isNotEmpty>
+							<isNotEmpty property="firmKorNm">
+								AND P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.APP_AGENT_CODE) LIKE  '%' || #firmKorNm# || '%'
+							</isNotEmpty>
+							
+					        AND A.PRT_AT_CODE = B.PRT_AT_CODE
+					        AND A.CMPL_YR = B.CMPL_YR
+					        AND A.CONST_NO = B.CONST_NO
+					        AND A.APP_PRT_AT_CODE = B.APP_PRT_AT_CODE
+					        AND A.APP_AGENT_CODE = B.APP_AGENT_CODE
+					        AND A.USE_NO = B.USE_NO
+                             
+                            
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupSocApplyEntrpsInfoDao.selectSocApplyEntrpsInfoListTotCnt_S" parameterClass="gamPopupSocApplyEntrpsInfoVO" resultClass="int">
+        SELECT 
+        	COUNT(*) totcnt 
+        FROM P2MGR.SOC_APPLY_F@YGPA_P2MGR A, P2MGR.SOC_FEE_F@YGPA_P2MGR B
+        WHERE 1=1
+		
+		<isNotEmpty property="appPrtAtCode">
+			AND A.APP_PRT_AT_CODE LIKE '%' || #appPrtAtCode# || '%'
+		</isNotEmpty>
+		<isEqual property="gubun" compareValue="R">
+			AND B.FEE_TP LIKE 'R%'
+		</isEqual>
+		<isEqual property="gubun" compareValue="L">
+			AND B.FEE_TP = 'L0'
+		</isEqual>
+		<isNotEmpty property="useYn">
+			AND A.USE_YN = 'Y'
+		</isNotEmpty>
+		<isNotEmpty property="appAgentCode">
+			AND A.APP_AGENT_CODE LIKE  '%' || #appAgentCode# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="firmKorNm">
+			AND P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.APP_AGENT_CODE) LIKE  '%' || #firmKorNm# || '%'
+		</isNotEmpty>
+		
+        AND A.PRT_AT_CODE = B.PRT_AT_CODE
+        AND A.CMPL_YR = B.CMPL_YR
+        AND A.CONST_NO = B.CONST_NO
+        AND A.APP_PRT_AT_CODE = B.APP_PRT_AT_CODE
+        AND A.APP_AGENT_CODE = B.APP_AGENT_CODE
+        AND A.USE_NO = B.USE_NO
+    </select>
+</sqlMap>

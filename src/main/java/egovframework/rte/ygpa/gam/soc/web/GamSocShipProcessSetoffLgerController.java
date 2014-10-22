@@ -103,7 +103,9 @@ public class GamSocShipProcessSetoffLgerController {
 	public @ResponseBody Map selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
-		long sumExmpAmnt;
+		long sumR1Fare,sumR2Fare,sumR3Fare,sumR6Fare,sumRFare;
+		long sumR1FarePa,sumR2FarePa,sumR3FarePa,sumR6FarePa,sumRFarePa;
+		long sumR1All,sumR2All,sumR3All,sumR6All,sumRAll;
 		String feeTp, feeTpNm;
     	Map map = new HashMap();
 
@@ -127,82 +129,27 @@ public class GamSocShipProcessSetoffLgerController {
 		//투자비보전(선석)상계처리대장 리스트
     	List socShipProcessSetoffLgerList = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerList(searchVO);
     	
-    	//투자비보전(선석)상계처리대장 리스트 총갯수
-    	totalCnt = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerListTotCnt(searchVO);
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", socShipProcessSetoffLgerList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-    
-    	
-	/**
-     * 투자비보전(선석)상계처리대장 상세목록을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/soc/gamSocShipProcessSetoffLgerDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectSocShipProcessSetoffLgerDetail(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
-		
-		int totalCnt, page, firstIndex;
-		long sumR1Fare,sumR2Fare,sumR3Fare,sumR6Fare,sumRFare;
-		long sumR1FarePa,sumR2FarePa,sumR3FarePa,sumR6FarePa,sumRFarePa;
-		long sumR1All,sumR2All,sumR3All,sumR6All,sumRAll;
-		
-		String feeTp, feeTpNm;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-
-		//투자비보전(선석)상계처리대장 상세내역 리스트
-    	List socShipProcessSetoffLgerDetail = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerDetail(searchVO);
-    	
     	//투자비보전(선석)상계처리대장 상세내역 리스트 총갯수 및 금액합계
-    	GamSocShipProcessSetoffLgerVO socShipProcessSetoffLgerDetailSum = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerDetailSum(searchVO);
+    	GamSocShipProcessSetoffLgerVO socShipProcessSetoffLgerListSum = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerListSum(searchVO);
     	
-		totalCnt = socShipProcessSetoffLgerDetailSum.getTotalCnt();
-		sumR1Fare = socShipProcessSetoffLgerDetailSum.getSumR1Fare();
-		sumR2Fare = socShipProcessSetoffLgerDetailSum.getSumR2Fare();
-		sumR3Fare = socShipProcessSetoffLgerDetailSum.getSumR3Fare();
-		sumR6Fare = socShipProcessSetoffLgerDetailSum.getSumR6Fare();
-		sumRFare = socShipProcessSetoffLgerDetailSum.getSumRFare();
+		totalCnt = socShipProcessSetoffLgerListSum.getTotalCnt();
+		sumR1Fare = socShipProcessSetoffLgerListSum.getSumR1Fare();
+		sumR2Fare = socShipProcessSetoffLgerListSum.getSumR2Fare();
+		sumR3Fare = socShipProcessSetoffLgerListSum.getSumR3Fare();
+		sumR6Fare = socShipProcessSetoffLgerListSum.getSumR6Fare();
+		sumRFare = socShipProcessSetoffLgerListSum.getSumRFare();
 		
-		sumR1FarePa = socShipProcessSetoffLgerDetailSum.getSumR1FarePa();
-		sumR2FarePa = socShipProcessSetoffLgerDetailSum.getSumR2FarePa();
-		sumR3FarePa = socShipProcessSetoffLgerDetailSum.getSumR3FarePa();
-		sumR6FarePa = socShipProcessSetoffLgerDetailSum.getSumR6FarePa();
-		sumRFarePa = socShipProcessSetoffLgerDetailSum.getSumRFarePa();
+		sumR1FarePa = socShipProcessSetoffLgerListSum.getSumR1FarePa();
+		sumR2FarePa = socShipProcessSetoffLgerListSum.getSumR2FarePa();
+		sumR3FarePa = socShipProcessSetoffLgerListSum.getSumR3FarePa();
+		sumR6FarePa = socShipProcessSetoffLgerListSum.getSumR6FarePa();
+		sumRFarePa = socShipProcessSetoffLgerListSum.getSumRFarePa();
 		
-		sumR1All = socShipProcessSetoffLgerDetailSum.getSumR1All();
-		sumR2All = socShipProcessSetoffLgerDetailSum.getSumR2All();
-		sumR3All = socShipProcessSetoffLgerDetailSum.getSumR3All();
-		sumR6All = socShipProcessSetoffLgerDetailSum.getSumR6All();
-		sumRAll = socShipProcessSetoffLgerDetailSum.getSumRAll();
+		sumR1All = socShipProcessSetoffLgerListSum.getSumR1All();
+		sumR2All = socShipProcessSetoffLgerListSum.getSumR2All();
+		sumR3All = socShipProcessSetoffLgerListSum.getSumR3All();
+		sumR6All = socShipProcessSetoffLgerListSum.getSumR6All();
+		sumRAll = socShipProcessSetoffLgerListSum.getSumRAll();
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -228,10 +175,13 @@ public class GamSocShipProcessSetoffLgerController {
     	map.put("sumR6All", sumR6All);
     	map.put("sumRAll", sumRAll);
 
-    	map.put("resultList", socShipProcessSetoffLgerDetail);
+    	map.put("resultList", socShipProcessSetoffLgerList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
+    
+    	
+	
 
 }

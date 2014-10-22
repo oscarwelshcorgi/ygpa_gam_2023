@@ -31,32 +31,15 @@ public interface GamSocFrghtProcessSetoffLgerService {
 	 * @exception Exception
 	 */
 	List selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
+
 	
 	
 	/**
-	 * 투투자비보전(화물)상계처리대장 총갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 투자비보전(화물)상계처리대장 총갯수
-	 * @exception Exception
-	 */
-	int selectSocFrghtProcessSetoffLgerListTotCnt(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
-	
-	
-	/**
-	 * 투자비보전(화물)상계처리대장 상세목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 투투자비보전(화물)상계처리대장 상세목록
-	 * @exception Exception
-	 */
-	List selectSocFrghtProcessSetoffLgerDetail(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
-	
-	
-	/**
-	 * 투자비보전(화물)상계처리대장 상세내역 총갯수 및 금액합계를 조회한다.
+	 * 투자비보전(화물)상계처리대장 총갯수 및 금액합계를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 투투자비보전(화물)상계처리대장 상세내역 총갯수 및 금액합계
 	 * @exception
 	 */
-	GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerDetailSum(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
+	GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerListSum(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
 
 }

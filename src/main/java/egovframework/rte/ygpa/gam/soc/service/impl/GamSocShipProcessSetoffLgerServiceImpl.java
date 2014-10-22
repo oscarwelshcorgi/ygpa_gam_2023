@@ -47,40 +47,16 @@ public class GamSocShipProcessSetoffLgerServiceImpl extends AbstractServiceImpl 
 	public List selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
 		return gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList(searchVO);
 	}
-	
-	
-	/**
-	 * 투자비보전(선석)상계처리대장 총갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 투자비보전(선석)상계처리대장 총갯수
-	 * @exception Exception
-	 */
-	public int selectSocShipProcessSetoffLgerListTotCnt(GamSocShipProcessSetoffLgerVO searchVO)  throws Exception{
-		return gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListTotCnt(searchVO);
-	}
-	
-	
-	/**
-	 * 투자비보전(선석)상계처리대장 상세내역 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return Map
-	 * @exception Exception
-	 */
-	@Override
-	public List selectSocShipProcessSetoffLgerDetail(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
-		return gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerDetail(searchVO);
-	}
-	
 
 	/**
-	 * 투자비보전(선석)상계처리대장 상세내역 총갯수 및 금액합계를 조회한다.
+	 * 투자비보전(선석)상계처리대장 총갯수 및 금액합계를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
 	@Override
-	public GamSocShipProcessSetoffLgerVO selectSocShipProcessSetoffLgerDetailSum(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
-		return gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerDetailSum(searchVO);
+	public GamSocShipProcessSetoffLgerVO selectSocShipProcessSetoffLgerListSum(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
+		return gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListSum(searchVO);
 	}
 
 }

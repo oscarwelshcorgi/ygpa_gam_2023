@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamSocFrghtProcessSetoffLgerSearchForm">
+            <field property="sAppPrtAtCode" depends="required">
+                <arg0 key="등록항구" resource="false"/>
+            </field>
+            <field property="sPrtAtCode" depends="required">
+                <arg0 key="공사항구" resource="false"/>
+            </field>
+            <field property="sCmplYr" depends="required">
+                <arg0 key="문서번호 앞의 항목" resource="false"/>
+            </field>
+            <field property="sConstNo" depends="required">
+                <arg0 key="문서번호 뒤의 항목" resource="false"/>
+            </field>
+            <field property="sFeeTp" depends="required">
+                <arg0 key="요금종류" resource="false"/>
+            </field>
+            <field property="sUseNo" depends="required">
+                <arg0 key="신청횟수" resource="false"/>
+            </field>
+            <field property="sAppAgentCode" depends="required">
+                <arg0 key="신청업체" resource="false"/>
+            </field>
+            <field property="sDtFr" depends="required, date">
+                <arg0 key="상계기간 시작일" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="sDtTo" depends="required, date">
+                <arg0 key="상계기간 종료일" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+			<field property="sIoDt" depends="required, date">
+                <arg0 key="입출항일자 시작일" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="sIoDt2" depends="required, date">
+                <arg0 key="입출항일자 종료일" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+
+</form-validation>

@@ -39,37 +39,15 @@ public class GamSocFrghtProcessSetoffLgerDAO extends YGPAAbstractDAO {
 		return list("gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerList", searchVO);
 	}
 	
-	
-	/**
-	 * 투자비보전(화물)상계처리대장 총갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 투자비보전(화물)상계처리대장 총갯수
-	 * @exception Exception
-	 */
-	public int selectSocFrghtProcessSetoffLgerListTotCnt(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception{
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerListTotCnt", searchVO);
-	}
-	
-	
-	/**
-	 * 투자비보전(화물)상계처리대장 상세내역 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return Map
-	 * @exception Exception
-	 */
-	public List selectSocFrghtProcessSetoffLgerDetail(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
-		return list("gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerDetail", searchVO);
-	}
-	
 
 	/**
-	 * 투자비보전(화물)상계처리대장 상세내역 총갯수 및 금액합계를 조회한다.
+	 * 투자비보전(화물)상계처리대장 총갯수 및 금액합계를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
-	public GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerDetailSum(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
-		return (GamSocFrghtProcessSetoffLgerVO) selectByPk("gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerDetailSum", searchVO);
+	public GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerListSum(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
+		return (GamSocFrghtProcessSetoffLgerVO) selectByPk("gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerListSum", searchVO);
 	}
 
 }

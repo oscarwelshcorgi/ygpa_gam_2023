@@ -103,7 +103,7 @@ public class GamSocFrghtProcessSetoffLgerController {
 	public @ResponseBody Map selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
-		long sumExmpAmnt;
+		long sumExmpAmnt,sumExmpAmntPa,sumAmnt;
 		String feeTp, feeTpNm;
     	Map map = new HashMap();
 
@@ -127,60 +127,8 @@ public class GamSocFrghtProcessSetoffLgerController {
 		//투자비보전(화물)상계처리대장 리스트
     	List socFrghtProcessSetoffLgerList = gamSocFrghtProcessSetoffLgerService.selectSocFrghtProcessSetoffLgerList(searchVO);
     	
-    	//투자비보전(화물)상계처리대장 리스트 총갯수
-    	totalCnt = gamSocFrghtProcessSetoffLgerService.selectSocFrghtProcessSetoffLgerListTotCnt(searchVO);
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", socFrghtProcessSetoffLgerList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-    
-    	
-	/**
-     * 투자비보전(화물)상계처리대장 상세목록을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/soc/gamSocFrghtProcessSetoffLgerDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectSocFrghtProcessSetoffLgerDetail(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
-		
-		int totalCnt, page, firstIndex;
-		long sumExmpAmnt,sumExmpAmntPa,sumAmnt;
-		String feeTp, feeTpNm;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-
-		//투자비보전(화물)상계처리대장 상세내역 리스트
-    	List socFrghtProcessSetoffLgerDetail = gamSocFrghtProcessSetoffLgerService.selectSocFrghtProcessSetoffLgerDetail(searchVO);
-    	
-    	//투자비보전(화물)상계처리대장 상세내역 리스트 총갯수 및 금액합계
-    	GamSocFrghtProcessSetoffLgerVO socFrghtProcessSetoffLgerDetailSum = gamSocFrghtProcessSetoffLgerService.selectSocFrghtProcessSetoffLgerDetailSum(searchVO);
+    	//투자비보전(화물)상계처리대장 리스트 총갯수 및 금액합계
+    	GamSocFrghtProcessSetoffLgerVO socFrghtProcessSetoffLgerDetailSum = gamSocFrghtProcessSetoffLgerService.selectSocFrghtProcessSetoffLgerListSum(searchVO);
     	
 		totalCnt = socFrghtProcessSetoffLgerDetailSum.getTotalCnt();
 		sumExmpAmnt = socFrghtProcessSetoffLgerDetailSum.getSumExmpAmnt();
@@ -196,10 +144,13 @@ public class GamSocFrghtProcessSetoffLgerController {
     	map.put("sumExmpAmnt", sumExmpAmnt);
     	map.put("sumExmpAmntPa", sumExmpAmntPa);
     	map.put("sumAmnt", sumAmnt);
-    	map.put("resultList", socFrghtProcessSetoffLgerDetail);
+    	map.put("resultList", socFrghtProcessSetoffLgerList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
+    
+    	
+	
 
 }

@@ -39,69 +39,38 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSocFrghtProcessSetoffLgerList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'공사항구', 		name:'prtAtCode',		width:80, 		sortable:false,		align:'center'},
-					{display:'공사항명', 		name:'prtAtNm',			width:120, 		sortable:false,		align:'center'},
-                    {display:'준공년도', 		name:'cmplYr',			width:80, 		sortable:false,		align:'center'},
-                    {display:'공사번호', 		name:'constNo',			width:120, 		sortable:false,		align:'center'},
-                    {display:'공사명', 		name:'socCnstNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'요청항구', 		name:'appPrtAtCode',	width:80, 		sortable:false,		align:'center'},
-                    {display:'요청항명', 		name:'appPrtAtNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'요청업체', 		name:'appAgentCode',	width:120, 		sortable:false,		align:'center'},
-                    {display:'요청업체명', 	name:'appAgentNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'신청횟수', 		name:'useNo',			width:60, 		sortable:false,		align:'center'},
-                    {display:'총공사금액',		name:'totalAmnt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'보전처리대상금액',	name:'exmpAmnt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'}
-                    ],
-        showTableToggleBtn: false,
-        height: '150',
-        preProcess: function(module,data) {
-
-            return data;
-        }
-    });
-    
-    this.$("#socFrghtProcessSetoffLgerList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		
-    	var detailInput = [
-   		   				{name: 'sPrtAtCode', value: row["sPrtAtCode"]},
-   		   				{name: 'sFrDt', value: row["sFrDt"]},
-   		   				{name: 'sToDt', value: row["sToDt"]},
-   		   				{name: 'sExmpAgentCode', value: row["sExmpAgentCode"]},
-   		   				{name: 'sVsslKey', value: row["sVsslKey"]},
-   		   				{name: 'feeTp', value: row["feeTp"]}
-   		                   ]; 
-		module.$('#socFrghtProcessSetoffLgerDetail').flexOptions({params:detailInput}).flexReload();
-	});
-    
-    
-    this.$("#socFrghtProcessSetoffLgerDetail").flexigrid({
-        module: this,
-        url: '<c:url value="/soc/gamSocFrghtProcessSetoffLgerDetail.do" />',
-        dataType: 'json',
-        colModel : [
 					{display:'선명', 			name:'dVsslKorNm',		width:80, 		sortable:false,		align:'center'},
-                    {display:'호출부호', 		name:'callLetter',		width:80, 		sortable:false,		align:'center'},
-                    {display:'입항횟수', 		name:'yicn',			width:60, 		sortable:false,		align:'center'},
-                    {display:'관리번호', 		name:'fiscalSocNo',		width:120, 		sortable:false,		align:'center'},
-                    {display:'상계일자', 		name:'billDt',			width:120, 		sortable:false,		align:'center'},
-                    {display:'적용요율', 		name:'standardFee',		width:60, 		sortable:false,		align:'center'},
-                    {display:'입출항일자', 	name:'ioDt',			width:120, 		sortable:false,		align:'center'},
-                    {display:'내외항', 		name:'ixtn',			width:80, 		sortable:false,		align:'center'},
-                    {display:'신고업체', 		name:'mictmc',			width:120, 		sortable:false,		align:'center'},
-                    {display:'신고업체명', 	name:'agentNm3',		width:150, 		sortable:false,		align:'center'},
-                    {display:'처리항구', 		name:'prtKorNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'요금종류', 		name:'feeTp',			width:80, 		sortable:false,		align:'center'},
-                    {display:'요금종류명', 	name:'feeTpKorNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'할인율코드', 	name:'dcCode',			width:60, 		sortable:false,		align:'center'},
-                    {display:'할인율(%)', 	name:'rate',			width:80, 		sortable:false,		align:'center'},
-                    {display:'운임톤', 		name:'realTn',			width:60, 		sortable:false,		align:'center'},
-                    {display:'상계금액(청)', 	name:'exmpAmnt',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
-                    {display:'상계금액(공사)', 	name:'exmpAmntPa',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
-                    {display:'특이사항', 		name:'remark',			width:200, 		sortable:false,		align:'center'}
+					{display:'호출부호', 		name:'callLetter',		width:80, 		sortable:false,		align:'center'},
+					{display:'입항횟수', 		name:'yicn',			width:60, 		sortable:false,		align:'center'},
+					{display:'관리번호', 		name:'fiscalSocNo',		width:120, 		sortable:false,		align:'center'},
+					{display:'상계일자', 		name:'billDt',			width:120, 		sortable:false,		align:'center'},
+					{display:'적용요율', 		name:'standardFee',		width:60, 		sortable:false,		align:'center'},
+					{display:'입출항일자', 	name:'ioDt',			width:120, 		sortable:false,		align:'center'},
+					{display:'내외항', 		name:'ixtn',			width:80, 		sortable:false,		align:'center'},
+					{display:'신고업체', 		name:'mctmc',			width:120, 		sortable:false,		align:'center'},
+					{display:'신고업체명', 	name:'agentNm3',		width:150, 		sortable:false,		align:'center'},
+					{display:'처리항구', 		name:'prtKorNm',		width:120, 		sortable:false,		align:'center'},
+					{display:'요금종류', 		name:'feeTp',			width:80, 		sortable:false,		align:'center'},
+					{display:'요금종류명', 	name:'feeTpKorNm',		width:120, 		sortable:false,		align:'center'},
+					{display:'할인율코드', 	name:'dcCode',			width:60, 		sortable:false,		align:'center'},
+					{display:'할인율(%)', 	name:'rate',			width:80, 		sortable:false,		align:'center'},
+					{display:'운임톤', 		name:'realTn',			width:60, 		sortable:false,		align:'right', 	displayFormat: 'number'},
+					{display:'상계금액(청)', 	name:'exmpAmnt',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
+					{display:'상계금액(공사)', 	name:'exmpAmntPa',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
+					{display:'특이사항', 		name:'remark',			width:200, 		sortable:false,		align:'center'}
+
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+        	
+        	if(data.resultList[0]){
+	        	// 상단 데이터 입력 
+	        	module.makeFormValues('#socFrghtProcessSetoffLgerForm',data.resultList[0]);
+        	}else{
+        		// 상단 데이터 초기화
+        		module.makeFormValues('#socFrghtProcessSetoffLgerForm',{});
+        	}
         	
         	//자료수, 합산금액 입력
             module.$('#totalCount').val($.number(data["totalCount"]));
@@ -125,21 +94,11 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-        	/* if(!validateGamSocFrghtProcessSetoffLger(this.$('#gamSocFrghtProcessSetoffLgerSearchForm')[0])){ 		
+        	if(!validateGamSocFrghtProcessSetoffLger(this.$('#gamSocFrghtProcessSetoffLgerSearchForm')[0])){ 		
         		return;
-        	} */
+        	}
         	
 			this.loadData();
-			
-			var detailInput = [
-		   		   				{name: 'sPrtAtCode', value: ''},
-		   		   				{name: 'sFrDt', value: ''},
-		   		   				{name: 'sToDt', value: ''},
-		   		   				{name: 'sExmpAgentCode', value: ''},
-		   		   				{name: 'sVsslKey', value: ''},
-		   		   				{name: 'feeTp', value: ''}
-		   		                   ]; 
-			this.$('#socFrghtProcessSetoffLgerDetail').flexOptions({params:detailInput}).flexReload();
 
             break;
             
@@ -159,18 +118,24 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
         	break;
         	
         case 'popupTotalPortInfo' : //전체 조회
-        	var opts;
-			this.doExecuteDialog('selectTotalPortInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+        	var opts = {'gubun': 'L'}; 
+			this.doExecuteDialog('selectPortInfo', '투자비보전 전체 선택', '<c:url value="/popup/showSocApplyEntrpsInfo.do"/>',{}, opts);
         	break;
         	
         case 'popupSelectPortInfo' : //해당항별 조회
-        	var opts;
-			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+        	var appPrtAtCode = this.$("#sAppPrtAtCode").val();
+        	var opts = {'gubun': 'L',
+        	            'appPrtAtCode': appPrtAtCode}; 
+			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항별 선택', '<c:url value="/popup/showSocApplyEntrpsInfo.do"/>',{}, opts);
         	break;
         	
         case 'popupIngPortInfo' : //해당항진행 조회
-        	var opts;
-			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+        
+        	var appPrtAtCode = this.$("#sAppPrtAtCode").val();
+        	var opts = {'gubun': 'L',
+   		   				'appPrtAtCode': appPrtAtCode,
+   		   				'useYn': 'Y'}; 
+			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항 진행 선택', '<c:url value="/popup/showSocApplyEntrpsInfo.do"/>',{}, opts);
         	break;
 
     }
@@ -210,6 +175,21 @@ GamSocFrghtProcessSetoffLgerModule.prototype.onClosePopup = function(popupId, ms
     	 this.$("#sFacCode").val(value["facCode"]);
     	 this.$("#sFacSubCode").val(value["facSubCode"]);
     	 this.$("#sFacKorNm").val(value["facKorNm"]);
+    	 break;
+    	 
+     case 'selectPortInfo' : //투자비보전 신청업체 조회
+    	 this.$("#sAppPrtAtCode").val(value["appPrtAtCode"]);
+    	 this.$("#sPrtAtCode").val(value["prtAtCode"]);
+    	 this.$("#sCmplYr").val(value["cmplYr"]);
+    	 this.$("#sConstNo").val(value["constNo"]);
+    	 this.$("#sFeeTp").val(value["feeTp"]);
+    	 this.$("#sFeeTpNm").val(value["feeTpNm"]);
+    	 this.$("#sRateGubunNm").val(value["rateGubunNm"]);
+    	 this.$("#sUseNo").val(value["useNo"]);
+    	 this.$("#sAppAgentCode").val(value["appAgentCode"]);
+    	 this.$("#sAppAgentNm").val(value["appAgentNm"]);
+    	 this.$("#sExmpAmnt").val(value["exmpAmnt"]);
+    	 this.$("#sExmpAcc").val(value["exmpAcc"]);
     	 break;
      
      default:
@@ -255,7 +235,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                             </td>
                             <th>문서번호</th>
                             <td>
-                                <input id="sCmplYr" type="text" size="2" />
+                                <input id="sCmplYr" type="text" size="5" />
                                 <input type="text" size="15" id="sConstNo" disabled/>
                             </td>
                             <td rowspan="4"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -340,9 +320,54 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-            	
-            	<table id="socFrghtProcessSetoffLgerList" style="display:none"></table>
-                <table id="socFrghtProcessSetoffLgerDetail" style="display:none" class="fillHeight"></table>
+            <form id="socFrghtProcessSetoffLgerForm">
+            	<table class="detailForm"  style="width:100%;">
+                    <tr>
+                        <th>공사항구</th>
+                        <td>
+                        	<input id="prtAtCode" type="text" size="3" readOnly="readonly" />
+                            <input id="prtAtNm" type="text" size="6" disabled="disabled">
+                        </td>
+                        <th>준공년도</th>
+                        <td>
+                            <input id="cmplYr" type="text" size="3" readOnly="readonly" />
+                        </td>
+                        <th>공사번호</th>
+                        <td>
+                            <input id="constNo" type="text" size="5" readOnly="readonly" />
+                        </td>
+                        <th>공사명</th>
+                        <td colspan="3">
+                            <input id="socCnstNm" type="text" size="45" readOnly="readonly" />
+                        </td>
+					</tr>
+					<tr>    
+						<th>요청항구</th>
+                        <td>
+                        	<input id="appPrtAtCode" type="text" size="3" readOnly="readonly" />
+                            <input id="appPrtAtNm" type="text" size="6" disabled="disabled">
+                        </td>
+                        <th>요청업체</th>
+                        <td>
+                            <input id="sctmc" type="text" size="3" readOnly="readonly" />
+                            <input id="agentNm2" type="text" size="6" disabled="disabled">
+                        </td>
+                        <th>신청횟수</th>
+                        <td>
+                            <input id="useNo" type="text" size="5" class="ygpaNumber" readOnly="readonly" />
+                        </td>
+                        <th>총공사금액</th>
+                        <td>
+                            <input id="totalAmnt" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
+                        </td>
+                        <th>보전처리대상금액</th>
+                        <td>
+                            <input id="exmpAmnt" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            	<table id="socFrghtProcessSetoffLgerList" style="display:none"  class="fillHeight"></table>
                 
                 <div id="socFrghtProcessSetoffLgerListSum" class="emdControlPanel">
 					<form id="socFrghtProcessSetoffLgerListSumForm">

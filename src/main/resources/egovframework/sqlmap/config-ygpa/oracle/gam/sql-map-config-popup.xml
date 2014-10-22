@@ -11,4 +11,9 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFacilInfoDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocEntrpsInfoDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocAgentFInfoDao_SQL.xml" />
-<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocPayCdDao_SQL.xml" /><sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocFacCdDao_SQL.xml" /><sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocVsslCdDao_SQL.xml" /><sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocApplyInfoDao_SQL.xml" /></sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocPayCdDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocFacCdDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocVsslCdDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocApplyInfoDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupSocApplyEntrpsInfoDao_SQL.xml" />
+</sqlMapConfig>
