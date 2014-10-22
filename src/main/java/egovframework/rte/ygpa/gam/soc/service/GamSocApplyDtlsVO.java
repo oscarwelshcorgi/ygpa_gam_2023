@@ -38,6 +38,18 @@ public class GamSocApplyDtlsVO extends ComDefaultVO {
 	/** 요금종류(조회조건) **/
 	private String sFeeTp;
 
+	/** 보전신청 총액**/
+	private String sumExmpAmnt;
+	
+	/** 보전누계 총액**/
+	private String sumExmpAcc;
+	
+	/** 남아있는 잔고총액**/
+	private String sumExmpRemain;
+	
+	/** 조회검색수 **/
+	private int totCnt;
+	
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -92,5 +104,61 @@ public class GamSocApplyDtlsVO extends ComDefaultVO {
 	 */
 	public void setsFeeTp(String sFeeTp) {
 		this.sFeeTp = sFeeTp;
+	}
+
+	/**
+	 * @return the sumExmpAmnt
+	 */
+	public String getSumExmpAmnt() {
+		return sumExmpAmnt;
+	}
+
+	/**
+	 * @param sumExmpAmnt the sumExmpAmnt to set
+	 */
+	public void setSumExmpAmnt(String sumExmpAmnt) {
+		this.sumExmpAmnt = sumExmpAmnt;
+	}
+
+	/**
+	 * @return the sumExmpAcc
+	 */
+	public String getSumExmpAcc() {
+		return sumExmpAcc;
+	}
+
+	/**
+	 * @param sumExmpAcc the sumExmpAcc to set
+	 */
+	public void setSumExmpAcc(String sumExmpAcc) {
+		this.sumExmpAcc = sumExmpAcc;
+	}
+
+	/**
+	 * @return the sumExmpRemain
+	 */
+	public String getSumExmpRemain() {
+		return sumExmpRemain;
+	}
+
+	/**
+	 * @param sumExmpRemain the sumExmpRemain to set
+	 */
+	public void setSumExmpRemain(String sumExmpRemain) {
+		this.sumExmpRemain = sumExmpRemain;
+	}
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
 	}
 }

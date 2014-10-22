@@ -115,7 +115,8 @@ public class GamSocApplyDtlsController {
 		
     	List socApplyDtlsList = gamSocApplyDtlsService.selectSocApplyDtlsList(searchVO);
     	
-		totalCnt = gamSocApplyDtlsService.selectSocApplyDtlsListTotCnt(searchVO);
+    	GamSocApplyDtlsVO resultVO = gamSocApplyDtlsService.selectSocApplyDtlsListTotSum(searchVO);
+    	totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -123,6 +124,9 @@ public class GamSocApplyDtlsController {
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", socApplyDtlsList);
+    	map.put("sumExmpAmnt", (resultVO != null) ? resultVO.getSumExmpAmnt() : 0);
+    	map.put("sumExmpAcc", (resultVO != null) ? resultVO.getSumExmpAcc() : 0);
+    	map.put("sumExmpRemain", (resultVO != null) ? resultVO.getSumExmpRemain() : 0);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -137,8 +141,8 @@ public class GamSocApplyDtlsController {
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/soc/GamSocApplyDtlsPrint";
     	}
 
@@ -152,11 +156,14 @@ public class GamSocApplyDtlsController {
 		searchVO.setRecordCountPerPage(9999);
     			
     	List socApplyDtlsList = gamSocApplyDtlsService.selectSocApplyDtlsList(searchVO);
-		totalCnt = gamSocApplyDtlsService.selectSocApplyDtlsListTotCnt(searchVO);
+    	GamSocApplyDtlsVO resultVO = gamSocApplyDtlsService.selectSocApplyDtlsListTotSum(searchVO);
+    	totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
     	
         model.addAttribute("totalCount", totalCnt);
         model.addAttribute("resultList", socApplyDtlsList);
-
+        model.addAttribute("sumExmpAmnt", (resultVO != null) ? resultVO.getSumExmpAmnt() : 0);
+        model.addAttribute("sumExmpAcc", (resultVO != null) ? resultVO.getSumExmpAcc() : 0);
+        model.addAttribute("sumExmpRemain", (resultVO != null) ? resultVO.getSumExmpRemain() : 0);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		

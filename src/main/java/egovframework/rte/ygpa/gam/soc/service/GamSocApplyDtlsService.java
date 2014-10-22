@@ -32,10 +32,10 @@ public interface GamSocApplyDtlsService {
 	List selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO);
 	
 	/**
-	 * 투자비보전신청내역 리스트의 총 개수를 조회한다. 
+	 * 투자비보전신청내역 리스트의 총계 자료를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
+	 * @return 총계자료 VO
 	 * @exception
 	 */
-	int selectSocApplyDtlsListTotCnt(GamSocApplyDtlsVO searchVO);
+	GamSocApplyDtlsVO selectSocApplyDtlsListTotSum(GamSocApplyDtlsVO searchVO);
 }

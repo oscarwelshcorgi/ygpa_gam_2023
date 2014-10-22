@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -115,6 +117,7 @@ public class GamSocApplyLgerController {
     	
 		totalCnt = gamSocApplyLgerService.selectSocApplyLgerListTotCnt(searchVO);
     	
+		System.out.println("test : " + searchVO.getsFeeTp() + ", " + searchVO.getsPrtAtCode());
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
  
@@ -125,4 +128,37 @@ public class GamSocApplyLgerController {
 
     	return map;
     }    
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocApplyLgerListPrint.do")
+	public String selectSocApplyLgerListPrint(@RequestParam Map<String, Object> socApplyLgerOpt, ModelMap model) throws Exception {
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocApplyLgerPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocApplyLgerVO searchVO;
+
+    	searchVO = mapper.convertValue(socApplyLgerOpt, GamSocApplyLgerVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+		
+    	List socApplyLgerList = gamSocApplyLgerService.selectSocApplyLgerList(searchVO);
+		totalCnt = gamSocApplyLgerService.selectSocApplyLgerListTotCnt(searchVO);
+    	 
+		model.addAttribute("resultCode", 0);	// return ok
+		model.addAttribute("totalCount", totalCnt);
+		model.addAttribute("resultList", socApplyLgerList);
+		
+    	return "/ygpa/gam/soc/GamSocApplyLgerPrint";
+    }    
+	
 }

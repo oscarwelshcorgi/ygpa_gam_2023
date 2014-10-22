@@ -162,9 +162,9 @@ public class GamSocStatsController {
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	
     	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return "/ygpa/gam/soc/GamSocApplyDtlsPrint";
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocStatsPrint";
     	}
 
 		ObjectMapper mapper = new ObjectMapper();
