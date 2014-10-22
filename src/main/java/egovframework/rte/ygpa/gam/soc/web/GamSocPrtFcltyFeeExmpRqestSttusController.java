@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -111,17 +113,58 @@ public class GamSocPrtFcltyFeeExmpRqestSttusController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
     	List socPrtFcltyFeeExmpRqestSttusList = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusList(searchVO);
+    	GamSocPrtFcltyFeeExmpRqestSttusVO resultVO = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusListTotSum(searchVO);
     	
-		totalCnt = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusListTotCnt(searchVO);
+		totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
  
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
+        map.put("sumExmpAmnt", (resultVO != null) ? resultVO.getSumExmpAmnt() : 0);
+        map.put("sumExmpAcc", (resultVO != null) ? resultVO.getSumExmpAcc() : 0);    	
     	map.put("resultList", socPrtFcltyFeeExmpRqestSttusList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }       
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusListPrint.do")
+	public String selectSocPrtFcltyFeeExmpRqestSttusList(@RequestParam Map<String, Object> socPrtFcltyFeeExmpRqestSttusOpt, ModelMap model) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return "/ygpa/gam/soc/GamSocPrtFcltyFeeExmpRqestSttusPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocPrtFcltyFeeExmpRqestSttusVO searchVO;
+		
+		searchVO = mapper.convertValue(socPrtFcltyFeeExmpRqestSttusOpt, GamSocPrtFcltyFeeExmpRqestSttusVO.class);
+		
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+		
+    	List socPrtFcltyFeeExmpRqestSttusList = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusList(searchVO);
+    	GamSocPrtFcltyFeeExmpRqestSttusVO resultVO = gamSocPrtFcltyFeeExmpRqestSttusService.selectSocPrtFcltyFeeExmpRqestSttusListTotSum(searchVO);
+    	
+		totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
+    	 
+		model.addAttribute("resultCode", 0);	// return ok
+		model.addAttribute("totalCount", totalCnt);
+		model.addAttribute("sumExmpAmnt", (resultVO != null) ? resultVO.getSumExmpAmnt() : 0);
+		model.addAttribute("sumExmpAcc", (resultVO != null) ? resultVO.getSumExmpAcc() : 0);    	
+		model.addAttribute("resultList", socPrtFcltyFeeExmpRqestSttusList);
+
+    	return "/ygpa/gam/soc/GamSocPrtFcltyFeeExmpRqestSttusPrint";
+    }       
+	
 }

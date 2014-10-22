@@ -47,12 +47,12 @@ public class GamSocPrtFcltyFeeExmpRqestSttusServiceImpl extends AbstractServiceI
 	}
 
 	/**
-	 * 항만시설사용료 면제요청현황 리스트의 총 개수를 조회한다. 
+	 * 항만시설사용료 면제요청현황 리스트의 총계를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
+	 * @return 총계VO
 	 * @exception
 	 */
-	public int selectSocPrtFcltyFeeExmpRqestSttusListTotCnt(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
-		return gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusListTotCnt(searchVO);
+	public GamSocPrtFcltyFeeExmpRqestSttusVO selectSocPrtFcltyFeeExmpRqestSttusListTotSum(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
+		return gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusListTotSum(searchVO);
 	}
 }

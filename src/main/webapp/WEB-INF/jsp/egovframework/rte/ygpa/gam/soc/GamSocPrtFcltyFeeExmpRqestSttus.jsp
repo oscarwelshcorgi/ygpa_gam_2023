@@ -53,8 +53,8 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadComplete = function() {
                     {display:'요청업체명', name:'appAgentName',width:50, sortable:false,align:'center'},
                     {display:'신청횟수', name:'useNo',width:50, sortable:false,align:'center'},
                     {display:'적용요율', name:'rateGubun',width:40, sortable:false,align:'center'},
-                    {display:'면제신청액', name:'exmpAmnt',width:130, sortable:false,align:'center'},
-                    {display:'누계액', name:'exmpAcc',width:130, sortable:false,align:'center'},
+                    {display:'면제신청액', name:'exmpAmnt',width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'누계액', name:'exmpAcc',width:130, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
                     {display:'면제기간시작일', name:'periodFr',width:90, sortable:false,align:'center'},
                     {display:'면제기간종료일', name:'periodTo',width:90, sortable:false,align:'center'},
@@ -65,6 +65,9 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+        	module.$('#totalCount').val($.number(data.totalCount));
+        	module.$('#sumExmpAmnt').val($.number(data.sumExmpAmnt));
+        	module.$('#sumExmpAcc').val($.number(data.sumExmpAcc));
             return data;
         }
     });
@@ -86,12 +89,13 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonI
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
+        	if(this.$('#sPrtAtCode').val() == '') {
+        		alert('항코드를 선택하세요.');
+        		break;
+        	}
         	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
         	this.$("#socPrtFcltyFeeExmpRqestSttusList").flexOptions({params:opts}).flexReload();
             break;
-        case 'btnPrint' : //인쇄버튼
-        	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
-        	break;
         case 'popupEntrpsInfo' : //업체코드버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
 					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
@@ -149,7 +153,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <th>항코드</th>
                             <td>
                                 <select id="sPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>
@@ -170,8 +174,8 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <td>
                                 <select id="sUseYn">
                                     <option value="" selected="selected">전체</option>
-                                    <option value="Y" selected="selected">진행</option>
-                                    <option value="N" selected="selected">순연</option>
+                                    <option value="Y">진행</option>
+                                    <option value="N">순연</option>
                                 </select>
                             </td>
                             <th>공사준공년도</th>
@@ -197,12 +201,18 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                 <table id="socPrtFcltyFeeExmpRqestSttusList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
 					<form id="form1">
-    	               	<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                            	<button id="btnPrint">인쇄</button>
-	                            </td>
-	                        </tr>
+					    <table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="17%" height="25">자료수</th>
+								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">총신청액</th>
+								<td><input type="text" size="20" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">총누계액</th>
+								<td><input type="text" size="20" id="sumExmpAcc" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+    	                        	<button data-role="printPage" data-search-option="gamSocPrtFcltyFeeExmpRqestSttusSearchForm" data-url="<c:url value='/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusListPrint.do'/>">인쇄</button>
+        	                    </td>
+							</tr>
 						</table>
 					</form>
                 </div>

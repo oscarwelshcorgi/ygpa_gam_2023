@@ -40,12 +40,12 @@ public class GamSocPrtFcltyFeeExmpRqestSttusDAO extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 투자비보전신청대장 리스트의 총 개수를 조회한다. 
+	 * 투자비보전신청대장 리스트의 총계를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
+	 * @return 총계VO
 	 * @exception
 	 */
-	int selectSocPrtFcltyFeeExmpRqestSttusListTotCnt(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusListTotCnt_S", searchVO);
+	GamSocPrtFcltyFeeExmpRqestSttusVO selectSocPrtFcltyFeeExmpRqestSttusListTotSum(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
+		return (GamSocPrtFcltyFeeExmpRqestSttusVO) selectByPk("gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusListTotSum_S", searchVO);
 	}
 }

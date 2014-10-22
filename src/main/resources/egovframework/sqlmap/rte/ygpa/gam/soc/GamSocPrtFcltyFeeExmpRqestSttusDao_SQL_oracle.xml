@@ -5,6 +5,12 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocPrtFcltyFeeExmpRqestSttusVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocPrtFcltyFeeExmpRqestSttusVO" />
 	
+	<resultMap id="gamPrtFcltyFeeExmpRqestSttusSumMap" class="gamSocPrtFcltyFeeExmpRqestSttusVO">
+		<result property="totCnt" column="TOTCNT" columnIndex="1" javaType="int"/>
+        <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="java.lang.String"/>
+        <result property="sumExmpAcc" column="SUM_EXMP_ACC" columnIndex="3" javaType="java.lang.String"/>
+    </resultMap>
+	
 	<select id="gamSocPrtFcltyFeeExmpRqestSttusDAO.selectSocPrtFcltyFeeExmpRqestSttusList_S" parameterClass="gamSocPrtFcltyFeeExmpRqestSttusVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -22,15 +28,15 @@
 							  , A.USE_NO
 							  , A.AGENT_CODE
 							  , P2MGR.SF_AGENT_NM(A.AGENT_CODE) AGENT_NAME
-							  , TO_CHAR(NVL(A.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
-							  , TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') AS EXMP_ACC
+							  , NVL(A.EXMP_AMNT, 0) EXMP_AMNT
+							  , NVL(A.EXMP_ACC, 0) EXMP_ACC
 							  , TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
 							  , TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
 							  , A.EXMP_COND
 							  , (CASE WHEN A.RATE_GUBUN = '1' THEN '과거' WHEN A.RATE_GUBUN = '2' THEN '현재' ELSE '' END) AS RATE_GUBUN
 							  , A.REMARK
 							  , A.ITEM
-							  , (CASE WHEN A.USE_YN = 'Y' THEN '진행' WHEN A.USE_YN = 'N' THEN '순연' ELSE '' END) USE_YN
+							  , (CASE WHEN A.USE_YN = 'Y' THEN '사용 중' WHEN A.USE_YN = 'N' THEN '사용불가' ELSE '' END) USE_YN
 							  , A.BZ_RGST_ID
 							  , TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
 							  , TO_CHAR(A.PERF_DT, 'YYYY-MM-DD') PERF_DT
@@ -49,15 +55,17 @@
 						             AND A.CMPL_YR = #sCmplYr# 
 						         </isNotEmpty>
 						     <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY A.CMPL_YR, A.CONST_NO
+                             ORDER BY A.PRT_AT_CODE, A.APP_AGENT_CODE, A.CMPL_YR
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 	
-	<select id="gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusListTotCnt_S" parameterClass="gamSocPrtFcltyFeeExmpRqestSttusVO" resultClass="int">
+	<select id="gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusListTotSum_S" parameterClass="gamSocPrtFcltyFeeExmpRqestSttusVO" resultMap="gamPrtFcltyFeeExmpRqestSttusSumMap">
 		SELECT
 		  COUNT(*) TOTCNT
+		  , SUM(NVL(A.EXMP_AMNT, 0)) SUM_EXMP_AMNT
+		  , SUM(NVL(A.EXMP_ACC, 0)) SUM_EXMP_ACC
 		FROM SOC_APPLY_F@YGPA_P2MGR A
         WHERE 1=1					
 	        <isNotEmpty property="sPrtAtCode">
