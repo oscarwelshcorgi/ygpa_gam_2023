@@ -5,6 +5,13 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocApplyDtlsVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocApplyDtlsVO" />
 	
+	<resultMap id="gamSocApplyDtlsSumMap" class="gamSocApplyDtlsVO">
+		<result property="totCnt" column="TOTCNT" columnIndex="1" javaType="int"/>
+        <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="java.lang.String"/>
+        <result property="sumExmpAcc" column="SUM_EXMP_ACC" columnIndex="3" javaType="java.lang.String"/>
+        <result property="sumExmpRemain" column="SUM_EXMP_REMAIN" columnIndex="4" javaType="java.lang.String"/>
+    </resultMap>
+	
 	<select id="gamSocApplyDtlsDAO.selectSocApplyDtlsList_S" parameterClass="gamSocApplyDtlsVO" resultClass="egovMap">
            SELECT A.*
            FROM (
@@ -12,18 +19,18 @@
                      FROM (
 							SELECT
 							  A.PRT_AT_CODE
-							  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = A.PRT_AT_CODE) PRT_AT_KOR_NM
+							  , P2MGR.SF_PRT_AT_NM(A.PRT_AT_CODE) PRT_AT_KOR_NM
 							  , A.CMPL_YR
 							  , A.CONST_NO
 							  , A.APP_PRT_AT_CODE
-							  , (SELECT PRT_AT_KOR_NM FROM P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P WHERE P.PRT_AT_CODE = A.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+							  , P2MGR.SF_PRT_AT_NM(A.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
 							  , A.APP_AGENT_CODE
-							  , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.APP_AGENT_CODE) APP_AGENT_NAME
+							  , P2MGR.SF_AGENT_NM(A.APP_AGENT_CODE) APP_AGENT_NAME
 							  , A.USE_NO
 							  , A.AGENT_CODE
-							  , (SELECT FIRM_KOR_NM FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR G WHERE G.AGENT_CODE = A.AGENT_CODE) AGENT_NAME
-							  , TO_CHAR(NVL(A.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
-							  , TO_CHAR(NVL(A.EXMP_ACC, 0), '999,999,999,999') AS EXMP_ACC
+							  , P2MGR.SF_AGENT_NM(A.AGENT_CODE) AGENT_NAME
+							  , NVL(A.EXMP_AMNT, 0) EXMP_AMNT
+							  , NVL(A.EXMP_ACC, 0) EXMP_ACC
 							  , TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
 							  , TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
 							  , A.EXMP_COND
@@ -34,9 +41,9 @@
 							  , A.BZ_RGST_ID
 							  , TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
 							  , TO_CHAR(A.PERF_DT, 'YYYY-MM-DD') PERF_DT
-							  , TO_CHAR((NVL(A.EXMP_AMNT, 0) - NVL(A.EXMP_ACC, 0)), '999,999,999,999') AS EXMP_REMAIN
+							  , (NVL(A.EXMP_AMNT, 0) - NVL(A.EXMP_ACC, 0)) EXMP_REMAIN
 							  , F.FEE_TP
-							  , (SELECT FEE_TP_KOR_NM FROM P2MGR.FEE_TP_F@YGPA_P2MGR N WHERE N.PRT_AT_CODE = F.PRT_AT_CODE AND N.FEE_TP = F.FEE_TP) FEE_TP_KOR_NM
+							  , P2MGR.SF_FEE_TP_NM(A.PRT_AT_CODE, F.FEE_TP) FEE_TP_KOR_NM
 							FROM SOC_APPLY_F@YGPA_P2MGR A INNER JOIN SOC_FEE_F@YGPA_P2MGR F
 							ON 
 							  A.PRT_AT_CODE = F.PRT_AT_CODE
@@ -66,9 +73,12 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 	
-	<select id="gamSocApplyDtlsDao.selectSocApplyDtlsListTotCnt_S" parameterClass="gamSocApplyDtlsVO" resultClass="int">
+	<select id="gamSocApplyDtlsDao.selectSocApplyDtlsListTotSum_S" parameterClass="gamSocApplyDtlsVO" resultMap="gamSocApplyDtlsSumMap">
 		SELECT
 		  COUNT(*) TOTCNT
+		  , SUM(NVL(A.EXMP_AMNT, 0)) SUM_EXMP_AMNT
+		  , SUM(NVL(A.EXMP_ACC, 0)) SUM_EXMP_ACC
+		  , (SUM(NVL(A.EXMP_AMNT, 0)) - SUM(NVL(A.EXMP_ACC, 0))) SUM_EXMP_REMAIN
 		FROM SOC_APPLY_F@YGPA_P2MGR A INNER JOIN SOC_FEE_F@YGPA_P2MGR F
 		ON 
 		  A.PRT_AT_CODE = F.PRT_AT_CODE
