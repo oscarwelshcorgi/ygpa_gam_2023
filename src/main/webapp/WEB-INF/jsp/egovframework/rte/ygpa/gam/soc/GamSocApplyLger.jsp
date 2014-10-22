@@ -7,7 +7,7 @@
 <%
 /**
  * @Class Name : GamSocApplyLger.jsp
- * @Description : 투자비보전신청내역
+ * @Description : 투자비보전신청대장
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -45,11 +45,10 @@ GamSocApplyLgerModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocApplyLgerList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'등록항', name:'appPrtAtKorNm',width:50, sortable:false,align:'center'},
-                    {display:'요금종류', name:'feeTpKorNm',width:70, sortable:false,align:'center'},
+                    {display:'요금종류', name:'feeTpNm',width:70, sortable:false,align:'center'},
                     {display:'신청횟수', name:'useNo',width:50, sortable:false,align:'center'},
-                    {display:'신청보장액', name:'exmpAmnt',width:110, sortable:false,align:'right'},
-                    {display:'보전누계액', name:'exmpAcc',width:110, sortable:false,align:'right'},
+                    {display:'신청보장액', name:'exmpAmnt',width:110, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전누계액', name:'exmpAcc',width:110, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'신청기간시작', name:'periodFr',width:80, sortable:false,align:'center'},
                     {display:'신청기간종료', name:'periodTo',width:80, sortable:false,align:'center'},
                     {display:'적용요율', name:'rateGubun',width:50, sortable:false,align:'center'},
@@ -76,12 +75,13 @@ GamSocApplyLgerModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
+        	if(this.$('#sPrtAtCode').val() == '') {
+        		alert('항코드를 선택하세요.');
+        		break;
+        	}
         	opts = this.makeFormArgs('#gamSocApplyLgerSearchForm');
         	this.$("#socApplyLgerList").flexOptions({params:opts}).flexReload();
             break;
-        case 'btnPrint' : //인쇄버튼
-        	opts = this.makeFormArgs('#gamSocApplyLgerSearchForm');
-        	break;
         case 'popupFeeTpInfo' : //요금종류버튼
         	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
@@ -141,14 +141,14 @@ var module_instance = new GamSocApplyLgerModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamSocApplyLigerSearchForm">
+            <form id="gamSocApplyLgerSearchForm">
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
                             <th>청코드</th>
                             <td>
                                 <select id="sPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>
@@ -197,7 +197,7 @@ var module_instance = new GamSocApplyLgerModule();
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnPrint">인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamSocApplyLgerSearchForm" data-url="<c:url value='/soc/gamSelectSocApplyLgerListPrint.do'/>">인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>

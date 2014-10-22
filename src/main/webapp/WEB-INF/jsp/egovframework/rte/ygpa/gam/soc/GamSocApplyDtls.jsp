@@ -59,13 +59,17 @@ GamSocApplyDtlsModule.prototype.loadComplete = function() {
                     {display:'보전기간종료일', name:'periodTo',width:90, sortable:false,align:'center'},
                     {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
                     {display:'허가일자', name:'perfDt',width:80, sortable:false,align:'center'},
-                    {display:'보전신청액', name:'exmpAmnt',width:130, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'exmpAcc',width:130, sortable:false,align:'center'},
-                    {display:'남아있는 잔액', name:'exmpRemain',width:130, sortable:false,align:'center'}
+                    {display:'보전신청액', name:'exmpAmnt',width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전누계액', name:'exmpAcc',width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전 잔액', name:'exmpRemain',width:130, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+        	module.$('#totalCount').val($.number(data.totalCount));
+        	module.$('#sumExmpAmnt').val($.number(data.sumExmpAmnt));
+        	module.$('#sumExmpAcc').val($.number(data.sumExmpAcc));
+        	module.$('#sumExmpRemain').val($.number(data.sumExmpRemain));
             return data;
         }
     });
@@ -198,12 +202,20 @@ var module_instance = new GamSocApplyDtlsModule();
                 <table id="socApplyDtlsList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
 					<form id="form1">
-    	               	<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamSocApplyDtlsSearchForm" data-url="<c:url value='/soc/gamSelectSocApplyDtlsListPrint.do'/>">인쇄</button>
-	                            </td>
-	                        </tr>
+					    <table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="17%" height="25">자료수</th>
+								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">총신청액</th>
+								<td><input type="text" size="20" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">총누계액</th>
+								<td><input type="text" size="20" id="sumExmpAcc" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">총잔액</th>
+								<td><input type="text" size="20" id="sumExmpRemain" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+    	                        	<button data-role="printPage" data-search-option="gamSocApplyDtlsSearchForm" data-url="<c:url value='/soc/gamSelectSocApplyDtlsListPrint.do'/>">인쇄</button>
+        	                    </td>
+							</tr>
 						</table>
 					</form>
                 </div>

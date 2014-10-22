@@ -53,8 +53,8 @@
 	<c:if test="${fn:length(resultList) == 0}">
 		<table class="rpr_main_table">
 	  		<thead>
-	  			<tr>
-	  				<th>공사항구</th>
+       			<tr>
+	  				<th rowspan="2">공사항구</th>
 	  				<th>공사항구명</th>
 	  				<th>시행업체</th>
 	  				<th>시행업체명</th>
@@ -63,6 +63,8 @@
 	  				<th>요금종류</th>
 	  				<th>횟수</th>
 	  				<th>요율</th>
+	  			</tr>
+	  			<tr>
 	  				<th>적용</th>
 	  				<th>보전기간시작</th>
 	  				<th>보전기간종료</th>
@@ -70,8 +72,8 @@
 	  				<th>허가일자</th>
 	  				<th>보전신청액</th>
 	  				<th>보전누계액</th>
-	  				<th>남아있는 잔액</th>
-	 			 </tr>
+	  				<th>보전 잔액</th>
+      			</tr>
 	  		</thead>
 	  		<tbody>
 			<tr>
@@ -110,7 +112,7 @@
 					  				<th>허가일자</th>
 					  				<th>보전신청액</th>
 					  				<th>보전누계액</th>
-					  				<th>남아있는 잔액</th>
+					  				<th>보전 잔액</th>
 			       				</tr>
 			        		</thead>
 			        		<tbody>
@@ -132,12 +134,25 @@
         				<td><c:out value="${result.periodTo }" /></td>
         				<td><c:out value="${result.applyDate }" /></td>
         				<td><c:out value="${result.perfDt }" /></td>
-        				<td><c:out value="${result.exmpAmnt }" /></td>
-        				<td><c:out value="${result.exmpAcc }" /></td>
-        				<td><c:out value="${result.exmpRemain }" /></td>
+        				<td><fmt:formatNumber value="${result.exmpAmnt}" type="currency" currencySymbol=""/></td>
+        				<td><fmt:formatNumber value="${result.exmpAcc}" type="currency" currencySymbol=""/></td>
+        				<td><fmt:formatNumber value="${result.exmpRemain}" type="currency" currencySymbol=""/></td>
         			</tr>
     </c:forEach>
         		</tbody>
+        		<tfoot>
+        			<tr>
+        				<td>자료수 </td>
+        				<td style="text-align: right"><c:out value="${totalCount }" />건<!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumCnt}" /--></td>
+        				<td>총신청액 </td>
+        				<td style="text-align: right" colspan="2"><fmt:formatNumber value="${sumExmpAmnt}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAr}" /--></td>
+        				<td>총보전액 </td>
+        				<td style="text-align: right"><fmt:formatNumber value="${sumExmpAcc}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumFee}" /--></td>
+        				<td>총잔액 </td>
+        				<td style="text-align: right"><fmt:formatNumber value="${sumExmpRemain }" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRdcxptFee}" /--></td>
+        			</tr>
+        		</tfoot>
+        		
         	</table>
         </div>
     </div>
