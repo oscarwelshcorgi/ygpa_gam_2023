@@ -72,5 +72,28 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	public GamSocShipProcessRealloadVO selectSocShipProcessRealloadDetailSum(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		return (GamSocShipProcessRealloadVO) selectByPk("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetailSum", searchVO);
 	}
+	
+	
+	
+	/**
+	 * 투자비보전 처리실적 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return Map
+	 * @exception Exception
+	 */
+	public List selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO) throws Exception {
+		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrint", searchVO);
+	}
+	
+	
+	/**
+	 * 투자비보전 처리실적 총갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 투자비보전 처리실적 총갯수
+	 * @exception Exception
+	 */
+	public GamSocShipProcessRealloadVO selectSocShipProcessRealloadListPrintTotCnt(GamSocShipProcessRealloadVO searchVO)  throws Exception{
+		return (GamSocShipProcessRealloadVO) selectByPk("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrintTotCnt", searchVO);
+	}
 
 }

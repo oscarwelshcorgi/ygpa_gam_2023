@@ -76,5 +76,27 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
     GamSocTotalBsnsSetoffDtlsVO selectSocTotalBsnsSetoffDtlsDetailSum(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
     	return (GamSocTotalBsnsSetoffDtlsVO) selectByPk("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum", searchVO);
     }
+    
+    
+    /**
+	 * 총사업비상계처리내역 프린트목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 총사업비상계처리내역 프린트목록
+	 * @exception Exception
+	 */
+    List selectSocTotalBsnsSetoffDtlsListPrint(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
+    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint", searchVO);
+    }
+    
+    
+    /**
+	 * 총사업비상계처리내역 프린트목록 총갯수 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 총사업비상계처리내역 프린트목록 총갯수
+	 * @exception Exception
+	 */
+    int selectSocTotalBsnsSetoffDtlsListPrintTotCnt(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt", searchVO);
+    }
 
 }

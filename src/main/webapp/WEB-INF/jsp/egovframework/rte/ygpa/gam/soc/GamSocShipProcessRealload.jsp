@@ -95,6 +95,11 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
             return data;
         }
     });
+    
+    
+    this.$('#sPrtAtCode').on('change', {module: this}, function(e) {
+    	e.data.module.$('#sPrtKorNm').val(e.data.module.$('#sPrtAtCode > option:selected').text());
+	});
 
 };
 
@@ -200,6 +205,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
 	                                    <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
 	                                </c:forEach>
 	                            </select>
+	                            <input type="hidden" id="sPrtKorNm">
                             </td>
                             <th>고지기간</th>
                             <td>
@@ -248,7 +254,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
 								<th width="10%" height="25">총면제금액</th>
 								<td><input type="text" size="60" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-    	                        	<button id="btnPrint">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocShipProcessRealloadSearchForm" data-url="<c:url value='/soc/gamSelectSocShipProcessRealloadListPrint.do'/>">인쇄</button>
         	                    </td>
 							</tr>
 						</table>

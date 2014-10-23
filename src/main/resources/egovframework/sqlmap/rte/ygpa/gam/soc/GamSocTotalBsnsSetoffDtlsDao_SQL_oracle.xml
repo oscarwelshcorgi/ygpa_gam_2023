@@ -25,6 +25,7 @@
                                   , G.PRT_AT_CODE
                                   , P.PRT_KOR_NM AS PRT_KOR_NM
                                   , G.AGENT_CODE
+                                  , G.AGENT_NAME
                                   , G.CMPL_YR
                                   , G.CONST_NO
                              FROM 
@@ -232,6 +233,159 @@
 		         
 		         )
 	         </isNotEmpty>
+    </select>
+    
+    
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    G.SOC_PRT_AT_CODE
+                                  , O.PRT_KOR_NM AS SOC_PRT_KOR_NM
+                                  , G.SOC_CNST_NM
+                                  , P.PRT_KOR_NM AS PRT_KOR_NM
+                                  , G.AGENT_CODE
+                                  , E.APP_PRT_AT_CODE
+                                  , E.FEE_TP
+                                  , E.FISCAL_YR
+                                  , E.SOC_NO
+                                  , E.APP_AGENT_CODE
+                                  , E.USE_NO
+                                  , E.PRT_AT_CODE
+                                  , E.CMPL_YR
+                                  , E.CONST_NO
+                                  , E.EXMP_AGENT_CODE
+                                  , E.VSSL_KEY
+                                  , E.YR
+                                  , E.SER_NO
+                                  , E.BILL_NO
+                                  , E.EXMP_AMNT
+                                  , E.IN_OUT
+                                  , E.BILL_USE_NO
+                                  , E.FAC_CODE
+                                  , E.FAC_SUB_CODE
+                                  , E.IO_DT
+                                  , E.DC_CODE
+                                  , E.DC_RATE
+                                  , E.BILL_DT
+                                  , E.STANDARD_FEE
+                                  , E.REAL_TN
+                                  , E.REMARK
+                                  , E.EXMP_TYPE
+                                  , E.UPDT_UID
+                                  , E.UPDT_DATE
+                                  , E.CALL_LETTER
+                                  , E.DC_RATE_NM
+                                  , E.EXMP_PRT_AT_CODE
+                                  , E.JINGSUJA
+                                  , E.RPT_AGENT_CODE
+                                  , E.DEPT
+                                  , E.WORK_CODE
+                                  , E.STR_DATE
+                                  , E.END_DATE
+                             FROM 
+                             	P2MGR.SOC_AGENT_F@YGPA_P2MGR G
+                             LEFT OUTER JOIN 
+                             	P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+                             ON 
+	                             (
+	                             G.PRT_AT_CODE = E.PRT_AT_CODE
+	                             AND G.CMPL_YR = E.CMPL_YR
+	                             AND G.CONST_NO = E.CONST_NO
+	                             )
+                    		 LEFT OUTER JOIN 
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
+					         ON 
+					        	(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
+					         LEFT OUTER JOIN 
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
+					         ON 
+					        	(G.PRT_AT_CODE=P.PRT_AT_CODE) 
+					        	
+                             WHERE 1=1 
+                             
+                             	<isNotEmpty property="sPrtAtCode">
+					             	AND E.APP_PRT_AT_CODE = #sPrtAtCode#
+					         	</isNotEmpty>
+					         
+					         	<isNotEmpty property="sFeeTp">
+						             AND E.FEE_TP = #sFeeTp#
+						        </isNotEmpty>
+						         
+						        <isNotEmpty property="sExmpAgentCode">
+						             AND E.APP_AGENT_CODE = #sExmpAgentCode#
+						        </isNotEmpty>
+						         
+						        <isNotEmpty property="sUseNo">
+						             AND E.USE_NO = #sUseNo#
+						        </isNotEmpty>
+					         	
+					         	<isNotEmpty property="sType">
+									<isNotEmpty property="sFrDt">
+										<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+							        </isNotEmpty>
+							        <isNotEmpty property="sToDt">
+							        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+							        </isNotEmpty>
+								</isNotEmpty>
+                             	
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY G.CMPL_YR DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM 
+				P2MGR.SOC_AGENT_F@YGPA_P2MGR G
+            LEFT OUTER JOIN 
+				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+            ON 
+				(
+				G.PRT_AT_CODE = E.PRT_AT_CODE
+				AND G.CMPL_YR = E.CMPL_YR
+				AND G.CONST_NO = E.CONST_NO
+				)
+			LEFT OUTER JOIN 
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
+			ON 
+				(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
+			LEFT OUTER JOIN 
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
+			ON 
+				(G.PRT_AT_CODE=P.PRT_AT_CODE) 
+	        	
+	WHERE 1=1 
+                         
+                <isNotEmpty property="sPrtAtCode">
+	             	AND E.APP_PRT_AT_CODE = #sPrtAtCode#
+	         	</isNotEmpty>
+	         
+	         	<isNotEmpty property="sFeeTp">
+		             AND E.FEE_TP = #sFeeTp#
+		        </isNotEmpty>
+		         
+		        <isNotEmpty property="sExmpAgentCode">
+		             AND E.APP_AGENT_CODE = #sExmpAgentCode#
+		        </isNotEmpty>
+		         
+		        <isNotEmpty property="sUseNo">
+		             AND E.USE_NO = #sUseNo#
+		        </isNotEmpty>
+	         	
+	         	<isNotEmpty property="sType">
+					<isNotEmpty property="sFrDt">
+						<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+			        </isNotEmpty>
+			        <isNotEmpty property="sToDt">
+			        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+			        </isNotEmpty>
+				</isNotEmpty>
     </select>
     
     

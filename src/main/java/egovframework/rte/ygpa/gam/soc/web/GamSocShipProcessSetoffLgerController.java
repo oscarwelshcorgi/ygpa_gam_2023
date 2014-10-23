@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -27,8 +29,8 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
-import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessSetoffLgerService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessSetoffLgerVO;
+import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessSetoffLgerService;
 
 
 
@@ -179,6 +181,71 @@ public class GamSocShipProcessSetoffLgerController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	
+	
+	/**
+     * 투자비보전(선석)상계처리대장 목록을 인쇄한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocShipProcessSetoffLgerListPrint.do")
+	public String selectSocShipProcessSetoffLgerListPrint(@RequestParam Map<String, Object> socShipProcessSetoffLgerOpt, ModelMap model) throws Exception {
+
+		int totalCnt, page, firstIndex;
+		String ioDt, ioDt2, dtFr, dtTo, exmpAcc;
+
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocShipProcessSetoffLgerPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocShipProcessSetoffLgerVO searchVO;
+
+    	searchVO = mapper.convertValue(socShipProcessSetoffLgerOpt, GamSocShipProcessSetoffLgerVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		GamSocShipProcessSetoffLgerVO totalSumCnt = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerListSum(searchVO);
+    	List socShipProcessSetoffLgerList = gamSocShipProcessSetoffLgerService.selectSocShipProcessSetoffLgerList(searchVO);
+    	
+    	totalCnt = totalSumCnt.getTotalCnt();
+    	dtFr = searchVO.getsDtFr();
+    	dtTo = searchVO.getsDtTo();
+    	ioDt = searchVO.getsIoDt();
+    	ioDt2 = searchVO.getsIoDt2();
+    	exmpAcc = searchVO.getsExmpAcc();
+
+        model.addAttribute("totalCount", totalCnt);
+        model.addAttribute("dtFr", dtFr);
+        model.addAttribute("dtTo", dtTo);
+        model.addAttribute("ioDt", ioDt);
+        model.addAttribute("ioDt2", ioDt2);
+        model.addAttribute("exmpAcc", exmpAcc);
+       
+        model.addAttribute("resultList", socShipProcessSetoffLgerList);
+
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/soc/GamSocShipProcessSetoffLgerPrint";
     }
     
     	

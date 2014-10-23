@@ -59,6 +59,24 @@ public interface GamSocShipProcessRealloadService {
 	 * @exception
 	 */
 	GamSocShipProcessRealloadVO selectSocShipProcessRealloadDetailSum(GamSocShipProcessRealloadVO searchVO)  throws Exception;
+	
+	
+	/**
+	 * 투자비보전 처리실적 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 투자비보전 처리실적 목록
+	 * @exception Exception
+	 */
+	List selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO)  throws Exception;
+	
+	
+	/**
+	 * 투자비보전 처리실적 총갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 투자비보전 처리실적 총갯수
+	 * @exception Exception
+	 */
+	GamSocShipProcessRealloadVO selectSocShipProcessRealloadListPrintTotCnt(GamSocShipProcessRealloadVO searchVO)  throws Exception;
 
 
 }

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -192,6 +194,61 @@ public class GamSocTotalBsnsSetoffDtlsController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	/**
+     * 총사업비상계처리내역 목록을 인쇄한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocTotalBsnsSetoffDtlsListPrint.do")
+	public String selectSocTotalBsnsSetoffDtlsListPrint(@RequestParam Map<String, Object> socTotalBsnsSetoffDtlsOpt, ModelMap model) throws Exception {
+
+		int totalCnt, page, firstIndex;
+		String frDt,toDt;
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocTotalBsnsSetoffDtlsPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocTotalBsnsSetoffDtlsVO searchVO;
+
+    	searchVO = mapper.convertValue(socTotalBsnsSetoffDtlsOpt, GamSocTotalBsnsSetoffDtlsVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+    	totalCnt = gamSocTotalBsnsSetoffDtlsService.selectSocTotalBsnsSetoffDtlsListPrintTotCnt(searchVO);
+    	List socTotalBsnsSetoffDtlsList = gamSocTotalBsnsSetoffDtlsService.selectSocTotalBsnsSetoffDtlsListPrint(searchVO);
+    	
+    	frDt = searchVO.getsFrDt();
+    	toDt = searchVO.getsToDt();
+
+        model.addAttribute("totalCount", totalCnt);
+        model.addAttribute("resultList", socTotalBsnsSetoffDtlsList);
+        
+        model.addAttribute("frDt", frDt);
+        model.addAttribute("toDt", toDt);
+
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/soc/GamSocTotalBsnsSetoffDtlsPrint";
     }
 
 }

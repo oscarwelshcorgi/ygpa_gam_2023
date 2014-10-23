@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.soc.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -21,7 +23,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamSocTotalBsnsSetoffDtlsVO extends ComDefaultVO {
 
 	/**
@@ -51,7 +53,7 @@ public class GamSocTotalBsnsSetoffDtlsVO extends ComDefaultVO {
     /** 검색구분 */
     private String sType;
     
-    
+   
     
     /** 항코드 */
     private String prtAtCode;
@@ -72,6 +74,8 @@ public class GamSocTotalBsnsSetoffDtlsVO extends ComDefaultVO {
     
     /** 총상계금액(공사) */
     private long sumAppTotalAmnt;
+
+
     
     
 
@@ -256,5 +260,7 @@ public class GamSocTotalBsnsSetoffDtlsVO extends ComDefaultVO {
 	public void setSumAppTotalAmnt(long sumAppTotalAmnt) {
 		this.sumAppTotalAmnt = sumAppTotalAmnt;
 	}
+
+	
 
 }

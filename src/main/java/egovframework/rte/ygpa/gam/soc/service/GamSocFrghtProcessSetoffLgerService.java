@@ -41,5 +41,8 @@ public interface GamSocFrghtProcessSetoffLgerService {
 	 * @exception
 	 */
 	GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerListSum(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
+	
+	
+
 
 }

@@ -41,11 +41,12 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
 					{display:'공사항구코드', 			name:'socPrtAtCode',	width:80, 		sortable:false,		align:'center'},
-                    {display:'공사항구명', 			name:'socPrtKorNm',	width:120, 		sortable:false,		align:'center'},
-                    {display:'등록항구코드', 			name:'prtAtCode',	width:80, 		sortable:false,		align:'center'},
-                    {display:'등록항구명', 			name:'prtKorNm',	width:120, 		sortable:false,		align:'center'},
+                    {display:'공사항구명', 			name:'socPrtKorNm',		width:120, 		sortable:false,		align:'center'},
+                    {display:'등록항구코드', 			name:'prtAtCode',		width:80, 		sortable:false,		align:'center'},
+                    {display:'등록항구명', 			name:'prtKorNm',		width:120, 		sortable:false,		align:'center'},
                     {display:'공사명', 				name:'socCnstNm',		width:320, 		sortable:false,		align:'left'},
-                    {display:'시공업체', 				name:'agentCode',	width:130, 		sortable:false,		align:'center'}
+                    {display:'시공업체', 				name:'agentCode',		width:130, 		sortable:false,		align:'center'},
+                    {display:'시공업체명', 			name:'agentName',		width:130, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: '150',
@@ -73,23 +74,23 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectSocTotalBsnsSetoffDtlsDetail.do" />',
         dataType: 'json',
         colModel : [
-					{display:'선명', 					name:'vsslKey',		width:120, 		sortable:false,		align:'center'},
-                    {display:'호출부호', 				name:'callLetter',	width:80, 		sortable:false,		align:'center'},
-                    {display:'입항횟수', 				name:'serNo',		width:100, 		sortable:false,		align:'center'},
-                    {display:'관리번호', 				name:'socNo',		width:130, 		sortable:false,		align:'center'},
-                    {display:'상계일자', 				name:'',		width:130, 		sortable:false,		align:'center'},
-                    {display:'적용요율', 				name:'dcRate',		width:60, 		sortable:false,		align:'center'},
-                    {display:'내외항', 				name:'',		width:60, 		sortable:false,		align:'center'},
-                    {display:'신고업체', 				name:'appAgentCode',		width:80, 		sortable:false,		align:'center'},
-                    {display:'신고업체명', 			name:'',		width:150, 		sortable:false,		align:'center'},
+					{display:'선명', 					name:'vsslKey',			width:120, 		sortable:false,		align:'center'},
+                    {display:'호출부호', 				name:'callLetter',		width:80, 		sortable:false,		align:'center'},
+                    {display:'입항횟수', 				name:'serNo',			width:100, 		sortable:false,		align:'center'},
+                    {display:'관리번호', 				name:'socNo',			width:130, 		sortable:false,		align:'center'},
+                    {display:'상계일자', 				name:'',				width:130, 		sortable:false,		align:'center'},
+                    {display:'적용요율', 				name:'dcRate',			width:60, 		sortable:false,		align:'center'},
+                    {display:'내외항', 				name:'',				width:60, 		sortable:false,		align:'center'},
+                    {display:'신고업체', 				name:'appAgentCode',	width:80, 		sortable:false,		align:'center'},
+                    {display:'신고업체명', 			name:'',				width:150, 		sortable:false,		align:'center'},
                     {display:'처리항구', 				name:'prtAtCode',		width:60, 		sortable:false,		align:'center'},
-                    {display:'요금종류', 				name:'feeTp',		width:60, 		sortable:false,		align:'center'},
-                    {display:'요금종류명', 			name:'',		width:100, 		sortable:false,		align:'center'},
-                    {display:'할인율', 				name:'',		width:60, 		sortable:false,		align:'center'},
-                    {display:'상계금액(청)', 			name:'',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'상계금액(공사)', 			name:'',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'운임톤', 				name:'realTn',		width:60, 		sortable:false,		align:'center'},
-                    {display:'특이사항', 				name:'remark',		width:250, 		sortable:false,		align:'left'}
+                    {display:'요금종류', 				name:'feeTp',			width:60, 		sortable:false,		align:'center'},
+                    {display:'요금종류명', 			name:'',				width:100, 		sortable:false,		align:'center'},
+                    {display:'할인율', 				name:'',				width:60, 		sortable:false,		align:'center'},
+                    {display:'상계금액(청)', 			name:'',				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'상계금액(공사)', 			name:'',				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'운임톤', 				name:'realTn',			width:60, 		sortable:false,		align:'center'},
+                    {display:'특이사항', 				name:'remark',			width:250, 		sortable:false,		align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -273,7 +274,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
 								<th width="18%" height="25">총상계금액(공사)</th>
 								<td><input type="text" size="18" id="sumAppTotalAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button id="btnPrint">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocTotalBsnsSetoffDtlsSearchForm" data-url="<c:url value='/soc/gamSelectSocTotalBsnsSetoffDtlsListPrint.do'/>">인쇄</button>
         	                    </td>
 							</tr>
 						</table>

@@ -49,5 +49,7 @@ public class GamSocFrghtProcessSetoffLgerDAO extends YGPAAbstractDAO {
 	public GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerListSum(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
 		return (GamSocFrghtProcessSetoffLgerVO) selectByPk("gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerListSum", searchVO);
 	}
+	
+
 
 }

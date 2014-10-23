@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.soc.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -21,7 +23,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamSocShipProcessRealloadVO extends ComDefaultVO {
 
 	/**
@@ -33,6 +35,9 @@ public class GamSocShipProcessRealloadVO extends ComDefaultVO {
 	/** 검색항코드 */
     private String sPrtAtCode;
     
+    /** 검색항이름 */
+    private String sPrtKorNm;
+    
     /** 고지기간검색시작일 */
     private String sFrDt;
     
@@ -42,8 +47,14 @@ public class GamSocShipProcessRealloadVO extends ComDefaultVO {
     /** 업체코드 */
     private String sExmpAgentCode;
     
+    /** 업체코드 */
+    private String sExmpAgentName;
+    
     /** 호출부호 */
     private String sVsslKey;
+    
+    /** 호출부호 */
+    private String sVsslNm;
     
     /** 요금종류 */
     private String feeTp;
@@ -70,6 +81,20 @@ public class GamSocShipProcessRealloadVO extends ComDefaultVO {
 	 */
 	public void setsPrtAtCode(String sPrtAtCode) {
 		this.sPrtAtCode = sPrtAtCode;
+	}
+
+	/**
+	 * @return the sPrtKorNm
+	 */
+	public String getsPrtKorNm() {
+		return sPrtKorNm;
+	}
+
+	/**
+	 * @param sPrtKorNm the sPrtKorNm to set
+	 */
+	public void setsPrtKorNm(String sPrtKorNm) {
+		this.sPrtKorNm = sPrtKorNm;
 	}
 
 	/**
@@ -129,6 +154,20 @@ public class GamSocShipProcessRealloadVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sVsslNm
+	 */
+	public String getsVsslNm() {
+		return sVsslNm;
+	}
+
+	/**
+	 * @param sVsslNm the sVsslNm to set
+	 */
+	public void setsVsslNm(String sVsslNm) {
+		this.sVsslNm = sVsslNm;
+	}
+
+	/**
 	 * @return the totalCnt
 	 */
 	public int getTotalCnt() {
@@ -171,6 +210,22 @@ public class GamSocShipProcessRealloadVO extends ComDefaultVO {
 	public void setFeeTp(String feeTp) {
 		this.feeTp = feeTp;
 	}
+
+	/**
+	 * @return the sExmpAgentName
+	 */
+	public String getsExmpAgentName() {
+		return sExmpAgentName;
+	}
+
+	/**
+	 * @param sExmpAgentName the sExmpAgentName to set
+	 */
+	public void setsExmpAgentName(String sExmpAgentName) {
+		this.sExmpAgentName = sExmpAgentName;
+	}
+
+
     
     
     

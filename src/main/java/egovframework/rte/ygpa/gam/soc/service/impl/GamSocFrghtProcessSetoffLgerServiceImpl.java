@@ -57,5 +57,7 @@ public class GamSocFrghtProcessSetoffLgerServiceImpl extends AbstractServiceImpl
 	public GamSocFrghtProcessSetoffLgerVO selectSocFrghtProcessSetoffLgerListSum(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
 		return gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerListSum(searchVO);
 	}
+	
+	
 
 }

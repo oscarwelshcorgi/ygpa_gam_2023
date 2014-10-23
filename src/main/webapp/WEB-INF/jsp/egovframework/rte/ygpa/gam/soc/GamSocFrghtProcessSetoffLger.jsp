@@ -274,19 +274,12 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                             </td>
                         </tr>
                         <tr>
-                            <th>신청시설</th>
-                            <td>
-                                <input type="text" size="9" id="sFacCode" maxlength="5" readonly/>
-                                <input type="text" size="9" id="sFacSubCode" maxlength="5" readonly/>
-                                <input type="text" size="15" id="sFacKorNm" disabled/>
-                                <button id="popupFcltyInfo" class="popupButton">선택</button>
-                            </td>
                             <th>보전누계액</th>
                             <td>
                                 <input id="sExmpAcc" type="text" size="15" />
                             </td>
                             <th>입출항일자</th>
-                            <td>
+                            <td colspan="3">
                                 <input id="sIoDt" type="text" class="emdcal" size="12"> ~ 
                                 <input id="sIoDt2" type="text" class="emdcal" size="12">
                             </td>
@@ -382,7 +375,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
 								<th width="10%" height="25">총계(전체)</th>
 								<td><input type="text" size="17" id="sumAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-    	                        	<button id="btnPrint">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocFrghtProcessSetoffLgerSearchForm" data-url="<c:url value='/soc/gamSelectSocFrghtProcessSetoffLgerListPrint.do'/>">인쇄</button>
         	                    </td>
 							</tr>
 						</table>

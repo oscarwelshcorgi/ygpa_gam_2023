@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -30,8 +32,7 @@ import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessRealloadService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessRealloadVO;
-import egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsVO;
+
 
 /**
  * 
@@ -194,6 +195,68 @@ public class GamSocShipProcessRealloadController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	/**
+     * 총사업비상계처리내역 목록을 인쇄한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocShipProcessRealloadListPrint.do")
+	public String selectSocShipProcessRealloadListPrint(@RequestParam Map<String, Object> socShipProcessRealloadOpt, ModelMap model) throws Exception {
+
+		int totalCnt, page, firstIndex;
+		String prtAtCode, prtKorNm, frDt, toDt;
+		long sumExmpAmnt;
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/soc/GamSocShipProcessRealloadPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocShipProcessRealloadVO searchVO;
+
+    	searchVO = mapper.convertValue(socShipProcessRealloadOpt, GamSocShipProcessRealloadVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		GamSocShipProcessRealloadVO totalSumCnt = gamSocShipProcessRealloadService.selectSocShipProcessRealloadListPrintTotCnt(searchVO);
+    	List socShipProcessRealloadList = gamSocShipProcessRealloadService.selectSocShipProcessRealloadListPrint(searchVO);
+    	
+    	totalCnt = totalSumCnt.getTotalCnt();
+    	sumExmpAmnt = totalSumCnt.getSumExmpAmnt();
+    	prtAtCode = searchVO.getsPrtAtCode();
+    	prtKorNm = searchVO.getsPrtKorNm();
+    	frDt = searchVO.getsFrDt();
+    	toDt = searchVO.getsToDt();
+
+        model.addAttribute("totalCount", totalCnt);
+        model.addAttribute("sumExmpAmnt", sumExmpAmnt);
+        model.addAttribute("prtAtCode", prtAtCode);
+        model.addAttribute("prtKorNm", prtKorNm);
+        model.addAttribute("frDt", frDt);
+        model.addAttribute("toDt", toDt);
+        model.addAttribute("resultList", socShipProcessRealloadList);
+
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/soc/GamSocShipProcessRealloadPrint";
     }
 
 }
