@@ -37,11 +37,11 @@
 											DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT
 				                    , E.FISCAL_YR
 				                    , E.BILL_NO
-				                    , TO_CHAR(NVL(E.STANDARD_FEE, 0), '999,999,999,999') AS STANDARD_FEE
+				                    , NVL(E.STANDARD_FEE, 0) STANDARD_FEE
 				                    , E.REAL_TN
 				                    , TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') BILL_DT
 				                    , NVL(E.DC_RATE_NM, '0') || '%' DC_RATE_NM
-				                    , TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+				                    , NVL(E.EXMP_AMNT, 0) EXMP_AMNT
 							FROM
 									SOC_EXMP_F@YGPA_P2MGR E
 							WHERE
@@ -99,7 +99,7 @@
 	<select id="gamSocAgentProcessRealloadNewDao.selectSocAgentProcessRealloadNewListTotCnt_S" parameterClass="gamSocAgentProcessRealloadNewVO" resultMap="gamSocAgentProcessRealloadNewSumMap">
 		SELECT
 		   COUNT(*) TOT_CNT
-		   , TO_CHAR(NVL(SUM(E.EXMP_AMNT),0), '999,999,999,999') SUM_EXMP_AMNT
+		   , NVL(SUM(E.EXMP_AMNT),0) SUM_EXMP_AMNT
 		FROM SOC_EXMP_F@YGPA_P2MGR E
         WHERE					
 			1 = 1	
