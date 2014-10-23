@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -89,7 +91,7 @@ public class GamSocAgentProcessRealloadNewController {
     
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/soc/gamSelectSocAgentProcessRealloadNewList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectSocAgentProcessDtlsSttusList(GamSocAgentProcessRealloadNewVO searchVO) throws Exception {
+	public @ResponseBody Map selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -125,4 +127,42 @@ public class GamSocAgentProcessRealloadNewController {
     	map.put("sumExmpAmnt", (resultVO != null) ? resultVO.getSumExmpAmnt() : "0");
     	return map;
     } 
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocAgentProcessRealloadNewListPrint.do")
+	public String selectSocAgentProcessRealloadNewListPrint(@RequestParam Map<String, Object> socAgentProcessRealloadNewOpt, ModelMap model) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return "/ygpa/gam/soc/GamSocAgentProcessRealloadNewPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		GamSocAgentProcessRealloadNewVO searchVO;
+
+    	searchVO = mapper.convertValue(socAgentProcessRealloadNewOpt, GamSocAgentProcessRealloadNewVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+		
+    	List socAgentProcessRealloadNewList = gamSocAgentProcessRealloadNewService.selectSocAgentProcessRealloadNewList(searchVO);
+    	
+		GamSocAgentProcessRealloadNewVO resultVO = gamSocAgentProcessRealloadNewService.selectSocAgentProcessRealloadNewListTotCnt(searchVO);
+    	totalCnt = (resultVO != null) ? resultVO.getTotalCnt() : 0;
+    	 
+    	model.addAttribute("resultCode", 0);	// return ok
+    	model.addAttribute("totalCount", totalCnt);
+    	model.addAttribute("resultList", socAgentProcessRealloadNewList);
+    	model.addAttribute("searchDtFr", searchVO.getsSearchDtFr());
+    	model.addAttribute("searchDtTo", searchVO.getsSearchDtTo());
+    	model.addAttribute("sumExmpAmnt", (resultVO != null) ? resultVO.getSumExmpAmnt() : "0");
+    	
+    	return "/ygpa/gam/soc/GamSocAgentProcessRealloadNewPrint";
+    } 	
 }
