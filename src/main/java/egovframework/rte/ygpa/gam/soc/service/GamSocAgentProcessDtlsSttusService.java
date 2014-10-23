@@ -33,11 +33,11 @@ public interface GamSocAgentProcessDtlsSttusService {
 	List selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO);
 	
 	/**
-	 * 투자비보전처리현황 리스트의 총 개수를 조회한다. 
+	 * 투자비보전처리현황 리스트의 총계데이터를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
+	 * @return 총계데이터 VO
 	 * @exception
 	 */
-	int selectSocAgentProcessDtlsSttusListTotCnt(GamSocAgentProcessDtlsSttusVO searchVO);
+	GamSocAgentProcessDtlsSttusVO selectSocAgentProcessDtlsSttusListTotSum(GamSocAgentProcessDtlsSttusVO searchVO);
 }
 

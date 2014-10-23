@@ -46,13 +46,13 @@ public class GamSocAgentProcessDtlsSttusServiceImpl extends AbstractServiceImpl 
 	}
 
 	/**
-	 * 투자비보전처리현황 리스트의 총 개수를 조회한다. 
+	 * 투자비보전처리현황 리스트의 총계 데이터를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
+	 * @return 총계데이터VO
 	 * @exception
 	 */	
-	public int selectSocAgentProcessDtlsSttusListTotCnt(GamSocAgentProcessDtlsSttusVO searchVO) {
-		return gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotCnt(searchVO);
+	public GamSocAgentProcessDtlsSttusVO selectSocAgentProcessDtlsSttusListTotSum(GamSocAgentProcessDtlsSttusVO searchVO) {
+		return gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotSum(searchVO);
 	}
 }
 

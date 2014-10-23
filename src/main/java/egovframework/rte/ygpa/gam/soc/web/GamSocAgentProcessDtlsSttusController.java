@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -113,7 +115,8 @@ public class GamSocAgentProcessDtlsSttusController {
 		
     	List socAgentProcessDtlsSttusList = gamSocAgentProcessDtlsSttusService.selectSocAgentProcessDtlsSttusList(searchVO);
     	
-		totalCnt = gamSocAgentProcessDtlsSttusService.selectSocAgentProcessDtlsSttusListTotCnt(searchVO);
+    	GamSocAgentProcessDtlsSttusVO resultVO = gamSocAgentProcessDtlsSttusService.selectSocAgentProcessDtlsSttusListTotSum(searchVO);
+    	totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -125,4 +128,38 @@ public class GamSocAgentProcessDtlsSttusController {
 
     	return map;
     }    
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/soc/gamSelectSocAgentProcessDtlsSttusListPrint.do")
+	public String selectSocAgentProcessDtlsSttusListPrint(@RequestParam Map<String, Object> socAgentProcessRealloadNewOpt, ModelMap model) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return "/ygpa/gam/soc/GamSocAgentProcessDtlsSttusPrint";
+    	}
+
+    	ObjectMapper mapper = new ObjectMapper();
+    	GamSocAgentProcessDtlsSttusVO searchVO;
+    	searchVO = mapper.convertValue(socAgentProcessRealloadNewOpt, GamSocAgentProcessDtlsSttusVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+    	
+    	List socAgentProcessDtlsSttusList = gamSocAgentProcessDtlsSttusService.selectSocAgentProcessDtlsSttusList(searchVO);    	
+    	GamSocAgentProcessDtlsSttusVO resultVO = gamSocAgentProcessDtlsSttusService.selectSocAgentProcessDtlsSttusListTotSum(searchVO);
+    	totalCnt = (resultVO != null) ? resultVO.getTotCnt() : 0;
+    	 
+    	model.addAttribute("resultCode", 0);	// return ok
+    	model.addAttribute("totalCount", totalCnt);
+    	model.addAttribute("resultList", socAgentProcessDtlsSttusList);
+
+		return "/ygpa/gam/soc/GamSocAgentProcessDtlsSttusPrint";
+    }    
+	
 }

@@ -39,12 +39,12 @@ public class GamSocAgentProcessDtlsSttusDAO extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 투자비보전처리현황 리스트의 총 개수를 조회한다. 
+	 * 투자비보전처리현황 리스트의 총계 데이터를 조회한다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
+	 * @return 총계데이터 VO
 	 * @exception
 	 */
-	int selectSocAgentProcessDtlsSttusListTotCnt(GamSocAgentProcessDtlsSttusVO searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotCnt_S", searchVO);
+	GamSocAgentProcessDtlsSttusVO selectSocAgentProcessDtlsSttusListTotSum(GamSocAgentProcessDtlsSttusVO searchVO) {
+		return (GamSocAgentProcessDtlsSttusVO)selectByPk("gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotSum_S", searchVO);
 	}
 }

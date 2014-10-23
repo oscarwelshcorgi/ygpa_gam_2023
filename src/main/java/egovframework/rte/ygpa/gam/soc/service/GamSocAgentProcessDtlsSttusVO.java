@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.soc.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -21,7 +23,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamSocAgentProcessDtlsSttusVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 	/** 등록항구(조회조건) **/
@@ -47,6 +49,12 @@ public class GamSocAgentProcessDtlsSttusVO extends ComDefaultVO {
 
 	/** 고지일자 종료(조회조건) **/
 	private String sBillDtTo;
+
+	/** 보전신청 총액**/
+	private String sumExmpAmnt;
+	
+	/** 조회검색수 **/
+	private int totCnt;
 
 	/**
 	 * @return the sPrtAtCode
@@ -159,5 +167,33 @@ public class GamSocAgentProcessDtlsSttusVO extends ComDefaultVO {
 	 */
 	public void setsBillDtTo(String sBillDtTo) {
 		this.sBillDtTo = sBillDtTo;
+	}
+
+	/**
+	 * @return the sumExmpAmnt
+	 */
+	public String getSumExmpAmnt() {
+		return sumExmpAmnt;
+	}
+
+	/**
+	 * @param sumExmpAmnt the sumExmpAmnt to set
+	 */
+	public void setSumExmpAmnt(String sumExmpAmnt) {
+		this.sumExmpAmnt = sumExmpAmnt;
+	}
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
 	}
 }
