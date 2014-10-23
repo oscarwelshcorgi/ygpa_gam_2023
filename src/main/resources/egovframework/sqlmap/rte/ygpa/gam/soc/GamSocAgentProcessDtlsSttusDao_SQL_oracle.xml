@@ -4,6 +4,11 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocAgentProcessDtlsSttusVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocAgentProcessDtlsSttusVO" />
+
+	<resultMap id="gamSocAgentProcessDtlsSttusSumMap" class="gamSocAgentProcessDtlsSttusVO">
+		<result property="totCnt" column="TOTCNT" columnIndex="1" javaType="int"/>
+        <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="java.lang.String"/>
+    </resultMap>
 	
 	<select id="gamSocAgentProcessDtlsSttusDAO.selectSocAgentProcessDtlsSttusList_S" parameterClass="gamSocAgentProcessDtlsSttusVO" resultClass="egovMap">
            SELECT A.*
@@ -29,15 +34,26 @@
 							       , E.YR
 							       , DECODE(E.FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
 									                            DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT_NM
-							       , TO_CHAR(NVL(E.EXMP_AMNT, 0), '999,999,999,999') AS EXMP_AMNT
+							       , NVL(E.EXMP_AMNT, 0) EXMP_AMNT
 							       , E.FAC_CODE
 							       , E.FAC_SUB_CODE
 							       , P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE) FACIL_NM
 							       , TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') BILL_DT
-							       , TO_CHAR(NVL(E.STANDARD_FEE, 0), '999,999,999,999') AS STANDARD_FEE
+							       , NVL(E.STANDARD_FEE, 0) STANDARD_FEE
 							       , E.REAL_TN
+							       , NVL(A.EXMP_ACC, 0) EXMP_ACC
+							       , DECODE(A.RATE_GUBUN,'1','과거','현재') RATE_GUBUN
 							FROM
 							       SOC_EXMP_F@YGPA_P2MGR E
+							INNER JOIN
+								   SOC_APPLY_F@YGPA_P2MGR A
+							ON
+								   E.PRT_AT_CODE = A.PRT_AT_CODE
+								   AND E.CMPL_YR = A.CMPL_YR
+								   AND E.CONST_NO = A.CONST_NO
+								   AND E.APP_PRT_AT_CODE = A.APP_PRT_AT_CODE
+								   AND E.APP_AGENT_CODE = A.APP_AGENT_CODE
+								   AND E.USE_NO = A.USE_NO						    							       
 							WHERE
 							        E.APP_PRT_AT_CODE IS NOT NULL
 						         <isNotEmpty property="sPrtAtCode">
@@ -71,10 +87,20 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 	
-	<select id="gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotCnt_S" parameterClass="gamSocAgentProcessDtlsSttusVO" resultClass="int">
+	<select id="gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusListTotSum_S" parameterClass="gamSocAgentProcessDtlsSttusVO" resultMap="gamSocAgentProcessDtlsSttusSumMap">
 		SELECT
 		  COUNT(*) TOTCNT
+		  , SUM(NVL(E.EXMP_AMNT, 0)) SUM_EXMP_AMNT
 		FROM SOC_EXMP_F@YGPA_P2MGR E
+		INNER JOIN
+			   SOC_APPLY_F@YGPA_P2MGR A
+		ON
+			   E.PRT_AT_CODE = A.PRT_AT_CODE
+			   AND E.CMPL_YR = A.CMPL_YR
+			   AND E.CONST_NO = A.CONST_NO
+			   AND E.APP_PRT_AT_CODE = A.APP_PRT_AT_CODE
+			   AND E.APP_AGENT_CODE = A.APP_AGENT_CODE
+			   AND E.USE_NO = A.USE_NO						    							       
         WHERE					
 	        E.APP_PRT_AT_CODE IS NOT NULL
          <isNotEmpty property="sPrtAtCode">
