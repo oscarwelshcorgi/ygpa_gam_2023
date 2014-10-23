@@ -58,13 +58,13 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
                     {display:'징수톤', name:'realTn',width:50, sortable:false,align:'center'},
                     {display:'고지일자', name:'billDt',width:80, sortable:false,align:'center'},
                     {display:'할인율', name:'dcRateNm',width:80, sortable:false,align:'center'},
-                    {display:'면제금액', name:'exmpAmnt',width:80, sortable:false,align:'center'}
+                    {display:'면제금액', name:'exmpAmnt',width:80, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalCount').val($.number(data["totalCount"]));
-            module.$('#sumExmpAmnt').val(data["sumExmpAmnt"]);
+            module.$('#sumExmpAmnt').val($.number(data["sumExmpAmnt"]));
             return data;
         }
     });
@@ -77,12 +77,13 @@ GamSocAgentProcessRealloadNewModule.prototype.onButtonClick = function(buttonId)
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
+        	if(this.$('#sPrtAtCode').val() == '') {
+        		alert('항코드를 선택하세요.');
+        		break;
+        	}
         	opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
         	this.$("#socAgentProcessRealloadNewList").flexOptions({params:opts}).flexReload();
             break;
-        case 'btnPrint' : //인쇄버튼
-        	opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
-        	break;
         case 'popupFeeTpInfo' : //요금종류 선택
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
@@ -216,7 +217,7 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
 								<th width="18%" height="25">면제금액</th>
 								<td><input type="text" size="18" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button id="btnPrint">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocAgentProcessRealloadNewSearchForm" data-url="<c:url value='/soc/gamSelectSocAgentProcessRealloadNewListPrint.do'/>">인쇄</button>
         	                    </td>
 							</tr>
 						</table>
