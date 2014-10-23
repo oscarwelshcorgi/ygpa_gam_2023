@@ -51,12 +51,12 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
                     {display:'요금종류명', name:'feeTpNm',width:65, sortable:false,align:'left'},
                     {display:'횟수', name:'useNo',width:40, sortable:false,align:'left'},
                     {display:'관리번호', name:'socNo',width:70, sortable:false,align:'left'},
-                    {display:'신고업체', name:'appAgentCode',width:60, sortable:false,align:'center'},
-                    {display:'신고업체명', name:'appAgentName',width:100, sortable:false,align:'center'},
-                    {display:'요율금액', name:'standardFee',width:80, sortable:false,align:'center'},
-                    {display:'상계금액', name:'exmpAmnt',width:80, sortable:false,align:'center'},
+                    {display:'신고업체', name:'exmpAgentCode',width:60, sortable:false,align:'center'},
+                    {display:'신고업체명', name:'exmpAgentNm',width:100, sortable:false,align:'center'},
+                    {display:'요율금액', name:'standardFee',width:80, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'상계금액', name:'exmpAmnt',width:80, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'호출부호', name:'callLetter',width:50, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'exmpAcc',width:80, sortable:false,align:'center'},
+                    {display:'보전누계액', name:'exmpAcc',width:80, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'입항횟수', name:'serNo',width:80, sortable:false,align:'center'},
                     {display:'외내항', name:'inOut',width:40, sortable:false,align:'center'},
                     {display:'시설코드', name:'facCode',width:50, sortable:false,align:'center'},
@@ -71,6 +71,12 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
             return data;
         }
     });
+    this.$("#socAgentProcessDtlsSttusList").on('onItemSelected', function(event, module, row, grid, param) {
+    	module.$('#rateGubun').val(row['rateGubun']);
+    	module.$('#exmpAmnt').val($.number(row['exmpAmnt']));
+    	module.$('#exmpAcc').val($.number(row['exmpAcc']));
+    	module.$('#exmpRemain').val($.number(row['exmpAmnt'] - row['exmpAcc']));
+    });
 };
 
 /**
@@ -83,9 +89,6 @@ GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
         	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
         	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
             break;
-        case 'btnPrint' : //인쇄버튼
-        	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
-        	break;
         case 'popupApplyInfo' : //투자비보전신청업체 선택
 			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
 					'<c:url value="/popup/showSocApplyInfo.do"/>', opts);
@@ -224,12 +227,20 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                 <table id="socAgentProcessDtlsSttusList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
 					<form id="form1">
-    	               	<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                            	<button id="btnPrint">인쇄</button>
-	                            </td>
-	                        </tr>
+					    <table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="17%" height="25">적용요율</th>
+								<td><input type="text" size="8" id="rateGubun" disabled="disabled" /></td>
+								<th width="18%" height="25">보전신청액</th>
+								<td><input type="text" size="20" id="exmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">보전누계액</th>
+								<td><input type="text" size="20" id="exmpAcc" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="18%" height="25">보전차액</th>
+								<td><input type="text" size="20" id="exmpRemain" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+    	                        	<button data-role="printPage" data-search-option="gamSocAgentProcessDtlsSttusSearchForm" data-url="<c:url value='/soc/gamSelectSocAgentProcessDtlsSttusListPrint.do'/>">인쇄</button>
+        	                    </td>
+							</tr>
 						</table>
 					</form>
                 </div>
