@@ -55,13 +55,13 @@ GamSocApplyModule.prototype.loadComplete = function() {
                     {display:'요청업체명', name:'appAgentName',width:150, sortable:false,align:'left'},
                     {display:'횟수', name:'useNo',width:45, sortable:false,align:'center'},
                     {display:'사용여부', name:'useYn',width:55, sortable:false,align:'center'},
-                    {display:'보전요청액', name:'exmpAmnt',width:80, sortable:false,align:'center'},
+                    {display:'보전요청액', name:'exmpAmnt',width:80, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'보전기간시작일', name:'periodFr',width:80, sortable:false,align:'center'},
                     {display:'보전기간종료일', name:'periodTo',width:80, sortable:false,align:'center'},
                     {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
                     {display:'조건', name:'exmpCond',width:80, sortable:false,align:'center'},
                     {display:'적용요율', name:'rateGubun',width:80, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'exmpAcc',width:80, sortable:false,align:'center'}
+                    {display:'보전누계액', name:'exmpAcc',width:80, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -488,9 +488,9 @@ var module_instance = new GamSocApplyModule();
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
                                 <th width="16%">보전처리신청금액</th>
-                                <td><input type="text" id="exmpAmnt" size="20" ></td>
+                                <td><input type="text" id="exmpAmnt" size="20" class="ygpaNumber" /></td>
                                 <th width="16%">보전처리누계액</th>
-                                <td><input type="text" id="exmpAcc" size="20" disabled="disabled"></td>
+                                <td><input type="text" id="exmpAcc" size="20" class="ygpaNumber" /></td>
                             </tr>
                             <tr>
                                 <th width="16%">보전처리기간</th>

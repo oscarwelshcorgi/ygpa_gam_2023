@@ -7,7 +7,7 @@
 <%
 /**
  * @Class Name : GamSocExmpMngt.jsp
- * @Description : 비관리청 신청
+ * @Description : 비관리청 면제관리
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -38,6 +38,7 @@ GamSocExmpMngtModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSocExmpMngtModule.prototype.loadComplete = function() {
+	this.$('#btnNewSocNo').hide();
 };
 
 GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
@@ -68,6 +69,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         			module.makeFormValues('#gamSocExmpMngtForm', result.resultVO);
         			module.$('#tempAppPrtAtCode').val(result.resultVO.appPrtAtCode);
         			module.$('#cmd').val('modify');
+        			module.$('#btnNewSocNo').hide();
         		}
         		else {
         			alert(result.resultMsg);
@@ -75,6 +77,13 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         		}
         	});
             break;
+        case 'btnNew' : //등록버튼
+				this.$('#gamSocExmpMngtForm :input').val('');
+				this.$('#sAppPrtAtCode').val('');
+				this.$('#sFeeTp').val('');
+				this.$('#sFiscalYr').val('');
+				this.$('#btnNewSocNo').show();
+        	break;
         case 'btnNewSocNo' : //신규관리번호생성
         	if(this.$('#sAppPrtAtCode').val() == '') {
         		alert('항코드를 선택하세요.');
@@ -91,7 +100,6 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/selectSocExmpMngtGetNextSocNo.do" />', opts, function(module, result) {
         		if(result.resultCode == 0) {
-        			module.$('#gamSocExmpMngtForm :input').val('');
 
         			module.$('#sSocNo').val(result.nextSocNo);
         			module.$('#appPrtAtCode').val(module.$('#sAppPrtAtCode').val());
@@ -143,6 +151,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
 	            		module.$('#gamSocExmpMngtForm :input').val('');
+	            		module.$('#btnNewSocNo').hide();
 	        		}
 	        		alert(result.resultMsg);
 	        	});
@@ -489,6 +498,7 @@ var module_instance = new GamSocExmpMngtModule();
 	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
+	                        	<button id="btnNew">등록</button>
 	                            <button id="btnSave" class="buttonSave">저장</button>
 	                            <button id="btnDelete" class="buttonDelete">삭제</button>
 	                            <!-- <button id="btnNoticeAdit2">추가고지</button> -->
