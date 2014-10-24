@@ -20,14 +20,8 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamSocApply" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
-<!--
-<validator:javascript formName="gamSocApply" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyDetail" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyFile" staticJavascript="false" xhtml="true" cdata="false" />
- -->
+<validator:javascript formName="gamSocAgentProcessDtlsSttusSearchForm" method="validateGamSocAgentProcessDtlsSttus" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -86,6 +80,9 @@ GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
+        	if(!validateGamSocAgentProcessDtlsSttus(this.$('#gamSocAgentProcessDtlsSttusSearchForm')[0])){ 		
+        		return;
+        	}
         	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
         	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
             break;

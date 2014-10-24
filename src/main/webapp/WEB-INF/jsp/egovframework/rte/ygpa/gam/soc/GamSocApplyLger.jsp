@@ -20,14 +20,8 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamSocApply" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
-<!--
-<validator:javascript formName="gamSocApply" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyDetail" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyFile" staticJavascript="false" xhtml="true" cdata="false" />
- -->
+<validator:javascript formName="gamSocApplyLgerSearchForm" method="validateGamSocApplyLger" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -75,9 +69,8 @@ GamSocApplyLgerModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
-        	if(this.$('#sPrtAtCode').val() == '') {
-        		alert('항코드를 선택하세요.');
-        		break;
+        	if(!validateGamSocApplyLger(this.$('#gamSocApplyLgerSearchForm')[0])){ 		
+        		return;
         	}
         	opts = this.makeFormArgs('#gamSocApplyLgerSearchForm');
         	this.$("#socApplyLgerList").flexOptions({params:opts}).flexReload();

@@ -134,9 +134,9 @@
         				<td><c:out value="${result.periodTo }" /></td>
         				<td><c:out value="${result.applyDate }" /></td>
         				<td><c:out value="${result.perfDt }" /></td>
-        				<td><fmt:formatNumber value="${result.exmpAmnt}" type="currency" currencySymbol=""/></td>
-        				<td><fmt:formatNumber value="${result.exmpAcc}" type="currency" currencySymbol=""/></td>
-        				<td><fmt:formatNumber value="${result.exmpRemain}" type="currency" currencySymbol=""/></td>
+        				<td style="text-align: right"><fmt:formatNumber value="${result.exmpAmnt}" type="currency" currencySymbol=""/></td>
+        				<td style="text-align: right"><fmt:formatNumber value="${result.exmpAcc}" type="currency" currencySymbol=""/></td>
+        				<td style="text-align: right"><fmt:formatNumber value="${result.exmpRemain}" type="currency" currencySymbol=""/></td>
         			</tr>
     </c:forEach>
         		</tbody>
