@@ -20,14 +20,8 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamAssetRent" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<!--
-<validator:javascript formName="gamAssetRent" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentDetail" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamAssetRentFile" staticJavascript="false" xhtml="true" cdata="false" />
- -->
+<validator:javascript formName="gamSocExmpMngtSearchForm" method="validateGamSocExmpMngt" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -46,21 +40,8 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         // 조회
         case 'searchBtn':
-        	if(this.$('#sAppPrtAtCode').val() == '') {
-        		alert('항코드를 선택하세요.');
-        		break;
-        	}
-        	if(this.$('#sFeeTp').val() == '') {
-        		alert('요금종류코드를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sFiscalYr').val() == '') {
-        		alert('회계년도를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sSocNo').val() == '') {
-        		alert('관리번호를 입력하세요.');
-        		break;
+        	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
+        		return;
         	}
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/gamSelectSocExmpMngtDetailInquire.do" />', opts, function(module, result) {
@@ -82,6 +63,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 				this.$('#sAppPrtAtCode').val('');
 				this.$('#sFeeTp').val('');
 				this.$('#sFiscalYr').val('');
+				this.$('#sSocNo').val('');
 				this.$('#btnNewSocNo').show();
 				this.$('#cmd').val('insert');
         	break;
@@ -114,9 +96,10 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	});
         	break;
         case 'btnSave' : //저장
-			if((this.$('#cmd').val() == 'insert') && (this.$('#socNo').val() == '')) {
-				alert('신규관리번호를 생성하세요.');
-				break;
+			if(this.$('#cmd').val() == 'insert') {
+	        	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
+	        		return;
+	        	}
 			}
 			if(this.$('#prtAtCode').val() == '') {
 				alert('공사관리청을 선택하세요.');
@@ -144,7 +127,6 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 			}
 			opts = this.makeFormArgs('#gamSocExmpMngtForm');
 			if(this.$('#cmd').val() == 'insert') {
-				//신규등록
 	        	this.doAction('<c:url value="/soc/gamInsertSocExmpMngtDetail.do" />', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
