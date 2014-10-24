@@ -181,6 +181,31 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
         	this.$('#cmd').val('insert');
         	break;
         case 'btnSave' : //저장
+        	if(this.$('#sPrtAtCode').val() == '') {
+        		alert('공사관리청을 선택하세요.');
+        		break;
+        	}
+        	if(this.$('#sCmplYr').val() == '') {
+        		alert('준공년도를 입력하세요.');
+        		break;
+        	}
+        	if(this.$('#sConstNo').val() == '') {
+        		alert('공사일련번호를 입력하세요.');
+        		break;
+        	}
+        	if(this.$('#sAppPrtAtCode').val() == '') {
+        		alert('면제요청청을 선택하세요.');
+        		break;
+        	}
+        	if(this.$('#sAppPrtAtCode').val() == '') {
+        		alert('면제요청업체를 입력하세요.');
+        		break;
+        	}
+        	if(this.$('#sUseNo').val() == '') {
+        		alert('요청횟수를 입력하세요.');
+        		break;
+        	}
+        	
         	if(this.$('#cmd').val() == 'insert') {
 	        	this.$('#prtAtCode').val(this.$('#sPrtAtCode').val());
 	        	this.$('#cmplYr').val(this.$('#sCmplYr').val());
