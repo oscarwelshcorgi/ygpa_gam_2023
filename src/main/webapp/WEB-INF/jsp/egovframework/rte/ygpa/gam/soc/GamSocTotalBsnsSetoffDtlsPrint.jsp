@@ -106,7 +106,7 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%14==0 || (prePrtAtCode!= result.prtAtCode && preCmplYr!=result.cmplYr && preConstNo!=result.constNo) }"> <% /*  페이지 당 출력 갯수 */ %>
+           			<c:if test="${resultStatus.index%13==0 || (prePrtAtCode!= result.prtAtCode && preCmplYr!=result.cmplYr && preConstNo!=result.constNo) }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
