@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamSocApplySearchForm">
+            <field property="sPrtAtCode" depends="required">
+                <arg0 key="공사관리청" resource="false"/>
+            </field>
+            <field property="sCmplYr" depends="required">
+                <arg0 key="준공년도" resource="false"/>
+            </field>
+            <field property="sConstNo" depends="required">
+                <arg0 key="공사일련번호" resource="false"/>
+            </field>
+            <field property="sAppPrtAtCode" depends="required">
+                <arg0 key="면제요청청" resource="false"/>
+            </field>
+            <field property="sAppAgentCode" depends="required">
+                <arg0 key="면제요청업체" resource="false"/>
+            </field>
+            <field property="sUseNo" depends="required">
+                <arg0 key="요청횟수" resource="false"/>
+            </field>
+        </form>
+    </formset>
+
+</form-validation>

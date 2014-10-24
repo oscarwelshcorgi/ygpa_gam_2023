@@ -20,14 +20,7 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamSocApply" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyFile" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
-<!--
-<validator:javascript formName="gamSocApply" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyDetail" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamSocApplyFile" staticJavascript="false" xhtml="true" cdata="false" />
- -->
+<validator:javascript formName="gamSocApplySearchForm" method="validateGamSocApply" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -114,29 +107,8 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
-        	if(this.$('#sPrtAtCode').val() == '') {
-        		alert('공사관리청을 선택하세요.');
-        		break;
-        	}
-        	if(this.$('#sCmplYr').val() == '') {
-        		alert('준공년도를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sConstNo').val() == '') {
-        		alert('공사일련번호를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sAppPrtAtCode').val() == '') {
-        		alert('면제요청청을 선택하세요.');
-        		break;
-        	}
-        	if(this.$('#sAppPrtAtCode').val() == '') {
-        		alert('면제요청업체를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sUseNo').val() == '') {
-        		alert('요청횟수를 입력하세요.');
-        		break;
+        	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
+        		return;
         	}
         	opts = this.makeFormArgs('#gamSocApplySearchForm');
         	this.doAction('<c:url value="/soc/gamSelectApplyDetailInquire.do" />', opts, function(module, result) {
@@ -181,32 +153,10 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
         	this.$('#cmd').val('insert');
         	break;
         case 'btnSave' : //저장
-        	if(this.$('#sPrtAtCode').val() == '') {
-        		alert('공사관리청을 선택하세요.');
-        		break;
-        	}
-        	if(this.$('#sCmplYr').val() == '') {
-        		alert('준공년도를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sConstNo').val() == '') {
-        		alert('공사일련번호를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sAppPrtAtCode').val() == '') {
-        		alert('면제요청청을 선택하세요.');
-        		break;
-        	}
-        	if(this.$('#sAppPrtAtCode').val() == '') {
-        		alert('면제요청업체를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sUseNo').val() == '') {
-        		alert('요청횟수를 입력하세요.');
-        		break;
-        	}
-        	
         	if(this.$('#cmd').val() == 'insert') {
+            	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
+            		return;
+            	}        	
 	        	this.$('#prtAtCode').val(this.$('#sPrtAtCode').val());
 	        	this.$('#cmplYr').val(this.$('#sCmplYr').val());
 	        	this.$('#constNo').val(this.$('#sConstNo').val());

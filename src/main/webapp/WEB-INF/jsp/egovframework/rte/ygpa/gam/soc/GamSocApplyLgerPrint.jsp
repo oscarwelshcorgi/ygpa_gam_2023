@@ -51,7 +51,7 @@
   <c:set var="agentName" value="" />
   <c:set var="constNo" value="" />
   <c:set var="pageSkip" value="true" />
-  
+  <c:set var="printRecordCount" value="0" />
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -92,8 +92,12 @@
     					<c:if test="${(result.appPrtAtCode != appPrtAtCode) or (result.prtAtCode != prtAtCode) or (result.constNo != constNo) or (result.agentCode != agentCode) }">
     						<c:set var="pageSkip" value="true"/>
     					</c:if>
+    					<c:if test="${printRecordCount >= pagePerCount }">
+    						<c:set var="pageSkip" value="true"/>
+							<c:set var="printRecordCount" value="0" />
+    					</c:if>
     				</c:if>
-           			<c:if test="${resultStatus.index%pagePerCount==0 or (pageSkip == true)}"> <% /*  페이지 당 출력 갯수 */ %>
+           			<c:if test="${pageSkip == true}"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0}">	<% /*  페이지 구분*/ %>
            					
 			        		</tbody>
@@ -163,6 +167,7 @@
         				<td colspan="3"><c:out value="${result.remark }" /></td>
         				<td colspan="4"><c:out value="${result.item }" /></td>
         			</tr>
+        			<c:set var="printRecordCount" value="${printRecordCount+1}" />
     </c:forEach>
         		</tbody>
         	</table>
