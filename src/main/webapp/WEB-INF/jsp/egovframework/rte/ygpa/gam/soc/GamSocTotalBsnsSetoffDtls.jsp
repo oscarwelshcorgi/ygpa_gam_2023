@@ -58,12 +58,21 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
     
     
     this.$("#socTotalBsnsSetoffDtlsList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+
+		
 		var detailInput = [
 		   				{name: 'prtAtCode', value: row["prtAtCode"]},
 		   				{name: 'cmplYr', value: row["cmplYr"]},
-		   				{name: 'constNo', value: row["constNo"]}
+		   				{name: 'constNo', value: row["constNo"]},
+		   				{name: 'sPrtAtCode', value: module.$('#sPrtAtCode').val()},
+		   				{name: 'sFeeTp', value: module.$('#sFeeTp').val()},
+		   				{name: 'sExmpAgentCode', value: module.$('#sExmpAgentCode').val()},
+		   				{name: 'sUseNo', value: module.$('#sUseNo').val()},
+		   				{name: 'sType', value: module.$('#sType').val()},
+		   				{name: 'sFrDt', value: module.$('#sFrDt').val()},
+		   				{name: 'sToDt', value: module.$('#sToDt').val()}
 		                   ]; 
-		                   
+		console.log('debug');
 		module.$('#socTotalBsnsSetoffDtlsDetail').flexOptions({params:detailInput}).flexReload();
 	});
     
