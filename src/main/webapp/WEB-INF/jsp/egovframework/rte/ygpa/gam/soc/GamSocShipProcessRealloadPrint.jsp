@@ -42,6 +42,17 @@
 	</script>
   </head>
   <body>
+  <c:set var="pagePerCount" value="13"/>
+  <c:set var="appPrtAtCode" value=""/>
+  <c:set var="appPrtAtNm" value=""/>
+  <c:set var="prtAtCode" value="" />
+  <c:set var="prtAtNm" value="" />
+  <c:set var="agentCode" value="" />
+  <c:set var="agentName" value="" />
+  <c:set var="constNo" value="" />
+  <c:set var="pageSkip" value="true" />
+  <c:set var="checkIndex" value="0" />
+  
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -90,7 +101,13 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%14==0 || preFeeTp!= result.feeTp}"> <% /*  페이지 당 출력 갯수 */ %>
+           			
+           			<c:if test="${pageSkip == false}">
+    					<c:if test="${(result.feeTp != preFeeTp) }">
+    						<c:set var="pageSkip" value="true"/>
+    					</c:if>
+    				</c:if>
+           			<c:if test="${checkIndex%pagePerCount==0 or (pageSkip == true) }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0}">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -100,6 +117,9 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
+        				<c:set var="checkIndex" value="0" />
+        				<c:set var="pageSkip" value="false" />
+        				<c:set var="preFeeTp" value='${result.feeTp}'/>
         				<table style="width:100%;">
 							<tr>
 								<td style="width:70px;">관할청 : </td>
@@ -136,6 +156,7 @@
 			        		</thead>
 			        		<tbody>
         			</c:if>
+        			<c:set var="checkIndex" value="${checkIndex+1}" />
         			<tr>
         				<td><c:out value="${result.exmpAgentCode }${preFeeTp }${result.feeTp }" /></td>
         				<td><c:out value="${result.callLetter }" /></td>
@@ -154,7 +175,7 @@
         				<td style="text-align: right"><c:out value="${result.rateNm }" /></td>
         				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmnt }" /></td>
         			</tr>
-        		<c:set var="preFeeTp" value='${result.feeTp}'/>
+        		
     </c:forEach>
         		</tbody>
         		<%-- <tfoot>

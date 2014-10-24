@@ -383,7 +383,7 @@
 								</isNotEmpty>
                              	
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY G.CMPL_YR DESC
+                             ORDER BY G.SOC_PRT_AT_CODE, E.PRT_AT_CODE, G.AGENT_CODE
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>

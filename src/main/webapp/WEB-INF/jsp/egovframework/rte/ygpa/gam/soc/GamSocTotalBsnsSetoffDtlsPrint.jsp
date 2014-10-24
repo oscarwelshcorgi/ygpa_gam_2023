@@ -42,6 +42,17 @@
 	</script>
   </head>
   <body>
+  <c:set var="pagePerCount" value="13"/>
+  <c:set var="appPrtAtCode" value=""/>
+  <c:set var="appPrtAtNm" value=""/>
+  <c:set var="prtAtCode" value="" />
+  <c:set var="prtAtNm" value="" />
+  <c:set var="agentCode" value="" />
+  <c:set var="agentName" value="" />
+  <c:set var="constNo" value="" />
+  <c:set var="pageSkip" value="true" />
+  <c:set var="checkIndex" value="0" />
+  
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -106,7 +117,13 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%13==0 || (prePrtAtCode!= result.prtAtCode && preCmplYr!=result.cmplYr && preConstNo!=result.constNo) }"> <% /*  페이지 당 출력 갯수 */ %>
+    
+    				<c:if test="${pageSkip == false}">
+    					<c:if test="${(result.prtAtCode != prePrtAtCode) and (result.cmplYr != preCmplYr) and (result.constNo != preConstNo) }">
+    						<c:set var="pageSkip" value="true"/>
+    					</c:if>
+    				</c:if>
+           			<c:if test="${checkIndex%pagePerCount==0 or (pageSkip == true) }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -116,6 +133,11 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
+        				<c:set var="checkIndex" value="0" />
+        				<c:set var="pageSkip" value="false" />
+        				<c:set var="prePrtAtCode" value='${result.prtAtCode}'/>
+		        		<c:set var="preCmplYr" value='${result.cmplYr}'/>
+		        		<c:set var="preConstNo" value='${result.constNo}'/>
         				<table class="rpr_form_table">
 							<tbody>
 								<tr>
@@ -171,6 +193,7 @@
 			        		</thead>
 			        		<tbody>
         			</c:if>
+        			<c:set var="checkIndex" value="${checkIndex+1}" />
         			<tr>
         				<td><c:out value="${result.vsslKey }" /></td>
         				<td><c:out value="${result.callLetter }" /></td>
@@ -195,9 +218,7 @@
         				<td></td>
         				<td><c:out value="${result.remark }" /></td>
         			</tr>
-        		<c:set var="prePrtAtCode" value='${result.prtAtCode}'/>
-        		<c:set var="preCmplYr" value='${result.cmplYr}'/>
-        		<c:set var="preConstNo" value='${result.constNo}'/>
+        		
     </c:forEach>
         		</tbody>
         		<%-- <tfoot>
