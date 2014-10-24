@@ -83,6 +83,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 				this.$('#sFeeTp').val('');
 				this.$('#sFiscalYr').val('');
 				this.$('#btnNewSocNo').show();
+				this.$('#cmd').val('insert');
         	break;
         case 'btnNewSocNo' : //신규관리번호생성
         	if(this.$('#sAppPrtAtCode').val() == '') {
