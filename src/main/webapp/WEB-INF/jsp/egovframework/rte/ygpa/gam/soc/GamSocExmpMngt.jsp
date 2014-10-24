@@ -101,15 +101,12 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
         	this.doAction('<c:url value="/soc/selectSocExmpMngtGetNextSocNo.do" />', opts, function(module, result) {
         		if(result.resultCode == 0) {
-
         			module.$('#sSocNo').val(result.nextSocNo);
         			module.$('#appPrtAtCode').val(module.$('#sAppPrtAtCode').val());
         			module.$('#tempAppPrtAtCode').val(module.$('#sAppPrtAtCode').val());
         			module.$('#feeTp').val(module.$('#sFeeTp').val());
         			module.$('#fiscalYr').val(module.$('#sFiscalYr').val());
         			module.$('#socNo').val(module.$('#sSocNo').val());
-        			
-        			module.$('#cmd').val('insert');
         		}
         		else {
         			alert(result.resultMsg);
