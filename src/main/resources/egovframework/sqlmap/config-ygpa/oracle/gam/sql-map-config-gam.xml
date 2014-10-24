@@ -133,6 +133,16 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocShipProcessSetoffLgerDao_SQL_oracle.xml" />
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamCarMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamCarRefuelSttusMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamGasUsageSttusMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamElctyUsageSttusMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamEnergyUsageMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamGrHseEmitQyMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamFcltsMngFeeMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamFcltsFeeMngNticDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamFcltsFeeMngInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamMngFeeGubunMngDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamMngFeeCodeMngDao_SQL_oracle.xml" />
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocRentProcessSetoffLgerDao_SQL_oracle.xml" />
 </sqlMapConfig>

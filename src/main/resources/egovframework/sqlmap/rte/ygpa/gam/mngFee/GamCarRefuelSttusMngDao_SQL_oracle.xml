@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ygpa.gam.mngFee">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamCarRefuelSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo"/>
+
+    <select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList_D" parameterClass="gamCarRefuelSttusMngVo" resultClass="egovMap">
+     SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                            SELECT T2.FUEL_KND,
+									T1.CAR_REGIST_NO,
+									T2.CAR_NM,
+									SUM(MIN(T1.MTOTAL)) OVER (PARTITION BY T2.FUEL_KND) AS TOTAL,
+									MIN(T1.MTOTAL) AS MTOTAL,
+									MIN(T1.M1) AS M1,
+									MIN(T1.M2) AS M2,
+									MIN(T1.M3) AS M3,
+									MIN(T1.M4) AS M4,
+									MIN(T1.M5) AS M5,
+									MIN(T1.M6) AS M6,
+									MIN(T1.M7) AS M7,
+									MIN(T1.M8) AS M8,
+									MIN(T1.M9) AS M9,
+									MIN(T1.M10) AS M10,
+									MIN(T1.M11) AS M11,
+									MIN(T1.M12) AS M12
+									FROM
+									(
+										SELECT
+										T.CAR_REGIST_NO,
+										SUM(T.REFUEL_QY) AS MTOTAL,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='01' THEN T.REFUEL_QY END) AS M1,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='02' THEN T.REFUEL_QY END) AS M2,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='03' THEN T.REFUEL_QY END) AS M3,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='04' THEN T.REFUEL_QY END) AS M4,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='05' THEN T.REFUEL_QY END) AS M5,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='06' THEN T.REFUEL_QY END) AS M6,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='07' THEN T.REFUEL_QY END) AS M7,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='08' THEN T.REFUEL_QY END) AS M8,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='09' THEN T.REFUEL_QY END) AS M9,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='10' THEN T.REFUEL_QY END) AS M10,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='11' THEN T.REFUEL_QY END) AS M11,
+										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='12' THEN T.REFUEL_QY END) AS M12
+										FROM CAR_REFUEL_STTUS_F T
+										<![CDATA[ WHERE T.REFUEL_MT>= #refuelMt# || '01' ]]>
+										<![CDATA[ AND T.REFUEL_MT<= #refuelMt# || '12' ]]>
+										GROUP BY T.CAR_REGIST_NO
+									) T1
+									LEFT OUTER JOIN CAR_INFO_F T2 ON (T1.CAR_REGIST_NO=T2.CAR_REGIST_NO)
+									GROUP BY T2.FUEL_KND,T1.CAR_REGIST_NO,T2.CAR_NM
+									ORDER BY T2.FUEL_KND DESC,T1.CAR_REGIST_NO
+						<isNotEmpty property="sCarRegistNo">
+				             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+				        </isNotEmpty>
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt_S" parameterClass="gamCarRefuelSttusMngVo" resultClass="int">
+         SELECT
+                    count( distinct T.CAR_REGIST_NO)
+										FROM CAR_REFUEL_STTUS_F T
+										<![CDATA[ WHERE T.REFUEL_MT>= #refuelMt# || '01'  ]]>
+										<![CDATA[ AND T.REFUEL_MT<= #refuelMt# || '12'    ]]>
+
+	         <isNotEmpty property="sCarRegistNo">
+	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+	         </isNotEmpty>
+
+    </select>
+
+	<insert id="gamCarRefuelSttusMngDao.InsertCarMngList_Sb">
+		<![CDATA[
+		    INSERT
+		      INTO  CAR_INFO_F
+		         (  CAR_REGIST_NO
+					,CAR_KND
+					,CAR_PRPOS
+					,CAR_NM
+					,CAR_FMT
+					,CAR_YR_MDL
+					,CAR_BODY_NO
+					,TURBINE_FMT
+					,USAGE_STRHLD
+					,OWNER_NM
+					,OWNER_ADRES
+					,CAR_REGIST_DT
+					,REGIST_GOV_OFC
+					,SPEC_MNG_NO
+					,CAR_LT
+					,CAR_WD
+					,CAR_HT
+					,CAR_GR_WQNT
+					,EXHAUSTQY
+					,RATE_OUTPUT
+					,RIDE_QUOTA_CAPA
+					,MAX_CAPA_QY
+					,CYLINDER_CNT
+					,FUEL_KND
+					,FUEL_EFFT
+					,EXAM_VALID_BEGIN_DT
+					,EXAM_VALID_END_DT
+					,ACQ_PRCE
+					,REG_USR
+					,REGIST_DT
+		         )
+		    VALUES
+		         (  #carRegistNo#
+					, #carKnd#
+					, #carPrpos#
+					, #carNm#
+					, #carFmt#
+					, #carYrMdl#
+					, #carBodyNo#
+					, #turbineFmt#
+					, #usageStrhld#
+					, #ownerNm#
+					, #ownerAdres#
+					, TO_DATE(#carRegistDt#,'YYYY-MM-DD')
+					, #registGovOfc#
+					, #specMngNo#
+					, #carLt#
+					, #carWd#
+					, #carHt#
+					, #carGrWqnt#
+					, #exhaustqy#
+					, #rateOutput#
+					, #rideQuotaCapa#
+					, #maxCapaQy#
+					, #cylinderCnt#
+					, #fuelKnd#
+					, #fuelEfft#
+					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
+					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
+					, #acqPrce#
+					, #regUsr#
+					, sysdate
+		         )
+		]]>
+	</insert>
+
+	<update id="gamCarRefuelSttusMngDao.UpdateCarMngList_Sa">
+		<![CDATA[
+            UPDATE CAR_INFO_F SET
+			       	CAR_REGIST_NO	=	#carRegistNo#
+				,	CAR_KND	=	#carKnd#
+				,	CAR_PRPOS	=	#carPrpos#
+				,	CAR_NM	=	#carNm#
+				,	CAR_FMT	=	#carFmt#
+				,	CAR_YR_MDL	=	#carYrMdl#
+				,	CAR_BODY_NO	=	#carBodyNo#
+				,	TURBINE_FMT	=	#turbineFmt#
+				,	USAGE_STRHLD	=	#usageStrhld#
+				,	OWNER_NM	=	#ownerNm#
+				,	OWNER_ADRES	=	#ownerAdres#
+				,	CAR_REGIST_DT	=	#carRegistDt#
+				,	REGIST_GOV_OFC	=	#registGovOfc#
+				,	SPEC_MNG_NO	=	#specMngNo#
+				,	CAR_LT	=	#carLt#
+				,	CAR_WD	=	#carWd#
+				,	CAR_HT	=	#carHt#
+				,	CAR_GR_WQNT	=	#carGrWqnt#
+				,	EXHAUSTQY	=	#exhaustqy#
+				,	RATE_OUTPUT	=	#rateOutput#
+				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
+				,	MAX_CAPA_QY	=	#maxCapaQy#
+				,	CYLINDER_CNT	=	#cylinderCnt#
+				,	FUEL_KND	=	#fuelKnd#
+				,	FUEL_EFFT	=	#fuelEfft#
+				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
+				,	EXAM_VALID_END_DT	=	#examValidEndDt#
+				,	ACQ_PRCE	=	#acqPrce#
+				,	UPD_USR	=	#updUsr#
+				,	UPDT_DT	=	sysdate
+					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+		]]>
+	</update>
+
+	<delete id="gamCarRefuelSttusMngDao.DeleteCarRefuelSttusMngList_S">
+            DELETE  CAR_REFUEL_STTUS_F
+            <![CDATA[ WHERE REFUEL_MT>= #refuelMt# || '01' ]]>
+			<![CDATA[ AND REFUEL_MT<= #refuelMt# || '12' ]]>
+			<![CDATA[ AND CAR_REGIST_NO = #carRegistNo#]]>
+
+	</delete>
+
+   </sqlMap>

@@ -234,16 +234,6 @@ var module_instance = new GamCarMngModule();
 					 <table id="CarMngList" style="display:none" class="fillHeight"></table>
                 <div id="agentListSum" class="emdControlPanel">
 					<form id="form2">
-    	               	<table style="width:100%;" class="summaryPanel">
-        	               	<tr>
-								<th width="17%" height="20">자료수</th>
-								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="22%" height="20">총보전처리대상금액</th>
-								<td><input type="text" size="18" id="sumTotalAmnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="22%" height="20">총보전처리누계액</th>
-								<td><input type="text" size="18" id="sumAccFee" class="ygpaNumber" disabled="disabled" /></td>
-							</tr>
-						</table>
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">

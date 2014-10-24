@@ -3,7 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
@@ -21,6 +25,10 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
@@ -60,12 +68,8 @@ public class GamMngFeeGubunMngController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    @Resource(name = "gamSocCmmUseService")
-    private GamSocCmmUseService gamSocCmmUseService;
-
-    @Resource(name = "gamSocAgentService")
-    private GamSocAgentService gamSocAgentService;
-
+    @Resource(name = "gamMngFeeGubunMngService")
+    private GamMngFeeGubunMngService gamMngFeeGubunMngService;
 
     @RequestMapping(value="/mngFee/gamMngFeeGubunMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -73,18 +77,80 @@ public class GamMngFeeGubunMngController {
     	//login정보
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
-
-		codeVo.setCodeId("GAM019"); //항코드
-
-		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-
-		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamCarMng";
+    	return "/ygpa/gam/mngFee/GamMngFeeGubunMng";
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/mngFee/gamSelectMngFeeGubunMng.do" , method=RequestMethod.POST)
+    @ResponseBody Map gamSelectCarMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
+
+    	int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		totalCnt = gamMngFeeGubunMngService.selectMngFeeGubunMngListTotCnt(searchVO);
+    	List resultList = gamMngFeeGubunMngService.selectMngFeeGubunMngList(searchVO);
+
+    	map.put("resultCode", 0);
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+
+    	return map;
     }
 
 
+    @RequestMapping(value="/mngFee/gamInsertMngFeeGubunMng.do")
+	@ResponseBody Map<String, Object> InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	/*
+		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
+
+		if(vo != null){
+			map.put("resultCode", 1);
+			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
+            return map;
+    	}
+		*/
+		try {
+			gamMngFeeGubunMngVo.setRegUsr((String)user.getId());
+			gamMngFeeGubunMngService.InsertMngFeeGubunMng(gamMngFeeGubunMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+    	return map;
+    }
 
 }

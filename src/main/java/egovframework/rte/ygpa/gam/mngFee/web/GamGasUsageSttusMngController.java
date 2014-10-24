@@ -21,9 +21,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 
 
 
@@ -60,12 +58,8 @@ public class GamGasUsageSttusMngController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    @Resource(name = "gamSocCmmUseService")
-    private GamSocCmmUseService gamSocCmmUseService;
-
-    @Resource(name = "gamSocAgentService")
-    private GamSocAgentService gamSocAgentService;
-
+    @Resource(name = "gamGasUsageSttusMngService")
+    private GamGasUsageSttusMngService gamGasUsageSttusMngService;
 
     @RequestMapping(value="/mngFee/gamGasUsageSttusMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -73,16 +67,9 @@ public class GamGasUsageSttusMngController {
     	//login정보
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
-
-		codeVo.setCodeId("GAM019"); //항코드
-
-		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-
-		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamCarMng";
+    	return "/ygpa/gam/mngFee/GamGasUsageSttusMng";
     }
 
 
