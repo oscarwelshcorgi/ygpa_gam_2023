@@ -145,66 +145,92 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT
-                                    E.APP_PRT_AT_CODE
-                                  , E.FEE_TP
-                                  , E.FISCAL_YR
-                                  , E.SOC_NO
-                                  , E.APP_AGENT_CODE
-                                  , E.USE_NO
-                                  , E.PRT_AT_CODE
-                                  , E.CMPL_YR
-                                  , E.CONST_NO
-                                  , E.EXMP_AGENT_CODE
-                                  , E.VSSL_KEY
-                                  , E.YR
-                                  , E.SER_NO
-                                  , E.BILL_NO
-                                  , E.EXMP_AMNT
-                                  , E.IN_OUT
-                                  , E.BILL_USE_NO
-                                  , E.FAC_CODE
-                                  , E.FAC_SUB_CODE
-                                  , E.IO_DT
-                                  , E.DC_CODE
-                                  , E.DC_RATE
-                                  , E.BILL_DT
-                                  , E.STANDARD_FEE
-                                  , E.REAL_TN
-                                  , E.REMARK
-                                  , E.EXMP_TYPE
-                                  , E.UPDT_UID
-                                  , E.UPDT_DATE
-                                  , E.CALL_LETTER
-                                  , E.DC_RATE_NM
-                                  , E.EXMP_PRT_AT_CODE
-                                  , E.JINGSUJA
-                                  , E.RPT_AGENT_CODE
-                                  , E.DEPT
-                                  , E.WORK_CODE
-                                  , E.STR_DATE
-                                  , E.END_DATE
+                                    APP_PRT_AT_CODE
+                                  , FEE_TP
+                                  , FISCAL_YR
+                                  , SOC_NO
+                                  , APP_AGENT_CODE
+                                  , USE_NO
+                                  , PRT_AT_CODE
+                                  , CMPL_YR
+                                  , CONST_NO
+                                  , EXMP_AGENT_CODE
+                                  , VSSL_KEY
+                                  , YR
+                                  , SER_NO
+                                  , BILL_NO
+                                  , EXMP_AMNT
+                                  , IN_OUT
+                                  , BILL_USE_NO
+                                  , FAC_CODE
+                                  , FAC_SUB_CODE
+                                  , IO_DT
+                                  , DC_CODE
+                                  , DC_RATE
+                                  , BILL_DT
+                                  , STANDARD_FEE
+                                  , REAL_TN
+                                  , REMARK
+                                  , EXMP_TYPE
+                                  , UPDT_UID
+                                  , UPDT_DATE
+                                  , CALL_LETTER
+                                  , DC_RATE_NM
+                                  , EXMP_PRT_AT_CODE
+                                  , JINGSUJA
+                                  , RPT_AGENT_CODE
+                                  , DEPT
+                                  , WORK_CODE
+                                  , STR_DATE
+                                  , END_DATE
                              FROM 
-                             	P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+                             	P2MGR.SOC_EXMP_F@YGPA_P2MGR 
 
                             <![CDATA[  WHERE 1<>1 ]]>
 
                              <isNotEmpty property="prtAtCode">
-					             OR (E.PRT_AT_CODE = #prtAtCode#
+					             OR (PRT_AT_CODE = #prtAtCode#
 					             
 					             <isNotEmpty property="cmplYr">
-						             AND E.CMPL_YR = #cmplYr#
+						             AND CMPL_YR = #cmplYr#
 						         </isNotEmpty>
 						         
 						         <isNotEmpty property="constNo">
-						             AND E.CONST_NO = #constNo#
+						             AND CONST_NO = #constNo#
 						         </isNotEmpty>
+						         
+						         
+						         <isNotEmpty property="sPrtAtCode">
+					             	AND APP_PRT_AT_CODE = #sPrtAtCode#
+					         	</isNotEmpty>
+					         
+					         	<isNotEmpty property="sFeeTp">
+						             AND FEE_TP = #sFeeTp#
+						        </isNotEmpty>
+						         
+						        <isNotEmpty property="sExmpAgentCode">
+						             AND APP_AGENT_CODE = #sExmpAgentCode#
+						        </isNotEmpty>
+						         
+						        <isNotEmpty property="sUseNo">
+						             AND USE_NO = #sUseNo#
+						        </isNotEmpty>
+					         	
+					         	<isNotEmpty property="sType">
+									<isNotEmpty property="sFrDt">
+										<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+							        </isNotEmpty>
+							        <isNotEmpty property="sToDt">
+							        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+							        </isNotEmpty>
+								</isNotEmpty>
 						         
 						         )
 					         </isNotEmpty>
 
 					         
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY E.CMPL_YR DESC, E.UPDT_DATE DESC
+                             ORDER BY CMPL_YR DESC, UPDT_DATE DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -216,20 +242,45 @@
         		, NVL(SUM(E.EXMP_AMNT),0) AS SUM_PRT_TOTAL_AMNT
         		, NVL(SUM(E.STANDARD_FEE),0) AS SUM_APP_TOTAL_AMNT
               FROM 
-              	P2MGR.SOC_EXMP_F@YGPA_P2MGR E
+              	P2MGR.SOC_EXMP_F@YGPA_P2MGR 
 
  <![CDATA[  WHERE 1<>1 ]]>
 	
 	             <isNotEmpty property="prtAtCode">
-	             	OR (E.PRT_AT_CODE = #prtAtCode#
+	             	OR (PRT_AT_CODE = #prtAtCode#
 	             
 	             <isNotEmpty property="cmplYr">
-		             AND E.CMPL_YR = #cmplYr#
+		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
 		         
 		         <isNotEmpty property="constNo">
-		             AND E.CONST_NO = #constNo#
+		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
+		         
+		         <isNotEmpty property="sPrtAtCode">
+	             	AND APP_PRT_AT_CODE = #sPrtAtCode#
+	         	</isNotEmpty>
+	         
+	         	<isNotEmpty property="sFeeTp">
+		             AND FEE_TP = #sFeeTp#
+		        </isNotEmpty>
+		         
+		        <isNotEmpty property="sExmpAgentCode">
+		             AND APP_AGENT_CODE = #sExmpAgentCode#
+		        </isNotEmpty>
+		         
+		        <isNotEmpty property="sUseNo">
+		             AND USE_NO = #sUseNo#
+		        </isNotEmpty>
+	         	
+	         	<isNotEmpty property="sType">
+					<isNotEmpty property="sFrDt">
+						<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+			        </isNotEmpty>
+			        <isNotEmpty property="sToDt">
+			        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+			        </isNotEmpty>
+				</isNotEmpty>
 		         
 		         )
 	         </isNotEmpty>
