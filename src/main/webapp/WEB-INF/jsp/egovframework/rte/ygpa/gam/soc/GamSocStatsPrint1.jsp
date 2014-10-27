@@ -48,6 +48,7 @@
   <c:set var="exmpAmntSum" value="0" />
   <c:set var="exmpAmntPaSum" value="0" />
   <c:if test="${resultCode==0 }">
+  <c:set var="pagePerCount" value="12"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
@@ -73,7 +74,7 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%80==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+           			<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>

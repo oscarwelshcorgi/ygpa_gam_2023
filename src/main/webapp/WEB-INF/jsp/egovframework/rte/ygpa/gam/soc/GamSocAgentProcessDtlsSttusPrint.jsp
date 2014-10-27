@@ -42,7 +42,7 @@
 	</script>
 </head>
 <body>
-  <c:set var="pagePerCount" value="10"/>
+  <c:set var="pagePerCount" value="15"/>
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">

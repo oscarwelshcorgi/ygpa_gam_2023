@@ -8,7 +8,7 @@
 <%
   /**
   * @Class Name : GamSocApplyDtlsPrint.jsp
-  * @Description : 인쇄 화면
+  * @Description : 투자비보전신청내역 인쇄 화면
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
