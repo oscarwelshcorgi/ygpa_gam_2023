@@ -67,6 +67,15 @@ public class GamMngFeeGubunMngServiceImpl extends AbstractServiceImpl implements
 		gamMngFeeGubunMngDao.InsertMngFeeGubunMng(gamMngFeeGubunMngVo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#DeleteMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
+	 */
+	@Override
+	public void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
+		// TODO Auto-generated method stub
+		gamMngFeeGubunMngDao.DeleteMngFeeGubunMng(gamMngFeeGubunMngVo);
+	}
+
 
 
 }

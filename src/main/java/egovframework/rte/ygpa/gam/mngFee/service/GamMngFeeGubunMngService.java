@@ -40,4 +40,9 @@ public interface GamMngFeeGubunMngService {
 	 */
 	void InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception;
 
+	/**
+	 * @param gamMngFeeGubunMngVo
+	 */
+	void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo);
+
 }

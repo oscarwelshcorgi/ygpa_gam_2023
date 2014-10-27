@@ -57,7 +57,7 @@
 		         (
 		         	MNG_FEE_FCLTY_SE,
 					MNG_FEE_FCLTY_SE_NM,
-					UPD_USR,
+					REG_USR,
 					REGIST_DT
 		         )
 		    VALUES
@@ -107,10 +107,10 @@
 		]]>
 	</update>
 
-	<delete id="GamMngFeeGubunMngDao.DeleteCarMngList_S">
+	<delete id="gamMngFeeGubunMngDao.DeleteMngFeeGubunMng">
 		<![CDATA[
-            DELETE  CAR_INFO_F
-             WHERE  CAR_REGIST_NO   = #carRegistNo#
+            DELETE  MNG_FEE_FCLTY_SE_F
+             WHERE  MNG_FEE_FCLTY_SE   = #mngFeeFcltySe#
 		]]>
 	</delete>
 
