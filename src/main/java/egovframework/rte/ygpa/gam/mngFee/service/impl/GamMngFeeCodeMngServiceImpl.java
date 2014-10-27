@@ -38,40 +38,24 @@ public class GamMngFeeCodeMngServiceImpl extends AbstractServiceImpl implements 
 	@Resource(name="gamMngFeeCodeMngDao")
 	private GamMngFeeCodeMngDao gamMngFeeCodeMngDao;
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngService#selectMngFeeCodeMngListTotCnt(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo)
-	 */
 	@Override
 	public int selectMngFeeCodeMngListTotCnt(GamMngFeeCodeMngVo searchVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return gamMngFeeCodeMngDao.selectMngFeeCodeMngListTotCnt(searchVO);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngService#selectMngFeeCodeMngList(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo)
-	 */
 	@Override
 	public List selectMngFeeCodeMngList(GamMngFeeCodeMngVo searchVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return gamMngFeeCodeMngDao.selectMngFeeCodeMngList(searchVO);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngService#InsertMngFeeCodeMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo)
-	 */
 	@Override
 	public void InsertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
-		// TODO Auto-generated method stub
-
+		gamMngFeeCodeMngDao.InsertMngFeeCodeMng(gamMngFeeCodeMngVo);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngService#DeleteMngFeeCodeMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo)
-	 */
 	@Override
 	public void DeleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
-		// TODO Auto-generated method stub
-
+		gamMngFeeCodeMngDao.DeleteMngFeeCodeMng(gamMngFeeCodeMngVo);
 	}
 
 

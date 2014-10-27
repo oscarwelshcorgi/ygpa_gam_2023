@@ -70,7 +70,7 @@ public class GamMngFeeCodeMngController {
     @Resource(name = "gamMngFeeCodeMngService")
     private GamMngFeeCodeMngService gamMngFeeCodeMngService;
 
-    @RequestMapping(value="/mngFee/gamSelectMngFeeCodeMng.do")
+    @RequestMapping(value="/mngFee/gamMngFeeCodeMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
     	//login정보
@@ -174,7 +174,6 @@ public class GamMngFeeCodeMngController {
     	}
 		*/
 		try {
-			gamMngFeeCodeMngVo.setRegUsr((String)user.getId());
 			gamMngFeeCodeMngService.DeleteMngFeeCodeMng(gamMngFeeCodeMngVo);
 
 	    	map.put("resultCode", 0);			// return ok

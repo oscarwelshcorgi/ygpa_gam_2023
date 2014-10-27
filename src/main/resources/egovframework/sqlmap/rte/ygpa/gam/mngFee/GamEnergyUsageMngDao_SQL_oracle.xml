@@ -4,9 +4,9 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamCarMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo"/>
+    <typeAlias alias="gamEnergyUsageMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo"/>
 
-    <select id="gamEnergyUsageMngDao.selectCarMngList_D" parameterClass="gamCarMngVo" resultClass="egovMap">
+    <select id="gamEnergyUsageMngDao.selectEnergyUsageMngList_D" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
      SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -63,7 +63,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamEnergyUsageMngDao.selectCarMngListTotCnt_S" parameterClass="gamCarMngVo" resultClass="int">
+    <select id="gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
          SELECT COUNT(*) totcnt
               FROM CAR_INFO_F
                            <![CDATA[  WHERE 1=1 ]]>
@@ -82,7 +82,7 @@
 
     </select>
 
-	<insert id="gamEnergyUsageMngDao.InsertCarMngList_S">
+	<insert id="gamEnergyUsageMngDao.InsertEnergyUsageMng">
 		<![CDATA[
 		    INSERT
 		      INTO  CAR_INFO_F
@@ -189,7 +189,7 @@
 		]]>
 	</update>
 
-	<delete id="gamEnergyUsageMngDao.DeleteCarMngList_S">
+	<delete id="gamEnergyUsageMngDao.DeleteEnergyUsageMng">
 		<![CDATA[
             DELETE  CAR_INFO_F
              WHERE  CAR_REGIST_NO   = #carRegistNo#

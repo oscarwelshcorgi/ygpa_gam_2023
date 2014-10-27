@@ -27,18 +27,18 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamEnergyUsageMng() {}
+function GamFcltsMngFeeMng() {}
 
 
-GamEnergyUsageMng.prototype = new EmdModule(1000, 600);
+GamFcltsMngFeeMng.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamEnergyUsageMng.prototype.loadComplete = function() {
+GamFcltsMngFeeMng.prototype.loadComplete = function() {
 
     // 자산임대 테이블 설정
-    this.$("#EnergyUsageMng").flexigrid({
+    this.$("#FcltsMngFeeMng").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectEnergyUsageMng.do" />',
+        url: '<c:url value="/mngFee/gamSelectFcltsMngFeeMng.do" />',
         dataType: 'json',
         colModel : [
                     {display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
@@ -55,23 +55,23 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
         height: 'auto'
     });
 
-    this.$("#EnergyUsageMng").on('onItemSelected', function(event, module, row, grid, param) {
+    this.$("#FcltsMngFeeMng").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
-        module.$('#EnergyUsageMngDetailForm :input').val('');
-        module.makeFormValues('#EnergyUsageMngDetailForm', row);
+        module.$('#FcltsMngFeeMngDetailForm :input').val('');
+        module.makeFormValues('#FcltsMngFeeMngDetailForm', row);
     	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
-        module._editData=module.getFormValues('#EnergyUsageMngDetailForm', row);
-        module._editRow=module.$('#EnergyUsageMng').selectedRowIds()[0];
+        module._editData=module.getFormValues('#FcltsMngFeeMngDetailForm', row);
+        module._editRow=module.$('#FcltsMngFeeMng').selectedRowIds()[0];
 
     });
-    this.$("#EnergyUsageMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    this.$("#FcltsMngFeeMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
     	console.log('debug');
-        module.$("#EnergyUsageMngTab").tabs("option", {active: 1});
+        module.$("#FcltsMngFeeMngTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
-        module.makeFormValues('#EnergyUsageMngDetailForm', row);
+        module.makeFormValues('#FcltsMngFeeMngDetailForm', row);
         module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
-        module._editData=module.getFormValues('#EnergyUsageMngDetailForm', row);
-        module._editRow=module.$('#EnergyUsageMng').selectedRowIds()[0];
+        module._editData=module.getFormValues('#FcltsMngFeeMngDetailForm', row);
+        module._editRow=module.$('#FcltsMngFeeMng').selectedRowIds()[0];
         if(row!=null) {
             module.$('#cmd').val('modify');
         }
@@ -83,7 +83,7 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
- GamEnergyUsageMng.prototype.onButtonClick = function(buttonId) {
+ GamFcltsMngFeeMng.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
 
@@ -97,8 +97,8 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 
        // 등록포맷으로 변환 -- 초기화 및 상태값 변경
        case 'btnGubunAdd':
-			this.$('#EnergyUsageMngDetailForm :input').val('');
-			this.$("#EnergyUsageMngTab").tabs("option", {active: 1});
+			this.$('#FcltsMngFeeMngDetailForm :input').val('');
+			this.$("#FcltsMngFeeMngTab").tabs("option", {active: 1});
 			this.$("#cmd").val("insert");
             break;
 
@@ -114,26 +114,26 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
         	}
         	*/
 
-        	var inputVO = this.makeFormArgs("#EnergyUsageMngDetailForm");
+        	var inputVO = this.makeFormArgs("#FcltsMngFeeMngDetailForm");
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertEnergyUsageMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/mngFee/gamInsertFcltsMngFeeMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
-						module.$("#EnergyUsageMngDetailForm :input").val("");
+						module.$("#FcltsMngFeeMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#FcltsMngFeeMngTab").tabs("option", {active: 0});
+						module.$("#FcltsMngFeeMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateEnergyUsageMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/mngFee/gamUpdateFcltsMngFeeMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
-						module.$("#EnergyUsageMngDetailForm :input").val("");
+						module.$("#FcltsMngFeeMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#FcltsMngFeeMngTab").tabs("option", {active: 0});
+						module.$("#FcltsMngFeeMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -150,13 +150,13 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
         	}
         	*/
         	if(confirm("삭제하시겠습니까?")){
-				var inputVO = this.makeFormArgs("#EnergyUsageMngDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteEnergyUsageMng.do" />', inputVO, function(module, result) {
+				var inputVO = this.makeFormArgs("#FcltsMngFeeMngDetailForm");
+			 	this.doAction('<c:url value="/mngFee/gamDeleteFcltsMngFeeMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-			 			module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
-						module.$("#EnergyUsageMngDetailForm :input").val("");
+			 			module.$("#FcltsMngFeeMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#FcltsMngFeeMngTab").tabs("option", {active: 0});
+						module.$("#FcltsMngFeeMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -167,18 +167,18 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 };
 
 
-GamEnergyUsageMng.prototype.onSubmit = function() {
+GamFcltsMngFeeMng.prototype.onSubmit = function() {
     this.loadData();
 };
 
-GamEnergyUsageMng.prototype.loadData = function() {
-    this.$("#EnergyUsageMngTab").tabs("option", {active: 0});
+GamFcltsMngFeeMng.prototype.loadData = function() {
+    this.$("#FcltsMngFeeMngTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamCarMngSearchForm');
-    this.$('#EnergyUsageMng').flexOptions({params:searchOpt}).flexReload();
+    this.$('#FcltsMngFeeMng').flexOptions({params:searchOpt}).flexReload();
 
 };
 
-GamEnergyUsageMng.prototype.onTabChange = function(newTabId, oldTabId) {
+GamFcltsMngFeeMng.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
@@ -189,7 +189,7 @@ GamEnergyUsageMng.prototype.onTabChange = function(newTabId, oldTabId) {
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamEnergyUsageMng();
+var module_instance = new GamFcltsMngFeeMng();
 
 </script>
 <!-- 아래는 고정 -->
@@ -221,14 +221,14 @@ var module_instance = new GamEnergyUsageMng();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="EnergyUsageMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="FcltsMngFeeMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">가스 사용현황 </a></li>
                 <li><a href="#tabs2" class="emdTab">가스 사용현황 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-					 <table id="EnergyUsageMng" style="display:none" class="fillHeight"></table>
+					 <table id="FcltsMngFeeMng" style="display:none" class="fillHeight"></table>
                 <div id="agentListSum" class="emdControlPanel">
 					<form id="form2">
 						<table style="width:100%;">
@@ -245,7 +245,7 @@ var module_instance = new GamEnergyUsageMng();
 
             <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
-                    <form id="EnergyUsageMngDetailForm">
+                    <form id="FcltsMngFeeMngDetailForm">
             	        <input type="hidden" id="cmd"/>
             	        <input type="hidden" id="oldMngFeeFcltySe"/>
                         <table class="detailPanel">

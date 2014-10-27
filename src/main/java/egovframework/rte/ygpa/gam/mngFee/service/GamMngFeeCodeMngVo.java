@@ -35,6 +35,61 @@ public class GamMngFeeCodeMngVo extends ComDefaultVO {
 	private	String	updUsr;	//수정자
 	private	String	updtDt;	//수정일시
 
+
+	private	String	sMngFeeFcltyCd;	//검색 관리비 시설 코드
+	private	String	sMngFeeFcltySe;	//검색 관리비 시설 구분
+	private	String	sMngFeeFcltyNm;	//검색 관리비 시설 명
+	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
+
+
+	/**
+	 * @return the sMngFeeFcltyCd
+	 */
+	public String getsMngFeeFcltyCd() {
+		return sMngFeeFcltyCd;
+	}
+	/**
+	 * @param sMngFeeFcltyCd the sMngFeeFcltyCd to set
+	 */
+	public void setsMngFeeFcltyCd(String sMngFeeFcltyCd) {
+		this.sMngFeeFcltyCd = sMngFeeFcltyCd;
+	}
+	/**
+	 * @return the sMngFeeFcltySe
+	 */
+	public String getsMngFeeFcltySe() {
+		return sMngFeeFcltySe;
+	}
+	/**
+	 * @param sMngFeeFcltySe the sMngFeeFcltySe to set
+	 */
+	public void setsMngFeeFcltySe(String sMngFeeFcltySe) {
+		this.sMngFeeFcltySe = sMngFeeFcltySe;
+	}
+	/**
+	 * @return the sMngFeeFcltyNm
+	 */
+	public String getsMngFeeFcltyNm() {
+		return sMngFeeFcltyNm;
+	}
+	/**
+	 * @param sMngFeeFcltyNm the sMngFeeFcltyNm to set
+	 */
+	public void setsMngFeeFcltyNm(String sMngFeeFcltyNm) {
+		this.sMngFeeFcltyNm = sMngFeeFcltyNm;
+	}
+	/**
+	 * @return the sMngFeeJobSe
+	 */
+	public String getsMngFeeJobSe() {
+		return sMngFeeJobSe;
+	}
+	/**
+	 * @param sMngFeeJobSe the sMngFeeJobSe to set
+	 */
+	public void setsMngFeeJobSe(String sMngFeeJobSe) {
+		this.sMngFeeJobSe = sMngFeeJobSe;
+	}
 	/**
 	 * @return the mngFeeFcltyCd
 	 */

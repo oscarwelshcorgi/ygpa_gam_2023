@@ -4,9 +4,9 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamCarMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo"/>
+    <typeAlias alias="gamFcltsFeeMngNticVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo"/>
 
-    <select id="gamFcltsFeeMngNticDao.selectCarMngList_D" parameterClass="gamCarMngVo" resultClass="egovMap">
+    <select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticList_D" parameterClass="gamFcltsFeeMngNticVo" resultClass="egovMap">
      SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -63,7 +63,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltsFeeMngNticDao.selectCarMngListTotCnt_S" parameterClass="gamCarMngVo" resultClass="int">
+    <select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticListTotCnt_S" parameterClass="gamFcltsFeeMngNticVo" resultClass="int">
          SELECT COUNT(*) totcnt
               FROM CAR_INFO_F
                            <![CDATA[  WHERE 1=1 ]]>
@@ -82,7 +82,7 @@
 
     </select>
 
-	<insert id="gamFcltsFeeMngNticDao.InsertCarMngList_S">
+	<insert id="gamFcltsFeeMngNticDao.InsertFcltsFeeMngNtic_D">
 		<![CDATA[
 		    INSERT
 		      INTO  CAR_INFO_F
@@ -152,7 +152,7 @@
 		]]>
 	</insert>
 
-	<update id="gamFcltsFeeMngNticDao.UpdateCarMngList_S">
+	<update id="gamFcltsFeeMngNticDao.DeleteFcltsFeeMngNtic">
 		<![CDATA[
             UPDATE CAR_INFO_F SET
 			       	CAR_REGIST_NO	=	#carRegistNo#

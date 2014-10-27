@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *
@@ -34,6 +35,26 @@ public class GamGrHseEmitQyMngServiceImpl extends AbstractServiceImpl implements
 
 	@Resource(name="gamGrHseEmitQyMngDao")
 	private GamGrHseEmitQyMngDao gamGrHseEmitQyMngDao;
+
+	@Override
+	public int selectGrHseEmitQyMngListTotCnt(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		return gamGrHseEmitQyMngDao.selectGrHseEmitQyMngListTotCnt(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
+	public List selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		return gamGrHseEmitQyMngDao.selectGrHseEmitQyMngList(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
+	public void InsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		gamGrHseEmitQyMngDao.InsertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
+	public void DeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		gamGrHseEmitQyMngDao.DeleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+	}
 
 
 

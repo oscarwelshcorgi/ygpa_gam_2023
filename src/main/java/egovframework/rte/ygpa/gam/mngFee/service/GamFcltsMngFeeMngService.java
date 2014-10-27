@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.service;
 
+import java.util.List;
+
 /**
  *
  * @author Lee
@@ -21,5 +23,27 @@ package egovframework.rte.ygpa.gam.mngFee.service;
  */
 
 public interface GamFcltsMngFeeMngService {
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	int selectFcltsMngFeeMngListTotCnt(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltsMngFeeMngList(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	void insertFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
 
 }

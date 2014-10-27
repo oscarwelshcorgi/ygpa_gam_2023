@@ -3,9 +3,12 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
 
 /**
  *
@@ -25,5 +28,35 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
  */
 @Repository("gamFcltsMngFeeMngDao")
 public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	public int selectFcltsMngFeeMngListTotCnt(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngListTotCnt_S", gamFcltsMngFeeMngVo);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	public List selectFcltsMngFeeMngList(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngList_D", gamFcltsMngFeeMngVo);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	public void insertFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		insert("gamFcltsMngFeeMngDao.insertFcltsMngFeeMng",gamFcltsMngFeeMngVo);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	public void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng",gamFcltsMngFeeMngVo);
+	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 
 /**
@@ -34,6 +35,26 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 
 	@Resource(name="gamEnergyUsageMngDao")
 	private GamEnergyUsageMngDao gamEnergyUsageMngDao;
+
+	@Override
+	public int selectEnergyUsageMngListTotCnt(GamEnergyUsageMngVo searchVO) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt(searchVO);
+	}
+
+	@Override
+	public List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngList(searchVO);
+	}
+
+	@Override
+	public void InsertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.InsertEnergyUsageMng(gamEnergyUsageMngVo);
+	}
+
+	@Override
+	public void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.DeleteEnergyUsageMng(gamEnergyUsageMngVo);
+	}
 
 
 

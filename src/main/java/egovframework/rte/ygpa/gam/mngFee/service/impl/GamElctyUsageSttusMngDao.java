@@ -3,9 +3,12 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 
 /**
  *
@@ -25,5 +28,35 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
  */
 @Repository("gamElctyUsageSttusMngDao")
 public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S", gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		return list("gamElctyUsageSttusMngDao.selectGasUsageSttusMngList_D", gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 */
+	public void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		insert("gamElctyUsageSttusMngDao.insertElctyUsageSttusMng",gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 */
+	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng",gamElctyUsageSttusMngVo);
+	}
 
 }

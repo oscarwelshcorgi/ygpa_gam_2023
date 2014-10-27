@@ -84,7 +84,7 @@ public class GamMngFeeGubunMngController {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/mngFee/gamSelectMngFeeGubunMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectCarMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
+    @ResponseBody Map gamSelectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
 
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();

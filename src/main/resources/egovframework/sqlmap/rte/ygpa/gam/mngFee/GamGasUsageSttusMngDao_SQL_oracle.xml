@@ -4,85 +4,64 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamCarMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo"/>
+    <typeAlias alias="gamElctyUsageSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo"/>
 
-    <select id="gamGasUsageSttusMngDao.selectCarMngList_D" parameterClass="gamCarMngVo" resultClass="egovMap">
+    <select id="gamElctyUsageSttusMngDao.selectGasUsageSttusMngList_D" parameterClass="gamElctyUsageSttusMngVo" resultClass="egovMap">
      SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                             SELECT
-									CAR_REGIST_NO,
-									CAR_KND,
-									CAR_PRPOS,
-									CAR_NM,
-									CAR_FMT,
-									CAR_YR_MDL,
-									CAR_BODY_NO,
-									TURBINE_FMT,
-									USAGE_STRHLD,
-									OWNER_NM,
-									OWNER_ADRES,
-									TO_CHAR(CAR_REGIST_DT, 'YYYY-MM-DD') CAR_REGIST_DT,
-									REGIST_GOV_OFC,
-									SPEC_MNG_NO,
-									CAR_LT,
-									CAR_WD,
-									CAR_HT,
-									CAR_GR_WQNT,
-									EXHAUSTQY,
-									RATE_OUTPUT,
-									RIDE_QUOTA_CAPA,
-									MAX_CAPA_QY,
-									CYLINDER_CNT,
-									FUEL_KND,
-									FUEL_EFFT,
-									TO_CHAR(EXAM_VALID_BEGIN_DT, 'YYYY-MM-DD') EXAM_VALID_BEGIN_DT,
-									TO_CHAR(EXAM_VALID_END_DT, 'YYYY-MM-DD') EXAM_VALID_END_DT,
-									ACQ_PRCE,
+									USAGE_MT,
+									PREV_MT_USAGE_QY,
+									SAID_MT_USAGE_QY,
+									APPLC_COEF,
+									NET_USAGE_QY,
 									REG_USR,
+									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT,
 									UPD_USR,
 									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					        FROM CAR_INFO_F
+									MNG_FEE_FCLTY_CD,
+									MNG_FEE_JOB_SE
+					        FROM GAS_USAGE_STTUS_F
 								  WHERE 1=1
-						         <isNotEmpty property="sCarRegistNo">
-						             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+						         <isNotEmpty property="sUsageMt">
+						             <![CDATA[  AND USAGE_MT = #sUsageMt# ]]>
 						         </isNotEmpty>
 
-						         <isNotEmpty property="sCarNm">
-							         AND CAR_NM LIKE '%' || #sCarNm# || '%'
+						         <isNotEmpty property="sMngFeeFcltyCd">
+							         AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
 							     </isNotEmpty>
 
-							     <isNotEmpty property="sCarBodyNo">
-							          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
+							     <isNotEmpty property="sMngFeeJobSe">
+							          AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
 							     </isNotEmpty>
-                             ORDER BY CAR_REGIST_NO
+                             ORDER BY USAGE_MT
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamGasUsageSttusMngDao.selectCarMngListTotCnt_S" parameterClass="gamCarMngVo" resultClass="int">
+    <select id="gamElctyUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="int">
          SELECT COUNT(*) totcnt
-              FROM CAR_INFO_F
+              FROM GAS_USAGE_STTUS_F
                            <![CDATA[  WHERE 1=1 ]]>
 
-	         <isNotEmpty property="sCarRegistNo">
-	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-	         </isNotEmpty>
+						         <isNotEmpty property="sUsageMt">
+						             <![CDATA[  AND USAGE_MT = #sUsageMt# ]]>
+						         </isNotEmpty>
 
-	         <isNotEmpty property="sCarNm">
-		         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-		     </isNotEmpty>
+						         <isNotEmpty property="sMngFeeFcltyCd">
+							         AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
+							     </isNotEmpty>
 
-		     <isNotEmpty property="sCarBodyNo">
-		          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-		     </isNotEmpty>
+							     <isNotEmpty property="sMngFeeJobSe">
+							          AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
+							     </isNotEmpty>
 
     </select>
 
-	<insert id="gamGasUsageSttusMngDao.InsertCarMngList_S">
+	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusMng">
 		<![CDATA[
 		    INSERT
 		      INTO  CAR_INFO_F
@@ -152,7 +131,7 @@
 		]]>
 	</insert>
 
-	<update id="gamGasUsageSttusMngDao.UpdateCarMngList_S">
+	<update id="gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng">
 		<![CDATA[
             UPDATE CAR_INFO_F SET
 			       	CAR_REGIST_NO	=	#carRegistNo#

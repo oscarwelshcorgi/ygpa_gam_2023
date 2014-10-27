@@ -50,7 +50,6 @@ public class GamMngFeeGubunMngDao extends YGPAAbstractDAO{
 	 * @param gamMngFeeGubunMngVo
 	 */
 	public void InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
-		// TODO Auto-generated method stub
 		insert("gamMngFeeGubunMngDao.InsertMngFeeGubunMng_D", gamMngFeeGubunMngVo);
 	}
 
@@ -58,7 +57,6 @@ public class GamMngFeeGubunMngDao extends YGPAAbstractDAO{
 	 * @param gamMngFeeGubunMngVo
 	 */
 	public void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
-		// TODO Auto-generated method stub
 		delete("gamMngFeeGubunMngDao.DeleteMngFeeGubunMng", gamMngFeeGubunMngVo);
 	}
 

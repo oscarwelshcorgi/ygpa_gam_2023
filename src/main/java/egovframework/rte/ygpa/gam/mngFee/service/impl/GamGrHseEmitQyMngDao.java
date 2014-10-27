@@ -3,9 +3,12 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *
@@ -25,6 +28,37 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
  */
 @Repository("gamGrHseEmitQyMngDao")
 public class GamGrHseEmitQyMngDao extends YGPAAbstractDAO{
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	public int selectGrHseEmitQyMngListTotCnt(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngListTotCnt_S", gamGrHseEmitQyMngVo);
+	}
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	public List selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngList_D", gamGrHseEmitQyMngVo);
+	}
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	public void InsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		insert("gamGrHseEmitQyMngDao.InsertGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
+	}
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	public void DeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		delete("gamGrHseEmitQyMngDao.DeleteGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
+	}
+
 
 
 }

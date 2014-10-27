@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
 
@@ -35,6 +36,26 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 
 	@Resource(name="gamFcltsFeeMngInqireDao")
 	private GamFcltsFeeMngInqireDao gamFcltsFeeMngInqireDao;
+
+	@Override
+	public int selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireListTotCnt(gamFcltsFeeMngInqireVo);
+	}
+
+	@Override
+	public List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireList(gamFcltsFeeMngInqireVo);
+	}
+
+	@Override
+	public void insertFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+		gamFcltsFeeMngInqireDao.insertFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
+	}
+
+	@Override
+	public void deleteFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+		gamFcltsFeeMngInqireDao.deleteFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
+	}
 
 
 

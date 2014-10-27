@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
 /**
  *
@@ -33,6 +34,28 @@ public class GamGasUsageSttusMngServiceImpl extends AbstractServiceImpl implemen
 
 	@Resource(name="gamGasUsageSttusMngDao")
 	private GamGasUsageSttusMngDao gamGasUsageSttusMngDao;
+
+	@Override
+	public int selectGasUsageSttusMngListTotCnt(GamGasUsageSttusMngVo searchVO) throws Exception {
+		return gamGasUsageSttusMngDao.selectGasUsageSttusMngListTotCnt(searchVO);
+	}
+
+	@Override
+	public List selectGasUsageSttusMngList(GamGasUsageSttusMngVo searchVO) throws Exception {
+		return gamGasUsageSttusMngDao.selectGasUsageSttusMngList(searchVO);
+	}
+
+	@Override
+	public void InsertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+		gamGasUsageSttusMngDao.InsertGasUsageSttusMng(gamGasUsageSttusMngVo);
+
+	}
+
+	@Override
+	public void DeleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+		gamGasUsageSttusMngDao.DeleteGasUsageSttusMng(gamGasUsageSttusMngVo);
+
+	}
 
 
 

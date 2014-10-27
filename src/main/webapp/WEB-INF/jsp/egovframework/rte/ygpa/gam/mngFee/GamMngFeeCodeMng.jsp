@@ -30,7 +30,7 @@
 function GamMngFeeCodeMng() {}
 
 
-GamMngFeeCodeMng.prototype = new EmdModule(600, 500);
+GamMngFeeCodeMng.prototype = new EmdModule(800, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMngFeeCodeMng.prototype.loadComplete = function() {
@@ -41,8 +41,10 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectMngFeeCodeMng.do" />',
         dataType: 'json',
         colModel : [
-					{display:'시설구분', 			name:'mngFeeFcltySe',	width:110, 		sortable:false,		align:'center'},
-                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:110, 		sortable:false,		align:'center'},
+					{display:'관리비 시설 코드', 			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
+                    {display:'관리비 시설 구분', 	name:'mngFeeFcltySe',		width:110, 		sortable:false,		align:'center'},
+                    {display:'관리비 시설 명', 	name:'mngFeeFcltyNm',		width:110, 		sortable:false,		align:'center'},
+                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'},
 					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
                     {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
                     ],
@@ -136,9 +138,8 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 
             break;
 
-        //차량 삭제
         case 'btnRemoveItem':
-        case 'btnGubunDel':
+        case 'btnCodeDel':
 			/*
         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
         		return;
@@ -197,11 +198,11 @@ var module_instance = new GamMngFeeCodeMng();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>시설구분</th>
+                            <th>시설코드</th>
                             <td>
 									<input type="text" size="10" id="sMngFeeFcltySe">
                             </td>
-                            <th>시설구분</th>
+                            <th>시설코드</th>
                             <td>
 									<input type="text" size="10" id="sMngFeeFcltySeNm">
                             </td>
@@ -218,8 +219,8 @@ var module_instance = new GamMngFeeCodeMng();
     <div class="emdPanel fillHeight">
         <div id="MngFeeCodeMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">관리비 시설구분</a></li>
-                <li><a href="#tabs2" class="emdTab">관리비 시설구분 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">관리비 시설코드</a></li>
+                <li><a href="#tabs2" class="emdTab">관리비 시설코드 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -229,8 +230,8 @@ var module_instance = new GamMngFeeCodeMng();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnCodeAdd">시설구분 추가</button>
-	                                <button id="btnCodeDel">시설구분 삭제</button>
+	                                <button id="btnCodeAdd">시설코드 추가</button>
+	                                <button id="btnCodeDel">시설코드 삭제</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -245,10 +246,16 @@ var module_instance = new GamMngFeeCodeMng();
             	        <input type="hidden" id="oldMngFeeFcltySe"/>
                         <table class="detailPanel">
                              <tr>
+								<th width="20%" height="18">시설 코드</th>
+                                <td ><input type="text" size="20" id="mngFeeFcltyCd" maxlength="4"/></td>
+								<th width="20%" height="18">시설 업무 구분</th>
+                                <td ><input type="text" size="20" id="mngFeeJobSe" maxlength="1"/></td>
+                            </tr>
+                             <tr>
 								<th width="20%" height="18">시설 구분</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySe" /></td>
-								<th width="20%" height="18">시설 구분 명</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySeNm" /></td>
+                                <td ><input type="text" size="20" id="mngFeeFcltySe" maxlength="2" /></td>
+								<th width="20%" height="18">시설명</th>
+                                <td ><input type="text" size="20" id="mngFeeFcltyNm" maxlength="20"/></td>
                             </tr>
                         </table>
                     </form>
