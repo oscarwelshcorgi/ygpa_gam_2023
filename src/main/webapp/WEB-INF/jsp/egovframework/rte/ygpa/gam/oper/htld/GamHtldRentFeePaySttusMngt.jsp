@@ -72,8 +72,10 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         module.$("#htldRentFeePaySttusMngtListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
     });
 
+    /*
     this.$('#sNticDtFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
     this.$('#sNticDtTo').val(EMD.util.getDate());
+	*/
 
     this.$('#arrrgDetail :input').on('change keyup', {module: this}, function(event) {
     	event.data.module.calculateArrrgFee();
@@ -314,7 +316,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                                 <button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th style="width: 70px">납부구분</th>
-                            <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체"></td>
+                            <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="0"></td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
 
