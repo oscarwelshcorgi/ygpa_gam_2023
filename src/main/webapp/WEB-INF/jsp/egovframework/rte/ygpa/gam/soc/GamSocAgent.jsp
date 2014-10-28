@@ -386,7 +386,6 @@ var module_instance = new GamSocAgentMngtModule();
 	                            	<button id="btnRegiItem">등록</button>
 	                                <button id="btnSaveItem">저장</button>
 	                                <button id="btnRemoveItem">삭제</button>
-	                                <button id="btnPrintItem">원부출력</button>
 	                            </td>
 	                        </tr>
 						</table>
