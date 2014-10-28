@@ -108,14 +108,14 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
-           					  <c:set var="pageSkip" value="false" />
-           					  <c:set var="appPrtAtCode" value="${result.appPrtAtCode}"/>
-							  <c:set var="appPrtAtNm" value="${result.appPrtAtKorNm}"/>
-							  <c:set var="prtAtCode" value="${result.prtAtCode}" />
-							  <c:set var="prtAtNm" value="${result.prtAtKorNm}" />
-							  <c:set var="agentCode" value="${result.agentCode}" />
-							  <c:set var="agentName" value="${result.agentName}" />
-							  <c:set var="constNo" value="${result.constNo}" />
+           				<c:set var="pageSkip" value="false" />
+           				<c:set var="appPrtAtCode" value="${result.appPrtAtCode}"/>
+						<c:set var="appPrtAtNm" value="${result.appPrtAtKorNm}"/>
+						<c:set var="prtAtCode" value="${result.prtAtCode}" />
+						<c:set var="prtAtNm" value="${result.prtAtKorNm}" />
+						<c:set var="agentCode" value="${result.agentCode}" />
+						<c:set var="agentName" value="${result.agentName}" />
+						<c:set var="constNo" value="${result.constNo}" />
        		        	<table class="rpr_main_table">
 			        		<thead>
 			        			<tr>
