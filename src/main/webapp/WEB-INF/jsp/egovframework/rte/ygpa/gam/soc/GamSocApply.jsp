@@ -426,7 +426,7 @@ var module_instance = new GamSocApplyModule();
                             <th>면제요청업체</th>
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7">
-                            	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sAppAgentName" type="text" size="6" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>요청횟수</th>

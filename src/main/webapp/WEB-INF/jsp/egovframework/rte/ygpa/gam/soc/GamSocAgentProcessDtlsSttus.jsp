@@ -191,13 +191,13 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             <th>신청업체</th>
                             <td>
                                 <input id="sAppAgentCode" type="text" size="4">
-                            	<input id="sAppAgentName" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sAppAgentName" type="text" size="3" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>요금종류</th>
                             <td>
                                 <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpKorNm" type="text" size="6" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sFeeTpKorNm" type="text" size="3" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                             <th>고지일자</th>
