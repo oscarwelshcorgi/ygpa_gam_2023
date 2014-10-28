@@ -256,8 +256,8 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
 						<tr>    
 							<th>요금종류</th>
                             <td>
-                                <input type="text" size="7" id="sFeeTp" maxlength="10" readonly/>
-                                <input type="text" size="10" id="sFeeTpNm" disabled/>
+                                <input type="text" size="5" id="sFeeTp" maxlength="10" readonly/>
+                                <input type="text" size="8" id="sFeeTpNm" disabled/>
                                 <button id="popupFeeInfo" class="popupButton">선택</button>
                             </td>     
 							<th>적용요율</th>
@@ -272,8 +272,8 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
                         <tr>            
                         	<th>신청업체</th>
                             <td>
-                                <input type="text" size="7" id="sAppAgentCode" maxlength="10" readonly/>
-                                <input type="text" size="10" id="sAppAgentNm" disabled/>
+                                <input type="text" size="5" id="sAppAgentCode" maxlength="10" readonly/>
+                                <input type="text" size="8" id="sAppAgentNm" disabled/>
                                 <button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
                             <th>보전처리대상금액</th>
