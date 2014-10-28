@@ -49,14 +49,14 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		insert("gamElctyUsageSttusMngDao.insertElctyUsageSttusMng",gamElctyUsageSttusMngVo);
+		insert("gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
 	}
 
 	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng",gamElctyUsageSttusMngVo);
+		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_D",gamElctyUsageSttusMngVo);
 	}
 
 }

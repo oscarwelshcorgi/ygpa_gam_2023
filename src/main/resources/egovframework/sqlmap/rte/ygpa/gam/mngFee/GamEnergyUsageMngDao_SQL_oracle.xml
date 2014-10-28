@@ -12,52 +12,23 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                             SELECT
-									CAR_REGIST_NO,
-									CAR_KND,
-									CAR_PRPOS,
-									CAR_NM,
-									CAR_FMT,
-									CAR_YR_MDL,
-									CAR_BODY_NO,
-									TURBINE_FMT,
-									USAGE_STRHLD,
-									OWNER_NM,
-									OWNER_ADRES,
-									TO_CHAR(CAR_REGIST_DT, 'YYYY-MM-DD') CAR_REGIST_DT,
-									REGIST_GOV_OFC,
-									SPEC_MNG_NO,
-									CAR_LT,
-									CAR_WD,
-									CAR_HT,
-									CAR_GR_WQNT,
-									EXHAUSTQY,
-									RATE_OUTPUT,
-									RIDE_QUOTA_CAPA,
-									MAX_CAPA_QY,
-									CYLINDER_CNT,
-									FUEL_KND,
-									FUEL_EFFT,
-									TO_CHAR(EXAM_VALID_BEGIN_DT, 'YYYY-MM-DD') EXAM_VALID_BEGIN_DT,
-									TO_CHAR(EXAM_VALID_END_DT, 'YYYY-MM-DD') EXAM_VALID_END_DT,
-									ACQ_PRCE,
-									REG_USR,
-									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					        FROM CAR_INFO_F
+                            		FUEL_CD
+									,FUEL_NM
+									,ENERGY_UNIT
+									,ENERGY_TOTAL_CAL_VAL
+									,ENERGY_NET_CAL_VAL
+									,GR_HSE_UNIT
+									,GR_HSE_COEF
+									,MNG_YEAR
+					        FROM ENERGY_USAGEQY_COEF_F
 								  WHERE 1=1
-						         <isNotEmpty property="sCarRegistNo">
-						             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+						         <isNotEmpty property="sMngYear">
+						             AND MNG_YEAR LIKE '%' || #sMngYear# || '%'
 						         </isNotEmpty>
-
-						         <isNotEmpty property="sCarNm">
-							         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-							     </isNotEmpty>
-
-							     <isNotEmpty property="sCarBodyNo">
-							          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-							     </isNotEmpty>
-                             ORDER BY CAR_REGIST_NO
+						         <isNotEmpty property="sFuelCd">
+						             AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+						         </isNotEmpty>
+                             ORDER BY FUEL_NM
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -65,89 +36,46 @@
 
     <select id="gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
          SELECT COUNT(*) totcnt
-              FROM CAR_INFO_F
+              FROM ENERGY_USAGEQY_COEF_F
                            <![CDATA[  WHERE 1=1 ]]>
-
-	         <isNotEmpty property="sCarRegistNo">
-	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-	         </isNotEmpty>
-
-	         <isNotEmpty property="sCarNm">
-		         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-		     </isNotEmpty>
-
-		     <isNotEmpty property="sCarBodyNo">
-		          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-		     </isNotEmpty>
+								<isNotEmpty property="sMngYear">
+						             AND MNG_YEAR LIKE '%' || #sMngYear# || '%'
+						         </isNotEmpty>
+						         <isNotEmpty property="sFuelCd">
+						             AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+						         </isNotEmpty>
 
     </select>
 
 	<insert id="gamEnergyUsageMngDao.InsertEnergyUsageMng">
 		<![CDATA[
 		    INSERT
-		      INTO  CAR_INFO_F
-		         (  CAR_REGIST_NO
-					,CAR_KND
-					,CAR_PRPOS
-					,CAR_NM
-					,CAR_FMT
-					,CAR_YR_MDL
-					,CAR_BODY_NO
-					,TURBINE_FMT
-					,USAGE_STRHLD
-					,OWNER_NM
-					,OWNER_ADRES
-					,CAR_REGIST_DT
-					,REGIST_GOV_OFC
-					,SPEC_MNG_NO
-					,CAR_LT
-					,CAR_WD
-					,CAR_HT
-					,CAR_GR_WQNT
-					,EXHAUSTQY
-					,RATE_OUTPUT
-					,RIDE_QUOTA_CAPA
-					,MAX_CAPA_QY
-					,CYLINDER_CNT
-					,FUEL_KND
-					,FUEL_EFFT
-					,EXAM_VALID_BEGIN_DT
-					,EXAM_VALID_END_DT
-					,ACQ_PRCE
+		      INTO  ENERGY_USAGEQY_COEF_F
+		         (
+					FUEL_CD
+					,FUEL_NM
+					,ENERGY_UNIT
+					,ENERGY_TOTAL_CAL_VAL
+					,ENERGY_NET_CAL_VAL
+					,GR_HSE_UNIT
+					,GR_HSE_COEF
+					,MNG_YEAR
 					,REG_USR
 					,REGIST_DT
+
 		         )
 		    VALUES
-		         (  #carRegistNo#
-					, #carKnd#
-					, #carPrpos#
-					, #carNm#
-					, #carFmt#
-					, #carYrMdl#
-					, #carBodyNo#
-					, #turbineFmt#
-					, #usageStrhld#
-					, #ownerNm#
-					, #ownerAdres#
-					, TO_DATE(#carRegistDt#,'YYYY-MM-DD')
-					, #registGovOfc#
-					, #specMngNo#
-					, #carLt#
-					, #carWd#
-					, #carHt#
-					, #carGrWqnt#
-					, #exhaustqy#
-					, #rateOutput#
-					, #rideQuotaCapa#
-					, #maxCapaQy#
-					, #cylinderCnt#
-					, #fuelKnd#
-					, #fuelEfft#
-					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
-					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-					, #acqPrce#
-					, #regUsr#
-					, sysdate
+		         (
+		         	#fuelCd#
+					,#fuelNm#
+					,#energyUnit#
+					,#energyTotalCalVal#
+					,#energyNetCalVal#
+					,#grHseUnit#
+					,#grHseCoef#
+					,#mngYear#
+					,#regUsr#
+					, TO_DATE(sysdate,'YYYY-MM-DD')
 		         )
 		]]>
 	</insert>
@@ -191,8 +119,9 @@
 
 	<delete id="gamEnergyUsageMngDao.DeleteEnergyUsageMng">
 		<![CDATA[
-            DELETE  CAR_INFO_F
-             WHERE  CAR_REGIST_NO   = #carRegistNo#
+            DELETE  ENERGY_USAGEQY_COEF_F
+             WHERE  FUEL_CD   = #fuelCd#
+             AND 	MNG_YEAR	= #mngYear#
 		]]>
 	</delete>
 

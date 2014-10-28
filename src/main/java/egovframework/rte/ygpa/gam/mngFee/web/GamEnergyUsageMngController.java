@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
@@ -78,9 +80,24 @@ public class GamEnergyUsageMngController {
     	//login정보
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
+
+    	int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
+		List yearList = new ArrayList();
+		Map yearMap = null;
+
+		for( int i = year ; i >= year-10 ; i-- ) {
+			yearMap = new HashMap();
+			yearMap.put("code", i);
+			yearMap.put("codeNm", i+"년");
+
+			yearList.add(yearMap);
+		}
+
+		model.addAttribute("yearsList", yearList);
+		model.addAttribute("thisyear", year);
     	model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamCarMng";
+    	return "/ygpa/gam/mngFee/GamEnergyUsageMng";
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

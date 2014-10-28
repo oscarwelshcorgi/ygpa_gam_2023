@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamCarMng.jsp
- * @Description : 차량 정보
+ * @Class Name : GamGrHseEmitQyMng.jsp
+ * @Description : 온실가스 배출현황
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -41,19 +41,17 @@ GamGrHseEmitQyMng.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectGrHseEmitQyMng.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'},
-					{display:'사용 월', 			name:'usageMt',	width:110, 		sortable:false,		align:'center'},
-                    {display:'전월 사용 량', 	name:'prevMtUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
-                    {display:'당월 사용 량', 	name:'saidMtUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
-                    {display:'적용 계수', 	name:'applcCoef',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
-                    {display:'순 사용 량', 	name:'netUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
-					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
+                    {display:'연료 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
+					{display:'관리 년도', 			name:'mngYear',	width:110, 		sortable:false,		align:'center'},
+					{display:'관리 월', 			name:'mngMt',	width:110, 		sortable:false,		align:'center'},
+					{display:'사용 량', 			name:'usageQy',	width:110, 		sortable:false,		align:'center'},
+					{display:'에너지 사용 량', 			name:'energyUsageQy',	width:110, 		sortable:false,		align:'center'},
+					{display:'온실가스 배출 량', 			name:'grHseEmitQy',	width:110, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
     });
+
 
     this.$("#GrHseEmitQyMng").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
@@ -202,13 +200,27 @@ var module_instance = new GamGrHseEmitQyMng();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>시설구분</th>
+                            <th>온실가스 사용년도</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySe">
+                            	<select id="sMngYear">
+                                    <option value="">선택</option>
+                                    <c:forEach items="${yearsList}" var="yearListItem">
+                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
                             </td>
-                            <th>시설구분</th>
+                            <th>온실가스 월</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySeNm">
+                            	 <select id="usageMtMon">
+	                                    <option value="">선택</option>
+	                                    <c:forEach items="${monList}" var="monListItem">
+	                                        <option value="${monListItem.code }" <c:if test="${monListItem.code == thismonth}">selected</c:if> >${monListItem.codeNm }</option>
+	                                    </c:forEach>
+	                             </select>
+                            </td>
+                            <th>연료코드</th>
+                            <td>
+									<input type="text" size="10" id="sFuelCd">
                             </td>
                             <td>
 									<button id="searchBtn" class="buttonSearch">조회</button>
@@ -223,8 +235,8 @@ var module_instance = new GamGrHseEmitQyMng();
     <div class="emdPanel fillHeight">
         <div id="GrHseEmitQyMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">가스 사용현황 </a></li>
-                <li><a href="#tabs2" class="emdTab">가스 사용현황 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">온실가스 배출현황</a></li>
+                <li><a href="#tabs2" class="emdTab">온실가스 배출현황 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -234,8 +246,8 @@ var module_instance = new GamGrHseEmitQyMng();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnGubunAdd">가스사용 추가</button>
-	                                <button id="btnGubunDel">가스사용 삭제</button>
+	                                <button id="btnGubunAdd">온실가스 배출 추가</button>
+	                                <button id="btnGubunDel">온실가스 배출 삭제</button>
 	                            </td>
 	                        </tr>
 						</table>

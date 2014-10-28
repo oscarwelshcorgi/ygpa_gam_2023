@@ -27,18 +27,18 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamEnergyUsageMng() {}
+function GamGasUsageSttusMng() {}
 
 
-GamEnergyUsageMng.prototype = new EmdModule(1000, 600);
+GamGasUsageSttusMng.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamEnergyUsageMng.prototype.loadComplete = function() {
+GamGasUsageSttusMng.prototype.loadComplete = function() {
 
     // 자산임대 테이블 설정
-    this.$("#EnergyUsageMng").flexigrid({
+    this.$("#GasUsageSttusMng").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectEnergyUsageMng.do" />',
+        url: '<c:url value="/mngFee/gamSelectGasUsageSttusMng.do" />',
         dataType: 'json',
         colModel : [
                     {display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
@@ -48,30 +48,32 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
                     {display:'당월 사용 량', 	name:'saidMtUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
                     {display:'적용 계수', 	name:'applcCoef',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
                     {display:'순 사용 량', 	name:'netUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
+                    /*
 					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
                     {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
+                    */
                     ],
         showTableToggleBtn: false,
         height: 'auto'
     });
 
-    this.$("#EnergyUsageMng").on('onItemSelected', function(event, module, row, grid, param) {
+    this.$("#GasUsageSttusMng").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
-        module.$('#EnergyUsageMngDetailForm :input').val('');
-        module.makeFormValues('#EnergyUsageMngDetailForm', row);
+        module.$('#GasUsageSttusMngDetailForm :input').val('');
+        module.makeFormValues('#GasUsageSttusMngDetailForm', row);
     	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
-        module._editData=module.getFormValues('#EnergyUsageMngDetailForm', row);
-        module._editRow=module.$('#EnergyUsageMng').selectedRowIds()[0];
+        module._editData=module.getFormValues('#GasUsageSttusMngDetailForm', row);
+        module._editRow=module.$('#GasUsageSttusMng').selectedRowIds()[0];
 
     });
-    this.$("#EnergyUsageMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    this.$("#GasUsageSttusMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
     	console.log('debug');
-        module.$("#EnergyUsageMngTab").tabs("option", {active: 1});
+        module.$("#GasUsageSttusMngTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
-        module.makeFormValues('#EnergyUsageMngDetailForm', row);
+        module.makeFormValues('#GasUsageSttusMngDetailForm', row);
         module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
-        module._editData=module.getFormValues('#EnergyUsageMngDetailForm', row);
-        module._editRow=module.$('#EnergyUsageMng').selectedRowIds()[0];
+        module._editData=module.getFormValues('#GasUsageSttusMngDetailForm', row);
+        module._editRow=module.$('#GasUsageSttusMng').selectedRowIds()[0];
         if(row!=null) {
             module.$('#cmd').val('modify');
         }
@@ -83,7 +85,7 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
- GamEnergyUsageMng.prototype.onButtonClick = function(buttonId) {
+ GamGasUsageSttusMng.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
 
@@ -96,9 +98,9 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
             break;
 
        // 등록포맷으로 변환 -- 초기화 및 상태값 변경
-       case 'btnGubunAdd':
-			this.$('#EnergyUsageMngDetailForm :input').val('');
-			this.$("#EnergyUsageMngTab").tabs("option", {active: 1});
+       case 'btnAdd':
+			this.$('#GasUsageSttusMngDetailForm :input').val('');
+			this.$("#GasUsageSttusMngTab").tabs("option", {active: 1});
 			this.$("#cmd").val("insert");
             break;
 
@@ -114,26 +116,26 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
         	}
         	*/
 
-        	var inputVO = this.makeFormArgs("#EnergyUsageMngDetailForm");
+        	var inputVO = this.makeFormArgs("#GasUsageSttusMngDetailForm");
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertEnergyUsageMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/mngFee/gamInsertGasUsageSttusMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
-						module.$("#EnergyUsageMngDetailForm :input").val("");
+						module.$("#GasUsageSttusMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#GasUsageSttusMngTab").tabs("option", {active: 0});
+						module.$("#GasUsageSttusMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateEnergyUsageMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/mngFee/gamUpdateGasUsageSttusMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
-						module.$("#EnergyUsageMngDetailForm :input").val("");
+						module.$("#GasUsageSttusMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#GasUsageSttusMngTab").tabs("option", {active: 0});
+						module.$("#GasUsageSttusMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -143,20 +145,24 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 
         //차량 삭제
         case 'btnRemoveItem':
-        case 'btnGubunDel':
+        case 'btnDel':
 			/*
         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
         		return;
         	}
         	*/
+        	if(this.$('#GasUsageSttusMng').selectedRowIds()[0] == undefined && this.$('#GasUsageSttusMng').selectedRowIds()[0] == null){
+     	    	alert('목록을 선택 하십시오.');
+     	    	return;
+     	    }
         	if(confirm("삭제하시겠습니까?")){
-				var inputVO = this.makeFormArgs("#EnergyUsageMngDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteEnergyUsageMng.do" />', inputVO, function(module, result) {
+				var inputVO = this.makeFormArgs("#GasUsageSttusMngDetailForm");
+			 	this.doAction('<c:url value="/mngFee/gamDeleteGasUsageSttusMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-			 			module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
-						module.$("#EnergyUsageMngDetailForm :input").val("");
+			 			module.$("#GasUsageSttusMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#GasUsageSttusMngTab").tabs("option", {active: 0});
+						module.$("#GasUsageSttusMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -167,18 +173,18 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 };
 
 
-GamEnergyUsageMng.prototype.onSubmit = function() {
+GamGasUsageSttusMng.prototype.onSubmit = function() {
     this.loadData();
 };
 
-GamEnergyUsageMng.prototype.loadData = function() {
-    this.$("#EnergyUsageMngTab").tabs("option", {active: 0});
+GamGasUsageSttusMng.prototype.loadData = function() {
+    this.$("#GasUsageSttusMngTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamCarMngSearchForm');
-    this.$('#EnergyUsageMng').flexOptions({params:searchOpt}).flexReload();
+    this.$('#GasUsageSttusMng').flexOptions({params:searchOpt}).flexReload();
 
 };
 
-GamEnergyUsageMng.prototype.onTabChange = function(newTabId, oldTabId) {
+GamGasUsageSttusMng.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
@@ -189,7 +195,7 @@ GamEnergyUsageMng.prototype.onTabChange = function(newTabId, oldTabId) {
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamEnergyUsageMng();
+var module_instance = new GamGasUsageSttusMng();
 
 </script>
 <!-- 아래는 고정 -->
@@ -202,9 +208,14 @@ var module_instance = new GamEnergyUsageMng();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>시설구분</th>
+                            <th>가스 사용년도</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySe">
+                            	<select id="sUsageMt">
+                                    <option value="">선택</option>
+                                    <c:forEach items="${yearsList}" var="yearListItem">
+                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+                                    </c:forEach>
+                                </select>
                             </td>
                             <th>시설구분</th>
                             <td>
@@ -221,21 +232,21 @@ var module_instance = new GamEnergyUsageMng();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="EnergyUsageMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="GasUsageSttusMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">가스 사용현황 </a></li>
                 <li><a href="#tabs2" class="emdTab">가스 사용현황 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-					 <table id="EnergyUsageMng" style="display:none" class="fillHeight"></table>
+					 <table id="GasUsageSttusMng" style="display:none" class="fillHeight"></table>
                 <div id="agentListSum" class="emdControlPanel">
 					<form id="form2">
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnGubunAdd">가스사용 추가</button>
-	                                <button id="btnGubunDel">가스사용 삭제</button>
+	                                <button id="btnAdd">가스사용 추가</button>
+	                                <button id="btnDel">가스사용 삭제</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -245,15 +256,51 @@ var module_instance = new GamEnergyUsageMng();
 
             <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
-                    <form id="EnergyUsageMngDetailForm">
+                    <form id="GasUsageSttusMngDetailForm">
             	        <input type="hidden" id="cmd"/>
             	        <input type="hidden" id="oldMngFeeFcltySe"/>
                         <table class="detailPanel">
                              <tr>
-								<th width="20%" height="18">시설 구분</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySe" /></td>
-								<th width="20%" height="18">시설 구분 명</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySeNm" /></td>
+								<th width="20%" height="18">사용 월</th>
+                                <td >
+	                                <select id="usageMtYear">
+	                                    <option value="">선택</option>
+	                                    <c:forEach items="${yearsList}" var="yearListItem">
+	                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+	                                    </c:forEach>
+	                                </select>
+	                                <select id="usageMtMon">
+	                                    <option value="">선택</option>
+	                                    <c:forEach items="${monList}" var="monListItem">
+	                                        <option value="${monListItem.code }">${monListItem.codeNm }</option>
+	                                    </c:forEach>
+	                                </select>
+                                </td>
+                                <td>
+	                                	<input type="text" id="usageMt" >
+	                            </td>
+                             </tr>
+                             <tr>
+	                             <th width="20%" height="18">관리비 시설코드</th>
+	                                <td ><input type="text" size="20" id="mngFeeFcltyCd" /></td>
+								 <th width="20%" height="18">관리비 업무구분</th>
+	                                <td ><input type="text" size="20" id="mngFeeJobSe" />
+	                                </td>
+	                                <td>
+	                                <button id="popupMngFeeFcltyCdF" class="buttonSave">관리비 시설조회</button>
+	                                </td>
+	                             </tr>
+                             <tr>
+								<th width="20%" height="18">당월 사용 량</th>
+                                <td ><input type="text" size="20" id="saidMtUsageQy" /></td>
+								<th width="20%" height="18">전월 사용 량</th>
+                                <td ><input type="text" size="20" id="prevMtUsageQy" /></td>
+                            </tr>
+                            <tr>
+								<th width="20%" height="18">적용 계수</th>
+                                <td ><input type="text" size="20" id="applcCoef" /></td>
+								<th width="20%" height="18">순 사용 량</th>
+                                <td ><input type="text" size="20" id="netUsageQy" /></td>
                             </tr>
                         </table>
                     </form>

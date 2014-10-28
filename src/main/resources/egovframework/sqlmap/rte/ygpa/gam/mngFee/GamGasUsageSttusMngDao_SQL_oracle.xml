@@ -4,9 +4,9 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamElctyUsageSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo"/>
+    <typeAlias alias="gamGasUsageSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo"/>
 
-    <select id="gamElctyUsageSttusMngDao.selectGasUsageSttusMngList_D" parameterClass="gamElctyUsageSttusMngVo" resultClass="egovMap">
+    <select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngList_D" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
      SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -26,7 +26,7 @@
 					        FROM GAS_USAGE_STTUS_F
 								  WHERE 1=1
 						         <isNotEmpty property="sUsageMt">
-						             <![CDATA[  AND USAGE_MT = #sUsageMt# ]]>
+						             <![CDATA[  AND USAGE_MT LIKE '%' || #sUsageMt# || '%' ]]>
 						         </isNotEmpty>
 
 						         <isNotEmpty property="sMngFeeFcltyCd">
@@ -42,13 +42,13 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamElctyUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="int">
+    <select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S" parameterClass="gamGasUsageSttusMngVo" resultClass="int">
          SELECT COUNT(*) totcnt
               FROM GAS_USAGE_STTUS_F
                            <![CDATA[  WHERE 1=1 ]]>
 
 						         <isNotEmpty property="sUsageMt">
-						             <![CDATA[  AND USAGE_MT = #sUsageMt# ]]>
+						             <![CDATA[  AND USAGE_MT LIKE '%' || #sUsageMt# || '%' ]]>
 						         </isNotEmpty>
 
 						         <isNotEmpty property="sMngFeeFcltyCd">
@@ -61,77 +61,37 @@
 
     </select>
 
-	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusMng">
+	<insert id="gamGasUsageSttusMngDao.InsertGasUsageSttusMng">
 		<![CDATA[
 		    INSERT
-		      INTO  CAR_INFO_F
-		         (  CAR_REGIST_NO
-					,CAR_KND
-					,CAR_PRPOS
-					,CAR_NM
-					,CAR_FMT
-					,CAR_YR_MDL
-					,CAR_BODY_NO
-					,TURBINE_FMT
-					,USAGE_STRHLD
-					,OWNER_NM
-					,OWNER_ADRES
-					,CAR_REGIST_DT
-					,REGIST_GOV_OFC
-					,SPEC_MNG_NO
-					,CAR_LT
-					,CAR_WD
-					,CAR_HT
-					,CAR_GR_WQNT
-					,EXHAUSTQY
-					,RATE_OUTPUT
-					,RIDE_QUOTA_CAPA
-					,MAX_CAPA_QY
-					,CYLINDER_CNT
-					,FUEL_KND
-					,FUEL_EFFT
-					,EXAM_VALID_BEGIN_DT
-					,EXAM_VALID_END_DT
-					,ACQ_PRCE
+		      INTO  GAS_USAGE_STTUS_F
+		         (
+		         	USAGE_MT
+					,PREV_MT_USAGE_QY
+					,SAID_MT_USAGE_QY
+					,APPLC_COEF
+					,NET_USAGE_QY
 					,REG_USR
 					,REGIST_DT
+					,MNG_FEE_FCLTY_CD
+					,MNG_FEE_JOB_SE
 		         )
 		    VALUES
-		         (  #carRegistNo#
-					, #carKnd#
-					, #carPrpos#
-					, #carNm#
-					, #carFmt#
-					, #carYrMdl#
-					, #carBodyNo#
-					, #turbineFmt#
-					, #usageStrhld#
-					, #ownerNm#
-					, #ownerAdres#
-					, TO_DATE(#carRegistDt#,'YYYY-MM-DD')
-					, #registGovOfc#
-					, #specMngNo#
-					, #carLt#
-					, #carWd#
-					, #carHt#
-					, #carGrWqnt#
-					, #exhaustqy#
-					, #rateOutput#
-					, #rideQuotaCapa#
-					, #maxCapaQy#
-					, #cylinderCnt#
-					, #fuelKnd#
-					, #fuelEfft#
-					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
-					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-					, #acqPrce#
-					, #regUsr#
-					, sysdate
+		         (
+		         	#usageMt#
+					,#prevMtUsageQy#
+					,#saidMtUsageQy#
+					,#applcCoef#
+					,#netUsageQy#
+					,#regUsr#
+					,TO_DATE(sysdate,'YYYY-MM-DD')
+					,#mngFeeFcltyCd#
+					,#mngFeeJobSe#
 		         )
 		]]>
 	</insert>
 
-	<update id="gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng">
+	<update id="gamGasUsageSttusMngDao.updateElctyUsageSttusMng">
 		<![CDATA[
             UPDATE CAR_INFO_F SET
 			       	CAR_REGIST_NO	=	#carRegistNo#
@@ -140,21 +100,6 @@
 				,	CAR_NM	=	#carNm#
 				,	CAR_FMT	=	#carFmt#
 				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
 				,	MAX_CAPA_QY	=	#maxCapaQy#
 				,	CYLINDER_CNT	=	#cylinderCnt#
 				,	FUEL_KND	=	#fuelKnd#
@@ -168,10 +113,12 @@
 		]]>
 	</update>
 
-	<delete id="gamGasUsageSttusMngDao.DeleteCarMngList_S">
+	<delete id="gamGasUsageSttusMngDao.DeleteGasUsageSttusMng">
 		<![CDATA[
-            DELETE  CAR_INFO_F
-             WHERE  CAR_REGIST_NO   = #carRegistNo#
+            DELETE  GAS_USAGE_STTUS_F
+		             WHERE  USAGE_MT   = #usageMt#
+		             AND 	MNG_FEE_FCLTY_CD	= #mngFeeFcltyCd#
+		             AND 	MNG_FEE_JOB_SE	=	#mngFeeJobSe#
 		]]>
 	</delete>
 

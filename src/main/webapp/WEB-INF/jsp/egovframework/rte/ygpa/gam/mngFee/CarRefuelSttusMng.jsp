@@ -71,7 +71,6 @@ CarRefuelSttusMngModule.prototype.loadComplete = function() {
 
     });
     this.$("#CarRefuelSttusMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-    	console.log('debug');
         module.$("#carCarRefuelSttusMngListTab").tabs("option", {active: 1});
         module.makeFormValues('#CarRefuelSttusMngListDetailForm', row);
         module._editData=module.getFormValues('#CarRefuelSttusMngListDetailForm', row);

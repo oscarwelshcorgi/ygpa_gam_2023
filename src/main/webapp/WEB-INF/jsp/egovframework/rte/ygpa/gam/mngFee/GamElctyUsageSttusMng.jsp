@@ -40,50 +40,40 @@ GamElctyUsageSttusMng.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectElctyUsageSttusMng.do" />',
         dataType: 'json',
         colModel : [
-					{display:'연료 구분', 			name:'fuelKnd',	width:100, 		sortable:false,		align:'center'},
-                    {display:'차량 명', 	name:'carNm',		width:100, 		sortable:false,		align:'center'},
-                    {display:'차량 등록 번호', 			name:'carRegistNo',	width:100, 		sortable:false,		align:'center'},
-                    {display:'합계', 	name:'total',		width:60, 		sortable:false,		align:'center'},
-                    {display:'소계', 	name:'mtotal',		width:60, 		sortable:false,		align:'center'},
-                    {display:'1월', 	name:'m1',		width:40, 		sortable:false,		align:'center'},
-                    {display:'2월', 	name:'m2',		width:40, 		sortable:false,		align:'center'},
-                    {display:'3월', 	name:'m3',		width:40, 		sortable:false,		align:'center'},
-                    {display:'4월', 	name:'m4',		width:40, 		sortable:false,		align:'center'},
-                    {display:'5월', 	name:'m5',		width:40, 		sortable:false,		align:'center'},
-                    {display:'6월', 	name:'m6',		width:40, 		sortable:false,		align:'center'},
-                    {display:'7월', 	name:'m7',		width:40, 		sortable:false,		align:'center'},
-                    {display:'8월', 	name:'m8',		width:40, 		sortable:false,		align:'center'},
-                    {display:'9월', 	name:'m9',		width:40, 		sortable:false,		align:'center'},
-                    {display:'10월', 	name:'m10',		width:40, 		sortable:false,		align:'center'},
-                    {display:'11월', 	name:'m11',		width:40, 		sortable:false,		align:'center'},
-                    {display:'12월', 	name:'m12',		width:40, 		sortable:false,		align:'center'}
-                    ],
+					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
+					{display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'},
+					{display:'사용 월', 			name:'usageMt',	width:110, 		sortable:false,		align:'center'},
+					{display:'전월 사용 량', 	name:'prevMtUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
+					{display:'당월 사용 량', 	name:'saidMtUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
+					{display:'적용 계수', 	name:'applcCoef',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
+					{display:'순 사용 량', 	name:'netUsageQy',		width:110, 		sortable:false,		align:'right', displayFormat: 'number'},
+					/*
+					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
+					{display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
+					*/
+					],
         showTableToggleBtn: false,
         height: 'auto'
     });
 
     this.$("#ElctyUsageSttusMngList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.$('#ElctyUsageSttusMngListDetailForm :input').val('');
-        module.makeFormValues('#ElctyUsageSttusMngListDetailForm', row);
-        module._editData=module.getFormValues('#ElctyUsageSttusMngListDetailForm', row);
+        module.$('#ElctyUsageSttusMngDetailForm :input').val('');
+        module.makeFormValues('#ElctyUsageSttusMngDetailForm', row);
+        module._editData=module.getFormValues('#ElctyUsageSttusMngDetailForm', row);
         module._editRow=module.$('#ElctyUsageSttusMngList').selectedRowIds()[0];
     	module.$('#cmd').val('modify');
 
     });
     this.$("#ElctyUsageSttusMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
     	console.log('debug');
-        module.$("#carElctyUsageSttusMngListTab").tabs("option", {active: 1});
-        module.makeFormValues('#ElctyUsageSttusMngListDetailForm', row);
-        module._editData=module.getFormValues('#ElctyUsageSttusMngListDetailForm', row);
+        module.$("#ElctyUsageSttusMngTab").tabs("option", {active: 1});
+        module.makeFormValues('#ElctyUsageSttusMngDetailForm', row);
+        module._editData=module.getFormValues('#ElctyUsageSttusMngDetailForm', row);
         module._editRow=module.$('#ElctyUsageSttusMngList').selectedRowIds()[0];
         module.$('#cmd').val('modify');
         if(row!=null) {
             module.$('#cmd').val('modify');
         }
-    });
-
-    this.$('#sRefuelMt').on('change', {module: this}, function(event) {
-        event.data.module.$('#refuelMt').val(event.data.module.$('#sRefuelMt').val());
     });
 };
 
@@ -100,24 +90,19 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
 //         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
 //         		return;
 //         	}
-
-    	    this.$('#refuelMt').val(this.$('#sRefuelMt').val());
 			this.loadData();
             break;
 
-       case 'btnCarRefuelAdd': // 차량주유 추가
-    	    if(this.$('#ElctyUsageSttusMngList').selectedRowIds()[0] == undefined && this.$('#ElctyUsageSttusMngList').selectedRowIds()[0] == null){
-    	    	alert('차량을 선택을 하십시오.');
-    	    	return;
-    	    }
-			this.$('#ElctyUsageSttusMngListDetailForm :input').val('');
-      		this.makeFormValues('#ElctyUsageSttusMngListDetailForm', this.$("#ElctyUsageSttusMngList").flexGetRow(this.$('#ElctyUsageSttusMngList').selectedRowIds()[0]));
-			this.$("#carElctyUsageSttusMngListTab").tabs("option", {active: 1});
+       // 등록포맷으로 변환 -- 초기화 및 상태값 변경
+       case 'btnAdd':
+			this.$('#ElctyUsageSttusMngDetailForm :input').val('');
+			this.$("#ElctyUsageSttusMngTab").tabs("option", {active: 1});
 			this.$("#cmd").val("insert");
             break;
 
 
-        case 'btnSaveItem':	//저장
+        // 신청저장
+        case 'btnSaveItem':
 			/*
         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
         		return;
@@ -127,16 +112,16 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
         	}
         	*/
 
-        	var inputVO = this.makeFormArgs("#ElctyUsageSttusMngListDetailForm");
-			console.log(inputVO);
+        	var inputVO = this.makeFormArgs("#ElctyUsageSttusMngDetailForm");
+
 			if(this.$("#cmd").val() == "insert") {
 
 			 	this.doAction('<c:url value="/mngFee/gamInsertElctyUsageSttusMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#ElctyUsageSttusMngSearchForm");
 						module.$("#ElctyUsageSttusMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#carElctyUsageSttusMngListTab").tabs("option", {active: 0});
-						module.$("#ElctyUsageSttusMngListDetailForm :input").val("");
+						module.$("#ElctyUsageSttusMngTab").tabs("option", {active: 0});
+						module.$("#ElctyUsageSttusMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -145,8 +130,8 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#ElctyUsageSttusMngSearchForm");
 						module.$("#ElctyUsageSttusMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#carElctyUsageSttusMngListTab").tabs("option", {active: 0});
-						module.$("#ElctyUsageSttusMngListDetailForm :input").val("");
+						module.$("#ElctyUsageSttusMngTab").tabs("option", {active: 0});
+						module.$("#ElctyUsageSttusMngDetailForm :input").val("");
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -154,7 +139,33 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
 
             break;
 
+        case 'btnRemoveItem':
+        case 'btnDel':
+			/*
+        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
+        		return;
+        	}
+        	*/
+        	if(this.$('#ElctyUsageSttusMngList').selectedRowIds()[0] == undefined && this.$('#ElctyUsageSttusMngList').selectedRowIds()[0] == null){
+     	    	alert('목록을 선택 하십시오.');
+     	    	return;
+     	    }
+        	if(confirm("삭제하시겠습니까?")){
+				var inputVO = this.makeFormArgs("#ElctyUsageSttusMngDetailForm");
+			 	this.doAction('<c:url value="/mngFee/gamDeleteElctyUsageSttusMng.do" />', inputVO, function(module, result) {
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#ElctyUsageSttusMngSearchForm");
+						module.$("#ElctyUsageSttusMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#ElctyUsageSttusMngTab").tabs("option", {active: 0});
+						module.$("#ElctyUsageSttusMngDetailForm :input").val("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}
+            break;
+
     }
+
 };
 
 
@@ -163,8 +174,8 @@ GamElctyUsageSttusMng.prototype.onSubmit = function() {
 };
 
 GamElctyUsageSttusMng.prototype.loadData = function() {
-    this.$("#carElctyUsageSttusMngListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#ElctyUsageSttusMngListDetailForm');
+    this.$("#ElctyUsageSttusMngTab").tabs("option", {active: 0});
+    var searchOpt=this.makeFormArgs('#ElctyUsageSttusMngSearchForm');
     this.$('#ElctyUsageSttusMngList').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -192,34 +203,22 @@ var module_instance = new GamElctyUsageSttusMng();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>주유 년도</th>
+                            <th>전기 사용년도</th>
                             <td>
-                            	<select id="sRefuelMt">
+                            	<select id="sUsageMt">
                                     <option value="">선택</option>
                                     <c:forEach items="${yearsList}" var="yearListItem">
                                         <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
                                     </c:forEach>
                                 </select>
                             </td>
-
-                            <th>차대 번호</th>
+                            <th>시설구분</th>
                             <td>
-                            		<input id="sCarRegistNo" type="text" size="15">
+									<input type="text" size="10" id="sMngFeeFcltySeNm">
                             </td>
-                            <td rowspan="2">
+                            <td>
 									<button id="searchBtn" class="buttonSearch">조회</button>
                             </td>
-                        </tr>
-                        <tr>
-                        	<th>주유 구분</th>
-                           		 <td colspan="4">
-									휘발류<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									경유<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									LPG<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									전기<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									하이브리드<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									기타<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-                           		 </td>
                         </tr>
                     </tbody>
                 </table>
@@ -228,10 +227,10 @@ var module_instance = new GamElctyUsageSttusMng();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="carElctyUsageSttusMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="ElctyUsageSttusMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">차량주유 현황</a></li>
-                <li><a href="#tabs2" class="emdTab">차량주유 현황 상세</a></li>
+                <li><a href="#tabs1" class="emdTab">전기 사용현황</a></li>
+                <li><a href="#tabs2" class="emdTab">전기 사용현황 상세</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -241,7 +240,8 @@ var module_instance = new GamElctyUsageSttusMng();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnCarRefuelAdd">차량주유 등록</button>
+	                                <button id="btnAdd">전기사용 추가</button>
+	                                <button id="btnDel">전기사용 삭제</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -251,66 +251,51 @@ var module_instance = new GamElctyUsageSttusMng();
 
             <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
-                    <form id="ElctyUsageSttusMngListDetailForm">
+                    <form id="ElctyUsageSttusMngDetailForm">
             	        <input type="hidden" id="cmd"/>
             	        <input type="hidden" id="refuelMt"/>
                         <table class="detailPanel">
-                            <tr>
-								<th width="20%" height="18">차량 등록 번호</th>
-                                <td ><input type="text" size="20" id="carRegistNo" readonly="readonly"/></td>
-								<th width="20%" height="18">연료 구분</th>
-                                <td ><input type="text" size="20" id="fuelKnd" readonly="readonly"/></td>
-								<th width="20%" height="18">차량 명</th>
-                                <td ><input type="text" size="20" id="carNm" readonly="readonly"/></td>
-                            </tr>
-                        </table>
-                        <table class="detailPanel">
-                            <tr>
-	                            <th>1월</th>
-	                            <td><input type="text" size="10" id="m1">
-	                        </td>
-	                        <tr>
-	                            <th>2월</th>
-	                            <td><input type="text" size="10" id="m2">
-	                        </td>
-	                        <tr>
-	                            <th>3월</th>
-	                            <td><input type="text" size="10" id="m3">
-	                        </td>
-	                        <tr>
-	                            <th>4월</th>
-	                            <td><input type="text" size="10" id="m4">
-                            </td>
-	                        <tr>
-	                            <th>5월</th>
-	                            <td><input type="text" size="10" id="m5">
-							</td>
-	                        <tr>
-	                            <th>6월</th>
-	                            <td><input type="text" size="10" id="m6">
-	                        </td>
-	                        <tr>
-	                        	<th>7월</th>
-	                            <td><input type="text" size="10" id="m7">
-	                       </td>
-	                        <tr><th>8월</th>
-	                            <td><input type="text" size="10" id="m8">
+                             <tr>
+								<th width="20%" height="18">사용 월</th>
+                                <td >
+	                                <select id="usageMtYear">
+	                                    <option value="">선택</option>
+	                                    <c:forEach items="${yearsList}" var="yearListItem">
+	                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+	                                    </c:forEach>
+	                                </select>
+	                                <select id="usageMtMon">
+	                                    <option value="">선택</option>
+	                                    <c:forEach items="${monList}" var="monListItem">
+	                                        <option value="${monListItem.code }">${monListItem.codeNm }</option>
+	                                    </c:forEach>
+	                                </select>
+                                </td>
+                                <td>
+	                                	<input type="text" id="usageMt" >
+	                            </td>
+                             </tr>
+                             <tr>
+	                             <th width="20%" height="18">관리비 시설코드</th>
+	                                <td ><input type="text" size="20" id="mngFeeFcltyCd" /></td>
+								 <th width="20%" height="18">관리비 업무구분</th>
+	                                <td ><input type="text" size="20" id="mngFeeJobSe" />
+	                                </td>
+	                                <td>
+	                                <button id="popupMngFeeFcltyCdF" class="buttonSave">관리비 시설조회</button>
+	                                </td>
+	                             </tr>
+                             <tr>
+								<th width="20%" height="18">당월 사용 량</th>
+                                <td ><input type="text" size="20" id="saidMtUsageQy" /></td>
+								<th width="20%" height="18">전월 사용 량</th>
+                                <td ><input type="text" size="20" id="prevMtUsageQy" /></td>
                             </tr>
                             <tr>
-	                            <th>9월</th>
-	                            <td><input type="text" size="10" id="m9">
-	                         </td>
-	                        <tr>
-	                        	<th>10월</th>
-	                            <td><input type="text" size="10" id="m10">
-	                        </td>
-	                        <tr>
-	                        	<th>11월</th>
-	                            <td><input type="text" size="10" id="m11">
-	                        </td>
-	                        <tr>
-	                        	<th>12월</th>
-	                            <td><input type="text" size="10" id="m12">
+								<th width="20%" height="18">적용 계수</th>
+                                <td ><input type="text" size="20" id="applcCoef" /></td>
+								<th width="20%" height="18">순 사용 량</th>
+                                <td ><input type="text" size="20" id="netUsageQy" /></td>
                             </tr>
                         </table>
                     </form>
@@ -319,6 +304,7 @@ var module_instance = new GamElctyUsageSttusMng();
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
 	                        	<button id="btnSaveItem" class="buttonSave">저장</button>
+	                            <button id="btnRemoveItem" class="buttonDelete">삭제</button>
 	                        </td>
 	                    </tr>
 	                 </table>
