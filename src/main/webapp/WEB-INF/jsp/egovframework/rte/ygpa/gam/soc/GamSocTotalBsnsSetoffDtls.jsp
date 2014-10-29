@@ -72,7 +72,7 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
 		   				{name: 'sFrDt', value: module.$('#sFrDt').val()},
 		   				{name: 'sToDt', value: module.$('#sToDt').val()}
 		                   ]; 
-		console.log('debug');
+		//console.log('debug');
 		module.$('#socTotalBsnsSetoffDtlsDetail').flexOptions({params:detailInput}).flexReload();
 	});
     

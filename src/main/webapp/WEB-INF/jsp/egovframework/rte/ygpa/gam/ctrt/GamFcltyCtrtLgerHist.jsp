@@ -12,9 +12,9 @@
  *
  *   수정일          수정자                   수정내용
  *  -------    --------    ---------------------------
- *  2014.10.28  lsl          최초 생성
+ *  2014.10.28  HNJ          최초 생성
  *
- * author lsl
+ * author HNJ
  * since 2014.10.28
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
@@ -40,7 +40,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         url: '<c:url value="/soc/gamSelectFcltyCtrtLgerHistList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'구분', 			name:'ctrtNo',				width:80, 		sortable:false,		align:'center'},
+					{display:'구분', 			name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
                     {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
                     {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
                     {display:'입찰공고일', 	name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
@@ -56,39 +56,37 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	
-        	module._fcltyCtrtLgerHistInfo = data.fcltyCtrtLgerHistInfo;
-        	
-        	//그리드 상단 입력창에 정보 입력
-        	if(data.fcltyCtrtLgerHistInfo){
-        		if(data.resultCode == '0'){
-	        		module.makeFormValues('#form1',data.fcltyCtrtLgerHistInfo);
-		        	
-		        	//항만공사시행허가원부II 정보입력
-	        		module.makeFormValues('#gamFcltyCtrtLgerHistForm',data.fcltyCtrtLgerHistInfo);
-        		}
-	        	
-        		module.$("#cmd").val("modify");
-        		
-       		}else{
-       			//console.log('debug');
-       			if(data.resultCode == '0'){
-	       			module.makeFormValues('#form1',{});
-	       			//항만공사시행허가원부II 초기화
-	        		module.makeFormValues('#gamFcltyCtrtLgerHistForm',{});
-       			}
-	        	module.$("#cmd").val("insert");
-       			
-       		}
-        	
+
 			//자료수, 합산금액 입력
             module.$('#totalCount').val($.number(data.totalCount));
-            module.$('#sumTotalAmnt').val($.number(data.sumTotalAmnt));
-            module.$('#sumAccFee').val($.number(data.sumAccFee));
+            module.$('#sumPlanAmt').val($.number(data.sumPlanAmt));
+            module.$('#sumPrmtAmt').val($.number(data.sumPrmtAmt));
+            module.$('#sumScsbidAmt').val($.number(data.sumScsbidAmt));
+            module.$('#sumBaseAmt').val($.number(data.sumBaseAmt));
 
             return data;
         }
     });
+    
+    
+	this.$("#fcltyCtrtLgerHistList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+
+		
+		var detailInput = [
+		   				{name: 'prtAtCode', value: row["prtAtCode"]},
+		   				{name: 'cmplYr', value: row["cmplYr"]},
+		   				{name: 'constNo', value: row["constNo"]},
+		   				{name: 'sPrtAtCode', value: module.$('#sPrtAtCode').val()},
+		   				{name: 'sFeeTp', value: module.$('#sFeeTp').val()},
+		   				{name: 'sExmpAgentCode', value: module.$('#sExmpAgentCode').val()},
+		   				{name: 'sUseNo', value: module.$('#sUseNo').val()},
+		   				{name: 'sType', value: module.$('#sType').val()},
+		   				{name: 'sFrDt', value: module.$('#sFrDt').val()},
+		   				{name: 'sToDt', value: module.$('#sToDt').val()}
+		                   ]; 
+		console.log('debug');
+		module.$('#socTotalBsnsSetoffDtlsDetail').flexOptions({params:detailInput}).flexReload();
+	});
     
     
  	// 계약공동도급 테이블 설정
@@ -215,109 +213,20 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         // 조회
         case 'searchBtn':
         	
-        	if(!validateGamFcltyCtrtLgerHist(this.$('#gamFcltyCtrtLgerHistSearchForm')[0])){ 		
+        	/* if(!validateGamFcltyCtrtLgerHist(this.$('#gamFcltyCtrtLgerHistSearchForm')[0])){ 		
         		return;
-        	}
+        	} */
         	
 			this.loadData();
             break;
             
-       // 등록포맷으로 변환 -- 초기화 및 상태값 변경
-       case 'btnRegiItem':
-    	    this.makeFormValues('#gamFcltyCtrtLgerHistSearchForm',{});
-    	    this.makeFormValues('#form1',{});
-    	    this.makeFormValues('#fcltyCtrtLgerHistListSumForm',{});
-    	    this.makeFormValues('#gamFcltyCtrtLgerHistForm',{});
-    	    
-    	    this.loadData();
-    	    
-    	    this.$("#cmd").val("insert");
-    	    
-            break;
-       
-
-        // 신청저장
-        case 'btnSaveItem':
-        	
-        	if(!validateGamFcltyCtrtLgerHist(this.$('#gamFcltyCtrtLgerHistSearchForm')[0])){ 		
-        		return;
-        	}
-        	
-        	if(!validateGamFcltyCtrtLgerHistDetail(this.$('#form1')[0])){ 		
-        		return;
-        	}
-
-        	var inputVO = [];
-        	
-        	var all_rows = JSON.stringify(this.$('#fcltyCtrtLgerHistList').flexGetData());
-        	var searchData = JSON.stringify(this.getFormValues("#gamFcltyCtrtLgerHistSearchForm"));
-        	var updateData = JSON.stringify(this.getFormValues("#form1"));
-        	var updateData1 = JSON.stringify(this.getFormValues("#gamFcltyCtrtLgerHistForm"));
-        	
-        	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
-        	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
-        	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
-        	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
-        	
-        	if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/soc/gamInsertFcltyCtrtLgerHistList.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamFcltyCtrtLgerHistSearchForm");
-						module.$("#fcltyCtrtLgerHistList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 0});
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('<c:url value="/soc/gamUpdateFcltyCtrtLgerHistList.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamFcltyCtrtLgerHistSearchForm");
-						module.$("#fcltyCtrtLgerHistList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 0});
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}
-
-            break;
-
-        //신청삭제
-        case 'btnRemoveItem':
-        	
-        	if(!validateGamFcltyCtrtLgerHist(this.$('#gamFcltyCtrtLgerHistSearchForm')[0])){ 		
-        		return;
-        	}
-        	
-        	var inputVO = [];
-        	var searchData = JSON.stringify(this.getFormValues("#gamFcltyCtrtLgerHistSearchForm"));
-
-        	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
-        	this.doAction('<c:url value="/soc/gamDeleteFcltyCtrtLgerHistList.do" />', inputVO, function(module, result) {
-		 		if(result.resultCode == "0"){
-		 			var searchOpt = module.makeFormArgs("#gamFcltyCtrtLgerHistSearchForm");
-					module.$("#fcltyCtrtLgerHistList").flexOptions({params:searchOpt}).flexReload();
-					module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 0});
-		 		}
-		 		alert(result.resultMsg);
-		 	});
-        	
-            break;
-            
-        case 'popupFcltyCtrtLgerHistFInfo': // 허가원부선택 팝업을 호출한다.(조회)
-            var opts;
-            this.doExecuteDialog('selectFcltyCtrtLgerHistFInfoPopup', '허가원부선택', '<c:url value="/popup/showFcltyCtrtLgerHistFInfo.do"/>', opts);
-            break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             var opts;
-            this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
             
-        case 'btnPopupSaveFcltyCtrtLgerHist':
-    		var all_rows = this.$('#fcltyCtrtLgerHistList').flexGetData();
-    		this.doExecuteDialog("addFcltyCtrtLgerHistPopup", "항만공사시행허가원부추가", '/popup/showFcltyCtrtLgerHist.do', {},all_rows);
-            break;
-
+        
     }
 };
 
@@ -331,7 +240,6 @@ GamFcltyCtrtLgerHistModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamFcltyCtrtLgerHistSearchForm');
 
     this.$('#fcltyCtrtLgerHistList').flexOptions({params:searchOpt}).flexReload();
-	console.log('debug');
 
 };
 
@@ -352,34 +260,16 @@ GamFcltyCtrtLgerHistModule.prototype.onTabChange = function(newTabId, oldTabId) 
 GamFcltyCtrtLgerHistModule.prototype.onClosePopup = function(popupId, msg, value) {
 
     switch (popupId) {
-     case 'selectSocEntrpsInfoPopup':
+     case 'selectEntrpsInfoPopup':
          if (msg != 'cancel') {
-             this.$('#agentCode').val(value.agentCode);
-             this.$('#agentName').val(value.firmKorNm);
+             this.$('#sRegistEntrpsCd').val(value.agentCode);
+             this.$('#sRegistEntrpsNm').val(value.firmKorNm);
 			 //this.loadData();
          } else {
              alert('취소 되었습니다');
          }
          break;
-     case 'selectFcltyCtrtLgerHistFInfoPopup':
-         if (msg != 'cancel') {
-             this.$('#sPrtAtCode').val(value.prtAtCode);
-             this.$('#sCmplYr').val(value.cmplYr);
-             this.$('#sConstNo').val(value.constNo);
-			 this.loadData();
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'addFcltyCtrtLgerHistPopup':
-    	 
-    	 if(this['_fcltyCtrtLgerHistInfo']==undefined){
-    		 
-    		 this['_fcltyCtrtLgerHistInfo'] = null;
-    	 }
-    	 this.$("#fcltyCtrtLgerHistList").flexAddData({resultList: value, fcltyCtrtLgerHistInfo:this._fcltyCtrtLgerHistInfo });
-    	 
-        break;
+     
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
@@ -405,9 +295,8 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <tr>
                             <th>계약구분</th>
                             <td>
-                                <!-- <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /> -->
                                 <select id="sCtrtSe">
-                                    <option value="tot" selected="selected">전체</option>
+                                    <option value="" selected="selected">전체</option>
                                     <option value="1">자체</option>
                                     <option value="2">조달</option>
                                 </select>
@@ -435,8 +324,8 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                          	</td>
                          	<th width="10%">입찰일</th>
                             <td>
-                            	<input id="sBidfrDt" type="text" class="emdcal" size="10"> ~ 
-                            	<input id="sBidtoDt" type="text" class="emdcal" size="10">
+                            	<input id="sBidFrDt" type="text" class="emdcal" size="10"> ~ 
+                            	<input id="sBidToDt" type="text" class="emdcal" size="10">
                             </td>
                         </tr>
                     </tbody>
