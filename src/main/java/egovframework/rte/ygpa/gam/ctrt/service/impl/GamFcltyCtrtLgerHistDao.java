@@ -49,5 +49,16 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
     public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistInfoSum(GamFcltyCtrtLgerHistVO searchVO){
     	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum", searchVO);
     }
+    
+    
+    /**
+	 * 계약대장 상세내역 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약대장 상세내역
+	 * @exception Exception
+	 */
+    public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO){
+    	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail", searchVO);
+    }
 
 }

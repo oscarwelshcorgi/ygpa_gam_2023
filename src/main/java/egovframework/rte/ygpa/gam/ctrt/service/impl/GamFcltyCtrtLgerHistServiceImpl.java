@@ -60,5 +60,16 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistInfoSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum(searchVO);
 	}
+	
+	
+	/**
+	 * 계약대장 상세내역 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약대장 상세내역
+	 * @exception Exception
+	 */
+	public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail(searchVO);
+	}
 
 }

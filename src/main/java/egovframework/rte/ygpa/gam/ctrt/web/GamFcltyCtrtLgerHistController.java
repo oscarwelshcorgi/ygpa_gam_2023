@@ -89,7 +89,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/soc/gamSelectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
@@ -136,6 +136,37 @@ public class GamFcltyCtrtLgerHistController {
     	map.put("sumScsbidAmt", sumScsbidAmt);
     	map.put("sumBaseAmt", sumBaseAmt);
     	map.put("resultList", fcltyCtrtLgerHistList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	/**
+     * 계약정보상세내역을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistDetail.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+		//계약대장목록
+    	GamFcltyCtrtLgerHistVO fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
+        
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultDetail", fcltyCtrtLgerHistDetail);
     	map.put("searchOption", searchVO);
 
     	return map;

@@ -38,5 +38,14 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @exception Exception
 	 */
 	GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistInfoSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약대장 상세내역 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약대장 상세내역
+	 * @exception Exception
+	 */
+	GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 
 }

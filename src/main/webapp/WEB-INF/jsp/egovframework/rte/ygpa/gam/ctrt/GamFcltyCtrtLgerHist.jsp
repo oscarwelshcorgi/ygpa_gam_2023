@@ -37,10 +37,11 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     // 시설물계약대장 테이블 설정
     this.$("#fcltyCtrtLgerHistList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectFcltyCtrtLgerHistList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtLgerHistList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'구분', 			name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
+					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
+					{display:'구분', 			name:'ctrtSe',				width:60, 		sortable:false,		align:'center'},
                     {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
                     {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
                     {display:'입찰공고일', 	name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
@@ -71,28 +72,27 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     
 	this.$("#fcltyCtrtLgerHistList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 
+		module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
-		var detailInput = [
-		   				{name: 'prtAtCode', value: row["prtAtCode"]},
-		   				{name: 'cmplYr', value: row["cmplYr"]},
-		   				{name: 'constNo', value: row["constNo"]},
-		   				{name: 'sPrtAtCode', value: module.$('#sPrtAtCode').val()},
-		   				{name: 'sFeeTp', value: module.$('#sFeeTp').val()},
-		   				{name: 'sExmpAgentCode', value: module.$('#sExmpAgentCode').val()},
-		   				{name: 'sUseNo', value: module.$('#sUseNo').val()},
-		   				{name: 'sType', value: module.$('#sType').val()},
-		   				{name: 'sFrDt', value: module.$('#sFrDt').val()},
-		   				{name: 'sToDt', value: module.$('#sToDt').val()}
-		                   ]; 
-		console.log('debug');
-		module.$('#socTotalBsnsSetoffDtlsDetail').flexOptions({params:detailInput}).flexReload();
+		var detailInput = {'ctrtNo': row["ctrtNo"]};
+
+		module.doAction('<c:url value="/ctrt/gamSelectFcltyCtrtLgerHistDetail.do" />', detailInput, function(module, data) {
+
+			//계약대장 상세 정보 tabs2에 입력
+    		module.makeDivValues('#gamFcltyCtrtLgerHistForm',data.resultDetail);
+			
+	 	});
+
+		/* module.$('#fcltyCtrtJoinContrFList').flexOptions({params:detailInput}).flexReload();
+		module.$('#fcltyCtrtChangeFList').flexOptions({params:detailInput}).flexReload();
+		module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:detailInput}).flexReload(); */
 	});
     
     
  	// 계약공동도급 테이블 설정
     this.$("#fcltyCtrtJoinContrFList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectFcltyCtrtJoinContrFList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrFList.do" />',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',			width:80, 		sortable:false,		align:'center'},
@@ -146,7 +146,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 	// 계약변경 테이블 설정
     this.$("#fcltyCtrtChangeFList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectFcltyCtrtChangeFList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtChangeFList.do" />',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 			name:'ctrtNo',				width:80, 		sortable:false,		align:'center'},
@@ -175,7 +175,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 	// 계약대금지급 테이블 설정
     this.$("#fcltyCtrtMoneyPymntFList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectFcltyCtrtMoneyPymntFList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtMoneyPymntFList.do" />',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:80, 		sortable:false,		align:'center'},
