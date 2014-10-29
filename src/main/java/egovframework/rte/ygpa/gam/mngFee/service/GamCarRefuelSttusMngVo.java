@@ -62,12 +62,41 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 	private String sCarRegistNo;	//검색 차량 등록번호
 	private String sCarNm;	//검색 차량 명
 	private String sCarBodyNo;	//검색 차대 번호
+	private String sRefuelMt;	//검색 냔
 
 	private	String	oldCarRegistNo;	// 예전 차량 등록 번호(update 용)
 
 	private String refuelMt;		//주유 년/월
 	private String refuelQy;		//주유 량
 
+	private String check[];
+
+
+	/**
+	 * @return the sRefuelMt
+	 */
+	public String getsRefuelMt() {
+		return sRefuelMt;
+	}
+	/**
+	 * @param sRefuelMt the sRefuelMt to set
+	 */
+	public void setsRefuelMt(String sRefuelMt) {
+		this.sRefuelMt = sRefuelMt;
+	}
+
+	/**
+	 * @return the check
+	 */
+	public String[] getCheck() {
+		return check;
+	}
+	/**
+	 * @param check the check to set
+	 */
+	public void setCheck(String[] check) {
+		this.check = check;
+	}
 	private	String	m1	;	//1월 주유
 	private	String	m2	;	//2월 주유
 	private	String	m3	;	//3월 주유

@@ -163,7 +163,8 @@ CarRefuelSttusMngModule.prototype.onSubmit = function() {
 
 CarRefuelSttusMngModule.prototype.loadData = function() {
     this.$("#carCarRefuelSttusMngListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#CarRefuelSttusMngListDetailForm');
+    var searchOpt=this.makeFormArgs('#CarRefuelSttusMngSearchForm');
+    console.log(searchOpt);
     this.$('#CarRefuelSttusMngList').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -212,12 +213,14 @@ var module_instance = new CarRefuelSttusMngModule();
                         <tr>
                         	<th>주유 구분</th>
                            		 <td colspan="4">
-									휘발류<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									경유<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									LPG<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									전기<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									하이브리드<input type="checkbox" size="10" id="" style="vertical-align: middle;">
-									기타<input type="checkbox" size="10" id="" style="vertical-align: middle;">
+                           		 <!--
+                           		  -->
+									휘발류<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="휘발류">
+									경유<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="경유">
+									LPG<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="LPG">
+									전기<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="전기">
+									하이브리드<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="HYBRID">
+									기타<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="기타">
                            		 </td>
                         </tr>
                     </tbody>
