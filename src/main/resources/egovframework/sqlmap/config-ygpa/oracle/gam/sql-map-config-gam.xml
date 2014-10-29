@@ -145,4 +145,5 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamMngFeeCodeMngDao_SQL_oracle.xml" />
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/soc/GamSocRentProcessSetoffLgerDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/ctrt/GamFcltyCtrtLgerHistDao_SQL_oracle.xml" />
 </sqlMapConfig>
