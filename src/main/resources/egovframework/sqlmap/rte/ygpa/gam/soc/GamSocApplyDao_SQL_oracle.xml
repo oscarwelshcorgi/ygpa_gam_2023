@@ -421,7 +421,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocApplyDao.selectSocApplyFeeListTotCnt" parameterClass="gamSocApplyVO" resultClass="egovMap">
+    <select id="gamSocApplyDao.selectSocApplyFeeListTotCnt" parameterClass="gamSocApplyVO" resultClass="int">
       SELECT
       		COUNT(*) TOTCNT
       FROM 
