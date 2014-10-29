@@ -33,7 +33,7 @@ import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 @Service("gamFcltyCtrtMngService")
 public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements GamFcltyCtrtMngService {
 	@Resource(name="gamFcltyCtrtMngDao")
-	private GamFcltyCtrtMngDAO gamFcltyCtrtMngDao;
+	private GamFcltyCtrtMngDao gamFcltyCtrtMngDao;
 	
 	/**
 	 * 계약정보를 조회한다.

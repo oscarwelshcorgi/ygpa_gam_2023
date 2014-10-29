@@ -1,6 +1,3 @@
-/**
- * 
- */
 package egovframework.rte.ygpa.gam.ctrt.service.impl;
 
 import java.util.List;
@@ -29,7 +26,7 @@ import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
  */
 
 @Repository("gamFcltyCtrtMngDao")
-public class GamFcltyCtrtMngDAO extends YGPAAbstractDAO {
+public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 
 	/**
 	 * 계약정보를 조회한다.
