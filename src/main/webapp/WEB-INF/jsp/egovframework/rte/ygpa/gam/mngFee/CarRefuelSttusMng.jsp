@@ -84,6 +84,18 @@ CarRefuelSttusMngModule.prototype.loadComplete = function() {
     this.$('#sRefuelMt').on('change', {module: this}, function(event) {
         event.data.module.$('#refuelMt').val(event.data.module.$('#sRefuelMt').val());
     });
+
+    /*
+    this.$('input:checkbox').on('change', {module: this}, function(event) {
+    	console.log('debug1');
+    	if(event.data.module.$(this).is(":checked")){
+    		event.data.module.$(this).attr("id","chk");
+    	}else{
+    		event.data.module.$(this).attr("id","Dechk");
+    		alert(event.data.module.$(this).attr("id"));
+    	}
+    });
+    */
 };
 
 
@@ -127,7 +139,6 @@ CarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
         	*/
 
         	var inputVO = this.makeFormArgs("#CarRefuelSttusMngListDetailForm");
-			console.log(inputVO);
 			if(this.$("#cmd").val() == "insert") {
 
 			 	this.doAction('<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />', inputVO, function(module, result) {
@@ -164,7 +175,13 @@ CarRefuelSttusMngModule.prototype.onSubmit = function() {
 CarRefuelSttusMngModule.prototype.loadData = function() {
     this.$("#carCarRefuelSttusMngListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#CarRefuelSttusMngSearchForm');
-    console.log(searchOpt);
+    this.$('input[name="check"]:checked').each(function(){
+        searchOpt[searchOpt.length]={
+        name: 'check',
+        value: this.value
+        };
+       });
+
     this.$('#CarRefuelSttusMngList').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -215,12 +232,12 @@ var module_instance = new CarRefuelSttusMngModule();
                            		 <td colspan="4">
                            		 <!--
                            		  -->
-									휘발류<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="휘발류">
-									경유<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="경유">
-									LPG<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="LPG">
-									전기<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="전기">
-									하이브리드<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="HYBRID">
-									기타<input type="checkbox" size="10" id="check" style="vertical-align: middle;" value="기타">
+									휘발류<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="휘발류" checked="checked" class="chk">
+									경유<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="경유"	checked="checked"	class="chk">
+									LPG<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="LPG"	checked="checked"	class="chk">
+									전기<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="전기"	checked="checked"	class="chk">
+									하이브리드<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="HYBRID"	checked="checked"	class="chk">
+									기타<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="기타"	checked="checked"	class="chk">
                            		 </td>
                         </tr>
                     </tbody>

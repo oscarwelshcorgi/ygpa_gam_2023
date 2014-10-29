@@ -51,12 +51,12 @@
 						<isNotEmpty property="sCarRegistNo">
 				             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
 				        </isNotEmpty>
-				        <iterate property="check" open="FUEL_KND in (" conjunction=", " close=")" prepend="AND">
-							#check[]#
-						</iterate>
 										GROUP BY T.CAR_REGIST_NO
 									) T1
 									LEFT OUTER JOIN CAR_INFO_F T2 ON (T1.CAR_REGIST_NO=T2.CAR_REGIST_NO)
+						<iterate property="check" open=" FUEL_KND in (" conjunction=", " close=")" prepend="WHERE">
+							#check[]#
+						</iterate>
 									GROUP BY T2.FUEL_KND,T1.CAR_REGIST_NO,T2.CAR_NM
 									ORDER BY T2.FUEL_KND DESC,T1.CAR_REGIST_NO
 

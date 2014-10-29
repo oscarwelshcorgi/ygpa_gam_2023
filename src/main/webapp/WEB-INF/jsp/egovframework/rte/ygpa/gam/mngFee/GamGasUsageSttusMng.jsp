@@ -169,6 +169,19 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
 			}
             break;
 
+
+        case 'popupMngFeeFcltyCdF': // 팝업을 호출한다.(조회)
+            /*
+            var opts = {
+                'gisAssetsPrtAtCode': this.$('#prtAtCode').val(),
+                'gisAssetsCd': this.$('#gisAssetsCd').val(),
+                'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
+            };
+            */
+            var opts;
+
+            this.doExecuteDialog('selectMngCodePopup', '시설 코드', '<c:url value="/popup/showMngCode.do"/>', opts);
+            break;
     }
 };
 
@@ -287,7 +300,7 @@ var module_instance = new GamGasUsageSttusMng();
 	                                <td ><input type="text" size="20" id="mngFeeJobSe" />
 	                                </td>
 	                                <td>
-	                                <button id="popupMngFeeFcltyCdF" class="buttonSave">관리비 시설조회</button>
+	                                <button id="popupMngFeeFcltyCdF" class="buttonSave">시설코드 조회</button>
 	                                </td>
 	                             </tr>
                              <tr>
@@ -295,6 +308,7 @@ var module_instance = new GamGasUsageSttusMng();
                                 <td ><input type="text" size="20" id="saidMtUsageQy" /></td>
 								<th width="20%" height="18">전월 사용 량</th>
                                 <td ><input type="text" size="20" id="prevMtUsageQy" /></td>
+                                <td><button id="prevMtUsageQyChk" class="buttonSave">전월 사용량</button></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">적용 계수</th>

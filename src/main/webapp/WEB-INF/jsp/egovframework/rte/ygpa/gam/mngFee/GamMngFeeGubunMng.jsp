@@ -52,6 +52,7 @@ GamMngFeeGubunMng.prototype.loadComplete = function() {
 
     this.$("#MngFeeGubunMng").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
+    	module.$('#mngFeeFcltySe').attr('readonly','readonly');
         module.$('#MngFeeGubunMngDetailForm :input').val('');
         module.makeFormValues('#MngFeeGubunMngDetailForm', row);
     	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
@@ -93,6 +94,7 @@ GamMngFeeGubunMng.prototype.loadComplete = function() {
        // 등록포맷으로 변환 -- 초기화 및 상태값 변경
        case 'btnGubunAdd':
 			this.$('#MngFeeGubunMngDetailForm :input').val('');
+			this.$('#mngFeeFcltySe').removeAttr('readonly');
 			this.$("#MngFeeGubunMngTab").tabs("option", {active: 1});
 			this.$("#cmd").val("insert");
             break;
@@ -158,6 +160,34 @@ GamMngFeeGubunMng.prototype.loadComplete = function() {
 			}
             break;
 
+        case 'idChk':  //id 중복 확인
+
+        	if(this.$("#mngFeeFcltySe").val() == ""){
+				this.$("#mngFeeFcltySe").focus();
+				alert("코드를 입력하십시오.");
+				return;
+			}
+			this.doAction('<c:url value="/mngFee/gamcheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
+		 		if(result.resultCode == 0){
+		 			if(result.checkSeCnt != "0"){
+		 				alert("이미 사용중인 코드가 존재합니다.");
+		 				module.$("#mngFeeFcltySe").focus();
+		 				module.$("#mngFeeFcltySe").val("");
+		 			}else{
+		 				if(confirm("해당 코드를 사용하시겠습니까?")){
+		 					module.$("#mngFeeFcltySe").val(result.checkSe);
+// 		 					module.$("#checkId").val("ok");
+		 					module.$("#mngFeeFcltySe").attr("readonly","readonly");
+		 				}else{
+		 					module.$("#mngFeeFcltySe").val("");
+// 		 					module.$("#checkId").val("");
+		 					module.$("#mngFeeFcltySe").focus();
+		 				}
+		 			}
+		 		}
+		 	});
+
+        	break;
     }
 };
 
@@ -199,11 +229,11 @@ var module_instance = new GamMngFeeGubunMng();
                         <tr>
                             <th>시설구분</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySe">
+									<input type="text" size="10" id="sMngFeeFcltySe" maxlength="2">
                             </td>
                             <th>시설구분</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySeNm">
+									<input type="text" size="10" id="sMngFeeFcltySeNm" maxlength="20">
                             </td>
                             <td>
 									<button id="searchBtn" class="buttonSearch">조회</button>
@@ -246,9 +276,12 @@ var module_instance = new GamMngFeeGubunMng();
                         <table class="detailPanel">
                              <tr>
 								<th width="20%" height="18">시설 구분</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySe" /></td>
+                                <td ><input type="text" size="20" id="mngFeeFcltySe" maxlength="2"/></td>
+                                <td><button id="idChk">중복체크</button>
+                            </tr>
+                            <tr>
 								<th width="20%" height="18">시설 구분 명</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySeNm" /></td>
+                                <td colspan="2"><input type="text" size="30" id="mngFeeFcltySeNm" maxlength="20"/></td>
                             </tr>
                         </table>
                     </form>

@@ -71,9 +71,27 @@ public class GamMngFeeGubunMngServiceImpl extends AbstractServiceImpl implements
 	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#DeleteMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
 	 */
 	@Override
-	public void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
+	public void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception  {
 		// TODO Auto-generated method stub
 		gamMngFeeGubunMngDao.DeleteMngFeeGubunMng(gamMngFeeGubunMngVo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#gamUpdateMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
+	 */
+	@Override
+	public void UpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
+		// TODO Auto-generated method stub
+		gamMngFeeGubunMngDao.UpdateMngFeeGubunMng(gamMngFeeGubunMngVo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#checkSeFeeGubunMng(java.lang.String)
+	 */
+	@Override
+	public int checkSeFeeGubunMng(String checkSe) throws Exception {
+		// TODO Auto-generated method stub
+		return gamMngFeeGubunMngDao.checkSeFeeGubunMng(checkSe);
 	}
 
 

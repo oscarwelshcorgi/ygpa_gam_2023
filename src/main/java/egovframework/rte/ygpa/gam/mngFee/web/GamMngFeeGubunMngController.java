@@ -153,6 +153,43 @@ public class GamMngFeeGubunMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamUpdateMngFeeGubunMng.do")
+    @ResponseBody Map<String, Object> gamUpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return map;
+    	}
+    	/*
+		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
+
+		if(vo != null){
+			map.put("resultCode", 1);
+			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
+            return map;
+    	}
+    	 */
+    	try {
+    		gamMngFeeGubunMngVo.setUpdUsr((String)user.getId());
+    		gamMngFeeGubunMngService.UpdateMngFeeGubunMng(gamMngFeeGubunMngVo);
+
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    	} catch (Exception e) {
+    		// TODO: handle exception
+    		e.printStackTrace();
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+    	}
+
+    	return map;
+    }
+
     @RequestMapping(value="/mngFee/gamDeleteMngFeeGubunMng.do")
 	@ResponseBody Map<String, Object> DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
@@ -186,6 +223,36 @@ public class GamMngFeeGubunMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
+
+    	return map;
+    }
+
+
+    @RequestMapping(value="/mngFee/gamcheckSeFeeGubunMng.do")
+    @ResponseBody Map<String, Object> checkSeFeeGubunMng(@RequestParam("checkSe") String checkSe)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return map;
+    	}
+    	try {
+    		int checkSeCnt = gamMngFeeGubunMngService.checkSeFeeGubunMng(checkSe);
+
+    		map.put("resultCode", 0);
+            map.put("checkSeCnt", checkSeCnt);
+            map.put("checkSe", checkSe);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    	} catch (Exception e) {
+    		// TODO: handle exception
+    		e.printStackTrace();
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+    	}
 
     	return map;
     }

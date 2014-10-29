@@ -54,19 +54,17 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 
     this.$("#MngFeeCodeMng").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
+    	module.$('#mngFeeFcltyCd').attr('readonly','readonly');
         module.$('#MngFeeCodeMngDetailForm :input').val('');
         module.makeFormValues('#MngFeeCodeMngDetailForm', row);
-    	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
         module._editData=module.getFormValues('#MngFeeCodeMngDetailForm', row);
         module._editRow=module.$('#MngFeeCodeMng').selectedRowIds()[0];
 
     });
     this.$("#MngFeeCodeMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
-    	console.log('debug');
         module.$("#MngFeeCodeMngTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
         module.makeFormValues('#MngFeeCodeMngDetailForm', row);
-        module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
         module._editData=module.getFormValues('#MngFeeCodeMngDetailForm', row);
         module._editRow=module.$('#MngFeeCodeMng').selectedRowIds()[0];
         if(row!=null) {
@@ -92,11 +90,12 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 			this.loadData();
             break;
 
-       // 등록포맷으로 변환 -- 초기화 및 상태값 변경
        case 'btnCodeAdd':
 			this.$('#MngFeeCodeMngDetailForm :input').val('');
 			this.$("#MngFeeCodeMngTab").tabs("option", {active: 1});
 			this.$("#cmd").val("insert");
+			this.$('#mngFeeFcltyCd').removeAttr('readonly');
+
             break;
 
 

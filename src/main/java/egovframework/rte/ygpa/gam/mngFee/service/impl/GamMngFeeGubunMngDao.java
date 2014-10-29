@@ -60,4 +60,20 @@ public class GamMngFeeGubunMngDao extends YGPAAbstractDAO{
 		delete("gamMngFeeGubunMngDao.DeleteMngFeeGubunMng", gamMngFeeGubunMngVo);
 	}
 
+	/**
+	 * @param gamMngFeeGubunMngVo
+	 */
+	public void UpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
+		// TODO Auto-generated method stub
+		update("gamMngFeeGubunMngDao.UpdateMngFeeGubunMng",gamMngFeeGubunMngVo);
+	}
+
+	/**
+	 * @param checkSe
+	 * @return
+	 */
+	public int checkSeFeeGubunMng(String checkSe) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamMngFeeGubunMngDao.checkSeFeeGubunMng", checkSe);
+	}
+
 }

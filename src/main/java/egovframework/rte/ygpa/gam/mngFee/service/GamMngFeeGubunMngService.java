@@ -43,6 +43,17 @@ public interface GamMngFeeGubunMngService {
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo);
+	void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)throws Exception;
+
+	/**
+	 * @param gamMngFeeGubunMngVo
+	 */
+	void UpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception;
+
+	/**
+	 * @param checkSe
+	 * @return
+	 */
+	int checkSeFeeGubunMng(String checkSe) throws Exception;
 
 }

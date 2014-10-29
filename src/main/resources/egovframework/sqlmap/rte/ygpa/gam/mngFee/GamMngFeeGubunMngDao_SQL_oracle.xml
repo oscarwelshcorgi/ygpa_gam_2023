@@ -70,40 +70,13 @@
 		]]>
 	</insert>
 
-	<update id="GamMngFeeGubunMngDao.UpdateCarMngList_S">
+	<update id="gamMngFeeGubunMngDao.UpdateMngFeeGubunMng">
 		<![CDATA[
             UPDATE MNG_FEE_FCLTY_SE_F SET
-			       	MNG_FEE_FCLTY_SE	=	#carRegistNo#
-				,	MNG_FEE_FCLTY_SE_NM	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
-				,	UPD_USR	=	#updUsr#
-				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+					MNG_FEE_FCLTY_SE_NM = #mngFeeFcltySeNm#
+					,UPD_USR	= #updUsr#
+					,UPDT_DT	= sysdate
+					WHERE  MNG_FEE_FCLTY_SE     = #mngFeeFcltySe#
 		]]>
 	</update>
 
@@ -113,5 +86,14 @@
              WHERE  MNG_FEE_FCLTY_SE   = #mngFeeFcltySe#
 		]]>
 	</delete>
+
+	<select id="gamMngFeeGubunMngDao.checkSeFeeGubunMng" resultClass="int">
+        <![CDATA[
+            SELECT COUNT(1) checkSeCnt
+                FROM MNG_FEE_FCLTY_SE_F
+            WHERE MNG_FEE_FCLTY_SE = #checkSeCnt#
+        ]]>
+    </select>
+
 
    </sqlMap>
