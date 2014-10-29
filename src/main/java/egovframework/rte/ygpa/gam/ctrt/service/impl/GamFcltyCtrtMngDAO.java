@@ -6,12 +6,9 @@ package egovframework.rte.ygpa.gam.ctrt.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import org.springframework.stereotype.Repository;
 
-import org.springframework.stereotype.Service;
-
-import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngService;
+import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 
 /**
@@ -30,11 +27,10 @@ import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-@Service("gamFcltyCtrtMngService")
-public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements GamFcltyCtrtMngService {
-	@Resource(name="gamFcltyCtrtMngDao")
-	private GamFcltyCtrtMngDao gamFcltyCtrtMngDao;
-	
+
+@Repository("gamFcltyCtrtMngDao")
+public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
+
 	/**
 	 * 계약정보를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -42,7 +38,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail(searchVO);
+		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D", searchVO);
 	}
 	
 	/**
@@ -52,7 +48,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtInfoDetail(Map insertMap) {
-		gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail(insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail", insertMap);
 	}
 	
 	/**
@@ -62,7 +58,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void updateFcltyCtrtInfoDetail(Map updateMap) {
-		gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail(updateMap);
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail", updateMap);
 	}
 
 	/**
@@ -72,7 +68,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtInfoDetail(Map deleteMap) {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail(deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail", deleteMap);
 	}
 	
 	
@@ -83,7 +79,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList(searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList", searchVO);
 	}
 	
 	/**
@@ -93,7 +89,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt(searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt", searchVO);
 	}
 	
 	
@@ -104,7 +100,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtJoinContrDetail(Map insertMap) {
-		gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail(insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail", insertMap);
 	}
 	
 	/**
@@ -114,7 +110,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtJoinContrAll(Map deleteMap) {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrAll(deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrAll", deleteMap);
 	}
 
 
@@ -125,7 +121,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList(searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList", searchVO);
 	}
 	
 	/**
@@ -135,7 +131,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt(searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt", searchVO);
 	}
 	
 	
@@ -146,7 +142,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtSubCtrtDetail(Map insertMap) {
-		gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail(insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail", insertMap);
 	}
 	
 	/**
@@ -156,7 +152,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtSubCtrtAll(Map deleteMap) {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtAll(deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtAll", deleteMap);
 	}
 
 	/**
@@ -166,7 +162,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeList(searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtChangeList", searchVO);
 	}
 	
 	/**
@@ -176,7 +172,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public int selectFcltyCtrtChangeListCnt(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt(searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt", searchVO);
 	}
 	
 	
@@ -187,7 +183,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtChangeDetail(Map insertMap) {
-		gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail(insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail", insertMap);
 	}
 	
 	/**
@@ -197,7 +193,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtChangeAll(Map deleteMap) {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtChangeAll(deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtChangeAll", deleteMap);
 	}
 	
 
@@ -208,7 +204,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList(searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList", searchVO);
 	}
 	
 	/**
@@ -218,7 +214,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public int selectFcltyCtrtMoneyPymntListCnt(GamFcltyCtrtMngVO searchVO) {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListCnt(searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListCnt", searchVO);
 	}
 	
 	
@@ -229,7 +225,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtMoneyPymntDetail(Map insertMap) {
-		gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail(insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail", insertMap);
 	}
 	
 	/**
@@ -239,7 +235,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtMoneyPymntAll(Map deleteMap) {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntAll(deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntAll", deleteMap);
 	}
 	
 }
