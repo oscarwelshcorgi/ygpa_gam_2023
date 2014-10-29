@@ -71,7 +71,7 @@ public class GamFcltyCtrtLgerHistController {
 
     	model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/ctrt/GamFcltyCtrtMng";
+    	return "/ygpa/gam/ctrt/GamFcltyCtrtLgerHist";
     }
 
 
