@@ -37,7 +37,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	//계약공용도급 리스트
     this.$("#fcltyCtrtJoinContrList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocApplyFacilList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrListList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm',width:50, sortable:false,align:'center'},
@@ -64,7 +64,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약하도급 리스트
     this.$("#fcltyCtrtSubCtrtList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocApplyFeeList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtSubCtrtList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm', width:100, sortable:true, align:'left'},
@@ -83,7 +83,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약변경 리스트
     this.$("#fcltyCtrtChangeList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocApplyFeeList.do" />',
+        url: '<c:url value="/soc/gamSelectFcltyCtrtChangeList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'변경일자', name:'changeDt', width:100, sortable:true, align:'left'},
@@ -101,7 +101,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약대금지급 리스트
     this.$("#fcltyCtrtMoneyPymntList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocApplyFeeList.do" />',
+        url: '<c:url value="/soc/gamSelectFcltyCtrtMoneyPymntList.do" />',
         dataType: 'json',
         colModel : [
                     {display:'지급분류', name:'pymntCl', width:100, sortable:true, align:'left'},
@@ -241,115 +241,121 @@ var module_instance = new GamFcltyCtrtMngModule();
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
-                                <td width="15%"><span id="ctrtSe" ></span></td>
+                                <td width="15%">
+	                                <select id="ctrtSe">
+	                                    <option value="" selected="selected">선택</option>
+	                                    <option value="1">자체</option>
+	                                    <option value="2">조달</option>
+	                                </select>
+                                </td>
                                 <th width="10%" height="18">계약번호</th>
-                                <td width="15%"><span id="ctrtNo" ></span></td>
+                                <td width="15%"><input type="text" size="10" id="ctrtNo" /></td>
                                 <th width="10%" height="18">계약명</th>
-                                <td><span id="ctrtNm" ></span></td>
+                                <td><input type="text" size="10" id="ctrtNm" /></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">발주방식</th>
-                                <td><span id="orderMthd" ></span></td>
+                                <td><input type="text" size="10" id="orderMthd" /></td>
                                 <th width="10%" height="18">계약방법</th>
-                                <td><span id="ctrtSe" ></span></td>
+                                <td><input type="text" size="10" id="ctrtSe" /></td>
                                 <th width="10%" height="18">입찰공고번호</th>
-                                <td><span id="bidPblancNo" ></span></td>
+                                <td><input type="text" size="10" id="bidPblancNo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰공고일자</th>
-                                <td><span id="bidPblancDt" ></span></td>
+                                <td><input type="text" size="10" id="bidPblancDt" /></td>
                             	<th width="10%" height="18">하자기간</th>
-                                <td><span id="flawPdFrom" ></span> ~ <span id="flawPdTo" ></span></td>
+                                <td><input type="text" size="10" id="flawPdFrom" /> ~ <input type="text" size="10" id="flawPdTo" /></td>
 								<th width="10%" height="18">입찰일자</th>
-                                <td><span id="bidDt" ></span></td>
+                                <td><input type="text" size="10" id="bidDt" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰방법</th>
-                                <td><span id="bidMth" ></span></td>
+                                <td><input type="text" size="10" id="bidMth" /></td>
                                 <th width="10%" height="18">등록업체</th>
-                                <td><span id="registEntrpsCd" ></span> <span id="registEntrpsNm" ></span></td>
+                                <td><input type="text" size="10" id="registEntrpsCd" /> <input type="text" size="10" id="registEntrpsNm" /></td>
                             	<th width="10%" height="18">업무담당부서코드</th>
-                                <td><span id="jobChrgDeptCd" ></span></td>
+                                <td><input type="text" size="10" id="jobChrgDeptCd" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">원인행위</th>
-                                <td><span id="causeAct" ></span></td>
+                                <td><input type="text" size="10" id="causeAct" /></td>
 								<th width="10%" height="18">설계금액</th>
-                                <td><span id="planAmt" ></span></td>
+                                <td><input type="text" size="10" id="planAmt" /></td>
                                 <th width="10%" height="18">예정금액</th>
-                                <td><span id="prmtAmt" ></span></td>
+                                <td><input type="text" size="10" id="prmtAmt" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">낙찰금액</th>
-                                <td><span id="scsbidAmt" ></span></td>
+                                <td><input type="text" size="10" id="scsbidAmt" /></td>
                                 <th width="10%" height="18">낙찰율</th>
-                                <td><span id="scsbidRate" ></span></td>
+                                <td><input type="text" size="10" id="scsbidRate" /></td>
                                 <th width="10%" height="18">기초금액</th>
-                                <td><span id="baseAmt" ></span></td>
+                                <td><input type="text" size="10" id="baseAmt" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약일자</th>
-                                <td><span id="ctrtDt" ></span></td>
+                                <td><input type="text" size="10" id="ctrtDt" /></td>
                             	<th width="10%" height="18">계약금액</th>
-                                <td><span id="ctrtAmt" ></span></td>
+                                <td><input type="text" size="10" id="ctrtAmt" /></td>
                                 <th width="10%" height="18">계약기간</th>
-                                <td><span id="ctrtPdFrom" ></span> ~ <span id="ctrtPdTo" ></span></td>
+                                <td><input type="text" size="10" id="ctrtPdFrom" /> ~ <input type="text" size="10" id="ctrtPdTo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약보증금액</th>
-                                <td><span id="ctrtGrntyAmt" ></span></td>
+                                <td><input type="text" size="10" id="ctrtGrntyAmt" /></td>
                                 <th width="10%" height="18">계약보증방법</th>
-                                <td><span id="ctrtGrntyMth" ></span></td>
+                                <td><input type="text" size="10" id="ctrtGrntyMth" /></td>
 								<th width="10%" height="18">조달공고번호</th>
-                                <td><span id="prcuPblancNo" ></span></td>
+                                <td><input type="text" size="10" id="prcuPblancNo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">감독자1</th>
-                                <td><span id="intendant1" ></span></td>
+                                <td><input type="text" size="10" id="intendant1" /></td>
                                 <th width="10%" height="18">감독자2</th>
-                                <td><span id="intendant2" ></span></td>
+                                <td><input type="text" size="10" id="intendant2" /></td>
                                 <th width="10%" height="18">감독자3</th>
-                                <td><span id="intendant3" ></span></td>
+                                <td><input type="text" size="10" id="intendant3" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약검사일자</th>
-                                <td><span id="ctrtExamDt" ></span></td>
+                                <td><input type="text" size="10" id="ctrtExamDt" /></td>
 								<th width="10%" height="18">이월예산금액</th>
-                                <td><span id="caryFwdBdgtAmt" ></span></td>
+                                <td><input type="text" size="10" id="caryFwdBdgtAmt" /></td>
                                 <th width="10%" height="18">전자결재전송구분</th>
-                                <td><span id="elctrnSanctnTrnsmisSe" ></span></td>
+                                <td><input type="text" size="10" id="elctrnSanctnTrnsmisSe" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">전자결재진행코드</th>
-                                <td><span id="elctrnSanctnProgrsCd" ></span></td>
+                                <td><input type="text" size="10" id="elctrnSanctnProgrsCd" /></td>
                             	<th width="10%" height="18">전자결재전송일자</th>
-                                <td><span id="elctrnSanctnTrnsmisDt" ></span></td>
+                                <td><input type="text" size="10" id="elctrnSanctnTrnsmisDt" /></td>
                                 <th width="10%" height="18">전자결재연동정보</th>
-                                <td><span id="elctrnSanctnInterlockInfo" ></span></td>
+                                <td><input type="text" size="10" id="elctrnSanctnInterlockInfo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">전자결재문서ID</th>
-                                <td><span id="elctrnSanctnDocId" ></span></td>
+                                <td><input type="text" size="10" id="elctrnSanctnDocId" /></td>
                                 <th width="10%" height="18">승인일자</th>
-                                <td><span id="confmDt" ></span></td>
+                                <td><input type="text" size="10" id="confmDt" /></td>
                             	<th width="10%" height="18">승인자코드</th>
-                                <td><span id="confmerCd" ></span></td>
+                                <td><input type="text" size="10" id="confmerCd" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">등록자</th>
-                                <td><span id="regUsr" ></span></td>
+                                <td><input type="text" size="10" id="regUsr" /></td>
                                 <th width="10%" height="18">등록일시</th>
-                                <td><span id="registDt" ></span></td>
+                                <td><input type="text" size="10" id="registDt" /></td>
 								<th width="10%" height="18">수정자</th>
-                                <td><span id="updUsr" ></span></td>
+                                <td><input type="text" size="10" id="updUsr" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">수정일시</th>
-                                <td><span id=updtDt ></span></td>
+                                <td><input type="text" size="10" id=updtDt /></td>
                                 <th width="10%" height="18">연대보증</th>
-                                <td><span id="sldrtGrnty" ></span></td>
+                                <td><input type="text" size="10" id="sldrtGrnty" /></td>
                                 <th width="10%" height="18">현장설명</th>
-                                <td><span id="siteDesc" ></span></td>
+                                <td><input type="text" size="10" id="siteDesc" /></td>
                             </tr>
                         </table>
 					</form>
