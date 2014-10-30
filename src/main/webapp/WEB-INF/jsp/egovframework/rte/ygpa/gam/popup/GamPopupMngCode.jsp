@@ -37,11 +37,12 @@ GamPopupMngCodeModule.prototype.loadComplete = function() {
 		url: '<c:url value="/popup/selectMngCodeList.do"/>',
 		dataType: "json",
 		colModel : [
-					{display:"업체코드",			name:"entrpscd", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"업체 명",			name:"entrpsNm", 	width:200, 		sortable:true, 		align:"center"},
-					{display:"대표자 명",			name:"rprsntvNm", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"사업자등록번호",	name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
-					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"}
+					{display:'관리비 시설 코드', 			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
+                    {display:'관리비 시설 구분', 	name:'mngFeeFcltySe',		width:110, 		sortable:false,		align:'center'},
+                    {display:'관리비 시설 명', 	name:'mngFeeFcltyNm',		width:110, 		sortable:false,		align:'center'},
+                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'},
+					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
+                    {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
 			],
 		height: "300"
 	});
@@ -112,12 +113,12 @@ var popup_instance = new GamPopupMngCodeModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>업체 명</th>
-                        <td><input id="entrpsNm" type="text" style="width: 120px;" title="업체 명" maxlength="20" /></td>
-						<th>업체코드</th>
-                        <td><input id="entrpscd" type="text" style="width: 80px;" title="업체코드" maxlength="10" /></td>
-                    	<th>사업자 번호</th>
-						<td><input id="bizrno" type="text" style="width: 80px;" title="사업자 등록번호" maxlength="12" /></td>
+                        <th>시설코드</th>
+                        <td><input id="mngFeeFcltyCd" type="text" style="width: 120px;" title="시설코드" maxlength="20" /></td>
+						<th>시설 명</th>
+                        <td><input id="mngFeeFcltyNm" type="text" style="width: 80px;" title="시설 명" maxlength="10" /></td>
+                    	<th>업무 구분</th>
+						<td><input id="mngFeeJobSe" type="text" style="width: 80px;" title="업무 구분" maxlength="12" /></td>
 						<td><button id="btnMngSearch" class="buttonSubmit">조회</button>
 						</td>
 					</tr>

@@ -295,9 +295,9 @@ var module_instance = new GamGasUsageSttusMng();
                              </tr>
                              <tr>
 	                             <th width="20%" height="18">관리비 시설코드</th>
-	                                <td ><input type="text" size="20" id="mngFeeFcltyCd" /></td>
+	                                <td ><input type="text" size="20" id="mngFeeFcltyCd" readonly="readonly"/></td>
 								 <th width="20%" height="18">관리비 업무구분</th>
-	                                <td ><input type="text" size="20" id="mngFeeJobSe" />
+	                                <td ><input type="text" size="2" id="mngFeeJobSe" readonly="readonly"/>
 	                                </td>
 	                                <td>
 	                                <button id="popupMngFeeFcltyCdF" class="buttonSave">시설코드 조회</button>
