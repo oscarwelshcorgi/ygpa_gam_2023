@@ -259,7 +259,7 @@
              ) A
              ) Z
         <![CDATA[
-        	WHERE Z.RNUM <= #recordCountPerPage# and Z.RNUM > #firstIndex#
+        	WHERE ROWNUM <= #recordCountPerPage# and Z.RNUM > #firstIndex#
         ]]>
     </select>
 
