@@ -84,6 +84,8 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 
 			//계약대장 상세 정보 tabs2에 입력
     		module.makeDivValues('#gamFcltyCtrtLgerHistForm',data.resultDetail);
+			//인쇄시 파라메타 전달을 위해 한번 더씀
+    		module.makeFormValues('#gamFcltyCtrtLgerHistForm',data.resultDetail);
 			
 	 	});
 		
@@ -222,6 +224,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         	
         	//tabs2 초기화
     		this.makeDivValues('#gamFcltyCtrtLgerHistForm',{});
+    		this.makeFormValues('#gamFcltyCtrtLgerHistForm',{});
         	
         	// tabs3 초기화
         	this.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
@@ -388,7 +391,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <table class="detailPanel">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
-                                <td width="15%"><span id="ctrtSe" ></span></td>
+                                <td width="15%"><span id="ctrtSe" ></span><input type="hidden" id="ctrtNo" ></td>
                                 <th width="10%" height="18">계약번호</th>
                                 <td width="15%"><span id="ctrtNo" ></span></td>
                                 <th width="10%" height="18">계약명</th>
@@ -459,48 +462,50 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                                 <td><span id="intendant3" ></span></td>
                             </tr>
                             <tr>
+                            	<th width="10%" height="18">계약방법</th>
+                                <td><span id="ctrtMth" ></span></td>
 								<th width="10%" height="18">이월예산금액</th>
                                 <td style="text-align:right;"><span id="caryFwdBdgtAmt" class="ygpaNumber"></span></td>
                                 <th width="10%" height="18">전자결재전송구분</th>
                                 <td><span id="elctrnSanctnTrnsmisSe" ></span></td>
-                                <th width="10%" height="18">전자결재진행코드</th>
-                                <td><span id="elctrnSanctnProgrsCd" ></span></td>
                             </tr>
                             <tr>
+                            	<th width="10%" height="18">전자결재진행코드</th>
+                                <td><span id="elctrnSanctnProgrsCd" ></span></td>
                             	<th width="10%" height="18">전자결재전송일자</th>
                                 <td><span id="elctrnSanctnTrnsmisDt" ></span></td>
                                 <th width="10%" height="18">전자결재연동정보</th>
                                 <td><span id="elctrnSanctnInterlockInfo" ></span></td>
-                                <th width="10%" height="18">전자결재문서ID</th>
-                                <td><span id="elctrnSanctnDocId" ></span></td>
                             </tr>
                             <tr>
+                            	<th width="10%" height="18">전자결재문서ID</th>
+                                <td><span id="elctrnSanctnDocId" ></span></td>
                                 <th width="10%" height="18">승인일자</th>
                                 <td><span id="confmDt" ></span></td>
                             	<th width="10%" height="18">승인자코드</th>
                                 <td><span id="confmerCd" ></span></td>
-                                <th width="10%" height="18">연대보증</th>
-                                <td><span id="sldrtGrnty" ></span></td>
                             </tr>
                             <tr>
+                            	<th width="10%" height="18">연대보증</th>
+                                <td><span id="sldrtGrnty" ></span></td>
                             	<th width="10%" height="18">등록자</th>
                                 <td><span id="regUsr" ></span></td>
                                 <th width="10%" height="18">등록일시</th>
                                 <td><span id="registDt" ></span></td>
-								<th width="10%" height="18">수정자</th>
-                                <td><span id="updUsr" ></span></td>
                             </tr>
                             <tr>
+                            	<th width="10%" height="18">수정자</th>
+                                <td><span id="updUsr" ></span></td>
                             	<th width="10%" height="18">수정일시</th>
                                 <td><span id=updtDt ></span></td>
                                 <th width="10%" height="18">현장설명</th>
-                                <td colspan="3"><span id="siteDesc" ></span></td>
+                                <td><span id="siteDesc" ></span></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistSearchForm" data-url="<c:url value='/soc/gamSelectFcltyCtrtLgerHistDetailPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -519,7 +524,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								<th width="15%" height="25">자료수</th>
 								<td><input type="text" size="100" id="tabs3TotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistSearchForm" data-url="<c:url value='/soc/gamSelectFcltyCtrtLgerHistDetailPrint.do'/>">계약대장인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
         	                    </td>
 							</tr>
 						</table>
@@ -608,7 +613,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistSearchForm" data-url="<c:url value='/soc/gamSelectFcltyCtrtLgerHistDetailPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -637,7 +642,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistSearchForm" data-url="<c:url value='/soc/gamSelectFcltyCtrtLgerHistDetailPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>

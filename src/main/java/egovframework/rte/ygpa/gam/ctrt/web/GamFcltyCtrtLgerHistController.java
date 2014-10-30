@@ -36,6 +36,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
+import egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsVO;
 
 /**
  *
@@ -370,6 +371,77 @@ public class GamFcltyCtrtLgerHistController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	
+	/**
+     * 총사업비상계처리내역 목록을 인쇄한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistPrint.do")
+	public String selectFcltyCtrtLgerHistDetailPrint(@RequestParam Map<String, Object> fcltyCtrtLgerHistOpt, ModelMap model) throws Exception {
+
+		int joinTotalCnt, changeTotalCnt, moneyTotalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/ctrt/GamFcltyCtrtLgerHistPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyCtrtLgerHistVO searchVO;
+    	searchVO = mapper.convertValue(fcltyCtrtLgerHistOpt, GamFcltyCtrtLgerHistVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+		
+		//계약대장상세내역
+    	GamFcltyCtrtLgerHistVO fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
+
+    	//계약공동도급목록
+    	List fcltyCtrtJoinContrF = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFList(searchVO);
+    	//계약공동도급목록 총갯수
+		//joinTotalCnt = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFTotalCnt(searchVO);
+		
+		
+		//계약변경목록
+    	List fcltyCtrtChangeFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFList(searchVO);
+    	//계약변경목록 총갯수 및 금액합계
+		//GamFcltyCtrtLgerHistVO fcltyCtrtChangeFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFListSum(searchVO);
+		//changeTotalCnt = fcltyCtrtChangeFListSum.getTotalCnt();
+		
+		
+		//계약대금지급목록
+    	List fcltyCtrtMoneyPymntFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFList(searchVO);
+    	//계약대금지급목록 총갯수 및 금액합계
+		//GamFcltyCtrtLgerHistVO fcltyCtrtMoneyPymntFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFListSum(searchVO);
+		//moneyTotalCnt = fcltyCtrtMoneyPymntFListSum.getTotalCnt();
+    	
+
+        model.addAttribute("fcltyCtrtLgerHistDetail", fcltyCtrtLgerHistDetail);
+        model.addAttribute("fcltyCtrtJoinContrFList", fcltyCtrtJoinContrF);
+        model.addAttribute("fcltyCtrtChangeFList", fcltyCtrtChangeFList);
+        model.addAttribute("fcltyCtrtMoneyPymntFList", fcltyCtrtMoneyPymntFList);
+      
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/ctrt/GamFcltyCtrtLgerHistPrint";
     }
 
 }

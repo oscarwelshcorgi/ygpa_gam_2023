@@ -274,7 +274,7 @@
                            SELECT
                                     CTRT_NO
                                   , SEQ
-                                  , QOTA_RATE
+                                  , (TO_CHAR(QOTA_RATE * 100) || '%')  QOTA_RATE
                                   , ENTRPS_NM
                                   , RPRSNTV
                                   , TLPHON_NO
@@ -287,7 +287,7 @@
 							 WHERE  CTRT_NO = #ctrtNo#
 
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY REGIST_DT DESC
+                             ORDER BY CTRT_NO DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
