@@ -159,7 +159,10 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	
 	/** 원인행위 **/
 	private String causeAct;
-
+	
+	/** 등록업체명 **/
+	private String registEntprsNm;
+	
 	/**
 	 * @return the sCtrtNo
 	 */
@@ -788,5 +791,19 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	 */
 	public void setCauseAct(String causeAct) {
 		this.causeAct = causeAct;
+	}
+
+	/**
+	 * @return the registEntprsNm
+	 */
+	public String getRegistEntprsNm() {
+		return registEntprsNm;
+	}
+
+	/**
+	 * @param registEntprsNm the registEntprsNm to set
+	 */
+	public void setRegistEntprsNm(String registEntprsNm) {
+		this.registEntprsNm = registEntprsNm;
 	}
 }
