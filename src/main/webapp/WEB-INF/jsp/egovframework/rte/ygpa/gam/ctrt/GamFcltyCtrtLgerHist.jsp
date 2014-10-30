@@ -71,7 +71,11 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     
     
 	this.$("#fcltyCtrtLgerHistList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-
+		
+		// tabs3  하부 테이블 초기화
+    	module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
+		
+		// 값입력
 		module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
 		var detailInput = {'ctrtNo': row["ctrtNo"]};
