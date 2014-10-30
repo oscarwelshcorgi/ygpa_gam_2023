@@ -51,7 +51,8 @@
 		<result property="jobChrgDeptCd" column="JOB_CHRG_DEPT_CD" columnIndex="41" />
 		<result property="flawPdFrom" column="FLAW_PD_FROM" columnIndex="42" />
 		<result property="flowPdTo" column="FLAW_PD_TO" columnIndex="43" />
-		<result property="causeAct" column="CAUSE_ACT" columnIndex="44" />		
+		<result property="causeAct" column="CAUSE_ACT" columnIndex="44" />
+		<result property="registEntprsNm" column="REGIST_ENTRPS_NM" columnIndex="45" />
 	</resultMap>
 	
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
@@ -100,6 +101,7 @@
 		    , I.FLAW_PD_FROM
 		    , I.FLAW_PD_TO
 		    , I.CAUSE_ACT
+		    , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
 		  FROM CTRT_INFO_F I
 		  WHERE
 		    I.CTRT_NO = #sCtrtNo#
@@ -430,9 +432,9 @@
 		    , #entrpsNm#
 		    , #moneyPymntAgree#
 		    , #workClass# 
-		    , #subctrlRate#
-		    , #originalContrAmt#
-		    , #subctrtCtrtAmt#
+		    , TO_NUMBER(REPLACE(#subctrlRate#, ',', ''))
+		    , TO_NUMBER(REPLACE(#originalContrAmt#, ',', ''))
+		    , TO_NUMBER(REPLACE(#subctrtCtrtAmt#, ',', ''))
 		    , TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
 		    , TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
 		    , #regUsr#
@@ -458,9 +460,9 @@
 					    C.CTRT_NO
 					    , C.SEQ
 					    , C.CHANGE_RSN
-					    , C.CHANGE_DT
-					    , C.CHANGE_CTRT_PD_FROM
-					    , C.CHANGE_CTRT_PD_TO
+					    , TO_CHAR(C.CHANGE_DT, 'YYYY-MM-DD') CHANGE_DT
+					    , TO_CHAR(C.CHANGE_CTRT_PD_FROM, 'YYYY-MM-DD') CHANGE_CTRT_PD_FROM
+					    , TO_CHAR(C.CHANGE_CTRT_PD_TO, 'YYYY-MM-DD') CHANGE_CTRT_PD_TO
 					    , C.CHANGE_CTRT_AMT
 					    , C.LAST_CTRT_AMT
 					    , C.RM
@@ -539,7 +541,7 @@
 					    M.CTRT_NO
 					    , M.SEQ
 					    , M.PYMNT_CL
-					    , M.PYMNT_DT
+					    , TO_CHAR(M.PYMNT_DT, 'YYYY-MM-DD') PYMNT_DT 
 					    , M.THIS_TIME_ESTB_AMT
 					    , M.DEPOSIT_EXCCLC_AMT
 					    , M.PYMNT_AMT
