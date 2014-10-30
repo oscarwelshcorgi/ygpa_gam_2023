@@ -37,25 +37,25 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	//계약공용도급 리스트
     this.$("#fcltyCtrtJoinContrList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrListList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'업체명', name:'entrpsNm',width:50, sortable:false,align:'center'},
+                    {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
                     {display:'대표자', name:'rprsntv',width:50, sortable:false,align:'center'},
                     {display:'지분율', name:'qotaRate',width:50, sortable:false,align:'center'},
                     {display:'업종', name:'induty',width:80, sortable:false,align:'center'},
-                    {display:'주요품목', name:'stplPrdlst',width:80, sortable:false,align:'center'},
-                    {display:'사업자번호', name:'bsnmNo',width:80, sortable:false,align:'center'},
+                    {display:'주요품목', name:'stplPrdlst',width:100, sortable:false,align:'center'},
+                    {display:'사업자번호', name:'bsnmNo',width:100, sortable:false,align:'center'},
                     {display:'거래관계', name:'dealRelate',width:80, sortable:false,align:'center'},
-                    {display:'전화번호', name:'tlphonNo',width:80, sortable:false,align:'center'},
-                    {display:'fax번호', name:'faxNo',width:80, sortable:false,align:'center'},
+                    {display:'전화번호', name:'tlphonNo',width:100, sortable:false,align:'center'},
+                    {display:'fax번호', name:'faxNo',width:100, sortable:false,align:'center'},
                     {display:'우편번호', name:'postNo',width:80, sortable:false,align:'center'},
-                    {display:'도로명주소', name:'roadnmAdres',width:80, sortable:false,align:'center'},
-                    {display:'지번주소', name:'lnmAdres',width:80, sortable:false,align:'center'},
-                    {display:'담당자', name:'charger',width:80, sortable:false,align:'center'},
+                    {display:'도로명주소', name:'roadnmAdres',width:150, sortable:false,align:'center'},
+                    {display:'지번주소', name:'lnmAdres',width:150, sortable:false,align:'center'},
+                    {display:'담당자', name:'charger',width:50, sortable:false,align:'center'},
                     {display:'담당자직위', name:'chargerOfcPos',width:80, sortable:false,align:'center'},
-                    {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:80, sortable:false,align:'center'},
-                    {display:'담당자email', name:'chargerEmail',width:80, sortable:false,align:'center'}
+                    {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:100, sortable:false,align:'center'},
+                    {display:'담당자email', name:'chargerEmail',width:150, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
         height: 'auto'
@@ -122,9 +122,15 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
  */
 GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
+	var allRows = null;
+	
     switch(buttonId) {
         case 'searchBtn':
             break;
+        case 'btnCtrtJoinContrUpdate': //계약공동도급관리 행추가/삭제
+        	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
+        	this.doExecuteDialog("updateCtrtJoinContr", "계약공동도급관리", "/popup/showCtrtJoinContrMngt.do", {}, allRows);
+        	break;
     }
 };
 
@@ -138,47 +144,11 @@ GamFcltyCtrtMngModule.prototype.loadData = function() {
     this.$('#socApplyList').flexOptions({params:searchOpt}).flexReload();
 };
 
-GamFcltyCtrtMngModule.prototype.removeApplyFacilItem = function() {
-	var rows = this.$("#socApplyFacilList").selectedRows();
-
-    if(rows.length == 0){
-        alert("시설물목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#socApplyFacilList").selectedRowIds().length>0) {
-    	for(var i=this.$("#socApplyFacilList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#socApplyFacilList").flexGetRow(this.$("#socApplyFacilList").selectedRowIds()[i]);
-        	this.$("#socApplyFacilList").flexRemoveRow(this.$("#socApplyFacilList").selectedRowIds()[i]);
-		}
-	}
-};
-
-GamFcltyCtrtMngModule.prototype.removeApplyFeeItem = function() {
-	var rows = this.$("#socApplyFeeList").selectedRows();
-
-    if(rows.length == 0){
-        alert("시설물목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#socApplyFeeList").selectedRowIds().length>0) {
-    	for(var i=this.$("#socApplyFeeList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#socApplyFeeList").flexGetRow(this.$("#socApplyFeeList").selectedRowIds()[i]);
-        	this.$("#socApplyFeeList").flexRemoveRow(this.$("#socApplyFeeList").selectedRowIds()[i]);
-		}
-	}
-};
-
 GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        if(oldTabId=='tabs1') {
-        	this._deleteDataList=[];    // 삭제 목록 초기화
-        	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
-        }
         break;
     }
 };
@@ -188,13 +158,13 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
-    switch (popupId) {
-     case 'selectFacInfo' : //시설물 추가
-     	 break;
-	 default:
-         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         break;
-     }
+	switch (popupId) {
+    	case 'selectFacInfo' : //시설물 추가
+     		break;
+	 	default:
+        	alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+        	break;
+    }
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -238,6 +208,7 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
             	<div class="emdControlPanel">
 					<form id="gamFcltyCtrtMngDetailForm">
+						<input type="hidden" id="cmd" />
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
@@ -249,113 +220,103 @@ var module_instance = new GamFcltyCtrtMngModule();
 	                                </select>
                                 </td>
                                 <th width="10%" height="18">계약번호</th>
-                                <td width="15%"><input type="text" size="10" id="ctrtNo" /></td>
+                                <td width="15%"><input type="text" size="12" id="ctrtNo" /></td>
                                 <th width="10%" height="18">계약명</th>
-                                <td><input type="text" size="10" id="ctrtNm" /></td>
+                                <td><input type="text" size="20" id="ctrtNm" /></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">발주방식</th>
-                                <td><input type="text" size="10" id="orderMthd" /></td>
+                                <td><input type="text" size="12" id="orderMthd" /></td>
                                 <th width="10%" height="18">계약방법</th>
-                                <td><input type="text" size="10" id="ctrtSe" /></td>
+                                <td><input type="text" size="12" id="ctrtSe" /></td>
                                 <th width="10%" height="18">입찰공고번호</th>
-                                <td><input type="text" size="10" id="bidPblancNo" /></td>
+                                <td><input type="text" size="20" id="bidPblancNo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰공고일자</th>
-                                <td><input type="text" size="10" id="bidPblancDt" /></td>
-                            	<th width="10%" height="18">하자기간</th>
-                                <td><input type="text" size="10" id="flawPdFrom" /> ~ <input type="text" size="10" id="flawPdTo" /></td>
+                                <td><input type="text" size="12" id="bidPblancDt" class="emdcal" /></td>
 								<th width="10%" height="18">입찰일자</th>
-                                <td><input type="text" size="10" id="bidDt" /></td>
+                                <td><input type="text" size="12" id="bidDt" class="emdcal" /></td>
+                            	<th width="10%" height="18">하자기간</th>
+                                <td><input type="text" size="12" id="flawPdFrom" class="emdcal" /> ~ <input type="text" size="12" id="flawPdTo" class="emdcal" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰방법</th>
-                                <td><input type="text" size="10" id="bidMth" /></td>
-                                <th width="10%" height="18">등록업체</th>
-                                <td><input type="text" size="10" id="registEntrpsCd" /> <input type="text" size="10" id="registEntrpsNm" /></td>
+                                <td><input type="text" size="12" id="bidMth" /></td>
                             	<th width="10%" height="18">업무담당부서코드</th>
-                                <td><input type="text" size="10" id="jobChrgDeptCd" /></td>
+                                <td><input type="text" size="12" id="jobChrgDeptCd" /></td>
+                                <th width="10%" height="18">등록업체</th>
+                                <td><input type="text" size="10" id="registEntrpsCd" /> <input type="text" size="10" id="registEntrpsNm" disabled="disabled" /> <button id="popupEntrpsInfo" class="popupButton">선택</button> </td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">원인행위</th>
-                                <td><input type="text" size="10" id="causeAct" /></td>
+                                <td><input type="text" size="12" id="causeAct" /></td>
 								<th width="10%" height="18">설계금액</th>
-                                <td><input type="text" size="10" id="planAmt" /></td>
+                                <td><input type="text" size="12" id="planAmt" class="ygpaNumber" /></td>
                                 <th width="10%" height="18">예정금액</th>
-                                <td><input type="text" size="10" id="prmtAmt" /></td>
+                                <td><input type="text" size="12" id="prmtAmt" class="ygpaNumber" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">낙찰금액</th>
-                                <td><input type="text" size="10" id="scsbidAmt" /></td>
+                                <td><input type="text" size="12" id="scsbidAmt" class="ygpaNumber" /></td>
                                 <th width="10%" height="18">낙찰율</th>
-                                <td><input type="text" size="10" id="scsbidRate" /></td>
+                                <td><input type="text" size="12" id="scsbidRate" /></td>
                                 <th width="10%" height="18">기초금액</th>
-                                <td><input type="text" size="10" id="baseAmt" /></td>
+                                <td><input type="text" size="12" id="baseAmt" class="ygpaNumber" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약일자</th>
-                                <td><input type="text" size="10" id="ctrtDt" /></td>
+                                <td><input type="text" size="12" id="ctrtDt" /></td>
                             	<th width="10%" height="18">계약금액</th>
-                                <td><input type="text" size="10" id="ctrtAmt" /></td>
+                                <td><input type="text" size="12" id="ctrtAmt" class="ygpaNumber" /></td>
                                 <th width="10%" height="18">계약기간</th>
-                                <td><input type="text" size="10" id="ctrtPdFrom" /> ~ <input type="text" size="10" id="ctrtPdTo" /></td>
+                                <td><input type="text" size="12" id="ctrtPdFrom" class="emdcal" /> ~ <input type="text" size="12" id="ctrtPdTo" class="emdcal" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약보증금액</th>
-                                <td><input type="text" size="10" id="ctrtGrntyAmt" /></td>
+                                <td><input type="text" size="12" id="ctrtGrntyAmt" class="ygpaNumber" /></td>
                                 <th width="10%" height="18">계약보증방법</th>
-                                <td><input type="text" size="10" id="ctrtGrntyMth" /></td>
+                                <td><input type="text" size="12" id="ctrtGrntyMth" /></td>
 								<th width="10%" height="18">조달공고번호</th>
-                                <td><input type="text" size="10" id="prcuPblancNo" /></td>
+                                <td><input type="text" size="20" id="prcuPblancNo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">감독자1</th>
-                                <td><input type="text" size="10" id="intendant1" /></td>
+                                <td><input type="text" size="12" id="intendant1" /></td>
                                 <th width="10%" height="18">감독자2</th>
-                                <td><input type="text" size="10" id="intendant2" /></td>
+                                <td><input type="text" size="12" id="intendant2" /></td>
                                 <th width="10%" height="18">감독자3</th>
-                                <td><input type="text" size="10" id="intendant3" /></td>
+                                <td><input type="text" size="12" id="intendant3" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약검사일자</th>
-                                <td><input type="text" size="10" id="ctrtExamDt" /></td>
+                                <td><input type="text" size="12" id="ctrtExamDt" class="emdcal" /></td>
 								<th width="10%" height="18">이월예산금액</th>
-                                <td><input type="text" size="10" id="caryFwdBdgtAmt" /></td>
+                                <td><input type="text" size="12" id="caryFwdBdgtAmt" class="ygpaNumber" /></td>
                                 <th width="10%" height="18">전자결재전송구분</th>
-                                <td><input type="text" size="10" id="elctrnSanctnTrnsmisSe" /></td>
+                                <td><input type="text" size="20" id="elctrnSanctnTrnsmisSe" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">전자결재진행코드</th>
-                                <td><input type="text" size="10" id="elctrnSanctnProgrsCd" /></td>
+                                <td><input type="text" size="12" id="elctrnSanctnProgrsCd" /></td>
                             	<th width="10%" height="18">전자결재전송일자</th>
-                                <td><input type="text" size="10" id="elctrnSanctnTrnsmisDt" /></td>
+                                <td><input type="text" size="12" id="elctrnSanctnTrnsmisDt" class="emdcal" /></td>
                                 <th width="10%" height="18">전자결재연동정보</th>
-                                <td><input type="text" size="10" id="elctrnSanctnInterlockInfo" /></td>
+                                <td><input type="text" size="20" id="elctrnSanctnInterlockInfo" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">전자결재문서ID</th>
-                                <td><input type="text" size="10" id="elctrnSanctnDocId" /></td>
+                                <td><input type="text" size="12" id="elctrnSanctnDocId" /></td>
                                 <th width="10%" height="18">승인일자</th>
-                                <td><input type="text" size="10" id="confmDt" /></td>
+                                <td><input type="text" size="12" id="confmDt" class="emdcal" /></td>
                             	<th width="10%" height="18">승인자코드</th>
-                                <td><input type="text" size="10" id="confmerCd" /></td>
+                                <td><input type="text" size="12" id="confmerCd" /></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">등록자</th>
-                                <td><input type="text" size="10" id="regUsr" /></td>
-                                <th width="10%" height="18">등록일시</th>
-                                <td><input type="text" size="10" id="registDt" /></td>
-								<th width="10%" height="18">수정자</th>
-                                <td><input type="text" size="10" id="updUsr" /></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">수정일시</th>
-                                <td><input type="text" size="10" id=updtDt /></td>
                                 <th width="10%" height="18">연대보증</th>
-                                <td><input type="text" size="10" id="sldrtGrnty" /></td>
+                                <td><input type="text" size="12" id="sldrtGrnty" /></td>
                                 <th width="10%" height="18">현장설명</th>
-                                <td><input type="text" size="10" id="siteDesc" /></td>
+                                <td colspan="3"><input type="text" size="60" id="siteDesc" /></td>
                             </tr>
                         </table>
 					</form>
@@ -382,8 +343,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnAddApplyFacilItem">추가</button>
-				                    <button id="btnRemoveApplyFacilItem">삭제</button>
+				                    <button id="btnCtrtJoinContrUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
 						</table>
@@ -398,8 +359,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnAddApplyFacilItem">추가</button>
-				                    <button id="btnRemoveApplyFacilItem">삭제</button>
+				                    <button id="btnCtrtSubCtrtUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
 						</table>
@@ -414,8 +375,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnAddApplyFacilItem">추가</button>
-				                    <button id="btnRemoveApplyFacilItem">삭제</button>
+				                    <button id="btnCtrtChangeUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
 						</table>
@@ -430,8 +391,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnAddApplyFacilItem">추가</button>
-				                    <button id="btnRemoveApplyFacilItem">삭제</button>
+				                    <button id="btnCtrtMoneyPymnUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
 						</table>
