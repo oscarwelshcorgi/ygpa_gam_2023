@@ -145,6 +145,21 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	/** 수정일시 **/	
 	private String updtDt;
 
+	/** 연대보증 **/
+	private String sldrtGrnty;
+	
+	/** 업무담당부서코드 **/
+	private String jobChrgDeptCd;
+	
+	/** 하자기간 from **/
+	private String flawPdFrom;
+	
+	/** 하자기간 to **/
+	private String flawPdTo;
+	
+	/** 원인행위 **/
+	private String causeAct;
+
 	/**
 	 * @return the sCtrtNo
 	 */
@@ -703,5 +718,75 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+
+	/**
+	 * @return the sldrtGrnty
+	 */
+	public String getSldrtGrnty() {
+		return sldrtGrnty;
+	}
+
+	/**
+	 * @param sldrtGrnty the sldrtGrnty to set
+	 */
+	public void setSldrtGrnty(String sldrtGrnty) {
+		this.sldrtGrnty = sldrtGrnty;
+	}
+
+	/**
+	 * @return the jobChrgDeptCd
+	 */
+	public String getJobChrgDeptCd() {
+		return jobChrgDeptCd;
+	}
+
+	/**
+	 * @param jobChrgDeptCd the jobChrgDeptCd to set
+	 */
+	public void setJobChrgDeptCd(String jobChrgDeptCd) {
+		this.jobChrgDeptCd = jobChrgDeptCd;
+	}
+
+	/**
+	 * @return the flawPdFrom
+	 */
+	public String getFlawPdFrom() {
+		return flawPdFrom;
+	}
+
+	/**
+	 * @param flawPdFrom the flawPdFrom to set
+	 */
+	public void setFlawPdFrom(String flawPdFrom) {
+		this.flawPdFrom = flawPdFrom;
+	}
+
+	/**
+	 * @return the flawPdTo
+	 */
+	public String getFlawPdTo() {
+		return flawPdTo;
+	}
+
+	/**
+	 * @param flawPdTo the flawPdTo to set
+	 */
+	public void setFlawPdTo(String flawPdTo) {
+		this.flawPdTo = flawPdTo;
+	}
+
+	/**
+	 * @return the causeAct
+	 */
+	public String getCauseAct() {
+		return causeAct;
+	}
+
+	/**
+	 * @param causeAct the causeAct to set
+	 */
+	public void setCauseAct(String causeAct) {
+		this.causeAct = causeAct;
 	}
 }
