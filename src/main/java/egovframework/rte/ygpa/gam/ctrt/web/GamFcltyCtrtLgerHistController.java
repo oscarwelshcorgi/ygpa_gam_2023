@@ -171,5 +171,205 @@ public class GamFcltyCtrtLgerHistController {
 
     	return map;
     }
+	
+	
+	/**
+     * 계약공동도급목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrFList.do")
+	public @ResponseBody Map selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		
+		//계약공동도급목록
+    	List fcltyCtrtJoinContrF = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFList(searchVO);
+    	
+    	//계약공동도급목록 총갯수
+		totalCnt = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFTotalCnt(searchVO);
+ 
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", fcltyCtrtJoinContrF);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	/**
+     * 계약공동도급상세내역을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrFDetail.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+		//계약대장목록
+    	GamFcltyCtrtLgerHistVO fcltyCtrtJoinContrFDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFDetail(searchVO);
+        
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultDetail", fcltyCtrtJoinContrFDetail);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	/**
+     * 계약변경목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtChangeFList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+		long sumChangeCtrtAmt, sumLastCtrtAmt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		
+		//계약변경목록
+    	List fcltyCtrtChangeFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFList(searchVO);
+    	
+    	//계약변경목록 총갯수 및 금액합계
+		GamFcltyCtrtLgerHistVO fcltyCtrtChangeFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFListSum(searchVO);
+    	
+		totalCnt = fcltyCtrtChangeFListSum.getTotalCnt();
+		sumChangeCtrtAmt = fcltyCtrtChangeFListSum.getSumChangeCtrtAmt();
+		sumLastCtrtAmt = fcltyCtrtChangeFListSum.getSumLastCtrtAmt();
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("sumChangeCtrtAmt", sumChangeCtrtAmt);
+    	map.put("sumLastCtrtAmt", sumLastCtrtAmt);
+    	map.put("resultList", fcltyCtrtChangeFList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	
+	/**
+     * 계약대금지급목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMoneyPymntFList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+		long sumThisTimeEstbAmt, sumDepositExcclcAmt, sumPymntAmt, sumPymntAggrAmt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		
+		//계약대금지급목록
+    	List fcltyCtrtMoneyPymntFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFList(searchVO);
+    	
+    	//계약대금지급목록 총갯수 및 금액합계
+		GamFcltyCtrtLgerHistVO fcltyCtrtMoneyPymntFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFListSum(searchVO);
+    	
+		totalCnt = fcltyCtrtMoneyPymntFListSum.getTotalCnt();
+		sumThisTimeEstbAmt = fcltyCtrtMoneyPymntFListSum.getSumThisTimeEstbAmt();
+		sumDepositExcclcAmt = fcltyCtrtMoneyPymntFListSum.getSumDepositExcclcAmt();
+		sumPymntAmt = fcltyCtrtMoneyPymntFListSum.getSumPymntAmt();
+		sumPymntAggrAmt = fcltyCtrtMoneyPymntFListSum.getSumPymntAggrAmt();
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("sumThisTimeEstbAmt", sumThisTimeEstbAmt);
+    	map.put("sumDepositExcclcAmt", sumDepositExcclcAmt);
+    	map.put("sumPymntAmt", sumPymntAmt);
+    	map.put("sumPymntAggrAmt", sumPymntAggrAmt);
+    	map.put("resultList", fcltyCtrtMoneyPymntFList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
 
 }

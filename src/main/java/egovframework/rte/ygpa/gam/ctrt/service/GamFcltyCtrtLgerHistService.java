@@ -47,5 +47,68 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @exception Exception
 	 */
 	GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약공동도급목록 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약공동도급목록
+	 * @exception Exception
+	 */
+	List selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약공동도급목록 총갯수 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약공동도급목록 총갯수
+	 * @exception Exception
+	 */
+	int selectFcltyCtrtJoinContrFTotalCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약공동도급 상세내역 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약공동도급 상세내역
+	 * @exception Exception
+	 */
+	GamFcltyCtrtLgerHistVO selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약변경목록 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약대장목록
+	 * @exception Exception
+	 */
+	List selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약변경목록 총갯수 및 금액합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약변경목록 총갯수 및 금액합계
+	 * @exception Exception
+	 */
+	GamFcltyCtrtLgerHistVO selectFcltyCtrtChangeFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약대금지급목록 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약대금지급목록
+	 * @exception Exception
+	 */
+	List selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약대금지급목록 총갯수 및 금액합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약대금지급목록 총갯수 및 금액합계
+	 * @exception Exception
+	 */
+	GamFcltyCtrtLgerHistVO selectFcltyCtrtMoneyPymntFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 
 }

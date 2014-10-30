@@ -108,10 +108,45 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	private String flawPdFrom;
 	private String flawPdTo;
 	private String causeAct;
-    
-    
-    
-    
+	
+	
+	private String seq;
+	private String qotaRate;
+	private String entrpsNm;
+	private String rprsntv;
+	private String tlphonNo;
+	private String faxNo;
+	private String postNo;
+	private String roadnmAdres;
+	private String lnmAdres;
+	private String dealRelate;
+	private String induty;
+	private String stplPrdlst;
+	private String bsnmNo;
+	private String charger;
+	private String chargerOfcPos;
+	private String chargerMoblphonNo;
+	private String chargerEmail;
+	
+	/** 변경계약금액 총액 */
+	private long sumChangeCtrtAmt;
+	
+	/** 최종계약금액 총액 */
+	private long sumLastCtrtAmt;
+	
+	/** 금회기성금액 총액 */
+	private long sumThisTimeEstbAmt;
+	
+	/** 선금정산금액 총액 */
+	private long sumDepositExcclcAmt;
+	
+	/** 지급금액 총액 */
+	private long sumPymntAmt;
+	
+	/** 지급누계금액 총액 */
+	private long sumPymntAggrAmt;
+
+
 
 	/**
 	 * @return the sCtrtSe
@@ -897,6 +932,330 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setCauseAct(String causeAct) {
 		this.causeAct = causeAct;
+	}
+
+	/**
+	 * @return the seq
+	 */
+	public String getSeq() {
+		return seq;
+	}
+
+	/**
+	 * @param seq the seq to set
+	 */
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+
+	/**
+	 * @return the qotaRate
+	 */
+	public String getQotaRate() {
+		return qotaRate;
+	}
+
+	/**
+	 * @param qotaRate the qotaRate to set
+	 */
+	public void setQotaRate(String qotaRate) {
+		this.qotaRate = qotaRate;
+	}
+
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
+	}
+
+	/**
+	 * @return the rprsntv
+	 */
+	public String getRprsntv() {
+		return rprsntv;
+	}
+
+	/**
+	 * @param rprsntv the rprsntv to set
+	 */
+	public void setRprsntv(String rprsntv) {
+		this.rprsntv = rprsntv;
+	}
+
+	/**
+	 * @return the tlphonNo
+	 */
+	public String getTlphonNo() {
+		return tlphonNo;
+	}
+
+	/**
+	 * @param tlphonNo the tlphonNo to set
+	 */
+	public void setTlphonNo(String tlphonNo) {
+		this.tlphonNo = tlphonNo;
+	}
+
+	/**
+	 * @return the faxNo
+	 */
+	public String getFaxNo() {
+		return faxNo;
+	}
+
+	/**
+	 * @param faxNo the faxNo to set
+	 */
+	public void setFaxNo(String faxNo) {
+		this.faxNo = faxNo;
+	}
+
+	/**
+	 * @return the postNo
+	 */
+	public String getPostNo() {
+		return postNo;
+	}
+
+	/**
+	 * @param postNo the postNo to set
+	 */
+	public void setPostNo(String postNo) {
+		this.postNo = postNo;
+	}
+
+	/**
+	 * @return the roadnmAdres
+	 */
+	public String getRoadnmAdres() {
+		return roadnmAdres;
+	}
+
+	/**
+	 * @param roadnmAdres the roadnmAdres to set
+	 */
+	public void setRoadnmAdres(String roadnmAdres) {
+		this.roadnmAdres = roadnmAdres;
+	}
+
+	/**
+	 * @return the lnmAdres
+	 */
+	public String getLnmAdres() {
+		return lnmAdres;
+	}
+
+	/**
+	 * @param lnmAdres the lnmAdres to set
+	 */
+	public void setLnmAdres(String lnmAdres) {
+		this.lnmAdres = lnmAdres;
+	}
+
+	/**
+	 * @return the dealRelate
+	 */
+	public String getDealRelate() {
+		return dealRelate;
+	}
+
+	/**
+	 * @param dealRelate the dealRelate to set
+	 */
+	public void setDealRelate(String dealRelate) {
+		this.dealRelate = dealRelate;
+	}
+
+	/**
+	 * @return the induty
+	 */
+	public String getInduty() {
+		return induty;
+	}
+
+	/**
+	 * @param induty the induty to set
+	 */
+	public void setInduty(String induty) {
+		this.induty = induty;
+	}
+
+	/**
+	 * @return the stplPrdlst
+	 */
+	public String getStplPrdlst() {
+		return stplPrdlst;
+	}
+
+	/**
+	 * @param stplPrdlst the stplPrdlst to set
+	 */
+	public void setStplPrdlst(String stplPrdlst) {
+		this.stplPrdlst = stplPrdlst;
+	}
+
+	/**
+	 * @return the bsnmNo
+	 */
+	public String getBsnmNo() {
+		return bsnmNo;
+	}
+
+	/**
+	 * @param bsnmNo the bsnmNo to set
+	 */
+	public void setBsnmNo(String bsnmNo) {
+		this.bsnmNo = bsnmNo;
+	}
+
+	/**
+	 * @return the charger
+	 */
+	public String getCharger() {
+		return charger;
+	}
+
+	/**
+	 * @param charger the charger to set
+	 */
+	public void setCharger(String charger) {
+		this.charger = charger;
+	}
+
+	/**
+	 * @return the chargerOfcPos
+	 */
+	public String getChargerOfcPos() {
+		return chargerOfcPos;
+	}
+
+	/**
+	 * @param chargerOfcPos the chargerOfcPos to set
+	 */
+	public void setChargerOfcPos(String chargerOfcPos) {
+		this.chargerOfcPos = chargerOfcPos;
+	}
+
+	/**
+	 * @return the chargerMoblphonNo
+	 */
+	public String getChargerMoblphonNo() {
+		return chargerMoblphonNo;
+	}
+
+	/**
+	 * @param chargerMoblphonNo the chargerMoblphonNo to set
+	 */
+	public void setChargerMoblphonNo(String chargerMoblphonNo) {
+		this.chargerMoblphonNo = chargerMoblphonNo;
+	}
+
+	/**
+	 * @return the chargerEmail
+	 */
+	public String getChargerEmail() {
+		return chargerEmail;
+	}
+
+	/**
+	 * @param chargerEmail the chargerEmail to set
+	 */
+	public void setChargerEmail(String chargerEmail) {
+		this.chargerEmail = chargerEmail;
+	}
+
+	
+
+	/**
+	 * @return the sumThisTimeEstbAmt
+	 */
+	public long getSumThisTimeEstbAmt() {
+		return sumThisTimeEstbAmt;
+	}
+
+	/**
+	 * @param sumThisTimeEstbAmt the sumThisTimeEstbAmt to set
+	 */
+	public void setSumThisTimeEstbAmt(long sumThisTimeEstbAmt) {
+		this.sumThisTimeEstbAmt = sumThisTimeEstbAmt;
+	}
+
+	/**
+	 * @return the sumDepositExcclcAmt
+	 */
+	public long getSumDepositExcclcAmt() {
+		return sumDepositExcclcAmt;
+	}
+
+	/**
+	 * @param sumDepositExcclcAmt the sumDepositExcclcAmt to set
+	 */
+	public void setSumDepositExcclcAmt(long sumDepositExcclcAmt) {
+		this.sumDepositExcclcAmt = sumDepositExcclcAmt;
+	}
+
+	/**
+	 * @return the sumPymntAmt
+	 */
+	public long getSumPymntAmt() {
+		return sumPymntAmt;
+	}
+
+	/**
+	 * @param sumPymntAmt the sumPymntAmt to set
+	 */
+	public void setSumPymntAmt(long sumPymntAmt) {
+		this.sumPymntAmt = sumPymntAmt;
+	}
+
+	/**
+	 * @return the sumPymntAggrAmt
+	 */
+	public long getSumPymntAggrAmt() {
+		return sumPymntAggrAmt;
+	}
+
+	/**
+	 * @param sumPymntAggrAmt the sumPymntAggrAmt to set
+	 */
+	public void setSumPymntAggrAmt(long sumPymntAggrAmt) {
+		this.sumPymntAggrAmt = sumPymntAggrAmt;
+	}
+
+	/**
+	 * @param sumChangeCtrtAmt the sumChangeCtrtAmt to set
+	 */
+	public void setSumChangeCtrtAmt(long sumChangeCtrtAmt) {
+		this.sumChangeCtrtAmt = sumChangeCtrtAmt;
+	}
+
+	/**
+	 * @param sumLastCtrtAmt the sumLastCtrtAmt to set
+	 */
+	public void setSumLastCtrtAmt(long sumLastCtrtAmt) {
+		this.sumLastCtrtAmt = sumLastCtrtAmt;
+	}
+
+	/**
+	 * @return the sumChangeCtrtAmt
+	 */
+	public long getSumChangeCtrtAmt() {
+		return sumChangeCtrtAmt;
+	}
+
+	/**
+	 * @return the sumLastCtrtAmt
+	 */
+	public long getSumLastCtrtAmt() {
+		return sumLastCtrtAmt;
 	}
 
 }

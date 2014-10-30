@@ -82,10 +82,11 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     		module.makeDivValues('#gamFcltyCtrtLgerHistForm',data.resultDetail);
 			
 	 	});
-
-		/* module.$('#fcltyCtrtJoinContrFList').flexOptions({params:detailInput}).flexReload();
-		module.$('#fcltyCtrtChangeFList').flexOptions({params:detailInput}).flexReload();
-		module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:detailInput}).flexReload(); */
+		
+		var searchVO = [{name: 'ctrtNo',value: row["ctrtNo"]}];
+		module.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
+		module.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
+		module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
 	});
     
     
@@ -95,52 +96,40 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         url: '<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrFList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'계약번호', 		name:'ctrtNo',			width:80, 		sortable:false,		align:'center'},
-                    {display:'순번', 			name:'seq',				width:100, 		sortable:false,		align:'center'},
-                    {display:'지분율', 		name:'qotaRate',		width:300, 		sortable:false,		align:'right'},
-                    {display:'업체명', 		name:'entrpsNm',		width:80, 		sortable:false,		align:'left'},
+					{display:'계약번호', 		name:'ctrtNo',			width:150, 		sortable:false,		align:'center'},
+                    {display:'순번', 			name:'seq',				width:40, 		sortable:false,		align:'center'},
+                    {display:'지분율', 		name:'qotaRate',		width:60, 		sortable:false,		align:'right'},
+                    {display:'업체명', 		name:'entrpsNm',		width:200, 		sortable:false,		align:'left'},
                     {display:'대표자', 		name:'rprsntv',			width:80, 		sortable:false,		align:'center'},
-                    {display:'전화번호', 		name:'tlphonNo',		width:100, 		sortable:false,		align:'center'},
-                    {display:'FAX번호', 		name:'faxNo',			width:150, 		sortable:false,		align:'center'},
-                    {display:'담당자', 		name:'charger',			width:130, 		sortable:false,		align:'center'},
-                    {display:'담당자직위', 	name:'chargerOfcPos',	width:130, 		sortable:false,		align:'center'}
+                    {display:'전화번호', 		name:'tlphonNo',		width:120, 		sortable:false,		align:'center'},
+                    {display:'FAX번호', 		name:'faxNo',			width:120, 		sortable:false,		align:'center'},
+                    {display:'담당자', 		name:'charger',			width:80, 		sortable:false,		align:'center'},
+                    {display:'담당자직위', 	name:'chargerOfcPos',	width:80, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	
-        	module._fcltyCtrtLgerHistInfo = data.fcltyCtrtLgerHistInfo;
-        	
-        	//그리드 상단 입력창에 정보 입력
-        	if(data.fcltyCtrtLgerHistInfo){
-        		if(data.resultCode == '0'){
-	        		module.makeFormValues('#form1',data.fcltyCtrtLgerHistInfo);
-		        	
-		        	//항만공사시행허가원부II 정보입력
-	        		module.makeFormValues('#gamFcltyCtrtLgerHistForm',data.fcltyCtrtLgerHistInfo);
-        		}
-	        	
-        		module.$("#cmd").val("modify");
-        		
-       		}else{
-       			//console.log('debug');
-       			if(data.resultCode == '0'){
-	       			module.makeFormValues('#form1',{});
-	       			//항만공사시행허가원부II 초기화
-	        		module.makeFormValues('#gamFcltyCtrtLgerHistForm',{});
-       			}
-	        	module.$("#cmd").val("insert");
-       			
-       		}
-        	
-			//자료수, 합산금액 입력
-            module.$('#totalCount').val($.number(data.totalCount));
-            module.$('#sumTotalAmnt').val($.number(data.sumTotalAmnt));
-            module.$('#sumAccFee').val($.number(data.sumAccFee));
+			//자료수 입력
+            module.$('#tabs3TotalCount').val($.number(data.totalCount));
 
             return data;
         }
     });
+ 	
+ 	
+    this.$("#fcltyCtrtJoinContrFList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+
+		var detailInput = {'ctrtNo': row["ctrtNo"],
+						   'seq': row["seq"]
+						  };
+
+		module.doAction('<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrFDetail.do" />', detailInput, function(module, data) {
+
+			//계약공동도급 상세정보  입력
+    		module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',data.resultDetail);
+			
+	 	});
+	});
  	
  	
 	// 계약변경 테이블 설정
@@ -156,7 +145,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
                     {display:'변경계약기간FROM', 	name:'changeCtrtPdFrom',	width:110, 		sortable:false,		align:'center'},
                     {display:'변경계약기간TO', 		name:'changeCtrtPdTo',		width:110, 		sortable:false,		align:'center'},
                     {display:'변경계약금액', 		name:'changeCtrtAmt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'최종계약금액', 		name:'LastCtrtAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'최종계약금액', 		name:'lastCtrtAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'비고', 				name:'rm',					width:200, 		sortable:false,		align:'left'},
                     {display:'등록자', 			name:'regUsr',				width:80, 		sortable:false,		align:'center'},
                     {display:'등록일시', 			name:'registDt',			width:80, 		sortable:false,		align:'center'},
@@ -166,6 +155,11 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+        	
+        	//자료수, 합산금액 입력
+            module.$('#tabs4TotalCount').val($.number(data.totalCount));
+            module.$('#sumChangeCtrtAmt').val($.number(data.sumChangeCtrtAmt));
+            module.$('#sumLastCtrtAmt').val($.number(data.sumLastCtrtAmt));
         	
             return data;
         }
@@ -196,6 +190,13 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         height: 'auto',
         preProcess: function(module,data) {
         	
+        	//자료수, 합산금액 입력
+            module.$('#tabs5TotalCount').val($.number(data.totalCount));
+            module.$('#sumThisTimeEstbAmt').val($.number(data.sumThisTimeEstbAmt));
+            module.$('#sumDepositExcclcAmt').val($.number(data.sumDepositExcclcAmt));
+            module.$('#sumPymntAmt').val($.number(data.sumPymntAmt));
+            module.$('#sumPymntAggrAmt').val($.number(data.sumPymntAggrAmt));
+        	
             return data;
         }
     });
@@ -212,10 +213,21 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
+
+        	var searchVO = [{name: 'ctrtNo',value: ''}];
         	
-        	/* if(!validateGamFcltyCtrtLgerHist(this.$('#gamFcltyCtrtLgerHistSearchForm')[0])){ 		
-        		return;
-        	} */
+        	//tabs2 초기화
+    		this.makeDivValues('#gamFcltyCtrtLgerHistForm',{});
+        	
+        	// tabs3 초기화
+        	this.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
+        	this.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
+        	
+        	// tabs4 초기화
+        	this.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
+        	
+        	// tabs5 초기화
+        	this.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
         	
 			this.loadData();
             break;
@@ -368,7 +380,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 
             <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
-                    <form id="gamFcltyCtrtLgerHistForm">
+                    <div id="gamFcltyCtrtLgerHistForm">
                         <table class="detailPanel">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
@@ -381,56 +393,56 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                             <tr>
 								<th width="10%" height="18">발주방식</th>
                                 <td><span id="orderMthd" ></span></td>
-                                <th width="10%" height="18">계약방법</th>
-                                <td><span id="ctrtSe" ></span></td>
+                                <th width="10%" height="18">입찰공고일자</th>
+                                <td><span id="bidPblancDt" ></span></td>
                                 <th width="10%" height="18">입찰공고번호</th>
                                 <td><span id="bidPblancNo" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">입찰공고일자</th>
-                                <td><span id="bidPblancDt" ></span></td>
                             	<th width="10%" height="18">하자기간</th>
                                 <td><span id="flawPdFrom" ></span> ~ <span id="flawPdTo" ></span></td>
 								<th width="10%" height="18">입찰일자</th>
                                 <td><span id="bidDt" ></span></td>
+                                <th width="10%" height="18">입찰방법</th>
+                                <td><span id="bidMth" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">입찰방법</th>
-                                <td><span id="bidMth" ></span></td>
                                 <th width="10%" height="18">등록업체</th>
                                 <td><span id="registEntrpsCd" ></span> <span id="registEntrpsNm" ></span></td>
                             	<th width="10%" height="18">업무담당부서코드</th>
                                 <td><span id="jobChrgDeptCd" ></span></td>
+                                <th width="10%" height="18">원인행위</th>
+                                <td><span id="causeAct" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">원인행위</th>
-                                <td><span id="causeAct" ></span></td>
 								<th width="10%" height="18">설계금액</th>
-                                <td><span id="planAmt" ></span></td>
+                                <td style="text-align:right;"><span id="planAmt" class="ygpaNumber"></span></td>
                                 <th width="10%" height="18">예정금액</th>
-                                <td><span id="prmtAmt" ></span></td>
+                                <td style="text-align:right;"><span id="prmtAmt" class="ygpaNumber"></span></td>
+                                <th width="10%" height="18">기초금액</th>
+                                <td style="text-align:right;"><span id="baseAmt" class="ygpaNumber"></span></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">낙찰금액</th>
-                                <td><span id="scsbidAmt" ></span></td>
+                                <td style="text-align:right;"><span id="scsbidAmt" class="ygpaNumber"></span></td>
                                 <th width="10%" height="18">낙찰율</th>
-                                <td><span id="scsbidRate" ></span></td>
-                                <th width="10%" height="18">기초금액</th>
-                                <td><span id="baseAmt" ></span></td>
+                                <td style="text-align:right;"><span id="scsbidRate" ></span></td>
+                                <th width="10%" height="18">계약일자</th>
+                                <td><span id="ctrtDt" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">계약일자</th>
-                                <td><span id="ctrtDt" ></span></td>
                             	<th width="10%" height="18">계약금액</th>
-                                <td><span id="ctrtAmt" ></span></td>
+                                <td style="text-align:right;"><span id="ctrtAmt" class="ygpaNumber"></span></td>
+                                <th width="10%" height="18">계약보증금액</th>
+                                <td style="text-align:right;"><span id="ctrtGrntyAmt" class="ygpaNumber"></span></td>
                                 <th width="10%" height="18">계약기간</th>
                                 <td><span id="ctrtPdFrom" ></span> ~ <span id="ctrtPdTo" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">계약보증금액</th>
-                                <td><span id="ctrtGrntyAmt" ></span></td>
                                 <th width="10%" height="18">계약보증방법</th>
                                 <td><span id="ctrtGrntyMth" ></span></td>
+                                <th width="10%" height="18">계약검사일자</th>
+                                <td><span id="ctrtExamDt" ></span></td>
 								<th width="10%" height="18">조달공고번호</th>
                                 <td><span id="prcuPblancNo" ></span></td>
                             </tr>
@@ -443,28 +455,28 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                                 <td><span id="intendant3" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">계약검사일자</th>
-                                <td><span id="ctrtExamDt" ></span></td>
 								<th width="10%" height="18">이월예산금액</th>
-                                <td><span id="caryFwdBdgtAmt" ></span></td>
+                                <td style="text-align:right;"><span id="caryFwdBdgtAmt" class="ygpaNumber"></span></td>
                                 <th width="10%" height="18">전자결재전송구분</th>
                                 <td><span id="elctrnSanctnTrnsmisSe" ></span></td>
+                                <th width="10%" height="18">전자결재진행코드</th>
+                                <td><span id="elctrnSanctnProgrsCd" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">전자결재진행코드</th>
-                                <td><span id="elctrnSanctnProgrsCd" ></span></td>
                             	<th width="10%" height="18">전자결재전송일자</th>
                                 <td><span id="elctrnSanctnTrnsmisDt" ></span></td>
                                 <th width="10%" height="18">전자결재연동정보</th>
                                 <td><span id="elctrnSanctnInterlockInfo" ></span></td>
+                                <th width="10%" height="18">전자결재문서ID</th>
+                                <td><span id="elctrnSanctnDocId" ></span></td>
                             </tr>
                             <tr>
-                            	<th width="10%" height="18">전자결재문서ID</th>
-                                <td><span id="elctrnSanctnDocId" ></span></td>
                                 <th width="10%" height="18">승인일자</th>
                                 <td><span id="confmDt" ></span></td>
                             	<th width="10%" height="18">승인자코드</th>
                                 <td><span id="confmerCd" ></span></td>
+                                <th width="10%" height="18">연대보증</th>
+                                <td><span id="sldrtGrnty" ></span></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">등록자</th>
@@ -477,10 +489,8 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                             <tr>
                             	<th width="10%" height="18">수정일시</th>
                                 <td><span id=updtDt ></span></td>
-                                <th width="10%" height="18">연대보증</th>
-                                <td><span id="sldrtGrnty" ></span></td>
                                 <th width="10%" height="18">현장설명</th>
-                                <td><span id="siteDesc" ></span></td>
+                                <td colspan="3"><span id="siteDesc" ></span></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
@@ -490,18 +500,20 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 	                            </td>
 	                        </tr>
 						</table>
-                    </form>
+                    </div>
                  </div>
             </div>
             
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;" >
+            
                 <table id="fcltyCtrtJoinContrFList" style="display:none" class="fillHeight"></table>
+                
                 <div id="fcltyCtrtJoinContrFListSum" class="emdControlPanel">
 					<form id="fcltyCtrtJoinContrFListSumForm">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="15%" height="25">자료수</th>
-								<td><input type="text" size="100" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="100" id="tabs3TotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
     	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistSearchForm" data-url="<c:url value='/soc/gamSelectFcltyCtrtLgerHistDetailPrint.do'/>">계약대장인쇄</button>
         	                    </td>
@@ -510,7 +522,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 					</form>
                 </div>
                 <div id="fcltyCtrtJoinContrFDetail" class="emdControlPanel">
-					<form id="fcltyCtrtJoinContrFDetailForm">
+					<div id="fcltyCtrtJoinContrFDetailForm">
     	               	<table class="detailPanel">
                             <tr>
                             	<th width="10%" height="18">계약번호</th>
@@ -571,7 +583,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                                 <td><span id="chargerEmail" ></span></td>
                             </tr>
                         </table>
-					</form>
+					</div>
                 </div>
             </div>
             
@@ -582,7 +594,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="12%" height="20">자료수</th>
-								<td><input type="text" size="20" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="20" id="tabs4TotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">변경계약금액</th>
 								<td><input type="text" size="30" id="sumChangeCtrtAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="12%" height="20">최종계약금액</th>
@@ -607,7 +619,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
 								<th width="8%" height="20">자료수</th>
-								<td><input type="text" size="5" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="5" id="tabs5TotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="8%" height="20">금회기성금액</th>
 								<td><input type="text" size="12" id="sumThisTimeEstbAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="8%" height="20">선금정산금액</th>

@@ -60,6 +60,49 @@
 		<result property="flawPdTo" column="FLAW_PD_TO" columnIndex="43"/>
 		<result property="causeAct" column="CAUSE_ACT" columnIndex="44"/>
     </resultMap>
+    
+    
+    <resultMap id="selectFcltyCtrtJoinContrFDetailMap" class="gamFcltyCtrtLgerHistVO">
+		<result property="ctrtNo" column="CTRT_NO" columnIndex="1"/>
+		<result property="seq" column="SEQ" columnIndex="2"/>
+		<result property="qotaRate" column="QOTA_RATE" columnIndex="3"/>
+		<result property="entrpsNm" column="ENTRPS_NM" columnIndex="4"/>
+		<result property="rprsntv" column="RPRSNTV" columnIndex="5"/>
+		<result property="tlphonNo" column="TLPHON_NO" columnIndex="6"/>
+		<result property="faxNo" column="FAX_NO" columnIndex="7"/>
+		<result property="postNo" column="POST_NO" columnIndex="8"/>
+		<result property="roadnmAdres" column="ROADNM_ADRES" columnIndex="9"/>
+		<result property="lnmAdres" column="LNM_ADRES" columnIndex="10"/>
+		<result property="dealRelate" column="DEAL_RELATE" columnIndex="11"/>
+		<result property="induty" column="INDUTY" columnIndex="12"/>
+		<result property="stplPrdlst" column="STPL_PRDLST" columnIndex="13"/>
+		<result property="bsnmNo" column="BSNM_NO" columnIndex="14"/>
+		<result property="charger" column="CHARGER" columnIndex="15"/>
+		<result property="chargerOfcPos" column="CHARGER_OFC_POS" columnIndex="16"/>
+		<result property="chargerMoblphonNo" column="CHARGER_MOBLPHON_NO" columnIndex="17"/>
+		<result property="chargerEmail" column="CHARGER_EMAIL" columnIndex="18"/>
+		<result property="regUsr" column="REG_USR" columnIndex="19"/>
+		<result property="registDt" column="REGIST_DT" columnIndex="20"/>
+		<result property="updUsr" column="UPD_USR" columnIndex="21"/>
+		<result property="updtDt" column="UPDT_DT" columnIndex="22"/>
+    </resultMap>
+    
+    
+    <resultMap id="selectFcltyCtrtChangeFListSumMap" class="gamFcltyCtrtLgerHistVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumChangeCtrtAmt" column="SUM_CHANGE_CTRT_AMT" columnIndex="2" javaType="java.lang.Long"/>
+        <result property="sumLastCtrtAmt" column="SUM_LAST_CTRT_AMT" columnIndex="3" javaType="java.lang.Long"/>
+    </resultMap>
+    
+    
+    <resultMap id="selectFcltyCtrtMoneyPymntFListSumMap" class="gamFcltyCtrtLgerHistVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumThisTimeEstbAmt" column="SUM_THIS_TIME_ESTB_AMT" columnIndex="2" javaType="java.lang.Long"/>
+        <result property="sumDepositExcclcAmt" column="SUM_DEPOSIT_EXCCLC_AMT" columnIndex="3" javaType="java.lang.Long"/>
+        <result property="sumPymntAmt" column="SUM_PYMNT_AMT" columnIndex="4" javaType="java.lang.Long"/>
+        <result property="sumPymntAggrAmt" column="SUM_PYMNT_AGGR_AMT" columnIndex="5" javaType="java.lang.Long"/>
+    </resultMap>
+    
 
     <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
@@ -117,7 +160,7 @@
 									
 
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY BID_DT DESC, CTRT_DT DESC
+                             ORDER BY CTRT_NO DESC, CTRT_DT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -170,7 +213,9 @@
 
         SELECT 
         		CTRT_NO
-        		, CTRT_SE
+        		, (CASE WHEN CTRT_SE = '1' THEN '자체' 
+						WHEN CTRT_SE = '2' THEN '조달'
+				  END) AS CTRT_SE
         		, BID_PBLANC_NO
         		, TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
         		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
@@ -220,5 +265,171 @@
 
     </select>
     
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    CTRT_NO
+                                  , SEQ
+                                  , QOTA_RATE
+                                  , ENTRPS_NM
+                                  , RPRSNTV
+                                  , TLPHON_NO
+                                  , FAX_NO
+                                  , CHARGER
+                                  , CHARGER_OFC_POS
+                             FROM 
+					              	CTRT_JOIN_CONTR_F
+					              
+							 WHERE  CTRT_NO = #ctrtNo#
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY REGIST_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamCustTpSalesSttutsCreatDao.selectFcltyCtrtJoinContrFTotalCnt" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="int">
+
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        FROM 
+             	CTRT_JOIN_CONTR_F
+             
+	 	WHERE  
+	 			CTRT_NO = #ctrtNo#
+    </select>
+    
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtJoinContrFDetailMap">
+
+        SELECT 
+        		CTRT_NO
+			    , SEQ
+			    , QOTA_RATE
+			    , ENTRPS_NM
+			    , RPRSNTV
+			    , TLPHON_NO
+			    , FAX_NO
+			    , POST_NO
+			    , ROADNM_ADRES
+			    , LNM_ADRES
+			    , DEAL_RELATE
+			    , INDUTY
+			    , STPL_PRDLST
+			    , BSNM_NO
+			    , CHARGER
+			    , CHARGER_OFC_POS
+			    , CHARGER_MOBLPHON_NO
+			    , CHARGER_EMAIL
+			    , REG_USR
+			    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+			    , UPD_USR
+			    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+              FROM 
+              	CTRT_JOIN_CONTR_F
+              
+			  WHERE 
+			  	CTRT_NO = #ctrtNo#
+			  	AND SEQ = #seq#
+
+    </select>
+    
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    CTRT_NO
+								    , SEQ
+								    , CHANGE_RSN
+								    , TO_CHAR(CHANGE_DT, 'YYYY-MM-DD') CHANGE_DT
+								    , TO_CHAR(CHANGE_CTRT_PD_FROM, 'YYYY-MM-DD') CHANGE_CTRT_PD_FROM
+								    , TO_CHAR(CHANGE_CTRT_PD_TO, 'YYYY-MM-DD') CHANGE_CTRT_PD_TO
+								    , CHANGE_CTRT_AMT
+								    , LAST_CTRT_AMT
+								    , RM
+								    , REG_USR
+								    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+								    , UPD_USR
+								    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+                             FROM 
+					              	CTRT_CHANGE_F
+					              
+							 WHERE  CTRT_NO = #ctrtNo#
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY CTRT_NO DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFListSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtChangeFListSumMap">
+
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(CHANGE_CTRT_AMT),0) AS SUM_CHANGE_CTRT_AMT
+        		, NVL(SUM(LAST_CTRT_AMT),0) AS SUM_LAST_CTRT_AMT
+        FROM 
+             	CTRT_CHANGE_F
+             
+	 	WHERE  
+	 			CTRT_NO = #ctrtNo#
+    </select>
+    
+    
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    CTRT_NO
+								    , SEQ
+								    , PYMNT_CL
+								    , PYMNT_DT
+								    , THIS_TIME_ESTB_AMT
+								    , DEPOSIT_EXCCLC_AMT
+								    , PYMNT_AMT
+								    , PYMNT_AGGR_AMT
+								    , RM
+								    , REG_USR
+								    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+								    , UPD_USR
+								    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+                             FROM 
+					              	CTRT_MONEY_PYMNT_F
+					              
+							 WHERE  CTRT_NO = #ctrtNo#
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY CTRT_NO DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtMoneyPymntFListSumMap">
+
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(THIS_TIME_ESTB_AMT),0) AS SUM_THIS_TIME_ESTB_AMT
+        		, NVL(SUM(DEPOSIT_EXCCLC_AMT),0) AS SUM_DEPOSIT_EXCCLC_AMT
+        		, NVL(SUM(PYMNT_AMT),0) AS SUM_PYMNT_AMT
+        		, NVL(SUM(PYMNT_AGGR_AMT),0) AS SUM_PYMNT_AGGR_AMT
+        FROM 
+             	CTRT_MONEY_PYMNT_F
+             
+	 	WHERE  
+	 			CTRT_NO = #ctrtNo#
+    </select>
     
 </sqlMap>
