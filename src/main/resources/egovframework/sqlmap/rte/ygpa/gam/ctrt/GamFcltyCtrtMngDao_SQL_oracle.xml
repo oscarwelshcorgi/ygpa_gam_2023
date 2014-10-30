@@ -47,6 +47,11 @@
 		<result property="registDt" column="REGIST_DT" columnIndex="37" />
 		<result property="updUsr" column="UPD_USR" columnIndex="38" />
 		<result property="updtDt" column="UPDT_DT" columnIndex="39" />
+		<result property="sldrtGrnty" column="SLDRT_GRNTY" columnIndex="40" />
+		<result property="jobChrgDeptCd" column="JOB_CHRG_DEPT_CD" columnIndex="41" />
+		<result property="flawPdFrom" column="FLAW_PD_FROM" columnIndex="42" />
+		<result property="flowPdTo" column="FLAW_PD_TO" columnIndex="43" />
+		<result property="causeAct" column="CAUSE_ACT" columnIndex="44" />		
 	</resultMap>
 	
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
@@ -90,6 +95,11 @@
 		    , TO_CHAR(I.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
 		    , I.UPD_USR
 		    , TO_CHAR(I.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+		    , I.SLDRT_GRNTY
+		    , I.JOB_CHRG_DEPT_CD
+		    , I.FLAW_PD_FROM
+		    , I.FLAW_PD_TO
+		    , I.CAUSE_ACT
 		  FROM CTRT_INFO_F I
 		  WHERE
 		    I.CTRT_NO = #sCtrtNo#
@@ -137,6 +147,11 @@
 		    , REGIST_DT
 		    , UPD_USR
 		    , UPDT_DT
+		    , SLDRT_GRNTY
+		    , JOB_CHRG_DEPT_CD
+		    , FLAW_PD_FROM
+		    , FLAW_PD_TO
+		    , CAUSE_ACT
 		  )
 		VALUES
 		  (
@@ -179,6 +194,11 @@
 		    , SYSDATE
 		    , #regUsr#
 		    , SYSDATE
+		    , #sldrtGrnty#
+		    , #jobChrgDeptCd#
+		    , TO_DATE(#flawPdFrom#, 'YYYY-MM-DD')
+		    , TO_DATE(#flawPdTo#, 'YYYY-MM-DD')
+		    , #causeAct#
 		  )	
 	</insert>
 	
@@ -221,6 +241,11 @@
 		    , CONFMER_CD = #confmerCd#
 		    , UPD_USR = #updUsr#
 		    , UPDT_DT = SYSDATE
+		    , SLDRT_GRNTY = #sldrtGrnty#
+		    , JOB_CHRG_DEPT_CD = #jobChrgDeptCd#
+		    , FLAW_PD_FROM = TO_DATE(#flawPdFrom#, 'YYYY-MM-DD')
+		    , FLAW_PD_TO = TO_DATE(#flawPdTo#, 'YYYY-MM-DD')
+		    , CAUSE_ACT = #causeAct#
 		  WHERE
 		    CTRT_NO = #ctrtNo#	
 	</update>
