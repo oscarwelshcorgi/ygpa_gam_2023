@@ -322,7 +322,7 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
     <div class="emdPanel fillHeight">
         <div id="socShipProcessSetoffLgerListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">투자비보전(화물)상계처리대장</a></li>
+                <li><a href="#tabs1" class="emdTab">투자비보전(선석)상계처리대장</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
