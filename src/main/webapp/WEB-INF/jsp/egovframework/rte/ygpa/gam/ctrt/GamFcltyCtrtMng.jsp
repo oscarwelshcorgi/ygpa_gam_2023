@@ -41,8 +41,8 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
-                    {display:'대표자', name:'rprsntv',width:50, sortable:false,align:'center'},
-                    {display:'지분율', name:'qotaRate',width:50, sortable:false,align:'center'},
+                    {display:'대표자', name:'rprsntv',width:70, sortable:false,align:'center'},
+                    {display:'지분율', name:'qotaRate',width:70, sortable:false,align:'center'},
                     {display:'업종', name:'induty',width:80, sortable:false,align:'center'},
                     {display:'주요품목', name:'stplPrdlst',width:100, sortable:false,align:'center'},
                     {display:'사업자번호', name:'bsnmNo',width:100, sortable:false,align:'center'},
@@ -67,14 +67,14 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         url: '<c:url value="/ctrt/gamSelectFcltyCtrtSubCtrtList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'업체명', name:'entrpsNm', width:100, sortable:true, align:'left'},
-                    {display:'대금지급합의', name:'moneyPymntAgree', width:100, sortable:true, align:'left'},
-                    {display:'공증', name:'workClass', width:100, sortable:true, align:'left'},
-                    {display:'하도급율', name:'subctrlRate', width:100, sortable:true, align:'left'},
-                    {display:'원도급금액', name:'originalContrAmt', width:100, sortable:true, align:'left'},
-                    {display:'하도급계약금액', name:'subctrtCtrtAmt', width:100, sortable:true, align:'left'},
-                    {display:'계약기간from', name:'ctrtDtFrom', width:100, sortable:true, align:'left'},
-                    {display:'계약기간to', name:'ctrtDtTo', width:100, sortable:true, align:'left'}
+                    {display:'업체명', name:'entrpsNm', width:150, sortable:true, align:'center'},
+                    {display:'대금지급합의', name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
+                    {display:'공증', name:'workClass', width:80, sortable:true, align:'center'},
+                    {display:'하도급율', name:'subctrlRate', width:80, sortable:true, align:'center'},
+                    {display:'원도급금액', name:'originalContrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'하도급계약금액', name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'계약기간from', name:'ctrtDtFrom', width:100, sortable:true, align:'center'},
+                    {display:'계약기간to', name:'ctrtDtTo', width:100, sortable:true, align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -83,16 +83,16 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약변경 리스트
     this.$("#fcltyCtrtChangeList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectFcltyCtrtChangeList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtChangeList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'변경일자', name:'changeDt', width:100, sortable:true, align:'left'},
-                    {display:'변경사유', name:'changeRsn', width:100, sortable:true, align:'left'},
-                    {display:'변경계약기간from', name:'changeCtrtPdFrom', width:100, sortable:true, align:'left'},
-                    {display:'변경계약기간to', name:'changeCtrtPdTo', width:100, sortable:true, align:'left'},
-                    {display:'변경계약금액', name:'changeCtrtAmt', width:100, sortable:true, align:'left'},
-                    {display:'최종계약금액', name:'lastCtrtAmt', width:100, sortable:true, align:'left'},
-                    {display:'비고', name:'rm', width:100, sortable:true, align:'left'}
+                    {display:'변경일자', name:'changeDt', width:80, sortable:true, align:'center'},
+                    {display:'변경사유', name:'changeRsn', width:120, sortable:true, align:'left'},
+                    {display:'변경계약기간from', name:'changeCtrtPdFrom', width:100, sortable:true, align:'center'},
+                    {display:'변경계약기간to', name:'changeCtrtPdTo', width:100, sortable:true, align:'center'},
+                    {display:'변경계약금액', name:'changeCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'최종계약금액', name:'lastCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'비고', name:'rm', width:250, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -101,16 +101,30 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약대금지급 리스트
     this.$("#fcltyCtrtMoneyPymntList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectFcltyCtrtMoneyPymntList.do" />',
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtMoneyPymntList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'지급분류', name:'pymntCl', width:100, sortable:true, align:'left'},
-                    {display:'지급일자', name:'pymntDt', width:100, sortable:true, align:'left'},
-                    {display:'금회기성금액', name:'thisTimeEstbAmt', width:100, sortable:true, align:'left'},
-                    {display:'선금정산금액', name:'depositExcclcAmt', width:100, sortable:true, align:'left'},
-                    {display:'지급금액', name:'pymntAmt', width:100, sortable:true, align:'left'},
-                    {display:'지급누계금액', name:'pymntAggrAmt', width:100, sortable:true, align:'left'},
-                    {display:'비고', name:'rm', width:100, sortable:true, align:'left'}
+                    {display:'지급분류', name:'pymntCl', width:80, sortable:true, align:'center'},
+                    {display:'지급일자', name:'pymntDt', width:80, sortable:true, align:'center'},
+                    {display:'금회기성금액', name:'thisTimeEstbAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'선금정산금액', name:'depositExcclcAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급금액', name:'pymntAmt', width:120, sortable:true, align:'left', displayFormat:'number'},
+                    {display:'지급누계금액', name:'pymntAggrAmt', width:120, sortable:true, align:'left', displayFormat:'number'},
+                    {display:'비고', name:'rm', width:210, sortable:true, align:'left'}
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto'
+    });
+
+    //계약이행이월 리스트
+    this.$("#fcltyCtrtFulFillCaryFwdList").flexigrid({
+        module: this,
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtFulFillCaryFwdList.do" />',
+        dataType: 'json',
+        colModel : [
+                    {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'left'},
+                    {display:'이행금액', name:'fulfillAmt', width:200, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'이월금액', name:'caryFwdAmt', width:200, sortable:true, align:'right', displayFormat:'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -127,9 +141,28 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'searchBtn':
             break;
+        case 'btnSave':
+        	alert('저장하였습니다.');
+        	break;
         case 'btnCtrtJoinContrUpdate': //계약공동도급관리 행추가/삭제
         	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
         	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '<c:url value="/popup/showCtrtJoinContrMngt.do" />', {}, allRows);
+        	break;
+        case 'btnCtrtSubCtrtUpdate': //계약하도급관리 행추가/삭제
+        	allRows = this.$('#fcltyCtrtSubCtrtList').flexGetData();
+        	this.doExecuteDialog('updateCtrtSubCtrt', '계약하도급관리', '<c:url value="/popup/showCtrtSubCtrtMngt.do" />', {}, allRows);
+        	break;
+        case 'btnCtrtChangeUpdate': //계약변경관리 행추가/삭제
+        	allRows = this.$('#fcltyCtrtChangeList').flexGetData();
+        	this.doExecuteDialog('updateCtrtChange', '계약변경관리', '<c:url value="/popup/showCtrtChangeMngt.do" />', {}, allRows);
+        	break;
+        case 'btnCtrtMoneyPymntUpdate': //계약대금지급 행추가/삭제
+        	allRows = this.$('#fcltyCtrtMoneyPymntList').flexGetData();
+        	this.doExecuteDialog('updateCtrtMoneyPymnt', '계약대금지급관리', '<c:url value="/popup/showCtrtMoneyPymntMngt.do" />', {}, allRows);
+        	break;
+        case 'btnCtrtFulFillCaryFwdUpdate': //계약이행이월 행추가/삭제
+        	allRows = this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData();
+        	this.doExecuteDialog('updateCtrtFulFillCaryFwd', '계약대금지급관리', '<c:url value="/popup/showCtrtFulFillCaryFwdMngt.do" />', {}, allRows);
         	break;
     }
 };
@@ -159,8 +192,21 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
-    	case 'selectFacInfo' : //시설물 추가
-     		break;
+		case 'updateCtrtJoinContr' : //계약공동도급관리 행추가/삭제
+			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value});
+	 		break;
+		case 'updateCtrtSubCtrt' : //계약하도급관리 행추가/삭제
+			this.$("#fcltyCtrtSubCtrtList").flexAddData({resultList: value});
+	 		break;
+		case 'updateCtrtChange' : //계약변경관리 행추가/삭제
+			this.$("#fcltyCtrtChangeList").flexAddData({resultList: value});
+	 		break;
+		case 'updateCtrtMoneyPymnt' : //계약변경관리 행추가/삭제
+			this.$("#fcltyCtrtMoneyPymntList").flexAddData({resultList: value});
+	 		break;
+		case 'updateCtrtFulFillCaryFwd' : //계약이행이월 행추가/삭제
+			this.$("#fcltyCtrtFulFillCaryFwdList").flexAddData({resultList: value});
+	 		break;
 	 	default:
         	alert('알수없는 팝업 이벤트가 호출 되었습니다.');
         	break;
@@ -203,6 +249,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                 <li><a href="#tabs3" class="emdTab">계약하도급관리</a></li>
                 <li><a href="#tabs4" class="emdTab">계약변경관리</a></li>
                 <li><a href="#tabs5" class="emdTab">계약대금지급관리</a></li>
+                <li><a href="#tabs6" class="emdTab">계약이행이월관리</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -391,7 +438,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnCtrtMoneyPymnUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnCtrtMoneyPymntUpdate" class="popupButton">행추가/삭제</button>
 				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
@@ -400,6 +447,21 @@ var module_instance = new GamFcltyCtrtMngModule();
                  </div>
             </div>
                         
+            <div id="tabs6" class="emdTabPage" style="overflow:scroll;">
+                <div class="emdControlPanel">
+                    <form id="gamFcltyCtrtFulFillCaryFwdForm">
+						<table id="fcltyCtrtFulFillCaryFwdList" style="display:none" class="fillHeight"></table>
+						<table style="width:100%;">
+				            <tr>
+				            	<td style="text-align: right">
+				                    <button id="btnCtrtFulFillCaryFwdUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnSave">저장</button>
+				                </td>
+				            </tr>
+						</table>
+                    </form>
+                 </div>
+            </div>
             
         </div>
     </div>
