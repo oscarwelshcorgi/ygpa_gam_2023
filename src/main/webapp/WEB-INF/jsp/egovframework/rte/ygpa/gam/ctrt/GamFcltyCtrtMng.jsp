@@ -129,7 +129,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
             break;
         case 'btnCtrtJoinContrUpdate': //계약공동도급관리 행추가/삭제
         	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
-        	this.doExecuteDialog("updateCtrtJoinContr", "계약공동도급관리", "/popup/showCtrtJoinContrMngt.do", {}, allRows);
+        	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '<c:url value="/popup/showCtrtJoinContrMngt.do" />', {}, allRows);
         	break;
     }
 };
@@ -139,9 +139,9 @@ GamFcltyCtrtMngModule.prototype.onSubmit = function() {
 };
 
 GamFcltyCtrtMngModule.prototype.loadData = function() {
-    this.$("#socApplyListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocApplySearchForm');
-    this.$('#socApplyList').flexOptions({params:searchOpt}).flexReload();
+    this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+    var searchOpt=this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
+    this.$('#fcltyCtrtJoinContrList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {

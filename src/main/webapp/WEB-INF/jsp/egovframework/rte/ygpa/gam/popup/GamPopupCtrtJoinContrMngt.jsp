@@ -44,16 +44,16 @@ GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(socAgentMngtLi
                     {display:'사업자번호', name:'bsnmNo',width:100, sortable:false,align:'center'},
                     {display:'거래관계', name:'dealRelate',width:80, sortable:false,align:'center'},
                     {display:'전화번호', name:'tlphonNo',width:100, sortable:false,align:'center'},
-                    {display:'fax번호', name:'faxNo',width:100, sortable:false,align:'center'},
+                    {display:'팩스번호', name:'faxNo',width:100, sortable:false,align:'center'},
                     {display:'우편번호', name:'postNo',width:80, sortable:false,align:'center'},
                     {display:'도로명주소', name:'roadnmAdres',width:150, sortable:false,align:'center'},
                     {display:'지번주소', name:'lnmAdres',width:150, sortable:false,align:'center'},
                     {display:'담당자', name:'charger',width:50, sortable:false,align:'center'},
                     {display:'담당자직위', name:'chargerOfcPos',width:80, sortable:false,align:'center'},
                     {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:100, sortable:false,align:'center'},
-                    {display:'담당자email', name:'chargerEmail',width:150, sortable:false,align:'center'}
+                    {display:'담당자이메일', name:'chargerEmail',width:150, sortable:false,align:'center'}
 				],
-		height: "300",
+		height: "200",
 	});
 	this.$("#grdInfoList").flexOptions({params:null}).flexReload();
 
@@ -67,46 +67,84 @@ GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(socAgentMngtLi
 	});
 
 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.applyPhotoChanged(event.target);
+		event.data.module.ctrtJoinContrChanged(event.target);
 	});
 
 	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamPopupSocAgentMngtForm input").val('');
-		module.makeFormValues("#gamPopupSocAgentMngtForm", row);
+		module.$("#gamPopupCtrtJoinContrMngtForm input").val('');
+		module.makeFormValues("#gamPopupCtrtJoinContrMngtForm", row);
 	});
 };
 
 //속성 변경 된 경우 이벤트 실행
-GamPopupCtrtJoinContrMngtModule.prototype.applyPhotoChanged = function(target) {
+GamPopupCtrtJoinContrMngtModule.prototype.ctrtJoinContrChanged = function(target) {
 	var changed=false;
 	var row={};
-	// // console.log("change event occur");
-
 	var selectRow = this.$('#grdInfoList').selectedRows();
 	if(selectRow.length > 0) {
 		row=selectRow[0];
-		if(this.$('#agentCode').is(target)) {
-			row['agentCode'] = $(target).val();
+		if(this.$('#entrpsNm').is(target)) {
+			row['entrpsNm'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#firmKorNm').is(target)) {
-			row['firmKorNm'] = $(target).val();
+		if(this.$('#rprsntv').is(target)) {
+			row['rprsntv'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#constNo').is(target)) {
-			row['constNo'] = $(target).val();
+		if(this.$('#qotaRate').is(target)) {
+			row['qotaRate'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#totalAmnt').is(target)) {
-			row['totalAmnt'] = $(target).val();
+		if(this.$('#induty').is(target)) {
+			row['induty'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#accFee').is(target)) {
-			row['accFee'] = $(target).val();
+		if(this.$('#stplPrdlst').is(target)) {
+			row['stplPrdlst'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#remark').is(target)) {
-			row['remark'] = $(target).val();
+		if(this.$('#bsnmNo').is(target)) {
+			row['bsnmNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#dealRelate').is(target)) {
+			row['dealRelate'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#tlphonNo').is(target)) {
+			row['tlphonNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#faxNo').is(target)) {
+			row['faxNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#postNo').is(target)) {
+			row['postNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#roadnmAdres').is(target)) {
+			row['roadnmAdres'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#lnmAdres').is(target)) {
+			row['lnmAdres'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#charger').is(target)) {
+			row['charger'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#chargerOfcPos').is(target)) {
+			row['chargerOfcPos'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#chargerMoblphonNo').is(target)) {
+			row['chargerMoblphonNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#chargerEmail').is(target)) {
+			row['chargerEmail'] = $(target).val();
 			changed=true;
 		}
 
@@ -125,59 +163,28 @@ GamPopupCtrtJoinContrMngtModule.prototype.applyPhotoChanged = function(target) {
 GamPopupCtrtJoinContrMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnEntrpsSearch":
-		/*
-		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
-			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
-				this.$("#entrpsNm").focus();
-				alert("업체 명은 2자 이상 입력하십시오.");
-				return;
-			}
-		}
-		 */
-		var searchOpt=this.makeFormArgs("#gamPopupSocAgentMngtForm");
+		var searchOpt=this.makeFormArgs("#gamPopupCtrtJoinContrMngtForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 	 	throw 0;
 		break;
 	case "btnOk":
 		var inputVO = this.$('#grdInfoList').flexGetData();
-// 		inputVO[inputVO.length]={name: 'resultList', value :JSON.stringify(this.$('#grdInfoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-// 		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#grdInfoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-		/*
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		 */
-
-		 this.closeDialog("ok", inputVO);
+		this.closeDialog("ok", inputVO);
 		break;
 	case "cancel":
 		this.cancelDialog();
 	// 추가
 	case "addBtn":
-		this.$('#gamPopupSocAgentMngtForm :input').val('');
-		/*
-		this._maxOlnlpSeq+=1;
-		this._edited=false;
-		this._editData={_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
-				, gisAssetsCd: this._selectRow.gisAssetsCd
-				, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlp: 0, olnlpSeq: EMD.util.leftPad(this._maxOlnlpSeq, '0', 2)};
-
-		this.$("#gamPopupSocAgentMngtForm").selectRowId(this._editRow);
-		 */
-
-		 this.$("#grdInfoList").flexAddRow({'agentCode':'','firmKorNm':'','constNo':'','totalAmnt':'','accFee':'','remark':''});
+		this.$('#gamPopupCtrtJoinContrMngtForm :input').val('');
+		this.$("#grdInfoList").flexAddRow({'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
 	break;
 		case "btnRemove":
-			this.removeGisAssetPhotoItem();
+			this.removeCtrtJoinContrItem();
 		break;
 	}
 };
 
-GamPopupCtrtJoinContrMngtModule.prototype.removeGisAssetPhotoItem = function() {
+GamPopupCtrtJoinContrMngtModule.prototype.removeCtrtJoinContrItem = function() {
 	var rows = this.$("#grdInfoList").selectedRows();
 
     if(rows.length == 0){
@@ -198,7 +205,7 @@ GamPopupCtrtJoinContrMngtModule.prototype.removeGisAssetPhotoItem = function() {
     	alert("삭제되었습니다.");
 	}
 
-    this.$("#gamPopupSocAgentMngtForm").find(":input").val("");
+    this.$("#gamPopupCtrtJoinContrMngtForm").find(":input").val("");
     this._editDataFile = null;
 };
 
@@ -208,7 +215,7 @@ GamPopupCtrtJoinContrMngtModule.prototype.onSubmit = function() {
 };
 
 GamPopupCtrtJoinContrMngtModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupSocAgentMngtForm");
+	var searchOpt=this.makeFormArgs("#gamPopupCtrtJoinContrMngtForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -227,24 +234,52 @@ var popup_instance = new GamPopupCtrtJoinContrMngtModule();
 	            <button id="btnOk">확인</button>
             	<button id="cancel">취소</button>
 	        </div>
-		<form id="gamPopupSocAgentMngtForm">
+		<form id="gamPopupCtrtJoinContrMngtForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>업체코드</th>
-                        <td><input id="agentCode" type="text" style="width: 150px;" title="업체코드" maxlength="20" class="EditItem"/></td>
                         <th>업체명</th>
-                        <td><input id="firmKorNm" type="text" style="width: 150px;" title="업체명" class="EditItem"/></td>
-						<th>허가원부일련번호</th>
-                        <td><input id="constNo" type="text" style="width: 150px;" title="허가원부일련번호" maxlength="20" class="EditItem"/></td>
+                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <th>대표자</th>
+                        <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem"/></td>
+						<th>지분율</th>
+                        <td><input id="qotaRate" type="text" style="width: 150px;" class="EditItem"/></td>
 					</tr>
 					<tr>
-                    	<th>보전처리대상금액</th>
-                        <td><input id="totalAmnt" type="text" style="width: 150px;" title="보전처리대상금액" maxlength="20" class="EditItem"/></td>
-                        <th>보전처리누계액</th>
-                        <td><input id="accFee" type="text" style="width: 150px;" title="보전처리누계액" maxlength="20" class="EditItem"/></td>
-						<th>비고</th>
-                        <td><input id="remark" type="text" style="width: 150px;" title="비고" class="EditItem"/></td>
+                    	<th>업종</th>
+                        <td><input id="induty" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <th>주요품목</th>
+                        <td><input id="stplPrdlst" type="text" style="width: 150px;" class="EditItem"/></td>
+						<th>사업자번호</th>
+                        <td><input id="bsnmNo" type="text" style="width: 150px;" class="EditItem"/></td>
+					</tr>
+					<tr>
+                    	<th>거래관계</th>
+                        <td><input id="dealRelate" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <th>전화번호</th>
+                        <td><input id="tlphonNo" type="text" style="width: 150px;" class="EditItem"/></td>
+						<th>팩스번호</th>
+                        <td><input id="faxNo" type="text" style="width: 150px;" class="EditItem"/></td>
+					</tr>
+					<tr>
+                    	<th>담당자</th>
+                        <td><input id="charger" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <th>담당자직위</th>
+                        <td><input id="chargerOfcPos" type="text" style="width: 150px;" class="EditItem"/></td>
+						<th>담당자휴대폰번호</th>
+                        <td><input id="chargerMoblphonNo" type="text" style="width: 150px;" class="EditItem"/></td>
+					</tr>
+					<tr>
+                    	<th>담당자이메일</th>
+                        <td><input id="chargerEmail" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <th>도로명 주소</th>
+                        <td colspan="3"><input id="roadnmAdres" type="text" style="width: 300px;" class="EditItem"/></td>
+					</tr>					
+					<tr>
+                    	<th>우편번호</th>
+                        <td><input id="postNo" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <th>지번주소</th>
+                        <td colspan="3"><input id="lnmAdres" type="text" style="width: 300px;" class="EditItem"/></td>
 					</tr>
 				</tbody>
 			</table>
