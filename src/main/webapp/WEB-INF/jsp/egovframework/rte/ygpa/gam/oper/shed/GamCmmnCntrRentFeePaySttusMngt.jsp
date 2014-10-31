@@ -318,7 +318,7 @@ var module_instance = new GamCmmnCntrRentFeePaySttusMngtModule();
                                 <button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th style="width: 70px">납부구분</th>
-                            <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="0"></td>
+                            <td><input data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체"></td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
 

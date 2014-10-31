@@ -11,300 +11,172 @@ import egovframework.com.cmm.ComDefaultVO;
  * @since 2014-01-10
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public class GamPopupMngCodeVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
-    
-    /** 업체코드 */
-    private String entrpscd;	
 
-    /** 업체 명 */
-    private String entrpsNm;	
-    
-    /** 업체 유형 */
-    private String entrpsTy;	
-    
-    /** 사업자 구분 */
-    private String bsnmSe;	    
-    
-    /** 대표자 명 */
-    private String rprsntvNm;	
-    
-    /** 사업자등록번호 */
-    private String bizrno;	    
-    
-    /** 법인등록번호 */
-    private String cprregistno; 
-    
-    /** 업종 */
-    private String induty;	    
-    
-    /** 업태 */
-    private String bizcnd;	    
-    
-    /** 전화번호 */
-    private String tlphonNo;	
-    
-    /** 우편번호 */
-    private String zip;	        
-    
-    /** 주소 */
-    private String adres;	    
-    
-    /** 등록자 */
-    private String regUsr;	    
-    
-    /** 등록일시 */
-    private String registDt;	
-    
-    /** 수정자 */
-    private String updUsr;	    
-    
-    /** 수정일시 */
-    private String updtDt;	    
-    
-    /** 팩스 */
-    private String fax;
+	private	String	mngFeeFcltyCd;	//관리비 시설 코드
+	private	String	mngFeeFcltySe;	//관리비 시설 구분
+	private	String	mngFeeFcltyNm;	//관리비 시설 명
+	private	String	mngFeeJobSe;	//관리비 업무 구분
+	private	String	regUsr;	//등록자
+	private	String	registDt;	//등록일시
+	private	String	updUsr;	//수정자
+	private	String	updtDt;	//수정일시
 
+
+	private	String	sMngFeeFcltyCd;	//검색 관리비 시설 코드
+	private	String	sMngFeeFcltySe;	//검색 관리비 시설 구분
+	private	String	sMngFeeFcltyNm;	//검색 관리비 시설 명
+	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
 	/**
-	 * @return the entrpscd
+	 * @return the mngFeeFcltyCd
 	 */
-	public String getEntrpscd() {
-		return entrpscd;
+	public String getMngFeeFcltyCd() {
+		return mngFeeFcltyCd;
 	}
-
 	/**
-	 * @param entrpscd the entrpscd to set
+	 * @param mngFeeFcltyCd the mngFeeFcltyCd to set
 	 */
-	public void setEntrpscd(String entrpscd) {
-		this.entrpscd = entrpscd;
+	public void setMngFeeFcltyCd(String mngFeeFcltyCd) {
+		this.mngFeeFcltyCd = mngFeeFcltyCd;
 	}
-
 	/**
-	 * @return the entrpsNm
+	 * @return the mngFeeFcltySe
 	 */
-	public String getEntrpsNm() {
-		return entrpsNm;
+	public String getMngFeeFcltySe() {
+		return mngFeeFcltySe;
 	}
-
 	/**
-	 * @param entrpsNm the entrpsNm to set
+	 * @param mngFeeFcltySe the mngFeeFcltySe to set
 	 */
-	public void setEntrpsNm(String entrpsNm) {
-		this.entrpsNm = entrpsNm;
+	public void setMngFeeFcltySe(String mngFeeFcltySe) {
+		this.mngFeeFcltySe = mngFeeFcltySe;
 	}
-
 	/**
-	 * @return the entrpsTy
+	 * @return the mngFeeFcltyNm
 	 */
-	public String getEntrpsTy() {
-		return entrpsTy;
+	public String getMngFeeFcltyNm() {
+		return mngFeeFcltyNm;
 	}
-
 	/**
-	 * @param entrpsTy the entrpsTy to set
+	 * @param mngFeeFcltyNm the mngFeeFcltyNm to set
 	 */
-	public void setEntrpsTy(String entrpsTy) {
-		this.entrpsTy = entrpsTy;
+	public void setMngFeeFcltyNm(String mngFeeFcltyNm) {
+		this.mngFeeFcltyNm = mngFeeFcltyNm;
 	}
-
 	/**
-	 * @return the bsnmSe
+	 * @return the mngFeeJobSe
 	 */
-	public String getBsnmSe() {
-		return bsnmSe;
+	public String getMngFeeJobSe() {
+		return mngFeeJobSe;
 	}
-
 	/**
-	 * @param bsnmSe the bsnmSe to set
+	 * @param mngFeeJobSe the mngFeeJobSe to set
 	 */
-	public void setBsnmSe(String bsnmSe) {
-		this.bsnmSe = bsnmSe;
+	public void setMngFeeJobSe(String mngFeeJobSe) {
+		this.mngFeeJobSe = mngFeeJobSe;
 	}
-
-	/**
-	 * @return the rprsntvNm
-	 */
-	public String getRprsntvNm() {
-		return rprsntvNm;
-	}
-
-	/**
-	 * @param rprsntvNm the rprsntvNm to set
-	 */
-	public void setRprsntvNm(String rprsntvNm) {
-		this.rprsntvNm = rprsntvNm;
-	}
-
-	/**
-	 * @return the bizrno
-	 */
-	public String getBizrno() {
-		return bizrno;
-	}
-
-	/**
-	 * @param bizrno the bizrno to set
-	 */
-	public void setBizrno(String bizrno) {
-		this.bizrno = bizrno;
-	}
-
-	/**
-	 * @return the cprregistno
-	 */
-	public String getCprregistno() {
-		return cprregistno;
-	}
-
-	/**
-	 * @param cprregistno the cprregistno to set
-	 */
-	public void setCprregistno(String cprregistno) {
-		this.cprregistno = cprregistno;
-	}
-
-	/**
-	 * @return the induty
-	 */
-	public String getInduty() {
-		return induty;
-	}
-
-	/**
-	 * @param induty the induty to set
-	 */
-	public void setInduty(String induty) {
-		this.induty = induty;
-	}
-
-	/**
-	 * @return the bizcnd
-	 */
-	public String getBizcnd() {
-		return bizcnd;
-	}
-
-	/**
-	 * @param bizcnd the bizcnd to set
-	 */
-	public void setBizcnd(String bizcnd) {
-		this.bizcnd = bizcnd;
-	}
-
-	/**
-	 * @return the tlphonNo
-	 */
-	public String getTlphonNo() {
-		return tlphonNo;
-	}
-
-	/**
-	 * @param tlphonNo the tlphonNo to set
-	 */
-	public void setTlphonNo(String tlphonNo) {
-		this.tlphonNo = tlphonNo;
-	}
-
-	/**
-	 * @return the zip
-	 */
-	public String getZip() {
-		return zip;
-	}
-
-	/**
-	 * @param zip the zip to set
-	 */
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
-
-	/**
-	 * @return the adres
-	 */
-	public String getAdres() {
-		return adres;
-	}
-
-	/**
-	 * @param adres the adres to set
-	 */
-	public void setAdres(String adres) {
-		this.adres = adres;
-	}
-
 	/**
 	 * @return the regUsr
 	 */
 	public String getRegUsr() {
 		return regUsr;
 	}
-
 	/**
 	 * @param regUsr the regUsr to set
 	 */
 	public void setRegUsr(String regUsr) {
 		this.regUsr = regUsr;
 	}
-
 	/**
 	 * @return the registDt
 	 */
 	public String getRegistDt() {
 		return registDt;
 	}
-
 	/**
 	 * @param registDt the registDt to set
 	 */
 	public void setRegistDt(String registDt) {
 		this.registDt = registDt;
 	}
-
 	/**
 	 * @return the updUsr
 	 */
 	public String getUpdUsr() {
 		return updUsr;
 	}
-
 	/**
 	 * @param updUsr the updUsr to set
 	 */
 	public void setUpdUsr(String updUsr) {
 		this.updUsr = updUsr;
 	}
-
 	/**
 	 * @return the updtDt
 	 */
 	public String getUpdtDt() {
 		return updtDt;
 	}
-
 	/**
 	 * @param updtDt the updtDt to set
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
 	}
-
 	/**
-	 * @return the fax
+	 * @return the sMngFeeFcltyCd
 	 */
-	public String getFax() {
-		return fax;
+	public String getsMngFeeFcltyCd() {
+		return sMngFeeFcltyCd;
+	}
+	/**
+	 * @param sMngFeeFcltyCd the sMngFeeFcltyCd to set
+	 */
+	public void setsMngFeeFcltyCd(String sMngFeeFcltyCd) {
+		this.sMngFeeFcltyCd = sMngFeeFcltyCd;
+	}
+	/**
+	 * @return the sMngFeeFcltySe
+	 */
+	public String getsMngFeeFcltySe() {
+		return sMngFeeFcltySe;
+	}
+	/**
+	 * @param sMngFeeFcltySe the sMngFeeFcltySe to set
+	 */
+	public void setsMngFeeFcltySe(String sMngFeeFcltySe) {
+		this.sMngFeeFcltySe = sMngFeeFcltySe;
+	}
+	/**
+	 * @return the sMngFeeFcltyNm
+	 */
+	public String getsMngFeeFcltyNm() {
+		return sMngFeeFcltyNm;
+	}
+	/**
+	 * @param sMngFeeFcltyNm the sMngFeeFcltyNm to set
+	 */
+	public void setsMngFeeFcltyNm(String sMngFeeFcltyNm) {
+		this.sMngFeeFcltyNm = sMngFeeFcltyNm;
+	}
+	/**
+	 * @return the sMngFeeJobSe
+	 */
+	public String getsMngFeeJobSe() {
+		return sMngFeeJobSe;
+	}
+	/**
+	 * @param sMngFeeJobSe the sMngFeeJobSe to set
+	 */
+	public void setsMngFeeJobSe(String sMngFeeJobSe) {
+		this.sMngFeeJobSe = sMngFeeJobSe;
 	}
 
-	/**
-	 * @param fax the fax to set
-	 */
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-    
-	
+
+
+
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupMngCodeVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupMngCodeVO"/>
+
+
+    <select id="PopupMngCodeDao.selectMngCodeList_S" parameterClass="gamPopupMngCodeVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                     	   SELECT
+                            		MNG_FEE_FCLTY_CD,
+									MNG_FEE_FCLTY_SE,
+									MNG_FEE_FCLTY_NM,
+									MNG_FEE_JOB_SE,
+									REG_USR,
+									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT,
+									UPD_USR,
+									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+					        FROM MNG_FEE_FCLTY_CD_F
+								  WHERE 1=1
+						         <isNotEmpty property="sMngFeeFcltyCd">
+						             AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sMngFeeFcltySe">
+						             AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sMngFeeFcltyNm">
+						             AND MNG_FEE_FCLTY_NM LIKE '%' || #sMngFeeFcltyNm# || '%'
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sMngFeeJobSe">
+						             AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
+						         </isNotEmpty>
+                             ORDER BY MNG_FEE_FCLTY_CD
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="PopupMngCodeDao.selectMngCodeListTotCnt_S" parameterClass="gamPopupMngCodeVO" resultClass="int">
+       SELECT COUNT(*) totcnt
+              FROM MNG_FEE_FCLTY_CD_F
+                           <![CDATA[  WHERE 1=1 ]]>
+
+	     					     <isNotEmpty property="sMngFeeFcltyCd">
+						             AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sMngFeeFcltySe">
+						             AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sMngFeeFcltyNm">
+						             AND MNG_FEE_FCLTY_NM LIKE '%' || #sMngFeeFcltyNm# || '%'
+						         </isNotEmpty>
+
+						         <isNotEmpty property="sMngFeeJobSe">
+						             AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
+						         </isNotEmpty>
+    </select>
+</sqlMap>

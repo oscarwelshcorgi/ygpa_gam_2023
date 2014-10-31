@@ -19,12 +19,12 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoService;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupMngCodeService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupMngCodeVO;
 
 /**
- * @Class Name : GamPopupEntrpsInfoController.java
- * @Description : 업체정보
+ * @Class Name : GamPopupMngCodeController.java
+ * @Description : 관리비코드 조회팝업
  * @Modification Information
  *
  * @author heroine
@@ -52,8 +52,8 @@ public class GamPopupMngCodeController {
     EgovMessageSource egovMessageSource;
 
 
-    @Resource(name = "gamPopupEntrpsInfoService")
-    private GamPopupEntrpsInfoService gamPopupEntrpsInfoService;
+    @Resource(name = "gamPopupMngCodeService")
+    private GamPopupMngCodeService gamPopupMngCodeService;
 
 
 	/**
@@ -61,7 +61,7 @@ public class GamPopupMngCodeController {
      *
      * @param searchOpt
      * @param model the model
-     * @return "/ygpa/gam/popup/GamPopupEntrpsInfo"
+     * @return "/ygpa/gam/popup/GamPopupMngCode"
      * @throws Exception the exception
      */
 	@RequestMapping(value="/popup/showMngCode.do")
@@ -93,10 +93,9 @@ public class GamPopupMngCodeController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-/*
- *
-		List resultList = gamPopupEntrpsInfoService.selectEntrpsInfoList(searchVO);
-    	totalCnt = gamPopupEntrpsInfoService.selectEntrpsInfoListTotCnt(searchVO);
+
+		List resultList = gamPopupMngCodeService.selectMngCodeList(searchVO);
+    	totalCnt = gamPopupMngCodeService.selectMngCodeListTotCnt(searchVO);
 
     	paginationInfo.setTotalRecordCount(totalCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -104,7 +103,6 @@ public class GamPopupMngCodeController {
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
- */
     	map.put("searchOption", searchVO);
 
     	return map;

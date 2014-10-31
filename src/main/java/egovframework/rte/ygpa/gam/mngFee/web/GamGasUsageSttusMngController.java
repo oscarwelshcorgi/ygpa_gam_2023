@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,9 +91,11 @@ public class GamGasUsageSttusMngController {
 		List monList = new ArrayList();
 		Map monMap;
 		for(int i=1; i < 13; i++){
+			NumberFormat month = new DecimalFormat("00");
+			String moni = month.format(i);
 			monMap = new HashMap();
-			monMap.put("code", i);
-			monMap.put("codeNm", i+"월");
+			monMap.put("code", moni);
+			monMap.put("codeNm", moni+"월");
 			monList.add(monMap);
 		}
 

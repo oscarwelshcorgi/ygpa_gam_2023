@@ -60,6 +60,12 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
     this.$("#GasUsageSttusMng").on('onItemSelected', function(event, module, row, grid, param) {
     	module.$('#cmd').val('modify');
         module.$('#GasUsageSttusMngDetailForm :input').val('');
+//         usageMtYear
+//         usageMtMon
+//         usageMt
+		console.log('debug');
+        module.$('#usageMtYear').val(row.usageMt.substr(0,4));
+        module.$('#usageMtMon').val(row.usageMt.substr(4,6));
         module.makeFormValues('#GasUsageSttusMngDetailForm', row);
     	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
         module._editData=module.getFormValues('#GasUsageSttusMngDetailForm', row);
@@ -74,11 +80,22 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
         module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
         module._editData=module.getFormValues('#GasUsageSttusMngDetailForm', row);
         module._editRow=module.$('#GasUsageSttusMng').selectedRowIds()[0];
+        module.$('#usageMtYear').val(row.usageMt.substr(0,4));
+        module.$('#usageMtMon').val(row.usageMt.substr(4,6));
         if(row!=null) {
             module.$('#cmd').val('modify');
         }
     });
+    this.$('.selt').on('change', {module: this}, function(event) {
+		if(!event.data.module.$('#usageMtYear').val() =='' && !event.data.module.$('#usageMtMon').val() ==''){
+			event.data.module.$('#usageMt').val(event.data.module.$('#usageMtYear').val()+event.data.module.$('#usageMtMon').val());
+		}else{
+			event.data.module.$('#usageMt').val('');
+			return;
+		}
+			console.log(event.data.module.$('#usageMt').val());
 
+    });
 };
 
 
@@ -185,6 +202,24 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
     }
 };
 
+GamGasUsageSttusMng.prototype.onClosePopup = function(popupId, msg, value) {
+    switch (popupId) {
+     case 'selectMngCodePopup':
+         if (msg != 'cancel') {
+             this.$('#mngFeeFcltyCd').val(value.mngFeeFcltyCd);
+             this.$('#mngFeeJobSe').val(value.mngFeeJobSe);
+         } else {
+             alert('취소 되었습니다');
+         }
+         break;
+
+     default:
+         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+         break;
+     }
+};
+
+
 
 GamGasUsageSttusMng.prototype.onSubmit = function() {
     this.loadData();
@@ -276,13 +311,13 @@ var module_instance = new GamGasUsageSttusMng();
                              <tr>
 								<th width="20%" height="18">사용 월</th>
                                 <td >
-	                                <select id="usageMtYear">
+	                                <select id="usageMtYear" class='selt'>
 	                                    <option value="">선택</option>
 	                                    <c:forEach items="${yearsList}" var="yearListItem">
 	                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
 	                                    </c:forEach>
 	                                </select>
-	                                <select id="usageMtMon">
+	                                <select id="usageMtMon" class='selt'>
 	                                    <option value="">선택</option>
 	                                    <c:forEach items="${monList}" var="monListItem">
 	                                        <option value="${monListItem.code }">${monListItem.codeNm }</option>
@@ -290,7 +325,7 @@ var module_instance = new GamGasUsageSttusMng();
 	                                </select>
                                 </td>
                                 <td>
-	                                	<input type="text" id="usageMt" >
+	                                	<input type="text" id="usageMt" readonly="readonly">
 	                            </td>
                              </tr>
                              <tr>

@@ -281,7 +281,7 @@ var module_instance = new GamMngFeeGubunMng();
                             </tr>
                             <tr>
 								<th width="20%" height="18">시설 구분 명</th>
-                                <td colspan="2"><input type="text" size="30" id="mngFeeFcltySeNm" maxlength="20"/></td>
+                                <td colspan="2"><input type="text" size="20" id="mngFeeFcltySeNm" maxlength="20"/></td>
                             </tr>
                         </table>
                     </form>

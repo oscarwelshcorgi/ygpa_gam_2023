@@ -25,7 +25,7 @@
  */
 function GamPopupMngCodeModule() {}
 
-GamPopupMngCodeModule.prototype = new EmdPopupModule(700, 480);
+GamPopupMngCodeModule.prototype = new EmdPopupModule(600, 440);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupMngCodeModule.prototype.loadComplete = function() {
@@ -40,9 +40,7 @@ GamPopupMngCodeModule.prototype.loadComplete = function() {
 					{display:'관리비 시설 코드', 			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
                     {display:'관리비 시설 구분', 	name:'mngFeeFcltySe',		width:110, 		sortable:false,		align:'center'},
                     {display:'관리비 시설 명', 	name:'mngFeeFcltyNm',		width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'},
-					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
+                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'}
 			],
 		height: "300"
 	});
@@ -114,11 +112,11 @@ var popup_instance = new GamPopupMngCodeModule();
 				<tbody>
 					<tr>
                         <th>시설코드</th>
-                        <td><input id="mngFeeFcltyCd" type="text" style="width: 120px;" title="시설코드" maxlength="20" /></td>
+                        <td><input id="sMngFeeFcltyCd" type="text" style="width: 80px;" title="시설코드" maxlength="20" /></td>
 						<th>시설 명</th>
-                        <td><input id="mngFeeFcltyNm" type="text" style="width: 80px;" title="시설 명" maxlength="10" /></td>
+                        <td><input id="sMngFeeFcltyNm" type="text" style="width: 80px;" title="시설 명" maxlength="10" /></td>
                     	<th>업무 구분</th>
-						<td><input id="mngFeeJobSe" type="text" style="width: 80px;" title="업무 구분" maxlength="12" /></td>
+						<td><input id="sMngFeeJobSe" type="text" style="width: 80px;" title="업무 구분" maxlength="12" /></td>
 						<td><button id="btnMngSearch" class="buttonSubmit">조회</button>
 						</td>
 					</tr>
@@ -129,7 +127,7 @@ var popup_instance = new GamPopupMngCodeModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="btnOk">업체 선택</button>
+	            <button id="btnOk">코드 선택</button>
             <button id="cancel">취소</button>
 	        </div>
 	    </div>
