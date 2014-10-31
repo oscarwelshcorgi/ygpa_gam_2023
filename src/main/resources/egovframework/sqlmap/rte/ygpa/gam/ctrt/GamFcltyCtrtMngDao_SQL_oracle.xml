@@ -50,7 +50,7 @@
 		<result property="sldrtGrnty" column="SLDRT_GRNTY" columnIndex="40" />
 		<result property="jobChrgDeptCd" column="JOB_CHRG_DEPT_CD" columnIndex="41" />
 		<result property="flawPdFrom" column="FLAW_PD_FROM" columnIndex="42" />
-		<result property="flowPdTo" column="FLAW_PD_TO" columnIndex="43" />
+		<result property="flawPdTo" column="FLAW_PD_TO" columnIndex="43" />
 		<result property="causeAct" column="CAUSE_ACT" columnIndex="44" />
 		<result property="registEntprsNm" column="REGIST_ENTRPS_NM" columnIndex="45" />
 	</resultMap>
