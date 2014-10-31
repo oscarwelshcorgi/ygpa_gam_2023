@@ -137,5 +137,27 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtMoneyPymntFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum", searchVO);
 	}
+	
+	
+	/**
+	 * 계약이행이월목록 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월목록
+	 * @exception Exception
+	 */
+	public List selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList", searchVO);
+	}
+	
+	
+	/**
+	 * 계약이행이월목록 총갯수 및 금액합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월목록 총갯수 및 금액합계
+	 * @exception Exception
+	 */
+	public GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum", searchVO);
+	}
 
 }

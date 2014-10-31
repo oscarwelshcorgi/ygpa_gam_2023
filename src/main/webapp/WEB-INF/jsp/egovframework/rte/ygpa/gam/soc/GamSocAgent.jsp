@@ -197,7 +197,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             
         case 'btnPopupSaveSocAgent':
     		var all_rows = this.$('#socAgentMngtList').flexGetData();
-    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
+    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '<c:url value="/popup/showSocAgent.do"/>', {},all_rows);
             break;
 
     }

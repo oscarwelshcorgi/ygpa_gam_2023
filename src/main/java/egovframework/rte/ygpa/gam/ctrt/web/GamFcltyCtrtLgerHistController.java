@@ -375,7 +375,66 @@ public class GamFcltyCtrtLgerHistController {
 	
 	
 	/**
-     * 총사업비상계처리내역 목록을 인쇄한다.
+     * 계약이행이월목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtFulfillCaryFwdFList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+		long sumFulfillAmt, sumCaryFwdAmt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		
+		//계약이행이월목록
+    	List fcltyCtrtFulfillCaryFwdFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFList(searchVO);
+    	
+    	//계약이행이월목록 총갯수 및 금액합계
+		GamFcltyCtrtLgerHistVO fcltyCtrtFulfillCaryFwdFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFListSum(searchVO);
+    	
+		totalCnt = fcltyCtrtFulfillCaryFwdFListSum.getTotalCnt();
+		sumFulfillAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumThisTimeEstbAmt();
+		sumCaryFwdAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumDepositExcclcAmt();
+
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("sumFulfillAmt", sumFulfillAmt);
+    	map.put("sumCaryFwdAmt", sumCaryFwdAmt);
+    	map.put("resultList", fcltyCtrtFulfillCaryFwdFList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	
+	/**
+     * 시설물 계약대장을 인쇄한다.
      *
      * @param searchVO
      * @return map
@@ -432,11 +491,16 @@ public class GamFcltyCtrtLgerHistController {
 		//GamFcltyCtrtLgerHistVO fcltyCtrtMoneyPymntFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFListSum(searchVO);
 		//moneyTotalCnt = fcltyCtrtMoneyPymntFListSum.getTotalCnt();
     	
+    	
+    	//계약이행이월목록
+    	List fcltyCtrtFulfillCaryFwdFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFList(searchVO);
+    	
 
         model.addAttribute("fcltyCtrtLgerHistDetail", fcltyCtrtLgerHistDetail);
         model.addAttribute("fcltyCtrtJoinContrFList", fcltyCtrtJoinContrF);
         model.addAttribute("fcltyCtrtChangeFList", fcltyCtrtChangeFList);
         model.addAttribute("fcltyCtrtMoneyPymntFList", fcltyCtrtMoneyPymntFList);
+        model.addAttribute("fcltyCtrtFulfillCaryFwdFList", fcltyCtrtFulfillCaryFwdFList);
       
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");

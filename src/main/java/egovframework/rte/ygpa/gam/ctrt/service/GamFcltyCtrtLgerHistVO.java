@@ -145,6 +145,12 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	
 	/** 지급누계금액 총액 */
 	private long sumPymntAggrAmt;
+	
+	/** 이행금액 총액 */
+	private long sumFulfillAmt;
+	
+	/** 이월금액 총액 */
+	private long sumCaryFwdAmt;
 
 
 
@@ -1256,6 +1262,34 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public long getSumLastCtrtAmt() {
 		return sumLastCtrtAmt;
+	}
+
+	/**
+	 * @return the sumFulfillAmt
+	 */
+	public long getSumFulfillAmt() {
+		return sumFulfillAmt;
+	}
+
+	/**
+	 * @param sumFulfillAmt the sumFulfillAmt to set
+	 */
+	public void setSumFulfillAmt(long sumFulfillAmt) {
+		this.sumFulfillAmt = sumFulfillAmt;
+	}
+
+	/**
+	 * @return the sumCaryFwdAmt
+	 */
+	public long getSumCaryFwdAmt() {
+		return sumCaryFwdAmt;
+	}
+
+	/**
+	 * @param sumCaryFwdAmt the sumCaryFwdAmt to set
+	 */
+	public void setSumCaryFwdAmt(long sumCaryFwdAmt) {
+		this.sumCaryFwdAmt = sumCaryFwdAmt;
 	}
 
 }

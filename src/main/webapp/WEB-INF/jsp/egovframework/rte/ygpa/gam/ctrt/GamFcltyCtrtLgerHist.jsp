@@ -20,8 +20,8 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamFcltyCtrtLgerHistSearchForm" method="validateGamFcltyCtrtLgerHist" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamFcltyCtrtLgerHistDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<%-- <validator:javascript formName="gamFcltyCtrtLgerHistSearchForm" method="validateGamFcltyCtrtLgerHist" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="form1" method="validateGamFcltyCtrtLgerHistDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
 
 <script>
 /*
@@ -93,6 +93,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 		module.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
 		module.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
 		module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
+		module.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
 	});
     
     
@@ -144,7 +145,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         url: '<c:url value="/ctrt/gamSelectFcltyCtrtChangeFList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'계약번호', 			name:'ctrtNo',				width:80, 		sortable:false,		align:'center'},
+					{display:'계약번호', 			name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
                     {display:'순번', 				name:'seq',					width:60, 		sortable:false,		align:'center'},
                     {display:'변경사유', 			name:'changeRsn',			width:150, 		sortable:false,		align:'center'},
                     {display:'변경일자', 			name:'changeDt',			width:80, 		sortable:false,		align:'center'},
@@ -178,10 +179,10 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         url: '<c:url value="/ctrt/gamSelectFcltyCtrtMoneyPymntFList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'계약번호', 		name:'ctrtNo',				width:80, 		sortable:false,		align:'center'},
+					{display:'계약번호', 		name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
                     {display:'순번', 			name:'seq',					width:60, 		sortable:false,		align:'center'},
                     {display:'지급분류', 		name:'pymntCl',				width:60, 		sortable:false,		align:'right'},
-                    {display:'지급일자', 		name:'pymntDt',				width:80, 		sortable:false,		align:'left'},
+                    {display:'지급일자', 		name:'pymntDt',				width:80, 		sortable:false,		align:'center'},
                     {display:'금회기성금액', 	name:'thisTimeEstbAmt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'선금정산금액', 	name:'depositExcclcAmt',	width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'지급금액', 		name:'pymntAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -202,6 +203,36 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
             module.$('#sumDepositExcclcAmt').val($.number(data.sumDepositExcclcAmt));
             module.$('#sumPymntAmt').val($.number(data.sumPymntAmt));
             module.$('#sumPymntAggrAmt').val($.number(data.sumPymntAggrAmt));
+        	
+            return data;
+        }
+    });
+	
+	
+	// 계약이행이월 테이블 설정
+    this.$("#fcltyCtrtFulfillCaryFwdFList").flexigrid({
+        module: this,
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtFulfillCaryFwdFList.do" />',
+        dataType: 'json',
+        colModel : [
+					{display:'계약번호', 		name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
+                    {display:'순번', 			name:'seq',					width:60, 		sortable:false,		align:'center'},
+                    {display:'이행이월년도', 	name:'fulfillCaryFwdYear',	width:80, 		sortable:false,		align:'center'},
+                    {display:'이행금액', 		name:'fulfillAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'이월금액', 		name:'caryFwdAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'등록자', 		name:'regUsr',				width:80, 		sortable:false,		align:'center'},
+                    {display:'등록일시', 		name:'registDt',			width:80, 		sortable:false,		align:'center'},
+                    {display:'수정자', 		name:'updUsr',				width:80, 		sortable:false,		align:'center'},
+                    {display:'수정일시', 		name:'updtDt',				width:80, 		sortable:false,		align:'center'}
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto',
+        preProcess: function(module,data) {
+        	
+        	//자료수, 합산금액 입력
+            module.$('#tabs6TotalCount').val($.number(data.totalCount));
+            module.$('#sumFulfillAmt').val($.number(data.sumFulfillAmt));
+            module.$('#sumCaryFwdAmt').val($.number(data.sumCaryFwdAmt));
         	
             return data;
         }
@@ -235,6 +266,9 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         	
         	// tabs5 초기화
         	this.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
+        	
+        	// tabs6 초기화
+        	this.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
         	
 			this.loadData();
             break;
@@ -361,6 +395,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                 <li><a href="#tabs3" class="emdTab">계약공동도급정보</a></li>
                 <li><a href="#tabs4" class="emdTab">계약변경정보</a></li>
                 <li><a href="#tabs5" class="emdTab">계약대금지급정보</a></li>
+                <li><a href="#tabs6" class="emdTab">계약이행이월정보</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -649,6 +684,32 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 					</form>
                 </div>
             </div>
+            
+            <div id="tabs6" class="emdTabPage fillHeight" style="overflow: hidden;" >
+                <table id="fcltyCtrtFulfillCaryFwdFList" style="display:none" class="fillHeight"></table>
+                <div id="fcltyCtrtFulfillCaryFwdFListSum" class="emdControlPanel">
+					<form id="fcltyCtrtFulfillCaryFwdFListSumForm">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="12%" height="20">자료수</th>
+								<td><input type="text" size="20" id="tabs6TotalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="20">이행금액</th>
+								<td><input type="text" size="30" id="sumFulfillAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="12%" height="20">이월금액</th>
+								<td><input type="text" size="30" id="sumCaryFwdAmt" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+						<table style="width:100%;">
+	                        <tr>
+	                            <td style="text-align: right">
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
+	                            </td>
+	                        </tr>
+						</table>
+					</form>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

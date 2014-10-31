@@ -103,6 +103,12 @@
         <result property="sumPymntAggrAmt" column="SUM_PYMNT_AGGR_AMT" columnIndex="5" javaType="java.lang.Long"/>
     </resultMap>
     
+    <resultMap id="selectFcltyCtrtFulfillCaryFwdFListSumMap" class="gamFcltyCtrtLgerHistVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumFulfillAmt" column="SUM_FULFILL_AMT" columnIndex="2" javaType="java.lang.Long"/>
+        <result property="sumCaryFwdAmt" column="SUM_CARY_FWD_AMT" columnIndex="3" javaType="java.lang.Long"/>
+    </resultMap>
+    
 
     <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
@@ -427,6 +433,48 @@
         		, NVL(SUM(PYMNT_AGGR_AMT),0) AS SUM_PYMNT_AGGR_AMT
         FROM 
              	CTRT_MONEY_PYMNT_F
+             
+	 	WHERE  
+	 			CTRT_NO = #ctrtNo#
+    </select>
+    
+    
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                    CTRT_NO
+								    , SEQ
+								    , TO_CHAR(FULFILL_CARY_FWD_YEAR, 'YYYY-MM-DD') FULFILL_CARY_FWD_YEAR
+								    , FULFILL_AMT
+								    , CARY_FWD_AMT
+								    , REG_USR
+								    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+								    , UPD_USR
+								    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+                             FROM 
+					              	CTRT_FULFILL_CARY_FWD_F
+					              
+							 WHERE  CTRT_NO = #ctrtNo#
+
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY CTRT_NO DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtFulfillCaryFwdFListSumMap">
+
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(FULFILL_AMT),0) AS SUM_FULFILL_AMT
+        		, NVL(SUM(CARY_FWD_AMT),0) AS SUM_CARY_FWD_AMT
+
+        FROM 
+             	CTRT_FULFILL_CARY_FWD_F
              
 	 	WHERE  
 	 			CTRT_NO = #ctrtNo#

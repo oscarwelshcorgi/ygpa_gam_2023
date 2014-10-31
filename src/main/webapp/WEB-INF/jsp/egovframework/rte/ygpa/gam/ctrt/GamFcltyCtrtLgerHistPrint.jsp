@@ -70,7 +70,7 @@
 					<th>현장설명</th>
 				</tr>
 				<tr>
-					<td><c:out value="${fcltyCtrtLgerHistDetail.ctrtSe }" /></td>
+					<td style="text-align: center"><c:out value="${fcltyCtrtLgerHistDetail.ctrtSe }" /></td>
 					<td><c:out value="${fcltyCtrtLgerHistDetail.bidPblancNo }" /></td>
 					<td><c:out value="${fcltyCtrtLgerHistDetail.bidPblancDt }" /></td>
 					<td><c:out value="${fcltyCtrtLgerHistDetail.bidDt }" /></td>
@@ -207,11 +207,67 @@
 				</tr>
 				<tr>
 					<th>업무담당</th>
+					<td><c:out value="${fcltyCtrtLgerHistDetail.jobChrgDeptCd }" /></td>
 					<td> </td>
 					<td> </td>
 					<td> </td>
 					<td> </td>
-					<td> </td>
+				</tr>
+				<tr>
+					<th>이행금액</th>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[0].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[1].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[2].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[3].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[4].fulfillCaryFwdYear }" /></td>
+				</tr>
+				<tr>
+					<th> </th>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[0].fulfillAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[1].fulfillAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[2].fulfillAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[3].fulfillAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[4].fulfillAmt }" /></td>
+				</tr>
+				<tr>
+					<th>이월금액</th>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[0].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[1].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[2].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[3].fulfillCaryFwdYear }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[4].fulfillCaryFwdYear }" /></td>
+				</tr>
+				<tr>
+					<th> </th>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[0].caryFwdAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[1].caryFwdAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[2].caryFwdAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[3].caryFwdAmt }" /></td>
+					<td><c:out value="${fcltyCtrtFulfillCaryFwdFList[4].caryFwdAmt }" /></td>
+				</tr>
+				<tr>
+					<th>원인행위</th>
+					<td colSpan="5"><c:out value="${fcltyCtrtLgerHistDetail.causeAct }" /></td>
+				</tr>
+				<tr>
+					<th>계약변경</th>
+					<th>변경일</th>
+					<th>변경사유</th>
+					<th>금액</th>
+					<th>기간</th>
+					<th>기타</th>
+				</tr>
+				<tr>
+					<th>1회</th>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>하자기간</th>
+					<td colSpan="5"></td>
 				</tr>
 			</tbody>
 		</table>

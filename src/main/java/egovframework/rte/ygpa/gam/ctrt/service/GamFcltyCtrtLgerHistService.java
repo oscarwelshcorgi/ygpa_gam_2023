@@ -110,5 +110,23 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @exception Exception
 	 */
 	GamFcltyCtrtLgerHistVO selectFcltyCtrtMoneyPymntFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약이행이월목록 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월목록
+	 * @exception Exception
+	 */
+	List selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약이행이월목록 총갯수 및 금액합계 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월목록 총갯수 및 금액합계
+	 * @exception Exception
+	 */
+	GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 
 }
