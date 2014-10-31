@@ -473,7 +473,7 @@
 					  FROM
 					    CTRT_CHANGE_F C
 					  WHERE
-					    J.CTRT_NO = #sCtrtNo#
+					    C.CTRT_NO = #sCtrtNo#
 					  ORDER BY C.SEQ
 					                 
                		) S
@@ -554,7 +554,7 @@
 					  FROM
 					    CTRT_MONEY_PYMNT_F M
 					  WHERE
-					    J.CTRT_NO = #sCtrtNo#
+					    M.CTRT_NO = #sCtrtNo#
 					  ORDER BY M.SEQ
 					                 
                		) S
@@ -612,4 +612,72 @@
 		    CTRT_NO = #ctrtNo#  
 	</delete>
 		
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	    SELECT A.*
+          FROM (
+             SELECT  ROWNUM RNUM, S.*
+               FROM (
+               
+					SELECT
+					    F.CTRT_NO
+					    , F.SEQ
+					    , F.FULFILL_CARY_FWD_YEAR
+					    , F.FULFILL_AMT
+					    , F.CARY_FWD_AMT
+					    , F.REG_USR
+					    , TO_CHAR(F.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+					    , F.UPD_USR
+					    , TO_CHAR(F.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+					  FROM
+					    CTRT_FULFILL_CARY_FWD_F F
+					  WHERE
+					    F.CTRT_NO = #sCtrtNo#
+					  ORDER BY M.SEQ
+					                 
+               		) S
+             	) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
+	</select>	
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+		SELECT
+		    COUNT(*) CNT
+		  FROM
+		    CTRT_FULFILL_CARY_FWD_F
+		  WHERE
+		    CTRT_NO = #sCtrtNo#
+	</select>
+	
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail">
+		INSERT INTO CTRT_FULFILL_CARY_FWD_F
+		  (
+		    CTRT_NO
+		    , SEQ
+		    , FULFILL_CARY_FWD_YEAR
+		    , FULFILL_AMT
+		    , CARY_FWD_AMT
+		    , REG_USR
+		    , REGIST_DT
+		    , UPD_USR
+		    , UPDT_DT    
+		  )
+		  VALUES
+		  (
+		    #ctrtNo#
+		    , TO_NUMBER(REPLACE(#seq#, ',', ''))
+		    , #fulfillCaryFwdYear#
+		    , TO_NUMBER(REPLACE(#fulfillAmt#, ',', ''))
+		    , TO_NUMBER(REPLACE(#caryFwdAmt#, ',', ''))
+		    , #regUsr#
+		    , TO_DATE(#registDt#, 'YYYY-MM-DD')
+		    , #updUsr#
+		    , TO_DATE(#updtDt#, 'YYYY-MM-DD')
+		  )
+	</insert>
+	
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdAll">
+		DELETE FROM CTRT_FULFILL_CARY_FWD_F
+		  WHERE
+		    CTRT_NO = #ctrtNo#  
+	</delete>		
 </sqlMap>
