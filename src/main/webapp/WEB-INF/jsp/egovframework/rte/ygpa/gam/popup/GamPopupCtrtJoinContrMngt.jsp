@@ -28,7 +28,7 @@ function GamPopupCtrtJoinContrMngtModule() {}
 GamPopupCtrtJoinContrMngtModule.prototype = new EmdPopupModule(1000, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
-GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(socAgentMngtList) {
+GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(fcltyCtrtJoinContrList) {
 	this.resizable(true);
 
 	this.$("#grdInfoList").flexigrid({
@@ -37,21 +37,21 @@ GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(socAgentMngtLi
 		dataType: "json",
 		colModel : [
                     {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
-                    {display:'대표자', name:'rprsntv',width:50, sortable:false,align:'center'},
-                    {display:'지분율', name:'qotaRate',width:50, sortable:false,align:'center'},
+                    {display:'대표자', name:'rprsntv',width:70, sortable:false,align:'center'},
+                    {display:'지분율', name:'qotaRate',width:70, sortable:false,align:'center'},
                     {display:'업종', name:'induty',width:80, sortable:false,align:'center'},
                     {display:'주요품목', name:'stplPrdlst',width:100, sortable:false,align:'center'},
                     {display:'사업자번호', name:'bsnmNo',width:100, sortable:false,align:'center'},
                     {display:'거래관계', name:'dealRelate',width:80, sortable:false,align:'center'},
                     {display:'전화번호', name:'tlphonNo',width:100, sortable:false,align:'center'},
-                    {display:'팩스번호', name:'faxNo',width:100, sortable:false,align:'center'},
+                    {display:'fax번호', name:'faxNo',width:100, sortable:false,align:'center'},
                     {display:'우편번호', name:'postNo',width:80, sortable:false,align:'center'},
                     {display:'도로명주소', name:'roadnmAdres',width:150, sortable:false,align:'center'},
                     {display:'지번주소', name:'lnmAdres',width:150, sortable:false,align:'center'},
                     {display:'담당자', name:'charger',width:50, sortable:false,align:'center'},
                     {display:'담당자직위', name:'chargerOfcPos',width:80, sortable:false,align:'center'},
                     {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:100, sortable:false,align:'center'},
-                    {display:'담당자이메일', name:'chargerEmail',width:150, sortable:false,align:'center'}
+                    {display:'담당자email', name:'chargerEmail',width:150, sortable:false,align:'center'}
 				],
 		height: "200",
 	});
