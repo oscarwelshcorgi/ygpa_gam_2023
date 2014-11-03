@@ -257,22 +257,87 @@
 					<th>기간</th>
 					<th>기타</th>
 				</tr>
+		<c:set var="rowNum" value="1" />
+		<c:set var="resultCount" value="${fn:length(fcltyCtrtChangeFList)}" />
+		<c:set var="lastRotation" value="${5-resultCount }" />
+		<c:forEach var="result" items="${fcltyCtrtChangeFList }" varStatus="resultStatus" begin="0" end="4">
 				<tr>
-					<th>1회</th>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<th><c:out value="${rowNum }" />회</th>
+					<td><c:out value="${result.changeDt }" /></td>
+					<td><c:out value="${result.changeRsn }" /></td>
+					<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.lastCtrtAmt }" /></td>
+					<td><c:out value="${result.changeCtrtPdFrom }" /> ~ <c:out value="${result.changeCtrtPdTo }" /></td>
+					<td><c:out value="${result.rm }" /></td>
 				</tr>
+			<c:set var="rowNum" value="${rowNum+1}" />
+		</c:forEach>
+		<c:forEach begin="1" end="${lastRotation }" step="1">
+				<tr>
+					<th><c:out value="${rowNum }" />회</th>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+				</tr>
+			<c:set var="rowNum" value="${rowNum+1}" />
+		</c:forEach>
 				<tr>
 					<th>하자기간</th>
-					<td colSpan="5"></td>
+					<td colSpan="5"><c:out value="${fcltyCtrtLgerHistDetail.flawPdFrom }" /> ~ <c:out value="${fcltyCtrtLgerHistDetail.flawPdTo }" /></td>
 				</tr>
 			</tbody>
 		</table>
-
-		
+		</div>
+	</div>
+	<div class="page">
+		<div class="subpage ygpa_report" >
+		<table class="rpr_form_table">
+			<tbody>
+				<tr>
+					<th>대금지급</th>
+					<th>지급분류</th>
+					<th>지급일</th>
+					<th>금회기성액</th>
+					<th>선금정산액</th>
+					<th>지급액</th>
+					<th>누계액</th>
+					<th>비고</th>
+				</tr>
+		<c:set var="rowNum" value="1" />
+		<c:set var="resultCount" value="${fn:length(fcltyCtrtMoneyPymntFList)}" />
+		<c:set var="lastRotation" value="${25-resultCount }" />
+		<c:forEach var="result" items="${fcltyCtrtMoneyPymntFList }" varStatus="resultStatus" begin="0" end="24" step="1">
+				<tr>
+					<th><c:out value="${rowNum }" />회</th>
+					<th><c:out value="${result.pymntCl }" /></th>
+					<th><c:out value="${result.pymntDt }" /></th>
+					<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.thisTimeEstbAmt }" /></td>
+					<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.depositExcclcAmt }" /></td>
+					<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.pymntAmt }" /></td>
+					<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.pymntAggrAmt }" /></td>
+					<th><c:out value="${result.rm }" /></th>
+				</tr>
+			<c:set var="rowNum" value="${rowNum+1}" />
+		</c:forEach>
+		<c:forEach begin="1" end="${lastRotation }" step="1">
+				<tr>
+					<th><c:out value="${rowNum }" />회</th>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+					<td> </td>
+				</tr>
+			<c:set var="rowNum" value="${rowNum+1}" />
+		</c:forEach>
+			</tbody>
+		</table>
+		</div>
+	</div>
+</div>
 
     <c:if test="${resultCode!=0 }">
     	<h2>서버 오류</h2>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
-<sqlMap namespace="ygpa.gam.soc">
+<sqlMap namespace="ygpa.gam.ctrt">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
@@ -160,7 +160,7 @@
 										<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
 									</isNotEmpty>
 									
-									<isNotEmpty property="sCtrtToDt">
+									<isNotEmpty property="sBidToDt">
 										<![CDATA[ AND BID_DT < #sBidToDt# ]]>
 									</isNotEmpty>
 									
@@ -209,7 +209,7 @@
 					<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
 				</isNotEmpty>
 				
-				<isNotEmpty property="sCtrtToDt">
+				<isNotEmpty property="sBidToDt">
 					<![CDATA[ AND BID_DT < #sBidToDt# ]]>
 				</isNotEmpty>
     </select>
