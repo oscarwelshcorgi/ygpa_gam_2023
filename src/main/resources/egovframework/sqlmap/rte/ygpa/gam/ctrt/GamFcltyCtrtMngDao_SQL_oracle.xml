@@ -14,7 +14,7 @@
 		<result property="bidPblancNo" column="BID_PBLANC_NO" columnIndex="4" />
 		<result property="bidPblancDt" column="BID_PBLANC_DT" columnIndex="5" />
 		<result property="bidDt" column="BID_DT" columnIndex="6" />
-		<result property="registEntprsCd" column="REGIST_ENTRPS_CD" columnIndex="7" />
+		<result property="registEntrpsCd" column="REGIST_ENTRPS_CD" columnIndex="7" />
 		<result property="siteDesc" column="SITE_DESC" columnIndex="8" />
 		<result property="ctrtNm" column="CTRT_NM" columnIndex="9" />
 		<result property="planAmt" column="PLAN_AMT" columnIndex="10" />
@@ -35,7 +35,7 @@
 		<result property="intendant1" column="INTENDANT_1" columnIndex="25" />
 		<result property="intendant2" column="INTENDANT_2" columnIndex="26" />
 		<result property="intendant3" column="INTENDANT_3" columnIndex="27" />
-		<result property="crayFwdBdgtAmt" column="CARY_FWD_BDGT_AMT" columnIndex="28" />
+		<result property="caryFwdBdgtAmt" column="CARY_FWD_BDGT_AMT" columnIndex="28" />
 		<result property="elctrnSanctnTrnsmisSe" column="ELCTRN_SANCTN_TRNSMIS_SE" columnIndex="29" />
 		<result property="elctrnSanctnProgrsCd" column="ELCTRN_SANCTN_PROGRS_CD" columnIndex="30" />
 		<result property="elctrnSanctnTransmisDt" column="ELCTRN_SANCTN_TRNSMIS_DT" columnIndex="31" />
@@ -52,7 +52,7 @@
 		<result property="flawPdFrom" column="FLAW_PD_FROM" columnIndex="42" />
 		<result property="flawPdTo" column="FLAW_PD_TO" columnIndex="43" />
 		<result property="causeAct" column="CAUSE_ACT" columnIndex="44" />
-		<result property="registEntprsNm" column="REGIST_ENTRPS_NM" columnIndex="45" />
+		<result property="registEntrpsNm" column="REGIST_ENTRPS_NM" columnIndex="45" />
 	</resultMap>
 	
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
@@ -98,8 +98,8 @@
 		    , TO_CHAR(I.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
 		    , I.SLDRT_GRNTY
 		    , I.JOB_CHRG_DEPT_CD
-		    , I.FLAW_PD_FROM
-		    , I.FLAW_PD_TO
+		    , TO_CHAR(I.FLAW_PD_FROM, 'YYYY-MM-DD') FLAW_PD_FROM
+		    , TO_CHAR(I.FLAW_PD_TO, 'YYYY-MM-DD') FLAW_PD_TO
 		    , I.CAUSE_ACT
 		    , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
 		  FROM CTRT_INFO_F I
@@ -163,10 +163,10 @@
 		    , #bidPblancNo#
 		    , TO_DATE(#bidPblancDt#, 'YYYY-MM-DD')
 		    , TO_DATE(#bidDt#, 'YYYY-MM-DD')
-		    , #registExtrpsCd#
+		    , #registEntrpsCd#
 		    , #siteDesc#
 		    , #ctrtNm#
-		    , TO_NUMBER(REPLACE(#planAmnt#, ',', ''))
+		    , TO_NUMBER(REPLACE(#planAmt#, ',', ''))
 		    , TO_NUMBER(REPLACE(#prmtAmt#, ',', ''))
 		    , TO_NUMBER(REPLACE(#scsbidAmt#, ',', ''))
 		    , TO_NUMBER(REPLACE(#scsbidRate#, ',', ''))
@@ -185,16 +185,16 @@
 		    , #intendant2#
 		    , #intendant3#
 		    , TO_NUMBER(REPLACE(#caryFwdBdgtAmt#, ',', ''))
-		    , #elctrmSanctnTrnsmisSe#
-		    , #elctrmSanctnProgrsCd#
-		    , TO_DATE(#elctrmSanctnTrnsmisDt#, 'YYYY-MM-DD')
-		    , #elctrmSanctnInterlockInfo#
-		    , #elctrmSanctnDocId#
+		    , #elctrnSanctnTrnsmisSe#
+		    , #elctrnSanctnProgrsCd#
+		    , TO_DATE(#elctrnSanctnTrnsmisDt#, 'YYYY-MM-DD')
+		    , #elctrnSanctnInterlockInfo#
+		    , #elctrnSanctnDocId#
 		    , TO_DATE(#confmDt#, 'YYYY-MM-DD')
 		    , #confmerCd#
 		    , #regUsr#
 		    , SYSDATE
-		    , #regUsr#
+		    , #updUsr#
 		    , SYSDATE
 		    , #sldrtGrnty#
 		    , #jobChrgDeptCd#
@@ -212,10 +212,10 @@
 		    , BID_PBLANC_NO = #bidPblancNo#
 		    , BID_PBLANC_DT = TO_DATE(#bidPblancDt#, 'YYYY-MM-DD')
 		    , BID_DT = TO_DATE(#bidDt#, 'YYYY-MM-DD')
-		    , REGIST_ENTRPS_CD = #registExtrpsCd#
+		    , REGIST_ENTRPS_CD = #registEntrpsCd#
 		    , SITE_DESC = #siteDesc#
 		    , CTRT_NM = #ctrtNm#
-		    , PLAN_AMT = TO_NUMBER(REPLACE(#planAmnt#, ',', ''))
+		    , PLAN_AMT = TO_NUMBER(REPLACE(#planAmt#, ',', ''))
 		    , PRMT_AMT = TO_NUMBER(REPLACE(#prmtAmt#, ',', ''))
 		    , SCSBID_AMT = TO_NUMBER(REPLACE(#scsbidAmt#, ',', ''))
 		    , SCSBID_RATE = TO_NUMBER(REPLACE(#scsbidRate#, ',', ''))
@@ -234,11 +234,11 @@
 		    , INTENDANT_2 = #intendant2#
 		    , INTENDANT_3 = #intendant3#
 		    , CARY_FWD_BDGT_AMT = TO_NUMBER(REPLACE(#caryFwdBdgtAmt#, ',', ''))
-		    , ELCTRN_SANCTN_TRNSMIS_SE = #elctrmSanctnTrnsmisSe#
-		    , ELCTRN_SANCTN_PROGRS_CD = #elctrmSanctnProgrsCd#
-		    , ELCTRN_SANCTN_TRNSMIS_DT = TO_DATE(#elctrmSanctnTrnsmisDt#, 'YYYY-MM-DD')
-		    , ELCTRN_SANCTN_INTERLOCK_INFO = #elctrmSanctnInterlockInfo#
-		    , ELCTRN_SANCTN_DOC_ID = #elctrmSanctnDocId#
+		    , ELCTRN_SANCTN_TRNSMIS_SE = #elctrnSanctnTrnsmisSe#
+		    , ELCTRN_SANCTN_PROGRS_CD = #elctrnSanctnProgrsCd#
+		    , ELCTRN_SANCTN_TRNSMIS_DT = TO_DATE(#elctrnSanctnTrnsmisDt#, 'YYYY-MM-DD')
+		    , ELCTRN_SANCTN_INTERLOCK_INFO = #elctrnSanctnInterlockInfo#
+		    , ELCTRN_SANCTN_DOC_ID = #elctrnSanctnDocId#
 		    , CONFM_DT = TO_DATE(#confmDt#, 'YYYY-MM-DD')
 		    , CONFMER_CD = #confmerCd#
 		    , UPD_USR = #updUsr#
@@ -354,9 +354,9 @@
 		    , #chargerMoblphonNo#
 		    , #chargerEmail#
 		    , #regUsr#
-		    , TO_DATE(#registDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		    , #updUsr#
-		    , TO_DATE(#updtDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		  )
 	</insert>
 	

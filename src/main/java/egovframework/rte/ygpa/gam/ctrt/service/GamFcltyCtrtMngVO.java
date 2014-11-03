@@ -47,7 +47,7 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	private String bidDt;
 	
 	/** 등록업체코드 **/
-	private String registEntprsCd;
+	private String registEntrpsCd;
 	
 	/** 현장설명 **/
 	private String siteDesc;
@@ -110,7 +110,7 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	private String intendant3;
 	
 	/** 이월예산금액 **/
-	private String crayFwdBdgtAmt;
+	private String caryFwdBdgtAmt;
 	
 	/** 전자결재전송구분 **/
 	private String elctrnSanctnTrnsmisSe;
@@ -161,7 +161,7 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	private String causeAct;
 	
 	/** 등록업체명 **/
-	private String registEntprsNm;
+	private String registEntrpsNm;
 	
 	/**
 	 * @return the sCtrtNo
@@ -259,20 +259,6 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	 */
 	public void setBidDt(String bidDt) {
 		this.bidDt = bidDt;
-	}
-
-	/**
-	 * @return the registEntprsCd
-	 */
-	public String getRegistEntprsCd() {
-		return registEntprsCd;
-	}
-
-	/**
-	 * @param registEntprsCd the registEntprsCd to set
-	 */
-	public void setRegistEntprsCd(String registEntprsCd) {
-		this.registEntprsCd = registEntprsCd;
 	}
 
 	/**
@@ -556,20 +542,6 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the crayFwdBdgtAmt
-	 */
-	public String getCrayFwdBdgtAmt() {
-		return crayFwdBdgtAmt;
-	}
-
-	/**
-	 * @param crayFwdBdgtAmt the crayFwdBdgtAmt to set
-	 */
-	public void setCrayFwdBdgtAmt(String crayFwdBdgtAmt) {
-		this.crayFwdBdgtAmt = crayFwdBdgtAmt;
-	}
-
-	/**
 	 * @return the elctrnSanctnTrnsmisSe
 	 */
 	public String getElctrnSanctnTrnsmisSe() {
@@ -794,16 +766,44 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the registEntprsNm
+	 * @return the registEntrpsCd
 	 */
-	public String getRegistEntprsNm() {
-		return registEntprsNm;
+	public String getRegistEntrpsCd() {
+		return registEntrpsCd;
 	}
 
 	/**
-	 * @param registEntprsNm the registEntprsNm to set
+	 * @param registEntrpsCd the registEntrpsCd to set
 	 */
-	public void setRegistEntprsNm(String registEntprsNm) {
-		this.registEntprsNm = registEntprsNm;
+	public void setRegistEntrpsCd(String registEntrpsCd) {
+		this.registEntrpsCd = registEntrpsCd;
+	}
+
+	/**
+	 * @return the registEntrpsNm
+	 */
+	public String getRegistEntrpsNm() {
+		return registEntrpsNm;
+	}
+
+	/**
+	 * @param registEntrpsNm the registEntrpsNm to set
+	 */
+	public void setRegistEntrpsNm(String registEntrpsNm) {
+		this.registEntrpsNm = registEntrpsNm;
+	}
+
+	/**
+	 * @return the caryFwdBdgtAmt
+	 */
+	public String getCaryFwdBdgtAmt() {
+		return caryFwdBdgtAmt;
+	}
+
+	/**
+	 * @param caryFwdBdgtAmt the caryFwdBdgtAmt to set
+	 */
+	public void setCaryFwdBdgtAmt(String caryFwdBdgtAmt) {
+		this.caryFwdBdgtAmt = caryFwdBdgtAmt;
 	}
 }

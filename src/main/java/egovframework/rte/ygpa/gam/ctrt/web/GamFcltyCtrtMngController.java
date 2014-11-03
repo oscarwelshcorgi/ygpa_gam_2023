@@ -173,7 +173,6 @@ public class GamFcltyCtrtMngController {
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
  
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
