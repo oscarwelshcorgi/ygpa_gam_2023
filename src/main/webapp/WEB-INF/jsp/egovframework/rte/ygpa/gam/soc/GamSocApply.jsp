@@ -220,10 +220,10 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 		      		               { name: 'appAgentCode', value: ' '},
 		      		               { name: 'useNo', value: ' '},
 		      		           ];
-			     			this.$("#socApplyList").flexOptions({params:opts}).flexReload();
-			     			this.$("#socApplyFacilList").flexOptions({params:opts}).flexReload();
-			     			this.$("#socApplyFeeList").flexOptions({params:opts}).flexReload();
-			     			this.$("#socApplyListTab").tabs("option", {active: 0});
+			     			module.$("#socApplyList").flexOptions({params:opts}).flexReload();
+			     			module.$("#socApplyFacilList").flexOptions({params:opts}).flexReload();
+			     			module.$("#socApplyFeeList").flexOptions({params:opts}).flexReload();
+			     			module.$("#socApplyListTab").tabs("option", {active: 0});
 		        		}
 		        		alert(result.resultMsg);
 		        	});

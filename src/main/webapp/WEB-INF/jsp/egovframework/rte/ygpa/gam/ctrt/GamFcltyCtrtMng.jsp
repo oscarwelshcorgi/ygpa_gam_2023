@@ -139,9 +139,9 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var allRows = null;
 	
     switch(buttonId) {
-        case 'searchBtn':
+        case 'searchBtn': //조회
         	opts = this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-        	this.doAction('<c:url value="/soc/gamSelectCtrtInfoDetailInquire.do" />', opts, function(module, result) {
+        	this.doAction('<c:url value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do" />', opts, function(module, result) {
         		if(result.resultCode == 0) {
         			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
         			module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
@@ -153,37 +153,108 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
         			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:searchOpt}).flexReload();
         			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:searchOpt}).flexReload();
         			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+        			module.$('#cmd').val('modify');
         		}
         		else {
         			alert(result.resultMsg);
         			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
         		}
-        		module.$('#cmd').val('modify');
         	});
             break;
-        case 'btnSave':
-        	alert('저장하였습니다.');
+        case 'btnNew':
+        	this.$('#gamFcltyCtrtMngSearchForm :input').val('');
+        	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
+    		opts = [
+		               { name: 'sCtrt', value: ' '}
+ 		           ];
+			this.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
+			this.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
+			this.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
+			this.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
+			this.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
+			this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+        	this.$('#cmd').val('insert');
         	break;
+        case 'btnSave': //저장
+        	var ctrtInfo = JSON.stringify(this.getFormValues("#gamFcltyCtrtMngDetailForm"));
+        	var ctrtJoinContrList = JSON.stringify(this.$('#fcltyCtrtJoinContrList').flexGetData());
+        	var ctrtSubCtrtList = JSON.stringify(this.$('#fcltyCtrtSubCtrtList').flexGetData());
+        	var ctrtChangeList = JSON.stringify(this.$('#fcltyCtrtChangeList').flexGetData());
+        	var ctrtMoneyPymntList = JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').flexGetData());
+        	var ctrtFulFillCaryFwdList = JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData());
+        	
+        	var opts = [];
+        	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
+        	opts[opts.length] = {name:'ctrtJoinContrList', value: ctrtJoinContrList};
+        	opts[opts.length] = {name:'ctrtSubCtrtList', value: ctrtSubCtrtList};
+        	opts[opts.length] = {name:'ctrtChangeList', value: ctrtChangeList};
+        	opts[opts.length] = {name:'ctrtMoneyPymntList', value: ctrtMoneyPymntList};
+        	opts[opts.length] = {name:'ctrtFulFillCaryFwdList',value: ctrtFulFillCaryFwdList};
+        	
+        	if(this.$('#cmd').val() == 'insert') {
+	        	this.doAction('<c:url value="/ctrt/gamInsertFcltyCtrtInfo.do" />', opts, function(module, result) {
+	        		if(result.resultCode == 0) {
+	        			module.$('#cmd').val('modify');
+	        		}
+	        		alert(result.resultMsg);
+	        	});
+        	} else if (this.$('#cmd').val() == 'modify') {
+	        	this.doAction('<c:url value="/ctrt/gamUpdateFcltyCtrtInfo.do" />', opts, function(module, result) {
+	        		alert(result.resultMsg);
+	        	});
+        	}
+        	break;
+        case 'btnRemove' : //삭제
+			if((this.$('#cmd').val() == 'modify')) {
+	        	if(confirm('데이터를 삭제하시겠습니까?')) {
+	            	var ctrtInfo = JSON.stringify(this.getFormValues("#gamFcltyCtrtMngDetailForm"));
+	            	
+	            	var opts = [];
+	            	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
+
+	            	this.doAction('<c:url value="/ctrt/gamDeleteFcltyCtrtInfo.do" />', opts, function(module, result) {
+		        		if(result.resultCode == 0) {
+		                	module.$('#gamFcltyCtrtMngSearchForm :input').val('');
+		                	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+		            		opts = [
+		        		               { name: 'sCtrt', value: ' '}
+		         		           ];
+		        			module.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
+		        			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
+		        			module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
+		        			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
+		        			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
+		        			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+		        		}
+		        		alert(result.resultMsg);
+		        	});
+	        	}
+			}
+			else {
+				alert('삭제할 데이터를 조회하세요.');
+				break;
+			}
+        	break;        	
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
             break;
-        case 'btnCtrtJoinContrUpdate': //계약공동도급관리 행추가/삭제
+        case 'btnCtrtJoinContrUpdate': //계약공동도급관리 편집
         	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
         	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '<c:url value="/popup/showCtrtJoinContrMngt.do" />', {}, allRows);
         	break;
-        case 'btnCtrtSubCtrtUpdate': //계약하도급관리 행추가/삭제
+        case 'btnCtrtSubCtrtUpdate': //계약하도급관리 편집
         	allRows = this.$('#fcltyCtrtSubCtrtList').flexGetData();
         	this.doExecuteDialog('updateCtrtSubCtrt', '계약하도급관리', '<c:url value="/popup/showCtrtSubCtrtMngt.do" />', {}, allRows);
         	break;
-        case 'btnCtrtChangeUpdate': //계약변경관리 행추가/삭제
+        case 'btnCtrtChangeUpdate': //계약변경관리 편집
         	allRows = this.$('#fcltyCtrtChangeList').flexGetData();
         	this.doExecuteDialog('updateCtrtChange', '계약변경관리', '<c:url value="/popup/showCtrtChangeMngt.do" />', {}, allRows);
         	break;
-        case 'btnCtrtMoneyPymntUpdate': //계약대금지급 행추가/삭제
+        case 'btnCtrtMoneyPymntUpdate': //계약대금지급 편집
         	allRows = this.$('#fcltyCtrtMoneyPymntList').flexGetData();
         	this.doExecuteDialog('updateCtrtMoneyPymnt', '계약대금지급관리', '<c:url value="/popup/showCtrtMoneyPymntMngt.do" />', {}, allRows);
         	break;
-        case 'btnCtrtFulFillCaryFwdUpdate': //계약이행이월 행추가/삭제
+        case 'btnCtrtFulFillCaryFwdUpdate': //계약이행이월 편집
         	allRows = this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData();
         	this.doExecuteDialog('updateCtrtFulFillCaryFwd', '계약대금지급관리', '<c:url value="/popup/showCtrtFulFillCaryFwdMngt.do" />', {}, allRows);
         	break;
@@ -219,19 +290,19 @@ GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 	        this.$('#registEntrpsCd').val(value['entrpscd']);
 	        this.$('#registEntrpsNm').val(value['entrpsNm']);
         	break;
-		case 'updateCtrtJoinContr' : //계약공동도급관리 행추가/삭제
+		case 'updateCtrtJoinContr' : //계약공동도급관리 편집
 			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value});
 	 		break;
-		case 'updateCtrtSubCtrt' : //계약하도급관리 행추가/삭제
+		case 'updateCtrtSubCtrt' : //계약하도급관리 편집
 			this.$("#fcltyCtrtSubCtrtList").flexAddData({resultList: value});
 	 		break;
-		case 'updateCtrtChange' : //계약변경관리 행추가/삭제
+		case 'updateCtrtChange' : //계약변경관리 편집
 			this.$("#fcltyCtrtChangeList").flexAddData({resultList: value});
 	 		break;
-		case 'updateCtrtMoneyPymnt' : //계약변경관리 행추가/삭제
+		case 'updateCtrtMoneyPymnt' : //계약변경관리 편집
 			this.$("#fcltyCtrtMoneyPymntList").flexAddData({resultList: value});
 	 		break;
-		case 'updateCtrtFulFillCaryFwd' : //계약이행이월 행추가/삭제
+		case 'updateCtrtFulFillCaryFwd' : //계약이행이월 편집
 			this.$("#fcltyCtrtFulFillCaryFwdList").flexAddData({resultList: value});
 	 		break;
 	 	default:
@@ -326,29 +397,29 @@ var module_instance = new GamFcltyCtrtMngModule();
                             	<th width="10%" height="18">원인행위</th>
                                 <td><input type="text" size="12" id="causeAct" /></td>
 								<th width="10%" height="18">설계금액</th>
-                                <td><input type="text" size="12" id="planAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="planAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">예정금액</th>
-                                <td><input type="text" size="12" id="prmtAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="prmtAmt" class="ygpaNumber" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">낙찰금액</th>
-                                <td><input type="text" size="12" id="scsbidAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="scsbidAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">낙찰율</th>
                                 <td><input type="text" size="12" id="scsbidRate" /></td>
                                 <th width="10%" height="18">기초금액</th>
-                                <td><input type="text" size="12" id="baseAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="baseAmt" class="ygpaNumber" />원</td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약일자</th>
-                                <td><input type="text" size="12" id="ctrtDt" /></td>
+                                <td><input type="text" size="12" id="ctrtDt" class="emdcal" /></td>
                             	<th width="10%" height="18">계약금액</th>
-                                <td><input type="text" size="12" id="ctrtAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="ctrtAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">계약기간</th>
                                 <td><input type="text" size="12" id="ctrtPdFrom" class="emdcal" /> ~ <input type="text" size="12" id="ctrtPdTo" class="emdcal" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약보증금액</th>
-                                <td><input type="text" size="12" id="ctrtGrntyAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="ctrtGrntyAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">계약보증방법</th>
                                 <td><input type="text" size="12" id="ctrtGrntyMth" /></td>
 								<th width="10%" height="18">조달공고번호</th>
@@ -366,7 +437,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                             	<th width="10%" height="18">계약검사일자</th>
                                 <td><input type="text" size="12" id="ctrtExamDt" class="emdcal" /></td>
 								<th width="10%" height="18">이월예산금액</th>
-                                <td><input type="text" size="12" id="caryFwdBdgtAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="caryFwdBdgtAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">전자결재전송구분</th>
                                 <td><input type="text" size="20" id="elctrnSanctnTrnsmisSe" /></td>
                             </tr>
@@ -417,7 +488,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnCtrtJoinContrUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnCtrtJoinContrUpdate" class="popupButton">편집</button>
 				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
@@ -433,7 +504,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnCtrtSubCtrtUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnCtrtSubCtrtUpdate" class="popupButton">편집</button>
 				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
@@ -449,7 +520,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnCtrtChangeUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnCtrtChangeUpdate" class="popupButton">편집</button>
 				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
@@ -465,7 +536,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnCtrtMoneyPymntUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnCtrtMoneyPymntUpdate" class="popupButton">편집</button>
 				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>
@@ -481,7 +552,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<table style="width:100%;">
 				            <tr>
 				            	<td style="text-align: right">
-				                    <button id="btnCtrtFulFillCaryFwdUpdate" class="popupButton">행추가/삭제</button>
+				                    <button id="btnCtrtFulFillCaryFwdUpdate" class="popupButton">편집</button>
 				                    <button id="btnSave">저장</button>
 				                </td>
 				            </tr>

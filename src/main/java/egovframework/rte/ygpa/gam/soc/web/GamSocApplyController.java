@@ -307,11 +307,7 @@ public class GamSocApplyController {
 
     	ObjectMapper mapper = new ObjectMapper();
     	Map<String, Object> applyData = new HashMap<String, Object>();
-    	List<HashMap<String,String>> applyFacilList = null;
-    	List<HashMap<String,String>> applyFeeList = null;
     	
-    	Map<String, String> subData = null;
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -319,8 +315,6 @@ public class GamSocApplyController {
         	return map;
     	}
 
-    	applyFacilList = mapper.readValue((String)socApplyData.get("applyFacilList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	applyFeeList = mapper.readValue((String)socApplyData.get("applyFeeList"),new TypeReference<List<HashMap<String,String>>>(){});
     	applyData = mapper.readValue((String)socApplyData.get("applyData"),new TypeReference<HashMap<String,String>>(){});
     	
     	try {

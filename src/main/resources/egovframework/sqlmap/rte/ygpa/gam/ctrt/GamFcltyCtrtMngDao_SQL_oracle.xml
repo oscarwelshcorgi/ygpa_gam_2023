@@ -379,10 +379,10 @@
 					    , S.MONEY_PYMNT_AGREE
 					    , S.WORK_CLASS
 					    , S.SUBCTRT_RATE
-					    , S.ORGINL_CONTR_AMT
-					    , S.SUBCTRT_CTRT_AMT
-					    , S.CTRT_DT_FROM
-					    , S.CTRT_DT_TO
+					    , NVL(S.ORGINL_CONTR_AMT, 0) ORGINL_CONTR_AMT
+					    , NVL(S.SUBCTRT_CTRT_AMT, 0) SUBCTRT_CTRT_AMT
+					    , TO_CHAR(S.CTRT_DT_FROM, 'YYYY-MM-DD') CTRT_DT_FROM
+					    , TO_CHAR(S.CTRT_DT_TO, 'YYYY-MM-DD') CTRT_DT_TO
 					    , S.REG_USR
 					    , TO_CHAR(S.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
 					    , S.UPD_USR
@@ -463,8 +463,8 @@
 					    , TO_CHAR(C.CHANGE_DT, 'YYYY-MM-DD') CHANGE_DT
 					    , TO_CHAR(C.CHANGE_CTRT_PD_FROM, 'YYYY-MM-DD') CHANGE_CTRT_PD_FROM
 					    , TO_CHAR(C.CHANGE_CTRT_PD_TO, 'YYYY-MM-DD') CHANGE_CTRT_PD_TO
-					    , C.CHANGE_CTRT_AMT
-					    , C.LAST_CTRT_AMT
+					    , NVL(C.CHANGE_CTRT_AMT, 0) CHANGE_CTRT_AMT
+					    , NVL(C.LAST_CTRT_AMT, 0) LAST_CTRT_AMT
 					    , C.RM
 					    , C.REG_USR
 					    , TO_CHAR(C.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
@@ -542,10 +542,10 @@
 					    , M.SEQ
 					    , M.PYMNT_CL
 					    , TO_CHAR(M.PYMNT_DT, 'YYYY-MM-DD') PYMNT_DT 
-					    , M.THIS_TIME_ESTB_AMT
-					    , M.DEPOSIT_EXCCLC_AMT
-					    , M.PYMNT_AMT
-					    , M.PYMNT_AGGR_AMT
+					    , NVL(M.THIS_TIME_ESTB_AMT, 0) THIS_TIME_ESTB_AMT
+					    , NVL(M.DEPOSIT_EXCCLC_AMT, 0) DEPOSIT_EXCCLC_AMT
+					    , NVL(M.PYMNT_AMT, 0) PYMNT_AMT
+					    , NVL(M.PYMNT_AGGR_AMT, 0) PYMNT_AGGR_AMT
 					    , M.RM
 					    , M.REG_USR
 					    , TO_CHAR(M.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
@@ -622,8 +622,8 @@
 					    F.CTRT_NO
 					    , F.SEQ
 					    , F.FULFILL_CARY_FWD_YEAR
-					    , F.FULFILL_AMT
-					    , F.CARY_FWD_AMT
+					    , NVL(F.FULFILL_AMT, 0) FULFILL_AMT
+					    , NVL(F.CARY_FWD_AMT, 0) CARY_FWD_AMT 
 					    , F.REG_USR
 					    , TO_CHAR(F.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
 					    , F.UPD_USR
