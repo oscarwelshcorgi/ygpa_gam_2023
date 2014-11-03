@@ -237,5 +237,45 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	public void deleteFcltyCtrtMoneyPymntAll(Map deleteMap) {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntAll", deleteMap);
 	}
+
+	/**
+	 * 계약이행이월 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월 목록
+	 * @exception Exception
+	 */
+	public List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList", searchVO);
+	}
 	
+	/**
+	 * 계약이행이월 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월 목록 총개수
+	 * @exception Exception
+	 */
+	public int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt", searchVO);
+	}
+	
+	
+	/**
+	 * 계약이행이월정보를 등록한다.
+	 * @param insertMap - 등록할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void insertFcltyCtrtFulFillCaryFwdDetail(Map insertMap) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail", insertMap);
+	}
+	
+	/**
+	 * 계약번호에 해당하는 계약이행이월정보를 삭제한다.
+	 * @param deleteMap - 삭제할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteFcltyCtrtFulFillCaryFwdAll(Map deleteMap) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdAll", deleteMap);
+	}
 }

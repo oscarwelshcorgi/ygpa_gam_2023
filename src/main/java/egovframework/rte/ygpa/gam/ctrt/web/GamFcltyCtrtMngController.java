@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -79,6 +80,30 @@ public class GamFcltyCtrtMngController {
     	return "/ygpa/gam/ctrt/GamFcltyCtrtMng";
     }
 
+    @RequestMapping(value="/soc/gamSelectCtrtInfoDetailInquire.do")
+	@ResponseBody Map selectSocCtrtInfoDetailInquire( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
+			throws Exception {
+		Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		
+    	GamFcltyCtrtMngVO resultVO = gamFcltyCtrtMngService.selectFcltyCtrtInfoDetail(gamFcltyCtrtMngVO);
+		
+		if(resultVO == null) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		} else {
+			map.put("resultCode", 0);
+			map.put("resultVO", resultVO);
+		}
+		
+    	return map;
+    }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrList.do", method=RequestMethod.POST)
@@ -119,4 +144,160 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtSubCtrtList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List ctrtSubCtrtList = gamFcltyCtrtMngService.selectFcltyCtrtSubCtrtList(searchVO);
+    	
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtSubCtrtListCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", ctrtSubCtrtList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtChangeList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List ctrtChangeList = gamFcltyCtrtMngService.selectFcltyCtrtChangeList(searchVO);
+    	
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtChangeListCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", ctrtChangeList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMoneyPymntList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List ctrtMoneyPymntList = gamFcltyCtrtMngService.selectFcltyCtrtMoneyPymntList(searchVO);
+    	
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtMoneyPymntListCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", ctrtMoneyPymntList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtFulFillCaryFwdList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List ctrtFulFillCaryFwdList = gamFcltyCtrtMngService.selectFcltyCtrtFulFillCaryFwdList(searchVO);
+    	
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtFulFillCaryFwdListCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", ctrtFulFillCaryFwdList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }	
 }

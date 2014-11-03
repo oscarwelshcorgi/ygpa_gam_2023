@@ -191,4 +191,38 @@ public interface GamFcltyCtrtMngService {
 	 * @exception Exception
 	 */
 	void deleteFcltyCtrtMoneyPymntAll(Map deleteMap);
+
+
+	/**
+	 * 계약이행이월 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월 목록
+	 * @exception Exception
+	 */
+	List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO);
+	
+	/**
+	 * 계약이행이월 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약이행이월 목록 총개수
+	 * @exception Exception
+	 */
+	int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO);
+	
+	
+	/**
+	 * 계약이행이월정보를 등록한다.
+	 * @param insertMap - 등록할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	void insertFcltyCtrtFulFillCaryFwdDetail(Map insertMap);
+	
+	/**
+	 * 계약번호에 해당하는 계약이행이월정보를 삭제한다.
+	 * @param deleteMap - 삭제할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	void deleteFcltyCtrtFulFillCaryFwdAll(Map deleteMap);	
 }

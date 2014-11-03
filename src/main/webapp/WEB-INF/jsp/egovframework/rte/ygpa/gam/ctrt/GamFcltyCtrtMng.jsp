@@ -71,7 +71,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
                     {display:'대금지급합의', name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
                     {display:'공증', name:'workClass', width:80, sortable:true, align:'center'},
                     {display:'하도급율', name:'subctrlRate', width:80, sortable:true, align:'center'},
-                    {display:'원도급금액', name:'originalContrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'원도급금액', name:'orignlContrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
                     {display:'하도급계약금액', name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
                     {display:'계약기간from', name:'ctrtDtFrom', width:100, sortable:true, align:'center'},
                     {display:'계약기간to', name:'ctrtDtTo', width:100, sortable:true, align:'center'}
@@ -140,10 +140,33 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	
     switch(buttonId) {
         case 'searchBtn':
+        	opts = this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
+        	this.doAction('<c:url value="/soc/gamSelectCtrtInfoDetailInquire.do" />', opts, function(module, result) {
+        		if(result.resultCode == 0) {
+        			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+        			module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
+        			
+        			var searchOpt = module.makeFormArgs("#gamFcltyCtrtMngSearchForm");
+        			module.$("#fcltyCtrtJoinContrList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#fcltyCtrtChangeList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+        		}
+        		else {
+        			alert(result.resultMsg);
+        			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+        		}
+        		module.$('#cmd').val('modify');
+        	});
             break;
         case 'btnSave':
         	alert('저장하였습니다.');
         	break;
+        case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            break;
         case 'btnCtrtJoinContrUpdate': //계약공동도급관리 행추가/삭제
         	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
         	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '<c:url value="/popup/showCtrtJoinContrMngt.do" />', {}, allRows);
@@ -192,6 +215,10 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
+    	case 'selectEntrpsInfoPopup': //등록업체 선택
+	        this.$('#registEntrpsCd').val(value['entrpscd']);
+	        this.$('#registEntrpsNm').val(value['entrpsNm']);
+        	break;
 		case 'updateCtrtJoinContr' : //계약공동도급관리 행추가/삭제
 			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value});
 	 		break;
@@ -229,7 +256,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                         <tr>
                             <th>계약번호</th>
                             <td>
-                            	<input id="sConstNo" type="text" size="30">
+                            	<input id="sCtrtNo" type="text" size="30">
                             </td>
                             <td>
 								<button id="searchBtn" class="buttonSearch">조회</button>
@@ -267,15 +294,15 @@ var module_instance = new GamFcltyCtrtMngModule();
 	                                </select>
                                 </td>
                                 <th width="10%" height="18">계약번호</th>
-                                <td width="15%"><input type="text" size="12" id="ctrtNo" /></td>
+                                <td width="18%"><input type="text" size="20" id="ctrtNo" /></td>
                                 <th width="10%" height="18">계약명</th>
-                                <td><input type="text" size="20" id="ctrtNm" /></td>
+                                <td><input type="text" size="35" id="ctrtNm" /></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">발주방식</th>
                                 <td><input type="text" size="12" id="orderMthd" /></td>
                                 <th width="10%" height="18">계약방법</th>
-                                <td><input type="text" size="12" id="ctrtSe" /></td>
+                                <td><input type="text" size="20" id="ctrtSe" /></td>
                                 <th width="10%" height="18">입찰공고번호</th>
                                 <td><input type="text" size="20" id="bidPblancNo" /></td>
                             </tr>

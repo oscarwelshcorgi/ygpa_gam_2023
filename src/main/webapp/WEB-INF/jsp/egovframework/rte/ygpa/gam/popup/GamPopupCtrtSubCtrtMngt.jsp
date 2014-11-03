@@ -40,7 +40,7 @@ GamPopupCtrtSubCtrtMngtModule.prototype.loadComplete = function(fcltyCtrtSubCtrt
                     {display:'대금지급합의', name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
                     {display:'공증', name:'workClass', width:80, sortable:true, align:'center'},
                     {display:'하도급율', name:'subctrlRate', width:80, sortable:true, align:'center'},
-                    {display:'원도급금액', name:'originalContrAmt', width:120, sortable:true, align:'right'},
+                    {display:'원도급금액', name:'orignlContrAmt', width:120, sortable:true, align:'right'},
                     {display:'하도급계약금액', name:'subctrtCtrtAmt', width:120, sortable:true, align:'right'},
                     {display:'계약기간from', name:'ctrtDtFrom', width:100, sortable:true, align:'center'},
                     {display:'계약기간to', name:'ctrtDtTo', width:100, sortable:true, align:'center'}
@@ -91,8 +91,8 @@ GamPopupCtrtSubCtrtMngtModule.prototype.ctrtJoinContrChanged = function(target) 
 			row['subctrlRate'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#originalContrAmt').is(target)) {
-			row['originalContrAmt'] = $(target).val();
+		if(this.$('#orignlContrAmt').is(target)) {
+			row['orignlContrAmt'] = $(target).val();
 			changed=true;
 		}
 		if(this.$('#subctrtCtrtAmt').is(target)) {
@@ -208,7 +208,7 @@ var popup_instance = new GamPopupCtrtSubCtrtMngtModule();
                     	<th>하도급율</th>
                         <td><input id="subctrlRate" type="text" style="width: 150px;" class="EditItem"/></td>
                         <th>원도급금액</th>
-                        <td><input id="originalContrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="orignlContrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
 						<th>하도급계약금액</th>
                         <td><input id="subctrtCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
 					</tr>

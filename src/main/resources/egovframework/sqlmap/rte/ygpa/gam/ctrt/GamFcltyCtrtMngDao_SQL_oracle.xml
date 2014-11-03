@@ -379,7 +379,7 @@
 					    , S.MONEY_PYMNT_AGREE
 					    , S.WORK_CLASS
 					    , S.SUBCTRT_RATE
-					    , S.ORIGINAL_CONTR_AMT
+					    , S.ORGINL_CONTR_AMT
 					    , S.SUBCTRT_CTRT_AMT
 					    , S.CTRT_DT_FROM
 					    , S.CTRT_DT_TO
@@ -632,7 +632,7 @@
 					    CTRT_FULFILL_CARY_FWD_F F
 					  WHERE
 					    F.CTRT_NO = #sCtrtNo#
-					  ORDER BY M.SEQ
+					  ORDER BY F.SEQ
 					                 
                		) S
              	) A
