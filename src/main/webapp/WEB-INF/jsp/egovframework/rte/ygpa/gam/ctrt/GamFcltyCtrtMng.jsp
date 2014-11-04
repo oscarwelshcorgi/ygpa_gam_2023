@@ -195,6 +195,10 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
         	opts[opts.length] = {name:'ctrtFulFillCaryFwdList',value: ctrtFulFillCaryFwdList};
         	
         	if(this.$('#cmd').val() == 'insert') {
+        		if(this.$('#ctrtNo').val() == '') {
+        			alert('계약번호를 입력하세요.');
+        			return;
+        		}
 	        	this.doAction('<c:url value="/ctrt/gamInsertFcltyCtrtInfo.do" />', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#cmd').val('modify');
