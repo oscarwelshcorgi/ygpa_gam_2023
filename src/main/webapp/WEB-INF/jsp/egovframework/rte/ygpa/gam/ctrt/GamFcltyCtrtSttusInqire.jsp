@@ -35,7 +35,7 @@ GamFcltyCtrtSttusInqireModule.prototype = new EmdModule(1000, 645);
 GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 
 
- 	// 계약공동도급 테이블 설정
+ 	// 계약이력 테이블 설정
     this.$("#fcltyCtrtSttusInqireList").flexigrid({
         module: this,
         url: '<c:url value="/ctrt/gamSelectFcltyCtrtSttusInqireList.do" />',
@@ -102,7 +102,11 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 
 			this.loadData();
             break;
-            
+        
+         // 시설물계약이력 엑셀 다운로드
+		case 'btnFcltyCtrtSttusInqireListExcelDownload':
+			this.$('#fcltyCtrtSttusInqireList').flexExcelDown('<c:url value="/ctrt/gamSelectFcltyCtrtSttusInqireExcel.do"/>');
+		break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             var opts;
@@ -143,9 +147,8 @@ GamFcltyCtrtSttusInqireModule.prototype.onClosePopup = function(popupId, msg, va
     switch (popupId) {
      case 'selectEntrpsInfoPopup':
          if (msg != 'cancel') {
-             this.$('#sRegistEntrpsCd').val(value.agentCode);
-             this.$('#sRegistEntrpsNm').val(value.firmKorNm);
-			 //this.loadData();
+             this.$('#sRegistEntrpsCd').val(value.entrpscd);
+             this.$('#sRegistEntrpsNm').val(value.entrpsNm);
          } else {
              alert('취소 되었습니다');
          }
@@ -236,7 +239,8 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do'/>">계약이력인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtSttusInqireSearchForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do'/>">계약이력인쇄</button> 
+	                            	<button id="btnFcltyCtrtSttusInqireListExcelDownload">엑셀</button>
 	                            </td>
 	                        </tr>
 						</table>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
-<sqlMap namespace="ygpa.gam.soc">
+<sqlMap namespace="ygpa.gam.ctrt">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
@@ -34,8 +34,6 @@
 							       ,MIN(T1.CHARGER_OFC_POS) AS CHARGER_OFC_POS  
 							       ,MIN(T1.CHARGER_MOBLPHON_NO) AS CHARGER_MOBLPHON_NO   
 							       ,MIN(T1.CHARGER_EMAIL) AS CHARGER_EMAIL  
-							       ,#sPrevCtrtYr# AS PREV_CTRT_YR
-							       ,#sCtrtYr# AS CTRT_YR
 							       ,NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
 							                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sPrevCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
 							                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0) AS PREV_CTRT_AMT
@@ -64,7 +62,7 @@
 							</isNotEmpty>
 							
 							<isNotEmpty property="sRegistEntrpsCd">
-								AND I.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+								AND T2.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 							</isNotEmpty>
 							
 							GROUP BY T1.ENTRPS_NM
@@ -81,12 +79,12 @@
 
         SELECT 
         	COUNT(*) AS TOTAL_CNT
-        	,SUM(NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
+        	,NVL(SUM(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
 	                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sPrevCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
-	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0)) AS SUM_PREV_CTRT_AMT
-	        ,SUM(NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
+	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END)),0) AS SUM_PREV_CTRT_AMT
+	        ,NVL(SUM(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
 	                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
-	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0)) AS SUM_CURR_CTRT_AMT
+	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END)),0) AS SUM_CURR_CTRT_AMT
 		FROM 
 			CTRT_JOIN_CONTR_F T1
 		LEFT OUTER JOIN 
@@ -109,7 +107,7 @@
 		</isNotEmpty>
 		
 		<isNotEmpty property="sRegistEntrpsCd">
-			AND I.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+			AND T2.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 		</isNotEmpty>
 		
 		GROUP BY T1.ENTRPS_NM

@@ -121,9 +121,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         // 신청저장
         case 'btnSaveItem':
         	
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
-        		return;
-        	}
+
         	
         	if(!validateGamSocAgentDetail(this.$('#form1')[0])){ 		
         		return;
