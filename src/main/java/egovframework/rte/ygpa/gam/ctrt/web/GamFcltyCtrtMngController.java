@@ -39,8 +39,8 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
 
 /**
  *
- * @author kok
- * @since 2014. 2. 3.
+ * @author 김종민
+ * @since 2014. 10. 29.
  * @version 1.0
  * @see
  * <pre>
@@ -48,7 +48,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 2. 3.		kok		최초 생성
+ *  2014. 10. 29.		김종민		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
@@ -328,36 +328,49 @@ public class GamFcltyCtrtMngController {
     	
     	    	
     	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		
+    		ctrtInfo.put("regUsr", loginVo.getId());
     		gamFcltyCtrtMngService.insertFcltyCtrtInfoDetail(ctrtInfo);
 	    	
 	    	for(int i = 0, seq = 1; i < ctrtJoinContrList.size(); i++, seq++) {
 	    		subData = ctrtJoinContrList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtJoinContrDetail(subData);
 	    	}
 	    	for(int i = 0, seq = 1; i < ctrtSubCtrtList.size(); i++, seq++) {
 	    		subData = ctrtSubCtrtList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtSubCtrtDetail(subData);
 	    	}
 	    	for(int i = 0, seq = 1; i < ctrtChangeList.size(); i++, seq++) {
 	    		subData = ctrtChangeList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtChangeDetail(subData);
 	    	}
 	    	for(int i = 0, seq = 1; i < ctrtMoneyPymntList.size(); i++, seq++) {
 	    		subData = ctrtMoneyPymntList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtMoneyPymntDetail(subData);
 	    	}
 	    	for(int i = 0, seq = 1; i < ctrtFulFillCaryFwdList.size(); i++, seq++) {
 	    		subData = ctrtFulFillCaryFwdList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtFulFillCaryFwdDetail(subData);
 	    	}
 	
@@ -400,6 +413,9 @@ public class GamFcltyCtrtMngController {
     	ctrtFulFillCaryFwdList = mapper.readValue((String)ctrtInfoData.get("ctrtFulFillCaryFwdList"),new TypeReference<List<HashMap<String,String>>>(){});
     	
     	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		
+    		ctrtInfo.put("updUsr", loginVo.getId());
     		gamFcltyCtrtMngService.updateFcltyCtrtInfoDetail(ctrtInfo);
 	    	
     		gamFcltyCtrtMngService.deleteFcltyCtrtJoinContrAll(ctrtInfo);
@@ -407,6 +423,8 @@ public class GamFcltyCtrtMngController {
 	    		subData = ctrtJoinContrList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtJoinContrDetail(subData);
 	    	}
 	    	
@@ -415,6 +433,8 @@ public class GamFcltyCtrtMngController {
 	    		subData = ctrtSubCtrtList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtSubCtrtDetail(subData);
 	    	}
 	    	
@@ -423,6 +443,8 @@ public class GamFcltyCtrtMngController {
 	    		subData = ctrtChangeList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtChangeDetail(subData);
 	    	}
 	    	
@@ -431,6 +453,8 @@ public class GamFcltyCtrtMngController {
 	    		subData = ctrtMoneyPymntList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtMoneyPymntDetail(subData);
 	    	}
 	    	
@@ -439,6 +463,8 @@ public class GamFcltyCtrtMngController {
 	    		subData = ctrtFulFillCaryFwdList.get(i);
 	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
 	    		subData.put("seq", String.valueOf(seq));
+	    		subData.put("regUsr", loginVo.getId());
+	    		subData.put("updUsr", loginVo.getId());
 	    		gamFcltyCtrtMngService.insertFcltyCtrtFulFillCaryFwdDetail(subData);
 	    	}
 	

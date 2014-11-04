@@ -225,7 +225,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtMoneyPymntDetail(Map insertMap) {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail", insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail", insertMap);
 	}
 	
 	/**
