@@ -194,7 +194,7 @@
 		    , #confmerCd#
 		    , #regUsr#
 		    , SYSDATE
-		    , #updUsr#
+		    , #regUsr#
 		    , SYSDATE
 		    , #sldrtGrnty#
 		    , #jobChrgDeptCd#
@@ -416,7 +416,7 @@
 		    , MONEY_PYMNT_AGREE
 		    , WORK_CLASS
 		    , SUBCTRT_RATE
-		    , ORIGINAL_CONTR_AMT
+		    , ORGINL_CONTR_AMT
 		    , SUBCTRT_CTRT_AMT
 		    , CTRT_DT_FROM
 		    , CTRT_DT_TO
@@ -432,15 +432,15 @@
 		    , #entrpsNm#
 		    , #moneyPymntAgree#
 		    , #workClass# 
-		    , TO_NUMBER(REPLACE(#subctrlRate#, ',', ''))
-		    , TO_NUMBER(REPLACE(#originalContrAmt#, ',', ''))
+		    , TO_NUMBER(REPLACE(#subctrtRate#, ',', ''))
+		    , TO_NUMBER(REPLACE(#orginlContrAmt#, ',', ''))
 		    , TO_NUMBER(REPLACE(#subctrtCtrtAmt#, ',', ''))
 		    , TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
 		    , TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
 		    , #regUsr#
-		    , TO_DATE(#registDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		    , #updUsr#
-		    , TO_DATE(#updtDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		  )
 	</insert>
 	
@@ -519,9 +519,9 @@
 		    , TO_NUMBER(REPLACE(#lastCtrtAmt#, ',', ''))
 		    , #rm#
 		    , #regUsr#
-		    , TO_DATE(#registDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		    , #updUsr#
-		    , TO_DATE(#updtDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		  )
 	</insert>
 	
@@ -600,9 +600,9 @@
 		    , TO_NUMBER(REPLACE(#pymntAggrAmt#, ',', ''))
 		    , #rm#
 		    , #regUsr#
-		    , TO_DATE(#registDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		    , #updUsr#
-		    , TO_DATE(#updtDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		  )
 	</insert>
 	
@@ -669,9 +669,9 @@
 		    , TO_NUMBER(REPLACE(#fulfillAmt#, ',', ''))
 		    , TO_NUMBER(REPLACE(#caryFwdAmt#, ',', ''))
 		    , #regUsr#
-		    , TO_DATE(#registDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		    , #updUsr#
-		    , TO_DATE(#updtDt#, 'YYYY-MM-DD')
+		    , SYSDATE
 		  )
 	</insert>
 	
