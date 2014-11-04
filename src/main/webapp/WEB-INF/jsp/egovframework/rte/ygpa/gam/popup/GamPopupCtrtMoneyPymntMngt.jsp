@@ -38,10 +38,10 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.loadComplete = function(fcltyCtrtMone
 		colModel : [
                     {display:'지급분류', name:'pymntCl', width:80, sortable:true, align:'center'},
                     {display:'지급일자', name:'pymntDt', width:80, sortable:true, align:'center'},
-                    {display:'금회기성금액', name:'thisTimeEstbAmt', width:120, sortable:true, align:'right'},
-                    {display:'선금정산금액', name:'depositExcclcAmt', width:120, sortable:true, align:'right'},
-                    {display:'지급금액', name:'pymntAmt', width:120, sortable:true, align:'left'},
-                    {display:'지급누계금액', name:'pymntAggrAmt', width:120, sortable:true, align:'left'},
+                    {display:'금회기성금액', name:'thisTimeEstbAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'선금정산금액', name:'depositExcclcAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급금액', name:'pymntAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급누계금액', name:'pymntAggrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
                     {display:'비고', name:'rm', width:210, sortable:true, align:'left'}
 				],
 		height: "270",
@@ -130,7 +130,7 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.onButtonClick = function(buttonId) {
 	// 추가
 	case "addBtn":
 		this.$('#gamPopupCtrtMoneyPymntMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
+		this.$("#grdInfoList").flexAddRow({'pymntCl':'','pymntDt':'','thisTimeEstbAmt':'','depositExcclcAmt':'','pymntAmt':'','pymntAggrAmt':'' ,'rm':''});
 	break;
 		case "btnRemove":
 			this.removeCtrtMoneyPymntItem();
@@ -197,15 +197,15 @@ var popup_instance = new GamPopupCtrtMoneyPymntMngtModule();
                         <th>지급일자</th>
                         <td><input id="pymntDt" type="text" style="width: 150px;" class="EditItem  emdcal"/></td>
                         <th>금회기성금액</th>
-                        <td><input id="thisTimeEstbAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="thisTimeEstbAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 					</tr>
 					<tr>
                         <th>선금정산금액</th>
-                        <td><input id="depositExcclcAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="depositExcclcAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
                         <th>지급금액</th>
-                        <td><input id="pymntAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="pymntAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
                         <th>지급누계금액</th>
-                        <td><input id="pymntAggrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="pymntAggrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 					</tr>
 					<tr>
                     	<th>비고</th>

@@ -37,11 +37,11 @@ GamPopupCtrtChangeMngtModule.prototype.loadComplete = function(fcltyCtrtChangeLi
 		dataType: "json",
 		colModel : [
                     {display:'변경일자', name:'changeDt', width:80, sortable:true, align:'center'},
-                    {display:'변경사유', name:'changeRsn', width:120, sortable:true, align:'left'},
+                    {display:'변경사유', name:'changeRsn', width:120, sortable:true, align:'center'},
                     {display:'변경계약기간from', name:'changeCtrtPdFrom', width:100, sortable:true, align:'center'},
                     {display:'변경계약기간to', name:'changeCtrtPdTo', width:100, sortable:true, align:'center'},
-                    {display:'변경계약금액', name:'changeCtrtAmt', width:100, sortable:true, align:'right'},
-                    {display:'최종계약금액', name:'lastCtrtAmt', width:100, sortable:true, align:'right'},
+                    {display:'변경계약금액', name:'changeCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'최종계약금액', name:'lastCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'비고', name:'rm', width:250, sortable:true, align:'left'}
 				],
 		height: "270",
@@ -130,7 +130,7 @@ GamPopupCtrtChangeMngtModule.prototype.onButtonClick = function(buttonId) {
 	// 추가
 	case "addBtn":
 		this.$('#gamPopupCtrtChangeMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
+		this.$("#grdInfoList").flexAddRow({'changeDt':'','changeRsn':'','changeCtrtPdFrom':'','changeCtrtPdTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
 	break;
 		case "btnRemove":
 			this.removeCtrtChangeItem();
@@ -206,9 +206,9 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
 					</tr>
 					<tr>
                         <th>변경계약금액</th>
-                        <td><input id="changeCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="changeCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 						<th>최종계약금액</th>
-                        <td colspan=><input id="lastCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td colspan=><input id="lastCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 					</tr>
 					<tr>
                     	<th>비고</th>

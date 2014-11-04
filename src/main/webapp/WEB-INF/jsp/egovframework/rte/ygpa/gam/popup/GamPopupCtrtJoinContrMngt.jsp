@@ -38,7 +38,7 @@ GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(fcltyCtrtJoinC
 		colModel : [
                     {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
                     {display:'대표자', name:'rprsntv',width:70, sortable:false,align:'center'},
-                    {display:'지분율', name:'qotaRate',width:70, sortable:false,align:'center'},
+                    {display:'지분율', name:'qotaRate',width:70, sortable:false,align:'right'},
                     {display:'업종', name:'induty',width:80, sortable:false,align:'center'},
                     {display:'주요품목', name:'stplPrdlst',width:100, sortable:false,align:'center'},
                     {display:'사업자번호', name:'bsnmNo',width:100, sortable:false,align:'center'},

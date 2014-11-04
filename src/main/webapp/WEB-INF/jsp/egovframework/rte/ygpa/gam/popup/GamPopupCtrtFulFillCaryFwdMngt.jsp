@@ -36,9 +36,9 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.loadComplete = function(fcltyCtrt
 		url: '',
 		dataType: "json",
 		colModel : [
-                    {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'left'},
-                    {display:'이행금액', name:'fulfillAmt', width:200, sortable:true, align:'right'},
-                    {display:'이월금액', name:'caryFwdAmt', width:200, sortable:true, align:'right'}
+                    {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'center'},
+                    {display:'이행금액', name:'fulfillAmt', width:200, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'이월금액', name:'caryFwdAmt', width:200, sortable:true, align:'right', displayFormat:'number'}
 				],
 		height: "300",
 	});
@@ -110,7 +110,7 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.onButtonClick = function(buttonId
 	// 추가
 	case "addBtn":
 		this.$('#gamPopupCtrtFulFillCaryFwdMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
+		this.$("#grdInfoList").flexAddRow({'fulfillCaryFwdYear':'','fulfillAmt':'','caryFwdAmt':''});
 	break;
 		case "btnRemove":
 			this.removeCtrtFulFillCaryFwdItem();
@@ -175,9 +175,9 @@ var popup_instance = new GamPopupCtrtFulFillCaryFwdMngtModule();
                         <th>이행이월년도</th>
                         <td><input id="fulfillCaryFwdYear" type="text" style="width: 150px;" class="EditItem"/></td>
                         <th>변경계약금액</th>
-                        <td><input id="fulfillAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td><input id="fulfillAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 						<th>최종계약금액</th>
-                        <td colspan=><input id="caryFwdAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+                        <td colspan=><input id="caryFwdAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 					</tr>
 				</tbody>
 			</table>
