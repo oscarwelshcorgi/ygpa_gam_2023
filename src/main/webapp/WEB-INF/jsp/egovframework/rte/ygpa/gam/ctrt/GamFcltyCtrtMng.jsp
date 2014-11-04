@@ -87,7 +87,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'변경일자', name:'changeDt', width:80, sortable:true, align:'center'},
-                    {display:'변경사유', name:'changeRsn', width:120, sortable:true, align:'left'},
+                    {display:'변경사유', name:'changeRsn', width:120, sortable:true, align:'center'},
                     {display:'변경계약기간from', name:'changeCtrtPdFrom', width:100, sortable:true, align:'center'},
                     {display:'변경계약기간to', name:'changeCtrtPdTo', width:100, sortable:true, align:'center'},
                     {display:'변경계약금액', name:'changeCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
@@ -403,7 +403,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th width="10%" height="18">설계금액</th>
                                 <td><input type="text" size="15" id="planAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">예정금액</th>
-                                <td><input type="text" size="15" id="prmtAmt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="15" id="prmtAmt" class="ygpaNumber" />원</td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">낙찰금액</th>
