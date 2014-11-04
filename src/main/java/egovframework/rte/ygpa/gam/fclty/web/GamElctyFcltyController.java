@@ -68,7 +68,7 @@ public class GamElctyFcltyController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    private final static String prtFcltySe = "P";
+    private final static String prtFcltySe = "E";
 
 	/**
      * 전기시설 관리화면호출

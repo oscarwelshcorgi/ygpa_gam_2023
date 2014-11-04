@@ -68,7 +68,7 @@ public class GamInfoTechFcltyMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-    private final static String prtFcltySe = "E";
+    private final static String prtFcltySe = "I";
 
 	/**
      * 정보통신 시설시설 관리화면호출
