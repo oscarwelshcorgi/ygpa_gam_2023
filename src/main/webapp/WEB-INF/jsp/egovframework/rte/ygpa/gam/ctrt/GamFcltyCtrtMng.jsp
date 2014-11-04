@@ -34,6 +34,66 @@ GamFcltyCtrtMngModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyCtrtMngModule.prototype.loadComplete = function() {
+	//계약관리리스트
+    this.$("#fcltyCtrtMngList").flexigrid({
+        module: this,
+        url: '<c:url value="/ctrt/gamSelectFcltyCtrtMngList.do" />',
+        dataType: 'json',
+        colModel : [
+					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
+					{display:'구분', 			name:'ctrtSe',				width:60, 		sortable:false,		align:'center'},
+                    {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
+                    {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
+                    {display:'입찰공고일', 	name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
+                    {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
+                    {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
+                    {display:'등록업체명', 	name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'},
+                    {display:'설계금액', 		name:'planAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'예정금액', 		name:'prmtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'낙찰금액', 		name:'scsbidAmt',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'낙찰율', 		name:'scsbidRate',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'기초금액', 		name:'baseAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'}
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto',
+        preProcess: function(module,data) {
+
+			//자료수, 합산금액 입력
+            module.$('#totalCount').val($.number(data.totalCount));
+            module.$('#sumPlanAmt').val($.number(data.sumPlanAmt));
+            module.$('#sumPrmtAmt').val($.number(data.sumPrmtAmt));
+            module.$('#sumScsbidAmt').val($.number(data.sumScsbidAmt));
+            module.$('#sumBaseAmt').val($.number(data.sumBaseAmt));
+
+            return data;
+        }
+    });
+	this.$("#fcltyCtrtMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
+		
+    	module.doAction('<c:url value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do" />', opts, function(module, result) {
+    		var searchOpt = null;
+    		if(result.resultCode == 0) {
+    			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+    			module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
+    			module.$('#cmd').val('modify');
+    			module.$('#ctrtNo').attr({disabled : 'disabled'});
+    			searchOpt = opts;
+    		}
+    		else {
+    			alert(result.resultMsg);
+            	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+        		searchOpt = [{ name: 'sCtrt', value: ' '}];
+    		}
+			module.$("#fcltyCtrtJoinContrList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#fcltyCtrtChangeList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
+    	});
+	});
+	
 	//계약공용도급 리스트
     this.$("#fcltyCtrtJoinContrList").flexigrid({
         module: this,
@@ -140,31 +200,9 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	
     switch(buttonId) {
         case 'searchBtn': //조회
-        	opts = this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-        	this.doAction('<c:url value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do" />', opts, function(module, result) {
-        		var searchOpt = null;
-        		if(result.resultCode == 0) {
-        			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-        			module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
-        			searchOpt = module.makeFormArgs("#gamFcltyCtrtMngSearchForm");
-        			module.$('#cmd').val('modify');
-        			module.$('#ctrtNo').attr({disabled : 'disabled'});
-        		}
-        		else {
-        			alert(result.resultMsg);
-                	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-            		searchOpt = [{ name: 'sCtrt', value: ' '}];
-        		}
-    			module.$("#fcltyCtrtJoinContrList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#fcltyCtrtChangeList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-        	});
+        	this.loadData();
             break;
         case 'btnNew':
-        	this.$('#gamFcltyCtrtMngSearchForm :input').val('');
         	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
     		opts = [
 		               { name: 'sCtrt', value: ' '}
@@ -174,7 +212,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
 			this.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
 			this.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
-			this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+			this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
         	this.$('#cmd').val('insert');
         	this.$('#ctrtNo').removeAttr('disabled');
         	break;
@@ -203,11 +241,17 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#cmd').val('modify');
 	        			module.$('#ctrtNo').attr({disabled : 'disabled'});
+	        		    var searchOpt=module.makeFormArgs('#gamFcltyCtrtMngSearchForm');
+	        		    module.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();	        			
 	        		}
 	        		alert(result.resultMsg);
 	        	});
         	} else if (this.$('#cmd').val() == 'modify') {
 	        	this.doAction('<c:url value="/ctrt/gamUpdateFcltyCtrtInfo.do" />', opts, function(module, result) {
+	        		if(result.resultCode == 0) {
+	        		    var searchOpt=module.makeFormArgs('#gamFcltyCtrtMngSearchForm');
+	        		    module.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();	   
+	        		}
 	        		alert(result.resultMsg);
 	        	});
         	}
@@ -276,7 +320,7 @@ GamFcltyCtrtMngModule.prototype.onSubmit = function() {
 GamFcltyCtrtMngModule.prototype.loadData = function() {
     this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-    this.$('#fcltyCtrtJoinContrList').flexOptions({params:searchOpt}).flexReload();
+    this.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -333,12 +377,39 @@ var module_instance = new GamFcltyCtrtMngModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>계약번호</th>
+                            <th>계약구분</th>
                             <td>
-                            	<input id="sCtrtNo" type="text" size="30">
+                                <select id="sCtrtSe">
+                                    <option value="" selected="selected">전체</option>
+                                    <option value="1">자체</option>
+                                    <option value="2">조달</option>
+                                </select>
                             </td>
+                            <th width="10%">계약명</th>
                             <td>
+                            	<input id="sCtrtNm" type="text" size="25">
+                         	</td>
+							<th width="10%">계약일</th>
+                            <td>
+                            	<input id="sCtrtFrDt" type="text" class="emdcal" size="10"> ~ 
+                            	<input id="sCtrtToDt" type="text" class="emdcal" size="10">
+                            </td>
+                            
+                            <td rowspan="2">
 								<button id="searchBtn" class="buttonSearch">조회</button>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<th width="10%">등록업체</th>
+                            <td colspan="3">
+                            	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
+                         		<input id="sRegistEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
+                         		<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                         	</td>
+                         	<th width="10%">입찰일</th>
+                            <td>
+                            	<input id="sBidFrDt" type="text" class="emdcal" size="10"> ~ 
+                            	<input id="sBidToDt" type="text" class="emdcal" size="10">
                             </td>
                         </tr>
                     </tbody>
@@ -350,15 +421,38 @@ var module_instance = new GamFcltyCtrtMngModule();
     <div class="emdPanel fillHeight">
         <div id="fcltyCtrtMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">계약정보관리</a></li>
-                <li><a href="#tabs2" class="emdTab">계약공동도급관리</a></li>
-                <li><a href="#tabs3" class="emdTab">계약하도급관리</a></li>
-                <li><a href="#tabs4" class="emdTab">계약변경관리</a></li>
-                <li><a href="#tabs5" class="emdTab">계약대금지급관리</a></li>
-                <li><a href="#tabs6" class="emdTab">계약이행이월관리</a></li>
+                <li><a href="#tabs1" class="emdTab">계약정보목록</a></li>
+                <li><a href="#tabs2" class="emdTab">계약정보관리</a></li>
+                <li><a href="#tabs3" class="emdTab">계약공동도급관리</a></li>
+                <li><a href="#tabs4" class="emdTab">계약하도급관리</a></li>
+                <li><a href="#tabs5" class="emdTab">계약변경관리</a></li>
+                <li><a href="#tabs6" class="emdTab">계약대금지급관리</a></li>
+                <li><a href="#tabs7" class="emdTab">계약이행이월관리</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
+                <table id="fcltyCtrtMngList" style="display:none" class="fillHeight"></table>
+                <div id="fcltyCtrtMngListSum" class="emdControlPanel">
+					<form id="fcltyCtrtMngListSumForm">
+    	               	<table style="width:100%;" class="summaryPanel">
+        	               	<tr>
+								<th width="8%" height="20">자료수</th>
+								<td><input type="text" size="7" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="8%" height="20">설계금액</th>
+								<td><input type="text" size="15" id="sumPlanAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="8%" height="20">예정금액</th>
+								<td><input type="text" size="15" id="sumPrmtAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="8%" height="20">낙찰금액</th>
+								<td><input type="text" size="15" id="sumScsbidAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="8%" height="20">기초금액</th>
+								<td><input type="text" size="15" id="sumBaseAmt" class="ygpaNumber" disabled="disabled" /></td>
+							</tr>
+						</table>
+					</form>
+                </div>
+            </div>
+
+            <div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
             	<div class="emdControlPanel">
 					<form id="gamFcltyCtrtMngDetailForm">
 						<input type="hidden" id="cmd" />
@@ -489,7 +583,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
+            <div id="tabs3" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamFcltyCtrtJoinContrForm">
 						<table id="fcltyCtrtJoinContrList" style="display:none" class="fillHeight"></table>
@@ -505,7 +599,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                  </div>
             </div>
             
-            <div id="tabs3" class="emdTabPage" style="overflow:scroll;">
+            <div id="tabs4" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamFcltyCtrtSubCtrtForm">
 						<table id="fcltyCtrtSubCtrtList" style="display:none" class="fillHeight"></table>
@@ -521,7 +615,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                  </div>
             </div>
             
-            <div id="tabs4" class="emdTabPage" style="overflow:scroll;">
+            <div id="tabs5" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamFcltyCtrtChangeForm">
 						<table id="fcltyCtrtChangeList" style="display:none" class="fillHeight"></table>
@@ -537,7 +631,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                  </div>
             </div>
             
-            <div id="tabs5" class="emdTabPage" style="overflow:scroll;">
+            <div id="tabs6" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamFcltyCtrtMoneyPymntForm">
 						<table id="fcltyCtrtMoneyPymntList" style="display:none" class="fillHeight"></table>
@@ -553,7 +647,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                  </div>
             </div>
                         
-            <div id="tabs6" class="emdTabPage" style="overflow:scroll;">
+            <div id="tabs7" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamFcltyCtrtFulFillCaryFwdForm">
 						<table id="fcltyCtrtFulFillCaryFwdList" style="display:none" class="fillHeight"></table>
