@@ -30,7 +30,27 @@ import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 
 @Repository("gamFcltyCtrtMngDao")
 public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
-
+	
+	/**
+	 * 계약정보목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약정보목록
+	 * @exception Exception
+	 */
+	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngList", searchVO);
+	}
+	
+	/**
+	 * 계약정보목록 통계정보를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약정보목록 통계정보 VO
+	 * @exception Exception
+	 */
+	public GamFcltyCtrtMngVO selectFcltyCtrtMngSum(GamFcltyCtrtMngVO searchVO) {
+		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngSum", searchVO);
+	}
+	
 	/**
 	 * 계약정보를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO

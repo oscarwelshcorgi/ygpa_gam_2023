@@ -55,6 +55,99 @@
 		<result property="registEntrpsNm" column="REGIST_ENTRPS_NM" columnIndex="45" />
 	</resultMap>
 	
+	<resultMap id="gamFcltyCtrtMngSumMap" class="gamFcltyCtrtMngVO">
+		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
+        <result property="sumPlanAmt" column="SUM_PLAN_AMT" columnIndex="2" javaType="java.lang.Long"/>
+        <result property="sumPrmtAmt" column="SUM_PRMT_AMT" columnIndex="3" javaType="java.lang.Long"/>
+        <result property="sumScsbidAmt" column="SUM_SCSBID_AMT" columnIndex="4" javaType="java.lang.Long"/>
+        <result property="sumBaseAmt" column="SUM_BASE_AMT" columnIndex="5" javaType="java.lang.Long"/>
+    </resultMap>
+	
+    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT
+                                  CTRT_NO
+                                  , (CASE WHEN CTRT_SE = '1' THEN '자체' 
+                                  		  WHEN CTRT_SE = '2' THEN '조달'
+                                  	END) AS CTRT_SE
+                                  , BID_PBLANC_NO
+                                  , CTRT_NM
+                                  , TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
+                                  , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
+                                  , REGIST_ENTRPS_CD
+                                  , GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+                                  , PLAN_AMT
+                                  , PRMT_AMT
+                                  , SCSBID_AMT
+                                  , SCSBID_RATE
+                                  , BASE_AMT
+                             FROM 
+					              CTRT_INFO_F
+								  WHERE 1=1
+									<isNotEmpty property="sCtrtSe">
+										AND CTRT_SE = #sCtrtSe#
+									</isNotEmpty>
+									<isNotEmpty property="sCtrtNm">
+										AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+									</isNotEmpty>
+									<isNotEmpty property="sCtrtFrDt">
+										<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
+									</isNotEmpty>
+									<isNotEmpty property="sCtrtToDt">
+										<![CDATA[ AND CTRT_DT < #sCtrtToDt# ]]>
+									</isNotEmpty>
+									<isNotEmpty property="sRegistEntrpsCd">
+										AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+									</isNotEmpty>
+									<isNotEmpty property="sBidFrDt">
+										<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
+									</isNotEmpty>
+									<isNotEmpty property="sBidToDt">
+										<![CDATA[ AND BID_DT < #sBidToDt# ]]>
+									</isNotEmpty>
+                             <!-- ORDER BY REGIST_DT DESC -->
+                             ORDER BY CTRT_NO DESC, CTRT_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngSum" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSumMap">
+        SELECT 
+        		COUNT(*) AS TOTAL_CNT
+        		, NVL(SUM(PLAN_AMT),0) AS SUM_PLAN_AMT
+        		, NVL(SUM(PRMT_AMT),0) AS SUM_PRMT_AMT
+        		, NVL(SUM(SCSBID_AMT),0) AS SUM_SCSBID_AMT
+        		, NVL(SUM(BASE_AMT),0) AS SUM_BASE_AMT
+              FROM 
+              	CTRT_INFO_F
+			  WHERE 1=1
+				<isNotEmpty property="sCtrtSe">
+					AND CTRT_SE = #sCtrtSe#
+				</isNotEmpty>
+				<isNotEmpty property="sCtrtNm">
+					AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+				</isNotEmpty>
+				<isNotEmpty property="sCtrtFrDt">
+					<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
+				</isNotEmpty>
+				<isNotEmpty property="sCtrtToDt">
+					<![CDATA[ AND CTRT_DT < #sCtrtToDt# ]]>
+				</isNotEmpty>
+				<isNotEmpty property="sRegistEntrpsCd">
+					AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+				</isNotEmpty>
+				<isNotEmpty property="sBidFrDt">
+					<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
+				</isNotEmpty>
+				<isNotEmpty property="sBidToDt">
+					<![CDATA[ AND BID_DT < #sBidToDt# ]]>
+				</isNotEmpty>
+    </select>
+	
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
 		SELECT
 		    I.CTRT_NO

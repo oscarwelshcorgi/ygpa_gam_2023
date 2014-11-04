@@ -33,8 +33,6 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltyMngtService;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
 
 /**
@@ -80,7 +78,57 @@ public class GamFcltyCtrtMngController {
     	return "/ygpa/gam/ctrt/GamFcltyCtrtMng";
     }
 
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMngList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		
+		int totalCnt, page, firstIndex;
+		long sumPlanAmt, sumPrmtAmt, sumScsbidAmt, sumBaseAmt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+    	List fcltyCtrtMngList = gamFcltyCtrtMngService.selectFcltyCtrtMngList(searchVO);
+    	
+		GamFcltyCtrtMngVO fcltyCtrtMngSum = gamFcltyCtrtMngService.selectFcltyCtrtMngSum(searchVO);
+    	
+		totalCnt = fcltyCtrtMngSum.getTotalCnt();
+		sumPlanAmt = fcltyCtrtMngSum.getSumPlanAmt();
+		sumPrmtAmt = fcltyCtrtMngSum.getSumPrmtAmt();
+		sumScsbidAmt = fcltyCtrtMngSum.getSumScsbidAmt();
+		sumBaseAmt = fcltyCtrtMngSum.getSumBaseAmt();
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+ 
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("sumPlanAmt", sumPlanAmt);
+    	map.put("sumPrmtAmt", sumPrmtAmt);
+    	map.put("sumScsbidAmt", sumScsbidAmt);
+    	map.put("sumBaseAmt", sumBaseAmt);
+    	map.put("resultList", fcltyCtrtMngList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do")
 	@ResponseBody Map selectFcltyCtrtInfoDetailInquire( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
 			throws Exception {
 		Map map = new HashMap();
@@ -104,7 +152,7 @@ public class GamFcltyCtrtMngController {
 		
     	return map;
     }
-
+    
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
