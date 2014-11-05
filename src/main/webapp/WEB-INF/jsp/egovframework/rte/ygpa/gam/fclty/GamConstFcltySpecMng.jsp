@@ -379,16 +379,16 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 파일 업로드
 		case "btnUploadFile":
-
+			console.log('kkk');
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 			this.uploadPfPhoto("uploadPhoto", function(module, result) {
 
 				var userid = "admin";
-
+				
 				$.each(result, function(){
 					module.$("#fcltyPhotoList").flexAddRow({_updtId:'I', gisAssetsPrtAtCode: module._fcltyItem.gisAssetsPrtAtCode, gisAssetsCd: module._fcltyItem.gisAssetsCd, gisAssetsSubCd: module._fcltyItem.gisAssetsSubCd, prtFcltySe:'C', gisPrtFcltyCd: module._fcltyItem.gisPrtFcltyCd, gisPrtFcltySeq: module._fcltyItem.gisPrtFcltySeq, prtFcltyPhotoSeq: "", photoSj: "", filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: "", photoDesc : ""});
 				});
-			}, "시설사진 업로드");
+			}, "첨부파일 업로드");
 			break;
 		case 'btnDownloadFile':
 			var selectRow = this.$('#fcltyPhotoList').selectedRows();
@@ -767,10 +767,9 @@ var module_instance = new GamConstFcltySpecMngModule();
 		<div id="constFcltySpecMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">건축시설 목록</a></li>
-				<li><a href="#tabs2" class="emdTab">건축시설 일반</a></li>
-				<li><a href="#tabs3" class="emdTab">건축시설 제원</a></li>
-				<li><a href="#tabs4" class="emdTab">건축시설 사진</a></li>
-				<li><a href="#tabs5" class="emdTab">건축시설 첨부파일</a></li>
+				<li><a href="#tabs2" class="emdTab">건축시설 제원</a></li>
+				<li><a href="#tabs3" class="emdTab">건축시설 층별제원</a></li>
+				<li><a href="#tabs4" class="emdTab">건축시설 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -791,134 +790,241 @@ var module_instance = new GamConstFcltySpecMngModule();
 <!-- 				<input id="beforeGisAssetsPrtAtCode" type="hidden" /> -->
 <!-- 				<input id="beforeGisAssetsCd" type="hidden" /> -->
 <!-- 				<input id="beforeGisAssetsSubCd" type="hidden" /> -->
-					<table  class="editForm"  style="width:100%;">
+				<div style="margin-bottom:10px;">
+					<table class="searchPanel">
+						<tbody>
+							<tr>
+								<th>건축시설 일반</th>
+							</tr>
+						</tbody>
+					</table>
+					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="15%" height="23" class="required_text">항코드</th>
-							<td><input type="text" size="50" id="gisAssetsPrtAtCodeStr" disabled="disabled"/></td>
-							<th width="15%" height="23" class="required_text">항코드명</th>
-							<td><input type="text" size="50" id="gisAssetsPrtAtName" disabled="disabled"/></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">GIS 자산코드</th>
+							<th width="12%" height="17" class="required_text">항코드</th>
+							<td><input type="text" size="23" id="gisAssetsPrtAtCodeStr" disabled="disabled"/></td>
+							<th width="12%" height="17" class="required_text">항코드명</th>
+							<td><input type="text" size="23" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
-								<input type="text" size="5" id="gisAssetsCd" disabled="disabled" data-required="true"/>&nbsp;-&nbsp;
-								<input type="text" size="5" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
-								<input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>&nbsp; &nbsp;
+								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>&nbsp;-&nbsp;
+								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="2" id="gisAssetsPrtAtCode" disabled="disabled"/>
 								<button id="gisCodePopupBtn" class="popupButton">선택</button>
 							</td>
-							<th width="15%" height="23" class="required_text">GIS 자산명</th>
-							<td><input type="text" size="50" id="gisAssetsNm" disabled="disabled"/></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">소재지</th>
-							<td><input id="gisAssetsLocplc" type="text" size="50" title="소재지" disabled="disabled" /></td>
-							<th width="15%" height="23" class="required_text">지번</th>
+							<th width="12%" height="17" class="required_text">GIS 자산명</th>
+							<td><input type="text" size="23" id="gisAssetsNm" disabled="disabled"/></td>
+							<th width="12%" height="17" class="required_text">지번</th>
 							<td>
-								<input id="gisAssetsLnm" type="text" size="5" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="5" title="지번 뒷자리" disabled="disabled" />
+								<input id="gisAssetsLnm" type="text" size="3" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
+								<input id="gisAssetsLnmSub" type="text" size="2" title="지번 뒷자리" disabled="disabled" />
 							</td>
+							<th width="12%" height="17" class="required_text">소재지</th>
+							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">건축시설코드</th>
+							<th width="12%" height="17" class="required_text">건축시설코드</th>
 							<td>
-								<input type="text" size="5" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
-								<input type="text" size="5" id="gisPrtFcltySeq" disabled="disabled"/>
+								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
+								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="15%" height="23" class="required_text">시설분류</th>
+							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
-								<input type="hidden" size="50" id="prtFcltySeNm" disabled="disabled" />
+								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
+							<th width="12%" height="17" class="required_text">건축시설명</th>
+							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">건축시설명</th>
-							<td colspan="4"><input type="text" size="128" id="prtFcltyNm" maxlength="80" /></td>
-
-							<!--
-							<th width="15%" height="23" class="required_text">위치</th>
-							<td><input type="text" size="50" id="gisAssetsLocNm" disabled="disabled" /></td>
-							 -->
-						</tr>
-						<!--
-						<tr>
-							<th width="15%" height="23" class="required_text">건축시설규격</th>
-							<td><input type="text" size="50" id="prtFcltyStndrd" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">건축시설단위</th>
-							<td><input type="text" size="50" id="prtFcltyUnit" maxlength="10" /></td>
-						</tr>
-						 -->
-						 <!--
-						<tr>
-							<th width="15%" height="23" class="required_text">관리업체</th>
-							<td>
-								<input type="text" size="10" id="prtFcltyMngEntrpsCd" disabled="disabled"/>&nbsp; &nbsp;
-								<button id="searchEntrpsCdBtn" class="popupButton">선택</button>
-							</td>
-							<th width="15%" height="23" class="required_text">관리업체명</th>
-							<td><input type="text" size="50" id="prtFcltyMngEntrpsNm" disabled="disabled"/></td>
-						</tr>
-						  -->
-						<tr style="display: none">
-							<th width="15%" height="23" class="required_text">설치일자</th>
+							<th width="12%" height="17" class="required_text">설치일자</th>
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
-							<th width="15%" height="23" class="required_text">변경일자</th>
+							<th width="12%" height="17" class="required_text">변경일자</th>
 							<td><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
+							<th width="12%" height="17" class="required_text">대지위치</th>
+							<td><input class="text" type="text" size="32" id="info1" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">대지위치</th>
-							<td><input class="text" type="text" size="50" id="info1" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">지번</th>
-							<td><input class="text" type="text" size="50" id="info2" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">지번</th>
+							<td><input class="text" type="text" size="26" id="info2" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">대지면적</th>
+							<td><input class="text" type="text" size="26" id="info4" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">명칭 및 번호</th>
+							<td><input class="text" type="text" size="32" id="info3" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">명칭 및 번호</th>
-							<td><input class="text" type="text" size="50" id="info3" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">대지면적</th>
-							<td><input class="text" type="text" size="50" id="info4" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">연면적</th>
+							<td><input class="text" type="text" size="26" id="info5" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">건축면적</th>
+							<td><input class="text" type="text" size="26" id="info6" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">층수</th>
+							<td><input class="text" type="text" size="32" id="info9" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">연면적</th>
-							<td><input class="text" type="text" size="50" id="info5" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">건축면적</th>
-							<td><input class="text" type="text" size="50" id="info6" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">주구조</th>
+							<td><input class="text" type="text" size="26" id="info7" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">건축주</th>
+							<td><input class="text" type="text" size="26" id="info10" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">주용도</th>
+							<td><input class="text" type="text" size="32" id="info8" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">주구조</th>
-							<td><input class="text" type="text" size="50" id="info7" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">주용도</th>
-							<td><input class="text" type="text" size="50" id="info8" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">설계자</th>
+							<td><input class="text" type="text" size="26" id="info11" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">공사감리자</th>
+							<td><input class="text" type="text" size="26" id="info12" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">공사시공자</th>
+							<td><input class="text" type="text" size="32" id="info13" maxlength="40" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">층수</th>
-							<td><input class="text" type="text" size="50" id="info9" maxlength="40" /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">건축주</th>
-							<td><input class="text" type="text" size="50" id="info10" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">설계자</th>
-							<td><input class="text" type="text" size="50" id="info11" maxlength="40" /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">공사감리자</th>
-							<td><input class="text" type="text" size="50" id="info12" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">공사시공자</th>
-							<td><input class="text" type="text" size="50" id="info13" maxlength="40" /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">허가일자</th>
+							<th width="12%" height="17" class="required_text">허가일자</th>
 							<td><input id="info14" type="text" class="emdcal" size="20" title="허가일자" readonly="readonly"/></td>
-							<th width="15%" height="23" class="required_text">착공일자</th>
+							<th width="12%" height="17" class="required_text">착공일자</th>
 							<td><input  id="info15" type="text" class="emdcal" size="20" title="착공일자" readonly="readonly"/></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">사용승인일자</th>
+							<th width="12%" height="17" class="required_text">사용승인일자</th>
 							<td><input id="info16" type="text" class="emdcal" size="20" title="사용승인일자" readonly="readonly"/></td>
-							<th width="15%" height="23" class="required_text">건축물현황</th>
-							<td><button class="text" id="fcltyinfo9PopupBtn">추가/편집</button></td>
 						</tr>
 					</table>
-					<table id="fcltyinfo9" style="display:none" class="fillHeight"></table>
-<!-- 					<table id="constFcltySpecMngList" style="display:none" class="fillHeight"></table> -->
+				</div>
+					<table class="searchPanel">
+						<tbody>
+							<tr>
+								<th>건축시설 제원</th>
+							</tr>
+						</tbody>
+					</table>
+					<table  class="detailPanel"  style="width:100%;">
+						<tr>
+							<th width="12%" height="17" class="required_text">준공일자</th>
+							<td><input type="text" size="15" id="bldDt" class="emdcal" /></td>
+							<th width="12%" height="17" class="required_text">하자만료일자</th>
+							<td><input type="text" size="15" id="flawEndDt" class="emdcal" /></td>
+							<th width="12%" height="17" class="required_text">기초형식</th>
+							<td><input type="text" size="20" id="baseFmt"  data-required="true"/></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">구조형식</th>
+							<td><input type="text" size="20" id="strctFmt" /></td>
+							<th width="12%" height="17" class="required_text">연면적</th>
+							<td><input id="ar" type="text" size="20" title="연면적"  /></td>
+							<th width="12%" height="17" class="required_text">건축면적</th>
+							<td><input id="archAr" type="text" size="20" title="건축면적"  /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">대지면적</th>
+							<td><input type="text" size="20" id="plotAr"  /></td>
+							<th width="12%" height="17" class="required_text">주사용용도</th>
+							<td><input type="text" size="20" id="mainUsagePrpos" /></td>
+							<th width="12%" height="17" class="required_text">주차면적</th>
+							<td><input type="text" size="20" id="prkAr" maxlength="80" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">옥내주차면적</th>
+							<td><input type="text" size="20" id="isdPrkAr" maxlength="80" /></td>
+							<th width="12%" height="17" class="required_text">옥외주차면적</th>
+							<td><input id="osdPrkAr" type="text" size="20" title="옥외주차면적" /></td>
+							<th width="12%" height="17" class="required_text">주차대수</th>
+							<td><input id="prkCnt" type="text" size="20" title="주차대수" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">옥내주차대수</th>
+							<td><input class="text" type="text" size="20" id="iskPrkCnt" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">옥외주차대수</th>
+							<td><input class="text" type="text" size="20" id="osdPrkCnt" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">배기닥트유무</th>
+							<td><input class="text" type="text" size="20" id="exhaustDuctEnnc" maxlength="40" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">환기공조방식</th>
+							<td><input class="text" type="text" size="20" id="vntltnArcndtMthd" maxlength="10" /></td>
+							<th width="12%" height="17" class="required_text">물탱크위치</th>
+							<td><input class="text" type="text" size="20" id="wrtTankLoc" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">변전실위치</th>
+							<td><input class="text" type="text" size="20" id="sbtLoc" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">유류저장시설위치</th>
+							<td><input class="text" type="text" size="20" id="oilSaveFcltyLoc" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">오수정화시설위치</th>
+							<td><input class="text" type="text" size="20" id="swgClupfcltyLoc" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">승강기대수승객용</th>
+							<td><input class="text" type="text" size="20" id="liftCntPsngr" maxlength="40" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">승강기대수화물용</th>
+							<td><input class="text" type="text" size="20" id="liftCntCargo" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">승강기대수비상용</th>
+							<td><input class="text" type="text" size="20" id="liftCntEmgcy" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">승강기운영방식</th>
+							<td><input class="text" type="text" size="20" id="liftOperMthd" maxlength="40" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">냉방유무</th>
+							<td><input class="text" type="text" size="20" id="clngEnnc" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">냉방열원</th>
+							<td><input class="text" type="text" size="20" id="clngSrc" maxlength="40" /></td>
+							<th width="12%" height="17" class="required_text">난방유무</th>
+							<td><input id="htngEnnc" type="text"  size="20" title="난방유무" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">난방열원</th>
+							<td><input  id="htngSrc" type="text"  size="20" title="난방열원" /></td>
+							<th width="12%" height="17" class="required_text">정화조형식</th>
+							<td><input id="spictankFmt" type="text"  size="20" title="정화조형식" /></td>
+							<th width="12%" height="17" class="required_text">전기인입용량</th>
+							<td><input id="elctyLeadInCapa" type="text"  size="20" title="전기인입용량" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">외장</th>
+							<td><input id="fcg" type="text"  size="20" title="외장" /></td>
+							<th width="12%" height="17" class="required_text">내장</th>
+							<td><input id="itr" type="text"  size="20" title="내장" /></td>
+							<th width="12%" height="17" class="required_text">천장</th>
+							<td><input id="ceil" type="text"  size="20" title="천장" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">지붕</th>
+							<td><input id="roof" type="text"  size="20" title="지붕" /></td>
+							<th width="12%" height="17" class="required_text">지붕방수</th>
+							<td><input id="roofWtprf" type="text"  size="20" title="지붕방수" /></td>
+							<th width="12%" height="17" class="required_text">설계공사명</th>
+							<td><input id="planCnstNm" type="text"  size="20" title="설계공사명" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">설계수행회사</th>
+							<td><input id="planExcCmpny" type="text" size="20" title="설계수행회사" /></td>
+							<th width="12%" height="17" class="required_text">설계시작일자</th>
+							<td><input id="planBeginDt" type="text" class="emdcal" size="15" title="설계시작일자" /></td>
+							<th width="12%" height="17" class="required_text">설계종료일자</th>
+							<td><input id="planEndDt" type="text" class="emdcal" size="15" title="설계종료일자" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">시공공사명</th>
+							<td><input id="cnstrctCnstNm" type="text"  size="20" title="시공공사명" /></td>
+							<th width="12%" height="17" class="required_text">시공수행회사</th>
+							<td><input id="cnstrctExcCmpny" type="text" size="20" title="시공수행회사" /></td>
+							<th width="12%" height="17" class="required_text">시공시작일자</th>
+							<td><input id="cnstrctBeginDt" type="text" class="emdcal" size="15" title="시공시작일자" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">시공종료일자</th>
+							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="15" title="시공종료일자" /></td>
+							<th width="12%" height="17" class="required_text">시설물관리번호</th>
+							<td><input id="fcltsMngNo" type="text" size="20" title="시설물관리번호" /></td>
+							<th width="12%" height="17" class="required_text">건축시설물분류코드</th>
+							<td><input id="archFcltsClCd" type="text" size="20" title="건축시설물분류코드" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">비고</th>
+							<td colSpan="5"><input id="rm" type="text" size="124" title="비고" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">위치</th>
+							<td colSpan="5"><input id="loc" type="text" size="124" title="위치" /></td>
+						</tr>
+						
+					</table>
 				</form>
 				<div class="emdControlPanel">
 					<button id="registLocation">위치등록</button>
@@ -926,8 +1032,16 @@ var module_instance = new GamConstFcltySpecMngModule();
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>
+			
+			<!-- 건축시설 층별제원 -->
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+				<table id="fcltyinfo9" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button class="text" id="fcltyinfo9PopupBtn">추가/편집</button>
+				</div>
+			</div>
 
-			<!-- 건축시설 사진 -->
+			<!-- 건축시설 첨부파일 -->
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
@@ -939,14 +1053,19 @@ var module_instance = new GamConstFcltySpecMngModule();
 				<form id="fcltyGisPhotoForm">
 					<table class="searchPanel editForm">
 						<tr>
-							<th width="15%" height="23" class="required_text">사진제목</th>
-							<td><input id="photoSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">촬영일자</th>
-							<td><input id="shotDt" type="text" size="18" class="emdcal photoEditItem"  maxlength="10" readonly="readonly"/></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">사진설명</th>
-							<td colspan="3"><input id="photoDesc" type="text" size="125"  class="photoEditItem" maxlength="100" /></td>
+							<th width="15%" height="23" class="required_text">파일구분</th>
+							<td>
+								<select id="fileDiv">
+									<option value="">선택</option>
+                                    <option value="P">사진</option>
+                                    <option value="D">문서</option>
+                                    <option value="Z">기타</option>
+                                </select>
+							</td>
+							<th width="15%" height="23" class="required_text">파일제목</th>
+							<td><input id="fileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">생성일자</th>
+							<td><input id="createDt" type="text" size="18" class="emdcal photoEditItem"  maxlength="10" readonly="readonly"/></td>
 						</tr>
 					</table>
 				</form>

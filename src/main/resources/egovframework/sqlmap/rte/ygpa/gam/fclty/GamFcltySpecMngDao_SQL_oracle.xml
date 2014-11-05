@@ -6,7 +6,7 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
-    <typeAlias alias="fcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngVO"/>
+    <typeAlias alias="fcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO"/>
 
     <insert id="gamFcltySpecMngDao.insertFclty">
    		<selectKey keyProperty="maxFcltySeq" resultClass="String">
@@ -166,7 +166,7 @@
            	</isNotEmpty>
     </select>
 
-    <select id="gamFcltySpecMngDao.selectFcltySpecMngPhotoList" parameterClass="fcltySpecMngVO" resultClass="egovMap">
+    <select id="gamFcltySpecMngDao.selectFcltySpecMngPhotoList" parameterClass="fcltyManageVO" resultClass="egovMap">
 		SELECT *
 		  FROM
 		       (SELECT Z.*,
@@ -205,7 +205,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt" parameterClass="fcltySpecMngVO" resultClass="int">
+    <select id="gamFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt" parameterClass="fcltyManageVO" resultClass="int">
             SELECT COUNT(*) totcnt
              FROM PRT_FCLTY_PHOTO_F
              WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
