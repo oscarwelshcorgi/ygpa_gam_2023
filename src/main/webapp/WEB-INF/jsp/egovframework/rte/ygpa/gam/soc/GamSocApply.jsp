@@ -121,12 +121,13 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
         			module.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
         			module.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();
         			module.$("#socApplyListTab").tabs("option", {active: 0});
+        			module.$('#cmd').val('modify');
         		}
         		else {
         			alert(result.resultMsg);
+        			module.$('#cmd').val('');
         			module.$('#gamSocApplyDetailForm :input').val('');
         		}
-        		module.$('#cmd').val('modify');
         	});
             break;
         case 'btnNew' : //등록버튼 처리시
@@ -164,7 +165,9 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 	        	this.$('#appAgentCode').val(this.$('#sAppAgentCode').val());
 	        	this.$('#useNo').val(this.$('#sUseNo').val());
         	}	
-        	
+        	if(!validateGamSocApply(this.$('#gamSocApplyDetailForm')[0])){ 		
+        		return;
+        	}        	
         	var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
         	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
         	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
@@ -178,9 +181,8 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
         	if(this.$('#cmd').val() == 'insert') {
 	        	this.doAction('<c:url value="/soc/gamInsertSocApplyDetail.do" />', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
-	        			module.$('#gamSocApplySearchForm :input').val('');
-	            		module.$('#gamSocApplyDetailForm :input').val('');
-	        		}
+	        			module.$('#cmd').val('modify');
+	        		} 
 	        		alert(result.resultMsg);
 	        	});
         	} else if (this.$('#cmd').val() == 'modify') {
@@ -234,8 +236,12 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 				break;
 			}
         	break;
-        case 'popupEntrpsInfo' : //면제요청업체 선택
-			this.doExecuteDialog('selectEntrpsInfo', '면제요청 선택',
+        case 'popupApplyEntrpsInfo' : //면제요청업체 선택
+			this.doExecuteDialog('selectApplyEntrpsInfo', '면제요청업체 선택',
+					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+        	break;
+        case 'popupEntrpsInfo' : //공사업체 선택
+			this.doExecuteDialog('selectEntrpsInfo', '공사업체 선택',
 					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
         	break;
         case 'popupSocApplyInfo' : //면제요청 선택
@@ -253,14 +259,14 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
     			this.doExecuteDialog('selectFacInfo', '시설물 선택',
     					'<c:url value="/popup/showSocFacCd.do"/>', opts);        		
         	} else {
-        		alert("신규나 조회를 선택한 후에 사용하세요.");
+        		alert("등록이나 조회를 선택한 후에 사용하세요.");
         	}
         	break;
         case 'btnRemoveApplyFacilItem' : //시설물 삭제
         	if((this.$('#cmd').val() == 'insert') || (this.$('#cmd').val() == 'modify')) {
         		this.removeApplyFacilItem();
         	} else {
-        		alert("신규나 조회를 선택한 후에 사용하세요.");
+        		alert("등록이나 조회를 선택한 후에 사용하세요.");
         	}
         	break;
         case 'btnAddApplyFeeItem' : //요금 추가
@@ -269,14 +275,14 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
     			this.doExecuteDialog('selectFeeInfo', '요금종류 선택',
     					'<c:url value="/popup/showSocPayCd.do"/>', opts);        		
         	} else {
-        		alert("신규나 조회를 선택한 후에 사용하세요.");
+        		alert("등록이나 조회를 선택한 후에 사용하세요.");
         	}
         	break;
         case 'btnRemoveApplyFeeItem' : //요금 삭제 
         	if((this.$('#cmd').val() == 'insert') || (this.$('#cmd').val() == 'modify')) {
         		this.removeApplyFeeItem();
         	} else {
-        		alert("신규나 조회를 선택한 후에 사용하세요.");
+        		alert("등록이나 조회를 선택한 후에 사용하세요.");
         	}
         	break;
     }
@@ -349,6 +355,10 @@ GamSocApplyModule.prototype.onClosePopup = function(popupId, msg, value) {
 	   	 this.$("#sUseNo").val(value["useNo"]);
 	   	 this.$("#sAppPrtAtCode").val(value["appPrtAtCode"]);
    	 	 break;
+     case 'selectApplyEntrpsInfo' : //공사업체 선택
+    	 this.$("#sAppAgentCode").val(value["agentCode"]);
+     	 this.$("#sAppAgentName").val(value["firmKorNm"]);
+     	 break;
      case 'selectEntrpsInfo' : //공사업체 선택
     	 this.$("#agentCode").val(value["agentCode"]);
      	 this.$("#agentName").val(value["firmKorNm"]);
@@ -427,7 +437,7 @@ var module_instance = new GamSocApplyModule();
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7">
                             	<input id="sAppAgentName" type="text" size="6" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	<button id="popupApplyEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>요청횟수</th>
                             <td>
@@ -578,6 +588,7 @@ var module_instance = new GamSocApplyModule();
 				                            <td style="text-align: right">
 				                                <button id="btnAddApplyFacilItem">추가</button>
 				                                <button id="btnRemoveApplyFacilItem">삭제</button>
+				                                <button id="btnSave">저장</button>
 				                            </td>
 				                        </tr>
 									</table>
@@ -589,6 +600,7 @@ var module_instance = new GamSocApplyModule();
 				                            <td style="text-align: right">
 				                                <button id="btnAddApplyFeeItem">추가</button>
 				                                <button id="btnRemoveApplyFeeItem">삭제</button>
+				                                <button id="btnSave">저장</button>
 				                            </td>
 				                        </tr>
 									</table>

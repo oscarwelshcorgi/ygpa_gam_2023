@@ -26,6 +26,29 @@
                 <arg0 key="요청횟수" resource="false"/>
             </field>
         </form>
+        <form name="gamSocApplyDetailForm">
+            <field property="prtAtCode" depends="required">
+                <arg0 key="공사관리청" resource="false"/>
+            </field>
+            <field property="cmplYr" depends="required">
+                <arg0 key="준공년도" resource="false"/>
+            </field>
+            <field property="constNo" depends="required">
+                <arg0 key="공사일련번호" resource="false"/>
+            </field>
+            <field property="appPrtAtCode" depends="required">
+                <arg0 key="면제요청청" resource="false"/>
+            </field>
+            <field property="appAgentCode" depends="required">
+                <arg0 key="면제요청업체" resource="false"/>
+            </field>
+            <field property="useNo" depends="required">
+                <arg0 key="요청횟수" resource="false"/>
+            </field>
+            <field property="agentCode" depends="required">
+                <arg0 key="공사업체" resource="false"/>
+            </field>        	
+        </form>
     </formset>
 
 </form-validation>
