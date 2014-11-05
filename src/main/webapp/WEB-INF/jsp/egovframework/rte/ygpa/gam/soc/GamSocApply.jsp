@@ -112,23 +112,38 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
         	}
         	opts = this.makeFormArgs('#gamSocApplySearchForm');
         	this.doAction('<c:url value="/soc/gamSelectApplyDetailInquire.do" />', opts, function(module, result) {
+        		var searchOpt = null;
         		if(result.resultCode == 0) {
         			module.$('#gamSocApplyDetailForm :input').val('');
         			module.makeFormValues('#gamSocApplyDetailForm', result.resultVO);
         			
-        			var searchOpt = module.makeFormArgs("#gamSocApplySearchForm");
-        			module.$("#socApplyList").flexOptions({params:searchOpt}).flexReload();
-        			module.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
-        			module.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();
-        			module.$("#socApplyListTab").tabs("option", {active: 0});
+        			searchOpt = module.makeFormArgs("#gamSocApplySearchForm");
         			module.$('#cmd').val('modify');
         		}
         		else {
         			alert(result.resultMsg);
         			module.$('#cmd').val('');
         			module.$('#gamSocApplyDetailForm :input').val('');
+            		searchOpt = [
+     		               { name: 'sPrtAtCode', value: ' '},
+      		               { name: 'sCmplYr', value: ' '},
+      		               { name: 'sConstNo', value: ' '},
+      		               { name: 'sAppPrtAtCode', value: ' '},
+      		               { name: 'sAppAgentCode', value: ' '},
+      		               { name: 'sUseNo', value: ' '},
+     		               { name: 'prtAtCode', value: ' '},
+      		               { name: 'cmplYr', value: ' '},
+      		               { name: 'constNo', value: ' '},
+      		               { name: 'appPrtAtCode', value: ' '},
+      		               { name: 'appAgentCode', value: ' '},
+      		               { name: 'useNo', value: ' '},
+      		           ];
         		}
-        	});
+    			module.$("#socApplyList").flexOptions({params:searchOpt}).flexReload();
+    			module.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
+    			module.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();
+    			module.$("#socApplyListTab").tabs("option", {active: 0});
+    		});
             break;
         case 'btnNew' : //등록버튼 처리시
         	this.$('#gamSocApplySearchForm :input').val('');
