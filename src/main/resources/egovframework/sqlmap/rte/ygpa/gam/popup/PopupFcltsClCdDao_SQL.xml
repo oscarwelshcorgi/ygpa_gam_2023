@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupFcltsClCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsClCdVO"/>
+    
+
+    <select id="gamPopupFcltsClCdDao.selectFcltsClCdList" parameterClass="gamPopupFcltsClCdVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT
+							    F.FCLTS_CL_CD
+							    , F.FCLTS_CL_CD_NM
+							    , F.FCLTS_CL_UPPER_CD
+							    , F.DEPTH_SORT
+							    , F.LEAF_YN
+							FROM
+							    FCLTS_CL_CD_F F
+							WHERE
+							    F.LEAF_YN = 'Y'
+							    <isNotEmpty property="sFcltsClCdChar">
+							    	AND F.FCLTS_CL_CD LIKE #sFcltsClCdChar# || '%'
+							    </isNotEmpty>
+							    <isNotEmpty property="sFcltsClCd">
+							    	AND F.FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
+							    </isNotEmpty>
+							    <isNotEmpty property="sFcltsClCdNm">
+							    	AND F.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+							    </isNotEmpty>                                                  
+                ) S	
+                ORDER BY PRT_AT_CODE, FEE_TP
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt" parameterClass="gamPopupFcltsClCdVO" resultClass="int">
+			SELECT
+			    COUNT(*) CNT
+			FROM
+			    FCLTS_CL_CD_F F
+			WHERE
+			    F.LEAF_YN = 'Y'
+				<isNotEmpty property="sFcltsClCdChar">
+			    	AND F.FCLTS_CL_CD LIKE #sFcltsClCdChar# || '%'
+			    </isNotEmpty>
+			    <isNotEmpty property="sFcltsClCd">
+			    	AND F.FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
+			    </isNotEmpty>
+			    <isNotEmpty property="sFcltsClCdNm">
+			    	AND F.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+			    </isNotEmpty>                                                  
+    </select>
+</sqlMap>
