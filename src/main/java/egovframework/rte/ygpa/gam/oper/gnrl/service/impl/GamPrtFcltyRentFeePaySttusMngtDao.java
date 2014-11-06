@@ -103,10 +103,6 @@ public class GamPrtFcltyRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return this.merge(mergeMap, "gamPrtFcltyRentFeePaySttusMngtDao.insertAssetPhoto_S", "gamPrtFcltyRentFeePaySttusMngtDao.updateAssetPhoto_S", "gamPrtFcltyRentFeePaySttusMngtDao.deleteAssetPhoto_S");
 	}
 
-	public int updatePrtFcltyRentFeePaySttusMngtList() throws Exception {
-		return update("gamPrtFcltyRentFeePaySttusMngtDao.updatePrtFcltyRentFeePaySttusMngtList", null);
-	}
-
 	/**
 	 * 연체 등록
 	 * @param map

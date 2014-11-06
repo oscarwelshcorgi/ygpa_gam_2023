@@ -903,6 +903,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			vo.put("arrrgTariff", null);
 			vo.put("dlyBillDt", null);
 			vo.put("dlyDueDt", map.get("prvDueDt"));
+			vo.put("firstBillDt", map.get("prvBillDt"));
 			gamNticRequestMngtDAO.updateLevReqestUnarrrgAmt(vo);	// 연체를 취소한다.
 		}
 		else {
@@ -922,4 +923,11 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		}
 	}
 
+
+	public int updateRentFeePaySttusMngtList() throws Exception {
+		int ret=0;
+		ret = gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList();
+		ret += gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList();
+		return ret;
+	}
 }

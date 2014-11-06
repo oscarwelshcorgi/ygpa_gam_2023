@@ -6,8 +6,8 @@
 	<!-- 포트미스 납부확인 작업 정의  -->
 	<bean id="updateAssetRentFeePayDtlsMngt"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="gamAssetRentFeePayDtlsMngtService" />
-		<property name="targetMethod" value="updateAssetRentFeePayDtlsMngtList" />
+		<property name="targetObject" ref="gamNticRequestMngtService" />
+		<property name="targetMethod" value="updateRentFeePaySttusMngtList" />
 		<property name="concurrent" value="false" />
 	</bean>
 

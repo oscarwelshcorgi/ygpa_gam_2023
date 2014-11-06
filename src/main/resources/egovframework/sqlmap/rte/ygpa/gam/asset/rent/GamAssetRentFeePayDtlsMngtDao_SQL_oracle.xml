@@ -666,31 +666,6 @@
        	]]>
 	</update>
 
-
-	<update id="gamAssetRentFeePayDtlsMngtDao.updateAssetRentFeePayDtlsMngtList">
-       	<![CDATA[
-			UPDATE LEV_REQEST_F L
-			SET RCIV_DT=(SELECT RCVD_DT FROM REV_COLL_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
-			  AND L.CHRGE_KND    =R.WORK_CODE
-			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
-			  AND L.NTICNO       =R.BILL_NO),
-			  RCIV_SE  =(SELECT RCVD_TP FROM REV_COLL_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
-			  AND L.CHRGE_KND    =R.WORK_CODE
-			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
-			  AND L.NTICNO       =R.BILL_NO)
-			WHERE EXISTS
-			  (SELECT 1
-			  FROM REV_COLL_F R
-			  WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
-			  AND L.CHRGE_KND    =R.WORK_CODE
-			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
-			  AND L.NTICNO       =R.BILL_NO
-			  AND L.NHT_ISUE_YN  ='Y'
-			  AND L.RCIV_SE NOT LIKE '3'
-			  )
-       	]]>
-	</update>
-
     <insert id="gamAssetRentFeePayDtlsMngtDao.insertUnpaidArrrg_S" parameterClass="hashMap">
 
     </insert>

@@ -136,14 +136,6 @@ public class GamCmmnCntrRentFeePaySttusMngtServiceImpl  extends AbstractServiceI
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamCmmnCntrRentFeePayDtlsMngtService#updateCmmnCntrRentFeePayDtlsMngtList()
-	 */
-	@Override
-	public int updateCmmnCntrRentFeePayDtlsMngtList() throws Exception {
-		return gamCmmnCntrRentFeePaySttusMngtDao.updateCmmnCntrRentFeePayDtlsMngtList();
-	}
-
-	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamCmmnCntrRentFeePayDtlsMngtService#selectCmmnCntrRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamCmmnCntrRentFeePaySttusMngtVO)
 	 */
 	@Override
@@ -180,7 +172,7 @@ public class GamCmmnCntrRentFeePaySttusMngtServiceImpl  extends AbstractServiceI
 		return gamCmmnCntrRentFeePaySttusMngtDao.selectNticArrrgDetail(searchVO);
 	}
 
-	
+
 	/* (non-Javadoc)change**
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
@@ -188,8 +180,8 @@ public class GamCmmnCntrRentFeePaySttusMngtServiceImpl  extends AbstractServiceI
 	public List selectCmmnCntrRentFeePaySttusMngtDlyList(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtDlyList(searchVO);
 	}
-	
-	
+
+
 	/**change**
 	 * 항만시설연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -199,7 +191,7 @@ public class GamCmmnCntrRentFeePaySttusMngtServiceImpl  extends AbstractServiceI
     public int selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt(searchVO);
 	}
-    
+
 	/* (non-Javadoc)change**
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
@@ -207,5 +199,5 @@ public class GamCmmnCntrRentFeePaySttusMngtServiceImpl  extends AbstractServiceI
 	public EgovMap selectCmmnCntrRentFeePaySttusMngtDlyListSum(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamCmmnCntrRentFeePaySttusMngtDao.selectCmmnCntrRentFeePaySttusMngtDlyListSum(searchVO);
 	}
-	
+
 }

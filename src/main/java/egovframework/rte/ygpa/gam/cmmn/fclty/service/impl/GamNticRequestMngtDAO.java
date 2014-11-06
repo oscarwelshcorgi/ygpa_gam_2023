@@ -265,4 +265,13 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	public void deleteUnpaidByPk(Map<String, Object> vo) throws Exception {
 		delete("gamNticRequestMngtDAO.deleteUnpaidByPk", vo);
 	}
+
+	public int updateAssetRentFeePayDtlsMngtList() throws Exception {
+        return update("gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList", null);
+	}
+
+	public int updateAssetRentFeePayDtlsMngtArrrgList() throws Exception {
+        return update("gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList", null);
+	}
+
 }

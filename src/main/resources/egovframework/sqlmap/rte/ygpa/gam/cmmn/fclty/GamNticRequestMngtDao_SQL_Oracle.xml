@@ -153,17 +153,17 @@
       FIRST_BILL_DT, DBILL_AMNT,
       BZ_RGST_ID, DLY_BILL_RSN,UPDT_UID,UPDT_DATE, AGENT_CODE,
       ACCNT_CODE,ICHE_STATUS,POST_BILL_YN,STR_DATE,END_DATE,
-      DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT
+      DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT, USER_NAME, PRV_BILL_DT
       )
       SELECT
               L.PRT_AT_CODE, GAM_GET_FEE_TP(L.CHRGE_KND), L.CHRGE_KND, L.ACCNUT_YEAR,
      	L.NTICNO, #dlySerNo#,
       	#dlyBillAmnt#, TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD') PAY_TMLMT, null, 'N', '1',
-      	L.NTIC_DT, #dBillAmnt#,
+      	#firstBillDt#, #dBillAmnt#,
       	GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
       	#dlyBillRsn#,
       	#updUsr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N','','',
-      	#deptCd#, #emplNo#, L.PAY_TMLMT, TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1)
+      	#deptCd#, #emplNo#, L.PAY_TMLMT, TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1),       #userName#, L.NTIC_DT
       FROM LEV_REQEST_F L
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
@@ -236,6 +236,7 @@
 
     <update id="gamNticRequestMngtDAO.updateLevReqestArrrgAmt" parameterClass="hashMap">
         UPDATE LEV_REQEST_F SET
+        	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
         	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		ARRRG_NO=#dlySerNo#,
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
@@ -263,6 +264,7 @@
       		ARRRG_AMT='',
       		ARRRG_TARIFF='',
       		ARRRG_PAY_DATES=0,
+      		NTIC_DT=#prvBillDt#,
       		NTIC_AMT=FEE+NVL(VAT,0)+NVL(REIM_FEE,0),
       		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
@@ -713,7 +715,7 @@
 
 	<select id="gamNticRequestMngtDAO.selectPortmisMagamInfo" parameterClass="map" resultClass="egovMap">
 	            SELECT NVL(a.magam_check,'N') magam_check
-	              FROM payeosu.rev_coll_magam_f@ygpa_portmis a
+	              FROM p2mgr.rev_coll_magam_f@ygpa_portmis a
 	             WHERE a.prt_at_code = #prtAtCode#
 	               AND a.magam_yr    = SUBSTR(#magamCheckDt#,1,4)
 	               AND a.magam_mm    = SUBSTR(#magamCheckDt#,5,2)
@@ -742,6 +744,7 @@
                AND L.PRT_AT_CODE=U.PRT_AT_CODE
 				AND U.FEE_TP      = GAM_GET_FEE_TP(L.CHRGE_KND)
 				AND U.WORK_CODE   = L.CHRGE_KND
+				AND L.NTICNO=U.BILL_NO
     </select>
 
     <select id="gamNticRequestMngtDAO.selectUnpaidMaxSerNo" parameterClass="map" resultClass="java.lang.String">
@@ -773,7 +776,10 @@
 			  U.FISCAL_YR,
 			  U.BILL_NO,
 			  U.DLY_SER_NO,
-			  TO_CHAR(U.PRV_DUE_DT, 'YYYY-MM-DD') PRV_DUE_DT
+			  U.FIRST_BILL_DT,
+			  TO_CHAR(U.PRV_DUE_DT, 'YYYY-MM-DD') PRV_DUE_DT,
+			  TO_CHAR(U.PRV_BILL_DT, 'YYYY-MM-DD') PRV_BILL_DT,
+			  TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') FIRST_BILL_DT
 			FROM LEV_REQEST_F L, UNPAID_F U
              WHERE L.prt_at_code = #prtAtCode#
                AND L.MNG_YEAR = #mngYear#
@@ -815,6 +821,55 @@
       	AND DLY_SER_NO=#dlySerNo#
 
     </delete>
+
+    <update id="gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList">
+       	<![CDATA[
+			UPDATE LEV_REQEST_F L
+			SET RCIV_DT=(SELECT RCVD_DT FROM REV_COLL_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  AND L.CHRGE_KND    =R.WORK_CODE
+			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
+			  AND L.NTICNO       =R.BILL_NO),
+			  RCIV_SE  =(SELECT RCVD_TP FROM REV_COLL_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  AND L.CHRGE_KND    =R.WORK_CODE
+			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
+			  AND L.NTICNO       =R.BILL_NO)
+			WHERE EXISTS
+			  (SELECT 1
+			  FROM REV_COLL_F R
+			  WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  AND L.CHRGE_KND    =R.WORK_CODE
+			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
+			  AND L.NTICNO       =R.BILL_NO
+			  AND L.NHT_ISUE_YN  ='Y'
+			  AND L.RCIV_SE='0'
+			  )
+       	]]>
+	</update>
+
+	<update id="gamNticRequestMngtDAO.updateHtldRentFeePaySttusMngtArrrgList">
+       	<![CDATA[
+			UPDATE LEV_REQEST_F L
+			SET RCIV_DT=(SELECT DLY_RCVD_DT FROM UNPAID_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  AND L.CHRGE_KND    =R.WORK_CODE
+			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
+			  AND L.NTICNO       =R.BILL_NO),
+			  RCIV_SE  =(SELECT DLY_RCVD_TP FROM UNPAID_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  AND L.CHRGE_KND    =R.WORK_CODE
+			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
+			  AND L.NTICNO       =R.BILL_NO)
+			WHERE EXISTS
+			  (SELECT 1
+			  FROM UNPAID_F R
+			  WHERE L.PRT_AT_CODE=R.PRT_AT_CODE
+			  AND L.CHRGE_KND    =R.WORK_CODE
+			  AND L.ACCNUT_YEAR  =R.FISCAL_YR
+			  AND L.NTICNO       =R.BILL_NO
+			  AND L.NHT_ISUE_YN  ='Y'
+			  AND L.RCIV_SE='1'
+			  )
+       	]]>
+	</update>
+
 
 </sqlMap>
 

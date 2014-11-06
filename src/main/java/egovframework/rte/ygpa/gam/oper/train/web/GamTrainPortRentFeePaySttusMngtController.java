@@ -250,7 +250,7 @@ public class GamTrainPortRentFeePaySttusMngtController {
 
 //	    		paramMap.put("updUsr", loginVo.getId());
 
-	    		int result=gamTrainPortRentFeePaySttusMngtService.updateTrainPortRentFeePayDtlsMngtList();
+	    		int result=gamNticRequestMngtService.updateRentFeePaySttusMngtList();
 
 		        resultCode = 0;
 		 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.

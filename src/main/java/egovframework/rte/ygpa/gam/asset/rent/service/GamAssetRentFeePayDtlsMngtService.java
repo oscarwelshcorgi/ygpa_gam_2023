@@ -76,12 +76,6 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 */
     GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
-    /**
-     * 납부현황을 업데이트 한다.
-     * @throws Exception
-     */
-    int updateAssetRentFeePayDtlsMngtList() throws Exception;
-
 	/**
 	 * 연체 세입 목록을 조회한다.
 	 * @param searchVO
@@ -121,8 +115,8 @@ public interface GamAssetRentFeePayDtlsMngtService {
      * @throws Exception
      */
     List selectAssetRentFeePayDtlsMngtDlyList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-    
-    
+
+
     /** change**
 	 * 항만시설 연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -130,8 +124,8 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @exception
 	 */
     int selectAssetRentFeePayDtlsMngtDlyListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-	
-	
+
+
 	/** change**
 	 * 연체 내역을 조회한다.
 	 * @param searchVO
@@ -139,5 +133,5 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-	
+
 }

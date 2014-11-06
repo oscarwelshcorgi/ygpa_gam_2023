@@ -257,7 +257,7 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 
 //    		paramMap.put("updUsr", loginVo.getId());
 
-    		int result=gamPrtFcltyRentFeePaySttusMngtService.updatePrtFcltyRentFeePaySttusMngtList();
+    		int result=gamNticRequestMngtService.updateRentFeePaySttusMngtList();;
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
@@ -429,6 +429,7 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 		nticVo.put("updUsr",loginVO.getId());
 		nticVo.put("deptCd",loginVO.getDeptCd());
 		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
 
 		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
 
@@ -465,6 +466,7 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 		nticVo.put("updUsr",loginVO.getId());
 		nticVo.put("deptCd",loginVO.getDeptCd());
 		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
 
 		gamNticRequestMngtService.cancelUnpaidRequest(nticVo);
 

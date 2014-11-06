@@ -766,12 +766,12 @@
 			    || SUBSTR(A.FEE_TP,2,1)
 			    || A.ACCNUT_YEAR
 			    || A.NTICNO
-			    || '0','BILLNO') CSTMR_REF_CODE,
+			    || NVL(A.ARRRG_NO, '0'),'BILLNO') CSTMR_REF_CODE,
 			    (SELECT DECODE(A.PRT_AT_CODE, '620', '1', '621', '2', '3')
 			      || FEE_TP_MAP
 			      || SUBSTR(A.ACCNUT_YEAR, 3,2)
 			      || A.NTICNO
-			      || '00'
+			      || NVL(A.ARRRG_NO, '00')
 			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
 			    AND FEE_TP        = GAM_GET_FEE_TP(A.CHRGE_KND)

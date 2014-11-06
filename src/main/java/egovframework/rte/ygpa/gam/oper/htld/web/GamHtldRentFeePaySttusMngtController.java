@@ -257,7 +257,7 @@ public class GamHtldRentFeePaySttusMngtController {
 
 //    		paramMap.put("updUsr", loginVo.getId());
 
-    		int result=gamHtldRentFeePaySttusMngtService.updateHtldRentFeePaySttusMngtList();
+    		int result=gamNticRequestMngtService.updateRentFeePaySttusMngtList();
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.

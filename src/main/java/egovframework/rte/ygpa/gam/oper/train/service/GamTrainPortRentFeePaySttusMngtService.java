@@ -16,11 +16,11 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttus
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
-public interface GamTrainPortRentFeePaySttusMngtService { 
-	
+public interface GamTrainPortRentFeePaySttusMngtService {
+
     /**
 	 * 자산임대료납부관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -79,12 +79,6 @@ public interface GamTrainPortRentFeePaySttusMngtService {
 	 */
     GamTrainPortRentFeePaySttusMngtVO selectTrainPortRentFeePayDtlsMngtSum(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception;
 
-    /**
-     * 납부현황을 업데이트 한다.
-     * @throws Exception
-     */
-    int updateTrainPortRentFeePayDtlsMngtList() throws Exception;
-
 	/**
 	 * 연체 세입 목록을 조회한다.
 	 * @param searchVO
@@ -123,8 +117,8 @@ public interface GamTrainPortRentFeePaySttusMngtService {
     * @throws Exception
     */
    List selectTrainPortRentFeePaySttusMngtDlyList(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception;
-   
-   
+
+
    /** change**
 	 * 항만시설 연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -132,8 +126,8 @@ public interface GamTrainPortRentFeePaySttusMngtService {
 	 * @exception
 	 */
    int selectTrainPortRentFeePaySttusMngtDlyListTotCnt(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception;
-	
-	
+
+
 	/** change**
 	 * 연체 내역을 조회한다.
 	 * @param searchVO

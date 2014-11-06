@@ -16,11 +16,11 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMn
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
-public interface GamCntnrQuayRentFeePaySttusMngtService { 
-	
+public interface GamCntnrQuayRentFeePaySttusMngtService {
+
 	/**
 	 * 컨테이너부두임대납부현황관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -28,7 +28,7 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @exception Exception
 	 */
     List selectCntnrQuayRentFeePaySttusMngtList(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-    
+
     /**
 	 * 컨테이너부두임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -36,7 +36,7 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @exception
 	 */
     int selectCntnrQuayRentFeePaySttusMngtListTotCnt(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-    
+
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -44,12 +44,12 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @exception Exception
 	 */
     GamCntnrQuayRentFeePaySttusMngtVO selectCntnrQuayRentFeePaySttusSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /**
 	 * 고지금액합계, 수납금액합계
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -57,8 +57,8 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @exception Exception
 	 */
     GamCntnrQuayRentFeePaySttusMngtVO selectCntnrQuayRentFeePaySttusMngtSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-    
-    
+
+
     /**
 	 * 자산임대 상세 마스터 내역을 조회한다.
 	 * @param searchVO
@@ -83,15 +83,6 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectCntnrQuayRentFeePaySttusMngtDetailSumPk(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-
-    
-
-
-    /**
-     * 납부현황을 업데이트 한다.
-     * @throws Exception
-     */
-    int updateCntnrQuayRentFeePaySttusMngtList() throws Exception;
 
 	/**
 	 * 연체 세입 목록을 조회한다.
@@ -124,9 +115,9 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
-	
-	
-	
+
+
+
 	/** change**
      * 납부관리 연체 내역을 조회한다.
      * @param searchVO
@@ -134,8 +125,8 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
      * @throws Exception
      */
     List selectCntnrQuayRentFeePaySttusMngtDlyList(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-    
-    
+
+
     /** change**
 	 * 항만시설 연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -143,8 +134,8 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @exception
 	 */
     int selectCntnrQuayRentFeePaySttusMngtDlyListTotCnt(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-	
-	
+
+
 	/** change**
 	 * 연체 내역을 조회한다.
 	 * @param searchVO
@@ -152,5 +143,5 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectCntnrQuayRentFeePaySttusMngtDlyListSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception;
-    
+
 }

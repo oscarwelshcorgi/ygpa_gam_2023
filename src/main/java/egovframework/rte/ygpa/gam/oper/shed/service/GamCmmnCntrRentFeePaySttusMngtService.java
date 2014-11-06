@@ -14,12 +14,12 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
-public interface GamCmmnCntrRentFeePaySttusMngtService { 
-	
-	
+public interface GamCmmnCntrRentFeePaySttusMngtService {
+
+
     /**
 	 * 자산임대료납부관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -78,12 +78,6 @@ public interface GamCmmnCntrRentFeePaySttusMngtService {
 	 */
     GamCmmnCntrRentFeePaySttusMngtVO selectCmmnCntrRentFeePayDtlsMngtSum(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception;
 
-    /**
-     * 납부현황을 업데이트 한다.
-     * @throws Exception
-     */
-    int updateCmmnCntrRentFeePayDtlsMngtList() throws Exception;
-
 	/**
 	 * 연체 세입 목록을 조회한다.
 	 * @param searchVO
@@ -123,8 +117,8 @@ public interface GamCmmnCntrRentFeePaySttusMngtService {
     * @throws Exception
     */
    List selectCmmnCntrRentFeePaySttusMngtDlyList(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception;
-   
-   
+
+
    /** change**
 	 * 항만시설 연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -132,8 +126,8 @@ public interface GamCmmnCntrRentFeePaySttusMngtService {
 	 * @exception
 	 */
    int selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception;
-	
-	
+
+
 	/** change**
 	 * 연체 내역을 조회한다.
 	 * @param searchVO
@@ -141,5 +135,5 @@ public interface GamCmmnCntrRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectCmmnCntrRentFeePaySttusMngtDlyListSum(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception;
-	
+
 }

@@ -143,14 +143,6 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#updateAssetRentFeePayDtlsMngtList()
-	 */
-	@Override
-	public int updateAssetRentFeePayDtlsMngtList() throws Exception {
-		return gamAssetRentFeePayDtlsMngtDao.updateAssetRentFeePayDtlsMngtList();
-	}
-
-	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
@@ -191,8 +183,8 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	public List selectAssetRentFeePayDtlsMngtDlyList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyList(searchVO);
 	}
-	
-	
+
+
 	/**change**
 	 * 항만시설연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -202,7 +194,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
     public int selectAssetRentFeePayDtlsMngtDlyListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListTotCnt(searchVO);
 	}
-    
+
 	/* (non-Javadoc)change**
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
@@ -210,5 +202,5 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	public EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListSum(searchVO);
 	}
-	
+
 }

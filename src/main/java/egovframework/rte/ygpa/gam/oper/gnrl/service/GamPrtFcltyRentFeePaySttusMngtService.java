@@ -81,15 +81,6 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 */
 	EgovMap selectPrtFcltyRentFeePaySttusMngtDetailSumPk(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
 
-
-
-
-    /**
-     * 납부현황을 업데이트 한다.
-     * @throws Exception
-     */
-    int updatePrtFcltyRentFeePaySttusMngtList() throws Exception;
-
 	/**
 	 * 연체 세입 목록을 조회한다.
 	 * @param searchVO

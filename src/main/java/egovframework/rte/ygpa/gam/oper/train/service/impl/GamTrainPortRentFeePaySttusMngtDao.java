@@ -19,7 +19,7 @@ import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttus
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Repository("gamTrainPortRentFeePaySttusMngtDao")
@@ -96,10 +96,6 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return this.merge(mergeMap, "gamTrainPortRentFeePaySttusMngtDao.insertAssetPhoto_S", "gamTrainPortRentFeePaySttusMngtDao.updateAssetPhoto_S", "gamTrainPortRentFeePaySttusMngtDao.deleteAssetPhoto_S");
 	}
 
-	public int updateTrainPortRentFeePayDtlsMngtList() throws Exception {
-		return update("gamTrainPortRentFeePaySttusMngtDao.updateTrainPortRentFeePayDtlsMngtList", null);
-	}
-
 	/**
 	 * 연체 등록
 	 * @param map
@@ -108,12 +104,12 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	public void updateRevArrrgAnlrveBndeRcvdTp(Map map) throws Exception {
 		this.update("gamTrainPortRentFeePaySttusMngtDao.updateRevArrrgAnlrveBndeRcvdTp", map);
 	}
-	
+
 	public List selectTrainPortRentFeePaySttusMngtDlyList(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception {
         return list("gamTrainPortRentFeePaySttusMngtDao.selectTrainPortRentFeePaySttusMngtDlyList_D", searchVO);
     }
-	
-	
+
+
 	/** change**
 	 * 항만시설납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -123,10 +119,10 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     public int selectTrainPortRentFeePaySttusMngtDlyListTotCnt(GamTrainPortRentFeePaySttusMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamTrainPortRentFeePaySttusMngtDao.selectTrainPortRentFeePaySttusMngtDlyListTotCnt_S", searchVO);
     }
-    
+
     /** change** */
     public EgovMap selectTrainPortRentFeePaySttusMngtDlyListSum(GamTrainPortRentFeePaySttusMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamTrainPortRentFeePaySttusMngtDao.selectTrainPortRentFeePaySttusMngtDlyListSum_D", searchVO);
     }
-	
+
 }

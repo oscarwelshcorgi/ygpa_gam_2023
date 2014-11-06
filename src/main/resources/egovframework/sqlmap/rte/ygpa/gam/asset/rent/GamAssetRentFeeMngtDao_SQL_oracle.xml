@@ -744,12 +744,12 @@
 			    || SUBSTR(A.CHRGE_KND,2,1)
 			    || A.ACCNUT_YEAR
 			    || A.NTICNO
-			    || '0','BILLNO') CSTMR_REF_CODE,
+			    || NVL(A.ARRRG_NO, '0'),'BILLNO') CSTMR_REF_CODE,
 			    (SELECT DECODE(A.PRT_AT_CODE, '620', '1', '621', '2', '3')
 			      || FEE_TP_MAP
 			      || SUBSTR(A.ACCNUT_YEAR, 3,2)
 			      || A.NTICNO
-			      || '00'
+			      || NVL(A.ARRRG_NO, '00')
 			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
 			    AND FEE_TP        = A.CHRGE_KND
@@ -805,7 +805,8 @@
 			      MAX(S.GR_AR) GR_AR,
 			      MAX(S.GR_USAGE_PD_FROM) GR_USAGE_PD_FROM,
 			      MAX(S.GR_USAGE_PD_TO) GR_USAGE_PD_TO,
-			      MAX(S.PRMISN_DT) PRMISN_DT
+			      MAX(S.PRMISN_DT) PRMISN_DT,
+			      MAX(S.ARRRG_NO) ARRRG_NO
 			    FROM
 			      (SELECT L.NTIC_CNT ,
 			        L.FCLTY_SE ,

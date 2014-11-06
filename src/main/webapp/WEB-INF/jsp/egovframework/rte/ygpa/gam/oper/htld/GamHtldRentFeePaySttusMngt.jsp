@@ -216,6 +216,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 
 	var row=rows[0];
 
+	if(!confirm('이 건에 대해 연체 고지를 하시겠습니까?')) return;
+
 	var arrrgRate=this.$('#arrrgRate').val();
 	var dlyBillAmnt=this.$('#arrrgAmt').number(true).val();
 	var dlyBillDt=this.$('#dlyBillDt').val();
@@ -407,8 +409,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.calcDlyDueDate = function() {
 	var billAmnt = this.resultArrrg.billAmnt;
 	if(strDbDlyDueDt==null || strDbDlyDueDt=="") {
 		dlyDueDt = new Date(dlyBillDt);
-		dlyDueDt.setDate(dlyDueDt.getDate()+15);	// 납부기한을 15일로 지정 한다.
+		dlyDueDt.setDate(dlyDueDt.getDate()+14);	// 납부기한을 15일로 지정 한다.
 
+		/*
 		if(billAmnt>=1000000) {	// 100만원 이상이고 납부 기한이 납부월을 초과하면 납부월이 초과 되지 않게 납부기한을 조정한다.
 			var tempBillDt = new Date(dlyBillDt);
 			tempBillDt.setDate(tempBillDt.getDate()+1);
@@ -421,10 +424,11 @@ GamHtldRentFeePaySttusMngtModule.prototype.calcDlyDueDate = function() {
 				dlyDueDt.setDate(revDueDt.getDate()-1);	// 전달 마지막 일
 			}
 		}
+		*/
 	}
 	else {
 		dbDlyDueDt = EMD.util.strToDate(strDbDlyDueDt);	// 이미 저장된 납부 기한이 있다.
-
+/*
 		if(billAmnt>=1000000) {	// 100만원 이상이고 납부 기한이 납부월을 초과하면 납부월이 초과 되지 않게 납부기한을 체크 한다.
 			var tempBillDt = new Date(dlyBillDt);
 			tempBillDt.setDate(tempBillDt.getDate()+1);
@@ -439,6 +443,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.calcDlyDueDate = function() {
 				alert('저장된 납부기한이 지정된 납부개월을 초과 합니다. (요율에 따라 연체 금액이 변동 될 수 있습니다.)');
 			}
 		}
+		*/
 	}
 	this.$('#dlyDueDt').val(EMD.util.getDate(dlyDueDt));
 };

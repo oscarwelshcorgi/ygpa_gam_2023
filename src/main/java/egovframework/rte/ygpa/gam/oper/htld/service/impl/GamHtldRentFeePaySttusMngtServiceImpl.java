@@ -137,15 +137,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#updateHtldRentFeePaySttusMngtList()
-	 */
-	@Override
-	public int updateHtldRentFeePaySttusMngtList() throws Exception {
-		gamHtldRentFeePaySttusMngtDao.updateHtldRentFeePaySttusMngtList();
-		return 0;
-	}
-
-	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
