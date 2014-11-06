@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,14 +28,13 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngService;
-import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngService;
 
 /**
  *
- * @author kok
- * @since 2014. 2. 3.
+ * @author HNJ
+ * @since 2014. 11. 6.
  * @version 1.0
  * @see
  * <pre>
@@ -44,21 +42,21 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupEntrpsInfoVO;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 2. 3.		kok		최초 생성
+ *  2014. 11. 6.	HNJ		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 
 @Controller
-public class GamFcltySpecMngController {
+public class GamConsFcltySpecMngController {
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
 
-	@Resource(name = "gamFcltySpecMngService")
-	protected GamFcltySpecMngService gamFcltySpecMngService;
+	@Resource(name = "gamConsFcltySpecMngService")
+	protected GamConsFcltySpecMngService gamConsFcltySpecMngService;
 
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -80,7 +78,7 @@ public class GamFcltySpecMngController {
 	@RequestMapping(value="/fclty/gamConstFcltySpecMng.do")
     String indexConstFcltySpecMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fclty/GamConstFcltySpecMng";
+    	return "/ygpa/gam/fclty/GamConsFcltySpecMng";
     }
 
 
@@ -106,7 +104,7 @@ public class GamFcltySpecMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamConstFcltySpecMngList.do")
-	@ResponseBody Map<String, Object> selectFcltySpecMngList(GamFcltyManageVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltySpecMngList(GamConsFcltySpecMngVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -130,8 +128,8 @@ public class GamFcltySpecMngController {
 
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
-		List<ComDefaultVO> fcltyMngtList = gamFcltySpecMngService.selectFcltySpecMngList(searchVO);
-        int totCnt = gamFcltySpecMngService.selectFcltySpecMngListTotCnt(searchVO);
+		List<ComDefaultVO> fcltyMngtList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
+        int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -152,7 +150,7 @@ public class GamFcltySpecMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamConstFcltySpecPhotoList.do")
-	@ResponseBody Map<String, Object> selectFcltySpecMngPhotoList(GamFcltyManageVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -177,8 +175,8 @@ public class GamFcltySpecMngController {
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 
-		List<ComDefaultVO> fcltyMngtPhotoList = gamFcltySpecMngService.selectFcltySpecMngPhotoList(searchVO);
-		int totCnt = gamFcltySpecMngService.selectFcltySpecMngPhotoListTotCnt(searchVO);
+		List<ComDefaultVO> fcltyMngtPhotoList = gamConsFcltySpecMngService.selectFcltySpecMngPhotoList(searchVO);
+		int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngPhotoListTotCnt(searchVO);
 
 		paginationInfo.setTotalRecordCount(totCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -218,7 +216,7 @@ public class GamFcltySpecMngController {
     	fcltyItem.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamFcltySpecMngService.insertFclty(fcltyItem);
+    		gamConsFcltySpecMngService.insertFclty(fcltyItem);
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -243,7 +241,9 @@ public class GamFcltySpecMngController {
     @ResponseBody Map<String, Object> fcltyMngSelectView(@RequestParam Map fcltyManageVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	String fcltsMngNo;
     	EgovMap result=null;
+    	EgovMap specResult=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -253,7 +253,10 @@ public class GamFcltySpecMngController {
     	}
 
     	try {
-        	result = gamFcltySpecMngService.fcltyMngSelectView(fcltyManageVO);
+        	result = gamConsFcltySpecMngService.fcltyMngSelectView(fcltyManageVO);
+        	fcltsMngNo = (String) result.get("fcltsMngNo");
+        	
+//        	specResult = gamConsFcltySpecMngService.fcltySpecMngSelectView(fcltsMngNo);
     	}
     	catch(Exception e) {
             map.put("resultCode", 2);
@@ -293,7 +296,7 @@ public class GamFcltySpecMngController {
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamFcltySpecMngService.updateFclty(fcltyMngtList);
+    		gamConsFcltySpecMngService.updateFclty(fcltyMngtList);
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
@@ -328,7 +331,7 @@ public class GamFcltySpecMngController {
     	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamFcltySpecMngService.deleteFclty(fcltyManageVO);
+    		gamConsFcltySpecMngService.deleteFclty(fcltyManageVO);
 
             map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -387,7 +390,7 @@ public class GamFcltySpecMngController {
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
 
-		gamFcltySpecMngService.mergeFcltyPhotoMngt(mergeMap, this.prtFcltySe);
+		gamConsFcltySpecMngService.mergeFcltyPhotoMngt(mergeMap, this.prtFcltySe);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));

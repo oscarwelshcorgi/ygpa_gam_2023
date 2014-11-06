@@ -3,11 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -28,11 +26,11 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
  * </pre>
  */
 
-public interface GamFcltySpecMngService {
+public interface GamConsFcltySpecMngService {
 
 	/**
 	 * 메뉴 정보를 등록
-	 * @param vo GamFcltyManageVO
+	 * @param vo GamConsFcltySpecMngVO
 	 * @exception Exception
 	 */
 //	void insertFcltyManage(Map fcltyMngtList) throws Exception;
@@ -44,7 +42,7 @@ public interface GamFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltySpecMngList(GamFcltyManageVO vo) throws Exception;
+	List selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -53,7 +51,7 @@ public interface GamFcltySpecMngService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltySpecMngListTotCnt(GamFcltyManageVO vo) throws Exception;
+	int selectFcltySpecMngListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -62,7 +60,7 @@ public interface GamFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltySpecMngPhotoList(GamFcltyManageVO vo) throws Exception;
+	List selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -71,7 +69,7 @@ public interface GamFcltySpecMngService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltySpecMngPhotoListTotCnt(GamFcltyManageVO vo) throws Exception;
+	int selectFcltySpecMngPhotoListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -86,10 +84,10 @@ public interface GamFcltySpecMngService {
 	/**
 	 * 시설관리 상세화면
 	 * @param emplyrId
-	 * @return GamFcltyManageVO
+	 * @return GamConsFcltySpecMngVO
 	 * @throws Exception
 	 */
-	public EgovMap fcltyMngSelectView(Map fcltyManageVO) throws Exception;
+	public EgovMap fcltyMngSelectView(Map vo) throws Exception;
 
 	// 시설관리 저장
 	public String insertFclty(Map form) throws Exception;

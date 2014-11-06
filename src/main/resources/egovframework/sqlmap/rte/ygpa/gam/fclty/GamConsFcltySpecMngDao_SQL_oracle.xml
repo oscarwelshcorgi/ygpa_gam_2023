@@ -6,9 +6,9 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
-    <typeAlias alias="fcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO"/>
+    <typeAlias alias="gamConsFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO"/>
 
-    <insert id="gamFcltySpecMngDao.insertFclty">
+    <insert id="gamConsFcltySpecMngDao.insertFclty">
    		<selectKey keyProperty="maxFcltySeq" resultClass="String">
 	       	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0')
 				FROM GIS_PRT_FCLTY_CD_F
@@ -64,7 +64,7 @@
 		]]>
 	</insert>
 
-    <select id="gamFcltySpecMngDao.selectFcltySpecMngList" parameterClass="comDefaultVO" resultClass="egovMap">
+    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngList" parameterClass="comDefaultVO" resultClass="egovMap">
          /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.selectList */
 		SELECT *
 		  FROM
@@ -138,7 +138,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltySpecMngDao.selectFcltySpecMngListTotCnt" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt" parameterClass="comDefaultVO" resultClass="int">
             SELECT COUNT(*) totcnt
              FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
              WHERE 1 = 1
@@ -166,7 +166,7 @@
            	</isNotEmpty>
     </select>
 
-    <select id="gamFcltySpecMngDao.selectFcltySpecMngPhotoList" parameterClass="fcltyManageVO" resultClass="egovMap">
+    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngPhotoList" parameterClass="gamConsFcltySpecMngVO" resultClass="egovMap">
 		SELECT *
 		  FROM
 		       (SELECT Z.*,
@@ -205,7 +205,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt" parameterClass="fcltyManageVO" resultClass="int">
+    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt" parameterClass="gamConsFcltySpecMngVO" resultClass="int">
             SELECT COUNT(*) totcnt
              FROM PRT_FCLTY_PHOTO_F
              WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
@@ -216,12 +216,12 @@
            	 AND PRT_FCLTY_SE = #prtFcltySe#
     </select>
 
-    <select id="gamFcltySpecMngDao.insertFcltyGetSeq" resultClass="String">
+    <select id="gamConsFcltySpecMngDao.insertFcltyGetSeq" resultClass="String">
     	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0') GIS_PRT_FCLTY_SEQ
   			FROM GIS_PRT_FCLTY_CD_F
     </select>
 
-	<select id="gamFcltySpecMngDao.fcltyMngSelectView" resultClass="egovMap" parameterClass="hashMap" >
+	<select id="gamConsFcltySpecMngDao.fcltyMngSelectView" resultClass="egovMap" parameterClass="hashMap" >
 	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.select */
 		SELECT C.GIS_ASSETS_CD,
 		       C.GIS_ASSETS_PRT_AT_CODE ,
@@ -253,8 +253,9 @@
 		       C.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR,
 		       GAM_GETCODENAME('GAM002', P.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM,
 		       GAM_GETCODENAME('GAM058', C.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM ,
-		       C.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER ,
-		       C.INFO INFO
+		       C.PRT_PRT_FCLTY_MNGER,
+		       C.INFO,
+		       C.FCLTS_MNG_NO
 		  FROM GIS_PRT_FCLTY_CD_F C,
 		       GIS_ASSETS_CD_F P
 		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
@@ -267,7 +268,7 @@
 		       AND C.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
   	</select>
 
-  	<insert id="gamFcltySpecMngDao.insertFcltyFile">
+  	<insert id="gamConsFcltySpecMngDao.insertFcltyFile">
   		<selectKey keyProperty="maxFcltyFileSeq" resultClass="String">
 	       	SELECT LPAD(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1,'2','0')
 			  FROM PRT_FCLTY_PHOTO_F
@@ -317,7 +318,7 @@
         ]]>
     </insert>
 
-  	<update id="gamFcltySpecMngDao.updateFclty">
+  	<update id="gamConsFcltySpecMngDao.updateFclty">
         <![CDATA[
             UPDATE GIS_PRT_FCLTY_CD_F
             SET
@@ -371,7 +372,7 @@
         ]]>
     </update>
 
-  	<delete id="gamFcltySpecMngDao.deleteFcltyFile">
+  	<delete id="gamConsFcltySpecMngDao.deleteFcltyFile">
         <![CDATA[
             DELETE
 			  FROM PRT_FCLTY_PHOTO_F
@@ -387,7 +388,7 @@
 	    </isNotEmpty>
     </delete>
 
-  	<update id="gamFcltySpecMngDao.updateFcltyFile">
+  	<update id="gamConsFcltySpecMngDao.updateFcltyFile">
         <![CDATA[
             UPDATE PRT_FCLTY_PHOTO_F
 			       SET PHOTO_SJ = #photoSj#,
@@ -429,7 +430,7 @@
     </update>
 
 
-    <delete id="gamFcltySpecMngDao.deleteFclty">
+    <delete id="gamConsFcltySpecMngDao.deleteFclty">
         <![CDATA[
 			DELETE
 			  	FROM GIS_PRT_FCLTY_CD_F
@@ -442,7 +443,7 @@
         ]]>
     </delete>
 
-      <select id="gamFcltySpecMngDao.selectFcltyPhotoMaxSeq" resultClass="Integer">
+      <select id="gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq" resultClass="Integer">
     	SELECT LPAD(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1,'2','0') PRT_FCLTY_PHOTO_SEQ
   			FROM PRT_FCLTY_PHOTO_F
     </select>

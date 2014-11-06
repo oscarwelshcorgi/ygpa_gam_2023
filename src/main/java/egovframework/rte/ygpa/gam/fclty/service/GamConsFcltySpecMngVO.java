@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * Class Name : GamFcltySpecMngVO.java
+ * Class Name : GamConsFcltySpecMngVO.java
  * @author HNJ
  * @since 2014. 11. 4.
  * @version 1.0
@@ -22,11 +22,11 @@ import egovframework.com.cmm.ComDefaultVO;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamFcltySpecMngVO extends ComDefaultVO{
+public class GamConsFcltySpecMngVO extends ComDefaultVO{
 
 	private static final long serialVersionUID = 1L;
 
-    /** GIS 항만 시설 코드 */
+	/** GIS 항만 시설 코드 */
     private String gisPrtFcltyCd;
 
 	/** GIS 항만 시설 순번 */

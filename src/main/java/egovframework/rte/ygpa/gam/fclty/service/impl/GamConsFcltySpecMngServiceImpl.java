@@ -12,14 +12,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngService;
+import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngService;
 
 /**
  *
@@ -38,41 +35,41 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngService;
  * </pre>
  */
 
-@Service("gamFcltySpecMngService")
-public class GamFcltySpecMngServiceImpl extends AbstractServiceImpl implements GamFcltySpecMngService{
+@Service("gamConsFcltySpecMngService")
+public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implements GamConsFcltySpecMngService{
 
-	@Resource(name="gamFcltySpecMngDao")
-    private GamFcltySpecMngDao gamFcltySpecMngDao;
+	@Resource(name="gamConsFcltySpecMngDao")
+    private GamConsFcltySpecMngDao gamConsFcltySpecMngDao;
 
 	/**
 	 * 시설관리 목록
 	 */
-	public List selectFcltySpecMngList(GamFcltyManageVO vo) throws Exception {
-   		return (List)gamFcltySpecMngDao.selectFcltySpecMngList(vo);
+	public List selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception {
+   		return (List)gamConsFcltySpecMngDao.selectFcltySpecMngList(vo);
 	}
 
 
 	/**
 	 * 시설관리 총 수
 	 */
-	public int selectFcltySpecMngListTotCnt(GamFcltyManageVO vo) throws Exception {
-		return gamFcltySpecMngDao.selectFcltySpecMngListTotCnt(vo);
+	public int selectFcltySpecMngListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+		return gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt(vo);
     }
 
 
 	/**
 	 * 시설관리 파일 목록
 	 */
-	public List<ComDefaultVO> selectFcltySpecMngPhotoList(GamFcltyManageVO vo) throws Exception {
-		return (List<ComDefaultVO>)gamFcltySpecMngDao.selectFcltySpecMngPhotoList(vo);
+	public List<ComDefaultVO> selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO vo) throws Exception {
+		return (List<ComDefaultVO>)gamConsFcltySpecMngDao.selectFcltySpecMngPhotoList(vo);
 	}
 
 
 	/**
 	 * 시설관리 파일 총 수
 	 */
-	public int selectFcltySpecMngPhotoListTotCnt(GamFcltyManageVO vo) throws Exception {
-		return gamFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt(vo);
+	public int selectFcltySpecMngPhotoListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+		return gamConsFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt(vo);
 	}
 
 
@@ -80,23 +77,23 @@ public class GamFcltySpecMngServiceImpl extends AbstractServiceImpl implements G
 	 * 시설관리 시퀀스
 	 */
 	public String insertFcltyGetSeq() throws Exception {
-		return gamFcltySpecMngDao.insertFcltyGetSeq();
+		return gamConsFcltySpecMngDao.insertFcltyGetSeq();
 	}
 
 
 	// 시설관리 저장
 	public String insertFclty(Map form) throws Exception{
-		return gamFcltySpecMngDao.insertFclty(form);
+		return gamConsFcltySpecMngDao.insertFclty(form);
 	}
 
 	// 시설관리 수정
 	public void updateFclty(Map form) throws Exception{
-		gamFcltySpecMngDao.updateFclty(form);
+		gamConsFcltySpecMngDao.updateFclty(form);
 	}
 
 	// 시설 정보 삭제
 	public void deleteFclty(Map vo) throws Exception{
-		gamFcltySpecMngDao.deleteFclty(vo);
+		gamConsFcltySpecMngDao.deleteFclty(vo);
 	}
 
 	// 시설 파일 삭제
@@ -106,7 +103,7 @@ public class GamFcltySpecMngServiceImpl extends AbstractServiceImpl implements G
         Map result;
         Integer photoSeq=0;
 
-		if(hmCU.length>0) photoSeq=gamFcltySpecMngDao.selectFcltyPhotoMaxSeq(hmCU[0]);
+		if(hmCU.length>0) photoSeq=gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq(hmCU[0]);
         //수정처리 & 입력처리
         for (int i=0; i<hmCU.length; i++) {
         	if ("I".equals(hmCU[i].get("_updtId"))) {
@@ -121,7 +118,7 @@ public class GamFcltySpecMngServiceImpl extends AbstractServiceImpl implements G
             }
         }
 
-		return gamFcltySpecMngDao.mergeFcltyPhoto(mergeMap);
+		return gamConsFcltySpecMngDao.mergeFcltyPhoto(mergeMap);
 		}
 
 	/* (non-Javadoc)
@@ -130,7 +127,7 @@ public class GamFcltySpecMngServiceImpl extends AbstractServiceImpl implements G
 	@Override
 	public EgovMap fcltyMngSelectView(Map vo)
 			throws Exception {
-		return gamFcltySpecMngDao.fcltyMngSelectView(vo);
+		return gamConsFcltySpecMngDao.fcltyMngSelectView(vo);
 	}
 
 }

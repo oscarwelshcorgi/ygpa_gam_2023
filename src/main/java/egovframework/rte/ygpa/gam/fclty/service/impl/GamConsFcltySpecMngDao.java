@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Repository;
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
+
 
 /**
  *
@@ -31,15 +31,15 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO;
  * </pre>
  */
 
-@Repository("gamFcltySpecMngDao")
-public class GamFcltySpecMngDao extends YGPAAbstractDAO{
+@Repository("gamConsFcltySpecMngDao")
+public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 
 	/**
 	 * 시설관리 저장
 	 * @param fcltyMngtList
 	 */
 	public String insertFclty(Map form){
-		insert("gamFcltySpecMngDao.insertFclty", form);
+		insert("gamConsFcltySpecMngDao.insertFclty", form);
 
 		return (String)form.get("maxFcltySeq");
 	}
@@ -50,7 +50,7 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
 	 * @param fcltyMngtList
 	 */
 	public void insertFcltyFile(Map fileList){
-		insert("gamFcltySpecMngDao.insertFcltyFile", fileList);
+		insert("gamConsFcltySpecMngDao.insertFcltyFile", fileList);
 	}
 
 
@@ -59,7 +59,7 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      */
     public void updateFclty(Map form){
-        update("gamFcltySpecMngDao.updateFclty",form);
+        update("gamConsFcltySpecMngDao.updateFclty",form);
     }
 
 
@@ -68,7 +68,7 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      */
     public void updateFcltyFile(Map fileList){
-    	update("gamFcltySpecMngDao.updateFcltyFile",fileList);
+    	update("gamConsFcltySpecMngDao.updateFcltyFile",fileList);
     }
 
 
@@ -77,7 +77,7 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      */
     public void deleteFcltyFile(Map fileList){
-    	update("gamFcltySpecMngDao.deleteFcltyFile",fileList);
+    	update("gamConsFcltySpecMngDao.deleteFcltyFile",fileList);
     }
 
 
@@ -88,8 +88,8 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
 	 * @exception Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ComDefaultVO> selectFcltySpecMngList(GamFcltyManageVO vo) throws Exception{
-		return list("gamFcltySpecMngDao.selectFcltySpecMngList", vo);
+	public List<ComDefaultVO> selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception{
+		return list("gamConsFcltySpecMngDao.selectFcltySpecMngList", vo);
 	}
 
 
@@ -99,8 +99,8 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
 	 * @return int
 	 * @exception Exception
 	 */
-    public int selectFcltySpecMngListTotCnt(GamFcltyManageVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltySpecMngDao.selectFcltySpecMngListTotCnt", vo);
+    public int selectFcltySpecMngListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt", vo);
     }
 
 
@@ -111,8 +111,8 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @exception Exception
      */
     @SuppressWarnings("unchecked")
-    public List<ComDefaultVO> selectFcltySpecMngPhotoList(GamFcltyManageVO vo) throws Exception{
-    	return list("gamFcltySpecMngDao.selectFcltySpecMngPhotoList", vo);
+    public List<ComDefaultVO> selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO vo) throws Exception{
+    	return list("gamConsFcltySpecMngDao.selectFcltySpecMngPhotoList", vo);
     }
 
 
@@ -122,8 +122,8 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @return int
      * @exception Exception
      */
-    public int selectFcltySpecMngPhotoListTotCnt(GamFcltyManageVO vo) throws Exception {
-    	return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt", vo);
+    public int selectFcltySpecMngPhotoListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt", vo);
     }
 
 
@@ -133,7 +133,7 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @exception Exception
      */
     public String insertFcltyGetSeq() throws Exception {
-    	return (String)getSqlMapClientTemplate().queryForObject("gamFcltySpecMngDao.insertFcltyGetSeq");
+    	return (String)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.insertFcltyGetSeq");
     }
 
 
@@ -143,7 +143,7 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @return GamFcltyManageVO
      */
     public EgovMap fcltyMngSelectView(Map vo) throws Exception{
-        return (EgovMap) selectByPk("gamFcltySpecMngDao.fcltyMngSelectView", vo);
+        return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltyMngSelectView", vo);
     }
 
 
@@ -152,15 +152,15 @@ public class GamFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      */
     public void deleteFclty(Map vo) throws Exception{
-    	delete("gamFcltySpecMngDao.deleteFclty", vo);
+    	delete("gamConsFcltySpecMngDao.deleteFclty", vo);
     }
 
     public List mergeFcltyPhoto(Map vo) throws Exception{
-		return this.merge(vo, "gamFcltySpecMngDao.insertFcltyFile", "gamFcltySpecMngDao.updateFcltyFile", "gamFcltySpecMngDao.deleteFcltyFile");
+		return this.merge(vo, "gamConsFcltySpecMngDao.insertFcltyFile", "gamConsFcltySpecMngDao.updateFcltyFile", "gamConsFcltySpecMngDao.deleteFcltyFile");
     }
 
     public Integer selectFcltyPhotoMaxSeq(Map vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltySpecMngDao.selectFcltyPhotoMaxSeq", vo);
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq", vo);
     }
 
 }

@@ -14,7 +14,7 @@
   *  -------    --------    ---------------------------
   *  2014.11.4  	HNJ          최초 생성
   *
-  * author kok
+  * author HNJ
   * since 2014.11.4
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
@@ -524,58 +524,7 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 	case "tabs2":
 		if(this._cmd!="insert") {
 			var row = this.$('#constFcltySpecMngList').selectedRows();
-			if(row.length <= 0) {
-		 		this.clearCodePage();
-				this.$("#prtFcltySeNm").hide();
-		 		if(this._params.action!=null || this._params.action=='prtConstFcltySpecMng') {
-		 			var prtFclty = [
-		 			                { name: 'gisAssetsPrtAtCode', value: this._params.gisPrtAtCode },
-		 			                { name: 'gisAssetsCd', value: this._params.gisAssetsCd },
-		 			                { name: 'gisAssetsSubCd', value: this._params.gisAssetsSubCd },
-		 			                { name: 'gisPrtFcltyCd', value: this._params.gisPrtFcltyCd },
-		 			                { name: 'gisPrtFcltySeq', value: this._params.gisPrtFcltySeq },
-		 			                { name: 'prtFcltySe', value: this._params.prtFcltySe }
-		 			              ];
-		 	     	 	this.doAction('<c:url value="/fclty/gamConstFcltySpecDetail.do" />', prtFclty, function(module, result) {
-		 	     	 		if(result.resultCode == "0"){
-		 	     	 			module.clearCodePage();
-		 	     	 			module._fcltyItem=result.result;
-		 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
-		 	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
-			                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
-			                    module.$('#fcltyinfo9').flexEmptyData();
-/*
-		 	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
-		 	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
-		 	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
- */
-		 	     	 			var data=result.result.info.split('||');
-		 	     	 			module.$('#info1').val(data[1]);
-		 	     	 			module.$('#info2').val(data[2]);
-		 	     	 			module.$('#info3').val(data[3]);
-		 	     	 			module.$('#info4').val(data[4]);
-		 	     	 			module.$('#info5').val(data[5]);
-		 	     	 			module.$('#info6').val(data[6]);
-		 	     	 			module.$('#info7').val(data[7]);
-		 	     	 			module.$('#info8').val(data[8]);
-		 	     	 			module.$('#info9').val(data[9]);
-		 	     	 			module.$('#info10').val(data[10]);
-		 	     	 			module.$('#info11').val(data[11]);
-		 	     	 			module.$('#info12').val(data[12]);
-		 	     	 			module.$('#info13').val(data[13]);
-		 	     	 			module.$('#info14').val(data[14]);
-		 	     	 			module.$('#info15').val(data[15]);
-		 	     	 			module.$('#info16').val(data[16]);
-		 	     	 			module.$("#fcltyinfo9").flexAddData({resultList: JSON.parse(data[17])});
-
-		 	     	 		}
-		 	     	 		else {
-		 	     	 			alert(result.resultMsg);
-		 	     	 		}
-		 	     	 	});
-	 	     	 	}
-				return;
-			}
+		
 			row=row[0];
 			var prtFclty = [
 			                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
@@ -594,11 +543,7 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
  	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
 	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 	                    module.$('#fcltyinfo9').flexEmptyData();
-/*
- 	     	 			module.$('#beforeGisAssetsPrtAtCode').val(module._fcltyItem.gisAssetsPrtAtCode);
- 	     	 			module.$('#beforeGisAssetsCd').val(module._fcltyItem.gisAssetsCd);
- 	     	 			module.$('#beforeGisAssetsSubCd').val(module._fcltyItem.gisAssetsSubCd);
- */
+
  	     	 			var data=result.result.info.split('||');
  	     	 			module.$('#info1').val(data[1]);
  	     	 			module.$('#info2').val(data[2]);
@@ -787,27 +732,27 @@ var module_instance = new GamConstFcltySpecMngModule();
 				<form id="fcltyManageVO">
 				<input type="hidden" id="beforeGisPrtFcltyCd">
           		<input type="hidden" id="beforeGisPrtFcltySeq">
-<!-- 				<input id="beforeGisAssetsPrtAtCode" type="hidden" /> -->
-<!-- 				<input id="beforeGisAssetsCd" type="hidden" /> -->
-<!-- 				<input id="beforeGisAssetsSubCd" type="hidden" /> -->
+          		<input type="hidden" id="fcltsMngNo">
+
 				<div style="margin-bottom:10px;">
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-								<th>건축시설 일반</th>
+								<th width="70%">건축시설 일반</th>
+								<th>시설물관리번호 : <span id="fcltsMngNo"></span></th>
 							</tr>
 						</tbody>
 					</table>
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
-							<td><input type="text" size="23" id="gisAssetsPrtAtCodeStr" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">항코드명</th>
-							<td><input type="text" size="23" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
+							<td><input type="text" size="23" id="gisAssetsNm" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
-								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>&nbsp;-&nbsp;
-								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>&nbsp;-&nbsp;
+								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
+								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>-
 								<input type="text" size="2" id="gisAssetsPrtAtCode" disabled="disabled"/>
 								<button id="gisCodePopupBtn" class="popupButton">선택</button>
 							</td>
@@ -847,33 +792,33 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">지번</th>
-							<td><input class="text" type="text" size="26" id="info2" maxlength="10" /></td>
+							<td><input class="text" type="text" size="25" id="info2" maxlength="10" /></td>
 							<th width="12%" height="17" class="required_text">대지면적</th>
-							<td><input class="text" type="text" size="26" id="info4" maxlength="10" /></td>
+							<td><input class="text" type="text" size="25" id="info4" maxlength="10" /></td>
 							<th width="12%" height="17" class="required_text">명칭 및 번호</th>
 							<td><input class="text" type="text" size="32" id="info3" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">연면적</th>
-							<td><input class="text" type="text" size="26" id="info5" maxlength="40" /></td>
+							<td><input class="text" type="text" size="25" id="info5" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">건축면적</th>
-							<td><input class="text" type="text" size="26" id="info6" maxlength="10" /></td>
+							<td><input class="text" type="text" size="25" id="info6" maxlength="10" /></td>
 							<th width="12%" height="17" class="required_text">층수</th>
 							<td><input class="text" type="text" size="32" id="info9" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">주구조</th>
-							<td><input class="text" type="text" size="26" id="info7" maxlength="40" /></td>
+							<td><input class="text" type="text" size="25" id="info7" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">건축주</th>
-							<td><input class="text" type="text" size="26" id="info10" maxlength="40" /></td>
+							<td><input class="text" type="text" size="25" id="info10" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">주용도</th>
 							<td><input class="text" type="text" size="32" id="info8" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설계자</th>
-							<td><input class="text" type="text" size="26" id="info11" maxlength="40" /></td>
+							<td><input class="text" type="text" size="25" id="info11" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">공사감리자</th>
-							<td><input class="text" type="text" size="26" id="info12" maxlength="40" /></td>
+							<td><input class="text" type="text" size="25" id="info12" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">공사시공자</th>
 							<td><input class="text" type="text" size="32" id="info13" maxlength="40" /></td>
 						</tr>
