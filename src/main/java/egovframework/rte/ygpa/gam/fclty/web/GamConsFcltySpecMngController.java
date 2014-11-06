@@ -255,8 +255,9 @@ public class GamConsFcltySpecMngController {
     	try {
         	result = gamConsFcltySpecMngService.fcltyMngSelectView(fcltyManageVO);
         	fcltsMngNo = (String) result.get("fcltsMngNo");
+        	fcltyManageVO.put("fcltsMngNo", fcltsMngNo);
         	
-//        	specResult = gamConsFcltySpecMngService.fcltySpecMngSelectView(fcltsMngNo);
+        	specResult = gamConsFcltySpecMngService.fcltySpecMngSelectView(fcltyManageVO);
     	}
     	catch(Exception e) {
             map.put("resultCode", 2);
@@ -266,6 +267,7 @@ public class GamConsFcltySpecMngController {
 
         map.put("resultCode", 0);
         map.put("result", result);
+        map.put("specResult", specResult);
 
         return map;
     }
@@ -397,6 +399,53 @@ public class GamConsFcltySpecMngController {
 
 		return map;
 	}
+	
+	/**
+	 * 건축시설 파일 목록
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamFcltyinfo9.do")
+	@ResponseBody Map<String, Object> selectFcltyinfo9List(GamConsFcltySpecMngVO searchVO)throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		// 내역 조회
+		/** pageing */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		/** List Data */
+		searchVO.setPrtFcltySe(prtFcltySe);
+
+		List<ComDefaultVO> fcltyinfo9List = gamConsFcltySpecMngService.selectFcltyinfo9List(searchVO);
+		int totCnt = gamConsFcltySpecMngService.selectFcltyinfo9ListTotCnt(searchVO);
+
+		paginationInfo.setTotalRecordCount(totCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+		map.put("totalCount", totCnt);
+		map.put("resultList", fcltyinfo9List);
+		map.put("searchOption", searchVO);
+
+		return map;
+	}
+	
 
 	/**
      * /건축물현황/층수 추가편집 팝업

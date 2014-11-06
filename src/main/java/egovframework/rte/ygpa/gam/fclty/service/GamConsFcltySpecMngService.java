@@ -88,6 +88,15 @@ public interface GamConsFcltySpecMngService {
 	 * @throws Exception
 	 */
 	public EgovMap fcltyMngSelectView(Map vo) throws Exception;
+	
+	/**
+	 * 시설관리 상세화면(제원)
+	 * @param emplyrId
+	 * @return GamConsFcltySpecMngVO
+	 * @throws Exception
+	 */
+	public EgovMap fcltySpecMngSelectView(Map vo) throws Exception;
+	
 
 	// 시설관리 저장
 	public String insertFclty(Map form) throws Exception;
@@ -100,4 +109,22 @@ public interface GamConsFcltySpecMngService {
 
 	// 시설 파일 저장
 	public List mergeFcltyPhotoMngt(Map mergeList, String prtFcltySe) throws Exception;
+	
+	
+	/**
+	 * 제원관리 층수 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectFcltyinfo9List(GamConsFcltySpecMngVO vo) throws Exception;
+
+
+	/**
+	 * 제원관리 층수 목록 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
 }

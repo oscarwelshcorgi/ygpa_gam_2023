@@ -145,6 +145,15 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
     public EgovMap fcltyMngSelectView(Map vo) throws Exception{
         return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltyMngSelectView", vo);
     }
+    
+    /**
+     * 시설관리 상세화면(제원)
+     * @param vo
+     * @return GamFcltyManageVO
+     */
+    public EgovMap fcltySpecMngSelectView(Map vo) throws Exception{
+        return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltySpecMngSelectView", vo);
+    }
 
 
     /**
@@ -161,6 +170,29 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 
     public Integer selectFcltyPhotoMaxSeq(Map vo) throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq", vo);
+    }
+    
+    
+    
+    /**
+	 * 제원관리 층수 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public List selectFcltyinfo9List(GamConsFcltySpecMngVO vo) throws Exception{
+		return list("gamConsFcltySpecMngDao.selectFcltyinfo9List", vo);
+	}
+
+
+	/**
+	 * 제원관리 층수 목록 총 수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyinfo9ListTotCnt", vo);
     }
 
 }

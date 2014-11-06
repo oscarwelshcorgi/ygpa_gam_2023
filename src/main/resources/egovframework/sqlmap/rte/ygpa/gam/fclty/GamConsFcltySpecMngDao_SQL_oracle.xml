@@ -267,6 +267,66 @@
 		       AND C.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		       AND C.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
   	</select>
+  	
+  	<select id="gamConsFcltySpecMngDao.fcltySpecMngSelectView" resultClass="egovMap" parameterClass="hashMap" >
+
+		SELECT 
+				BLD_DT
+				, FLAW_END_DT
+				, BASE_FMT
+				, STRCT_FMT
+				, AR
+				, ARCH_AR
+				, PLOT_AR
+				, MAIN_USAGE_PRPOS
+				, PRK_AR
+				, ISD_PRK_AR
+				, OSD_PRK_AR
+				, PRK_CNT
+				, ISD_PRK_CNT
+				, OSD_PRK_CNT
+				, EXHAUST_DUCT_ENNC
+				, VNTLTN_ARCNDT_MTHD
+				, WRT_TANK_LOC
+				, SBT_LOC
+				, OIL_SAVEFCLTY_LOC
+				, SWG_CLUPFCLTY_LOC
+				, LIFT_CNT_PSNGR
+				, LIFT_CNT_CARGO
+				, LIFT_CNT_EMGCY
+				, LIFT_OPER_MTHD
+				, CLNG_ENNC
+				, CLNG_SRC
+				, HTNG_ENNC
+				, HTNG_SRC
+				, SPICTANK_FMT
+				, ELCTY_LEAD_IN_CAPA
+				, FCG
+				, ITR
+				, CEIL
+				, ROOF
+				, ROOF_WTPRF
+				, PLAN_CNST_NM
+				, PLAN_EXC_CMPNY
+				, PLAN_BEGIN_DT
+				, PLAN_END_DT
+				, CNSTRCT_CNST_NM
+				, CNSTRCT_EXC_CMPNY
+				, CNSTRCT_BEGIN_DT
+				, CNSTRCT_END_DT
+				, RM
+				, REG_USR
+				, REGIST_DT
+				, UPD_USR
+				, UPDT_DT
+				, FCLTS_MNG_NO
+				, LOC
+				, ARCH_FCLTS_CL_CD
+		  FROM 
+		  		ARCH_FCLTY_SPEC_F
+		 WHERE 
+		       FCLTS_MNG_NO = #fcltsMngNo#
+  	</select>
 
   	<insert id="gamConsFcltySpecMngDao.insertFcltyFile">
   		<selectKey keyProperty="maxFcltyFileSeq" resultClass="String">
@@ -446,6 +506,45 @@
       <select id="gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq" resultClass="Integer">
     	SELECT LPAD(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1,'2','0') PRT_FCLTY_PHOTO_SEQ
   			FROM PRT_FCLTY_PHOTO_F
+    </select>
+    
+    
+    <select id="gamConsFcltySpecMngDao.selectFcltyinfo9List" parameterClass="gamConsFcltySpecMngVO" resultClass="egovMap">
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (SELECT 
+		              		BOUND
+		              		, STRY_SE
+		              		, AR
+		              		, WALL_FNSH
+		              		, FLR_FNSH
+		              		, CEIL
+		              		, USAGE_PRPOS
+		              		, RM
+		              		, REG_USR
+		              		, TO_CHAR(REGIST_DT,'YYYY-MM-DD') AS REGIST_DT
+		              		, UPD_USR
+		              		, FCLTS_MNG_NO
+		              		, TO_CHAR(UPDT_DT,'YYYY-MM-DD') AS UPDT_DT
+		                FROM 
+		                	ARCH_FCLTY_FLOOR_SPEC_F
+		                WHERE 
+		                	FCLTS_MNG_NO = #fcltsMngNo#
+		              )Z
+		       )
+	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamConsFcltySpecMngDao.selectFcltyinfo9ListTotCnt" parameterClass="gamConsFcltySpecMngVO" resultClass="int">
+            SELECT 
+            	COUNT(*) totcnt
+             FROM 
+             	ARCH_FCLTY_FLOOR_SPEC_F
+             WHERE 
+             	FCLTS_MNG_NO = #fcltsMngNo#
     </select>
 
 </sqlMap>

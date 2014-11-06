@@ -57,19 +57,21 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltyinfo9").flexigrid({
 		module: this,
-		url: '',
+		url: '<c:url value="/fclty/gamFcltyinfo9.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"순번",		name:"rnum",	width:60,		sortable:false,		align:"center"},
-					{display:"구분",		name:"no1",	width:140,		sortable:false,		align:"center"},
-					{display:"층별",		name:"no2",	width:100,		sortable:false,		align:"center"},
-					{display:"구조",		name:"no3",	width:140,		sortable:false,		align:"center"},
-					{display:"용도",		name:"no4",	width:200,		sortable:false,		align:"center"},
-					{display:"면적",		name:"no5",	width:140,		sortable:false,		align:"center"}
+					{display:"구역",			name:"bound",			width:60,		sortable:false,		align:"center"},
+					{display:"층구분",		name:"strySe",			width:60,		sortable:false,		align:"center"},
+					{display:"면적",			name:"ar",				width:80,		sortable:false,		align:"center"},
+					{display:"벽마감재",		name:"wallFnsh",		width:140,		sortable:false,		align:"center"},
+					{display:"바닥마감재",		name:"flrFnsh",			width:140,		sortable:false,		align:"center"},
+					{display:"천장",			name:"ceil",			width:140,		sortable:false,		align:"center"},
+					{display:"사용용도",		name:"usagePrpos",		width:140,		sortable:false,		align:"center"},
+					{display:"비고",			name:"rm",				width:140,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
-	this.$("#fcltyinfo9").flexOptions({params:null}).flexReload();
+//	this.$("#fcltyinfo9").flexOptions({params:null}).flexReload();
 // 	this.$("#constFcltySpecMngList").flexReload();
 	this._fcltyItem = null;
 
@@ -539,39 +541,37 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
 	     	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	     	 			module.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
 
  	     	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
 	                    module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
-	                    module.$('#fcltyinfo9').flexEmptyData();
-
- 	     	 			var data=result.result.info.split('||');
- 	     	 			module.$('#info1').val(data[1]);
- 	     	 			module.$('#info2').val(data[2]);
- 	     	 			module.$('#info3').val(data[3]);
- 	     	 			module.$('#info4').val(data[4]);
- 	     	 			module.$('#info5').val(data[5]);
- 	     	 			module.$('#info6').val(data[6]);
- 	     	 			module.$('#info7').val(data[7]);
- 	     	 			module.$('#info8').val(data[8]);
- 	     	 			module.$('#info9').val(data[9]);
- 	     	 			module.$('#info10').val(data[10]);
- 	     	 			module.$('#info11').val(data[11]);
- 	     	 			module.$('#info12').val(data[12]);
- 	     	 			module.$('#info13').val(data[13]);
- 	     	 			module.$('#info14').val(data[14]);
- 	     	 			module.$('#info15').val(data[15]);
- 	     	 			module.$('#info16').val(data[16]);
- 	     	 			module.$("#fcltyinfo9").flexAddData({resultList: JSON.parse(data[17])});
 	     	 		}
 	     	 		else {
 	     	 			alert(result.resultMsg);
 	     	 		}
 	     	 	});
+	     	 	
+	     	 	this.$('#fcltyPhotoList').flexOptions({params:prtFclty}).flexReload();
 		}
 		else if(this._cmd=="insert") {
 	 			this.clearCodePage();
 		}
 		break;
+		
+		
+	case "tabs3":
+
+		var row = this.$('#constFcltySpecMngList').selectedRows();
+		
+		row=row[0];
+		var prtFclty = [
+		                { name: 'fcltsMngNo', value: row['fcltsMngNo'] }
+		              ];
+	     	 	
+	    this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
+
+		break;
+		
 	case "tabs4":
 		this._deleteDataFileList=[];
 		if(this._cmd!="insert") {
@@ -739,7 +739,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 						<tbody>
 							<tr>
 								<th width="70%">건축시설 일반</th>
-								<th>시설물관리번호 : <span id="fcltsMngNo"></span></th>
+								<th>시설물관리번호 : <span id="titleFcltsMngNo"></span></th>
 							</tr>
 						</tbody>
 					</table>
@@ -748,7 +748,10 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">항코드</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
-							<td><input type="text" size="23" id="gisAssetsNm" disabled="disabled"/></td>
+							<td>
+								<input type="text" size="7" id="fcltsMngGroupNo" disabled="disabled"/>
+								<button id="fcltyCodePopupBtn" class="popupButton">선택</button>
+							</td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
 								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-

@@ -25,6 +25,9 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamConsFcltySpecMngVO extends ComDefaultVO{
 
 	private static final long serialVersionUID = 1L;
+	
+	/** 시설물관리번호 */
+    private String fcltsMngNo;
 
 	/** GIS 항만 시설 코드 */
     private String gisPrtFcltyCd;
@@ -122,6 +125,20 @@ public class GamConsFcltySpecMngVO extends ComDefaultVO{
 
 
     /**
+	 * @return the fcltsMngNo
+	 */
+	public String getFcltsMngNo() {
+		return fcltsMngNo;
+	}
+
+	/**
+	 * @param fcltsMngNo the fcltsMngNo to set
+	 */
+	public void setFcltsMngNo(String fcltsMngNo) {
+		this.fcltsMngNo = fcltsMngNo;
+	}
+
+	/**
 	 * @return the gisPrtFcltyCdSub
 	 */
 	public String getGisPrtFcltyCdSub() {
