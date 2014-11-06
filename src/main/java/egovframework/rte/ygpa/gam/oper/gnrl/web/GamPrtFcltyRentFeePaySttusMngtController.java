@@ -372,6 +372,12 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 
 
 
+    /**
+     * 연체 고지
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/oper/gnrl/insertNticArrrg.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> insertNticArrrg(@RequestParam Map nticVo) throws Exception {
 
@@ -391,6 +397,8 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
 
 		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
 
@@ -400,6 +408,107 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 		return map;
     }
 
+    @RequestMapping(value="/oper/gnrl/updateNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> updateNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+
+		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    /**
+     * 연체 고지 취소
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/cancelNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+
+		gamNticRequestMngtService.cancelUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    /**
+     * 단일 건에 대해서 고지를 취소 한다.
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/cancelNticArrrgPk.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrgPk(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+
+		gamNticRequestMngtService.cancelUnpaidRequestPk(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
 
     /**
      * 항만시설연체현황관리 목록을 조회한다.
@@ -434,6 +543,8 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
     	List resultList = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtDlyList(searchVO);
 
     	int totCnt = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtDlyListTotCnt(searchVO);
+
+    	Map dlyInfo = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtDlyInfo(searchVO);
     	Map summary = gamPrtFcltyRentFeePaySttusMngtService.selectPrtFcltyRentFeePaySttusMngtDlyListSum(searchVO);
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -441,6 +552,7 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
+    	map.put("resultDlyInfo", dlyInfo);
     	map.put("totCnt", totCnt);
     	map.put("resultSummary", summary);
     	map.put("searchOption", searchVO);

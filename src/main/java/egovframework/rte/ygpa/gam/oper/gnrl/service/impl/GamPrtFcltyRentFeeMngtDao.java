@@ -17,12 +17,12 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Repository("gamPrtFcltyRentFeeMngtDao")
 public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
-	
+
 	/**
 	 * 자산임대료고지관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -42,7 +42,7 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
     public int selectPrtFcltyRentFeeMngtListTotCnt(GamPrtFcltyRentFeeMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtListTotCnt_S", searchVO);
     }
-    
+
     /**
 	 * 자료수, 사용료, 연체, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -52,7 +52,7 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentFeeMngtVO selectPrtFcltyRentFeeMngtSum(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentFeeMngtVO) selectByPk("gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtSum_S", searchVO);
 	}
-	
+
 	/**
 	 * 자산임대료고지관리정보를 수정한다.
 	 * @param vo GamPrtFcltyRentFeeMngtVO
@@ -61,7 +61,7 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	public void updatePrtFcltyRentFeeMngt(GamPrtFcltyRentFeeMngtVO vo){
 		update("gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeMngt_S", vo);
 	}
-	
+
 	/**
 	 * 자산임대료고지관리정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -71,8 +71,8 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	public GamPrtFcltyRentFeeMngtVO selectPrtFcltyRentFeeMngtInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
 		return (GamPrtFcltyRentFeeMngtVO) selectByPk("gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtInfo_S", searchVO);
 	}
-	
-	
+
+
 	/**
 	 * 세입징수 등록건수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
@@ -82,7 +82,7 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
     public int selectAnlrveLevCnt(GamPrtFcltyRentFeeMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentFeeMngtDao.selectAnlrveLevCnt_S", searchVO);
     }
-	
+
 	/**
 	 * 세입징수를 등록한다.
 	 * @param vo GamPrtFcltyRentFeeMngtVO
@@ -91,7 +91,7 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	public void insertAnlrveLev(GamPrtFcltyRentFeeMngtVO vo){
 		insert("gamPrtFcltyRentFeeMngtDao.insertAnlrveLev_S", vo);
 	}
-	
+
 	/**
 	 * 징수의뢰를 삭제한다.
 	 * @param vo GamPrtFcltyRentFeeMngtVO
@@ -109,32 +109,42 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	public void insertPrtFcltyRentFeeMngtLevReqest(GamPrtFcltyRentFeeMngtVO vo){
 		insert("gamPrtFcltyRentFeeMngtDao.insertPrtFcltyRentFeeMngtLevReqest_S", vo);
 	}
-	
+
 	public List selectNpticPrintInfo(Map searchVO) throws Exception {
         return list("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList_D", searchVO);
 	}
-	
+
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List selectNpticPrintInfo2(Map searchVO) throws Exception {
+        return list("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList2_D", searchVO);
+	}
+
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
         return list("gamPrtFcltyRentFeeMngtDao.selectTaxNticPrintFeeList_D", searchVO);
 	}
-	
+
 	public void updateAssetRentFeeMngtListDetail(GamPrtFcltyRentFeeMngtVO vo)
 			throws Exception {
 		update("gamPrtFcltyRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S", vo);
 	}
-	
+
 	public List selectAssetRentFeeDetailList(GamPrtFcltyRentFeeMngtVO searchVO) {
 		return list("gamPrtFcltyRentFeeMngtDao.selectAssetRentFeeDetailList_D", searchVO);
 	}
-	
+
 	public Map selectAssetRentFeeDetailMstPk(GamPrtFcltyRentFeeMngtVO searchVO) {
 		return (Map) selectByPk("gamPrtFcltyRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S", searchVO);
 	}
-	
+
 	public Map selectAssetRentFeeDetailSumPk(GamPrtFcltyRentFeeMngtVO searchVO) {
 		return (Map) selectByPk("gamPrtFcltyRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S", searchVO);
 	}
-	
-	
-	
+
+
+
 }

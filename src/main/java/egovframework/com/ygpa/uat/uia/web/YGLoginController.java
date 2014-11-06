@@ -50,7 +50,7 @@ public class YGLoginController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="/uat/uia/YGLoginUsr.do")
+    @RequestMapping(value="/uat/uia/ygjypsm.do")
     public String loginUsrView(@ModelAttribute("loginVO") LoginVO loginVO,
             HttpSession session,
             HttpServletRequest request,

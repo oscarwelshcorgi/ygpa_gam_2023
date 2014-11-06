@@ -884,6 +884,37 @@ public class GamPrtFcltyRentFeeMngtController {
     	return "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
     	}
 
+    /**
+     * 연체료만 있는 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/printPrtFcltyRentFeePayNotice2.do")
+    String printAssetRentFeePayNotice2(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+//    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		List list = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo2(approvalOpt);
+
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("resultList", list);
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue2";
+    	}
+
 
 
 

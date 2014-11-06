@@ -84,6 +84,7 @@
                    	S.SANCTN_STTUS_NM,
                    	S.SANCTN_STTUS,
                    	S.NTIC_DT,
+                   S.PAY_TMLMT,
                    	S.NHT_ISUE_YN,
                    	S.NHT_PRINT_YN,
                    	S.DEPTCD_NM,

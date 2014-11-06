@@ -60,11 +60,25 @@ public interface GamNticRequestMngtService {
 	 * @throws Exception
 	 */
 	public void cancelUnpaidRequest(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 연체고지 한건을 고지 취소 한다.
+	 * @param vo (nticCnt:고지횟수, prtAtCode, mngYear:관리년도, mngNo:관리 번호, mngCnt:관리 횟수, chrgeKnd: 요금종류, dlySerNo: 연체 횟수)
+	 * @throws Exception
+	 */
+	public void cancelUnpaidRequestPk(Map<String, Object> vo) throws Exception;
 /**
 	 * 고지서 출력 여부를 업데이트 한다.
 	 * @param vo
 	 * @throws Exception
 	 */
 	public void updateNticPrintState(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 고지서(연체만) 출력 여부를 업데이트 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateNticPrintState2(Map<String, Object> vo) throws Exception;
 
 }

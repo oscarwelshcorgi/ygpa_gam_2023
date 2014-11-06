@@ -405,7 +405,7 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    min-height: 29.7cm;
+	    min-height: 28.7cm;
 	    padding: 1cm;
 	    margin: 0cm auto;
 	    border: 1px #D3D3D3 solid;
@@ -778,7 +778,12 @@ div.notice {
   <fmt:parseDate value='${result.payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
+<c:set var="result" value="${resultList[0] }" />
+<%
+/*
     <c:forEach var="result" items="${resultList }">
+*/
+%>
     <div class="page">
         <div class="subpage">
 			<div class="sender">
@@ -825,28 +830,40 @@ div.notice {
       		</div>
       		<div class="rmk">
       			<h2>부과내역</h2>
-      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/></p>
+      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/>
+      			</p>
       			<p>소재지 : <c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></p>
       			<p>업 체 : <c:out value="${result.entrpsNm}"/> (<c:out value="${result.entrpscd}"/>)</p>
       			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
       			<h2>산출근거</h2>
       			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
-      			<p>산출공식 : <c:out value="${result.computDtls}"/></p>
+      			<p>산출공식 :
+			    <c:forEach var="resultComput" items="${resultList }" varStatus="varStats">
+			    	<c:out value="${result.computDtls}"/>
+			    	<c:if test="${not varStats.last }">,</c:if>
+			    </c:forEach>
+			    </p>
+			    <p>
       			<c:if test="${result.feeA3>0}">
-	      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원</p>
+	      			분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원
       			</c:if>
       			<c:if test="${result.feeA4>0}">
-	      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원</p>
+	      			관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원
       			</c:if>
       			<c:if test="${result.reimFee>0}">
-	      			<p>변상금 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.reimFee}" /> 원</p>
+	      			변상금 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.reimFee}" /> 원
       			</c:if>
       			<c:if test="${result.feeD1>0}">
-	      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원</p>
+	      			과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원
       			</c:if>
-      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1}" /> 원</p>
-      			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
-      			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
+      			<c:if test="${result.arrrgAmt>0}">
+	      			연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)
+      			</c:if>
+      			</p>
+      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원<br />
+      			부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원<br />
+      			합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원
+      			</p>
       		</div>
 			<div class="giro">
 	       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
@@ -868,7 +885,12 @@ div.notice {
 			</div>
         </div>
     </div>
+    <%
+/*
     </c:forEach>
+*/
+%>
+
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

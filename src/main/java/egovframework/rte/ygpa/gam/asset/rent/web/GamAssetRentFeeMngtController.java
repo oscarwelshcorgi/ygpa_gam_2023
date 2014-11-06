@@ -940,6 +940,47 @@ public class GamAssetRentFeeMngtController {
  		return map;
      }
 
+    /**
+     * 인쇄 상태를 업데이트 한다.
+     * @param gamAssetRentFeeMngtVO
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/asset/rent/printAssetRentFeePayNoticeIssue2.do")
+    public @ResponseBody Map printAssetRentFeePayNoticeIssue2(@RequestParam Map<String, Object> vo, ModelMap model)
+            throws Exception {
+
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		vo.put("updUsr", loginVo.getId());
+    		vo.put("nhtPrintYn", "Y");
+    		gamNticRequestMngtService.updateNticPrintState2(vo);
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+    	}
+    	catch(Exception e) {
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
+    	}
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
+
 
         @RequestMapping(value="/asset/rent/printAssetRentFeeTaxNotice.do")
         String printAssetRentFeeTaxNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {

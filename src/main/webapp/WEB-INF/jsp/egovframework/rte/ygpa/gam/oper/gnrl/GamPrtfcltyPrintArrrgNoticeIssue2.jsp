@@ -8,7 +8,7 @@
 <%
   /**
   * @Class Name : GamAssetRentPrintNoticeIssue.jsp
-  * @Description : 고지서 출력 화면
+  * @Description : 고지서 출력 화면 (연체료만 출력한다.)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -50,7 +50,7 @@
 
 .page {
     width: 21cm;
-    min-height: 28.7cm;
+    min-height: 29.7cm;
     padding: 1cm;
     margin: 0cm auto;
     border: 1px #D3D3D3 solid;
@@ -846,7 +846,7 @@ div.notice {
 	      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원</p>
       			</c:if>
       			<c:if test="${result.arrrgAmt>0}">
-	      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)</p>
+	      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>)</p>
       			</c:if>
       			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원</p>
       			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>

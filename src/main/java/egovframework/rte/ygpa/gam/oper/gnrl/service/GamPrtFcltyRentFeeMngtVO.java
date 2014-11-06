@@ -85,6 +85,17 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
      */
     private String reimFeeNticno;
 
+    /**
+     * 고지방법
+     * @return
+     */
+    private String sNticMth;
+
+    /**
+     * 고지 횟수
+     */
+    private String sNticCnt;
+
     public String getSanctnSttus() {
 		return sanctnSttus;
 	}
@@ -1548,6 +1559,22 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 
 	public void setReimFeeNticno(String reimFeeNticno) {
 		this.reimFeeNticno = reimFeeNticno;
+	}
+
+	public String getsNticMth() {
+		return sNticMth;
+	}
+
+	public void setsNticMth(String sNticMth) {
+		this.sNticMth = sNticMth;
+	}
+
+	public String getsNticCnt() {
+		return sNticCnt;
+	}
+
+	public void setsNticCnt(String sNticCnt) {
+		this.sNticCnt = sNticCnt;
 	}
 
 

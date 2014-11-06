@@ -36,7 +36,7 @@
       RCIV_DT,
       NHT_ISUE_YN,
       ARRRG_NO,
-      ARRRG_AMT,
+      NVL(ARRRG_AMT,0) ARRRG_AMT,
       REQEST_SEQ,
       DEPTCD,
       NTIC_MTH,
@@ -45,7 +45,7 @@
       REGIST_DT,
       UPD_USR,
       UPDT_DT
-      FROM LEV_REQEST_PD_BY_STATS_F
+      FROM LEV_REQEST_F
       WHERE  PRT_AT_CODE=#prtAtCode#
         AND MNG_YEAR=#mngYear#
         AND MNG_NO=#mngNo#
@@ -148,23 +148,22 @@
 
     <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollFC1" parameterClass="hashMap" >
         INSERT INTO UNPAID_F (
-      PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO,
+      PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO,
       DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_RCVD_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP,
       FIRST_BILL_DT, DBILL_AMNT,
       BZ_RGST_ID, DLY_BILL_RSN,UPDT_UID,UPDT_DATE, AGENT_CODE,
       ACCNT_CODE,ICHE_STATUS,POST_BILL_YN,STR_DATE,END_DATE,
-      DEPT
+      DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT
       )
       SELECT
-              L.PRT_AT_CODE, L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
-      (SELECT LPAD(NVL(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
-      	AND FEE_TP=L.CHRGE_KND AND FISCAL_YR=L.ACCNUT_YEAR AND BILL_NO=L.NTICNO) DLY_BILL_NO,
-      	L.ARRRG_AMT, SYSDATE, TO_DATE(#newPayTmlmt#, 'YYYY-MM-DD') PAY_TMLMT, null, 'N', '1',
-      	L.NTIC_DT, L.ARRRG_AMT,
-      	(SELECT BZ_RGST_ID FROM P2MGR.SHP_OWOP_F@YGPA_P2MGR WHERE AGENT_CODE=L.ENTRPSCD),
-      	'(' || TO_CHAR(L.NTIC_AMT, '999,999,999,999') || '*' || TO_CHAR(L.ARRRG_TARIFF, '999,999,999,999') || '*' || TO_CHAR(L.ARRRG_PAY_DATES,'9,999') || '/365' || ')',
-      	#updUSr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N',TO_CHAR(L.NTIC_PD_FROM,'YYYYMMDD'),TO_CHAR(L.NTIC_PD_TO,'YYYYMMDD'),
-      	#deptCd#
+              L.PRT_AT_CODE, GAM_GET_FEE_TP(L.CHRGE_KND), L.CHRGE_KND, L.ACCNUT_YEAR,
+     	L.NTICNO, #dlySerNo#,
+      	#dlyBillAmnt#, TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD') PAY_TMLMT, null, 'N', '1',
+      	L.NTIC_DT, #dBillAmnt#,
+      	GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
+      	#dlyBillRsn#,
+      	#updUsr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N','','',
+      	#deptCd#, #emplNo#, L.PAY_TMLMT, TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1)
       FROM LEV_REQEST_F L
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
@@ -174,18 +173,20 @@
       	AND CHRGE_KND=#chrgeKnd#
     </insert>
 
-    <delete id="gamNticRequestMngtDAO.removeNticRequestRevCollFC1" parameterClass="hashMap" >
-            DELETE FROM UNPAID_F WHERE FEE_TP='C1' AND (PRT_AT_CODE, FISCAL_YR, BILL_NO) IN
+    <delete id="gamNticRequestMngtDAO.deleteNticRequestRevCollFC1" parameterClass="hashMap" >
+            DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
      (
      	SELECT
-              PRT_AT_CODE, ACCNUT_YEAR, NTICNO
+              PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), CHRGE_KND, ACCNUT_YEAR, NTICNO
 		FROM LEV_REQEST_F
       	WHERE PRT_AT_CODE=#prtAtCode#
 	      	AND MNG_YEAR=#mngYear#
 	      	AND MNG_NO=#mngNo#
 	      	AND MNG_CNT=#mngCnt#
 	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
       	)
+      	order by dly_ser_no desc
     </delete>
 
       <select id="gamNticRequestMngtDAO.selectNticNoAccnutYear_S" parameterClass="hashMap" resultClass="egovMap">
@@ -235,16 +236,35 @@
 
     <update id="gamNticRequestMngtDAO.updateLevReqestArrrgAmt" parameterClass="hashMap">
         UPDATE LEV_REQEST_F SET
-        	PAY_TMLMT=TO_DATE(#newPayTmlmt#, 'YYYY-MM-DD'),
-      		ARRRG_NO=(SELECT NVL(ARRRG_NO,0)+1 FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
-		      	AND MNG_YEAR=#mngYear#
-		      	AND MNG_NO=#mngNo#
-		      	AND MNG_CNT=#mngCnt#
-		      	AND NTIC_CNT=#nticCnt#
-		        AND CHRGE_KND=#chrgeKnd#),
-      		ARRRG_AMT=TO_NUMBER(#arrrgAmt#),
-      		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#)/100,
-      		ARRRG_PAY_DATES=TO_NUMBER(#arrrgPayDates#),
+        	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
+      		ARRRG_NO=#dlySerNo#,
+      		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
+      		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
+      		ARRRG_PAY_DATES=#applyPayDates#,
+      		NTIC_AMT=TRUNC(FEE+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1),
+      		<isNotNull property="rcivSe">
+	      		RCIV_SE=#rcivSe#,
+      		</isNotNull>
+      		UPD_USR=#updUsr#,
+      		UPDT_DT=SYSDATE
+     	WHERE
+			PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
+  </update>
+
+    <update id="gamNticRequestMngtDAO.updateLevReqestUnarrrgAmt" parameterClass="hashMap">
+        UPDATE LEV_REQEST_F SET
+      		RCIV_SE='0',
+      		ARRRG_NO='',
+      		ARRRG_AMT='',
+      		ARRRG_TARIFF='',
+      		ARRRG_PAY_DATES=0,
+      		NTIC_AMT=FEE+NVL(VAT,0)+NVL(REIM_FEE,0),
+      		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
      	WHERE
@@ -296,6 +316,26 @@
   <update id="gamNticRequestMngtDAO.updateRevCollFBillPrintYn" parameterClass="hashMap">
         UPDATE REV_COLL_F SET
       		BILL_PRT_YN=#nhtPrintYn#
+      		WHERE
+	      		PRT_AT_CODE=#prtAtCode#
+	      		AND FEE_TP=GAM_GET_FEE_TP(#chrgeKnd#)
+	      		AND FISCAL_YR=(SELECT ACCNUT_YEAR FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
+			      	AND MNG_YEAR=#mngYear#
+			      	AND MNG_NO=#mngNo#
+			      	AND MNG_CNT=#mngCnt#
+			      	AND NTIC_CNT=#nticCnt#
+			      	AND CHRGE_KND=#chrgeKnd#)
+	     		AND BILL_NO=(SELECT NTICNO FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
+			      	AND MNG_YEAR=#mngYear#
+			      	AND MNG_NO=#mngNo#
+			      	AND MNG_CNT=#mngCnt#
+			      	AND NTIC_CNT=#nticCnt#
+			      	AND CHRGE_KND=#chrgeKnd#)
+  </update>
+
+  <update id="gamNticRequestMngtDAO.updateUnpaidFBillPrintYn" parameterClass="hashMap">
+        UPDATE UNPAID_F SET
+      		DLY_BILL_PRT_YN=#nhtPrintYn#
       		WHERE
 	      		PRT_AT_CODE=#prtAtCode#
 	      		AND FEE_TP=GAM_GET_FEE_TP(#chrgeKnd#)
@@ -490,7 +530,12 @@
 			R.SMALL_BILL_YN,
 			R.BILL_AMNT_BF,
 			R.USER_NAME,
-			(R.BILL_AMNT+NVL(R.VAT, 0)+NVL(R.REIM_FEE, 0)) BILL_SUM_AMNT
+			<!--
+			(R.BILL_AMNT+NVL(R.VAT, 0)+NVL(R.REIM_FEE, 0)) BILL_SUM_AMNT,
+			 -->
+			 L.NTIC_AMT BILL_SUM_AMNT,
+      		L.ARRRG_NO DLY_SER_NO,
+      		TO_CHAR(L.PAY_TMLMT, 'YYYYMMDD') DLY_DUE_DT
         FROM REV_COLL_F R, LEV_REQEST_F L
         WHERE 1=1
           AND L.PRT_AT_CODE=#prtAtCode#
@@ -499,13 +544,10 @@
           AND L.MNG_CNT=#mngCnt#
           AND L.NTIC_CNT=#nticCnt#
           AND L.CHRGE_KND=#chrgeKnd#
-          AND R.PRT_AT_CODE = L.PRT_AT_CODE
+                    AND R.PRT_AT_CODE = L.PRT_AT_CODE
           AND R.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
           AND R.FISCAL_YR = L.ACCNUT_YEAR
           AND R.BILL_NO = L.NTICNO
-          <!--
-          AND R.DLY_SER_NO = L.ARRRG_NO
- 			-->
     </select>
 
       <insert id="gamNticRequestMngtDAO.insertEgiroPrint" parameterClass="map">
@@ -669,6 +711,110 @@
 	        from dual
 	    </select>
 
+	<select id="gamNticRequestMngtDAO.selectPortmisMagamInfo" parameterClass="map" resultClass="egovMap">
+	            SELECT NVL(a.magam_check,'N') magam_check
+	              FROM payeosu.rev_coll_magam_f@ygpa_portmis a
+	             WHERE a.prt_at_code = #prtAtCode#
+	               AND a.magam_yr    = SUBSTR(#magamCheckDt#,1,4)
+	               AND a.magam_mm    = SUBSTR(#magamCheckDt#,5,2)
+	</select>
+
+    <select id="gamNticRequestMngtDAO.selectPortRevAnlrveLevMgtFeeIcheFCnt" parameterClass="map" resultClass="int">
+            /* 이체신청내역 테이블에서 신청구분이 '1'이고 신청결과가 '0000'인 레코드수를 취득한다. */
+            SELECT COUNT(*) rec_cnt FROM fee_iche_f a
+             WHERE a.prt_at_code = #prtAtCode#
+               AND a.agent_code = #agentCode#
+               AND a.rpt_gubun   = '1'
+               AND a.rpt_rslt   = '0000'
+    </select>
+
+    <select id="gamNticRequestMngtDAO.selectUnpaidMaxNo" parameterClass="map" resultClass="java.lang.String">
+    	/* 추가할 연체번호를 조회한다. */
+			SELECT LPAD(NVL(MAX(U.DLY_SER_NO), 0)+1, 2, '0')
+			FROM LEV_REQEST_F L,
+			  UNPAID_F U
+             WHERE L.prt_at_code = #prtAtCode#
+               AND L.MNG_YEAR = #mngYear#
+               AND L.MNG_NO = #mngNo#
+               AND L.MNG_CNT = #mngCnt#
+               AND L.NTIC_CNT = #nticCnt#
+				AND L.ACCNUT_YEAR=U.FISCAL_YR
+               AND L.PRT_AT_CODE=U.PRT_AT_CODE
+				AND U.FEE_TP      = GAM_GET_FEE_TP(L.CHRGE_KND)
+				AND U.WORK_CODE   = L.CHRGE_KND
+    </select>
+
+    <select id="gamNticRequestMngtDAO.selectUnpaidMaxSerNo" parameterClass="map" resultClass="java.lang.String">
+    	/* 추가할 연체일련번호를 조회한다. */
+			SELECT LPAD(NVL(MAX(U.DLY_SER_NO), 0)+1, 2, '0')
+			FROM LEV_REQEST_F L,
+			  UNPAID_F U
+             WHERE L.prt_at_code = #prtAtCode#
+               AND L.MNG_YEAR = #mngYear#
+               AND L.MNG_NO = #mngNo#
+               AND L.MNG_CNT = #mngCnt#
+               AND L.NTIC_CNT = #nticCnt#
+				AND L.ACCNUT_YEAR=U.FISCAL_YR
+               AND L.PRT_AT_CODE=U.PRT_AT_CODE
+				AND U.FEE_TP      = GAM_GET_FEE_TP(L.CHRGE_KND)
+				AND U.WORK_CODE   = L.CHRGE_KND
+				AND U.BILL_NO = L.NTICNO
+    </select>
+
+    <select id="gamNticRequestMngtDAO.selectLevReqestArrrgAmt" parameterClass="map" resultClass="egovMap">
+    	/* 기존 연체금액을 조회한다. (연체시 금액 조회) */
+			SELECT L.NTIC_AMT,
+				L.FEE,
+			  NVL(L.ARRRG_AMT, 0) ARRRG_AMT,
+			  U.DLY_BILL_PRT_YN,
+			  U.PRT_AT_CODE,
+			  U.FEE_TP,
+			  U.WORK_CODE,
+			  U.FISCAL_YR,
+			  U.BILL_NO,
+			  U.DLY_SER_NO,
+			  TO_CHAR(U.PRV_DUE_DT, 'YYYY-MM-DD') PRV_DUE_DT
+			FROM LEV_REQEST_F L, UNPAID_F U
+             WHERE L.prt_at_code = #prtAtCode#
+               AND L.MNG_YEAR = #mngYear#
+               AND L.MNG_NO = #mngNo#
+               AND L.MNG_CNT = #mngCnt#
+               AND L.NTIC_CNT = #nticCnt#
+	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
+	           AND L.ACCNUT_YEAR=U.FISCAL_YR
+	           AND U.WORK_CODE=L.CHRGE_KND
+	           AND L.NTICNO=U.BILL_NO
+               ORDER BY U.DLY_SER_NO DESC
+    </select>
+
+    <update id="gamNticRequestMngtDAO.updateUnpaidPrintYn" parameterClass="map">
+    	/* 연체 출력을 취소한다. */
+            UPDATE UNPAID_F
+            SET DLY_BILL_PRT_YN='N'
+            WHERE
+            	PRT_AT_CODE=#prtAtCode#
+            	AND FEE_TP=#feeTp#
+            	AND WORK_CODE=#workCode#
+            	AND FISCAL_YR=#fiscalYr#
+            	AND BILL_NO=#billNo#
+    </update>
+
+    <delete id="gamNticRequestMngtDAO.deleteUnpaidByPk" parameterClass="hashMap" >
+            DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
+     (
+     	SELECT
+              PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), CHRGE_KND, ACCNUT_YEAR, NTICNO
+		FROM LEV_REQEST_F
+      	WHERE PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
+      	)
+      	AND DLY_SER_NO=#dlySerNo#
+
+    </delete>
 
 </sqlMap>
 

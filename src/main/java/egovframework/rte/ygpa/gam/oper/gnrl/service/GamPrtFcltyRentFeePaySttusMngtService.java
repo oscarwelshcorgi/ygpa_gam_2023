@@ -14,11 +14,11 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
  * @since 2014-02-05
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 public interface GamPrtFcltyRentFeePaySttusMngtService {
-	
+
     /**
 	 * 항만시설납부현황관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -26,7 +26,7 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @exception Exception
 	 */
     List selectPrtFcltyRentFeePaySttusMngtList(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-    
+
     /**
 	 * 항만시설납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -34,7 +34,7 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @exception
 	 */
     int selectPrtFcltyRentFeePaySttusMngtListTotCnt(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-    
+
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -42,11 +42,11 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @exception Exception
 	 */
     GamPrtFcltyRentFeePaySttusMngtVO selectPrtFcltyRentFeePaySttusSum(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
 	 * 고지금액합계, 수납금액합계
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -54,8 +54,8 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @exception Exception
 	 */
     GamPrtFcltyRentFeePaySttusMngtVO selectPrtFcltyRentFeePaySttusMngtSum(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-    
-    
+
+
     /**
 	 * 자산임대 상세 마스터 내역을 조회한다.
 	 * @param searchVO
@@ -81,7 +81,7 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 */
 	EgovMap selectPrtFcltyRentFeePaySttusMngtDetailSumPk(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
 
-    
+
 
 
     /**
@@ -121,10 +121,10 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
-	
-	
-	
-	
+
+
+
+
 	/** change**
      * 납부관리 연체 내역을 조회한다.
      * @param searchVO
@@ -132,8 +132,8 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
      * @throws Exception
      */
     List selectPrtFcltyRentFeePaySttusMngtDlyList(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-    
-    
+
+
     /** change**
 	 * 항만시설 연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -141,8 +141,15 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @exception
 	 */
     int selectPrtFcltyRentFeePaySttusMngtDlyListTotCnt(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-	
-	
+
+	/**
+	 * 연체 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectPrtFcltyRentFeePaySttusMngtDlyInfo(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
+
 	/** change**
 	 * 연체 내역을 조회한다.
 	 * @param searchVO
@@ -150,5 +157,5 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectPrtFcltyRentFeePaySttusMngtDlyListSum(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
-    
+
 }

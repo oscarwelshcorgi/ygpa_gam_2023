@@ -69,12 +69,19 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (String)insert("gamNticRequestMngtDAO.insertNticRequestRevCollF", vo);
     }
 
+
+	/**
+	 * 연체 고지 정보를 전송한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	public String insertNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
         return (String)insert("gamNticRequestMngtDAO.insertNticRequestRevCollFC1", vo);
     }
 
-	public String removeNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
-        return (String)insert("gamNticRequestMngtDAO.removeNticRequestRevCollFC1", vo);
+	public void deleteNticRequestRevCollFC1(Map<String, Object> vo) throws Exception {
+        delete("gamNticRequestMngtDAO.deleteNticRequestRevCollFC1", vo);
     }
 
 	/**
@@ -109,12 +116,53 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
     }
 
 	/**
+	 * 연체금액을 조회 한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public List selectLevReqestArrrgAmt(Map<String, Object> vo) throws Exception {
+        return list("gamNticRequestMngtDAO.selectLevReqestArrrgAmt", vo);
+	}
+
+	public List selectUnpaidList(Map<String, Object> vo) throws Exception {
+        return list("gamNticRequestMngtDAO.selectUnpaidList", vo);
+	}
+
+	public String selectUnpaidMaxNo(Map<String, Object> vo) throws Exception {
+        return (String) selectByPk("gamNticRequestMngtDAO.selectUnpaidMaxNo", vo);
+	}
+
+	public String selectUnpaidMaxSerNo(Map<String, Object> vo) throws Exception {
+        return (String) selectByPk("gamNticRequestMngtDAO.selectUnpaidMaxSerNo", vo);
+	}
+
+	/**
 	 * 연체료를 등록한다.
 	 * @param vo
 	 * @throws Exception
 	 */
 	public void updateLevReqestArrrgAmt(Map<String, Object> vo) throws Exception {
         update("gamNticRequestMngtDAO.updateLevReqestArrrgAmt", vo);
+	}
+
+	/**
+	 * 연체내역을 삭제한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateLevReqestUnarrrgAmt(Map<String, Object> vo) throws Exception {
+        update("gamNticRequestMngtDAO.updateLevReqestUnarrrgAmt", vo);
+	}
+
+	/**
+	 * 마감정보를 조회 한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectPortmisMagamInfo(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectPortmisMagamInfo", vo);
 	}
 
 	/**
@@ -175,6 +223,14 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 연체 고지서 출력 여부를 저장한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateUnpaidFBillPrintYn(Map<String, Object> vo) throws Exception {
+        update("gamNticRequestMngtDAO.updateUnpaidFBillPrintYn", vo);
+	}
+	/**
 	 * 징수의뢰 기간별 통계정보를 저장한다.
 	 * @param vo
 	 * @return
@@ -198,5 +254,15 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (EgovMap) selectByPk("gamNticRequestMngtDAO.getSfMakeDigit", vo);
 	}
 
+	public EgovMap selectPortRevAnlrveLevMgtFeeIcheFCnt(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectPortRevAnlrveLevMgtFeeIcheFCnt", vo);
+	}
 
+	public void updateUnpaidPrintYn(Map<String, Object> vo) throws Exception {
+        update("gamNticRequestMngtDAO.updateUnpaidPrintYn", vo);
+	}
+
+	public void deleteUnpaidByPk(Map<String, Object> vo) throws Exception {
+		delete("gamNticRequestMngtDAO.deleteUnpaidByPk", vo);
+	}
 }

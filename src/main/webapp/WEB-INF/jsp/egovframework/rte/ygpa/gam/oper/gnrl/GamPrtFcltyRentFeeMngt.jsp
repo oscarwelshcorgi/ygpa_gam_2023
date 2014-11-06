@@ -179,7 +179,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 }
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
-                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
+//                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
 //                 	rows['payTmlmt']=this.$('#payTmlmt').val();
                     this.doAction('<c:url value="/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do" />', rows, function(module, result) {
 
@@ -318,6 +318,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	var ntcUpdate = this.makeFormArgs('#gamAssetRentFeeForm');
     	   	 	this.doAction('<c:url value="/oper/gnrl/updatePrtFcltyRentFeeMngtListDetail.do" />', ntcUpdate, function(module, result) {
     				if (result.resultCode == "0") {
+    					module.loadData();
     				} else {
     				}
 					alert(result.resultMsg);
@@ -378,7 +379,7 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		this.doAction('<c:url value="/oper/gnrl/gamSelectPrtFcltyRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
 				if(result.resultMaster.nhtIsueYn == 'N'){
-					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
+//					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
