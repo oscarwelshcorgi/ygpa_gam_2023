@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
+    
+    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecList">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+						  F.GIS_PRT_FCLTY_CD
+						  , F.GIS_ASSETS_CD || '-' || F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY_CD
+						  , F.GIS_PRT_FCLTY_CD ||'-'|| F.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY_CD
+						  , F.GIS_ASSETS_PRT_AT_CODE
+						  , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+						  , F.GIS_ASSETS_SUB_CD
+						  , F.GIS_PRT_FCLTY_CD
+						  , F.GIS_PRT_FCLTY_SEQ
+						  , F.PRT_FCLTY_NM
+						  , F.PRT_FCLTY_STNDRD
+						  , F.PRT_FCLTY_UNIT
+						  , TO_CHAR(F.PRT_FCLTY_INSTL_DT, 'YYYY-MM-DD')  PRT_FCLTY_INSTL_DT
+						  , TO_CHAR(F.PRT_FCLTY_CHANGE_DT, 'YYYY-MM-DD')  PRT_FCLTY_CHANGE_DT
+						  , F.PRT_FCLTY_SE
+						  , (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = F.PRT_FCLTY_MNG_ENTRPS_CD) PRT_FCLTY_MNG_ENTRPS_NM
+						  , F.PRT_FCLTY_MNG_ENTRPS_CD
+						  , F.PRT_FCLTY_GIS_CD
+						  , F.LA_CRDNT
+						  , F.LO_CRDNT
+						  , F.LAT
+						  , F.LNG
+						  , F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
+						  , F.PRT_PRT_FCLTY_MNGER 
+						  , GAM_GETCODENAME('GAM058', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
+						  , A.GIS_ASSETS_NM
+						  , A.GIS_ASSETS_LOCPLC
+						  , A.GIS_ASSETS_LNM
+						  , A.GIS_ASSETS_LNM_SUB
+						  , A.GIS_ASSETS_LOC_CD
+						  , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
+						FROM
+						  GIS_PRT_FCLTY_CD_F F
+						INNER JOIN  
+						  GIS_ASSETS_CD_F A
+						ON
+						  F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+						  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+						  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+						WHERE
+						  F.PRT_FCLTY_SE = #prtFcltySe#  
+						  <isNotEmpty property="searchPrtAtCode">
+						  	AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+						  </isNotEmpty>
+						  AND F.GIS_ASSETS_CD = #searchAssetsCd#
+						  AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
+						  AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+						  AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
+						  AND F.PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
+						ORDER BY
+						  F.GIS_ASSETS_CD DESC
+						  , F.GIS_ASSETS_PRT_AT_CODE DESC
+						  , F.GIS_ASSETS_SUB_CD DESC
+						  , F.GIS_PRT_FCLTY_CD DESC 
+						  , F.GIS_PRT_FCLTY_SEQ DESC                	
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	
+    </select>
+    
+    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecDetail">
+		INSERT INTO
+		  CVL_ENG_FCLTY_SPEC_F (
+		    FCLTS_MNG_NO
+		    , LOC
+		    , FCLTS_EXT
+		    , STRCT_FMT
+		    , UPSIDE_ALTUD
+		    , UPSIDE_WD
+		    , BERTH_DPWT
+		    , PERM_WD
+		    , APRON_WD
+		    , APRON_PACK_KND
+		    , APRON_PACK_GRDNT
+		    , CSDHP_SHIP_SCL
+		    , FROST_DMG_WGHT
+		    , BASE_BTTM_SOIL
+		    , HNDL_FRGHT
+		    , PILE_CLBR
+		    , PILE_EXT
+		    , PILE_QTY
+		    , SHEET_FILE_STNDRD
+		    , HYDRNT_QY
+		    , FIREPG_QY
+		    , YARD_PACK_KND
+		    , YARD_AR
+		    , FENDER_KND_CD
+		    , FENDER_PMNT_ITV
+		    , FENDER_FMT
+		    , MRPOST_STNDRD_1
+		    , MRPOST_PMNT_ITV_1
+		    , MRPOST_QY_1
+		    , MRPOST_PWR_1
+		    , MRPOST_STNDRD_2
+		    , MRPOST_PMNT_ITV_2
+		    , MRPOST_QY_2
+		    , MRPOST_PWR_2
+		    , BERTH
+		    , STPL_HNDL_FRGHT
+		    , STPL_MOOR_SHIP
+		    , BEGIN_PT_LOC
+		    , END_PT_LOC
+		    , WD
+		    , LT
+		    , PACK_KND
+		    , PLAN_HEGH
+		    , WAVEMAIN_DIR
+		    , OUTER_SWAVE_SLP_RATE
+		    , IN_SWAVE_SLP_RATE
+		    , OUTER_SWAVE_COVER
+		    , IN_SWAVE_COVER
+		    , CVL_ENG_FCLTS_CL_CD
+		    , REG_USR
+		    , REGIST_DT
+		  )
+		VALUES
+		  (
+		    #fcltsMngNo#
+		    , #loc#
+		    , TO_NUMBER(REPLACE(#fcltsExt#, ',', ''))
+		    , #strctFmt#
+		    , TO_NUMBER(REPLACE(#upsideAltud#, ',', ''))
+		    , TO_NUMBER(REPLACE(#upsideWd#, ',', ''))
+		    , TO_NUMBER(REPLACE(#berthDpwt#, ',', ''))
+		    , TO_NUMBER(REPLACE(#permWd#, ',', ''))
+		    , TO_NUMBER(REPLACE(#apronWd#, ',', ''))
+		    , #apronPackKnd#
+		    , #apronPackGrdnt#
+		    , TO_NUMBER(REPLACE(#csdhpShipScl#, ',', ''))
+		    , TO_NUMBER(REPLACE(#frostDmgWght#, ',', ''))
+		    , #baseBttmSoil#
+		    , #hndlFrght#
+		    , TO_NUMBER(REPLACE(#pileClbr#, ',', ''))
+		    , TO_NUMBER(REPLACE(#pileExt#, ',', ''))
+		    , TO_NUMBER(REPLACE(#pileQty#, ',', ''))
+		    , #sheetFileStndrd#
+		    , TO_NUMBER(REPLACE(#hydrntQy#, ',', ''))
+		    , TO_NUMBER(REPLACE(#firepgQy#, ',', ''))
+		    , #yardPackKnd#
+		    , TO_NUMBER(REPLACE(#yardAr#, ',', ''))
+		    , #fenderKndCd#
+		    , #fenderPmntItv#
+		    , #fenderFmt#
+		    , #mrpostStndrd1#
+		    , #mrpostPmntItv1#
+		    , TO_NUMBER(REPLACE(#mrpostQy1#, ',', ''))
+		    , #mrpostPwr1#
+		    , #mrpostStndrd2#
+		    , #mrpostPmntItv2#
+		    , TO_NUMBER(REPLACE(#mrpostQy2#, ',', ''))
+		    , #mrpostPwr2#
+		    , TO_NUMBER(REPLACE(#berth#, ',', ''))
+		    , #stplHndlFrght#
+		    , #stplMoorShip#
+		    , #beginPtLoc#
+		    , #endPtLoc#
+		    , TO_NUMBER(REPLACE(#wd#, ',', ''))
+		    , TO_NUMBER(REPLACE(#lt#, ',', ''))
+		    , #packKnd#
+		    , TO_NUMBER(REPLACE(#planHegh#, ',', ''))
+		    , #wavemainDir#
+		    , TO_NUMBER(REPLACE(#outerSwaveSlpRate#, ',', ''))
+		    , TO_NUMBER(REPLACE(#inSwaveSlpRate#, ',', ''))
+		    , #outerSwaveCover#
+		    , #inSwaveCover#
+		    , #cvlEngFcltsClCd#
+		    , #regUsr#
+		    , SYSDATE
+		  )    
+    </insert>
+    
+    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecDetail">
+		UPDATE CVL_ENG_FCLTY_SPEC_F 
+		  SET
+		    LOC = #loc#
+		    , FCLTS_EXT = TO_NUMBER(REPLACE(#fcltsExt#, ',', ''))
+		    , STRCT_FMT = #strctFmt#
+		    , UPSIDE_ALTUD = TO_NUMBER(REPLACE(#upsideAltud#, ',', ''))
+		    , UPSIDE_WD = TO_NUMBER(REPLACE(#upsideWd#, ',', ''))
+		    , BERTH_DPWT = TO_NUMBER(REPLACE(#berthDpwt#, ',', ''))
+		    , PERM_WD = TO_NUMBER(REPLACE(#permWd#, ',', ''))
+		    , APRON_WD = TO_NUMBER(REPLACE(#apronWd#, ',', ''))
+		    , APRON_PACK_KND = #apronPackKnd#
+		    , APRON_PACK_GRDNT = #apronPackGrdnt#
+		    , CSDHP_SHIP_SCL = TO_NUMBER(REPLACE(#csdhpShipScl#, ',', ''))
+		    , FROST_DMG_WGHT = TO_NUMBER(REPLACE(#frostDmgWght#, ',', ''))
+		    , BASE_BTTM_SOIL = #baseBttmSoil#
+		    , HNDL_FRGHT = #hndlFrght#
+		    , PILE_CLBR = TO_NUMBER(REPLACE(#pileClbr#, ',', ''))
+		    , PILE_EXT = TO_NUMBER(REPLACE(#pileExt#, ',', ''))
+		    , PILE_QTY = TO_NUMBER(REPLACE(#pileQty#, ',', ''))
+		    , SHEET_FILE_STNDRD = #sheetFileStndrd#
+		    , HYDRNT_QY = TO_NUMBER(REPLACE(#hydrntQy#, ',', ''))
+		    , FIREPG_QY = TO_NUMBER(REPLACE(#firepgQy#, ',', ''))
+		    , YARD_PACK_KND = #yardPackKnd#
+		    , YARD_AR = TO_NUMBER(REPLACE(#yardAr#, ',', ''))
+		    , FENDER_KND_CD = #fenderKndCd#
+		    , FENDER_PMNT_ITV = #fenderPmntItv#
+		    , FENDER_FMT = #fenderFmt#
+		    , MRPOST_STNDRD_1 = #mrpostStndrd1#
+		    , MRPOST_PMNT_ITV_1 = #mrpostPmntItv1#
+		    , MRPOST_QY_1 = TO_NUMBER(REPLACE(#mrpostQy1#, ',', ''))
+		    , MRPOST_PWR_1 = #mrpostPwr1#
+		    , MRPOST_STNDRD_2 = #mrpostStndrd2#
+		    , MRPOST_PMNT_ITV_2 = #mrpostPmntItv2#
+		    , MRPOST_QY_2 = TO_NUMBER(REPLACE(#mrpostQy2#, ',', ''))
+		    , MRPOST_PWR_2 = #mrpostPwr2#
+		    , BERTH = TO_NUMBER(REPLACE(#berth#, ',', ''))
+		    , STPL_HNDL_FRGHT = #stplHndlFrght#
+		    , STPL_MOOR_SHIP = #stplMoorShip#
+		    , BEGIN_PT_LOC = #beginPtLoc#
+		    , END_PT_LOC = #endPtLoc#
+		    , WD = TO_NUMBER(REPLACE(#wd#, ',', ''))
+		    , LT = TO_NUMBER(REPLACE(#lt#, ',', ''))
+		    , PACK_KND = #packKnd#
+		    , PLAN_HEGH = TO_NUMBER(REPLACE(#planHegh#, ',', ''))
+		    , WAVEMAIN_DIR = #wavemainDir#
+		    , OUTER_SWAVE_SLP_RATE = TO_NUMBER(REPLACE(#outerSwaveSlpRate#, ',', ''))
+		    , IN_SWAVE_SLP_RATE = TO_NUMBER(REPLACE(#inSwaveSlpRate#, ',', ''))
+		    , OUTER_SWAVE_COVER = #outerSwaveCover#
+		    , IN_SWAVE_COVER = #inSwaveCover#
+		    , CVL_ENG_FCLTS_CL_CD = #cvlEngFcltsClCd#
+		    , UPD_USR = #updUsr#
+		    , UPDT_DT = SYSDATE
+		  WHERE
+		    FCLTS_MNG_NO = #fcltsMngNo#
+    </update>
+    
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecDetail">
+		DELETE FROM CVL_ENG_FCLTY_SPEC_F
+		  WHERE
+		    FCLTS_MNG_NO = #fcltsMngNo#
+    </delete>
+</sqlMap>
