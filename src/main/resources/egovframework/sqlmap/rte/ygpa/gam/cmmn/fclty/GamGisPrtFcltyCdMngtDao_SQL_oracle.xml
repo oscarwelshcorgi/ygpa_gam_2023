@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.cmmn.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
+    <typeAlias alias="fcltyManageVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltyManageVO"/>
+
+    <insert id="gamGisPrtFcltyCdMngtDao.insertGisPrtFclty">
+   		<selectKey keyProperty="maxFcltySeq" resultClass="String">
+	       	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0')
+				FROM GIS_PRT_FCLTY_CD_F
+		   	WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+				AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+				AND GIS_ASSETS_CD = #gisAssetsCd#
+				AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+				AND PRT_FCLTY_SE = #prtFcltySe#
+	    </selectKey>
+			INSERT INTO 
+				GIS_PRT_FCLTY_CD_F
+				( 
+					GIS_ASSETS_PRT_AT_CODE
+					, GIS_ASSETS_CD
+					, GIS_ASSETS_SUB_CD
+					, GIS_PRT_FCLTY_CD
+					, GIS_PRT_FCLTY_SEQ
+					, PRT_FCLTY_SE
+					, PRT_FCLTY_NM
+					, PRT_FCLTY_STNDRD
+					, PRT_FCLTY_UNIT
+					, PRT_FCLTY_INSTL_DT
+					, PRT_FCLTY_CHANGE_DT
+					, LA_CRDNT
+					, LO_CRDNT
+					, PRT_FCLTY_GIS_CD
+					, FCLTS_MNG_NO
+					, FCLTS_MNG_GROUP_NO
+					, REG_USR
+					, REGIST_DT
+				)
+			VALUES
+				( 
+					#gisAssetsPrtAtCode#
+					, #gisAssetsCd#
+					, #gisAssetsSubCd#
+					, #gisPrtFcltyCd#
+					, #maxFcltySeq#
+					, #prtFcltySe#
+					, #prtFcltyNm#
+					, #prtFcltyStndrd#
+					, #prtFcltyUnit#
+					, TO_DATE(#prtFcltyInstlDt#, 'YYYY-MM-DD')
+					, TO_DATE(#prtFcltyChangeDt#, 'YYYY-MM-DD')
+					, TO_NUMBER(REPLACE(#laCrdnt#, ',', ''))
+					, TO_NUMBER(REPLACE(#loCrdnt#, ',', ''))
+					, #prtFcltyGisCd#
+					, #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #maxFcltySeq# || #prtFcltySe#   
+					, #fcltsMngGroupNo#
+					, #regUsr#
+					, SYSDATE
+				)
+	</insert>
+    <update id="gamGisPrtFcltyCdMngtDao.updateGisPrtFclty">
+    		UPDATE GIS_PRT_FCLTY_CD_F
+    			SET
+					PRT_FCLTY_NM = #prtFcltyNm#
+					, PRT_FCLTY_STNDRD = #prtFcltyStndrd#
+					, PRT_FCLTY_UNIT = #prtFcltyUnit#
+					, PRT_FCLTY_INSTL_DT = TO_DATE(#prtFcltyInstlDt#, 'YYYY-MM-DD')
+					, PRT_FCLTY_CHANGE_DT = TO_DATE(#prtFcltyChangeDt#, 'YYYY-MM-DD')
+					, LA_CRDNT = TO_NUMBER(REPLACE(#laCrdnt#, ',', ''))
+					, LO_CRDNT = TO_NUMBER(REPLACE(#loCrdnt#, ',', ''))
+					, PRT_FCLTY_GIS_CD = #prtFcltyGisCd#
+					, FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					, UPD_USR = #updUsr#
+					, SYSDATE
+				WHERE
+					GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+					AND GIS_ASSETS_CD = #gisAssetsCd#
+					AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+					AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+					AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+					AND PRT_FCLTY_SE = #prtFcltySe#
+	</update>
+    <delete id="gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty">
+    		DELETE 
+    			FROM 
+    				GIS_PRT_FCLTY_CD_F
+				WHERE
+					GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+					AND GIS_ASSETS_CD = #gisAssetsCd#
+					AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+					AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+					AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+					AND PRT_FCLTY_SE = #prtFcltySe#
+	</delete>
+</sqlMap>
