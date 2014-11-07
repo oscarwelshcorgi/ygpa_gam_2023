@@ -605,7 +605,7 @@
          , #amouuntAf#
          , 'A'
          , #dueDate#
-         , TO_CHAR(ADD_MONTHS(to_date(#closeDate#,'yyyymmdd'),1),'YYYYMMDD')
+         , TO_CHAR(ADD_MONTHS(to_date(#dueDate#,'yyyymmdd'),1),'YYYYMMDD')
          , #giroNum#
          , #egiroNum#
          , #agentCode#
@@ -768,6 +768,9 @@
     	/* 기존 연체금액을 조회한다. (연체시 금액 조회) */
 			SELECT L.NTIC_AMT,
 				L.FEE,
+				<![CDATA[
+					CASE WHEN PAY_TMLMT<TO_DATE('20141106', 'YYYYMMDD') THEN 'O' ELSE 'P' END PAY_PASS_CHECK,
+				]]>
 			  NVL(L.ARRRG_AMT, 0) ARRRG_AMT,
 			  U.DLY_BILL_PRT_YN,
 			  U.PRT_AT_CODE,
@@ -846,7 +849,7 @@
        	]]>
 	</update>
 
-	<update id="gamNticRequestMngtDAO.updateHtldRentFeePaySttusMngtArrrgList">
+	<update id="gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList">
        	<![CDATA[
 			UPDATE LEV_REQEST_F L
 			SET RCIV_DT=(SELECT DLY_RCVD_DT FROM UNPAID_F R WHERE L.PRT_AT_CODE=R.PRT_AT_CODE

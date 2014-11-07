@@ -509,6 +509,10 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 
 		if(list.size()>0) {
 			Map map = (Map)list.get(0);
+			String payPassCheck = (String)map.get("payPassCheck");
+			if("P".equals(payPassCheck)) {
+				processException("fail.nticArrg.confirm");
+			}
 			BigDecimal nticAmt = (BigDecimal)map.get("nticAmt");
 			BigDecimal arrrgAmt = (BigDecimal)map.get("arrrgAmt");
 			if(arrrgAmt.compareTo(BigDecimal.ZERO)>0) {
@@ -924,10 +928,9 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	}
 
 
-	public int updateRentFeePaySttusMngtList() throws Exception {
-		int ret=0;
-		ret = gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList();
-		ret += gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList();
-		return ret;
+	public int updateRentFeePaySttusRefresh() throws Exception {
+		int ret = gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList();
+		return ret+gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList();
 	}
+
 }

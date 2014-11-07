@@ -890,8 +890,8 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 									<button data-cmd="btnNticIssuePrint" data-icon="ui-icon-print">고지서출력</button>
 									<!--
 									<button data-cmd="btnNticIssuePrint2" data-icon="ui-icon-print">고지서출력(연체만)</button>
-									 -->
 									<button data-cmd="btnNticIssuePrintCancelPk" data-icon="ui-icon-cancel">출력취소</button>
+									 -->
 								</td>
 							</tr>
 						</tbody>

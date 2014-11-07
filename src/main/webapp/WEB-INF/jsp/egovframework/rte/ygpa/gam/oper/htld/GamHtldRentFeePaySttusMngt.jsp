@@ -245,6 +245,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 
 	if(this.resultDetail.arrrgNo!=null) {	// 기 연체 고지된 건이 있는지
 	 	this.doAction('<c:url value="/oper/gnrl/updateNticArrrg.do" />', arrrgDetail, function(module, result) {
+			module.loadDetailPage();
 			if (result.resultCode == "0") {
 				if(confirm('연체 고지 되었습니다. 바로 납부 고지서를 출력 하시겠습니까?')) {
 					module.printPayNotice('<c:url value="/oper/htld/printHtldRentFeePayNotice.do" />', row);
@@ -256,6 +257,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	}
 	else {	// 신규 연체를 등록 한다.
 	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', arrrgDetail, function(module, result) {
+			module.loadDetailPage();
 			if (result.resultCode == "0") {
 				if(confirm('연체 고지 되었습니다. 바로 납부 고지서를 출력 하시겠습니까?')) {
 					module.printPayNotice('<c:url value="/oper/htld/printHtldRentFeePayNotice.do" />', row);
@@ -290,6 +292,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelAll = function() {
 };
 
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelPk = function(ntic) {
+	if(!confirm('이 건의 대해 고지를 취소 하시겠습니까?')) return;
 	var row=this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
 
 	var arrrgDetail = [
@@ -888,8 +891,8 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 									<button data-cmd="btnNticIssuePrint" data-icon="ui-icon-print">고지서출력</button>
 									<!--
 									<button data-cmd="btnNticIssuePrint2" data-icon="ui-icon-print">고지서출력(연체만)</button>
-									 -->
 									<button data-cmd="btnNticIssuePrintCancelPk" data-icon="ui-icon-cancel">출력취소</button>
+									 -->
 								</td>
 							</tr>
 						</tbody>

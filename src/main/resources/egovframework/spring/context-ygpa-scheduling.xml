@@ -4,16 +4,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- 포트미스 납부확인 작업 정의  -->
-	<bean id="updateAssetRentFeePayDtlsMngt"
+	<bean id="updateRentFeePaySttusRefresh"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="gamNticRequestMngtService" />
-		<property name="targetMethod" value="updateRentFeePaySttusMngtList" />
+		<property name="targetMethod" value="updateRentFeePaySttusRefresh" />
 		<property name="concurrent" value="false" />
 	</bean>
 
 	<!-- 포트미스 납부확인 트리거  -->
-	<bean id="updateAssetRentFeePayDtlsMngtTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="updateAssetRentFeePayDtlsMngt" />
+	<bean id="updateRentFeePaySttusRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateRentFeePaySttusRefresh" />
 		<property name="startDelay" value="60000" />
 		<property name="cronExpression" value="0 15 10 ? * *" />
 	</bean>
@@ -23,7 +23,7 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="updateAssetRentFeePayDtlsMngtTrigger" />
+				<ref bean="updateRentFeePaySttusRefreshTrigger" />
 			</list>
 		</property>
 	</bean>

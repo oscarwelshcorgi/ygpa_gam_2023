@@ -81,5 +81,5 @@ public interface GamNticRequestMngtService {
 	 */
 	public void updateNticPrintState2(Map<String, Object> vo) throws Exception;
 
-	public int updateRentFeePaySttusMngtList() throws Exception;
+	public int updateRentFeePaySttusRefresh() throws Exception;
 }
