@@ -234,6 +234,7 @@ GamFcltyMngtModule.prototype.applyPhotoChanged = function(target) {
 	var selectRow = this.$('#fcltyPhotoList').selectedRows();
 	if(selectRow.length > 0) {
 		row=selectRow[0];
+
 		if(this.$('#photoSj').is(target)) {
 			row['photoSj'] = $(target).val();
 			changed=true;
