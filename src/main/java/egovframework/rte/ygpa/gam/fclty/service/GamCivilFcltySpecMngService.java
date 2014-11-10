@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -39,4 +40,29 @@ public interface GamCivilFcltySpecMngService {
 	 * @throws Exception
 	 */		
 	int selectCivilFcltySpecMngListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception;
+	
+	/**
+	 * 토목시설재원관리 데이터를 삽입한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	void insertCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	
+	/**
+	 * 토목시설재원관리 데이터를 수정한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	void updateCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	
+	/**
+	 * 토목시설재원관리 데이터를 삭제한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	void deleteCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	
 }

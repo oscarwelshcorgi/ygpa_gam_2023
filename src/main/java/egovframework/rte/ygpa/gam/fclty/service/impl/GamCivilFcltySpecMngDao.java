@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -34,7 +35,7 @@ public class GamCivilFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */	
-	public List selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) {
+	public List selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		return list("gamCivilFcltySpecMngDao.selectCivilFcltySpecMngList", searchVO);
 	}
 	
@@ -44,7 +45,37 @@ public class GamCivilFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectCivilFcltySpecMngListTotCnt(GamCivilFcltySpecMngVO searchVO) {
+	public int selectCivilFcltySpecMngListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamCivilFcltySpecMngDao.selectCivilFcltySpecMngListTotCnt", searchVO);
 	}
+
+	/**
+	 * 토목시설재원관리 데이터를 삽입한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void insertCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+		insert("gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail", vo);
+	}
+	
+	/**
+	 * 토목시설재원관리 데이터를 수정한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void updateCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+		update("gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail", vo);
+	}
+	
+	/**
+	 * 토목시설재원관리 데이터를 삭제한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void deleteCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+		delete("gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail", vo);
+	}	
 }

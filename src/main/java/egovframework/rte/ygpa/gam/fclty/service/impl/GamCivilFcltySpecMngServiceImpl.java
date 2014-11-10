@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -52,4 +53,35 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	public int selectCivilFcltySpecMngListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecMngListTotCnt(searchVO);
 	}
+	
+	/**
+	 * 토목시설재원관리 데이터를 삽입한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void insertCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail(vo);
+	}
+	
+	/**
+	 * 토목시설재원관리 데이터를 수정한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void updateCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail(vo);
+	}
+	
+	/**
+	 * 토목시설재원관리 데이터를 삭제한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void deleteCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail(vo);
+	}	
+	
 }

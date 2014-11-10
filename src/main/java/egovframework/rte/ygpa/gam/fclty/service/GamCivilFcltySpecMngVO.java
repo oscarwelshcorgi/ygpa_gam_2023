@@ -35,11 +35,13 @@ public class GamCivilFcltySpecMngVO extends ComDefaultVO {
 	private String sAssetsSubCd;
 
 	/** 시설코드 (조회조건) **/
-	private String sFcltyCd;
+	private String sPrtFcltyCd;
 
 	/** 시설명 (조회조건) **/
 	private String sPrtFcltyNm;
 
+
+	
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -83,17 +85,17 @@ public class GamCivilFcltySpecMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sFcltyCd
+	 * @return the sPrtFcltyCd
 	 */
-	public String getsFcltyCd() {
-		return sFcltyCd;
+	public String getsPrtFcltyCd() {
+		return sPrtFcltyCd;
 	}
 
 	/**
 	 * @param sFcltyCd the sFcltyCd to set
 	 */
-	public void setsFcltyCd(String sFcltyCd) {
-		this.sFcltyCd = sFcltyCd;
+	public void setsPrtFcltyCd(String sPrtFcltyCd) {
+		this.sPrtFcltyCd = sPrtFcltyCd;
 	}
 
 	/**

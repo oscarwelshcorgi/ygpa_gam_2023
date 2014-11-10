@@ -44,25 +44,28 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
+					{display:"자산코드",		name:"gisAssetsDisplayCd",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
-					{display:"토목시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"토목시설코드", 	name:"gisPrtFcltyDisplayCd",width:80,		sortable:false,		align:"center"},
 					{display:"토목시설명",		name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
 					{display:"토목시설규격",	name:"prtFcltyStndrd",		width:240,		sortable:false,		align:"left"},
 					{display:"토목시설단위",  	name:"prtFcltyUnit",		width:80,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
-
 			],
 		height: "auto"
 	});
 
-	this._fcltyItem = null;
-
+	this._cmd = '';
+	
 	this.$("#civilFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 	});
 
+	this.$("#selectGisPrtFcltyCd").on("change", {module: this}, function(event) {
+		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
+	});
+	
 	this.$(".text").bind("change keyup", {module: this}, function(event) {
 		var limit_char = /[|]/;
 		if(limit_char.test(event.target.value)){
@@ -75,7 +78,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltyPhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamConstFcltySpecPhotoList.do"/>',
+		url: '<c:url value="/fclty/gamCivilFcltySpecMngPhotoList.do"/>',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"prtFcltyPhotoSeq",	width:40,		sortable:true,		align:"center"},
@@ -90,16 +93,55 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
 	});
-
 };
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
+	var opts = null;
 	switch(buttonId) {
-		case "searchBtn":
-		break;
+		case "searchBtn": //조회
+			opts = this.makeFormArgs("#searchCivilFcltySpecMngForm");
+		 	this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+		 	this.$("#civilFcltySpecMngList").flexOptions({params:opts}).flexReload();
+			break;
+		
+		// 자산코드 팝업(조회화면)
+		case "searchGisCodeBtn":
+			this.doExecuteDialog("selectGisCode", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			break;
+
+		// 자산코드 팝업(디테일 화면)
+		case "searchGisCodeBtn2":
+			this.doExecuteDialog("selectGisCode2", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			break;
+		
+		// 시설추가
+		case "btnAdd":
+			this._cmd = 'insert';
+			this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
+			this.$('#fcltyPhotoList').flexEmptyData();
+			this.$("#fcltyManageVO :input").val("");
+			this.$("#dispfcltsMngNo").text("");
+			break;
+		
+		// 저장
+		case "btnSave":
+			opts = this.makeFormArgs("#fcltyManageVO");
+		 	if(this._cmd == "insert") {
+			 	this.doAction('<c:url value="/fclty/gamCivilFcltySpecMngDetailInsert.do" />', opts, function(module, result) {
+			 		if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#searchCivilFcltySpecMngForm");
+						module.$("#civilFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+						module.$("#fcltyManageVO :input").val("");
+						module.$("#dispfcltsMngNo").text("");
+			 		}
+			 		alert(result.resultMsg);
+			 	});
+			}			
+			break;
 	}
 };
 
@@ -150,9 +192,15 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
  */
 GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		case "searchGisCodePopup":
-			this.$("#gisAssetsPrtAtCodeStr").val(value["gisAssetsPrtAtCode"]);
+		// 조회화면
+		case "selectGisCode":
+			this.$("#sAssetsCd").val(value["gisAssetsCd"]);
+			this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
+		break;
+
+		case "selectGisCode2":
 			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
+			this.$("#gisAssetsPrtAtCode2").val(value["gisAssetsPrtAtCode"]);
 			this.$("#gisAssetsPrtAtName").val(value["gisAssetsPrtAtCodeNm"]);
 			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);				// GIS SUB자산코드
 			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);					// GIS 자산코드
@@ -161,16 +209,8 @@ GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
 			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
-
-			if(this._cmd!="insert") alert('변경된 내용은 페이지를 새로고침을 해야 반영 됩니다.');
 		break;
-
-		// 조회화면
-		case "searchGisCodePopup2":
-			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#searchAssetsSubCd").val(value["gisAssetsSubCd"]);
-		break;
-
+		
 		// 업체조회화면
 		case "searchEntrpsCdPopup":
 			this.$("#prtFcltyMngEntrpsCd").val(value["entrpscd"]);
@@ -197,7 +237,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="fcltyForm">
+			<form id="searchCivilFcltySpecMngForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
@@ -205,19 +245,19 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>자산코드</th>
 							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
-								<button id="searchPopupBtn" class="popupButton">선택</button>
+								<input id="sAssetsCd" type="text" size="3" maxlength="3" />&nbsp;-&nbsp;
+								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" />
+								<button id="searchGisCodeBtn" class="popupButton">선택</button>
 							</td>
 							<th>토목시설코드</th>
 							<td>
-								<input id="sFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />&nbsp;-&nbsp;
+								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />&nbsp;-&nbsp;
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>토목시설명</th>
-							<td colspan="5"><input id="searchKeyword" type="text" size="60" maxlength="40" title="검색조건"  /></td>
+							<td colspan="5"><input id="sPrtFcltyNm" type="text" size="60" maxlength="40"  /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -228,11 +268,8 @@ var module_instance = new GamCivilFcltySpecMngModule();
 		</div>
 	</div>
 
-
-
-
 	<div class="emdPanel fillHeight">
-		<div id="civilFcltySpecMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="civilFcltySpecMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">토목시설 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">토목시설 제원</a></li>
@@ -259,22 +296,22 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						<tbody>
 							<tr>
 								<th width="70%">토목시설 일반</th>
-								<th>시설물관리번호 : <span id="fcltsMngNo"></span></th>
+								<th>시설물관리번호 : <span id="dispfcltsMngNo"></span><input type="hidden" id="fcltsMngNo" /></th>
 							</tr>
 						</tbody>
 					</table>
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
-							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td><input type="text" size="23" id="gisAssetsNm" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
 								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>-
-								<input type="text" size="2" id="gisAssetsPrtAtCode" disabled="disabled"/>
-								<button id="gisCodePopupBtn" class="popupButton">선택</button>
+								<input type="text" size="2" id="gisAssetsPrtAtCode2" disabled="disabled"/>
+								<button id="searchGisCodeBtn2" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -296,7 +333,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">토목시설명</th>

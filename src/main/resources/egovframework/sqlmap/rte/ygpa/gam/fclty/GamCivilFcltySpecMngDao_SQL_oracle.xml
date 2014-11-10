@@ -13,28 +13,24 @@
                 	FROM (
 						SELECT
 						  F.GIS_PRT_FCLTY_CD
-						  , F.GIS_ASSETS_CD || '-' || F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY_CD
-						  , F.GIS_PRT_FCLTY_CD ||'-'|| F.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY_CD
 						  , F.GIS_ASSETS_PRT_AT_CODE
-						  , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+						  , F.GIS_ASSETS_CD
 						  , F.GIS_ASSETS_SUB_CD
-						  , F.GIS_PRT_FCLTY_CD
 						  , F.GIS_PRT_FCLTY_SEQ
 						  , F.PRT_FCLTY_NM
 						  , F.PRT_FCLTY_STNDRD
 						  , F.PRT_FCLTY_UNIT
+						  , F.PRT_FCLTY_SE
+						  , F.PRT_FCLTY_GIS_CD
+						  , F.GIS_ASSETS_CD || '-' || F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY_CD
+						  , F.GIS_PRT_FCLTY_CD ||'-'|| F.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY_CD
+						  , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
 						  , TO_CHAR(F.PRT_FCLTY_INSTL_DT, 'YYYY-MM-DD')  PRT_FCLTY_INSTL_DT
 						  , TO_CHAR(F.PRT_FCLTY_CHANGE_DT, 'YYYY-MM-DD')  PRT_FCLTY_CHANGE_DT
-						  , F.PRT_FCLTY_SE
-						  , (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = F.PRT_FCLTY_MNG_ENTRPS_CD) PRT_FCLTY_MNG_ENTRPS_NM
-						  , F.PRT_FCLTY_MNG_ENTRPS_CD
-						  , F.PRT_FCLTY_GIS_CD
 						  , F.LA_CRDNT
 						  , F.LO_CRDNT
 						  , F.LAT
 						  , F.LNG
-						  , F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
-						  , F.PRT_PRT_FCLTY_MNGER 
 						  , GAM_GETCODENAME('GAM058', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
 						  , F.FCLTS_MNG_NO
 						  , A.GIS_ASSETS_NM
@@ -62,8 +58,8 @@
 						  <isNotEmpty property="sAssetsSubCd">
 						    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
 						  </isNotEmpty>
-						  <isNotEmpty property="sFcltyCd">
-						    AND F.GIS_PRT_FCLTY_CD = #sFcltyCd#
+						  <isNotEmpty property="sPrtFcltyCd">
+						    AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
 						  </isNotEmpty>
 						  <isNotEmpty property="sPrtFcltyNm">
 						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
@@ -101,8 +97,8 @@
 		  <isNotEmpty property="sAssetsSubCd">
 		    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
 		  </isNotEmpty>
-		  <isNotEmpty property="sFcltyCd">
-		    AND F.GIS_PRT_FCLTY_CD = #sFcltyCd#
+		  <isNotEmpty property="sPrtFcltyCd">
+		    AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
 		  </isNotEmpty>
 		  <isNotEmpty property="sPrtFcltyNm">
 		  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
@@ -166,7 +162,7 @@
 		  )
 		VALUES
 		  (
-		    #fcltsMngNo#
+		    #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #gisPrtFcltySeq# || #prtFcltySe#
 		    , #loc#
 		    , TO_NUMBER(REPLACE(#fcltsExt#, ',', ''))
 		    , #strctFmt#
