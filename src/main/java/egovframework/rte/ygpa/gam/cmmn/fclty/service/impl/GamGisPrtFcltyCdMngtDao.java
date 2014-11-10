@@ -34,10 +34,14 @@ public class GamGisPrtFcltyCdMngtDao extends YGPAAbstractDAO {
 	}
 
 	public void updateGisPrtFclty(Map<String, Object> vo) throws Exception {
-		insert("gamGisPrtFcltyCdMngtDao.updateGisPrtFclty", vo);
+		update("gamGisPrtFcltyCdMngtDao.updateGisPrtFclty", vo);
 	}
 	
 	public void deleteGisPrtFclty(Map<String, Object> vo) throws Exception {
-		insert("gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty", vo);
+		delete("gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty", vo);
+	}
+	
+	public String selectNextFcltySeq(Map<String, Object> vo) throws Exception {
+		return (String) getSqlMapClient().queryForObject("gamGisPrtFcltyCdMngtDao.selectNextFcltySeq", vo); 
 	}
 }

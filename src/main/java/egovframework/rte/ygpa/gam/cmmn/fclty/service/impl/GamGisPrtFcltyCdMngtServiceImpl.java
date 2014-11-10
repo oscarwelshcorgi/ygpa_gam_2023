@@ -63,4 +63,15 @@ public class GamGisPrtFcltyCdMngtServiceImpl extends AbstractServiceImpl impleme
 	public void deleteGisPrtFclty(Map<String, Object> vo) throws Exception {
 		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 	}
+	
+	/**
+	 * GIS 항만시설순번 다음순번을 가져온다.
+	 * @param vo - 조회할 정보가 담긴 VO
+	 * @return
+	 * @exception Exception
+	 */	
+	public String selectNextFcltySeq(Map<String, Object> vo) throws Exception {
+		return gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(vo);
+	}
+
 }

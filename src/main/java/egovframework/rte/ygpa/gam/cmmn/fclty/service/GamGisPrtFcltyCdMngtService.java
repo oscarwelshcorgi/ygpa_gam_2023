@@ -23,6 +23,7 @@ import java.util.Map;
  */
 
 public interface GamGisPrtFcltyCdMngtService {
+	
 	/**
 	 * GIS 항만시설코드 정보를 삽입한다.
 	 * @param vo - 삽입할 정보가 담긴 VO
@@ -46,4 +47,13 @@ public interface GamGisPrtFcltyCdMngtService {
 	 * @exception Exception
 	 */	
 	public void deleteGisPrtFclty(Map<String, Object> vo) throws Exception;	
+	
+	/**
+	 * GIS 항만시설순번 다음순번을 가져온다.
+	 * @param vo - 조회할 정보가 담긴 VO
+	 * @return
+	 * @exception Exception
+	 */	
+	public String selectNextFcltySeq(Map<String, Object> vo) throws Exception;
+	
 }
