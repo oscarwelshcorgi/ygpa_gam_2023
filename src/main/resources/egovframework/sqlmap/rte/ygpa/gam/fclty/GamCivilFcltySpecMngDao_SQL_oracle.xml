@@ -4,9 +4,9 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
+    <typeAlias alias="gamCivilFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngVO"/>
     
-    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecList">
+    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecMngList" parameterClass="gamCivilFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -36,6 +36,7 @@
 						  , F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
 						  , F.PRT_PRT_FCLTY_MNGER 
 						  , GAM_GETCODENAME('GAM058', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
+						  , F.FCLTS_MNG_NO
 						  , A.GIS_ASSETS_NM
 						  , A.GIS_ASSETS_LOCPLC
 						  , A.GIS_ASSETS_LNM
@@ -51,15 +52,22 @@
 						  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
 						  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
 						WHERE
-						  F.PRT_FCLTY_SE = #prtFcltySe#  
-						  <isNotEmpty property="searchPrtAtCode">
-						  	AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+						  F.PRT_FCLTY_SE = 'C'  
+						  <isNotEmpty property="sPrtAtCode">
+						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 						  </isNotEmpty>
-						  AND F.GIS_ASSETS_CD = #searchAssetsCd#
-						  AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
-						  AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
-						  AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
-						  AND F.PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
+						  <isNotEmpty property="sAssetsCd">
+						  	AND F.GIS_ASSETS_CD = #sAssetsCd#
+						  </isNotEmpty>
+						  <isNotEmpty property="sAssetsSubCd">
+						    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
+						  </isNotEmpty>
+						  <isNotEmpty property="sFcltyCd">
+						    AND F.GIS_PRT_FCLTY_CD = #sFcltyCd#
+						  </isNotEmpty>
+						  <isNotEmpty property="sPrtFcltyNm">
+						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+						  </isNotEmpty>
 						ORDER BY
 						  F.GIS_ASSETS_CD DESC
 						  , F.GIS_ASSETS_PRT_AT_CODE DESC
@@ -69,10 +77,39 @@
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-	
     </select>
     
-    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecDetail">
+    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecMngListTotCnt" parameterClass="gamCivilFcltySpecMngVO" resultClass="int">
+    	SELECT 
+    	  COUNT(*) TOTCNT
+		FROM
+		  GIS_PRT_FCLTY_CD_F F
+		INNER JOIN  
+		  GIS_ASSETS_CD_F A
+		ON
+		  F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+		  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+		  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+		WHERE
+		  F.PRT_FCLTY_SE = 'C'  
+		  <isNotEmpty property="sPrtAtCode">
+		  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		  </isNotEmpty>
+		  <isNotEmpty property="sAssetsCd">
+		  	AND F.GIS_ASSETS_CD = #sAssetsCd#
+		  </isNotEmpty>
+		  <isNotEmpty property="sAssetsSubCd">
+		    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
+		  </isNotEmpty>
+		  <isNotEmpty property="sFcltyCd">
+		    AND F.GIS_PRT_FCLTY_CD = #sFcltyCd#
+		  </isNotEmpty>
+		  <isNotEmpty property="sPrtFcltyNm">
+		  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+		  </isNotEmpty>
+    </select>
+    
+    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail">
 		INSERT INTO
 		  CVL_ENG_FCLTY_SPEC_F (
 		    FCLTS_MNG_NO
@@ -183,7 +220,7 @@
 		  )    
     </insert>
     
-    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecDetail">
+    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail">
 		UPDATE CVL_ENG_FCLTY_SPEC_F 
 		  SET
 		    LOC = #loc#
@@ -240,7 +277,7 @@
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </update>
     
-    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecDetail">
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail">
 		DELETE FROM CVL_ENG_FCLTY_SPEC_F
 		  WHERE
 		    FCLTS_MNG_NO = #fcltsMngNo#

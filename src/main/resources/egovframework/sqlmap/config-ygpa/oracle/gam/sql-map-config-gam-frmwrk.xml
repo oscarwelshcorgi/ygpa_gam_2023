@@ -13,4 +13,4 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/maps/GamMapsFcltyMngtDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/mnu/GamMainMenuLoadDao_SQL_oracle.xml"/>
 
-</sqlMapConfig>
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamGisPrtFcltyCdMngtDao_SQL_oracle.xml" /></sqlMapConfig>
