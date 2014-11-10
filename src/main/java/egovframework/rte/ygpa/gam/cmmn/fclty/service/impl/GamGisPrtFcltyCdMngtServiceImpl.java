@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
 
@@ -27,6 +29,7 @@ import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService
  * </pre>
  */
 
+@Service("gamGisPrtFcltyCdMngtService")
 public class GamGisPrtFcltyCdMngtServiceImpl extends AbstractServiceImpl implements GamGisPrtFcltyCdMngtService {
 	@Resource(name="gamGisPrtFcltyCdMngtDao")
 	GamGisPrtFcltyCdMngtDao gamGisPrtFcltyCdMngtDao;
