@@ -82,18 +82,18 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 
 	// 시설관리 저장
-	public String insertFclty(Map form) throws Exception{
-		return gamConsFcltySpecMngDao.insertFclty(form);
+	public void insertFcltySpec(Map form) throws Exception{
+		gamConsFcltySpecMngDao.insertFcltySpec(form);
 	}
 
 	// 시설관리 수정
-	public void updateFclty(Map form) throws Exception{
-		gamConsFcltySpecMngDao.updateFclty(form);
+	public void updateFcltySpec(Map form) throws Exception{
+		gamConsFcltySpecMngDao.updateFcltySpec(form);
 	}
 
 	// 시설 정보 삭제
-	public void deleteFclty(Map vo) throws Exception{
-		gamConsFcltySpecMngDao.deleteFclty(vo);
+	public void deleteFcltySpec(Map vo) throws Exception{
+		gamConsFcltySpecMngDao.deleteFcltySpec(vo);
 	}
 
 	// 시설 파일 삭제

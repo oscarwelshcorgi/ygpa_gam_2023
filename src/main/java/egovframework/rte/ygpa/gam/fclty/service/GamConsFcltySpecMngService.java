@@ -99,13 +99,13 @@ public interface GamConsFcltySpecMngService {
 	
 
 	// 시설관리 저장
-	public String insertFclty(Map form) throws Exception;
+	public void insertFcltySpec(Map form) throws Exception;
 
 	// 시설관리 수정
-	public void updateFclty(Map form) throws Exception;
+	public void updateFcltySpec(Map form) throws Exception;
 
 	// 시설 정보 삭제
-	public void deleteFclty(Map vo) throws Exception;
+	public void deleteFcltySpec(Map vo) throws Exception;
 
 	// 시설 파일 저장
 	public List mergeFcltyPhotoMngt(Map mergeList, String prtFcltySe) throws Exception;

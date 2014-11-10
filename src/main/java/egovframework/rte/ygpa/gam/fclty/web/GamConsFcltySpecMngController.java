@@ -28,6 +28,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngService;
 
@@ -57,6 +58,9 @@ public class GamConsFcltySpecMngController {
 
 	@Resource(name = "gamConsFcltySpecMngService")
 	protected GamConsFcltySpecMngService gamConsFcltySpecMngService;
+	
+	@Resource(name = "gamGisPrtFcltyCdMngtService")
+	protected GamGisPrtFcltyCdMngtService gamGisPrtFcltyCdMngtService;
 
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -214,9 +218,17 @@ public class GamConsFcltySpecMngController {
 
     	fcltyItem.put("USERID",user.getId());
     	fcltyItem.put("prtFcltySe",prtFcltySe);
+    	
+    	
 
     	try {
-    		gamConsFcltySpecMngService.insertFclty(fcltyItem);
+    		fcltyItem.put("gisPrtFcltySeq",gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyItem));
+    		
+    		// GIS 항만시설코드 입력
+    		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(fcltyItem);
+    		
+    		// 건축시설 제원 입력
+    		gamConsFcltySpecMngService.insertFcltySpec(fcltyItem);
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -300,7 +312,15 @@ public class GamConsFcltySpecMngController {
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamConsFcltySpecMngService.updateFclty(fcltyMngtList);
+    		
+    		fcltyMngtList.put("gisPrtFcltySeq",gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyMngtList));
+    		
+    		// GIS 항만시설코드 수정
+    		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(fcltyMngtList);
+    		
+    		// 건축시설 제원 수정
+    		gamConsFcltySpecMngService.updateFcltySpec(fcltyMngtList);
+    		
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
@@ -335,7 +355,14 @@ public class GamConsFcltySpecMngController {
     	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		gamConsFcltySpecMngService.deleteFclty(fcltyManageVO);
+    		
+    		fcltyManageVO.put("gisPrtFcltySeq",gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyManageVO));
+    		
+    		// GIS 항만시설코드 삭제
+    		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(fcltyManageVO);
+    		
+    		// 건축시설 제원 삭제
+    		gamConsFcltySpecMngService.deleteFcltySpec(fcltyManageVO);
 
             map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

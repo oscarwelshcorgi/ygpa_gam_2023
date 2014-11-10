@@ -248,7 +248,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
-			var info = "||"+this.$("#info1").val();
+			/* var info = "||"+this.$("#info1").val();
 			info += "||"+this.$("#info2").val();
 			info += "||"+this.$("#info3").val();
 			info += "||"+this.$("#info4").val();
@@ -266,7 +266,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			info += "||"+this.$("#info16").val();
 			info += "||"+ JSON.stringify(this.$('#fcltyinfo9').flexGetData());
 
-			inputVO[inputVO.length]={name: 'info', value: info};
+			inputVO[inputVO.length]={name: 'info', value: info}; */
 			// 날짜 설정
 			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
@@ -431,7 +431,7 @@ GamConstFcltySpecMngModule.prototype.clearPhotoPage = function() {
 
 GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 	var row = this.$('#constFcltySpecMngList').selectedRows();
-	if(row.length <= 0) {
+	if(row.length <= 0 || this._cmd == "insert") {
  		this.clearPhotoPage();
 		return;
 	}
@@ -459,7 +459,8 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 
 		var row = this.$('#constFcltySpecMngList').selectedRows();
 
-		if(row.length == 1){
+		if(row.length == 1 && this._cmd != "insert"){
+
 			row=row[0];
 			var prtFclty = [
 			                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
@@ -477,11 +478,11 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 	   	 			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
 	   	 			module.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
 
-	    	 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
-	                  module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
+	    	 		module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+	                module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
 	   	 		}
 	   	 		else {
-	   	 			alert(result.resultMsg);
+	   	 			//alert(result.resultMsg);
 	   	 		}
 	   	 	});
 		}else{
@@ -495,7 +496,7 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 		
 		var row = this.$('#constFcltySpecMngList').selectedRows();
 		
-		if(row.length == 1){
+		if(row.length == 1 && this._cmd == "modify"){
 			row=row[0];
 			var prtFclty = [
 			                { name: 'fcltsMngNo', value: row['fcltsMngNo'] }
@@ -751,7 +752,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">승강기대수비상용</th>
 							<td><input class="text" type="text" size="20" id="liftCntEmgcy" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">유류저장시설위치</th>
-							<tdd colspan="3"><input class="text" type="text" size="75" id="oilSaveFcltyLoc" maxlength="40" /></td>
+							<td colspan="3"><input class="text" type="text" size="75" id="oilSaveFcltyLoc" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">냉방유무</th>

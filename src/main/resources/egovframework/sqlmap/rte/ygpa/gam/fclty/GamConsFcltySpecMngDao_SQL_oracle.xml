@@ -8,58 +8,115 @@
     <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="gamConsFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO"/>
 
-    <insert id="gamConsFcltySpecMngDao.insertFclty">
-   		<selectKey keyProperty="maxFcltySeq" resultClass="String">
-	       	SELECT LPAD(NVL(MAX(GIS_PRT_FCLTY_SEQ),0) + 1,'4','0')
-				FROM GIS_PRT_FCLTY_CD_F
-		   	WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
-				AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-				AND GIS_ASSETS_CD = #gisAssetsCd#
-				AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-				AND PRT_FCLTY_SE = #prtFcltySe#
-	    </selectKey>
+    <insert id="gamConsFcltySpecMngDao.insertFcltySpec">
 		<![CDATA[
-			INSERT INTO GIS_PRT_FCLTY_CD_F
-			( GIS_PRT_FCLTY_CD
-			, GIS_PRT_FCLTY_SEQ
-			, PRT_FCLTY_NM
-			, PRT_FCLTY_STNDRD
-			, PRT_FCLTY_UNIT
-			, PRT_FCLTY_INSTL_DT
-			, PRT_FCLTY_CHANGE_DT
-			, REG_USR
-			, REGIST_DT
-			, PRT_FCLTY_SE
-			, PRT_FCLTY_MNG_ENTRPS_CD
-			, PRT_FCLTY_GIS_CD
-			, GIS_ASSETS_PRT_AT_CODE
-			, GIS_ASSETS_CD
-			, GIS_ASSETS_SUB_CD
-			, LA_CRDNT
-			, LO_CRDNT
-			, PRT_PRT_FCLTY_MNGER
-			, INFO
+			INSERT INTO ARCH_FCLTY_SPEC_F
+			(
+				BLD_DT
+				, FLAW_END_DT
+				, BASE_FMT
+				, STRCT_FMT
+				, AR
+				, ARCH_AR
+				, PLOT_AR
+				, MAIN_USAGE_PRPOS
+				, PRK_AR
+				, ISD_PRK_AR
+				, OSD_PRK_AR
+				, PRK_CNT
+				, ISD_PRK_CNT
+				, OSD_PRK_CNT
+				, EXHAUST_DUCT_ENNC
+				, VNTLTN_ARCNDT_MTHD
+				, WRT_TANK_LOC
+				, SBT_LOC
+				, OIL_SAVEFCLTY_LOCa
+				, SWG_CLUPFCLTY_LOC
+				, LIFT_CNT_PSNGR
+				, LIFT_CNT_CARGO
+				, LIFT_CNT_EMGCY
+				, LIFT_OPER_MTHD
+				, CLNG_ENNC
+				, CLNG_SRC
+				, HTNG_ENNC
+				, HTNG_SRC
+				, SPICTANK_FMT
+				, ELCTY_LEAD_IN_CAPA
+				, FCG
+				, ITR
+				, CEIL
+				, ROOF
+				, ROOF_WTPRF
+				, PLAN_CNST_NM
+				, PLAN_EXC_CMPNY
+				, PLAN_BEGIN_DT
+				, PLAN_END_DT
+				, CNSTRCT_CNST_NM
+				, CNSTRCT_EXC_CMPNY
+				, CNSTRCT_BEGIN_DT
+				, CNSTRCT_END_DT
+				, RM
+				, REG_USR
+				, REGIST_DT
+				, UPD_USR
+				, UPDT_DT
+				, FCLTS_MNG_NO
+				, LOC
+				, ARCH_FCLTS_CL_CD
 			)
 			VALUES
-			( #gisPrtFcltyCd#
-			, #maxFcltySeq#
-			, #prtFcltyNm#
-			, #prtFcltyStndrd#
-			, #prtFcltyUnit#
-			, #prtFcltyInstlDt#
-			, #prtFcltyChangeDt#
-			, #regUsr#
-			, SYSDATE
-			, #prtFcltySe#
-			, #prtFcltyMngEntrpsCd#
-			, #prtFcltyGisCd#
-			, #gisAssetsPrtAtCode#
-			, #gisAssetsCd#
-			, #gisAssetsSubCd#
-			, #laCrdnt#
-			, #loCrdnt#
-			, #prtPrtFcltyMnger#
-			, #info#
+			(
+				#bldDt#
+				, #flawEndDt#
+				, #baseFmt#
+				, #strctFmt#
+				, #ar#
+				, #archAr#
+				, #plotAr#
+				, #mainUsagePrpos#
+				, #prkAr#
+				, #isdPrkAr#
+				, #osdPrkAr#
+				, #prkCnt#
+				, #isdPrkCnt#
+				, #osdPrkCnt#
+				, #exhaustDuctEnnc#
+				, #vntltnArcndtMthd#
+				, #wrtTankLoc#
+				, #sbtLoc#
+				, #oilSavefcltyLoc#
+				, #swgClupfcltyLoc#
+				, #liftCntPsngr#
+				, #liftCntCargo#
+				, #liftCntEmgcy#
+				, #liftOperMthd#
+				, #clngEnnc#
+				, #clngSrc#
+				, #htngEnnc#
+				, #htngSrc#
+				, #spictankFmt#
+				, #elctyLeadInCapa#
+				, #fcg#
+				, #itr#
+				, #ceil#
+				, #roof#
+				, #roofWtprf#
+				, #planCnstNm#
+				, #planExcCmpny#
+				, #planBeginDt#
+				, #planEndDt#
+				, #cnstrctCnstNm#
+				, #cnstrctExcCmpny#
+				, #cnstrctBeginDt#
+				, #cnstrctEndDt#
+				, #rm#
+				, #regUsr#
+				, #registDt#
+				, #updUsr#
+				, #updtDt#
+				, #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #gisPrtFcltySeq# || #prtFcltySe#
+				, #loc#
+				, #archFcltsClCd#
 			)
 		]]>
 	</insert>
@@ -223,44 +280,79 @@
 
 	<select id="gamConsFcltySpecMngDao.fcltyMngSelectView" resultClass="egovMap" parameterClass="hashMap" >
 	    /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.select */
-		SELECT C.GIS_ASSETS_CD,
-		       C.GIS_ASSETS_PRT_AT_CODE ,
-		       (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = C.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME,
-		       C.GIS_ASSETS_SUB_CD ,
-		       C.GIS_PRT_FCLTY_CD ,
-		       C.GIS_PRT_FCLTY_SEQ ,
-		       C.PRT_FCLTY_NM ,
-		       C.PRT_FCLTY_STNDRD ,
-		       C.PRT_FCLTY_UNIT ,
-		       TO_CHAR(TO_DATE(C.PRT_FCLTY_INSTL_DT), 'YYYY-MM-DD') AS PRT_FCLTY_INSTL_DT ,
-		       TO_CHAR(TO_DATE(C.PRT_FCLTY_CHANGE_DT), 'YYYY-MM-DD') AS PRT_FCLTY_CHANGE_DT ,
-		       C.REG_USR ,
-		       TO_CHAR(TO_DATE(C.REGIST_DT), 'YYYY-MM-DD') AS REGIST_DT ,
-		       C.UPD_USR ,
-		       TO_CHAR(TO_DATE(C.UPDT_DT), 'YYYY-MM-DD') AS UPDT_DT ,
-		       C.PRT_FCLTY_SE ,
-		       C.PRT_FCLTY_MNG_ENTRPS_CD ,
-		       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = C.PRT_FCLTY_MNG_ENTRPS_CD) AS PRT_FCLTY_MNG_ENTRPS_NM ,
-		       C.PRT_FCLTY_GIS_CD,
-		       P.GIS_ASSETS_LOCPLC,
-		       P.GIS_ASSETS_LNM,
-		       P.GIS_ASSETS_LNM_SUB,
-		       P.GIS_ASSETS_NM,
-		       C.LA_CRDNT,
-		       C.LO_CRDNT,
-		       C.LAT,
-		       C.LNG,
-		       C.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR,
-		       GAM_GETCODENAME('GAM002', P.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM,
-		       GAM_GETCODENAME('GAM058', C.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM ,
-		       C.PRT_PRT_FCLTY_MNGER,
-		       C.INFO,
-		       C.FCLTS_MNG_NO
+		SELECT 
+				C.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
+				, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = C.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+				, C.GIS_ASSETS_CD
+				, C.GIS_ASSETS_SUB_CD
+				, C.GIS_ASSETS_PRT_AT_CODE
+				, P.GIS_ASSETS_NM
+				, P.GIS_ASSETS_LNM
+				, P.GIS_ASSETS_LNM_SUB
+				, P.GIS_ASSETS_LOCPLC
+				, C.GIS_PRT_FCLTY_CD
+				, C.GIS_PRT_FCLTY_SEQ
+				, GAM_GETCODENAME('GAM058', C.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
+				, C.PRT_FCLTY_NM
+				, C.FCLTS_MNG_NO
+				, S.BLD_DT
+				, S.FLAW_END_DT
+				, S.BASE_FMT
+				, S.STRCT_FMT
+				, S.AR
+				, S.ARCH_AR
+				, S.PLOT_AR
+				, S.MAIN_USAGE_PRPOS
+				, S.PRK_AR
+				, S.ISD_PRK_AR
+				, S.OSD_PRK_AR
+				, S.PRK_CNT
+				, S.ISD_PRK_CNT
+				, S.OSD_PRK_CNT
+				, S.EXHAUST_DUCT_ENNC
+				, S.VNTLTN_ARCNDT_MTHD
+				, S.WRT_TANK_LOC
+				, S.SBT_LOC
+				, S.OIL_SAVEFCLTY_LOC
+				, S.SWG_CLUPFCLTY_LOC
+				, S.LIFT_CNT_PSNGR
+				, S.LIFT_CNT_CARGO
+				, S.LIFT_CNT_EMGCY
+				, S.LIFT_OPER_MTHD
+				, S.CLNG_ENNC
+				, S.CLNG_SRC
+				, S.HTNG_ENNC
+				, S.HTNG_SRC
+				, S.SPICTANK_FMT
+				, S.ELCTY_LEAD_IN_CAPA
+				, S.FCG
+				, S.ITR
+				, S.CEIL
+				, S.ROOF
+				, S.ROOF_WTPRF
+				, S.PLAN_CNST_NM
+				, S.PLAN_EXC_CMPNY
+				, S.PLAN_BEGIN_DT
+				, S.PLAN_END_DT
+				, S.CNSTRCT_CNST_NM
+				, S.CNSTRCT_EXC_CMPNY
+				, S.CNSTRCT_BEGIN_DT
+				, S.CNSTRCT_END_DT
+				, S.RM
+				, S.REG_USR
+				, S.REGIST_DT
+				, S.UPD_USR
+				, S.UPDT_DT
+				, S.FCLTS_MNG_NO
+				, S.LOC
+				, S.ARCH_FCLTS_CL_CD
 		  FROM GIS_PRT_FCLTY_CD_F C,
-		       GIS_ASSETS_CD_F P
+		       GIS_ASSETS_CD_F P,
+		       ARCH_FCLTY_SPEC_F S
 		 WHERE P.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
 		       AND P.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD
 		       AND P.GIS_ASSETS_CD = C.GIS_ASSETS_CD
+		       AND C.FCLTS_MNG_NO = S.FCLTS_MNG_NO 
 		 	   AND C.GIS_ASSETS_CD = #gisAssetsCd#
 		       AND C.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		       AND C.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
@@ -378,58 +470,62 @@
         ]]>
     </insert>
 
-  	<update id="gamConsFcltySpecMngDao.updateFclty">
+  	<update id="gamConsFcltySpecMngDao.updateFcltySpec">
         <![CDATA[
-            UPDATE GIS_PRT_FCLTY_CD_F
+            UPDATE ARCH_FCLTY_SPEC_F
             SET
-		       PRT_FCLTY_NM = #prtFcltyNm#,
-		       PRT_FCLTY_STNDRD = #prtFcltyStndrd#,
-		       PRT_FCLTY_UNIT = #prtFcltyUnit#,
-		       PRT_FCLTY_INSTL_DT = #prtFcltyInstlDt#,
-		       PRT_FCLTY_CHANGE_DT = #prtFcltyChangeDt#,
-		       UPD_USR = #updUsr#,
-		       UPDT_DT = SYSDATE,
-		       PRT_FCLTY_MNG_ENTRPS_CD = #prtFcltyMngEntrpsCd#,
-		       PRT_FCLTY_GIS_CD = #prtFcltyGisCd#,
-		       LA_CRDNT = #laCrdnt#,
-		       LO_CRDNT = #loCrdnt# ,
-		       PRT_PRT_FCLTY_MNGER = #prtPrtFcltyMnger#,
-		       INFO = #info#,
-		       GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+				BLD_DT = #bldDt#
+				,FLAW_END_DT = #flawEndDt#
+				,BASE_FMT = #baseFmt#
+				,STRCT_FMT = #strctFmt#
+				,AR = #ar#
+				,ARCH_AR = #archAr#
+				,PLOT_AR = #plotAr#
+				,MAIN_USAGE_PRPOS = #mainUsagePrpos#
+				,PRK_AR = #prkAr#
+				,ISD_PRK_AR = #isdPrkAr#
+				,OSD_PRK_AR = #osdPrkAr#
+				,PRK_CNT = #prkCnt#
+				,ISD_PRK_CNT = #isdPrkCnt#
+				,OSD_PRK_CNT = #osdPrkCnt#
+				,EXHAUST_DUCT_ENNC = #exhaustDuctEnnc#
+				,VNTLTN_ARCNDT_MTHD = #vntltnArcndtMthd#
+				,WRT_TANK_LOC = #wrtTankLoc#
+				,SBT_LOC = #sbtLoc#
+				,OIL_SAVEFCLTY_LOCa = #oilSavefcltyLoc#
+				,SWG_CLUPFCLTY_LOC = #swgClupfcltyLoc#
+				,LIFT_CNT_PSNGR = #liftCntPsngr#
+				,LIFT_CNT_CARGO = #liftCntCargo#
+				,LIFT_CNT_EMGCY = #liftCntEmgcy#
+				,LIFT_OPER_MTHD = #liftOperMthd#
+				,CLNG_ENNC = #clngEnnc#
+				,CLNG_SRC = #clngSrc#
+				,HTNG_ENNC = #htngEnnc#
+				,HTNG_SRC = #htngSrc#
+				,SPICTANK_FMT = #spictankFmt#
+				,ELCTY_LEAD_IN_CAPA = #elctyLeadInCapa#
+				,FCG = #fcg#
+				,ITR = #itr#
+				,CEIL = #ceil#
+				,ROOF = #roof#
+				,ROOF_WTPRF = #roofWtprf#
+				,PLAN_CNST_NM = #planCnstNm#
+				,PLAN_EXC_CMPNY = #planExcCmpny#
+				,PLAN_BEGIN_DT = #planBeginDt#
+				,PLAN_END_DT = #planEndDt#
+				,CNSTRCT_CNST_NM = #cnstrctCnstNm#
+				,CNSTRCT_EXC_CMPNY = #cnstrctExcCmpny#
+				,CNSTRCT_BEGIN_DT = #cnstrctBeginDt#
+				,CNSTRCT_END_DT = #cnstrctEndDt#
+				,RM = #rm#
+				,UPD_USR = #updUsr#
+				,UPDT_DT = SYSDATE
+				,LOC = #loc#
+				,ARCH_FCLTS_CL_CD = #archFcltsClCd#
         ]]>
-        		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend=",">
-	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-        		</isNotEmpty>
-        		<isNotEmpty property="beforeGisAssetsCd" prepend=",">
-	        		GIS_ASSETS_CD = #gisAssetsCd#
-        		</isNotEmpty>
-        		<isNotEmpty property="beforeGisAssetsSubCd" prepend=",">
-	        		GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-        		</isNotEmpty>
-		 WHERE 1=1
-         		<isNotEmpty property="beforeGisAssetsPrtAtCode" prepend="AND">
-			       GIS_ASSETS_PRT_AT_CODE = #beforeGisAssetsPrtAtCode#
-        		</isNotEmpty>
-        		<isNotEmpty property="beforeGisAssetsCd" prepend="AND">
-					GIS_ASSETS_CD = #beforeGisAssetsCd#
-        		</isNotEmpty>
-        		<isNotEmpty property="beforeGisAssetsSubCd" prepend="AND">
-			       GIS_ASSETS_SUB_CD = #beforeGisAssetsSubCd#
-        		</isNotEmpty>
-        		<isEmpty property="beforeGisAssetsPrtAtCode" prepend="AND">
-	        		GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-        		</isEmpty>
-        		<isEmpty property="beforeGisAssetsCd" prepend="AND">
-	        		GIS_ASSETS_CD = #gisAssetsCd#
-        		</isEmpty>
-        		<isEmpty property="beforeGisAssetsSubCd" prepend="AND">
-	        		GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-        		</isEmpty>
-        <![CDATA[
-		       AND GIS_PRT_FCLTY_CD = #beforeGisPrtFcltyCd#
-		       AND GIS_PRT_FCLTY_SEQ = #beforeGisPrtFcltySeq#
-		       AND PRT_FCLTY_SE = #prtFcltySe#
-        ]]>
+
+		 WHERE FCLTS_MNG_NO = #fcltsMngNo#
+         		
     </update>
 
   	<delete id="gamConsFcltySpecMngDao.deleteFcltyFile">
@@ -490,16 +586,11 @@
     </update>
 
 
-    <delete id="gamConsFcltySpecMngDao.deleteFclty">
+    <delete id="gamConsFcltySpecMngDao.deleteFcltySpec">
         <![CDATA[
 			DELETE
-			  	FROM GIS_PRT_FCLTY_CD_F
-			 WHERE GIS_ASSETS_CD = #gisAssetsCd#
-			    AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-			    AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-			    AND GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
-			    AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
-			    AND PRT_FCLTY_SE = #prtFcltySe#
+			  	FROM ARCH_FCLTY_SPEC_F
+			 WHERE FCLTS_MNG_NO = #fcltsMngNo#
         ]]>
     </delete>
 

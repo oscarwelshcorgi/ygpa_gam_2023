@@ -38,10 +38,8 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 	 * 시설관리 저장
 	 * @param fcltyMngtList
 	 */
-	public String insertFclty(Map form){
-		insert("gamConsFcltySpecMngDao.insertFclty", form);
-
-		return (String)form.get("maxFcltySeq");
+	public void insertFcltySpec(Map form){
+		insert("gamConsFcltySpecMngDao.insertFcltySpec", form);
 	}
 
 
@@ -58,8 +56,8 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 수정화면
      * @param vo
      */
-    public void updateFclty(Map form){
-        update("gamConsFcltySpecMngDao.updateFclty",form);
+    public void updateFcltySpec(Map form){
+        update("gamConsFcltySpecMngDao.updateFcltySpec",form);
     }
 
 
@@ -160,8 +158,8 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 삭제화면
      * @param vo
      */
-    public void deleteFclty(Map vo) throws Exception{
-    	delete("gamConsFcltySpecMngDao.deleteFclty", vo);
+    public void deleteFcltySpec(Map vo) throws Exception{
+    	delete("gamConsFcltySpecMngDao.deleteFcltySpec", vo);
     }
 
     public List mergeFcltyPhoto(Map vo) throws Exception{
