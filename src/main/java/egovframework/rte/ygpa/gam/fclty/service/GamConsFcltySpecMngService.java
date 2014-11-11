@@ -127,4 +127,22 @@ public interface GamConsFcltySpecMngService {
 	 * @throws Exception
 	 */
 	int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 시설 층수 정보 삭제
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	void deleteFcltyFloorSpecData(Map vo) throws Exception;
+	
+	
+	/**
+	 * 시설 층수 정보 입력
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	void insertFcltyFloorSpecList(Map vo) throws Exception;
 }

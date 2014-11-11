@@ -192,5 +192,27 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 	public int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyinfo9ListTotCnt", vo);
     }
+	
+	
+	/**
+	 * 시설 층수 정보 삭제
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public void deleteFcltyFloorSpecData(Map vo) throws Exception{
+		delete("gamConsFcltySpecMngDao.deleteFcltyFloorSpecData", vo);
+	}
+	
+	
+	/**
+	 * 시설 층수 정보 입력
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public void insertFcltyFloorSpecList(Map vo) throws Exception{
+		insert("gamConsFcltySpecMngDao.insertFcltyFloorSpecList", vo);
+	}
 
 }

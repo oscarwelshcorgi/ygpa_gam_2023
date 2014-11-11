@@ -251,7 +251,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		case "fcltyinfo9PopupBtn":
 			var all_rows = this.$('#fcltyinfo9').flexGetData();
-			this.doExecuteDialog("fcltyinfo9Popup", "건축물현황", '/popup/fcltyinfo9ListPopup.do', {},all_rows);
+			this.doExecuteDialog("fcltyinfo9Popup", "건축물현황", '/popup/fcltySpecinfo9ListPopup.do', {},all_rows);
 		break;
 
 		// 저장
@@ -372,6 +372,31 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			    });
 			}
 			break;
+			
+		case 'saveBtnFloor':	// 저장
+			if( confirm("층별제원목록을 저장하시겠습니까?") ) {
+			    // 변경된 자료를 저장한다.
+				var row = this.$("#constFcltySpecMngList").selectedRows();
+
+				row=row[0];
+				
+				var inputVO = [];
+				var searchOpt = JSON.stringify({'fcltsMngNo':row['fcltsMngNo']});
+				var all_rows = JSON.stringify(this.$('#fcltyinfo9').flexGetData());
+				alert(searchOpt);
+				alert(all_rows);
+				inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
+				inputVO[inputVO.length] = {name: 'searchOpt',value: searchOpt};
+
+			    this.doAction('<c:url value="/fclty/gamFcltyFloorSpecSave.do" />', inputVO, function(module, result) {
+			        if(result.resultCode == 0){
+			        	alert(result.resultMsg);
+			        }
+			        
+			    });
+			}
+			
+			break;
 		
 	}
 };
@@ -472,9 +497,15 @@ GamConstFcltySpecMngModule.prototype.loadPhotoList = function() {
 	   	 		else {
 	   	 			//alert(result.resultMsg);
 	   	 		}
+	   	 		
+	   	 		module.$("#gisCodePopupBtn").hide();
+	   	 		module.$("#selectedGAM005").disable();
 	   	 	});
 		}else{
 			this.clearCodePage();
+			
+			this.$("#gisCodePopupBtn").show();
+   	 		this.$("#selectedGAM005").enable();
 		}
 
 		break;
@@ -541,7 +572,6 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 		break;
 		// 건축물현황
 		case "fcltyinfo9Popup":
-			alert('a');
 			this.$("#fcltyinfo9").flexAddData({resultList: value });
 
 		break;
@@ -633,7 +663,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td>
-								<input type="text" size="7" id="fcltsMngGroupNo" *disabled="disabled"/>
+								<input type="text" size="7" id="fcltsMngGroupNo" disabled="disabled"/>
 								<button id="fcltyCodePopupBtn" class="popupButton">선택</button>
 							</td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
@@ -663,7 +693,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" disabled="disabled" />
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">건축시설명</th>
@@ -715,7 +745,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">주차대수</th>
 							<td><input id="prkCnt" type="text" size="20" title="주차대수" /></td>
 							<th width="12%" height="17" class="required_text">옥내주차대수</th>
-							<td><input class="text" type="text" size="20" id="iskPrkCnt" maxlength="40" /></td>
+							<td><input class="text" type="text" size="20" id="isdPrkCnt" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">옥외주차대수</th>
 							<td><input class="text" type="text" size="20" id="osdPrkCnt" maxlength="10" /></td>
 						</tr>
@@ -741,7 +771,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">승강기대수비상용</th>
 							<td><input class="text" type="text" size="20" id="liftCntEmgcy" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">유류저장시설위치</th>
-							<td colspan="3"><input class="text" type="text" size="75" id="oilSaveFcltyLoc" maxlength="40" /></td>
+							<td colspan="3"><input class="text" type="text" size="75" id="oilSavefcltyLoc" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">냉방유무</th>

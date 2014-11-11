@@ -157,5 +157,27 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	public int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
 		return gamConsFcltySpecMngDao.selectFcltyinfo9ListTotCnt(vo);
     }
+	
+	
+	/**
+	 * 시설 층수 정보 삭제
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public void deleteFcltyFloorSpecData(Map vo) throws Exception{
+		gamConsFcltySpecMngDao.deleteFcltyFloorSpecData(vo);
+	}
+	
+	
+	/**
+	 * 시설 층수 정보 입력
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public void insertFcltyFloorSpecList(Map vo) throws Exception{
+		gamConsFcltySpecMngDao.insertFcltyFloorSpecList(vo);
+	}
 
 }

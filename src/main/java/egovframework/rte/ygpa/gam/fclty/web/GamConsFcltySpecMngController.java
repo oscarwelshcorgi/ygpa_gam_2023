@@ -133,6 +133,7 @@ public class GamConsFcltySpecMngController {
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 		List<ComDefaultVO> fcltyMngtList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
+
         int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngListTotCnt(searchVO);
 
         paginationInfo.setTotalRecordCount(totCnt);
@@ -482,10 +483,65 @@ public class GamConsFcltySpecMngController {
      * 건축물 층수 팝업
      */
 	@RequestMapping(value="/popup/fcltySpecinfo9ListPopup.do")
-    String showEntrpsInfo(@RequestParam Map fcltyinfo9List, ModelMap model) throws Exception {
+    String showFloorSpecInfo(@RequestParam Map fcltyinfo9List, ModelMap model) throws Exception {
 
 		model.addAttribute("fcltyinfo9List", fcltyinfo9List);
-    	return "/ygpa/gam/fclty/GamPopupFcltyPopup";
+    	return "/ygpa/gam/fclty/GamPopupFcltySpecPopup";
+    }
+	
+	
+	/**
+	 * 건축시설층별제원 입력
+	 * @param fcltyFloorSpecList
+	 * @return map
+	 * @throws Exception
+	 */
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/fclty/gamFcltyFloorSpecSave.do")
+    @ResponseBody Map<String, Object> insertFcltyFloorSpecList(@RequestParam Map fcltyFloorSpecList)throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String, Object> searchOpt = new HashMap<String, Object>();
+    	Map<String, Object> updateSubData = new HashMap<String, Object>();
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+    	List<HashMap<String,String>> updateList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	
+    	updateList = mapper.readValue((String)fcltyFloorSpecList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
+    	searchOpt = mapper.readValue((String)fcltyFloorSpecList.get("searchOpt"),new TypeReference<HashMap<String,String>>(){});
+
+
+    	try {
+    		
+    		gamConsFcltySpecMngService.deleteFcltyFloorSpecData(searchOpt);
+    		
+    		for(int i=0;i<updateList.size();i++){
+    			updateSubData = (HashMap)updateList.get(i);
+    			
+    			updateSubData.put("fcltsMngNo", searchOpt.get("fcltsMngNo"));
+    			
+    			gamConsFcltySpecMngService.insertFcltyFloorSpecList(updateSubData);
+    		}
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+    	return map;
     }
 
 }

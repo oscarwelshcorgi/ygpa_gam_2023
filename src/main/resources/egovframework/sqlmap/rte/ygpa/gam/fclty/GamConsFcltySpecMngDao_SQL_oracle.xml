@@ -161,6 +161,7 @@
 			                    , DECODE(F.GIS_PRT_FCLTY_CD,'10','광양','11','여수','기타') PRT_FCLTY_SE_NM
 			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
 			                    , F.INFO INFO
+			                    , F.FCLTS_MNG_NO
 		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
 		                WHERE 1 = 1
                         AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
@@ -637,5 +638,51 @@
              WHERE 
              	FCLTS_MNG_NO = #fcltsMngNo#
     </select>
+    
+    
+    <delete id="gamConsFcltySpecMngDao.deleteFcltyFloorSpecData">
+            DELETE
+			FROM 
+				ARCH_FCLTY_FLOOR_SPEC_F
+			WHERE 
+				FCLTS_MNG_NO = #fcltsMngNo#
+    </delete>
+    
+    <insert id="gamConsFcltySpecMngDao.insertFcltyFloorSpecList">
+		INSERT
+		INTO 
+			ARCH_FCLTY_FLOOR_SPEC_F
+		       (
+					BOUND
+					, STRY_SE
+					, AR
+					, WALL_FNSH
+					, FLR_FNSH
+					, CEIL
+					, USAGE_PRPOS
+					, RM
+					, REG_USR
+					, REGIST_DT
+					, UPD_USR
+					, FCLTS_MNG_NO
+					, UPDT_DT
+		       )
+		       VALUES
+		       (
+					#bound#
+					, #strySe#
+					, #ar#
+					, #wallFnsh#
+					, #flrFnsh#
+					, #ceil#
+					, #usagePrpos#
+					, #rm#
+					, #regUsr#
+					, #registDt#
+					, #updUsr#
+					, #fcltsMngNo#
+					, #updtDt#
+		        )
+    </insert>
 
 </sqlMap>
