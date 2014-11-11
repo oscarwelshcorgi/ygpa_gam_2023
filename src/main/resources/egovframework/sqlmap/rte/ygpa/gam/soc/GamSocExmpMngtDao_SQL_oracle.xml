@@ -131,8 +131,7 @@
 	</select>
 
 	<select id="gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo" parameterClass="gamSocExmpMngtVO" resultClass="String">
-		SELECT
-				TO_CHAR(MAX(TO_NUMBER(SOC_NO)) + 1)
+		SELECT LPAD(NVL(MAX(TO_NUMBER(SOC_NO)),0) + 1,'6','0')				
 		FROM
 				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 		WHERE 

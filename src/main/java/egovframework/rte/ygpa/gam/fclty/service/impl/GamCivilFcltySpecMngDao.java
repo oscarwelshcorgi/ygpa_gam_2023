@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngVO;
 
 /**
@@ -49,6 +50,17 @@ public class GamCivilFcltySpecMngDao extends YGPAAbstractDAO {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamCivilFcltySpecMngDao.selectCivilFcltySpecMngListTotCnt", searchVO);
 	}
 
+	
+	/**
+	 * 토목시설재원관리 데이터 조회
+	 * @param vo
+	 * @return egovMap
+	 * @throws Exception
+	 */		
+	public EgovMap selectCivilFcltySpecMngDetail(Map searchVO) throws Exception {
+		return (EgovMap)selectByPk("gamCivilFcltySpecMngDao.selectCivilFcltySpecMngDetail", searchVO);
+	}
+	
 	/**
 	 * 토목시설재원관리 데이터를 삽입한다.
 	 * @param vo

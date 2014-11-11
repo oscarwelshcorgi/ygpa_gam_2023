@@ -105,6 +105,82 @@
 		  </isNotEmpty>
     </select>
     
+    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecMngDetail" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT
+			F.GIS_ASSETS_PRT_AT_CODE
+			, F.GIS_ASSETS_CD
+			, F.GIS_ASSETS_SUB_CD
+			, F.GIS_PRT_FCLTY_CD
+			, F.GIS_PRT_FCLTY_SEQ
+			, F.PRT_FCLTY_SE
+			, F.PRT_FCLTY_NM
+			, F.PRT_FCLTY_STNDRD
+			, F.PRT_FCLTY_UNIT
+			, F.PRT_FCLTY_INSTL_DT
+			, F.PRT_FCLTY_CHANGE_DT
+			, TO_CHAR(F.LA_CRDNT) LA_CRDNT
+			, TO_CHAR(F.LO_CRDNT) LO_CRDNT 
+			, F.PRT_FCLTY_GIS_CD
+			, F.FCLTS_MNG_NO
+			, F.FCLTS_MNG_GROUP_NO
+		    , C.LOC
+		    , TO_CHAR(C.FCLTS_EXT) FCLTS_EXT
+		    , C.STRCT_FMT
+		    , TO_CHAR(C.UPSIDE_ALTUD) UPSIDE_ALTUD
+		    , TO_CHAR(C.UPSIDE_WD) UPSIDE_WD
+		    , TO_CHAR(C.BERTH_DPWT) BERTH_DPWT
+		    , TO_CHAR(C.PERM_WD) PERM_WD
+		    , TO_CHAR(C.APRON_WD) APRON_WD
+		    , C.APRON_PACK_KND
+		    , C.APRON_PACK_GRDNT
+		    , TO_CHAR(C.CSDHP_SHIP_SCL) CSDHP_SHIP_SCL
+		    , TO_CHAR(C.FROST_DMG_WGHT) FROST_DMG_WGHT
+		    , C.BASE_BTTM_SOIL
+		    , C.HNDL_FRGHT
+		    , TO_CHAR(C.PILE_CLBR) PILE_CLBR
+		    , TO_CHAR(C.PILE_EXT) PILE_EXT
+		    , TO_CHAR(C.PILE_QTY) PILE_QTY
+		    , C.SHEET_FILE_STNDRD
+		    , TO_CHAR(C.HYDRNT_QY) HYDRNT_QY 
+		    , TO_CHAR(C.FIREPG_QY) FIREPG_QY
+		    , C.YARD_PACK_KND
+		    , TO_CHAR(C.YARD_AR) YARD_AR
+		    , C.FENDER_KND_CD
+		    , C.FENDER_PMNT_ITV
+		    , C.FENDER_FMT
+		    , C.MRPOST_STNDRD_1
+		    , C.MRPOST_PMNT_ITV_1
+		    , TO_CHAR(C.MRPOST_QY_1) MRPOST_QY_1
+		    , C.MRPOST_PWR_1
+		    , C.MRPOST_STNDRD_2
+		    , C.MRPOST_PMNT_ITV_2
+		    , TO_CHAR(C.MRPOST_QY_2) MRPOST_QY_2
+		    , C.MRPOST_PWR_2
+		    , TO_CHAR(C.BERTH) BERTH
+		    , C.STPL_HNDL_FRGHT
+		    , C.STPL_MOOR_SHIP
+		    , C.BEGIN_PT_LOC
+		    , C.END_PT_LOC
+		    , TO_CHAR(C.WD) WD
+		    , TO_CHAR(C.LT) LT
+ 		    , C.PACK_KND
+		    , TO_CHAR(C.PLAN_HEGH) PLAN_HEGH
+		    , C.WAVEMAIN_DIR
+		    , TO_CHAR(C.OUTER_SWAVE_SLP_RATE) OUTER_SWAVE_SLP_RATE
+		    , TO_CHAR(C.IN_SWAVE_SLP_RATE) IN_SWAVE_SLP_RATE
+		    , C.OUTER_SWAVE_COVER
+		    , C.IN_SWAVE_COVER
+		    , C.CVL_ENG_FCLTS_CL_CD
+    	FROM
+    		GIS_PRT_FCLTY_CD_F F
+    	INNER JOIN
+    		CVL_ENG_FCLTY_SPEC_F C
+    	ON
+    		F.FCLTS_MNG_NO = C.FCLTS_MNG_NO
+    	WHERE
+    		F.FCLTS_MNG_NO = #fcltsMngNo#
+    </select>
+    
     <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail">
 		INSERT INTO
 		  CVL_ENG_FCLTY_SPEC_F (

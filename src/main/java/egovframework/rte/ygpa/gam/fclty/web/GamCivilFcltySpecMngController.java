@@ -89,7 +89,7 @@ public class GamCivilFcltySpecMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamCivilFcltySpecMngList.do")
-	@ResponseBody Map<String, Object> selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -127,6 +127,39 @@ public class GamCivilFcltySpecMngController {
     }
 
 
+	/**
+	 * 토목 시설관리 상세
+	 * @param fcltyManageVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamCivilFcltySpecMngDetail.do")
+    @ResponseBody Map<String, Object> selectCivilFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	EgovMap result=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+        	result = gamCivilFcltySpecMngService.selectCivilFcltySpecMngDetail(searchVO);
+    	}
+    	catch(Exception e) {
+            map.put("resultCode", 2);
+            map.put("resultMsg", e.getMessage());
+            return map;
+    	}
+
+        map.put("resultCode", 0);
+        map.put("result", result);
+
+        return map;		
+	}
+	
 	@RequestMapping(value="/fclty/gamCivilFcltySpecMngDetailInsert.do")
     @ResponseBody Map<String, Object> insertCivilFcltySpecMngDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();

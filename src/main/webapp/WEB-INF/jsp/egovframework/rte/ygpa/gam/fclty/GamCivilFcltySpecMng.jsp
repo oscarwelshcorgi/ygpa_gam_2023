@@ -60,6 +60,12 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this._cmd = '';
 	
 	this.$("#civilFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+			alert('시설물 관리번호에 오류가 있습니다.');
+			return;
+		}
+		module._cmd="modify";
+		module.$("#civilFcltySpecMngTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
 
 	this.$("#selectGisPrtFcltyCd").on("change", {module: this}, function(event) {

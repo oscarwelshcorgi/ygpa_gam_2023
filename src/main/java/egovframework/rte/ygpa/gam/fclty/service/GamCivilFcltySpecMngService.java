@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.fclty.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  * 
  * @author 김종민
@@ -40,6 +42,14 @@ public interface GamCivilFcltySpecMngService {
 	 * @throws Exception
 	 */		
 	int selectCivilFcltySpecMngListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception;
+
+	/**
+	 * 토목시설재원관리 데이터 조회
+	 * @param vo
+	 * @return egovMap
+	 * @throws Exception
+	 */		
+	EgovMap selectCivilFcltySpecMngDetail(Map searchVO) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 데이터를 삽입한다.

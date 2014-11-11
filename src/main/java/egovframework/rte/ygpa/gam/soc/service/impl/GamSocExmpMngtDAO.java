@@ -55,16 +55,7 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	String selectSocExmpMngtGetNextSocNo(GamSocExmpMngtVO searchVO) {
-		String result = (String)getSqlMapClientTemplate().queryForObject("gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo", searchVO);
-		if(result == null) {
-			result = "1";
-		}
-		if(result.length() < 6) {
-			for(int i=0; i < 6-result.length(); i++) {
-				result = "0" + result;
-			}
-		}
-		return result;
+		return (String)getSqlMapClientTemplate().queryForObject("gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo", searchVO);
 	}
 	
 	/**

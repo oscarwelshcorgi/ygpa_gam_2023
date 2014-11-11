@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngVO;
 
@@ -52,6 +53,16 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 */		
 	public int selectCivilFcltySpecMngListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecMngListTotCnt(searchVO);
+	}
+
+	/**
+	 * 토목시설재원관리 데이터 조회
+	 * @param vo
+	 * @return egovMap
+	 * @throws Exception
+	 */		
+	public EgovMap selectCivilFcltySpecMngDetail(Map searchVO) throws Exception {
+		return gamCivilFcltySpecMngDao.selectCivilFcltySpecMngDetail(searchVO);
 	}
 	
 	/**
