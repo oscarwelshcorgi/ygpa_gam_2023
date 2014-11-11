@@ -268,14 +268,11 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 		        		if(result.resultCode == 0) {
 		                	module.$('#gamFcltyCtrtMngSearchForm :input').val('');
 		                	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-		            		opts = [
-		        		               { name: 'sCtrt', value: ' '}
-		         		           ];
-		        			module.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
-		        			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
-		        			module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
-		        			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
-		        			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
+		        			module.$("#fcltyCtrtJoinContrList").flexEmptyData();
+		        			module.$("#fcltyCtrtSubCtrtList").flexEmptyData();
+		        			module.$("#fcltyCtrtChangeList").flexEmptyData();
+		        			module.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
+		        			module.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
 		        			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
 		        		}
 		        		alert(result.resultMsg);

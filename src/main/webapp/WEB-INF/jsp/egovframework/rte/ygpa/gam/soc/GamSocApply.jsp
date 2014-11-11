@@ -118,53 +118,28 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
         			module.makeFormValues('#gamSocApplyDetailForm', result.resultVO);
         			
         			searchOpt = module.makeFormArgs("#gamSocApplySearchForm");
+        			module.$("#socApplyList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
+        			module.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();
         			module.$('#cmd').val('modify');
         		}
         		else {
         			alert(result.resultMsg);
         			module.$('#cmd').val('');
         			module.$('#gamSocApplyDetailForm :input').val('');
-            		searchOpt = [
-     		               { name: 'sPrtAtCode', value: ' '},
-      		               { name: 'sCmplYr', value: ' '},
-      		               { name: 'sConstNo', value: ' '},
-      		               { name: 'sAppPrtAtCode', value: ' '},
-      		               { name: 'sAppAgentCode', value: ' '},
-      		               { name: 'sUseNo', value: ' '},
-     		               { name: 'prtAtCode', value: ' '},
-      		               { name: 'cmplYr', value: ' '},
-      		               { name: 'constNo', value: ' '},
-      		               { name: 'appPrtAtCode', value: ' '},
-      		               { name: 'appAgentCode', value: ' '},
-      		               { name: 'useNo', value: ' '},
-      		           ];
+            		module.$("#socApplyList").flexEmptyData();
+            		module.$("#socApplyFacilList").flexEmptyData();
+            		module.$("#socApplyFeeList").flexEmptyData();
         		}
-    			module.$("#socApplyList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
-    			module.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();
     			module.$("#socApplyListTab").tabs("option", {active: 0});
     		});
             break;
         case 'btnNew' : //등록버튼 처리시
         	this.$('#gamSocApplySearchForm :input').val('');
         	this.$('#gamSocApplyDetailForm :input').val('');
-    		opts = [
-		               { name: 'sPrtAtCode', value: ' '},
- 		               { name: 'sCmplYr', value: ' '},
- 		               { name: 'sConstNo', value: ' '},
- 		               { name: 'sAppPrtAtCode', value: ' '},
- 		               { name: 'sAppAgentCode', value: ' '},
- 		               { name: 'sUseNo', value: ' '},
-		               { name: 'prtAtCode', value: ' '},
- 		               { name: 'cmplYr', value: ' '},
- 		               { name: 'constNo', value: ' '},
- 		               { name: 'appPrtAtCode', value: ' '},
- 		               { name: 'appAgentCode', value: ' '},
- 		               { name: 'useNo', value: ' '},
- 		           ];
-			this.$("#socApplyList").flexOptions({params:opts}).flexReload();
-			this.$("#socApplyFacilList").flexOptions({params:opts}).flexReload();
-			this.$("#socApplyFeeList").flexOptions({params:opts}).flexReload();
+    		this.$("#socApplyList").flexEmptyData();
+    		this.$("#socApplyFacilList").flexEmptyData();
+    		this.$("#socApplyFeeList").flexEmptyData();
 			this.$("#socApplyListTab").tabs("option", {active: 0});
         	this.$('#cmd').val('insert');
         	break;
@@ -223,23 +198,9 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 		        			module.$('#gamSocApplySearchForm :input').val('');
 		            		module.$('#gamSocApplyDetailForm :input').val('');
 		            		
-		            		opts = [
-		     		               { name: 'sPrtAtCode', value: ' '},
-		      		               { name: 'sCmplYr', value: ' '},
-		      		               { name: 'sConstNo', value: ' '},
-		      		               { name: 'sAppPrtAtCode', value: ' '},
-		      		               { name: 'sAppAgentCode', value: ' '},
-		      		               { name: 'sUseNo', value: ' '},
-		     		               { name: 'prtAtCode', value: ' '},
-		      		               { name: 'cmplYr', value: ' '},
-		      		               { name: 'constNo', value: ' '},
-		      		               { name: 'appPrtAtCode', value: ' '},
-		      		               { name: 'appAgentCode', value: ' '},
-		      		               { name: 'useNo', value: ' '},
-		      		           ];
-			     			module.$("#socApplyList").flexOptions({params:opts}).flexReload();
-			     			module.$("#socApplyFacilList").flexOptions({params:opts}).flexReload();
-			     			module.$("#socApplyFeeList").flexOptions({params:opts}).flexReload();
+		            		module.$("#socApplyList").flexEmptyData();
+		            		module.$("#socApplyFacilList").flexEmptyData();
+		            		module.$("#socApplyFeeList").flexEmptyData();
 			     			module.$("#socApplyListTab").tabs("option", {active: 0});
 		        		}
 		        		alert(result.resultMsg);
