@@ -174,6 +174,16 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 };
 
+GamConstFcltySpecMngModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	if((newTabId=='tabs2' || newTabId=='tabs3' || newTabId=='tabs4') && this._cmd != 'insert') {
+		if(this.$('#constFcltySpecMngList').selectedRowCount()!=1) {
+			alert('상세 내역을 조회 할 건축시설 항목을 선택 하세요.');
+			return false;
+		}
+	}
+	return true;
+};
+
 GamConstFcltySpecMngModule.prototype.applyPhotoChanged = function(target) {
 	var changed=false;
 	var row={};
@@ -209,6 +219,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 조회
 		case "searchBtn":
+			this._cmd="";
 			var searchOpt=this.makeFormArgs("#fcltyForm");
 		 	this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 		 	this.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
@@ -245,31 +256,8 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-
-			if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
+			//if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
-			/* var info = "||"+this.$("#info1").val();
-			info += "||"+this.$("#info2").val();
-			info += "||"+this.$("#info3").val();
-			info += "||"+this.$("#info4").val();
-			info += "||"+this.$("#info5").val();
-			info += "||"+this.$("#info6").val();
-			info += "||"+this.$("#info7").val();
-			info += "||"+this.$("#info8").val();
-			info += "||"+this.$("#info9").val();
-			info += "||"+this.$("#info10").val();
-			info += "||"+this.$("#info11").val();
-			info += "||"+this.$("#info12").val();
-			info += "||"+this.$("#info13").val();
-			info += "||"+this.$("#info14").val();
-			info += "||"+this.$("#info15").val();
-			info += "||"+this.$("#info16").val();
-			info += "||"+ JSON.stringify(this.$('#fcltyinfo9').flexGetData());
-
-			inputVO[inputVO.length]={name: 'info', value: info}; */
-			// 날짜 설정
-			this.$("#prtFcltyInstlDt").val(this.$("#prtFcltyInstlDt").val().replace(/\-/g,""));
-			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
 
 		 	if(this._cmd == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecInsert.do" />', inputVO, function(module, result) {
@@ -553,6 +541,7 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 		break;
 		// 건축물현황
 		case "fcltyinfo9Popup":
+			alert('a');
 			this.$("#fcltyinfo9").flexAddData({resultList: value });
 
 		break;
@@ -604,7 +593,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 
 
 	<div class="emdPanel fillHeight">
-		<div id="constFcltySpecMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="constFcltySpecMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">건축시설 제원</a></li>
@@ -644,7 +633,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td>
-								<input type="text" size="7" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="7" id="fcltsMngGroupNo" *disabled="disabled"/>
 								<button id="fcltyCodePopupBtn" class="popupButton">선택</button>
 							</td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
