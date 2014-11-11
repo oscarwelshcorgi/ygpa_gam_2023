@@ -127,9 +127,6 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "btnAdd":
 			this._cmd = 'insert';
 			this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
-			this.$('#fcltyPhotoList').flexEmptyData();
-			this.$("#fcltyManageVO :input").val("");
-			this.$("#dispfcltsMngNo").text("");
 			break;
 		
 		// 저장
@@ -146,6 +143,17 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			 		}
 			 		alert(result.resultMsg);
 			 	});
+			} else if (this._cmd == "modify") { 
+				this.doAction('<c:url value="/fclty/gamCivilFcltySpecMngDetailUpdate.do" />', opts, function(module, result) {
+					if(result.resultCode == "0"){
+			 			var searchOpt = module.makeFormArgs("#searchCivilFcltySpecMngForm");
+						module.$("#civilFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+						module.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+						module.$("#fcltyManageVO :input").val("");
+						module.$("#dispfcltsMngNo").text("");						
+					}
+					alert(result.resultMsg);
+				});
 			}			
 			break;
 	}
@@ -188,8 +196,37 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 	case "tabs1":
 		break;
 	case "tabs2":
+		if(this._cmd=="modify") {
+			var rows = this.$('#civilFcltySpecMngList').selectedRows();
+			var row = rows[0];
+			var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo']}];
+			this.doAction('<c:url value="/fclty/gamCivilFcltySpecMngDetail.do" />', opts, function(module, result) { 
+				module.$("#fcltyManageVO :input").val("");
+				module.$("#dispfcltsMngNo").text("");
+				if(result.resultCode == "0"){
+					module.makeFormValues('#fcltyManageVO', result.result);
+					module.$("#dispfcltsMngNo").text(row['fcltsMngNo']);
+					module.$("#selectGisPrtFcltyCd").disable();
+					module.$("#searchGisCodeBtn2").hide();
+				}
+				else {
+					this._cmd="";
+					module.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+					alert(result.resultMsg);
+				}
+			});
+		} else if(this._cmd=="insert") {
+			this.$('#fcltyPhotoList').flexEmptyData();
+			this.$("#fcltyManageVO :input").val("");
+			this.$("#dispfcltsMngNo").text("");
+			this.$("#selectGisPrtFcltyCd").enable();
+			this.$("#searchGisCodeBtn2").show();
+		} else {
+			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+		}
 		break;
 	case "tabs3":
+		break;
 	}
 };
 
@@ -311,7 +348,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">항코드</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
-							<td><input type="text" size="23" id="gisAssetsNm" disabled="disabled"/></td>
+							<td><input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/><button id="searchFcltsMngGroupNo" class="popupButton">선택</button></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
 								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-

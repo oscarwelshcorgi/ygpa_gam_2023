@@ -68,6 +68,7 @@ public class GamCivilFcltySpecMngController {
     @Resource(name="gamGisPrtFcltyCdMngtService")
     GamGisPrtFcltyCdMngtService gamGisPrtFcltyCdMngtService;
     
+    private final static String prtFcltySe = "C";    
 	/**
      * 토목시설 관리화면호출
      * @param windowId
@@ -111,7 +112,6 @@ public class GamCivilFcltySpecMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		
 		List resultList = gamCivilFcltySpecMngService.selectCivilFcltySpecMngList(searchVO);
 		int totCnt = gamCivilFcltySpecMngService.selectCivilFcltySpecMngListTotCnt(searchVO);
 		
@@ -176,7 +176,7 @@ public class GamCivilFcltySpecMngController {
     	insertMap.put("regUsr", user.getId());
     	
     	try {
-    		insertMap.put("prtFcltySe", "C");
+    		insertMap.put("prtFcltySe", prtFcltySe);
     		insertMap.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtService.selectNextFcltySeq(insertMap));
     		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(insertMap);
     		gamCivilFcltySpecMngService.insertCivilFcltySpecMngDetail(insertMap);
@@ -191,4 +191,34 @@ public class GamCivilFcltySpecMngController {
       	return map;		
 	}
 	
+	@RequestMapping(value="/fclty/gamCivilFcltySpecMngDetailUpdate.do")
+    @ResponseBody Map<String, Object> updateCivilFcltySpecMngDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	updateMap.put("updUsr", user.getId());
+    	
+    	try {
+    		updateMap.put("prtFcltySe", prtFcltySe);
+    		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(updateMap);
+    		gamCivilFcltySpecMngService.updateCivilFcltySpecMngDetail(updateMap);
+    		
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+      	return map;		
+	}
+
 }
