@@ -95,4 +95,65 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 		gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail(vo);
 	}	
 	
+	/**
+	 * 토목시설재원관리 첨부파일 목록을 가져온다.
+	 * @param vo
+	 * @return list 
+	 * @throws Exception
+	 */		
+	public List selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
+		return gamCivilFcltySpecMngDao.selectCivilFcltySpecFileList(searchVO);
+	}
+
+	/**
+	 * 토목시설재원관리 첨부파일 목록 총수를 가져온다.
+	 * @param vo
+	 * @return list 
+	 * @throws Exception
+	 */		
+	public int selectCivilFcltySpecFileListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception {
+		return gamCivilFcltySpecMngDao.selectCivilFcltySpecFileListTotCnt(searchVO);
+	}
+
+
+	/**
+	 * 토목시설재원관리 첨부파일 데이터를 삽입한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void insertCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.insertCivilFcltySpecFileDetail(vo);
+	}
+	
+	/**
+	 * 토목시설재원관리 첨부파일 데이터를 수정한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void updateCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.updateCivilFcltySpecFileDetail(vo);
+	}
+
+	/**
+	 * 토목시설재원관리 첨부파일 데이터를 삭제한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */			
+	public void deleteCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileDetail(vo);
+	}
+
+	/**
+	 * 토목시설재원관리 첨부파일 목록을 삭제한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */			
+	public void deleteCivilFcltySpecFileList(Map<String, Object> vo) throws Exception {
+		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList(vo);
+	}
+	
 }

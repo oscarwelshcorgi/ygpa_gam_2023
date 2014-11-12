@@ -40,7 +40,8 @@ public class GamCivilFcltySpecMngVO extends ComDefaultVO {
 	/** 시설명 (조회조건) **/
 	private String sPrtFcltyNm;
 
-
+	/** 시설물 관리 번호 (조회조건-첨부파일) **/
+	private String sFcltsMngNo;
 	
 	/**
 	 * @return the sPrtAtCode
@@ -110,6 +111,20 @@ public class GamCivilFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setsPrtFcltyNm(String sPrtFcltyNm) {
 		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
+
+	/**
+	 * @return the sFcltsMngNo
+	 */
+	public String getsFcltsMngNo() {
+		return sFcltsMngNo;
+	}
+
+	/**
+	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 */
+	public void setsFcltsMngNo(String sFcltsMngNo) {
+		this.sFcltsMngNo = sFcltsMngNo;
 	}
 	
 }

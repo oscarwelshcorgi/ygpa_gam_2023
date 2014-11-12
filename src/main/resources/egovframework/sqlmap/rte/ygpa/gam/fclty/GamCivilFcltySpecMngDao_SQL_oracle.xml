@@ -360,4 +360,109 @@
 		  WHERE
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </delete>
+    
+    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecFileList" parameterClass="gamCivilFcltySpecMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+						  FCLTS_MNG_NO
+						  , ATCH_FILE_SEQ
+						  , ATCH_FILE_SE
+						  , (CASE WHEN ATCH_FILE_SE = 'D' THEN '문서' 
+                                  WHEN ATCH_FILE_SE = 'P' THEN '사진'
+                                  WHEN ATCH_FILE_SE = 'Z' THEN '기타'
+                            END) AS ATCH_FILE_SE_NM
+						  , ATCH_FILE_SJ
+						  , ATCH_FILE_NM_LOGIC
+						  , ATCH_FILE_NM_PHYSICL
+						  , TO_CHAR(ATCH_FILE_WRITNG_DT, 'YYYY-MM-DD') ATCH_FILE_WRITNG_DT 
+						FROM
+						  FCLTS_SPEC_ATCH_FILE_F
+						WHERE
+						  FCLTS_MNG_NO = #sFcltsMngNo#
+						ORDER BY
+						  ATCH_FILE_SEQ                	
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>    	
+    </select>
+
+    <select id="gamCivilFcltySpecMngDao.selectCivilFcltySpecFileListTotCnt" parameterClass="gamCivilFcltySpecMngVO" resultClass="int">
+    	SELECT 
+    	  COUNT(*) TOTCNT
+		FROM
+		  FCLTS_SPEC_ATCH_FILE_F
+		WHERE
+   		  FCLTS_MNG_NO = #sFcltsMngNo#
+    </select>
+
+    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecFileDetail" >
+    	<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
+    		SELECT
+    		  TO_CHAR(NVL(MAX(PRT_FCLTY_PHOTO_SEQ),0) + 1)
+    		FROM
+    		  FCLTS_SPEC_ATCH_FILE_F
+    		WHERE
+    		  FCLTS_MNG_NO = #fcltsMngNo#
+    	</selectKey>
+    	INSERT INTO 
+    		FCLTS_SPEC_ATCH_FILE_F (
+				FCLTS_MNG_NO
+				, ATCH_FILE_SEQ
+				, ATCH_FILE_SE
+				, ATCH_FILE_SJ
+				, ATCH_FILE_NM_LOGIC
+				, ATCH_FILE_NM_PHYSICL
+				, ATCH_FILE_WRITNG_DT
+				, REG_USR
+				, REGIST_DT
+    		)
+    	VALUES
+    		(
+    			#fcltsMngNo#
+    			, TO_NUMBER(#maxAtchFileSeq#)
+    			, #atchFileSe#
+    			, #atchFileSj#
+    			, #atchFileNmLogic#
+    			, #atchFileNmPhysicl#
+    			, TO_DATE(#atchFileWritingDt#, 'YYYY-MM-DD')
+    			, #regUsr#
+    			, SYSDATE
+    		)
+    </insert>
+
+    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecFileDetail" >
+    	UPDATE 
+    		FCLTS_SPEC_ATCH_FILE_F
+    	SET
+    		ATCH_FILE_SE = #atchFileSe#
+    		, ATCH_FILE_SJ = #atchFileSj#
+    		, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+    		, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+    		, ATCH_FILE_WRITNG_DT = #atchFileWritingDt#
+    		, UPD_USR = #updUsr#
+    		, UPDT_DT = SYSDATE
+    	WHERE
+    		FCLTS_MNG_NO = #fcltsMngNo#
+    		AND ATCH_FILE_SEQ = TO_NUMBER(#maxAtchFileSeq#)    		
+    </update>
+
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileDetail" >
+    	DELETE
+    	FROM
+    		FCLTS_SPEC_ATCH_FILE_F
+    	WHERE
+    		FCLTS_MNG_NO = #fcltsMngNo#
+    		AND ATCH_FILE_SEQ = TO_NUMBER(#maxAtchFileSeq#)    		
+    </delete>
+    
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList" >
+    	DELETE
+    	FROM
+    		FCLTS_SPEC_ATCH_FILE_F
+    	WHERE
+    		FCLTS_MNG_NO = #fcltsMngNo#
+    </delete>    
 </sqlMap>

@@ -58,6 +58,8 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this._cmd = '';
+	this._editDataFile = null;
+	this._deleteDataFileList = null;
 	
 	this.$("#civilFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
@@ -82,23 +84,75 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 		}
 	});
 
-	this.$("#fcltyPhotoList").flexigrid({
+	this.$("#fcltsFileList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamCivilFcltySpecMngPhotoList.do"/>',
+		url: '<c:url value="/fclty/gamCivilFcltySpecFileList.do"/>',
 		dataType: 'json',
 		colModel : [
-					{display:"순번",		name:"prtFcltyPhotoSeq",	width:40,		sortable:true,		align:"center"},
-					{display:"사진제목",	name:"photoSj",				width:160,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"filenmLogic",			width:160,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"filenmPhysicl",		width:160,		sortable:true,		align:"left"},
-					{display:"파일설명",	name:"photoDesc",			width:200,		sortable:true,		align:"left"},
-					{display:"촬영일시",	name:"shotDt",				width:120,		sortable:true,		align:"center"}
+					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
+					{display:"사진제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
+					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
+					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
+					{display:"작성일시",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
 
-	this.$("#fcltyPhotoList").on("onItemSelected", function(event, module, row, grid, param) {
+	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.$("#fcltsFileForm input").val('');
+		module.makeFormValues("#fcltsFileForm", row);
+
+		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm = row["atchFileNmPhysicl"];
+			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+
+			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+				$imgURL = module.getPfPhotoUrl(filenm);
+				module.$("#previewImage").fadeIn(400, function() {
+			    	module.$("#previewImage").attr("src", $imgURL);
+			    });
+			}else{
+				module.$("#previewImage").attr(src, "#");
+			}
+		}
+		
 	});
+	
+	//첨부파일 정보 변화 이벤트 처리기
+	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
+		event.data.module.atchFileInfoChanged(event.target);
+	});
+};
+
+//첨부파일 정보 변화 처리
+GamCivilFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#fcltsFileList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#atchFileSe').is(target)) {
+			row['atchFileSe'] = $(target).val();
+			row['atchFileSeNm'] = $(target).find('option:selected').text();
+			changed=true;
+		}
+		if(this.$('#atchFileSj').is(target)) {
+			row['atchFileSj'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#atchFileWritingDt').is(target)) {
+			row['atchFileWritingDt'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#fcltsFileList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#fcltsFileList').flexUpdateRow(rowid, row);
+	}
 };
 
 /**
@@ -156,35 +210,57 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 				});
 			}			
 			break;
+		
+		//파일업로드
+		case "btnUploadFile":
+			this.$('#atchFileSe').val('D');
+			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
+			this.uploadPfPhoto("uploadPhoto", function(module, result) {
+				$.each(result, function(){
+					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
+				});
+			}, "토목시설파일 업로드");
+			break;
+			
+		//파일다운로드			
+		case "btnDownloadFile":
+			var selectRow = this.$('#fcltsFileList').selectedRows();
+			if(selectRow.length > 0) {
+				var row=selectRow[0];
+				this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+			}
+			break;
+						
+		//파일삭제
+		case "btnRemoveFile":
+			this.removeFcltsFileItem();
+			break;
+			
+		//파일저장			
+		case "btnSaveFile":
+			break;
 	}
 };
 
-GamCivilFcltySpecMngModule.prototype.removeGisAssetPhotoItem = function() {
-	var rows = this.$("#fcltyPhotoList").selectedRows();
-
+GamCivilFcltySpecMngModule.prototype.removeFcltsFileItem = function() {
+	var rows = this.$("#fcltsFileList").selectedRows();
     if(rows.length == 0){
         alert("파일목록에서 삭제할 행을 선택하십시오.");
         return;
     }
-
-    if(this.$("#fcltyPhotoList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyPhotoList").selectedRowIds().length-1; i>=0; i--) {
-
-    		var row = this.$("#fcltyPhotoList").flexGetRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
-
+    if(this.$("#fcltsFileList").selectedRowIds().length>0) {
+    	for(var i=this.$("#fcltsFileList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#fcltsFileList").flexGetRow(this.$("#fcltsFileList").selectedRowIds()[i]);
             if(row._updtId == undefined || row._updtId != "I") {
             	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			}
-        	this.$("#fcltyPhotoList").flexRemoveRow(this.$("#fcltyPhotoList").selectedRowIds()[i]);
-
+        	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
         	this._edited=true;
 		}
-
     	this.$("#previewImage").attr("src","");
     	alert("삭제되었습니다.");
 	}
-
-    this.$("#fcltyGisPhotoForm").find(":input").val("");
+    this.$("#fcltsFileForm").find(":input").val("");
     this._editDataFile = null;
 };
 
@@ -205,7 +281,7 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				module.$("#dispfcltsMngNo").text("");
 				if(result.resultCode == "0"){
 					module.makeFormValues('#fcltyManageVO', result.result);
-					module.$("#dispfcltsMngNo").text(row['fcltsMngNo']);
+					module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
 					module.$("#selectGisPrtFcltyCd").disable();
 					module.$("#searchGisCodeBtn2").hide();
 				}
@@ -216,7 +292,7 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				}
 			});
 		} else if(this._cmd=="insert") {
-			this.$('#fcltyPhotoList').flexEmptyData();
+			this.$('#fcltsFileList').flexEmptyData();
 			this.$("#fcltyManageVO :input").val("");
 			this.$("#dispfcltsMngNo").text("");
 			this.$("#selectGisPrtFcltyCd").enable();
@@ -226,6 +302,14 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		}
 		break;
 	case "tabs3":
+		if(this._cmd=="modify") {
+			var searchOpt = [{name: 'sFcltsMngNo', value: module.$("#fcltsMngNo").val()}];
+			this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
+		} else if(this._cmd=="insert") {
+			this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
+		} else {
+			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+		}
 		break;
 	}
 };
@@ -239,7 +323,7 @@ GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 		case "selectGisCode":
 			this.$("#sAssetsCd").val(value["gisAssetsCd"]);
 			this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
-		break;
+			break;
 
 		case "selectGisCode2":
 			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
@@ -248,27 +332,14 @@ GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);				// GIS SUB자산코드
 			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);					// GIS 자산코드
 			this.$("#gisAssetsNm").val(value["gisAssetsNm"]);					// GIS 자산명
-
 			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
 			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
-		break;
+			break;
 		
-		// 업체조회화면
-		case "searchEntrpsCdPopup":
-			this.$("#prtFcltyMngEntrpsCd").val(value["entrpscd"]);
-			this.$("#prtFcltyMngEntrpsNm").val(value["entrpsNm"]);
-		break;
-		// 건축물현황
-		case "fcltyinfo9Popup":
-			this.$("#fcltyinfo9").flexAddData({resultList: value });
-
-		break;
-
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-
-		break;
+			break;
 	}
 };
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -332,8 +403,6 @@ var module_instance = new GamCivilFcltySpecMngModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
-				<input type="hidden" id="beforeGisPrtFcltyCd">
-          		<input type="hidden" id="beforeGisPrtFcltySeq">
 				<div style="margin-bottom:10px;">
 					<table class="searchPanel">
 						<tbody>
@@ -387,6 +456,12 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
 							<th width="12%" height="17" class="required_text">변경일자</th>
 							<td colspan="3"><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">위도좌표</th>
+							<td><input id="laCrdnt" type="text" size="20" title="위도좌표" /></td>
+							<th width="12%" height="17" class="required_text">경도좌표</th>
+							<td colspan="3"><input id="loCrdnt" type="text" size="20" title="경도일자" /></td>
 						</tr>
 					</table>
 				</div>
@@ -551,33 +626,31 @@ var module_instance = new GamCivilFcltySpecMngModule();
 			
 			<!-- 토목시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyPhotoList" style="display:none" class="fillHeight"></table>
+				<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
 					<button id="btnRemoveFile">삭제</button>
 					<button id="btnSaveFile">저장</button>
 				</div>
-				<form id="fcltyGisPhotoForm">
+				<form id="fcltsFileForm">
 					<table class="searchPanel editForm">
 						<tr>
 							<th width="15%" height="23" class="required_text">파일구분</th>
 							<td>
-								<select id="fileDiv">
-									<option value="">선택</option>
-                                    <option value="P">사진</option>
+								<select id="atchFileSe" class="photoEditItem">
                                     <option value="D">문서</option>
+                                    <option value="P">사진</option>
                                     <option value="Z">기타</option>
                                 </select>
 							</td>
 							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="fileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">생성일자</th>
-							<td><input id="createDt" type="text" size="18" class="emdcal photoEditItem"  maxlength="10" readonly="readonly"/></td>
+							<td><input id="atchFileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
+							<th width="15%" height="23" class="required_text">작성일자</th>
+							<td><input id="atchFileWritingDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
 						</tr>
 					</table>
 				</form>
-<!-- 				<button id="btnApplyPhotoData">적용</button>-->
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 		</div>

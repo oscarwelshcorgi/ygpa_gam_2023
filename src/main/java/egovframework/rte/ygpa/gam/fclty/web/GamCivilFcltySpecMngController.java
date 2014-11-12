@@ -221,4 +221,46 @@ public class GamCivilFcltySpecMngController {
       	return map;		
 	}
 
+	/**
+	 * 토목 시설관리 상세
+	 * @param fcltyManageVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamCivilFcltySpecFileList.do")
+    @ResponseBody Map<String, Object> selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamCivilFcltySpecMngService.selectCivilFcltySpecFileList(searchVO);
+		int totCnt = gamCivilFcltySpecMngService.selectCivilFcltySpecFileListTotCnt(searchVO);
+		
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+	}
+	
 }
