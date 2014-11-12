@@ -60,7 +60,7 @@ public interface GamConsFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO vo) throws Exception;
+	List selectFcltySpecMngFileList(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -69,16 +69,7 @@ public interface GamConsFcltySpecMngService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltySpecMngPhotoListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
-
-
-	/**
-	 * 시설관리 시퀀스 가져오기
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	String insertFcltyGetSeq() throws Exception;
+	int selectFcltySpecMngFileListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -108,7 +99,7 @@ public interface GamConsFcltySpecMngService {
 	public void deleteFcltySpec(Map vo) throws Exception;
 
 	// 시설 파일 저장
-	public List mergeFcltyPhotoMngt(Map mergeList, String prtFcltySe) throws Exception;
+	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
 	
 	
 	/**
@@ -132,7 +123,7 @@ public interface GamConsFcltySpecMngService {
 	/**
 	 * 시설 층수 정보 삭제
 	 * @param vo
-	 * @return int
+	 * @return 
 	 * @throws Exception
 	 */
 	void deleteFcltyFloorSpecData(Map vo) throws Exception;
@@ -141,8 +132,17 @@ public interface GamConsFcltySpecMngService {
 	/**
 	 * 시설 층수 정보 입력
 	 * @param vo
-	 * @return int
+	 * @return 
 	 * @throws Exception
 	 */
 	void insertFcltyFloorSpecList(Map vo) throws Exception;
+	
+	
+	/**
+	 * 시설 첨부파일 삭제
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */
+	void deleteFcltyTotalFile(Map vo) throws Exception;
 }

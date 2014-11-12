@@ -71,11 +71,20 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 
 
     /**
-     * 시설관리 파일 저장
+     * 시설관리 파일 삭제
      * @param vo
      */
     public void deleteFcltyFile(Map fileList){
     	update("gamConsFcltySpecMngDao.deleteFcltyFile",fileList);
+    }
+    
+    
+    /**
+     * 시설관리 전체파일 삭제
+     * @param vo
+     */
+    public void deleteFcltyTotalFile(Map fileList){
+    	update("gamConsFcltySpecMngDao.deleteFcltyTotalFile",fileList);
     }
 
 
@@ -109,8 +118,8 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @exception Exception
      */
     @SuppressWarnings("unchecked")
-    public List<ComDefaultVO> selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO vo) throws Exception{
-    	return list("gamConsFcltySpecMngDao.selectFcltySpecMngPhotoList", vo);
+    public List<ComDefaultVO> selectFcltySpecMngFileList(GamConsFcltySpecMngVO vo) throws Exception{
+    	return list("gamConsFcltySpecMngDao.selectFcltySpecMngFileList", vo);
     }
 
 
@@ -120,19 +129,10 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @return int
      * @exception Exception
      */
-    public int selectFcltySpecMngPhotoListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
-    	return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt", vo);
+    public int selectFcltySpecMngFileListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngFileListTotCnt", vo);
     }
 
-
-    /**
-     * 시설관리 시퀀스
-     * @return int
-     * @exception Exception
-     */
-    public String insertFcltyGetSeq() throws Exception {
-    	return (String)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.insertFcltyGetSeq");
-    }
 
 
     /**
@@ -162,12 +162,12 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
     	delete("gamConsFcltySpecMngDao.deleteFcltySpec", vo);
     }
 
-    public List mergeFcltyPhoto(Map vo) throws Exception{
+    public List mergeFcltyFile(Map vo) throws Exception{
 		return this.merge(vo, "gamConsFcltySpecMngDao.insertFcltyFile", "gamConsFcltySpecMngDao.updateFcltyFile", "gamConsFcltySpecMngDao.deleteFcltyFile");
     }
 
-    public Integer selectFcltyPhotoMaxSeq(Map vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq", vo);
+    public Integer selectFcltyFileMaxSeq(Map vo) throws Exception {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyFileMaxSeq", vo);
     }
     
     

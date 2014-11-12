@@ -60,25 +60,18 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	/**
 	 * 시설관리 파일 목록
 	 */
-	public List<ComDefaultVO> selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO vo) throws Exception {
-		return (List<ComDefaultVO>)gamConsFcltySpecMngDao.selectFcltySpecMngPhotoList(vo);
+	public List<ComDefaultVO> selectFcltySpecMngFileList(GamConsFcltySpecMngVO vo) throws Exception {
+		return (List<ComDefaultVO>)gamConsFcltySpecMngDao.selectFcltySpecMngFileList(vo);
 	}
 
 
 	/**
 	 * 시설관리 파일 총 수
 	 */
-	public int selectFcltySpecMngPhotoListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
-		return gamConsFcltySpecMngDao.selectFcltySpecMngPhotoListTotCnt(vo);
+	public int selectFcltySpecMngFileListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
+		return gamConsFcltySpecMngDao.selectFcltySpecMngFileListTotCnt(vo);
 	}
 
-
-	/**
-	 * 시설관리 시퀀스
-	 */
-	public String insertFcltyGetSeq() throws Exception {
-		return gamConsFcltySpecMngDao.insertFcltyGetSeq();
-	}
 
 
 	// 시설관리 저장
@@ -96,30 +89,10 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		gamConsFcltySpecMngDao.deleteFcltySpec(vo);
 	}
 
-	// 시설 파일 삭제
-	public List mergeFcltyPhotoMngt(Map mergeMap, String prtFcltySe) throws Exception{
-        ArrayList arraylistCU = (ArrayList)mergeMap.get("CU");
-        HashMap[] hmCU = (HashMap[])arraylistCU.toArray(new HashMap[arraylistCU.size()]);
-        Map result;
-        Integer photoSeq=0;
-
-		if(hmCU.length>0) photoSeq=gamConsFcltySpecMngDao.selectFcltyPhotoMaxSeq(hmCU[0]);
-        //수정처리 & 입력처리
-        for (int i=0; i<hmCU.length; i++) {
-        	if ("I".equals(hmCU[i].get("_updtId"))) {
-            	log.debug("#photoeq : "+photoSeq.toString());
-            	hmCU[i].put("photoSeq", photoSeq++);
-            	hmCU[i].put("prtFcltySe", prtFcltySe);
-            }
-        	else if("U".equals(hmCU[i].get("_updtId"))){
-        	}
-            else {
-            	log.debug("unknown RowStatus ["+i+"] : "+hmCU[i].get("_updtId"));
-            }
-        }
-
-		return gamConsFcltySpecMngDao.mergeFcltyPhoto(mergeMap);
-		}
+	// 시설 파일 입력/수정/삭제
+	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
+		return gamConsFcltySpecMngDao.mergeFcltyFile(mergeMap);
+	}
 
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngService#fcltyMngSelectView(java.util.Map)
@@ -178,6 +151,17 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 */
 	public void insertFcltyFloorSpecList(Map vo) throws Exception{
 		gamConsFcltySpecMngDao.insertFcltyFloorSpecList(vo);
+	}
+	
+	
+	/**
+	 * 시설 첨부파일 삭제
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */
+	public void deleteFcltyTotalFile(Map vo) throws Exception{
+		gamConsFcltySpecMngDao.deleteFcltyTotalFile(vo);
 	}
 
 }

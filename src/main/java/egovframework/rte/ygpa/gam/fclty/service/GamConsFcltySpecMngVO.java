@@ -103,7 +103,7 @@ public class GamConsFcltySpecMngVO extends ComDefaultVO{
     private String gisAssetsNm;
     private String gisAssetsPrtAtName;
     private String prtFcltyMngEntrpsNm;
-    private String prtFcltyPhotoSeq;
+    private String prtFcltyFileSeq;
 
     /**	만료 일자		*/
     private String prtFcltyExprDt;
@@ -223,17 +223,17 @@ public class GamConsFcltySpecMngVO extends ComDefaultVO{
 	}
 
 	/**
-     * @return the prtFcltyPhotoSeq
+     * @return the prtFcltyFileSeq
      */
-    public String getPrtFcltyPhotoSeq() {
-    	return prtFcltyPhotoSeq;
+    public String getPrtFcltyFileSeq() {
+    	return prtFcltyFileSeq;
     }
 
     /**
-     * @param prtFcltyPhotoSeq the prtFcltyPhotoSeq to set
+     * @param prtFcltyFileSeq the prtFcltyFileSeq to set
      */
-    public void setPrtFcltyPhotoSeq(String prtFcltyPhotoSeq) {
-    	this.prtFcltyPhotoSeq = prtFcltyPhotoSeq;
+    public void setPrtFcltyFileSeq(String prtFcltyFileSeq) {
+    	this.prtFcltyFileSeq = prtFcltyFileSeq;
     }
 
     /**

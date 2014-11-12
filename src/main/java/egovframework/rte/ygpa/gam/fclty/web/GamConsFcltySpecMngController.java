@@ -154,8 +154,8 @@ public class GamConsFcltySpecMngController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamConstFcltySpecPhotoList.do")
-	@ResponseBody Map<String, Object> selectFcltySpecMngPhotoList(GamConsFcltySpecMngVO searchVO)throws Exception {
+	@RequestMapping(value="/fclty/gamConstFcltySpecFileList.do")
+	@ResponseBody Map<String, Object> selectFcltySpecMngFileList(GamConsFcltySpecMngVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -180,15 +180,15 @@ public class GamConsFcltySpecMngController {
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 
-		List<ComDefaultVO> fcltyMngtPhotoList = gamConsFcltySpecMngService.selectFcltySpecMngPhotoList(searchVO);
-		int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngPhotoListTotCnt(searchVO);
+		List<ComDefaultVO> fcltyMngtFileList = gamConsFcltySpecMngService.selectFcltySpecMngFileList(searchVO);
+		int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngFileListTotCnt(searchVO);
 
 		paginationInfo.setTotalRecordCount(totCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
 		map.put("totalCount", totCnt);
-		map.put("resultList", fcltyMngtPhotoList);
+		map.put("resultList", fcltyMngtFileList);
 		map.put("searchOption", searchVO);
 
 		return map;
@@ -357,13 +357,17 @@ public class GamConsFcltySpecMngController {
 
     	try {
     		
-    		fcltyManageVO.put("gisPrtFcltySeq",gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyManageVO));
-    		
     		// GIS 항만시설코드 삭제
     		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(fcltyManageVO);
     		
     		// 건축시설 제원 삭제
     		gamConsFcltySpecMngService.deleteFcltySpec(fcltyManageVO);
+    		
+    		// 건축시설 층별제원 삭제
+    		gamConsFcltySpecMngService.deleteFcltyFloorSpecData(fcltyManageVO);
+    		
+    		// 건축시설 첨부파일 삭제
+    		gamConsFcltySpecMngService.deleteFcltyTotalFile(fcltyManageVO);
 
             map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -378,8 +382,8 @@ public class GamConsFcltySpecMngController {
     	return map;
     }
 
-	@RequestMapping(value="/fclty/mergeGamConstFcltySpecPhotoMngt.do")
-	@ResponseBody Map<String, Object> mergeGamGisAssetPhotoMngt(@RequestParam Map<String, Object> dataList) throws Exception {
+	@RequestMapping(value="/fclty/mergeGamConstFcltySpecFileMngt.do")
+	@ResponseBody Map<String, Object> mergeGamGisAssetFileMngt(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -422,7 +426,7 @@ public class GamConsFcltySpecMngController {
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
 
-		gamConsFcltySpecMngService.mergeFcltyPhotoMngt(mergeMap, this.prtFcltySe);
+		gamConsFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
@@ -519,7 +523,6 @@ public class GamConsFcltySpecMngController {
     	
     	updateList = mapper.readValue((String)fcltyFloorSpecList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
     	searchOpt = mapper.readValue((String)fcltyFloorSpecList.get("searchOpt"),new TypeReference<HashMap<String,String>>(){});
-
 
     	try {
     		
