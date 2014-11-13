@@ -153,4 +153,14 @@ public class GamCivilFcltySpecMngDao extends YGPAAbstractDAO {
 		delete("gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList", vo);
 	}
 	
+	/**
+	 * 토목시설재원관리 첨부파일 목록을 병합하여 저장한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */			
+    public List mergeFcltyFile(Map vo) throws Exception{
+		return this.merge(vo, "gamCivilFcltySpecMngDao.insertCivilFcltySpecFileDetail", "gamCivilFcltySpecMngDao.updateCivilFcltySpecFileDetail", "gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileDetail");
+    }
+	
 }

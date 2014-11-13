@@ -182,6 +182,7 @@ public class GamCivilFcltySpecMngController {
     		gamCivilFcltySpecMngService.insertCivilFcltySpecMngDetail(insertMap);
     		
     		map.put("resultCode", 0);			// return ok
+    		map.put("gisPrtFcltySeq", insertMap.get("gisPrtFcltySeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
@@ -221,12 +222,34 @@ public class GamCivilFcltySpecMngController {
       	return map;		
 	}
 
-	/**
-	 * 토목 시설관리 상세
-	 * @param fcltyManageVO
-	 * @return map
-	 * @throws Exception
-	 */
+	@RequestMapping(value="/fclty/gamCivilFcltySpecMngDetailDelete.do")
+    @ResponseBody Map<String, Object> deleteCivilFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	try {
+    		gamCivilFcltySpecMngService.deleteCivilFcltySpecFileList(deleteMap);
+    		gamCivilFcltySpecMngService.deleteCivilFcltySpecMngDetail(deleteMap);
+    		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(deleteMap);
+    		
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+      	return map;		
+	}
+	
 	@RequestMapping(value="/fclty/gamCivilFcltySpecFileList.do")
     @ResponseBody Map<String, Object> selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -261,6 +284,59 @@ public class GamCivilFcltySpecMngController {
     	map.put("searchOption", searchVO);
 
     	return map;
+	}
+	
+	@RequestMapping(value="/fclty/mergeGamCivilFcltySpecAtchFile.do")
+	@ResponseBody Map<String, Object> mergeGamCivilFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	System.out.println("test :: fileupload");
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		insertList.addAll(updateList);
+
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		gamCivilFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+
+		return map;
 	}
 	
 }

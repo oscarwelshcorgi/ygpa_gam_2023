@@ -123,4 +123,12 @@ public interface GamCivilFcltySpecMngService {
 	 */			
 	void deleteCivilFcltySpecFileList(Map<String, Object> vo) throws Exception;
 	
+	/**
+	 * 토목시설재원관리 첨부파일을 병합저장한다..
+	 * @param map
+	 * @return list
+	 * @throws Exception
+	 */			
+	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
+	
 }

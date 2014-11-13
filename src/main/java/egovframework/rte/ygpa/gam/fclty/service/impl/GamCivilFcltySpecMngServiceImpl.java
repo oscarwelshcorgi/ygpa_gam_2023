@@ -156,4 +156,14 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList(vo);
 	}
 	
+	/**
+	 * 토목시설재원관리 첨부파일목록을 병합하여 저장한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */			
+	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
+		return gamCivilFcltySpecMngDao.mergeFcltyFile(mergeMap);
+	}
+	
 }
