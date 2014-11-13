@@ -308,6 +308,7 @@ public class GamConsFcltySpecMngController {
     @ResponseBody Map<String, Object> updateFclty(@RequestParam Map fcltyMngtList)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	String fcltsMngNo;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -323,15 +324,16 @@ public class GamConsFcltySpecMngController {
 
     	try {
     		
-    		fcltyMngtList.put("gisPrtFcltySeq",gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyMngtList));
-    		
     		// GIS 항만시설코드 수정
     		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(fcltyMngtList);
     		
     		// 건축시설 제원 수정
     		gamConsFcltySpecMngService.updateFcltySpec(fcltyMngtList);
     		
+    		fcltsMngNo = (String) fcltyMngtList.get("fcltsMngNo");
+    		
     		map.put("resultCode", 0);			// return ok
+    		map.put("fcltsMngNo", fcltsMngNo);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
