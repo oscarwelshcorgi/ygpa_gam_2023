@@ -74,6 +74,10 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 //	this.$("#fcltyinfo9").flexOptions({params:null}).flexReload();
 // 	this.$("#constFcltySpecMngList").flexReload();
 	this._fcltyItem = null;
+	
+	this.$("#constFcltySpecMngList").on("onItemSelected", function(event, module, row, grid, param) {
+		module._cmd="modify";
+	});
 
 
 	this.$("#constFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -174,12 +178,21 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 };
 
 GamConstFcltySpecMngModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-	if((newTabId=='tabs2' || newTabId=='tabs3' || newTabId=='tabs4') && this._cmd != 'insert') {
+	alert(this._cmd);
+	if((newTabId=='tabs2') && this._cmd != 'insert') {
 		if(this.$('#constFcltySpecMngList').selectedRowCount()!=1) {
-			alert('상세 내역을 조회 할 건축시설 항목을 선택 하세요.');
+			alert('건축시설 항목을 선택 하세요.');
 			return false;
 		}
 	}
+	
+	if((newTabId=='tabs3' || newTabId=='tabs4') && this._cmd != 'modify') {
+		if(this.$('#constFcltySpecMngList').selectedRowCount()!=1) {
+			alert('건축시설 항목을 선택 하세요.');
+			return false;
+		}
+	}
+
 	return true;
 };
 
@@ -213,6 +226,60 @@ GamConstFcltySpecMngModule.prototype.applyFileChanged = function(target) {
 		this.$('#fcltyFileList').flexUpdateRow(rowid, row);
 	}
 };
+
+GamConstFcltySpecMngModule.prototype.insertFcltyFloorSpec = function(fcltsMngNo) {
+	
+	var inputFloorVO = [];
+	var searchOpt = JSON.stringify({'fcltsMngNo':fcltsMngNo});
+	var fcltyinfo9 = this.$('#fcltyinfo9').flexGetData();
+	
+	for(i=0;i<fcltyinfo9.length;i++){
+		fcltyinfo9[i]["fcltsMngNo"] = fcltsMngNo;
+	}
+	
+	var all_rows = JSON.stringify(fcltyinfo9);
+
+	inputFloorVO[inputFloorVO.length] = {name: 'updateList',value: all_rows};
+	inputFloorVO[inputFloorVO.length] = {name: 'searchOpt',value: searchOpt};
+	
+
+	module.doAction('<c:url value="/fclty/gamFcltyFloorSpecSave.do" />', inputFloorVO, function(floorModule, floorResult) {
+        if(floorResult.resultCode == 0){
+        	var prtFclty = [
+			                { name: 'fcltsMngNo', value: row['fcltsMngNo'] }
+			              ];
+		     	 	
+        	floorModule.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
+        }
+        alert(floorResult.resultMsg);
+    });
+};
+
+
+GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) {
+	
+	var fcltyFileList = this.$('#fcltyFileList').flexGetData();
+	
+	for(i=0;i<fcltyFileList.length;i++){
+		fcltyFileList[i]["fcltsMngNo"] = fcltsMngNo;
+	}
+	
+	var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+
+    this.doAction('<c:url value="/fclty/mergeGamConstFcltySpecFileMngt.do" />', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+        	module.loadFileList();
+        }
+        alert(result.resultMsg);
+    });
+    
+};
+
 
 /**
  * 정의 된 버튼 클릭 시
@@ -262,7 +329,8 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "saveBtn":
 			//if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
-
+			var fcltsMngNo="";
+			// 건축시설제원 입력/수정처리
 		 	if(this._cmd == "insert") {
 			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecInsert.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
@@ -270,8 +338,15 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 						module.$("#fcltyManageVO :input").val("");
+						
+						fcltsMngNo = result.fcltsMngNo;
+						
+						// 층별제원 입력/수정처리
+						module.insertFcltyFloorSpec(fcltsMngNo);
+						
+						// 첨부파일 입력/수정처리
+						module.insertFcltySpecFile(fcltsMngNo);
 			 		}
-			 		alert(result.resultMsg);
 			 	});
 			}else{
 			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecUpdate.do" />', inputVO, function(module, result) {
@@ -280,10 +355,36 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
 						module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 						module.$("#fcltyManageVO :input").val("");
+						
+						fcltsMngNo = result.fcltsMngNo;
+						
+						// 층별제원 입력/수정처리
+						module.insertFcltyFloorSpec(fcltsMngNo);
+						
+						// 첨부파일 입력/수정처리
+						
+						
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}
+		 	
+		 	if(fcltsMngNo){
+		 		
+			    
+			 	// 첨부파일 입력/수정처리
+			    var inputFileVO=[];
+			    inputFileVO[inputFileVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+			    inputFileVO[inputFileVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+			    inputFileVO[inputFileVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+
+			    this.doAction('<c:url value="/fclty/mergeGamConstFcltySpecFileMngt.do" />', inputFileVO, function(module, result) {
+			        if(result.resultCode == 0){
+			        	module.loadFileList();
+			        }
+			        alert(result.resultMsg);
+			    });
+		 	}
 		break;
 
 		// 삭제
@@ -297,7 +398,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 			if(confirm("선택한 건축시설을 삭제하시겠습니까?")){
 				row=row[0];
-				alert(row['fcltsMngNo']);
+
 				var inputVO = { 'fcltsMngNo': row['fcltsMngNo'] };
 			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecDelete.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
@@ -356,7 +457,6 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.removeGisAssetFileItem();
 		break;
 		case 'btnSaveFile':	// 저장
-
 			if( confirm("파일 목록을 저장하시겠습니까?") ) {
 			    // 변경된 자료를 저장한다.
 			    var inputVO=[];

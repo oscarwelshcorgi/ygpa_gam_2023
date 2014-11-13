@@ -207,6 +207,7 @@ public class GamConsFcltySpecMngController {
     @ResponseBody Map<String, Object> insertFclty(@RequestParam Map<String, Object> fcltyItem) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	String fcltsMngNo, gisAssetsPrtAtCode, gisAssetsCd, gisAssetsSubCd, gisPrtFcltyCd, gisPrtFcltySeq;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -219,11 +220,18 @@ public class GamConsFcltySpecMngController {
 
     	fcltyItem.put("USERID",user.getId());
     	fcltyItem.put("prtFcltySe",prtFcltySe);
-    	
-    	
 
     	try {
-    		fcltyItem.put("gisPrtFcltySeq",gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyItem));
+    		gisPrtFcltySeq = gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyItem);
+    		
+    		gisAssetsPrtAtCode = (String) fcltyItem.get("gisAssetsPrtAtCode");
+    		gisAssetsCd = (String) fcltyItem.get("gisAssetsCd");
+    		gisAssetsSubCd = (String) fcltyItem.get("gisAssetsSubCd");
+    		gisPrtFcltyCd = (String) fcltyItem.get("gisPrtFcltyCd");
+    		
+    		fcltsMngNo = gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe;
+    		
+    		fcltyItem.put("gisPrtFcltySeq",gisPrtFcltySeq);
     		
     		// GIS 항만시설코드 입력
     		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(fcltyItem);
@@ -232,6 +240,7 @@ public class GamConsFcltySpecMngController {
     		gamConsFcltySpecMngService.insertFcltySpec(fcltyItem);
 
     		map.put("resultCode", 0);			// return ok
+    		map.put("fcltsMngNo", fcltsMngNo);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
