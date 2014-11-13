@@ -34,6 +34,8 @@ public class GamMngFeeCodeMngVo extends ComDefaultVO {
 	private	String	registDt;	//등록일시
 	private	String	updUsr;	//수정자
 	private	String	updtDt;	//수정일시
+	private	String	mngFeeFcltySeNm;	//관리비 시설 구분 명
+	private	String	mngFeeJobSeNm;		//관리비 업무 구분 명
 
 
 	private	String	sMngFeeFcltyCd;	//검색 관리비 시설 코드
@@ -185,6 +187,31 @@ public class GamMngFeeCodeMngVo extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+
+	/**
+	 * @return the mngFeeFcltySeNm
+	 */
+	public String getMngFeeFcltySeNm() {
+		return mngFeeFcltySeNm;
+	}
+	/**
+	 * @param mngFeeFcltySeNm the mngFeeFcltySeNm to set
+	 */
+	public void setMngFeeFcltySeNm(String mngFeeFcltySeNm) {
+		this.mngFeeFcltySeNm = mngFeeFcltySeNm;
+	}
+	/**
+	 * @return the mngFeeJobSeNm
+	 */
+	public String getMngFeeJobSeNm() {
+		return mngFeeJobSeNm;
+	}
+	/**
+	 * @param mngFeeJobSeNm the mngFeeJobSeNm to set
+	 */
+	public void setMngFeeJobSeNm(String Job) {
+		this.mngFeeJobSeNm = mngFeeJobSeNm;
 	}
 
 }

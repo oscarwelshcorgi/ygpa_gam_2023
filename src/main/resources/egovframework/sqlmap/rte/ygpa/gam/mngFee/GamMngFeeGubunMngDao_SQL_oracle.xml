@@ -16,9 +16,9 @@
 									MNG_FEE_FCLTY_SE,
 									MNG_FEE_FCLTY_SE_NM,
 									REG_USR,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT,
+									TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') REGIST_DT,
 									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+									TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
 					  		      FROM MNG_FEE_FCLTY_SE_F
 								 <![CDATA[ WHERE 1=1]]>
 
@@ -29,7 +29,7 @@
 							     <isNotEmpty property="sMngFeeFcltySeNm">
 							          AND MNG_FEE_FCLTY_SE_NM LIKE '%' || #sMngFeeFcltySeNm# || '%'
 							     </isNotEmpty>
-                             ORDER BY REGIST_DT
+                             ORDER BY MNG_FEE_FCLTY_SE
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -91,7 +91,7 @@
         <![CDATA[
             SELECT COUNT(1) checkSeCnt
                 FROM MNG_FEE_FCLTY_SE_F
-            WHERE MNG_FEE_FCLTY_SE = #checkSeCnt#
+            WHERE MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
         ]]>
     </select>
 

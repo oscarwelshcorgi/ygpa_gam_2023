@@ -41,12 +41,12 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectMngFeeCodeMng.do" />',
         dataType: 'json',
         colModel : [
-					{display:'관리비 시설 코드', 			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 시설 구분', 	name:'mngFeeFcltySe',		width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 시설 명', 	name:'mngFeeFcltyNm',		width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'},
-					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
+					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
+					{display:'관리비 시설 명', 		name:'mngFeeFcltyNm',	width:150, 		sortable:false,		align:'left'},
+                    {display:'관리비 시설 구분', 	name:'mngFeeFcltySeNm',	width:110, 		sortable:false,		align:'left'},
+                    {display:'관리비 업무 구분', 	name:'mngFeeJobSeNm',	width:110, 		sortable:false,		align:'left'},
+					{display:'등록자', 				name:'regUsr',			width:100, 		sortable:false,		align:'center'},
+                    {display:'등록일시', 			name:'registDt',		width:150, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -57,6 +57,7 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
     	module.$('#mngFeeFcltyCd').attr('readonly','readonly');
         module.$('#MngFeeCodeMngDetailForm :input').val('');
         module.makeFormValues('#MngFeeCodeMngDetailForm', row);
+        module.makeDivValues('#MngFeeCodeMngDetailForm', row);
         module._editData=module.getFormValues('#MngFeeCodeMngDetailForm', row);
         module._editRow=module.$('#MngFeeCodeMng').selectedRowIds()[0];
 
@@ -65,6 +66,7 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
         module.$("#MngFeeCodeMngTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
         module.makeFormValues('#MngFeeCodeMngDetailForm', row);
+        module.makeDivValues('#MngFeeCodeMngDetailForm', row);
         module._editData=module.getFormValues('#MngFeeCodeMngDetailForm', row);
         module._editRow=module.$('#MngFeeCodeMng').selectedRowIds()[0];
         if(row!=null) {
@@ -197,13 +199,13 @@ var module_instance = new GamMngFeeCodeMng();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>시설코드</th>
+                            <th>관리비 시설 코드</th>
                             <td>
 									<input type="text" size="10" id="sMngFeeFcltySe">
                             </td>
-                            <th>시설코드</th>
+                            <th>관리비 시설 명</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySeNm">
+									<input type="text" size="20" id="sMngFeeFcltySeNm">
                             </td>
                             <td>
 									<button id="searchBtn" class="buttonSearch">조회</button>
@@ -229,8 +231,8 @@ var module_instance = new GamMngFeeCodeMng();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnCodeAdd">시설코드 추가</button>
-	                                <button id="btnCodeDel">시설코드 삭제</button>
+	                                <button id="btnCodeAdd">추가</button>
+	                                <button id="btnCodeDel">삭제</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -243,18 +245,30 @@ var module_instance = new GamMngFeeCodeMng();
                     <form id="MngFeeCodeMngDetailForm">
             	        <input type="hidden" id="cmd"/>
             	        <input type="hidden" id="oldMngFeeFcltySe"/>
-                        <table class="detailPanel">
+                        <table class="detailPanel" style="width:100%">
                              <tr>
 								<th width="20%" height="18">시설 코드</th>
                                 <td ><input type="text" size="20" id="mngFeeFcltyCd" maxlength="4"/></td>
 								<th width="20%" height="18">시설 업무 구분</th>
-                                <td ><input type="text" size="20" id="mngFeeJobSe" maxlength="1"/></td>
+                                <td >
+                                	<select id="mngFeeJobSe">
+                                		<option value="M">마린센터</option>
+                                		<option value="E">전기시설</option>
+                                	</select>
+                                	<!--
+                                	<input type="text" size="10" id="mngFeeJobSe" maxlength="1"/>
+                                	 -->
+                                	<span data-column-id="mngFeeJobSeNm"></span>
+                                </td>
                             </tr>
                              <tr>
-								<th width="20%" height="18">시설 구분</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySe" maxlength="2" /></td>
 								<th width="20%" height="18">시설명</th>
                                 <td ><input type="text" size="20" id="mngFeeFcltyNm" maxlength="20"/></td>
+								<th width="20%" height="18">시설 구분</th>
+                                <td >
+                                	<input type="text" size="10" id="mngFeeFcltySe" maxlength="2" />
+                                	<span data-column-id="mngFeeFcltySeNm"></span>
+                                </td>
                             </tr>
                         </table>
                     </form>

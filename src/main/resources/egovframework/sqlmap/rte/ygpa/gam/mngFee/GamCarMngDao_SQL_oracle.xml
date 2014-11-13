@@ -42,8 +42,8 @@
 									ACQ_PRCE,
 									REG_USR,
 									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+									TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT,
+									TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') REGIST_DT
 					        FROM CAR_INFO_F
 								  WHERE 1=1
 						         <isNotEmpty property="sCarRegistNo">
@@ -56,6 +56,10 @@
 
 							     <isNotEmpty property="sCarBodyNo">
 							          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
+							     </isNotEmpty>
+
+							     <isNotEmpty property="sFuelKnd">
+							          AND FUEL_KND LIKE '%' || #sFuelKnd# || '%'
 							     </isNotEmpty>
                              ORDER BY CAR_REGIST_NO
                 ) S
@@ -78,6 +82,10 @@
 
 		     <isNotEmpty property="sCarBodyNo">
 		          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
+		     </isNotEmpty>
+
+		     <isNotEmpty property="sFuelKnd">
+		          AND FUEL_KND LIKE '%' || #sFuelKnd# || '%'
 		     </isNotEmpty>
 
     </select>

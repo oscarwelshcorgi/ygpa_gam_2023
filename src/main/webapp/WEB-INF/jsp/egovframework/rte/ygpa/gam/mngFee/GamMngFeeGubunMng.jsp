@@ -41,10 +41,10 @@ GamMngFeeGubunMng.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectMngFeeGubunMng.do" />',
         dataType: 'json',
         colModel : [
-					{display:'시설구분', 			name:'mngFeeFcltySe',	width:110, 		sortable:false,		align:'center'},
-                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:110, 		sortable:false,		align:'center'},
-					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
+					{display:'시설구분', 		name:'mngFeeFcltySe',		width:70, 		sortable:false,		align:'center'},
+                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:150, 		sortable:false,		align:'left'},
+					{display:'등록자', 			name:'regUsr',				width:100, 		sortable:false,		align:'center'},
+                    {display:'등록일시', 		name:'registDt',			width:150, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -227,11 +227,11 @@ var module_instance = new GamMngFeeGubunMng();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>시설구분</th>
+                            <th>시설 구분</th>
                             <td>
 									<input type="text" size="10" id="sMngFeeFcltySe" maxlength="2">
                             </td>
-                            <th>시설구분</th>
+                            <th>시설 구분 명</th>
                             <td>
 									<input type="text" size="10" id="sMngFeeFcltySeNm" maxlength="20">
                             </td>
@@ -259,8 +259,8 @@ var module_instance = new GamMngFeeGubunMng();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                                <button id="btnGubunAdd">시설구분 추가</button>
-	                                <button id="btnGubunDel">시설구분 삭제</button>
+	                                <button id="btnGubunAdd">추가</button>
+	                                <button id="btnGubunDel">삭제</button>
 	                            </td>
 	                        </tr>
 						</table>

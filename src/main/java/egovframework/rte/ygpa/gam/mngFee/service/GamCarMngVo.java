@@ -62,6 +62,7 @@ public class GamCarMngVo extends ComDefaultVO{
 	private String sCarRegistNo;	//검색 차량 등록번호
 	private String sCarNm;	//검색 차량 명
 	private String sCarBodyNo;	//검색 차대 번호
+	private String sFuelKnd;	//검색 차량 종류
 
 	private	String	oldCarRegistNo;	// 예전 차량 등록 번호(update 용)
 
@@ -113,6 +114,18 @@ public class GamCarMngVo extends ComDefaultVO{
 	 */
 	public void setsCarBodyNo(String sCarBodyNo) {
 		this.sCarBodyNo = sCarBodyNo;
+	}
+	/**
+	 * @return the sFuelKnd
+	 */
+	public String getsFuelKnd() {
+		return sFuelKnd;
+	}
+	/**
+	 * @param sCarBodyNo the sCarBodyNo to set
+	 */
+	public void setsFuelKnd(String sFuelKnd) {
+		this.sFuelKnd = sFuelKnd;
 	}
 	/**
 	 * @return the carRegistNo
