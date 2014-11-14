@@ -132,11 +132,13 @@ GamCivilFcltySpecMngModule.prototype.onSubmit = function() {
 	this.loadData();
 }
 
+//시설목록 로드
 GamCivilFcltySpecMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchCivilFcltySpecMngForm");
 	this.$("#civilFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();	
 }
 
+//시설재원데이터 로드
 GamCivilFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 	var opts = [{name: 'fcltsMngNo', value: fcltsMngNo }];
 	this.doAction('<c:url value="/fclty/gamCivilFcltySpecMngDetail.do" />', opts, function(module, result) { 
@@ -153,6 +155,7 @@ GamCivilFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 	});	
 }
 
+//시설 첨부파일 로드
 GamCivilFcltySpecMngModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
