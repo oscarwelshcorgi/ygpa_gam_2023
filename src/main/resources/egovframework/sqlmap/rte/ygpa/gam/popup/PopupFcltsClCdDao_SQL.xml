@@ -31,9 +31,9 @@
 							    </isNotEmpty>
 							    <isNotEmpty property="sFcltsClCdNm">
 							    	AND F.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
-							    </isNotEmpty>                                                  
+							    </isNotEmpty>
+							ORDER BY FCLTS_CL_CD                                                  
                 ) S	
-                ORDER BY PRT_AT_CODE, FEE_TP
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>

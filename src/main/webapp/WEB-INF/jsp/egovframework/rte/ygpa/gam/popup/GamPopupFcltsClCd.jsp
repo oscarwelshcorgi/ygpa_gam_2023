@@ -57,8 +57,7 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 GamPopupFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupSocPayForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
+		this.loadData();
 		break;
 	case "btnOk":
 		var row = this.$("#grdInfoList").selectedRows();
@@ -79,7 +78,7 @@ GamPopupFcltsClCdModule.prototype.onSubmit = function() {
 };
 
 GamPopupFcltsClCdModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
+	var searchOpt=this.makeFormArgs("#gamPopupFcltsClCdForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -88,7 +87,7 @@ var popup_instance = new GamPopupFcltsClCdModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="gamPopupSocPayForm">
+		<form id="gamPopupFcltsClCdForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>

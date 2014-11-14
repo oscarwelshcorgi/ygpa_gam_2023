@@ -284,6 +284,7 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '<c:url value="/popup/showFcltsClCd.do"/>', { sFcltsClCdChar : this._prtFcltySe });			
 			break;
 			
 		// 시설추가
@@ -451,6 +452,11 @@ GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
 			break;
 		
+		case "selectFcltsClCd":
+			this.$("#cvlEngFcltsClCd").val(value["fcltsClCd"]);
+			this.$("#cvlEngFcltsClCdNm").val(value["fcltsClCdNm"]);			
+			break;
+			
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -714,10 +720,13 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">설계파고</th>
 							<td><input id="planHegh" type="text" size="20" /></td>
 							<th width="12%" height="17" class="required_text">파랑주방향</th>
-							<td><input id="wavemainDir" type="text" size="20" /></td>
+							<td colspan="3"><input id="wavemainDir" type="text" size="20" /></td>
+						</tr>
+						<tr>							
 							<th width="12%" height="17" class="required_text">토목시설물분류코드</th>
-							<td>
-								<input id="cvlEngFcltsClCd" type="text" size="10" />
+							<td colspan="5">
+								<input id="cvlEngFcltsClCd" type="text" size="14" disabled="disabled" />
+								<input id="cvlEngFcltsClCdNm" type="text" size="30" disabled="disabled" />
 								<button id="searchFcltsClCd" class="popupButton">선택</button>
 							</td>
 						</tr>
