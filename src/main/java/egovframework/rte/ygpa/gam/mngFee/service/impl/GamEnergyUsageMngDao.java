@@ -41,6 +41,14 @@ public class GamEnergyUsageMngDao extends YGPAAbstractDAO{
 	 * @param searchVO
 	 * @return
 	 */
+	public int selectEnergyUsageMngListYearCnt(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt_S", gamEnergyUsageMngVo);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
 	public List selectEnergyUsageMngList(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
 		return list("gamEnergyUsageMngDao.selectEnergyUsageMngList_D", gamEnergyUsageMngVo);	}
 
@@ -54,8 +62,22 @@ public class GamEnergyUsageMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
+	public void UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		insert("gamEnergyUsageMngDao.UpdateEnergyUsageMng",gamEnergyUsageMngVo);
+	}
+
+	/**
+	 * @param gamEnergyUsageMngVo
+	 */
 	public void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
 		delete("gamEnergyUsageMngDao.DeleteEnergyUsageMng",gamEnergyUsageMngVo);
+	}
+
+	/**
+	 * @param gamEnergyUsageMngVo
+	 */
+	public void CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		insert("gamEnergyUsageMngDao.CopyEnergyUsageMng",gamEnergyUsageMngVo);
 	}
 
 }

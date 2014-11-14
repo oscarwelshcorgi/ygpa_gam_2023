@@ -20,8 +20,6 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -30,7 +28,7 @@
 function GamEnergyUsageMng() {}
 
 
-GamEnergyUsageMng.prototype = new EmdModule(1000, 600);
+GamEnergyUsageMng.prototype = new EmdModule(900, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamEnergyUsageMng.prototype.loadComplete = function() {
@@ -40,16 +38,22 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectEnergyUsageMng.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'연료 코드', 	name:'fuelCd',		width:110, 		sortable:false,		align:'center'},
-                    {display:'연료 명', 	name:'fuelNm',		width:110, 		sortable:false,		align:'center'},
-                    {display:'에너지 단위', 	name:'energyUnit',		width:110, 		sortable:false,		align:'center'},
-					{display:'에너지 총발열량', 			name:'energyTotalCalVal',	width:110, 		sortable:false,		align:'center'},
-					{display:'에너지 순발열량', 			name:'energyNetCalVal',	width:110, 		sortable:false,		align:'center'},
-					{display:'온실가스 단위', 			name:'grHseUnit',	width:110, 		sortable:false,		align:'center'},
-					{display:'온실가스 계수', 			name:'grHseCoef',	width:110, 		sortable:false,		align:'center'}
+                    {display:'연료 코드', 			name:'fuelCd',				width:80, 		sortable:false,		align:'center'	},
+                    {display:'연료 명', 			name:'fuelNm',				width:150, 		sortable:false,		align:'left'	},
+                    {display:'에너지 단위', 		name:'energyUnit',			width:100, 		sortable:false,		align:'left'	},
+					{display:'에너지 총발열량', 	name:'energyTotalCalVal',	width:100, 		sortable:false,		align:'right'	},
+					{display:'에너지 순발열량',		name:'energyNetCalVal',		width:100, 		sortable:false,		align:'right'	},
+					{display:'온실가스 단위', 		name:'grHseUnit',			width:100, 		sortable:false,		align:'left'	},
+					{display:'온실가스 계수', 		name:'grHseCoef',			width:100, 		sortable:false,		align:'right'	}
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: 'auto',
+        preProcess: function(module,data) {
+            module.$('#totalCount').val(data.totalCount);
+            module.$('#yearCount').val(data.yearCount);
+            module.makeDivValues('#energyUsageListSum', data);
+            return data;
+        }
     });
 
 
@@ -57,23 +61,25 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
     	module.$('#cmd').val('modify');
         module.$('#EnergyUsageMngDetailForm :input').val('');
         module.makeFormValues('#EnergyUsageMngDetailForm', row);
-    	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
         module._editData=module.getFormValues('#EnergyUsageMngDetailForm', row);
         module._editRow=module.$('#EnergyUsageMng').selectedRowIds()[0];
 
     });
     this.$("#EnergyUsageMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
-    	console.log('debug');
+    	//console.log('debug');
         module.$("#EnergyUsageMngTab").tabs("option", {active: 1});
         module.$('#cmd').val('modify');
         module.makeFormValues('#EnergyUsageMngDetailForm', row);
-        module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
         module._editData=module.getFormValues('#EnergyUsageMngDetailForm', row);
         module._editRow=module.$('#EnergyUsageMng').selectedRowIds()[0];
         if(row!=null) {
             module.$('#cmd').val('modify');
         }
     });
+
+    this._loadCheck=false; // LOAD 여부
+
+    //console.log("debug");
 
 };
 
@@ -87,9 +93,6 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-//         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-//         		return;
-//         	}
 			this.loadData();
             break;
 
@@ -103,15 +106,6 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 
         // 신청저장
         case 'btnSaveItem':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	if(!validateGamSocAgentDetail(this.$('#form1')[0])){
-        		return;
-        	}
-        	*/
-
         	var inputVO = this.makeFormArgs("#EnergyUsageMngDetailForm");
 
 			if(this.$("#cmd").val() == "insert") {
@@ -142,11 +136,6 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
         //차량 삭제
         case 'btnRemoveItem':
         case 'btnDel':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	*/
         	if(this.$('#EnergyUsageMng').selectedRowIds()[0] == undefined && this.$('#EnergyUsageMng').selectedRowIds()[0] == null){
      	    	alert('목록을 선택 하십시오.');
      	    	return;
@@ -165,6 +154,34 @@ GamEnergyUsageMng.prototype.loadComplete = function() {
 			}
             break;
 
+        case 'btnCopy':
+            var sQueryMngYear = this.$('#sMngYear').val();
+            var nYearCount = this.$('#yearCount').val()*1;
+
+        	if(this._loadCheck == false){
+     	    	alert('자료를 먼저 조회하십시오.');
+     	    	return;
+     	    }
+        	if(nYearCount > 0){
+     	    	alert('[' + sQueryMngYear + '년] 자료가 존재합니다.');
+     	    	return;
+     	    }
+        	if(confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?")){
+	        	var inputVO = this.makeFormArgs("#EnergyUsageMngSearchForm");
+
+			 	this.doAction('<c:url value="/mngFee/gamCopyEnergyUsageMng.do" />', inputVO, function(module, result) {
+			 		alert(result.resultMsg);
+			 		if(result.resultCode == "0"){
+				 		//alert(result.resultMsg + '[' + result.resultCode + ']');
+			 			var searchOpt = module.makeFormArgs("#EnergyUsageMngSearchForm");
+						module.$("#EnergyUsageMng").flexOptions({params:searchOpt}).flexReload();
+						module.$("#EnergyUsageMngTab").tabs("option", {active: 0});
+						module.$("#EnergyUsageMngDetailForm :input").val("");
+			 		}
+			 	});
+        	}
+
+            break;
     }
 };
 
@@ -177,7 +194,7 @@ GamEnergyUsageMng.prototype.loadData = function() {
     this.$("#EnergyUsageMngTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#EnergyUsageMngSearchForm');
     this.$('#EnergyUsageMng').flexOptions({params:searchOpt}).flexReload();
-
+	this._loadCheck=true;
 };
 
 GamEnergyUsageMng.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -215,10 +232,14 @@ var module_instance = new GamEnergyUsageMng();
                             </td>
                             <th>연료 코드</th>
                             <td>
-									<input type="text" size="10" id="sFuelCd">
+								<input type="text" size="10" id="sFuelCd">
+                            </td>
+                            <th>연료 명</th>
+                            <td>
+								<input type="text" size="20" id="sFuelNm">
                             </td>
                             <td>
-									<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="searchBtn" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                     </tbody>
@@ -236,13 +257,18 @@ var module_instance = new GamEnergyUsageMng();
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
 					 <table id="EnergyUsageMng" style="display:none" class="fillHeight"></table>
-                <div id="agentListSum" class="emdControlPanel">
+                <div id="energyUsageListSum" class="emdControlPanel">
 					<form id="form2">
-						<table style="width:100%;">
+						<table style="width:100%;" class="summaryPanel">
 	                        <tr>
+								<th width="10%" height="20">조회 자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">년도 자료수</th>
+								<td><input type="text" size="12" id="yearCount" class="ygpaNumber" disabled="disabled" /></td>
 	                            <td style="text-align: right">
-	                                <button id="btnAdd">에너지 사용량 등록</button>
+	                                <button id="btnAdd">에너지 사용량 추가</button>
 	                                <button id="btnDel">에너지 사용량 삭제</button>
+	                                <button id="btnCopy">에너지 사용량 복사</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -255,32 +281,32 @@ var module_instance = new GamEnergyUsageMng();
                     <form id="EnergyUsageMngDetailForm">
             	        <input type="hidden" id="cmd"/>
             	        <input type="hidden" id="oldMngFeeFcltySe"/>
-                        <table class="detailPanel">
+                        <table class="detailPanel" style="width:100%;">
                              <tr>
 								<th width="20%" height="18">연료 코드</th>
-                                <td ><input type="text" size="20" id="fuelCd" /></td>
+                                <td ><input type="text" size="35" id="fuelCd" /></td>
 								<th width="20%" height="18">연료 명</th>
-                                <td ><input type="text" size="20" id="fuelNm" /></td>
+                                <td ><input type="text" size="35" id="fuelNm" /></td>
                             </tr>
                              <tr>
                           	   <th width="20%" height="18">관리 년도</th>
-                                <td ><input type="text" size="20" id="mngYear" /></td>
+                                <td ><input type="text" size="35" id="mngYear" /></td>
 								<th width="20%" height="18">에너지 단위</th>
-                                <td ><input type="text" size="20" id="energyUnit" /></td>
+                                <td ><input type="text" size="35" id="energyUnit" /></td>
 
                             </tr>
                              <tr>
                          	    <th width="20%" height="18">에너지 총발열량</th>
-                                <td ><input type="text" size="20" id="energyTotalCalVal" /></td>
+                                <td ><input type="text" size="35" id="energyTotalCalVal" /></td>
 								<th width="20%" height="18">에너지 순발열량</th>
-                                <td ><input type="text" size="20" id="energyNetCalVal" /></td>
+                                <td ><input type="text" size="35" id="energyNetCalVal" /></td>
 
                             </tr>
                              <tr>
                              	<th width="20%" height="18">온실가스 단위</th>
-                                <td ><input type="text" size="20" id="grHseUnit" /></td>
+                                <td ><input type="text" size="35" id="grHseUnit" /></td>
 								<th width="20%" height="18">온실가스 계수</th>
-                                <td ><input type="text" size="20" id="grHseCoef" /></td>
+                                <td ><input type="text" size="35" id="grHseCoef" /></td>
                             </tr>
                         </table>
                     </form>

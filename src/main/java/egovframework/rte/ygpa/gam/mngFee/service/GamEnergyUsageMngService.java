@@ -34,6 +34,12 @@ public interface GamEnergyUsageMngService {
 	 * @param searchVO
 	 * @return
 	 */
+	int selectEnergyUsageMngListYearCnt(GamEnergyUsageMngVo searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
 	List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception;
 
 	/**
@@ -44,6 +50,16 @@ public interface GamEnergyUsageMngService {
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
+	void UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+
+	/**
+	 * @param gamEnergyUsageMngVo
+	 */
 	void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+
+	/**
+	 * @param gamEnergyUsageMngVo
+	 */
+	void CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
 
 }

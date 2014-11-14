@@ -104,7 +104,7 @@ public class GamEnergyUsageMngController {
     @RequestMapping(value="/mngFee/gamSelectEnergyUsageMng.do" , method=RequestMethod.POST)
     @ResponseBody Map gamSelectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 
-    	int totalCnt, page, firstIndex;
+    	int totalCnt, page, firstIndex, yearCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -123,11 +123,13 @@ public class GamEnergyUsageMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		yearCnt = gamEnergyUsageMngService.selectEnergyUsageMngListYearCnt(searchVO);
 		totalCnt = gamEnergyUsageMngService.selectEnergyUsageMngListTotCnt(searchVO);
     	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngList(searchVO);
 
     	map.put("resultCode", 0);
     	map.put("totalCount", totalCnt);
+    	map.put("yearCount", yearCnt);
     	map.put("resultList", resultList);
 
     	return map;
@@ -146,15 +148,6 @@ public class GamEnergyUsageMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
-
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
 		try {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
 			gamEnergyUsageMngService.InsertEnergyUsageMng(gamEnergyUsageMngVo);
@@ -166,6 +159,34 @@ public class GamEnergyUsageMngController {
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamUpdateEnergyUsageMng.do")
+	@ResponseBody Map<String, Object> UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		try {
+			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
+			gamEnergyUsageMngService.UpdateEnergyUsageMng(gamEnergyUsageMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 
     	return map;
@@ -183,18 +204,37 @@ public class GamEnergyUsageMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
-
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
 		try {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
 			gamEnergyUsageMngService.DeleteEnergyUsageMng(gamEnergyUsageMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamCopyEnergyUsageMng.do")
+	@ResponseBody Map<String, Object> CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		try {
+			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
+			gamEnergyUsageMngService.CopyEnergyUsageMng(gamEnergyUsageMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

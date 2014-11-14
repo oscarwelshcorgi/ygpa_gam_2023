@@ -23,12 +23,15 @@
 					        FROM ENERGY_USAGEQY_COEF_F
 								  WHERE 1=1
 						         <isNotEmpty property="sMngYear">
-						             AND MNG_YEAR LIKE '%' || #sMngYear# || '%'
+						             AND MNG_YEAR = #sMngYear#
 						         </isNotEmpty>
 						         <isNotEmpty property="sFuelCd">
 						             AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
 						         </isNotEmpty>
-                             ORDER BY FUEL_NM
+						         <isNotEmpty property="sFuelNm">
+						             AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
+						         </isNotEmpty>
+                             ORDER BY FUEL_CD
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -39,11 +42,22 @@
               FROM ENERGY_USAGEQY_COEF_F
                            <![CDATA[  WHERE 1=1 ]]>
 								<isNotEmpty property="sMngYear">
-						             AND MNG_YEAR LIKE '%' || #sMngYear# || '%'
+						             AND MNG_YEAR = #sMngYear#
 						         </isNotEmpty>
 						         <isNotEmpty property="sFuelCd">
 						             AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
 						         </isNotEmpty>
+						         <isNotEmpty property="sFuelNm">
+						             AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
+						         </isNotEmpty>
+
+    </select>
+
+    <select id="gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
+         SELECT COUNT(*) yearcnt
+              FROM ENERGY_USAGEQY_COEF_F
+                           <![CDATA[  WHERE 1=1 ]]>
+						             AND MNG_YEAR = #sMngYear#
 
     </select>
 
@@ -80,40 +94,21 @@
 		]]>
 	</insert>
 
-	<update id="gamEnergyUsageMngDao.UpdateCarMngList_S">
+	<update id="gamEnergyUsageMngDao.UpdateEnergyUsageMng">
 		<![CDATA[
-            UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
+            UPDATE ENERGY_USAGEQY_COEF_F SET
+			       	FUEL_CD	=	#fuelCd#
+				,	FUEL_NM	=	#fuelNm#
+				,	ENERGY_UNIT	=	#energyUnit#
+				,	ENERGY_TOTAL_CAL_VAL	=	#energyTotalCalVal#
+				,	ENERGY_NET_CAL_VAL	=	#energyNetCalVal#
+				,	GR_HSE_UNIT	=	#grHseUnit#
+				,	GR_HSE_COEF	=	#grHseCoef#
+				,	MNG_YEAR	=	#mngYear#
 				,	UPD_USR	=	#updUsr#
 				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+             WHERE  FUEL_CD   = #fuelCd#
+             AND 	MNG_YEAR	= #mngYear#
 		]]>
 	</update>
 
@@ -124,5 +119,38 @@
              AND 	MNG_YEAR	= #mngYear#
 		]]>
 	</delete>
+
+	<insert id="gamEnergyUsageMngDao.CopyEnergyUsageMng">
+		<![CDATA[
+		    INSERT
+		      INTO  ENERGY_USAGEQY_COEF_F
+		         (
+					FUEL_CD
+					,FUEL_NM
+					,ENERGY_UNIT
+					,ENERGY_TOTAL_CAL_VAL
+					,ENERGY_NET_CAL_VAL
+					,GR_HSE_UNIT
+					,GR_HSE_COEF
+					,MNG_YEAR
+					,REG_USR
+					,REGIST_DT
+
+		         )
+		    SELECT
+		    		FUEL_CD
+					,FUEL_NM
+					,ENERGY_UNIT
+					,ENERGY_TOTAL_CAL_VAL
+					,ENERGY_NET_CAL_VAL
+					,GR_HSE_UNIT
+					,GR_HSE_COEF
+					,#sMngYear#
+					,#regUsr#
+					,SYSDATE
+		       FROM ENERGY_USAGEQY_COEF_F
+             WHERE 	MNG_YEAR = TO_CHAR(TO_NUMBER(#sMngYear#) - 1)
+		]]>
+	</insert>
 
    </sqlMap>

@@ -20,8 +20,6 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -30,7 +28,7 @@
 function GamMngFeeCodeMng() {}
 
 
-GamMngFeeCodeMng.prototype = new EmdModule(800, 600);
+GamMngFeeCodeMng.prototype = new EmdModule(900, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMngFeeCodeMng.prototype.loadComplete = function() {
@@ -42,7 +40,7 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
 					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
-					{display:'관리비 시설 명', 		name:'mngFeeFcltyNm',	width:150, 		sortable:false,		align:'left'},
+					{display:'관리비 시설 명', 		name:'mngFeeFcltyNm',	width:170, 		sortable:false,		align:'left'},
                     {display:'관리비 시설 구분', 	name:'mngFeeFcltySeNm',	width:110, 		sortable:false,		align:'left'},
                     {display:'관리비 업무 구분', 	name:'mngFeeJobSeNm',	width:110, 		sortable:false,		align:'left'},
 					{display:'등록자', 				name:'regUsr',			width:100, 		sortable:false,		align:'center'},
@@ -86,9 +84,6 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-//         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-//         		return;
-//         	}
 			this.loadData();
             break;
 
@@ -97,20 +92,13 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 			this.$("#MngFeeCodeMngTab").tabs("option", {active: 1});
 			this.$("#cmd").val("insert");
 			this.$('#mngFeeFcltyCd').removeAttr('readonly');
+			this.$('#mngFeeFeeSe').val("M");
 
             break;
 
 
         // 신청저장
         case 'btnSaveItem':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	if(!validateGamSocAgentDetail(this.$('#form1')[0])){
-        		return;
-        	}
-        	*/
 
         	var inputVO = this.makeFormArgs("#MngFeeCodeMngDetailForm");
 
@@ -141,11 +129,6 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 
         case 'btnRemoveItem':
         case 'btnCodeDel':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	*/
         	if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#MngFeeCodeMngDetailForm");
 			 	this.doAction('<c:url value="/mngFee/gamDeleteMngFeeCodeMng.do" />', inputVO, function(module, result) {
@@ -201,14 +184,22 @@ var module_instance = new GamMngFeeCodeMng();
                         <tr>
                             <th>관리비 시설 코드</th>
                             <td>
-									<input type="text" size="10" id="sMngFeeFcltySe">
+								<input type="text" size="5" id="sMngFeeFcltyCd">
                             </td>
                             <th>관리비 시설 명</th>
                             <td>
-									<input type="text" size="20" id="sMngFeeFcltySeNm">
+								<input type="text" size="15" id="sMngFeeFcltyNm">
+                            </td>
+                            <th>시설 업무 구분</th>
+                            <td>
+                               	<select id="sMngFeeJobSe">
+                               		<option value="">전체</option>
+                               		<option value="M">마린센터</option>
+                               		<option value="E">전기시설</option>
+                               	</select>
                             </td>
                             <td>
-									<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="searchBtn" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                     </tbody>

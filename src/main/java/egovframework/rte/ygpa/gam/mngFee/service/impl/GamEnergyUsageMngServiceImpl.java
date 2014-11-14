@@ -42,6 +42,11 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
+	public int selectEnergyUsageMngListYearCnt(GamEnergyUsageMngVo searchVO) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt(searchVO);
+	}
+
+	@Override
 	public List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 		return gamEnergyUsageMngDao.selectEnergyUsageMngList(searchVO);
 	}
@@ -52,10 +57,18 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
+	public void UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.UpdateEnergyUsageMng(gamEnergyUsageMngVo);
+	}
+
+	@Override
 	public void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
 		gamEnergyUsageMngDao.DeleteEnergyUsageMng(gamEnergyUsageMngVo);
 	}
 
-
+	@Override
+	public void CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.CopyEnergyUsageMng(gamEnergyUsageMngVo);
+	}
 
 }
