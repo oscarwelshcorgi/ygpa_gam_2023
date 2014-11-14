@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupFcltsMngGroupVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsMngGroupVO"/>
+    
+
+    <select id="gamPopupFcltsMngGroupDao.selectFcltsMngGroupList" parameterClass="gamPopupFcltsMngGroupVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT
+							    F.FCLTS_MNG_GROUP_NO
+							    , F.FCLTS_MNG_GROUP_NM
+							FROM
+							    FCLTS_MNG_GROUP_F F
+							WHERE
+								1 = 1
+							    <isNotEmpty property="sFcltsMngGroupNo">
+							    	AND F.FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
+							    </isNotEmpty>
+							    <isNotEmpty property="sFcltsMngGroupNm">
+							    	AND F.FCLTS_CL_CD LIKE '%' || #sFcltsMngGroupNm# || '%'
+							    </isNotEmpty>
+							ORDER BY FCLTS_MNG_GROUP_NO                                                  
+                ) S	
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupFcltsMngGroupDao.selectFcltsMngGroupListTotCnt" parameterClass="gamPopupFcltsMngGroupVO" resultClass="int">
+			SELECT
+			    COUNT(*) CNT
+			FROM
+			    FCLTS_MNG_GROUP_F F
+			WHERE
+				1 = 1
+			    <isNotEmpty property="sFcltsMngGroupNo">
+			    	AND F.FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
+			    </isNotEmpty>
+			    <isNotEmpty property="sFcltsMngGroupNm">
+			    	AND F.FCLTS_CL_CD LIKE '%' || #sFcltsMngGroupNm# || '%'
+			    </isNotEmpty>
+    </select>
+</sqlMap>

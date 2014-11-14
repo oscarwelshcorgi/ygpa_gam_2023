@@ -280,6 +280,7 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 시설물관리그룹(디테일 화면)
 		case "searchFcltsMngGroupNo":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '<c:url value="/popup/showFcltsMngGroup.do"/>', {});
 			break;
 			
 		// 시설물 분류코드(디테일 화면)
@@ -537,10 +538,8 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
-							<td><input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/><button id="searchFcltsMngGroupNo" class="popupButton">선택</button></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
-							<td>
+							<td colspan="3">
 								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>-
 								<input type="text" size="2" id="gisAssetsPrtAtCode2" disabled="disabled"/>
@@ -571,6 +570,14 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">토목시설명</th>
 							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
+							<td colspan="5">
+								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
+							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설치일자</th>
