@@ -108,6 +108,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		
 		// 첨부파일 처리
 		module.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
+		module.clearFilePage();
 
 		module._cmd="modify";
 		module.$("#constFcltySpecMngListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
@@ -227,26 +228,21 @@ GamConstFcltySpecMngModule.prototype.applyFileChanged = function(target) {
 
 GamConstFcltySpecMngModule.prototype.insertFcltyFloorSpec = function(fcltsMngNo) {
 	
-	var updateFloorList = this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'U'}]);
-	for(i=0;i<updateFloorList.length;i++){
-		updateFloorList[i]["fcltsMngNo"] = fcltsMngNo;
-	}
-	
-	var insertFloorList = this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'I'}]);
-	for(i=0;i<insertFloorList.length;i++){
-		insertFloorList[i]["fcltsMngNo"] = fcltsMngNo;
+	var all_rows = this.$('#fcltyinfo9').flexGetData();
+
+	for(i=0;i<all_rows.length;i++){
+		all_rows[i]["fcltsMngNo"] = fcltsMngNo;
 	}
 	
 	var inputFloorVO = [];
-	inputFloorVO[inputFloorVO.length]={name: 'updateList', value :JSON.stringify(updateFloorList) };
-	inputFloorVO[inputFloorVO.length]={name: 'insertList', value: JSON.stringify(insertFloorList) };
+	inputFloorVO[inputFloorVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	inputFloorVO[inputFloorVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	inputFloorVO[inputFloorVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFloorSpecList) };
-	
-	module.doAction('<c:url value="/fclty/gamFcltyFloorSpecSave.do" />', inputFloorVO, function(floorModule, floorResult) {
+
+	this.doAction('<c:url value="/fclty/gamFcltyFloorSpecSave.do" />', inputFloorVO, function(floorModule, floorResult) {
         if(floorResult.resultCode == 0){
         	
         }
-        alert(floorResult.resultMsg);
     });
 };
 
@@ -254,12 +250,11 @@ GamConstFcltySpecMngModule.prototype.insertFcltyFloorSpec = function(fcltsMngNo)
 GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) {
 	
 	var all_rows = this.$('#fcltyFileList').flexGetData();
-	alert(fcltsMngNo);
-	alert(JSON.stringify(all_rows));
+
 	for(i=0;i<all_rows.length;i++){
 		all_rows[i]["fcltsMngNo"] = fcltsMngNo;
 	}
-	alert(JSON.stringify(all_rows));
+	
 	var inputFileVO=[];
 	inputFileVO[inputFileVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	inputFileVO[inputFileVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -267,9 +262,8 @@ GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) 
 
     this.doAction('<c:url value="/fclty/mergeGamConstFcltySpecFileMngt.do" />', inputFileVO, function(fileModule, fileResult) {
         if(result.resultCode == 0){
-        	//module.loadFileList(fcltsMngNo);
+
         }
-        alert(result.resultMsg);
     });
     
 };
@@ -319,7 +313,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "fcltyinfo9PopupBtn":
 			var all_rows = this.$('#fcltyinfo9').flexGetData();
 			for(i=0;i<all_rows.length;i++){
-				all_rows[i]["_updtId"] = "I";
+				all_rows[i]["_updtId"] = "";
 			}
 			
 			this.doExecuteDialog("fcltyinfo9Popup", "건축물현황", '/popup/fcltySpecinfo9ListPopup.do', {},all_rows);
@@ -342,11 +336,12 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 						fcltsMngNo = result.fcltsMngNo;
 						
 						// 층별제원 입력/수정처리
-						//module.insertFcltyFloorSpec(fcltsMngNo);
+						module.insertFcltyFloorSpec(fcltsMngNo);
 						
 						// 첨부파일 입력/수정처리
 						module.insertFcltySpecFile(fcltsMngNo);
 			 		}
+			 		alert(result.resultMsg);
 			 	});
 			}else{
 			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecUpdate.do" />', inputVO, function(module, result) {
@@ -359,7 +354,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 						fcltsMngNo = result.fcltsMngNo;
 						
 						// 층별제원 입력/수정처리
-						//module.insertFcltyFloorSpec(fcltsMngNo);
+						module.insertFcltyFloorSpec(fcltsMngNo);
 						
 						// 첨부파일 입력/수정처리
 						module.insertFcltySpecFile(fcltsMngNo);
@@ -491,6 +486,7 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
  GamConstFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 	case "tabs1":
+		
 		break;
 	case "tabs2":
 		break;
@@ -541,13 +537,15 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 		break;
 		// 건축물현황
 		case "fcltyinfo9Popup":
-			this.$("#fcltyinfo9").flexAddData({resultList: value });
+			this.$("#fcltyinfo9").flexAddData({resultList: value["inputVo"] });
+			
+			this._deleteDataFloorSpecList = value["deleteDataFloorSpecList"];
 
 		break;
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-
+		
 		break;
 	}
 };
@@ -630,10 +628,10 @@ var module_instance = new GamConstFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
+							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>
-								<input type="text" size="7" id="fcltsMngGroupNo" disabled="disabled"/>
-								<button id="fcltyCodePopupBtn" class="popupButton">선택</button>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
+								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
@@ -660,13 +658,15 @@ var module_instance = new GamConstFcltySpecMngModule();
 								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="12%" height="17" class="required_text">시설분류</th>
-							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
-								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
-							</td>
 							<th width="12%" height="17" class="required_text">건축시설명</th>
-							<td colspan="3"><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
+							<td colspan="3"><input type="text" size="80" id="prtFcltyNm" maxlength="80" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
+							<td colspan="5">
+								<input type="text" size="50" id="fcltsMngGroupNo" disabled="disabled"/>
+								<button id="fcltyCodePopupBtn" class="popupButton">선택</button>
+							</td>
 						</tr>
 					</table>
 				</div>
@@ -682,117 +682,117 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">준공일자</th>
 							<td><input type="text" size="15" id="bldDt" class="emdcal" /></td>
 							<th width="12%" height="17" class="required_text">구조형식</th>
-							<td colspan="3"><input type="text" size="75" id="strctFmt" /></td>
+							<td colspan="3"><input type="text" size="75" id="strctFmt" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">하자만료일자</th>
 							<td><input type="text" size="15" id="flawEndDt" class="emdcal" /></td>
 							<th width="12%" height="17" class="required_text">기초형식</th>
-							<td colspan="3"><input type="text" size="75" id="baseFmt"  data-required="true"/></td>
+							<td colspan="3"><input type="text" size="75" id="baseFmt"  data-required="true" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">연면적</th>
-							<td><input id="ar" type="text" size="20" title="연면적"  /></td>
+							<td><input id="ar" type="text" size="20" title="연면적" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">건축면적</th>
-							<td><input id="archAr" type="text" size="20" title="건축면적"  /></td>
+							<td><input id="archAr" type="text" size="20" title="건축면적" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">대지면적</th>
-							<td><input type="text" size="20" id="plotAr"  /></td>
+							<td><input type="text" size="20" id="plotAr" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">주사용용도</th>
-							<td colspan="5"><input type="text" size="124" id="mainUsagePrpos" /></td>
+							<td colspan="5"><input type="text" size="124" id="mainUsagePrpos" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">주차면적</th>
-							<td><input type="text" size="20" id="prkAr" maxlength="80" /></td>
+							<td><input type="text" size="20" id="prkAr" maxlength="80" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">옥내주차면적</th>
-							<td><input type="text" size="20" id="isdPrkAr" maxlength="80" /></td>
+							<td><input type="text" size="20" id="isdPrkAr" maxlength="80" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">옥외주차면적</th>
-							<td><input id="osdPrkAr" type="text" size="20" title="옥외주차면적" /></td>
+							<td><input id="osdPrkAr" type="text" size="20" title="옥외주차면적" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">주차대수</th>
-							<td><input id="prkCnt" type="text" size="20" title="주차대수" /></td>
+							<td><input id="prkCnt" type="text" size="20" title="주차대수" class="ygpaNumber" /></td>
 							<th width="12%" height="17" class="required_text">옥내주차대수</th>
-							<td><input class="text" type="text" size="20" id="isdPrkCnt" maxlength="40" /></td>
+							<td><input type="text" size="20" id="isdPrkCnt" class="ygpaNumber" /></td>
 							<th width="12%" height="17" class="required_text">옥외주차대수</th>
-							<td><input class="text" type="text" size="20" id="osdPrkCnt" maxlength="10" /></td>
+							<td><input type="text" size="20" id="osdPrkCnt" class="ygpaNumber" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">배기닥트유무</th>
-							<td><input class="text" type="text" size="20" id="exhaustDuctEnnc" maxlength="40" /></td>
+							<td><input type="text" size="20" id="exhaustDuctEnnc" maxlength="1" /></td>
 							<th width="12%" height="17" class="required_text">환기공조방식</th>
-							<td colspan="3"><input class="text" type="text" size="75" id="vntltnArcndtMthd" maxlength="10" /></td>
+							<td colspan="3"><input type="text" size="75" id="vntltnArcndtMthd" maxlength="50" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">승강기대수승객용</th>
-							<td><input class="text" type="text" size="20" id="liftCntPsngr" maxlength="40" /></td>
+							<td><input type="text" size="20" id="liftCntPsngr" class="ygpaNumber" /></td>
 							<th width="12%" height="17" class="required_text">물탱크위치</th>
-							<td colspan="3"><input class="text" type="text" size="75" id="wrtTankLoc" maxlength="40" /></td>
+							<td colspan="3"><input type="text" size="75" id="wrtTankLoc" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">승강기대수화물용</th>
-							<td><input class="text" type="text" size="20" id="liftCntCargo" maxlength="40" /></td>
+							<td><input type="text" size="20" id="liftCntCargo" class="ygpaNumber"/></td>
 							<th width="12%" height="17" class="required_text">변전실위치</th>
-							<td colspan="3"><input class="text" type="text" size="75" id="sbtLoc" maxlength="10" /></td>
+							<td colspan="3"><input type="text" size="75" id="sbtLoc"  maxlength="100"/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">승강기대수비상용</th>
-							<td><input class="text" type="text" size="20" id="liftCntEmgcy" maxlength="40" /></td>
+							<td><input type="text" size="20" id="liftCntEmgcy" class="ygpaNumber" /></td>
 							<th width="12%" height="17" class="required_text">유류저장시설위치</th>
-							<td colspan="3"><input class="text" type="text" size="75" id="oilSavefcltyLoc" maxlength="40" /></td>
+							<td colspan="3"><input type="text" size="75" id="oilSavefcltyLoc" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">냉방유무</th>
-							<td><input class="text" type="text" size="20" id="clngEnnc" maxlength="40" /></td>
+							<td><input type="text" size="20" id="clngEnnc" maxlength="1" /></td>
 							<th width="12%" height="17" class="required_text">냉방열원</th>
-							<td><input class="text" type="text" size="20" id="clngSrc" maxlength="40" /></td>
+							<td><input type="text" size="20" id="clngSrc" maxlength="100" /></td>
 							<th width="12%" height="17" class="required_text">오수정화시설위치</th>
-							<td colspan="3"><input class="text" type="text" size="20" id="swgClupfcltyLoc" maxlength="40" /></td>
+							<td colspan="3"><input type="text" size="20" id="swgClupfcltyLoc" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">승강기운영방식</th>
-							<td colspan="5"><input class="text" type="text" size="124" id="liftOperMthd" maxlength="40" /></td>
+							<td colspan="5"><input type="text" size="124" id="liftOperMthd" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">난방유무</th>
-							<td><input id="htngEnnc" type="text"  size="20" title="난방유무" /></td>
+							<td><input id="htngEnnc" type="text"  size="20" title="난방유무" maxlength="1" /></td>
 							<th width="12%" height="17" class="required_text">난방열원</th>
-							<td colspan="3"><input  id="htngSrc" type="text"  size="75" title="난방열원" /></td>
+							<td colspan="3"><input  id="htngSrc" type="text"  size="75" title="난방열원" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">전기인입용량</th>
-							<td><input id="elctyLeadInCapa" type="text"  size="20" title="전기인입용량" /></td>
+							<td><input id="elctyLeadInCapa" type="text"  size="20" title="전기인입용량" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">정화조형식</th>
-							<td colspan="3"><input id="spictankFmt" type="text"  size="75" title="정화조형식" /></td>
+							<td colspan="3"><input id="spictankFmt" type="text"  size="75" title="정화조형식" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">외장</th>
-							<td colspan="5"><input id="fcg" type="text"  size="124" title="외장" /></td>
+							<td colspan="5"><input id="fcg" type="text"  size="124" title="외장" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">내장</th>
-							<td colspan="5"><input id="itr" type="text"  size="124" title="내장" /></td>
+							<td colspan="5"><input id="itr" type="text"  size="124" title="내장" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">천장</th>
-							<td colspan="5"><input id="ceil" type="text"  size="124" title="천장" /></td>
+							<td colspan="5"><input id="ceil" type="text"  size="124" title="천장" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">지붕</th>
-							<td colspan="5"><input id="roof" type="text"  size="124" title="지붕" /></td>
+							<td colspan="5"><input id="roof" type="text"  size="124" title="지붕" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">지붕방수</th>
-							<td colspan="5"><input id="roofWtprf" type="text"  size="124" title="지붕방수" /></td>
+							<td colspan="5"><input id="roofWtprf" type="text"  size="124" title="지붕방수" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설계공사명</th>
-							<td colspan="5"><input id="planCnstNm" type="text"  size="124" title="설계공사명" /></td>
+							<td colspan="5"><input id="planCnstNm" type="text"  size="124" title="설계공사명" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설계수행회사</th>
-							<td colspan="5"><input id="planExcCmpny" type="text" size="124" title="설계수행회사" /></td>
+							<td colspan="5"><input id="planExcCmpny" type="text" size="124" title="설계수행회사" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설계시작일자</th>
@@ -804,27 +804,28 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시공공사명</th>
-							<td colspan="5"><input id="cnstrctCnstNm" type="text"  size="124" title="시공공사명" /></td>
+							<td colspan="5"><input id="cnstrctCnstNm" type="text"  size="124" title="시공공사명" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시공수행회사</th>
-							<td colspan="5"><input id="cnstrctExcCmpny" type="text" size="124" title="시공수행회사" /></td>
+							<td colspan="5"><input id="cnstrctExcCmpny" type="text" size="124" title="시공수행회사" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시공종료일자</th>
 							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="15" title="시공종료일자" /></td>
-							<th width="12%" height="17" class="required_text">시설물관리번호</th>
-							<td><input id="fcltsMngNo" type="text" size="20" title="시설물관리번호" /></td>
 							<th width="12%" height="17" class="required_text">건축시설물분류코드</th>
-							<td><input id="archFcltsClCd" type="text" size="20" title="건축시설물분류코드" /></td>
+							<td colspan="3">
+								<input id="archFcltsClCd" type="text" size="50" title="건축시설물분류코드" maxlength="10" />
+								<button id="archFcltsClCdPopupBtn" class="popupButton">선택</button>
+							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비고</th>
-							<td colSpan="5"><input id="rm" type="text" size="124" title="비고" /></td>
+							<td colSpan="5"><input id="rm" type="text" size="124" title="비고" maxlength="1000" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">위치</th>
-							<td colSpan="5"><input id="loc" type="text" size="124" title="위치" /></td>
+							<td colSpan="5"><input id="loc" type="text" size="124" title="위치" maxlength="150" /></td>
 						</tr>
 						
 					</table>

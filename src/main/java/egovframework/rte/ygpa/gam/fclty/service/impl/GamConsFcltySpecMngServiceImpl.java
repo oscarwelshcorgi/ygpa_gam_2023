@@ -144,14 +144,15 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	
 	
 	/**
-	 * 시설 층수 정보 입력
+	 * 시설 층수 정보 저장/삭제
 	 * @param vo
-	 * @return int
+	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyFloorSpecList(Map vo) throws Exception{
-		gamConsFcltySpecMngDao.insertFcltyFloorSpecList(vo);
+	public List mergeFcltyFloorMngt(Map mergeList) throws Exception{
+		return gamConsFcltySpecMngDao.mergeFcltyFloorMngt(mergeList);
 	}
+
 	
 	
 	/**

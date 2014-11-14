@@ -58,8 +58,6 @@
 				, RM
 				, REG_USR
 				, REGIST_DT
-				, UPD_USR
-				, UPDT_DT
 				, FCLTS_MNG_NO
 				, LOC
 				, ARCH_FCLTS_CL_CD
@@ -70,32 +68,32 @@
 				, #flawEndDt#
 				, #baseFmt#
 				, #strctFmt#
-				, #ar#
-				, #archAr#
-				, #plotAr#
+				, TO_NUMBER(REPLACE(#ar#, ',', ''))
+				, TO_NUMBER(REPLACE(#archAr#, ',', ''))
+				, TO_NUMBER(REPLACE(#plotAr#, ',', ''))
 				, #mainUsagePrpos#
-				, #prkAr#
-				, #isdPrkAr#
-				, #osdPrkAr#
-				, #prkCnt#
-				, #isdPrkCnt#
-				, #osdPrkCnt#
+				, TO_NUMBER(REPLACE(#prkAr#, ',', ''))
+				, TO_NUMBER(REPLACE(#isdPrkAr#, ',', ''))
+				, TO_NUMBER(REPLACE(#osdPrkAr#, ',', ''))
+				, TO_NUMBER(REPLACE(#prkCnt#, ',', ''))
+				, TO_NUMBER(REPLACE(#isdPrkCnt#, ',', ''))
+				, TO_NUMBER(REPLACE(#osdPrkCnt#, ',', ''))
 				, #exhaustDuctEnnc#
 				, #vntltnArcndtMthd#
 				, #wrtTankLoc#
 				, #sbtLoc#
 				, #oilSavefcltyLoc#
 				, #swgClupfcltyLoc#
-				, #liftCntPsngr#
-				, #liftCntCargo#
-				, #liftCntEmgcy#
+				, TO_NUMBER(REPLACE(#liftCntPsngr#, ',', ''))
+				, TO_NUMBER(REPLACE(#liftCntCargo#, ',', ''))
+				, TO_NUMBER(REPLACE(#liftCntEmgcy#, ',', ''))
 				, #liftOperMthd#
 				, #clngEnnc#
 				, #clngSrc#
 				, #htngEnnc#
 				, #htngSrc#
 				, #spictankFmt#
-				, #elctyLeadInCapa#
+				, TO_NUMBER(REPLACE(#elctyLeadInCapa#, ',', ''))
 				, #fcg#
 				, #itr#
 				, #ceil#
@@ -112,8 +110,6 @@
 				, #rm#
 				, #regUsr#
 				, #registDt#
-				, #updUsr#
-				, #updtDt#
 				, #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #gisPrtFcltySeq# || #prtFcltySe#
 				, #loc#
 				, #archFcltsClCd#
@@ -452,32 +448,32 @@
 				,FLAW_END_DT = #flawEndDt#
 				,BASE_FMT = #baseFmt#
 				,STRCT_FMT = #strctFmt#
-				,AR = #ar#
-				,ARCH_AR = #archAr#
-				,PLOT_AR = #plotAr#
+				,AR = TO_NUMBER(REPLACE(#ar#, ',', ''))
+				,ARCH_AR = TO_NUMBER(REPLACE(#archAr#, ',', ''))
+				,PLOT_AR = TO_NUMBER(REPLACE(#plotAr#, ',', ''))
 				,MAIN_USAGE_PRPOS = #mainUsagePrpos#
-				,PRK_AR = #prkAr#
-				,ISD_PRK_AR = #isdPrkAr#
-				,OSD_PRK_AR = #osdPrkAr#
-				,PRK_CNT = #prkCnt#
-				,ISD_PRK_CNT = #isdPrkCnt#
-				,OSD_PRK_CNT = #osdPrkCnt#
+				,PRK_AR = TO_NUMBER(REPLACE(#prkAr#, ',', ''))
+				,ISD_PRK_AR = TO_NUMBER(REPLACE(#isdPrkAr#, ',', ''))
+				,OSD_PRK_AR = TO_NUMBER(REPLACE(#osdPrkAr#, ',', ''))
+				,PRK_CNT = TO_NUMBER(REPLACE(#prkCnt#, ',', ''))
+				,ISD_PRK_CNT = TO_NUMBER(REPLACE(#isdPrkCnt#, ',', ''))
+				,OSD_PRK_CNT = TO_NUMBER(REPLACE(#osdPrkCnt#, ',', ''))
 				,EXHAUST_DUCT_ENNC = #exhaustDuctEnnc#
 				,VNTLTN_ARCNDT_MTHD = #vntltnArcndtMthd#
 				,WRT_TANK_LOC = #wrtTankLoc#
 				,SBT_LOC = #sbtLoc#
 				,OIL_SAVEFCLTY_LOC = #oilSavefcltyLoc#
 				,SWG_CLUPFCLTY_LOC = #swgClupfcltyLoc#
-				,LIFT_CNT_PSNGR = #liftCntPsngr#
-				,LIFT_CNT_CARGO = #liftCntCargo#
-				,LIFT_CNT_EMGCY = #liftCntEmgcy#
+				,LIFT_CNT_PSNGR = TO_NUMBER(REPLACE(#liftCntPsngr#, ',', ''))
+				,LIFT_CNT_CARGO = TO_NUMBER(REPLACE(#liftCntCargo#, ',', ''))
+				,LIFT_CNT_EMGCY = TO_NUMBER(REPLACE(#liftCntEmgcy#, ',', ''))
 				,LIFT_OPER_MTHD = #liftOperMthd#
 				,CLNG_ENNC = #clngEnnc#
 				,CLNG_SRC = #clngSrc#
 				,HTNG_ENNC = #htngEnnc#
 				,HTNG_SRC = #htngSrc#
 				,SPICTANK_FMT = #spictankFmt#
-				,ELCTY_LEAD_IN_CAPA = #elctyLeadInCapa#
+				,ELCTY_LEAD_IN_CAPA = TO_NUMBER(REPLACE(#elctyLeadInCapa#, ',', ''))
 				,FCG = #fcg#
 				,ITR = #itr#
 				,CEIL = #ceil#
@@ -611,15 +607,13 @@
 					, RM
 					, REG_USR
 					, REGIST_DT
-					, UPD_USR
 					, FCLTS_MNG_NO
-					, UPDT_DT
 		       )
 		       VALUES
 		       (
 					#bound#
 					, #strySe#
-					, #ar#
+					, TO_NUMBER(REPLACE(#ar#, ',', ''))
 					, #wallFnsh#
 					, #flrFnsh#
 					, #ceil#
@@ -627,10 +621,41 @@
 					, #rm#
 					, #regUsr#
 					, #registDt#
-					, #updUsr#
 					, #fcltsMngNo#
-					, #updtDt#
 		        )
     </insert>
+    
+    <update id="gamConsFcltySpecMngDao.updateFcltyFloorSpecList">
+        <![CDATA[
+            UPDATE 
+            	ARCH_FCLTY_FLOOR_SPEC_F
+			SET 
+				BOUND = #bound#
+				,STRY_SE = #strySe#
+				,AR = TO_NUMBER(REPLACE(#ar#, ',', ''))
+				,WALL_FNSH = #wallFnsh#
+				,FLR_FNSH = #flrFnsh#
+				,CEIL = #ceil#
+				,USAGE_PRPOS = #usagePrpos#
+				,RM = #rm#
+				,UPD_USR = #updUsr#
+				,FCLTS_MNG_NO = #fcltsMngNo#
+				,UPDT_DT = #updtDt#
+        ]]>
+			WHERE 
+				FCLTS_MNG_NO = #fcltsMngNo#
+			    AND STRY_SE = #strySe#
+			    AND BOUND = #bound#
+    </update>
+    
+    <delete id="gamConsFcltySpecMngDao.deleteFcltyFloorSpecList">
+            DELETE
+			FROM 
+				ARCH_FCLTY_FLOOR_SPEC_F
+			WHERE 
+				FCLTS_MNG_NO = #fcltsMngNo#
+				AND STRY_SE = #strySe#
+			    AND BOUND = #bound#
+    </delete>
 
 </sqlMap>

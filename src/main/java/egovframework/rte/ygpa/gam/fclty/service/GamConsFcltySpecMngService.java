@@ -123,19 +123,11 @@ public interface GamConsFcltySpecMngService {
 	/**
 	 * 시설 층수 정보 삭제
 	 * @param vo
-	 * @return 
+	 * @return int
 	 * @throws Exception
 	 */
 	void deleteFcltyFloorSpecData(Map vo) throws Exception;
 	
-	
-	/**
-	 * 시설 층수 정보 입력
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */
-	void insertFcltyFloorSpecList(Map vo) throws Exception;
 	
 	
 	/**
@@ -145,4 +137,13 @@ public interface GamConsFcltySpecMngService {
 	 * @throws Exception
 	 */
 	void deleteFcltyTotalFile(Map vo) throws Exception;
+	
+	
+	/**
+	 * 시설 층수 정보 저장/삭제
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */
+	List mergeFcltyFloorMngt(Map mergeList) throws Exception;
 }

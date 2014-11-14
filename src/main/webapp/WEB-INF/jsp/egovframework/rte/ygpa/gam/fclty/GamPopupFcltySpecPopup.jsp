@@ -32,7 +32,7 @@ GamPopupEntrpsModule.prototype.loadComplete = function(fcltyinfo9List) {
 
 
 
-
+	this._deleteDataFloorSpecList = [];
 	this.resizable(true);
 
 	this.$("#grdInfoList").flexigrid({
@@ -153,19 +153,9 @@ GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case "btnOk":
 		var inputVO = this.$('#grdInfoList').flexGetData();
-// 		inputVO[inputVO.length]={name: 'resultList', value :JSON.stringify(this.$('#grdInfoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-// 		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#grdInfoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-		/*
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		 */
+		var merge = {'inputVo':inputVO, 'deleteDataFloorSpecList':this._deleteDataFloorSpecList};
 
-		 this.closeDialog("ok", inputVO);
+		this.closeDialog("ok", merge);
 		break;
 	case "cancel":
 		this.cancelDialog();
@@ -181,7 +171,7 @@ GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 
 		this.$("#gamPopupEntrpsForm").selectRowId(this._editRow);
 		 */
-		 this.$("#grdInfoList").flexAddRow({'bound':'','strySe':'','ar':'','wallFnsh':'','flrFnsh':'','ceil':'','usagePrpos':'','rm':''});
+		 this.$("#grdInfoList").flexAddRow({'_updtId': 'I','bound':'','strySe':'','ar':'','wallFnsh':'','flrFnsh':'','ceil':'','usagePrpos':'','rm':''});
 	break;
 		case "btnRemove":
 			this.removeGisAssetPhotoItem();
@@ -202,6 +192,9 @@ GamPopupEntrpsModule.prototype.removeGisAssetPhotoItem = function() {
 
     		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
 
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteDataFloorSpecList[this._deleteDataFloorSpecList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			}
         	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
 
         	this._edited=true;
