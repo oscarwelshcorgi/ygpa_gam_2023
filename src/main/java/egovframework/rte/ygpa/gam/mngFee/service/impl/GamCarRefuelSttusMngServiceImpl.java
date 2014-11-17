@@ -37,33 +37,33 @@ public class GamCarRefuelSttusMngServiceImpl extends AbstractServiceImpl impleme
 	@Resource(name="gamCarRefuelSttusMngDao")
 	private GamCarRefuelSttusMngDao gamCarRefuelSttusMngDao;
 
-	@Override
-	public void InsertCarMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
-
-		gamCarRefuelSttusMngDao.DeleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
-		GamCarRefuelSttusMngVo gamCarRefuelSttusMngVoTmp = new GamCarRefuelSttusMngVo();
-		gamCarRefuelSttusMngVoTmp.setCarRegistNo(gamCarRefuelSttusMngVo.getCarRegistNo());
-		gamCarRefuelSttusMngVoTmp.setRegUsr(gamCarRefuelSttusMngVo.getRegUsr());
-		for(int i = 1; i <= 12 ;i++){
-
-			gamCarRefuelSttusMngVoTmp.setRefuelMt(gamCarRefuelSttusMngVo.getRefuelMt()+i);
-//			gamCarRefuelSttusMngVoTmp.setRefuelQy(gamCarRefuelSttusMngVo.getM) 코딩 보류
-
-
-
-			gamCarRefuelSttusMngDao.InsertCarRefuelSttusMngList(gamCarRefuelSttusMngVoTmp);
-		}
-	}
-
 	public int selectCarRefuelSttusMngListTotCnt(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt(gamCarRefuelSttusMngVo);
 	}
 
-	@Override
 	public List selectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
+	}
+
+	@Override
+	public void insertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+		// TODO Auto-generated method stub
+		gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
+		gamCarRefuelSttusMngDao.insertCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
+	}
+
+	@Override
+	public void updateCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+		// TODO Auto-generated method stub
+		gamCarRefuelSttusMngDao.updateCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
+	}
+
+	@Override
+	public void deleteCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+		// TODO Auto-generated method stub
+		gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 	}
 
 }

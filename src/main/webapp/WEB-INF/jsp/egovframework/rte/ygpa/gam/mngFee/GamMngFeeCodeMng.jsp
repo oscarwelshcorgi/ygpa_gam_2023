@@ -106,20 +106,14 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 
 			 	this.doAction('<c:url value="/mngFee/gamInsertMngFeeCodeMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#MngFeeCodeMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#MngFeeCodeMngTab").tabs("option", {active: 0});
-						module.$("#MngFeeCodeMngDetailForm :input").val("");
+			 			module.loadData();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
 			 	this.doAction('<c:url value="/mngFee/gamUpdateMngFeeCodeMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#MngFeeCodeMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#MngFeeCodeMngTab").tabs("option", {active: 0});
-						module.$("#MngFeeCodeMngDetailForm :input").val("");
+			 			module.loadData();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -133,10 +127,7 @@ GamMngFeeCodeMng.prototype.loadComplete = function() {
 				var inputVO = this.makeFormArgs("#MngFeeCodeMngDetailForm");
 			 	this.doAction('<c:url value="/mngFee/gamDeleteMngFeeCodeMng.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-			 			module.$("#MngFeeCodeMng").flexOptions({params:searchOpt}).flexReload();
-						module.$("#MngFeeCodeMngTab").tabs("option", {active: 0});
-						module.$("#MngFeeCodeMngDetailForm :input").val("");
+			 			module.loadData();
 			 		}
 			 		alert(result.resultMsg);
 			 	});

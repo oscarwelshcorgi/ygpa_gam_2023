@@ -20,8 +20,6 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -40,15 +38,15 @@ GamCarMngModule.prototype.loadComplete = function() {
         url: '<c:url value="/mngFee/gamSelectCarMngList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'차량 등록 번호', 			name:'carRegistNo',	width:100, 		sortable:false,		align:'center'},
-                    {display:'차량 명', 	name:'carNm',		width:80, 		sortable:false,		align:'center'},
-                    {display:'차량 종류', 			name:'carKnd',	width:80, 		sortable:false,		align:'center'},
-                    {display:'차량 용도', 			name:'carPrpos',	width:80, 		sortable:false,		align:'center'},
-                    {display:'차대 번호', 	name:'carBodyNo',	width:160, 		sortable:false,		align:'center'},
-                    {display:'차량 형식', 	name:'carFmt',	width:100, 		sortable:false,		align:'center'},
-                    {display:'배기량', 	name:'exhaustqy',	width:70, 		sortable:false,		align:'center'},
+					{display:'차량 등록 번호', 	name:'carRegistNo',	width:100, 		sortable:false,		align:'center'},
+                    {display:'차량 명', 		name:'carNm',		width:80, 		sortable:false,		align:'center'},
+                    {display:'차량 종류', 		name:'carKnd',		width:80, 		sortable:false,		align:'center'},
+                    {display:'차량 용도', 		name:'carPrpos',	width:80, 		sortable:false,		align:'center'},
+                    {display:'차대 번호', 		name:'carBodyNo',	width:160, 		sortable:false,		align:'center'},
+                    {display:'차량 형식', 		name:'carFmt',		width:100, 		sortable:false,		align:'center'},
+                    {display:'배기량', 			name:'exhaustqy',	width:70, 		sortable:false,		align:'center'},
                     {display:'연료 종류', 		name:'fuelKnd',		width:80, 		sortable:false,		align:'center'},
-                    {display:'차량 연식', 				name:'carYrMdl',		width:80, 		sortable:false,		align:'center'}
+                    {display:'차량 연식', 		name:'carYrMdl',	width:80, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -88,9 +86,6 @@ GamCarMngModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-//         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-//         		return;
-//         	}
 			this.loadData();
             break;
 
@@ -104,35 +99,20 @@ GamCarMngModule.prototype.loadComplete = function() {
 
         // 신청저장
         case 'btnSaveItem':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	if(!validateGamSocAgentDetail(this.$('#form1')[0])){
-        		return;
-        	}
-        	*/
-
         	var inputVO = this.makeFormArgs("#CarMngListDetailForm");
 
 			if(this.$("#cmd").val() == "insert") {
 
 			 	this.doAction('<c:url value="/mngFee/gamInsertCarMngList.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#CarMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#carMngListTab").tabs("option", {active: 0});
-						module.$("#CarMngListDetailForm :input").val("");
+			 			module.loadData();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
 			}else{
 			 	this.doAction('<c:url value="/mngFee/gamUpdateCarMngList.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#CarMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#carMngListTab").tabs("option", {active: 0});
-						module.$("#CarMngListDetailForm :input").val("");
+			 			module.loadData();
 			 		}
 			 		alert(result.resultMsg);
 			 	});
@@ -143,19 +123,15 @@ GamCarMngModule.prototype.loadComplete = function() {
         //차량 삭제
         case 'btnRemoveItem':
         case 'btnCarDel':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	*/
+        	if(this.$('#CarMngList').selectedRowIds()[0] == undefined && this.$('#CarMngList').selectedRowIds()[0] == null){
+     	    	alert('목록을 선택 하십시오.');
+     	    	return;
+     	    }
         	if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#CarMngListDetailForm");
 			 	this.doAction('<c:url value="/mngFee/gamDeleteCarMngList.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-			 			module.$("#CarMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#carMngListTab").tabs("option", {active: 0});
-						module.$("#CarMngListDetailForm :input").val("");
+			 			module.loadData();
 			 		}
 			 		alert(result.resultMsg);
 			 	});

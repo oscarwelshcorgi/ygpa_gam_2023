@@ -32,21 +32,6 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyEntrpsRentFeeSttu
 @Repository("gamCarRefuelSttusMngDao")
 public class GamCarRefuelSttusMngDao extends YGPAAbstractDAO{
 
-
-	/**
-	 * @param gamCarRefuelSttusMngVo
-	 */
-	public void InsertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
-		insert("gamCarRefuelSttusMngDao.InsertCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
-	}
-
-	/**
-	 * @param gamCarRefuelSttusMngVo
-	 */
-	public void DeleteCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
-		delete("gamCarRefuelSttusMngDao.DeleteCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
-	}
-
 	/**
 	 * @param gamCarRefuelSttusMngVo
 	 * @return
@@ -66,5 +51,28 @@ public class GamCarRefuelSttusMngDao extends YGPAAbstractDAO{
 
 	}
 
+	/**
+	 * @param gamCarRefuelSttusMngVo
+	 */
+	public void insertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
+		// TODO Auto-generated method stub
+		insert("gamCarRefuelSttusMngDao.insertCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
+	}
+
+	/**
+	 * @param gamCarRefuelSttusMngVo
+	 */
+	public void updateCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
+		// TODO Auto-generated method stub
+		update("gamCarRefuelSttusMngDao.updateCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
+	}
+
+	/**
+	 * @param gamCarRefuelSttusMngVo
+	 */
+	public void deleteCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
+		// TODO Auto-generated method stub
+		delete("gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
+	}
 
 }

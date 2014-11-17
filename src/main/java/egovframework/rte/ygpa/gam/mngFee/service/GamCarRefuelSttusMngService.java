@@ -26,11 +26,6 @@ public interface GamCarRefuelSttusMngService {
 
 	/**
 	 * @param gamCarRefuelSttusMngVo
-	 */
-	void InsertCarMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception;
-
-	/**
-	 * @param gamCarRefuelSttusMngVo
 	 * @return
 	 */
 	int selectCarRefuelSttusMngListTotCnt(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception;
@@ -41,5 +36,20 @@ public interface GamCarRefuelSttusMngService {
 	 */
 	List selectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception;
 
+	/**
+	 * @param gamCarRefuelSttusMngVo
+	 */
+	void insertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception;
+
+	/**
+	 * @param gamCarRefuelSttusMngVo
+	 */
+	void updateCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception;
+
+	/**
+	 * @param gamCarRefuelSttusMngVo
+	 * @throws Exception
+	 */
+	void deleteCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception;
 
 }
