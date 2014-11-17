@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
-  * @Class Name : GamCivilFcltySpecMng.jsp
-  * @Description : 토목시설 제원 관리
+  * @Class Name : GamMechFcltySpecMng.jsp
+  * @Description : 기계시설 제원 관리
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -26,21 +26,21 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamCivilFcltySpecMngModule() {
+function GamMechFcltySpecMngModule() {
 }
 
-GamCivilFcltySpecMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
+GamMechFcltySpecMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
+GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
 	this._params = params;	// 파라미터를 저장한다.
 
 	// 테이블 설정
-	this.$("#civilFcltySpecMngList").flexigrid({
+	this.$("#mechFcltySpecMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectCivilFcltySpecMngList.do" />',
+		url: '<c:url value="/fclty/selectMechFcltySpecMngList.do" />',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
@@ -62,7 +62,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this._deleteDataFileList = null;
 	this._prtFcltySe = 'C';
 	
-	this.$("#civilFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	this.$("#mechFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			return;
@@ -88,7 +88,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltsFileList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectCivilFcltySpecFileList.do"/>',
+		url: '<c:url value="/fclty/selectMechFcltySpecFileList.do"/>',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
@@ -128,20 +128,20 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 };
 
-GamCivilFcltySpecMngModule.prototype.onSubmit = function() {
+GamMechFcltySpecMngModule.prototype.onSubmit = function() {
 	this.loadData();
 }
 
 //시설목록 로드
-GamCivilFcltySpecMngModule.prototype.loadData = function() {
-	var searchOpt = this.makeFormArgs("#searchCivilFcltySpecMngForm");
-	this.$("#civilFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();	
+GamMechFcltySpecMngModule.prototype.loadData = function() {
+	var searchOpt = this.makeFormArgs("#searchMechFcltySpecMngForm");
+	this.$("#mechFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();	
 }
 
 //시설재원데이터 로드
-GamCivilFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
+GamMechFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 	var opts = [{name: 'fcltsMngNo', value: fcltsMngNo }];
-	this.doAction('<c:url value="/fclty/selectCivilFcltySpecMngDetail.do" />', opts, function(module, result) { 
+	this.doAction('<c:url value="/fclty/selectMechFcltySpecMngDetail.do" />', opts, function(module, result) { 
 		if(result.resultCode == "0"){
 			module.makeFormValues('#fcltyManageVO', result.result);
 			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
@@ -149,20 +149,20 @@ GamCivilFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 		}
 		else {
 			this._cmd="";
-			module.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+			module.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 			alert(result.resultMsg);
 		}
 	});	
 }
 
 //시설 첨부파일 로드
-GamCivilFcltySpecMngModule.prototype.loadFileData = function() {
+GamMechFcltySpecMngModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
 }
 
 // 화면 및 데이터 초기화 처리
-GamCivilFcltySpecMngModule.prototype.initDisplay = function() {
+GamMechFcltySpecMngModule.prototype.initDisplay = function() {
 	this._deleteDataFileList = [];
 	this.$("#fcltyManageVO :input").val("");
 	this.$("#dispfcltsMngNo").text("");
@@ -171,23 +171,23 @@ GamCivilFcltySpecMngModule.prototype.initDisplay = function() {
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#searchGisCodeBtn2").show();
 		this.$('#fcltsFileList').flexEmptyData();
-		this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});		
+		this.$("#mechFcltySpecMngTab").tabs("option", {active: 1});		
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#searchGisCodeBtn2").hide();
-		this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
+		this.$("#mechFcltySpecMngTab").tabs("option", {active: 1});
 	} else {
 		this.$('#fcltsFileList').flexEmptyData();
 		this.$("#fcltyManageVO :input").val("");
 		this.$("#dispfcltsMngNo").text("");
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#searchGisCodeBtn2").show();
-		this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+		this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 	}
 }
 
 //첨부파일 정보 변화 처리
-GamCivilFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
+GamMechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 	var changed=false;
 	var row={};
 	var selectRow = this.$('#fcltsFileList').selectedRows();
@@ -216,8 +216,8 @@ GamCivilFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 };
 
 //시설물 데이터 삽입
-GamCivilFcltySpecMngModule.prototype.insertFcltsData = function(data) {
- 	this.doAction('<c:url value="/fclty/insertCivilFcltySpecMngDetail.do" />', data, function(module, result) {
+GamMechFcltySpecMngModule.prototype.insertFcltsData = function(data) {
+ 	this.doAction('<c:url value="/fclty/insertMechFcltySpecMngDetail.do" />', data, function(module, result) {
  		if(result.resultCode == "0"){
  			module._cmd = "modify";
  			module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
@@ -233,8 +233,8 @@ GamCivilFcltySpecMngModule.prototype.insertFcltsData = function(data) {
 }
 
 //시설뮬 데이터 수정
-GamCivilFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
-	this.doAction('<c:url value="/fclty/updateCivilFcltySpecMngDetail.do" />', data, function(module, result) {
+GamMechFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
+	this.doAction('<c:url value="/fclty/updateMechFcltySpecMngDetail.do" />', data, function(module, result) {
 		if(result.resultCode == "0"){
 			module.saveAtchFile(module.$("#fcltsMngNo").val());
 			module.loadData();
@@ -244,9 +244,9 @@ GamCivilFcltySpecMngModule.prototype.updateFcltsData = function(data) {
 }
 
 //시설물 데이터 삭제
-GamCivilFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
+GamMechFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
 	var data = { 'fcltsMngNo': fcltsMngNo };
- 	this.doAction('<c:url value="/fclty/deleteCivilFcltySpecMngDetail.do" />', data, function(module, result) {
+ 	this.doAction('<c:url value="/fclty/deleteMechFcltySpecMngDetail.do" />', data, function(module, result) {
  		if(result.resultCode == "0") {
 			module._cmd = "";
 			module.initDisplay();
@@ -259,7 +259,7 @@ GamCivilFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) {
 /**
  * 정의 된 버튼 클릭 시
  */
-GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
+GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
 	switch(buttonId) {
 		case "searchBtn": //조회
@@ -296,7 +296,7 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		//시설삭제
 		case "btnDelete" :
-			var rows = this.$("#civilFcltySpecMngList").selectedRows();
+			var rows = this.$("#mechFcltySpecMngList").selectedRows();
 			if(rows.length <= 0){
 				alert("삭제할 시설을 선택하십시오.");
 				return;
@@ -331,7 +331,7 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 				$.each(result, function(){
 					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
 				});
-			}, "토목시설파일 업로드");
+			}, "기계시설파일 업로드");
 			break;
 			
 		//파일다운로드			
@@ -370,7 +370,7 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
-GamCivilFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
+GamMechFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
 	var fileList = this.$("#fcltsFileList").flexGetData();
 	for(var i=0; i<fileList.length; i++) {
 		fileList[i]["fcltsMngNo"] = fcltsMngNo;
@@ -379,7 +379,7 @@ GamCivilFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
     inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
     inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
     inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('<c:url value="/fclty/mergeCivilFcltySpecAtchFile.do" />', inputVO, function(module, result) {
+    this.doAction('<c:url value="/fclty/mergeMechFcltySpecAtchFile.do" />', inputVO, function(module, result) {
         if(result.resultCode == 0){
 			module._deleteDataFileList = [];				    	
 			module.loadFileData();
@@ -390,7 +390,7 @@ GamCivilFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
     });	
 }
 
-GamCivilFcltySpecMngModule.prototype.removeAtchFileItem = function() {
+GamMechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 	var rows = this.$("#fcltsFileList").selectedRows();
     if(rows.length == 0){
         alert("파일목록에서 삭제할 행을 선택하십시오.");
@@ -413,18 +413,18 @@ GamCivilFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 /**
  * 탭 변경시 실행 이벤트
  */
-GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamMechFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 	case "tabs1":
 		break;
 	case "tabs2":
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+			this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 		} 
 		break;
 	case "tabs3":
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+			this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 		} 
 		break;
 	}
@@ -433,7 +433,7 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 /**
  * 팝업 close 이벤트
  */
-GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value){
+GamMechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 		// 조회화면
 		case "selectGisCode":
@@ -465,7 +465,7 @@ GamCivilFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamCivilFcltySpecMngModule();
+var module_instance = new GamMechFcltySpecMngModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
@@ -473,7 +473,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="searchCivilFcltySpecMngForm">
+			<form id="searchMechFcltySpecMngForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
@@ -485,14 +485,14 @@ var module_instance = new GamCivilFcltySpecMngModule();
 								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" />
 								<button id="searchGisCodeBtn" class="popupButton">선택</button>
 							</td>
-							<th>토목시설분류</th>
+							<th>기계시설분류</th>
 							<td>
 								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>토목시설명</th>
+							<th>기계시설명</th>
 							<td colspan="5"><input id="sPrtFcltyNm" type="text" size="60" maxlength="40"  /></td>
 						</tr>
 					</tbody>
@@ -505,31 +505,29 @@ var module_instance = new GamCivilFcltySpecMngModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="civilFcltySpecMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="mechFcltySpecMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
-				<li><a href="#tabs1" class="emdTab">토목시설 목록</a></li>
-				<li><a href="#tabs2" class="emdTab">토목시설 제원</a></li>
-				<li><a href="#tabs3" class="emdTab">토목시설 첨부파일</a></li>
+				<li><a href="#tabs1" class="emdTab">기계시설 목록</a></li>
+				<li><a href="#tabs2" class="emdTab">기계시설 제원</a></li>
+				<li><a href="#tabs3" class="emdTab">기계시설 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="civilFcltySpecMngList" style="display:none" class="fillHeight"></table>
+				<table id="mechFcltySpecMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnAdd">시설추가</button>
 					<button id="btnDelete">시설삭제</button>
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mechFcltySpecMngList" data-style="default">맵조회</button>
 				</div>
 			</div>
 
-
-			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
 				<div style="margin-bottom:10px;">
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-								<th width="70%">토목시설 일반</th>
+								<th width="70%">기계시설 일반</th>
 								<th>시설물관리번호 : <span id="dispfcltsMngNo"></span><input type="hidden" id="fcltsMngNo" /></th>
 							</tr>
 						</tbody>
@@ -558,7 +556,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">토목시설코드</th>
+							<th width="12%" height="17" class="required_text">기계시설코드</th>
 							<td>
 								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
@@ -568,7 +566,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
-							<th width="12%" height="17" class="required_text">토목시설명</th>
+							<th width="12%" height="17" class="required_text">기계시설명</th>
 							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
@@ -596,7 +594,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-								<th>토목시설 제원</th>
+								<th>기계시설 제원</th>
 							</tr>
 						</tbody>
 					</table>
@@ -730,7 +728,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td colspan="3"><input id="wavemainDir" type="text" size="20" /></td>
 						</tr>
 						<tr>							
-							<th width="12%" height="17" class="required_text">토목시설물분류코드</th>
+							<th width="12%" height="17" class="required_text">기계시설물분류코드</th>
 							<td colspan="5">
 								<input id="cvlEngFcltsClCd" type="text" size="20" disabled="disabled" />
 								<input id="cvlEngFcltsClCdNm" type="text" size="30" disabled="disabled" />
@@ -758,7 +756,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 				</div>
 			</div>
 			
-			<!-- 토목시설 첨부파일 -->
+			<!-- 기계시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">

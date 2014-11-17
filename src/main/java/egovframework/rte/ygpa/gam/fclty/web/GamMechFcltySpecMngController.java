@@ -89,7 +89,7 @@ public class GamMechFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamMechFcltySpecMngList.do")
+	@RequestMapping(value="/fclty/selectMechFcltySpecMngList.do")
 	@ResponseBody Map<String, Object> selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -133,7 +133,7 @@ public class GamMechFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/gamMechFcltySpecMngDetail.do")
+	@RequestMapping(value="/fclty/selectMechFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> selectMechFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
     	EgovMap result=null;
@@ -160,7 +160,7 @@ public class GamMechFcltySpecMngController {
         return map;		
 	}
 	
-	@RequestMapping(value="/fclty/gamMechFcltySpecMngDetailInsert.do")
+	@RequestMapping(value="/fclty/insertMechFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> insertMechFcltySpecMngDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -192,7 +192,7 @@ public class GamMechFcltySpecMngController {
       	return map;		
 	}
 	
-	@RequestMapping(value="/fclty/gamMechFcltySpecMngDetailUpdate.do")
+	@RequestMapping(value="/fclty/updateMechFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> updateMechFcltySpecMngDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -222,7 +222,7 @@ public class GamMechFcltySpecMngController {
       	return map;		
 	}
 
-	@RequestMapping(value="/fclty/gamMechFcltySpecMngDetailDelete.do")
+	@RequestMapping(value="/fclty/deleteMechFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> deleteMechFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -250,7 +250,7 @@ public class GamMechFcltySpecMngController {
       	return map;		
 	}
 	
-	@RequestMapping(value="/fclty/gamMechFcltySpecFileList.do")
+	@RequestMapping(value="/fclty/selectMechFcltySpecFileList.do")
     @ResponseBody Map<String, Object> selectMechFcltySpecFileList(GamMechFcltySpecMngVO searchVO) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -286,7 +286,7 @@ public class GamMechFcltySpecMngController {
     	return map;
 	}
 	
-	@RequestMapping(value="/fclty/mergeGamMechFcltySpecAtchFile.do")
+	@RequestMapping(value="/fclty/mergeMechFcltySpecAtchFile.do")
 	@ResponseBody Map<String, Object> mergeGamMechFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
