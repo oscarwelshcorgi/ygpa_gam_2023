@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltsClCdVO" type="egovframework.rte.ygpa.gam.code.service.GamFcltsClCdVO"/>
+    
+    
+    <select id="gamFcltsClCdDao.selectMainFcltsClCdList_D" resultClass="egovMap">
+		SELECT 
+			SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_CL_CD
+			, MIN(FCLTS_CL_CD_NM) AS MAIN_FCLTS_CL_CD_NM
+		FROM 
+			FCLTS_CL_CD_F 
+		WHERE 
+			DEPTH_SORT = '1'
+		GROUP BY FCLTS_CL_CD 
+    </select>
+
+
+    <select id="gamFcltsClCdDao.selectFcltsClCdList_D" parameterClass="gamFcltsClCdVO" resultClass="egovMap">
+         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.selectList */
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (
+		              	SELECT
+	              			FCLTS_CL_CD
+							, FCLTS_CL_CD_NM
+							, FCLTS_CL_UPPER_CD
+							, DEPTH_SORT
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+							, LEAF_YN
+		                FROM 
+		                	FCLTS_CL_CD_F
+		                WHERE 1 = 1
+		                <isNotEmpty property="sMainFcltsDiv">
+	           				AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
+	           			</isNotEmpty>
+		                <isNotEmpty property="sFcltsClCd">
+	           				AND FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
+	           			</isNotEmpty>
+		                <isNotEmpty property="sFcltsClCdNm">
+	           				AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+	           			</isNotEmpty>
+
+		            	ORDER BY FCLTS_CL_CD
+		              )Z
+		       )
+	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamFcltsClCdDao.selectFcltsClCdListTotCnt_S" parameterClass="gamFcltsClCdVO" resultClass="int">
+		SELECT 
+			COUNT(*) totcnt
+		FROM 
+			FCLTS_CL_CD_F
+		WHERE 1 = 1
+		<isNotEmpty property="sMainFcltsDiv">
+			AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsClCd">
+			AND FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsClCdNm">
+			AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+		</isNotEmpty>
+	</select>
+	
+	<select id="gamFcltsClCdDao.selectFcltsClCdDetail_S" parameterClass="hashMap" resultClass="egovMap">
+	
+		SELECT 
+			SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_DIV
+			, FCLTS_CL_CD
+			, FCLTS_CL_CD_NM
+			, FCLTS_CL_UPPER_CD
+			, DEPTH_SORT
+			, REG_USR
+			, REGIST_DT
+			, UPD_USR
+			, UPDT_DT
+			, LEAF_YN
+		FROM 
+			FCLTS_CL_CD_F
+		WHERE 
+			FCLTS_CL_CD = #fcltsClCd#
+		
+	</select>
+	
+	
+	<select id="gamFcltsClCdDao.selectFcltsClUpperCdList_D" parameterClass="hashMap"  resultClass="egovMap">
+		SELECT 
+			FCLTS_CL_CD
+			, FCLTS_CL_CD_NM
+		FROM 
+			FCLTS_CL_CD_F 
+		WHERE 
+			FCLTS_CL_CD LIKE #mainFcltsDiv# || '%'
+			AND DEPTH_SORT = #depthSort#
+    </select>
+
+    
+
+</sqlMap>

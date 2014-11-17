@@ -20,8 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<%-- <validator:javascript formName="gamFcltyCode" staticJavascript="false" xhtml="true" cdata="false" />
-<validator:javascript formName="gamFcltyFile" staticJavascript="false" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -321,7 +320,9 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "saveBtn":
-			//if(!validateGamFcltyCode(this.$("#fcltyManageVO")[0])) return;
+			if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
+        		return;
+        	}
 			var inputVO = this.makeFormArgs("#fcltyManageVO");
 			var fcltsMngNo="";
 			// 건축시설제원 입력/수정처리
