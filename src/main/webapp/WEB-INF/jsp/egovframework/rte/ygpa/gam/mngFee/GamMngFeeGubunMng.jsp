@@ -204,8 +204,8 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.deleteData = function() {
-	var row = this.$('#mainGrid').selectedRows();
 
+	var row = this.$('#mainGrid').selectedRows();
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
@@ -223,6 +223,7 @@ GamMngFeeGubunMngModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
 };
 
 <%
@@ -356,7 +357,6 @@ var module_instance = new GamMngFeeGubunMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<input type="hidden" id="oldMngFeeFcltySe"/>
 						<table class="detailPanel" style="width:100%">
 							<tr>
 								<th width="20%" height="18">시설 구분</th>

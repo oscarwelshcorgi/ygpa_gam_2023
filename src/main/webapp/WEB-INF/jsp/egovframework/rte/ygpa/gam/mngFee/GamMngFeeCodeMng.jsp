@@ -36,7 +36,6 @@
 %>
 function GamMngFeeCodeMngModule() {}
 
-
 GamMngFeeCodeMngModule.prototype = new EmdModule(900, 600);
 
 <%
@@ -167,7 +166,7 @@ GamMngFeeCodeMngModule.prototype.addData = function() {
 <%
 /**
  * @FUNCTION NAME : saveData
- * @DESCRIPTION   : 편집된 항목을 저장한다.
+ * @DESCRIPTION   : 항목을 저장한다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -199,7 +198,7 @@ GamMngFeeCodeMngModule.prototype.saveData = function() {
 <%
 /**
  * @FUNCTION NAME : deleteData
- * @DESCRIPTION   : 편집된 항목을 삭제한다.
+ * @DESCRIPTION   : 항목을 삭제한다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -223,6 +222,7 @@ GamMngFeeCodeMngModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
 };
 
 <%
@@ -329,8 +329,6 @@ var module_instance = new GamMngFeeCodeMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<input type="hidden" id="cmd"/>
-						<input type="hidden" id="oldMngFeeFcltySe"/>
 						<table class="detailPanel" style="width:100%">
 							<tr>
 								<th width="20%" height="18">시설 업무 구분</th>

@@ -70,7 +70,7 @@
     <select id="gamCarMngDao.selectCarMngListTotCnt_S" parameterClass="gamCarMngVo" resultClass="int">
          SELECT COUNT(*) totcnt
               FROM CAR_INFO_F
-                           <![CDATA[  WHERE 1=1 ]]>
+             <![CDATA[  WHERE 1=1 ]]>
 
 	         <isNotEmpty property="sCarRegistNo">
 	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
@@ -90,7 +90,7 @@
 
     </select>
 
-	<insert id="gamCarMngDao.InsertCarMngList_S">
+	<insert id="gamCarMngDao.insertCarMng_S">
 		<![CDATA[
 		    INSERT
 		      INTO  CAR_INFO_F
@@ -153,18 +153,17 @@
 					, #fuelEfft#
 					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
 					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-					, #acqPrce#
+					, TO_NUMBER(#acqPrce#)
 					, #regUsr#
 					, sysdate
 		         )
 		]]>
 	</insert>
 
-	<update id="gamCarMngDao.UpdateCarMngList_S">
+	<update id="gamCarMngDao.updateCarMng_S">
 		<![CDATA[
             UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
+					CAR_KND	=	#carKnd#
 				,	CAR_PRPOS	=	#carPrpos#
 				,	CAR_NM	=	#carNm#
 				,	CAR_FMT	=	#carFmt#
@@ -174,7 +173,7 @@
 				,	USAGE_STRHLD	=	#usageStrhld#
 				,	OWNER_NM	=	#ownerNm#
 				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
+				,	CAR_REGIST_DT	=	TO_DATE(#carRegistDt#,'YYYY-MM-DD')
 				,	REGIST_GOV_OFC	=	#registGovOfc#
 				,	SPEC_MNG_NO	=	#specMngNo#
 				,	CAR_LT	=	#carLt#
@@ -188,16 +187,16 @@
 				,	CYLINDER_CNT	=	#cylinderCnt#
 				,	FUEL_KND	=	#fuelKnd#
 				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
+				,	EXAM_VALID_BEGIN_DT	=	TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
+				,	EXAM_VALID_END_DT	=	TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
+				,	ACQ_PRCE	=	TO_NUMBER(#acqPrce#)
 				,	UPD_USR	=	#updUsr#
 				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+					WHERE  CAR_REGIST_NO     = #carRegistNo#
 		]]>
 	</update>
 
-	<delete id="gamCarMngDao.DeleteCarMngList_S">
+	<delete id="gamCarMngDao.deleteCarMng_S">
 		<![CDATA[
             DELETE  CAR_INFO_F
              WHERE  CAR_REGIST_NO   = #carRegistNo#

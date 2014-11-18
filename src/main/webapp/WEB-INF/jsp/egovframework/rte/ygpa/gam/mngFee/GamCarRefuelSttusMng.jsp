@@ -294,6 +294,7 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
 };
 
 <%
@@ -410,7 +411,6 @@ var module_instance = new GamCarRefuelSttusMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<input type="hidden" id="cmd"/>
 						<input type="hidden" id="refuelMt"/>
 						<table class="detailPanel" style="width:100%">
 							<tr>

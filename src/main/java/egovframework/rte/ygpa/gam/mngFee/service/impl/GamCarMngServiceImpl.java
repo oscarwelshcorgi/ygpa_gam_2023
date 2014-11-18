@@ -44,17 +44,17 @@ public class GamCarMngServiceImpl extends AbstractServiceImpl implements GamCarM
     }
 
 	@Override
-	public void InsertCarMngList(GamCarMngVo gamCarMngVo) throws Exception {
-		 gamCarMngDao.InsertCarMngList(gamCarMngVo);
+	public void insertCarMng(GamCarMngVo gamCarMngVo) throws Exception {
+		 gamCarMngDao.insertCarMng(gamCarMngVo);
 	}
 
 	@Override
-	public void UpdateCarMngList(GamCarMngVo gamCarMngVo) throws Exception {
-		gamCarMngDao.UpdateCarMngList(gamCarMngVo);
+	public void updateCarMng(GamCarMngVo gamCarMngVo) throws Exception {
+		gamCarMngDao.updateCarMng(gamCarMngVo);
 	}
 
 	@Override
-	public void DeleteCarMngList(GamCarMngVo gamCarMngVo) throws Exception {
-		gamCarMngDao.DeleteCarMngList(gamCarMngVo);
+	public void deleteCarMng(GamCarMngVo gamCarMngVo) throws Exception {
+		gamCarMngDao.deleteCarMng(gamCarMngVo);
 	}
 }

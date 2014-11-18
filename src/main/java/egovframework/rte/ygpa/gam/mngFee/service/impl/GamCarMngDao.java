@@ -39,15 +39,15 @@ public class GamCarMngDao extends YGPAAbstractDAO{
        	return (Integer)getSqlMapClientTemplate().queryForObject("gamCarMngDao.selectCarMngListTotCnt_S", searchVO);
        }
 
-	public void InsertCarMngList(GamCarMngVo gamCarMngVo) {
-		insert("gamCarMngDao.InsertCarMngList_S", gamCarMngVo);
+	public void insertCarMng(GamCarMngVo gamCarMngVo) {
+		insert("gamCarMngDao.insertCarMng_S", gamCarMngVo);
 	}
 
-	public void UpdateCarMngList(GamCarMngVo gamCarMngVo) {
-		insert("gamCarMngDao.UpdateCarMngList_S", gamCarMngVo);
+	public void updateCarMng(GamCarMngVo gamCarMngVo) {
+		insert("gamCarMngDao.updateCarMng_S", gamCarMngVo);
 	}
 
-	public void DeleteCarMngList(GamCarMngVo gamCarMngVo ) throws Exception {
-		delete("gamCarMngDao.DeleteCarMngList_S", gamCarMngVo);
+	public void deleteCarMng(GamCarMngVo gamCarMngVo ) throws Exception {
+		delete("gamCarMngDao.deleteCarMng_S", gamCarMngVo);
 	}
 }

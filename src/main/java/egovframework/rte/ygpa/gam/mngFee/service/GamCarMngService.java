@@ -36,16 +36,16 @@ public interface GamCarMngService {
 	/**
 	 * @param gamCarMngVo
 	 */
-	void InsertCarMngList(GamCarMngVo gamCarMngVo)throws Exception;
+	void insertCarMng(GamCarMngVo gamCarMngVo)throws Exception;
 
 	/**
 	 * @param gamCarMngVo
 	 */
-	void UpdateCarMngList(GamCarMngVo gamCarMngVo) throws Exception;
+	void updateCarMng(GamCarMngVo gamCarMngVo) throws Exception;
 
 	/**
 	 * @param gamCarMngVo
 	 */
-	void DeleteCarMngList(GamCarMngVo gamCarMngVo) throws Exception;
+	void deleteCarMng(GamCarMngVo gamCarMngVo) throws Exception;
 
 }
