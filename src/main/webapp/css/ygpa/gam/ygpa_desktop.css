@@ -108,7 +108,7 @@ vertical-align: middle;
 }
 
 .editForm th {
-	background: #2FDAFF;
+	background: #8EA1C2;
 /* 	  border-left: 1px solid #fff;
   border-bottom: 1px solid #fff; */
   font-weight: bold;
@@ -138,7 +138,7 @@ vertical-align: middle;
 }
 
 .detailForm th {
-	background: #2FDAFF;
+	background: #8EA1C2;
 /*   border-left: 1px solid #fff;
   border-bottom: 1px solid #fff; */
   font-weight: bold;
@@ -173,7 +173,7 @@ table.detailPanel {
 }
 
 .detailPanel th {
-	background: #2FDAFF;
+	background: #8EA1C2;
 /*   border-left: 1px solid #fff;
   border-bottom: 1px solid #fff; */
   font-weight: bold;
