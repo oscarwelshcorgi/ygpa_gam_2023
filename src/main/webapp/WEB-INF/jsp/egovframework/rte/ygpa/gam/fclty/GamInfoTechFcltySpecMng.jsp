@@ -288,6 +288,11 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '<c:url value="/popup/showFcltsClCd.do"/>', { sFcltsClCdChar : this._prtFcltySe });			
 			break;
 			
+		// 건축시설물 관리번호(디테일 화면) 			
+		case "searchArchFcltsMngNo":
+			this.doExecuteDialog("selectArchFcltsMngNo", "건축시설관리", '<c:url value="/popup/showConsFcltyInfo.do"/>', {});
+			break;
+			
 		// 시설추가
 		case "btnAdd":
 			this._cmd = "insert";
@@ -456,6 +461,11 @@ GamInfoTechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, va
 		case "selectFcltsClCd":
 			this.$("#infoCommFcltsClCd").val(value["fcltsClCd"]);
 			this.$("#infoCommFcltsClCdNm").val(value["fcltsClCdNm"]);			
+			break;
+
+		case "selectArchFcltsMngNo":
+			this.$("#archFcltsMngNo").val(value["fcltsMngNo"]);
+			this.$("#archFcltsMngNoNm").val(value["prtFcltyNm"]);			
 			break;
 			
 		default:

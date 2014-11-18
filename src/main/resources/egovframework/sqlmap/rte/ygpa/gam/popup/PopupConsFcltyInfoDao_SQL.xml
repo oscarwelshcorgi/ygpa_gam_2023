@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PopupFacilInfo">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="gamPopupConsFcltyInfoSearchVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupConsFcltyInfoVO"/>
+
+	<select id="gamPopupConsFcltyInfoDAO.selectConsFcltyInfoList" parameterClass="gamPopupConsFcltyInfoSearchVO" resultClass="egovMap">
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (
+      					SELECT 
+							F.GIS_ASSETS_PRT_AT_CODE
+							, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+        					, F.PRT_FCLTY_NM
+							, F.GIS_ASSETS_CD
+							, F.GIS_ASSETS_SUB_CD
+        					, F.GIS_ASSETS_CD ||'-'|| F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY
+        					, GIS_PRT_FCLTY_CD ||'-'|| GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY
+        					, F.GIS_PRT_FCLTY_CD
+        					, GAM_GETCODENAME('GAM057', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_CD_NM
+							, A.FCLTS_MNG_NO
+		  				FROM 
+        					GIS_PRT_FCLTY_CD_F F
+				    	INNER JOIN
+				    		ARCH_FCLTY_SPEC_F A
+				    	ON
+				    		F.FCLTS_MNG_NO = A.FCLTS_MNG_NO
+						WHERE				    		
+							1 = 1
+		                <isNotEmpty property="sPrtAtCode">
+	           				AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+	           			</isNotEmpty>
+		                <isNotEmpty property="sPrtFcltyNm">
+	           				AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+	           			</isNotEmpty>
+		                <isNotEmpty property="sPrtFcltyCd">
+	           				AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
+	           			</isNotEmpty>
+			            ORDER BY F.GIS_ASSETS_CD,
+		                     F.GIS_ASSETS_PRT_AT_CODE,
+		                     F.GIS_ASSETS_SUB_CD,
+		                     F.GIS_PRT_FCLTY_CD,
+		                     F.GIS_PRT_FCLTY_SEQ
+		              )Z
+		       )
+	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="gamPopupConsFcltyInfoDAO.selectConsFcltyInfoListTotCnt" parameterClass="gamPopupConsFcltyInfoSearchVO" resultClass="int">
+   		SELECT 
+   			COUNT(*) TOTCNT
+ 		FROM 
+     		GIS_PRT_FCLTY_CD_F F
+	    INNER JOIN
+	    	ARCH_FCLTY_SPEC_F A
+	    ON
+	    	F.FCLTS_MNG_NO = A.FCLTS_MNG_NO
+		WHERE				    		
+			1 = 1
+        <isNotEmpty property="sPrtAtCode">
+         	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+        </isNotEmpty>
+        <isNotEmpty property="sPrtFcltyNm">
+         	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+        </isNotEmpty>
+        <isNotEmpty property="sPrtFcltyCd">
+         	AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
+         </isNotEmpty>
+	</select>
+</sqlMap>
