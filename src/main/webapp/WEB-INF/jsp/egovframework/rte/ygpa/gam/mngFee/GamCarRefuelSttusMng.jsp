@@ -320,85 +320,86 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="CarRefuelSttusMngListDetailForm">
-            	        <input type="hidden" id="cmd"/>
-            	        <input type="hidden" id="refuelMt"/>
-                        <table class="detailPanel">
-                            <tr>
-								<th width="20%" height="18">차량 등록 번호</th>
-                                <td ><input type="text" size="20" id="carRegistNo" readonly="readonly"/></td>
-								<th width="20%" height="18">연료 구분</th>
-                                <td ><input type="text" size="20" id="fuelKnd" readonly="readonly"/></td>
-								<th width="20%" height="18">차량 명</th>
-                                <td ><input type="text" size="20" id="carNm" readonly="readonly"/></td>
-                            </tr>
+			<div id="tabs2" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="CarRefuelSttusMngListDetailForm">
+						<input type="hidden" id="cmd"/>
+						<input type="hidden" id="refuelMt"/>
+						<table class="detailPanel" style="width:100%">
+							<tr>
+								<th width="15%" height="18">차량 등록 번호</th>
+								<td ><input type="text" size="20" id="carRegistNo" readonly="readonly"/></td>
+								<th width="15%" height="18">연료 구분</th>
+								<td ><input type="text" size="20" id="fuelKnd" readonly="readonly"/></td>
+								<th width="15%" height="18">차량 명</th>
+								<td ><input type="text" size="20" id="carNm" readonly="readonly"/></td>
+							</tr>
+						</table>
+						<table class="detailPanel" style="width:100%">
+							<tr>
+								<th width="15%">1월</th>
+								<td width="15%"><input type="text" size="20" id="m1"></td>
+								<td rowspan="15">
+									<div id="fuelChart" style="width:600px;height:320px;border:1px solid #A4BED4;"></div>
+								</td>
+							</tr>
+							<tr>
+								<th>2월</th>
+								<td><input type="text" size="20" id="m2"></td>
+							</tr>
+							<tr>
+								<th>3월</th>
+								<td><input type="text" size="20" id="m3"></td>
+							</tr>
+							<tr>
+								<th>4월</th>
+								<td><input type="text" size="20" id="m4"></td>
+							</tr>
+							<tr>
+								<th>5월</th>
+								<td><input type="text" size="20" id="m5"></td>
+							</tr>
+							<tr>
+								<th>6월</th>
+								<td><input type="text" size="20" id="m6"></td>
+							</tr>
+							<tr>
+								<th>7월</th>
+								<td><input type="text" size="20" id="m7"></td>
+							</tr>
+							<tr>
+								<th>8월</th>
+								<td><input type="text" size="20" id="m8"></td>
+							</tr>
+							<tr>
+								<th>9월</th>
+								<td><input type="text" size="20" id="m9"></td>
+							</tr>
+							<tr>
+								<th>10월</th>
+								<td><input type="text" size="20" id="m10"></td>
+							</tr>
+							<tr>
+								<th>11월</th>
+								<td><input type="text" size="20" id="m11"></td>
+							</tr>
+							<tr>
+								<th>12월</th>
+								<td><input type="text" size="20" id="m12"></td>
+							</tr>
                         </table>
-                        <table class="detailPanel" style="100%">
-                            <tr>
-	                            <th style="width:120px;">1월</th>
-	                            <td style="width:120px;"><input type="text" size="10" id="m1"></td>
-	                            <td rowspan="13">
-	                            	<div id="fuelChart" style="width:480px;height:320px;border:1px solid #A4BED4;"></div>
-	                            </td>
-	                        <tr>
-	                        <tr>
-	                            <th>2월</th>
-	                            <td><input type="text" size="10" id="m2">
-	                        </td>
-	                        <tr>
-	                            <th>3월</th>
-	                            <td><input type="text" size="10" id="m3">
-	                        </td>
-	                        <tr>
-	                            <th>4월</th>
-	                            <td><input type="text" size="10" id="m4">
-                            </td>
-	                        <tr>
-	                            <th>5월</th>
-	                            <td><input type="text" size="10" id="m5">
+					</form>
+					<table style="width:100%">
+						<tr>
+							<td width="100"></td>
+							<td style="text-align:right">
+								<button id="btnSaveItem" class="buttonSave">저장</button>
+								<button id="btnRemoveItem" class="buttonDelete">삭제</button>
 							</td>
-	                        <tr>
-	                            <th>6월</th>
-	                            <td><input type="text" size="10" id="m6">
-	                        </td>
-	                        <tr>
-	                        	<th>7월</th>
-	                            <td><input type="text" size="10" id="m7">
-	                       </td>
-	                        <tr><th>8월</th>
-	                            <td><input type="text" size="10" id="m8">
-                            </tr>
-                            <tr>
-	                            <th>9월</th>
-	                            <td><input type="text" size="10" id="m9">
-	                         </td>
-	                        <tr>
-	                        	<th>10월</th>
-	                            <td><input type="text" size="10" id="m10">
-	                        </td>
-	                        <tr>
-	                        	<th>11월</th>
-	                            <td><input type="text" size="10" id="m11">
-	                        </td>
-	                        <tr>
-	                        	<th>12월</th>
-	                            <td><input type="text" size="10" id="m12">
-                            </tr>
-                        </table>
-                    </form>
-	                 <table style="width:100%">
-	                    <tr>
-	                        <td width="100"></td>
-	                        <td style="text-align:right">
-	                        	<button id="btnSaveItem" class="buttonSave">저장</button>
-	                            <button id="btnRemoveItem" class="buttonDelete">삭제</button>
-	                        </td>
-	                    </tr>
-	                 </table>
-                 </div>
-            </div>
-        </div>
-    </div>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
