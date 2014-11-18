@@ -84,8 +84,7 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode="insert";
-			this.$("#mainTab").tabs("option", {active: 1});
+        	this.addData();
 			break;
         case 'btnSave':
         	this.saveData();
@@ -153,8 +152,22 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function() {
 
 <%
 /**
+ * @FUNCTION NAME : addData
+ * @DESCRIPTION   : 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.addData = function() {
+
+	this._mode="insert";
+	this.$("#mainTab").tabs("option", {active: 1});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : saveData
- * @DESCRIPTION   : 편집된 항목을 저장한다.
+ * @DESCRIPTION   : 항목을 저장한다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -186,7 +199,7 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 <%
 /**
  * @FUNCTION NAME : deleteData
- * @DESCRIPTION   : 편집된 항목을 삭제한다.
+ * @DESCRIPTION   : 항목을 삭제한다.
  * @PARAMETER     : NONE
 **/
 %>

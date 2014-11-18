@@ -87,8 +87,7 @@ GamMngFeeCodeMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode="insert";
-			this.$("#mainTab").tabs("option", {active: 1});
+	    	this.addData();
 			break;
 	    case 'btnSave':
 	    	this.saveData();
@@ -139,7 +138,7 @@ GamMngFeeCodeMngModule.prototype.loadDetail = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
 
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
@@ -153,6 +152,20 @@ GamMngFeeCodeMngModule.prototype.loadDetail = function() {
 
 <%
 /**
+ * @FUNCTION NAME : addData
+ * @DESCRIPTION   : 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.addData = function() {
+
+	this._mode="insert";
+	this.$("#mainTab").tabs("option", {active: 1});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : saveData
  * @DESCRIPTION   : 편집된 항목을 저장한다.
  * @PARAMETER     : NONE
@@ -161,7 +174,7 @@ GamMngFeeCodeMngModule.prototype.loadDetail = function() {
 GamMngFeeCodeMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngFeeFcltySe').val() == "" && (this.$('#mngFeeFcltyCd').val() == "")) {
+	if (this.$('#mngFeeFcltySe').val() == "" && this.$('#mngFeeFcltyCd').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -193,12 +206,12 @@ GamMngFeeCodeMngModule.prototype.saveData = function() {
 GamMngFeeCodeMngModule.prototype.deleteData = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#mngFeeFcltySe').val() == "" && (this.$('#mngFeeFcltyCd').val() == "")) {
+	if (this.$('#mngFeeFcltySe').val() == "" && this.$('#mngFeeFcltyCd').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -336,9 +349,9 @@ var module_instance = new GamMngFeeCodeMngModule();
 							</tr>
 							<tr>
 								<th width="20%" height="18">시설 코드</th>
-								<td ><input type="text" size="20" id="mngFeeFcltyCd" maxlength="4"/></td>
+								<td ><input type="text" size="35" id="mngFeeFcltyCd" maxlength="4"/></td>
 								<th width="20%" height="18">시설명</th>
-								<td ><input type="text" size="20" id="mngFeeFcltyNm" maxlength="20"/></td>
+								<td ><input type="text" size="35" id="mngFeeFcltyNm" maxlength="20"/></td>
 							</tr>
 							<tr>
 								<th width="20%" height="18">등록자</th>

@@ -75,24 +75,12 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module.$('#cmd').val('modify');
-		module.$('#detailForm :input').val('');
-		module.makeFormValues('#detailForm', row);
-		module._editData=module.getFormValues('#detailForm', row);
-		module._editRow=module.$('#mainGrid').selectedRowIds()[0];
-		module.$('#refuelMt').val(module.$('#sRefuelMt').val());
+		module._mode = 'modify';
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
-		module.$('#cmd').val('modify');
-		module.makeFormValues('#detailForm', row);
-		module._editData=module.getFormValues('#detailForm', row);
-		module._editRow=module.$('#mainGrid').selectedRowIds()[0];
-		module.$('#refuelMt').val(module.$('#sRefuelMt').val());
-		if (row != null) {
-			module.$('#cmd').val('modify');
-		}
 	});
 
 	this.$('#sRefuelMt').on('change', {module: this}, function(event) {
@@ -168,57 +156,14 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
-		case 'btnSearch':
-			this.$('#refuelMt').val(this.$('#sRefuelMt').val());
-			this.loadData();
-			break;
 		case 'btnAdd':
-			if (this.$('#mainGrid').selectedRowIds()[0] == undefined &&
-				this.$('#mainGrid').selectedRowIds()[0] == null) {
-				alert('자료를 선택하십시오.');
-				return;
-			}
-			this.$('#detailForm :input').val('');
-			this.makeFormValues('#detailForm',
-								this.$("#mainGrid").flexGetRow(
-									this.$('#mainGrid').selectedRowIds()[0]));
-			this.$("#mainTab").tabs("option", {active : 1});
-			this.$("#cmd").val("insert");
+	    	this.addData();
 			break;
-		// BUTTON ID = 'btnSave' CHECK (저장)
-		case 'btnSave':
-			var inputVO = this.makeFormArgs("#detailForm");
-			if (this.$('#carRegistNo').val() == "") {
-				alert('자료가 부정확합니다.');
-				return;
-			}
-			this.doAction('<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />', inputVO, function(module, result) {
-				if (result.resultCode == "0") {
-					module.loadData();
-				}
-				alert(result.resultMsg);
-			});
+	    case 'btnSave':
+	    	this.saveData();
 			break;
-		case 'btnRemove':
-			if (this.$('#mainGrid').selectedRowIds()[0] == undefined &&
-				this.$('#mainGrid').selectedRowIds()[0] == null) {
-				alert('자료를 선택하십시오.');
-				return;
-			}
 		case 'btnDelete':
-			var inputVO = this.makeFormArgs("#detailForm");
-			if (this.$('#carRegistNo').val() == "") {
-				alert('자료가 부정확합니다.');
-				return;
-			}
-			if (confirm("삭제하시겠습니까?")) {
-				this.doAction('<c:url value="/mngFee/gamDeleteRefuelSttusMngList.do" />', inputVO, function(module, result) {
-					if (result.resultCode == "0") {
-						module.loadData();
-					}
-					alert(result.resultMsg);
-				});
-			}
+			this.deleteData();
 			break;
 	}
 
@@ -227,12 +172,14 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 <%
 /**
  * @FUNCTION NAME : onSubmit
- * @DESCRIPTION   : SUBMIT EVENT
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
  * @PARAMETER     : NONE
 **/
 %>
 GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
+
 	this.loadData();
+
 };
 
 <%
@@ -243,6 +190,7 @@ GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
 **/
 %>
 GamCarRefuelSttusMngModule.prototype.loadData = function() {
+
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('input[name="check"]:checked').each(function() {
@@ -252,12 +200,106 @@ GamCarRefuelSttusMngModule.prototype.loadData = function() {
 		};
 	});
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.loadDetail = function() {
+
+	var row = this.$('#mainGrid').selectedRows();
+
+	if (row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	this.makeFormValues('#detailForm', row[0]);
+	this.makeDivValues('#detailForm', row[0]);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addData
+ * @DESCRIPTION   : 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.addData = function() {
+
+	var row = this.$('#mainGrid').selectedRows();
+	if (row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	this._mode="insert";
+	this.$("#mainTab").tabs("option", {active: 1});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveData
+ * @DESCRIPTION   : 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.saveData = function() {
+
+	var inputVO = this.makeFormArgs("#detailForm");
+	if (this.$('#carRegistNo').val() == "") {
+		alert('자료가 부정확합니다.');
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />', inputVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteData
+ * @DESCRIPTION   : 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.deleteData = function() {
+
+	var row = this.$('#mainGrid').selectedRows();
+	if (row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	if (this.$('#carRegistNo').val() == "") {
+		alert('자료가 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		this.doAction('<c:url value="/mngFee/gamDeleteCarRefuelSttusMng.do" />', row[0], function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
 };
 
 <%
 /**
  * @FUNCTION NAME : onTabChange
- * @DESCRIPTION   : TAB CHANGE EVENT
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
  *   1. newTabId - NEW TAB ID
  *   2. oldTabId - OLD TAB ID
@@ -269,6 +311,15 @@ GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		case 'listTab':
 			break;
 		case 'detailTab':
+			var row = this.$('#mainGrid').selectedRows();
+			if(this._mode=="modify") {
+				this.loadDetail();
+				this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+			} else {
+				this.makeFormValues('#detailForm', row[0]);
+				this.makeDivValues('#detailForm', row[0]);
+				this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+			}
 			this.drawChart();
 			break;
 	}
@@ -311,7 +362,7 @@ var module_instance = new GamCarRefuelSttusMngModule();
 								<input id="sCarRegistNo" type="text" size="15">
 							</td>
 							<td rowspan="2">
-								<button id="btnSearch" class="buttonSearch">조회</button>
+								<button class="buttonSearch">조회</button>
 							</td>
 						</tr>
 						<tr>
@@ -347,8 +398,8 @@ var module_instance = new GamCarRefuelSttusMngModule();
 						<table style="width:100%;">
 							<tr>
 								<td style="text-align: right">
-									<button id="btnAdd">등록</button>
-									<button id="btnRemove">삭제</button>
+									<button data-cmd="btnAdd">추가</button>
+									<button data-cmd="btnDelete">삭제</button>
 								</td>
 							</tr>
 						</table>
@@ -429,8 +480,8 @@ var module_instance = new GamCarRefuelSttusMngModule();
 						<tr>
 							<td width="100"></td>
 							<td style="text-align:right">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnDelete" class="buttonDelete">삭제</button>
+								<button data-cmd="btnSave" class="buttonSave">저장</button>
+								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
 							</td>
 						</tr>
 					</table>
