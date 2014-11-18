@@ -8154,7 +8154,12 @@ var EMD = (function($, window, document, undefined) {
         						  text : true
         						  }).click({module:win[0].module, button_id: id}, function(event) {
         							  event.preventDefault();
-        							  EMD.util._clickButtonExec(event.data.module, $(this), event.data.button_id);
+        							  if(id=="buttonSearch") {
+        								  event.data.module.onSubmit();
+        							  }
+        							  else {
+            							  EMD.util._clickButtonExec(event.data.module, $(this), event.data.button_id);
+        							  }
         						  });
         				  isbutton=true;
         				  return false;
@@ -8168,6 +8173,7 @@ var EMD = (function($, window, document, undefined) {
         		  }
     		  }
     		  else {
+    			  if(id==null) id=$(but).data('id');
     			  var label = $(but).text();
     			  icon=null;
     			  for(var i=0; i<buttonIcons.length; i++) {

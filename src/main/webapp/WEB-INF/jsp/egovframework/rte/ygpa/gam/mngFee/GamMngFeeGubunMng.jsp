@@ -27,24 +27,26 @@
 
 <script>
 
+<%
 /**
  * @FUNCTION NAME : GamMngFeeGubunMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
+%>
 function GamMngFeeGubunMngModule() {}
 
-// PROTO TYPE 생성
 GamMngFeeGubunMngModule.prototype = new EmdModule(600, 500);
 
+<%
 /**
  * @FUNCTION NAME : loadComplete
  * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
  * @PARAMETER     : NONE
 **/
+%>
 GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 
-	// [mainGrid] FLEX GRID 정의 (LIST)
 	this.$("#mainGrid").flexigrid({
 		module : this,
 		url : '<c:url value="/mngFee/gamSelectMngFeeGubunMng.do" />',
@@ -59,250 +61,206 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 		height : 'auto'
 	});
 
-	// [mainGrid]-[onItemSelected] EVENT FUNCTION 정의 (ITEM SELECT)
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - UPDATE)
-		module.$('#cmd').val('modify');
-		// [mngFeeFcltySe] INPUT CONTROL ATTRIBUTE 설정 (READONLY)
-		module.$('#mngFeeFcltySe').attr('readonly','readonly');
-		// [btnIdCheck] BUTTON CONTROL DISABLE 설정
-		module.$("#btnIdCheck").disable();
-		// [detailForm] FORM INPUT VALUE 초기화 (DETAIL)
-		module.$('#detailForm :input').val('');
-		// [detailForm] FORM VALUES 생성 (DETAIL)
-		module.makeFormValues('#detailForm', row);
-		// [detailForm] DIV VALUES 생성 (DETAIL)
-        module.makeDivValues('#detailForm', row);
-		// EDIT DATA 설정
-		module._editData=module.getFormValues('#detailForm', row);
-		// EDIT ROW 설정
-		module._editRow=module.$('#mainGrid').selectedRowIds()[0];
+		module._mode = 'modify';
 	});
 
-	// [mainGrid]-[onItemDoubleClick] EVENT FUNCTION 정의 (ITEM DOUBLE CLICK)
     this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		// [mainTab] FORM TAB CONTROL ACTIVE 설정 (DETAIL TAB)
+		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
-		// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - UPDATE)
-		module.$('#cmd').val('modify');
-		// [detailForm] FORM VALUES 생성 (DETAIL)
-		module.makeFormValues('#detailForm', row);
-		// [detailForm] DIV VALUES 생성 (DETAIL)
-        module.makeDivValues('#detailForm', row);
-		// EDIT DATA 설정
-		module._editData=module.getFormValues('#detailForm', row);
-		// EDIT ROW 설정
-		module._editRow=module.$('#mainGrid').selectedRowIds()[0];
-		// ROW <> NULL CHECK
-		if (row != null) {
-			// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - UPDATE)
-			module.$('#cmd').val('modify');
-		}
 	});
+	console.log('start');
 
 };
 
+<%
 /**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
  *   1. buttonId - BUTTON ID
 **/
+%>
 GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
-
-	// SWITCH (BUTTON ID)
 	switch (buttonId) {
-		// BUTTON ID = 'btnSearch' CHECK (조회)
-		case 'btnSearch':
-			// DATA LOAD (LIST)
-			this.loadData();
-			// SWITCH BREAK
-			break;
-
-		// BUTTON ID = 'btnAdd' CHECK (추가)
 		case 'btnAdd':
-			// [detailForm] FORM INPUT VALUE 초기화 (DETAIL)
-			this.$('#detailForm :input').val('');
-			// [mngFeeFcltySe] INPUT CONTROL ATTRIBUTE 제거 (READONLY)
-			this.$('#mngFeeFcltySe').removeAttr('readonly');
-			// [mainTab] FORM TAB CONTROL ACTIVE 설정 (DETAIL TAB)
+			this._mode="insert";
 			this.$("#mainTab").tabs("option", {active: 1});
-			// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - INSERT)
-			this.$("#cmd").val("insert");
-			// SWITCH BREAK
 			break;
-
-		// BUTTON ID = 'btnSave' CHECK (저장)
         case 'btnSave':
-			// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
-			var inputVO = this.makeFormArgs("#detailForm");
-			// [mngFeeFcltySe] VALUE = "" CHECK
-			if (this.$('#mngFeeFcltySe').val() == "") {
-				// ALERT MESSAGE DISPLAY (ERROR)
-				alert('자료가 부정확합니다.');
-				// FUNCTION RETURN
-				return;
-			}
-			// [cmd] INPUT CONTROL VALUE CHECK (COMMAND - INSERT)
-			if (this.$("#cmd").val() == "insert") {
-				// INSERT ACTION
-				this.doAction('<c:url value="/mngFee/gamInsertMngFeeGubunMng.do" />', inputVO, function(module, result) {
-					// RESULT CODE = "0" CHECK (SUCCESS)
-					if (result.resultCode == "0") {
-						// DATA LOAD (LIST)
-						module.loadData();
-					}
-					// ALERT MESSAGE DISPLAY (RESULT)
-					alert(result.resultMsg);
-				});
-			// [cmd] INPUT CONTROL VALUE CHECK (COMMAND - UPDATE)
-			} else {
-				// UPDATE ACTION
-				this.doAction('<c:url value="/mngFee/gamUpdateMngFeeGubunMng.do" />', inputVO, function(module, result) {
-					// RESULT CODE = "0" CHECK (SUCCESS)
-					if (result.resultCode == "0") {
-						// DATA LOAD (LIST)
-						module.loadData();
-					}
-					// ALERT MESSAGE DISPLAY (RESULT)
-					alert(result.resultMsg);
-				});
-			}
-			// SWITCH BREAK
+        	this.saveData();
 			break;
-
-		// BUTTON ID = 'btnRemove' CHECK (삭제)
-		case 'btnRemove':
-			// [mainGrid] FLEX GRID SELECT ROW ID = [UNDEFINED, NULL] CHECK
-			if (this.$('#mainGrid').selectedRowIds()[0] == undefined &&
-				this.$('#mainGrid').selectedRowIds()[0] == null) {
-				// ALERT MESSAGE DISPLAY (ERROR)
-				alert('자료를 선택하십시오.');
-				// FUNCTION RETURN
-				return;
-			}
-   		// BUTTON ID = 'btnDelete' CHECK (삭제)
 		case 'btnDelete':
-			// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
-			var inputVO = this.makeFormArgs("#detailForm");
-			// [mngFeeFcltySe] VALUE = "" CHECK
-			if (this.$('#mngFeeFcltySe').val() == "") {
-				// ALERT MESSAGE DISPLAY (ERROR)
-				alert('자료가 부정확합니다.');
-				// FUNCTION RETURN
-				return;
-			}
-			// CONFIRM MESSAGE DISPLAY (DELETE)
-			if (confirm("삭제하시겠습니까?")) {
-				// DELETE ACTION
-				this.doAction('<c:url value="/mngFee/gamDeleteMngFeeGubunMng.do" />', inputVO, function(module, result) {
-					// RESULT CODE = "0" CHECK (SUCCESS)
-					if (result.resultCode == "0") {
-						// DATA LOAD (LIST)
-						module.loadData();
-					}
-					// ALERT MESSAGE DISPLAY (RESULT)
-					alert(result.resultMsg);
-				});
-			}
-			// SWITCH BREAK
+			this.deleteData();
 			break;
-
-		// BUTTON ID = 'btnIdCheck' CHECK (ID 중복 확인)
 		case 'btnIdCheck':
-			// [mngFeeFcltySe] INPUT CONTROL VALUE CHECK (NULL)
-			if (this.$("#mngFeeFcltySe").val() == "") {
-				// [mngFeeFcltySe] INPUT CONTROL FOCUS 설정
-				this.$("#mngFeeFcltySe").focus();
-				// ALERT MESSAGE DISPLAY (ERROR)
-				alert("코드를 입력하십시오.");
-				// FUNCTION RETURN
-				return;
-			}
-			// CHECK ACTION
-			this.doAction('<c:url value="/mngFee/gamcheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
-				// RESULT CODE = "0" CHECK (SUCCESS)
-				if (result.resultCode == 0) {
-					// CHECK COUNT <> "0" CHECK (EXIST)
-					if (result.checkSeCnt != "0") {
-						// ALERT MESSAGE DISPLAY (ERROR)
-						alert("이미 사용중인 코드가 존재합니다.");
-						// [mngFeeFcltySe] INPUT CONTROL FOCUS 설정
-						module.$("#mngFeeFcltySe").focus();
-						// [mngFeeFcltySe] INPUT CONTROL VALUE 설정
-						module.$("#mngFeeFcltySe").val("");
-					// CHECK COUNT = "0" CHECK (NOT EXIST)
-					} else {
-						// CONFIRM MESSAGE DISPLAY (USE)
-						if (confirm("해당 코드를 사용하시겠습니까?")) {
-							// [mngFeeFcltySe] INPUT CONTROL VALUE 설정
-							module.$("#mngFeeFcltySe").val(result.checkSe);
-							// [mngFeeFcltySe] INPUT CONTROL ATTRIBUTE 설정 (READONLY)
-							module.$("#mngFeeFcltySe").attr("readonly","readonly");
-						// CONFIRM MESSAGE DISPLAY (NOT USE)
-						} else {
-							// [mngFeeFcltySe] INPUT CONTROL VALUE 설정
-							module.$("#mngFeeFcltySe").val("");
-							// [mngFeeFcltySe] INPUT CONTROL FOCUS 설정
-							module.$("#mngFeeFcltySe").focus();
-						}
-					}
-				}
-			});
-			// SWITCH BREAK
+			this.checkId();
 			break;
 	}
 
 };
 
+<%
 /**
  * @FUNCTION NAME : onSubmit
- * @DESCRIPTION   : SUBMIT EVENT
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
  * @PARAMETER     : NONE
 **/
+%>
 GamMngFeeGubunMngModule.prototype.onSubmit = function() {
-	// DATA LOAD (LIST)
 	this.loadData();
 };
 
+<%
 /**
  * @FUNCTION NAME : loadData
  * @DESCRIPTION   : DATA LOAD (LIST)
  * @PARAMETER     : NONE
 **/
+%>
 GamMngFeeGubunMngModule.prototype.loadData = function() {
-	// [mainTab] FORM TAB CONTROL ACTIVE 설정 (LIST TAB)
 	this.$("#mainTab").tabs("option", {active: 0});
-	// [searchForm] FORM ARGUMENTS 생성 (SEARCH)
 	var searchOpt=this.makeFormArgs('#searchForm');
-	// [mainGrid] FLEX GRID DATA RELOAD
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.loadDetail = function() {
+	var row = this.$('#mainGrid').selectedRows();
+
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	this.$("#btnIdCheck").disable({disableClass:"ui-state-disabled"});
+	this.$('#mngFeeFcltySe').attr('readonly', 'readonly');
+	this.makeFormValues('#detailForm', row[0]);
+    this.makeDivValues('#detailForm', row[0]);
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveData
+ * @DESCRIPTION   : 편집된 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.saveData = function() {
+	var inputVO = this.makeFormArgs("#detailForm");
+	if (this._mode == "insert") {
+		this.doAction('<c:url value="/mngFee/gamInsertMngFeeGubunMng.do" />', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		if (this.$('#mngFeeFcltySe').val() == "") {
+			alert('자료가 부정확합니다.');
+			return;
+		}
+		this.doAction('<c:url value="/mngFee/gamUpdateMngFeeGubunMng.do" />', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteData
+ * @DESCRIPTION   : 편집된 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.deleteData = function() {
+	var row = this.$('#mainGrid').selectedRows();
+
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		this.doAction('<c:url value="/mngFee/gamDeleteMngFeeGubunMng.do" />', row[0], function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : checkId
+ * @DESCRIPTION   : 구분코드 중복 체크 한다..
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.checkId = function() {
+		if (this.$("#mngFeeFcltySe").val() == "") {
+			this.$("#mngFeeFcltySe").focus();
+			alert("코드를 입력하십시오.");
+			return;
+		}
+		this.doAction('<c:url value="/mngFee/gamcheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
+			if (result.resultCode == 0) {
+				if (result.checkSeCnt != "0") {
+					alert("이미 사용중인 코드가 존재합니다.");
+					module.$("#mngFeeFcltySe").focus();
+					module.$("#mngFeeFcltySe").val("");
+				} else {
+					if (confirm("해당 코드를 사용하시겠습니까?")) {
+						module.$("#mngFeeFcltySe").val(result.checkSe);
+						module.$("#mngFeeFcltySe").attr("readonly","readonly");
+					} else {
+						module.$("#mngFeeFcltySe").val("");
+						module.$("#mngFeeFcltySe").focus();
+					}
+				}
+			}
+		});
+};
+
+<%
 /**
  * @FUNCTION NAME : onTabChange
- * @DESCRIPTION   : TAB CHANGE EVENT
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
  *   1. newTabId - NEW TAB ID
  *   2. oldTabId - OLD TAB ID
 **/
+%>
 GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
-	// SWITCH (NEW TAB ID)
 	switch (newTabId) {
-		// NEW TAB ID = 'listTab' CHECK (LIST TAB)
 		case 'listTab':
-			// SWITCH BREAK
 			break;
-		// NEW TAB ID = 'detailTab' CHECK (DETAIL TAB)
 		case 'detailTab':
-			// SWITCH BREAK
+			if(this._mode=="modify") {
+				this.loadDetail();
+			}
+			else {
+				this.$('#detailForm :input').val('');
+				this.$('#mngFeeFcltySe').removeAttr('readonly');
+				this.$("#btnIdCheck").removeClass("ui-state-disabled");
+				this.$("#btnIdCheck").enable();
+			}
 			break;
 	}
 
 };
 
-// MODULE INSTANCE 생성
 var module_instance = new GamMngFeeGubunMngModule();
 
 </script>
@@ -334,7 +292,7 @@ var module_instance = new GamMngFeeGubunMngModule();
 								<input type="text" size="10" id="sMngFeeFcltySeNm" maxlength="20">
 							</td>
 							<td>
-								<button id="btnSearch" class="buttonSearch">조회</button>
+								<button class="buttonSearch">조회</button>
 							</td>
 						</tr>
 					</tbody>
@@ -359,8 +317,8 @@ var module_instance = new GamMngFeeGubunMngModule();
 						<table style="width:100%;">
 							<tr>
 								<td style="text-align: right">
-									<button id="btnAdd">추가</button>
-									<button id="btnRemove">삭제</button>
+									<button data-cmd="btnAdd">추가</button>
+									<button data-cmd="btnDelete">삭제</button>
 								</td>
 							</tr>
 						</table>
@@ -371,7 +329,6 @@ var module_instance = new GamMngFeeGubunMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<input type="hidden" id="cmd"/>
 						<input type="hidden" id="oldMngFeeFcltySe"/>
 						<table class="detailPanel" style="width:100%">
 							<tr>
@@ -399,8 +356,8 @@ var module_instance = new GamMngFeeGubunMngModule();
 						<tr>
 							<td width="100"></td>
 							<td style="text-align:right">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnDelete" class="buttonDelete">삭제</button>
+								<button data-cmd="btnSave" class="buttonSave">저장</button>
+								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
 							</td>
 						</tr>
 					</table>
