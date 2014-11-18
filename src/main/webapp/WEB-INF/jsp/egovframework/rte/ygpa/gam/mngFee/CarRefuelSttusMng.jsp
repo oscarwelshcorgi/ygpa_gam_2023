@@ -98,6 +98,29 @@ CarRefuelSttusMngModule.prototype.loadComplete = function() {
     */
 };
 
+CarRefuelSttusMngModule.prototype.drawChart = function() {
+	/*
+	var barChart =  new dhtmlXChart({
+        view:"bar",
+        container: this.$('#fuelChart'),
+            value:"#sales#",
+        color:"#66cc33",
+                width:30,
+                tooltip: "#year#",
+                xAxis:{
+            title:"Sales per year",
+            template:"#year#"
+        },
+        yAxis:{
+                        start:3,
+                        end:9,
+                        step:3,
+                        template:"{obj}",
+            title:"Sales,mil"
+    	}
+	});
+	*/
+}
 
 /**
  * 정의 된 버튼 클릭 시
@@ -190,6 +213,7 @@ CarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
+    	this.drawChart();
         break;
 
     }
@@ -283,11 +307,13 @@ var module_instance = new CarRefuelSttusMngModule();
                                 <td ><input type="text" size="20" id="carNm" readonly="readonly"/></td>
                             </tr>
                         </table>
-                        <table class="detailPanel">
+                        <table class="detailPanel" style="100%">
                             <tr>
-	                            <th>1월</th>
-	                            <td><input type="text" size="10" id="m1">
-	                        </td>
+	                            <th style="width:120px;">1월</th>
+	                            <td style="width:120px;"><input type="text" size="10" id="m1"></td>
+	                            <td rowspan="12">
+	                            	<div id="fuelChart" style="width:280px;height:250px;border:1px solid #A4BED4;"></div>
+	                            </td>
 	                        <tr>
 	                            <th>2월</th>
 	                            <td><input type="text" size="10" id="m2">

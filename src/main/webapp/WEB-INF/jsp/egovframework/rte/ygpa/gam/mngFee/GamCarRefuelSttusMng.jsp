@@ -99,94 +99,143 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 	console.log('debug1');
 };
 
+GamCarRefuelSttusMngModule.prototype.drawChart = function() {
+	var values = this.getFormValues('#CarRefuelSttusMngListDetailForm');
+	var fuelArr=[];
+	var maxFuel=0;
+	var fuel=0;
+	for(var i=0; i<12; i++) {
+		fuel=values['m'+(i+1)]*1;
+		fuelArr[i]={month: (i+1), gauge: fuel};
+		if(maxFuel<fuel) maxFuel=fuel;
+	};
+	if(maxFuel<10) maxFuel=10;
 
-/**
- * 정의 된 버튼 클릭 시
- */
- GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
-
-    switch(buttonId) {
-
-        // 조회
-        case 'searchBtn':
-    	    this.$('#refuelMt').val(this.$('#sRefuelMt').val());
-			this.loadData();
-            break;
-
-       case 'btnCarRefuelAdd': // 차량주유 추가
-    	    if(this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == undefined && this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == null){
-    	    	alert('차량을 선택을 하십시오.');
-    	    	return;
-    	    }
-			this.$('#CarRefuelSttusMngListDetailForm :input').val('');
-      		this.makeFormValues('#CarRefuelSttusMngListDetailForm', this.$("#CarRefuelSttusMngList").flexGetRow(this.$('#CarRefuelSttusMngList').selectedRowIds()[0]));
-			this.$("#carRefuelSttusMngListTab").tabs("option", {active: 1});
-			this.$("#cmd").val("insert");
-            break;
-
-
-        case 'btnSaveItem':	//저장
-        	var inputVO = this.makeFormArgs("#CarRefuelSttusMngListDetailForm");
-
-		 	this.doAction('<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />', inputVO, function(module, result) {
-		 		if(result.resultCode == "0"){
-		 			module.loadData();
-		 		}
-		 		alert(result.resultMsg);
-		 	});
-
-            break;
-
-        case 'btnRemoveItem':
-        	if(this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == undefined && this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == null){
-     	    	alert('목록을 선택 하십시오.');
-     	    	return;
-     	    }
-        	if(confirm("삭제하시겠습니까?")){
-				var inputVO = this.makeFormArgs("#CarRefuelSttusMngListDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteRefuelSttusMngList.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			module.loadData();
-			 		}
-			 		alert(result.resultMsg);
-			 	});
+	var barChart = new dhtmlXChart({
+			view : "bar",
+			container : this.$('#fuelChart')[0],
+			value : "#gauge#",
+			color : "#000BE0",
+            gradient:"rising",
+			width : 30,
+			tooltip : "#gauge# 리터",
+			xAxis : {
+				title : "차량 연간 주유 현황",
+				template : "#month# 월"
+			},
+			yAxis : {
+				start : 0,
+				end : maxFuel + 10,
+				step : maxFuel / 10,
+				title : "주유량,리터"
 			}
-            break;
+		});
 
-    }
-};
+		barChart.parse(fuelArr, "json");
+	};
 
+	/**
+	 * 정의 된 버튼 클릭 시
+	 */
+	GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
-GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
-    this.loadData();
-};
+		switch (buttonId) {
 
-GamCarRefuelSttusMngModule.prototype.loadData = function() {
-    this.$("#carRefuelSttusMngListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#CarRefuelSttusMngSearchForm');
-    this.$('input[name="check"]:checked').each(function(){
-        searchOpt[searchOpt.length]={
-        name: 'check',
-        value: this.value
-        };
-       });
+		// 조회
+		case 'searchBtn':
+			this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+			this.loadData();
+			break;
 
-    this.$('#CarRefuelSttusMngList').flexOptions({params:searchOpt}).flexReload();
-};
+		case 'btnCarRefuelAdd': // 차량주유 추가
+			if (this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == undefined
+					&& this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == null) {
+				alert('차량을 선택을 하십시오.');
+				return;
+			}
+			this.$('#CarRefuelSttusMngListDetailForm :input').val('');
+			this.makeFormValues('#CarRefuelSttusMngListDetailForm', this.$(
+					"#CarRefuelSttusMngList").flexGetRow(
+					this.$('#CarRefuelSttusMngList').selectedRowIds()[0]));
+			this.$("#carRefuelSttusMngListTab").tabs("option", {
+				active : 1
+			});
+			this.$("#cmd").val("insert");
+			break;
 
-GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
+		case 'btnSaveItem': //저장
+			var inputVO = this.makeFormArgs("#CarRefuelSttusMngListDetailForm");
 
-    }
-};
+			this.doAction(
+					'<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />',
+					inputVO, function(module, result) {
+						if (result.resultCode == "0") {
+							module.loadData();
+						}
+						alert(result.resultMsg);
+					});
 
-// 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamCarRefuelSttusMngModule();
+			break;
 
+		case 'btnRemoveItem':
+			if (this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == undefined
+					&& this.$('#CarRefuelSttusMngList').selectedRowIds()[0] == null) {
+				alert('목록을 선택 하십시오.');
+				return;
+			}
+			if (confirm("삭제하시겠습니까?")) {
+				var inputVO = this
+						.makeFormArgs("#CarRefuelSttusMngListDetailForm");
+				this
+						.doAction(
+								'<c:url value="/mngFee/gamDeleteRefuelSttusMngList.do" />',
+								inputVO, function(module, result) {
+									if (result.resultCode == "0") {
+										module.loadData();
+									}
+									alert(result.resultMsg);
+								});
+			}
+			break;
+
+		}
+	};
+
+	GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
+		this.loadData();
+	};
+
+	GamCarRefuelSttusMngModule.prototype.loadData = function() {
+		this.$("#carRefuelSttusMngListTab").tabs("option", {
+			active : 0
+		});
+		var searchOpt = this.makeFormArgs('#CarRefuelSttusMngSearchForm');
+		this.$('input[name="check"]:checked').each(function() {
+			searchOpt[searchOpt.length] = {
+				name : 'check',
+				value : this.value
+			};
+		});
+
+		this.$('#CarRefuelSttusMngList').flexOptions({
+			params : searchOpt
+		}).flexReload();
+	};
+
+	GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId,
+			oldTabId) {
+		switch (newTabId) {
+		case 'tabs1':
+			break;
+		case 'tabs2':
+			this.drawChart();
+			break;
+
+		}
+	};
+
+	// 다음 변수는 고정 적으로 정의 해야 함
+	var module_instance = new GamCarRefuelSttusMngModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
@@ -272,11 +321,14 @@ var module_instance = new GamCarRefuelSttusMngModule();
                                 <td ><input type="text" size="20" id="carNm" readonly="readonly"/></td>
                             </tr>
                         </table>
-                        <table class="detailPanel">
+                        <table class="detailPanel" style="100%">
                             <tr>
-	                            <th>1월</th>
-	                            <td><input type="text" size="10" id="m1">
-	                        </td>
+	                            <th style="width:120px;">1월</th>
+	                            <td style="width:120px;"><input type="text" size="10" id="m1"></td>
+	                            <td rowspan="13">
+	                            	<div id="fuelChart" style="width:480px;height:320px;border:1px solid #A4BED4;"></div>
+	                            </td>
+	                        <tr>
 	                        <tr>
 	                            <th>2월</th>
 	                            <td><input type="text" size="10" id="m2">

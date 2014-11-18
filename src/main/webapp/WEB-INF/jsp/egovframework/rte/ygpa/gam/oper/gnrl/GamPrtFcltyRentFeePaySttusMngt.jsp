@@ -31,7 +31,7 @@ function GamPrtFcltyRentFeePaySttusMngtModule() {}
 GamPrtFcltyRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
+GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 
     // 테이블 설정 //
     this.$("#prtFcltyRentFeePaySttusMngtList").flexigrid({
@@ -58,11 +58,14 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+        	module.makeFormValues('#summaryForm', data);
+        	/*
             module.$('#sumCnt').val(data.sumCnt);
             module.$('#sumNhtIsueAmt').val(data.sumNhtIsueAmt);
             module.$('#sumVat').val(data.sumVat);
             module.$('#sumPayAmt').val(data.sumPayAmt);
         	module.makeDivValues('#prtFcltyRentFeePaySttusMngtListSum', data);
+            */
             return data;
         }
     });
@@ -123,7 +126,22 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         }
     });
 
-
+    if(params!=null) {
+    	if(params.action=="selectRentFeePay") {
+        	this.$('#sPrtAtCode').val(params.nticVo.prtAtCode);
+        	this.$('#sMngYear').val(params.nticVo.mngYear);
+        	this.$('#sMngNo').val(params.nticVo.mngNo);
+        	this.$('#sMngCnt').val(params.nticVo.mngCnt);
+        	//	this.$('#sNticCnt').val(params.nticVo.nticCnt);	// 고지 번호
+        	this.$('#rcivSe').val("");
+        	this.loadData();
+    	}
+    } else {
+    	/*
+        this.$('#sUsagePdFrom').val(EMD.util.getDate());
+        this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+    	*/
+    }
     console.log('loadCompleted');
 };
 
@@ -647,7 +665,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <table id="prtFcltyRentFeePaySttusMngtList" style="display:none" class="fillHeight"></table>
                 <div id="prtFcltyRentFeePaySttusMngtListSum" class="emdControlPanel">
-					<form id="form1">
+					<form id="summaryForm">
    	               	<table style="width:100%;" class="summaryPanel">
                 		<tr>
                 			<th width="6%" >자료수</th>

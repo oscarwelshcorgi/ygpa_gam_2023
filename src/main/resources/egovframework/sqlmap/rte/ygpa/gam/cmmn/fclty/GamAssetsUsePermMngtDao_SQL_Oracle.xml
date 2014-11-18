@@ -200,12 +200,15 @@
 		  MAX(EI.ENTRPS_NM),
 			  MIN(AR.GR_USAGE_PD_FROM),
 			  MAX(AR.GR_USAGE_PD_TO),
+			  <!--
 		  <isEqual property="payMth" compareValue="Aft">
 		  	MAX(AR.GR_USAGE_PD_TO),
 		  </isEqual>
 		  <isEqual property="payMth" compareValue="Pre">
 		  	MIN(AR.GR_USAGE_PD_FROM),
 		  </isEqual>
+		   -->
+		   null,
 		  (SELECT MAX(NTICNO)+1 FROM LEV_REQEST_F) NTICNO,
 		  '',
 		  '0',
@@ -251,12 +254,15 @@
 		START_DATE NTIC_PD_FROM, END_DATE NTIC_PD_TO,
 		(SELECT MAX(NTICNO)+1 FROM LEV_REQEST_F) NTICNO, '0', 'N',
 		]]>
+			null,
+		<!--
 		  <isEqual property="payMth" compareValue="Pre">
 			START_DATE,
 			</isEqual>
 		  <isEqual property="payMth" compareValue="Aft">
 			END_DATE,
 			</isEqual>
+			 -->
 		<![CDATA[
 		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, TRUNC(RNTFEE/10, -1), #taxtSe#,RNTFEE + TRUNC(RNTFEE / 10, -1), #rm#,
 		#nticMth#, #regUsr#, SYSDATE

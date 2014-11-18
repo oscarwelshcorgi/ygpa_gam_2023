@@ -8,14 +8,14 @@
   * @Class Name : GamPrtFcltyMtRentFeeSttusInqire.jsp
   * @Description : 항만시설월별사용료현황조회
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.14  domh          최초 생성
   *
   * author domh
   * since 2014.01.14
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -29,8 +29,8 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
- 
- // 테이블 설정 //       
+
+ // 테이블 설정 //
  this.$("#prtFcltyMtRentFeeSttusInqireList").flexigrid({
      module: this,
      url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyMtRentFeeSttusInqireList.do"/>',
@@ -60,7 +60,7 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
      height: 'auto',
      preProcess: function(module,data) {
          module.$('#totSumCnt').val(data.totalCount);
-         module.$('#totSumFee').val(data.totSumFee);         
+         module.$('#totSumFee').val(data.totSumFee);
          return data;
      }
 
@@ -68,9 +68,9 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
  //로드될 때 사용기간에 오늘날짜 처리
 	var today = new Date();
 
- 	var pyear = today.getFullYear(); 
-    var pmonth= today.getMonth() + 1; 
-    
+ 	var pyear = today.getFullYear();
+    var pmonth= today.getMonth() + 1;
+
     if (pmonth <= 1) {
         var today = new Date(pyear - 1, 12, 1);
     }
@@ -78,21 +78,14 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
     {
         var today = new Date(pyear, pmonth - 2, 1);
     }
-    
- 	var tomonth = ((today.getMonth() + 1) >= 10) ? '' + (today.getMonth() + 1) : '0' + (today.getMonth() + 1); 
-	var toyear =  '' + today.getFullYear(); 
+
+ 	var tomonth = ((today.getMonth() + 1) >= 10) ? '' + (today.getMonth() + 1) : '0' + (today.getMonth() + 1);
+	var toyear =  '' + today.getFullYear();
 	this.$('#sStartYr').val(toyear);
-	this.$('#sStartMn').val(tomonth);    
+	this.$('#sStartMn').val(tomonth);
 	this.$('#sEndYr').val(toyear);
 	this.$('#sEndMn').val(tomonth);
 };
-
-this.$("#prtFcltyMtRentFeeSttusInqireList").on("onItemSelected", function(event, module, row, grid, param) {
-    //alert("row " + row["erpAssetsSeCd"]+"-"+row["erpAssetsNo"]+"-"+row["erpAssetsNoSeq"]+" is selected");
-    
-     
-    
-});
 
 /**
 * 정의 된 버튼 클릭 시
@@ -100,7 +93,7 @@ this.$("#prtFcltyMtRentFeeSttusInqireList").on("onItemSelected", function(event,
 GamPrtFcltyMtRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
-	
+
 	    // 조회
 	    case 'searchBtn':
             if( this.$('#sStartYr').val() == '' ) {
@@ -121,14 +114,14 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
             }
 	        var searchOpt=this.makeFormArgs('#gamPrtFcltyMtRentFeeSttusInqireSearchForm');
 	        this.$('#prtFcltyMtRentFeeSttusInqireList').flexOptions({params:searchOpt}).flexReload();
-	
+
 	        break;
-	        
+
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
-            break;      
+            break;
 
    	     // 자산코드 팝업
 		case "searchPopupBtn":
@@ -143,7 +136,7 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamPrtFcltyMtRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
-	
+
 	// 자산코드 조회
 	case "searchGisAssetsCodePopup":
 		this.$("#sAssetsCd").val(value["gisAssetsCd"]);
@@ -157,7 +150,7 @@ GamPrtFcltyMtRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId,
            alert('취소 되었습니다');
        }
        break;
-	}     
+	}
 };
 
 GamPrtFcltyMtRentFeeSttusInqireModule.prototype.onSubmit = function() {
@@ -225,7 +218,7 @@ var module_instance = new GamPrtFcltyMtRentFeeSttusInqireModule();
                                         </c:if>
                                     	<c:if test="${monthsItem < 10}">
                                         	<option value="0${monthsItem }">${monthsItem}</option>
-                                        </c:if>                                        
+                                        </c:if>
                                     </c:forEach>
                                 </select>
                                 &nbsp;~&nbsp;
@@ -243,7 +236,7 @@ var module_instance = new GamPrtFcltyMtRentFeeSttusInqireModule();
                                         </c:if>
                                     	<c:if test="${monthsItem < 10}">
                                         	<option value="0${monthsItem}">${monthsItem}</option>
-                                        </c:if>         
+                                        </c:if>
                                     </c:forEach>
                                 </select>
                             </td>
@@ -274,6 +267,6 @@ var module_instance = new GamPrtFcltyMtRentFeeSttusInqireModule();
 				</form>
             </div>
 		</div>
-            
+
     </div>
 </div>

@@ -87,7 +87,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	this.$('#sMngYear').val(params.nticVo.mngYear);
         	this.$('#sMngNo').val(params.nticVo.mngNo);
         	this.$('#sMngCnt').val(params.nticVo.mngCnt);
-        	this.loadData();
+//        	this.loadData();
     	}
     } else {
     	/*
@@ -100,6 +100,12 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 			event.data.module.$('#sEntrpsNm').val('');
 		}
 
+    });
+
+    this.$('#payTmlmt').on("change", {module:this}, function(e) {
+    	var module = e.data.module;
+        var rows = module.$('#assetRentFeeList').selectedRows()[0];
+		rows['payTmlmt']=this.val();
     });
 
     var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
@@ -334,6 +340,19 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         case 'btnPrtFcltyRentFeeMngtListExcelDownload':	// 엑셀 다운로드
         	this.$('#assetRentFeeList').flexExcelDown('<c:url value="/oper/gnrl/selectPrtFcltyRentFeeMngtListExcel.do"/>');
             	break;
+
+        case 'btnRentFeePayMngt':
+            var rows = this.$('#assetRentFeeList').selectedRows();
+            var opts = {};
+
+            if(rows.length>0) {
+            	opts = {
+            			action: 'selectRentFeePay',
+            			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt, nticCnt: rows[0].mngCnt }
+            	};
+            }
+       	 	EMD.util.create_window('항만시설납부현황관리', '<c:url value="/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do"/>', null, opts);
+        	break;
     }
 };
 
@@ -378,9 +397,15 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		             ];
 		this.doAction('<c:url value="/oper/gnrl/gamSelectPrtFcltyRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
+				/*
 				if(result.resultMaster.nhtIsueYn == 'N'){
-//					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
+					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
+				*/
+				if(result.resultMaster.payTmlmt==null) {
+					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
+				}
+
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
 					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
@@ -549,6 +574,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnNoticeAdit">추가고지</button>
                     <button id="btnNoticeAditDel">추가고지삭제</button>
                     <button id="btnPrtFcltyRentFeeMngtListExcelDownload">엑셀</button>
+                    <button id="btnRentFeePayMngt">납부현황관리</button>
                 </div>
             </div>
 

@@ -1786,6 +1786,18 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         	this.$('#assetRentMngtList').flexExcelDown('<c:url value="/oper/gnrl/selectPrtFcltyRentMngtListExcel.do"/>');
             break;
 
+        case 'btnRentFeeMngt':
+            var rows = this.$('#assetRentMngtList').selectedRows();
+            var opts = {};
+
+            if(rows.length>0) {
+            	opts = {
+            			action: 'selectRentFee',
+            			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
+            	};
+            }
+       	 	EMD.util.create_window('항만시설사용료관리', '<c:url value="/oper/gnrl/gamPrtFcltyRentFeeMngt.do"/>', null, opts);
+        	break;
     }
 };
 
@@ -2055,6 +2067,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnPrtFcltyRentMngtListExcelDownload">엑셀</button>
+	                                <button id="btnRentFeeMngt">사용료관리</button>
 	                                <!-- <button id="btnNoticeAdit">추가고지</button> -->
 	                                <!-- <button id="btnShowMap">맵조회</button> -->
 	                            </td>

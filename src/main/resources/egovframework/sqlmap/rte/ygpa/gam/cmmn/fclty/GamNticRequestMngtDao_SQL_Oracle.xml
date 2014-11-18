@@ -127,16 +127,23 @@
       (SELECT BIZRNO FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) BZ_RGST_ID,
       (SELECT ENTRPS_NM FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) AGENT_NAME,
       '' SSN,
-      SYSDATE, TO_DATE(NVL(#payTmlmt#, TO_CHAR(SYSDATE+15, 'YYYY-MM-DD')), 'YYYY-MM-DD'), L.NHT_PRINT_YN,
+      SYSDATE,
+      <isNotEmpty property="payTmlmt">
+	      TO_DATE(#payTmlmt#, 'YYYY-MM-DD'),
+      </isNotEmpty>
+      <isEmpty property="payTmlmt">
+	      TRUNC(SYSDATE+15),
+      </isEmpty>
+       L.NHT_PRINT_YN,
       L.FEE, L.RDCXPT_FEE, 0, 0,
 		'0',
       #updUsr#, SYSDATE, SYSDATE, L.VAT_YN, L.VAT, L.NTIC_PD_FROM, L.NTIC_PD_TO,
       #deptCd#,
       #userName#
       , L.REIM_FEE
-      , case when L.REIM_FEE>0 then #reimFeeNticno# else '' end case
-      , case when L.REIM_FEE>0 then L.REIM_CHRGE_KND else '' end case
-      , case when L.REIM_FEE>0 then 'V4' else '' end case
+      , case when L.REIM_FEE>0 then #reimFeeNticno# else '' end
+      , case when L.REIM_FEE>0 then L.REIM_CHRGE_KND else '' end
+      , case when L.REIM_FEE>0 then 'V4' else '' end
       FROM LEV_REQEST_F L
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#

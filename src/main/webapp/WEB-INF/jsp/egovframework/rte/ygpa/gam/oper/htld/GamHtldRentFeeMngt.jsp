@@ -329,6 +329,18 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     	case 'btnExcelDownload':	// 엑셀 다운로드
     		this.$('#assetRentFeeList').flexExcelDown('<c:url value="/oper/htld/gamSelectHtldRentFeeMngtListExcel.do"/>');
     		break;
+        case 'btnRentFeePayMngt':	// 납부현황조회
+            var rows = this.$('#assetRentFeeList').selectedRows();
+            var opts = {};
+
+            if(rows.length>0) {
+            	opts = {
+            			action: 'selectRentFeePay',
+            			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt, nticCnt: rows[0].mngCnt }
+            	};
+            }
+       	 	EMD.util.create_window('배후단지납부현황관리', '<c:url value="/oper/htld/gamHtldRentFeePaySttusMngt.do"/>', null, opts);
+        	break;
     }
 };
 
@@ -374,9 +386,15 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		             ];
 		this.doAction('<c:url value="/oper/htld/gamSelectHtldRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
+				/*
 				if(result.resultMaster.nhtIsueYn == 'N'){
 					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
+				*/
+				if(result.resultMaster.payTmlmt==null) {
+					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
+				}
+
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
 					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
@@ -552,6 +570,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnNoticeAdit">추가고지</button>
                     <button id="btnNoticeAditDel">추가고지삭제</button>
                     <button id="btnExcelDownload">엑셀다운로드</button>
+                    <button id="btnRentFeePayMngt">납부현황관리</button>
                 </div>
             </div>
 

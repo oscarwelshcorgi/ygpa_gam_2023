@@ -51,7 +51,7 @@
 .page {
     width: 21cm;
     min-height: 28.7cm;
-    padding: 1cm;
+    padding: 0cm;
     margin: 0cm auto;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
@@ -64,16 +64,37 @@
 }
 
 .subpage {
-    padding: 1cm;
+    padding: 0cm;
 /*     border: 5px red solid;
  */    height: 256mm;
+}
+
+.subpage1 {
+	position: relative;
+	left: 0cm;
+	top: 0cm;
+	height: 9.7cm;
+}
+
+.subpage2 {
+	position: relative;
+	left: 0cm;
+	top: 0cm;
+	height: 9.8cm;
+}
+
+.subpage3 {
+	position: relative;
+	left: 0cm;
+	top: 0cm;
+	height: 8.9cm;
 }
 
 div.sender {
 	position: absolute;
 	display: block;
 	left: 2cm;
-	top: 2.6cm;
+	top: 2.5cm;
 	width: 10cm;
 	height: 1.6cm;
 	font-size: 0.35cm;
@@ -82,14 +103,14 @@ div.sender {
 
 #senderAddress {
 	display: block;
-	position: relative;
+	position: absolute;
 	padding: 0.2cm
 }
 
 #senderPostcode {
 	display: block;
-	position: relative;
-	padding: 0.2cm
+	position: absolute;
+	padding: 0.8cm
 }
 
 div.receiver {
@@ -127,7 +148,7 @@ div.receiver {
 }
 
 #recAddress {
- 	position: absolute;
+		position: absolute;
 	left: 0cm;
 	top: 0.6cm;
 	width: 11cm;
@@ -136,9 +157,9 @@ div.receiver {
 }
 
 #recPostcode {
- 	position: absolute;
+		position: absolute;
 	left: 0cm;
-	top: 1.4cm;
+	top: 1.6cm;
 	width: 11cm;
 	height: 0.4cm;
 	text-align: right;
@@ -163,7 +184,7 @@ div.notice {
 	position: absolute;
 	display: block;
 	left: 0.35cm;
-	top: 10.3cm;
+	top: 0.5cm;
 	width: 5.2cm;
 	height: 8cm;
 	font-size: 0.35cm;
@@ -191,7 +212,7 @@ div.notice {
  div.feeAmount {
 	position: absolute;
 	left: 7.35cm;
-	top: 12.0cm;
+	top: 2.3cm;
 	width: 4.4cm;
 	height: 0.46cm;
 	font-size: 0.4cm;
@@ -201,9 +222,9 @@ div.notice {
 
  div.feeDetail {
 	position: absolute;
-	left: 8.65cm;
-	top: 12.7cm;
-	width: 4.2cm;
+	left: 8.55cm;
+	top: 3.05cm;
+	width: 3.3cm;
 	height: 4.8cm;
 	font-size: 0.32cm;
 	font-family: 굴림;
@@ -218,13 +239,15 @@ div.notice {
  div.feeDetail > ul > li {
 	display: block;
 	padding-bottom: 0.15cm;
+	white-space: nowrap;
+	height: 0.5cm;
  }
 
  div.rmk {
 	position: absolute;
 	display: block;
-	left: 12.45cm;
-	top: 11.3cm;
+	left: 12.5cm;
+	top: 1.5cm;
 	width: 7.7cm;
 	height: 8cm;
 	font-size: 0.35cm;
@@ -252,7 +275,7 @@ div.notice {
   div.giro {
 	position: absolute;
 	left: 5.8cm;
-	top: 19.55cm;
+	top: 0cm;
 	width: 14.8cm;
 	height: 8.8cm;
 	font-size: 0.4cm;
@@ -260,22 +283,21 @@ div.notice {
  }
 
  #totalAmount {
-	position: relative;
+	position: absolute;
 	left: 9.8cm;
-	top: 1.35cm;
+	top: 1.5cm;
 	width: 4.6cm;
 	height: 0.65cm;
 	font-size: 0.4cm;
 	font-family: OCR-B-10 BT;
 	text-align: right;
 	padding: 0.1cm;
-	text-align: right;
  }
 
  #elecPayNo {
-	position: relative;
-	left: 7.7cm;
-	top: 3.7cm;
+	position: absolute;
+	left: 7.8cm;
+	top: 4.4cm;
 	width: 6.8cm;
 	height: 0.8cm;
 	font-size: 0.4cm;
@@ -285,14 +307,14 @@ div.notice {
  }
 
  .girocode {
-	position: relative;
-	left: 0.8cm;
-	top: 1.7cm;
+	position: absolute;
+	left: 0.7cm;
+	top: 3.2cm;
 	width: 13.2cm;
 	height: 0.4cm;
 	font-size: 0.4cm;
 	font-family: OCR-B-10 BT;
-	 }
+ }
 
  #girono {
 	display: inline;
@@ -320,7 +342,7 @@ div.notice {
 
  .giroDetail {
 	position: absolute;
-	left: 2.8cm;
+	left: 2.85cm;
 	top: 5.4cm;
 	width: 11.9cm;
 	height: 1.3cm;
@@ -388,8 +410,8 @@ div.notice {
 	left: 20px;
 	top: 10px;
 	display:block;
+	z-index: 999;
 }
-
 
 @page {
     size: A4;
@@ -406,7 +428,7 @@ div.notice {
 	.page {
 	    width: 21cm;
 	    min-height: 28.7cm;
-	    padding: 1cm;
+	    padding: 0cm;
 	    margin: 0cm auto;
 	    border: 1px #D3D3D3 solid;
 	    border-radius: 5px;
@@ -418,16 +440,37 @@ div.notice {
 	}
 
 	.subpage {
-	    padding: 1cm;
+	    padding: 0cm;
 	/*     border: 5px red solid;
 	 */    height: 256mm;
+	}
+
+	.subpage1 {
+		position: relative;
+		left: 0cm;
+		top: 0cm;
+		height: 9.85cm;
+	}
+
+	.subpage2 {
+		position: relative;
+		left: 0cm;
+		top: 0cm;
+		height: 9.8cm;
+	}
+
+	.subpage3 {
+		position: relative;
+		left: 0cm;
+		top: 0cm;
+		height: 8.9cm;
 	}
 
 	div.sender {
 		position: absolute;
 		display: block;
 		left: 2cm;
-		top: 2.6cm;
+		top: 2.5cm;
 		width: 10cm;
 		height: 1.6cm;
 		font-size: 0.35cm;
@@ -436,14 +479,14 @@ div.notice {
 
 	#senderAddress {
 		display: block;
-		position: relative;
+		position: absolute;
 		padding: 0.2cm
 	}
 
 	#senderPostcode {
 		display: block;
-		position: relative;
-		padding: 0.2cm
+		position: absolute;
+		padding: 0.8cm
 	}
 
 	div.receiver {
@@ -517,7 +560,7 @@ div.notice {
 		position: absolute;
 		display: block;
 		left: 0.35cm;
-		top: 10.3cm;
+		top: 0.5cm;
 		width: 5.2cm;
 		height: 8cm;
 		font-size: 0.35cm;
@@ -545,7 +588,7 @@ div.notice {
 	 div.feeAmount {
 		position: absolute;
 		left: 7.35cm;
-		top: 12.0cm;
+		top: 2.4cm;
 		width: 4.4cm;
 		height: 0.46cm;
 		font-size: 0.4cm;
@@ -555,9 +598,9 @@ div.notice {
 
 	 div.feeDetail {
 		position: absolute;
-		left: 8.65cm;
-		top: 12.7cm;
-		width: 4.2cm;
+		left: 8.4cm;
+		top: 3.2cm;
+		width: 3.3cm;
 		height: 4.8cm;
 		font-size: 0.32cm;
 		font-family: 굴림;
@@ -572,13 +615,15 @@ div.notice {
 	 div.feeDetail > ul > li {
 		display: block;
 		padding-bottom: 0.15cm;
+		white-space: nowrap;
+		height: 0.5cm;
 	 }
 
 	 div.rmk {
 		position: absolute;
 		display: block;
-		left: 12.45cm;
-		top: 11.3cm;
+		left: 12.2cm;
+		top: 1.5cm;
 		width: 7.7cm;
 		height: 8cm;
 		font-size: 0.35cm;
@@ -606,7 +651,7 @@ div.notice {
 	  div.giro {
 		position: absolute;
 		left: 5.8cm;
-		top: 19.55cm;
+		top: 0cm;
 		width: 14.8cm;
 		height: 8.8cm;
 		font-size: 0.4cm;
@@ -614,22 +659,21 @@ div.notice {
 	 }
 
 	 #totalAmount {
-		position: relative;
-		left: 9.8cm;
-		top: 1.35cm;
+		position: absolute;
+		left: 9.3cm;
+		top: 1.5cm;
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
 		font-family: OCR-B-10 BT;
 		text-align: right;
 		padding: 0.1cm;
-		text-align: right;
 	 }
 
 	 #elecPayNo {
-		position: relative;
-		left: 7.7cm;
-		top: 3.7cm;
+		position: absolute;
+		left: 8.2cm;
+		top: 4.4cm;
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
@@ -639,9 +683,9 @@ div.notice {
 	 }
 
 	 .girocode {
-		position: relative;
-		left: 0.8cm;
-		top: 1.6cm;
+		position: absolute;
+		left: 0.45cm;
+		top: 3.2cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -674,8 +718,8 @@ div.notice {
 
 	 .giroDetail {
 		position: absolute;
-		left: 3.1cm;
-		top: 5.2cm;
+		left: 2.7cm;
+		top: 5.4cm;
 		width: 11.9cm;
 		height: 1.3cm;
 		font-size: 0.35cm;
@@ -781,94 +825,100 @@ div.notice {
     <c:forEach var="result" items="${resultList }">
     <div class="page">
         <div class="subpage">
-			<div class="sender">
-				<div id="senderAddress">
-					전라남도 광양시 항만대로 465 월드마린센터 1층
+        	<div class="subpage1">
+				<div class="sender">
+					<div id="senderAddress">
+						전라남도 광양시 항만대로 465 월드마린센터 1층
+					</div>
+					<div id="senderPostcode">
+						545-030
+					</div>
 				</div>
-				<div id="senderPostcode">
-					545-030
+				<div class="letterMsg">고 지 서  재 중</div>
+				<div class="receiver">
+					<div id="companyName">
+						<c:out value="${result.entrpsNm}"/>
+					</div>
+					<div id="ceoName">
+						<c:out value="${result.rprsntvNm}"/>
+					</div>
+					<div id="recAddress">
+						<c:out value="${result.adres}"/>
+						<c:out value="${result.adres2}"/>
+					</div>
+					<div id="recPostcode">
+						<c:out value="${fn:substring(result.zip, 0, 3)}"/>-<c:out value="${fn:substring(result.zip, 3, 6)}"/>
+					</div>
 				</div>
 			</div>
-			<div class="receiver">
-				<div id="companyName">
-					<c:out value="${result.entrpsNm}"/>
-				</div>
-				<div id="ceoName">
-					<c:out value="${result.rprsntvNm}"/>
-				</div>
-				<div id="recAddress">
-					<c:out value="${result.adres}"/>
-					<c:out value="${result.adres2}"/>
-				</div>
-				<div id="recPostcode">
-					<c:out value="${fn:substring(result.zip, 0, 3)}"/>-<c:out value="${fn:substring(result.zip, 3, 6)}"/>
-				</div>
-			</div>
-			<div class="letterMsg">고 지 서  재 중</div>
-        	<div class="notice">
-        		<h2>안내말씀</h2>
-        		<p>* 전자 세금계산서는 LogisBill을 통하여 E-Mail로 발급됩니다.</p>
-        		<p>* 납기가 지난 고지서는 납부 할 수 없습니다.</p>
-        		<p>* 전자납부이용은 고지서를 발부 받으신 당일 19시 이후부터 인터넷 뱅킹 등을 이용하여 납부하실 수 있습니다.</p>
-        		<p class="bold">* 금융기관에서는 온라인 수납처리 바랍니다.</p>
-       		</div>
-       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
-      		<div class="feeDetail">
-      			<ul>
-      				<li class="cstmrRefNo"><c:out value="${fn:substring(result.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 10,17)}"/></li>
-      				<li class="chrgeKndNm"><c:out value="${result.chrgeKndNm}"/></li>
-      				<li class="entrpsNm"><c:out value="${result.entrpsNm}"/></li>
-      				<li class="entrpsNm"><c:out value="${result.rprsntvNm}"/></li>
-      				<li class="nticDate"><c:out value="${result.nticDt}"/></li>
-      				<li class="payTmlmt"><c:out value="${result.payTmlmt}"/></li>
-      				<li class="bizrNo"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</li>
-   				</ul>
-      		</div>
-      		<div class="rmk">
-      			<h2>부과내역</h2>
-      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/></p>
-      			<p>소재지 : <c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></p>
-      			<p>업 체 : <c:out value="${result.entrpsNm}"/> (<c:out value="${result.entrpscd}"/>)</p>
-      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
-      			<h2>산출근거</h2>
-      			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
-      			<p>산출공식 : <c:out value="${result.computDtls}"/></p>
-      			<c:if test="${result.feeA3>0}">
-	      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원</p>
-      			</c:if>
-      			<c:if test="${result.feeA4>0}">
-	      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원</p>
-      			</c:if>
-      			<c:if test="${result.reimFee>0}">
-	      			<p>변상금 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.reimFee}" /> 원</p>
-      			</c:if>
-      			<c:if test="${result.feeD1>0}">
-	      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원</p>
-      			</c:if>
-      			<c:if test="${result.arrrgAmt>0}">
-	      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)</p>
-      			</c:if>
-      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원</p>
-      			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
-      			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
-      		</div>
-			<div class="giro">
-	       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
-	       		<div id="elecPayNo"><c:out value="${result.elecPayNo}"/></div>
-	       		<div class="girocode">
-	       			<div id="girono">&lt;${result.giroNo}+</div>
-		       		<div id="cstmrrefcode">+<c:out value="${result.cstmrRefCode}"/>+</div>
-		       		<div id="giroamount">+<c:out value="${result.elecNticAmt}"/>&lt;</div>
-		       		<div id="girocc">&lt;11&lt;</div>
+			<div class="subpage2">
+	        	<div class="notice">
+	        		<h2>안내말씀</h2>
+	        		<p>* 전자 세금계산서는 LogisBill을 통하여 E-Mail로 발급됩니다.</p>
+	        		<p>* 납기가 지난 고지서는 납부 할 수 없습니다.</p>
+	        		<p>* 전자납부이용은 고지서를 발부 받으신 당일 19시 이후부터 인터넷 뱅킹 등을 이용하여 납부하실 수 있습니다.</p>
+	        		<p class="bold">* 금융기관에서는 온라인 수납처리 바랍니다.</p>
 	       		</div>
-	       		<div class="giroDetail">
-		       		<div id="girobizrno"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</div>
-      				<div id="nticno"><c:out value="${result.prtAtCode}"/>-<c:out value="${result.chrgeKnd}"/>-<c:out value="${result.accnutYear}"/>-<c:out value="${result.nticCnt}"/></div>
-      				<div id="nticDate"><c:out value="${result.nticDt}"/></div>
-      				<div id="payTmlmt"><c:out value="${result.payTmlmt}"/></div>
-      				<div id="girormk">항코드 : <c:out value="${result.prtAtcode}"/> 관리번호 : <c:out value="${result.mngYear}"/>-<c:out value="${result.mngNo}"/>-<c:out value="${result.mngCnt}"/> 고지회차 : <c:out value="${result.nticCnt}"/>회차</div>
-	       		</div>
-	       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
+	       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
+	      		<div class="feeDetail">
+	      			<ul>
+	      				<li class="cstmrRefNo"><c:out value="${fn:substring(result.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 10,17)}"/></li>
+	      				<li class="chrgeKndNm"><c:out value="${result.chrgeKndNm}"/></li>
+	      				<li class="entrpsNm"><c:out value="${result.entrpsNm}"/></li>
+	      				<li class="entrpsNm"><c:out value="${result.rprsntvNm}"/></li>
+	      				<li class="nticDate"><c:out value="${result.nticDt}"/></li>
+	      				<li class="payTmlmt"><c:out value="${result.payTmlmt}"/></li>
+	      				<li class="bizrNo"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</li>
+	   				</ul>
+	      		</div>
+	      		<div class="rmk">
+	      			<h2>부과내역</h2>
+	      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/></p>
+	      			<p>소재지 : <c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></p>
+	      			<p>업 체 : <c:out value="${result.entrpsNm}"/> (<c:out value="${result.entrpscd}"/>)</p>
+	      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
+	      			<h2>산출근거</h2>
+	      			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
+	      			<p>산출공식 : <c:out value="${result.computDtls}"/></p>
+	      			<c:if test="${result.feeA3>0}">
+		      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원</p>
+	      			</c:if>
+	      			<c:if test="${result.feeA4>0}">
+		      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원</p>
+	      			</c:if>
+	      			<c:if test="${result.reimFee>0}">
+		      			<p>변상금 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.reimFee}" /> 원</p>
+	      			</c:if>
+	      			<c:if test="${result.feeD1>0}">
+		      			<p>과태료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeD1}" /> 원</p>
+	      			</c:if>
+	      			<c:if test="${result.arrrgAmt>0}">
+		      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)</p>
+	      			</c:if>
+	      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원</p>
+	      			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
+	      			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
+	      		</div>
+	   		</div>
+	   		<div class="subpage3">
+				<div class="giro">
+		       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /></div>
+		       		<div id="elecPayNo"><c:out value="${result.elecPayNo}"/></div>
+		       		<div class="girocode">
+		       			<div id="girono">&lt;${result.giroNo}+</div>
+			       		<div id="cstmrrefcode">+<c:out value="${result.cstmrRefCode}"/>+</div>
+			       		<div id="giroamount">+<c:out value="${result.elecNticAmt}"/>&lt;</div>
+			       		<div id="girocc">&lt;11&lt;</div>
+		       		</div>
+		       		<div class="giroDetail">
+			       		<div id="girobizrno"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</div>
+	      				<div id="nticno"><c:out value="${result.prtAtCode}"/>-<c:out value="${result.chrgeKnd}"/>-<c:out value="${result.accnutYear}"/>-<c:out value="${result.nticCnt}"/></div>
+	      				<div id="nticDate"><c:out value="${result.nticDt}"/></div>
+	      				<div id="payTmlmt"><c:out value="${result.payTmlmt}"/></div>
+	      				<div id="girormk">항코드 : <c:out value="${result.prtAtcode}"/> 관리번호 : <c:out value="${result.mngYear}"/>-<c:out value="${result.mngNo}"/>-<c:out value="${result.mngCnt}"/> 고지회차 : <c:out value="${result.nticCnt}"/>회차</div>
+		       		</div>
+		       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
+				</div>
 			</div>
         </div>
     </div>

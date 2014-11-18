@@ -168,8 +168,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 }
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
-                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
-//                 	rows['payTmlmt']=this.$('#payTmlmt').val();
+//                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
+                 	rows['payTmlmt']=this.$('#payTmlmt').val();
 					this.doAction('<c:url value="/oper/shed/insertCmmnCntrFeeNticSingle.do" />', rows, function(module, result) {
 
                         if(result.resultCode=='0') {
@@ -353,6 +353,8 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
+
+
     	var row = this.$('#assetRentFeeList').selectedRows()[0];
 
 		var nticDetail = [
@@ -365,9 +367,11 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		             ];
 		this.doAction('<c:url value="/oper/shed/gamSelectCmmnCntrRentFeeMngtListDetail.do" />', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
+				/*
 				if(result.resultMaster.nhtIsueYn == 'N'){
 					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
+				*/
 				module.makeDivValues('#masterFeeInfo', result.resultMaster); // 결과값을 채운다.
 				module.makeMultiDivValues('#detailFeeInfo',result.resultList , function(row) {
 					if(row.currLevReqest=="Y") $(this).addClass("detailRowSelected");
