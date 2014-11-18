@@ -20,7 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<%-- <validator:javascript formName="gamCodeMngt" staticJavascript="false" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="fcltsClCdVO" method="validateFcltsClCdVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -55,28 +55,41 @@ GamFcltsClCdModule.prototype.loadComplete = function() {
 	this.$("#fcltsClCdList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		
 		module.doAction('<c:url value="/code/selectFcltsClCdDetail.do" />', {fcltsClCd: row["fcltsClCd"]}, function(module, result) {
-
-			module._cmd="modify";
-			module.makeFormValues('#fcltsClCdVO', result.result);
-
+			
+				module._cmd="modify";
+				module.makeFormValues('#fcltsClCdVO', result.result);
+				module.selectFcltsClUpperCdList(result.result.fcltsClUpperCd);
+		
 	 	});
 
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#fcltsClCdListTab").tabs("option", {active: 1});			// 탭을 전환 한다.
+		
+		// 삭제버튼 활성화
+		module.$("#deleteBtn").show();
 	});
 	
+	
+	// 
 	this.$('#depthSort').on('change', {module: this}, function(e) {
 		e.data.module.selectFcltsClUpperCdList();
+		e.data.module.$("#fcltsClCd").val('');
 	});
 	
 	this.$('#mainFcltsDiv').on('change', {module: this}, function(e) {
 		e.data.module.selectFcltsClUpperCdList();
+		e.data.module.$("#fcltsClCd").val('');
+	});
+	
+	this.$('#fcltsClUpperCd').on('change', {module: this}, function(e) {
+		e.data.module.$("#fcltsClCd").val('');
 	});
 
 };
 
 
-GamFcltsClCdModule.prototype.selectFcltsClUpperCdList = function() {
+GamFcltsClCdModule.prototype.selectFcltsClUpperCdList = function(fcltsClUpperCd) {
+	
 
 	var inputVO = {'mainFcltsDiv':this.$("#mainFcltsDiv").val(), 'depthSort':this.$("#depthSort").val()};
 
@@ -85,7 +98,7 @@ GamFcltsClCdModule.prototype.selectFcltsClUpperCdList = function() {
  			var opts = "<option value=''>선택</option>";
  			var fcltsClUpperCdList = result.fcltsClUpperCdList;
  			var resultCnt = fcltsClUpperCdList.length;
-
+			
  			for(i=0;i<resultCnt;i++){
  				opts += "<option value='" + fcltsClUpperCdList[i].fcltsClCd + "'>" + fcltsClUpperCdList[i].fcltsClCdNm + "</option>";
  			}
@@ -93,6 +106,7 @@ GamFcltsClCdModule.prototype.selectFcltsClUpperCdList = function() {
  			module.$("#fcltsClUpperCd").empty();
  			module.$("#fcltsClUpperCd").append(opts);
  			
+ 			module.$("#fcltsClUpperCd").val(fcltsClUpperCd);
  		}
  	});
 
@@ -134,11 +148,6 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 		 	this.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();
 		break;
 
-		// 목록
-		case "listBtn":
-			this.$("#fcltsClCdListTab").tabs("option", {active: 0});
-		break;
-
 		// 추가
 		case "addBtn":
 			
@@ -146,18 +155,20 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 			
 			this.$("#fcltsClCdListTab").tabs("option", {active: 1});
 			this.$("#fcltsClCdVO :input").val("");
-			/* this.$("#clCode").enable();
-			this.$("#codeId").enable(); */
+			this.$("#fcltsClUpperCd").empty();
+			this.$("#deleteBtn").hide();
+
 		break;
 
 		// 저장
 		case "saveBtn":
 
-			if(!validateGamCodeMngt(this.$("#fcltsClCdVO")[0])) return;
+			if(!validateFcltsClCdVO(this.$("#fcltsClCdVO")[0])) return;
 
 		 	var inputVO = this.makeFormArgs("#fcltsClCdVO");
-			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/code/gamFcltsClCdRegist.do" />', inputVO, function(module, result) {
+		 	//alert(this._cmd);
+			if(this._cmd == "insert") {
+			 	this.doAction('<c:url value="/code/insertFcltsClCd.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltsClCdForm");
 						module.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();
@@ -167,7 +178,7 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/code/gamFcltsClCdModify.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/code/updateFcltsClCd.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltsClCdForm");
 						module.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();
@@ -183,7 +194,7 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#fcltsClCdVO");
-			 	this.doAction('<c:url value="/code/gamFcltsClCdRemove.do" />', inputVO, function(module, result) {
+			 	this.doAction('<c:url value="/code/deleteFcltsClCd.do" />', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltsClCdForm");
 						module.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();
@@ -266,20 +277,25 @@ var module_instance = new GamFcltsClCdModule();
 							<th width="20%" height="23" class="required_text">메인시설물분류</th>
 							<td>
 								<select id="mainFcltsDiv" class="select">
-									<option value="" selected="selected">전체</option>
+									<option value="" selected="selected">선택</option>
 									<c:forEach  items="${mainFcltyClCdList}" var="mainFcltyClCdItem">
                                         <option value="${mainFcltyClCdItem.mainFcltsClCd }">${mainFcltyClCdItem.mainFcltsClCdNm }</option>
                                     </c:forEach>
 								</select>
 							</td>
 							<th width="20%" height="23" class="required_text">분류코드</th>
-							<td><input type="text" id="fcltsClCd" size="15" readOnly="readOnly"/></td>
+							<td>
+								<input type="text" id="fcltsClCd" size="15" readOnly="readOnly"/>
+								<input type="hidden" id="oriFcltsClCd"/>
+							</td>
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">단계</th>
 							<td>
 								<select id="depthSort">
 									<option value="">선택</option>
+									<option value="0">0단계</option>
+									<option value="1">1단계</option>
 									<option value="2">2단계</option>
 									<option value="3">3단계</option>
 									<option value="4">4단계</option>
@@ -290,7 +306,6 @@ var module_instance = new GamFcltsClCdModule();
 							</td>
 							<th width="20%" height="23" class="required_text">분류상위코드</th>
 							<td>
-								<!-- <input type="text" size="15" id="fcltsClUpperCd" maxlength="10" /> -->
 								<select id="fcltsClUpperCd">
 									<option value="">선택</option>
 								</select>
@@ -298,7 +313,7 @@ var module_instance = new GamFcltsClCdModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드명</th>
-							<td><input type="text" size="40" id="fcltsClCdNm" maxlength="30" /></td>
+							<td><input type="text" size="40" id="fcltsClCdNm" maxlength="60" /></td>
 							<th width="20%" height="23" class="required_text"> LEAF 여부</th>
 							<td>
 								<select id="leafYn">
@@ -311,7 +326,6 @@ var module_instance = new GamFcltsClCdModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-<!-- 					<button id="listBtn">목록</button> -->
 					<button id="saveBtn">저장</button>
 					<button id="deleteBtn">삭제</button>
 				</div>

@@ -88,5 +88,48 @@ public class GamFcltsClCdDao extends YGPAAbstractDAO {
 	public List selectFcltsClUpperCdList (Map vo) throws Exception {
 		return list("gamFcltsClCdDao.selectFcltsClUpperCdList_D", vo);
 	}
+	
+	/**
+	 *  시설물 분류관리 신규코드 생성
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */
+	public String selectNewFcltsClCd (GamFcltsClCdVO vo) throws Exception {
+		return (String) selectByPk("gamFcltsClCdDao.selectNewFcltsClCd_S", vo);
+	}
+	
+	
+	/**
+	 * 시설물분류 코드입력
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void insertFcltsClCd (GamFcltsClCdVO vo) throws Exception{
+		insert("gamFcltsClCdDao.insertFcltsClCd", vo);
+	}
+	
+	
+	/**
+	 * 시설물분류 코드수정
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void updateFcltsClCd (GamFcltsClCdVO vo) throws Exception{
+		update("gamFcltsClCdDao.updateFcltsClCd", vo);
+	}
+	
+	
+	/**
+	 * 시설물분류 코드삭제
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void deleteFcltsClCd (GamFcltsClCdVO vo) throws Exception{
+		delete("gamFcltsClCdDao.deleteFcltsClCd", vo);
+	}
 
 }

@@ -70,5 +70,41 @@ public interface GamFcltsClCdService {
 	 * @throws Exception
 	 */
 	List selectFcltsClUpperCdList (Map vo) throws Exception;
+	
+	
+	/**
+	 *  시설물 분류관리 신규코드 생성
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */
+	String selectNewFcltsClCd (GamFcltsClCdVO vo) throws Exception;
+	
+	
+	/**
+	 * 시설물분류 코드입력
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	void insertFcltsClCd (GamFcltsClCdVO vo) throws Exception;
+	
+	
+	/**
+	 * 시설물분류 코드수정
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	void updateFcltsClCd (GamFcltsClCdVO vo) throws Exception;
+	
+	
+	/**
+	 * 시설물분류 코드삭제
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	void deleteFcltsClCd (GamFcltsClCdVO vo) throws Exception;
 
 }

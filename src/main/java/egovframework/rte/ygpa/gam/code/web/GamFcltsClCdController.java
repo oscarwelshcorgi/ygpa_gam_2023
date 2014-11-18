@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -128,11 +129,10 @@ public class GamFcltsClCdController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/selectFcltsClCdDetail.do")
-    @ResponseBody Map<String, Object> selectFcltsClCdDetail(@RequestParam Map fcltsClCdVO) throws Exception {
+    @ResponseBody Map<String, Object> selectFcltsClCdDetail(@RequestParam Map<String, Object> fcltsClCdVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
     	EgovMap result=null;
-    	ModelMap model = null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -164,11 +164,9 @@ public class GamFcltsClCdController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/selectFcltsClUpperCdList.do")
-    @ResponseBody Map<String, Object> selectFcltsClUpperCdList(@RequestParam Map fcltsClCdVO) throws Exception {
+    @ResponseBody Map<String, Object> selectFcltsClUpperCdList(@RequestParam Map<String, Object> fcltsClCdVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-
-    	EgovMap result=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -186,7 +184,120 @@ public class GamFcltsClCdController {
     }
 	
 	
-    
+	/**
+	 * 시설물분류 코드입력
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/code/insertFcltsClCd.do")
+    @ResponseBody Map<String, Object> insertFcltsClCd(GamFcltsClCdVO insertVO) throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	String newFcltsClCd;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	insertVO.setRegUsr(user.getId());
+    	
+    	try {
+    		
+    		newFcltsClCd = gamFcltsClCdService.selectNewFcltsClCd(insertVO);
+    		insertVO.setFcltsClCd(newFcltsClCd);
+	    	gamFcltsClCdService.insertFcltsClCd(insertVO);
+	    	
+	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+	        map.put("resultCode", 0);
+    	} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+        return map;
+    }
+	
+	
+	/**
+	 * 시설물분류 코드수정
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/code/updateFcltsClCd.do")
+    @ResponseBody Map<String, Object> updateFcltsClCd(GamFcltsClCdVO updateVO) throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	String newFcltsClCd;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	updateVO.setUpdUsr(user.getId());
+    	
+    	try {
+    		
+    		newFcltsClCd = gamFcltsClCdService.selectNewFcltsClCd(updateVO);
+    		updateVO.setFcltsClCd(newFcltsClCd);
+	    	gamFcltsClCdService.updateFcltsClCd(updateVO);
+	    	
+	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+	        map.put("resultCode", 0);
+    	} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+        return map;
+    }
+	
+	
+	/**
+	 * 시설물분류 코드삭제
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/code/deleteFcltsClCd.do")
+    @ResponseBody Map<String, Object> deleteFcltsClCd(GamFcltsClCdVO deleteVO) throws Exception {
+
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	try {
+	    	gamFcltsClCdService.deleteFcltsClCd(deleteVO);
+	    	
+	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+	        map.put("resultCode", 0);
+    	} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+        return map;
+    }
     
 
 }

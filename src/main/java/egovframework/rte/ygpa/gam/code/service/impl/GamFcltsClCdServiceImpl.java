@@ -95,5 +95,49 @@ public class GamFcltsClCdServiceImpl extends AbstractServiceImpl implements GamF
 	public List selectFcltsClUpperCdList (Map vo) throws Exception {
 		return (List)gamFcltsClCdDao.selectFcltsClUpperCdList(vo);
 	}
+	
+	
+	/**
+	 *  시설물 분류관리 신규코드 생성
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */
+	public String selectNewFcltsClCd (GamFcltsClCdVO vo) throws Exception {
+		return gamFcltsClCdDao.selectNewFcltsClCd(vo);
+	}
+	
+	
+	/**
+	 * 시설물분류 코드입력
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void insertFcltsClCd (GamFcltsClCdVO vo) throws Exception{
+		gamFcltsClCdDao.insertFcltsClCd(vo);
+	}
+	
+	
+	/**
+	 * 시설물분류 코드수정
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void updateFcltsClCd (GamFcltsClCdVO vo) throws Exception{
+		gamFcltsClCdDao.updateFcltsClCd(vo);
+	}
+	
+	
+	/**
+	 * 시설물분류 코드삭제
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void deleteFcltsClCd (GamFcltsClCdVO vo) throws Exception{
+		gamFcltsClCdDao.deleteFcltsClCd(vo);
+	}
 
 }

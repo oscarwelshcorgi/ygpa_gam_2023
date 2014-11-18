@@ -43,6 +43,9 @@ public class GamFcltsClCdVO  extends ComDefaultVO {
 	/** 분류코드 **/
 	private String fcltsClCd;
 	
+	/**  수정전 분류코드 **/
+	private String oriFcltsClCd;
+	
 	/** 분류코드명 **/
 	private String fcltsClCdNm;
 	
@@ -55,7 +58,11 @@ public class GamFcltsClCdVO  extends ComDefaultVO {
 	/** LEAF여부 **/
 	private String leafYn;
 	
+	/** 등록자 **/
+	private String regUsr;
 	
+	/** 수정자 **/
+	private String updUsr;
 	
 	
 
@@ -116,6 +123,20 @@ public class GamFcltsClCdVO  extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the oriFcltsClCd
+	 */
+	public String getOriFcltsClCd() {
+		return oriFcltsClCd;
+	}
+
+	/**
+	 * @param oriFcltsClCd the oriFcltsClCd to set
+	 */
+	public void setOriFcltsClCd(String oriFcltsClCd) {
+		this.oriFcltsClCd = oriFcltsClCd;
+	}
+
+	/**
 	 * @return the fcltsClCdNm
 	 */
 	public String getFcltsClCdNm() {
@@ -169,6 +190,34 @@ public class GamFcltsClCdVO  extends ComDefaultVO {
 	 */
 	public void setLeafYn(String leafYn) {
 		this.leafYn = leafYn;
+	}
+
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
 	}
 
 
