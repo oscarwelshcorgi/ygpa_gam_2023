@@ -454,8 +454,8 @@ GamMechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 			break;
 		
 		case "selectFcltsClCd":
-			this.$("#cvlEngFcltsClCd").val(value["fcltsClCd"]);
-			this.$("#cvlEngFcltsClCdNm").val(value["fcltsClCdNm"]);			
+			this.$("#mechFcltsClCd").val(value["fcltsClCd"]);
+			this.$("#mechFcltsClCdNm").val(value["fcltsClCdNm"]);			
 			break;
 			
 		default:
@@ -487,7 +487,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							</td>
 							<th>기계시설분류</th>
 							<td>
-								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" />
+								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -532,7 +532,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							</tr>
 						</tbody>
 					</table>
-					<table  class="detailPanel"  style="width:100%;">
+					<table class="detailPanel" style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
@@ -563,7 +563,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">기계시설명</th>
@@ -579,15 +579,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설치일자</th>
-							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
-							<th width="12%" height="17" class="required_text">변경일자</th>
-							<td colspan="3"><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">위도좌표</th>
-							<td><input id="laCrdnt" type="text" size="20" title="위도좌표" /></td>
-							<th width="12%" height="17" class="required_text">경도좌표</th>
-							<td colspan="3"><input id="loCrdnt" type="text" size="20" title="경도일자" /></td>
+							<td colspan="5"><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
 						</tr>
 					</table>
 				</div>
@@ -600,152 +592,148 @@ var module_instance = new GamMechFcltySpecMngModule();
 					</table>
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17" class="required_text">시설물연장</th>
-							<td><input id="fcltsExt" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">천단표고</th>
-							<td><input id="upsideAltud" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">천단폭</th>
-							<td><input id="upsideWd" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">품명</th>
+							<td colspan="5"><input id="gdsnm" type="text" size="110" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">구조형식</th>
-							<td colspan="5"><input id="strctFmt" type="text" size="110" /></td>
+							<th width="12%" height="17" class="required_text">용도</th>
+							<td colspan="5"><input id="prpos" type="text" size="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">선좌수심</th>
-							<td><input id="berthDpwt" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">상치폭</th>
-							<td><input id="permWd" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">에이프런폭</th>
-							<td><input id="apronWd" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">형식</th>
+							<td colspan="5"><input id="fmt" type="text" size="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">에이프런포장종류</th>
-							<td><input id="apronPackKnd" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">에이프런포장구배</th>
-							<td colspan="3"><input id="apronPackGrdnt" type="text" size="60" /></td>
+							<th width="12%" height="17" class="required_text">규격</th>
+							<td colspan="3"><input id="stndrd" type="text" size="50" /></td>
+							<th width="12%" height="17" class="required_text">설치일자</th>
+							<td><input id="instlDt" type="text" class="emdcal" size="20" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">접안선박규모</th>
-							<td><input id="csdhpShipScl" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">상재하중</th>
-							<td colspan="3"><input id="frostDmgWght" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">사용시작일자</th>
+							<td><input id="usageBeginDt" type="text" class="emdcal" size="20" /></td>
+							<th width="12%" height="17" class="required_text">사용종료일자</th>
+							<td><input id="usageEndDt" type="text" class="emdcal" size="20" /></td>
+							<th width="12%" height="17" class="required_text">상태등급</th>
+							<td><input id="sttusLvl" type="text" size="1" maxlength="1" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">기초저면토질</th>
-							<td colspan="5"><input id="baseBttmSoil" type="text" size="110" /></td>
+							<th width="12%" height="17" class="required_text">제작회사</th>
+							<td colspan="3"><input id="mfcCmpny" type="text" size="70" /></td>
+							<th width="12%" height="17" class="required_text">제작일자</th>
+							<td><input id="mfcDt" type="text" class="emdcal" size="20" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">취급화물</th>
-							<td colspan="5"><input id="hndlFrght" type="text" size="110" /></td>
+							<th width="12%" height="17" class="required_text">장비번호</th>
+							<td colspan="5"><input id="eqpmnNo" type="text" size="50" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">말뚝구경</th>
-							<td><input id="pileClbr" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">말뚝연장</th>
-							<td><input id="pileExt" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">말뚝본수</th>
-							<td><input id="pileQty" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">관리자</th>
+							<td colspan="5"><input id="manager" type="text" size="60" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">널말뚝규격</th>
-							<td colspan="3"><input id="sheetFileStndrd" type="text" size="60" /></td>
-							<th width="12%" height="17" class="required_text">굽수전수량</th>
-							<td><input id="hydrntQy" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">사용업체</th>
+							<td colspan="5"><input id="usageEntrps" type="text" size="110" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">소화전수량</th>
-							<td><input id="firepgQy" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">야적장포장종류</th>
-							<td><input id="yardPackKnd" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">야적장면적</th>
-							<td><input id="yardAr" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">운영회사</th>
+							<td colspan="5"><input id="operCmpny" type="text" size="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">방충재종류코드</th>
-							<td><input id="fenderKndCd" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">방충재배치간격</th>
-							<td><input id="fenderPmntItv" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">방충재형식</th>
-							<td><input id="fenderFmt" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">길이</th>
+							<td><input id="lt" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">수량</th>
+							<td><input id="qy" type="text" size="10" /></td>
+							<th width="12%" height="17" class="required_text">단위</th>
+							<td><input id="unit" type="text" size="20" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주규격1</th>
-							<td><input id="mrpostStndrd1" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">계선주배치간격1</th>
-							<td><input id="mrpostPmntItv1" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">계선주수량1</th>
-							<td><input id="mrpostQy1" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">소유주체</th>
+							<td><input id="posesnMainbd" type="text" size="1" maxlength="1" /></td>
+							<th width="12%" height="17" class="required_text">취득금액</th>
+							<td colspan="3"><input id="acqAmt" type="text" size="20" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주견인력1</th>
-							<td><input id="mrpostPwr1" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">계선주규격2</th>
-							<td><input id="mrpostStndrd2" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">계선주배치간격2</th>
-							<td><input id="mrpostPmntItv2" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">검사시작일자</th>
+							<td><input id="examBeginDt" type="text" class="emdcal" size="20" /></td>
+							<th width="12%" height="17" class="required_text">검사종료일자</th>
+							<td><input id="examEndDt" type="text" class="emdcal" size="20" /></td>
+							<th width="12%" height="17" class="required_text">검사합격번호</th>
+							<td><input id="examOkNo" type="text" size="10" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주수량2</th>
-							<td><input id="mrpostQy2" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">계선주견인력2</th>
-							<td><input id="mrpostPwr2" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">선석</th>
-							<td><input id="berth" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">검사기관</th>
+							<td colspan="5"><input id="examInstt" type="text" size="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">주요취급화물</th>
-							<td colspan="5"><input id="stplHndlFrght" type="text" size="110" /></td>
+							<th width="12%" height="17" class="required_text">하역능력</th>
+							<td colspan="3"><input id="lnlAblty" type="text" size="30" /></td>
+							<th width="12%" height="17" class="required_text">내용년수</th>
+							<td><input id="cnyear" type="text" size="20" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">주요계류선박</th>
-							<td colspan="5"><input id="stplMoorShip" type="text" size="110" /></td>
+							<th width="12%" height="17" class="required_text">자중</th>
+							<td colspan="5"><input id="selfLoad" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">정격하중</th>
+							<td colspan="5"><input id="rateWght" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">최대바퀴하중</th>
+							<td colspan="5"><input id="maxWheelWght" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">레일간격</th>
+							<td colspan="5"><input id="railItv" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">정격마력</th>
+							<td colspan="5"><input id="rateHp" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">처리능력</th>
+							<td colspan="5"><input id="processAblty" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">적재톤수</th>
+							<td colspan="5"><input id="capaTon" type="text" size="100" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">강제중량</th>
+							<td colspan="5"><input id="structWqnt" type="text" size="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">위치</th>
-							<td colspan="5"><input id="loc" type="text" size="124" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">시작점위치</th>
-							<td colspan="5"><input id="beginPtLoc" type="text" size="110" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">종착점위치</th>
-							<td colspan="5"><input id="endPtLoc" type="text" size="110" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">폭</th>
-							<td><input id="wd" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">길이</th>
-							<td><input id="lt" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">포장종류</th>
-							<td><input id="packKnd" type="text" size="20" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">설계파고</th>
-							<td><input id="planHegh" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">파랑주방향</th>
-							<td colspan="3"><input id="wavemainDir" type="text" size="20" /></td>
+							<td colspan="5"><input id="loc" type="text" size="110" /></td>
 						</tr>
 						<tr>							
 							<th width="12%" height="17" class="required_text">기계시설물분류코드</th>
 							<td colspan="5">
-								<input id="cvlEngFcltsClCd" type="text" size="20" disabled="disabled" />
-								<input id="cvlEngFcltsClCdNm" type="text" size="30" disabled="disabled" />
+								<input id="mechFcltsClCd" type="text" size="20" disabled="disabled" />
+								<input id="mechFcltsClCdNm" type="text" size="30" disabled="disabled" />
 								<button id="searchFcltsClCd" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">외축소파공경사비율</th>
-							<td><input id="outerSwaveSlpRate" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">외축소파공피복</th>
-							<td colspan="3"><input id="outerSwaveCover" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">건축시설물관리번호</th>
+							<td colspan="5">
+								<input id="archFcltsMngNo" type="text" size="20" disabled="disabled" />
+								<input id="archFcltsMngNoNm" type="text" size="30" disabled="disabled" />
+								<button id="searchArchFcltsMngNo" class="popupButton">선택</button>
+							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">내축소파공경사비율</th>
-							<td><input id="inSwaveSlpRate" type="text" size="20" /></td>
-							<th width="12%" height="17" class="required_text">내축소파공피복</th>
-							<td colspan="3"><input id="inSwaveCover" type="text" size="20" /></td>
+							<th width="12%" height="17" class="required_text">흘수</th>
+							<td colspan="5"><input id="draft" type="text" size="100" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">사용목적</th>
+							<td colspan="5"><input id="usagePurps" type="text" size="110" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17" class="required_text">비고</th>
+							<td colspan="5"><input id="rm" type="text" size="110" /></td>
 						</tr>
 					</table>
 				</form>

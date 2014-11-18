@@ -137,7 +137,7 @@
 			, M.STNDRD 
 			, M.INSTL_DT 
 			, M.MFC_DT 
-			, M.MFC_CMPN 
+			, M.MFC_CMPNY 
 			, M.MANAGER
 			, M.USAGE_ENTRPS
 			, M.LT
@@ -192,7 +192,7 @@
 		    , STNDRD 
 		    , INSTL_DT 
 		    , MFC_DT 
-		    , MFC_CMPN 
+		    , MFC_CMPNY
 		    , MANAGER
 		    , USAGE_ENTRPS
 		    , LT
@@ -236,7 +236,7 @@
 		    , #stndrd# 
 		    , TO_DATE(#instlDt#, 'YYYY-MM-DD') 
 		    , TO_DATE(#mfcDt#, 'YYYY-MM-DD') 
-		    , #mfcCmpn# 
+		    , #mfcCmpny# 
 		    , #manager#
 		    , #usageEntrps#
 		    , TO_NUMBER(REPLACE(#lt#, ',', ''))
@@ -283,17 +283,17 @@
 		    , STNDRD = #stndrd#
 		    , INSTL_DT = TO_DATE(#instlDt#, 'YYYY-MM-DD')
 		    , MFC_DT = TO_DATE(#mfcDt#, 'YYYY-MM-DD')
-		    , MFC_CMPN = #mfcCmpn# 
+		    , MFC_CMPNY = #mfcCmpny# 
 		    , MANAGER = #manager#
 		    , USAGE_ENTRPS = #usageEntrps#
-		    , LT = TO_NUMBER(REPLACE(#lt# ',', ''))
-		    , QY = TO_NUMBER(REPLACE(#qy# ',', ''))
+		    , LT = TO_NUMBER(REPLACE(#lt#, ',', ''))
+		    , QY = TO_NUMBER(REPLACE(#qy#, ',', ''))
 		    , UNIT = #unit#
 		    , POSESN_MAINBD = #posesnMainbd#
 		    , RM = #rm#
 		    , OPER_CMPNY = #operCmpny#
 		    , EQPMN_NO = #eqpmnNo#
-		    , ACQ_AMT = TO_NUMBER(REPLACE(#acqAmt# ',', '')) 
+		    , ACQ_AMT = TO_NUMBER(REPLACE(#acqAmt#, ',', '')) 
 		    , EXAM_BEGIN_DT = TO_DATE(#examBeginDt#, 'YYYY-MM-DD')
 		    , EXAM_END_DT = TO_DATE(#examEndDt#, 'YYYY-MM-DD')
 		    , EXAM_OK_NO = #examOkNo#
