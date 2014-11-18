@@ -111,7 +111,8 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 	};
 	if(maxFuel<10) maxFuel=10;
 
-	var barChart = new dhtmlXChart({
+	if(this.barChart==null) {
+		this.barChart = new dhtmlXChart({
 			view : "bar",
 			container : this.$('#fuelChart')[0],
 			value : "#gauge#",
@@ -126,12 +127,25 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 			yAxis : {
 				start : 0,
 				end : maxFuel + 10,
-				step : maxFuel / 10,
+				step : Math.ceil(maxFuel / 10),
 				title : "주유량,리터"
 			}
 		});
+		this.barChart.parse(fuelArr, "json");
+	}
+	else {
+		this.barChart.clearAll();
 
-		barChart.parse(fuelArr, "json");
+		this.barChart.define("yAxis", {
+			start : 0,
+			end : maxFuel + 10,
+			step : Math.ceil(maxFuel / 10),
+			title : "주유량,리터"
+		});
+		this.barChart.parse(fuelArr, "json");
+		//this.barChart.refresh();
+	}
+
 	};
 
 	/**
