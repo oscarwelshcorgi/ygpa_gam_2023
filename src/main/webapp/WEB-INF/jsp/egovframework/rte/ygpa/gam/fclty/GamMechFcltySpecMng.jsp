@@ -60,7 +60,7 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this._cmd = '';
 	this._deleteDataFileList = null;
-	this._prtFcltySe = 'C';
+	this._prtFcltySe = 'M';
 	
 	this.$("#mechFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
@@ -149,7 +149,7 @@ GamMechFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 		}
 		else {
 			this._cmd="";
-			module.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
+			module.initDisplay();
 			alert(result.resultMsg);
 		}
 	});	

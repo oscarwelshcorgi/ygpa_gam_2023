@@ -149,7 +149,7 @@ GamCivilFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 		}
 		else {
 			this._cmd="";
-			module.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+			module.initDisplay();
 			alert(result.resultMsg);
 		}
 	});	

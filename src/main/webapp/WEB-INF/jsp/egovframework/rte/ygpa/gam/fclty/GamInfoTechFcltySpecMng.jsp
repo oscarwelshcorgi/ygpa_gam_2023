@@ -149,7 +149,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
 		}
 		else {
 			this._cmd="";
-			module.$("#infoTechFcltySpecMngTab").tabs("option", {active: 0});
+			module.initDisplay();
 			alert(result.resultMsg);
 		}
 	});	
