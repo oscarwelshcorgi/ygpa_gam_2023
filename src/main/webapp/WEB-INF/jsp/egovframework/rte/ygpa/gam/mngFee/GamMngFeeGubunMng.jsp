@@ -18,7 +18,7 @@
  * since 2014.09.22
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
- */
+**/
 %>
 
 <%
@@ -28,21 +28,21 @@
 <script>
 
 /**
- * @FUNCTION NAME : GamMngFeeGubunMng
+ * @FUNCTION NAME : GamMngFeeGubunMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
-function GamMngFeeGubunMng() {}
+function GamMngFeeGubunMngModule() {}
 
-//PROTO TYPE 생성
-GamMngFeeGubunMng.prototype = new EmdModule(600, 500);
+// PROTO TYPE 생성
+GamMngFeeGubunMngModule.prototype = new EmdModule(600, 500);
 
 /**
  * @FUNCTION NAME : loadComplete
  * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
  * @PARAMETER     : NONE
 **/
-GamMngFeeGubunMng.prototype.loadComplete = function() {
+GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 
 	// [mainGrid] FLEX GRID 정의 (LIST)
 	this.$("#mainGrid").flexigrid({
@@ -102,14 +102,13 @@ GamMngFeeGubunMng.prototype.loadComplete = function() {
 
 };
 
-
 /**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
  *   1. buttonId - BUTTON ID
 **/
-GamMngFeeGubunMng.prototype.onButtonClick = function(buttonId) {
+GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 
 	// SWITCH (BUTTON ID)
 	switch (buttonId) {
@@ -137,6 +136,13 @@ GamMngFeeGubunMng.prototype.onButtonClick = function(buttonId) {
         case 'btnSave':
 			// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
 			var inputVO = this.makeFormArgs("#detailForm");
+			// [mngFeeFcltySe] VALUE = "" CHECK
+			if (this.$('#mngFeeFcltySe').val() == "") {
+				// ALERT MESSAGE DISPLAY (ERROR)
+				alert('자료가 부정확합니다.');
+				// FUNCTION RETURN
+				return;
+			}
 			// [cmd] INPUT CONTROL VALUE CHECK (COMMAND - INSERT)
 			if (this.$("#cmd").val() == "insert") {
 				// INSERT ACTION
@@ -167,12 +173,27 @@ GamMngFeeGubunMng.prototype.onButtonClick = function(buttonId) {
 
 		// BUTTON ID = 'btnRemove' CHECK (삭제)
 		case 'btnRemove':
+			// [mainGrid] FLEX GRID SELECT ROW ID = [UNDEFINED, NULL] CHECK
+			if (this.$('#mainGrid').selectedRowIds()[0] == undefined &&
+				this.$('#mainGrid').selectedRowIds()[0] == null) {
+				// ALERT MESSAGE DISPLAY (ERROR)
+				alert('자료를 선택하십시오.');
+				// FUNCTION RETURN
+				return;
+			}
    		// BUTTON ID = 'btnDelete' CHECK (삭제)
 		case 'btnDelete':
+			// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
+			var inputVO = this.makeFormArgs("#detailForm");
+			// [mngFeeFcltySe] VALUE = "" CHECK
+			if (this.$('#mngFeeFcltySe').val() == "") {
+				// ALERT MESSAGE DISPLAY (ERROR)
+				alert('자료가 부정확합니다.');
+				// FUNCTION RETURN
+				return;
+			}
 			// CONFIRM MESSAGE DISPLAY (DELETE)
 			if (confirm("삭제하시겠습니까?")) {
-				// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
-				var inputVO = this.makeFormArgs("#detailForm");
 				// DELETE ACTION
 				this.doAction('<c:url value="/mngFee/gamDeleteMngFeeGubunMng.do" />', inputVO, function(module, result) {
 					// RESULT CODE = "0" CHECK (SUCCESS)
@@ -239,7 +260,7 @@ GamMngFeeGubunMng.prototype.onButtonClick = function(buttonId) {
  * @DESCRIPTION   : SUBMIT EVENT
  * @PARAMETER     : NONE
 **/
-GamMngFeeGubunMng.prototype.onSubmit = function() {
+GamMngFeeGubunMngModule.prototype.onSubmit = function() {
 	// DATA LOAD (LIST)
 	this.loadData();
 };
@@ -249,12 +270,12 @@ GamMngFeeGubunMng.prototype.onSubmit = function() {
  * @DESCRIPTION   : DATA LOAD (LIST)
  * @PARAMETER     : NONE
 **/
-GamMngFeeGubunMng.prototype.loadData = function() {
+GamMngFeeGubunMngModule.prototype.loadData = function() {
 	// [mainTab] FORM TAB CONTROL ACTIVE 설정 (LIST TAB)
 	this.$("#mainTab").tabs("option", {active: 0});
 	// [searchForm] FORM ARGUMENTS 생성 (SEARCH)
 	var searchOpt=this.makeFormArgs('#searchForm');
-	// [mainGrid] DATA RELOAD (GRID)
+	// [mainGrid] FLEX GRID DATA RELOAD
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -265,24 +286,24 @@ GamMngFeeGubunMng.prototype.loadData = function() {
  *   1. newTabId - NEW TAB ID
  *   2. oldTabId - OLD TAB ID
 **/
-GamMngFeeGubunMng.prototype.onTabChange = function(newTabId, oldTabId) {
+GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	// SWITCH (NEW TAB ID)
-    switch (newTabId) {
-    	// NEW TAB ID = 'listTab' CHECK (LIST TAB)
+	switch (newTabId) {
+		// NEW TAB ID = 'listTab' CHECK (LIST TAB)
 		case 'listTab':
 			// SWITCH BREAK
 			break;
-    	// NEW TAB ID = 'detailTab' CHECK (DETAIL TAB)
+		// NEW TAB ID = 'detailTab' CHECK (DETAIL TAB)
 		case 'detailTab':
 			// SWITCH BREAK
 			break;
-    }
+	}
 
 };
 
-//MODULE INSTANCE 생성
-var module_instance = new GamMngFeeGubunMng();
+// MODULE INSTANCE 생성
+var module_instance = new GamMngFeeGubunMngModule();
 
 </script>
 
