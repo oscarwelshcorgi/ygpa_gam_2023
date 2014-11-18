@@ -179,7 +179,6 @@
     		F.FCLTS_MNG_NO = M.FCLTS_MNG_NO
     	WHERE
     		F.FCLTS_MNG_NO = #fcltsMngNo#
-
     </select>
     
     <insert id="gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail">
