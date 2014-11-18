@@ -71,7 +71,7 @@
 						         </isNotEmpty>
     </select>
 
-	<insert id="gamMngFeeCodeMngDao.InsertMngFeeCodeMng_S">
+	<insert id="gamMngFeeCodeMngDao.insertMngFeeCodeMng_S">
 		<![CDATA[
 		    INSERT
 		      INTO  MNG_FEE_FCLTY_CD_F
@@ -95,47 +95,22 @@
 		]]>
 	</insert>
 
-	<update id="gamMngFeeCodeMngDao.UpdateCarMngList_S">
+	<update id="gamMngFeeCodeMngDao.updateMngFeeCodeMng_S">
 		<![CDATA[
-            UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
+            UPDATE MNG_FEE_FCLTY_CD_F SET
+					MNG_FEE_FCLTY_NM	=	#mngFeeFcltyNm#
+				,	MNG_FEE_JOB_SE	=	#mngFeeJobSe#
 				,	UPD_USR	=	#updUsr#
 				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+            WHERE  MNG_FEE_FCLTY_CD   = #mngFeeFcltyCd#
+             AND MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
 		]]>
 	</update>
 
-	<delete id="gamMngFeeCodeMngDao.DeleteMngFeeCodeMng_S">
+	<delete id="gamMngFeeCodeMngDao.deleteMngFeeCodeMng_S">
 		<![CDATA[
             DELETE  MNG_FEE_FCLTY_CD_F
-             WHERE  MNG_FEE_FCLTY_CD   = #mngFeeFcltyCd#
+            WHERE  MNG_FEE_FCLTY_CD   = #mngFeeFcltyCd#
              AND MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
 		]]>
 	</delete>

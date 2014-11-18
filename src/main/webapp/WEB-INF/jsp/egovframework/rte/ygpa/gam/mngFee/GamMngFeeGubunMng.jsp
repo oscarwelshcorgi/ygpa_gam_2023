@@ -65,11 +65,10 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 		module._mode = 'modify';
 	});
 
-    this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
-	console.log('start');
 
 };
 
@@ -82,6 +81,7 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
+
 	switch (buttonId) {
 		case 'btnAdd':
 			this._mode="insert";
@@ -108,7 +108,9 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.onSubmit = function() {
+
 	this.loadData();
+
 };
 
 <%
@@ -119,9 +121,11 @@ GamMngFeeGubunMngModule.prototype.onSubmit = function() {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.loadData = function() {
+
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
 };
 
 <%
@@ -132,6 +136,7 @@ GamMngFeeGubunMngModule.prototype.loadData = function() {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.loadDetail = function() {
+
 	var row = this.$('#mainGrid').selectedRows();
 
 	if(row.length==0) {
@@ -142,7 +147,8 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function() {
 	this.$("#btnIdCheck").disable({disableClass:"ui-state-disabled"});
 	this.$('#mngFeeFcltySe').attr('readonly', 'readonly');
 	this.makeFormValues('#detailForm', row[0]);
-    this.makeDivValues('#detailForm', row[0]);
+	this.makeDivValues('#detailForm', row[0]);
+
 };
 
 <%
@@ -153,7 +159,12 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function() {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.saveData = function() {
+
 	var inputVO = this.makeFormArgs("#detailForm");
+	if (this.$('#mngFeeFcltySe').val() == "") {
+		alert('자료가 부정확합니다.');
+		return;
+	}
 	if (this._mode == "insert") {
 		this.doAction('<c:url value="/mngFee/gamInsertMngFeeGubunMng.do" />', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -162,10 +173,6 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 			alert(result.resultMsg);
 		});
 	} else {
-		if (this.$('#mngFeeFcltySe').val() == "") {
-			alert('자료가 부정확합니다.');
-			return;
-		}
 		this.doAction('<c:url value="/mngFee/gamUpdateMngFeeGubunMng.do" />', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
@@ -173,6 +180,7 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
 };
 
 <%
@@ -188,6 +196,10 @@ GamMngFeeGubunMngModule.prototype.deleteData = function() {
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	if (this.$('#mngFeeFcltySe').val() == "") {
+		alert('자료가 부정확합니다.');
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -208,28 +220,30 @@ GamMngFeeGubunMngModule.prototype.deleteData = function() {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.checkId = function() {
-		if (this.$("#mngFeeFcltySe").val() == "") {
-			this.$("#mngFeeFcltySe").focus();
-			alert("코드를 입력하십시오.");
-			return;
-		}
-		this.doAction('<c:url value="/mngFee/gamcheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
-			if (result.resultCode == 0) {
-				if (result.checkSeCnt != "0") {
-					alert("이미 사용중인 코드가 존재합니다.");
-					module.$("#mngFeeFcltySe").focus();
-					module.$("#mngFeeFcltySe").val("");
+
+	if (this.$("#mngFeeFcltySe").val() == "") {
+		this.$("#mngFeeFcltySe").focus();
+		alert("코드를 입력하십시오.");
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamcheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
+		if (result.resultCode == 0) {
+			if (result.checkSeCnt != "0") {
+				alert("이미 사용중인 코드가 존재합니다.");
+				module.$("#mngFeeFcltySe").focus();
+				module.$("#mngFeeFcltySe").val("");
+			} else {
+				if (confirm("해당 코드를 사용하시겠습니까?")) {
+					module.$("#mngFeeFcltySe").val(result.checkSe);
+					module.$("#mngFeeFcltySe").attr("readonly","readonly");
 				} else {
-					if (confirm("해당 코드를 사용하시겠습니까?")) {
-						module.$("#mngFeeFcltySe").val(result.checkSe);
-						module.$("#mngFeeFcltySe").attr("readonly","readonly");
-					} else {
-						module.$("#mngFeeFcltySe").val("");
-						module.$("#mngFeeFcltySe").focus();
-					}
+					module.$("#mngFeeFcltySe").val("");
+					module.$("#mngFeeFcltySe").focus();
 				}
 			}
-		});
+		}
+	});
+
 };
 
 <%
@@ -249,9 +263,9 @@ GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'detailTab':
 			if(this._mode=="modify") {
 				this.loadDetail();
-			}
-			else {
-				this.$('#detailForm :input').val('');
+			} else {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
 				this.$('#mngFeeFcltySe').removeAttr('readonly');
 				this.$("#btnIdCheck").removeClass("ui-state-disabled");
 				this.$("#btnIdCheck").enable();

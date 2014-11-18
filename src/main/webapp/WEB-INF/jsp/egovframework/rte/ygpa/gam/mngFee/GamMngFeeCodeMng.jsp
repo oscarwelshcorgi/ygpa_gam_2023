@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamCarMng.jsp
- * @Description : 차량 정보
+ * @Class Name : GamMngFeeCodeMng.jsp
+ * @Description : 관리비 시설코드 관리
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -18,253 +18,358 @@
  * since 2014.09.22
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
- */
+**/
+%>
+
+<%
+/******************************** SCRIPT START ********************************/
 %>
 
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
-function GamMngFeeCodeMng() {}
+
+<%
+/**
+ * @FUNCTION NAME : GamMngFeeGubunMngModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
+function GamMngFeeCodeMngModule() {}
 
 
-GamMngFeeCodeMng.prototype = new EmdModule(900, 600);
+GamMngFeeCodeMngModule.prototype = new EmdModule(900, 600);
 
-// 페이지가 호출 되었을때 호출 되는 함수
-GamMngFeeCodeMng.prototype.loadComplete = function() {
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 
-    // 자산임대 테이블 설정
-    this.$("#MngFeeCodeMng").flexigrid({
-        module: this,
-        url: '<c:url value="/mngFee/gamSelectMngFeeCodeMng.do" />',
-        dataType: 'json',
-        colModel : [
+	this.$("#mainGrid").flexigrid({
+		module : this,
+		url : '<c:url value="/mngFee/gamSelectMngFeeCodeMng.do" />',
+		dataType : 'json',
+		colModel : [
 					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
 					{display:'관리비 시설 명', 		name:'mngFeeFcltyNm',	width:170, 		sortable:false,		align:'left'},
-                    {display:'관리비 시설 구분', 	name:'mngFeeFcltySeNm',	width:110, 		sortable:false,		align:'left'},
-                    {display:'관리비 업무 구분', 	name:'mngFeeJobSeNm',	width:110, 		sortable:false,		align:'left'},
+					{display:'관리비 시설 구분', 	name:'mngFeeFcltySeNm',	width:110, 		sortable:false,		align:'left'},
+					{display:'관리비 업무 구분', 	name:'mngFeeJobSeNm',	width:110, 		sortable:false,		align:'left'},
 					{display:'등록자', 				name:'regUsr',			width:100, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 			name:'registDt',		width:150, 		sortable:false,		align:'center'}
-                    ],
-        showTableToggleBtn: false,
-        height: 'auto'
-    });
+					{display:'등록일시', 			name:'registDt',		width:150, 		sortable:false,		align:'center'}
+					],
+		showTableToggleBtn : false,
+		height : 'auto'
+	});
 
-    this.$("#MngFeeCodeMng").on('onItemSelected', function(event, module, row, grid, param) {
-    	module.$('#cmd').val('modify');
-    	module.$('#mngFeeFcltyCd').attr('readonly','readonly');
-        module.$('#MngFeeCodeMngDetailForm :input').val('');
-        module.makeFormValues('#MngFeeCodeMngDetailForm', row);
-        module.makeDivValues('#MngFeeCodeMngDetailForm', row);
-        module._editData=module.getFormValues('#MngFeeCodeMngDetailForm', row);
-        module._editRow=module.$('#MngFeeCodeMng').selectedRowIds()[0];
+	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+	});
 
-    });
-    this.$("#MngFeeCodeMng").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#MngFeeCodeMngTab").tabs("option", {active: 1});
-        module.$('#cmd').val('modify');
-        module.makeFormValues('#MngFeeCodeMngDetailForm', row);
-        module.makeDivValues('#MngFeeCodeMngDetailForm', row);
-        module._editData=module.getFormValues('#MngFeeCodeMngDetailForm', row);
-        module._editRow=module.$('#MngFeeCodeMng').selectedRowIds()[0];
-        if(row!=null) {
-            module.$('#cmd').val('modify');
-        }
-    });
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+		module.$("#mainTab").tabs("option", {active: 1});
+	});
 
 };
 
-
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
- GamMngFeeCodeMng.prototype.onButtonClick = function(buttonId) {
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamMngFeeCodeMngModule.prototype.onButtonClick = function(buttonId) {
 
-    switch(buttonId) {
+	switch (buttonId) {
+		case 'btnAdd':
+			this._mode="insert";
+			this.$("#mainTab").tabs("option", {active: 1});
+			break;
+	    case 'btnSave':
+	    	this.saveData();
+			break;
+		case 'btnDelete':
+			this.deleteData();
+			break;
+	}
 
-        // 조회
-        case 'searchBtn':
-			this.loadData();
-            break;
+};
 
-       case 'btnCodeAdd':
-			this.$('#MngFeeCodeMngDetailForm :input').val('');
-			this.$("#MngFeeCodeMngTab").tabs("option", {active: 1});
-			this.$("#cmd").val("insert");
-			this.$('#mngFeeFcltyCd').removeAttr('readonly');
-			this.$('#mngFeeFeeSe').val("M");
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.onSubmit = function() {
 
-            break;
+	this.loadData();
 
+};
 
-        // 신청저장
-        case 'btnSaveItem':
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.loadData = function() {
 
-        	var inputVO = this.makeFormArgs("#MngFeeCodeMngDetailForm");
+	this.$("#mainTab").tabs("option", {active: 0});
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
-			if(this.$("#cmd").val() == "insert") {
+};
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertMngFeeCodeMng.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			module.loadData();
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateMngFeeCodeMng.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			module.loadData();
-			 		}
-			 		alert(result.resultMsg);
-			 	});
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.loadDetail = function() {
+
+	var row = this.$('#mainGrid').selectedRows();
+
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	this.$('#mngFeeFcltySe').attr('readonly', 'readonly');
+	this.$('#mngFeeFcltyCd').attr('readonly', 'readonly');
+	this.makeFormValues('#detailForm', row[0]);
+	this.makeDivValues('#detailForm', row[0]);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveData
+ * @DESCRIPTION   : 편집된 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.saveData = function() {
+
+	var inputVO = this.makeFormArgs("#detailForm");
+	if (this.$('#mngFeeFcltySe').val() == "" && (this.$('#mngFeeFcltyCd').val() == "")) {
+		alert('자료가 부정확합니다.');
+		return;
+	}
+	if (this._mode == "insert") {
+		this.doAction('<c:url value="/mngFee/gamInsertMngFeeCodeMng.do" />', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
 			}
-
-            break;
-
-        case 'btnRemoveItem':
-        case 'btnCodeDel':
-        	if(confirm("삭제하시겠습니까?")){
-				var inputVO = this.makeFormArgs("#MngFeeCodeMngDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteMngFeeCodeMng.do" />', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			module.loadData();
-			 		}
-			 		alert(result.resultMsg);
-			 	});
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('<c:url value="/mngFee/gamUpdateMngFeeCodeMng.do" />', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
 			}
-            break;
-
-    }
-};
-
-
-GamMngFeeCodeMng.prototype.onSubmit = function() {
-    this.loadData();
-};
-
-GamMngFeeCodeMng.prototype.loadData = function() {
-    this.$("#MngFeeCodeMngTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamCarMngSearchForm');
-    this.$('#MngFeeCodeMng').flexOptions({params:searchOpt}).flexReload();
+			alert(result.resultMsg);
+		});
+	}
 
 };
 
-GamMngFeeCodeMng.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
+<%
+/**
+ * @FUNCTION NAME : deleteData
+ * @DESCRIPTION   : 편집된 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.deleteData = function() {
 
-    }
+	var row = this.$('#mainGrid').selectedRows();
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	if (this.$('#mngFeeFcltySe').val() == "" && (this.$('#mngFeeFcltyCd').val() == "")) {
+		alert('자료가 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		this.doAction('<c:url value="/mngFee/gamDeleteMngFeeCodeMng.do" />', row[0], function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
 };
 
-// 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamMngFeeCodeMng();
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
+GamMngFeeCodeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+
+	switch (newTabId) {
+		case 'listTab':
+			break;
+		case 'detailTab':
+			if(this._mode=="modify") {
+				this.loadDetail();
+			} else {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.$('#mngFeeFcltySe').removeAttr('readonly');
+				this.$('#mngFeeFcltyCd').removeAttr('readonly');
+			}
+			break;
+	}
+
+};
+
+var module_instance = new GamMngFeeCodeMngModule();
 
 </script>
-<!-- 아래는 고정 -->
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
-
-    <div id="searchViewStack" class="emdPanel">
-        <div class="viewPanel">
-            <form id="gamCarMngSearchForm">
-                <table style="width:100%;" class="searchPanel">
-                    <tbody>
-                        <tr>
-                            <th>관리비 시설 코드</th>
-                            <td>
+	<!-- 11. SEARCH AREA (조회조건 영역) -->
+	<div id="searchViewStack" class="emdPanel">
+		<div class="viewPanel">
+			<form id="searchForm">
+				<table style="width:100%;" class="searchPanel">
+					<tbody>
+						<tr>
+							<th>관리비 시설 코드</th>
+							<td>
 								<input type="text" size="5" id="sMngFeeFcltyCd">
-                            </td>
-                            <th>관리비 시설 명</th>
-                            <td>
+							</td>
+							<th>관리비 시설 명</th>
+							<td>
 								<input type="text" size="15" id="sMngFeeFcltyNm">
-                            </td>
-                            <th>시설 업무 구분</th>
-                            <td>
-                               	<select id="sMngFeeJobSe">
-                               		<option value="">전체</option>
-                               		<option value="M">마린센터</option>
-                               		<option value="E">전기시설</option>
-                               	</select>
-                            </td>
-                            <td>
-								<button id="searchBtn" class="buttonSearch">조회</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        </div>
-    </div>
-
-    <div class="emdPanel fillHeight">
-        <div id="MngFeeCodeMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
-            <ul>
-                <li><a href="#tabs1" class="emdTab">관리비 시설코드</a></li>
-                <li><a href="#tabs2" class="emdTab">관리비 시설코드 상세</a></li>
-            </ul>
-
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-					 <table id="MngFeeCodeMng" style="display:none" class="fillHeight"></table>
-                <div id="agentListSum" class="emdControlPanel">
-					<form id="form2">
+							</td>
+							<th>시설 업무 구분</th>
+							<td>
+								<select id="sMngFeeJobSe">
+									<option value="">전체</option>
+									<option value="M">마린센터</option>
+									<option value="E">전기시설</option>
+								</select>
+							</td>
+							<td>
+								<button class="buttonSearch">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<!-- 2. DATA AREA (자료 영역) -->
+	<div class="emdPanel fillHeight">
+		<!-- 21. TAB AREA (탭 영역) -->
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<!-- 211. TAB 정의 -->
+			<ul>
+				<li><a href="#listTab" class="emdTab">관리비 시설코드</a></li>
+				<li><a href="#detailTab" class="emdTab">관리비 시설코드 상세</a></li>
+			</ul>
+			<!-- 212. TAB 1 AREA (LIST) -->
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
+				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+				<div id="listSumPanel" class="emdControlPanel">
+					<form id="listSumForm">
 						<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                                <button id="btnCodeAdd">추가</button>
-	                                <button id="btnCodeDel">삭제</button>
-	                            </td>
-	                        </tr>
+							<tr>
+								<td style="text-align: right">
+									<button data-cmd="btnAdd">추가</button>
+									<button data-cmd="btnDelete">삭제</button>
+								</td>
+							</tr>
 						</table>
 					</form>
-                </div>
-            </div>
-
-            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="MngFeeCodeMngDetailForm">
-            	        <input type="hidden" id="cmd"/>
-            	        <input type="hidden" id="oldMngFeeFcltySe"/>
-                        <table class="detailPanel" style="width:100%">
-                             <tr>
-								<th width="20%" height="18">시설 코드</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltyCd" maxlength="4"/></td>
+				</div>
+			</div>
+			<!-- 213. TAB 2 AREA (DETAIL) -->
+			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<input type="hidden" id="cmd"/>
+						<input type="hidden" id="oldMngFeeFcltySe"/>
+						<table class="detailPanel" style="width:100%">
+							<tr>
 								<th width="20%" height="18">시설 업무 구분</th>
-                                <td >
-                                	<select id="mngFeeJobSe">
-                                		<option value="M">마린센터</option>
-                                		<option value="E">전기시설</option>
-                                	</select>
-                                	<!--
-                                	<input type="text" size="10" id="mngFeeJobSe" maxlength="1"/>
-                                	 -->
-                                	<span data-column-id="mngFeeJobSeNm"></span>
-                                </td>
-                            </tr>
-                             <tr>
-								<th width="20%" height="18">시설명</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltyNm" maxlength="20"/></td>
+								<td >
+									<select id="mngFeeJobSe">
+										<option value="M">마린센터</option>
+										<option value="E">전기시설</option>
+									</select>
+									<span data-column-id="mngFeeJobSeNm"></span>
+								</td>
 								<th width="20%" height="18">시설 구분</th>
-                                <td >
-                                	<input type="text" size="10" id="mngFeeFcltySe" maxlength="2" />
-                                	<span data-column-id="mngFeeFcltySeNm"></span>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-	                 <table style="width:100%">
-	                    <tr>
-	                        <td width="100"></td>
-	                        <td style="text-align:right">
-	                        	<button id="btnSaveItem" class="buttonSave">저장</button>
-	                            <button id="btnRemoveItem" class="buttonDelete">삭제</button>
-	                        </td>
-	                    </tr>
-	                 </table>
-                 </div>
-            </div>
-        </div>
-    </div>
+								<td >
+									<input type="text" size="10" id="mngFeeFcltySe" maxlength="2" />
+									<span data-column-id="mngFeeFcltySeNm"></span>
+								</td>
+							</tr>
+							<tr>
+								<th width="20%" height="18">시설 코드</th>
+								<td ><input type="text" size="20" id="mngFeeFcltyCd" maxlength="4"/></td>
+								<th width="20%" height="18">시설명</th>
+								<td ><input type="text" size="20" id="mngFeeFcltyNm" maxlength="20"/></td>
+							</tr>
+							<tr>
+								<th width="20%" height="18">등록자</th>
+                               	<td><span data-column-id="regUsr"></span></td>
+								<th width="20%" height="18">등록일시</th>
+								<td><span data-column-id="registDt"></span></td>
+							</tr>
+							<tr>
+								<th width="20%" height="18">수정자</th>
+                               	<td><span data-column-id="updUsr"></span></td>
+								<th width="20%" height="18">수정일시</th>
+								<td><span data-column-id="updtDt"></span></td>
+							</tr>
+						</table>
+					</form>
+					<table style="width:100%">
+						<tr>
+							<td width="100"></td>
+							<td style="text-align:right">
+								<button data-cmd="btnSave" class="buttonSave">저장</button>
+								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+
+<%
+/******************************** UI       END ********************************/
+%>

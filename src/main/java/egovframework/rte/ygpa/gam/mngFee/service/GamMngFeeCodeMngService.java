@@ -39,11 +39,16 @@ public interface GamMngFeeCodeMngService {
 	/**
 	 * @param gamMngFeeCodeMngVo
 	 */
-	void InsertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;
+	void insertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;
 
 	/**
 	 * @param gamMngFeeCodeMngVo
 	 */
-	void DeleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;
+	void updateMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;
+
+	/**
+	 * @param gamMngFeeCodeMngVo
+	 */
+	void deleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;
 
 }

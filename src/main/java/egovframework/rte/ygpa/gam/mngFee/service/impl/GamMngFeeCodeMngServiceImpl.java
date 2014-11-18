@@ -49,14 +49,18 @@ public class GamMngFeeCodeMngServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public void InsertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
-		gamMngFeeCodeMngDao.InsertMngFeeCodeMng(gamMngFeeCodeMngVo);
+	public void insertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
+		gamMngFeeCodeMngDao.insertMngFeeCodeMng(gamMngFeeCodeMngVo);
 	}
 
 	@Override
-	public void DeleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
-		gamMngFeeCodeMngDao.DeleteMngFeeCodeMng(gamMngFeeCodeMngVo);
+	public void updateMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
+		gamMngFeeCodeMngDao.updateMngFeeCodeMng(gamMngFeeCodeMngVo);
 	}
 
+	@Override
+	public void deleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
+		gamMngFeeCodeMngDao.deleteMngFeeCodeMng(gamMngFeeCodeMngVo);
+	}
 
 }

@@ -27,24 +27,26 @@
 
 <script>
 
+<%
 /**
  * @FUNCTION NAME : GamCarRefuelSttusMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
+%>
 function GamCarRefuelSttusMngModule() {}
 
-// PROTO TYPE 생성
 GamCarRefuelSttusMngModule.prototype = new EmdModule(1000, 600);
 
+<%
 /**
  * @FUNCTION NAME : loadComplete
  * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
  * @PARAMETER     : NONE
 **/
+%>
 GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 
-	// [mainGrid] FLEX GRID 정의 (LIST)
 	this.$("#mainGrid").flexigrid({
 		module : this,
 		url : '<c:url value="/mngFee/gamSelectCarRefuelSttusMng.do" />',
@@ -72,86 +74,57 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 		height: 'auto'
 	});
 
-	// [mainGrid]-[onItemSelected] EVENT FUNCTION 정의 (ITEM SELECT)
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - UPDATE)
 		module.$('#cmd').val('modify');
-		// [detailForm] FORM INPUT VALUE 초기화 (DETAIL)
 		module.$('#detailForm :input').val('');
-		// [detailForm] FORM VALUES 생성 (DETAIL)
 		module.makeFormValues('#detailForm', row);
-		// EDIT DATA 설정
 		module._editData=module.getFormValues('#detailForm', row);
-		// EDIT ROW 설정
 		module._editRow=module.$('#mainGrid').selectedRowIds()[0];
-		// [refuelMt] INPUT CONTROL VALUE 설정
 		module.$('#refuelMt').val(module.$('#sRefuelMt').val());
 	});
 
-	// [mainGrid]-[onItemDoubleClick] EVENT FUNCTION 정의 (ITEM DOUBLE CLICK)
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		// [mainTab] FORM TAB CONTROL ACTIVE 설정 (DETAIL TAB)
 		module.$("#mainTab").tabs("option", {active: 1});
-		// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - UPDATE)
 		module.$('#cmd').val('modify');
-		// [detailForm] FORM VALUES 생성 (DETAIL)
 		module.makeFormValues('#detailForm', row);
-		// EDIT DATA 설정
 		module._editData=module.getFormValues('#detailForm', row);
-		// EDIT ROW 설정
 		module._editRow=module.$('#mainGrid').selectedRowIds()[0];
-		// [refuelMt] INPUT CONTROL VALUE 설정
 		module.$('#refuelMt').val(module.$('#sRefuelMt').val());
-		// ROW <> NULL CHECK
 		if (row != null) {
-			// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - UPDATE)
 			module.$('#cmd').val('modify');
 		}
 	});
 
-	// [sRefuelMt]-[change] EVENT FUNCTION 정의 (ITEM CHANGE)
 	this.$('#sRefuelMt').on('change', {module: this}, function(event) {
-		// [refuelMt] INPUT CONTROL VALUE 설정
 		event.data.module.$('#refuelMt').val(event.data.module.$('#sRefuelMt').val());
 	});
 
 };
 
+<%
 /**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
 **/
+%>
 GamCarRefuelSttusMngModule.prototype.drawChart = function() {
-	// [detailForm] FORM VALUES를 구한다. (DETAIL)
 	var values = this.getFormValues('#detailForm');
-	// FUEL ARRAY VARIABLE 선언 (주유량 배열)
 	var fuelArr=[];
-	// MAX FUEL VARIABLE 선언 (최대 주유량)
 	var maxFuel=0;
-	// FUEL VARIABLE 선언 (주유량)
 	var fuel=0;
 
-	// LOOP
 	for (var i=0; i<12; i++) {
-		// FUEL 설정
 		fuel=values['m'+(i+1)]*1;
-		// FUEL ARRAY 설정
 		fuelArr[i]={month: (i+1), gauge: fuel};
-		// MAX FUEL < FUEL CHECK
 		if (maxFuel<fuel) {
-			// MAX FUEL 설정
 			maxFuel=fuel;
 		}
 	};
-	// MAX FUEL < 10 CHECK
 	if (maxFuel<10) {
-		// MAX FUEL 설정
 		maxFuel=10;
 	}
-	// BAR CHART = NULL CHECK
 	if (this.barChart==null) {
-		// BAR CHART 생성
 		this.barChart = new dhtmlXChart({
 			view			: "bar",
 			container		: this.$('#fuelChart')[0],
@@ -171,11 +144,8 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 				title		: "주유량,리터"
 			}
 		});
-	// BAR CHART <> NULL CHECK
 	} else {
-		// BAR CHART ALL CLEAR
 		this.barChart.clearAll();
-		// BAR CHART DEFINE
 		this.barChart.define("yAxis", {
 			start : 0,
 			end : maxFuel + 10,
@@ -183,149 +153,108 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 			title : "주유량,리터"
 		});
 	}
-	// BAR CHART PARSE
 	this.barChart.parse(fuelArr, "json");
-	// BAR CHART REFRESH
 	//this.barChart.refresh();
 };
 
+<%
 /**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
  *   1. buttonId - BUTTON ID
 **/
+%>
 GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
-	// SWITCH (BUTTON ID)
 	switch (buttonId) {
-		// BUTTON ID = 'btnSearch' CHECK (조회)
 		case 'btnSearch':
-			// [refuelMt] INPUT CONTROL VALUE 설정
 			this.$('#refuelMt').val(this.$('#sRefuelMt').val());
-			// DATA LOAD (LIST)
 			this.loadData();
-			// SWITCH BREAK
 			break;
-
-		// BUTTON ID = 'btnAdd' CHECK (추가)
 		case 'btnAdd':
-			// [mainGrid] FLEX GRID SELECT ROW ID = [UNDEFINED, NULL] CHECK
 			if (this.$('#mainGrid').selectedRowIds()[0] == undefined &&
 				this.$('#mainGrid').selectedRowIds()[0] == null) {
-				// ALERT MESSAGE DISPLAY (ERROR)
 				alert('자료를 선택하십시오.');
-				// FUNCTION RETURN
 				return;
 			}
-			// [detailForm] FORM INPUT VALUE 초기화 (DETAIL)
 			this.$('#detailForm :input').val('');
-			// [detailForm] FORM VALUES 생성 (LIST)
 			this.makeFormValues('#detailForm',
 								this.$("#mainGrid").flexGetRow(
 									this.$('#mainGrid').selectedRowIds()[0]));
-			// [mainTab] FORM TAB CONTROL ACTIVE 설정 (DETAIL TAB)
 			this.$("#mainTab").tabs("option", {active : 1});
-			// [cmd] INPUT CONTROL VALUE 설정 (COMMAND - INSERT)
 			this.$("#cmd").val("insert");
-			// SWITCH BREAK
 			break;
-
 		// BUTTON ID = 'btnSave' CHECK (저장)
 		case 'btnSave':
-			// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
 			var inputVO = this.makeFormArgs("#detailForm");
-			// [carRegistNo] VALUE = "" CHECK
 			if (this.$('#carRegistNo').val() == "") {
-				// ALERT MESSAGE DISPLAY (ERROR)
 				alert('자료가 부정확합니다.');
-				// FUNCTION RETURN
 				return;
 			}
-			// INSERT ACTION
 			this.doAction('<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />', inputVO, function(module, result) {
-				// RESULT CODE = "0" CHECK (SUCCESS)
 				if (result.resultCode == "0") {
-					// DATA LOAD (LIST)
 					module.loadData();
 				}
-				// ALERT MESSAGE DISPLAY (RESULT)
 				alert(result.resultMsg);
 			});
-			// SWITCH BREAK
 			break;
-
-		// BUTTON ID = 'btnRemove' CHECK (삭제)
 		case 'btnRemove':
-			// [mainGrid] FLEX GRID SELECT ROW ID = [UNDEFINED, NULL] CHECK
 			if (this.$('#mainGrid').selectedRowIds()[0] == undefined &&
 				this.$('#mainGrid').selectedRowIds()[0] == null) {
-				// ALERT MESSAGE DISPLAY (ERROR)
 				alert('자료를 선택하십시오.');
-				// FUNCTION RETURN
 				return;
 			}
-   		// BUTTON ID = 'btnDelete' CHECK (삭제)
 		case 'btnDelete':
-			// [detailForm] FORM ARGUMENTS 생성 (DETAIL)
 			var inputVO = this.makeFormArgs("#detailForm");
-			// [carRegistNo] VALUE = "" CHECK
 			if (this.$('#carRegistNo').val() == "") {
-				// ALERT MESSAGE DISPLAY (ERROR)
 				alert('자료가 부정확합니다.');
-				// FUNCTION RETURN
 				return;
 			}
-			// CONFIRM MESSAGE DISPLAY (DELETE)
 			if (confirm("삭제하시겠습니까?")) {
-				// DELETE ACTION
 				this.doAction('<c:url value="/mngFee/gamDeleteRefuelSttusMngList.do" />', inputVO, function(module, result) {
-					// RESULT CODE = "0" CHECK (SUCCESS)
 					if (result.resultCode == "0") {
-						// DATA LOAD (LIST)
 						module.loadData();
 					}
-					// ALERT MESSAGE DISPLAY (RESULT)
 					alert(result.resultMsg);
 				});
 			}
-			// SWITCH BREAK
 			break;
 	}
 
 };
 
+<%
 /**
  * @FUNCTION NAME : onSubmit
  * @DESCRIPTION   : SUBMIT EVENT
  * @PARAMETER     : NONE
 **/
+%>
 GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
-	// DATA LOAD (LIST)
 	this.loadData();
 };
 
+<%
 /**
  * @FUNCTION NAME : loadData
  * @DESCRIPTION   : DATA LOAD (LIST)
  * @PARAMETER     : NONE
 **/
+%>
 GamCarRefuelSttusMngModule.prototype.loadData = function() {
-	// [mainTab] FORM TAB CONTROL ACTIVE 설정 (LIST TAB)
 	this.$("#mainTab").tabs("option", {active: 0});
-	// [searchForm] FORM ARGUMENTS 생성 (SEARCH)
 	var searchOpt=this.makeFormArgs('#searchForm');
-	// [searchForm] FORM ARGUMENTS 추가 (FEUL KIND CHECKBOX CONTROL VALUE)
 	this.$('input[name="check"]:checked').each(function() {
 		searchOpt[searchOpt.length] = {
 			name : 'check',
 			value : this.value
 		};
 	});
-	// [mainGrid] FLEX GRID DATA RELOAD
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
+<%
 /**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : TAB CHANGE EVENT
@@ -333,25 +262,19 @@ GamCarRefuelSttusMngModule.prototype.loadData = function() {
  *   1. newTabId - NEW TAB ID
  *   2. oldTabId - OLD TAB ID
 **/
+%>
 GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
-	// SWITCH (NEW TAB ID)
 	switch (newTabId) {
-		// NEW TAB ID = 'listTab' CHECK (LIST TAB)
 		case 'listTab':
-			// SWITCH BREAK
 			break;
-		// NEW TAB ID = 'detailTab' CHECK (DETAIL TAB)
 		case 'detailTab':
-			// CHART DRAW
 			this.drawChart();
-			// SWITCH BREAK
 			break;
 	}
 
 };
 
-//MODULE INSTANCE 생성
 var module_instance = new GamCarRefuelSttusMngModule();
 
 </script>
@@ -516,3 +439,7 @@ var module_instance = new GamCarRefuelSttusMngModule();
 		</div>
 	</div>
 </div>
+
+<%
+/******************************** UI       END ********************************/
+%>

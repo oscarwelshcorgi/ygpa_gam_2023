@@ -48,15 +48,22 @@ public class GamMngFeeCodeMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamMngFeeCodeMngVo
 	 */
-	public void InsertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
-		insert("gamMngFeeCodeMngDao.InsertMngFeeCodeMng_S",gamMngFeeCodeMngVo);
+	public void insertMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
+		insert("gamMngFeeCodeMngDao.insertMngFeeCodeMng_S",gamMngFeeCodeMngVo);
 	}
 
 	/**
 	 * @param gamMngFeeCodeMngVo
 	 */
-	public void DeleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
-		delete("gamMngFeeCodeMngDao.DeleteMngFeeCodeMng_S",gamMngFeeCodeMngVo);
+	public void updateMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
+		insert("gamMngFeeCodeMngDao.updateMngFeeCodeMng_S",gamMngFeeCodeMngVo);
+	}
+
+	/**
+	 * @param gamMngFeeCodeMngVo
+	 */
+	public void deleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
+		delete("gamMngFeeCodeMngDao.deleteMngFeeCodeMng_S",gamMngFeeCodeMngVo);
 	}
 
 }
