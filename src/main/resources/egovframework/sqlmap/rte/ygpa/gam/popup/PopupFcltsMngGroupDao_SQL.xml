@@ -16,6 +16,13 @@
 							SELECT
 							    F.FCLTS_MNG_GROUP_NO
 							    , F.FCLTS_MNG_GROUP_NM
+							    , F.FCLTS_ADRES
+							    , F.MNG_MAINBD
+							    , F.MNG_MAINBD_SE
+							    , F.OWNER
+							    , F.CNSTRTR
+							    , F.CNST_ORDER_BODY
+							    , F.CNST_NM
 							FROM
 							    FCLTS_MNG_GROUP_F F
 							WHERE
