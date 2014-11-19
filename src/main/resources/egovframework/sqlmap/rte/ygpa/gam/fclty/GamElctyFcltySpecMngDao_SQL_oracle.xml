@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamElctyFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO"/>
+    
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngList" parameterClass="gamElctyFcltySpecMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+						  F.GIS_PRT_FCLTY_CD
+						  , F.GIS_ASSETS_PRT_AT_CODE
+						  , F.GIS_ASSETS_CD
+						  , F.GIS_ASSETS_SUB_CD
+						  , F.GIS_PRT_FCLTY_SEQ
+						  , F.PRT_FCLTY_NM
+						  , F.PRT_FCLTY_STNDRD
+						  , F.PRT_FCLTY_UNIT
+						  , F.PRT_FCLTY_SE
+						  , F.PRT_FCLTY_GIS_CD
+						  , F.GIS_ASSETS_CD || '-' || F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY_CD
+						  , F.GIS_PRT_FCLTY_CD ||'-'|| F.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY_CD
+						  , (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+						  , TO_CHAR(F.PRT_FCLTY_INSTL_DT, 'YYYY-MM-DD')  PRT_FCLTY_INSTL_DT
+						  , TO_CHAR(F.PRT_FCLTY_CHANGE_DT, 'YYYY-MM-DD')  PRT_FCLTY_CHANGE_DT
+						  , F.LA_CRDNT
+						  , F.LO_CRDNT
+						  , F.LAT
+						  , F.LNG
+						  , GAM_GETCODENAME('GAM059', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
+						  , F.FCLTS_MNG_NO
+						  , A.GIS_ASSETS_NM
+						  , A.GIS_ASSETS_LOCPLC
+						  , A.GIS_ASSETS_LNM
+						  , A.GIS_ASSETS_LNM_SUB
+						  , A.GIS_ASSETS_LOC_CD
+						  , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
+						FROM
+						  GIS_PRT_FCLTY_CD_F F
+						INNER JOIN  
+						  GIS_ASSETS_CD_F A
+						ON
+						  F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+						  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+						  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+						WHERE
+						  F.PRT_FCLTY_SE = 'E'  
+						  <isNotEmpty property="sPrtAtCode">
+						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+						  </isNotEmpty>
+						  <isNotEmpty property="sAssetsCd">
+						  	AND F.GIS_ASSETS_CD = #sAssetsCd#
+						  </isNotEmpty>
+						  <isNotEmpty property="sAssetsSubCd">
+						    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
+						  </isNotEmpty>
+						  <isNotEmpty property="searchFcltyCd">
+						    AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+						  </isNotEmpty>
+						  <isNotEmpty property="sPrtFcltyNm">
+						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+						  </isNotEmpty>
+						ORDER BY
+						  F.GIS_ASSETS_CD DESC
+						  , F.GIS_ASSETS_PRT_AT_CODE DESC
+						  , F.GIS_ASSETS_SUB_CD DESC
+						  , F.GIS_PRT_FCLTY_CD DESC 
+						  , F.GIS_PRT_FCLTY_SEQ DESC                	
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngListTotCnt" parameterClass="gamElctyFcltySpecMngVO" resultClass="int">
+    	SELECT 
+    	  COUNT(*) TOTCNT
+		FROM
+		  GIS_PRT_FCLTY_CD_F F
+		INNER JOIN  
+		  GIS_ASSETS_CD_F A
+		ON
+		  F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+		  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+		  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+		WHERE
+		  F.PRT_FCLTY_SE = 'E'  
+		  <isNotEmpty property="sPrtAtCode">
+		  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		  </isNotEmpty>
+		  <isNotEmpty property="sAssetsCd">
+		  	AND F.GIS_ASSETS_CD = #sAssetsCd#
+		  </isNotEmpty>
+		  <isNotEmpty property="sAssetsSubCd">
+		    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
+		  </isNotEmpty>
+		  <isNotEmpty property="searchFcltyCd">
+		    AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+		  </isNotEmpty>
+		  <isNotEmpty property="sPrtFcltyNm">
+		  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+		  </isNotEmpty>
+    </select>
+    
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngDetail" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT
+			F.GIS_ASSETS_PRT_AT_CODE
+			, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+			, F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE2
+			, F.GIS_ASSETS_CD
+			, F.GIS_ASSETS_SUB_CD
+			, (SELECT GIS_ASSETS_NM FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE AND GIS_ASSETS_CD = F.GIS_ASSETS_CD AND GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD) GIS_ASSETS_NM
+			, (SELECT GIS_ASSETS_LNM FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE AND GIS_ASSETS_CD = F.GIS_ASSETS_CD AND GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD) GIS_ASSETS_LNM
+			, (SELECT GIS_ASSETS_LNM_SUB FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE AND GIS_ASSETS_CD = F.GIS_ASSETS_CD AND GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD) GIS_ASSETS_LNM_SUB
+			, (SELECT GIS_ASSETS_LOCPLC FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE AND GIS_ASSETS_CD = F.GIS_ASSETS_CD AND GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD) GIS_ASSETS_LOCPLC
+			, F.GIS_PRT_FCLTY_CD
+			, F.GIS_PRT_FCLTY_SEQ
+			, F.PRT_FCLTY_SE
+			, F.PRT_FCLTY_NM
+			, F.PRT_FCLTY_STNDRD
+			, F.PRT_FCLTY_UNIT
+			, TO_CHAR(F.PRT_FCLTY_INSTL_DT, 'YYYY-MM-DD') PRT_FCLTY_INSTL_DT
+			, TO_CHAR(F.PRT_FCLTY_CHANGE_DT, 'YYYY-MM-DD') PRT_FCLTY_CHANGE_DT
+			, TO_CHAR(F.LA_CRDNT) LA_CRDNT
+			, TO_CHAR(F.LO_CRDNT) LO_CRDNT 
+			, F.PRT_FCLTY_GIS_CD
+			, F.FCLTS_MNG_NO
+			, F.FCLTS_MNG_GROUP_NO
+			, (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
+		    , E.PRPOS 
+			, E.CAPA 
+			, E.VOLT 
+			, E.OUTPUT 
+			, E.FMT 
+			, E.STNDRD 
+			, TO_CHAR(E.INSTL_DT, 'YYYY-MM-DD') INSTL_DT
+			, TO_CHAR(E.MFC_DT, 'YYYY-MM-DD') MFC_DT
+			, E.MFC_CMPNY 
+			, E.MANAGER 
+			, E.USAGE_ENTRPS 
+			, E.DUCT_LINE_LT 
+			, E.CABLE_EXT 
+			, E.LIGHTWR_HT 
+			, E.QY 
+			, E.FUEL_CONSUM 
+			, E.FUEL_TANK 
+			, E.OIL_QTY 
+			, E.FNL_MTHD 
+			, E.SPPLY_PWR 
+			, E.SPPLY_TR 
+			, E.KOR_ELEC_SUBSTN 
+			, E.SECTION_FROM 
+			, E.SECTION_TO 
+			, E.PREMAIN_HT 
+			, E.PREMAIN_STNDRD 
+			, E.PREMAIN_QY 
+			, E.LIGHTAPP_FMT 
+			, E.LIGHTAPP_STNDRD 
+			, E.LIGHTAPP_QY 
+			, E.LAMP_FMT 
+			, E.LAMP_CAPA 
+			, E.LAMP_QY 
+			, E.LIGHTWR_LIGHTAPP_QY 
+			, E.LIGHTWR_LIGHTAPP_CLCD
+			, E.LIGHTWR_LAMP_QY 
+			, E.LIGHTWR_LAMP_CLCD
+			, E.RM
+			, E.FCLTS_MNG_NO
+			, E.LOC
+			, E.ARCH_FCLTS_MNG_NO 
+			, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = E.ARCH_FCLTS_MNG_NO) ARCH_FCLTS_MNG_NO_NM
+			, E.ELCTY_FCLTS_CL_CD
+			, (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = E.ELCTY_FCLTS_CL_CD) ELCTY_FCLTS_CL_CD_NM
+    	FROM
+    		GIS_PRT_FCLTY_CD_F F
+    	INNER JOIN
+    		ELCTY_FCLTY_SPEC_F E
+    	ON
+    		F.FCLTS_MNG_NO = E.FCLTS_MNG_NO
+    	WHERE
+    		F.FCLTS_MNG_NO = #fcltsMngNo#
+    </select>
+    
+    <insert id="gamElctyFcltySpecMngDao.insertElctyFcltySpecMngDetail">
+		INSERT INTO
+		  ELCTY_FCLTY_SPEC_F (
+		    FCLTS_MNG_NO
+			, PRPOS 
+			, CAPA 
+			, VOLT 
+			, OUTPUT 
+			, FMT 
+			, STNDRD 
+			, INSTL_DT
+			, MFC_DT
+			, MFC_CMPNY 
+			, MANAGER 
+			, USAGE_ENTRPS 
+			, DUCT_LINE_LT 
+			, CABLE_EXT 
+			, LIGHTWR_HT 
+			, QY 
+			, FUEL_CONSUM 
+			, FUEL_TANK 
+			, OIL_QTY 
+			, FNL_MTHD 
+			, SPPLY_PWR 
+			, SPPLY_TR 
+			, KOR_ELEC_SUBSTN 
+			, SECTION_FROM 
+			, SECTION_TO 
+			, PREMAIN_HT 
+			, PREMAIN_STNDRD 
+			, PREMAIN_QY 
+			, LIGHTAPP_FMT 
+			, LIGHTAPP_STNDRD 
+			, LIGHTAPP_QY 
+			, LAMP_FMT 
+			, LAMP_CAPA 
+			, LAMP_QY 
+			, LIGHTWR_LIGHTAPP_QY 
+			, LIGHTWR_LIGHTAPP_CLCD
+			, LIGHTWR_LAMP_QY 
+			, LIGHTWR_LAMP_CLCD
+			, RM
+			, LOC
+			, ARCH_FCLTS_MNG_NO 
+			, ELCTY_FCLTS_CL_CD
+		    , REG_USR
+		    , REGIST_DT
+		    )
+		  VALUES (
+		    #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #gisPrtFcltySeq# || #prtFcltySe#
+		    , #prpos#
+			, #capa#
+			, #volt#
+			, #output#
+			, #fmt#
+			, #stndrd#
+			, #instlDt#
+			, #mfcDt#
+			, #mfcCmpny#
+			, #manager#
+			, #usageEntrps#
+			, TO_NUMBER(REPLACE(#ductLineLt#, ',', ''))
+			, TO_NUMBER(REPLACE(#cableExt#, ',', ''))
+			, TO_NUMBER(REPLACE(#lightwrHt#, ',', ''))
+			, TO_NUMBER(REPLACE(#qy#, ',', ''))
+			, TO_NUMBER(REPLACE(#fuelConsum#, ',', ''))
+			, TO_NUMBER(REPLACE(#fuelTank#, ',', ''))
+			, TO_NUMBER(REPLACE(#oilQty#, ',', ''))
+			, #fnlMthd#
+			, #spplyPwr#
+			, #spplyTr#
+			, #korElecSubstn#
+			, #sectionFrom#
+			, #sectionTo#
+			, TO_NUMBER(REPLACE(#premainHt#, ',', ''))
+			, #premainStndrd#
+			, TO_NUMBER(REPLACE(#premainQy#, ',', ''))
+			, #lightappFmt#
+			, #lightappStndrd#
+			, TO_NUMBER(REPLACE(#lightappQy#, ',', ''))
+			, #lampFmt#
+			, #lampCapa#
+			, TO_NUMBER(REPLACE(#lampQy#, ',', ''))
+			, TO_NUMBER(REPLACE(#lightwrLightappQy#, ',', ''))
+			, #lightwrLightappClcd#
+			, TO_NUMBER(REPLACE(#lightwrLampQy#, ',', ''))
+			, #lightwrLampClcd#
+			, #rm#
+			, #loc#
+			, #archFcltsMngNo#
+			, #elctyFcltsClCd#
+		    , #regUsr#
+		    , SYSDATE 
+		  )
+    </insert>
+    
+    <update id="gamElctyFcltySpecMngDao.updateElctyFcltySpecMngDetail">
+		UPDATE ELCTY_FCLTY_SPEC_F
+		  SET
+		    , PRPOS = #prpos#
+			, CAPA = #capa#
+			, VOLT = #volt#
+			, OUTPUT = #output#
+			, FMT = #fmt#
+			, STNDRD = #stndrd#
+			, INSTL_DT = #instlDt#
+			, MFC_DT = #mfcDt#
+			, MFC_CMPNY = #mfcCmpny#
+			, MANAGER = #manager#
+			, USAGE_ENTRPS = #usageEntrps#
+			, DUCT_LINE_LT = TO_NUMBER(REPLACE(#ductLineLt#, ', ', ''))
+			, CABLE_EXT = TO_NUMBER(REPLACE(#cableExt#, ', ', ''))
+			, LIGHTWR_HT = TO_NUMBER(REPLACE(#lightwrHt#, ', ', ''))
+			, QY = TO_NUMBER(REPLACE(#qy#, ', ', ''))
+			, FUEL_CONSUM = TO_NUMBER(REPLACE(#fuelConsum#, ', ', ''))
+			, FUEL_TANK = TO_NUMBER(REPLACE(#fuelTank#, ', ', ''))
+			, OIL_QTY = TO_NUMBER(REPLACE(#oilQty#, ', ', ''))
+			, FNL_MTHD = #fnlMthd#
+			, SPPLY_PWR = #spplyPwr#
+			, SPPLY_TR = #spplyTr#
+			, KOR_ELEC_SUBSTN = #korElecSubstn#
+			, SECTION_FROM = #sectionFrom#
+			, SECTION_TO = #sectionTo#
+			, PREMAIN_HT = TO_NUMBER(REPLACE(#premainHt#, ', ', ''))
+			, PREMAIN_STNDRD = #premainStndrd#
+			, PREMAIN_QY = TO_NUMBER(REPLACE(#premainQy#, ', ', ''))
+			, LIGHTAPP_FMT = #lightappFmt#
+			, LIGHTAPP_STNDRD = #lightappStndrd#
+			, LIGHTAPP_QY = TO_NUMBER(REPLACE(#lightappQy#, ', ', ''))
+			, LAMP_FMT = #lampFmt#
+			, LAMP_CAPA = #lampCapa#
+			, LAMP_QY = TO_NUMBER(REPLACE(#lampQy#, ', ', ''))
+			, LIGHTWR_LIGHTAPP_QY = TO_NUMBER(REPLACE(#lightwrLightappQy#, ', ', ''))
+			, LIGHTWR_LIGHTAPP_CLCD = #lightwrLightappClcd#
+			, LIGHTWR_LAMP_QY = TO_NUMBER(REPLACE(#lightwrLampQy#, ', ', ''))
+			, LIGHTWR_LAMP_CLCD = #lightwrLampClcd#
+			, RM = #rm#
+			, LOC = #loc#
+			, ARCH_FCLTS_MNG_NO = #archFcltsMngNo#
+			, ELCTY_FCLTS_CL_CD = #elctyFcltsClCd#
+		    , UPD_USR = #updUsr#
+		    , UPDT_DT = SYSDATE
+		  WHERE
+		    FCLTS_MNG_NO = #fcltsMngNo#
+    </update>
+    
+    <delete id="gamElctyFcltySpecMngDao.deleteElctyFcltySpecMngDetail">
+		DELETE FROM ELCTY_FCLTY_SPEC_F
+		  WHERE
+		    FCLTS_MNG_NO = #fcltsMngNo#
+    </delete>
+    
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecFileList" parameterClass="gamElctyFcltySpecMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+						  FCLTS_MNG_NO
+						  , ATCH_FILE_SEQ
+						  , ATCH_FILE_SE
+						  , (CASE WHEN ATCH_FILE_SE = 'D' THEN '문서' 
+                                  WHEN ATCH_FILE_SE = 'P' THEN '사진'
+                                  WHEN ATCH_FILE_SE = 'Z' THEN '기타'
+                            END) AS ATCH_FILE_SE_NM
+						  , ATCH_FILE_SJ
+						  , ATCH_FILE_NM_LOGIC
+						  , ATCH_FILE_NM_PHYSICL
+						  , TO_CHAR(ATCH_FILE_WRITNG_DT, 'YYYY-MM-DD') ATCH_FILE_WRITNG_DT 
+						FROM
+						  FCLTS_SPEC_ATCH_FILE_F
+						WHERE
+						  FCLTS_MNG_NO = #sFcltsMngNo#
+						ORDER BY
+						  ATCH_FILE_SEQ                	
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>    	
+    </select>
+
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecFileListTotCnt" parameterClass="gamElctyFcltySpecMngVO" resultClass="int">
+    	SELECT 
+    	  COUNT(*) TOTCNT
+		FROM
+		  FCLTS_SPEC_ATCH_FILE_F
+		WHERE
+   		  FCLTS_MNG_NO = #sFcltsMngNo#
+    </select>
+
+    <insert id="gamElctyFcltySpecMngDao.insertElctyFcltySpecFileDetail" >
+    	<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
+    		SELECT
+    		  TO_CHAR(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
+    		FROM
+    		  FCLTS_SPEC_ATCH_FILE_F
+    		WHERE
+    		  FCLTS_MNG_NO = #fcltsMngNo#
+    	</selectKey>
+    	INSERT INTO 
+    		FCLTS_SPEC_ATCH_FILE_F (
+				FCLTS_MNG_NO
+				, ATCH_FILE_SEQ
+				, ATCH_FILE_SE
+				, ATCH_FILE_SJ
+				, ATCH_FILE_NM_LOGIC
+				, ATCH_FILE_NM_PHYSICL
+				, ATCH_FILE_WRITNG_DT
+				, REG_USR
+				, REGIST_DT
+    		)
+    	VALUES
+    		(
+    			#fcltsMngNo#
+    			, TO_NUMBER(#maxAtchFileSeq#)
+    			, #atchFileSe#
+    			, #atchFileSj#
+    			, #atchFileNmLogic#
+    			, #atchFileNmPhysicl#
+    			, TO_DATE(#atchFileWritingDt#, 'YYYY-MM-DD')
+    			, #regUsr#
+    			, SYSDATE
+    		)
+    </insert>
+
+    <update id="gamElctyFcltySpecMngDao.updateElctyFcltySpecFileDetail" >
+    	UPDATE 
+    		FCLTS_SPEC_ATCH_FILE_F
+    	SET
+    		ATCH_FILE_SE = #atchFileSe#
+    		, ATCH_FILE_SJ = #atchFileSj#
+    		, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+    		, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+    		, ATCH_FILE_WRITNG_DT = #atchFileWritingDt#
+    		, UPD_USR = #updUsr#
+    		, UPDT_DT = SYSDATE
+    	WHERE
+    		FCLTS_MNG_NO = #fcltsMngNo#
+    		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
+    </update>
+
+    <delete id="gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileDetail" >
+    	DELETE
+    	FROM
+    		FCLTS_SPEC_ATCH_FILE_F
+    	WHERE
+    		FCLTS_MNG_NO = #fcltsMngNo#
+    		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
+    </delete>
+    
+    <delete id="gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileList" >
+    	DELETE
+    	FROM
+    		FCLTS_SPEC_ATCH_FILE_F
+    	WHERE
+    		FCLTS_MNG_NO = #fcltsMngNo#
+    </delete>    
+</sqlMap>

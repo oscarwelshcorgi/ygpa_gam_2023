@@ -69,6 +69,11 @@ GamFcltsClCdModule.prototype.loadComplete = function() {
 		module.$("#deleteBtn").show();
 	});
 	
+	// 그리드 선택 방지 - 더블클릭만 Tab2로 넘어가게 함
+	this.$("#fcltsClCdList").on('onItemSelected', function(event, module, row, grid, param) {
+		module.$('#fcltsClCdList').selectRowId();
+	});
+	
 	
 	// 
 	this.$('#depthSort').on('change', {module: this}, function(e) {
@@ -123,6 +128,7 @@ GamFcltsClCdModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 		}
 	}
 	if(newTabId=='tabs1'){
+		this.makeFormValues('#fcltsClCdVO', {});
 		this.$('#fcltsClCdList').selectRowId();
 	}
 

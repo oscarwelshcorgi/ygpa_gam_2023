@@ -493,18 +493,19 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
 		
 		break;
 	case "tabs2":
-		
-		if(this._cmd=="modify") {
-			this.loadDetail();
-		} else {
-			this.makeFormValues('#fcltyManageVO', {});
-			this.makeDivValues('#fcltyManageVO', {});
-			// 층별제원처리
-			this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
-			
-			// 첨부파일 처리
-			this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
-			this.clearFilePage();
+		if(oldTabId == "tabs1"){
+			if(this._cmd=="modify") {
+				this.loadDetail();
+			} else {
+				this.makeFormValues('#fcltyManageVO', {});
+				this.makeDivValues('#fcltyManageVO', {});
+				// 층별제원처리
+				this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
+				
+				// 첨부파일 처리
+				this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
+				this.clearFilePage();
+			}
 		}
 		break;
 
