@@ -287,17 +287,17 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 시설물관리그룹(디테일 화면)
 		case "searchFcltsMngGroupNo":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '<c:url value="/popup/showFcltsMngGroup.do"/>', {});
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '<c:url value="/popup/showFcltsMngGroup.do"/>', {});
 			break;
 			
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '<c:url value="/popup/showFcltsClCd.do"/>', { sFcltsClCdChar : this._prtFcltySe });			
+			this.doExecuteDialog("selectFcltsClCd", "시설물분류코드", '<c:url value="/popup/showFcltsClCd.do"/>', { sFcltsClCdChar : this._prtFcltySe });			
 			break;
 			
 		// 건축시설물 관리번호(디테일 화면) 			
 		case "searchArchFcltsMngNo":
-			this.doExecuteDialog("selectArchFcltsMngNo", "건축시설관리", '<c:url value="/popup/showConsFcltyInfo.do"/>', {});
+			this.doExecuteDialog("selectArchFcltsMngNo", "건축시설번호", '<c:url value="/popup/showConsFcltyInfo.do"/>', {});
 			break;
 			
 		// 시설추가
