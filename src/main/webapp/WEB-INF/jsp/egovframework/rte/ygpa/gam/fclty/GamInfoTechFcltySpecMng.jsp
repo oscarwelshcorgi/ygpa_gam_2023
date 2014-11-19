@@ -62,14 +62,13 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this._deleteDataFileList = null;
 	this._prtFcltySe = 'I';
 	
+	this.$("#infoTechFcltySpecMngList").on('onItemSelected', function(event, module, row, grid, param) {
+		module._cmd = "modify";
+	});
+	
 	this.$("#infoTechFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
-			alert('시설물 관리번호에 오류가 있습니다.');
-			return;
-		}
-		module._cmd="modify";
-		module.initDisplay();
-		module.loadDetailData(row['fcltsMngNo']);
+		module._cmd = "modify";
+		module.$("#infoTechFcltySpecMngTab").tabs("option", {active: 1});
 	});
 
 	this.$("#selectGisPrtFcltyCd").on("change", {module: this}, function(event) {
@@ -139,20 +138,30 @@ GamInfoTechFcltySpecMngModule.prototype.loadData = function() {
 }
 
 //시설재원데이터 로드
-GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function(fcltsMngNo) {
-	var opts = [{name: 'fcltsMngNo', value: fcltsMngNo }];
-	this.doAction('<c:url value="/fclty/selectInfoTechFcltySpecMngDetail.do" />', opts, function(module, result) { 
-		if(result.resultCode == "0"){
-			module.makeFormValues('#fcltyManageVO', result.result);
-			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
-			module.loadFileData();
+GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function() {
+	var selectRows = this.$('#infoTechFcltySpecMngList').selectedRows();
+	if(selectRows.length > 0) {
+		var row = selectRows[0];
+		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+			alert('시설물 관리번호에 오류가 있습니다.');
+			this._cmd = '';
+			this.initDisplay();
+			return;
 		}
-		else {
-			this._cmd="";
-			module.initDisplay();
-			alert(result.resultMsg);
-		}
-	});	
+		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+		this.doAction('<c:url value="/fclty/selectInfoTechFcltySpecMngDetail.do" />', opts, function(module, result) { 
+			if(result.resultCode == "0"){
+				module.makeFormValues('#fcltyManageVO', result.result);
+				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
+				module.loadFileData();
+			}
+			else {
+				this._cmd="";
+				module.initDisplay();
+				alert(result.resultMsg);
+			}
+		});
+	}
 }
 
 //시설 첨부파일 로드
@@ -175,7 +184,6 @@ GamInfoTechFcltySpecMngModule.prototype.initDisplay = function() {
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#searchGisCodeBtn2").hide();
-		this.$("#infoTechFcltySpecMngTab").tabs("option", {active: 1});
 	} else {
 		this.$('#fcltsFileList').flexEmptyData();
 		this.$("#fcltyManageVO :input").val("");
@@ -419,6 +427,10 @@ GamInfoTechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
  * 탭 변경시 실행 이벤트
  */
 GamInfoTechFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
+		this.initDisplay();
+		this.loadDetailData();
+	}
 	switch(newTabId) {
 	case "tabs1":
 		break;
