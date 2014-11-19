@@ -17,6 +17,7 @@
 							    F.FCLTS_CL_CD
 							    , F.FCLTS_CL_CD_NM
 							    , F.FCLTS_CL_UPPER_CD
+							    , (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = F.FCLTS_CL_UPPER_CD) FCLTS_CL_UPPER_CD_NM
 							    , F.DEPTH_SORT
 							    , F.LEAF_YN
 							FROM

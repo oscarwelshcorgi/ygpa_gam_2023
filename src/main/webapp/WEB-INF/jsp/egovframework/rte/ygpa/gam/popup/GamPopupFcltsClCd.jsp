@@ -35,8 +35,9 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 		url: '<c:url value="/popup/selectFcltsClCdInfoList.do"/>',
 		dataType: "json",
 		colModel : [
-					{display:"시설물 분류코드", name:"fcltsClCd", 		width:200, sortable:true, align:"center"},
-					{display:"시설물 분류명",  name:"fcltsClCdNm", 	width:300, sortable:true, align:"center"},
+					{display:"시설물분류코드", name:"fcltsClCd", 		width:105, sortable:true, align:"center"},
+					{display:"시설물분류명",  name:"fcltsClCdNm", 	width:210, sortable:true, align:"center"},
+					{display:"시설물상위분류명",  name:"fcltsClUpperCdNm", 	width:210, sortable:true, align:"center"}
 			],
 		height: "320"
 	});
@@ -94,9 +95,9 @@ var popup_instance = new GamPopupFcltsClCdModule();
                         <th>시설물분류코드</th>
                         <td>
                         	<input id="sFcltsClCdChar" type="hidden" value="${searchOpt.sFcltsClCdChar}" />
-                        	<input id="sFcltsClCd" type="text" size="10" maxlength="6" />
+                        	<input id="sFcltsClCd" type="text" size="12"/>
                         </td>
-						<th>시설묿 분류명</th>
+						<th>시설물분류명</th>
                         <td><input id="sFcltsClCdNm" type="text" size="25" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>

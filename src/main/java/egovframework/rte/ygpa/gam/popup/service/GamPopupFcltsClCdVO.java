@@ -26,13 +26,13 @@ public class GamPopupFcltsClCdVO extends ComDefaultVO  {
 	private static final long serialVersionUID = 1L;
 	
 	/** 시설물 분류코드 첫문자 (조회조건) **/
-	public String sFcltsClCdChar;
+	private String sFcltsClCdChar;
 	
 	/** 시설물 분류코드 (조회조건) **/
-	public String sFcltsClCd;
+	private String sFcltsClCd;
 	
 	/** 시설물 분류명 (조회조건) **/
-	public String sFcltsClCdNm;
+	private String sFcltsClCdNm;
 
 	/**
 	 * @return the sFcltsClCdChar
@@ -75,5 +75,5 @@ public class GamPopupFcltsClCdVO extends ComDefaultVO  {
 	public void setsFcltsClCdNm(String sFcltsClCdNm) {
 		this.sFcltsClCdNm = sFcltsClCdNm;
 	}
-		
+
 }
