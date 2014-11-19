@@ -67,8 +67,8 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 	
 	this.$("#civilFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._cmd="modify";
-		this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
+		module._cmd = "modify";
+		module.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
 	});
 
 	this.$("#selectGisPrtFcltyCd").on("change", {module: this}, function(event) {
