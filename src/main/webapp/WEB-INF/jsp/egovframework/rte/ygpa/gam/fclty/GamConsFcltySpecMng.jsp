@@ -80,35 +80,6 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 
 	this.$("#constFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-
-		var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-		
-		// 건축시설 제원 처리
-		module.doAction('<c:url value="/fclty/gamConstFcltySpecDetail.do" />', prtFclty, function(specModule, result) {
-   	 		if(result.resultCode == "0"){
-   	 			specModule.clearCodePage();
-   	 			specModule._fcltyItem=result.result;
-   	 			specModule.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
-   	 			specModule.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
-
-    	 		specModule.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
-                specModule.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
-   	 		}
-   	 		else {
-   	 			//alert(result.resultMsg);
-   	 		}
-   	 		
-   	 		specModule.$("#gisCodePopupBtn").hide();
-   	 		specModule.$("#selectedGAM005").disable();
-   	 	});
-		
-		// 층별제원처리
-		module.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
-		
-		// 첨부파일 처리
-		module.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
-		module.clearFilePage();
-
 		module._cmd="modify";
 		module.$("#constFcltySpecMngListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
 	});
@@ -176,6 +147,40 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		}
 	});
 
+
+};
+
+GamConstFcltySpecMngModule.prototype.loadDetail = function() {
+	
+	var row = this.$('#constFcltySpecMngList').selectedRows();
+	row = row[0];
+	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+	
+	// 건축시설 제원 처리
+	this.doAction('<c:url value="/fclty/gamConstFcltySpecDetail.do" />', prtFclty, function(specModule, result) {
+	 		if(result.resultCode == "0"){
+	 			specModule.clearCodePage();
+	 			specModule._fcltyItem=result.result;
+	 			specModule.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+	 			specModule.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
+
+		 		specModule.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
+	            specModule.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
+	 		}
+	 		else {
+	 			//alert(result.resultMsg);
+	 		}
+	 		
+	 		specModule.$("#gisCodePopupBtn").hide();
+	 		specModule.$("#selectedGAM005").disable();
+	 	});
+	
+	// 층별제원처리
+	this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
+	
+	// 첨부파일 처리
+	this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
+	this.clearFilePage();
 
 };
 
@@ -289,14 +294,12 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this._cmd="insert";
 			this.$('#fcltyFileList').flexEmptyData();
 			this.$('#fcltyinfo9').flexEmptyData();
-			this.$("#constFcltySpecMngListTab").tabs("option", {active: 1});
 			this.$("#fcltyManageVO :input").val("");
-			this.$("#selectedGAM005_select").show();
-			this.$("#prtFcltySeNm").hide();
 			this.$("#titleFcltsMngNo").text('');
 			this.$("#selectedGAM005").enable();
 			this.$("#gisCodePopupBtn").show();
-			//this.$("#gisCodePopupBtn").show();
+			this.$("#constFcltySpecMngListTab").tabs("option", {active: 1});
+			
 		break;
 
 		// 자산코드 팝업
@@ -490,6 +493,19 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
 		
 		break;
 	case "tabs2":
+		
+		if(this._cmd=="modify") {
+			this.loadDetail();
+		} else {
+			this.makeFormValues('#fcltyManageVO', {});
+			this.makeDivValues('#fcltyManageVO', {});
+			// 층별제원처리
+			this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
+			
+			// 첨부파일 처리
+			this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
+			this.clearFilePage();
+		}
 		break;
 
 	case "tabs3":
@@ -632,7 +648,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
-								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
+								<input type="hidden" id="prtFcltySeNm"/>
 							</td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td>
