@@ -36,7 +36,7 @@
 %>
 function GamGrHseEmitQyMngModule() {}
 
-GamGrHseEmitQyMngModule.prototype = new EmdModule(1000, 600);
+GamGrHseEmitQyMngModule.prototype = new EmdModule(800, 600);
 
 <%
 /**
@@ -52,12 +52,13 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 		url : '<c:url value="/mngFee/gamSelectGrHseEmitQyMng.do" />',
 		dataType : 'json',
 		colModel : [
-					{display:'연료 코드',			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
-					{display:'관리 년도',			name:'mngYear',			width:110, 		sortable:false,		align:'center'},
+					{display:'연료 코드',			name:'fuelCd',			width:70, 		sortable:false,		align:'center'},
+					{display:'연료 명',				name:'fuelNm',			width:110, 		sortable:false,		align:'left'},
+					{display:'온실가스 계수',		name:'grHseCoef',		width:110, 		sortable:false,		align:'right'},
 					{display:'관리 월',				name:'mngMt',			width:110, 		sortable:false,		align:'center'},
-					{display:'사용 량',				name:'usageQy',			width:110, 		sortable:false,		align:'right'},
-					{display:'에너지 사용 량',		name:'energyUsageQy',	width:110, 		sortable:false,		align:'right'},
-					{display:'온실가스 배출 량',	name:'grHseEmitQy',		width:110, 		sortable:false,		align:'right'}
+					{display:'사용 량',				name:'usageQy',			width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
+					{display:'에너지 사용 량',		name:'energyUsageQy',	width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
+					{display:'온실가스 배출 량',	name:'grHseEmitQy',		width:110, 		sortable:false,		align:'right',	displayFormat:'number'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto'
@@ -72,6 +73,75 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	var mon = new Date().getMonth()+1;
+	if(mon.length==1) mon="0"+mon;
+	this.$('#sMngMt').val(mon);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : drawChart
+ * @DESCRIPTION   : CHART DRAW
+ * @PARAMETER     : NONE
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.drawChart = function() {
+	var grHseEmitQyArr=[];
+	var maxGrHseEmitQy=0;
+	var grHseEmitQy=0;
+	var searchVO = this.makeFormArgs("#detailForm");
+
+	this.doAction('<c:url value="/mngFee/gamSelectGrHseEmitQyMngChart.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			for (var i=0; i<12; i++) {
+				grHseEmitQy=result.resultList[i]['grHseEmitQy']*1;
+				grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
+				if (maxGrHseEmitQy<grHseEmitQy) {
+					maxGrHseEmitQy=grHseEmitQy;
+				}
+			};
+		} else {
+			for (var i=0; i<12; i++) {
+				grHseEmitQy=0;
+				grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
+			};
+		}
+		if (maxGrHseEmitQy<10) {
+			maxGrHseEmitQy=10;
+		}
+		if (module.barChart==null) {
+			module.barChart = new dhtmlXChart({
+				view			: "bar",
+				container		: module.$('#grHseEmitChart')[0],
+				value			: "#gauge#",
+				color			: "#000BE0",
+	            gradient		: "rising",
+				width			: 30,
+				tooltip			: "온실가스 배출량(KgCO2)",
+				xAxis			: {
+					title 		: "온실가스 배출 현황",
+					template	: "#month# 월"
+				},
+				yAxis			: {
+					start		: 0,
+					end			: maxGrHseEmitQy + 10,
+					step		: Math.ceil(maxGrHseEmitQy / 10),
+					title		: "온실가스 배출량,KgCO2"
+				}
+			});
+		} else {
+			module.barChart.clearAll();
+			module.barChart.define("yAxis", {
+				start : 0,
+				end : maxGrHseEmitQy + 10,
+				step : Math.ceil(maxGrHseEmitQy / 10),
+				title : "온실가스 배출량,KgCO2"
+			});
+		}
+		module.barChart.parse(grHseEmitQyArr, "json");
+		module.barChart.refresh();
+	});
 };
 
 <%
@@ -250,6 +320,7 @@ GamGrHseEmitQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$('#fuelCd').removeAttr('readonly');
 				this.$('#mngMt').removeAttr('readonly');
 			}
+			this.drawChart();
 			break;
 	}
 
@@ -288,9 +359,18 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							<th>관리 월</th>
 							<td>
 								<select id="sMngMt">
-									<c:forEach items="${monList}" var="monListItem">
-										<option value="${monListItem.code }" <c:if test="${monListItem.code == thismonth}">selected</c:if> >${monListItem.codeNm }</option>
-									</c:forEach>
+									<option value="01" selected>01월</option>
+									<option value="02">02월</option>
+									<option value="03">03월</option>
+									<option value="04">04월</option>
+									<option value="05">05월</option>
+									<option value="06">06월</option>
+									<option value="07">07월</option>
+									<option value="08">08월</option>
+									<option value="09">09월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
 								</select>
 							</td>
 							<th>연료 코드</th>
@@ -337,47 +417,50 @@ var module_instance = new GamGrHseEmitQyMngModule();
 					<form id="detailForm">
 						<table class="detailPanel">
 							<tr>
-								<th width="20%" height="18">관리 월</th>
+								<th width="15%" height="29">관리 월</th>
 								<td ><input type="text" size="20" id="mngMt" /></td>
+								<td rowspan="15">
+									<div id="grHseEmitChart" style="width:515px;height:415px;border:1px solid #A4BED4;"></div>
+								</td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">연료 코드</th>
+								<th width="15%" height="29">연료 코드</th>
 								<td ><input type="text" size="20" id="fuelCd" /></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">연료 명</th>
+								<th width="15%" height="29">연료 명</th>
 								<td ><span data-column-id="fuelCdNm"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">에너지 단위</th>
+								<th width="15%" height="29">에너지 단위</th>
 								<td ><span data-column-id="energyUnit"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">에너지 총 발열량</th>
+								<th width="15%" height="29">에너지 총 발열량</th>
 								<td ><span data-column-id="energyTotalCalVal" class="ygpaNumber"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">에너지 순 발열량</th>
+								<th width="15%" height="29">에너지 순 발열량</th>
 								<td ><span data-column-id="energyNetCalVal" class="ygpaNumber"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">온실가스 단위</th>
+								<th width="15%" height="29">온실가스 단위</th>
 								<td ><span data-column-id="grHseUnit"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">온실가스 계수</th>
+								<th width="15%" height="29">온실가스 계수</th>
 								<td ><span data-column-id="grHseCoef" class="ygpaNumber"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">사용 량</th>
+								<th width="15%" height="29">사용 량</th>
 								<td ><input type="text" size="20" id="usageQy" class="ygpaNumber"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">에너지 사용 량</th>
+								<th width="15%" height="29">에너지 사용 량</th>
 								<td ><input type="text" size="20" id="energyUsageQy" class="ygpaNumber"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">온실가스 배출 량</th>
+								<th width="15%" height="29">온실가스 배출 량</th>
 								<td ><input type="text" size="20" id="grHseEmitQy" class="ygpaNumber"/></td>
 							</tr>
 						</table>

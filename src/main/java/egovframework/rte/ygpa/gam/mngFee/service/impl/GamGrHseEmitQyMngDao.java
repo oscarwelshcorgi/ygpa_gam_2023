@@ -47,6 +47,14 @@ public class GamGrHseEmitQyMngDao extends YGPAAbstractDAO{
 
 	/**
 	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	public List selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_D", gamGrHseEmitQyMngVo);
+	}
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
 	 */
 	public void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
 		insert("gamGrHseEmitQyMngDao.insertGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);

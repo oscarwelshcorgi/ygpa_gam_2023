@@ -143,6 +143,25 @@ public class GamGrHseEmitQyMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngChart.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamGrHseEmitQyMngService.selectGrHseEmitQyMngChartList(gamGrHseEmitQyMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
 
     @RequestMapping(value="/mngFee/gamInsertGrHseEmitQyMng.do")
 	@ResponseBody Map<String, Object> insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {

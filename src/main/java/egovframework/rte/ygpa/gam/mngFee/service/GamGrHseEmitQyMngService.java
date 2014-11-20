@@ -38,6 +38,12 @@ public interface GamGrHseEmitQyMngService {
 
 	/**
 	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	List selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
 	 */
 	void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
 

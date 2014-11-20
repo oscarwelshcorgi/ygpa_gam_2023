@@ -91,9 +91,15 @@ public class GamGasUsageSttusMngController {
 		List monList = new ArrayList();
 		Map monMap;
 		for(int i=1; i < 13; i++){
-			NumberFormat month = new DecimalFormat("00");
-			String moni = month.format(i);
 			monMap = new HashMap();
+			//NumberFormat month = new DecimalFormat("00");
+			//String moni = String.format("%02d", i);
+			String moni;
+			if (i < 10) {
+				moni = "0" + String.format("%d", i);
+			} else {
+				moni = String.format("%d", i);
+			}
 			monMap.put("code", moni);
 			monMap.put("codeNm", moni+"월");
 			monList.add(monMap);

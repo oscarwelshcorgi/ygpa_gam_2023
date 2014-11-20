@@ -33,14 +33,14 @@
 						WHERE 1=1
 
 						<isNotEmpty property="sMngYear">
-						AND T1.MNG_MT = || #sMngYear# || #sMngMt#
+						AND T1.MNG_MT = #sMngYear# || #sMngMt#
 						</isNotEmpty>
 
-						<isNotEmpty property="sCarNm">
+						<isNotEmpty property="sFuelCd">
 						AND T1.FUEL_CD LIKE '%' || #sFuelCd# || '%'
 						</isNotEmpty>
 
-						ORDER BY CAR_REGIST_NO
+						ORDER BY T1.FUEL_CD
 				) S
 			) A
 		<![CDATA[
@@ -53,12 +53,29 @@
 			FROM GR_HSE_EMIT_STTUS_F
 		WHERE 1=1
 		<isNotEmpty property="sMngYear">
-		AND MNG_MT = || #sMngYear# || #sMngMt#
+		AND MNG_MT = #sMngYear# || #sMngMt#
 		</isNotEmpty>
 
-		<isNotEmpty property="sCarNm">
+		<isNotEmpty property="sFuelCd">
 		AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
 		</isNotEmpty>
+	</select>
+
+	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_D" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
+		SELECT
+				 T1.MT
+				,NVL(SUM(T2.GR_HSE_EMIT_QY),0) AS GR_HSE_EMIT_QY
+			FROM (
+				SELECT
+						 #fuelCd# AS FUEL_CD
+						,SUBSTRB(#mngMt#,1,4) || LTRIM(TO_CHAR(LEVEL,'00')) AS MNG_MT
+						,LTRIM(TO_CHAR(LEVEL,'00')) AS MT
+					FROM DUAL
+				CONNECT BY LEVEL <![CDATA[ <= ]]> 12
+				) T1
+			LEFT OUTER JOIN GR_HSE_EMIT_STTUS_F T2 ON (T1.FUEL_CD=T2.FUEL_CD AND T1.MNG_MT=T2.MNG_MT)
+		GROUP BY T1.MT
+		ORDER BY T1.MT
 	</select>
 
 	<insert id="gamGrHseEmitQyMngDao.insertGrHseEmitQyMng_S">

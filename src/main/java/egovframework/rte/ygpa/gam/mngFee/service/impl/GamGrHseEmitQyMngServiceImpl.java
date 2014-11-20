@@ -47,6 +47,11 @@ public class GamGrHseEmitQyMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
+	public List selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		return gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
 	public void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
 		gamGrHseEmitQyMngDao.insertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 	}
