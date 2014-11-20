@@ -129,13 +129,13 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 GamElctyFcltySpecMngModule.prototype.onSubmit = function() {
 	this.loadData();
-}
+};
 
 //시설목록 로드
 GamElctyFcltySpecMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchElctyFcltySpecMngForm");
 	this.$("#elctyFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();	
-}
+};
 
 //시설재원데이터 로드
 GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
@@ -162,13 +162,13 @@ GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
 			}
 		});
 	}
-}
+};
 
 //시설 첨부파일 로드
 GamElctyFcltySpecMngModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
-}
+};
 
 // 화면 및 데이터 초기화 처리
 GamElctyFcltySpecMngModule.prototype.initDisplay = function() {
@@ -191,7 +191,7 @@ GamElctyFcltySpecMngModule.prototype.initDisplay = function() {
 		this.$("#searchGisCodeBtn2").show();
 		this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
 	}
-}
+};
 
 //첨부파일 정보 변화 처리
 GamElctyFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
@@ -237,7 +237,7 @@ GamElctyFcltySpecMngModule.prototype.insertFcltsData = function(data) {
  		}
  		alert(result.resultMsg);
  	});	
-}
+};
 
 //시설뮬 데이터 수정
 GamElctyFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
@@ -248,7 +248,7 @@ GamElctyFcltySpecMngModule.prototype.updateFcltsData = function(data) {
 		}
 		alert(result.resultMsg);
 	});	
-}
+};
 
 //시설물 데이터 삭제
 GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
@@ -261,7 +261,7 @@ GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) {
  		}
  		alert(result.resultMsg);
  	});
-}
+};
 
 /**
  * 정의 된 버튼 클릭 시
@@ -400,7 +400,7 @@ GamElctyFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
         	alert(result.resultMsg);
         }
     });	
-}
+};
 
 GamElctyFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 	var rows = this.$("#fcltsFileList").selectedRows();
@@ -456,6 +456,11 @@ GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#sAssetsCd").val(value["gisAssetsCd"]);
 			this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
 			break;
+			
+		case "selectFcltsMngGroup":
+			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+			break;
 
 		case "selectGisCode2":
 			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
@@ -470,8 +475,8 @@ GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			break;
 		
 		case "selectFcltsClCd":
-			this.$("#infoCommFcltsClCd").val(value["fcltsClCd"]);
-			this.$("#infoCommFcltsClCdNm").val(value["fcltsClCdNm"]);			
+			this.$("#elctyFcltsClCd").val(value["fcltsClCd"]);
+			this.$("#elctyFcltsClCdNm").val(value["fcltsClCdNm"]);			
 			break;
 
 		case "selectArchFcltsMngNo":
@@ -728,13 +733,13 @@ var module_instance = new GamElctyFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비고</th>
-							<td colspan="5"><input id="rm" type="text" size="100" mexlength="1000" title="비고" /></td>
+							<td colspan="5"><input id="rm" type="text" size="100" maxlength="1000" title="비고" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">위치</th>
-							<td colspan="5"><input id="loc" type="text" size="100" mexlength="150" title="위치" /></td>
+							<td colspan="5"><input id="loc" type="text" size="100" maxlength="150" title="위치" /></td>
 						</tr>
-						<tr>							
+						<tr>
 							<th width="12%" height="17" class="required_text">전기시설물분류코드</th>
 							<td colspan="5">
 								<input id="elctyFcltsClCd" type="text" size="20" disabled="disabled" />

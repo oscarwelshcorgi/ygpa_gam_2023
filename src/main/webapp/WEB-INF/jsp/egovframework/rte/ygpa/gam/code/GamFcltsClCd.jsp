@@ -71,7 +71,7 @@ GamFcltsClCdModule.prototype.loadComplete = function() {
 	
 	// 그리드 선택 방지 - 더블클릭만 Tab2로 넘어가게 함
 	this.$("#fcltsClCdList").on('onItemSelected', function(event, module, row, grid, param) {
-		module.$('#fcltsClCdList').selectRowId();
+		module.$('#fcltsClCdList').noSelect();
 	});
 	
 	
