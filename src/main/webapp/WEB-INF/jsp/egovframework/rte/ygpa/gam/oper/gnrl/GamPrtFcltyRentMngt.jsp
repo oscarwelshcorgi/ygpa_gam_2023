@@ -2184,7 +2184,7 @@ var module_instance = new GamAssetRentMngtModule();
                         <table class="editForm">
                             <tr>
 								<th width="10%" height="18">자산사용순번</th>
-                                <td colspan="4"><input type="text" size="26" id="assetsUsageSeq" disabled/></td>
+                                <td colspan="5"><input type="text" size="26" id="assetsUsageSeq" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">자산코드</th>
@@ -2230,7 +2230,7 @@ var module_instance = new GamAssetRentMngtModule();
                               </tr>
                              <tr class="nationAssetLaw">
                                 <th width="10%" height="18">적용요율</th>
-                                <td colspan="4">
+                                <td colspan="5">
                                     <!--
                                     <select id="applcTariff">
                                         <option value="" selected="selected">선택</option>
