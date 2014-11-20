@@ -46,11 +46,11 @@ GamFcltyRepairMngtModule.prototype.loadComplete = function(params) {
 					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"하자보수순번", 		name:"mntnRprSeq",				width:120, 		sortable:false,		align:"center"},
-					{display:"하자보수구분",		name:"mntnRprSe",				width:80, 		sortable:false,		align:"left"},
-					{display:"하자보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
-					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:"center"},
-					{display:"하자보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:"center"},
-					{display:"하자보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"}
+					{display:"하자검사구분",		name:"mntnRprSe",				width:80, 		sortable:false,		align:"left"},
+					{display:"하자보수유형",		name:"mntnRprSe",				width:80, 		sortable:false,		align:"left"},
+					{display:"하자보수명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
+					{display:"하자보수금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:"center"},
+					{display:"하자보수완료여부", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -61,13 +61,10 @@ GamFcltyRepairMngtModule.prototype.loadComplete = function(params) {
 		url: '<c:url value="/fclty/gamFcltyinfo9.do" />',
 		dataType: "json",
 		colModel : [
-					{display:"관리번호",			name:"bound",			width:60,		sortable:false,		align:"center"},
-					{display:"하자보수공법",		name:"strySe",			width:80,		sortable:false,		align:"center"},
-					{display:"단위",			name:"ar",				width:80,		sortable:false,		align:"center"},
-					{display:"수량",		name:"wallFnsh",		width:140,		sortable:false,		align:"center"},
-					{display:"단가",		name:"flrFnsh",			width:140,		sortable:false,		align:"center"},
-					{display:"공사금액",			name:"ceil",			width:140,		sortable:false,		align:"center"},
-					{display:"비고",			name:"rm",				width:200,		sortable:false,		align:"center"}
+					{display:"순번",			name:"bound",			width:100,		sortable:false,		align:"center"},
+					{display:"하자검사자",		name:"strySe",			width:250,		sortable:false,		align:"center"},
+					{display:"하자검사일자",			name:"ar",				width:250,		sortable:false,		align:"center"},
+					{display:"하자검사완료여부",		name:"wallFnsh",		width:250,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -371,7 +368,7 @@ var module_instance = new GamFcltyRepairMngtModule();
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>하자보수구분</th>
+							<th>하자검사구분</th>
 							<td>
 								<select id="ttt">
 									<option value="">선택</option>
@@ -381,7 +378,7 @@ var module_instance = new GamFcltyRepairMngtModule();
 									<option value="I">정보통신시설물</option>
 								</select>
 							</td>
-							<th>하자보수공사시작일</th>
+							<th>하자검사일</th>
 							<td>
 								<input id="planBeginDt" type="text" class="emdcal" size="15" /> ~ <input id="planBeginDt" type="text" class="emdcal" size="15" />
 							</td>
@@ -403,15 +400,15 @@ var module_instance = new GamFcltyRepairMngtModule();
 			<ul>
 				<li><a href="#tabs1" class="emdTab">하자보수내역 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">하자보수내역 상세</a></li>
-				<li><a href="#tabs3" class="emdTab">하자보수 대상시설물</a></li>
+				<li><a href="#tabs3" class="emdTab">하자검사자</a></li>
 				<li><a href="#tabs4" class="emdTab">하자보수 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMngMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="addBtn">시설추가</button>
-					<button id="deleteBtn">시설삭제</button>
+					<button id="addBtn">추가</button>
+					<button id="deleteBtn">삭제</button>
 				</div>
 			</div>
 
@@ -424,52 +421,54 @@ var module_instance = new GamFcltyRepairMngtModule();
 							<th width="15%" height="23" class="required_text">시행년도</th>
 							<td>
 								<select id="gisAssetsPrtAtName">
-									<option value="2014">2014</option>
+									<option value="2014">선택</option>
 									<option value="2013">2013</option>
 								</select>
 							</td>
-							<th width="15%" height="23" class="required_text">시설물업무구분</th>
-							<td><input type="text" size="20" id="gisAssetsPrtAtName" /></td>
-							<th width="15%" height="23" class="required_text">하자보수구분</th>
+							<th width="15%" height="23" class="required_text">하자유무</th>
+							<td>
+								<select id="gisAssetsPrtAtName">
+									<option value="2014">유</option>
+									<option value="2013">무</option>
+								</select>
+							</td>
+							<th width="15%" height="23" class="required_text">하자보수유형</th>
 							<td><input type="text" size="20" id="gisAssetsPrtAtName" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">계약번호</th>
-							<td colspan="3"><input type="text" size="80" id="gisAssetsPrtAtName" /></td>
-							<th width="15%" height="23" class="required_text">하자보수순번</th>
-							<td><input type="text" size="20" id="gisAssetsNm" /></td>
+							<td colspan="5"><input type="text" size="125" id="gisAssetsPrtAtName" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">공사명</th>
+							<th width="15%" height="23" class="required_text">하자보수명</th>
 							<td colspan="5"><input id="gisAssetsLocplc" type="text" size="125" title="소재지"  /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">하자보수부위</th>
+							<th width="15%" height="23" class="required_text">하자보수업체명</th>
 							<td colspan="5"><input id="gisAssetsLocplc" type="text" size="125" title="소재지"  /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">예산</th>
-							<td colspan="3"><input id="gisAssetsLocplc" type="text" size="80" title="소재지"  /></td>
-							<th width="15%" height="23" class="required_text">공사시작일자</th>
-							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">공사금액</th>
-							<td colspan="3"><input id="gisAssetsLocplc" type="text" size="80" title="소재지"  /></td>
-							<th width="15%" height="23" class="required_text">공사종료일자</th>
-							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">설계자</th>
-							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
-							<th width="15%" height="23" class="required_text">시공자</th>
+							<th width="15%" height="23" class="required_text">하자보수완료여부</th>
+							<td>
+								<select id="gisAssetsPrtAtName">
+									<option value="2014">완료</option>
+									<option value="2013">미완료</option>
+								</select>
+							</td>
+							<th width="15%" height="23" class="required_text">하자보수금액</th>
 							<td colspan="3"><input id="gisAssetsLocplc" type="text" size="80" title="소재지"  /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">책임기술자</th>
+							<th width="15%" height="23" class="required_text">하자발생일자</th>
 							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
-							<th width="15%" height="23" class="required_text">공사감독자</th>
-							<td colspan="3"><input id="gisAssetsLocplc" type="text" size="80" title="소재지"  /></td>
+							<th width="15%" height="23" class="required_text">하자검사일자</th>
+							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
+						</tr>
+						<tr>
+							<th width="15%" height="23" class="required_text">하자보수시작일자</th>
+							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
+							<th width="15%" height="23" class="required_text">하자보수종료일자</th>
+							<td><input id="gisAssetsLocplc" type="text" size="20" title="소재지"  /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수내용</th>

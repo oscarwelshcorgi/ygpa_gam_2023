@@ -410,8 +410,8 @@ var module_instance = new GamFcltyMaintMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMngMngtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="addBtn">시설추가</button>
-					<button id="deleteBtn">시설삭제</button>
+					<button id="addBtn">추가</button>
+					<button id="deleteBtn">삭제</button>
 				</div>
 			</div>
 
