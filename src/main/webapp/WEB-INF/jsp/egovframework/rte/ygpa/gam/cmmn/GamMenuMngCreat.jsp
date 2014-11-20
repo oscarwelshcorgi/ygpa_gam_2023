@@ -40,9 +40,15 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 					{display:'권한명', 		name:'authorNm',		width:140, 		sortable:false,		align:'left'},
 					{display:'권한설명', 		name:'authorDc',		width:220, 		sortable:false,		align:'left'},
 					{display:'메뉴생성수', 		name:'chkYeoBu',		width:60, 		sortable:false,		align:'center'},
-					{display:'메뉴생성', 		name:'regYn',			width:70, 		sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'메뉴생성', className:'selectRoleButton'}}
+					{display:'메뉴생성', 		name:'regYn',			width:80, 		sortable:false,		align:'center', 	displayFormat:'button', 	displayOption:{label:'메뉴생성', className:'selectRoleButton'}}
 					],
-		height: "auto"
+		height: "auto",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.regYn="메뉴생성";
+			});
+			return data;
+		}
 	});
 
 	this.$("#menuMngCreateList").on("onButtonClicked", function(event, module, colId, row, grid, param) {
@@ -69,7 +75,7 @@ GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 		break;
 	default:
 		alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-		
+
 		break;
 	}
 };
@@ -85,7 +91,7 @@ GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 		case "searchBtn":
 			var searchOpt = this.makeFormArgs("#menuMngCreateForm");
 		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload();
-		 	
+
 		break;
 
 		// 신규저장

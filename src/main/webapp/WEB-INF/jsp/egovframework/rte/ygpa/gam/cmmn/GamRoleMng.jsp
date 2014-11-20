@@ -60,7 +60,7 @@ GamRoleMngModule.prototype.loadComplete = function() {
 			return data;
 		}
 	});
-	
+
 	this.$("#roleMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module.$("#roleMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		if(row != null) {
@@ -68,6 +68,8 @@ GamRoleMngModule.prototype.loadComplete = function() {
 			module.makeFormValues('#roleManage', row);
 		}
 	});
+
+	//console.log('debug');
 };
 
 /**
@@ -88,7 +90,7 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 등록
 		case "addBtn":
-			this.$("#roleMngListTab").tabs("option", {active: 1}); 
+			this.$("#roleMngListTab").tabs("option", {active: 1});
 			this.$('#roleManage :input').val('');
 			this._cmd='insert';
 			this.$('#groupNm').focus();
@@ -107,15 +109,15 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 		 		if(result.resultCode == 0){
 		 			var searchOpt = module.makeFormArgs("#roleMngForm");
 		 			module.$('#roleManage :input').val('');
-		 			module.$("#roleMngListTab").tabs("option", {active: 0}); 
+		 			module.$("#roleMngListTab").tabs("option", {active: 0});
 		 			module.$("#roleMngList").flexOptions({params:searchOpt}).flexReload();
 		 		}
-		 		alert(result.resultMsg);			 		
+		 		alert(result.resultMsg);
 		 	});
 		break;
 		// 삭제
 		case "deleteBtn":
-			
+
 			var filter = [{ 'col': 'delYn', 'filter': true}];
 			var reglist = this.$("#roleMngList").selectFilterData(filter);
 
@@ -130,7 +132,7 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 			 			var searchOpt = module.makeFormArgs("#roleMngForm");
 			 			module.$("#roleMngList").flexOptions({params:searchOpt}).flexReload();
 			 		}
-			 		alert(result.resultMsg);			 		
+			 		alert(result.resultMsg);
 			 	});
 			}else{
 				alert("선택 된 값이 없습니다.");
@@ -141,11 +143,11 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 
 
 GamRoleMngModule.prototype.onClosePopup = function(popupId, msg, value){
-	
+
 	switch(popupId){
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			
+
 		break;
 	}
 };
@@ -171,7 +173,7 @@ var module_instance = new GamRoleMngModule();
 								<input id="searchKeyword" type="text" size="30" title="검색" />
 							</td>
 							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
-							
+
 						</tr>
 					</tbody>
 				</table>

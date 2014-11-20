@@ -1,27 +1,253 @@
-//v.3.6 build 131108
-
 /*
-Copyright DHTMLX LTD. http://www.dhtmlx.com
-You allowed to use this component or parts of it under GPL terms
-To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+Product Name: dhtmlxSuite 
+Version: 4.0.3 
+Edition: Professional 
+License: content of this file is covered by DHTMLX Commercial or Enterprise license. Usage without proper license is prohibited. To obtain it contact sales@dhtmlx.com
+Copyright UAB Dinamenta http://www.dhtmlx.com
 */
-dhtmlXGridObject.prototype.toPDF=function(q,k,l,a,g,c){function r(h){for(var i=[],e=1;e<b.hdr.rows.length;e++){i[e]=[];for(var f=0;f<b._cCount;f++){var u=b.hdr.rows[e].childNodes[f];i[e][f]||(i[e][f]=[0,0]);u&&(i[e][u._cellIndexS]=[u.colSpan,u.rowSpan])}}var d="<rows profile='"+h+"'";l&&(d+=" header='"+l+"'");a&&(d+=" footer='"+a+"'");d+="><head>"+b._serialiseExportConfig(i).replace(/^<head/,"<columns").replace(/head>$/,"columns>");for(e=2;e<b.hdr.rows.length;e++){for(var c=0,g=b.hdr.rows[e],j="",
-f=0;f<b._cCount;f++)if(b._srClmn&&!b._srClmn[f]||b._hrrar[f]&&(!b._fake||f>=b._fake.hdrLabels.length))c++;else{var k=i[e][f],m=k[0]&&k[0]>1?' colspan="'+k[0]+'" ':"";k[1]&&k[1]>1&&(m+=' rowspan="'+k[1]+'" ',c=-1);for(var n="",p=0;p<g.cells.length;p++)if(g.cells[p]._cellIndexS==f){n=g.cells[p].getElementsByTagName("SELECT").length?"":_isIE?g.cells[p].innerText:g.cells[p].textContent;n=n.replace(/[ \n\r\t\xA0]+/," ");break}(!n||n==" ")&&c++;j+="<column"+m+"><![CDATA["+n+"]]\></column>"}c!=b._cCount&&
-(d+="\n<columns>"+j+"</columns>")}d+="</head>\n";d+=o();return d}function m(){var h=[];if(g)for(var i=0;i<g.length;i++)h.push(w(b.getRowIndex(g[i])));else for(i=0;i<b.getRowsNum();i++)h.push(w(i));return h.join("\n")}function o(){var h=["<foot>"];if(!b.ftr)return"";for(var i=1;i<b.ftr.rows.length;i++){h.push("<columns>");for(var e=b.ftr.rows[i],f=0;f<b._cCount;f++)if(!b._srClmn||b._srClmn[f])if(!b._hrrar[f]||b._fake&&!(f>=b._fake.hdrLabels.length)){for(var a=0;a<e.cells.length;a++){var d="",c="";
-if(e.cells[a]._cellIndexS==f){d=_isIE?e.cells[a].innerText:e.cells[a].textContent;d=d.replace(/[ \n\r\t\xA0]+/," ");e.cells[a].colSpan&&e.cells[a].colSpan!=1&&(c=" colspan='"+e.cells[a].colSpan+"' ");e.cells[a].rowSpan&&e.cells[a].rowSpan!=1&&(c=" rowspan='"+e.cells[a].rowSpan+"' ");break}}h.push("<column"+c+"><![CDATA["+d+"]]\></column>")}h.push("</columns>")}h.push("</foot>");return h.join("\n")}function h(b,a){return(window.getComputedStyle?window.getComputedStyle(b,null)[a]:b.currentStyle?b.currentStyle[a]:
-null)||""}function w(a){if(!b.rowsBuffer[a])return"";var c=b.render_row(a);if(c.style.display=="none")return"";for(var e=b.isTreeGrid()?' level="'+b.getLevel(c.idd)+'"':"",f="<row"+e+">",g=0;g<b._cCount;g++)if((!b._srClmn||b._srClmn[g])&&(!b._hrrar[g]||b._fake&&g<b._fake.hdrLabels.length)){var d=b.cells(c.idd,g);if(x){var k=h(d.cell,"color"),j=h(d.cell,"backgroundColor"),l=h(d.cell,"font-weight")||h(d.cell,"fontWeight"),m=h(d.cell,"font-style")||h(d.cell,"fontStyle"),o=h(d.cell,"text-align")||h(d.cell,
-"textAlign"),n=h(d.cell,"font-family")||h(d.cell,"fontFamily");if(j=="transparent"||j=="rgba(0, 0, 0, 0)")j="rgb(255,255,255)";f+="<cell bgColor='"+j+"' textColor='"+k+"' bold='"+l+"' italic='"+m+"' align='"+o+"' font='"+n+"'>"}else f+="<cell>";f+="<![CDATA["+(d.getContent?d.getContent():d.getTitle())+"]]\></cell>"}return f+"</row>"}function y(){var a="</rows>";return a}var j={row:this.getSelectedRowId(),col:this.getSelectedCellIndex()};if(j.row===null||j.col===-1)j=!1;else{var s=this.cells(j.row,
-j.col).cell;s.parentNode.className=s.parentNode.className.replace(" rowselected","");s.className=s.className.replace(" cellselected","");j.el=s}var k=k||"color",x=k=="full_color",b=this;b._asCDATA=!0;this.target=typeof c==="undefined"?' target="_blank"':c;eXcell_ch.prototype.getContent=function(){return this.getValue()};eXcell_ra.prototype.getContent=function(){return this.getValue()};var t=document.createElement("div");t.style.display="none";document.body.appendChild(t);var v="form_"+b.uid();t.innerHTML=
-'<form id="'+v+'" method="post" action="'+q+'" accept-charset="utf-8"  enctype="application/x-www-form-urlencoded"'+this.target+'><input type="hidden" name="grid_xml" id="grid_xml"/> </form>';document.getElementById(v).firstChild.value=encodeURIComponent(r(k).replace("\u2013","-")+m()+y());document.getElementById(v).submit();t.parentNode.removeChild(t);b=null;j&&(j.el.parentNode.className+=" rowselected",j.el.className+=" cellselected");j=null};
-dhtmlXGridObject.prototype._serialiseExportConfig=function(q){function k(a){if(typeof a!=="string")return a;a=a.replace(/&/g,"&amp;");a=a.replace(/"/g,"&quot;");a=a.replace(/'/g,"&apos;");a=a.replace(/</g,"&lt;");return a=a.replace(/>/g,"&gt;")}for(var l="<head>",a=0;a<this.hdr.rows[0].cells.length;a++)if(!this._srClmn||this._srClmn[a])if(!this._hrrar[a]||this._fake&&!(a>=this._fake.hdrLabels.length)){var g=this.fldSort[a];g=="cus"&&(g=this._customSorts[a].toString(),g=g.replace(/function[\ ]*/,"").replace(/\([^\f]*/,
-""));var c=q[1][a],r=(c[1]&&c[1]>1?' rowspan="'+c[1]+'" ':"")+(c[0]&&c[0]>1?' colspan="'+c[0]+'" ':"");l+="<column "+r+" width='"+this.getColWidth(a)+"' align='"+this.cellAlign[a]+"' type='"+this.cellType[a]+"' hidden='"+(this.isColumnHidden&&this.isColumnHidden(a)?"true":"false")+"' sort='"+(g||"na")+"' color='"+(this.columnColor[a]||"")+"'"+(this.columnIds[a]?" id='"+this.columnIds[a]+"'":"")+">";l+=this._asCDATA?"<![CDATA["+this.getHeaderCol(a)+"]]\>":this.getHeaderCol(a);var m=this.combos[a]?
-this.getCombo(a):null;if(m)for(var o=0;o<m.keys.length;o++)l+="<option value='"+k(m.keys[o])+"'><![CDATA["+m.values[o]+"]]\></option>";l+="</column>"}return l+="</head>"};if(window.eXcell_sub_row_grid)window.eXcell_sub_row_grid.prototype.getContent=function(){return""};
-dhtmlXGridObject.prototype.toExcel=function(q,k,l,a,g){if(!document.getElementById("ifr")){var c=document.createElement("iframe");c.style.display="none";c.setAttribute("name","dhx_export_iframe");c.setAttribute("src","");c.setAttribute("id","dhx_export_iframe");document.body.appendChild(c)}var r=' target="dhx_export_iframe"';this.toPDF(q,k,l,a,g,r)};
 
-//v.3.6 build 131108
+dhtmlXGridObject.prototype.toPDF=function(url,mode,header,footer,rows,target){
+	var save_sel = {
+		row: this.getSelectedRowId(),
+		col: this.getSelectedCellIndex()
+	};
+	if (save_sel.row === null || save_sel.col === -1)
+		save_sel = false;
+	else {
+		var el = this.cells(save_sel.row, save_sel.col).cell;
+		el.parentNode.className = el.parentNode.className.replace(' rowselected', '');
+		el.className = el.className.replace(' cellselected', '');
+		save_sel.el = el;
+	}
+	mode = mode || "color";	
+	var full_color = mode == "full_color";
+	var grid = this;
+	grid._asCDATA = true;
+	if (typeof(target) === 'undefined')
+		this.target = " target=\"_blank\"";
+	else
+		this.target = target;
+		
+	eXcell_ch.prototype.getContent = function(){
+		return this.getValue();
+	};
+	eXcell_ra.prototype.getContent = function(){
+		return this.getValue();
+	};
+	function xml_top(profile) {
+		var spans = [];
+		for (var i=1; i<grid.hdr.rows.length; i++){
+			spans[i]=[];
+			for (var j=0; j<grid._cCount; j++){
+				var cell = grid.hdr.rows[i].childNodes[j];
+				if (!spans[i][j])
+					spans[i][j]=[0,0];
+				if (cell)
+					spans[i][cell._cellIndexS]=[cell.colSpan, cell.rowSpan];
+			}
+		}
+		
+	    var xml = "<rows profile='"+profile+"'";
+	       if (header)
+	          xml+=" header='"+header+"'";
+	       if (footer)
+	          xml+=" footer='"+footer+"'";
+	    xml+="><head>"+grid._serialiseExportConfig(spans).replace(/^<head/,"<columns").replace(/head>$/,"columns>");
+	    for (var i=2; i < grid.hdr.rows.length; i++) {
+                var empty_cols = 0;
+                var row = grid.hdr.rows[i];
+    	        var cxml="";
+	    	for (var j=0; j < grid._cCount; j++) {
+	    		if ((grid._srClmn && !grid._srClmn[j]) || (grid._hrrar[j] && ( !grid._fake || j >= grid._fake.hdrLabels.length))) {
+	    			empty_cols++;
+	    			continue;
+    			}
+	    		var s = spans[i][j];
+	    		var rspan =  (( s[0] && s[0] > 1 ) ? ' colspan="'+s[0]+'" ' : "");
+                        if (s[1] && s[1] > 1){
+                             rspan+=' rowspan="'+s[1]+'" ';
+                             empty_cols = -1;
+                        }
+                        
+                
+                var val = "";
+                //split mode
+                var frow = row;
+                if (grid._fake && j < grid._fake._cCount)
+                	frow = grid._fake.hdr.rows[i];
 
-/*
-Copyright DHTMLX LTD. http://www.dhtmlx.com
-You allowed to use this component or parts of it under GPL terms
-To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
-*/
+                for (var k=0; k<frow.cells.length; k++){
+					if (frow.cells[k]._cellIndexS==j) {
+						if (frow.cells[k].getElementsByTagName("SELECT").length)
+							val="";
+						else
+							val = _isIE?frow.cells[k].innerText:frow.cells[k].textContent;
+							val=val.replace(/[ \n\r\t\xA0]+/," ");
+						break;
+					}
+				}
+	    		if (!val || val==" ") empty_cols++;
+	    		cxml+="<column"+rspan+"><![CDATA["+val+"]]></column>";
+	    	};
+	    	if (empty_cols != grid._cCount)
+	    		xml+="\n<columns>"+cxml+"</columns>";
+	    };
+	    xml+="</head>\n";
+	    xml+=xml_footer();
+	    return xml;
+	};
+	
+	function xml_body() {
+		var xml =[];
+	    if (rows)
+	    	for (var i=0; i<rows.length; i++)
+	    		xml.push(xml_row(grid.getRowIndex(rows[i])));
+	    else
+	    	for (var i=0; i<grid.getRowsNum(); i++)
+	    		xml.push(xml_row(i));
+	    return xml.join("\n");
+	}
+	function xml_footer() {
+		var xml =["<foot>"];
+		if (!grid.ftr) return "";
+		for (var i=1; i < grid.ftr.rows.length; i++) {
+			xml.push("<columns>");
+			var row = grid.ftr.rows[i];
+			for (var j=0; j < grid._cCount; j++){
+				if (grid._srClmn && !grid._srClmn[j]) continue;
+				if (grid._hrrar[j] && ( !grid._fake || j >= grid._fake.hdrLabels.length)) continue;
+				for (var k=0; k<row.cells.length; k++){
+				 	var val = "";
+				 	var span = "";
+					if (row.cells[k]._cellIndexS==j) {
+						val = _isIE?row.cells[k].innerText:row.cells[k].textContent;
+						val=val.replace(/[ \n\r\t\xA0]+/," ");
+						
+						if (row.cells[k].colSpan && row.cells[k].colSpan!=1)
+							span = " colspan='"+row.cells[k].colSpan+"' ";
+						
+						if (row.cells[k].rowSpan && row.cells[k].rowSpan!=1)
+							span = " rowspan='"+row.cells[k].rowSpan+"' ";
+						break;
+					}
+				}
+				xml.push("<column"+span+"><![CDATA["+val+"]]></column>");
+			}
+			xml.push("</columns>");
+		};
+		xml.push("</foot>");
+	    return xml.join("\n");
+	};
+	function get_style(node, style){
+		return (window.getComputedStyle?(window.getComputedStyle(node, null)[style]):(node.currentStyle?node.currentStyle[style]:null))||"";
+	};
+	
+	function xml_row(ind){
+		if (!grid.rowsBuffer[ind]) return "";
+		var r = grid.render_row(ind);
+		if (r.style.display=="none") return "";
+		var level = grid.isTreeGrid() ? ' level="' + grid.getLevel(r.idd) + '"' : '';
+		var xml = "<row" + level + ">";
+		for (var i=0; i < grid._cCount; i++) {
+			if (((!grid._srClmn)||(grid._srClmn[i]))&&(!grid._hrrar[i] || ( grid._fake && i < grid._fake.hdrLabels.length))){
+				var cell = grid.cells(r.idd, i);
+				if (full_color){
+					var text_color	= get_style(cell.cell,"color");
+		        	var bg_color	= get_style(cell.cell,"backgroundColor");
+					var bold		= get_style(cell.cell, "font-weight") || get_style(cell.cell, "fontWeight");
+					var italic		= get_style(cell.cell, "font-style") || get_style(cell.cell, "fontStyle");
+					var align		= get_style(cell.cell, "text-align") || get_style(cell.cell, "textAlign");
+					var font	 = get_style(cell.cell, "font-family") || get_style(cell.cell, "fontFamily");
+		        	if (bg_color == "transparent" || bg_color == "rgba(0, 0, 0, 0)") bg_color = "rgb(255,255,255)";
+		        	xml+="<cell bgColor='"+bg_color+"' textColor='" + text_color + "' bold='" + bold + "' italic='" + italic + "' align='"+align+"' font='" + font + "'>";
+				} else 
+					xml+="<cell>";
+				
+				xml+="<![CDATA["+(cell.getContent?cell.getContent():cell.getTitle())+"]]></cell>";
+			}
+		};
+		return xml+"</row>";
+	}
+	function xml_end(){
+	    var xml = "</rows>";
+	    return xml;
+	}
+
+
+			
+	var d=document.createElement("div");
+	d.style.display="none";
+	document.body.appendChild(d);
+	var uid = "form_"+grid.uid();
+
+	d.innerHTML = '<form id="'+uid+'" method="post" action="'+url+'" accept-charset="utf-8"  enctype="application/x-www-form-urlencoded"' + this.target + '><input type="hidden" name="grid_xml" id="grid_xml"/> </form>';
+	document.getElementById(uid).firstChild.value = encodeURIComponent(xml_top(mode).replace("\u2013", "-") + xml_body() + xml_end());
+	document.getElementById(uid).submit();
+	d.parentNode.removeChild(d);
+
+
+	grid = null;
+	
+	if (save_sel) {
+		save_sel.el.parentNode.className += ' rowselected';
+		save_sel.el.className += ' cellselected';
+	};
+	save_sel = null;
+};
+dhtmlXGridObject.prototype._serialiseExportConfig=function(spans){
+	function xmlentities(str) {
+		if (typeof(str)!=='string') return str;
+		str = str.replace(/&/g, "&amp;");
+		str = str.replace(/"/g, "&quot;");
+		str = str.replace(/'/g, "&apos;");
+		str = str.replace(/</g, "&lt;");
+		str = str.replace(/>/g, "&gt;");
+		return str;
+	}
+	
+	var out = "<head>";
+
+	for (var i = 0; i < this.hdr.rows[0].cells.length; i++){
+		if (this._srClmn && !this._srClmn[i]) continue;
+		if (this._hrrar[i] && ( !this._fake || i >= this._fake.hdrLabels.length)) continue;
+		var sort = this.fldSort[i];
+		if (sort == "cus"){
+			sort = this._customSorts[i].toString();
+			sort=sort.replace(/function[\ ]*/,"").replace(/\([^\f]*/,"");
+		}
+		var s = spans[1][i];
+		var rpans = (( s[1] && s[1] > 1 ) ? ' rowspan="'+s[1]+'" ' : "")+(( s[0] && s[0] > 1 ) ? ' colspan="'+s[0]+'" ' : "");
+		out+="<column "+rpans+" width='"+this.getColWidth(i)+"' align='"+this.cellAlign[i]+"' type='"+this.cellType[i] + "' hidden='" + ((this.isColumnHidden && this.isColumnHidden(i)) ? 'true' : 'false')
+			+"' sort='"+(sort||"na")+"' color='"+(this.columnColor[i]||"")+"'"
+			+(this.columnIds[i]
+				? (" id='"+this.columnIds[i]+"'")
+				: "")+">";
+		if (this._asCDATA)
+			out+="<![CDATA["+this.getHeaderCol(i)+"]]>";
+		else
+			out+=this.getHeaderCol(i);
+		var z = this.combos[i]?this.getCombo(i):null;
+
+		if (z)
+			for (var j = 0; j < z.keys.length; j++)out+="<option value='"+xmlentities(z.keys[j])+"'><![CDATA["+z.values[j]+"]]></option>";
+		out+="</column>";
+	}
+	return out+="</head>";
+};
+if (window.eXcell_sub_row_grid)
+	window.eXcell_sub_row_grid.prototype.getContent=function(){ return ""; };
+
+
+dhtmlXGridObject.prototype.toExcel = function(url,mode,header,footer,rows) {
+	if (!document.getElementById('ifr')) {
+		var ifr = document.createElement('iframe');
+		ifr.style.display = 'none';
+		ifr.setAttribute('name', 'dhx_export_iframe');
+		ifr.setAttribute('src', '');
+		ifr.setAttribute('id', 'dhx_export_iframe');
+		document.body.appendChild(ifr);
+	}
+
+	var target = " target=\"dhx_export_iframe\"";
+	this.toPDF(url,mode,header,footer,rows,target);
+}
