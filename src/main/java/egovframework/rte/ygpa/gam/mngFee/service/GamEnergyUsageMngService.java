@@ -45,21 +45,21 @@ public interface GamEnergyUsageMngService {
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	void InsertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+	void insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
 
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	void UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+	void updateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
 
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+	void deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
 
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	void CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+	void copyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
 
 }

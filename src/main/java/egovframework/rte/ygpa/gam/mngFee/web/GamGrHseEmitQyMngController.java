@@ -112,7 +112,7 @@ public class GamGrHseEmitQyMngController {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectGrHseEmitQyMngList(GamGrHseEmitQyMngVo searchVO) throws Exception {
+    @ResponseBody Map selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo searchVO) throws Exception {
 
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -145,7 +145,7 @@ public class GamGrHseEmitQyMngController {
 
 
     @RequestMapping(value="/mngFee/gamInsertGrHseEmitQyMng.do")
-	@ResponseBody Map<String, Object> InsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -156,18 +156,10 @@ public class GamGrHseEmitQyMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamGrHseEmitQyMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
+    	try {
 			gamGrHseEmitQyMngVo.setRegUsr((String)user.getId());
-			gamGrHseEmitQyMngService.InsertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+			gamGrHseEmitQyMngService.insertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -181,8 +173,8 @@ public class GamGrHseEmitQyMngController {
     	return map;
     }
 
-    @RequestMapping(value="/mngFee/gamDeleteGrHseEmitQyMng.do")
-	@ResponseBody Map<String, Object> DeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+    @RequestMapping(value="/mngFee/gamUpdateGrHseEmitQyMng.do")
+	@ResponseBody Map<String, Object> updateGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -193,26 +185,46 @@ public class GamGrHseEmitQyMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamGrHseEmitQyMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
-			gamGrHseEmitQyMngVo.setRegUsr((String)user.getId());
-			gamGrHseEmitQyMngService.DeleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+    	try {
+			gamGrHseEmitQyMngVo.setUpdUsr((String)user.getId());
+			gamGrHseEmitQyMngService.updateGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamDeleteGrHseEmitQyMng.do")
+	@ResponseBody Map<String, Object> deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+			gamGrHseEmitQyMngService.deleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;

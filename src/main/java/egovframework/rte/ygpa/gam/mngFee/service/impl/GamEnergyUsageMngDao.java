@@ -55,29 +55,29 @@ public class GamEnergyUsageMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	public void InsertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		insert("gamEnergyUsageMngDao.InsertEnergyUsageMng",gamEnergyUsageMngVo);
+	public void insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		insert("gamEnergyUsageMngDao.insertEnergyUsageMng_S",gamEnergyUsageMngVo);
 	}
 
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	public void UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		insert("gamEnergyUsageMngDao.UpdateEnergyUsageMng",gamEnergyUsageMngVo);
+	public void updateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		update("gamEnergyUsageMngDao.updateEnergyUsageMng_S",gamEnergyUsageMngVo);
 	}
 
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	public void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		delete("gamEnergyUsageMngDao.DeleteEnergyUsageMng",gamEnergyUsageMngVo);
+	public void deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		delete("gamEnergyUsageMngDao.deleteEnergyUsageMng_S",gamEnergyUsageMngVo);
 	}
 
 	/**
 	 * @param gamEnergyUsageMngVo
 	 */
-	public void CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		insert("gamEnergyUsageMngDao.CopyEnergyUsageMng",gamEnergyUsageMngVo);
+	public void copyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		insert("gamEnergyUsageMngDao.copyEnergyUsageMng_S",gamEnergyUsageMngVo);
 	}
 
 }

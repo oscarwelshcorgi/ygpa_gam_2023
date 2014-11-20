@@ -2,198 +2,113 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.mngFee">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamGrHseEmitQyMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamGrHseEmitQyMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo"/>
 
-    <select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngList_D" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
-     SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                            SELECT
-									CAR_REGIST_NO,
-									CAR_KND,
-									CAR_PRPOS,
-									CAR_NM,
-									CAR_FMT,
-									CAR_YR_MDL,
-									CAR_BODY_NO,
-									TURBINE_FMT,
-									USAGE_STRHLD,
-									OWNER_NM,
-									OWNER_ADRES,
-									TO_CHAR(CAR_REGIST_DT, 'YYYY-MM-DD') CAR_REGIST_DT,
-									REGIST_GOV_OFC,
-									SPEC_MNG_NO,
-									CAR_LT,
-									CAR_WD,
-									CAR_HT,
-									CAR_GR_WQNT,
-									EXHAUSTQY,
-									RATE_OUTPUT,
-									RIDE_QUOTA_CAPA,
-									MAX_CAPA_QY,
-									CYLINDER_CNT,
-									FUEL_KND,
-									FUEL_EFFT,
-									TO_CHAR(EXAM_VALID_BEGIN_DT, 'YYYY-MM-DD') EXAM_VALID_BEGIN_DT,
-									TO_CHAR(EXAM_VALID_END_DT, 'YYYY-MM-DD') EXAM_VALID_END_DT,
-									ACQ_PRCE,
-									REG_USR,
-									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					        FROM CAR_INFO_F
-								  WHERE 1=1
-						         <isNotEmpty property="sCarRegistNo">
-						             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-						         </isNotEmpty>
+	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngList_D" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNG_YEAR
+								,T1.FUEL_CD
+								,T1.MNG_MT
+								,T1.USAGE_QY
+								,T1.ENERGY_USAGE_QY
+								,T1.GR_HSE_EMIT_QY
+								,T1.REG_USR
+								,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR
+								,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T2.FUEL_NM
+								,T2.ENERGY_UNIT
+								,T2.ENERGY_TOTAL_CAL_VAL
+								,T2.ENERGY_NET_CAL_VAL
+								,T2.GR_HSE_UNIT
+								,T2.GR_HSE_COEF
+							FROM GR_HSE_EMIT_STTUS_F T1
+							LEFT OUTER JOIN ENERGY_USAGEQY_COEF_F T2 ON (T1.MNG_YEAR=T2.MNG_YEAR AND T1.FUEL_CD=T2.FUEL_CD)
+						WHERE 1=1
 
-						         <isNotEmpty property="sCarNm">
-							         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-							     </isNotEmpty>
+						<isNotEmpty property="sMngYear">
+						AND T1.MNG_MT = || #sMngYear# || #sMngMt#
+						</isNotEmpty>
 
-							     <isNotEmpty property="sCarBodyNo">
-							          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-							     </isNotEmpty>
-                             ORDER BY CAR_REGIST_NO
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+						<isNotEmpty property="sCarNm">
+						AND T1.FUEL_CD LIKE '%' || #sFuelCd# || '%'
+						</isNotEmpty>
 
-    <select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngListTotCnt_S" parameterClass="gamGrHseEmitQyMngVo" resultClass="int">
-         SELECT COUNT(*) totcnt
-              FROM CAR_INFO_F
-                           <![CDATA[  WHERE 1=1 ]]>
-
-	         <isNotEmpty property="sCarRegistNo">
-	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-	         </isNotEmpty>
-
-	         <isNotEmpty property="sCarNm">
-		         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-		     </isNotEmpty>
-
-		     <isNotEmpty property="sCarBodyNo">
-		          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-		     </isNotEmpty>
-
-    </select>
-
-	<insert id="gamGrHseEmitQyMngDao.InsertGrHseEmitQyMng_S">
+						ORDER BY CAR_REGIST_NO
+				) S
+			) A
 		<![CDATA[
-		    INSERT
-		      INTO  CAR_INFO_F
-		         (  CAR_REGIST_NO
-					,CAR_KND
-					,CAR_PRPOS
-					,CAR_NM
-					,CAR_FMT
-					,CAR_YR_MDL
-					,CAR_BODY_NO
-					,TURBINE_FMT
-					,USAGE_STRHLD
-					,OWNER_NM
-					,OWNER_ADRES
-					,CAR_REGIST_DT
-					,REGIST_GOV_OFC
-					,SPEC_MNG_NO
-					,CAR_LT
-					,CAR_WD
-					,CAR_HT
-					,CAR_GR_WQNT
-					,EXHAUSTQY
-					,RATE_OUTPUT
-					,RIDE_QUOTA_CAPA
-					,MAX_CAPA_QY
-					,CYLINDER_CNT
-					,FUEL_KND
-					,FUEL_EFFT
-					,EXAM_VALID_BEGIN_DT
-					,EXAM_VALID_END_DT
-					,ACQ_PRCE
-					,REG_USR
-					,REGIST_DT
-		         )
-		    VALUES
-		         (  #carRegistNo#
-					, #carKnd#
-					, #carPrpos#
-					, #carNm#
-					, #carFmt#
-					, #carYrMdl#
-					, #carBodyNo#
-					, #turbineFmt#
-					, #usageStrhld#
-					, #ownerNm#
-					, #ownerAdres#
-					, TO_DATE(#carRegistDt#,'YYYY-MM-DD')
-					, #registGovOfc#
-					, #specMngNo#
-					, #carLt#
-					, #carWd#
-					, #carHt#
-					, #carGrWqnt#
-					, #exhaustqy#
-					, #rateOutput#
-					, #rideQuotaCapa#
-					, #maxCapaQy#
-					, #cylinderCnt#
-					, #fuelKnd#
-					, #fuelEfft#
-					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
-					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-					, #acqPrce#
-					, #regUsr#
-					, sysdate
-		         )
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngListTotCnt_S" parameterClass="gamGrHseEmitQyMngVo" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM GR_HSE_EMIT_STTUS_F
+		WHERE 1=1
+		<isNotEmpty property="sMngYear">
+		AND MNG_MT = || #sMngYear# || #sMngMt#
+		</isNotEmpty>
+
+		<isNotEmpty property="sCarNm">
+		AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+		</isNotEmpty>
+	</select>
+
+	<insert id="gamGrHseEmitQyMngDao.insertGrHseEmitQyMng_S">
+		<![CDATA[
+		INSERT INTO GR_HSE_EMIT_STTUS_F
+		(
+			 FUEL_CD
+			,MNG_YEAR
+			,MNG_MT
+			,USAGE_QY
+			,ENERGY_USAGE_QY
+			,GR_HSE_EMIT_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #fuelCd#
+			,#mngYear#
+			,#mngMt#
+			,TO_NUMBER(#usageQy#)
+			,TO_NUMBER(#energyUsageQy#)
+			,TO_NUMBER(#grHseEmitQy#)
+			,#regUsr#
+			,SYSDATE
+		)
 		]]>
 	</insert>
 
-	<update id="gamGrHseEmitQyMngDao.DeleteGrHseEmitQyMng_S">
+	<update id="gamGrHseEmitQyMngDao.updateGrHseEmitQyMng_S">
 		<![CDATA[
-            UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
-				,	UPD_USR	=	#updUsr#
-				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+		UPDATE GR_HSE_EMIT_STTUS_F SET
+			 USAGE_QY = TO_NUMBER(#usageQy#)
+			,ENERGY_USAGE_QY = TO_NUMBER(#energyUsageQy#)
+			,GR_HSE_EMIT_QY = TO_NUMBER(#grHseEmitQy#)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE FUEL_CD = #fuelCd#
+		AND MNG_YEAR = #mngYear#
+		AND MNG_MT = #mngMt#
 		]]>
 	</update>
 
-	<delete id="gGamGrHseEmitQyMngDao.DeleteCarMngList_S">
+	<delete id="gGamGrHseEmitQyMngDao.deleteGrHseEmitQyMng_S">
 		<![CDATA[
-            DELETE  CAR_INFO_F
-             WHERE  CAR_REGIST_NO   = #carRegistNo#
+		DELETE GR_HSE_EMIT_STTUS_F
+		WHERE FUEL_CD = #fuelCd#
+		AND MNG_YEAR = #mngYear#
+		AND MNG_MT = #mngMt#
 		]]>
 	</delete>
 
-   </sqlMap>
+</sqlMap>

@@ -100,7 +100,6 @@ GamCarMngModule.prototype.onButtonClick = function(buttonId) {
 
 };
 
-
 <%
 /**
  * @FUNCTION NAME : onSubmit

@@ -2,155 +2,155 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.mngFee">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamEnergyUsageMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamEnergyUsageMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo"/>
 
-    <select id="gamEnergyUsageMngDao.selectEnergyUsageMngList_D" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
-     SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                            SELECT
-                            		FUEL_CD
-									,FUEL_NM
-									,ENERGY_UNIT
-									,ENERGY_TOTAL_CAL_VAL
-									,ENERGY_NET_CAL_VAL
-									,GR_HSE_UNIT
-									,GR_HSE_COEF
-									,MNG_YEAR
-					        FROM ENERGY_USAGEQY_COEF_F
-								  WHERE 1=1
-						         <isNotEmpty property="sMngYear">
-						             AND MNG_YEAR = #sMngYear#
-						         </isNotEmpty>
-						         <isNotEmpty property="sFuelCd">
-						             AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
-						         </isNotEmpty>
-						         <isNotEmpty property="sFuelNm">
-						             AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
-						         </isNotEmpty>
-                             ORDER BY FUEL_CD
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngList_D" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 FUEL_CD
+								,FUEL_NM
+								,ENERGY_UNIT
+								,ENERGY_TOTAL_CAL_VAL
+								,ENERGY_NET_CAL_VAL
+								,GR_HSE_UNIT
+								,GR_HSE_COEF
+								,MNG_YEAR
+							FROM ENERGY_USAGEQY_COEF_F
+						WHERE 1=1
 
-    <select id="gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
-         SELECT COUNT(*) totcnt
-              FROM ENERGY_USAGEQY_COEF_F
-                           <![CDATA[  WHERE 1=1 ]]>
-								<isNotEmpty property="sMngYear">
-						             AND MNG_YEAR = #sMngYear#
-						         </isNotEmpty>
-						         <isNotEmpty property="sFuelCd">
-						             AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
-						         </isNotEmpty>
-						         <isNotEmpty property="sFuelNm">
-						             AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
-						         </isNotEmpty>
+						<isNotEmpty property="sMngYear">
+						AND MNG_YEAR = #sMngYear#
+						</isNotEmpty>
 
-    </select>
+						<isNotEmpty property="sFuelCd">
+						AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+						</isNotEmpty>
 
-    <select id="gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
-         SELECT COUNT(*) yearcnt
-              FROM ENERGY_USAGEQY_COEF_F
-                           <![CDATA[  WHERE 1=1 ]]>
-						             AND MNG_YEAR = #sMngYear#
+						<isNotEmpty property="sFuelNm">
+						AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
+						</isNotEmpty>
 
-    </select>
+						ORDER BY FUEL_CD
+				) S
+		) A
+	<![CDATA[
+	WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+	]]>
+	</select>
 
-	<insert id="gamEnergyUsageMngDao.InsertEnergyUsageMng">
+	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM ENERGY_USAGEQY_COEF_F
+		WHERE 1=1
+
+		<isNotEmpty property="sMngYear">
+		AND MNG_YEAR = #sMngYear#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFuelCd">
+		AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFuelNm">
+		AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
+		</isNotEmpty>
+	</select>
+
+	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
+		SELECT COUNT(*) yearcnt
+			FROM ENERGY_USAGEQY_COEF_F
+		WHERE MNG_YEAR = #sMngYear#
+	</select>
+
+	<insert id="gamEnergyUsageMngDao.insertEnergyUsageMng_S">
 		<![CDATA[
-		    INSERT
-		      INTO  ENERGY_USAGEQY_COEF_F
-		         (
-					FUEL_CD
-					,FUEL_NM
-					,ENERGY_UNIT
-					,ENERGY_TOTAL_CAL_VAL
-					,ENERGY_NET_CAL_VAL
-					,GR_HSE_UNIT
-					,GR_HSE_COEF
-					,MNG_YEAR
-					,REG_USR
-					,REGIST_DT
-
-		         )
-		    VALUES
-		         (
-		         	#fuelCd#
-					,#fuelNm#
-					,#energyUnit#
-					,#energyTotalCalVal#
-					,#energyNetCalVal#
-					,#grHseUnit#
-					,#grHseCoef#
-					,#mngYear#
-					,#regUsr#
-					, TO_DATE(sysdate,'YYYY-MM-DD')
-		         )
+		INSERT INTO ENERGY_USAGEQY_COEF_F
+		(
+			 FUEL_CD
+			,FUEL_NM
+			,ENERGY_UNIT
+			,ENERGY_TOTAL_CAL_VAL
+			,ENERGY_NET_CAL_VAL
+			,GR_HSE_UNIT
+			,GR_HSE_COEF
+			,MNG_YEAR
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #fuelCd#
+			,#fuelNm#
+			,#energyUnit#
+			,TO_NUMBER(#energyTotalCalVal#)
+			,TO_NUMBER(#energyNetCalVal#)
+			,#grHseUnit#
+			,TO_NUMBER(#grHseCoef#)
+			,#mngYear#
+			,#regUsr#
+			,SYSDATE
+		)
 		]]>
 	</insert>
 
-	<update id="gamEnergyUsageMngDao.UpdateEnergyUsageMng">
+	<update id="gamEnergyUsageMngDao.updateEnergyUsageMng_S">
 		<![CDATA[
-            UPDATE ENERGY_USAGEQY_COEF_F SET
-			       	FUEL_CD	=	#fuelCd#
-				,	FUEL_NM	=	#fuelNm#
-				,	ENERGY_UNIT	=	#energyUnit#
-				,	ENERGY_TOTAL_CAL_VAL	=	#energyTotalCalVal#
-				,	ENERGY_NET_CAL_VAL	=	#energyNetCalVal#
-				,	GR_HSE_UNIT	=	#grHseUnit#
-				,	GR_HSE_COEF	=	#grHseCoef#
-				,	MNG_YEAR	=	#mngYear#
-				,	UPD_USR	=	#updUsr#
-				,	UPDT_DT	=	sysdate
-             WHERE  FUEL_CD   = #fuelCd#
-             AND 	MNG_YEAR	= #mngYear#
+		UPDATE ENERGY_USAGEQY_COEF_F SET
+			 FUEL_NM = #fuelNm#
+			,ENERGY_UNIT = #energyUnit#
+			,ENERGY_TOTAL_CAL_VAL = TO_NUMBER(#energyTotalCalVal#)
+			,ENERGY_NET_CAL_VAL = TO_NUMBER(#energyNetCalVal#)
+			,GR_HSE_UNIT = #grHseUnit#
+			,GR_HSE_COEF = TO_NUMBER(#grHseCoef#)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE MNG_YEAR = #mngYear#
+		AND FUEL_CD = #fuelCd#
 		]]>
 	</update>
 
-	<delete id="gamEnergyUsageMngDao.DeleteEnergyUsageMng">
+	<delete id="gamEnergyUsageMngDao.deleteEnergyUsageMng_S">
 		<![CDATA[
-            DELETE  ENERGY_USAGEQY_COEF_F
-             WHERE  FUEL_CD   = #fuelCd#
-             AND 	MNG_YEAR	= #mngYear#
-		]]>
+		DELETE ENERGY_USAGEQY_COEF_F
+		WHERE MNG_YEAR = #mngYear#
+		AND FUEL_CD = #fuelCd#
+	]]>
 	</delete>
 
-	<insert id="gamEnergyUsageMngDao.CopyEnergyUsageMng">
+	<insert id="gamEnergyUsageMngDao.copyEnergyUsageMng_S">
 		<![CDATA[
-		    INSERT
-		      INTO  ENERGY_USAGEQY_COEF_F
-		         (
-					FUEL_CD
-					,FUEL_NM
-					,ENERGY_UNIT
-					,ENERGY_TOTAL_CAL_VAL
-					,ENERGY_NET_CAL_VAL
-					,GR_HSE_UNIT
-					,GR_HSE_COEF
-					,MNG_YEAR
-					,REG_USR
-					,REGIST_DT
-
-		         )
-		    SELECT
-		    		FUEL_CD
-					,FUEL_NM
-					,ENERGY_UNIT
-					,ENERGY_TOTAL_CAL_VAL
-					,ENERGY_NET_CAL_VAL
-					,GR_HSE_UNIT
-					,GR_HSE_COEF
-					,#sMngYear#
-					,#regUsr#
-					,SYSDATE
-		       FROM ENERGY_USAGEQY_COEF_F
-             WHERE 	MNG_YEAR = TO_CHAR(TO_NUMBER(#sMngYear#) - 1)
+		INSERT INTO  ENERGY_USAGEQY_COEF_F
+		(
+			 FUEL_CD
+			,FUEL_NM
+			,ENERGY_UNIT
+			,ENERGY_TOTAL_CAL_VAL
+			,ENERGY_NET_CAL_VAL
+			,GR_HSE_UNIT
+			,GR_HSE_COEF
+			,MNG_YEAR
+			,REG_USR
+			,REGIST_DT
+		)
+		SELECT
+				 FUEL_CD
+				,FUEL_NM
+				,ENERGY_UNIT
+				,ENERGY_TOTAL_CAL_VAL
+				,ENERGY_NET_CAL_VAL
+				,GR_HSE_UNIT
+				,GR_HSE_COEF
+				,#sMngYear#
+				,#regUsr#
+				,SYSDATE
+			FROM ENERGY_USAGEQY_COEF_F
+		WHERE MNG_YEAR = TO_CHAR(TO_NUMBER(#sMngYear#) - 1)
 		]]>
 	</insert>
 
-   </sqlMap>
+</sqlMap>

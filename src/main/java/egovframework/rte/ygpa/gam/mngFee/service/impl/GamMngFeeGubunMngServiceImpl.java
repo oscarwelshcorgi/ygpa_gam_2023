@@ -62,27 +62,27 @@ public class GamMngFeeGubunMngServiceImpl extends AbstractServiceImpl implements
 	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#InsertMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
 	 */
 	@Override
-	public void InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
+	public void insertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
 		// TODO Auto-generated method stub
-		gamMngFeeGubunMngDao.InsertMngFeeGubunMng(gamMngFeeGubunMngVo);
-	}
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#DeleteMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
-	 */
-	@Override
-	public void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception  {
-		// TODO Auto-generated method stub
-		gamMngFeeGubunMngDao.DeleteMngFeeGubunMng(gamMngFeeGubunMngVo);
+		gamMngFeeGubunMngDao.insertMngFeeGubunMng(gamMngFeeGubunMngVo);
 	}
 
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#gamUpdateMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
 	 */
 	@Override
-	public void UpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
+	public void updateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
 		// TODO Auto-generated method stub
-		gamMngFeeGubunMngDao.UpdateMngFeeGubunMng(gamMngFeeGubunMngVo);
+		gamMngFeeGubunMngDao.updateMngFeeGubunMng(gamMngFeeGubunMngVo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#DeleteMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
+	 */
+	@Override
+	public void deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception  {
+		// TODO Auto-generated method stub
+		gamMngFeeGubunMngDao.deleteMngFeeGubunMng(gamMngFeeGubunMngVo);
 	}
 
 	/* (non-Javadoc)
@@ -93,7 +93,5 @@ public class GamMngFeeGubunMngServiceImpl extends AbstractServiceImpl implements
 		// TODO Auto-generated method stub
 		return gamMngFeeGubunMngDao.checkSeFeeGubunMng(checkSe);
 	}
-
-
 
 }

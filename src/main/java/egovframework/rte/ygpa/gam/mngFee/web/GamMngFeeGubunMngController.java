@@ -84,7 +84,7 @@ public class GamMngFeeGubunMngController {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/mngFee/gamSelectMngFeeGubunMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
+    @ResponseBody Map selectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
 
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -117,7 +117,7 @@ public class GamMngFeeGubunMngController {
 
 
     @RequestMapping(value="/mngFee/gamInsertMngFeeGubunMng.do")
-	@ResponseBody Map<String, Object> InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> insertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -128,18 +128,10 @@ public class GamMngFeeGubunMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
+    	try {
 			gamMngFeeGubunMngVo.setRegUsr((String)user.getId());
-			gamMngFeeGubunMngService.InsertMngFeeGubunMng(gamMngFeeGubunMngVo);
+			gamMngFeeGubunMngService.insertMngFeeGubunMng(gamMngFeeGubunMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -154,7 +146,7 @@ public class GamMngFeeGubunMngController {
     }
 
     @RequestMapping(value="/mngFee/gamUpdateMngFeeGubunMng.do")
-    @ResponseBody Map<String, Object> gamUpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+    @ResponseBody Map<String, Object> updateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -165,33 +157,25 @@ public class GamMngFeeGubunMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     		return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-    	 */
     	try {
     		gamMngFeeGubunMngVo.setUpdUsr((String)user.getId());
-    		gamMngFeeGubunMngService.UpdateMngFeeGubunMng(gamMngFeeGubunMngVo);
+    		gamMngFeeGubunMngService.updateMngFeeGubunMng(gamMngFeeGubunMngVo);
 
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	} catch (Exception e) {
     		// TODO: handle exception
     		e.printStackTrace();
     		map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     	}
 
     	return map;
     }
 
     @RequestMapping(value="/mngFee/gamDeleteMngFeeGubunMng.do")
-	@ResponseBody Map<String, Object> DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -202,33 +186,23 @@ public class GamMngFeeGubunMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
-			gamMngFeeGubunMngVo.setRegUsr((String)user.getId());
-			gamMngFeeGubunMngService.DeleteMngFeeGubunMng(gamMngFeeGubunMngVo);
+    	try {
+			gamMngFeeGubunMngService.deleteMngFeeGubunMng(gamMngFeeGubunMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;
     }
 
-
-    @RequestMapping(value="/mngFee/gamcheckSeFeeGubunMng.do")
+    @RequestMapping(value="/mngFee/gamCheckSeFeeGubunMng.do")
     @ResponseBody Map<String, Object> checkSeFeeGubunMng(@RequestParam("checkSe") String checkSe)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();

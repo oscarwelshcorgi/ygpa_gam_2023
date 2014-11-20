@@ -48,17 +48,22 @@ public class GamGrHseEmitQyMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamGrHseEmitQyMngVo
 	 */
-	public void InsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
-		insert("gamGrHseEmitQyMngDao.InsertGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
+	public void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		insert("gamGrHseEmitQyMngDao.insertGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
 	}
 
 	/**
 	 * @param gamGrHseEmitQyMngVo
 	 */
-	public void DeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
-		delete("gamGrHseEmitQyMngDao.DeleteGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
+	public void updateGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		update("gamGrHseEmitQyMngDao.updateGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
 	}
 
-
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	public void deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		delete("gamGrHseEmitQyMngDao.deleteGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
+	}
 
 }

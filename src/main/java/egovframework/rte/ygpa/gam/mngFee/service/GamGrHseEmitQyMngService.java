@@ -39,11 +39,16 @@ public interface GamGrHseEmitQyMngService {
 	/**
 	 * @param gamGrHseEmitQyMngVo
 	 */
-	void InsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+	void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
 
 	/**
 	 * @param gamGrHseEmitQyMngVo
 	 */
-	void DeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+	void updateGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	void deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
 
 }

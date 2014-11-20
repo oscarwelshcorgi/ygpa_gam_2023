@@ -47,15 +47,18 @@ public class GamGrHseEmitQyMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
-	public void InsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
-		gamGrHseEmitQyMngDao.InsertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+	public void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		gamGrHseEmitQyMngDao.insertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 	}
 
 	@Override
-	public void DeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
-		gamGrHseEmitQyMngDao.DeleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+	public void updateGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		gamGrHseEmitQyMngDao.updateGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 	}
 
-
+	@Override
+	public void deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		gamGrHseEmitQyMngDao.deleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+	}
 
 }

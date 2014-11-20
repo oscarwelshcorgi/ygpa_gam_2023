@@ -49,23 +49,22 @@ public class GamMngFeeGubunMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	public void InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
-		insert("gamMngFeeGubunMngDao.InsertMngFeeGubunMng_D", gamMngFeeGubunMngVo);
+	public void insertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
+		insert("gamMngFeeGubunMngDao.insertMngFeeGubunMng_S", gamMngFeeGubunMngVo);
 	}
 
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	public void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
-		delete("gamMngFeeGubunMngDao.DeleteMngFeeGubunMng", gamMngFeeGubunMngVo);
+	public void updateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
+		update("gamMngFeeGubunMngDao.updateMngFeeGubunMng_S",gamMngFeeGubunMngVo);
 	}
 
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	public void UpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
-		// TODO Auto-generated method stub
-		update("gamMngFeeGubunMngDao.UpdateMngFeeGubunMng",gamMngFeeGubunMngVo);
+	public void deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) {
+		delete("gamMngFeeGubunMngDao.deleteMngFeeGubunMng_S", gamMngFeeGubunMngVo);
 	}
 
 	/**
@@ -73,7 +72,7 @@ public class GamMngFeeGubunMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public int checkSeFeeGubunMng(String checkSe) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamMngFeeGubunMngDao.checkSeFeeGubunMng", checkSe);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamMngFeeGubunMngDao.checkSeFeeGubunMng_S", checkSe);
 	}
 
 }

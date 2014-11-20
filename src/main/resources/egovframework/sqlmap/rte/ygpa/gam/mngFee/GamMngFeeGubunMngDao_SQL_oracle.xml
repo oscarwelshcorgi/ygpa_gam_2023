@@ -2,98 +2,95 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.mngFee">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamMngFeeGubunMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamMngFeeGubunMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo"/>
 
+	<select id="gamMngFeeGubunMngDao.selectMngFeeGubunMngList_D" parameterClass="gamMngFeeGubunMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 MNG_FEE_FCLTY_SE
+								,MNG_FEE_FCLTY_SE_NM
+								,REG_USR
+								,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') REGIST_DT
+								,UPD_USR
+								,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+							FROM MNG_FEE_FCLTY_SE_F
+						WHERE 1=1
 
- 	<select id="gamMngFeeGubunMngDao.selectMngFeeGubunMngList_D" parameterClass="gamMngFeeGubunMngVo" resultClass="egovMap">
-     SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                            SELECT
-									MNG_FEE_FCLTY_SE,
-									MNG_FEE_FCLTY_SE_NM,
-									REG_USR,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') REGIST_DT,
-									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
-					  		      FROM MNG_FEE_FCLTY_SE_F
-								 <![CDATA[ WHERE 1=1]]>
+						<isNotEmpty property="sMngFeeFcltySe">
+						AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
+						</isNotEmpty>
 
-						         <isNotEmpty property="sMngFeeFcltySe">
-							         AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
-							     </isNotEmpty>
+						<isNotEmpty property="sMngFeeFcltySeNm">
+						AND MNG_FEE_FCLTY_SE_NM LIKE '%' || #sMngFeeFcltySeNm# || '%'
+						</isNotEmpty>
 
-							     <isNotEmpty property="sMngFeeFcltySeNm">
-							          AND MNG_FEE_FCLTY_SE_NM LIKE '%' || #sMngFeeFcltySeNm# || '%'
-							     </isNotEmpty>
-                             ORDER BY MNG_FEE_FCLTY_SE
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+						ORDER BY MNG_FEE_FCLTY_SE
+					) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
 
 	<select id="gamMngFeeGubunMngDao.selectMngFeeGubunMngListTotCnt_S" parameterClass="gamMngFeeGubunMngVo" resultClass="int">
-         SELECT COUNT(*) totcnt
-              FROM MNG_FEE_FCLTY_SE_F
-                           <![CDATA[  WHERE 1=1 ]]>
+		SELECT COUNT(*) totcnt
+			FROM MNG_FEE_FCLTY_SE_F
+		WHERE 1=1
 
-	   					         <isNotEmpty property="sMngFeeFcltySe">
-							         AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
-							     </isNotEmpty>
+		<isNotEmpty property="sMngFeeFcltySe">
+		AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
+		</isNotEmpty>
 
-							     <isNotEmpty property="sMngFeeFcltySeNm">
-							          AND MNG_FEE_FCLTY_SE_NM LIKE '%' || #sMngFeeFcltySeNm# || '%'
-							     </isNotEmpty>
+		<isNotEmpty property="sMngFeeFcltySeNm">
+		AND MNG_FEE_FCLTY_SE_NM LIKE '%' || #sMngFeeFcltySeNm# || '%'
+		</isNotEmpty>
+	</select>
 
-    </select>
-
-	<insert id="gamMngFeeGubunMngDao.InsertMngFeeGubunMng_D">
+	<insert id="gamMngFeeGubunMngDao.insertMngFeeGubunMng_S">
 		<![CDATA[
-		    INSERT
-		      INTO MNG_FEE_FCLTY_SE_F
-		         (
-		         	MNG_FEE_FCLTY_SE,
-					MNG_FEE_FCLTY_SE_NM,
-					REG_USR,
-					REGIST_DT
-		         )
-		    VALUES
-		         (
-			         #mngFeeFcltySe#,
-					 #mngFeeFcltySeNm#,
-					 #regUsr#,
-					 sysdate
-		         )
+		INSERT INTO MNG_FEE_FCLTY_SE_F
+		(
+			 MNG_FEE_FCLTY_SE
+			,MNG_FEE_FCLTY_SE_NM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #mngFeeFcltySe#
+			,#mngFeeFcltySeNm#
+			,#regUsr#
+			,SYSDATE
+		)
 		]]>
 	</insert>
 
-	<update id="gamMngFeeGubunMngDao.UpdateMngFeeGubunMng">
+	<update id="gamMngFeeGubunMngDao.updateMngFeeGubunMng_S">
 		<![CDATA[
-            UPDATE MNG_FEE_FCLTY_SE_F SET
-					MNG_FEE_FCLTY_SE_NM = #mngFeeFcltySeNm#
-					,UPD_USR	= #updUsr#
-					,UPDT_DT	= sysdate
-					WHERE  MNG_FEE_FCLTY_SE     = #mngFeeFcltySe#
+		UPDATE MNG_FEE_FCLTY_SE_F SET
+			 MNG_FEE_FCLTY_SE_NM = #mngFeeFcltySeNm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
 		]]>
 	</update>
 
-	<delete id="gamMngFeeGubunMngDao.DeleteMngFeeGubunMng">
+	<delete id="gamMngFeeGubunMngDao.deleteMngFeeGubunMng_S">
 		<![CDATA[
-            DELETE  MNG_FEE_FCLTY_SE_F
-             WHERE  MNG_FEE_FCLTY_SE   = #mngFeeFcltySe#
+		DELETE MNG_FEE_FCLTY_SE_F
+		WHERE MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
 		]]>
 	</delete>
 
-	<select id="gamMngFeeGubunMngDao.checkSeFeeGubunMng" resultClass="int">
-        <![CDATA[
-            SELECT COUNT(1) checkSeCnt
-                FROM MNG_FEE_FCLTY_SE_F
-            WHERE MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
-        ]]>
-    </select>
+	<select id="gamMngFeeGubunMngDao.checkSeFeeGubunMng_S" resultClass="int">
+		SELECT COUNT(1) checkSeCnt
+			FROM MNG_FEE_FCLTY_SE_F
+		WHERE MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
+	</select>
 
-
-   </sqlMap>
+</sqlMap>

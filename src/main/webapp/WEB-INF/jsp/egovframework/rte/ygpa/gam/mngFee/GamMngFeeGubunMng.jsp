@@ -240,7 +240,7 @@ GamMngFeeGubunMngModule.prototype.checkId = function() {
 		alert("코드를 입력하십시오.");
 		return;
 	}
-	this.doAction('<c:url value="/mngFee/gamcheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
+	this.doAction('<c:url value="/mngFee/gamCheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
 		if (result.resultCode == 0) {
 			if (result.checkSeCnt != "0") {
 				alert("이미 사용중인 코드가 존재합니다.");

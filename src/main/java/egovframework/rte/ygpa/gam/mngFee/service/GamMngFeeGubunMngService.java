@@ -38,17 +38,17 @@ public interface GamMngFeeGubunMngService {
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	void InsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception;
+	void insertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception;
 
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	void DeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)throws Exception;
+	void updateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception;
 
 	/**
 	 * @param gamMngFeeGubunMngVo
 	 */
-	void UpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception;
+	void deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)throws Exception;
 
 	/**
 	 * @param checkSe

@@ -56,7 +56,7 @@ public class GamMngFeeCodeMngDao extends YGPAAbstractDAO{
 	 * @param gamMngFeeCodeMngVo
 	 */
 	public void updateMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
-		insert("gamMngFeeCodeMngDao.updateMngFeeCodeMng_S",gamMngFeeCodeMngVo);
+		update("gamMngFeeCodeMngDao.updateMngFeeCodeMng_S",gamMngFeeCodeMngVo);
 	}
 
 	/**

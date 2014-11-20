@@ -52,23 +52,23 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
-	public void InsertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
-		gamEnergyUsageMngDao.InsertEnergyUsageMng(gamEnergyUsageMngVo);
+	public void insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.insertEnergyUsageMng(gamEnergyUsageMngVo);
 	}
 
 	@Override
-	public void UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
-		gamEnergyUsageMngDao.UpdateEnergyUsageMng(gamEnergyUsageMngVo);
+	public void updateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.updateEnergyUsageMng(gamEnergyUsageMngVo);
 	}
 
 	@Override
-	public void DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
-		gamEnergyUsageMngDao.DeleteEnergyUsageMng(gamEnergyUsageMngVo);
+	public void deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.deleteEnergyUsageMng(gamEnergyUsageMngVo);
 	}
 
 	@Override
-	public void CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
-		gamEnergyUsageMngDao.CopyEnergyUsageMng(gamEnergyUsageMngVo);
+	public void copyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		gamEnergyUsageMngDao.copyEnergyUsageMng(gamEnergyUsageMngVo);
 	}
 
 }

@@ -43,6 +43,7 @@ public class GamEnergyUsageMngVo extends ComDefaultVO{
 	private	String	sFuelCd;	//연료 코드
 	private	String	sMngYear;	//관리 년도
 	private	String	sFuelNm;	//연료 명
+
 	/**
 	 * @return the fuelCd
 	 */
@@ -223,8 +224,5 @@ public class GamEnergyUsageMngVo extends ComDefaultVO{
 	public void setsFuelNm(String sFuelNm) {
 		this.sFuelNm = sFuelNm;
 	}
-
-
-
 
 }

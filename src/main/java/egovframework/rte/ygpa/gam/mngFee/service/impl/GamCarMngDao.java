@@ -44,10 +44,11 @@ public class GamCarMngDao extends YGPAAbstractDAO{
 	}
 
 	public void updateCarMng(GamCarMngVo gamCarMngVo) {
-		insert("gamCarMngDao.updateCarMng_S", gamCarMngVo);
+		update("gamCarMngDao.updateCarMng_S", gamCarMngVo);
 	}
 
 	public void deleteCarMng(GamCarMngVo gamCarMngVo ) throws Exception {
 		delete("gamCarMngDao.deleteCarMng_S", gamCarMngVo);
 	}
+
 }

@@ -102,7 +102,7 @@ public class GamEnergyUsageMngController {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/mngFee/gamSelectEnergyUsageMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
+    @ResponseBody Map selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 
     	int totalCnt, page, firstIndex, yearCnt;
     	Map map = new HashMap();
@@ -137,7 +137,7 @@ public class GamEnergyUsageMngController {
 
 
     @RequestMapping(value="/mngFee/gamInsertEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> InsertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -150,7 +150,7 @@ public class GamEnergyUsageMngController {
     	}
 		try {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
-			gamEnergyUsageMngService.InsertEnergyUsageMng(gamEnergyUsageMngVo);
+			gamEnergyUsageMngService.insertEnergyUsageMng(gamEnergyUsageMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -165,7 +165,7 @@ public class GamEnergyUsageMngController {
     }
 
     @RequestMapping(value="/mngFee/gamUpdateEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> UpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> updateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -177,8 +177,8 @@ public class GamEnergyUsageMngController {
         	return map;
     	}
 		try {
-			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
-			gamEnergyUsageMngService.UpdateEnergyUsageMng(gamEnergyUsageMngVo);
+			gamEnergyUsageMngVo.setUpdUsr((String)user.getId());
+			gamEnergyUsageMngService.updateEnergyUsageMng(gamEnergyUsageMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -193,7 +193,7 @@ public class GamEnergyUsageMngController {
     }
 
     @RequestMapping(value="/mngFee/gamDeleteEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> DeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -205,23 +205,22 @@ public class GamEnergyUsageMngController {
         	return map;
     	}
 		try {
-			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
-			gamEnergyUsageMngService.DeleteEnergyUsageMng(gamEnergyUsageMngVo);
+			gamEnergyUsageMngService.deleteEnergyUsageMng(gamEnergyUsageMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;
     }
 
     @RequestMapping(value="/mngFee/gamCopyEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> CopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> copyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -234,7 +233,7 @@ public class GamEnergyUsageMngController {
     	}
 		try {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
-			gamEnergyUsageMngService.CopyEnergyUsageMng(gamEnergyUsageMngVo);
+			gamEnergyUsageMngService.copyEnergyUsageMng(gamEnergyUsageMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

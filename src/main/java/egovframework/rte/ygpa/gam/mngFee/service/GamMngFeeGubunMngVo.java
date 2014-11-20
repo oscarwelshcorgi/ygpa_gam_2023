@@ -36,7 +36,6 @@ public class GamMngFeeGubunMngVo extends ComDefaultVO{
 	private	String	sMngFeeFcltySeNm;	// 검색 관리비 시설 구분 명
 	private String  oldMngFeeFcltySe;	//시설 구분 Old
 
-
 	/**
 	 * @return the oldMngFeeFcltySe
 	 */
@@ -145,7 +144,6 @@ public class GamMngFeeGubunMngVo extends ComDefaultVO{
 	public void setsMngFeeFcltySeNm(String sMngFeeFcltySeNm) {
 		this.sMngFeeFcltySeNm = sMngFeeFcltySeNm;
 	}
-
 
 }
 
