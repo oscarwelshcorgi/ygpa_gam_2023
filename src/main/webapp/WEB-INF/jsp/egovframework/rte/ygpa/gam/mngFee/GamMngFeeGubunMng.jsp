@@ -278,6 +278,7 @@ GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			if(this._mode=="modify") {
 				this.loadDetail();
 			} else {
+				this._mode="insert";
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.$('#mngFeeFcltySe').removeAttr('readonly');
