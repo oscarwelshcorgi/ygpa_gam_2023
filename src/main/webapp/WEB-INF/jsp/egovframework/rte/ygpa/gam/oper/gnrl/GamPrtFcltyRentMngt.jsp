@@ -45,51 +45,27 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtList.do" />',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'항구분', name:'prtAtCodeNmStr',width:80, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
-                    {display:'신청업체', name:'entrpscd',width:60, sortable:false,align:'center'},
-                    {display:'신청업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
-                    {display:'신청구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
-                    {display:'고지방법', name:'nticMthNm',width:55, sortable:false,align:'center'},
+                    {display:'신청업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
+//                    {display:'신청업체', name:'entrpscd',width:60, sortable:false,align:'center'},
+                    {display:'구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
+                    {display:'고지', name:'nticMthNm',width:55, sortable:false,align:'center'},
                     {display:'신청일자', name:'reqstDt',width:80, sortable:false,align:'center'},
-                    {display:'승낙여부', name:'prmisnYn',width:55, sortable:false,align:'center'},
+                    {display:'승낙', name:'prmisnYn',width:55, sortable:false,align:'center'},
                     {display:'승낙일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
-                    {display:'결재상태', name:'sanctnSttusNm',width:55, sortable:false,align:'center'},
+                    {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
                     {display:'총사용시작일', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
                     {display:'총사용종료일', name:'grUsagePdTo',width:80, sortable:false,align:'center'},
-                    {display:'총면적', name:'grAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'총면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption: '0,000.00'},
                     {display:'총사용료', name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'납부방법', name:'payMthNm',width:55, sortable:false,align:'center'},
-                    {display:'분납이자율', name:'payinstIntrrateDisp',width:60, sortable:false,align:'center'},
-                    {display:'최초신청일자', name:'frstReqstDt',width:80, sortable:false,align:'center'},
-                    {display:'최초승낙일자', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
+                    {display:'납부방법', name:'payMthNm',width:70, sortable:false,align:'center'},
+                    {display:'분납이자율', name:'payinstIntrrateDisp',width:77, sortable:false,align:'center'},
+                    {display:'최초신청일', name:'frstReqstDt',width:80, sortable:false,align:'center'},
+                    {display:'최초승낙일', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
                     {display:'결재일시', name:'sanctnDt',width:110, sortable:false,align:'center'},
-                    {display:'문서번호', name:'docNo',width:80, sortable:false,align:'left'},
-                    {display:'비고', name:'rm',width:200, sortable:false,align:'left'}
-
-                    /*
-                    {display:'결재상태', name:'sanctnSttus',width:60, sortable:false,align:'center'},
-                    {display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
-                    {display:'관리년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                    {display:'관리 번호', name:'mngNo',width:60, sortable:false,align:'center'},
-                    {display:'관리 횟수', name:'mngCnt',width:60, sortable:false,align:'center'},
-                    {display:'신청 구분 코드', name:'reqstSeCd',width:60, sortable:false,align:'center'},
-                    {display:'고지 방법', name:'nticMth',width:60, sortable:false,align:'center'},
-                    {display:'문서 번호', name:'docNo',width:60, sortable:false,align:'center'},
-                    {display:'비고', name:'rm',width:60, sortable:false,align:'center'},
-                    {display:'코멘트', name:'cmt',width:60, sortable:false,align:'center'},
-                    {display:'기타', name:'etc',width:60, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:60, sortable:false,align:'center'},
-                    {display:'등록일시', name:'registDt',width:60, sortable:false,align:'center'},
-                    {display:'수정자', name:'updUsr',width:60, sortable:false,align:'center'},
-                    {display:'수정일시', name:'updtDt',width:60, sortable:false,align:'center'},
-                    {display:'총 감면 사용료', name:'grRdcxptFee',width:60, sortable:false,align:'center'},
-                    {display:'GIS 코드', name:'gisCd',width:60, sortable:false,align:'center'},
-                    {display:'부서코드', name:'deptcd',width:60, sortable:false,align:'center'},
-                    {display:'납부방법', name:'payMth',width:60, sortable:false,align:'center'}
-                    */
+                    {display:'문서번호', name:'docNo',width:80, sortable:false,align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -100,6 +76,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
             module.$('#totalGrRdcxptFee').val(data.sumGrRdcxptFee);
             $.each(data.resultList, function() {
             	this.payinstIntrrateDisp = this.payinstIntrrate+ ' %';
+            	this.prtAtCodeNmStr = this.prtAtCodeNm+" ["+this.prtAtCode+"]";
             });
 
             return data;
@@ -112,55 +89,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
         url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtDetailList.do" />',
         dataType: 'json',
         colModel : [
-                    {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
-                    {display:'자산코드', name:'assetsCdStr',width:60, sortable:false,align:'center'},
+                    {display:'자산코드', name:'assetsCdStr',width:68, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'left'},
-                    {display:'사용시작', name:'usagePdFrom',width:70, sortable:false,align:'center'},
-                    {display:'사용종료', name:'usagePdTo',width:70, sortable:false,align:'center'},
+                    {display:'사용시작', name:'usagePdFrom',width:76, sortable:false,align:'center'},
+                    {display:'사용종료', name:'usagePdTo',width:76, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'적용요율', name:'applcTariffNm',width:80, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSeNm',width:60, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'}
-
-                    /*
-                    {display:'적용요율', name:'applcTariff',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 SUB 코드', name:'gisAssetsSubCd',width:130, sortable:false,align:'center'},
-                    {display:'지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                    {display:'지번SUB', name:'gisAssetsLnmSub',width:100, sortable:false,align:'center'},
-                    {display:'자산면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                    {display:'실제임대면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},
-                    {display:'사용 목적', name:'usagePurps',width:100, sortable:false,align:'center'},
-                    {display:'사용 내역', name:'usageDtls',width:100, sortable:false,align:'center'},
-                    {display:'사용 용도 코드', name:'usagePrposCd',width:100, sortable:false,align:'center'},
-                    {display:'면제구분', name:'exemptSe',width:100, sortable:false,align:'center'},
-                    {display:'면제 사유 코드', name:'exemptRsnCd',width:100, sortable:false,align:'center'},
-                    {display:'면제 사유', name:'exemptRsn',width:100, sortable:false,align:'center'},
-                    {display:'면제 기간 FROM', name:'exemptPdFrom',width:100, sortable:false,align:'center'},
-                    {display:'면제 기간 TO', name:'exemptPdTo',width:100, sortable:false,align:'center'},
-                    {display:'산출 내역', name:'computDtls',width:100, sortable:false,align:'center'},
-                    {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
-                    {display:'적용 방법', name:'applcMth',width:100, sortable:false,align:'center'},
-                    {display:'포장 구분', name:'packSe',width:100, sortable:false,align:'center'},
-                    {display:'업체 구분', name:'entrpsSe',width:100, sortable:false,align:'center'},
-                    {display:'사용료 계산 구분', name:'feeCalcSe',width:100, sortable:false,align:'center'},
-                    {display:'감면 사용료 계산 구분', name:'rdcxptFeeCalcSe',width:100, sortable:false,align:'center'},
-                    {display:'감면 사용료', name:'rdcxptFee',width:100, sortable:false,align:'center'},
-                    {display:'해지 일자', name:'trmnatDt',width:100, sortable:false,align:'center'},
-                    {display:'해지 사유', name:'trmnatRsn',width:100, sortable:false,align:'center'},
-                    {display:'GIS 코드', name:'gisCd',width:100, sortable:false,align:'center'},
-                    {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
-                    {display:'등록일시', name:'registDt',width:100, sortable:false,align:'center'},
-                    {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
-                    {display:'수정일시', name:'updtDt',width:100, sortable:false,align:'center'},
-                    {display:'GIS 자산 항코드', name:'gisAssetsPrtAtCode',width:100, sortable:false,align:'center'},
-                    {display:'관리 년도', name:'mngYear',width:100, sortable:false,align:'center'},
-                    {display:'관리 번호', name:'mngNo',width:100, sortable:false,align:'center'},
-                    {display:'관리 횟수', name:'mngCnt',width:100, sortable:false,align:'center'},
-                    {display:'부두코드', name:'quayCd',width:100, sortable:false,align:'center'}
-                    */
+                    {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption: '0,000.00'},
+                    {display:'적용요율', name:'applcTariffNm',width:110, sortable:false,align:'right'},
+                    {display:'면제구분', name:'exemptSeNm',width:74, sortable:false,align:'center'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:220, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
         height: '102'
@@ -2247,23 +2184,12 @@ var module_instance = new GamAssetRentMngtModule();
                         <table class="editForm">
                             <tr>
 								<th width="10%" height="18">자산사용순번</th>
-                                <td><input type="text" size="26" id="assetsUsageSeq" disabled/></td>
-								<th width="10%" height="18">항코드</th>
-                                <td>
-                                	<input type="text" size="4" id="dtlPrtAtCode" disabled/>
-	                                <input type="text" size="12" id="dtlPrtAtCodeNm" disabled/>
-                                </td>
-								<th width="10%" height="18">관리번호</th>
-                                <td>
-									<input type="text" size="5" id="detailMngYear" data-column-id="mngYear" disabled/>-
-									<input type="text" size="5" id="detailMngNo" data-column-id="mngNo" disabled/>-
-									<input type="text" size="5" id="detailMngCnt" data-column-id="mngCnt" disabled/>
-                                </td>
+                                <td colspan="4"><input type="text" size="26" id="assetsUsageSeq" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="text" size="1" id="gisAssetsPrtAtCode" readonly/><input type="text" size="1" id="gisAssetsCd" readonly/><input type="text" size="1" id="gisAssetsSubCd" readonly/>
+                                	<input type="text" size="3" id="gisAssetsPrtAtCode" readonly/>-<input type="text" size="3" id="gisAssetsCd" readonly/>-<input type="text" size="2" id="gisAssetsSubCd" readonly/>
                                     <input type="hidden" id="assetsCdStr"/>
                                     <button id="popupFcltyCd" class="popupButton">선택</button>
                                 </td>
@@ -2288,8 +2214,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" size="18" class="calcInput" id="usageAr" maxlength="8"/>㎡</td>
 								<th width="10%" height="18">신청기간</th>
                                 <td>
-                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~
-                                	<input type="text" class="emdcal calcInput" size="10" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" />
+                                	<input type="text" class="emdcal calcInput" size="11" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~
+                                	<input type="text" class="emdcal calcInput" size="11" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" />
                                 </td>
                             </tr>
                             <tr>
@@ -2338,8 +2264,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td colspan="3">
-                                	<input type="text" class="emdcal calcInput" size="10" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/> ~
-                                	<input type="text" class="emdcal calcInput" size="10" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
+                                	<input type="text" class="emdcal calcInput" size="11" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/> ~
+                                	<input type="text" class="emdcal calcInput" size="11" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -2366,7 +2292,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>
-                                <td colspan="5"><input type="text" size="100" id="computDtls" maxlength="200"/></td>
+                                <td colspan="5"><textarea type="text" cols="80" rows="2" id="computDtls" maxlength="200"></textarea></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용목적</th>
