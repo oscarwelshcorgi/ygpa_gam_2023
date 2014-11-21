@@ -39,7 +39,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#constFcltySpecMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamConstFcltySpecMngList.do" />',
+		url: '/fclty/gamConstFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
@@ -56,7 +56,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltyinfo9").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamFcltyinfo9.do" />',
+		url: '/fclty/gamFcltyinfo9.do',
 		dataType: "json",
 		colModel : [
 					{display:"구역",			name:"bound",			width:60,		sortable:false,		align:"center"},
@@ -111,7 +111,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltyFileList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamConstFcltySpecFileList.do"/>',
+		url: '/fclty/gamConstFcltySpecFileList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
@@ -157,7 +157,7 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
 	
 	// 건축시설 제원 처리
-	this.doAction('<c:url value="/fclty/gamConstFcltySpecDetail.do" />', prtFclty, function(specModule, result) {
+	this.doAction('/fclty/gamConstFcltySpecDetail.do', prtFclty, function(specModule, result) {
 	 		if(result.resultCode == "0"){
 	 			specModule.clearCodePage();
 	 			specModule._fcltyItem=result.result;
@@ -243,7 +243,7 @@ GamConstFcltySpecMngModule.prototype.insertFcltyFloorSpec = function(fcltsMngNo)
 	inputFloorVO[inputFloorVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	inputFloorVO[inputFloorVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFloorSpecList) };
 
-	this.doAction('<c:url value="/fclty/gamFcltyFloorSpecSave.do" />', inputFloorVO, function(floorModule, floorResult) {
+	this.doAction('/fclty/gamFcltyFloorSpecSave.do', inputFloorVO, function(floorModule, floorResult) {
         if(floorResult.resultCode == 0){
         	
         }
@@ -264,7 +264,7 @@ GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) 
 	inputFileVO[inputFileVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	inputFileVO[inputFileVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
 
-    this.doAction('<c:url value="/fclty/mergeGamConstFcltySpecFileMngt.do" />', inputFileVO, function(fileModule, fileResult) {
+    this.doAction('/fclty/mergeGamConstFcltySpecFileMngt.do', inputFileVO, function(fileModule, fileResult) {
         if(result.resultCode == 0){
 
         }
@@ -304,12 +304,12 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 자산코드 팝업
 		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
 		// 자산코드 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
 		case "fcltyinfo9PopupBtn":
@@ -330,7 +330,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			var fcltsMngNo="";
 			// 건축시설제원 입력/수정처리
 		 	if(this._cmd == "insert") {
-			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/gamConstFcltySpecInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
@@ -348,7 +348,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecUpdate.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/gamConstFcltySpecUpdate.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
@@ -385,7 +385,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 				row=row[0];
 
 				var inputVO = { 'fcltsMngNo': row['fcltsMngNo'] };
-			 	this.doAction('<c:url value="/fclty/gamConstFcltySpecDelete.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/gamConstFcltySpecDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();

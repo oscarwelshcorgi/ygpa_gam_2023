@@ -37,7 +37,7 @@ GamElctyUsageSttusMng.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#ElctyUsageSttusMngList").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectElctyUsageSttusMng.do" />',
+        url: '/mngFee/gamSelectElctyUsageSttusMng.do',
         dataType: 'json',
         colModel : [
 					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
@@ -116,7 +116,7 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertElctyUsageSttusMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamInsertElctyUsageSttusMng.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#ElctyUsageSttusMngSearchForm");
 						module.$("#ElctyUsageSttusMngList").flexOptions({params:searchOpt}).flexReload();
@@ -126,7 +126,7 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateElctyUsageSttusMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamUpdateElctyUsageSttusMng.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#ElctyUsageSttusMngSearchForm");
 						module.$("#ElctyUsageSttusMngList").flexOptions({params:searchOpt}).flexReload();
@@ -152,7 +152,7 @@ GamElctyUsageSttusMng.prototype.onButtonClick = function(buttonId) {
      	    }
         	if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#ElctyUsageSttusMngDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteElctyUsageSttusMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamDeleteElctyUsageSttusMng.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#ElctyUsageSttusMngSearchForm");
 						module.$("#ElctyUsageSttusMngList").flexOptions({params:searchOpt}).flexReload();

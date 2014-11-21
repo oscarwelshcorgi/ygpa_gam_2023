@@ -35,7 +35,7 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#cmmnCodeClMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamCmmnClCodeList.do" />',
+		url: '/code/gamCmmnClCodeList.do',
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
@@ -47,7 +47,7 @@ GamCmmnCodeClMngtModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#cmmnCodeClMngList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.doAction('<c:url value="/code/gamCmmnClCodeDetail.do" />', {clCode: row["clCode"]}, function(module, result) {
+		module.doAction('/code/gamCmmnClCodeDetail.do', {clCode: row["clCode"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
 			module.$("#clCode").val(result.codeDetail.clCode);				// 분류코드
@@ -101,7 +101,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		 	var inputVO = this.makeFormArgs("#cmmnCodeClManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/code/gamCmmnClCodeRegist.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/gamCmmnClCodeRegist.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeClMngtForm");
 						module.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
@@ -111,7 +111,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/code/gamCmmnClCodeModify.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/gamCmmnClCodeModify.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeClMngtForm");
 						module.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();
@@ -127,7 +127,7 @@ GamCmmnCodeClMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#cmmnCodeClManageVO");
-			 	this.doAction('<c:url value="/code/gamCmmnClCodeRemove.do" />', {clCode : this.$("#clCode").val()}, function(module, result) {
+			 	this.doAction('/code/gamCmmnClCodeRemove.do', {clCode : this.$("#clCode").val()}, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeClMngtForm");
 						module.$("#cmmnCodeClMngList").flexOptions({params:searchOpt}).flexReload();

@@ -29,7 +29,7 @@ GamUserInfoModule.prototype = new EmdModule(1000, 460);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamUserInfoModule.prototype.loadComplete = function() {
-	this.doAction('<c:url value="/cmmn/selectGamUserInfo.do" />', {}, function(module, result) {
+	this.doAction('/cmmn/selectGamUserInfo.do', {}, function(module, result) {
  		if(result.resultCode == 0){
  			module.makeFormValues('#userManageVO', result.userManageVO);
  			module.$("#password2").val(result.userManageVO.password);
@@ -48,7 +48,7 @@ GamUserInfoModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		// 암호변경 팝업
 		case "chgPwBtn":
-			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamPopupChgPwView.do"/>', {emplyrId : this.$("#emplyrId").val(), uniqId: this.$("#uniqId").val()});
+			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '/cmmn/popup/gamPopupChgPwView.do', {emplyrId : this.$("#emplyrId").val(), uniqId: this.$("#uniqId").val()});
 		break;
 
 		// 저장
@@ -57,7 +57,7 @@ GamUserInfoModule.prototype.onButtonClick = function(buttonId) {
 // 			if(!validateGamUserMng(this.$("#userManageVO")[0])) return;
 			var inputVO = this.makeFormArgs("#userManageVO");
 			console.log(inputVO);
-		 	this.doAction('<c:url value="/cmmn/gamUserInfoUpdt.do" />', inputVO, function(module, result) {
+		 	this.doAction('/cmmn/gamUserInfoUpdt.do', inputVO, function(module, result) {
 		 		if(result.resultCode == 0){
 		 		}
 		 		alert(result.resultMsg);
@@ -65,7 +65,7 @@ GamUserInfoModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 우편번호 검색
 		case "searchZipBtn":
-			this.doExecuteDialog("searcpZipcodePopup", "우편번호조회팝업", '<c:url value="/cmmn/popup/gamPopupSearchZipView.do"/>', {});
+			this.doExecuteDialog("searcpZipcodePopup", "우편번호조회팝업", '/cmmn/popup/gamPopupSearchZipView.do', {});
 		break;
 	}
 };

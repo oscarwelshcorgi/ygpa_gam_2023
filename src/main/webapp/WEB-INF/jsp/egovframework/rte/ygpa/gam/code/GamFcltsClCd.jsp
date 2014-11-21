@@ -39,7 +39,7 @@ GamFcltsClCdModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#fcltsClCdList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/selectFcltsClCdList.do" />',
+		url: '/code/selectFcltsClCdList.do',
 		dataType: "json",
 		colModel : [
 					{display:"순번", 			name:"rnum",				width:50, 		sortable:false,		align:"center"},
@@ -54,7 +54,7 @@ GamFcltsClCdModule.prototype.loadComplete = function() {
 
 	this.$("#fcltsClCdList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		
-		module.doAction('<c:url value="/code/selectFcltsClCdDetail.do" />', {fcltsClCd: row["fcltsClCd"]}, function(module, result) {
+		module.doAction('/code/selectFcltsClCdDetail.do', {fcltsClCd: row["fcltsClCd"]}, function(module, result) {
 			
 				module._cmd="modify";
 				module.makeFormValues('#fcltsClCdVO', result.result);
@@ -98,7 +98,7 @@ GamFcltsClCdModule.prototype.selectFcltsClUpperCdList = function(fcltsClUpperCd)
 
 	var inputVO = {'mainFcltsDiv':this.$("#mainFcltsDiv").val(), 'depthSort':this.$("#depthSort").val()};
 
-	this.doAction('<c:url value="/code/selectFcltsClUpperCdList.do" />', inputVO, function(module, result) {
+	this.doAction('/code/selectFcltsClUpperCdList.do', inputVO, function(module, result) {
  		if(result.resultCode == "0"){
  			var opts = "<option value=''>선택</option>";
  			var fcltsClUpperCdList = result.fcltsClUpperCdList;
@@ -174,7 +174,7 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 		 	var inputVO = this.makeFormArgs("#fcltsClCdVO");
 		 	//alert(this._cmd);
 			if(this._cmd == "insert") {
-			 	this.doAction('<c:url value="/code/insertFcltsClCd.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/insertFcltsClCd.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltsClCdForm");
 						module.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();
@@ -184,7 +184,7 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/code/updateFcltsClCd.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/updateFcltsClCd.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltsClCdForm");
 						module.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();
@@ -200,7 +200,7 @@ GamFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#fcltsClCdVO");
-			 	this.doAction('<c:url value="/code/deleteFcltsClCd.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/deleteFcltsClCd.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltsClCdForm");
 						module.$("#fcltsClCdList").flexOptions({params:searchOpt}).flexReload();

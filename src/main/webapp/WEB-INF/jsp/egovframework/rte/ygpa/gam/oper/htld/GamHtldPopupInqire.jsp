@@ -33,7 +33,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/oper/htld/gamHtldPopupInqire.do"/>',
+     url: '/oper/htld/gamHtldPopupInqire.do',
      dataType: 'json',
      colModel : [
                  {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
@@ -85,16 +85,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnHtldRent':
-    	 EMD.util.create_window('배후단지 목록 관리', '<c:url value="/oper/htld/gamHtldRentMngt.do"/>', null);
+    	 EMD.util.create_window('배후단지 목록 관리', '/oper/htld/gamHtldRentMngt.do', null);
     	 break;
      case 'btnHtldFeeMngt':
-    	 EMD.util.create_window('배후단지 사용료 관리', '<c:url value="/oper/htld/gamHtldRentFeeMngt.do"/>', null);
+    	 EMD.util.create_window('배후단지 사용료 관리', '/oper/htld/gamHtldRentFeeMngt.do', null);
     	 break;
      case 'btnHtldRentFeePayDtlsMngt':
-    	 EMD.util.create_window('배후단지 사용료납부관리', '<c:url value="/oper/htld/gamHtldRentFeePaySttusMngt.do"/>', null);
+    	 EMD.util.create_window('배후단지 사용료납부관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnHtldUseExprInqire':
-    	 EMD.util.create_window('배후단지 만기도래자료조회', '<c:url value="/oper/htld/gamHtldUseExprInqire.do"/>', null);
+    	 EMD.util.create_window('배후단지 만기도래자료조회', '/oper/htld/gamHtldUseExprInqire.do', null);
     	 break;
  }
 };

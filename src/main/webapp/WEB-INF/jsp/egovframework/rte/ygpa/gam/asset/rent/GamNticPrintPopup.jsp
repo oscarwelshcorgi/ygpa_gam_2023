@@ -36,7 +36,7 @@ GamNticPrintPopupModule.prototype.loadComplete = function() {
 
     this.$("#assetRentFeePayList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetRentFeePayDtlsMngtList.do" />',
+        url: '/asset/rent/gamSelectAssetRentFeePayDtlsMngtList.do',
         dataType: 'json',
         colModel : [
 					{display:'일련번호', name:'intSeq',width:100, sortable:false,align:'center'},
@@ -115,7 +115,7 @@ GamNticPrintPopupModule.prototype.onButtonClick = function(buttonId) {
 	case "btnOk":
 		rows = this.$('#assetRentMngtList').selectedRows();
 		if(rows.length>0 && confirm("선택한 건에 대해서 연체 고지를 하시겠습니까?")) {
-	        this.doAction('<c:url value="/asset/rent/mergeNticArrrgList.do" />', rows[0], function(module, result) {
+	        this.doAction('/asset/rent/mergeNticArrrgList.do', rows[0], function(module, result) {
 
 	            if(result.resultCode=='0') {
 	                var searchOpt=module.makeFormArgs('#gamAssetRentMngtSearchForm');

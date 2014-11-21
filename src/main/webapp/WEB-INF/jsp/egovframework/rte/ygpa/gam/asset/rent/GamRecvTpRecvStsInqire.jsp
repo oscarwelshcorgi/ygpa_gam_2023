@@ -33,7 +33,7 @@ GamRecvTpRecvStsInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#recvTpRecvStsInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/rent/gamSelectRecvTpRecvStsInqireList.do"/>',
+     url: '/asset/rent/gamSelectRecvTpRecvStsInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'요금종류코드', name:'chrgeKnd',width:80, sortable:false,align:'center'},
@@ -110,7 +110,7 @@ GamRecvTpRecvStsInqireModule.prototype.onButtonClick = function(buttonId) {
      case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
          var opts;
 
-         this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+         this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
          break;
  }
 };

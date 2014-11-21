@@ -33,7 +33,7 @@ GamCntnrQuayMtRentFeeSttusInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //       
  this.$("#cntnrQuayMtRentFeeSttusInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/oper/cntnr/gamSelectCntnrQuayMtRentFeeSttusInqireList.do"/>',
+     url: '/oper/cntnr/gamSelectCntnrQuayMtRentFeeSttusInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -127,11 +127,11 @@ GamCntnrQuayMtRentFeeSttusInqireModule.prototype.onButtonClick = function(button
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;      
       	     // 자산코드 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisAssetsCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisAssetsCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;	        
 	}
 };

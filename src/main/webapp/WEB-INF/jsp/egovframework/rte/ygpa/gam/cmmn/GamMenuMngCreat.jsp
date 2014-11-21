@@ -33,7 +33,7 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#menuMngCreateList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamMenuCreatManageSelect.do" />',
+		url: '/cmmn/gamMenuCreatManageSelect.do',
 		dataType: "json",
 		colModel : [
 					{display:'권한코드',		name:'authorCode',		width:218,		sortable:false,		align:'left'},
@@ -55,7 +55,7 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 		var opts = {
 			'authorCode': row['authorCode']
 		};
-		module.doExecuteDialog('selectMenuCreate', '메뉴 생성', '<c:url value="/cmmn/popup/showMenuCreat.do"/>', opts);
+		module.doExecuteDialog('selectMenuCreate', '메뉴 생성', '/cmmn/popup/showMenuCreat.do', opts);
 	});
 
 	// console.log('hello');

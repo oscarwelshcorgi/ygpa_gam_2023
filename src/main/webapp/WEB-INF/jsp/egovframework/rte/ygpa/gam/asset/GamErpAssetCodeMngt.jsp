@@ -40,7 +40,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#erpAssetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/asset/selectErpAssetCodeList.do"/>',
+		url: '/asset/selectErpAssetCodeList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'ERP자산코드', name:'erpAssetCode', width:80, sortable:true, align:'center'},
@@ -101,7 +101,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
+		url: '/asset/selectGisAssetCodeList.do',
 		colModel : [
 					{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:true, align:'center'},
 					{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:true, align:'center'},
@@ -154,7 +154,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodePhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/asset/selectGisAssetPhotoList.do"/>',
+		url: '/asset/selectGisAssetPhotoList.do',
 		colModel : [
 				{display:'사진순번', name:'photoSeq', width:80, sortable:true, align:'center'},
 				{display:'사진제목', name:'photoSj', width:300, sortable:true, align:'left'},
@@ -297,7 +297,7 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
 
-	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetCodeMngt.do" />', inputVO, function(module, result) {
+	    this.doAction('/asset/mergeGamErpGisAssetCodeMngt.do', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	            var searchOpt=module.makeFormArgs('#searchGisAssetCode');
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
@@ -333,7 +333,7 @@ GamAssetCodeModule.prototype.saveGisAssetPhotoItem = function() {
 
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deletePhotoList) };
 
-	    this.doAction('<c:url value="/asset/mergeGamErpGisAssetPhotoMngt.do" />', inputVO, function(module, result) {
+	    this.doAction('/asset/mergeGamErpGisAssetPhotoMngt.do', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	            var searchOpt=module.makeFormArgs('#searchGisAssetPhoto');
 	            module.$('#assetCodePhotoList').flexOptions({params:searchOpt}).flexReload();
@@ -368,7 +368,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 		break;
 	case 'selectAddr':
-        this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', []);
+        this.doExecuteDialog('selectAddrPopup', '주소 입력', '/popup/showAddrPopup.do', []);
 		break;
 	case 'selectGisAssetPhoto':	// 자산 사진 조회
 		if(this.$('#searchGisAssetPrtAtCode').val()=='') {
@@ -413,7 +413,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'btnErpAssetCodeListExcelDownload':	// 엑셀 다운로드
-		this.$('#erpAssetCodeList').flexExcelDown('<c:url value="/asset/selectErpAssetCodeListExcel.do"/>', 'erpAssetCodeList.xls');
+		this.$('#erpAssetCodeList').flexExcelDown('/asset/selectErpAssetCodeListExcel.do', 'erpAssetCodeList.xls');
 		break;
 	case 'addAssetGisCdItem':
 		this.addGisAssetItem();
@@ -550,7 +550,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.saveGisAssetPhotoItem();
 		break;
 	case 'popupFcltyCd':
-        this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', []);
+        this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '/popup/showAssetsCd.do', []);
 		break;
 	}
 };

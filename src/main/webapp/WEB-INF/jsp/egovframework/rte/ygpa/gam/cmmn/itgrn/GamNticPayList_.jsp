@@ -33,7 +33,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#nticPayList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect_.do" />',
+		url: '/cmmn/itgrn/gamNticPayListSelect_.do',
 		dataType: "json",
 		colModel : [
 				{display:"요금 종류",					name:"chrgeKndNm",				width:100,		sortable:false,		align:"center"},
@@ -101,7 +101,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 		module.$("#nticPayListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 		
 		var detailInput = {accnutYear:row["accnutYear"],mngCnt:row["mngCnt"],mngNo:row["mngNo"],mngYear:row["mngYear"],nticno:row["nticno"],nticCnt:row["nticCnt"],prtAtCode:row["prtAtCode"]};
-		module.doAction('<c:url value="/cmmn/itgrn/gamNticPayListSelectView_.do" />', detailInput, function(module, result) {
+		module.doAction('/cmmn/itgrn/gamNticPayListSelectView_.do', detailInput, function(module, result) {
 			
 			module.$("#chrgeKndNm").val(result.detail.chrgeKndNm);
 			module.$("#accnutYear").val(result.detail.accnutYear);
@@ -181,7 +181,7 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 업체조회 팝업
 		case "searchEntrpsCdBtn":
-			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
+			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '/popup/showEntrpsInfo.do', {});
 		break;
 	}
 };

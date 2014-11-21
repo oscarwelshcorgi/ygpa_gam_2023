@@ -34,7 +34,7 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectPayInfoList.do"/>',
+		url: '/popup/selectPayInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",			name:"prtAtCode", 	width:150, 		sortable:true, 		align:"center"},

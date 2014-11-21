@@ -34,7 +34,7 @@ GamPopupMngCodeModule.prototype.loadComplete = function() {
 
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectMngCodeList.do"/>',
+		url: '/popup/selectMngCodeList.do',
 		dataType: "json",
 		colModel : [
 					{display:'관리비 시설 코드', 			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},

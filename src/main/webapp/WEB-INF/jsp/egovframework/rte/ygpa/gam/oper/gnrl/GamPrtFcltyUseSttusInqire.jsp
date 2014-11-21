@@ -33,7 +33,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#prtFcltyUseSttusInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireList.do" />',
+        url: '/oper/gnrl/selectPrtFcltyUseSttusInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -97,7 +97,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
     // 첨부파일 테이블 설정
     this.$("#prtFcltyUseSttusInqireFileList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyUseSttusInqireFileList.do" />',
+        url: '/oper/gnrl/gamSelectPrtFcltyUseSttusInqireFileList.do',
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
@@ -171,7 +171,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadDetailForm = function() {
 		             ];
 		this.makeDivValues('#gamPrtFcltyUseSttusInqireForm', row); // 결과값을 채운다.
 
-   	 	this.doAction('<c:url value="/oper/gnrl/selectPrtFcltyUseSttusInqireDetailList.do" />', detailParam, function(module, result) {
+   	 	this.doAction('/oper/gnrl/selectPrtFcltyUseSttusInqireDetailList.do', detailParam, function(module, result) {
 			if (result.resultCode == "0") {
 				module.makeMultiDivValues('#gamPrtFcltyUseSttusInqireDetailForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
@@ -202,7 +202,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadFileList = function() {
                 'entrpsNm': this.$('#sEntrpsNm').val(),
             };
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
         case 'btnDownloadFile':

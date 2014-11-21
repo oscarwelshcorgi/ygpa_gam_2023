@@ -32,7 +32,7 @@ GamPopupSocApplyInfoModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectSocApplyInfoList.do"/>',
+		url: '/popup/selectSocApplyInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"prtAtCode", 	width:40, 		sortable:true, 		align:"center"},

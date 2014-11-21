@@ -36,7 +36,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectAssetCodeList.do"/>',
+		url: '/popup/selectAssetCodeList.do',
 		//dataType: "json",
 		colModel : [
 					{display:"순번", 					name:"rnum", 				width:40, 	sortable:true, align:"center"},

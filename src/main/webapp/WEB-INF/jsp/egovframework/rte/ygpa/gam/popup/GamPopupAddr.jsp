@@ -33,7 +33,7 @@ GamBupJungDongModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#addrList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/selectBupJungDongCodeList.do"/>',
+		url: '/code/selectBupJungDongCodeList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'선택', name:'regYn', width:50, sortable:true, align:'left', displayFormat: 'checkbox'},

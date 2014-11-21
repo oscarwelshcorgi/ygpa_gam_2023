@@ -42,7 +42,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
     // 시설물 관리비 관리 테이블 설정
     this.$("#FcltsMngFeeMngList").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectFcltsMngFeeMng.do" />',
+        url: '/mngFee/gamSelectFcltsMngFeeMng.do',
         dataType: 'json',
         colModel : [
 // 					{display:'선택', name:'chkItem',width:40, sortable:false,align:'center', displayFormat:'checkbox'},
@@ -89,7 +89,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
     // 자산임대상세 테이블 설정
     this.$("#FcltsMngFeeMngDetailList").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectFcltsMngFeeMngDetailList.do" />',
+        url: '/mngFee/gamSelectFcltsMngFeeMngDetailList.do',
         dataType: 'json',
         colModel : [
                     {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
@@ -112,7 +112,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
     // 첨부파일 테이블 설정
     this.$("#FcltsMngFeeMngFileList").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectFcltsMngFeeMngFileList.do" />',
+        url: '/mngFee/gamSelectFcltsMngFeeMngFileList.do',
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
@@ -361,7 +361,7 @@ GamFcltsMngFeeMngModule.prototype.loadEntrpsChargerList = function() {
 	if(entrpsCd!=null && entrpsCd.length>0) {
 		//var loadOpt = [{name: 'entrpscd', value: entrpsCd}];
 		var loadOpt = {'entrpscd': entrpsCd};
-	    this.doAction('<c:url value="/asset/rent/selectEntrpsChargerList.do" />', loadOpt, function(module, result) {
+	    this.doAction('/asset/rent/selectEntrpsChargerList.do', loadOpt, function(module, result) {
 	    	console.log('charger list load completed');
 	        if(result.resultCode=='0') {
 		       	 var selectCharger = module.$('#selectCharger');
@@ -1024,7 +1024,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
                 //// console.log(inputVO);
                 // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-                this.doAction('<c:url value="/mngFee/gamSaveFcltsMngFeeMng.do" />', inputVO, function(module, result) {
+                this.doAction('/mngFee/gamSaveFcltsMngFeeMng.do', inputVO, function(module, result) {
                     if(result.resultCode == 0){
                     	module.loadData();
                     }
@@ -1056,7 +1056,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
                     var inputVO=this.makeFormArgs('#gamFcltsMngFeeMngForm');
 
-                    this.doAction('<c:url value="/mngFee/gamDeleteFcltsMngFeeMng.do" />', inputVO, function(module, result) {
+                    this.doAction('/mngFee/gamDeleteFcltsMngFeeMng.do', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
                         	module.loadData();
@@ -1082,7 +1082,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
                 return;
             } */
 
-            this.doAction('<c:url value="/mngFee/gamUpdateFcltsMngFeeMngComment.do" />', inputVO, function(module, result) {
+            this.doAction('/mngFee/gamUpdateFcltsMngFeeMngComment.do', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
                 }
 
@@ -1244,13 +1244,13 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             */
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
         case 'popupEntrpsInfoInput': // 팝업을 호출한다.(자산임대입력)
             var opts;
 
-            this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
 
@@ -1278,7 +1278,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
                     'taxtSe': rows[0]['taxtSe']
                 };
 
-                this.doExecuteDialog('insertFcltsMngFeeMngPrmisnPopup', '승낙', '<c:url value="/mngFee/popup/showFcltsMngFeeMngPrmisn.do"/>', opts);
+                this.doExecuteDialog('insertFcltsMngFeeMngPrmisnPopup', '승낙', '/mngFee/popup/showFcltsMngFeeMngPrmisn.do', opts);
 
             } else {
                 alert("목록에서 선택하십시오.");
@@ -1303,7 +1303,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/mngFee/gamUpdateFcltsMngFeeMngPrmisnCancel.do" />', rows[0], function(module, result) {
+                    this.doAction('/mngFee/gamUpdateFcltsMngFeeMngPrmisnCancel.do', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
                         	 module.loadData();
                         }
@@ -1327,7 +1327,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             }
 
             if(rows.length>=1) {
-                this.doExecuteDialog('insertLevReqestAdit', '추가 사용료 고지', '<c:url value="/oper/gnrl/popupLevReqestAdit.do"/>', rows[0]);
+                this.doExecuteDialog('insertLevReqestAdit', '추가 사용료 고지', '/oper/gnrl/popupLevReqestAdit.do', rows[0]);
             } else {
                 alert("목록에서 선택하십시오.");
             }
@@ -1336,7 +1336,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
 
-            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', opts);
             break;
 
         case 'btnRentDetailApply': //임대상세적용
@@ -1524,11 +1524,11 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             }
             break;
         case 'btnMangeCharger': // 업체정보관리
-       	 	EMD.util.create_window('업체정보 관리', '<c:url value="/code/gamCmpyInfoMngt.do"/>', null, {entrpscd:this.$('#entrpscd').val()});
+       	 	EMD.util.create_window('업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
         	break;
 
         case 'btnHtldRentListExcelDownload':	// 엑셀 다운로드
-        	this.$('#FcltsMngFeeMngList').flexExcelDown('<c:url value="/oper/gnrl/selectHtldRentListExcel.do"/>');
+        	this.$('#FcltsMngFeeMngList').flexExcelDown('/oper/gnrl/selectHtldRentListExcel.do');
             break;
 
         case 'btnRentFeeMngt':
@@ -1541,7 +1541,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
             	};
             }
-       	 	EMD.util.create_window('배후단지임대료관리', '<c:url value="/mngFee/gamHtldRentFeeMngt.do"/>', null, opts);
+       	 	EMD.util.create_window('배후단지임대료관리', '/mngFee/gamHtldRentFeeMngt.do', null, opts);
 
     }
 };
@@ -1681,7 +1681,7 @@ GamFcltsMngFeeMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 };
 
 GamFcltsMngFeeMngModule.prototype.loadOlnlpList = function(prtFcltyCd) {
-    this.doAction('<c:url value="/asset/rent/selectOlnlpInfo.do" />', prtFcltyCd, function(module, result) {
+    this.doAction('/asset/rent/selectOlnlpInfo.do', prtFcltyCd, function(module, result) {
         if(result.resultCode=='0') {
        	 var olnlplist = module.$('#olnlpList');
        	 olnlplist.off('change');

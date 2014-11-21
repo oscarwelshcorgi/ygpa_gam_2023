@@ -53,7 +53,7 @@ GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
 			var checkedAuthorForInsert = this.$('#authorCode').val();
 			var checkedMenuNoForInsert = "";
 
-			this.doAction('<c:url value="/cmmn/gamMenuCreatInsert.do" />', {checkedAuthorForInsert:checkedAuthorForInsert, checkedMenuNoForInsert:this.tree.getAllCheckedBranches()}, function(module, result) {
+			this.doAction('/cmmn/gamMenuCreatInsert.do', {checkedAuthorForInsert:checkedAuthorForInsert, checkedMenuNoForInsert:this.tree.getAllCheckedBranches()}, function(module, result) {
 		 		if(result.resultCode == 0){
 		 			module.closeDialog('ok');
 		 			return;
@@ -89,7 +89,7 @@ GamMenuCreatPopupModule.prototype.findMenuItem=function(menuObj, mnuItem) {
 GamMenuCreatPopupModule.prototype.loadData = function() {
 	$("#menuTreeList").empty();
 
-	this.doAction('<c:url value="/cmmn/gamMenuCreatSelect.do" />', {authorCode: this.$('#authorCode').val()}, function(module, result) {
+	this.doAction('/cmmn/gamMenuCreatSelect.do', {authorCode: this.$('#authorCode').val()}, function(module, result) {
  		if(result.resultCode == 0){
  			var treeNode=module.$('#menuTreeList');
   			var treeItems = [];
@@ -103,7 +103,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
 			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
 
 			module.tree.setSkin('dhx_skyblue');
-			module.tree.setImagePath('<c:url value="/js/codebase/imgs/csh_dhx_skyblue/" />');
+			module.tree.setImagePath('/js/codebase/imgs/csh_dhx_skyblue/');
 			module.tree.enableCheckBoxes(1);
 			module.tree.enableThreeStateCheckboxes(true);
 			module.tree.loadJSArray(treeItems);

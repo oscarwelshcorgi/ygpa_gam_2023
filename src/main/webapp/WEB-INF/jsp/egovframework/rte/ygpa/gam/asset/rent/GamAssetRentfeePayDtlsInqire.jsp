@@ -33,7 +33,7 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
     // 테이블 설정 //       
     this.$("#assetRentFeeList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetRentfeePayDtlsInqireList.do" />',
+        url: '/asset/rent/gamSelectAssetRentfeePayDtlsInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:50, sortable:false,align:'center'},              
@@ -145,7 +145,7 @@ GamAssetRentfeePayDtlsInqireModule.prototype.loadComplete = function() {
         case 'popupEntrpsInfo': 
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
             
     }

@@ -35,7 +35,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function(args) {
 	// 업체정보 목록 조회
 	this.$("#cmpyInfoMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamCmpyInfoMngtList.do" />',
+		url: '/code/gamCmpyInfoMngtList.do',
 		dataType: "json",
 		colModel : [
 					{display:"업체코드", 		name:"entrpscd",		width:80, 	sortable:false,		align:"center"},
@@ -69,7 +69,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function(args) {
 		             ];
 
 		// 이벤트내에선 모듈에 대해 선택한다.
-		//module.doAction('<c:url value="/code/cmpyInfoMngtDetail.do" />', {entrpscd: row["entrpscd"]}, function(module, result) {
+		//module.doAction('/code/cmpyInfoMngtDetail.do', {entrpscd: row["entrpscd"]}, function(module, result) {
 
 			//var searchOpt = module.makeFormArgs("#cmpyInfoMngtManageVO");
 			module.$("#cmpyMngtList").flexOptions({params:detailParam}).flexReload();
@@ -80,7 +80,7 @@ GamCmpyInfoMngtModule.prototype.loadComplete = function(args) {
 	// 업체목록 조회
 	this.$("#cmpyMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamCmpyMngtList.do" />',
+		url: '/code/gamCmpyMngtList.do',
 		dataType: "json",
 		colModel : [
 					{display:"번호",			name:"rnum",				width:40, 	sortable:false,		align:"center"},
@@ -150,7 +150,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 업체조회 팝업
 		case "searchEntrpsCdBtn":
-			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
+			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '/popup/showEntrpsInfo.do', {});
 		break;
 
 		// 추가
@@ -201,7 +201,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			console.log(this.$("#cmd").val());
 			if(this.$("#cmd").val() == "insert") {
 
-				this.doAction('<c:url value="/code/gamCmpyInfoMngtRegist.do" />', inputVO, function(module, result) {
+				this.doAction('/code/gamCmpyInfoMngtRegist.do', inputVO, function(module, result) {
 			 		 if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
 						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -212,7 +212,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 			 	});
 			}else{
 
-			 	this.doAction('<c:url value="/code/gamCmpyInfoMngtModify.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/gamCmpyInfoMngtModify.do', inputVO, function(module, result) {
 			 		 if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
 						module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -276,7 +276,7 @@ GamCmpyInfoMngtModule.prototype.onButtonClick = function(buttonId) {
 				if(this.$("#cmpyInfoMngtList").selectedRowIds().length > 0) {
 					var row = this.$("#cmpyInfoMngtList").selectedRows();
 
-				 	this.doAction('<c:url value="/code/gamCmpyInfoMngtRemove.do" />', {entrpscd:row[0]["entrpscd"]}, function(module, result) {
+				 	this.doAction('/code/gamCmpyInfoMngtRemove.do', {entrpscd:row[0]["entrpscd"]}, function(module, result) {
 				 		if(result.resultCode == "0"){
 				 			var searchOpt = module.makeFormArgs("#cmpyInfoMngtForm");
 							module.$("#cmpyInfoMngtList").flexOptions({params:searchOpt}).flexReload();

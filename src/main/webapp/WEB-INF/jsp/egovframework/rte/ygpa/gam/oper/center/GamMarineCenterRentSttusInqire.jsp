@@ -33,7 +33,7 @@ GamMarineCenterRentSttusInqireModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#marineCenterRentSttusInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/center/gamSelectMarineCenterRentSttusInqireList.do" />',
+        url: '/oper/center/gamSelectMarineCenterRentSttusInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -97,7 +97,7 @@ GamMarineCenterRentSttusInqireModule.prototype.loadComplete = function() {
     // 첨부파일 테이블 설정
     this.$("#marineCenterRentSttusInqireFileList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/center/gamSelectMarineCenterRentSttusInqireFileList.do" />',
+        url: '/oper/center/gamSelectMarineCenterRentSttusInqireFileList.do',
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
@@ -171,7 +171,7 @@ GamMarineCenterRentSttusInqireModule.prototype.loadDetailForm = function() {
 		             ];
 		this.makeDivValues('#gamMarineCenterRentSttusInqireForm', row); // 결과값을 채운다.
 
-   	 	this.doAction('<c:url value="/oper/center/gamSelectMarineCenterRentSttusInqireDetailList.do" />', detailParam, function(module, result) {
+   	 	this.doAction('/oper/center/gamSelectMarineCenterRentSttusInqireDetailList.do', detailParam, function(module, result) {
 			if (result.resultCode == "0") {
 				module.makeMultiDivValues('#gamMarineCenterRentSttusInqireDetailForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
@@ -202,7 +202,7 @@ GamMarineCenterRentSttusInqireModule.prototype.loadFileList = function() {
                 'entrpsNm': this.$('#sEntrpsNm').val(),
             };
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
         case 'btnDownloadFile':

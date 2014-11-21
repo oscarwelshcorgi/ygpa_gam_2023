@@ -33,7 +33,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadComplete = function() {
     // 항만시설사용 테이블 설정
     this.$("#trainPortNticArrvlDtaInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/train/gamSelectTrainPortNticArrvlDtaInqireList.do" />',
+        url: '/oper/train/gamSelectTrainPortNticArrvlDtaInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -118,7 +118,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	             ];
 	this.makeDivValues('#gamTrainPortNticArrvlDtaInqireForm', row); // 결과값을 채운다.
 
-	this.doAction('<c:url value="/oper/train/gamSelectTrainPortNticArrvlDtaInqireDetailList.do" />', detailParam, function(module, result) {
+	this.doAction('/oper/train/gamSelectTrainPortNticArrvlDtaInqireDetailList.do', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
 
@@ -169,7 +169,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
             */
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
 

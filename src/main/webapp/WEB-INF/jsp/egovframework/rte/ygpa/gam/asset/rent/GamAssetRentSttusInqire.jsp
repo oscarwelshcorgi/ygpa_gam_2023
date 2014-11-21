@@ -33,7 +33,7 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#assetRentSttusInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetRentSttusInqireList.do" />',
+        url: '/asset/rent/gamSelectAssetRentSttusInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -97,7 +97,7 @@ GamAssetRentSttusInqireModule.prototype.loadComplete = function() {
     // 첨부파일 테이블 설정
     this.$("#assetRentSttusInqireFileList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetRentSttusInqireFileList.do" />',
+        url: '/asset/rent/gamSelectAssetRentSttusInqireFileList.do',
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
@@ -171,7 +171,7 @@ GamAssetRentSttusInqireModule.prototype.loadDetailForm = function() {
 		             ];
 		this.makeDivValues('#gamAssetRentSttusInqireForm', row); // 결과값을 채운다.
 
-   	 	this.doAction('<c:url value="/asset/rent/gamSelectAssetRentSttusInqireDetailList.do" />', detailParam, function(module, result) {
+   	 	this.doAction('/asset/rent/gamSelectAssetRentSttusInqireDetailList.do', detailParam, function(module, result) {
 			if (result.resultCode == "0") {
 				module.makeMultiDivValues('#gamAssetRentSttusInqireDetailForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
@@ -202,7 +202,7 @@ GamAssetRentSttusInqireModule.prototype.loadFileList = function() {
                 'entrpsNm': this.$('#sEntrpsNm').val(),
             };
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
         case 'btnDownloadFile':

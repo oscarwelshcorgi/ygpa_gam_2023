@@ -32,7 +32,7 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectFcltsMngGroupInfoList.do"/>',
+		url: '/popup/selectFcltsMngGroupInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"시설물그룹번호", name:"fcltsMngGroupNo",   width:150, sortable:true, align:"center"},

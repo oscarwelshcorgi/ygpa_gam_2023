@@ -38,7 +38,7 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#GasUsageSttusMng").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectGasUsageSttusMng.do" />',
+        url: '/mngFee/gamSelectGasUsageSttusMng.do',
         dataType: 'json',
         colModel : [
                     {display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
@@ -137,7 +137,7 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertGasUsageSttusMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamInsertGasUsageSttusMng.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 						module.$("#GasUsageSttusMng").flexOptions({params:searchOpt}).flexReload();
@@ -147,7 +147,7 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateGasUsageSttusMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamUpdateGasUsageSttusMng.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 						module.$("#GasUsageSttusMng").flexOptions({params:searchOpt}).flexReload();
@@ -174,7 +174,7 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
      	    }
         	if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#GasUsageSttusMngDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteGasUsageSttusMng.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamDeleteGasUsageSttusMng.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 			 			module.$("#GasUsageSttusMng").flexOptions({params:searchOpt}).flexReload();
@@ -197,7 +197,7 @@ GamGasUsageSttusMng.prototype.loadComplete = function() {
             */
             var opts;
 
-            this.doExecuteDialog('selectMngCodePopup', '시설 코드', '<c:url value="/popup/showMngCode.do"/>', opts);
+            this.doExecuteDialog('selectMngCodePopup', '시설 코드', '/popup/showMngCode.do', opts);
             break;
     }
 };

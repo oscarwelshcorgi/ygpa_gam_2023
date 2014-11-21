@@ -37,7 +37,7 @@ GamSearchZipPopupModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#searchZipPopupList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/popup/gamCcmZipSearchList.do" />',
+		url: '/cmmn/popup/gamCcmZipSearchList.do',
 		dataType: "json",
 		colModel : [
 					{display:"순번",			name:"rnum",		width:40, 	sortable:false,		align:"center"},

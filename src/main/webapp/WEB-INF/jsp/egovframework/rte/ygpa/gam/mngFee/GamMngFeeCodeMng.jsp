@@ -49,7 +49,7 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectMngFeeCodeMng.do" />',
+		url : '/mngFee/gamSelectMngFeeCodeMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
@@ -178,14 +178,14 @@ GamMngFeeCodeMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mode == "insert") {
-		this.doAction('<c:url value="/mngFee/gamInsertMngFeeCodeMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamInsertMngFeeCodeMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('<c:url value="/mngFee/gamUpdateMngFeeCodeMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamUpdateMngFeeCodeMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -215,7 +215,7 @@ GamMngFeeCodeMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteMngFeeCodeMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamDeleteMngFeeCodeMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}

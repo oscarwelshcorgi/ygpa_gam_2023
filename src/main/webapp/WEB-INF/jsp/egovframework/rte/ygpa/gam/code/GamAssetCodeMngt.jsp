@@ -36,7 +36,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 	this.$("#assetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/assets/selectGisAssetCodeList.do"/>',
+		url: '/code/assets/selectGisAssetCodeList.do',
 		colModel : [
 			{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:false, align:'center'},
 			{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:false, align:'center'},
@@ -89,7 +89,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 	this.$("#assetCodePhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/assets/selectGisAssetPhotoList.do"/>',
+		url: '/code/assets/selectGisAssetPhotoList.do',
 		dataType: 'json',
 		colModel : [
 					{display:'사진순번', name:'photoSeq', width:80, sortable:false, align:'center'},
@@ -248,7 +248,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					if (this.$('#assetCodeList').selectedRowIds().length > 0) {
 						var row = this.$('#assetCodeList').selectedRows();
 						var inputVO=[{name: 'deleteList', value :JSON.stringify(row) }];
-						this.doAction('<c:url value="/code/assets/deleteGamGisAssetCodes.do" />', inputVO, function(module, result) {
+						this.doAction('/code/assets/deleteGamGisAssetCodes.do', inputVO, function(module, result) {
 							module.loadData();
 						});
 						this._editData = null;
@@ -268,7 +268,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			var inputVO = this.makeFormArgs("#editGisAssetCode");
 			if (this._regMode == "I") {
 				this.doAction(
-								'<c:url value="/code/assets/insertGamGisAssetCode.do" />',
+								'/code/assets/insertGamGisAssetCode.do',
 								inputVO, function(module, result) {
 									if (result.resultCode == "0") {
 										switch (module._params.action) {
@@ -296,7 +296,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 								});
 			} else {
 				this.doAction(
-								'<c:url value="/code/assets/updateGamGisAssetCode.do" />',
+								'/code/assets/updateGamGisAssetCode.do',
 								inputVO,
 								function(module, result) {
 									if (result.resultCode == "0") {
@@ -366,7 +366,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 					EMD.gis.removeFeatureCode('gisAssetsCd', '_editData');
 				}
 				if (this._editData._updtId==null || this._editData._updtId!='I') {
-					this.doAction('<c:url value="/code/assets/deleteGamGisAssetCode.do" />', this._editData, function(module, result) {
+					this.doAction('/code/assets/deleteGamGisAssetCode.do', this._editData, function(module, result) {
 						module.loadData();
 						module.$("#assetCodeTab").tabs("option", {
 							active : 0
@@ -399,7 +399,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			this.addGisAssetsCdMap('AC', this._editData);
 			break;
 		case 'selectAddr':
-	        this.doExecuteDialog('selectAddrPopup', '주소 입력', '<c:url value="/popup/showAddrPopup.do"/>', []);
+	        this.doExecuteDialog('selectAddrPopup', '주소 입력', '/popup/showAddrPopup.do', []);
 			break;
 		case 'btnUploadFile':
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
@@ -435,7 +435,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 			    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deletePhotoList) };
 
-			    this.doAction('<c:url value="/code/assets/mergeGamGisAssetPhotoMngt.do" />', inputVO, function(module, result) {
+			    this.doAction('/code/assets/mergeGamGisAssetPhotoMngt.do', inputVO, function(module, result) {
 			        if(result.resultCode == 0){
 				    	module.loadPhotoList();
 			        }
@@ -475,12 +475,12 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				erpAssetsNoSeq : $('#erpAssetsNoSeq').val()
 			};
 			this.doExecuteDialog('selectSearchErpAssetsCdPopup', 'ERP자산코드 선택',
-					'<c:url value="/popup/showErpAssetCd.do"/>', opts, params);
+					'/popup/showErpAssetCd.do', opts, params);
 			break;
 		case 'popupFcltyCd':
 			var opts = null;
 			this.doExecuteDialog('selectSearchAssetsCdPopup', '시설 선택',
-					'<c:url value="/popup/showAssetsCd.do"/>', opts);
+					'/popup/showAssetsCd.do', opts);
 			break;
 		case 'btnDownloadFile':
 			var selectRow = this.$('#assetCodePhotoList').selectedRows();
@@ -566,7 +566,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
 		               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
 		             ];
-   	 	this.doAction('<c:url value="/code/assets/selectGisAssetCodeByPk.do" />', assetCd, function(module, result) {
+   	 	this.doAction('/code/assets/selectGisAssetCodeByPk.do', assetCd, function(module, result) {
 			if (result.resultCode == "0") {
 				module.makeFormValues('#editGisAssetCode',
 						result.result); // 결과값을 채운다.

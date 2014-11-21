@@ -36,7 +36,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/oper/gnrl/gamCntnrQuayPopupInqire.do"/>',
+     url: '/oper/gnrl/gamCntnrQuayPopupInqire.do',
      dataType: 'json',
      colModel : [
                  {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
@@ -90,16 +90,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnCntnrQuayRent':
-    	 EMD.util.create_window('컨테이너부두 목록 관리', '<c:url value="/oper/cntnr/gamCntnrQuayRentMngt.do"/>', null);
+    	 EMD.util.create_window('컨테이너부두 목록 관리', '/oper/cntnr/gamCntnrQuayRentMngt.do', null);
     	 break;
      case 'btnCntnrQuayFeeMngt':
-    	 EMD.util.create_window('컨테이너부두 사용료 관리', '<c:url value="/oper/cntnr/gamCntnrQuayRentFeeMngt.do"/>', null);
+    	 EMD.util.create_window('컨테이너부두 사용료 관리', '/oper/cntnr/gamCntnrQuayRentFeeMngt.do', null);
     	 break;
      case 'btnCntnrQuayRentFeePayDtlsMngt':
-    	 EMD.util.create_window('컨테이너부두 사용료납부관리', '<c:url value="/oper/cntnr/gamCntnrQuayRentFeePaySttusMngt.do"/>', null);
+    	 EMD.util.create_window('컨테이너부두 사용료납부관리', '/oper/cntnr/gamCntnrQuayRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnCntnrQuayUseExprInqire':
-    	 EMD.util.create_window('컨테이너부두 만기도래자료조회', '<c:url value="/oper/cntnr/gamCntnrQuayUseExprInqire.do"/>', null);
+    	 EMD.util.create_window('컨테이너부두 만기도래자료조회', '/oper/cntnr/gamCntnrQuayUseExprInqire.do', null);
     	 break;
  }
 };

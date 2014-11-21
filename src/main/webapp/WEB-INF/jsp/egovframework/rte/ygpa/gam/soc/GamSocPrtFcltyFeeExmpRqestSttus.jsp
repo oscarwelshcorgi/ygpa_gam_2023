@@ -36,7 +36,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadComplete = function() {
     // 업체신청 면제요청목록 설정
     this.$("#socPrtFcltyFeeExmpRqestSttusList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusList.do" />',
+        url: '/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusList.do',
         dataType: 'json',
         colModel : [
                     {display:'관리청', name:'prtAtCode',width:50, sortable:false,align:'center'},
@@ -91,7 +91,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonI
             break;
         case 'popupEntrpsInfo' : //업체코드버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+					'/popup/showSocEntrpsInfo.do', opts);
         	break;
     }
 };

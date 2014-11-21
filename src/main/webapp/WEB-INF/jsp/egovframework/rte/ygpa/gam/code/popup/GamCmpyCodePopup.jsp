@@ -33,7 +33,7 @@ GamCmpyCodePopupModule.prototype.loadComplete = function() {
 
 	// 테이블 설정
 	this.$("#cmpyCodeList").flexigrid({
-		url: '<c:url value="/code/popup/selecterpCmpyCodeList.do"/>',
+		url: '/code/popup/selecterpCmpyCodeList.do',
 		dataType: 'json',
 		colModel : [
 				{display:'기업규모', name:'FIRM_TP', width:8, sortable:true, align:'left'},

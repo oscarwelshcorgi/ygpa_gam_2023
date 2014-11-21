@@ -40,7 +40,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#civilFcltySpecMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectCivilFcltySpecMngList.do" />',
+		url: '/fclty/selectCivilFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
@@ -87,7 +87,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltsFileList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectCivilFcltySpecFileList.do"/>',
+		url: '/fclty/selectCivilFcltySpecFileList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
@@ -149,7 +149,7 @@ GamCivilFcltySpecMngModule.prototype.loadDetailData = function() {
 			return;
 		}
 		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-		this.doAction('<c:url value="/fclty/selectCivilFcltySpecMngDetail.do" />', opts, function(module, result) { 
+		this.doAction('/fclty/selectCivilFcltySpecMngDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltyManageVO', result.result);
 				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
@@ -224,7 +224,7 @@ GamCivilFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 
 //시설물 데이터 삽입
 GamCivilFcltySpecMngModule.prototype.insertFcltsData = function(data) {
- 	this.doAction('<c:url value="/fclty/insertCivilFcltySpecMngDetail.do" />', data, function(module, result) {
+ 	this.doAction('/fclty/insertCivilFcltySpecMngDetail.do', data, function(module, result) {
  		if(result.resultCode == "0"){
  			module._cmd = "modify";
  			module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
@@ -241,7 +241,7 @@ GamCivilFcltySpecMngModule.prototype.insertFcltsData = function(data) {
 
 //시설뮬 데이터 수정
 GamCivilFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
-	this.doAction('<c:url value="/fclty/updateCivilFcltySpecMngDetail.do" />', data, function(module, result) {
+	this.doAction('/fclty/updateCivilFcltySpecMngDetail.do', data, function(module, result) {
 		if(result.resultCode == "0"){
 			module.saveAtchFile(module.$("#fcltsMngNo").val());
 			module.loadData();
@@ -253,7 +253,7 @@ GamCivilFcltySpecMngModule.prototype.updateFcltsData = function(data) {
 //시설물 데이터 삭제
 GamCivilFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
 	var data = { 'fcltsMngNo': fcltsMngNo };
- 	this.doAction('<c:url value="/fclty/deleteCivilFcltySpecMngDetail.do" />', data, function(module, result) {
+ 	this.doAction('/fclty/deleteCivilFcltySpecMngDetail.do', data, function(module, result) {
  		if(result.resultCode == "0") {
 			module._cmd = "";
 			module.initDisplay();
@@ -277,22 +277,22 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 자산코드 팝업(조회화면)
 		case "searchGisCodeBtn":
-			this.doExecuteDialog("selectGisCode", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("selectGisCode", "자산코드", '/popup/showAssetsCd.do', {});
 			break;
 
 		// 자산코드 팝업(디테일 화면)
 		case "searchGisCodeBtn2":
-			this.doExecuteDialog("selectGisCode2", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("selectGisCode2", "자산코드", '/popup/showAssetsCd.do', {});
 			break;
 
 		// 시설물관리그룹(디테일 화면)
 		case "searchFcltsMngGroupNo":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '<c:url value="/popup/showFcltsMngGroup.do"/>', {});
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
 			break;
 			
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물분류코드", '<c:url value="/popup/showFcltsClCd.do"/>', { sFcltsClCdChar : this._prtFcltySe });			
+			this.doExecuteDialog("selectFcltsClCd", "시설물분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
 			break;
 			
 		// 시설추가
@@ -386,7 +386,7 @@ GamCivilFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
     inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
     inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
     inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('<c:url value="/fclty/mergeCivilFcltySpecAtchFile.do" />', inputVO, function(module, result) {
+    this.doAction('/fclty/mergeCivilFcltySpecAtchFile.do', inputVO, function(module, result) {
         if(result.resultCode == 0){
 			module._deleteDataFileList = [];				    	
 			module.loadFileData();

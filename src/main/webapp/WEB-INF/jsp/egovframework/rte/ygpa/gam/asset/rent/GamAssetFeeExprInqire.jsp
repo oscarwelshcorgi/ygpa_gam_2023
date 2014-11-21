@@ -33,7 +33,7 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#assetFeeExprInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetFeeExprInqireList.do" />',
+        url: '/asset/rent/gamSelectAssetFeeExprInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -124,7 +124,7 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
 	             ];
 	this.makeDivValues('#gamAssetFeeExprInqireForm', row); // 결과값을 채운다.
 
-	this.doAction('<c:url value="/asset/rent/gamSelectAssetFeeExprInqireDetailList.do" />', detailParam, function(module, result) {
+	this.doAction('/asset/rent/gamSelectAssetFeeExprInqireDetailList.do', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
 			
@@ -172,7 +172,7 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
             */
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
             
         case 'openRentFee':	// 사용료 관리 화면을 호출 한다.

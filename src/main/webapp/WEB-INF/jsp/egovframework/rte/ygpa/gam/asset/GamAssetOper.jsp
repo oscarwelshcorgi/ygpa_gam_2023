@@ -37,7 +37,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	
 	// 테이블 설정
 	this.$("#assetCodeList").flexigrid({
-		url: '<c:url value="/code/selectAssetCodeList.do"/>',
+		url: '/code/selectAssetCodeList.do',
 		dataType: 'json',
 		colModel : [
 			{display: '자산코드', name : 'GIS_ASSETS_CD', width : 60, sortable : true, align: 'center'},

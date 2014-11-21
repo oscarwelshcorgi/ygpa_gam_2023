@@ -33,7 +33,7 @@ GamBupJungDongModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#addrList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/selectBupJungDongCodeList.do"/>',
+		url: '/code/selectBupJungDongCodeList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'선택', name:'regYn', width:50, sortable:true, align:'left', displayFormat: 'checkbox'},
@@ -145,7 +145,7 @@ GamBupJungDongModule.prototype.onButtonClick = function(buttonId) {
 		// // console.log(inputVO);
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-	 	this.doAction('<c:url value="/sample/mergeAssetCodeList.do" />', inputVO, function(result) {
+	 	this.doAction('/sample/mergeAssetCodeList.do', inputVO, function(result) {
 	 		if(result.resultCode == 0){
 	 			this.$('#assetCodeList').flexReload();
 	 		}

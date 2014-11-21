@@ -37,7 +37,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#passwordChgPopupList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/popup/gamPopupProgramList.do" />',
+		url: '/cmmn/popup/gamPopupProgramList.do',
 		dataType: "json",
 		colModel : [
 					{display:"프로그램파일명",	name:"progrmFileNm",		width:200, 	sortable:false,		align:"center"},
@@ -89,7 +89,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 			}
 			if(confirm("암호를 수정하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#passwordChgPopupForm");
-				this.doAction('<c:url value="/cmmn/popup/gamUserPasswordUpdt.do" />', inputVO, function(module, result) {
+				this.doAction('/cmmn/popup/gamUserPasswordUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			//alert(result.resultMsg);
 			 			module.closeDialog(); 			

@@ -35,7 +35,7 @@ GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#cmmnCodeMngDetailMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamCcmCmmnDetailCodeList.do" />',
+		url: '/code/gamCcmCmmnDetailCodeList.do',
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"rnum",		width:60, 	sortable:false,		align:"center"},
@@ -48,7 +48,7 @@ GamCmmnCodeDetailMngtModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#cmmnCodeMngDetailMngList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.doAction('<c:url value="/code/gamCcmCmmnDetailCodeDetail.do" />', {codeId: row["codeId"], code: row["code"]}, function(module, result) {
+		module.doAction('/code/gamCcmCmmnDetailCodeDetail.do', {codeId: row["codeId"], code: row["code"]}, function(module, result) {
 
 			// value 설정
 			module.$("#cmd").val("modify");
@@ -117,7 +117,7 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRegist.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/gamCcmCmmnDetailCodeRegist.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
 						module.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();
@@ -127,7 +127,7 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeModify.do" />', inputVO, function(module, result) {
+			 	this.doAction('/code/gamCcmCmmnDetailCodeModify.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
 						module.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();
@@ -143,7 +143,7 @@ GamCmmnCodeDetailMngtModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#cmmnCodeDetailManageVO");
-			 	this.doAction('<c:url value="/code/gamCcmCmmnDetailCodeRemove.do" />', {codeId : this.$("#codeId").val(), code : this.$("#code").val()}, function(module, result) {
+			 	this.doAction('/code/gamCcmCmmnDetailCodeRemove.do', {codeId : this.$("#codeId").val(), code : this.$("#code").val()}, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#cmmnCodeDetailMngtForm");
 						module.$("#cmmnCodeMngDetailMngList").flexOptions({params:searchOpt}).flexReload();

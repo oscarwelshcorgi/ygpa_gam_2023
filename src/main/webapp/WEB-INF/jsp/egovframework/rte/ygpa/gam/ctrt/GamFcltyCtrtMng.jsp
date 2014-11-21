@@ -37,7 +37,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	//계약관리리스트
     this.$("#fcltyCtrtMngList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtMngList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtMngList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
@@ -71,7 +71,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	this.$("#fcltyCtrtMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
 		
-    	module.doAction('<c:url value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do" />', opts, function(module, result) {
+    	module.doAction('/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
     		var searchOpt = null;
     		if(result.resultCode == 0) {
     			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
@@ -97,7 +97,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	//계약공용도급 리스트
     this.$("#fcltyCtrtJoinContrList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtJoinContrList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtJoinContrList.do',
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
@@ -124,7 +124,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약하도급 리스트
     this.$("#fcltyCtrtSubCtrtList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtSubCtrtList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtSubCtrtList.do',
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm', width:150, sortable:true, align:'center'},
@@ -143,7 +143,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약변경 리스트
     this.$("#fcltyCtrtChangeList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtChangeList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtChangeList.do',
         dataType: 'json',
         colModel : [
                     {display:'변경일자', name:'changeDt', width:80, sortable:true, align:'center'},
@@ -161,7 +161,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약대금지급 리스트
     this.$("#fcltyCtrtMoneyPymntList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtMoneyPymntList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtMoneyPymntList.do',
         dataType: 'json',
         colModel : [
                     {display:'지급분류', name:'pymntCl', width:80, sortable:true, align:'center'},
@@ -179,7 +179,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약이행이월 리스트
     this.$("#fcltyCtrtFulFillCaryFwdList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtFulFillCaryFwdList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtFulFillCaryFwdList.do',
         dataType: 'json',
         colModel : [
                     {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'left'},
@@ -237,7 +237,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
         			alert('계약번호를 입력하세요.');
         			return;
         		}
-	        	this.doAction('<c:url value="/ctrt/gamInsertFcltyCtrtInfo.do" />', opts, function(module, result) {
+	        	this.doAction('/ctrt/gamInsertFcltyCtrtInfo.do', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#cmd').val('modify');
 	        			module.$('#ctrtNo').attr({disabled : 'disabled'});
@@ -247,7 +247,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	        		alert(result.resultMsg);
 	        	});
         	} else if (this.$('#cmd').val() == 'modify') {
-	        	this.doAction('<c:url value="/ctrt/gamUpdateFcltyCtrtInfo.do" />', opts, function(module, result) {
+	        	this.doAction('/ctrt/gamUpdateFcltyCtrtInfo.do', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
 	        		    var searchOpt=module.makeFormArgs('#gamFcltyCtrtMngSearchForm');
 	        		    module.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();	   
@@ -264,7 +264,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	            	var opts = [];
 	            	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
 
-	            	this.doAction('<c:url value="/ctrt/gamDeleteFcltyCtrtInfo.do" />', opts, function(module, result) {
+	            	this.doAction('/ctrt/gamDeleteFcltyCtrtInfo.do', opts, function(module, result) {
 		        		if(result.resultCode == 0) {
 		                	module.$('#gamFcltyCtrtMngSearchForm :input').val('');
 		                	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
@@ -285,27 +285,27 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			}
         	break;        	
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
         case 'btnCtrtJoinContrUpdate': //계약공동도급관리 편집
         	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
-        	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '<c:url value="/popup/showCtrtJoinContrMngt.do" />', {}, allRows);
+        	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '/popup/showCtrtJoinContrMngt.do', {}, allRows);
         	break;
         case 'btnCtrtSubCtrtUpdate': //계약하도급관리 편집
         	allRows = this.$('#fcltyCtrtSubCtrtList').flexGetData();
-        	this.doExecuteDialog('updateCtrtSubCtrt', '계약하도급관리', '<c:url value="/popup/showCtrtSubCtrtMngt.do" />', {}, allRows);
+        	this.doExecuteDialog('updateCtrtSubCtrt', '계약하도급관리', '/popup/showCtrtSubCtrtMngt.do', {}, allRows);
         	break;
         case 'btnCtrtChangeUpdate': //계약변경관리 편집
         	allRows = this.$('#fcltyCtrtChangeList').flexGetData();
-        	this.doExecuteDialog('updateCtrtChange', '계약변경관리', '<c:url value="/popup/showCtrtChangeMngt.do" />', {}, allRows);
+        	this.doExecuteDialog('updateCtrtChange', '계약변경관리', '/popup/showCtrtChangeMngt.do', {}, allRows);
         	break;
         case 'btnCtrtMoneyPymntUpdate': //계약대금지급 편집
         	allRows = this.$('#fcltyCtrtMoneyPymntList').flexGetData();
-        	this.doExecuteDialog('updateCtrtMoneyPymnt', '계약대금지급관리', '<c:url value="/popup/showCtrtMoneyPymntMngt.do" />', {}, allRows);
+        	this.doExecuteDialog('updateCtrtMoneyPymnt', '계약대금지급관리', '/popup/showCtrtMoneyPymntMngt.do', {}, allRows);
         	break;
         case 'btnCtrtFulFillCaryFwdUpdate': //계약이행이월 편집
         	allRows = this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData();
-        	this.doExecuteDialog('updateCtrtFulFillCaryFwd', '계약대금지급관리', '<c:url value="/popup/showCtrtFulFillCaryFwdMngt.do" />', {}, allRows);
+        	this.doExecuteDialog('updateCtrtFulFillCaryFwd', '계약대금지급관리', '/popup/showCtrtFulFillCaryFwdMngt.do', {}, allRows);
         	break;
     }
 };

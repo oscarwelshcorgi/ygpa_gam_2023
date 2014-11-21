@@ -46,8 +46,8 @@ GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
 		if( confirm("승낙 하시겠습니까?") ) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
 
-	        //this.doAction('<c:url value="/oper/htld/gamInsertHtldRentMngtPrmisn.do" />', inputVO, function(module, result) {
-	        this.doAction('<c:url value="/oper/htld/gamUpdateHtldRentMngtPrmisn.do" />', inputVO, function(module, result) {
+	        //this.doAction('/oper/htld/gamInsertHtldRentMngtPrmisn.do', inputVO, function(module, result) {
+	        this.doAction('/oper/htld/gamUpdateHtldRentMngtPrmisn.do', inputVO, function(module, result) {
 	            alert(result.resultMsg);
 
 	            module.closeDialog('ok', result.resultCode);

@@ -35,7 +35,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 	// 공시지가 등록현황 목록
 	this.$("#olnlpInsertList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamOlnlpInsertList.do" />',
+		url: '/code/gamOlnlpInsertList.do',
 		dataType: "json",
 		colModel : [
 				{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,	sortable:false,	align:"center"},
@@ -55,7 +55,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		module._selectRow= row;
 /*
 		var listInput = {gisAssetsCd:row["gisAssetsCd"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"]};
-		module.doAction('<c:url value="/code/gamOlnlpMngtList.do" />', listInput, function(module, result) {
+		module.doAction('/code/gamOlnlpMngtList.do', listInput, function(module, result) {
 
 			module.$("#gisAssetsCd").val(result.searchOption.gisAssetsCd);
 			module.$("#gisAssetsPrtAtCode").val(result.searchOption.gisAssetsPrtAtCode);
@@ -71,7 +71,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 	// 공시지가 목록
 	this.$("#olnlpMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamOlnlpMngtList.do" />',
+		url: '/code/gamOlnlpMngtList.do',
 		dataType: "json",
 		colModel : [
 				{display:"순번", 		name:"olnlpSeq",	width:100,	sortable:false,	align:"center"},
@@ -118,7 +118,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		module.$("#olnlpMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
 		var listInput = {gisAssetsCd:row["gisAssetsCd"], gisAssetsPrtAtCode:row["gisAssetsPrtAtCode"], gisAssetsSubCd:row["gisAssetsSubCd"]};
-		module.doAction('<c:url value="/code/gamOlnlpMngtList.do" />', listInput, function(module, result) {
+		module.doAction('/code/gamOlnlpMngtList.do', listInput, function(module, result) {
 
 			module.$("#gisAssetsCd").val(result.searchOption.gisAssetsCd);
 			module.$("#gisAssetsPrtAtCode").val(result.searchOption.gisAssetsPrtAtCode);
@@ -213,7 +213,7 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 자산코드 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
 		// 저장
@@ -242,7 +242,7 @@ GamOlnlpMngtModule.prototype.saveOlnlp = function() {
 
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this.deleteList) };
 
-	    this.doAction('<c:url value="/code/mergeGamOlnlpMngt.do" />', inputVO, function(module, result) {
+	    this.doAction('/code/mergeGamOlnlpMngt.do', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	        	module.loadOlnlpList();
 	        }

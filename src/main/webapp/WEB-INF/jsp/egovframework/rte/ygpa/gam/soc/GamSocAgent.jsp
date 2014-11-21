@@ -37,7 +37,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#socAgentMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocAgentList.do" />',
+        url: '/soc/gamSelectSocAgentList.do',
         dataType: 'json',
         colModel : [
 					{display:'업체코드', 			name:'agentCode',	width:80, 		sortable:false,		align:'center'},
@@ -140,7 +140,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
         	
         	if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/soc/gamInsertSocAgentList.do" />', inputVO, function(module, result) {
+			 	this.doAction('/soc/gamInsertSocAgentList.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -149,7 +149,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/soc/gamUpdateSocAgentList.do" />', inputVO, function(module, result) {
+			 	this.doAction('/soc/gamUpdateSocAgentList.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -172,7 +172,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
 
         	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
-        	this.doAction('<c:url value="/soc/gamDeleteSocAgentList.do" />', inputVO, function(module, result) {
+        	this.doAction('/soc/gamDeleteSocAgentList.do', inputVO, function(module, result) {
 		 		if(result.resultCode == "0"){
 		 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 					module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -185,17 +185,17 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             
         case 'popupSocAgentFInfo': // 허가원부선택 팝업을 호출한다.(조회)
             var opts;
-            this.doExecuteDialog('selectSocAgentFInfoPopup', '허가원부선택', '<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+            this.doExecuteDialog('selectSocAgentFInfoPopup', '허가원부선택', '/popup/showSocAgentFInfo.do', opts);
             break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             var opts;
-            this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '/popup/showSocEntrpsInfo.do', opts);
             break;
             
         case 'btnPopupSaveSocAgent':
     		var all_rows = this.$('#socAgentMngtList').flexGetData();
-    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '<c:url value="/popup/showSocAgent.do"/>', {},all_rows);
+    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
             break;
 
     }

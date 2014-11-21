@@ -34,7 +34,7 @@ GamPopupSocEntrpsModule.prototype.loadComplete = function() {
 
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectSocEntrpsInfoList.do"/>',
+		url: '/popup/selectSocEntrpsInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"업체코드",			name:"agentCode", 	width:60, 		sortable:true, 		align:"center"},

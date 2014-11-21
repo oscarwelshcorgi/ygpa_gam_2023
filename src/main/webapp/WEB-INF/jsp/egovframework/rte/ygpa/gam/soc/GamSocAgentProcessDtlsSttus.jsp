@@ -36,7 +36,7 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
     // 업체신청 면제요청목록 설정
     this.$("#socAgentProcessDtlsSttusList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocAgentProcessDtlsSttusList.do" />',
+        url: '/soc/gamSelectSocAgentProcessDtlsSttusList.do',
         dataType: 'json',
         colModel : [
                     {display:'등록항구', name:'appPrtAtCode',width:50, sortable:false,align:'center'},
@@ -88,16 +88,16 @@ GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
             break;
         case 'popupApplyInfo' : //투자비보전신청업체 선택
 			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
-					'<c:url value="/popup/showSocApplyInfo.do"/>', opts);
+					'/popup/showSocApplyInfo.do', opts);
         	break;
         case 'popupFeeTpInfo' : //요금종류 선택
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+					'/popup/showSocPayCd.do', opts);        	
         	break;
         case 'popupEntrpsInfo' : //업체코드버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+					'/popup/showSocEntrpsInfo.do', opts);
         	break;
     }
 };

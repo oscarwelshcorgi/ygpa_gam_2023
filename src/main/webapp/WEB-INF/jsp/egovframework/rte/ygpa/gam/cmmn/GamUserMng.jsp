@@ -36,7 +36,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#userMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamUserManage.do" />',
+		url: '/cmmn/gamUserManage.do',
 		dataType: "json",
 		colModel : [
 					{display:"No", 			name:"rn",				width:30, 	sortable:false,		align:"center"},
@@ -54,7 +54,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 
-		module.doAction('<c:url value="/cmmn/gamUserSelectUpdtView.do" />', {uniqId: row["uniqId"]}, function(module, result) {
+		module.doAction('/cmmn/gamUserSelectUpdtView.do', {uniqId: row["uniqId"]}, function(module, result) {
 
 			module.$("#cmd").val("modify");
 			if(result.userManageVO.zip){
@@ -145,7 +145,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 				alert("아이디를 입력하십시오.");
 				return;
 			}
-			this.doAction('<c:url value="/cmmn/gamIdDplctCnfirm.do" />', {checkId : this.$("#emplyrId").val()}, function(module, result) {
+			this.doAction('/cmmn/gamIdDplctCnfirm.do', {checkId : this.$("#emplyrId").val()}, function(module, result) {
 		 		if(result.resultCode == 0){
 		 			if(result.usedCnt != "0"){
 		 				alert("이미 사용중인 아이디가 존재합니다.");
@@ -175,7 +175,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 암호변경 팝업
 		case "chgPwBtn":
-			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '<c:url value="/cmmn/popup/gamPopupChgPwView.do"/>', {emplyrId : this.$("#emplyrId").val(), uniqId: this.$("#uniqId").val()});
+			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '/cmmn/popup/gamPopupChgPwView.do', {emplyrId : this.$("#emplyrId").val(), uniqId: this.$("#uniqId").val()});
 		break;
 
 		// 취소
@@ -211,7 +211,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 			var inputVO = this.makeFormArgs("#userManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamUserInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
@@ -221,7 +221,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamUserSelectUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
@@ -239,7 +239,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 			var inputVO = this.makeFormArgs("#userManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamUserInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamUserInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
@@ -249,7 +249,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/cmmn/gamUserSelectUpdt.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamUserSelectUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
@@ -265,7 +265,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 
 			if(confirm("삭제하시겠습니까?")){
-				this.doAction('<c:url value="/cmmn/gamUserDelete.do" />', {uniqId: this.$("#uniqId").val()}, function(module, result) {
+				this.doAction('/cmmn/gamUserDelete.do', {uniqId: this.$("#uniqId").val()}, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#userMngListTab").tabs("option", {active: 0});
 			 			module.$("#userManageVO :input").val("");
@@ -279,7 +279,7 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 우편번호 검색
 		case "searchZipBtn":
-			this.doExecuteDialog("searcpZipcodePopup", "우편번호조회팝업", '<c:url value="/cmmn/popup/gamPopupSearchZipView.do"/>', {});
+			this.doExecuteDialog("searcpZipcodePopup", "우편번호조회팝업", '/cmmn/popup/gamPopupSearchZipView.do', {});
 		break;
 	}
 };

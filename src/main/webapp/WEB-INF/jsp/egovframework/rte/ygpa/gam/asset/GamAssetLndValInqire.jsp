@@ -33,7 +33,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectAssetLndValInqireList.do"/>',
+     url: '/asset/gamSelectAssetLndValInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
@@ -110,7 +110,7 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 
          break;
 	case 'btnExcelDownload':
-			this.$('#assetLndValInqireList').flexExcelDown('<c:url value="/asset/selectAssetLndValInqireListExcel.do"/>');
+			this.$('#assetLndValInqireList').flexExcelDown('/asset/selectAssetLndValInqireListExcel.do');
 		break;
 
  }

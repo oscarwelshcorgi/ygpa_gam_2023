@@ -33,7 +33,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
 	// 테이블 설정 //
     this.$("#assetDisUseList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/gamSelectAssetDisUseList.do" />',
+        url: '/asset/gamSelectAssetDisUseList.do',
         dataType: 'json',
         colModel : [
                     {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
@@ -172,7 +172,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
                         'gisAssetsPrtAtCode': rows[0]['gisAssetsPrtAtCode']
                 };
 
-            	this.doExecuteDialog('updateDisUseAssetPopup', '자산폐기', '<c:url value="/asset/popup/showAssetDisUse.do"/>', opts);
+            	this.doExecuteDialog('updateDisUseAssetPopup', '자산폐기', '/asset/popup/showAssetDisUse.do', opts);
             } else {
             	alert("목록에서 선택하십시오.");
             };
@@ -195,7 +195,7 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
                 };
 
             	if(confirm('폐기 처리를 취소 하시겠습니까?')) {
-                  	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', opts, function(module, result) {
+                  	this.doAction('/asset/gamUpdateAssetDisUse.do', opts, function(module, result) {
                         alert(result.resultMsg);
                         var searchOpt=module.makeFormArgs('#gamAssetDisUseSearchForm');
                         module.$('#assetDisUseList').flexOptions({params:searchOpt}).flexReload();
@@ -239,7 +239,7 @@ GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) 
      case 'updateDisUseAssetPopup':
          if (msg != 'cancel') {
         	 // console.log('disuse accept');
-         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', [{name: 'erpAssetsDisuseRsn', value:value.result.erpAssetsDisuseRsn}
+         	this.doAction('/asset/gamUpdateAssetDisUse.do', [{name: 'erpAssetsDisuseRsn', value:value.result.erpAssetsDisuseRsn}
          			, {name: 'erpAssetsDisuseRegistYn', value:'Y'}
          			, {name: 'gisAssetsPrtAtCode', value:value.result.gisAssetsPrtAtCode}
          			, {name: 'gisAssetsCd', value:value.result.gisAssetsCd}

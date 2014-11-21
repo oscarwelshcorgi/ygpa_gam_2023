@@ -34,7 +34,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#fcltyMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamElctyFcltyMngtList.do" />',
+		url: '/fclty/gamElctyFcltyMngtList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
@@ -84,7 +84,7 @@ GamFcltyMngtModule.prototype.loadComplete = function() {
 
 	this.$("#fcltyPhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamElctyFcltyPhotoList.do"/>',
+		url: '/fclty/gamElctyFcltyPhotoList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"prtFcltyPhotoSeq",	width:40,		sortable:true,		align:"center"},
@@ -152,12 +152,12 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 자산코드 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
 		// 업체조회 팝업
 		case "searchEntrpsCdBtn":
-			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
+			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '/popup/showEntrpsInfo.do', {});
 		break;
 
 		case "btnAddGisMap":

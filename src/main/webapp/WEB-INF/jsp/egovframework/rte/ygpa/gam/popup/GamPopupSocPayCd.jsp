@@ -32,7 +32,7 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectSocPayInfoList.do"/>',
+		url: '/popup/selectSocPayInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항명",			name:"prtKorNm", 	width:150, 		sortable:true, 		align:"center"},

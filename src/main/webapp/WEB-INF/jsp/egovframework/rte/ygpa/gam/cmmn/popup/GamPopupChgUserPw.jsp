@@ -64,7 +64,7 @@ GamPassWordChgPopupModule.prototype.loadComplete = function() {
 			}
 			if(confirm("암호를 수정하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#passwordChgPopupForm");
-				this.doAction('<c:url value="/cmmn/popup/gamPopupChgUserPwUpdt.do" />', inputVO, function(module, result) {
+				this.doAction('/cmmn/popup/gamPopupChgUserPwUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			//alert(result.resultMsg);
 			 			module.closeDialog(); 			

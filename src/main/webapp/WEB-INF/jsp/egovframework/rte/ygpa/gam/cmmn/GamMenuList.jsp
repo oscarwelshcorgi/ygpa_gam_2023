@@ -19,7 +19,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<script type="text/javascript" src="/validator.do"></script>
 
 <script>
 /*
@@ -37,7 +37,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 GamMenuMngModule.prototype.loadMenu = function() {
 	this.$("#menuTreeList").empty();
 
-	this.doAction('<c:url value="/cmmn/mnu/selectMenuList.do" />', null, function(module, result) {
+	this.doAction('/cmmn/mnu/selectMenuList.do', null, function(module, result) {
  		if(result.resultCode == 0){
  			var treeNode=module.$('#menuTreeList');
   			var treeItems = [];
@@ -51,7 +51,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
 
 			module.tree.setSkin('dhx_skyblue');
-			module.tree.setImagePath('<c:url value="/js/codebase/imgs/csh_dhx_skyblue/" />');
+			module.tree.setImagePath('/js/codebase/imgs/csh_dhx_skyblue/');
 //			module.tree.enableCheckBoxes(1);
 //			module.tree.enableThreeStateCheckboxes(true);
 			module.tree.loadJSArray(treeItems);
@@ -61,7 +61,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 			module.tree.attachEvent("onSelect", function(id){
 
 // 				this.module.$('#menuNo').val(id);
-				module.doAction('<c:url value="/cmmn/mnu/selectMenuDetail.do" />', {id : id }, function(module, result) {
+				module.doAction('/cmmn/mnu/selectMenuDetail.do', {id : id }, function(module, result) {
 					result.resultVO.beforeMenuNo=result.resultVO.menuNo;
 					module.makeFormValues('#menuManageVO', result.resultVO);
 				})
@@ -101,7 +101,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		case "saveBtn":
 		 	var inputVO=this.makeFormArgs("#menuManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamMenuListInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#menuMngListTab").tabs("option", {active: 0});
 			 			module.$("#menuManageVO :input").val("");
@@ -111,7 +111,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 			 	});
 			}
 			else {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListUpdt.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamMenuListUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#menuMngListTab").tabs("option", {active: 0});
 			 			module.$("#menuManageVO :input").val("");
@@ -126,7 +126,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO=this.makeFormArgs("#menuManageVO");
-			 	this.doAction('<c:url value="/cmmn/gamMenuListDelete.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamMenuListDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			module.$("#menuMngListTab").tabs("option", {active: 0});
 			 			module.$("#menuManageVO :input").val("");
@@ -138,7 +138,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		break;
 		// 프로그램 조회 팝업
 		case "popupBtn":
-			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '<c:url value="/cmmn/popup/gamPopupProgramView.do"/>', {progrmFileNm: this.$("#progrmFileNm").val()});
+			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '/cmmn/popup/gamPopupProgramView.do', {progrmFileNm: this.$("#progrmFileNm").val()});
 		break;
 	}
 };

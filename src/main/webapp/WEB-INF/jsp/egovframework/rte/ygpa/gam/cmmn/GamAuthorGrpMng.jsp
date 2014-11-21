@@ -39,7 +39,7 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamAuthorGroupList.do" />',
+		url: '/cmmn/gamAuthorGroupList.do',
 		dataType: "json",
 		colModel : [
 					{display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
@@ -89,7 +89,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 그룹조회 팝업
 		case "popupGroupId":
-			this.doExecuteDialog('selectPopDataList', '그룹조회', '<c:url value="/cmmn/popup/gamPopupGroupView.do"/>', {searchKeyword: this.$("#searchKeyword").val()});
+			this.doExecuteDialog('selectPopDataList', '그룹조회', '/cmmn/popup/gamPopupGroupView.do', {searchKeyword: this.$("#searchKeyword").val()});
 		break;
 
 		// 조회
@@ -120,7 +120,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 				];
 
 				/*
-				this.doAction('<c:url value="/cmmn/gamAuthorGroupInsert.do" />', inputVO, function(module, result) {
+				this.doAction('/cmmn/gamAuthorGroupInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
 			 			module.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();
@@ -148,7 +148,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 						else esntlIds += reglist[i].uniqId;
 					}
 				}
-				this.doAction('<c:url value="/cmmn/gamAuthorGroupDelete.do" />', {esntlIds: esntlIds}, function(module, result) {
+				this.doAction('/cmmn/gamAuthorGroupDelete.do', {esntlIds: esntlIds}, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
 			 			module.$("#authorGrpMngList").flexOptions({params:searchOpt}).flexReload();

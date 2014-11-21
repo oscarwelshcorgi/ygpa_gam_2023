@@ -35,7 +35,7 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#groupMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/sec/gmt/selectGroupList.do" />',
+		url: '/sec/gmt/selectGroupList.do',
 		dataType: "json",
 		colModel : [
 					{display:"선택", 		name:"delYn",			width:40, 	sortable:false,		align:"center", displayFormat:"checkbox"},
@@ -103,10 +103,10 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			var inputVo = this.makeFormArgs("#groupManage");
 			var url;
 			if(this._cmd=='modify') {
-				url='<c:url value="/sec/gmt/gamGroupListUpdt.do" />';
+				url='/sec/gmt/gamGroupListUpdt.do';
 			}
 			else {
-				url='<c:url value="/sec/gmt/gamGroupListInsert.do" />';
+				url='/sec/gmt/gamGroupListInsert.do';
 			}
 			this.doAction(url, inputVo, function(module, result) {
 		 		if(result.resultCode == 0){
@@ -130,7 +130,7 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 				for(var i=0; i<reglist.length; i++){
 					inputVO[0].value[inputVO[0].value.length] = reglist[i].groupId;
 				}
-				this.doAction('<c:url value="/sec/gmt/gamGroupListDelete.do" />', inputVO, function(module, result) {
+				this.doAction('/sec/gmt/gamGroupListDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#groupMngForm");
 			 			module.$("#groupMngList").flexOptions({params:searchOpt}).flexReload();

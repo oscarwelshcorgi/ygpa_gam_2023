@@ -33,7 +33,7 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadComplete = function() {
     // 테이블 설정 //
     this.$("#cntnrQuayRentFeePaySttusMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/cntnr/gamSelectCntnrQuayRentFeePaySttusMngtList.do" />',
+        url: '/oper/cntnr/gamSelectCntnrQuayRentFeePaySttusMngtList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -100,11 +100,11 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadComplete = function() {
         // 팝업을 호출한다.(업체)
         case 'popupEntrpsInfo':
             var searchOpt=this.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
-            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts, searchOpt);
+            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts, searchOpt);
             break;
 
         case 'btnUpdatePayDtls':	// 납부 현황 새로 고침
-            this.doAction('<c:url value="/oper/cntnr/updateCntnrQuayRentFeePaySttusMngtList.do" />', null, function(module, result) {
+            this.doAction('/oper/cntnr/updateCntnrQuayRentFeePaySttusMngtList.do', null, function(module, result) {
 
                 if(result.resultCode=='0') {
                     var searchOpt=module.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
@@ -115,7 +115,7 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadComplete = function() {
             });
         	break;
         case 'btnNticArrrg':
-            this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '<c:url value="/oper/cntnr/showNticArrrgPopup.do"/>', opts);
+            this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '/oper/cntnr/showNticArrrgPopup.do', opts);
         	break;
         case 'btnNticArrrgSingle':
 			this.nticArrrgSingle();
@@ -148,7 +148,7 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
 	             ];
-	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', nticDetail, function(module, result) {
+	 	this.doAction('/oper/gnrl/insertNticArrrg.do', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 		} else {
 		}
@@ -179,7 +179,7 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'nticCnt', value: row.nticCnt },
 	               { name: 'chrgeKnd', value: row.chrgeKnd }
 	             ];
-	 	this.doAction('<c:url value="/oper/cntnr/selectCntnrQuayRentFeePaySttusMngtDetail.do" />', nticDetail, function(module, result) {
+	 	this.doAction('/oper/cntnr/selectCntnrQuayRentFeePaySttusMngtDetail.do', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
 			module.makeMultiDivValues('#detailPayInfo',result.resultList, function(row) {
@@ -212,7 +212,7 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 		               { name: 'accnutYear', value: row.accnutYear },
 		               { name: 'nticno', value: row.nticno }
 		             ];
-		this.doAction('<c:url value="/oper/gnrl/selectCntnrQuayRentFeePaySttusMngtListDlyList.do" />', dlyList, function(module, result) {
+		this.doAction('/oper/gnrl/selectCntnrQuayRentFeePaySttusMngtListDlyList.do', dlyList, function(module, result) {
 			if (result.resultCode == "0") {
 
 				module.makeMultiDivValues('#cntnrQuayRentFeePaySttusMngtListForm',result.resultList , function(row) {

@@ -34,7 +34,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#nticPayList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/itgrn/gamNticPayListSelect.do" />',
+		url: '/cmmn/itgrn/gamNticPayListSelect.do',
 		dataType: "json",
 		colModel : [
 				{display:"항코드", 	 				name:"prtAtCode",			width:45,		sortable:false,		align:"center"},
@@ -88,7 +88,7 @@ GamNticPayListModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#delayNticPayList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/itgrn/gamDelayNticPayListSelect.do" />',
+		url: '/cmmn/itgrn/gamDelayNticPayListSelect.do',
 		dataType: "json",
 		colModel : [
 				{display:"항코드", 	 				name:"prtAtCode",			width:45,		sortable:false,		align:"center"},
@@ -180,17 +180,17 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 
 		// 세입리스트 엑셀 다운로드
 		case 'btnNticPayListExcelDownload':
-			this.$('#nticPayList').flexExcelDown('<c:url value="/cmmn/itgrn/gamNticPayListSelectExcel.do"/>');
+			this.$('#nticPayList').flexExcelDown('/cmmn/itgrn/gamNticPayListSelectExcel.do');
 		break;
 
 		// 연체세입리스트 엑셀 다운로드
 		case 'btnDelayNticPayListExcelDownload':
-			this.$('#delayNticPayList').flexExcelDown('<c:url value="/cmmn/itgrn/gamDelayNticPayListSelectExcel.do"/>');
+			this.$('#delayNticPayList').flexExcelDown('/cmmn/itgrn/gamDelayNticPayListSelectExcel.do');
 		break;
 
 		// 업체조회 팝업
 		case "searchEntrpsCdBtn":
-			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
+			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '/popup/showEntrpsInfo.do', {});
 		break;
 
 		case 'popupChrgeKndCd': // 팝업을 호출한다.(요금조회)
@@ -204,7 +204,7 @@ GamNticPayListModule.prototype.onButtonClick = function(buttonId) {
 			var opts;
 
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
-					'<c:url value="/popup/showPayCd.do"/>', opts);
+					'/popup/showPayCd.do', opts);
 			break;
 	}
 };

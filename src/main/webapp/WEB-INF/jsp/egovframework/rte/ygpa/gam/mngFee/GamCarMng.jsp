@@ -48,7 +48,7 @@ GamCarMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectCarMngList.do" />',
+		url : '/mngFee/gamSelectCarMngList.do',
 		dataType : 'json',
 		colModel : [
 					{display:'차량 등록 번호', 	name:'carRegistNo',	width:100, 		sortable:false,		align:'center'},
@@ -179,14 +179,14 @@ GamCarMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mode == "insert") {
-		this.doAction('<c:url value="/mngFee/gamInsertCarMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamInsertCarMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('<c:url value="/mngFee/gamUpdateCarMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamUpdateCarMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -216,7 +216,7 @@ GamCarMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteCarMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamDeleteCarMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}

@@ -38,7 +38,7 @@ GamFcltsFeeMngNtic.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#FcltsFeeMngNtic").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectFcltsFeeMngNtic.do" />',
+        url: '/mngFee/gamSelectFcltsFeeMngNtic.do',
         dataType: 'json',
         colModel : [
                     {display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:110, 		sortable:false,		align:'center'},
@@ -118,7 +118,7 @@ GamFcltsFeeMngNtic.prototype.loadComplete = function() {
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertFcltsFeeMngNtic.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamInsertFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 						module.$("#FcltsFeeMngNtic").flexOptions({params:searchOpt}).flexReload();
@@ -128,7 +128,7 @@ GamFcltsFeeMngNtic.prototype.loadComplete = function() {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateFcltsFeeMngNtic.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamUpdateFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 						module.$("#FcltsFeeMngNtic").flexOptions({params:searchOpt}).flexReload();
@@ -151,7 +151,7 @@ GamFcltsFeeMngNtic.prototype.loadComplete = function() {
         	*/
         	if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#FcltsFeeMngNticDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteFcltsFeeMngNtic.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamDeleteFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 			 			module.$("#FcltsFeeMngNtic").flexOptions({params:searchOpt}).flexReload();

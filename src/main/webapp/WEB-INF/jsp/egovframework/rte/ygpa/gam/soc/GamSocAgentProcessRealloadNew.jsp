@@ -36,7 +36,7 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
     // 업체신청 면제요청목록 설정
     this.$("#socAgentProcessRealloadNewList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocAgentProcessRealloadNewList.do" />',
+        url: '/soc/gamSelectSocAgentProcessRealloadNewList.do',
         dataType: 'json',
         colModel : [
                     {display:'호출부호', name:'callLetter',width:50, sortable:false,align:'center'},
@@ -80,11 +80,11 @@ GamSocAgentProcessRealloadNewModule.prototype.onButtonClick = function(buttonId)
         case 'popupFeeTpInfo' : //요금종류 선택
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+					'/popup/showSocPayCd.do', opts);        	
         	break;
         case 'popupEntrpsInfo' : //업체코드버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+					'/popup/showSocEntrpsInfo.do', opts);
         	break;
     }
 };

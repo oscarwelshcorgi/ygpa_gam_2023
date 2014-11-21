@@ -44,7 +44,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         		return;
         	}
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
-        	this.doAction('<c:url value="/soc/gamSelectSocExmpMngtDetailInquire.do" />', opts, function(module, result) {
+        	this.doAction('/soc/gamSelectSocExmpMngtDetailInquire.do', opts, function(module, result) {
         		if(result.resultCode == 0) {
         			module.$('#gamSocExmpMngtForm :input').val('');
         			module.makeFormValues('#gamSocExmpMngtForm', result.resultVO);
@@ -81,7 +81,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         		break;
         	}
         	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
-        	this.doAction('<c:url value="/soc/selectSocExmpMngtGetNextSocNo.do" />', opts, function(module, result) {
+        	this.doAction('/soc/selectSocExmpMngtGetNextSocNo.do', opts, function(module, result) {
         		if(result.resultCode == 0) {
         			module.$('#sSocNo').val(result.nextSocNo);
         			module.$('#appPrtAtCode').val(module.$('#sAppPrtAtCode').val());
@@ -127,7 +127,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 			}
 			opts = this.makeFormArgs('#gamSocExmpMngtForm');
 			if(this.$('#cmd').val() == 'insert') {
-	        	this.doAction('<c:url value="/soc/gamInsertSocExmpMngtDetail.do" />', opts, function(module, result) {
+	        	this.doAction('/soc/gamInsertSocExmpMngtDetail.do', opts, function(module, result) {
 	        		if(result.resultCode == 0) {
 	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
 	            		module.$('#gamSocExmpMngtForm :input').val('');
@@ -137,7 +137,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 	        	});
 			} else if(this.$('#cmd').val() == 'modify') {
 				//수정
-	        	this.doAction('<c:url value="/soc/gamUpdateSocExmpMngtDetail.do" />', opts, function(module, result) {
+	        	this.doAction('/soc/gamUpdateSocExmpMngtDetail.do', opts, function(module, result) {
 	        		alert(result.resultMsg);
 	        	});
 			}        	
@@ -146,7 +146,7 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
 			if((this.$('#cmd').val() == 'modify')) {
 	        	if(confirm('데이터를 삭제하시겠습니까?')) {
 					opts = this.makeFormArgs('#gamSocExmpMngtForm');
-		        	this.doAction('<c:url value="/soc/gamDeleteSocExmpMngtDetail.do" />', opts, function(module, result) {
+		        	this.doAction('/soc/gamDeleteSocExmpMngtDetail.do', opts, function(module, result) {
 		        		if(result.resultCode == 0) {
 		        			module.$('#gamSocExmpMngtSearchForm :input').val('');
 		            		module.$('#gamSocExmpMngtForm :input').val('');
@@ -163,24 +163,24 @@ GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
         case 'popupChrgeKndCd' : //요금코드조회
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
-					'<c:url value="/popup/showSocPayCd.do"/>', opts);
+					'/popup/showSocPayCd.do', opts);
         	break;
         case 'popupApplyInfo' : //신청업체(투자비보전신청업체) 조회
 			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
-					'<c:url value="/popup/showSocApplyInfo.do"/>', opts);
+					'/popup/showSocApplyInfo.do', opts);
         	break;
         case 'popupEntrpsInfo' : //면제업체 조회버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+					'/popup/showSocEntrpsInfo.do', opts);
         	break;
         case 'popupFacCd' : //시설코드조회
         	opts = { prtAtCode : this.$('#exmpPrtAtCode').val() };
         	this.doExecuteDialog('selectFacilCd', '시설 선택',
-					'<c:url value="/popup/showSocFacCd.do"/>', opts);
+					'/popup/showSocFacCd.do', opts);
         	break;
         case 'popupVsslCd' : //선박호출부호조회
 			this.doExecuteDialog('selectVsslCd', '선박 선택',
-					'<c:url value="/popup/showSocVsslCd.do"/>', opts);
+					'/popup/showSocVsslCd.do', opts);
         	break;
 	}
 };

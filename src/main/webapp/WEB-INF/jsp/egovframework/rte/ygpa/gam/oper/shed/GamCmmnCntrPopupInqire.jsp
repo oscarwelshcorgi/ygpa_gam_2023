@@ -33,7 +33,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/oper/shed/gamCmmnCntrPopupInqire.do"/>',
+     url: '/oper/shed/gamCmmnCntrPopupInqire.do',
      dataType: 'json',
      colModel : [
                  {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
@@ -85,16 +85,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnCmmnCntrRent':
-    	 EMD.util.create_window('항만관련부지 목록 관리', '<c:url value="/oper/shed/gamCmmnCntrRentMngt.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 목록 관리', '/oper/shed/gamCmmnCntrRentMngt.do', null);
     	 break;
      case 'btnCmmnFeeMngt':
-    	 EMD.util.create_window('항만관련부지 사용료 관리', '<c:url value="/oper/shed/gamCmmnCntrRentFeeMngt.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 사용료 관리', '/oper/shed/gamCmmnCntrRentFeeMngt.do', null);
     	 break;
      case 'btnCmmnCntrRentFeePayDtlsMngt':
-    	 EMD.util.create_window('항만관련부지 사용료납부관리', '<c:url value="/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 사용료납부관리', '/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnCmmnUseExprInqire':
-    	 EMD.util.create_window('항만관련부지 만기도래자료조회', '<c:url value="/oper/shed/gamCmmnCntrUseExprInqire.do"/>', null);
+    	 EMD.util.create_window('항만관련부지 만기도래자료조회', '/oper/shed/gamCmmnCntrUseExprInqire.do', null);
     	 break;
  }
 };

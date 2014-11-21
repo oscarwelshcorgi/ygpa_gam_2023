@@ -36,7 +36,7 @@ GamSendMesgListMngtModule.prototype.loadComplete = function() {
     // SMS 메세지 목록 테이블 설정
     this.$("#sendMesgMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/cmmn/sms/gamSelectSendMesgList.do" />',
+        url: '/cmmn/sms/gamSelectSendMesgList.do',
         dataType: 'json',
         colModel : [
                     {display:'SMS순번', name:'smsSeq',width:50, sortable:false,align:'center'},
@@ -132,7 +132,7 @@ GamSendMesgListMngtModule.prototype.onButtonClick = function(buttonId) {
         	this.$('#smsSeq').val(g_seqNum);
         	g_seqNum = '';
         	var searchOpt = this.makeFormArgs('#GemSmsRetransmitForm');
-        	this.doAction('<c:url value="/cmmn/sms/smsRetransmit.do" />', searchOpt, function(module, result) {
+        	this.doAction('/cmmn/sms/smsRetransmit.do', searchOpt, function(module, result) {
         		if(result.resultCode == "0"){
         			alert('재전송 신청이 완료되었습니다.');
         			searchOpt = module.makeFormArgs('#GamSendMesgListMngtSearchForm');        			

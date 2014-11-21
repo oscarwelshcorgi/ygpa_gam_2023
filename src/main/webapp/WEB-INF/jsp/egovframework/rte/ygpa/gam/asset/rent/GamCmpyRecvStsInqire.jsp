@@ -33,7 +33,7 @@ GamCmpyRecvStsInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#cmpyRecvStsInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/rent/gamSelectCmpyRecvStsInqireList.do"/>',
+     url: '/asset/rent/gamSelectCmpyRecvStsInqireList.do',
      dataType: 'json',
      colModel : [
 				 {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
@@ -127,7 +127,7 @@ GamCmpyRecvStsInqireModule.prototype.onButtonClick = function(buttonId) {
      case 'popupEntrpsInfo': 
          var opts;
 
-         this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+         this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
          break;
  }
 };

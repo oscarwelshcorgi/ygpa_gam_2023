@@ -49,7 +49,7 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectGrHseEmitQyMng.do" />',
+		url : '/mngFee/gamSelectGrHseEmitQyMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'연료 코드',			name:'fuelCd',			width:70, 		sortable:false,		align:'center'},
@@ -260,14 +260,14 @@ GamGrHseEmitQyMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mode == "insert") {
-		this.doAction('<c:url value="/mngFee/gamInsertGrHseEmitQyMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamInsertGrHseEmitQyMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('<c:url value="/mngFee/gamUpdateGrHseEmitQyMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamUpdateGrHseEmitQyMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -297,7 +297,7 @@ GamGrHseEmitQyMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteGrHseEmitQyMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamDeleteGrHseEmitQyMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}

@@ -47,8 +47,8 @@ GamPopupAssetRentPrmisnModule.prototype.onButtonClick = function(buttonId) {
 		if( confirm("승낙 하시겠습니까?") ) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
 
-	        //this.doAction('<c:url value="/asset/rent/gamInsertAssetRentPrmisn.do" />', inputVO, function(module, result) {
-	        this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', inputVO, function(module, result) {
+	        //this.doAction('/asset/rent/gamInsertAssetRentPrmisn.do', inputVO, function(module, result) {
+	        this.doAction('/asset/rent/gamUpdateAssetRentPrmisn.do', inputVO, function(module, result) {
 	            alert(result.resultMsg);
 
 	            module.closeDialog('ok', result.resultCode);

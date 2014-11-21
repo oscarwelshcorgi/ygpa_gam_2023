@@ -34,7 +34,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#erpAssetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/sample/selectErpAssetCodeList.do"/>',
+		url: '/sample/selectErpAssetCodeList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'등록', name:'regYn', width:44, sortable:true, align:'left', displayFormat: 'checkbox'},
@@ -99,7 +99,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/asset/selectGisAssetCodeList.do"/>',
+		url: '/asset/selectGisAssetCodeList.do',
 		colModel : [
 			{display:'항코드', name:'gisAssetsPrtAtCode', width:24, sortable:true, align:'center'},
 			{display:'항구분', name:'prtAtCodeNm', width:40, sortable:true, align:'center'},
@@ -159,7 +159,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 
 	this.$("#assetCodePhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/sample/selectAssetCodePhotoList.do"/>',
+		url: '/sample/selectAssetCodePhotoList.do',
 		dataType: 'json',
 		colModel : [
 				{display:'사진 순번', name:'photoSeq', width:80, sortable:true, align:'center'},

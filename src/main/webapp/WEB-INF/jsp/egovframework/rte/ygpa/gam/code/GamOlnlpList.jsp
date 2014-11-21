@@ -34,7 +34,7 @@ GamOlnlpInqireModule.prototype.loadComplete = function() {
 	// 공시지가 등록현황 목록
 	this.$("#olnlpInsertList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamOlnlpInqireList.do" />',
+		url: '/code/gamOlnlpInqireList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,	sortable:false,	align:"center"},
@@ -58,7 +58,7 @@ GamOlnlpInqireModule.prototype.loadComplete = function() {
 	// 공시지가 목록
 	this.$("#olnlpInqireList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/gamOlnlpInqireDetailList.do" />',
+		url: '/code/gamOlnlpInqireDetailList.do',
 		dataType: "json",
 		colModel : [
 					{display:"순번", 		name:"olnlpSeq",	width:100,	sortable:false,	align:"center"},
@@ -102,7 +102,7 @@ GamOlnlpInqireModule.prototype.onButtonClick = function(buttonId) {
 		break;
 		// 자산코드 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 	}
 };

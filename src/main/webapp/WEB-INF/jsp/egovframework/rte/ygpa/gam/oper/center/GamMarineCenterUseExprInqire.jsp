@@ -31,7 +31,7 @@ GamMarineCenterUseExprInqireModule.prototype = new EmdModule(1000, 600);
 GamMarineCenterUseExprInqireModule.prototype.loadComplete = function() {
     this.$("#marineCenterUseExprInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/center/gamSelectMarineCenterUseExprInqireList.do" />',
+        url: '/oper/center/gamSelectMarineCenterUseExprInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -92,7 +92,7 @@ GamMarineCenterUseExprInqireModule.prototype.loadDetailForm = function() {
 		             ];
 		this.makeDivValues('#gamMarineCenterUseExprInqireForm', row); // 결과값을 채운다.
 
-   	 	this.doAction('<c:url value="/oper/center/gamSelectMarineCenterUseExprInqireDetailList.do" />', detailParam, function(module, result) {
+   	 	this.doAction('/oper/center/gamSelectMarineCenterUseExprInqireDetailList.do', detailParam, function(module, result) {
 			if (result.resultCode == "0") {
 				module.makeMultiDivValues('#gamMarineCenterUseExprInqireDetailForm',result.resultList , function(row) {
 				} );	// 리스트 값을 채운다
@@ -112,7 +112,7 @@ GamMarineCenterUseExprInqireModule.prototype.loadDetailForm = function() {
             break;
          // 자산코드 팝업
 		case "popupGisCode":
-			this.doExecuteDialog("selectGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("selectGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
@@ -121,7 +121,7 @@ GamMarineCenterUseExprInqireModule.prototype.loadDetailForm = function() {
                 'entrpsNm': this.$('#sEntrpsNm').val(),
             };
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
     }
 };

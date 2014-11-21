@@ -33,7 +33,7 @@ GamAssetEvlDtlsInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetEvlDtlsInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectAssetEvlDtlsInqireList.do"/>',
+     url: '/asset/gamSelectAssetEvlDtlsInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
@@ -86,7 +86,7 @@ this.$("#assetEvlDtlsInqireList").on("onItemSelected", function(event, module, r
 
          var inputVO = {erpAssetsSeCd: erpAssetsSeCd, erpAssetsNo: erpAssetsNo, erpAssetsNoSeq: erpAssetsNoSeq};
 
-    	 module.doAction('<c:url value="/asset/gamSelectAssetEvlDtlsInqireErp.do" />', inputVO, function(module, result) {
+    	 module.doAction('/asset/gamSelectAssetEvlDtlsInqireErp.do', inputVO, function(module, result) {
 
              if(result.resultCode=='0') {
             	 module.$('#assetCls').val(result.assetCls);

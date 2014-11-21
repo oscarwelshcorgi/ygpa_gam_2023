@@ -39,7 +39,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#drwListMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamDrwListMngtList.do" />',
+		url: '/fclty/gamDrwListMngtList.do',
 		dataType: "json",
 		colModel : [
 				{display:"도면목록번호",	name:"drawListNumber",	width:80,	sortable:false,	align:"center"},
@@ -73,7 +73,7 @@ GamFcltyDrwListMngtModule.prototype.loadComplete = function(params) {
 
 	this.$("#drwListPhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamDrwListPhotoList.do" />',
+		url: '/fclty/gamDrwListPhotoList.do',
 		dataType: "json",
 		colModel : [
 				{display:"도면자료코드",	name:"drwDtaCd",		width:80,	sortable:false,	align:"center"},
@@ -153,7 +153,7 @@ GamFcltyDrwListMngtModule.prototype.loadDetailData = function() {
            { name: 'drwLstSeq', value: row['drwLstSeq'] }
          ];
 
-	 	this.doAction('<c:url value="/fclty/selectDrwListDetail.do" />', drwFclty, function(module, result) {
+	 	this.doAction('/fclty/selectDrwListDetail.do', drwFclty, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			this._deleteDataFileList = [];    // 삭제 목록 초기화
 	 			module.makeFormValues('#drwListManageVO', result.resultMaster);	// 결과값을 채운다.
@@ -219,7 +219,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 		    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#drwListPhotoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 		    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
 
-		    this.doAction('<c:url value="/fclty/mergeDrwInfoMngt.do" />', inputVO, function(module, result) {
+		    this.doAction('/fclty/mergeDrwInfoMngt.do', inputVO, function(module, result) {
 		        if(result.resultCode == 0){
 			    	module.loadDetailData();
 		        }
@@ -241,7 +241,7 @@ GamFcltyDrwListMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(confirm("선택 한 도면 목록을 삭제하시겠습니까?")){
 
 				var inputVO = {drwLstRegistYear:row[0]["drwLstRegistYear"], drwLstSeq:row[0]["drwLstSeq"]};
-			 	this.doAction('<c:url value="/fclty/deleteDrwInfoMngt.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/deleteDrwInfoMngt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#drwListForm");
 						module.$("#drwListMngtList").flexOptions({params:searchOpt}).flexReload();

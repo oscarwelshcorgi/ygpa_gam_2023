@@ -36,7 +36,7 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectSocAgentFInfoList.do"/>',
+		url: '/popup/selectSocAgentFInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"공사관리청코드",		name:"prtAtCode", 		width:60, 		sortable:true, 		align:"center"},
@@ -93,7 +93,7 @@ GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
 		
 		var opts;
 		alert('kk');
-		EMD.util.create_window('업체 선택', '<c:url value="/popup/showSocEntrpsInfo.do"/>', null, opts);
+		EMD.util.create_window('업체 선택', '/popup/showSocEntrpsInfo.do', null, opts);
     	break;
 
 	case "btnOk":

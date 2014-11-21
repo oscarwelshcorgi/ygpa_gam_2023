@@ -32,7 +32,7 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectFcltsClCdInfoList.do"/>',
+		url: '/popup/selectFcltsClCdInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"시설물분류코드", name:"fcltsClCd", 		width:105, sortable:true, align:"center"},

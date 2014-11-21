@@ -35,7 +35,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#menuMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamMenuManageSelect.do" />',
+		url: '/cmmn/gamMenuManageSelect.do',
 		dataType: 'json',
 		colModel : [
 					{display:'메뉴ID', 		name:'menuNo',			width:58, 		sortable:false,		align:'center'},
@@ -107,7 +107,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 
 		// 프로그램목록조회 팝업
 		case "popupBtn":
-			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '<c:url value="/cmmn/popup/gamPopupProgramView.do"/>', {progrmFileNm: this.$("#progrmFileNm").val()});
+			this.doExecuteDialog('selectProgramPopList', '프로그램목록조회', '/cmmn/popup/gamPopupProgramView.do', {progrmFileNm: this.$("#progrmFileNm").val()});
 		break;
 
 		// 저장
@@ -117,7 +117,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 
 		 	var inputVO = this.makeFormArgs("#menuManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamMenuListInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0") {
 						var searchOpt = module.makeFormArgs("#menuMngForm");
 						module.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();
@@ -128,7 +128,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 			 	});
 			}
 			else {
-			 	this.doAction('<c:url value="/cmmn/gamMenuListUpdt.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamMenuListUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0") {
 						var searchOpt = module.makeFormArgs("#menuMngForm");
 						module.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();
@@ -144,7 +144,7 @@ GamMenuMngModule.prototype.loadComplete = function() {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#menuManageVO");
-			 	this.doAction('<c:url value="/cmmn/gamMenuListDelete.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamMenuListDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0") {
 						var searchOpt = module.makeFormArgs("#menuMngForm");
 						module.$("#menuMngList").flexOptions({params:searchOpt}).flexReload();

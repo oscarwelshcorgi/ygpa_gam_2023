@@ -38,7 +38,7 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
  	// 계약이력 테이블 설정
     this.$("#fcltyCtrtSttusInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/ctrt/gamSelectFcltyCtrtSttusInqireList.do" />',
+        url: '/ctrt/gamSelectFcltyCtrtSttusInqireList.do',
         dataType: 'json',
         colModel : [
                     {display:'거래관계', 				name:'dealRelate',			width:60, 		sortable:false,		align:'center'},
@@ -105,12 +105,12 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
         
          // 시설물계약이력 엑셀 다운로드
 		case 'btnFcltyCtrtSttusInqireListExcelDownload':
-			this.$('#fcltyCtrtSttusInqireList').flexExcelDown('<c:url value="/ctrt/gamSelectFcltyCtrtSttusInqireExcel.do"/>');
+			this.$('#fcltyCtrtSttusInqireList').flexExcelDown('/ctrt/gamSelectFcltyCtrtSttusInqireExcel.do');
 		break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             var opts;
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
             
         

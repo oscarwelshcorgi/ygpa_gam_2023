@@ -34,7 +34,7 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
     // 테이블 설정 //       
     this.$("#fcltyUseSttusInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/port_mis/gamSelectFcltyUseSttusInqireList.do" />',
+        url: '/port_mis/gamSelectFcltyUseSttusInqireList.do',
         dataType: 'json',
         colModel : [      
 					{display:'항코드', name:'prtAtCode',width:40, sortable:true,align:'center'},         
@@ -105,16 +105,16 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         case 'popupFacilCd': 
         	var opts = this.makeFormArgs('#gamFcltyUseSttusInqireSearchForm');
             
-            this.doExecuteDialog('selectFacilInfoPopup', '선석 선택', '<c:url value="/popup/showFacilInfo.do"/>', opts);
+            this.doExecuteDialog('selectFacilInfoPopup', '선석 선택', '/popup/showFacilInfo.do', opts);
             break;
             
          // 팝업을 호출한다.(요금종류)     
         case 'popupChrgeKndCd': 
-            //this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            //this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
 			var opts;
 		
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
-					'<c:url value="/popup/showPayCd.do"/>', opts);
+					'/popup/showPayCd.do', opts);
             break;
             
     }

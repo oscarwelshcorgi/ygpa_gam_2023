@@ -49,7 +49,7 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectMngFeeGubunMng.do" />',
+		url : '/mngFee/gamSelectMngFeeGubunMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'시설구분', 		name:'mngFeeFcltySe',		width:70, 		sortable:false,		align:'center'},
@@ -180,14 +180,14 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mode == "insert") {
-		this.doAction('<c:url value="/mngFee/gamInsertMngFeeGubunMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamInsertMngFeeGubunMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('<c:url value="/mngFee/gamUpdateMngFeeGubunMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamUpdateMngFeeGubunMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -217,7 +217,7 @@ GamMngFeeGubunMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteMngFeeGubunMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamDeleteMngFeeGubunMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -241,7 +241,7 @@ GamMngFeeGubunMngModule.prototype.checkId = function() {
 		alert("코드를 입력하십시오.");
 		return;
 	}
-	this.doAction('<c:url value="/mngFee/gamCheckSeFeeGubunMng.do" />', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
+	this.doAction('/mngFee/gamCheckSeFeeGubunMng.do', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
 		if (result.resultCode == 0) {
 			if (result.checkSeCnt != "0") {
 				alert("이미 사용중인 코드가 존재합니다.");

@@ -43,7 +43,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#gamCustTpSalesSttutsCreatList").flexigrid({
 		module: this,
-		url: '<c:url value="/port_mis/selectgamCustTpSalesSttutsCreatList.do"/>',
+		url: '/port_mis/selectgamCustTpSalesSttutsCreatList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'항코드', name:'prtcd', width:70, sortable:true, align:'center'},
@@ -63,7 +63,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 
 	this.$("#gamCustTpEnpSalesSttutsList").flexigrid({
 		module: this,
-		url: '<c:url value="/port_mis/selectErpStatisticsList.do"/>',
+		url: '/port_mis/selectErpStatisticsList.do',
 		colModel : [
 					{display:'항코드', name:'prtcd', width:40, sortable:true, align:'center'},
 					{display:'항코드명', name:'prtKorNm', width:55, sortable:true, align:'center'},
@@ -93,7 +93,7 @@ GamCustTpSalesSttutsCreat.prototype.loadComplete = function() {
 
 	this.$("#gamCustTpShipEnpSalesSttutsList").flexigrid({
 		module: this,
-		url: '<c:url value="/port_mis/selectShipErpStatisticsList.do"/>',
+		url: '/port_mis/selectShipErpStatisticsList.do',
 		colModel : [
 					{display:'항코드', name:'prtcd', width:40, sortable:true, align:'center'},
 					{display:'항코드명', name:'prtKorNm', width:55, sortable:true, align:'center'},
@@ -264,7 +264,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			var opts;
 
 			this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택',
-					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+					'/popup/showEntrpsInfo.do', opts);
 			break;
 
 		
@@ -279,7 +279,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			var opts;
 
 			this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택',
-					'<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+					'/popup/showEntrpsInfo.do', opts);
 			break;
 		
 		case 'popupchrgeKndCd1': // 팝업을 호출한다.(요금조회)
@@ -287,7 +287,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			var opts;
 			
 			this.doExecuteDialog('selectChrgeKndCd1', '요금 선택',
-					'<c:url value="/popup/showPayCd.do"/>', opts);
+					'/popup/showPayCd.do', opts);
 			break;
 		
 			
@@ -296,7 +296,7 @@ GamCustTpSalesSttutsCreat.prototype.onButtonClick = function(buttonId) {
 			var opts;
 			
 			this.doExecuteDialog('selectChrgeKndCd2', '요금 선택',
-					'<c:url value="/popup/showPayCd.do"/>', opts);
+					'/popup/showPayCd.do', opts);
 			break;
 		
 		}

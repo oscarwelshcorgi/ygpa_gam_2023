@@ -51,7 +51,7 @@ GamPopupAssetDisUseModule.prototype.onButtonClick = function(buttonId) {
         	};
 
         	this.closeDialog('ok', {result:result});
-/*         	this.doAction('<c:url value="/asset/gamUpdateAssetDisUse.do" />', inputVO, function(module, result) {
+/*         	this.doAction('/asset/gamUpdateAssetDisUse.do', inputVO, function(module, result) {
 
                 alert(result.resultMsg);
 

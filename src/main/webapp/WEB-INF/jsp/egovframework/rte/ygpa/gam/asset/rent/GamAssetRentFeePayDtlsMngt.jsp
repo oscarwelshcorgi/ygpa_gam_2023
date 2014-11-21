@@ -33,7 +33,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
     // 테이블 설정 //
     this.$("#assetRentFeePayList").flexigrid({
         module: this,
-        url: '<c:url value="/asset/rent/gamSelectAssetRentFeePayDtlsMngtList.do" />',
+        url: '/asset/rent/gamSelectAssetRentFeePayDtlsMngtList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -98,11 +98,11 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         case 'popupEntrpsInfo':
             //var searchOpt=module.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
             var searchOpt=this.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
-            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts, searchOpt);
+            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts, searchOpt);
             break;
 
         case 'btnUpdatePayDtls':	// 납부 현황 새로 고침
-            this.doAction('<c:url value="/asset/rent/updateAssetRentFeePayDtlsMngtList.do" />', null, function(module, result) {
+            this.doAction('/asset/rent/updateAssetRentFeePayDtlsMngtList.do', null, function(module, result) {
 
                 if(result.resultCode=='0') {
                     var searchOpt=module.makeFormArgs('#gamAssetRentFeePayDtlsSearchForm');
@@ -113,7 +113,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
             });
         	break;
         case 'btnNticArrrg':
-            this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '<c:url value="/asset/rent/showNticArrrgPopup.do"/>', opts);
+            this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '/asset/rent/showNticArrrgPopup.do', opts);
         	break;
         case 'btnNticArrrgSingle':
 			this.nticArrrgSingle();
@@ -121,7 +121,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadComplete = function() {
         case 'btnNticPayment':	// 납부 확인
         	var row = this.$('#assetRentFeePayList').selectedRows()[0];
 
-            this.doExecuteDialog('btnNticPayPopup', '수납 확인', '<c:url value="/asset/rent/showNticPaymentPopup.do"/>', null, row);
+            this.doExecuteDialog('btnNticPayPopup', '수납 확인', '/asset/rent/showNticPaymentPopup.do', null, row);
         	break;
     }
 };
@@ -151,7 +151,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.nticArrrgSingle = function() {
 	               { name: 'arrrgPayDates', value: applyPayDates },
 	               { name: 'arrrgAmt', value: arrrgAmt },
 	             ];
-	 	this.doAction('<c:url value="/oper/gnrl/insertNticArrrg.do" />', nticDetail, function(module, result) {
+	 	this.doAction('/oper/gnrl/insertNticArrrg.do', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 		} else {
 		}
@@ -182,7 +182,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 	               { name: 'nticCnt', value: row.nticCnt },
 	               { name: 'chrgeKnd', value: row.chrgeKnd }
 	             ];
-	 	this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do" />', nticDetail, function(module, result) {
+	 	this.doAction('/asset/rent/selectAssetRentFeePayDtlsMngtDetail.do', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
 			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
 			module.makeMultiDivValues('#detailPayInfo',result.resultList, function(row) {
@@ -213,7 +213,7 @@ GamAssetRentFeePayDtlsMngtModule.prototype.loadDetailPage = function() {
 		               { name: 'accnutYear', value: row.accnutYear },
 		               { name: 'nticno', value: row.nticno }
 		             ];
-		this.doAction('<c:url value="/asset/rent/selectAssetRentFeePayDtlsMngtDlyList.do" />', dlyList, function(module, result) {
+		this.doAction('/asset/rent/selectAssetRentFeePayDtlsMngtDlyList.do', dlyList, function(module, result) {
 			if (result.resultCode == "0") {
 
 				module.makeMultiDivValues('#assetRentFeePayDtlsMngtListForm',result.resultList , function(row) {

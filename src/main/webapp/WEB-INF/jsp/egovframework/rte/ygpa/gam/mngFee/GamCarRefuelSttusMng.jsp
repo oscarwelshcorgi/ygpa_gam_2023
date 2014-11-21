@@ -49,7 +49,7 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectCarRefuelSttusMng.do" />',
+		url : '/mngFee/gamSelectCarRefuelSttusMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'연료 구분', 		name:'fuelKnd',		width:100, 		sortable:false,		align:'center'},
@@ -258,7 +258,7 @@ GamCarRefuelSttusMngModule.prototype.saveData = function() {
 		alert('자료가 부정확합니다.');
 		return;
 	}
-	this.doAction('<c:url value="/mngFee/gamInsertCarRefuelSttusMng.do" />', inputVO, function(module, result) {
+	this.doAction('/mngFee/gamInsertCarRefuelSttusMng.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.loadData();
 		}
@@ -287,7 +287,7 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteCarRefuelSttusMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamDeleteCarRefuelSttusMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}

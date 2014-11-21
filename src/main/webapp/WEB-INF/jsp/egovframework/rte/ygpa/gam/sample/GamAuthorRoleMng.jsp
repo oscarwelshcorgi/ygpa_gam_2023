@@ -33,7 +33,7 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#authorRoleMngList").flexigrid({
 		module:this,
-		url: '<c:url value="/cmmn/gamAuthorRoleList.do" />',
+		url: '/cmmn/gamAuthorRoleList.do',
 		dataType: 'json',
 		colModel : [
 					{display:'check', 		name:'chkRole',		width:40, 	sortable:false,		align:'center', displayFormat:'checkbox'},

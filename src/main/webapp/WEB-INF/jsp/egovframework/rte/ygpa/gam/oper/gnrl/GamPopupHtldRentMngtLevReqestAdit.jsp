@@ -59,7 +59,7 @@ GamPopupLevReqestAditModule.prototype.onButtonClick = function(buttonId) {
 		if( confirm("부과금액을 등록 하시겠습니까?") ) {
 			var inputVO=this.makeFormArgs('#gamPopupLevReqestAditForm');
 
-	        this.doAction('<c:url value="/cmmn/fclty/gamInsertLevreqestAdit.do" />', inputVO, function(module, result) {
+	        this.doAction('/cmmn/fclty/gamInsertLevreqestAdit.do', inputVO, function(module, result) {
 	            alert(result.resultMsg);
 
 	            module.closeDialog('ok', result.resultCode);

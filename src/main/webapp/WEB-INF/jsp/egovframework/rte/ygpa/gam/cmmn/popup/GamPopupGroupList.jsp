@@ -37,7 +37,7 @@ GamGroupSearchPopupModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#groupSearchPopupList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/popup/gamPopupGroupList.do" />',
+		url: '/cmmn/popup/gamPopupGroupList.do',
 		dataType: "json",
 		colModel : [
 					{display:"그룹 ID", 		name:"groupId",		width:200, 	sortable:false,		align:"center"},

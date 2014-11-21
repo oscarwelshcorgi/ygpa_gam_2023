@@ -49,7 +49,7 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectEnergyUsageMng.do" />',
+		url : '/mngFee/gamSelectEnergyUsageMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'연료 코드', 			name:'fuelCd',				width:80, 		sortable:false,		align:'center'	},
@@ -191,14 +191,14 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mode == "insert") {
-		this.doAction('<c:url value="/mngFee/gamInsertEnergyUsageMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamInsertEnergyUsageMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('<c:url value="/mngFee/gamUpdateEnergyUsageMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamUpdateEnergyUsageMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -228,7 +228,7 @@ GamEnergyUsageMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteEnergyUsageMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamDeleteEnergyUsageMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -259,7 +259,7 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 	}
 	if (confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?")) {
 		var inputVO = this.makeFormArgs("#searchForm");
-		this.doAction('<c:url value="/mngFee/gamCopyEnergyUsageMng.do" />', row[0], function(module, result) {
+		this.doAction('/mngFee/gamCopyEnergyUsageMng.do', row[0], function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}

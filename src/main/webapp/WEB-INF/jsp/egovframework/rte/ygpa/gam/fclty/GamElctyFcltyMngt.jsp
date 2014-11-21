@@ -41,7 +41,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#fcltyMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamElctyFcltyMngtList.do" />',
+		url: '/fclty/gamElctyFcltyMngtList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
@@ -167,7 +167,7 @@ GamFcltyMngtModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltyPhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/gamElctyFcltyPhotoList.do"/>',
+		url: '/fclty/gamElctyFcltyPhotoList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"prtFcltyPhotoSeq",	width:40,		sortable:true,		align:"center"},
@@ -289,17 +289,17 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 자산코드 팝업
 		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
 		// 자산코드 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '<c:url value="/popup/showAssetsCd.do"/>', {});
+			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
 		// 업체조회 팝업
 		case "searchEntrpsCdBtn":
-			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '<c:url value="/popup/showEntrpsInfo.do"/>', {});
+			this.doExecuteDialog("searchEntrpsCdPopup", "업체조회", '/popup/showEntrpsInfo.do', {});
 		break;
 
 		// 저장
@@ -313,7 +313,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#prtFcltyChangeDt").val(this.$("#prtFcltyChangeDt").val().replace(/\-/g,""));
 
 		 	if(this._cmd == "insert") {
-			 	this.doAction('<c:url value="/fclty/gamElctyFcltyInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/gamElctyFcltyInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -323,7 +323,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/fclty/gamElctyFcltyUpdate.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/gamElctyFcltyUpdate.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -347,7 +347,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 			if(confirm("선택한 전기시설을 삭제하시겠습니까?")){
 
 				var inputVO = {gisAssetsCd:row[0]["gisAssetsCd"], gisPrtFcltySeq:row[0]["gisPrtFcltySeq"], gisAssetsPrtAtCode:row[0]["gisAssetsPrtAtCode"], gisAssetsSubCd:row[0]["gisAssetsSubCd"], gisPrtFcltyCd:row[0]["gisPrtFcltyCd"]};
-			 	this.doAction('<c:url value="/fclty/gamElctyFcltyDelete.do" />', inputVO, function(module, result) {
+			 	this.doAction('/fclty/gamElctyFcltyDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#fcltyMngtList").flexOptions({params:searchOpt}).flexReload();
@@ -417,7 +417,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 			    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
 
-			    this.doAction('<c:url value="/fclty/mergeGamElctyFcltyPhotoMngt.do" />', inputVO, function(module, result) {
+			    this.doAction('/fclty/mergeGamElctyFcltyPhotoMngt.do', inputVO, function(module, result) {
 			        if(result.resultCode == 0){
 				    	module.loadPhotoList();
 			        }
@@ -542,7 +542,7 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 		 			                { name: 'gisPrtFcltySeq', value: this._params.gisPrtFcltySeq },
 		 			                { name: 'prtFcltySe', value: this._params.prtFcltySe }
 		 			              ];
-		 	     	 	this.doAction('<c:url value="/fclty/gamElctyFcltyDetail.do" />', prtFclty, function(module, result) {
+		 	     	 	this.doAction('/fclty/gamElctyFcltyDetail.do', prtFclty, function(module, result) {
 		 	     	 		if(result.resultCode == "0"){
 		 	     	 			module.clearCodePage();
 		 	     	 			module._fcltyItem=result.result;
@@ -584,7 +584,7 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 			                { name: 'gisPrtFcltySeq', value: row['gisPrtFcltySeq'] },
 			                { name: 'prtFcltySe', value: row['prtFcltySe'] }
 			              ];
-	     	 	this.doAction('<c:url value="/fclty/gamElctyFcltyDetail.do" />', prtFclty, function(module, result) {
+	     	 	this.doAction('/fclty/gamElctyFcltyDetail.do', prtFclty, function(module, result) {
 	     	 		if(result.resultCode == "0"){
 	     	 			module.clearCodePage();
 	     	 			module._fcltyItem=result.result;
@@ -647,7 +647,7 @@ GamFcltyMngtModule.prototype.loadPhotoList = function() {
 			                { name: 'gisPrtFcltySeq', value: row['gisPrtFcltySeq'] },
 			                { name: 'prtFcltySe', value: row['prtFcltySe'] }
 			              ];
-	     	 	this.doAction('<c:url value="/fclty/gamElctyFcltyDetail.do" />', prtFclty, function(module, result) {
+	     	 	this.doAction('/fclty/gamElctyFcltyDetail.do', prtFclty, function(module, result) {
 	     	 		if(result.resultCode == "0"){
 	     	 			module.clearPhotoPage();
 	     	 			module._fcltyItem=result.result;

@@ -37,7 +37,7 @@ GamAssetEvlDtlsInqiryModule.prototype.loadComplete = function() {
 	
 	// 테이블 설정
 	this.$("#assetEvlDtlsList").flexigrid({
-		url: '<c:url value="/asset/inqry/selectAssetEvlDtlsInqryList.do"/>',
+		url: '/asset/inqry/selectAssetEvlDtlsInqryList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'항코드', name:'PRT_AT_CODE',width:60, sortable:false,align:'center'},

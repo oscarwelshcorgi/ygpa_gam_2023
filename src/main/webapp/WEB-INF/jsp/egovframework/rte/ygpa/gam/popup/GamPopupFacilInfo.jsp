@@ -34,7 +34,7 @@ GamPopupFacilModule.prototype.loadComplete = function() {
 
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectFacilInfoList.do"/>',
+		url: '/popup/selectFacilInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",			name:"prtAtCode", 	width:100, 		sortable:true, 		align:"center"},

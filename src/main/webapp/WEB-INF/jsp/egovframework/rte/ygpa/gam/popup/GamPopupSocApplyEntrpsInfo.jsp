@@ -34,7 +34,7 @@ GamPopupSocApplyEntrpsInfoModule.prototype.loadComplete = function(searchOption)
 
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectSocApplyEntrpsInfoList.do"/>',
+		url: '/popup/selectSocApplyEntrpsInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"공사허가항구",	name:"prtAtNm", 		width:60, 		sortable:true, 		align:"center"},

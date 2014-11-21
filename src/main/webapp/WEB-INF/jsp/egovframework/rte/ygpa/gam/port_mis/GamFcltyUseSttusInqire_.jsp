@@ -33,7 +33,7 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
     // 테이블 설정 //       
     this.$("#prtFcltyRentFeePaySttusMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/port_mis/gamSelectFcltyUseSttusInqireList.do" />',
+        url: '/port_mis/gamSelectFcltyUseSttusInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'일련번호', name:'intSeq',width:100, sortable:false,align:'center'},              
@@ -123,7 +123,7 @@ GamFcltyUseSttusInqireModule.prototype.loadComplete = function() {
         case 'popupEntrpsInfoFeePay': 
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
             
     }

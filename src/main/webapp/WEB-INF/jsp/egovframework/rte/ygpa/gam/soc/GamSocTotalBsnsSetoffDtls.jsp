@@ -37,7 +37,7 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#socTotalBsnsSetoffDtlsList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocTotalBsnsSetoffDtlsList.do" />',
+        url: '/soc/gamSelectSocTotalBsnsSetoffDtlsList.do',
         dataType: 'json',
         colModel : [
 					{display:'공사항구코드', 			name:'socPrtAtCode',	width:80, 		sortable:false,		align:'center'},
@@ -80,7 +80,7 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
 	// 자산임대 테이블 설정
     this.$("#socTotalBsnsSetoffDtlsDetail").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocTotalBsnsSetoffDtlsDetail.do" />',
+        url: '/soc/gamSelectSocTotalBsnsSetoffDtlsDetail.do',
         dataType: 'json',
         colModel : [
 					{display:'선명', 					name:'vsslKey',			width:120, 		sortable:false,		align:'center'},
@@ -138,12 +138,12 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
 
         case 'popupChrgeKndCd' : //요금코드조회
         	var opts;
-			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '<c:url value="/popup/showSocPayCd.do"/>', opts);
+			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '/popup/showSocPayCd.do', opts);
         	break;
 
         case 'popupAgentInfo' : //면제업체 조회
         	var opts;
-			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
         	break;
             
         case 'btnPopupSaveSocAgent':

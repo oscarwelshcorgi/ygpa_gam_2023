@@ -37,7 +37,7 @@ GamProgramSearchPopupModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#programSearchPopupList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/popup/gamPopupProgramList.do" />',
+		url: '/cmmn/popup/gamPopupProgramList.do',
 		dataType: "json",
 		colModel : [
 					{display:"프로그램파일명",	name:"progrmFileNm",		width:275, 	sortable:false,		align:"center"},

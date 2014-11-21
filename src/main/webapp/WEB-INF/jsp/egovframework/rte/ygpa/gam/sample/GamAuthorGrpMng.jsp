@@ -46,7 +46,7 @@ GamAuthorGrpMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#authorGrpMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamAuthorGroupList.do" />',
+		url: '/cmmn/gamAuthorGroupList.do',
 		dataType: 'json',
 		colModel : [
 					{display:'check', 		name:'check',		width:40, 	sortable:false,		align:'center', displayFormat:'checkbox'},

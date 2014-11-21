@@ -35,7 +35,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#progListMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamProgramListManageSelect.do" />',
+		url: '/cmmn/gamProgramListManageSelect.do',
 		dataType: 'json',
 		colModel : [
 					{display:'프로그램파일명', 	name:'progrmFileNm',	width:180, 		sortable:false,		align:'left'},
@@ -101,7 +101,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 			
 			// insert
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamInsertProgramListRegist.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamInsertProgramListRegist.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0") {
 						var searchOpt = module.makeFormArgs("#progListMngForm");
 						module.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
@@ -112,7 +112,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 			 	});
 			// update
 			}else{
-			 	this.doAction('<c:url value="/cmmn/gamProgramListDetailSelectUpdt.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamProgramListDetailSelectUpdt.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0") {
 						var searchOpt = module.makeFormArgs("#progListMngForm");
 					 	module.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();
@@ -128,7 +128,7 @@ GamProgListMngModule.prototype.loadComplete = function() {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#progrmManageVO");
-				this.doAction('<c:url value="/cmmn/gamProgramListManageDelete.do" />', inputVO, function(module, result) {
+				this.doAction('/cmmn/gamProgramListManageDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0") {
 						var searchOpt = module.makeFormArgs("#progListMngForm");
 						module.$("#progListMngList").flexOptions({params:searchOpt}).flexReload();

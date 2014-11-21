@@ -32,7 +32,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$('#assetRentList').flexigrid({
 		module: this,
-		url: '<c:url value="/asset/rent/gamSelectAssetRentList.do"/>',
+		url: '/asset/rent/gamSelectAssetRentList.do',
 		dataType: 'json',
 		colModel : [
 			{display:'항코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -110,7 +110,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			'gisAssetsCd': this.$('#gisAssetsCd').val(),
 			'gisAssetsSubCd': this.$('#gisAssetsSubCd').val()
 		};
-		this.doExecuteDialog('selectAssetsPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+		this.doExecuteDialog('selectAssetsPopup', '시설 선택', '/popup/showAssetsCd.do', opts);
 		break;
 	case 'addAssetCd':
 		break;
@@ -118,7 +118,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		if(this.$('#assetRentList').selectedRowCount()>0) {
 				var rows = this.$('#assetRentList').selectedRows()[0];
 				rows['chrgeKnd']='K2';	// 테스트 요금 코드
-			this.doAction('<c:url value="/sample/asset/gamAssetRentUsePerm.do" />', rows, function(module, result) {
+			this.doAction('/sample/asset/gamAssetRentUsePerm.do', rows, function(module, result) {
 	            if(result.resultCode=='0') {
 	                var searchOpt=module.makeFormArgs('#searchForm');
 	                module.$('#assetRentList').flexOptions({params:searchOpt}).flexReload();
@@ -130,7 +130,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnCancelConfirm':
 		if(this.$('#assetRentList').selectedRowCount()>0) {
 			var rows = this.$('#assetRentList').selectedRows()[0];
-			this.doAction('<c:url value="/sample/asset/gamAssetRentCancelUsePerm.do" />', rows, function(module, result) {
+			this.doAction('/sample/asset/gamAssetRentCancelUsePerm.do', rows, function(module, result) {
 	            if(result.resultCode=='0') {
 	                var searchOpt=module.makeFormArgs('#searchForm');
 	                module.$('#assetRentList').flexOptions({params:searchOpt}).flexReload();

@@ -35,7 +35,7 @@ GamRoleMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#roleMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/sec/gmt/selectRoleList.do" />',
+		url: '/sec/gmt/selectRoleList.do',
 		dataType: "json",
 		colModel : [
 					{display:"선택", 		name:"delYn",		width:30, 	sortable:false,		align:"center", displayFormat:"checkbox"},
@@ -100,10 +100,10 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 			var inputVo = this.makeFormArgs("#roleManage");
 			var url;
 			if(this._cmd=='modify') {
-				url='<c:url value="/sec/gmt/gamRoleListUpdt.do" />';
+				url='/sec/gmt/gamRoleListUpdt.do';
 			}
 			else {
-				url='<c:url value="/sec/gmt/gamRoleListInsert.do" />';
+				url='/sec/gmt/gamRoleListInsert.do';
 			}
 			this.doAction(url, inputVo, function(module, result) {
 		 		if(result.resultCode == 0){
@@ -127,7 +127,7 @@ GamRoleMngModule.prototype.onButtonClick = function(buttonId) {
 				for(var i=0; i<reglist.length; i++){
 					inputVO[0].value[inputVO[0].value.length] = reglist[i].groupId;
 				}
-				this.doAction('<c:url value="/sec/gmt/gamRoleListDelete.do" />', inputVO, function(module, result) {
+				this.doAction('/sec/gmt/gamRoleListDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#roleMngForm");
 			 			module.$("#roleMngList").flexOptions({params:searchOpt}).flexReload();

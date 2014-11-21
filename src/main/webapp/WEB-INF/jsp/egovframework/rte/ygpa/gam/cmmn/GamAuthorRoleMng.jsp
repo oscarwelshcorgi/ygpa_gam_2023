@@ -38,7 +38,7 @@ GamAuthorRoleMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#authorRoleMngList").flexigrid({
 		module:this,
-		url: '<c:url value="/cmmn/gamAuthorRoleList.do" />',
+		url: '/cmmn/gamAuthorRoleList.do',
 		dataType: "json",
 		colModel : [
                     {display:"선택", 		name:"chkRole",		width:40, 	sortable:false,		align:"center", 	displayFormat:"checkbox"},
@@ -102,7 +102,7 @@ GamAuthorRoleMngModule.prototype.onButtonClick = function(buttonId) {
 				}
 
 				var inputVO = {roleCodes: roleCodes, regYns:regYns, authorCode:this.$("#searchKeyword").val()};
-				this.doAction('<c:url value="/cmmn/gamAuthorRoleInsert.do" />', inputVO, function(module, result) {
+				this.doAction('/cmmn/gamAuthorRoleInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#authorRoleForm");
 			 			module.$("#authorRoleMngList").flexOptions({params:searchOpt}).flexReload();

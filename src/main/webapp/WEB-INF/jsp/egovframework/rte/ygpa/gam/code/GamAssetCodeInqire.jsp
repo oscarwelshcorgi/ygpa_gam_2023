@@ -36,7 +36,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 	this.$("#assetCodeList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/assets/selectGisAssetCodeInqireList.do"/>',
+		url: '/code/assets/selectGisAssetCodeInqireList.do',
 		colModel : [
 					{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:false, align:'center'},
 					{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:false, align:'center'},
@@ -83,7 +83,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 
 	this.$("#assetCodePhotoList").flexigrid({
 		module: this,
-		url: '<c:url value="/code/assets/selectGisAssetCodeInqirePhotoList.do"/>',
+		url: '/code/assets/selectGisAssetCodeInqirePhotoList.do',
 		dataType: 'json',
 		colModel : [
 					{display:'사진 순번', name:'photoSeq', width:80, sortable:false, align:'center'},
@@ -171,7 +171,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		case 'popupFcltyCd':
 			var opts = null;
 			this.doExecuteDialog('selectSearchAssetsCdPopup', '시설 선택',
-					'<c:url value="/popup/showAssetsCd.do"/>', opts);
+					'/popup/showAssetsCd.do', opts);
 			break;
 		case 'btnDownloadFile': //사진 다운로드
 			var selectRow = this.$('#assetCodePhotoList').selectedRows();
@@ -245,7 +245,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			               { name: 'gisAssetsCd', value: this.selectedItem.gisAssetsCd },
 			               { name: 'gisAssetsSubCd', value: this.selectedItem.gisAssetsSubCd }
 			             ];
-	   	 	this.doAction('<c:url value="/code/assets/selectGisAssetCodeInqireByPk.do" />', assetCd, function(module, result) {
+	   	 	this.doAction('/code/assets/selectGisAssetCodeInqireByPk.do', assetCd, function(module, result) {
 				if (result.resultCode == "0") {
 					module.makeFormValues('#editGisAssetCode',
 							result.result); // 결과값을 채운다.

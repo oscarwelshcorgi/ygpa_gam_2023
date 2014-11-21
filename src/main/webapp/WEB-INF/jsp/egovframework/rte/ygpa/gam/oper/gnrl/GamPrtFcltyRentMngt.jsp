@@ -42,7 +42,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#assetRentMngtList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtList.do" />',
+        url: '/oper/gnrl/gamSelectPrtFcltyRentMngtList.do',
         dataType: 'json',
         colModel : [
                     {display:'항구분', name:'prtAtCodeNmStr',width:80, sortable:false,align:'center'},
@@ -86,7 +86,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     // 자산임대상세 테이블 설정
     this.$("#assetRentDetailList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtDetailList.do" />',
+        url: '/oper/gnrl/gamSelectPrtFcltyRentMngtDetailList.do',
         dataType: 'json',
         colModel : [
                     {display:'자산코드', name:'assetsCdStr',width:68, sortable:false,align:'center'},
@@ -106,7 +106,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     // 첨부파일 테이블 설정
     this.$("#assetRentFileList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/gnrl/gamSelectPrtFcltyRentMngtFileList.do" />',
+        url: '/oper/gnrl/gamSelectPrtFcltyRentMngtFileList.do',
         dataType: 'json',
         colModel : [
                     {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
@@ -384,7 +384,7 @@ GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 	if(entrpsCd!=null && entrpsCd.length>0) {
 		//var loadOpt = [{name: 'entrpscd', value: entrpsCd}];
 		var loadOpt = {'entrpscd': entrpsCd};
-	    this.doAction('<c:url value="/asset/rent/selectEntrpsChargerList.do" />', loadOpt, function(module, result) {
+	    this.doAction('/asset/rent/selectEntrpsChargerList.do', loadOpt, function(module, result) {
 	    	console.log('charger list load completed');
 	        if(result.resultCode=='0') {
 		       	 var selectCharger = module.$('#selectCharger');
@@ -1046,7 +1046,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 //this.$('#rPrtAtCode').val(row[0]['prtAtCode']);
 
                 if( confirm("연장신청을 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/oper/gnrl/gamInsertPrtFcltyRentMngtRenew.do" />', rows[0], function(module, result) {
+                    this.doAction('/oper/gnrl/gamInsertPrtFcltyRentMngtRenew.do', rows[0], function(module, result) {
 
                         if(result.resultCode=='0') {
                         	module.loadData();
@@ -1144,7 +1144,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
                 //// console.log(inputVO);
                 // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-                this.doAction('<c:url value="/oper/gnrl/gamSavePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
+                this.doAction('/oper/gnrl/gamSavePrtFcltyRentMngt.do', inputVO, function(module, result) {
                     if(result.resultCode == 0){
                     	module.loadData();
                     }
@@ -1176,7 +1176,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
                     var inputVO=this.makeFormArgs('#gamAssetRentForm');
 
-                    this.doAction('<c:url value="/oper/gnrl/gamDeletePrtFcltyRentMngt.do" />', inputVO, function(module, result) {
+                    this.doAction('/oper/gnrl/gamDeletePrtFcltyRentMngt.do', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
                         	module.loadData();
@@ -1202,7 +1202,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 return;
             } */
 
-            this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtComment.do" />', inputVO, function(module, result) {
+            this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtComment.do', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
                 }
 
@@ -1368,7 +1368,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             if(this.$("#detailCmd").val()=='insert') {
 
-                this.doAction('<c:url value="/asset/rent/gamInsertAssetRentDetail.do" />', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
+                this.doAction('/asset/rent/gamInsertAssetRentDetail.do', {aaa : "rrrrrrrrrrrrrr"}, function(module, result) {
 
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
@@ -1379,7 +1379,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 });
             }
             else {
-                this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentDetail.do" />', inputVO, function(module, result) {
+                this.doAction('/asset/rent/gamUpdateAssetRentDetail.do', inputVO, function(module, result) {
                     if(result.resultCode=='0') {
                         var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                         module.$('#assetRentDetailList').flexOptions({params:searchOpt}).flexReload();
@@ -1401,13 +1401,13 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             */
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
         case 'popupEntrpsInfoInput': // 팝업을 호출한다.(자산임대입력)
             var opts;
 
-            this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
 
@@ -1437,7 +1437,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     'taxtSe': rows[0]['taxtSe']
                 };
 
-                this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '<c:url value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do"/>', opts);
+                this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do', opts);
 
             } else {
                 alert("목록에서 선택하십시오.");
@@ -1462,7 +1462,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             if(rows.length>=1) {
                 if( confirm("승낙을 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/asset/rent/gamUpdateAssetRentPrmisn.do" />', rows[0], function(module, result) {
+                    this.doAction('/asset/rent/gamUpdateAssetRentPrmisn.do', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamAssetRentForm');
                             module.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
@@ -1494,7 +1494,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             if(rows.length>=1) {
                 if( confirm("승낙취소를 하시겠습니까?") ) {
-                    this.doAction('<c:url value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do" />', rows[0], function(module, result) {
+                    this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do', rows[0], function(module, result) {
                         if(result.resultCode=='0') {
                         	 module.loadData();
                         }
@@ -1518,7 +1518,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             }
 
             if(rows.length>=1) {
-                this.doExecuteDialog('insertLevReqestAdit', '추가 사용료 고지', '<c:url value="/oper/gnrl/popupLevReqestAdit.do"/>', rows[0]);
+                this.doExecuteDialog('insertLevReqestAdit', '추가 사용료 고지', '/oper/gnrl/popupLevReqestAdit.do', rows[0]);
             } else {
                 alert("목록에서 선택하십시오.");
             }
@@ -1527,7 +1527,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
 
-            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', opts);
 
             break;
 
@@ -1716,11 +1716,11 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             }
             break;
         case 'btnMangeCharger': // 업체정보관리
-       	 	EMD.util.create_window('업체정보 관리', '<c:url value="/code/gamCmpyInfoMngt.do"/>', null, {entrpscd:this.$('#entrpscd').val()});
+       	 	EMD.util.create_window('업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
         	break;
 
         case 'btnPrtFcltyRentMngtListExcelDownload':	// 엑셀 다운로드
-        	this.$('#assetRentMngtList').flexExcelDown('<c:url value="/oper/gnrl/selectPrtFcltyRentMngtListExcel.do"/>');
+        	this.$('#assetRentMngtList').flexExcelDown('/oper/gnrl/selectPrtFcltyRentMngtListExcel.do');
             break;
 
         case 'btnRentFeeMngt':
@@ -1733,7 +1733,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
             	};
             }
-       	 	EMD.util.create_window('항만시설사용료관리', '<c:url value="/oper/gnrl/gamPrtFcltyRentFeeMngt.do"/>', null, opts);
+       	 	EMD.util.create_window('항만시설사용료관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null, opts);
         	break;
     }
 };
@@ -1876,7 +1876,7 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 };
 
 GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
-    this.doAction('<c:url value="/asset/rent/selectOlnlpInfo.do" />', prtFcltyCd, function(module, result) {
+    this.doAction('/asset/rent/selectOlnlpInfo.do', prtFcltyCd, function(module, result) {
         if(result.resultCode=='0') {
        	 var olnlplist = module.$('#olnlpList');
        	 olnlplist.off('change');

@@ -36,7 +36,7 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
 
     this.$("#socShipProcessRealloadList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSocShipProcessRealloadList.do" />',
+        url: '/soc/gamSocShipProcessRealloadList.do',
         dataType: 'json',
         colModel : [
 					{display:'요금종류', 		name:'feeTp',			width:200, 		sortable:false,		align:'center'},
@@ -67,7 +67,7 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
     
     this.$("#socShipProcessRealloadDetail").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSocShipProcessRealloadDetail.do" />',
+        url: '/soc/gamSocShipProcessRealloadDetail.do',
         dataType: 'json',
         colModel : [
 					{display:'업체코드', 			name:'exmpAgentCode',	width:80, 		sortable:false,		align:'center'},
@@ -133,12 +133,12 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
 
         case 'popupVsslCd' : //호출부호조회
         	var opts;
-        	this.doExecuteDialog('selectVsslCd', '선박 선택','<c:url value="/popup/showSocVsslCd.do"/>', opts);
+        	this.doExecuteDialog('selectVsslCd', '선박 선택','/popup/showSocVsslCd.do', opts);
         	break;
 
         case 'popupAgentInfo' : //면제업체 조회
         	var opts;
-			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '<c:url value="/popup/showSocAgentFInfo.do"/>', opts);
+			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
         	break;
 
     }

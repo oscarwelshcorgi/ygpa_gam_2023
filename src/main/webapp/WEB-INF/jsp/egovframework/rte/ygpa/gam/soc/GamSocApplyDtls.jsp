@@ -36,7 +36,7 @@ GamSocApplyDtlsModule.prototype.loadComplete = function() {
     // 업체신청 면제요청목록 설정
     this.$("#socApplyDtlsList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSelectSocApplyDtlsList.do" />',
+        url: '/soc/gamSelectSocApplyDtlsList.do',
         dataType: 'json',
         colModel : [
                     {display:'공사항구', name:'appPrtAtCode',width:50, sortable:false,align:'center'},
@@ -76,7 +76,7 @@ GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
-        	if(!validateGamSocApplyDtls(this.$('#gamSocApplyDtlsSearchForm')[0])){ 		
+        	if(!validateGamSocApplyDtls(this.$('#gamSocApplyDtlsSearchForm')[0])){
         		return;
         	}
         	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
@@ -85,12 +85,12 @@ GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
         case 'popupFeeTpInfo' : //요금종류버튼
         	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'<c:url value="/popup/showSocPayCd.do"/>', opts);        	
+					'/popup/showSocPayCd.do', opts);
         	break;
         case 'popupEntrpsInfo' : //업체코드버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
-        	break;    
+					'/popup/showSocEntrpsInfo.do', opts);
+        	break;
      }
 };
 
@@ -210,7 +210,7 @@ var module_instance = new GamSocApplyDtlsModule();
 								<th width="18%" height="25">총잔액</th>
 								<td><input type="text" size="20" id="sumExmpRemain" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button data-role="printPage" data-search-option="gamSocApplyDtlsSearchForm" data-url="<c:url value='/soc/gamSelectSocApplyDtlsListPrint.do'/>">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocApplyDtlsSearchForm" data-url="/soc/gamSelectSocApplyDtlsListPrint.do">인쇄</button>
         	                    </td>
 							</tr>
 						</table>

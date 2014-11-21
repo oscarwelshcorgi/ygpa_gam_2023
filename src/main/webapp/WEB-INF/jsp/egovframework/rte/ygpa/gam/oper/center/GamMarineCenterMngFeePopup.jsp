@@ -102,7 +102,7 @@ GamMarineCenterMngFeePopupModule.prototype.onButtonClick = function(buttonId) {
 		this.$('#mngFee').val(mngFee);
 		var gamMarineCenterNticMngFeeVO=this.makeFormArgs("#gamMarineCenterNticMngFeeVO");
 
-         this.doAction('<c:url value="/oper/center/updateMarineCenterMngFee.do" />', gamMarineCenterNticMngFeeVO, function(module, result) {
+         this.doAction('/oper/center/updateMarineCenterMngFee.do', gamMarineCenterNticMngFeeVO, function(module, result) {
             if(result.resultCode=='0') {
         		module.closeDialog('result', 'ok');
             }

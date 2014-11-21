@@ -47,7 +47,7 @@ GamNticPaymentPopupModule.prototype.onButtonClick = function(buttonId) {
 		if(confirm("이 건에 대해서 고지를 취소하고 수납 확인을 하시겠습니까?")) {
             this.$('#option').val('ok');
             var updateOpt=this.makeFormArgs('#editPaymentForm');
-	        this.doAction('<c:url value="/asset/rent/updateNticPayment.do" />', updateOpt, function(module, result) {
+	        this.doAction('/asset/rent/updateNticPayment.do', updateOpt, function(module, result) {
 	            if(result.resultCode=='0') {
 	        		this.closeDialog();
 	        		return;
@@ -61,7 +61,7 @@ GamNticPaymentPopupModule.prototype.onButtonClick = function(buttonId) {
 		if(confirm("이 건에 대해서 수납 확인을 취소하고 재고지 하시겠습니까?")) {
             this.$('#option').val('cancel');
             var updateOpt=this.makeFormArgs('#editPaymentForm');
-	        this.doAction('<c:url value="/asset/rent/updateNticPayment.do" />', updateOpt, function(module, result) {
+	        this.doAction('/asset/rent/updateNticPayment.do', updateOpt, function(module, result) {
 	            if(result.resultCode=='0') {
 	        		this.closeDialog();
 	        		return;

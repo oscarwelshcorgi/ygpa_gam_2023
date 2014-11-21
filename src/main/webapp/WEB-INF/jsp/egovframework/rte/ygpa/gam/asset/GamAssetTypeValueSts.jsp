@@ -33,7 +33,7 @@ GamAssetTypeValueStsModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetTypeValueStsList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/gamSelectAssetTypeValueStsList.do"/>',
+     url: '/asset/gamSelectAssetTypeValueStsList.do',
      dataType: 'json',
      colModel : [
                  {display:'상각연도', name:'deprctnYear',width:60, sortable:false,align:'center'},
@@ -94,7 +94,7 @@ GamAssetTypeValueStsModule.prototype.onButtonClick = function(buttonId) {
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
 	}

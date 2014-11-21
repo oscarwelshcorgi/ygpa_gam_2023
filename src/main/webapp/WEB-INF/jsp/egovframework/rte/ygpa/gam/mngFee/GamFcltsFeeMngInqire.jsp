@@ -38,7 +38,7 @@ GamFcltsFeeMngInqire.prototype.loadComplete = function() {
     // 자산임대 테이블 설정
     this.$("#FcltsFeeMngInqire").flexigrid({
         module: this,
-        url: '<c:url value="/mngFee/gamSelectFcltsFeeMngInqire.do" />',
+        url: '/mngFee/gamSelectFcltsFeeMngInqire.do',
         dataType: 'json',
         colModel : [
 					{display:'시설구분', 			name:'mngFeeFcltySe',	width:110, 		sortable:false,		align:'center'},
@@ -113,7 +113,7 @@ GamFcltsFeeMngInqire.prototype.loadComplete = function() {
 
 			if(this.$("#cmd").val() == "insert") {
 
-			 	this.doAction('<c:url value="/mngFee/gamInsertFcltsFeeMngInqire.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamInsertFcltsFeeMngInqire.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 						module.$("#FcltsFeeMngInqire").flexOptions({params:searchOpt}).flexReload();
@@ -123,7 +123,7 @@ GamFcltsFeeMngInqire.prototype.loadComplete = function() {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/mngFee/gamUpdateFcltsFeeMngInqire.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamUpdateFcltsFeeMngInqire.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 						module.$("#FcltsFeeMngInqire").flexOptions({params:searchOpt}).flexReload();
@@ -146,7 +146,7 @@ GamFcltsFeeMngInqire.prototype.loadComplete = function() {
         	*/
         	if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#FcltsFeeMngInqireDetailForm");
-			 	this.doAction('<c:url value="/mngFee/gamDeleteFcltsFeeMngInqire.do" />', inputVO, function(module, result) {
+			 	this.doAction('/mngFee/gamDeleteFcltsFeeMngInqire.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
 			 			module.$("#FcltsFeeMngInqire").flexOptions({params:searchOpt}).flexReload();

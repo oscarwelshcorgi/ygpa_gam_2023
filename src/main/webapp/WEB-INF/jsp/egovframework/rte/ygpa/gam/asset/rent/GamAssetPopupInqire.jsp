@@ -33,7 +33,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //
  this.$("#assetLndValInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/rent/gamSelectAssetLndValInqireList.do"/>',
+     url: '/asset/rent/gamSelectAssetLndValInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
@@ -86,16 +86,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnAssetRent':
-    	 EMD.util.create_window('자산임대관리', '<c:url value="/asset/rent/gamAssetRentMngt.do"/>', null);
+    	 EMD.util.create_window('자산임대관리', '/asset/rent/gamAssetRentMngt.do', null);
     	 break;
      case 'btnAssetFeeMngt':
-    	 EMD.util.create_window('자산임대료고지관리', '<c:url value="/asset/rent/gamAssetRentFeeMngt.do"/>', null);
+    	 EMD.util.create_window('자산임대료고지관리', '/asset/rent/gamAssetRentFeeMngt.do', null);
     	 break;
      case 'btnAssetRentFeePayDtlsMngt':
-    	 EMD.util.create_window('자산임대료납부관리', '<c:url value="/asset/rent/gamAssetRentFeePayDtlsMngt.do"/>', null);
+    	 EMD.util.create_window('자산임대료납부관리', '/asset/rent/gamAssetRentFeePayDtlsMngt.do', null);
     	 break;
      case 'btnAssetUseExprInqire':
-    	 EMD.util.create_window('자산임대만기도래자료조회', '<c:url value="/asset/rent/gamAssetUseExprInqire.do"/>', null);
+    	 EMD.util.create_window('자산임대만기도래자료조회', '/asset/rent/gamAssetUseExprInqire.do', null);
     	 break;
  }
 };

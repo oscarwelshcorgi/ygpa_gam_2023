@@ -36,7 +36,7 @@ GamSocRentProcessSetoffLgerModule.prototype.loadComplete = function() {
 
     this.$("#socRentProcessSetoffLgerList").flexigrid({
         module: this,
-        url: '<c:url value="/soc/gamSocRentProcessSetoffLgerList.do" />',
+        url: '/soc/gamSocRentProcessSetoffLgerList.do',
         dataType: 'json',
         colModel : [
 					{display:'선명', 			name:'dVsslKorNm',		width:80, 		sortable:false,		align:'center'},
@@ -104,29 +104,29 @@ GamSocRentProcessSetoffLgerModule.prototype.loadComplete = function() {
             
         case 'popupFeeInfo' : //요금종류조회
         	var opts;
-        	this.doExecuteDialog('selectFeeInfo', '금종류 선택','<c:url value="/popup/showSocPayCd.do"/>', opts);
+        	this.doExecuteDialog('selectFeeInfo', '금종류 선택','/popup/showSocPayCd.do', opts);
         	break;
 
         case 'popupAgentInfo' : //신청업체조회
         	var opts;
-        	this.doExecuteDialog('selectAgentInfo', '신청업체 선택','<c:url value="/popup/showSocEntrpsInfo.do"/>', opts);
+        	this.doExecuteDialog('selectAgentInfo', '신청업체 선택','/popup/showSocEntrpsInfo.do', opts);
         	break;
 
         case 'popupFcltyInfo' : //신청시설 조회
         	var opts;
-			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '<c:url value="/popup/showSocFacCd.do"/>', opts);
+			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '/popup/showSocFacCd.do', opts);
         	break;
         	
         case 'popupTotalPortInfo' : //전체 조회
         	var opts = {'gubun': 'K'}; 
-			this.doExecuteDialog('selectPortInfo', '투자비보전 전체 선택', '<c:url value="/popup/showSocApplyEntrpsInfo.do"/>',{}, opts);
+			this.doExecuteDialog('selectPortInfo', '투자비보전 전체 선택', '/popup/showSocApplyEntrpsInfo.do',{}, opts);
         	break;
         	
         case 'popupSelectPortInfo' : //해당항별 조회
         	var appPrtAtCode = this.$("#sAppPrtAtCode").val();
         	var opts = {'gubun': 'K',
         	            'appPrtAtCode': appPrtAtCode}; 
-			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항별 선택', '<c:url value="/popup/showSocApplyEntrpsInfo.do"/>',{}, opts);
+			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항별 선택', '/popup/showSocApplyEntrpsInfo.do',{}, opts);
         	break;
         	
         case 'popupIngPortInfo' : //해당항진행 조회
@@ -135,7 +135,7 @@ GamSocRentProcessSetoffLgerModule.prototype.loadComplete = function() {
         	var opts = {'gubun': 'K',
    		   				'appPrtAtCode': appPrtAtCode,
    		   				'useYn': 'Y'}; 
-			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항 진행 선택', '<c:url value="/popup/showSocApplyEntrpsInfo.do"/>',{}, opts);
+			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항 진행 선택', '/popup/showSocApplyEntrpsInfo.do',{}, opts);
         	break;
 
     }

@@ -33,7 +33,7 @@ GamHtldNticArrvlDtaInqireModule.prototype.loadComplete = function() {
     // 항만시설사용 테이블 설정
     this.$("#htldNticArrvlDtaInqireList").flexigrid({
         module: this,
-        url: '<c:url value="/oper/htld/gamSelectHtldNticArrvlDtaInqireList.do" />',
+        url: '/oper/htld/gamSelectHtldNticArrvlDtaInqireList.do',
         dataType: 'json',
         colModel : [
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -118,7 +118,7 @@ GamHtldNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	             ];
 	this.makeDivValues('#gamHtldNticArrvlDtaInqireForm', row); // 결과값을 채운다.
 
-	this.doAction('<c:url value="/oper/htld/gamSelectHtldNticArrvlDtaInqireDetailList.do" />', detailParam, function(module, result) {
+	this.doAction('/oper/htld/gamSelectHtldNticArrvlDtaInqireDetailList.do', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
 			
@@ -169,7 +169,7 @@ GamHtldNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
             */
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
         case 'openRentFee':	// 사용료 관리 화면을 호출 한다.

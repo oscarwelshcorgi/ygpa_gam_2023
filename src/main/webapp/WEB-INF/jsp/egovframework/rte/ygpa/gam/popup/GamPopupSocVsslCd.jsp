@@ -32,7 +32,7 @@ GamPopupSocVsslCdModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectSocVsslInfoList.do"/>',
+		url: '/popup/selectSocVsslInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"호출부호코드",		name:"vsslNo", 	width:150, 		sortable:true, 		align:"center"},

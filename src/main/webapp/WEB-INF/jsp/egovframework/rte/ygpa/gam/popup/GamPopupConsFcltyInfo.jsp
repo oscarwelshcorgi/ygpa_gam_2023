@@ -32,7 +32,7 @@ GamPopupConsFcltyInfoModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '<c:url value="/popup/selectConsFcltyInfoList.do"/>',
+		url: '/popup/selectConsFcltyInfoList.do',
 		dataType: "json",
 		colModel : [
 					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},

@@ -33,7 +33,7 @@ GamAssetTotalRentfeeInqireModule.prototype.loadComplete = function() {
  // 테이블 설정 //       
  this.$("#assetTotalRentfeeInqireList").flexigrid({
      module: this,
-     url: '<c:url value="/asset/rent/gamSelectAssetTotalRentfeeInqireList.do"/>',
+     url: '/asset/rent/gamSelectAssetTotalRentfeeInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -131,13 +131,13 @@ GamAssetTotalRentfeeInqireModule.prototype.onButtonClick = function(buttonId) {
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             var opts;
 
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '<c:url value="/popup/showEntrpsInfo.do"/>', opts);
+            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;      
 	    
 	    case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
 
-            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '<c:url value="/popup/showAssetsCd.do"/>', opts);
+            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', opts);
             break;    
             
 	}

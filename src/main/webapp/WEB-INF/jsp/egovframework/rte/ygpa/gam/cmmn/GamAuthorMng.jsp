@@ -35,7 +35,7 @@ GamAuthorMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#authorMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/cmmn/gamAuthorList.do" />',
+		url: '/cmmn/gamAuthorList.do',
 		dataType: "json",
 		colModel : [
 					{display:"권한 ID", 	name:"authorCode",		width:228, 	sortable:false,		align:"left"},
@@ -97,7 +97,7 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 			
 		 	var inputVO = this.makeFormArgs("#authorManageVO");
 			if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('<c:url value="/cmmn/gamAuthorInsert.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamAuthorInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#authorForm");
 						module.$("#authorMngList").flexOptions({params:searchOpt}).flexReload();
@@ -107,7 +107,7 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 			 		alert(result.resultMsg);
 			 	});
 			}else{
-			 	this.doAction('<c:url value="/cmmn/gamAuthorUpdate.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamAuthorUpdate.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#authorForm");
 						module.$("#authorMngList").flexOptions({params:searchOpt}).flexReload();
@@ -123,7 +123,7 @@ GamAuthorMngModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			if(confirm("삭제하시겠습니까?")){
 				var inputVO = this.makeFormArgs("#authorManageVO");
-			 	this.doAction('<c:url value="/cmmn/gamAuthorDelete.do" />', inputVO, function(module, result) {
+			 	this.doAction('/cmmn/gamAuthorDelete.do', inputVO, function(module, result) {
 			 		if(result.resultCode == "0"){
 			 			var searchOpt = module.makeFormArgs("#authorForm");
 						module.$("#authorMngList").flexOptions({params:searchOpt}).flexReload();
