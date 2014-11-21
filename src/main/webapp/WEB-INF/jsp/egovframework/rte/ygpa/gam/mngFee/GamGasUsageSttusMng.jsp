@@ -323,9 +323,9 @@ GamGasUsageSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#usageMtYear').removeAttr('readonly');
-				this.$('#usageMtMon').removeAttr('readonly');
-				this.$('#mngFeeJobSe').removeAttr('readonly');
+				this.$('#usageMtYear').enable();
+				this.$('#usageMtMon').enable();
+				this.$('#mngFeeJobSe').enable();
 			}
 			//this.drawChart();
 			break;
