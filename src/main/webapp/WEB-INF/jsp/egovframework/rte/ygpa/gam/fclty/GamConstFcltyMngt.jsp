@@ -479,6 +479,10 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
+GamFcltyMngtModule.prototype.getFcltyInfoList = function() {
+	return this.$('#fcltyinfo9').flexGetData();
+};
+
 GamFcltyMngtModule.prototype.removeGisAssetPhotoItem = function() {
 	var rows = this.$("#fcltyPhotoList").selectedRows();
 
@@ -937,7 +941,7 @@ var module_instance = new GamFcltyMngtModule();
 							<th width="15%" height="23" class="required_text">사용승인일자</th>
 							<td><input id="info16" type="text" class="emdcal" size="20" title="사용승인일자" readonly="readonly"/></td>
 							<th width="15%" height="23" class="required_text">건축물현황</th>
-							<td><button class="text" id="fcltyinfo9PopupBtn">추가/편집</button></td>
+							<td><button class="popupDialog" id="fcltyinfo9PopupBtn" data-url="/popup/fcltyinfo9ListPopup.do" data-direct-params-func="getFcltyInfoList">추가/편집</button></td>
 						</tr>
 					</table>
 					<table id="fcltyinfo9" style="display:none" class="fillHeight"></table>
