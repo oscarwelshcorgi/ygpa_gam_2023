@@ -26,7 +26,7 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamGasUsageSttusMngVo extends ComDefaultVO{
 
-	private	String	usageMt;	//사용 월
+	private	String	usageMt;	//사용 년월
 	private	String	prevMtUsageQy;	//전월 사용 량
 	private	String	saidMtUsageQy;	//당월 사용 량
 	private	String	applcCoef;	//적용 계수
@@ -37,13 +37,15 @@ public class GamGasUsageSttusMngVo extends ComDefaultVO{
 	private	String	updtDt;	//수정일시
 	private	String	mngFeeFcltyCd;	//관리비 시설 코드
 	private	String	mngFeeJobSe;	//관리비 업무 구분
+	private	String	mngFeeJobSeNm;	//관리비 업무 구분 명
+	private	String	mngFeeFcltyNm;	//관리비 시설 명
+	private	String	usageMtYear;	//사용 년
+	private	String	usageMtMon;	//사용 월
+	private	String	usageYrMt;	//사용 년-월
 
-
+	private	String	sUsageYear;	//검색 사용 년도
 	private	String	sUsageMt;	//검색 사용 월
-	private	String	sMngFeeFcltyCd;	//검색 관리비 시설 코드
 	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
-
-
 
 	/**
 	 * @return the sUsageMt
@@ -58,16 +60,16 @@ public class GamGasUsageSttusMngVo extends ComDefaultVO{
 		this.sUsageMt = sUsageMt;
 	}
 	/**
-	 * @return the sMngFeeFcltyCd
+	 * @return the sUsageYear
 	 */
-	public String getsMngFeeFcltyCd() {
-		return sMngFeeFcltyCd;
+	public String getsUsageYear() {
+		return sUsageYear;
 	}
 	/**
-	 * @param sMngFeeFcltyCd the sMngFeeFcltyCd to set
+	 * @param sUsageYear the sUsageYear to set
 	 */
-	public void setsMngFeeFcltyCd(String sMngFeeFcltyCd) {
-		this.sMngFeeFcltyCd = sMngFeeFcltyCd;
+	public void setsUsageYear(String sUsageYear) {
+		this.sUsageYear = sUsageYear;
 	}
 	/**
 	 * @return the sMngFeeJobSe
@@ -212,6 +214,66 @@ public class GamGasUsageSttusMngVo extends ComDefaultVO{
 	 */
 	public void setMngFeeJobSe(String mngFeeJobSe) {
 		this.mngFeeJobSe = mngFeeJobSe;
+	}
+	/**
+	 * @return the mngFeeJobSeNm
+	 */
+	public String getMngFeeJobSeNm() {
+		return mngFeeJobSeNm;
+	}
+	/**
+	 * @param mngFeeJobSeNm the mngFeeJobSeNm to set
+	 */
+	public void setMngFeeJobSeNm(String mngFeeJobSeNm) {
+		this.mngFeeJobSeNm = mngFeeJobSeNm;
+	}
+	/**
+	 * @return the mngFeeFcltyNm
+	 */
+	public String getMngFeeFcltyNm() {
+		return mngFeeFcltyNm;
+	}
+	/**
+	 * @param mngFeeFcltyNm the mngFeeFcltyNm to set
+	 */
+	public void setMngFeeFcltyNm(String mngFeeFcltyNm) {
+		this.mngFeeFcltyNm = mngFeeFcltyNm;
+	}
+	/**
+	 * @return the usageMtYear
+	 */
+	public String getUsageMtYear() {
+		return usageMtYear;
+	}
+	/**
+	 * @param usageMtYear the usageMtYear to set
+	 */
+	public void setUsageMtYear(String usageMtYear) {
+		this.usageMtYear = usageMtYear;
+	}
+	/**
+	 * @return the usageMtMon
+	 */
+	public String getUsageMtMon() {
+		return usageMtMon;
+	}
+	/**
+	 * @param usageMtMon the usageMtMon to set
+	 */
+	public void setUsageMtMon(String usageMtMon) {
+		this.usageMtMon = usageMtMon;
+	}
+	/**
+	 * @return the usageYrMt
+	 */
+	public String getUsageYrMt() {
+		return usageYrMt;
+	}
+	/**
+	 * @param usageYrMt the usageYrMt to set
+	 */
+	public void setUsageYrMt(String usageYrMt) {
+		this.usageYrMt = usageYrMt;
 	}
 
 }

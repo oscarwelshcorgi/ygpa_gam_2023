@@ -46,17 +46,18 @@ public class GamGasUsageSttusMngServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	@Override
-	public void InsertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
-		gamGasUsageSttusMngDao.InsertGasUsageSttusMng(gamGasUsageSttusMngVo);
-
+	public void insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+		gamGasUsageSttusMngDao.insertGasUsageSttusMng(gamGasUsageSttusMngVo);
 	}
 
 	@Override
-	public void DeleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
-		gamGasUsageSttusMngDao.DeleteGasUsageSttusMng(gamGasUsageSttusMngVo);
-
+	public void updateGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+		gamGasUsageSttusMngDao.updateGasUsageSttusMng(gamGasUsageSttusMngVo);
 	}
 
-
+	@Override
+	public void deleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+		gamGasUsageSttusMngDao.deleteGasUsageSttusMng(gamGasUsageSttusMngVo);
+	}
 
 }

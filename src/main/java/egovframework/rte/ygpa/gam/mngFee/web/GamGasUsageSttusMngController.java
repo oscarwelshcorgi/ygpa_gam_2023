@@ -88,24 +88,6 @@ public class GamGasUsageSttusMngController {
 			yearList.add(yearMap);
 		}
 
-		List monList = new ArrayList();
-		Map monMap;
-		for(int i=1; i < 13; i++){
-			monMap = new HashMap();
-			//NumberFormat month = new DecimalFormat("00");
-			//String moni = String.format("%02d", i);
-			String moni;
-			if (i < 10) {
-				moni = "0" + String.format("%d", i);
-			} else {
-				moni = String.format("%d", i);
-			}
-			monMap.put("code", moni);
-			monMap.put("codeNm", moni+"월");
-			monList.add(monMap);
-		}
-
-		model.addAttribute("monList", monList);
 		model.addAttribute("yearsList", yearList);
 		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
@@ -115,7 +97,7 @@ public class GamGasUsageSttusMngController {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/mngFee/gamSelectGasUsageSttusMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectGasUsageSttusMng(GamGasUsageSttusMngVo searchVO) throws Exception {
+    @ResponseBody Map selectGasUsageSttusMng(GamGasUsageSttusMngVo searchVO) throws Exception {
 
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -148,7 +130,7 @@ public class GamGasUsageSttusMngController {
 
 
     @RequestMapping(value="/mngFee/gamInsertGasUsageSttusMng.do")
-	@ResponseBody Map<String, Object> InsertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -159,18 +141,10 @@ public class GamGasUsageSttusMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
+    	try {
 			gamGasUsageSttusMngVo.setRegUsr((String)user.getId());
-			gamGasUsageSttusMngService.InsertGasUsageSttusMng(gamGasUsageSttusMngVo);
+			gamGasUsageSttusMngService.insertGasUsageSttusMng(gamGasUsageSttusMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -184,8 +158,8 @@ public class GamGasUsageSttusMngController {
     	return map;
     }
 
-    @RequestMapping(value="/mngFee/gamDeleteGasUsageSttusMng.do")
-	@ResponseBody Map<String, Object> DeleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {
+    @RequestMapping(value="/mngFee/gamUpdateGasUsageSttusMng.do")
+	@ResponseBody Map<String, Object> updateGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -196,26 +170,46 @@ public class GamGasUsageSttusMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
-			gamGasUsageSttusMngVo.setRegUsr((String)user.getId());
-			gamGasUsageSttusMngService.DeleteGasUsageSttusMng(gamGasUsageSttusMngVo);
+    	try {
+			gamGasUsageSttusMngVo.setUpdUsr((String)user.getId());
+			gamGasUsageSttusMngService.updateGasUsageSttusMng(gamGasUsageSttusMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamDeleteGasUsageSttusMng.do")
+	@ResponseBody Map<String, Object> deleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+			gamGasUsageSttusMngService.deleteGasUsageSttusMng(gamGasUsageSttusMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;

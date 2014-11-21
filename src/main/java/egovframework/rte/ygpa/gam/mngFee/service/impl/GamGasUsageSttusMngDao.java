@@ -52,14 +52,22 @@ public class GamGasUsageSttusMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamGasUsageSttusMngVo
 	 */
-	public void InsertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {
-			insert("gamGasUsageSttusMngDao.InsertGasUsageSttusMng",gamGasUsageSttusMngVo);
+	public void insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {
+		insert("gamGasUsageSttusMngDao.insertGasUsageSttusMng_S",gamGasUsageSttusMngVo);
 	}
 
 	/**
 	 * @param gamGasUsageSttusMngVo
 	 */
-	public void DeleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {
-			delete("gamGasUsageSttusMngDao.DeleteGasUsageSttusMng",gamGasUsageSttusMngVo);
+	public void updateGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {
+		insert("gamGasUsageSttusMngDao.updateGasUsageSttusMng_S",gamGasUsageSttusMngVo);
 	}
+
+	/**
+	 * @param gamGasUsageSttusMngVo
+	 */
+	public void deleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {
+		delete("gamGasUsageSttusMngDao.deleteGasUsageSttusMng_S",gamGasUsageSttusMngVo);
+	}
+
 }

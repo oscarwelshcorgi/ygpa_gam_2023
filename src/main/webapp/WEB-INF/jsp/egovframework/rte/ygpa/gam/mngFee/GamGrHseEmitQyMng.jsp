@@ -29,7 +29,7 @@
 
 <%
 /**
- * @FUNCTION NAME : GamEnergyUsageMngModule
+ * @FUNCTION NAME : GamGrHseEmitQyMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
@@ -466,7 +466,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="detailPanel">
+						<table class="detailPanel" style="width:100%">
 							<tr>
 								<th width="15%" height="29">관리 월</th>
 								<td ><input type="text" size="20" id="mngMt" /></td>

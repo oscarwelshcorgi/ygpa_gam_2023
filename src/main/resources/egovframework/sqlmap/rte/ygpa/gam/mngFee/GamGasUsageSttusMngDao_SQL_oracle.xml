@@ -2,124 +2,130 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.mngFee">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamGasUsageSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamGasUsageSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo"/>
 
-    <select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngList_D" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
-     SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                            SELECT
-									USAGE_MT,
-									PREV_MT_USAGE_QY,
-									SAID_MT_USAGE_QY,
-									APPLC_COEF,
-									NET_USAGE_QY,
-									REG_USR,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT,
-									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									MNG_FEE_FCLTY_CD,
-									MNG_FEE_JOB_SE
-					        FROM GAS_USAGE_STTUS_F
-								  WHERE 1=1
-						         <isNotEmpty property="sUsageMt">
-						             <![CDATA[  AND USAGE_MT LIKE '%' || #sUsageMt# || '%' ]]>
-						         </isNotEmpty>
+	<select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngList_D" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.USAGE_MT
+								,T1.MNG_FEE_FCLTY_CD
+								,T1.MNG_FEE_JOB_SE
+								,NVL(T1.PREV_MT_USAGE_QY, 0) AS PREV_MT_USAGE_QY
+								,NVL(T1.SAID_MT_USAGE_QY, 0) AS SAID_MT_USAGE_QY
+								,NVL(T1.APPLC_COEF, 0) AS APPLC_COEF
+								,NVL(T1.NET_USAGE_QY, 0) AS NET_USAGE_QY
+								,T1.REG_USR
+								,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR
+								,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,SUBSTRB(T1.USAGE_MT,1,4) AS USAGE_MT_YEAR
+								,SUBSTRB(T1.USAGE_MT,5,2) AS USAGE_MT_MON
+								,SUBSTRB(T1.USAGE_MT,1,4) || '-' || SUBSTRB(T1.USAGE_MT,5,2) AS USAGE_YR_MT
+								,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+									   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+									   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+								  END) AS MNG_FEE_JOB_SE_NM
+								,T2.MNG_FEE_FCLTY_NM
+							FROM GAS_USAGE_STTUS_F T1
+							LEFT OUTER JOIN MNG_FEE_FCLTY_CD_F T2 ON (T1.MNG_FEE_FCLTY_CD = T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE = T2.MNG_FEE_JOB_SE)
+						WHERE 1=1
 
-						         <isNotEmpty property="sMngFeeFcltyCd">
-							         AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
-							     </isNotEmpty>
+						<isNotEmpty property="sUsageYear">
+						<isNotEmpty property="sUsageMt">
+						AND T1.USAGE_MT = #sUsageYear# || #sUsageMt#
+						</isNotEmpty>
+						<isEmpty property="sUsageMt">
+						AND T1.USAGE_MT LIKE #sUsageYear# || '%'
+						</isEmpty>
+						</isNotEmpty>
 
-							     <isNotEmpty property="sMngFeeJobSe">
-							          AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
-							     </isNotEmpty>
-                             ORDER BY USAGE_MT
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+						<isNotEmpty property="sMngFeeJobSe">
+						AND T1.MNG_FEE_JOB_SE = #sMngFeeJobSe#
+						</isNotEmpty>
 
-    <select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S" parameterClass="gamGasUsageSttusMngVo" resultClass="int">
-         SELECT COUNT(*) totcnt
-              FROM GAS_USAGE_STTUS_F
-                           <![CDATA[  WHERE 1=1 ]]>
-
-						         <isNotEmpty property="sUsageMt">
-						             <![CDATA[  AND USAGE_MT LIKE '%' || #sUsageMt# || '%' ]]>
-						         </isNotEmpty>
-
-						         <isNotEmpty property="sMngFeeFcltyCd">
-							         AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
-							     </isNotEmpty>
-
-							     <isNotEmpty property="sMngFeeJobSe">
-							          AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
-							     </isNotEmpty>
-
-    </select>
-
-	<insert id="gamGasUsageSttusMngDao.InsertGasUsageSttusMng">
+						ORDER BY T1.USAGE_MT, T1.MNG_FEE_FCLTY_CD
+				) S
+		) A
 		<![CDATA[
-		    INSERT
-		      INTO  GAS_USAGE_STTUS_F
-		         (
-		         	USAGE_MT
-					,PREV_MT_USAGE_QY
-					,SAID_MT_USAGE_QY
-					,APPLC_COEF
-					,NET_USAGE_QY
-					,REG_USR
-					,REGIST_DT
-					,MNG_FEE_FCLTY_CD
-					,MNG_FEE_JOB_SE
-		         )
-		    VALUES
-		         (
-		         	#usageMt#
-					,#prevMtUsageQy#
-					,#saidMtUsageQy#
-					,#applcCoef#
-					,#netUsageQy#
-					,#regUsr#
-					,TO_DATE(sysdate,'YYYY-MM-DD')
-					,#mngFeeFcltyCd#
-					,#mngFeeJobSe#
-		         )
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S" parameterClass="gamGasUsageSttusMngVo" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM GAS_USAGE_STTUS_F
+		WHERE 1=1
+
+		<isNotEmpty property="sUsageYear">
+		<isNotEmpty property="sUsageMt">
+		AND USAGE_MT = #sUsageYear# || #sUsageMt#
+		</isNotEmpty>
+		<isEmpty property="sUsageMt">
+		AND USAGE_MT LIKE #sUsageYear# || '%'
+		</isEmpty>
+		</isNotEmpty>
+
+		<isNotEmpty property="sMngFeeJobSe">
+		AND MNG_FEE_JOB_SE = #sMngFeeJobSe#
+		</isNotEmpty>
+	</select>
+
+	<insert id="gamGasUsageSttusMngDao.insertGasUsageSttusMng_S">
+		<![CDATA[
+		INSERT INTO GAS_USAGE_STTUS_F
+		(
+			 USAGE_MT
+			,MNG_FEE_FCLTY_CD
+			,MNG_FEE_JOB_SE
+			,PREV_MT_USAGE_QY
+			,SAID_MT_USAGE_QY
+			,APPLC_COEF
+			,NET_USAGE_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #usageMtYear# || #usageMtMon#
+			,#mngFeeFcltyCd#
+			,#mngFeeJobSe#
+			,TO_NUMBER(#prevMtUsageQy#)
+			,TO_NUMBER(#saidMtUsageQy#)
+			,TO_NUMBER(#applcCoef#)
+			,TO_NUMBER(#netUsageQy#)
+			,#regUsr#
+			,SYSDATE
+		)
 		]]>
 	</insert>
 
-	<update id="gamGasUsageSttusMngDao.updateElctyUsageSttusMng">
+	<update id="gamGasUsageSttusMngDao.updateGasUsageSttusMng_S">
 		<![CDATA[
-            UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
-				,	UPD_USR	=	#updUsr#
-				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+		UPDATE GAS_USAGE_STTUS_F SET
+			 PREV_MT_USAGE_QY = TO_NUMBER(#prevMtUsageQy#)
+			,SAID_MT_USAGE_QY = TO_NUMBER(#saidMtUsageQy#)
+			,APPLC_COEF = TO_NUMBER(#applcCoef#)
+			,NET_USAGE_QY = TO_NUMBER(#netUsageQy#)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE USAGE_MT = #usageMt#
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
 	</update>
 
-	<delete id="gamGasUsageSttusMngDao.DeleteGasUsageSttusMng">
+	<delete id="gamGasUsageSttusMngDao.deleteGasUsageSttusMng_S">
 		<![CDATA[
-            DELETE  GAS_USAGE_STTUS_F
-		             WHERE  USAGE_MT   = #usageMt#
-		             AND 	MNG_FEE_FCLTY_CD	= #mngFeeFcltyCd#
-		             AND 	MNG_FEE_JOB_SE	=	#mngFeeJobSe#
+		DELETE FROM GAS_USAGE_STTUS_F
+		WHERE USAGE_MT = #usageMt#
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
 	</delete>
 
-   </sqlMap>
+</sqlMap>

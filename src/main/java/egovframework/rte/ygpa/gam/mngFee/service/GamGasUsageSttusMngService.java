@@ -39,11 +39,16 @@ public interface GamGasUsageSttusMngService {
 	/**
 	 * @param gamGasUsageSttusMngVo
 	 */
-	void InsertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)throws Exception;
+	void insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)throws Exception;
 
 	/**
 	 * @param gamGasUsageSttusMngVo
 	 */
-	void DeleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception;
+	void updateGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)throws Exception;
+
+	/**
+	 * @param gamGasUsageSttusMngVo
+	 */
+	void deleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception;
 
 }
