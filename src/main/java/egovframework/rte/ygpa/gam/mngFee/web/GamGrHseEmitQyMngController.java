@@ -28,8 +28,10 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
@@ -92,19 +94,8 @@ public class GamGrHseEmitQyMngController {
 			yearList.add(yearMap);
 		}
 
-		List monList = new ArrayList();
-		Map monMap;
-		for(int i=1; i < 13; i++){
-			monMap = new HashMap();
-			monMap.put("code", i);
-			monMap.put("codeNm", i+"월");
-			monList.add(monMap);
-		}
-
-		model.addAttribute("monList", monList);
 		model.addAttribute("yearsList", yearList);
 		model.addAttribute("thisyear", year);
-		model.addAttribute("thismonth", mon);
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/mngFee/GamGrHseEmitQyMng";
@@ -156,6 +147,26 @@ public class GamGrHseEmitQyMngController {
     	}
 
     	List resultList = gamGrHseEmitQyMngService.selectGrHseEmitQyMngChartList(gamGrHseEmitQyMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngMonthCnt.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectGrHseEmitQyMngMonthCntList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamGrHseEmitQyMngService.selectGrHseEmitQyMngMonthCntList(gamGrHseEmitQyMngVo);
 
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);
@@ -235,7 +246,7 @@ public class GamGrHseEmitQyMngController {
     	}
 
     	try {
-			gamGrHseEmitQyMngService.deleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+    		gamGrHseEmitQyMngService.deleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -244,6 +255,35 @@ public class GamGrHseEmitQyMngController {
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamCopyGrHseEmitQyMng.do")
+	@ResponseBody Map<String, Object> copyGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+			gamGrHseEmitQyMngVo.setRegUsr((String)user.getId());
+			gamGrHseEmitQyMngService.copyGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
     	return map;

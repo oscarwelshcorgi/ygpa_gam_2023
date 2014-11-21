@@ -36,7 +36,7 @@
 %>
 function GamEnergyUsageMngModule() {}
 
-GamEnergyUsageMngModule.prototype = new EmdModule(900, 600);
+GamEnergyUsageMngModule.prototype = new EmdModule(800, 600);
 
 <%
 /**
@@ -65,7 +65,7 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 		preProcess : function(module,data) {
 			module.$('#totalCount').val(data.totalCount);
 			module.$('#yearCount').val(data.yearCount);
-			module.makeDivValues('#energyUsageListSum', data);
+			module.makeDivValues('#listSumForm', data);
 			return data;
 		}
 	});

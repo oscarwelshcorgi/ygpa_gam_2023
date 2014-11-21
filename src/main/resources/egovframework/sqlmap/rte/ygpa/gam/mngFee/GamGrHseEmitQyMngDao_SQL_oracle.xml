@@ -61,7 +61,7 @@
 		</isNotEmpty>
 	</select>
 
-	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_D" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
+	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_S" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
 		SELECT
 				 T1.MT
 				,NVL(SUM(T2.GR_HSE_EMIT_QY),0) AS GR_HSE_EMIT_QY
@@ -76,6 +76,14 @@
 			LEFT OUTER JOIN GR_HSE_EMIT_STTUS_F T2 ON (T1.FUEL_CD=T2.FUEL_CD AND T1.MNG_MT=T2.MNG_MT)
 		GROUP BY T1.MT
 		ORDER BY T1.MT
+	</select>
+
+	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngMonthCntList_S" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS MT_CNT
+				,TO_CHAR(ADD_MONTHS(TO_DATE(#sMngYear# || #sMngMt#,'YYYYMM'),-1),'YYYYMM') AS PREV_MT
+			FROM GR_HSE_EMIT_STTUS_F
+		WHERE MNG_MT = #sMngYear# || #sMngMt#
 	</select>
 
 	<insert id="gamGrHseEmitQyMngDao.insertGrHseEmitQyMng_S">
@@ -119,7 +127,7 @@
 		]]>
 	</update>
 
-	<delete id="gGamGrHseEmitQyMngDao.deleteGrHseEmitQyMng_S">
+	<delete id="gamGrHseEmitQyMngDao.deleteGrHseEmitQyMng_S">
 		<![CDATA[
 		DELETE GR_HSE_EMIT_STTUS_F
 		WHERE FUEL_CD = #fuelCd#
@@ -127,5 +135,32 @@
 		AND MNG_MT = #mngMt#
 		]]>
 	</delete>
+
+	<insert id="gamGrHseEmitQyMngDao.copyGrHseEmitQyMng_S">
+		<![CDATA[
+		INSERT INTO GR_HSE_EMIT_STTUS_F
+		(
+			 FUEL_CD
+			,MNG_YEAR
+			,MNG_MT
+			,USAGE_QY
+			,ENERGY_USAGE_QY
+			,GR_HSE_EMIT_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		SELECT
+				 FUEL_CD
+				,#sMngYear#
+				,#sMngYear# || #sMngMt#
+				,USAGE_QY
+				,ENERGY_USAGE_QY
+				,GR_HSE_EMIT_QY
+				,#regUsr#
+				,SYSDATE
+			FROM GR_HSE_EMIT_STTUS_F
+		WHERE MNG_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#sMngYear# || #sMngMt#,'YYYYMM'),-1),'YYYYMM')
+		]]>
+	</insert>
 
 </sqlMap>

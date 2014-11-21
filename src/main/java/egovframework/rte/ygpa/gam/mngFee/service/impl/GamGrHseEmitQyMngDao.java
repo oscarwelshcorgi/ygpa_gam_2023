@@ -50,7 +50,15 @@ public class GamGrHseEmitQyMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public List selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
-		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_D", gamGrHseEmitQyMngVo);
+		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_S", gamGrHseEmitQyMngVo);
+	}
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	public List selectGrHseEmitQyMngMonthCntList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngMonthCntList_S", gamGrHseEmitQyMngVo);
 	}
 
 	/**
@@ -72,6 +80,13 @@ public class GamGrHseEmitQyMngDao extends YGPAAbstractDAO{
 	 */
 	public void deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
 		delete("gamGrHseEmitQyMngDao.deleteGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
+	}
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	public void copyGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
+		delete("gamGrHseEmitQyMngDao.copyGrHseEmitQyMng_S",gamGrHseEmitQyMngVo);
 	}
 
 }

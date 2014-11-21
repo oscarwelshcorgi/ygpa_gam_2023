@@ -61,7 +61,12 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 					{display:'온실가스 배출 량',	name:'grHseEmitQy',		width:110, 		sortable:false,		align:'right',	displayFormat:'number'}
 					],
 		showTableToggleBtn : false,
-		height : 'auto'
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val(data.totalCount);
+			module.makeDivValues('#listSumForm', data);
+			return data;
+		}
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -76,6 +81,8 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 	var mon = new Date().getMonth()+1;
 	if(mon.length==1) mon="0"+mon;
 	this.$('#sMngMt').val(mon);
+
+	this._loadCheck=false;
 
 };
 
@@ -164,6 +171,9 @@ GamGrHseEmitQyMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnDelete':
 			this.deleteData();
 			break;
+		case 'btnCopy':
+			this.copyData();
+			break;
 	}
 
 };
@@ -193,6 +203,7 @@ GamGrHseEmitQyMngModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	this._loadCheck=true;
 
 };
 
@@ -293,6 +304,43 @@ GamGrHseEmitQyMngModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : copyData
+ * @DESCRIPTION   : 월별 항목을 복사한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.copyData = function() {
+
+	var searchVO = this.makeFormArgs("#searchForm");
+	var sQueryMngYear = this.$('#sMngYear').val();
+	var sQueryMngMt = this.$('#sMngMt').val();
+	var mtCnt=0;
+
+	if (confirm("이전월의 자료를 [" + sQueryMngYear + "-" + sQueryMngMt + "월] 자료로 복사하시겠습니까?") != true) {
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamSelectGrHseEmitQyMngMonthCnt.do" />', searchVO, function(module, result) {
+		if (result.resultCode != "0") {
+			alert('자료 확인이 실패했습니다!');
+			return;
+		}
+		mtCnt=result.resultList[0]['mtCnt']*1;
+		if (mtCnt > 0) {
+			alert('[' + sQueryMngYear + '-' + sQueryMngMt + '월] 자료가 존재합니다.');
+			return;
+		}
+		module.doAction('<c:url value="/mngFee/gamCopyGrHseEmitQyMng.do" />', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	});
 
 };
 
@@ -402,9 +450,12 @@ var module_instance = new GamGrHseEmitQyMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
+								<th width="20%" height="20">조회 자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
+									<button data-cmd="btnCopy">이전월 자료 복사</button>
 								</td>
 							</tr>
 						</table>
@@ -429,7 +480,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="29">연료 명</th>
-								<td ><span data-column-id="fuelCdNm"></span></td>
+								<td ><span data-column-id="fuelNm"></span></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 단위</th>

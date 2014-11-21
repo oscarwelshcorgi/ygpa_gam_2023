@@ -44,6 +44,12 @@ public interface GamGrHseEmitQyMngService {
 
 	/**
 	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	List selectGrHseEmitQyMngMonthCntList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
 	 */
 	void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
 
@@ -56,5 +62,10 @@ public interface GamGrHseEmitQyMngService {
 	 * @param gamGrHseEmitQyMngVo
 	 */
 	void deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	void copyGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
 
 }

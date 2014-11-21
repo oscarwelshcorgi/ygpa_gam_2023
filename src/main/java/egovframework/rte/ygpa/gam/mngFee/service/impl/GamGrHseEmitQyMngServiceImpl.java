@@ -52,6 +52,11 @@ public class GamGrHseEmitQyMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
+	public List selectGrHseEmitQyMngMonthCntList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		return gamGrHseEmitQyMngDao.selectGrHseEmitQyMngMonthCntList(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
 	public void insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
 		gamGrHseEmitQyMngDao.insertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 	}
@@ -64,6 +69,11 @@ public class GamGrHseEmitQyMngServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public void deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
 		gamGrHseEmitQyMngDao.deleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
+	public void copyGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+		gamGrHseEmitQyMngDao.copyGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 	}
 
 }

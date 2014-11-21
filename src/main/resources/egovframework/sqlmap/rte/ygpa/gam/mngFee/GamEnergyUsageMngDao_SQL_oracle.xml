@@ -124,7 +124,7 @@
 
 	<insert id="gamEnergyUsageMngDao.copyEnergyUsageMng_S">
 		<![CDATA[
-		INSERT INTO  ENERGY_USAGEQY_COEF_F
+		INSERT INTO ENERGY_USAGEQY_COEF_F
 		(
 			 FUEL_CD
 			,FUEL_NM
