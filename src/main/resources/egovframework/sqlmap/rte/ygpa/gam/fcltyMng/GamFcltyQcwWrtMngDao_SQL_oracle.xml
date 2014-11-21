@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltyQcwWrtMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO"/>
+    
+    <!-- 점검관리내역 -->
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							Q.FCLTS_MNG_GROUP_NO
+							, Q.FCLTS_JOB_SE
+							, Q.QC_MNG_SEQ
+							, Q.ENFORCE_YEAR
+							, Q.QC_MNG_NM
+							, Q.QC_INSP_DT
+							, Q.QC_INSP_SE
+							, Q.QC_INSP_INSTT_NM
+							, Q.RESPON_ENGINEER_NM
+							, Q.QC_BEGIN_DT
+							, Q.QC_END_DT
+							, Q.QC_INSP_BDGT
+							, Q.QC_INSP_AMT
+							, Q.STTUS_EVL_LVL
+							, Q.QC_INSP_RESULT
+							, Q.ACTION_CN
+							, Q.ACTION_SE
+							, Q.RM
+						FROM
+							QC_MNG_DTLS_F Q
+						WHERE
+							1 = 1
+						ORDER BY
+							Q.FCLTS_MNG_GROUP_NO
+							, Q.FCLTS_JOB_SE
+							, Q.QC_MNG_SEQ
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOTCNT
+		FROM
+			QC_MNG_DTLS_F
+		WHERE
+			1 = 1
+	</select>
+
+	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S">
+		INSERT INTO
+			QC_MNG_DTLS_F (
+				FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, QC_MNG_SEQ
+				, ENFORCE_YEAR
+				, QC_MNG_NM
+				, QC_INSP_DT
+				, QC_INSP_SE
+				, QC_INSP_INSTT_NM
+				, RESPON_ENGINEER_NM
+				, QC_BEGIN_DT
+				, QC_END_DT
+				, QC_INSP_BDGT
+				, QC_INSP_AMT
+				, STTUS_EVL_LVL
+				, QC_INSP_RESULT
+				, ACTION_CN
+				, ACTION_SE
+				, RM
+				, REG_USR
+				, REGIST_DT		
+			) VALUES (
+				#fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, #qcMngSeq#
+				, #enforceYear#
+				, #qcMngNm#
+				, #qcInspDt#
+				, #qcInspSe#
+				, #qcInspInsttNm#
+				, #responEngineerNm#
+				, #qcBeginDt#
+				, #qcEndDt#
+				, #qcInspBdgt#
+				, #qcInspAmt#
+				, #sttusEvlLvl#
+				, #qcInspResult#
+				, #actionCn#
+				, #actionSe#
+				, #rm#
+				, #regUsr#
+				, SYSDATE
+			)
+	</insert>
+	
+	<update id="gamFcltyQcwWrtMngDao.updateQcMngDtls_S">
+		UPDATE
+			QC_MNG_DTLS_F
+		SET
+			ENFORCE_YEAR = #enforceYear#
+			, QC_MNG_NM = #qcMngNm#
+			, QC_INSP_DT = #qcInspDt#
+			, QC_INSP_SE = #qcInspSe#
+			, QC_INSP_INSTT_NM = #qcInspInsttNm#
+			, RESPON_ENGINEER_NM = #responEngineerNm#
+			, QC_BEGIN_DT = #qcBeginDt#
+			, QC_END_DT = #qcEndDt#
+			, QC_INSP_BDGT = #qcInspBdgt#
+			, QC_INSP_AMT = #qcInspAmt#
+			, STTUS_EVL_LVL = #sttusEvlLvl#
+			, QC_INSP_RESULT = #qcInspResult#
+			, ACTION_CN = #actionCn#
+			, ACTION_SE = #actionSe#
+			, RM = #rm#
+			, UPD_USR = #updUsr#
+			, UPDT_DT = SYSDATE
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+	</update>
+	
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngDtls_S">
+		DELETE FROM
+			QC_MNG_DTLS_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#	
+	</delete>
+	
+	<!-- 점검관리대상 시설물  -->
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							O.FCLTS_MNG_GROUP_NO
+							, O.FCLTS_JOB_SE
+							, O.QC_MNG_SEQ
+							, O.FCLTS_MNG_NO
+							, O.QC_INSP_SE
+							, O.QC_INSP_DT
+							, O.INSPECTOR
+							, O.QC_INSP_RESULT
+							, O.RM
+						FROM
+							QC_MNG_OBJ_FCLTS_F O
+						WHERE
+							O.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+							AND O.FCLTS_JOB_SE = #sFcltsJobSe#
+							AND O.QC_MNG_SEQ = #sQcMngSeq# 
+						ORDER BY
+							O.FCLTS_MNG_NO
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
+	</select>
+
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngObjFcltsListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOTCNT
+		FROM
+			QC_MNG_OBJ_FCLTS_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #sFcltsJobSe#
+			AND QC_MNG_SEQ = #sQcMngSeq# 	
+	</select>	
+	
+	<insert id="gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S">
+		INSERT INTO
+			QC_MNG_OBJ_FCLTS_F (
+				FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, QC_MNG_SEQ
+				, FCLTS_MNG_NO
+				, QC_INSP_SE
+				, QC_INSP_DT
+				, INSPECTOR
+				, QC_INSP_RESULT
+				, RM
+				, REG_USR
+				, REGIST_DT			
+			)
+			VALUES (
+				#fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, #qcMngSeq#
+				, #fcltsMngNo#
+				, #qcInspSe#
+				, #qcInspDt#
+				, #inspector#
+				, #qcInspResult#
+				, #rm#
+				, #regUsr#
+				, SYSDATE			
+			)
+	</insert>
+	
+	<update id="gamFcltyQcwWrtMngDao.updateQcMngObjFclts_S">
+		UPDATE
+			QC_MNG_OBJ_FCLTS_F
+		SET
+			QC_INSP_SE = #qcInspSe#
+			, QC_INSP_DT = #qcInspDt#
+			, QC_INSP_RESULT = #qcInspResult#
+			, INSPECTOR = #inspector#		
+			, RM = #rm#
+			, UPD_USR = #updUsr#
+			, UPDT_DT = SYSDATE
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+			AND FCLTS_MNG_NO = #fcltsMngNo# 		
+	</update>
+	
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngObjFclts_S">
+		DELETE FROM
+			QC_MNG_OBJ_FCLTS_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+			AND FCLTS_MNG_NO = #fcltsMngNo# 		
+	</delete>		
+
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList_S">
+		DELETE FROM
+			QC_MNG_OBJ_FCLTS_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+	</delete>
+	
+	<!-- 점검관리첨부파일  -->
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchFileList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							F.FCLTS_MNG_GROUP_NO
+							, F.FCLTS_JOB_SE
+							, F.QC_MNG_SEQ
+							, F.ATCH_FILE_SEQ
+							, F.ATCH_FILE_SE
+							, F.ATCH_FILE_SJ
+							, F.ATCH_FILE_NM_LOGIC
+							, F.ATCH_FILE_NM_PHYSICL
+							, F.ATCH_FILE_WRITNG_DT
+						FROM
+							QC_MNG_ATCH_FILE_F F
+						WHERE
+							F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+							AND F.FCLTS_JOB_SE = #sFcltsJobSe#
+							AND F.QC_MNG_SEQ = #sQcMngSeq# 
+						ORDER BY
+							F.ATCH_FILE_SEQ
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
+	</select>
+
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchFileListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOTCNT
+		FROM
+			QC_MNG_ATCH_FILE_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #sFcltsJobSe#
+			AND QC_MNG_SEQ = #sQcMngSeq# 	
+	</select>	
+	
+	<insert id="gamFcltyQcwWrtMngDao.insertQcMngAtchFile_S">
+		INSERT INTO
+			QC_MNG_ATCH_FILE_F (
+				FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, QC_MNG_SEQ
+				, ATCH_FILE_SEQ
+				, ATCH_FILE_SE
+				, ATCH_FILE_SJ
+				, ATCH_FILE_NM_LOGIC
+				, ATCH_FILE_NM_PHYSICL
+				, ATCH_FILE_WRITNG_DT
+				, REG_USR
+				, REGIST_DT
+			)
+			VALUES (
+				#fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, #qcMngSeq#
+				, #atchFileSeq#
+				, #atchFileSe#
+				, #atchFileSj#
+				, #atchFileNmLogic#
+				, #atchFileNmPhysicl#
+				, #atchFileWritngDt#
+				, #regUsr#
+				, SYSDATE
+			)
+	</insert>
+	
+	<update id="gamFcltyQcwWrtMngDao.updateQcMngAtchFile_S">
+		UPDATE
+			QC_MNG_ATCH_FILE_F
+		SET
+			ATCH_FILE_SE = #atchFileSe#
+			ATCH_FILE_SJ = #atchFileSj#
+			ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+			ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+			ATCH_FILE_WRITNG_DT = #atchFileWritngDt#
+			UPD_USR = #updUsr#
+			UPDT_DT = #updtDt#
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+			AND ATCH_FILE_SEQ = #atchFileSeq#
+	</update>
+	
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngAtchFile_S">
+		DELETE FROM
+			QC_MNG_ATCH_FILE_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+			AND ATCH_FILE_SEQ = #atchFileSeq#
+	</delete>		
+
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList_S">
+		DELETE FROM
+			QC_MNG_ATCH_FILE_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+	</delete>
+
+
+	<!-- 점검관리결과항목 -->			
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							R.FCLTS_MNG_GROUP_NO
+							, R.FCLTS_JOB_SE
+							, R.QC_MNG_SEQ
+							, R.QC_ITEM_CD
+							, R.SEQ
+							, R.INSP_RESULT_CHK
+							, R.INSP_RESULT_CN
+						FROM
+							QC_MNG_RESULT_ITEM_F R
+						WHERE
+							R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+							AND R.FCLTS_JOB_SE = #sFcltsJobSe#
+							AND R.QC_MNG_SEQ = #sQcMngSeq# 
+						ORDER BY
+							R.QC_ITEM_CD
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
+	</select>
+
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngResultItemListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOTCNT
+		FROM
+			QC_MNG_RESULT_ITEM_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #sFcltsJobSe#
+			AND QC_MNG_SEQ = #sQcMngSeq# 	
+	</select>	
+	
+	<insert id="gamFcltyQcwWrtMngDao.insertQcMngResultItem_S">
+		INSERT INTO
+			QC_MNG_RESULT_ITEM_F (
+				FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, QC_MNG_SEQ
+				, QC_ITEM_CD
+				, SEQ
+				, INSP_RESULT_CHK
+				, INSP_RESULT_CN
+				, REG_USR
+				, REGIST_DT
+			)
+			VALUES (
+				#fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, #qcMngSeq#
+				, #qcItemCd#
+				, #seq#
+				, #inspResultChk#
+				, #inspResultCn#
+				, #regUsr#
+				, SYSDATE
+			)
+	</insert>
+	
+	<update id="gamFcltyQcwWrtMngDao.updateQcMngResultItem_S">
+		UPDATE
+			QC_MNG_RESULT_ITEM_F
+		SET
+			SEQ = #seq#
+			INSP_RESULT_CHK = #inspResultChk#
+			INSP_RESULT_CN = #inspResultCn#
+			UPD_USR = #updUsr#
+			UPDT_DT = #updtDt#
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+			AND QC_ITEM_CD = #qcItemCd#
+	</update>
+	
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngResultItem_S">
+		DELETE FROM
+			QC_MNG_RESULT_ITEM_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+			AND QC_ITEM_CD = #qcItemCd#
+	</delete>		
+
+	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S">
+		DELETE FROM
+			QC_MNG_RESULT_ITEM_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+			AND QC_MNG_SEQ = #qcMngSeq#
+	</delete>
+	
+</sqlMap>

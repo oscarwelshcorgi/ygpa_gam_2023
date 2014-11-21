@@ -6,7 +6,7 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
-  * @Class Name : GamFcltyQcwWrtMng.jsp
+  * @Class Name : GamFcltyQcwWrtMngMng.jsp
   * @Description : 시설 점검 관리
   * @Modification Information
   *
@@ -26,21 +26,21 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamFcltyQcwWrtModule() {
+function GamFcltyQcwWrtMngModule() {
 }
 
-GamFcltyQcwWrtModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
+GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamFcltyQcwWrtModule.prototype.loadComplete = function(params) {
+GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
 	this._params = params;	// 파라미터를 저장한다.
 
 	// 테이블 설정
-	this.$("#fcltyQcwWrtList").flexigrid({
+	this.$("#fcltyQcwWrtMngList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectFcltyQcwWrtList.do" />',
+		url: '<c:url value="/fclty/selectFcltyQcwWrtMngList.do" />',
 		dataType: "json",
 		colModel : [
 					{display:"관리그룹번호",	name:"gisAssetsPrtAtCode",	width:100,		sortable:false,		align:"center"},
@@ -110,12 +110,12 @@ GamFcltyQcwWrtModule.prototype.loadComplete = function(params) {
 	
 };
 
-GamFcltyQcwWrtModule.prototype.onSubmit = function() {
+GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
 	this.loadData();
 }
 
 //시설목록 로드
-GamFcltyQcwWrtModule.prototype.loadData = function() {
+GamFcltyQcwWrtMngModule.prototype.loadData = function() {
 }
 
 
@@ -123,7 +123,7 @@ GamFcltyQcwWrtModule.prototype.loadData = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
-GamFcltyQcwWrtModule.prototype.onButtonClick = function(buttonId) {
+GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
 	switch(buttonId) {
 		case "searchBtn": //조회
@@ -131,7 +131,7 @@ GamFcltyQcwWrtModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
-GamFcltyQcwWrtModule.prototype.saveAtchFile = function(fcltsMngNo) {
+GamFcltyQcwWrtMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
 	var fileList = this.$("#fcltsFileList").flexGetData();
 	for(var i=0; i<fileList.length; i++) {
 		fileList[i]["fcltsMngNo"] = fcltsMngNo;
@@ -151,7 +151,7 @@ GamFcltyQcwWrtModule.prototype.saveAtchFile = function(fcltsMngNo) {
     });	
 }
 
-GamFcltyQcwWrtModule.prototype.removeAtchFileItem = function() {
+GamFcltyQcwWrtMngModule.prototype.removeAtchFileItem = function() {
 	var rows = this.$("#fcltsFileList").selectedRows();
     if(rows.length == 0){
         alert("파일목록에서 삭제할 행을 선택하십시오.");
@@ -174,7 +174,7 @@ GamFcltyQcwWrtModule.prototype.removeAtchFileItem = function() {
 /**
  * 탭 변경시 실행 이벤트
  */
-GamFcltyQcwWrtModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 	case "tabs1":
 		break;
@@ -188,7 +188,7 @@ GamFcltyQcwWrtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 /**
  * 팝업 close 이벤트
  */
-GamFcltyQcwWrtModule.prototype.onClosePopup = function(popupId, msg, value){
+GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 		// 조회화면
 		case "selectGisCode":
@@ -201,7 +201,7 @@ GamFcltyQcwWrtModule.prototype.onClosePopup = function(popupId, msg, value){
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamFcltyQcwWrtModule();
+var module_instance = new GamFcltyQcwWrtMngModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
@@ -209,7 +209,7 @@ var module_instance = new GamFcltyQcwWrtModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="searchFcltyQcwWrtForm">
+			<form id="searchFcltyQcwWrtMngForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
@@ -254,7 +254,7 @@ var module_instance = new GamFcltyQcwWrtModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="fcltyQcwWrtTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="fcltyQcwWrtMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">시설물점검목록</a></li>
 				<li><a href="#tabs2" class="emdTab">시설물점검내역</a></li>
@@ -264,7 +264,7 @@ var module_instance = new GamFcltyQcwWrtModule();
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="fcltyQcwWrtList" style="display:none" class="fillHeight"></table>
+				<table id="fcltyQcwWrtMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnAdd">점검추가</button>
 					<button id="btnDelete">점검삭제</button>
@@ -274,7 +274,7 @@ var module_instance = new GamFcltyQcwWrtModule();
 
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<form id="fcltyQcwWrtVO">
+				<form id="fcltyQcwWrtMngVO">
 				<div style="margin-bottom:10px;">
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
