@@ -6,7 +6,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamMechFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngVO"/>
     
-    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngList" parameterClass="gamMechFcltySpecMngVO" resultClass="egovMap">
+    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngList_D" parameterClass="gamMechFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -75,7 +75,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt" parameterClass="gamMechFcltySpecMngVO" resultClass="int">
+    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt_S" parameterClass="gamMechFcltySpecMngVO" resultClass="int">
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM
@@ -105,7 +105,7 @@
 		  </isNotEmpty>
     </select>
     
-    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngDetail" parameterClass="hashMap" resultClass="egovMap">
+    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngDetail_S" parameterClass="hashMap" resultClass="egovMap">
     	SELECT
 			F.GIS_ASSETS_PRT_AT_CODE
 			, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
@@ -181,7 +181,7 @@
     		F.FCLTS_MNG_NO = #fcltsMngNo#
     </select>
     
-    <insert id="gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail">
+    <insert id="gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail_S">
 		INSERT INTO
 		  MECH_FCLTY_SPEC_F (
 		    FCLTS_MNG_NO 
@@ -273,7 +273,7 @@
 		  )
     </insert>
     
-    <update id="gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail">
+    <update id="gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail_S">
 		UPDATE MECH_FCLTY_SPEC_F
 		  SET 
 		    ARCH_FCLTS_MNG_NO = #archFcltsMngNo#
@@ -321,13 +321,13 @@
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </update>
     
-    <delete id="gamMechFcltySpecMngDao.deleteMechFcltySpecMngDetail">
+    <delete id="gamMechFcltySpecMngDao.deleteMechFcltySpecMngDetail_S">
 		DELETE FROM MECH_FCLTY_SPEC_F
 		  WHERE
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </delete>
     
-    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecFileList" parameterClass="gamMechFcltySpecMngVO" resultClass="egovMap">
+    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecFileList_D" parameterClass="gamMechFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -355,7 +355,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>    	
     </select>
 
-    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt" parameterClass="gamMechFcltySpecMngVO" resultClass="int">
+    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt_S" parameterClass="gamMechFcltySpecMngVO" resultClass="int">
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM
@@ -364,7 +364,7 @@
    		  FCLTS_MNG_NO = #sFcltsMngNo#
     </select>
 
-    <insert id="gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail" >
+    <insert id="gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail_S" >
     	<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
@@ -399,7 +399,7 @@
     		)
     </insert>
 
-    <update id="gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail" >
+    <update id="gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail_S" >
     	UPDATE 
     		FCLTS_SPEC_ATCH_FILE_F
     	SET
@@ -415,7 +415,7 @@
     		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
     </update>
 
-    <delete id="gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail" >
+    <delete id="gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail_S" >
     	DELETE
     	FROM
     		FCLTS_SPEC_ATCH_FILE_F
@@ -424,7 +424,7 @@
     		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
     </delete>
     
-    <delete id="gamMechFcltySpecMngDao.deleteMechFcltySpecFileList" >
+    <delete id="gamMechFcltySpecMngDao.deleteMechFcltySpecFileList_S" >
     	DELETE
     	FROM
     		FCLTS_SPEC_ATCH_FILE_F

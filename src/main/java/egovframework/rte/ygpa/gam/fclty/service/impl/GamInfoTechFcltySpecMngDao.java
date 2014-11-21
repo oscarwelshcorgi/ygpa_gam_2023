@@ -37,7 +37,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */	
 	public List selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
-		return list("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngList", searchVO);
+		return list("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngList_D", searchVO);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public int selectInfoTechFcltySpecMngListTotCnt(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngListTotCnt", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngListTotCnt_S", searchVO);
 	}
 
 	
@@ -58,7 +58,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public EgovMap selectInfoTechFcltySpecMngDetail(Map searchVO) throws Exception {
-		return (EgovMap)selectByPk("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngDetail", searchVO);
+		return (EgovMap)selectByPk("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngDetail_S", searchVO);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void insertInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
-		insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail", vo);
+		insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail_S", vo);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void updateInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
-		update("gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail", vo);
+		update("gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail_S", vo);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void deleteInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
-		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail", vo);
+		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail_S", vo);
 	}
 	
 
@@ -99,7 +99,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public List selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
-		return list("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileList", searchVO);
+		return list("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileList_D", searchVO);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public int selectInfoTechFcltySpecFileListTotCnt(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt_S", searchVO);
 	}
 
 
@@ -120,7 +120,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void insertInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail", vo);
+		insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S", vo);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void updateInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		update("gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail", vo);
+		update("gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail_S", vo);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */			
 	public void deleteInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail", vo);
+		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail_S", vo);
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */			
 	public void deleteInfoTechFcltySpecFileList(Map<String, Object> vo) throws Exception {
-		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList", vo);
+		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList_S", vo);
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */			
     public List mergeFcltyFile(Map vo) throws Exception{
-		return this.merge(vo, "gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail", "gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail", "gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail");
+		return this.merge(vo, "gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S", "gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail_S", "gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail_S");
     }
 	
 }

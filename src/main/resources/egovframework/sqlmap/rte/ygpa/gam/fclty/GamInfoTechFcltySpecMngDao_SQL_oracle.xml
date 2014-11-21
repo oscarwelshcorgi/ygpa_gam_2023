@@ -6,7 +6,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamInfoTechFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngVO"/>
     
-    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngList" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="egovMap">
+    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngList_D" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -75,7 +75,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngListTotCnt" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="int">
+    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngListTotCnt_S" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="int">
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM
@@ -105,7 +105,7 @@
 		  </isNotEmpty>
     </select>
     
-    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngDetail" parameterClass="hashMap" resultClass="egovMap">
+    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngDetail_S" parameterClass="hashMap" resultClass="egovMap">
     	SELECT
 			F.GIS_ASSETS_PRT_AT_CODE
 			, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
@@ -159,7 +159,7 @@
     		F.FCLTS_MNG_NO = #fcltsMngNo#
     </select>
     
-    <insert id="gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail">
+    <insert id="gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail_S">
 		INSERT INTO
 		  INFO_COMM_FCLTY_SPEC_F (
 		    FCLTS_MNG_NO
@@ -207,7 +207,7 @@
 		  )
     </insert>
     
-    <update id="gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail">
+    <update id="gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail_S">
 		UPDATE INFO_COMM_FCLTY_SPEC_F
 		  SET
 		    LOC = #loc#
@@ -233,13 +233,13 @@
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </update>
     
-    <delete id="gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail">
+    <delete id="gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail_S">
 		DELETE FROM INFO_COMM_FCLTY_SPEC_F
 		  WHERE
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </delete>
     
-    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileList" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="egovMap">
+    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileList_D" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -267,7 +267,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>    	
     </select>
 
-    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="int">
+    <select id="gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt_S" parameterClass="gamInfoTechFcltySpecMngVO" resultClass="int">
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM
@@ -276,7 +276,7 @@
    		  FCLTS_MNG_NO = #sFcltsMngNo#
     </select>
 
-    <insert id="gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail" >
+    <insert id="gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S" >
     	<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
@@ -311,7 +311,7 @@
     		)
     </insert>
 
-    <update id="gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail" >
+    <update id="gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail_S" >
     	UPDATE 
     		FCLTS_SPEC_ATCH_FILE_F
     	SET
@@ -327,7 +327,7 @@
     		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
     </update>
 
-    <delete id="gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail" >
+    <delete id="gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail_S" >
     	DELETE
     	FROM
     		FCLTS_SPEC_ATCH_FILE_F
@@ -336,7 +336,7 @@
     		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
     </delete>
     
-    <delete id="gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList" >
+    <delete id="gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList_S" >
     	DELETE
     	FROM
     		FCLTS_SPEC_ATCH_FILE_F

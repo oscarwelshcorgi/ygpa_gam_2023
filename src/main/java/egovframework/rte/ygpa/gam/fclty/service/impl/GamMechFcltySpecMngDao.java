@@ -34,7 +34,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */	
 	public List selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
-		return list("gamMechFcltySpecMngDao.selectMechFcltySpecMngList", searchVO);
+		return list("gamMechFcltySpecMngDao.selectMechFcltySpecMngList_D", searchVO);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public int selectMechFcltySpecMngListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt_S", searchVO);
 	}
 
 	
@@ -55,7 +55,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public EgovMap selectMechFcltySpecMngDetail(Map searchVO) throws Exception {
-		return (EgovMap)selectByPk("gamMechFcltySpecMngDao.selectMechFcltySpecMngDetail", searchVO);
+		return (EgovMap)selectByPk("gamMechFcltySpecMngDao.selectMechFcltySpecMngDetail_S", searchVO);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void insertMechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
-		insert("gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail", vo);
+		insert("gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail_S", vo);
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void updateMechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
-		update("gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail", vo);
+		update("gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail_S", vo);
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void deleteMechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
-		delete("gamMechFcltySpecMngDao.deleteMechFcltySpecMngDetail", vo);
+		delete("gamMechFcltySpecMngDao.deleteMechFcltySpecMngDetail_S", vo);
 	}
 	
 
@@ -96,7 +96,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public List selectMechFcltySpecFileList(GamMechFcltySpecMngVO searchVO) throws Exception {
-		return list("gamMechFcltySpecMngDao.selectMechFcltySpecFileList", searchVO);
+		return list("gamMechFcltySpecMngDao.selectMechFcltySpecFileList_D", searchVO);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public int selectMechFcltySpecFileListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt_S", searchVO);
 	}
 
 
@@ -117,7 +117,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void insertMechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		insert("gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail", vo);
+		insert("gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail_S", vo);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */		
 	public void updateMechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		update("gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail", vo);
+		update("gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail_S", vo);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */			
 	public void deleteMechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		delete("gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail", vo);
+		delete("gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail_S", vo);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */			
 	public void deleteMechFcltySpecFileList(Map<String, Object> vo) throws Exception {
-		delete("gamMechFcltySpecMngDao.deleteMechFcltySpecFileList", vo);
+		delete("gamMechFcltySpecMngDao.deleteMechFcltySpecFileList_S", vo);
 	}
 	
 	/**
@@ -157,7 +157,7 @@ public class GamMechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */			
     public List mergeFcltyFile(Map vo) throws Exception{
-		return this.merge(vo, "gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail", "gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail", "gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail");
+		return this.merge(vo, "gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail_S", "gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail_S", "gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail_S");
     }
 	
 }
