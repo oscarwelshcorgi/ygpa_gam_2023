@@ -64,18 +64,10 @@
 	<script src="<c:url value='/js/Proj4js/defs/EPSG4326.js'/>"></script>
 
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
-    <!--
     <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
-     -->
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-    <!--
-    <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
-     -->
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
-    <!--
-    <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
-     -->
     <script type="text/javascript">
 	var $DEBUG=false;
 
@@ -133,12 +125,12 @@
     	<c:if test="${menuItem.submenu!=null }">
 	    	<c:forEach items="${menuItem.submenu }" var="menuItem2">
           	<li>
-          		<a href="#" data-role="LoadModule" data-url="<c:url value='${menuItem2.url }'/>"><c:out value="${menuItem2.menuNm }"/></a>
+          		<a href="#" data-role="LoadModule" data-url="${menuItem2.url }"><c:out value="${menuItem2.menuNm }"/></a>
     			<c:if test="${menuItem2.submenu!=null }">
     				<ul class="submenu">
 			    		<c:forEach items="${menuItem2.submenu }" var="menuItem3">
 			                <li>
-			                	<a href="#" data-role="LoadModule" data-url="<c:url value='${menuItem3.url }'/>"><c:out value="${menuItem3.menuNm }"/></a>
+			                	<a href="#" data-role="LoadModule" data-url="<c:out value='${menuItem3.url }' />" ><c:out value="${menuItem3.menuNm }"/></a>
 		                	</li>
 	                    </c:forEach>
                     </ul>
