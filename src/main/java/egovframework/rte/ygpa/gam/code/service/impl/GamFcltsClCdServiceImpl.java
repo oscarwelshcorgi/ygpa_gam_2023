@@ -139,5 +139,27 @@ public class GamFcltsClCdServiceImpl extends AbstractServiceImpl implements GamF
 	public void deleteFcltsClCd (GamFcltsClCdVO vo) throws Exception{
 		gamFcltsClCdDao.deleteFcltsClCd(vo);
 	}
+	
+	
+	/**
+	 * 시설물분류 상위코드 LEAF_YN값 수정
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void updateChnageParentLeafYn (GamFcltsClCdVO vo) throws Exception{
+		gamFcltsClCdDao.updateChnageParentLeafYn(vo);
+	}
+	
+	
+	/**
+	 *  시설물 분류관리 상위코드에 따르는 하위코드 총수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFcltsClParentCdListCnt(GamFcltsClCdVO vo) throws Exception {
+		return gamFcltsClCdDao.selectFcltsClParentCdListCnt(vo);
+	}
 
 }

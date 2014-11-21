@@ -131,5 +131,28 @@ public class GamFcltsClCdDao extends YGPAAbstractDAO {
 	public void deleteFcltsClCd (GamFcltsClCdVO vo) throws Exception{
 		delete("gamFcltsClCdDao.deleteFcltsClCd", vo);
 	}
+	
+	
+	/**
+	 * 시설물분류 상위코드 LEAF_YN값 수정
+	 * @param GamFcltsClCdVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public void updateChnageParentLeafYn (GamFcltsClCdVO vo) throws Exception{
+		update("gamFcltsClCdDao.updateChnageParentLeafYn", vo);
+	}
+	
+	
+	/**
+	 *  시설물 분류관리 상위코드에 따르는 하위코드 총수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFcltsClParentCdListCnt(GamFcltsClCdVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsClCdDao.selectFcltsClParentCdListCnt_S", vo);
+	}
 
 }

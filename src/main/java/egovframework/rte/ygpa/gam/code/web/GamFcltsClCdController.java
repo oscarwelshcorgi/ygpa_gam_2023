@@ -212,6 +212,9 @@ public class GamFcltsClCdController {
     		insertVO.setFcltsClCd(newFcltsClCd);
 	    	gamFcltsClCdService.insertFcltsClCd(insertVO);
 	    	
+	    	insertVO.setLeafYn("N");
+	    	gamFcltsClCdService.updateChnageParentLeafYn(insertVO);
+	    	
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 	        map.put("resultCode", 0);
     	} catch (Exception e) {
@@ -276,6 +279,7 @@ public class GamFcltsClCdController {
     @ResponseBody Map<String, Object> deleteFcltsClCd(GamFcltsClCdVO deleteVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
+    	int codCnt;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -287,6 +291,13 @@ public class GamFcltsClCdController {
     	try {
 	    	gamFcltsClCdService.deleteFcltsClCd(deleteVO);
 	    	
+	    	codCnt = gamFcltsClCdService.selectFcltsClParentCdListCnt(deleteVO);
+	    	
+	    	if(codCnt == 0){
+	    		deleteVO.setLeafYn("Y");
+	    		gamFcltsClCdService.updateChnageParentLeafYn(deleteVO);
+	    	}
+
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 	        map.put("resultCode", 0);
     	} catch (Exception e) {
