@@ -3,6 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
@@ -76,12 +80,34 @@ public class GamFcltsFeeMngNticController {
 
     	//login정보
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
+		List yearList = new ArrayList();
+		Map yearMap = null;
+    	for( int i = year ; i >= year-10 ; i-- ) {
+			yearMap = new HashMap();
+			yearMap.put("code", i);
+			yearMap.put("codeNm", i+"년");
 
-    	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
+			yearList.add(yearMap);
+		}
 
+		List monList = new ArrayList();
+		Map monMap;
+		for(int i=1; i < 13; i++){
+			NumberFormat month = new DecimalFormat("00");
+			String moni = month.format(i);
+			monMap = new HashMap();
+			monMap.put("code", moni);
+			monMap.put("codeNm", moni+"월");
+			monList.add(monMap);
+		}
+
+		model.addAttribute("monList", monList);
+		model.addAttribute("yearsList", yearList);
+		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamCarMng";
+		return "/ygpa/gam/mngFee/GamFcltsFeeMngNtic";
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
