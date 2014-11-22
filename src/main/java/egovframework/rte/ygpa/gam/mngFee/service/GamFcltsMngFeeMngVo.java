@@ -26,10 +26,158 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltsMngFeeMngVo extends ComDefaultVO{
 
+	private	String	mngMt;				//관리 월
+	private	String	mngFeeJobSe;		//관리비 업무 구분
+	private	String	mngFeeSj;			//관리비 제목
+	private	String	fcltyMngFee;		//시설 관리 용역비
+	private	int	elctyFee;				//전기 요금
+	private	int	waterFee;				//상하수도 요금
+	private	int	gasFee;					//도시가스 요금
+	private	int	envFee;					//환경개선 부담금
+	private	int	mngTotalFee;			//관리비 합계
 	private	String	regUsr;				//등록자
 	private	String	registDt;			//등록일시
 	private	String	updUsr;				//수정자
 	private	String	updtDt;				//수정일시
+
+	private	String	sMngMt;				//검색 관리 월
+	private	String	sMngFeeJobSe;		//검색 관리비 업무 구분
+
+
+
+
+	/**
+	 * @return the mngMt
+	 */
+	public String getMngMt() {
+		return mngMt;
+	}
+	/**
+	 * @param mngMt the mngMt to set
+	 */
+	public void setMngMt(String mngMt) {
+		this.mngMt = mngMt;
+	}
+	/**
+	 * @return the mngFeeJobSe
+	 */
+	public String getMngFeeJobSe() {
+		return mngFeeJobSe;
+	}
+	/**
+	 * @param mngFeeJobSe the mngFeeJobSe to set
+	 */
+	public void setMngFeeJobSe(String mngFeeJobSe) {
+		this.mngFeeJobSe = mngFeeJobSe;
+	}
+	/**
+	 * @return the mngFeeSj
+	 */
+	public String getMngFeeSj() {
+		return mngFeeSj;
+	}
+	/**
+	 * @param mngFeeSj the mngFeeSj to set
+	 */
+	public void setMngFeeSj(String mngFeeSj) {
+		this.mngFeeSj = mngFeeSj;
+	}
+	/**
+	 * @return the fcltyMngFee
+	 */
+	public String getFcltyMngFee() {
+		return fcltyMngFee;
+	}
+	/**
+	 * @param fcltyMngFee the fcltyMngFee to set
+	 */
+	public void setFcltyMngFee(String fcltyMngFee) {
+		this.fcltyMngFee = fcltyMngFee;
+	}
+	/**
+	 * @return the elctyFee
+	 */
+	public int getElctyFee() {
+		return elctyFee;
+	}
+	/**
+	 * @param elctyFee the elctyFee to set
+	 */
+	public void setElctyFee(int elctyFee) {
+		this.elctyFee = elctyFee;
+	}
+	/**
+	 * @return the waterFee
+	 */
+	public int getWaterFee() {
+		return waterFee;
+	}
+	/**
+	 * @param waterFee the waterFee to set
+	 */
+	public void setWaterFee(int waterFee) {
+		this.waterFee = waterFee;
+	}
+	/**
+	 * @return the gasFee
+	 */
+	public int getGasFee() {
+		return gasFee;
+	}
+	/**
+	 * @param gasFee the gasFee to set
+	 */
+	public void setGasFee(int gasFee) {
+		this.gasFee = gasFee;
+	}
+	/**
+	 * @return the envFee
+	 */
+	public int getEnvFee() {
+		return envFee;
+	}
+	/**
+	 * @param envFee the envFee to set
+	 */
+	public void setEnvFee(int envFee) {
+		this.envFee = envFee;
+	}
+	/**
+	 * @return the mngTotalFee
+	 */
+	public int getMngTotalFee() {
+		return mngTotalFee;
+	}
+	/**
+	 * @param mngTotalFee the mngTotalFee to set
+	 */
+	public void setMngTotalFee(int mngTotalFee) {
+		this.mngTotalFee = mngTotalFee;
+	}
+	/**
+	 * @return the sMngMt
+	 */
+	public String getsMngMt() {
+		return sMngMt;
+	}
+	/**
+	 * @param sMngMt the sMngMt to set
+	 */
+	public void setsMngMt(String sMngMt) {
+		this.sMngMt = sMngMt;
+	}
+	/**
+	 * @return the sMngFeeJobSe
+	 */
+	public String getsMngFeeJobSe() {
+		return sMngFeeJobSe;
+	}
+	/**
+	 * @param sMngFeeJobSe the sMngFeeJobSe to set
+	 */
+	public void setsMngFeeJobSe(String sMngFeeJobSe) {
+		this.sMngFeeJobSe = sMngFeeJobSe;
+	}
 	/**
 	 * @return the regUsr
 	 */
