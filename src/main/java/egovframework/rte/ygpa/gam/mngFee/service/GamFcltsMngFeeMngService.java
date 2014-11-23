@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -45,5 +46,9 @@ public interface GamFcltsMngFeeMngService {
 	 * @param gamFcltsMngFeeMngVo
 	 */
 	void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+
+	List mergeSaveFcltsMngFeeMng(Map mergeList) throws Exception;
+
+	void insertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
 
 }

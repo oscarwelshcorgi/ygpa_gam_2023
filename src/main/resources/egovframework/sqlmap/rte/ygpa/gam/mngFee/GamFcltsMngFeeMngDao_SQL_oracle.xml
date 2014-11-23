@@ -6,148 +6,117 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltsMngFeeMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo"/>
 
-    <select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngList_D" parameterClass="gamCarMngVo" resultClass="egovMap">
+    <select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngList_D" parameterClass="gamFcltsMngFeeMngVo" resultClass="egovMap">
      SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                             SELECT
-									CAR_REGIST_NO,
-									CAR_KND,
-									CAR_PRPOS,
-									CAR_NM,
-									CAR_FMT,
-									CAR_YR_MDL,
-									CAR_BODY_NO,
-									TURBINE_FMT,
-									USAGE_STRHLD,
-									OWNER_NM,
-									OWNER_ADRES,
-									TO_CHAR(CAR_REGIST_DT, 'YYYY-MM-DD') CAR_REGIST_DT,
-									REGIST_GOV_OFC,
-									SPEC_MNG_NO,
-									CAR_LT,
-									CAR_WD,
-									CAR_HT,
-									CAR_GR_WQNT,
-									EXHAUSTQY,
-									RATE_OUTPUT,
-									RIDE_QUOTA_CAPA,
-									MAX_CAPA_QY,
-									CYLINDER_CNT,
-									FUEL_KND,
-									FUEL_EFFT,
-									TO_CHAR(EXAM_VALID_BEGIN_DT, 'YYYY-MM-DD') EXAM_VALID_BEGIN_DT,
-									TO_CHAR(EXAM_VALID_END_DT, 'YYYY-MM-DD') EXAM_VALID_END_DT,
-									ACQ_PRCE,
+									MNG_MT,
+									MNG_FEE_JOB_SE,
+									MNG_FEE_SJ,
+									FCLTY_MNG_FEE,
+									ELCTY_FEE,
+									WATER_FEE,
+									GAS_FEE,
+									ENV_FEE,
+									MNG_TOTAL_FEE,
 									REG_USR,
 									UPD_USR,
 									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
 									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					        FROM CAR_INFO_F
+					        FROM FCLTS_MNG_FEE_F
 								  WHERE 1=1
-						         <isNotEmpty property="sCarRegistNo">
-						             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+						         <isNotEmpty property="sMngMtYear">
+						             AND MNG_MT LIKE '%' || #sMngMtYear# || #sMngMtMon# ||'%'
 						         </isNotEmpty>
 
-						         <isNotEmpty property="sCarNm">
-							         AND CAR_NM LIKE '%' || #sCarNm# || '%'
+						         <isNotEmpty property="sMngFeeJobSe">
+							         AND MNG_FEE_JOB_SE =  #sMngFeeJobSe#
 							     </isNotEmpty>
-
-							     <isNotEmpty property="sCarBodyNo">
-							          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-							     </isNotEmpty>
-                             ORDER BY CAR_REGIST_NO
+                             ORDER BY MNG_MT
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngListTotCnt_S" parameterClass="gamCarMngVo" resultClass="int">
+    <select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngListTotCnt_S" parameterClass="gamFcltsMngFeeMngVo" resultClass="int">
          SELECT COUNT(*) totcnt
-              FROM CAR_INFO_F
+              FROM FCLTS_MNG_FEE_F
                            <![CDATA[  WHERE 1=1 ]]>
-
-	         <isNotEmpty property="sCarRegistNo">
-	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+	         <isNotEmpty property="sMngMtYear">
+	             AND MNG_MT LIKE '%' || #sMngMtYear# || #sMngMtMon# ||'%'
 	         </isNotEmpty>
 
-	         <isNotEmpty property="sCarNm">
-		         AND CAR_NM LIKE '%' || #sCarNm# || '%'
+	         <isNotEmpty property="sMngFeeJobSe">
+		         AND MNG_FEE_JOB_SE =  #sMngFeeJobSe#
 		     </isNotEmpty>
-
-		     <isNotEmpty property="sCarBodyNo">
-		          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-		     </isNotEmpty>
-
     </select>
 
 	<insert id="gamFcltsMngFeeMngDao.insertFcltsMngFeeMng">
 		<![CDATA[
 		    INSERT
-		      INTO  CAR_INFO_F
-		         (  CAR_REGIST_NO
-					,CAR_KND
-					,CAR_PRPOS
-					,CAR_NM
-					,CAR_FMT
-					,CAR_YR_MDL
-					,CAR_BODY_NO
-					,TURBINE_FMT
-					,USAGE_STRHLD
-					,OWNER_NM
-					,OWNER_ADRES
-					,CAR_REGIST_DT
-					,REGIST_GOV_OFC
-					,SPEC_MNG_NO
-					,CAR_LT
-					,CAR_WD
-					,CAR_HT
-					,CAR_GR_WQNT
-					,EXHAUSTQY
-					,RATE_OUTPUT
-					,RIDE_QUOTA_CAPA
-					,MAX_CAPA_QY
-					,CYLINDER_CNT
-					,FUEL_KND
-					,FUEL_EFFT
-					,EXAM_VALID_BEGIN_DT
-					,EXAM_VALID_END_DT
-					,ACQ_PRCE
+		      INTO  FCLTS_MNG_FEE_F
+		         (
+		         	 MNG_MT
+					,MNG_FEE_JOB_SE
+					,MNG_FEE_SJ
+					,FCLTY_MNG_FEE
+					,ELCTY_FEE
+					,WATER_FEE
+					,GAS_FEE
+					,ENV_FEE
+					,MNG_TOTAL_FEE
 					,REG_USR
 					,REGIST_DT
 		         )
 		    VALUES
-		         (  #carRegistNo#
-					, #carKnd#
-					, #carPrpos#
-					, #carNm#
-					, #carFmt#
-					, #carYrMdl#
-					, #carBodyNo#
-					, #turbineFmt#
-					, #usageStrhld#
-					, #ownerNm#
-					, #ownerAdres#
-					, TO_DATE(#carRegistDt#,'YYYY-MM-DD')
-					, #registGovOfc#
-					, #specMngNo#
-					, #carLt#
-					, #carWd#
-					, #carHt#
-					, #carGrWqnt#
-					, #exhaustqy#
-					, #rateOutput#
-					, #rideQuotaCapa#
-					, #maxCapaQy#
-					, #cylinderCnt#
-					, #fuelKnd#
-					, #fuelEfft#
-					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
-					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-					, #acqPrce#
-					, #regUsr#
-					, sysdate
+		         (
+		         		#mngMt#
+						,#mngFeeJobSe#
+						,#mngFeeSj#
+						,#fcltyMngFee#
+						,#elctyFee#
+						,#waterFee#
+						,#gasFee#
+						,#envFee#
+						,#mngTotalFee#
+						,#regUsr#
+						,sysdate
+		         )
+		]]>
+	</insert>
+
+	<insert id="gamFcltsMngFeeMngDao.insertFcltsMngFeeMngDetail">
+		<![CDATA[
+		    INSERT
+		      INTO  FCLTS_MNG_FEE_DETAIL_F
+		         (
+		         	 MNG_MT
+					,MNG_FEE_JOB_SE
+					,MNG_FEE_SJ
+					,FCLTY_MNG_FEE
+					,ELCTY_FEE
+					,WATER_FEE
+					,GAS_FEE
+					,ENV_FEE
+					,MNG_TOTAL_FEE
+					,REG_USR
+					,REGIST_DT
+		         )
+		    VALUES
+		         (
+		         		#mngMt#
+						,#mngFeeJobSe#
+						,#mngFeeSj#
+						,#fcltyMngFee#
+						,#elctyFee#
+						,#waterFee#
+						,#gasFee#
+						,#envFee#
+						,#mngTotalFee#
+						,#regUsr#
+						,sysdate
 		         )
 		]]>
 	</insert>

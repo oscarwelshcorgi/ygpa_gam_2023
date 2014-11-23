@@ -4,10 +4,12 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
 
 /**
@@ -59,4 +61,11 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng",gamFcltsMngFeeMngVo);
 	}
 
+	public List mergeSaveFcltsMngFeeMng(Map vo) throws Exception{
+		return this.merge(vo, "gamFcltsMngFeeMngDao.insertCivilFcltyFile", "gamFcltsMngFeeMngDao.updateCivilFcltyFile", "gamFcltsMngFeeMngDao.deleteCivilFcltyFile");
+    }
+
+	public void insertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		insert("gamFcltsMngFeeMngDao.insertFcltsMngFeeMngDetail",gamFcltsMngFeeMngDetailVo);
+	}
 }
