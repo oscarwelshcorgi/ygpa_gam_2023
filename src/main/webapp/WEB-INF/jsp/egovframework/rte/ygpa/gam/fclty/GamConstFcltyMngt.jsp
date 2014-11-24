@@ -300,6 +300,7 @@ GamFcltyMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		case "fcltyinfo9PopupBtn":
 			var all_rows = this.$('#fcltyinfo9').flexGetData();
+			console.log('fclty info popup open');
 			this.doExecuteDialog("fcltyinfo9Popup", "건축물현황", '/popup/fcltyinfo9ListPopup.do', {},all_rows);
 		break;
 

@@ -1646,7 +1646,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </td>
                             <th>총면적</th>
                             <td>
-                                <input id="sGrAr" type="text" size="8">
+                                <input id="sGrAr" type="text" size="8" class="ygpaNumber" />
                             </td>
                         </tr>
                     </tbody>

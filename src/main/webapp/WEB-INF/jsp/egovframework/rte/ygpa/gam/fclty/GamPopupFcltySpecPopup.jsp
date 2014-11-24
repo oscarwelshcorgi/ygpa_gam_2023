@@ -51,7 +51,7 @@ GamPopupEntrpsModule.prototype.loadComplete = function(fcltyinfo9List) {
 			],
 		height: "300",
 	});
-	this.$("#grdInfoList").flexOptions({params:null}).flexReload();
+	//this.$("#grdInfoList").flexOptions({params:null}).flexReload();
 
 		this.$("#grdInfoList").flexAddData({resultList: fcltyinfo9List});
 /*
@@ -79,6 +79,8 @@ GamPopupEntrpsModule.prototype.loadComplete = function(fcltyinfo9List) {
 
 
 	});
+
+	console.log('debug');
 
 };
 //속성 변경 된 경우 이벤트 실행
