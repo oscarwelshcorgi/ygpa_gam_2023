@@ -42,8 +42,18 @@ public class GamElctyUsageSttusMngServiceImpl extends AbstractServiceImpl implem
 	}
 
 	@Override
+	public String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy(gamElctyUsageSttusMngVo);
+	}
+
+	@Override
 	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
 		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList(gamElctyUsageSttusMngVo);
+	}
+
+	@Override
+	public List selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngChartList(gamElctyUsageSttusMngVo);
 	}
 
 	@Override
@@ -52,10 +62,13 @@ public class GamElctyUsageSttusMngServiceImpl extends AbstractServiceImpl implem
 	}
 
 	@Override
+	public void updateElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		gamElctyUsageSttusMngDao.updateElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+	}
+
+	@Override
 	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
 		gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 	}
-
-
 
 }

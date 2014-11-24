@@ -21,16 +21,13 @@ public class GamPopupMngCodeVO extends ComDefaultVO {
 	private	String	mngFeeFcltySe;	//관리비 시설 구분
 	private	String	mngFeeFcltyNm;	//관리비 시설 명
 	private	String	mngFeeJobSe;	//관리비 업무 구분
-	private	String	regUsr;	//등록자
-	private	String	registDt;	//등록일시
-	private	String	updUsr;	//수정자
-	private	String	updtDt;	//수정일시
-
+	private	String	mngFeeFcltySeNm;	//관리비 시설 구분 명
+	private	String	mngFeeJobSeNm;	//관리비 업무 구분 명
 
 	private	String	sMngFeeFcltyCd;	//검색 관리비 시설 코드
-	private	String	sMngFeeFcltySe;	//검색 관리비 시설 구분
 	private	String	sMngFeeFcltyNm;	//검색 관리비 시설 명
 	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
+
 	/**
 	 * @return the mngFeeFcltyCd
 	 */
@@ -80,52 +77,28 @@ public class GamPopupMngCodeVO extends ComDefaultVO {
 		this.mngFeeJobSe = mngFeeJobSe;
 	}
 	/**
-	 * @return the regUsr
+	 * @return the mngFeeJobSeNm
 	 */
-	public String getRegUsr() {
-		return regUsr;
+	public String getMngFeeJobSeNm() {
+		return mngFeeJobSeNm;
 	}
 	/**
-	 * @param regUsr the regUsr to set
+	 * @param mngFeeJobSeNm the mngFeeJobSeNm to set
 	 */
-	public void setRegUsr(String regUsr) {
-		this.regUsr = regUsr;
+	public void setMngFeeJobSeNm(String mngFeeJobSeNm) {
+		this.mngFeeJobSeNm = mngFeeJobSeNm;
 	}
 	/**
-	 * @return the registDt
+	 * @return the mngFeeFcltySeNm
 	 */
-	public String getRegistDt() {
-		return registDt;
+	public String getMngFeeFcltySeNm() {
+		return mngFeeFcltySeNm;
 	}
 	/**
-	 * @param registDt the registDt to set
+	 * @param mngFeeFcltySeNm the mngFeeFcltySeNm to set
 	 */
-	public void setRegistDt(String registDt) {
-		this.registDt = registDt;
-	}
-	/**
-	 * @return the updUsr
-	 */
-	public String getUpdUsr() {
-		return updUsr;
-	}
-	/**
-	 * @param updUsr the updUsr to set
-	 */
-	public void setUpdUsr(String updUsr) {
-		this.updUsr = updUsr;
-	}
-	/**
-	 * @return the updtDt
-	 */
-	public String getUpdtDt() {
-		return updtDt;
-	}
-	/**
-	 * @param updtDt the updtDt to set
-	 */
-	public void setUpdtDt(String updtDt) {
-		this.updtDt = updtDt;
+	public void setMngFeeFcltySeNm(String mngFeeFcltySeNm) {
+		this.mngFeeFcltySeNm = mngFeeFcltySeNm;
 	}
 	/**
 	 * @return the sMngFeeFcltyCd
@@ -138,18 +111,6 @@ public class GamPopupMngCodeVO extends ComDefaultVO {
 	 */
 	public void setsMngFeeFcltyCd(String sMngFeeFcltyCd) {
 		this.sMngFeeFcltyCd = sMngFeeFcltyCd;
-	}
-	/**
-	 * @return the sMngFeeFcltySe
-	 */
-	public String getsMngFeeFcltySe() {
-		return sMngFeeFcltySe;
-	}
-	/**
-	 * @param sMngFeeFcltySe the sMngFeeFcltySe to set
-	 */
-	public void setsMngFeeFcltySe(String sMngFeeFcltySe) {
-		this.sMngFeeFcltySe = sMngFeeFcltySe;
 	}
 	/**
 	 * @return the sMngFeeFcltyNm
@@ -175,8 +136,5 @@ public class GamPopupMngCodeVO extends ComDefaultVO {
 	public void setsMngFeeJobSe(String sMngFeeJobSe) {
 		this.sMngFeeJobSe = sMngFeeJobSe;
 	}
-
-
-
 
 }

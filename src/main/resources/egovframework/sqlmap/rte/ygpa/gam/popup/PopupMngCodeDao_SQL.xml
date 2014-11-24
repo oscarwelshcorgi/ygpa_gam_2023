@@ -3,67 +3,65 @@
 
 <sqlMap namespace="ygpa.gam.popup">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamPopupMngCodeVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupMngCodeVO"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupMngCodeVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupMngCodeVO"/>
 
+	<select id="PopupMngCodeDao.selectMngCodeList_D" parameterClass="gamPopupMngCodeVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNG_FEE_FCLTY_CD
+								,T1.MNG_FEE_FCLTY_SE
+								,T1.MNG_FEE_FCLTY_NM
+								,T1.MNG_FEE_JOB_SE
+								,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+									   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+									   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+								  END) AS MNG_FEE_JOB_SE_NM
+								,T2.MNG_FEE_FCLTY_SE_NM
+							FROM MNG_FEE_FCLTY_CD_F T1
+							LEFT OUTER JOIN MNG_FEE_FCLTY_SE_F T2 ON (T1.MNG_FEE_FCLTY_SE = T2.MNG_FEE_FCLTY_SE)
+						WHERE 1=1
 
-    <select id="PopupMngCodeDao.selectMngCodeList_S" parameterClass="gamPopupMngCodeVO" resultClass="egovMap">
-           SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                     	   SELECT
-                            		MNG_FEE_FCLTY_CD,
-									MNG_FEE_FCLTY_SE,
-									MNG_FEE_FCLTY_NM,
-									MNG_FEE_JOB_SE,
-									REG_USR,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT,
-									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					        FROM MNG_FEE_FCLTY_CD_F
-								  WHERE 1=1
-						         <isNotEmpty property="sMngFeeFcltyCd">
-						             AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
-						         </isNotEmpty>
+						<isNotEmpty property="sMngFeeFcltyCd">
+						AND T1.MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
+						</isNotEmpty>
 
-						         <isNotEmpty property="sMngFeeFcltySe">
-						             AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
-						         </isNotEmpty>
+						<isNotEmpty property="sMngFeeFcltyNm">
+						AND T1.MNG_FEE_FCLTY_NM LIKE '%' || #sMngFeeFcltyNm# || '%'
+						</isNotEmpty>
 
-						         <isNotEmpty property="sMngFeeFcltyNm">
-						             AND MNG_FEE_FCLTY_NM LIKE '%' || #sMngFeeFcltyNm# || '%'
-						         </isNotEmpty>
+						<isNotEmpty property="sMngFeeJobSe">
+						AND T1.MNG_FEE_JOB_SE = #sMngFeeJobSe#
+						</isNotEmpty>
 
-						         <isNotEmpty property="sMngFeeJobSe">
-						             AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
-						         </isNotEmpty>
-                             ORDER BY MNG_FEE_FCLTY_CD
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+						ORDER BY T1.MNG_FEE_FCLTY_CD
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
 
-    <select id="PopupMngCodeDao.selectMngCodeListTotCnt_S" parameterClass="gamPopupMngCodeVO" resultClass="int">
-       SELECT COUNT(*) totcnt
-              FROM MNG_FEE_FCLTY_CD_F
-                           <![CDATA[  WHERE 1=1 ]]>
+	<select id="PopupMngCodeDao.selectMngCodeListTotCnt_S" parameterClass="gamPopupMngCodeVO" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM MNG_FEE_FCLTY_CD_F
+		WHERE 1=1
 
-	     					     <isNotEmpty property="sMngFeeFcltyCd">
-						             AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
-						         </isNotEmpty>
+		<isNotEmpty property="sMngFeeFcltyCd">
+		AND MNG_FEE_FCLTY_CD LIKE '%' || #sMngFeeFcltyCd# || '%'
+		</isNotEmpty>
 
-						         <isNotEmpty property="sMngFeeFcltySe">
-						             AND MNG_FEE_FCLTY_SE LIKE '%' || #sMngFeeFcltySe# || '%'
-						         </isNotEmpty>
+		<isNotEmpty property="sMngFeeFcltyNm">
+		AND MNG_FEE_FCLTY_NM LIKE '%' || #sMngFeeFcltyNm# || '%'
+		</isNotEmpty>
 
-						         <isNotEmpty property="sMngFeeFcltyNm">
-						             AND MNG_FEE_FCLTY_NM LIKE '%' || #sMngFeeFcltyNm# || '%'
-						         </isNotEmpty>
+		<isNotEmpty property="sMngFeeJobSe">
+		AND MNG_FEE_JOB_SE = #sMngFeeJobSe#
+		</isNotEmpty>
+	</select>
 
-						         <isNotEmpty property="sMngFeeJobSe">
-						             AND MNG_FEE_JOB_SE LIKE '%' || #sMngFeeJobSe# || '%'
-						         </isNotEmpty>
-    </select>
 </sqlMap>

@@ -152,6 +152,27 @@ public class GamElctyUsageSttusMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamElctyUsageSttusMngPrevMtUsageQy.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+
+    	String sPrevMtUsageQy;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	sPrevMtUsageQy = gamElctyUsageSttusMngService.selectElctyUsageSttusMngPrevMtUsageQy(gamElctyUsageSttusMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("sPrevMtUsageQy", sPrevMtUsageQy);
+
+    	return map;
+    }
+
     @RequestMapping(value="/mngFee/gamInsertElctyUsageSttusMng.do")
 	@ResponseBody Map<String, Object> insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
 

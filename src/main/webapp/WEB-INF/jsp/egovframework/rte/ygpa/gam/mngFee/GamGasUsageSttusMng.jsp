@@ -254,7 +254,7 @@ GamGasUsageSttusMngModule.prototype.addData = function() {
 
 	var usageMtYear = new Date().getYear();
 	var usageMtMon = new Date().getMonth()+1;
-	var sMngFeeJobSe = $('#sMngFeeJobSe').val();
+	var sMngFeeJobSe = this.$('#sMngFeeJobSe').val();
 	var sApplcCoef = Number(this.$('#sApplcCoef').val().replace(/,/gi, ""));
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
@@ -272,6 +272,7 @@ GamGasUsageSttusMngModule.prototype.addData = function() {
 		this.$('#mngFeeFcltyCd').val('M000');
 		this.$('#mngFeeFcltyNm').val('마린센터');
 	}
+	this.$('#prevMtUsageQy').val('0');
 	this.$('#saidMtUsageQy').val('0');
 	this.$('#applcCoef').val('' + $.number(sApplcCoef));
 	this.$('#netUsageQy').val('0');

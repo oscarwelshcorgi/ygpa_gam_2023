@@ -50,7 +50,15 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public List selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return list("gamElctyUsageSttusMngDao.selectGasUsageSttusMngChartList_D", gamElctyUsageSttusMngVo);
+		return list("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngChartList_D", gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectGasUsageSttusMngPrevMtUsageQy_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**

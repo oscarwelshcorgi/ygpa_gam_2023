@@ -6,7 +6,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamElctyUsageSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo"/>
 
-	<select id="gamElctyUsageSttusMngDao.selectGasUsageSttusMngList_D" parameterClass="gamElctyUsageSttusMngVo" resultClass="egovMap">
+	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList_D" parameterClass="gamElctyUsageSttusMngVo" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
@@ -60,7 +60,7 @@
 		]]>
 	</select>
 
-	<select id="gamElctyUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="int">
+	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngListTotCnt_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="int">
 		SELECT COUNT(*) totcnt
 			FROM ELCTY_USAGE_STTUS_F
 		WHERE 1=1
@@ -83,7 +83,7 @@
 		</isNotEmpty>
 	</select>
 
-	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngChartList_D" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
+	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngChartList_D" parameterClass="gamElctyUsageSttusMngVo" resultClass="egovMap">
 		SELECT /*+ INDEX (T2 PK_ELCTY_USAGE_STTUS_F) */
 				 T1.MT
 				,NVL(SUM(T2.SAID_MT_USAGE_QY),0) AS SAID_MT_USAGE_QY
@@ -97,9 +97,17 @@
 					FROM DUAL
 				CONNECT BY LEVEL <![CDATA[ <= ]]> 12
 				) T1
-			LEFT OUTER JOIN ELCTY_USAGE_STTUS_F T2 ON (T1.MNG_FEE_FCLTY_CD=T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.USAGE_YEAR=SUBSTRB(T2.USAGE_MT,1,4))
+			LEFT OUTER JOIN ELCTY_USAGE_STTUS_F T2 ON (T1.MNG_FEE_FCLTY_CD=T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.USAGE_MT=T2.USAGE_MT)
 		GROUP BY T1.MT
 		ORDER BY T1.MT
+	</select>
+
+	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="java.lang.String">
+		SELECT SAID_MT_USAGE_QY
+			FROM ELCTY_USAGE_STTUS_F
+		WHERE USAGE_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#usageMt#, 'YYYYMM'), -1), 'YYYYMM')
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 	</select>
 
 	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S">

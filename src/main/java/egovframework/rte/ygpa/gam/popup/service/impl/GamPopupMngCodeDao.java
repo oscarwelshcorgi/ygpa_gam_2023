@@ -33,7 +33,7 @@ public class GamPopupMngCodeDao extends YGPAAbstractDAO {
 	 * @return
 	 */
 	public List selectMngCodeList(GamPopupMngCodeVO searchVO) {
-        return list("PopupMngCodeDao.selectMngCodeList_S", searchVO);
+        return list("PopupMngCodeDao.selectMngCodeList_D", searchVO);
 
 	}
 

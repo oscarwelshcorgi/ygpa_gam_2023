@@ -43,6 +43,12 @@ public interface GamElctyUsageSttusMngService {
 	List selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+
+	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;

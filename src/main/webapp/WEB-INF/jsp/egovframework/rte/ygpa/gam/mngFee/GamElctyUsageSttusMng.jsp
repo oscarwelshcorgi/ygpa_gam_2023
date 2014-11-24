@@ -36,7 +36,7 @@
 %>
 function GamElctyUsageSttusMngModule() {}
 
-GamElctyUsageSttusMngModule.prototype = new EmdModule(1000, 600);
+GamElctyUsageSttusMngModule.prototype = new EmdModule(800, 600);
 
 <%
 /**
@@ -53,12 +53,12 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'업무 구분',		name:'mngFeeJobSeNm',	width:80, 		sortable:false,		align:'center'},
-					{display:'관리비 시설',		name:'mngFeeFcltyNm',	width:150, 		sortable:false,		align:'center'},
-					{display:'사용 월',			name:'usageYrMt',		width:60, 		sortable:false,		align:'center'},
-					{display:'전월 사용 량',	name:'prevMtUsageQy',	width:90, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:90, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'적용 계수',		name:'applcCoef',		width:90, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'순 사용 량',		name:'netUsageQy',		width:80, 		sortable:false,		align:'right',		displayFormat: 'number'}
+					{display:'관리비 시설',		name:'mngFeeFcltyNm',	width:150, 		sortable:false,		align:'left'},
+					{display:'사용 월',			name:'usageYrMt',		width:80, 		sortable:false,		align:'center'},
+					{display:'전월 사용 량',	name:'prevMtUsageQy',	width:100, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:100, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'적용 계수',		name:'applcCoef',		width:100, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'순 사용 량',		name:'netUsageQy',		width:100, 		sortable:false,		align:'right',		displayFormat: 'number'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -78,19 +78,43 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	this.$('#usageMtYear').on('change',{module:this}, function(event){
+		var module=event.data.module;
+		var usageMtYear = module.$('#usageMtYear').val();
+		var usageMtMon = module.$('#usageMtMon').val();
+		if (usageMtYear == '' || usageMtMon == '') {
+			module.$('#usageMt').val('');
+		} else {
+			module.$('#usageMt').val(usageMtYear + usageMtMon);
+		}
+		module.getPrevMtUsageQy();
+	});
+
+	this.$('#usageMtMon').on('change',{module:this}, function(event){
+		var module=event.data.module;
+		var usageMtYear = module.$('#usageMtYear').val();
+		var usageMtMon = module.$('#usageMtMon').val();
+		if (usageMtYear == '' || usageMtMon == '') {
+			module.$('#usageMt').val('');
+		} else {
+			module.$('#usageMt').val(usageMtYear + usageMtMon);
+		}
+		module.getPrevMtUsageQy();
+	});
+
 	this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
 		var module=event.data.module;
-		var sMngFeeJobSe = $(this).val();
-		if (sMngFeeJobSe == 'M') {
-			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
-			module.$('#mngFeeFcltyNm').val('마린센터');
-		} else if (sMngFeeFcltyCd == 'E') {
-			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
-			module.$('#mngFeeFcltyNm').val('전기시설');
-		} else {
-			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
-			module.$('#mngFeeFcltyNm').val('UNKNOWN');
+		module.$('#mngFeeFcltyCd').val('');
+		module.$('#mngFeeFcltyNm').val('');
+		module.getPrevMtUsageQy();
+	});
+
+	this.$('#mngFeeFcltyCd').on('keyup change',{module:this}, function(event){
+		var module=event.data.module;
+		if(module.$('#mngFeeFcltyCd').val() == ''){
+			module.$('#mngFeeFcltyNm').val('');
 		}
+		module.getPrevMtUsageQy();
 	});
 
 	this.$('#saidMtUsageQy').on('keyup change',{module:this}, function(event){
@@ -100,6 +124,10 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 	this.$('#applcCoef').on('keyup change',{module:this}, function(event){
 		event.data.module.calcNetUsageQy();
 	});
+
+	var mon = new Date().getMonth()+1;
+	if(mon.length==1) mon="0"+mon;
+	this.$('#sUsageMt').val(mon);
 
 };
 
@@ -170,6 +198,29 @@ GamElctyUsageSttusMngModule.prototype.drawChart = function() {
 
 <%
 /**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.onClosePopup = function(popupId, msg, value) {
+
+	switch (popupId) {
+		case 'popupMngFeeFcltyCd':
+			if (msg == 'ok') {
+				this.$('#mngFeeFcltyCd').val(value.mngFeeFcltyCd);
+				this.$('#mngFeeFcltyNm').val(value.mngFeeFcltyNm);
+			}
+			break;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
@@ -187,6 +238,9 @@ GamElctyUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnDelete':
 			this.deleteData();
+			break;
+		case 'popupMngFeeFcltyCd':
+			this.doExecuteDialog('popupMngFeeFcltyCd', '시설 선택', '/popup/showMngCode.do', null);
 			break;
 	}
 
@@ -256,7 +310,7 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 
 	var usageMtYear = new Date().getYear();
 	var usageMtMon = new Date().getMonth()+1;
-	var sMngFeeJobSe = $('#sMngFeeJobSe').val();
+	var sMngFeeJobSe = this.$('#sMngFeeJobSe').val();
 	var sApplcCoef = Number(this.$('#sApplcCoef').val().replace(/,/gi, ""));
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
@@ -270,6 +324,7 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 	}
 	this.$('#mngFeeFcltyCd').val('');
 	this.$('#mngFeeFcltyNm').val('');
+	this.$('#prevMtUsageQy').val('0');
 	this.$('#saidMtUsageQy').val('0');
 	this.$('#applcCoef').val('' + $.number(sApplcCoef));
 	this.$('#netUsageQy').val('0');
@@ -356,6 +411,31 @@ GamElctyUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 		netUsageQy = Math.floor(saidMtUsageQy * applcCoef);
 	}
 	this.$('#netUsageQy').val('' + $.number(netUsageQy));
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getPrevMtUsageQy
+ * @DESCRIPTION   : 전월 사용 량을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
+
+	var searchVO = this.makeFormArgs("#detailForm");
+	var sPrevMtUsageQy = '0';
+	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
+		this.$('#prevMtUsageQy').val('0');
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamElctyUsageSttusMngPrevMtUsageQy.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			this.$('#prevMtUsageQy').val(result.sPrevMtUsageQy);
+		} else {
+			this.$('#prevMtUsageQy').val('0');
+		}
+	});
 
 };
 
@@ -531,7 +611,10 @@ var module_instance = new GamElctyUsageSttusMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="26">관리비 시설 코드</th>
-								<td ><input type="text" size="20" id="mngFeeFcltyCd" disabled/></td>
+								<td >
+									<input type="text" size="10" id="mngFeeFcltyCd" disabled/>
+									<button id="popupMngFeeFcltyCd" class="popupButton">선택</button>
+								</td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">관리비 시설 명</th>

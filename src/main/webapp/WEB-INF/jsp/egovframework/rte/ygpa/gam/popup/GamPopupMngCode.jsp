@@ -4,9 +4,9 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
-  /**
-  * @Class Name : GamPopupMngCodeInfo.jsp
-  * @Description : 관리비 시설코드 팝업 (Prototype)
+/**
+  * @Class Name : GamPopupMngCode.jsp
+  * @Description : 관리비 시설 코드 팝업 (Prototype)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -17,120 +17,185 @@
   * since 2014.01.22
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
-  */
+ **/
 %>
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+
+<%
+/**
+ * @FUNCTION NAME : GamPopupMngCodeModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamPopupMngCodeModule() {}
 
 GamPopupMngCodeModule.prototype = new EmdPopupModule(600, 440);
 
-// 팝업이 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamPopupMngCodeModule.prototype.loadComplete = function() {
 
 	this.resizable(true);
-
-	this.$("#grdInfoList").flexigrid({
-		module: this,
-		url: '/popup/selectMngCodeList.do',
-		dataType: "json",
+	this.$("#mainGrid").flexigrid({
+		module : this,
+		url : '/popup/selectMngCodeList.do',
+		dataType : "json",
 		colModel : [
-					{display:'관리비 시설 코드', 			name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 시설 구분', 	name:'mngFeeFcltySe',		width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 시설 명', 	name:'mngFeeFcltyNm',		width:110, 		sortable:false,		align:'center'},
-                    {display:'관리비 업무 구분', 	name:'mngFeeJobSe',		width:110, 		sortable:false,		align:'center'}
-			],
+					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:100, 		sortable:false,		align:'center'},
+					{display:'관리비 시설 명',		name:'mngFeeFcltyNm',		width:120, 		sortable:false,		align:'left'},
+					{display:'관리비 시설 구분',	name:'mngFeeFcltySeNm',		width:100, 		sortable:false,		align:'left'},
+					{display:'관리비 업무 구분',	name:'mngFeeJobSeNm',		width:100, 		sortable:false,		align:'left'}
+					],
 		height: "300"
 	});
 
-	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		// 이벤트내에선 모듈에 대해 선택한다.
+	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
 
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is selected");
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is unselected");
-	});
-
 };
 
-// 사용자 설정 함수 추가
-
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
 GamPopupMngCodeModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case "btnMngSearch":
-		/*
-		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
-			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
-				this.$("#entrpsNm").focus();
-				alert("업체 명은 2자 이상 입력하십시오.");
-				return;
-			}
-		}
-		 */
-		var searchOpt=this.makeFormArgs("#GamPopupMngCodeForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 
-		break;
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
+	switch (buttonId) {
+		case 'btnOk':
+	    	this.processOk();
+			break;
+	    case 'btnCancel':
+	    	this.processCancel();
+			break;
 	}
+
 };
 
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamPopupMngCodeModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
+
 	this.loadData();
+
 };
 
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamPopupMngCodeModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#GamPopupMngCodeForm");
- 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
+
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
 };
 
-// 다음 변수는 고정 적으로 정의 해야 함
+<%
+/**
+ * @FUNCTION NAME : processOk
+ * @DESCRIPTION   : OK PROCESS
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupMngCodeModule.prototype.processOk = function() {
+
+	var row = this.$("#mainGrid").selectedRows();
+	if (row.length>0) {
+		this.closeDialog("ok", row[0]);
+	} else {
+		alert("항목을 선택하십시요.");
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processCancel
+ * @DESCRIPTION   : CANCEL PROCESS
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupMngCodeModule.prototype.processCancel = function() {
+
+	this.cancelDialog();
+
+};
+
 var popup_instance = new GamPopupMngCodeModule();
+
 </script>
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="GamPopupMngCodeForm">
+		<!-- 11. SEARCH AREA (조회조건 영역) -->
+		<form id="searchForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>시설코드</th>
-                        <td><input id="sMngFeeFcltyCd" type="text" style="width: 80px;" title="시설코드" maxlength="20" /></td>
+						<th>시설 코드</th>
+						<td><input id="sMngFeeFcltyCd" type="text" style="width: 80px;" title="시설 코드" maxlength="2" /></td>
 						<th>시설 명</th>
-                        <td><input id="sMngFeeFcltyNm" type="text" style="width: 80px;" title="시설 명" maxlength="10" /></td>
-                    	<th>업무 구분</th>
-						<td><input id="sMngFeeJobSe" type="text" style="width: 80px;" title="업무 구분" maxlength="12" /></td>
-						<td><button id="btnMngSearch" class="buttonSubmit">조회</button>
+						<td><input id="sMngFeeFcltyNm" type="text" style="width: 80px;" title="시설 명" maxlength="20" /></td>
+						<th>업무 구분</th>
+						<td>
+							<select id="sMngFeeJobSe">
+								<option value="" selected>전체</option>
+								<option value="M">마린센터</option>
+								<option value="E">전기시설</option>
+							</select>
+						</td>
+						<td>
+							<button class="buttonSearch">조회</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
-
+		<!-- 2. DATA AREA (자료 영역) -->
 		<div class="emdPanel fillHeight">
-	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
-	        <div class="emdControlPanel">
-	            <button id="btnOk">코드 선택</button>
-            <button id="cancel">취소</button>
-	        </div>
-	    </div>
-
+			<table id="mainGrid" style="display: none" class="fillHeight"></table>
+			<div class="emdControlPanel">
+				<button data-cmd="btnOk">선택</button>
+				<button data-cmd="cancel">취소</button>
+			</div>
+		</div>
 	</div>
 </div>
+
+
+<%
+/******************************** UI       END ********************************/
+%>
