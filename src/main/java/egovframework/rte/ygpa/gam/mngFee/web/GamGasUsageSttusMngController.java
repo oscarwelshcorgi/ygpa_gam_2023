@@ -32,6 +32,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 
 
@@ -128,6 +129,25 @@ public class GamGasUsageSttusMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamGasUsageSttusMngChart.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectGasUsageSttusMngChartList(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamGasUsageSttusMngService.selectGasUsageSttusMngChartList(gamGasUsageSttusMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
 
     @RequestMapping(value="/mngFee/gamInsertGasUsageSttusMng.do")
 	@ResponseBody Map<String, Object> insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {

@@ -30,6 +30,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
@@ -91,16 +92,6 @@ public class GamElctyUsageSttusMngController {
 			yearList.add(yearMap);
 		}
 
-		List monList = new ArrayList();
-		Map monMap;
-		for(int i=1; i < 13; i++){
-			monMap = new HashMap();
-			monMap.put("code", i);
-			monMap.put("codeNm", i+"월");
-			monList.add(monMap);
-		}
-
-		model.addAttribute("monList", monList);
 		model.addAttribute("yearsList", yearList);
 		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
@@ -141,6 +132,25 @@ public class GamElctyUsageSttusMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamElctyUsageSttusMngChart.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngChartList(gamElctyUsageSttusMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
 
     @RequestMapping(value="/mngFee/gamInsertElctyUsageSttusMng.do")
 	@ResponseBody Map<String, Object> insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
@@ -154,16 +164,8 @@ public class GamElctyUsageSttusMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
+    	try {
 			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
 			gamElctyUsageSttusMngService.insertElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 
@@ -174,6 +176,35 @@ public class GamElctyUsageSttusMngController {
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamUpdateElctyUsageSttusMng.do")
+	@ResponseBody Map<String, Object> updateElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+			gamElctyUsageSttusMngVo.setUpdUsr((String)user.getId());
+			gamElctyUsageSttusMngService.updateElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 
     	return map;
@@ -191,26 +222,17 @@ public class GamElctyUsageSttusMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
 
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
-			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
+    	try {
 			gamElctyUsageSttusMngService.deleteElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 
 	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
     	return map;

@@ -46,6 +46,8 @@ public class GamGasUsageSttusMngVo extends ComDefaultVO{
 	private	String	sUsageYear;	//검색 사용 년도
 	private	String	sUsageMt;	//검색 사용 월
 	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
+	private	String	sMngFeeFcltyCd;	//검색 관리비 코드
+	private	String	sApplcCoef;	//적용 계수
 
 	/**
 	 * @return the sUsageMt
@@ -275,6 +277,30 @@ public class GamGasUsageSttusMngVo extends ComDefaultVO{
 	public void setUsageYrMt(String usageYrMt) {
 		this.usageYrMt = usageYrMt;
 	}
+	/**
+	 * @return the sApplcCoef
+	 */
+	public String getsApplcCoef() {
+		return sApplcCoef;
+	}
+	/**
+	 * @param sApplcCoef the sApplcCoef to set
+	 */
+	public void setsApplcCoef(String sApplcCoef) {
+		this.sApplcCoef = sApplcCoef;
+	}
+
+	/**
+	 * @return the sMngFeeFcltyCd
+	 */
+	public String getsMngFeeFcltyCd() {
+		return sMngFeeFcltyCd;
+	}
+	/**
+	 * @param sMngFeeFcltyCd the sMngFeeFcltyCd to set
+	 */
+	public void setsMngFeeFcltyCd(String sMngFeeFcltyCd) {
+		this.sMngFeeFcltyCd = sMngFeeFcltyCd;
+	}
 
 }
-

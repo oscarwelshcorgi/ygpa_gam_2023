@@ -52,12 +52,12 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 		url : '<c:url value="/mngFee/gamSelectGasUsageSttusMng.do" />',
 		dataType : 'json',
 		colModel : [
-					{display:'관리비 업무 구분', 	name:'mngFeeJobSeNm',	width:120, 		sortable:false,		align:'center'},
-					{display:'사용 월', 			name:'usageYrMt',		width:120, 		sortable:false,		align:'center'},
-					{display:'전월 사용 량',	 	name:'prevMtUsageQy',	width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'당월 사용 량', 		name:'saidMtUsageQy',	width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'적용 계수', 			name:'applcCoef',		width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'순 사용 량', 			name:'netUsageQy',		width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'업무 구분',	 	name:'mngFeeJobSeNm',	width:120, 		sortable:false,		align:'center'},
+					{display:'사용 월', 		name:'usageYrMt',		width:120, 		sortable:false,		align:'center'},
+					{display:'전월 사용 량', 	name:'prevMtUsageQy',	width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'적용 계수', 		name:'applcCoef',		width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'순 사용 량', 		name:'netUsageQy',		width:120, 		sortable:false,		align:'right',		displayFormat: 'number'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -72,35 +72,99 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 		module._mode = 'modify';
 	});
 
-    this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
-    this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
-    	var module=event.data.module;
-    	var sMngFeeFcltyCd = $(this).val();
-		if (sMngFeeFcltyCd == 'M') {
-			module.$('#mngFeeFcltyCd').val(sMngFeeFcltyCd + '000');
+	this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
+		var module=event.data.module;
+		var sMngFeeJobSe = $(this).val();
+		if (sMngFeeJobSe == 'M') {
+			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
 			module.$('#mngFeeFcltyNm').val('마린센터');
 		} else if (sMngFeeFcltyCd == 'E') {
-			module.$('#mngFeeFcltyCd').val(sMngFeeFcltyCd + '000');
+			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
 			module.$('#mngFeeFcltyNm').val('전기시설');
 		} else {
-			module.$('#mngFeeFcltyCd').val(sMngFeeFcltyCd + '000');
+			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
 			module.$('#mngFeeFcltyNm').val('UNKNOWN');
 		}
-    });
+	});
 
-    this.$('#saidMtUsageQy').on('keyup change',{module:this}, function(event){
-    	event.data.module.calcNetUsageQy();
-    });
+	this.$('#saidMtUsageQy').on('keyup change',{module:this}, function(event){
+		event.data.module.calcNetUsageQy();
+	});
 
-    this.$('#applcCoef').on('keyup change',{module:this}, function(event){
-    	event.data.module.calcNetUsageQy();
-    });
+	this.$('#applcCoef').on('keyup change',{module:this}, function(event){
+		event.data.module.calcNetUsageQy();
+	});
 
-    console.log('debug');
+};
+
+<%
+/**
+ * @FUNCTION NAME : drawChart
+ * @DESCRIPTION   : CHART DRAW
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.drawChart = function() {
+	var netUsageQyArr=[];
+	var maxNetUsageQy=0;
+	var netUsageQy=0;
+	var searchVO = this.makeFormArgs("#detailForm");
+
+	this.doAction('<c:url value="/mngFee/gamGasUsageSttusMngChart.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			for (var i=0; i<12; i++) {
+				netUsageQy=result.resultList[i]['netUsageQy']*1;
+				netUsageQyArr[i]={month: (i+1), gauge: netUsageQy};
+				if (maxNetUsageQy<netUsageQy) {
+					maxNetUsageQy=netUsageQy;
+				}
+			};
+		} else {
+			for (var i=0; i<12; i++) {
+				netUsageQy=0;
+				netUsageQyArr[i]={month: (i+1), gauge: netUsageQy};
+			};
+		}
+		if (maxNetUsageQy<10) {
+			maxNetUsageQy=10;
+		}
+		if (module.barChart==null) {
+			module.barChart = new dhtmlXChart({
+				view			: "bar",
+				container		: module.$('#gasUsageSttusChart')[0],
+				value			: "#gauge#",
+				color			: "#000BE0",
+	            gradient		: "rising",
+				width			: 30,
+				tooltip			: "가스 사용량(kcal/h)",
+				xAxis			: {
+					title 		: "가스 사용 현황",
+					template	: "#month# 월"
+				},
+				yAxis			: {
+					start		: 0,
+					end			: maxNetUsageQy + 10,
+					step		: Math.ceil(maxNetUsageQy / 10),
+					title		: "가스 사용량,kcal/h"
+				}
+			});
+		} else {
+			module.barChart.clearAll();
+			module.barChart.define("yAxis", {
+				start : 0,
+				end : maxNetUsageQy + 10,
+				step : Math.ceil(maxNetUsageQy / 10),
+				title : "가스 사용량,kcal/h"
+			});
+		}
+		module.barChart.parse(netUsageQyArr, "json");
+		module.barChart.refresh();
+	});
 };
 
 <%
@@ -122,32 +186,6 @@ GamGasUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnDelete':
 			this.deleteData();
-			break;
-	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : onClosePopup
- * @DESCRIPTION   : POPUP CLOSE EVENT
- * @PARAMETER     :
- *   1. popupId - POPUP ID
- *   2. msg     - MESSAGE
- *   3. value   - SELECT VALUE
-**/
-%>
-GamGasUsageSttusMngModule.prototype.onClosePopup = function(popupId, msg, value) {
-
-	switch (popupId) {
-		case 'selectMngCodePopup':
-			if (msg != 'cancel') {
-				this.$('#mngFeeFcltyCd').val(value.mngFeeFcltyCd);
-				this.$('#mngFeeJobSe').val(value.mngFeeJobSe);
-			}
-			break;
-		default:
-			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			break;
 	}
 
@@ -214,8 +252,29 @@ GamGasUsageSttusMngModule.prototype.loadDetail = function() {
 %>
 GamGasUsageSttusMngModule.prototype.addData = function() {
 
+	var usageMtYear = new Date().getYear();
+	var usageMtMon = new Date().getMonth()+1;
+	var sMngFeeJobSe = $('#sMngFeeJobSe').val();
+	var sApplcCoef = Number(this.$('#sApplcCoef').val().replace(/,/gi, ""));
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
+	this.$('#usageMtYear').val(usageMtYear);
+	if(usageMtMon.length==1) usageMtMon="0"+usageMtMon;
+	this.$('#usageMtMon').val(usageMtMon);
+	if (sMngFeeJobSe == 'M') {
+		this.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
+		this.$('#mngFeeFcltyNm').val('마린센터');
+	} else if (sMngFeeJobSe == 'E') {
+		this.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
+		this.$('#mngFeeFcltyNm').val('전기시설');
+	} else {
+		this.$('#mngJobSe').val('M');
+		this.$('#mngFeeFcltyCd').val('M000');
+		this.$('#mngFeeFcltyNm').val('마린센터');
+	}
+	this.$('#saidMtUsageQy').val('0');
+	this.$('#applcCoef').val('' + $.number(sApplcCoef));
+	this.$('#netUsageQy').val('0');
 
 };
 
@@ -290,7 +349,6 @@ GamGasUsageSttusMngModule.prototype.deleteData = function() {
 %>
 GamGasUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 
-	console.log('asdf');
 	var saidMtUsageQy = Number(this.$('#saidMtUsageQy').val().replace(/,/gi, ""));
 	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
 	var netUsageQy = 0;
@@ -327,7 +385,7 @@ GamGasUsageSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$('#usageMtMon').enable();
 				this.$('#mngFeeJobSe').enable();
 			}
-			//this.drawChart();
+			this.drawChart();
 			break;
 	}
 
@@ -388,6 +446,10 @@ var module_instance = new GamGasUsageSttusMngModule();
 									<option value="M" selected>마린센터</option>
 									<option value="E">전기시설</option>
 								</select>
+							</td>
+							<th>적용 계수</th>
+							<td>
+								<input type="text" size="10" id="sApplcCoef" class="ygpaNumber" data-decimal-point="2" />
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -469,7 +531,7 @@ var module_instance = new GamGasUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">관리비 시설코드</th>
+								<th width="15%" height="26">관리비 시설 코드</th>
 								<td ><input type="text" size="20" id="mngFeeFcltyCd" disabled/></td>
 							</tr>
 							<tr>

@@ -50,6 +50,14 @@ public class GamGasUsageSttusMngDao extends YGPAAbstractDAO{
 	}
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectGasUsageSttusMngChartList(GamGasUsageSttusMngVo searchVO) {
+		return list("gamGasUsageSttusMngDao.selectGasUsageSttusMngChartList_D", searchVO);
+	}
+
+	/**
 	 * @param gamGasUsageSttusMngVo
 	 */
 	public void insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {

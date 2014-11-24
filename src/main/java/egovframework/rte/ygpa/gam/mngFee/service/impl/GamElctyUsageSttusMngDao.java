@@ -47,6 +47,14 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 
 	/**
 	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public List selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		return list("gamElctyUsageSttusMngDao.selectGasUsageSttusMngChartList_D", gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
 		insert("gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
@@ -55,8 +63,15 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
+	public void updateElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		insert("gamElctyUsageSttusMngDao.updateElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 */
 	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_D",gamElctyUsageSttusMngVo);
+		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
 	}
 
 }

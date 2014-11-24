@@ -46,6 +46,11 @@ public class GamGasUsageSttusMngServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	@Override
+	public List selectGasUsageSttusMngChartList(GamGasUsageSttusMngVo searchVO) throws Exception {
+		return gamGasUsageSttusMngDao.selectGasUsageSttusMngChartList(searchVO);
+	}
+
+	@Override
 	public void insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
 		gamGasUsageSttusMngDao.insertGasUsageSttusMng(gamGasUsageSttusMngVo);
 	}

@@ -37,9 +37,20 @@ public interface GamElctyUsageSttusMngService {
 	List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+
+	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 */
+	void updateElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
 	 * @param gamElctyUsageSttusMngVo

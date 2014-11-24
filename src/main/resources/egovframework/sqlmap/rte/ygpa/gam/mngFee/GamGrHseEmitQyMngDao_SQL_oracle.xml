@@ -61,7 +61,7 @@
 		</isNotEmpty>
 	</select>
 
-	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_S" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
+	<select id="gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_D" parameterClass="gamGrHseEmitQyMngVo" resultClass="egovMap">
 		SELECT
 				 T1.MT
 				,NVL(SUM(T2.GR_HSE_EMIT_QY),0) AS GR_HSE_EMIT_QY

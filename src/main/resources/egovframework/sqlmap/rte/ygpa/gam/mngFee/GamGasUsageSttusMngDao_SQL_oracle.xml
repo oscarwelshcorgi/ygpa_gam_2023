@@ -48,6 +48,10 @@
 						AND T1.MNG_FEE_JOB_SE = #sMngFeeJobSe#
 						</isNotEmpty>
 
+						<isNotEmpty property="sMngFeeFcltyCd">
+						AND T1.MNG_FEE_FCLTY_CD = #sMngFeeFcltyCd#
+						</isNotEmpty>
+
 						ORDER BY T1.USAGE_MT, T1.MNG_FEE_FCLTY_CD
 				) S
 		) A
@@ -73,6 +77,29 @@
 		<isNotEmpty property="sMngFeeJobSe">
 		AND MNG_FEE_JOB_SE = #sMngFeeJobSe#
 		</isNotEmpty>
+
+		<isNotEmpty property="sMngFeeFcltyCd">
+		AND MNG_FEE_FCLTY_CD = #sMngFeeFcltyCd#
+		</isNotEmpty>
+	</select>
+
+	<select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngChartList_D" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
+		SELECT /*+ INDEX (T2 PK_GAS_USAGE_STTUS_F) */
+				 T1.MT
+				,NVL(SUM(T2.SAID_MT_USAGE_QY),0) AS SAID_MT_USAGE_QY
+				,NVL(SUM(T2.NET_USAGE_QY),0) AS NET_USAGE_QY
+			FROM (
+				SELECT
+						 #mngFeeFcltyCd# AS MNG_FEE_FCLTY_CD
+						,#mngFeeJobSe# AS MNG_FEE_JOB_SE
+						,#usageMtYear# || LTRIM(TO_CHAR(LEVEL,'00')) AS USAGE_MT
+						,LTRIM(TO_CHAR(LEVEL,'00')) AS MT
+					FROM DUAL
+				CONNECT BY LEVEL <![CDATA[ <= ]]> 12
+				) T1
+			LEFT OUTER JOIN GAS_USAGE_STTUS_F T2 ON (T1.MNG_FEE_FCLTY_CD=T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.USAGE_YEAR=SUBSTRB(T2.USAGE_MT,1,4))
+		GROUP BY T1.MT
+		ORDER BY T1.MT
 	</select>
 
 	<insert id="gamGasUsageSttusMngDao.insertGasUsageSttusMng_S">

@@ -50,7 +50,7 @@ public class GamGrHseEmitQyMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public List selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) {
-		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_S", gamGrHseEmitQyMngVo);
+		return list("gamGrHseEmitQyMngDao.selectGrHseEmitQyMngChartList_D", gamGrHseEmitQyMngVo);
 	}
 
 	/**
