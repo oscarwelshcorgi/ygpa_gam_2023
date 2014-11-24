@@ -173,7 +173,7 @@ GamMngFeeCodeMngModule.prototype.addData = function() {
 GamMngFeeCodeMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngFeeFcltySe').val() == "" && this.$('#mngFeeFcltyCd').val() == "") {
+	if (this.$('#mngFeeFcltySe').val() == "" || this.$('#mngFeeFcltyCd').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -210,7 +210,7 @@ GamMngFeeCodeMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#mngFeeFcltySe').val() == "" && this.$('#mngFeeFcltyCd').val() == "") {
+	if (this.$('#mngFeeFcltySe').val() == "" || this.$('#mngFeeFcltyCd').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}

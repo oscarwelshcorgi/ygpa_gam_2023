@@ -319,7 +319,7 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 	this.$('#mngFeeFcltyNm').val('');
 	this.$('#prevMtUsageQy').val('0');
 	this.$('#saidMtUsageQy').val('0');
-	this.$('#applcCoef').val('' + $.number(sApplcCoef));
+	this.$('#applcCoef').val(sApplcCoef);
 	this.$('#netUsageQy').val('0');
 
 };
@@ -334,7 +334,7 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 GamElctyUsageSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
+	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -371,7 +371,7 @@ GamElctyUsageSttusMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
+	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -463,9 +463,12 @@ GamElctyUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
 	}
 	this.doAction('<c:url value="/mngFee/gamElctyUsageSttusMngPrevMtUsageQy.do" />', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
-			this.$('#prevMtUsageQy').val(result.sPrevMtUsageQy);
+			module.$('#prevMtUsageQy').val('' + $.number(result.sPrevMtUsageQy));
+			if (module.$('#saidMtUsageQy').val() == "0") {
+				module.$('#saidMtUsageQy').val('' + $.number(result.sPrevMtUsageQy));
+			}
 		} else {
-			this.$('#prevMtUsageQy').val('0');
+			module.$('#prevMtUsageQy').val('0');
 		}
 	});
 

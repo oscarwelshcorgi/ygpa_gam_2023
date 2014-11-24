@@ -100,6 +100,8 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 		event.data.module.calcNetUsageQy();
 	});
 
+	this.$('#sApplcCoef').val('0.63');
+
 };
 
 <%
@@ -274,7 +276,7 @@ GamGasUsageSttusMngModule.prototype.addData = function() {
 	}
 	this.$('#prevMtUsageQy').val('0');
 	this.$('#saidMtUsageQy').val('0');
-	this.$('#applcCoef').val('' + $.number(sApplcCoef));
+	this.$('#applcCoef').val(sApplcCoef);
 	this.$('#netUsageQy').val('0');
 
 };
@@ -289,7 +291,7 @@ GamGasUsageSttusMngModule.prototype.addData = function() {
 GamGasUsageSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
+	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -326,7 +328,7 @@ GamGasUsageSttusMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
+	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -353,7 +355,7 @@ GamGasUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 	var saidMtUsageQy = Number(this.$('#saidMtUsageQy').val().replace(/,/gi, ""));
 	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
 	var netUsageQy = 0;
-	if (saidMtUsageQy == 0 || applcCoef == 0) {
+	if (saidMtUsageQy <= 0 || applcCoef <= 0) {
 		netUsageQy = 0;
 	} else {
 		netUsageQy = Math.floor(saidMtUsageQy * applcCoef);

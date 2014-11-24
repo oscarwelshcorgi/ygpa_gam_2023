@@ -105,7 +105,7 @@
 	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="java.lang.String">
 		SELECT SAID_MT_USAGE_QY
 			FROM ELCTY_USAGE_STTUS_F
-		WHERE USAGE_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#usageMt#, 'YYYYMM'), -1), 'YYYYMM')
+		WHERE USAGE_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#usageMtYear# || #usageMtMon#, 'YYYYMM'), -1), 'YYYYMM')
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 	</select>
@@ -156,7 +156,7 @@
 			,NET_USAGE_QY = TO_NUMBER(#netUsageQy#)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
-		WHERE USAGE_MT = #usageMt#
+		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
@@ -165,7 +165,7 @@
 	<delete id="gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_S">
 		<![CDATA[
 		DELETE FROM ELCTY_USAGE_STTUS_F
-		WHERE USAGE_MT = #usageMt#
+		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>

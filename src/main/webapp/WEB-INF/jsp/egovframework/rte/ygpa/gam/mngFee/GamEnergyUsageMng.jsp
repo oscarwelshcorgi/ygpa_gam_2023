@@ -186,7 +186,7 @@ GamEnergyUsageMngModule.prototype.addData = function() {
 GamEnergyUsageMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngYear').val() == "" && this.$('#fuelCd').val() == "") {
+	if (this.$('#mngYear').val() == "" || this.$('#fuelCd').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}
@@ -223,7 +223,7 @@ GamEnergyUsageMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#mngYear').val() == "" && this.$('#fuelCd').val() == "") {
+	if (this.$('#mngYear').val() == "" || this.$('#fuelCd').val() == "") {
 		alert('자료가 부정확합니다.');
 		return;
 	}

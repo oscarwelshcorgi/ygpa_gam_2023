@@ -140,7 +140,7 @@
 			,NET_USAGE_QY = TO_NUMBER(#netUsageQy#)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
-		WHERE USAGE_MT = #usageMt#
+		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
@@ -149,7 +149,7 @@
 	<delete id="gamGasUsageSttusMngDao.deleteGasUsageSttusMng_S">
 		<![CDATA[
 		DELETE FROM GAS_USAGE_STTUS_F
-		WHERE USAGE_MT = #usageMt#
+		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
