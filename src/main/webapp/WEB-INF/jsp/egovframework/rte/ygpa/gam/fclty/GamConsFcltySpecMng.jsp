@@ -42,7 +42,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/gamConstFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
+					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,		sortable:false,		align:"center"},
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
@@ -155,6 +155,14 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 	var row = this.$('#constFcltySpecMngList').selectedRows();
 	row = row[0];
 	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+
+	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+		this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
+		alert('시설물 관리번호에 오류가 있습니다.');
+		this._cmd = '';
+		this.initDisplay();
+		return;
+	}
 
 	// 건축시설 제원 처리
 	this.doAction('/fclty/gamConstFcltySpecDetail.do', prtFclty, function(specModule, result) {
@@ -311,6 +319,16 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchPopupBtn":
 			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
+		
+		// 시설물 분류코드(디테일 화면)
+		case "searchFcltsClCd" :
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
+			break;
+			
+		// 시설물관리그룹(디테일 화면)
+		case "searchFcltsMngGroupNo":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
+			break;
 
 		case "fcltyinfo9PopupBtn":
 			var all_rows = this.$('#fcltyinfo9').flexGetData();
@@ -438,13 +456,13 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case "btnRemoveFile":
-			this.removeGisAssetFileItem();
+			this.removefcltyFileItem();
 		break;
 
 	}
 };
 
-GamConstFcltySpecMngModule.prototype.removeGisAssetFileItem = function() {
+GamConstFcltySpecMngModule.prototype.removefcltyFileItem = function() {
 	var rows = this.$("#fcltyFileList").selectedRows();
 
     if(rows.length == 0){
@@ -562,6 +580,16 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this._deleteDataFloorSpecList = value["deleteDataFloorSpecList"];
 
 		break;
+		
+		case "selectFcltsClCd":
+			this.$("#archFcltsClCd").val(value["fcltsClCd"]);
+			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);			
+			break;
+			
+		case "selectFcltsMngGroup":
+			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+			break;
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
@@ -592,7 +620,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							</td>
 							<th>건축시설코드</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />&nbsp;-&nbsp;
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -684,8 +712,9 @@ var module_instance = new GamConstFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="50" id="fcltsMngGroupNo" disabled="disabled"/>
-								<button id="fcltyCodePopupBtn" class="popupButton">선택</button>
+								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 						</tr>
 					</table>
@@ -835,8 +864,9 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="15" title="시공종료일자" /></td>
 							<th width="12%" height="17" class="required_text">건축시설물분류코드</th>
 							<td colspan="3">
-								<input id="archFcltsClCd" type="text" size="50" title="건축시설물분류코드" maxlength="10" />
-								<button id="archFcltsClCdPopupBtn" class="popupButton">선택</button>
+								<input id="archFcltsClCd" type="text" size="20" title="건축시설물분류코드" maxlength="10" disabled="disabled" />
+								<input id="archFcltsClCdNm" type="text" size="30" disabled="disabled" />
+								<button id="searchFcltsClCd" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -861,7 +891,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyinfo9" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button class="text" id="fcltyinfo9PopupBtn">추가/편집</button>
+					<button id="fcltyinfo9PopupBtn">추가/편집</button>
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>

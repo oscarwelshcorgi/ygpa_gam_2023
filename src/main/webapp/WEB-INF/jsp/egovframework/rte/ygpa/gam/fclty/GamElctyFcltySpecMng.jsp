@@ -43,7 +43,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectElctyFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:40,		sortable:false,		align:"center"},
+					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,		sortable:false,		align:"center"},
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplayCd",	width:60,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:120,		sortable:false,		align:"left"},
@@ -95,7 +95,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"사진제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일시",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
+					{display:"작성일시",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -209,8 +209,8 @@ GamElctyFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 			row['atchFileSj'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#atchFileWritingDt').is(target)) {
-			row['atchFileWritingDt'] = $(target).val();
+		if(this.$('#atchFileWritngDt').is(target)) {
+			row['atchFileWritngDt'] = $(target).val();
 			changed=true;
 		}
 	}
@@ -242,6 +242,7 @@ GamElctyFcltySpecMngModule.prototype.insertFcltsData = function(data) {
 //시설뮬 데이터 수정
 GamElctyFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
 	this.doAction('/fclty/updateElctyFcltySpecMngDetail.do', data, function(module, result) {
+
 		if(result.resultCode == "0"){
 			module.saveAtchFile(module.$("#fcltsMngNo").val());
 			module.loadData();
@@ -341,7 +342,7 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#atchFileSe').val('D');
 			this.uploadPfPhoto("uploadPhoto", function(module, result) {
 				$.each(result, function(){
-					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
+					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt:''});
 				});
 			}, "전기시설파일 업로드");
 			break;
@@ -513,8 +514,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							</td>
 							<th>전기시설분류</th>
 							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" />&nbsp;-&nbsp;
-								<select id="searchFcltySeq"></select>
+								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" />
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -787,7 +787,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							<th width="15%" height="23" class="required_text">파일제목</th>
 							<td><input id="atchFileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">작성일자</th>
-							<td><input id="atchFileWritingDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
+							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
 						</tr>
 					</table>
 				</form>

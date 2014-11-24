@@ -1707,7 +1707,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
                                 </td>
 								<th width="10%" height="18">첫회 사용료</th>
                                 <td colspan="3">
-                                	<input type="text" size="13" id="firstPayVal" class="skipValue"                               </td>
+                                	<input type="text" size="13" id="firstPayVal" class="skipValue">
+                                </td>
                             </tr>
                     </form>
 

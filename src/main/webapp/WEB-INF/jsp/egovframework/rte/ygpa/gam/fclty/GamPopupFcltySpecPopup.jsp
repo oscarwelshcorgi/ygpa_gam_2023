@@ -173,7 +173,12 @@ GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 
 		this.$("#gamPopupEntrpsForm").selectRowId(this._editRow);
 		 */
+		 
+		 
 		 this.$("#grdInfoList").flexAddRow({'_updtId': 'I','bound':'','strySe':'','ar':'','wallFnsh':'','flrFnsh':'','ceil':'','usagePrpos':'','rm':''});
+		 var all_rows = this.$('#grdInfoList').flexGetData();
+		 var sel_row_id = all_rows.length - 1;
+		 this.$("#grdInfoList").selectRowId(sel_row_id);
 	break;
 		case "btnRemove":
 			this.removeGisAssetPhotoItem();
