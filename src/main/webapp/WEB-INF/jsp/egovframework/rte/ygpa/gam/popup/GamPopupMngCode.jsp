@@ -53,9 +53,9 @@ GamPopupMngCodeModule.prototype.loadComplete = function() {
 		dataType : "json",
 		colModel : [
 					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',		width:100, 		sortable:false,		align:'center'},
-					{display:'관리비 시설 명',		name:'mngFeeFcltyNm',		width:120, 		sortable:false,		align:'left'},
-					{display:'관리비 시설 구분',	name:'mngFeeFcltySeNm',		width:100, 		sortable:false,		align:'left'},
-					{display:'관리비 업무 구분',	name:'mngFeeJobSeNm',		width:100, 		sortable:false,		align:'left'}
+					{display:'관리비 시설 명',		name:'mngFeeFcltyNm',		width:160, 		sortable:false,		align:'left'},
+					{display:'관리비 시설 구분',	name:'mngFeeFcltySeNm',		width:120, 		sortable:false,		align:'left'},
+					{display:'관리비 업무 구분',	name:'mngFeeJobSeNm',		width:120, 		sortable:false,		align:'left'}
 					],
 		height: "300"
 	});

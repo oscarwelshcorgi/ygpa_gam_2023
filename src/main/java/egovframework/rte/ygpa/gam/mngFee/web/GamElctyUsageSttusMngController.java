@@ -31,6 +31,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
@@ -173,6 +174,26 @@ public class GamElctyUsageSttusMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngMonthCnt.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngMonthCntList(gamElctyUsageSttusMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
+
     @RequestMapping(value="/mngFee/gamInsertElctyUsageSttusMng.do")
 	@ResponseBody Map<String, Object> insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
 
@@ -254,6 +275,35 @@ public class GamElctyUsageSttusMngController {
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamCopyElctyUsageSttusMng.do")
+	@ResponseBody Map<String, Object> copyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
+			gamElctyUsageSttusMngService.copyElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+
+	    	map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
     	return map;

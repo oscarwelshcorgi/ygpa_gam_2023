@@ -110,6 +110,14 @@
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 	</select>
 
+	<select id="gamElctyUsageSttusMngDao.selectElctyUsageSttusMngMonthCntList_S" parameterClass="gamElctyUsageSttusMngVo" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS MT_CNT
+				,TO_CHAR(ADD_MONTHS(TO_DATE(#sUsageYear# || #sUsageMt#,'YYYYMM'),-1),'YYYYMM') AS PREV_MT
+			FROM ELCTY_USAGE_STTUS_F
+		WHERE MNG_MT = #sUsageYear# || #sUsageMt#
+	</select>
+
 	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S">
 		<![CDATA[
 		INSERT INTO ELCTY_USAGE_STTUS_F
@@ -162,5 +170,34 @@
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
 	</delete>
+
+	<insert id="gamElctyUsageSttusMngDao.copyElctyUsageSttusMng_S">
+		<![CDATA[
+		INSERT INTO ELCTY_USAGE_STTUS_F
+		(
+			 USAGE_MT
+			,MNG_FEE_FCLTY_CD
+			,MNG_FEE_JOB_SE
+			,PREV_MT_USAGE_QY
+			,SAID_MT_USAGE_QY
+			,APPLC_COEF
+			,NET_USAGE_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		SELECT
+				 #sUsageYear# || #sUsageMt#
+				,MNG_FEE_FCLTY_CD
+				,MNG_FEE_JOB_SE
+				,NVL(SAID_MT_USAGE_QY,0)
+				,NVL(SAID_MT_USAGE_QY,0) + (NVL(SAID_MT_USAGE_QY,0) - NVL(PREV_MT_USAGE_QY,0))
+				,APPLC_COEF
+				,NET_USAGE_QY
+				,#regUsr#
+				,SYSDATE
+			FROM ELCTY_USAGE_STTUS_F
+		WHERE USAGE_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#sUsageYear# || #sUsageMt#,'YYYYMM'),-1),'YYYYMM')
+		]]>
+	</insert>
 
 </sqlMap>

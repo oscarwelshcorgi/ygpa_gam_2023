@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *
@@ -34,7 +35,7 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectGasUsageSttusMngListTotCnt_S", gamElctyUsageSttusMngVo);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngListTotCnt_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return list("gamElctyUsageSttusMngDao.selectGasUsageSttusMngList_D", gamElctyUsageSttusMngVo);
+		return list("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList_D", gamElctyUsageSttusMngVo);
 	}
 
 	/**
@@ -58,7 +59,15 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectGasUsageSttusMngPrevMtUsageQy_S", gamElctyUsageSttusMngVo);
+		return (String)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy_S", gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public List selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		return list("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngMonthCntList_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
@@ -80,6 +89,13 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 */
 	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
 		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 */
+	public void copyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		delete("gamElctyUsageSttusMngDao.copyElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
 	}
 
 }

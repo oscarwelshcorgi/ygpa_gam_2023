@@ -13,6 +13,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *
@@ -47,6 +48,11 @@ public class GamElctyUsageSttusMngServiceImpl extends AbstractServiceImpl implem
 	}
 
 	@Override
+	public List selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngMonthCntList(gamElctyUsageSttusMngVo);
+	}
+
+	@Override
 	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
 		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList(gamElctyUsageSttusMngVo);
 	}
@@ -69,6 +75,11 @@ public class GamElctyUsageSttusMngServiceImpl extends AbstractServiceImpl implem
 	@Override
 	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
 		gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+	}
+
+	@Override
+	public void copyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		gamElctyUsageSttusMngDao.copyElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 	}
 
 }

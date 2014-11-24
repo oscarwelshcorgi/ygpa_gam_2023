@@ -49,6 +49,12 @@ public interface GamElctyUsageSttusMngService {
 	String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
+	 * @param gamGrHseEmitQyMngVo
+	 * @return
+	 */
+	List selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+
+	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
@@ -62,5 +68,10 @@ public interface GamElctyUsageSttusMngService {
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+
+	/**
+	 * @param gamGrHseEmitQyMngVo
+	 */
+	void copyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 }

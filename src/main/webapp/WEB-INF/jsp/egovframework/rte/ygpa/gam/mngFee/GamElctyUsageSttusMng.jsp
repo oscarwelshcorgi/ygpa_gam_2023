@@ -53,7 +53,7 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'업무 구분',		name:'mngFeeJobSeNm',	width:80, 		sortable:false,		align:'center'},
-					{display:'관리비 시설',		name:'mngFeeFcltyNm',	width:150, 		sortable:false,		align:'left'},
+					{display:'관리비 시설',		name:'mngFeeFcltyNm',	width:160, 		sortable:false,		align:'left'},
 					{display:'사용 월',			name:'usageYrMt',		width:80, 		sortable:false,		align:'center'},
 					{display:'전월 사용 량',	name:'prevMtUsageQy',	width:100, 		sortable:false,		align:'right',		displayFormat: 'number'},
 					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:100, 		sortable:false,		align:'right',		displayFormat: 'number'},
@@ -102,21 +102,6 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 		module.getPrevMtUsageQy();
 	});
 
-	this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
-		var module=event.data.module;
-		module.$('#mngFeeFcltyCd').val('');
-		module.$('#mngFeeFcltyNm').val('');
-		module.getPrevMtUsageQy();
-	});
-
-	this.$('#mngFeeFcltyCd').on('keyup change',{module:this}, function(event){
-		var module=event.data.module;
-		if(module.$('#mngFeeFcltyCd').val() == ''){
-			module.$('#mngFeeFcltyNm').val('');
-		}
-		module.getPrevMtUsageQy();
-	});
-
 	this.$('#saidMtUsageQy').on('keyup change',{module:this}, function(event){
 		event.data.module.calcNetUsageQy();
 	});
@@ -128,6 +113,9 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 	var mon = new Date().getMonth()+1;
 	if(mon.length==1) mon="0"+mon;
 	this.$('#sUsageMt').val(mon);
+	this.$('#sApplcCoef').val('0.66');
+
+	this._loadCheck=false;
 
 };
 
@@ -213,6 +201,9 @@ GamElctyUsageSttusMngModule.prototype.onClosePopup = function(popupId, msg, valu
 			if (msg == 'ok') {
 				this.$('#mngFeeFcltyCd').val(value.mngFeeFcltyCd);
 				this.$('#mngFeeFcltyNm').val(value.mngFeeFcltyNm);
+				this.$('#mngFeeJobSe').val(value.mngFeeJobSe);
+				this.$('#mngFeeJobSeNm').val('[' + value.mngFeeJobSe + ']:' + value.mngFeeJobSeNm);
+				this.getPrevMtUsageQy();
 			}
 			break;
 	}
@@ -238,6 +229,9 @@ GamElctyUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnDelete':
 			this.deleteData();
+			break;
+		case 'btnCopy':
+			this.copyData();
 			break;
 		case 'popupMngFeeFcltyCd':
 			this.doExecuteDialog('popupMngFeeFcltyCd', '시설 선택', '/popup/showMngCode.do', null);
@@ -271,6 +265,7 @@ GamElctyUsageSttusMngModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	this._loadCheck=true;
 
 };
 
@@ -292,8 +287,9 @@ GamElctyUsageSttusMngModule.prototype.loadDetail = function() {
 	}
 	this.$('#usageMtYear').disable();
 	this.$('#usageMtMon').disable();
-	this.$('#mngFeeJobSe').disable();
-	this.$('#mngFeeFcltyCd').disable();
+	//this.$('#mngFeeJobSe').disable();
+	//this.$('#mngFeeFcltyCd').disable();
+	this.$('#popupMngFeeFcltyCd').disable({disableClass:"ui-state-disabled"});
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
 
@@ -308,20 +304,17 @@ GamElctyUsageSttusMngModule.prototype.loadDetail = function() {
 %>
 GamElctyUsageSttusMngModule.prototype.addData = function() {
 
-	var usageMtYear = new Date().getYear();
+	var usageMtYear = new Date().getFullYear();
 	var usageMtMon = new Date().getMonth()+1;
-	var sMngFeeJobSe = this.$('#sMngFeeJobSe').val();
 	var sApplcCoef = Number(this.$('#sApplcCoef').val().replace(/,/gi, ""));
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
 	this.$('#usageMtYear').val(usageMtYear);
 	if(usageMtMon.length==1) usageMtMon="0"+usageMtMon;
 	this.$('#usageMtMon').val(usageMtMon);
-	if (sMngFeeJobSe == 'M') {
-	} else if (sMngFeeJobSe == 'E') {
-	} else {
-		this.$('#mngJobSe').val('M');
-	}
+	this.$('#usageMt').val(usageMtYear + usageMtMon);
+	this.$('#mngJobSe').val('');
+	this.$('#mngJobSeNm').val('');
 	this.$('#mngFeeFcltyCd').val('');
 	this.$('#mngFeeFcltyNm').val('');
 	this.$('#prevMtUsageQy').val('0');
@@ -395,6 +388,43 @@ GamElctyUsageSttusMngModule.prototype.deleteData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : copyData
+ * @DESCRIPTION   : 월별 항목을 복사한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.copyData = function() {
+
+	var searchVO = this.makeFormArgs("#searchForm");
+	var sQueryUsageYear = this.$('#sUsageYear').val();
+	var sQueryUsageMt = this.$('#sUsageMt').val();
+	var mtCnt=0;
+
+	if (confirm("이전월의 자료를 [" + sQueryUsageYear + "-" + sQueryUsageMt + "월] 자료로 복사하시겠습니까?") != true) {
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamSelectElctyUsageSttusMngMonthCnt.do" />', searchVO, function(module, result) {
+		if (result.resultCode != "0") {
+			alert('자료 확인이 실패했습니다!');
+			return;
+		}
+		mtCnt=result.resultList[0]['mtCnt']*1;
+		if (mtCnt > 0) {
+			alert('[' + sQueryUsageYear + '-' + sQueryUsageMt + '월] 자료가 존재합니다.');
+			return;
+		}
+		module.doAction('<c:url value="/mngFee/gamCopyElctyUsageSttusMng.do" />', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : calcNetUsageQy
  * @DESCRIPTION   : 순 사용 량을 계산한다.
  * @PARAMETER     : NONE
@@ -402,13 +432,16 @@ GamElctyUsageSttusMngModule.prototype.deleteData = function() {
 %>
 GamElctyUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 
+	var prevMtUsageQy = Number(this.$('#prevMtUsageQy').val().replace(/,/gi, ""));
 	var saidMtUsageQy = Number(this.$('#saidMtUsageQy').val().replace(/,/gi, ""));
 	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
+	var realMtUsageQy = 0;
 	var netUsageQy = 0;
-	if (saidMtUsageQy == 0 || applcCoef == 0) {
+	realMtUsageQy = saidMtUsageQy - prevMtUsageQy;
+	if (realMtUsageQy <= 0 || applcCoef <= 0) {
 		netUsageQy = 0;
 	} else {
-		netUsageQy = Math.floor(saidMtUsageQy * applcCoef);
+		netUsageQy = Math.floor(realMtUsageQy * applcCoef);
 	}
 	this.$('#netUsageQy').val('' + $.number(netUsageQy));
 
@@ -424,7 +457,6 @@ GamElctyUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 GamElctyUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
 
 	var searchVO = this.makeFormArgs("#detailForm");
-	var sPrevMtUsageQy = '0';
 	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
 		this.$('#prevMtUsageQy').val('0');
 		return;
@@ -461,8 +493,10 @@ GamElctyUsageSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId)
 				this.makeDivValues('#detailForm', {});
 				this.$('#usageMtYear').enable();
 				this.$('#usageMtMon').enable();
-				this.$('#mngFeeJobSe').enable();
-				this.$('#mngFeeFcltyCd').enable();
+				//this.$('#mngFeeJobSe').enable();
+				//this.$('#mngFeeFcltyCd').enable();
+				this.$('#popupMngFeeFcltyCd').enable();
+				this.$('#popupMngFeeFcltyCd').removeClass('ui-state-disabled');
 			}
 			this.drawChart();
 			break;
@@ -503,8 +537,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 							<th>사용 월</th>
 							<td>
 								<select id="sUsageMt">
-									<option value="" selected>선택</option>
-									<option value="01">01월</option>
+									<option value="01" selected>01월</option>
 									<option value="02">02월</option>
 									<option value="03">03월</option>
 									<option value="04">04월</option>
@@ -560,6 +593,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
+									<button data-cmd="btnCopy">이전월 자료 복사</button>
 								</td>
 							</tr>
 						</table>
@@ -603,7 +637,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 							<tr>
 								<th width="15%" height="26">관리비 업무구분</th>
 								<td >
-									<select id="mngFeeJobSe">
+									<select id="mngFeeJobSe" disabled>
 										<option value="M">마린센터</option>
 										<option value="E">전기시설</option>
 									</select>
@@ -612,7 +646,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 							<tr>
 								<th width="15%" height="26">관리비 시설 코드</th>
 								<td >
-									<input type="text" size="10" id="mngFeeFcltyCd" disabled/>
+									<input type="text" size="8" id="mngFeeFcltyCd" disabled/>
 									<button id="popupMngFeeFcltyCd" class="popupButton">선택</button>
 								</td>
 							</tr>
