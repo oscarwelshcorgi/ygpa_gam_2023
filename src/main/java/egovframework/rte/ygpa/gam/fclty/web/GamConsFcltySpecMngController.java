@@ -118,7 +118,7 @@ public class GamConsFcltySpecMngController {
 
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
-		List<ComDefaultVO> fcltyMngtList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
+		List<?> fcltyMngtList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
 
         int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngListTotCnt(searchVO);
 
@@ -166,7 +166,7 @@ public class GamConsFcltySpecMngController {
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 
-		List<ComDefaultVO> fcltyMngtFileList = gamConsFcltySpecMngService.selectFcltySpecMngFileList(searchVO);
+		List<?> fcltyMngtFileList = gamConsFcltySpecMngService.selectFcltySpecMngFileList(searchVO);
 		int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngFileListTotCnt(searchVO);
 
 		paginationInfo.setTotalRecordCount(totCnt);

@@ -438,7 +438,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 파일 업로드
 		case "btnUploadFile":
-			console.log('kkk');
+
 			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 			this.uploadPfPhoto("uploadFile", function(module, result) {
 				var userid = "admin";

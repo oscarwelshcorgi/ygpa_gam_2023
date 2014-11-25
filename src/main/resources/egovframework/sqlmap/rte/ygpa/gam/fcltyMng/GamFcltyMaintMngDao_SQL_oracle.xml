@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltyMaintMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngVO"/>
+    
+    <!-- 점검관리내역 -->
+	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							MNTN_RPR_CNST_NM
+							, PLANNER_NM
+							, CNST_CHARG_NM
+							, MNTN_RPR_CNST_START_DT
+							, MNTN_RPR_CNST_END_DT
+							, MNTN_RPR_CNST_AMT
+							, RM
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+							, CTRT_NO
+							, FCLTS_JOB_SE
+							, FCLTS_MNG_GROUP_NO
+							, MNTN_RPR_SEQ
+							, MNTN_RPR_SE
+							, MNTN_RPR_PART
+							, MNTN_RPR_CN
+							, MNTN_RPR_BDGT
+							, CNSTRTR
+							, RESPON_ENGINEER
+							, ENFORCE_YEAR
+						FROM
+							MNTN_RPR_DTLS_F 
+						WHERE
+							1 = 1 
+						<isNotEmpty property="sFcltsJobSe">
+	           				AND FCLTS_JOB_SE = #sFcltsJobSe#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprCnstNm">
+	           				AND MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprSe">
+	           				AND MNTN_RPR_SE = #sMntnRprSe#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
+	           				AND 
+	           				(
+	           					<![CDATA[ MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+	           				<isNotEmpty property="sMntnRprCnstStartDtTo">
+		           				<![CDATA[ AND MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+		           			</isNotEmpty>
+		           			)
+	           			</isNotEmpty>
+	           			
+						ORDER BY
+							MNTN_RPR_CNST_START_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngListTotCnt_S" parameterClass="gamFcltyMaintMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			MNTN_RPR_DTLS_F 
+		WHERE
+			1 = 1 
+		<isNotEmpty property="sFcltsJobSe">
+			AND FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		        			
+		<isNotEmpty property="sMntnRprCnstNm">
+			AND MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+		</isNotEmpty>
+		        			
+		<isNotEmpty property="sMntnRprSe">
+			AND MNTN_RPR_SE = #sMntnRprSe#
+		</isNotEmpty>
+		        			
+		<isNotEmpty property="sMntnRprCnstStartDtFr">
+			AND 
+			(
+				<![CDATA[ MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+			<isNotEmpty property="sMntnRprCnstStartDtTo">
+				<![CDATA[ AND MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+			</isNotEmpty>
+			)
+		</isNotEmpty>
+		
+	</select>
+
+</sqlMap>
