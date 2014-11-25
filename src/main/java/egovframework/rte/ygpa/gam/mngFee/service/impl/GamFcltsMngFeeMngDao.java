@@ -68,4 +68,11 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	public void insertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
 		insert("gamFcltsMngFeeMngDao.insertFcltsMngFeeMngDetail",gamFcltsMngFeeMngDetailVo);
 	}
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	public List selectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList_D", gamFcltsMngFeeMngDetailVo);
+	}
 }

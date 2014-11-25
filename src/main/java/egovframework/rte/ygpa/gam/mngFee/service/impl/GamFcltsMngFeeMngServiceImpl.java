@@ -98,4 +98,12 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		gamFcltsMngFeeMngDao.insertFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
 	}
 
+	/*
+	 * 관리비 관리 상세 테이블 조회한다.
+	 */
+	@Override
+	public List selectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
+		return gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList(gamFcltsMngFeeMngDetailVo);
+	}
+
 }

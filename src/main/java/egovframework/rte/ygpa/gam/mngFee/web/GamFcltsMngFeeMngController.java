@@ -37,6 +37,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
+import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
@@ -155,6 +156,50 @@ public class GamFcltsMngFeeMngController {
     	return map;
     }
 
+    /**
+     * 관리비 관리 상세테이블 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngDetailList", method=RequestMethod.POST)
+	public @ResponseBody Map gamSelectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		// 컨테이너부두임대상세리스트 및 총건수
+//		totalCnt = gamFcltsMngFeeMngService.selectCntnrQuayRentMngtDetailListTotCnt(searchVO);
+		List resultList = gamFcltsMngFeeMngService.selectFcltsMngFeeMngDetailList(searchVO);
+
+//		paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
     @RequestMapping(value="/mngFee/gamSaveFcltsMngFeeMng.do")
 	@ResponseBody Map<String, Object> gamSaveFcltsMngFeeMng(@RequestParam Map<String, Object> dataList) throws Exception {
 
@@ -262,8 +307,8 @@ public class GamFcltsMngFeeMngController {
     			GamFcltsMngFeeMngDetailVo insertDetailVO = new GamFcltsMngFeeMngDetailVo();
 
 
-    			insertDetailVO.setMngMt(resultMap.get("mngMt").toString());
-    			insertDetailVO.setMngFeeJobSe(resultMap.get("mngFeeJobSe").toString());
+    			insertDetailVO.setMngMt(form.get("mngMt").toString());
+    			insertDetailVO.setMngFeeJobSe(form.get("mngFeeJobSe").toString());
     			insertDetailVO.setEntrpscd(resultMap.get("entrpscd").toString());
     			insertDetailVO.setMngFee(resultMap.get("mngFee").toString());
     			insertDetailVO.setElctyFee(resultMap.get("elctyFee").toString());
@@ -282,35 +327,16 @@ public class GamFcltsMngFeeMngController {
 
     			Map resultMap = updateList.get(i);
 
-    			GamPrtFcltyRentMngtDetailVO updateDetailVO = new GamPrtFcltyRentMngtDetailVO();
-    			updateDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
-    			updateDetailVO.setDetailPrtAtCode(resultMap.get("prtAtCode").toString());
-    			updateDetailVO.setDetailMngYear(resultMap.get("mngYear").toString());
-    			updateDetailVO.setDetailMngNo(resultMap.get("mngNo").toString());
-    			updateDetailVO.setDetailMngCnt(resultMap.get("mngCnt").toString());
-    			updateDetailVO.setGisAssetsCd(resultMap.get("gisAssetsCd").toString());
-    			updateDetailVO.setGisAssetsSubCd(resultMap.get("gisAssetsSubCd").toString());
-    			updateDetailVO.setGisAssetsPrtAtCode(resultMap.get("gisAssetsPrtAtCode").toString());
+    			GamFcltsMngFeeMngDetailVo updateDetailVO = new GamFcltsMngFeeMngDetailVo();
+    			updateDetailVO.setMngMt(form.get("mngMt").toString());
+    			updateDetailVO.setMngFeeJobSe(form.get("mngFeeJobSe").toString());
+    			updateDetailVO.setEntrpscd(resultMap.get("entrpscd").toString());
+    			updateDetailVO.setMngFee(resultMap.get("mngFee").toString());
+    			updateDetailVO.setElctyFee(resultMap.get("elctyFee").toString());
+    			updateDetailVO.setWaterFee(resultMap.get("waterFee").toString());
+    			updateDetailVO.setGasFee(resultMap.get("gasFee").toString());
+    			updateDetailVO.setMngTotalFee(resultMap.get("mngTotalFee").toString());
     			updateDetailVO.setUsageAr(resultMap.get("usageAr").toString());
-    			updateDetailVO.setExemptPdFrom(resultMap.get("exemptPdFrom").toString());
-    			updateDetailVO.setExemptPdTo(resultMap.get("exemptPdTo").toString());
-    			updateDetailVO.setUsagePdFrom(resultMap.get("usagePdFrom").toString());
-    			updateDetailVO.setUsagePdTo(resultMap.get("usagePdTo").toString());
-    			updateDetailVO.setOlnlp(resultMap.get("olnlp").toString());
-    			updateDetailVO.setApplcPrice(resultMap.get("applcPrice").toString());
-    			updateDetailVO.setApplcTariff(resultMap.get("applcTariff").toString());
-    			updateDetailVO.setApplcMth(resultMap.get("applcMth").toString());
-    			updateDetailVO.setExemptSe(resultMap.get("exemptSe").toString());
-    			updateDetailVO.setExemptRsnCd(resultMap.get("exemptRsnCd").toString());
-    			updateDetailVO.setExemptRsn(resultMap.get("exemptRsn").toString());
-    			updateDetailVO.setRdcxptFee(resultMap.get("rdcxptFee").toString());
-    			updateDetailVO.setFee(resultMap.get("fee").toString());
-    			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
-    			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
-    			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-    			updateDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
-//    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
-
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());
 
@@ -322,100 +348,13 @@ public class GamFcltsMngFeeMngController {
 
     			Map resultMap = deleteList.get(i);
 
-    			GamPrtFcltyRentMngtDetailVO deleteDetailVO = new GamPrtFcltyRentMngtDetailVO();
-    			deleteDetailVO.setAssetsUsageSeq(resultMap.get("assetsUsageSeq").toString());
-    			deleteDetailVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
-    			deleteDetailVO.setMngYear(resultMap.get("mngYear").toString());
-    			deleteDetailVO.setMngNo(resultMap.get("mngNo").toString());
-    			deleteDetailVO.setMngCnt(resultMap.get("mngCnt").toString());
+    			GamFcltsMngFeeMngDetailVo deleteDetailVO = new GamFcltsMngFeeMngDetailVo();
+    			deleteDetailVO.setMngMt(form.get("mngMt").toString());
+    			deleteDetailVO.setMngFeeJobSe(form.get("mngFeeJobSe").toString());
+    			deleteDetailVO.setEntrpscd(resultMap.get("entrpscd").toString());
 
 //    			gamFcltsMngFeeMngService.deletePrtFcltyRentMngtDetail2(deleteDetailVO);
     		}
-/*
-    		//파일저장
-    		for( int i = 0 ; i < insertFileList.size() ; i++ ) {
-    			Map resultMap = insertFileList.get(i);
-
-    			GamPrtFcltyRentMngtVO insertFileVO = new GamPrtFcltyRentMngtVO();
-
-    			insertFileVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
-    			insertFileVO.setMngYear(saveDetailVO.getDetailMngYear());
-    			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());
-    			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
-
-    			insertFileVO.setPhotoSj((String)resultMap.get("photoSj"));
-    			insertFileVO.setFilenmLogic((String)resultMap.get("filenmLogic"));
-    			insertFileVO.setFilenmPhysicl((String)resultMap.get("filenmPhysicl"));
-    			insertFileVO.setShotDt((String)resultMap.get("shotDt"));
-    			insertFileVO.setPhotoDesc((String)resultMap.get("photoDesc"));
-    			insertFileVO.setRegUsr(loginVO.getId());
-
-    			System.out.println("############################################### insertFileVO => " + insertFileVO);
-
-    			gamFcltsMngFeeMngService.insertPrtFcltyRentMngtFile(insertFileVO);
-    		}
-
-    		for( int i = 0 ; i < updateFileList.size() ; i++ ) {
-    			Map resultMap = updateFileList.get(i);
-
-    			GamPrtFcltyRentMngtVO updateFileVO = new GamPrtFcltyRentMngtVO();
-
-    			updateFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
-    			updateFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
-    			updateFileVO.setMngYear(resultMap.get("mngYear").toString());
-    			updateFileVO.setMngNo(resultMap.get("mngNo").toString());
-    			updateFileVO.setMngCnt(resultMap.get("mngCnt").toString());
-
-    			updateFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			updateFileVO.setShotDt(resultMap.get("shotDt").toString());
-    			updateFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
-
-    			System.out.println("############################################### updateFileVO => " + updateFileVO);
-
-    			gamFcltsMngFeeMngService.updatePrtFcltyRentMngtFile(updateFileVO);
-    		}
-
-    		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
-    			Map resultMap = deleteFileList.get(i);
-
-    			GamPrtFcltyRentMngtVO deleteFileVO = new GamPrtFcltyRentMngtVO();
-
-    			deleteFileVO.setPhotoSeq(resultMap.get("photoSeq").toString());
-    			deleteFileVO.setPrtAtCode(resultMap.get("prtAtCode").toString());
-    			deleteFileVO.setMngYear(resultMap.get("mngYear").toString());
-    			deleteFileVO.setMngNo(resultMap.get("mngNo").toString());
-    			deleteFileVO.setMngCnt(resultMap.get("mngCnt").toString());
-
-    			System.out.println("############################################### deleteFileVO => " + deleteFileVO);
-
-    			gamFcltsMngFeeMngService.deletePrtFcltyRentMngtPhotoSingle(deleteFileVO);
-    		}
-
-    		//총사용료, 총면적, 총사용기간 조회
-    		GamPrtFcltyRentMngtVO paramVO = new GamPrtFcltyRentMngtVO();
-    		paramVO.setPrtAtCode(saveDetailVO.getDetailPrtAtCode());
-    		paramVO.setMngYear(saveDetailVO.getDetailMngYear());
-    		paramVO.setMngNo(saveDetailVO.getDetailMngNo());
-    		paramVO.setMngCnt(saveDetailVO.getDetailMngCnt());
-
-    		GamPrtFcltyRentMngtVO updRentVO = new GamPrtFcltyRentMngtVO();
-    		updRentVO = gamFcltsMngFeeMngService.selectPrtFcltyRentMngtCurrRenewInfo(paramVO);
-
-    		if( updRentVO != null ) {
-    			updRentVO.setPrtAtCode(paramVO.getPrtAtCode());
-    			updRentVO.setMngYear(paramVO.getMngYear());
-    			updRentVO.setMngNo(paramVO.getMngNo());
-    			updRentVO.setMaxMngCnt(paramVO.getMngCnt());
-
-    			//총사용료, 총면적, 총사용기간 업데이트
-    			gamFcltsMngFeeMngService.updatePrtFcltyRentMngtRenewInfo(updRentVO);
-
-    			//부두코드 가져오기
-    			GamPrtFcltyRentMngtVO quaycdVO = new GamPrtFcltyRentMngtVO();
-    			quaycdVO = gamFcltsMngFeeMngService.selectPrtFcltyRentMngtDetailQuaycd(updRentVO);
-
-    		}
-*/
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 

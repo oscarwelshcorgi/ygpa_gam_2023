@@ -51,4 +51,10 @@ public interface GamFcltsMngFeeMngService {
 
 	void insertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
 
+	/**
+	 * 관리비 관리 상세 테이블 조회
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	List selectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
+
 }

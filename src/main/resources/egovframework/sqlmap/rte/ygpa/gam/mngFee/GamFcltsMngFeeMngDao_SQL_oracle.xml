@@ -5,6 +5,7 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltsMngFeeMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo"/>
+    <typeAlias alias="gamFcltsMngFeeMngDetailVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo"/>
 
     <select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngList_D" parameterClass="gamFcltsMngFeeMngVo" resultClass="egovMap">
      SELECT A.*
@@ -94,28 +95,28 @@
 		         (
 		         	 MNG_MT
 					,MNG_FEE_JOB_SE
-					,MNG_FEE_SJ
-					,FCLTY_MNG_FEE
+					,ENTRPSCD
+					,MNG_FEE
 					,ELCTY_FEE
 					,WATER_FEE
 					,GAS_FEE
-					,ENV_FEE
 					,MNG_TOTAL_FEE
 					,REG_USR
+					,USAGE_AR
 					,REGIST_DT
 		         )
 		    VALUES
 		         (
 		         		#mngMt#
 						,#mngFeeJobSe#
-						,#mngFeeSj#
-						,#fcltyMngFee#
+						,#entrpscd#
+						,#mngFee#
 						,#elctyFee#
 						,#waterFee#
 						,#gasFee#
-						,#envFee#
 						,#mngTotalFee#
 						,#regUsr#
+						,#usageAr#
 						,sysdate
 		         )
 		]]>
@@ -164,5 +165,35 @@
              WHERE  CAR_REGIST_NO   = #carRegistNo#
 		]]>
 	</delete>
+
+	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList_D" parameterClass="gamFcltsMngFeeMngDetailVo" resultClass="egovMap">
+                           SELECT
+									 MNG_MT
+									,MNG_FEE_JOB_SE
+									,ENTRPSCD
+									,MNG_FEE
+									,ELCTY_FEE
+									,WATER_FEE
+									,GAS_FEE
+									,MNG_TOTAL_FEE
+									,REG_USR
+									,USAGE_AR
+									,TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+					        FROM FCLTS_MNG_FEE_DETAIL_F
+								  WHERE 1=1
+						         <isNotEmpty property="mngMt">
+						         <![CDATA[AND MNG_MT = #mngMt#]]>
+						         </isNotEmpty>
+
+						         <isNotEmpty property="mngFeeJobSe">
+							       <![CDATA[AND MNG_FEE_JOB_SE =  #mngFeeJobSe#]]>
+							     </isNotEmpty>
+
+						         <isNotEmpty property="entrpscd">
+							      <![CDATA[AND ENTRPSCD =  #entrpscd#]]>
+							     </isNotEmpty>
+                             ORDER BY REGIST_DT
+    </select>
+
 
    </sqlMap>

@@ -40,11 +40,11 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
         url: '/mngFee/gamSelectFcltsMngFeeMng.do',
         dataType: 'json',
         colModel : [
-					{display:'관리 월', name:'mngMt',width:40, sortable:false,align:'center'},
-                    {display:'관리비 업무 구분', name:'mngFeeJobSe',width:55, sortable:false,align:'center'},
-                    {display:'관리비 제목', name:'mngFeeSj',width:80, sortable:false,align:'center'},
-                    {display:'시설 관리 용역비', name:'fcltyMngFee',width:60, sortable:false,align:'center'},
-                    {display:'전기 요금', name:'elctyFee',width:100, sortable:false,align:'left' ,displayFormat: 'number'},
+					{display:'관리 월', name:'mngMt',width:80, sortable:false,align:'center'},
+                    {display:'관리비 업무 구분', name:'mngFeeJobSe',width:100, sortable:false,align:'center'},
+                    {display:'관리비 제목', name:'mngFeeSj',width:100, sortable:false,align:'center'},
+                    {display:'시설 관리 용역비', name:'fcltyMngFee',width:160, sortable:false,align:'center'},
+                    {display:'전기 요금', name:'elctyFee',width:80, sortable:false,align:'left' ,displayFormat: 'number'},
                     {display:'상하수도 요금', name:'waterFee',width:100, sortable:false,align:'left' ,displayFormat: 'number'},
                     {display:'도시가스 요금', name:'gasFee',width:100, sortable:false,align:'left' ,displayFormat: 'number'},
                     {display:'환경개선 부담금', name:'envFee',width:100, sortable:false,align:'left' ,displayFormat: 'number'},
@@ -123,10 +123,10 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 
         var searchOpt=module.makeFormArgs('#gamFcltsMngFeeMngForm');
         module.$('#FcltsMngFeeMngDetailList').flexOptions({params:searchOpt}).flexReload();
-        module.$('#FcltsMngFeeMngFileList').flexOptions({params:searchOpt}).flexReload();
+//         module.$('#FcltsMngFeeMngFileList').flexOptions({params:searchOpt}).flexReload();
 
-        module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
-        module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
+//         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
+//         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
@@ -875,13 +875,14 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 			this.loadData();
             break;
 
-         // 최초신청
+         // 신청
         case 'btnAddItem':
             this.$("#FcltsMngFeeMngListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamFcltsMngFeeMngForm').find(':input').val('');
             this.$('#gamFcltsMngFeeMngDetailForm').find(':input').val('');
             this.$('#gamFcltsMngFeeMngFileForm').find(':input').val('');
 
+			console.log('debug');
             this.$("#FcltsMngFeeMngDetailList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#FcltsMngFeeMngFileList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
@@ -1634,7 +1635,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 	                                        <option value="${monListItem.code }">${monListItem.codeNm }</option>
 	                                    </c:forEach>
 	                                </select>
-	                                <input id="mngMt" type="text" />
+	                                <input id="mngMt" type="text"  maxlength="6"/>
                         	    </td>
 								<th width="10%" height="18">담당부서</th>
                                 <td>
@@ -1749,7 +1750,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
                         	<tr>
                         		<th width="10%" height="18">신청업체</th>
                                 <td>
-                                    <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
+                                    <input type="text" size="10" id="entrpscd" maxlength="10" readonly/>
                                     <input type="text" size="18" id="entrpsNm" disabled/>
                                     <button id="popupEntrpsInfoInput" class="popupButton">선택</button>
                                 </td>
