@@ -102,6 +102,14 @@
 		ORDER BY T1.MT
 	</select>
 
+	<select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngPrevMtUsageQy_S" parameterClass="gamGasUsageSttusMngVo" resultClass="java.lang.String">
+		SELECT SAID_MT_USAGE_QY
+			FROM GAS_USAGE_STTUS_F
+		WHERE USAGE_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#usageMtYear# || #usageMtMon#, 'YYYYMM'), -1), 'YYYYMM')
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+	</select>
+
 	<insert id="gamGasUsageSttusMngDao.insertGasUsageSttusMng_S">
 		<![CDATA[
 		INSERT INTO GAS_USAGE_STTUS_F
@@ -121,10 +129,10 @@
 			 #usageMtYear# || #usageMtMon#
 			,#mngFeeFcltyCd#
 			,#mngFeeJobSe#
-			,TO_NUMBER(#prevMtUsageQy#)
-			,TO_NUMBER(#saidMtUsageQy#)
-			,TO_NUMBER(#applcCoef#)
-			,TO_NUMBER(#netUsageQy#)
+			,TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
+			,TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
+			,TO_NUMBER(REPLACE(#applcCoef#,',',''))
+			,TO_NUMBER(REPLACE(#netUsageQy#,',',''))
 			,#regUsr#
 			,SYSDATE
 		)
@@ -134,10 +142,10 @@
 	<update id="gamGasUsageSttusMngDao.updateGasUsageSttusMng_S">
 		<![CDATA[
 		UPDATE GAS_USAGE_STTUS_F SET
-			 PREV_MT_USAGE_QY = TO_NUMBER(#prevMtUsageQy#)
-			,SAID_MT_USAGE_QY = TO_NUMBER(#saidMtUsageQy#)
-			,APPLC_COEF = TO_NUMBER(#applcCoef#)
-			,NET_USAGE_QY = TO_NUMBER(#netUsageQy#)
+			 PREV_MT_USAGE_QY = TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
+			,SAID_MT_USAGE_QY = TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
+			,APPLC_COEF = TO_NUMBER(REPLACE(#applcCoef#,',',''))
+			,NET_USAGE_QY = TO_NUMBER(REPLACE(#netUsageQy#,',',''))
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#

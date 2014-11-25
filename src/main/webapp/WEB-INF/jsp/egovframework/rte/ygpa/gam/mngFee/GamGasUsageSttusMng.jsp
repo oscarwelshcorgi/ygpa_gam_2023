@@ -77,6 +77,16 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	this.$('#usageMtYear').on('change',{module:this}, function(event){
+		var module=event.data.module;
+		module.getPrevMtUsageQy();
+	});
+
+	this.$('#usageMtMon').on('change',{module:this}, function(event){
+		var module=event.data.module;
+		module.getPrevMtUsageQy();
+	});
+
 	this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
 		var module=event.data.module;
 		var sMngFeeJobSe = $(this).val();
@@ -90,6 +100,7 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 			module.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
 			module.$('#mngFeeFcltyNm').val('UNKNOWN');
 		}
+		module.getPrevMtUsageQy();
 	});
 
 	this.$('#saidMtUsageQy').on('keyup change',{module:this}, function(event){
@@ -143,7 +154,7 @@ GamGasUsageSttusMngModule.prototype.drawChart = function() {
 				color			: "#000BE0",
 	            gradient		: "rising",
 				width			: 30,
-				tooltip			: "가스 사용량(kcal/h)",
+				tooltip			: "#gauge# kcal/h",
 				xAxis			: {
 					title 		: "가스 사용 현황",
 					template	: "#month# 월"
@@ -254,7 +265,7 @@ GamGasUsageSttusMngModule.prototype.loadDetail = function() {
 %>
 GamGasUsageSttusMngModule.prototype.addData = function() {
 
-	var usageMtYear = new Date().getYear();
+	var usageMtYear = new Date().getFullYear();
 	var usageMtMon = new Date().getMonth()+1;
 	var sMngFeeJobSe = this.$('#sMngFeeJobSe').val();
 	var sApplcCoef = Number(this.$('#sApplcCoef').val().replace(/,/gi, ""));
@@ -264,13 +275,15 @@ GamGasUsageSttusMngModule.prototype.addData = function() {
 	if(usageMtMon.length==1) usageMtMon="0"+usageMtMon;
 	this.$('#usageMtMon').val(usageMtMon);
 	if (sMngFeeJobSe == 'M') {
+		this.$('#mngFeeJobSe').val('M');
 		this.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
 		this.$('#mngFeeFcltyNm').val('마린센터');
 	} else if (sMngFeeJobSe == 'E') {
+		this.$('#mngFeeJobSe').val('E');
 		this.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
 		this.$('#mngFeeFcltyNm').val('전기시설');
 	} else {
-		this.$('#mngJobSe').val('M');
+		this.$('#mngFeeJobSe').val('M');
 		this.$('#mngFeeFcltyCd').val('M000');
 		this.$('#mngFeeFcltyNm').val('마린센터');
 	}
@@ -361,6 +374,30 @@ GamGasUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 		netUsageQy = Math.floor(saidMtUsageQy * applcCoef);
 	}
 	this.$('#netUsageQy').val('' + $.number(netUsageQy));
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getPrevMtUsageQy
+ * @DESCRIPTION   : 전월 사용 량을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
+
+	var searchVO = this.makeFormArgs("#detailForm");
+	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
+		this.$('#prevMtUsageQy').val('0');
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamGasUsageSttusMngPrevMtUsageQy.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#prevMtUsageQy').val('' + $.number(result.sPrevMtUsageQy));
+		} else {
+			module.$('#prevMtUsageQy').val('0');
+		}
+	});
 
 };
 

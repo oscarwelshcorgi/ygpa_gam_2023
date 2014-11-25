@@ -52,8 +52,8 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 		url : '/mngFee/gamSelectMngFeeGubunMng.do',
 		dataType : 'json',
 		colModel : [
-					{display:'시설구분', 		name:'mngFeeFcltySe',		width:70, 		sortable:false,		align:'center'},
-                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:150, 		sortable:false,		align:'left'},
+					{display:'시설구분', 		name:'mngFeeFcltySe',		width:100, 		sortable:false,		align:'center'},
+                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:180, 		sortable:false,		align:'left'},
 					{display:'등록자', 			name:'regUsr',				width:100, 		sortable:false,		align:'center'},
                     {display:'등록일시', 		name:'registDt',			width:150, 		sortable:false,		align:'center'}
                     ],
@@ -145,7 +145,7 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function() {
 		return;
 	}
 	this.$("#btnIdCheck").disable({disableClass:"ui-state-disabled"});
-	this.$('#mngFeeFcltySe').attr('readonly', 'readonly');
+	this.$('#mngFeeFcltySe').disable();
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
 
@@ -250,7 +250,7 @@ GamMngFeeGubunMngModule.prototype.checkId = function() {
 			} else {
 				if (confirm("해당 코드를 사용하시겠습니까?")) {
 					module.$("#mngFeeFcltySe").val(result.checkSe);
-					module.$("#mngFeeFcltySe").attr("readonly","readonly");
+					module.$("#mngFeeFcltySe").disable();
 				} else {
 					module.$("#mngFeeFcltySe").val("");
 					module.$("#mngFeeFcltySe").focus();
@@ -282,7 +282,7 @@ GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this._mode="insert";
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngFeeFcltySe').removeAttr('readonly');
+				this.$('#mngFeeFcltySe').enable();
 				this.$("#btnIdCheck").removeClass("ui-state-disabled");
 				this.$("#btnIdCheck").enable();
 			}
@@ -361,21 +361,21 @@ var module_instance = new GamMngFeeGubunMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="20%" height="18">시설 구분</th>
-								<td><input type="text" size="20" id="mngFeeFcltySe" maxlength="2"/></td>
-								<td><button id="btnIdCheck">중복체크</button>
+								<th width="20%" height="25">시설 구분</th>
+								<td><input type="text" size="25" id="mngFeeFcltySe" maxlength="2"/></td>
+								<td><button id="btnIdCheck">시 설 구 분 중 복 여 부 검 사</button>
 							</tr>
 							<tr>
-								<th width="20%" height="18">시설 구분 명</th>
-								<td colspan="2"><input type="text" size="65" id="mngFeeFcltySeNm" maxlength="20"/></td>
+								<th width="20%" height="25">시설 구분 명</th>
+								<td colspan="2"><input type="text" size="70" id="mngFeeFcltySeNm" maxlength="20"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">등록자</th>
+								<th width="20%" height="25">등록자</th>
                                	<td><span data-column-id="regUsr"></span></td>
 								<td><span data-column-id="registDt"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">수정자</th>
+								<th width="20%" height="25">수정자</th>
                                	<td><span data-column-id="updUsr"></span></td>
 								<td><span data-column-id="updtDt"></span></td>
 							</tr>

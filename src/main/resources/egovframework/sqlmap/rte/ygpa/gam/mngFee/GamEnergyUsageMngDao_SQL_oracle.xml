@@ -67,6 +67,22 @@
 		WHERE MNG_YEAR = #sMngYear#
 	</select>
 
+	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngChartList_D" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
+		SELECT /*+ INDEX (T2 PK_ENERGY_USAGEQY_COEF_F) */
+				 T1.MNG_YEAR
+				,NVL(MIN(T2.GR_HSE_COEF),0) AS GR_HSE_COEF
+			FROM (
+				SELECT
+						 #fuelCd# AS FUEL_CD
+						,TO_CHAR(ADD_MONTHS(SYSDATE,(LEVEL-1)*(-12)),'YYYY') AS MNG_YEAR
+					FROM DUAL
+				CONNECT BY LEVEL <![CDATA[ <= ]]> 10
+				) T1
+			LEFT OUTER JOIN ENERGY_USAGEQY_COEF_F T2 ON (T1.MNG_YEAR=T2.MNG_YEAR AND T1.FUEL_CD=T2.FUEL_CD)
+		GROUP BY T1.MNG_YEAR
+		ORDER BY T1.MNG_YEAR
+	</select>
+
 	<insert id="gamEnergyUsageMngDao.insertEnergyUsageMng_S">
 		<![CDATA[
 		INSERT INTO ENERGY_USAGEQY_COEF_F
@@ -87,10 +103,10 @@
 			 #fuelCd#
 			,#fuelNm#
 			,#energyUnit#
-			,TO_NUMBER(#energyTotalCalVal#)
-			,TO_NUMBER(#energyNetCalVal#)
+			,TO_NUMBER(REPLACE(#energyTotalCalVal#,',',''))
+			,TO_NUMBER(REPLACE(#energyNetCalVal#,',',''))
 			,#grHseUnit#
-			,TO_NUMBER(#grHseCoef#)
+			,TO_NUMBER(REPLACE(#grHseCoef#,',',''))
 			,#mngYear#
 			,#regUsr#
 			,SYSDATE
@@ -103,10 +119,10 @@
 		UPDATE ENERGY_USAGEQY_COEF_F SET
 			 FUEL_NM = #fuelNm#
 			,ENERGY_UNIT = #energyUnit#
-			,ENERGY_TOTAL_CAL_VAL = TO_NUMBER(#energyTotalCalVal#)
-			,ENERGY_NET_CAL_VAL = TO_NUMBER(#energyNetCalVal#)
+			,ENERGY_TOTAL_CAL_VAL = TO_NUMBER(REPLACE(#energyTotalCalVal#,',',''))
+			,ENERGY_NET_CAL_VAL = TO_NUMBER(REPLACE(#energyNetCalVal#,',',''))
 			,GR_HSE_UNIT = #grHseUnit#
-			,GR_HSE_COEF = TO_NUMBER(#grHseCoef#)
+			,GR_HSE_COEF = TO_NUMBER(REPLACE(#grHseCoef#,',',''))
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_YEAR = #mngYear#

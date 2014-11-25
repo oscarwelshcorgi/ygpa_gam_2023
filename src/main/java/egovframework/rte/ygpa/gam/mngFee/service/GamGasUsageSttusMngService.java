@@ -43,6 +43,12 @@ public interface GamGasUsageSttusMngService {
 	List selectGasUsageSttusMngChartList(GamGasUsageSttusMngVo searchVO) throws Exception;
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	String selectGasUsageSttusMngPrevMtUsageQy(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception;
+
+	/**
 	 * @param gamGasUsageSttusMngVo
 	 */
 	void insertGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)throws Exception;

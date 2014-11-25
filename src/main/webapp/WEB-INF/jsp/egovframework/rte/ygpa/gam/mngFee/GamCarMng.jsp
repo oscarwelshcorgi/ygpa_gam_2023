@@ -35,7 +35,7 @@
 %>
 function GamCarMngModule() {}
 
-GamCarMngModule.prototype = new EmdModule(1000, 600);
+GamCarMngModule.prototype = new EmdModule(900, 600);
 
 <%
 /**
@@ -58,8 +58,8 @@ GamCarMngModule.prototype.loadComplete = function() {
 					{display:'차대 번호', 		name:'carBodyNo',	width:160, 		sortable:false,		align:'center'},
 					{display:'차량 형식', 		name:'carFmt',		width:100, 		sortable:false,		align:'center'},
 					{display:'배기량', 			name:'exhaustqy',	width:70, 		sortable:false,		align:'center'},
-					{display:'연료 종류', 		name:'fuelKnd',		width:70, 		sortable:false,		align:'center'},
-					{display:'차량 연식', 		name:'carYrMdl',	width:70, 		sortable:false,		align:'center'}
+					{display:'연료 종류', 		name:'fuelKnd',		width:80, 		sortable:false,		align:'center'},
+					{display:'차량 연식', 		name:'carYrMdl',	width:80, 		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn: false,
 		height: 'auto'
@@ -144,7 +144,7 @@ GamCarMngModule.prototype.loadDetail = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	this.$('#carRegistNo').attr('readonly', 'readonly');
+	this.$('#carRegistNo').disable();
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
 
@@ -246,7 +246,7 @@ GamCarMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#carRegistNo').removeAttr('readonly');
+				this.$('#carRegistNo').enable();
 			}
 			break;
 	}
@@ -277,11 +277,11 @@ var module_instance = new GamCarMngModule();
 						<tr>
 							<th>차량 등록번호</th>
 							<td>
-								<input type="text" size="10" id="sCarRegistNo">
+								<input type="text" size="15" id="sCarRegistNo">
 							</td>
 							<th>차량 명</th>
 							<td>
-								<input type="text" size="10" id="sCarNm">
+								<input type="text" size="15" id="sCarNm">
 							</td>
 							<th>연료 종류</th>
 							<td>
@@ -335,77 +335,77 @@ var module_instance = new GamCarMngModule();
 					<form id="detailForm">
 						<table class="detailPanel">
 							<tr>
-								<th width="20%" height="18">차량 등록 번호</th>
+								<th width="20%" height="19">차량 등록 번호</th>
 								<td ><input type="text" size="40" id="carRegistNo"/></td>
-								<th width="20%" height="18">차량 종류</th>
+								<th width="20%" height="19">차량 종류</th>
 								<td ><input type="text" size="40" id="carKnd"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">차량 용도</th>
+								<th width="20%" height="19">차량 용도</th>
 								<td ><input type="text" size="40" id="carPrpos"/></td>
-								<th width="20%" height="18">차량 명</th>
+								<th width="20%" height="19">차량 명</th>
 								<td ><input type="text" size="40" id="carNm"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">차량 형식</th>
+								<th width="20%" height="19">차량 형식</th>
 								<td ><input type="text" size="40" id="carFmt"/></td>
-								<th width="20%" height="18">차량 연식</th>
+								<th width="20%" height="19">차량 연식</th>
 								<td ><input type="text" size="40" id="carYrMdl"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">차대 번호</th>
+								<th width="20%" height="19">차대 번호</th>
 								<td ><input type="text" size="40" id="carBodyNo"/></td>
-								<th width="20%" height="18">원동기 형식</th>
+								<th width="20%" height="19">원동기 형식</th>
 								<td ><input type="text" size="40" id="turbineFmt"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">사용 본거지</th>
+								<th width="20%" height="19">사용 본거지</th>
 								<td colspan="3"><input type="text" size="117" id="usageStrhld"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">소유자 주소</th>
+								<th width="20%" height="19">소유자 주소</th>
 								<td colspan="3"><input type="text" size="117" id="ownerAdres"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">소유자 명</th>
+								<th width="20%" height="19">소유자 명</th>
 								<td ><input type="text" size="40" id="ownerNm"/></td>
-								<th width="20%" height="18">차량 등록 일자</th>
+								<th width="20%" height="19">차량 등록 일자</th>
 								<td ><input type="text" size="40" id="carRegistDt" class="emdcal"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">등록 관청</th>
+								<th width="20%" height="19">등록 관청</th>
 								<td ><input type="text" size="40" id="registGovOfc"/></td>
-								<th width="20%" height="18">제원 관리 번호</th>
+								<th width="20%" height="19">제원 관리 번호</th>
 								<td ><input type="text" size="40" id="specMngNo"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">차량 길이</th>
+								<th width="20%" height="19">차량 길이</th>
 								<td ><input type="text" size="40" id="carLt"/></td>
-								<th width="20%" height="18">차량 너비</th>
+								<th width="20%" height="19">차량 너비</th>
 								<td ><input type="text" size="40" id="CarWd"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">차량 높이</th>
+								<th width="20%" height="19">차량 높이</th>
 								<td ><input type="text" size="40" id="carHt"/></td>
-								<th width="20%" height="18">차량 총 중량</th>
+								<th width="20%" height="19">차량 총 중량</th>
 								<td ><input type="text" size="40" id="carGrWqnt"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">배기량</th>
+								<th width="20%" height="19">배기량</th>
 								<td ><input type="text" size="40" id="exhaustqy"/></td>
-								<th width="20%" height="18">정격 출력</th>
+								<th width="20%" height="19">정격 출력</th>
 								<td ><input type="text" size="40" id="rateOutput"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">승차 정원</th>
+								<th width="20%" height="19">승차 정원</th>
 								<td ><input type="text" size="40" id="rideQuotaCapa"/></td>
-								<th width="20%" height="18">최대 적재 량</th>
+								<th width="20%" height="19">최대 적재 량</th>
 								<td ><input type="text" size="40" id="maxCapaQy"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">기통 갯수</th>
+								<th width="20%" height="19">기통 갯수</th>
 								<td ><input type="text" size="40" id="cylinderCnt"/></td>
-								<th width="20%" height="18">연료 종류</th>
+								<th width="20%" height="19">연료 종류</th>
 								<td >
 									<select id="fuelKnd">
 										<option value="휘발류">휘발류</option>
@@ -418,15 +418,15 @@ var module_instance = new GamCarMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">연비</th>
+								<th width="20%" height="19">연비</th>
 								<td ><input type="text" size="40" id="fuelEfft"/></td>
-								<th width="20%" height="18">취득 가격</th>
+								<th width="20%" height="19">취득 가격</th>
 								<td ><input type="text" size="40" id="acqPrce"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">검사 유효 시작일</th>
+								<th width="20%" height="19">검사 유효 시작일</th>
 								<td ><input type="text" size="40" id="examValidBeginDt" class="emdcal"/></td>
-								<th width="20%" height="18">검사 유효 종료일</th>
+								<th width="20%" height="19">검사 유효 종료일</th>
 								<td ><input type="text" size="40" id="examValidEndDt" class="emdcal"/></td>
 							</tr>
 						</table>

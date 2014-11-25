@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
 /**
  *
@@ -51,6 +52,14 @@ public class GamEnergyUsageMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectEnergyUsageMngList(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
 		return list("gamEnergyUsageMngDao.selectEnergyUsageMngList_D", gamEnergyUsageMngVo);	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectEnergyUsageMngChartList(GamEnergyUsageMngVo searchVO) {
+		return list("gamEnergyUsageMngDao.selectEnergyUsageMngChartList_D", searchVO);
+	}
 
 	/**
 	 * @param gamEnergyUsageMngVo

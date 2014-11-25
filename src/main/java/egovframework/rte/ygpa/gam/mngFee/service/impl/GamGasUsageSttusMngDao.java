@@ -11,6 +11,7 @@ import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyEntrpsRentFeeSttusInqireVO;
 
@@ -55,6 +56,14 @@ public class GamGasUsageSttusMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectGasUsageSttusMngChartList(GamGasUsageSttusMngVo searchVO) {
 		return list("gamGasUsageSttusMngDao.selectGasUsageSttusMngChartList_D", searchVO);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public String selectGasUsageSttusMngPrevMtUsageQy(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamGasUsageSttusMngDao.selectGasUsageSttusMngPrevMtUsageQy_S", gamGasUsageSttusMngVo);
 	}
 
 	/**

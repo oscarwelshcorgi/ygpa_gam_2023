@@ -80,25 +80,11 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 
 	this.$('#usageMtYear').on('change',{module:this}, function(event){
 		var module=event.data.module;
-		var usageMtYear = module.$('#usageMtYear').val();
-		var usageMtMon = module.$('#usageMtMon').val();
-		if (usageMtYear == '' || usageMtMon == '') {
-			module.$('#usageMt').val('');
-		} else {
-			module.$('#usageMt').val(usageMtYear + usageMtMon);
-		}
 		module.getPrevMtUsageQy();
 	});
 
 	this.$('#usageMtMon').on('change',{module:this}, function(event){
 		var module=event.data.module;
-		var usageMtYear = module.$('#usageMtYear').val();
-		var usageMtMon = module.$('#usageMtMon').val();
-		if (usageMtYear == '' || usageMtMon == '') {
-			module.$('#usageMt').val('');
-		} else {
-			module.$('#usageMt').val(usageMtYear + usageMtMon);
-		}
 		module.getPrevMtUsageQy();
 	});
 
@@ -158,7 +144,7 @@ GamElctyUsageSttusMngModule.prototype.drawChart = function() {
 				color			: "#000BE0",
 	            gradient		: "rising",
 				width			: 30,
-				tooltip			: "전기 사용량(kw/h)",
+				tooltip			: "#gauge# kw/h",
 				xAxis			: {
 					title 		: "전기 사용 현황",
 					template	: "#month# 월"
@@ -312,7 +298,6 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 	this.$('#usageMtYear').val(usageMtYear);
 	if(usageMtMon.length==1) usageMtMon="0"+usageMtMon;
 	this.$('#usageMtMon').val(usageMtMon);
-	this.$('#usageMt').val(usageMtYear + usageMtMon);
 	this.$('#mngJobSe').val('');
 	this.$('#mngJobSeNm').val('');
 	this.$('#mngFeeFcltyCd').val('');
@@ -457,7 +442,7 @@ GamElctyUsageSttusMngModule.prototype.calcNetUsageQy = function() {
 GamElctyUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
 
 	var searchVO = this.makeFormArgs("#detailForm");
-	if (this.$('#usageMt').val() == "" && this.$('#mngFeeFcltyCd').val() == "" && this.$('#mngFeeJobSe').val() == "") {
+	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
 		this.$('#prevMtUsageQy').val('0');
 		return;
 	}

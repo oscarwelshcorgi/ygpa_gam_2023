@@ -13,6 +13,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
 /**
  *
@@ -49,6 +50,11 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 		return gamEnergyUsageMngDao.selectEnergyUsageMngList(searchVO);
+	}
+
+	@Override
+	public List selectEnergyUsageMngChartList(GamEnergyUsageMngVo searchVO) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngChartList(searchVO);
 	}
 
 	@Override

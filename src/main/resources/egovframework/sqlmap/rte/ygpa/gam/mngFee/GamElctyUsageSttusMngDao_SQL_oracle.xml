@@ -137,10 +137,10 @@
 			 #usageMtYear# || #usageMtMon#
 			,#mngFeeFcltyCd#
 			,#mngFeeJobSe#
-			,TO_NUMBER(#prevMtUsageQy#)
-			,TO_NUMBER(#saidMtUsageQy#)
-			,TO_NUMBER(#applcCoef#)
-			,TO_NUMBER(#netUsageQy#)
+			,TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
+			,TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
+			,TO_NUMBER(REPLACE(#applcCoef#,',',''))
+			,TO_NUMBER(REPLACE(#netUsageQy#,',',''))
 			,#regUsr#
 			,SYSDATE
 		)
@@ -150,10 +150,10 @@
 	<update id="gamElctyUsageSttusMngDao.updateElctyUsageSttusMng_S">
 		<![CDATA[
 		UPDATE ELCTY_USAGE_STTUS_F SET
-			 PREV_MT_USAGE_QY = TO_NUMBER(#prevMtUsageQy#)
-			,SAID_MT_USAGE_QY = TO_NUMBER(#saidMtUsageQy#)
-			,APPLC_COEF = TO_NUMBER(#applcCoef#)
-			,NET_USAGE_QY = TO_NUMBER(#netUsageQy#)
+			 PREV_MT_USAGE_QY = TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
+			,SAID_MT_USAGE_QY = TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
+			,APPLC_COEF = TO_NUMBER(REPLACE(#applcCoef#,',',''))
+			,NET_USAGE_QY = TO_NUMBER(REPLACE(#netUsageQy#,',',''))
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#

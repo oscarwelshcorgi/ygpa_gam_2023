@@ -104,9 +104,9 @@
 			 #fuelCd#
 			,#mngYear#
 			,#mngMt#
-			,TO_NUMBER(#usageQy#)
-			,TO_NUMBER(#energyUsageQy#)
-			,TO_NUMBER(#grHseEmitQy#)
+			,TO_NUMBER(REPLACE(#usageQy#,',',''))
+			,TO_NUMBER(REPLACE(#energyUsageQy#,',',''))
+			,TO_NUMBER(REPLACE(#grHseEmitQy#,',',''))
 			,#regUsr#
 			,SYSDATE
 		)
@@ -116,9 +116,9 @@
 	<update id="gamGrHseEmitQyMngDao.updateGrHseEmitQyMng_S">
 		<![CDATA[
 		UPDATE GR_HSE_EMIT_STTUS_F SET
-			 USAGE_QY = TO_NUMBER(#usageQy#)
-			,ENERGY_USAGE_QY = TO_NUMBER(#energyUsageQy#)
-			,GR_HSE_EMIT_QY = TO_NUMBER(#grHseEmitQy#)
+			 USAGE_QY = TO_NUMBER(REPLACE(#usageQy#,',',''))
+			,ENERGY_USAGE_QY = TO_NUMBER(REPLACE(#energyUsageQy#,',',''))
+			,GR_HSE_EMIT_QY = TO_NUMBER(REPLACE(#grHseEmitQy#,',',''))
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE FUEL_CD = #fuelCd#

@@ -30,6 +30,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
@@ -145,6 +146,27 @@ public class GamGasUsageSttusMngController {
 
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamGasUsageSttusMngPrevMtUsageQy.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectGasUsageSttusMngPrevMtUsageQy(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+
+    	String sPrevMtUsageQy;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	sPrevMtUsageQy = gamGasUsageSttusMngService.selectGasUsageSttusMngPrevMtUsageQy(gamGasUsageSttusMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("sPrevMtUsageQy", sPrevMtUsageQy);
 
     	return map;
     }

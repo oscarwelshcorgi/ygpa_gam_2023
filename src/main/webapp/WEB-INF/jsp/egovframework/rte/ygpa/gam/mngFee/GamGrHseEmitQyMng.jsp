@@ -470,7 +470,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							<tr>
 								<th width="15%" height="29">관리 월</th>
 								<td ><input type="text" size="20" id="mngMt" /></td>
-								<td rowspan="15">
+								<td rowspan="15" style="padding-left:4px;">
 									<div id="grHseEmitChart" style="width:515px;height:415px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
@@ -500,7 +500,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 계수</th>
-								<td ><span data-column-id="grHseCoef" class="ygpaNumber"></span></td>
+								<td ><span data-column-id="grHseCoef" class="ygpaNumber" data-decimal-point="4" ></span></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">사용 량</th>

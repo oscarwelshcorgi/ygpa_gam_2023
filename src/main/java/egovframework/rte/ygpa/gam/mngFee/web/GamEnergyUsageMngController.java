@@ -30,6 +30,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
@@ -135,6 +136,25 @@ public class GamEnergyUsageMngController {
     	return map;
     }
 
+    @RequestMapping(value="/mngFee/gamEnergyUsageMngChart.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngChartList(gamEnergyUsageMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
 
     @RequestMapping(value="/mngFee/gamInsertEnergyUsageMng.do")
 	@ResponseBody Map<String, Object> insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {

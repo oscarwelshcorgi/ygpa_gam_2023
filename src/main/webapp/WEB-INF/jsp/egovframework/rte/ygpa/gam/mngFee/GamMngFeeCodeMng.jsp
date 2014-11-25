@@ -36,7 +36,7 @@
 %>
 function GamMngFeeCodeMngModule() {}
 
-GamMngFeeCodeMngModule.prototype = new EmdModule(900, 600);
+GamMngFeeCodeMngModule.prototype = new EmdModule(800, 600);
 
 <%
 /**
@@ -52,12 +52,12 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 		url : '/mngFee/gamSelectMngFeeCodeMng.do',
 		dataType : 'json',
 		colModel : [
-					{display:'관리비 시설 코드', 	name:'mngFeeFcltyCd',	width:110, 		sortable:false,		align:'center'},
-					{display:'관리비 시설 명', 		name:'mngFeeFcltyNm',	width:170, 		sortable:false,		align:'left'},
-					{display:'관리비 시설 구분', 	name:'mngFeeFcltySeNm',	width:110, 		sortable:false,		align:'left'},
-					{display:'관리비 업무 구분', 	name:'mngFeeJobSeNm',	width:110, 		sortable:false,		align:'left'},
-					{display:'등록자', 				name:'regUsr',			width:100, 		sortable:false,		align:'center'},
-					{display:'등록일시', 			name:'registDt',		width:150, 		sortable:false,		align:'center'}
+					{display:'시설 코드', 	name:'mngFeeFcltyCd',		width:80, 		sortable:false,		align:'center'},
+					{display:'시설 명', 	name:'mngFeeFcltyNm',		width:180, 		sortable:false,		align:'left'},
+					{display:'시설 구분', 	name:'mngFeeFcltySeNm',		width:110, 		sortable:false,		align:'left'},
+					{display:'업무 구분', 	name:'mngFeeJobSeNm',		width:110, 		sortable:false,		align:'left'},
+					{display:'등록자', 		name:'regUsr',				width:100, 		sortable:false,		align:'center'},
+					{display:'등록일시', 	name:'registDt',			width:150, 		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto'
@@ -142,8 +142,8 @@ GamMngFeeCodeMngModule.prototype.loadDetail = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	this.$('#mngFeeFcltySe').attr('readonly', 'readonly');
-	this.$('#mngFeeFcltyCd').attr('readonly', 'readonly');
+	this.$('#mngFeeFcltySe').disable();
+	this.$('#mngFeeFcltyCd').disable();
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
 
@@ -245,8 +245,8 @@ GamMngFeeCodeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngFeeFcltySe').removeAttr('readonly');
-				this.$('#mngFeeFcltyCd').removeAttr('readonly');
+				this.$('#mngFeeFcltySe').enable();
+				this.$('#mngFeeFcltyCd').enable();
 			}
 			break;
 	}
@@ -283,7 +283,7 @@ var module_instance = new GamMngFeeCodeMngModule();
 							<td>
 								<input type="text" size="15" id="sMngFeeFcltyNm">
 							</td>
-							<th>시설 업무 구분</th>
+							<th>관리비 업무 구분</th>
 							<td>
 								<select id="sMngFeeJobSe">
 									<option value="">전체</option>
@@ -331,7 +331,7 @@ var module_instance = new GamMngFeeCodeMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="20%" height="18">시설 업무 구분</th>
+								<th width="20%" height="25">업무 구분</th>
 								<td >
 									<select id="mngFeeJobSe">
 										<option value="M">마린센터</option>
@@ -339,28 +339,28 @@ var module_instance = new GamMngFeeCodeMngModule();
 									</select>
 									<span data-column-id="mngFeeJobSeNm"></span>
 								</td>
-								<th width="20%" height="18">시설 구분</th>
+								<th width="20%" height="25">시설 구분</th>
 								<td >
 									<input type="text" size="10" id="mngFeeFcltySe" maxlength="2" />
 									<span data-column-id="mngFeeFcltySeNm"></span>
 								</td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">시설 코드</th>
+								<th width="20%" height="25">시설 코드</th>
 								<td ><input type="text" size="35" id="mngFeeFcltyCd" maxlength="4"/></td>
-								<th width="20%" height="18">시설명</th>
+								<th width="20%" height="25">시설 명</th>
 								<td ><input type="text" size="35" id="mngFeeFcltyNm" maxlength="20"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">등록자</th>
+								<th width="20%" height="25">등록자</th>
                                	<td><span data-column-id="regUsr"></span></td>
-								<th width="20%" height="18">등록일시</th>
+								<th width="20%" height="25">등록일시</th>
 								<td><span data-column-id="registDt"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">수정자</th>
+								<th width="20%" height="25">수정자</th>
                                	<td><span data-column-id="updUsr"></span></td>
-								<th width="20%" height="18">수정일시</th>
+								<th width="20%" height="25">수정일시</th>
 								<td><span data-column-id="updtDt"></span></td>
 							</tr>
 						</table>

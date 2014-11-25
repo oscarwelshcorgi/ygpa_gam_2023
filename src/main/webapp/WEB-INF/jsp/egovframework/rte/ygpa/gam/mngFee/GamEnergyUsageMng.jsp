@@ -85,6 +85,73 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 
 <%
 /**
+ * @FUNCTION NAME : drawChart
+ * @DESCRIPTION   : CHART DRAW
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.drawChart = function() {
+	var grHseCoefArr=[];
+	var maxGrHseCoef=0;
+	var grHseCoef=0;
+	var mngYear=0;
+	var searchVO = this.makeFormArgs("#detailForm");
+
+	this.doAction('<c:url value="/mngFee/gamEnergyUsageMngChart.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			for (var i=0; i<10; i++) {
+				mngYear=result.resultList[i]['mngYear']*1;
+				grHseCoef=result.resultList[i]['grHseCoef']*1;
+				grHseCoefArr[i]={year: mngYear, gauge: grHseCoef};
+				if (maxGrHseCoef<grHseCoef) {
+					maxGrHseCoef=grHseCoef;
+				}
+			};
+		} else {
+			for (var i=0; i<10; i++) {
+				grHseCoef=0;
+				grHseCoefArr[i]={year: (1999+1), gauge: grHseCoef};
+			};
+		}
+		if (maxGrHseCoef<1) {
+			maxGrHseCoef=1;
+		}
+		if (module.barChart==null) {
+			module.barChart = new dhtmlXChart({
+				view			: "bar",
+				container		: module.$('#energyUsageChart')[0],
+				value			: "#gauge#",
+				color			: "#000BE0",
+	            gradient		: "rising",
+				width			: 30,
+				tooltip			: "#gauge# 온실가스 계수",
+				xAxis			: {
+					title 		: "에너지 사용량 계수 현황",
+					template	: "#year# 년"
+				},
+				yAxis			: {
+					start		: 0,
+					end			: 1,
+					step		: (maxGrHseCoef / 10),
+					title		: "온실가스 계수"
+				}
+			});
+		} else {
+			module.barChart.clearAll();
+			module.barChart.define("yAxis", {
+				start : 0,
+				end : 1,
+				step : (maxGrHseCoef / 10),
+				title : "온실가스 계수"
+			});
+		}
+		module.barChart.parse(grHseCoefArr, "json");
+		module.barChart.refresh();
+	});
+};
+
+<%
+/**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
@@ -155,8 +222,8 @@ GamEnergyUsageMngModule.prototype.loadDetail = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	this.$('#mngYear').attr('readonly', 'readonly');
-	this.$('#fuelCd').attr('readonly', 'readonly');
+	this.$('#mngYear').disable();
+	this.$('#fuelCd').disable();
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
 
@@ -289,9 +356,11 @@ GamEnergyUsageMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngYear').removeAttr('readonly');
-				this.$('#fuelCd').removeAttr('readonly');
+				this.$('#mngYear').enable();
+				this.$('#fuelCd').enable();
 			}
+			console.log('asdf');
+			this.drawChart();
 			break;
 	}
 
@@ -322,7 +391,6 @@ var module_instance = new GamEnergyUsageMngModule();
 							<th>에너지 사용년도</th>
 							<td>
 								<select id="sMngYear">
-									<option value="">선택</option>
 									<c:forEach items="${yearsList}" var="yearListItem">
 										<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
 									</c:forEach>
@@ -381,28 +449,62 @@ var module_instance = new GamEnergyUsageMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="20%" height="18">연료 코드</th>
-								<td ><input type="text" size="35" id="fuelCd" /></td>
-								<th width="20%" height="18">연료 명</th>
-								<td ><input type="text" size="35" id="fuelNm" /></td>
+								<th width="14%" height="26">관리 년도</th>
+								<td >
+									<select id="mngYear" class='selt'>
+										<option value="">선택</option>
+										<c:forEach items="${yearsList}" var="yearListItem">
+											<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td rowspan="12" style="padding-left:4px;">
+									<div id="energyUsageChart" style="width:515px;height:415px;border:1px solid #A4BED4;"></div>
+								</td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">관리 년도</th>
-								<td ><input type="text" size="35" id="mngYear" /></td>
-								<th width="20%" height="18">에너지 단위</th>
-								<td ><input type="text" size="35" id="energyUnit" /></td>
+								<th width="15%" height="26">연료 코드</th>
+								<td ><input type="text" size="20" id="fuelCd" /></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">에너지 총발열량</th>
-								<td ><input type="text" size="35" id="energyTotalCalVal" class="ygpaNumber"/></td>
-								<th width="20%" height="18">에너지 순발열량</th>
-								<td ><input type="text" size="35" id="energyNetCalVal" class="ygpaNumber"/></td>
+								<th width="15%" height="26">연료 명</th>
+								<td ><input type="text" size="20" id="fuelNm" /></td>
 							</tr>
 							<tr>
-								<th width="20%" height="18">온실가스 단위</th>
-								<td ><input type="text" size="35" id="grHseUnit" /></td>
-								<th width="20%" height="18">온실가스 계수</th>
-								<td ><input type="text" size="35" id="grHseCoef" class="ygpaNumber"/></td>
+								<th width="15%" height="26">에너지 단위</th>
+								<td ><input type="text" size="20" id="energyUnit" /></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">에너지 총발열량</th>
+								<td ><input type="text" size="20" id="energyTotalCalVal" class="ygpaNumber"/></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">에너지 순발열량</th>
+								<td ><input type="text" size="20" id="energyNetCalVal" class="ygpaNumber"/></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">온실가스 단위</th>
+								<td ><input type="text" size="20" id="grHseUnit" /></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">온실가스 계수</th>
+								<td ><input type="text" size="20" id="grHseCoef" class="ygpaNumber"/></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">등록자</th>
+                               	<td><span data-column-id="regUsr"></span></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">등록일시</th>
+								<td><span data-column-id="registDt"></span></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">수정자</th>
+                               	<td><span data-column-id="updUsr"></span></td>
+							</tr>
+							<tr>
+								<th width="15%" height="26">수정일시</th>
+								<td><span data-column-id="updtDt"></span></td>
 							</tr>
 						</table>
 					</form>

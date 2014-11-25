@@ -43,6 +43,12 @@ public interface GamEnergyUsageMngService {
 	List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception;
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectEnergyUsageMngChartList(GamEnergyUsageMngVo searchVO) throws Exception;
+
+	/**
 	 * @param gamEnergyUsageMngVo
 	 */
 	void insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
