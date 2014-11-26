@@ -3,6 +3,10 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,8 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngService;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
 /**
  * 
@@ -41,7 +47,6 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  */
 @Controller
 public class GamFcltyQcwWrtMngController {
-
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
@@ -54,6 +59,9 @@ public class GamFcltyQcwWrtMngController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
+    @Resource(name="gamFcltyQcwWrtMngService")
+    GamFcltyQcwWrtMngService gamFcltyQcwWrtMngService;
+    
 	/**
      * 시설물 점검관리 화면 호출
      * @param windowId
@@ -67,4 +75,48 @@ public class GamFcltyQcwWrtMngController {
     	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMng";
     }
 
+	
+	/**
+	 * 점검관리내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/selectQcMngDtlsList.do")
+	@ResponseBody Map<String, Object> selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyQcwWrtMngService.selectQcMngDtlsList(searchVO);
+		int totCnt = gamFcltyQcwWrtMngService.selectQcMngDtlsListTotCnt(searchVO);
+		
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
 }

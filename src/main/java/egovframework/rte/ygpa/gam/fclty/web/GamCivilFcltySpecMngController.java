@@ -309,7 +309,6 @@ public class GamCivilFcltySpecMngController {
         	return map;
     	}
     	
-    	System.out.println("test :: fileupload");
 		insertList = mapper.readValue((String)dataList.get("insertList"),
 		    new TypeReference<List<HashMap<String,String>>>(){});
 

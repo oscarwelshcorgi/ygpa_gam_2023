@@ -35,6 +35,21 @@
 							QC_MNG_DTLS_F Q
 						WHERE
 							1 = 1
+						<isNotEmpty property="sFcltsJobSe">
+						  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+						<isNotEmpty property="sQcMngNm">
+						  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
+						</isNotEmpty>
+						<isNotEmpty property="sQcInspSe">
+						  	AND Q.QC_INSP_SE = #sQcInspSe#
+						</isNotEmpty>
+						<isNotEmpty property="sQcBeginDt">
+						  	<![CDATA[ AND Q.QC_BEGIN_DT >= TO_DATE(#sQcBeginDt#, 'YYYY-MM-DD') ]]>
+						</isNotEmpty>
+						<isNotEmpty property="sQcEndDt">
+						  	<![CDATA[ AND Q.QC_END_DT <= TO_DATE(#sQcEndDt#, 'YYYY-MM-DD') ]]>
+						</isNotEmpty>
 						ORDER BY
 							Q.FCLTS_MNG_GROUP_NO
 							, Q.FCLTS_JOB_SE
@@ -51,8 +66,51 @@
 			QC_MNG_DTLS_F
 		WHERE
 			1 = 1
+		<isNotEmpty property="sFcltsJobSe">
+		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		<isNotEmpty property="sQcMngNm">
+		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
+		</isNotEmpty>
+		<isNotEmpty property="sQcInspSe">
+		  	AND Q.QC_INSP_SE = #sQcInspSe#
+		</isNotEmpty>
+		<isNotEmpty property="sQcBeginDt">
+		  	<![CDATA[ AND Q.QC_BEGIN_DT >= TO_DATE(#sQcBeginDt#, 'YYYY-MM-DD') ]]>
+		</isNotEmpty>
+		<isNotEmpty property="sQcEndDt">
+		  	<![CDATA[ AND Q.QC_END_DT <= TO_DATE(#sQcEndDt#, 'YYYY-MM-DD') ]]>
+		</isNotEmpty>
 	</select>
 
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			Q.FCLTS_MNG_GROUP_NO
+			, Q.FCLTS_JOB_SE
+			, Q.QC_MNG_SEQ
+			, Q.ENFORCE_YEAR
+			, Q.QC_MNG_NM
+			, Q.QC_INSP_DT
+			, Q.QC_INSP_SE
+			, Q.QC_INSP_INSTT_NM
+			, Q.RESPON_ENGINEER_NM
+			, Q.QC_BEGIN_DT
+			, Q.QC_END_DT
+			, Q.QC_INSP_BDGT
+			, Q.QC_INSP_AMT
+			, Q.STTUS_EVL_LVL
+			, Q.QC_INSP_RESULT
+			, Q.ACTION_CN
+			, Q.ACTION_SE
+			, Q.RM
+		FROM
+			QC_MNG_DTLS_F Q
+		WHERE
+			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+			AND Q.FCLTS_JOB_SE = #fcltsJobSe#
+			AND Q.QC_MNG_SEQ = #qcMngSeq#
+	</select>
+	
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S">
 		INSERT INTO
 			QC_MNG_DTLS_F (
@@ -137,7 +195,7 @@
 	</delete>
 	
 	<!-- 점검관리대상 시설물  -->
-	<select id="gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngObjFcltsDetail_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -175,6 +233,25 @@
 			AND FCLTS_JOB_SE = #sFcltsJobSe#
 			AND QC_MNG_SEQ = #sQcMngSeq# 	
 	</select>	
+
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			O.FCLTS_MNG_GROUP_NO
+			, O.FCLTS_JOB_SE
+			, O.QC_MNG_SEQ
+			, O.FCLTS_MNG_NO
+			, O.QC_INSP_SE
+			, O.QC_INSP_DT
+			, O.INSPECTOR
+			, O.QC_INSP_RESULT
+			, O.RM
+		FROM
+			QC_MNG_OBJ_FCLTS_F O
+		WHERE
+			O.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND O.FCLTS_JOB_SE = #sFcltsJobSe#
+			AND O.QC_MNG_SEQ = #sQcMngSeq# 
+	</select>
 	
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S">
 		INSERT INTO
@@ -388,7 +465,26 @@
 			AND FCLTS_JOB_SE = #sFcltsJobSe#
 			AND QC_MNG_SEQ = #sQcMngSeq# 	
 	</select>	
-	
+
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngResultItemDetail_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+		SELECT
+			R.FCLTS_MNG_GROUP_NO
+			, R.FCLTS_JOB_SE
+			, R.QC_MNG_SEQ
+			, R.QC_ITEM_CD
+			, R.SEQ
+			, R.INSP_RESULT_CHK
+			, R.INSP_RESULT_CN
+		FROM
+			QC_MNG_RESULT_ITEM_F R
+		WHERE
+			R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND R.FCLTS_JOB_SE = #sFcltsJobSe#
+			AND R.QC_MNG_SEQ = #sQcMngSeq#
+		ORDER BY
+			R.QC_ITEM_CD
+	</select>
+		
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngResultItem_S">
 		INSERT INTO
 			QC_MNG_RESULT_ITEM_F (

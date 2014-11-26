@@ -38,50 +38,48 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this._params = params;	// 파라미터를 저장한다.
 
 	// 테이블 설정
-	this.$("#fcltyQcwWrtMngList").flexigrid({
+	this.$("#qcMngDtlsList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectFcltyQcwWrtMngList.do" />',
+		url: '/fcltyMng/selectQcMngDtlsList.do',
 		dataType: "json",
 		colModel : [
-					{display:"관리그룹번호",	name:"gisAssetsPrtAtCode",	width:100,		sortable:false,		align:"center"},
-					{display:"업무구분",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
-					{display:"점검관리순번",	name:"gisAssetsDisplayCd",	width:90,		sortable:false,		align:"center"},
-					{display:"시행년도",		name:"gisAssetsNm",			width:60,		sortable:false,		align:"left"},
-					{display:"점검관리명", 	    name:"gisPrtFcltyDisplayCd",width:120,		sortable:false,		align:"center"},
-					{display:"점검진단구분",    name:"prtFcltyNm",			width:90,		sortable:false,		align:"left"},
-					{display:"점검진단기관명",	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"left"},
-					{display:"책임기술자명",	name:"prtFcltyStndrd",		width:120,		sortable:false,		align:"left"},
-					{display:"점검시작일자",    name:"prtFcltyUnit",		width:90,		sortable:false,		align:"left"},
-					{display:"점검종료일자",	name:"prtFcltyInstlDt",		width:90,		sortable:false,		align:"center"},
-					{display:"점검진단예산",	name:"prtFcltyInstlDt",		width:90,		sortable:false,		align:"center"},
-					{display:"점검진단금액",	name:"prtFcltyInstlDt",		width:90,		sortable:false,		align:"center"},
-					{display:"상태평가등급",	name:"prtFcltyInstlDt",		width:90,		sortable:false,		align:"center"},
-					{display:"점검진단결과",	name:"prtFcltyInstlDt",		width:90,		sortable:false,		align:"center"},
-					{display:"조치구분",		name:"prtFcltyInstlDt",		width:60,		sortable:false,		align:"center"},
+					{display:"관리그룹번호",	name:"fcltsMngGroupNo",		width:100,		sortable:false,		align:"center"},
+					{display:"업무구분",		name:"fcltsJobSe",			width:60,		sortable:false,		align:"center"},
+					{display:"점검관리순번",	name:"qcMngSeq",			width:90,		sortable:false,		align:"center"},
+					{display:"점검관리명", 	    name:"qcMngNm",				width:120,		sortable:false,		align:"center"},
+					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"left"},
+					{display:"점검시작일자",    name:"qcBeginDt",			width:90,		sortable:false,		align:"left"},
+					{display:"점검종료일자",	name:"qcEndDt",				width:90,		sortable:false,		align:"center"},
+					{display:"점검진단구분",    name:"qcInspSe",			width:90,		sortable:false,		align:"left"},
+					{display:"점검진단일자",	name:"qcInspDt",			width:120,		sortable:false,		align:"left"},
+					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:120,		sortable:false,		align:"left"},
+					{display:"책임기술자명",	name:"responEngineerNm",	width:120,		sortable:false,		align:"left"},
+					{display:"점검진단예산",	name:"qcInspBdgt",			width:90,		sortable:false,		align:"center"},
+					{display:"점검진단금액",	name:"qcInspAmt",			width:90,		sortable:false,		align:"center"},
+					{display:"상태평가등급",	name:"sttusEvlLvl",			width:90,		sortable:false,		align:"center"},
+					{display:"조치구분",		name:"actionSe",			width:60,		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
 
-	this._cmd = '';
-
-	this.$("#fcltsFileList1").flexigrid({
+	this.$("#qcMngObjFcltsList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectInfoTechFcltySpecFileList.do"/>',
+		url: '/fcltyMng/selectQcMngObjFcltsList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"시설물관리번호",	name:"atchFileSeq",			width:100,		sortable:true,		align:"center"},
-					{display:"시설물명",		name:"atchFileSeNm",		width:150,		sortable:true,		align:"center"},
-					{display:"점검진단구분",	name:"atchFileSj",			width:90,		sortable:true,		align:"left"},
-					{display:"점검진단일자",	name:"atchFileNmLogic",		width:100,		sortable:true,		align:"left"},
-					{display:"점검자",	name:"atchFileNmPhysicl",	width:100,		sortable:true,		align:"left"},
-					{display:"비고",	name:"atchFileNmPhysicl",	width:350,		sortable:true,		align:"left"},
+					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
+					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"center"},
+					{display:"점검진단구분",	name:"qcInspSe",	width:90,		sortable:true,		align:"left"},
+					{display:"점검진단일자",	name:"qcInspDt",	width:100,		sortable:true,		align:"left"},
+					{display:"점검자",		name:"inspector",	width:100,		sortable:true,		align:"left"},
+					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
 			],
 		height: "auto"
 	});
 
-	this.$("#fcltsFileList2").flexigrid({
+	this.$("#qcMngAtchFileList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectInfoTechFcltySpecFileList.do"/>',
+		url: '/fclty/selectQcMngAtchFileList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
@@ -94,31 +92,57 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		height: "auto"
 	});
 
-
-	this.$("#fcltsFileList3").flexigrid({
+	this.$("#qcMngResultItemList").flexigrid({
 		module: this,
-		url: '<c:url value="/fclty/selectInfoTechFcltySpecFileList.do"/>',
+		url: '/fcltyMng/selectQcMngResultItemList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"점검항목코드",	name:"atchFileSeq",			width:120,		sortable:true,		align:"center"},
-					{display:"점검항목명",		name:"atchFileSeNm",		width:150,		sortable:true,		align:"center"},
-					{display:"순번",			name:"atchFileSj",			width:90,		sortable:true,		align:"left"},
-					{display:"점검항목결과구분",	name:"atchFileNmLogic",		width:120,		sortable:true,		align:"left"},
+					{display:"점검항목코드",	name:"qcItemCd",		width:100,		sortable:true,		align:"center"},
+					{display:"점검항목",		name:"qcItem",			width:150,		sortable:true,		align:"center"},
+					{display:"점검상위항목",	name:"qcItemUpper",		width:150,		sortable:true,		align:"center"},
+					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
+					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"left"}
 			],
 		height: "auto"
 	});
 	
 };
 
+//화면 및 데이터 초기화
+GamFcltyQcwWrtMngModule.prototype.initDisplay = function() {
+	
+}
+
 GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
 	this.loadData();
 }
 
-//시설목록 로드
+//점검관리내역 조회
 GamFcltyQcwWrtMngModule.prototype.loadData = function() {
+	var searchOpt = this.makeFormArgs("#searchFcltyQcwWrtMngForm");
+	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();	
 }
 
-
+//점검관리내역 데이터 조회
+GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
+	var selectRows = this.$('#qcMngDtlsList').selectedRows();
+	if(selectRows.length > 0) {
+		var row = selectRows[0];
+		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+		this.doAction('/fclty/selectCivilFcltySpecMngDetail.do', opts, function(module, result) { 
+			if(result.resultCode == "0"){
+				module.makeFormValues('#fcltyManageVO', result.result);
+				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
+				module.loadFileData();
+			}
+			else {
+				this._cmd="";
+				module.initDisplay();
+				alert(result.resultMsg);
+			}
+		});	
+	}
+}
 
 /**
  * 정의 된 버튼 클릭 시
@@ -127,7 +151,9 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
 	switch(buttonId) {
 		case "searchBtn": //조회
-			break;		
+			this.initDisplay();
+			this.loadData();
+			break;
 	}
 };
 
@@ -231,7 +257,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>
 							<th>점검진단구분</th>
 							<td>
-								<select id="qcInspSe">
+								<select id="sQcInspSe">
 									<option value="">선택</option>
 									<option value="M">기계시설물</option>
 									<option value="C">토목시설물</option>
@@ -241,7 +267,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 							<th>점검기간</th>
 							<td>
-								<input id="planBeginDt" type="text" class="emdcal" size="15" /> ~ <input id="planBeginDt" type="text" class="emdcal" size="15" />
+								<input id="sQcBeginDt" type="text" class="emdcal" size="15" /> ~ <input id="sQcEndDt" type="text" class="emdcal" size="15" />
 							</td>
 						</tr>
 					</tbody>
@@ -262,17 +288,17 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<li><a href="#tabs4" class="emdTab">점검관리첨부파일</a></li>
 				<li><a href="#tabs5" class="emdTab">점검관리결과</a></li>
 			</ul>
-
+			
+			<!-- 시설물점검목록 -->
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="fcltyQcwWrtMngList" style="display:none" class="fillHeight"></table>
+				<table id="qcMngDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnAdd">점검추가</button>
 					<button id="btnDelete">점검삭제</button>
 				</div>
 			</div>
 
-
-			<!-- 건축시설 상세 -->
+			<!-- 시설물점검내역 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyQcwWrtMngVO">
 				<div style="margin-bottom:10px;">
@@ -356,9 +382,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				</div>
 			</div>
 			
-			<!-- 정보통신시설 첨부파일 -->
+			<!-- 점검관리대상시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltsFileList1" style="display:none" class="fillHeight"></table>
+				<table id="qcMngObjFcltsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnRemoveFile">추가/삭제</button>
 					<button id="btnSave">저장</button>
@@ -368,9 +394,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 			
-			<!-- 정보통신시설 첨부파일 -->
+			<!-- 점검관리첨부파일 -->
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltsFileList2" style="display:none" class="fillHeight"></table>
+				<table id="qcMngAtchFileList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
@@ -398,9 +424,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 			
-			<!-- 정보통신시설 첨부파일 -->
+			<!-- 점검관리결과 -->
 			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltsFileList3" style="display:none" class="fillHeight"></table>
+				<table id="qcMngResultItemList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnRemoveFile">추가/삭제</button>
 					<button id="btnSave">저장</button>
