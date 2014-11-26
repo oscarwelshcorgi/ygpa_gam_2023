@@ -207,25 +207,13 @@ GamFcltyMaintMngModule.prototype.addEditData = function() {
 
 
 GamFcltyMaintMngModule.prototype.uploadFileData = function() {
-	
 	// 파일을 업로드하고 업로드한 파일 목록을 result에 어레이로 리턴한다.
 	this.uploadPfPhoto("uploadFile", function(module, result) {
 		var userid = "admin";
+		console.log('debug');
 		$.each(result, function(){
-			module.$("#fcltyMaintFileList").flexAddRow({_updtId:'I', atchFileSeq:"", fcltsMngNo:"", atchFileSe:"D", atchFileSeNm:"문서",  atchFileSj: "", atchFileNmLogic: this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt: ""});
-		});
-	}, "첨부파일 업로드");
-
-};
-
-
-GamFcltyMaintMngModule.prototype.downloadFileData = function() {
-	
-	// 파일을 업로드하고 업로드한 파일 목록을 result에 어레이로 리턴한다.
-	this.uploadPfPhoto("uploadFile", function(module, result) {
-		var userid = "admin";
-		$.each(result, function(){
-			module.$("#fcltyMaintFileList").flexAddRow({_updtId:'I', atchFileSeq:"", fcltsMngNo:"", atchFileSe:"D", atchFileSeNm:"문서",  atchFileSj: "", atchFileNmLogic: this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt: ""});
+			alert(this.physcalFileNm);
+			module.$("#fcltyMaintFileList").flexAddRow({_updtId:'I', atchFileSeq:"", atchFileSe:"D", atchFileSeNm:"문서",  atchFileSj: "", atchFileNmLogic: this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt: ""});
 		});
 	}, "첨부파일 업로드");
 
