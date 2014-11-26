@@ -61,6 +61,20 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 			],
 		height: "auto"
 	});
+	this._cmd = '';
+	this._deleteAtchFileList = null;
+	this._deleteObjFcltsList = null;
+	this._deleteResultItemList = null;
+	this.fillSelectBoxYear('#enforceYear');
+	
+	this.$("#qcMngDtlsList").on('onItemSelected', function(event, module, row, grid, param) {
+		module._cmd = "modify";
+	});
+	
+	this.$("#qcMngDtlsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._cmd = "modify";
+		module.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
+	});
 
 	this.$("#qcMngObjFcltsList").flexigrid({
 		module: this,
@@ -79,7 +93,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#qcMngAtchFileList").flexigrid({
 		module: this,
-		url: '/fclty/selectQcMngAtchFileList.do',
+		url: '/fcltyMng/selectQcMngAtchFileList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
@@ -108,6 +122,14 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	
 };
 
+//2000년부터 현재년도까지 select 박스에 채워넣는 함수.
+GamFcltyQcwWrtMngModule.prototype.fillSelectBoxYear = function(id) {
+	var curYear = (new Date()).getFullYear();
+	for(var i=curYear; i>=2000; i--) {
+		this.$(id).append('<option value="' + i + '">' + i + '</option>');
+	}
+}
+
 //화면 및 데이터 초기화
 GamFcltyQcwWrtMngModule.prototype.initDisplay = function() {
 	
@@ -120,20 +142,28 @@ GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
 //점검관리내역 조회
 GamFcltyQcwWrtMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchFcltyQcwWrtMngForm");
+	this.initDisplay();
 	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();	
 }
 
 //점검관리내역 데이터 조회
 GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
+	this.initDisplay();
 	var selectRows = this.$('#qcMngDtlsList').selectedRows();
 	if(selectRows.length > 0) {
 		var row = selectRows[0];
-		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-		this.doAction('/fclty/selectCivilFcltySpecMngDetail.do', opts, function(module, result) { 
+		var opts = [
+	           		{name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	           		{name: 'fcltsJobSe', value: row['fcltsJobSe'] },
+	           		{name: 'qcMngSeq', value: row['qcMngSeq'] }
+		           ];
+		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
-				module.makeFormValues('#fcltyManageVO', result.result);
-				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
-				module.loadFileData();
+				module.makeFormValues('#fcltyQcwWrtMngVO', result.result);
+				module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
+				module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
+				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
+				module.$("#fcltyQcwWrtMngTab").tabs("option", {active: 1});
 			}
 			else {
 				this._cmd="";
@@ -151,24 +181,25 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
 	switch(buttonId) {
 		case "searchBtn": //조회
-			this.initDisplay();
 			this.loadData();
 			break;
 	}
 };
 
-GamFcltyQcwWrtMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
-	var fileList = this.$("#fcltsFileList").flexGetData();
+GamFcltyQcwWrtMngModule.prototype.saveAtchFile = function() {
+	var fileList = this.$("#qcMngAtchFileList").flexGetData();
 	for(var i=0; i<fileList.length; i++) {
-		fileList[i]["fcltsMngNo"] = fcltsMngNo;
+		fileList[i]["fcltsMngGroupNo"] = this.$("#fcltsMngGroupNo").val();
+		fileList[i]["fcltsJobSe"] = this.$("#fcltsJobSe").val();
+		fileList[i]["qcMngSeq"] = this.$("#qcMngSeq").val();		
 	}
     var inputVO=[];
     inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
     inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('<c:url value="/fclty/mergeInfoTechFcltySpecAtchFile.do" />', inputVO, function(module, result) {
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteAtchFileList) };
+    this.doAction('<c:url value="/fcltyMng/mergeQcMngAtchFile.do" />', inputVO, function(module, result) {
         if(result.resultCode == 0){
-			module._deleteDataFileList = [];				    	
+			module._deleteAtchFileList = [];				    	
 			module.loadFileData();
         }
         else {
@@ -187,7 +218,7 @@ GamFcltyQcwWrtMngModule.prototype.removeAtchFileItem = function() {
     	for(var i=this.$("#fcltsFileList").selectedRowIds().length-1; i>=0; i--) {
     		var row = this.$("#fcltsFileList").flexGetRow(this.$("#fcltsFileList").selectedRowIds()[i]);
             if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+            	this._deleteAtchFileList[this._deleteAtchFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			}
         	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
 		}
@@ -201,12 +232,19 @@ GamFcltyQcwWrtMngModule.prototype.removeAtchFileItem = function() {
  * 탭 변경시 실행 이벤트
  */
 GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
+		this.loadDetailData();
+	}
 	switch(newTabId) {
 	case "tabs1":
 		break;
 	case "tabs2":
 		break;
 	case "tabs3":
+		break;
+	case "tabs4":
+		break;
+	case "tabs5":
 		break;
 	}
 };
@@ -259,7 +297,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td>
 								<select id="sQcInspSe">
 									<option value="">선택</option>
-									<option value="M">기계시설물</option>
+									<option value="A">기계시설물</option>
 									<option value="C">토목시설물</option>
 									<option value="A">건축시설물</option>
 									<option value="I">정보통신시설물</option>
@@ -306,73 +344,94 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>
 							<th width="12%" height="17">시설물관리그룹</th>
 							<td colspan="3">
-								<input type="text" size="14" id="" disabled="disabled"/>
-								<input type="text" size="30" id="" disabled="disabled"/>
+								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="40" id="fcltsMngGroupNm" disabled="disabled"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<th width="12%" height="17">점검관리순번</th>
 							<td>
-								<input type="text" size="30" id="" disabled="disabled"/>
+								<input type="text" size="10" id="qcMngSeq" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">시설물업무구분</th>
 							<td>
-								<select id="a1">
-                                    <option value="">선택</option>
+								<select id="fcltsJobSe">
+									<option value="">선택</option>
+									<option value="E">전기시설물</option>
+									<option value="M">기계시설물</option>
+									<option value="C">토목시설물</option>
+									<option value="A">건축시설물</option>
+									<option value="I">정보통신시설물</option>
                                 </select>
 							</td>
 							<th width="12%" height="17">점검관리명</th>
 							<td colspan="3">
-								<input type="text" size="60" id="gisAssetsNm" />
+								<input type="text" size="60" id="qcInspInsttNm" />
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">점검진단일자</th>
+							<th width="12%" height="17">시행년도</th>
 							<td>
-								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
-								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
-							</td>
-							<th width="12%" height="17">점검진단구분</th>
-							<td>
-								<select id="aa">
-                                    <option value="">선택</option>
+								<select id="enforceYear">
                                 </select>
 							</td>
-							<th width="12%" height="17">점검진단명</th>
-							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
+							<th width="12%" height="17">점검진단일자</th>
+							<td><input id="qcInspDt" type="text" class="emdcal" size="20"/></td>
+							<th width="12%" height="17">점검진단기관명</th>
+							<td><input type="text" size="30" id="qcInspInsttNm" maxlength="60" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">점검진단구분</th>
+							<td>
+								<select id="qcInspSe">
+                                    <option value="">선택</option>
+                                    <option value="1">1선택</option>
+                                    <option value="2">2선택</option>
+                                    <option value="3">3선택</option>
+                                    <option value="4">4선택</option>
+                                    <option value="5">5선택</option>
+                                </select>
+							</td>
+							<th width="12%" height="17">점검시작일자</th>
+							<td><input id="qcBeginDt" type="text" class="emdcal" size="20"/></td>
+							<th width="12%" height="17">점검종료일자</th>
+							<td colspan="3"><input id="qcEndDt" type="text" class="emdcal" size="20"/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">책임기술자명</th>
-							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
-							<th width="12%" height="17">점검시작일자</th>
-							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20"/></td>
-							<th width="12%" height="17">점검종료일자</th>
-							<td colspan="3"><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20"/></td>
+							<td><input type="text" size="30" id="responEngineerNm" maxlength="60" /></td>
+							<th width="12%" height="17">점검진단예산</th>
+							<td><input id="qcInspBdgt" type="text" size="20" class="ygpaNumber"/></td>
+							<th width="12%" height="17">점검진단금액</th>
+							<td><input id="qcInspAmt" type="text" size="20" class="ygpaNumber"/></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">점검진단예산</th>
-							<td><input id="prtFcltyStndrd" type="text" size="20"/></td>
-							<th width="12%" height="17">점검진단금액</th>
-							<td><input id="prtFcltyUnit" type="text" size="20"/></td>
 							<th width="12%" height="17">상태평가등급</th>
-							<td><input id="prtFcltyUnit" type="text" size="10"/></td>
+							<td colspan="5"><input id="sttusEvlLvl" type="text" size="10"/></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">점검결과</th>
+							<td colspan="5"><textarea id="qcInspResult" cols="120" rows="7"></textarea></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">조치구분</th>
 							<td colspan="5">
-								<select id="aa">
+								<select id="actionSe">
                                     <option value="">선택</option>
+                                    <option value="1">조치1</option>
+                                    <option value="2">조치2</option>
+                                    <option value="3">조치3</option>
                                 </select>							
 							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">조치내용</th>
-							<td colspan="5"><textarea id="prtFcltyStndrd" cols="120" rows="10"></textarea></td>
+							<td colspan="5"><textarea id="actionCn" cols="120" rows="7"></textarea></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">비고</th>
-							<td colspan="5"><input id="prtFcltyUnit" type="text" size="110"/></td>
+							<td colspan="5"><input id="rm" type="text" size="110"/></td>
 						</tr>
 					</table>
 				</div>

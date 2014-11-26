@@ -119,4 +119,165 @@ public class GamFcltyQcwWrtMngController {
     	return map;
     }
 	
+	/**
+	 * 점검관리내역 상세
+	 * @param fcltyManageVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/selectQcMngDtlsDetail.do")
+    @ResponseBody Map<String, Object> selectQcMngDtlsDetail(@RequestParam Map searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	EgovMap result=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+        	result = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
+    	}
+    	catch(Exception e) {
+            map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+            return map;
+    	}
+
+        map.put("resultCode", 0);
+        map.put("result", result);
+
+        return map;		
+	}
+
+	/**
+	 * 점검관리대상시설물 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/selectQcMngObjFcltsList.do")
+	@ResponseBody Map<String, Object> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyQcwWrtMngService.selectQcMngObjFcltsList(searchVO);
+		int totCnt = gamFcltyQcwWrtMngService.selectQcMngObjFcltsListTotCnt(searchVO);
+		
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	/**
+	 * 점검관리첨부파일 목록조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/selectQcMngAtchFileList.do")
+	@ResponseBody Map<String, Object> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyQcwWrtMngService.selectQcMngAtchFileList(searchVO);
+		int totCnt = gamFcltyQcwWrtMngService.selectQcMngAtchFileListTotCnt(searchVO);
+		
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	/**
+	 * 점검관리결과항목 목록조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/selectQcMngResultItemList.do")
+	@ResponseBody Map<String, Object> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
+		int totCnt = gamFcltyQcwWrtMngService.selectQcMngResultItemListTotCnt(searchVO);
+		
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
 }

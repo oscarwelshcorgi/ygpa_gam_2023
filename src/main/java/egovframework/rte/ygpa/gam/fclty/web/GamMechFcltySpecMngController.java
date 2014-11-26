@@ -149,8 +149,8 @@ public class GamMechFcltySpecMngController {
         	result = gamMechFcltySpecMngService.selectMechFcltySpecMngDetail(searchVO);
     	}
     	catch(Exception e) {
-            map.put("resultCode", 2);
-            map.put("resultMsg", e.getMessage());
+            map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
             return map;
     	}
 

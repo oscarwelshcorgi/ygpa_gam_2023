@@ -86,6 +86,7 @@
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
 			Q.FCLTS_MNG_GROUP_NO
+			, SELECT FCLTS
 			, Q.FCLTS_JOB_SE
 			, Q.QC_MNG_SEQ
 			, Q.ENFORCE_YEAR
@@ -106,9 +107,9 @@
 		FROM
 			QC_MNG_DTLS_F Q
 		WHERE
-			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
-			AND Q.FCLTS_JOB_SE = #fcltsJobSe#
-			AND Q.QC_MNG_SEQ = #qcMngSeq#
+			Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo# 
+			AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
+			AND Q.QC_MNG_SEQ = #sQcMngSeq#
 	</select>
 	
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S">
