@@ -138,6 +138,19 @@ public class GamFcltyMaintMngController {
 
     	return map;
     }
+	
+	
+	/**
+     * 유지보수 대상시설물 추가편집 팝업
+     *
+     * 유지보수 대상시설물 팝업
+     */
+	@RequestMapping(value="/popup/selectMntnRprObjFcltsFPopup.do")
+    String selectMntnRprObjFcltsFPopup(@RequestParam Map selectMntnRprObjFcltsF, ModelMap model) throws Exception {
+
+		model.addAttribute("selectMntnRprObjFcltsF", selectMntnRprObjFcltsF);
+    	return "/ygpa/gam/fcltyMng/GamPopupMntnRprObjFcltsF";
+    }
 
 	
 

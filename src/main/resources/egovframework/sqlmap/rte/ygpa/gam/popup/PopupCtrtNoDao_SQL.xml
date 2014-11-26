@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupCtrtNoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupCtrtNoVO"/>
+    
+
+    <select id="gamPopupCtrtNoDao.selectCtrtNoList_D" parameterClass="gamPopupCtrtNoVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT
+							    CTRT_NO
+                                , (CASE WHEN CTRT_SE = '1' THEN '자체' 
+                                		  WHEN CTRT_SE = '2' THEN '조달'
+                                	END) AS CTRT_SE
+                                , BID_PBLANC_NO
+                                , CTRT_NM
+                                , TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
+                                , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
+                                , REGIST_ENTRPS_CD
+                                , GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+                            FROM 
+				            	CTRT_INFO_F
+							WHERE 1=1
+								<isNotEmpty property="sCtrtNo">
+									AND CTRT_NO LIKE #sCtrtNo# || '%' 
+								</isNotEmpty>
+								<isNotEmpty property="sCtrtNm">
+									AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+								</isNotEmpty>
+                            <!-- ORDER BY REGIST_DT DESC -->
+                            ORDER BY CTRT_NO DESC, CTRT_DT DESC                                                
+                ) S	
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupCtrtNoDao.selectCtrtNoListTotCnt_S" parameterClass="gamPopupCtrtNoVO" resultClass="int">
+			SELECT
+			    COUNT(*) TOTAL_CNT
+			FROM
+			    CTRT_INFO_F
+			WHERE 1=1
+				<isNotEmpty property="sCtrtNo">
+					AND CTRT_NO LIKE #sCtrtNo# || '%' 
+				</isNotEmpty>
+				<isNotEmpty property="sCtrtNm">
+					AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+				</isNotEmpty>
+    </select>
+</sqlMap>
