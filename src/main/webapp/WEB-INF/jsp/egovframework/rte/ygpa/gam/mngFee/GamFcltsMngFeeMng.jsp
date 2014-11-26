@@ -177,7 +177,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
             module.$('#cmd').val('modify');
         }
 
-        module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
+//         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
         //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
@@ -252,11 +252,11 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
         	event.data.module.$('#payinstIntrrate').val("");
         }
         // calc first payment amount
-        event.data.module.calcFirstPaymentAmount();
+//         event.data.module.calcFirstPaymentAmount();
     });
 
     this.$('#payinstIntrrate').on('change keyup', {module: this}, function(event) {
-        event.data.module.calcFirstPaymentAmount();
+//         event.data.module.calcFirstPaymentAmount();
     });
     this.$('#cofixList').on('change', {module: this}, function(event) {
     	//alert('||'+$(this).val()+'||');
@@ -860,7 +860,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
         this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
     }
 
-    this.calcFirstPaymentAmount();
+//     this.calcFirstPaymentAmount();
 };
 
 /**
@@ -882,9 +882,8 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             this.$('#gamFcltsMngFeeMngDetailForm').find(':input').val('');
             this.$('#gamFcltsMngFeeMngFileForm').find(':input').val('');
 
-			console.log('debug');
-            this.$("#FcltsMngFeeMngDetailList").flexAddData({resultList:[]}); //그리드 초기화
-            this.$("#FcltsMngFeeMngFileList").flexAddData({resultList:[]}); //그리드 초기화
+            this.$("#FcltsMngFeeMngDetailList").flexEmptyData(); //그리드 초기화
+            this.$("#FcltsMngFeeMngFileList").flexEmptyData(); //그리드 초기화
             this.$("#cmd").val('insert');
 
             break;
@@ -893,7 +892,6 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
         // 신청저장
         case 'btnSaveItem':
-			console.log('debug');
 
             if( confirm("저장하시겠습니까?") ) {
                 // 변경된 자료를 저장한다.
@@ -922,7 +920,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
                 this._editData2=this.getFormValues('#gamFcltsMngFeeMngForm', {_updtId:'I'});
                 inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
-
+				console.log(this._editData2);
                 //// console.log(inputVO);
                 // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
@@ -972,7 +970,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             break;
 
 
-        //임대상세추가
+        // 관리비 관리 상세 추가
         case 'btnInsertItemDetail':
         	 this.$("#FcltsMngFeeMngListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
              this.$('#gamFcltsMngFeeMngDetailForm').find(':input').val('');
@@ -995,7 +993,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
             break;
 
-        // 자산임대상세 삭제 (Grid상에서만 삭제됨)
+        // 관리비 관리 상세테이블  삭제 (Grid상에서만 삭제됨)
         case 'btnRemoveItemDetail':
             var rows = this.$('#FcltsMngFeeMngDetailList').selectedRows();
 

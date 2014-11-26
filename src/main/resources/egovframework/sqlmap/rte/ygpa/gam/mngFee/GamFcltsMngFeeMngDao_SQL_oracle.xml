@@ -76,12 +76,12 @@
 		         		#mngMt#
 						,#mngFeeJobSe#
 						,#mngFeeSj#
-						,#fcltyMngFee#
-						,#elctyFee#
-						,#waterFee#
-						,#gasFee#
-						,#envFee#
-						,#mngTotalFee#
+						,REPLACE(#fcltyMngFee#,',','')
+						,REPLACE(#elctyFee#,',','')
+						,REPLACE(#waterFee#,',','')
+						,REPLACE(#gasFee#,',','')
+						,REPLACE(#envFee#,',','')
+						,REPLACE(#mngTotalFee#,',','')
 						,#regUsr#
 						,sysdate
 		         )
@@ -108,15 +108,15 @@
 		    VALUES
 		         (
 		         		#mngMt#
-						,#mngFeeJobSe#
-						,#entrpscd#
-						,#mngFee#
-						,#elctyFee#
-						,#waterFee#
-						,#gasFee#
-						,#mngTotalFee#
-						,#regUsr#
-						,#usageAr#
+						,REPLACE(#mngFeeJobSe#,',','')
+						,REPLACE(#entrpscd#,',','')
+						,REPLACE(#mngFee#,',','')
+						,REPLACE(#elctyFee#,',','')
+						,REPLACE(#waterFee#,',','')
+						,REPLACE(#gasFee#,',','')
+						,REPLACE(#mngTotalFee#,',','')
+						,REPLACE(#regUsr#,',','')
+						,REPLACE(#usageAr#,',','')
 						,sysdate
 		         )
 		]]>
@@ -124,45 +124,44 @@
 
 	<update id="gamFcltsMngFeeMngDao.updateFcltsMngFeeMng">
 		<![CDATA[
-            UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
-				,	UPD_USR	=	#updUsr#
-				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+            UPDATE FCLTS_MNG_FEE_F SET
+					 MNG_FEE_SJ         =	#mngFeeSj#
+					,FCLTY_MNG_FEE      =	REPLACE(#fcltyMngFee#,',','')
+					,ELCTY_FEE          =	REPLACE(#elctyFee#,',','')
+					,WATER_FEE          =	REPLACE(#waterFee#,',','')
+					,GAS_FEE            =	REPLACE(#gasFee#,',','')
+					,ENV_FEE            =	REPLACE(#envFee#,',','')
+					,MNG_TOTAL_FEE      =	REPLACE(#mngTotalFee#,',','')
+					,UPD_USR            =	#updUsr#
+					,UPDT_DT            =	sysdate
+					WHERE   MNG_MT     		 = #mngMt#
+					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
 		]]>
 	</update>
 
-	<delete id="gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng">
+	<update id="gamFcltsMngFeeMngDao.updateFcltsMngFeeMngDetail">
 		<![CDATA[
-            DELETE  CAR_INFO_F
-             WHERE  CAR_REGIST_NO   = #carRegistNo#
+            UPDATE FCLTS_MNG_FEE_DETAIL_F SET
+					 MNG_FEE        	 =	REPLACE(#mngFee#,',','')
+					,ELCTY_FEE          =	REPLACE(#elctyFee#,',','')
+					,WATER_FEE          =	REPLACE(#waterFee#,',','')
+					,GAS_FEE            =	REPLACE(#gasFee#,',','')
+					,MNG_TOTAL_FEE      =	REPLACE(#mngTotalFee#,',','')
+					,USAGE_AR    		=	REPLACE(#usageAr#,',','')
+					,UPD_USR            =	#updUsr#
+					,UPDT_DT            =	sysdate
+					WHERE   MNG_MT     		 = #mngMt#
+					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
+					AND		ENTRPSCD	 	 = #entrpscd#
+		]]>
+	</update>
+
+	<delete id="gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail">
+		<![CDATA[
+            DELETE  FCLTS_REL_CTRT_MNG_F
+         		    WHERE   MNG_MT     		 = #mngMt#
+					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
+					AND		ENTRPSCD	 	 = #entrpscd#
 		]]>
 	</delete>
 

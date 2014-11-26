@@ -106,4 +106,33 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		return gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList(gamFcltsMngFeeMngDetailVo);
 	}
 
+	/*
+	 * 관리비 관리 마스터 테이블 update
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService#updateFcltsMngFeeMng(egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo)
+	 */
+	@Override
+	public void updateFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception {
+		gamFcltsMngFeeMngDao.updateFcltsMngFeeMng(gamFcltsMngFeeMngVo);
+	}
+
+	/*
+	 *  관리비 관리 마스터 테이블 update
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService#updateFcltsMngFeeMngDetail(egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo)
+	 */
+	@Override
+	public void updateFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
+		gamFcltsMngFeeMngDao.updateFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
+
+	}
+
+	/* 
+	 * 관리비 관리 마스터 테이블 delete
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService#deleteFcltsMngFeeMngDetail(egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo)
+	 */
+	@Override
+	public void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
+		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
+		
+	}
+
 }

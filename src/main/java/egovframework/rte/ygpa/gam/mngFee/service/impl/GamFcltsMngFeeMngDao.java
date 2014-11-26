@@ -75,4 +75,26 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	public List selectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
 		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList_D", gamFcltsMngFeeMngDetailVo);
 	}
+	/**
+	 * 관리비 관리 마스터 테이블 update
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	public void updateFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		insert("gamFcltsMngFeeMngDao.updateFcltsMngFeeMng",gamFcltsMngFeeMngVo);
+	}
+	/**
+	 * 관리비 관리 디테일 테이블 update
+	 * @param gamFcltsMngFeeMngVo
+	 */
+	public void updateFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		insert("gamFcltsMngFeeMngDao.updateFcltsMngFeeMngDetail",gamFcltsMngFeeMngDetailVo);
+	}
+	/**
+	 * 관리비 관리 디테일 테이블 delete
+	 * @param gamFcltsMngFeeMngDetailVo
+	 */
+
+	public void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail",gamFcltsMngFeeMngDetailVo);
+	}
 }

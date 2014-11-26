@@ -57,4 +57,20 @@ public interface GamFcltsMngFeeMngService {
 	 */
 	List selectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
 
+	/**
+	 * 관리비 관리 마스터 테이블 update
+	 */
+	void updateFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+
+	/**
+	 * 관리비 관리 디테일 테이블 update
+	 */
+	void updateFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
+
+	/**
+	 * 관리비 관리 디테일 테이블 delete
+	 */
+	void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
+
+
 }

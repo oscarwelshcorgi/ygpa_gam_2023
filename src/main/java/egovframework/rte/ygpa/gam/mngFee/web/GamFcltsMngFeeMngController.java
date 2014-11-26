@@ -186,7 +186,6 @@ public class GamFcltsMngFeeMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		// 컨테이너부두임대상세리스트 및 총건수
 //		totalCnt = gamFcltsMngFeeMngService.selectCntnrQuayRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamFcltsMngFeeMngService.selectFcltsMngFeeMngDetailList(searchVO);
 
@@ -199,6 +198,12 @@ public class GamFcltsMngFeeMngController {
 
     	return map;
     }
+
+	/**
+	 * 관리비 관리 마스터/디테이블 테이블 저장
+	 *
+	 *
+	 */
 
     @RequestMapping(value="/mngFee/gamSaveFcltsMngFeeMng.do")
 	@ResponseBody Map<String, Object> gamSaveFcltsMngFeeMng(@RequestParam Map<String, Object> dataList) throws Exception {
@@ -262,40 +267,12 @@ public class GamFcltsMngFeeMngController {
 			saveVO.setEnvFee(form.get("envFee"));
 			saveVO.setMngTotalFee(form.get("mngTotalFee"));
     		saveVO.setRegUsr((loginVO.getId()));
-/*
-    		log.debug("########### form.get(payMth) => "+form.get("payMth"));
-    		log.debug("########### saveVO.setPayMth(.get(payMth) => "+saveVO.getPayMth());
-*/
+
     		if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
-    		/*
-    		if( form.get("mngYear") == null || "".equals(form.get("mngYear")) ) {
-    			GamPrtFcltyRentMngtVO keyVO = new GamPrtFcltyRentMngtVO();
-    			keyVO = gamFcltsMngFeeMngService.selectPrtFcltyRentMngtMaxKey(saveVO);
-
-    			saveVO.setMngYear(keyVO.getMngYear());
-    			saveVO.setMngNo(keyVO.getMngNo());
-    			saveVO.setMngCnt(keyVO.getMngCnt());
-    			saveVO.setReqstSeCd("1");   //신청구분코드   (1:최초, 2:연장, 3	:변경, 4	:취소) 이게 맞나?
-    			saveVO.setRegUsr(loginVO.getId());
-*/
     			gamFcltsMngFeeMngService.insertFcltsMngFeeMng(saveVO);
-/*
-    			//항만시설사용 상세저장을 위한 키
-    			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
-        		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
-        		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
-        		saveDetailVO.setDetailMngCnt(keyVO.getMngCnt());
-*/
     		} else {
-/*
-    	        gamFcltsMngFeeMngService.updatePrtFcltyRentMngt(saveVO);
-
-    			//항만시설사용 상세저장을 위한 키
-    			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
-        		saveDetailVO.setDetailMngYear(form.get("mngYear"));
-        		saveDetailVO.setDetailMngNo(form.get("mngNo"));
-        		saveDetailVO.setDetailMngCnt(form.get("mngCnt"));
-*/
+    			saveVO.setUpdUsr((loginVO.getId()));
+    			gamFcltsMngFeeMngService.updateFcltsMngFeeMng(saveVO);
     		}
 
     		//항만시설사용 상세저장
@@ -340,7 +317,7 @@ public class GamFcltsMngFeeMngController {
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());
 
-//    			gamFcltsMngFeeMngService.updatePrtFcltyRentMngtDetail(updateDetailVO);
+    			gamFcltsMngFeeMngService.updateFcltsMngFeeMngDetail(updateDetailVO);
     		}
 
     		for( int i = 0 ; i < deleteList.size() ; i++ ) {
@@ -353,7 +330,7 @@ public class GamFcltsMngFeeMngController {
     			deleteDetailVO.setMngFeeJobSe(form.get("mngFeeJobSe").toString());
     			deleteDetailVO.setEntrpscd(resultMap.get("entrpscd").toString());
 
-//    			gamFcltsMngFeeMngService.deletePrtFcltyRentMngtDetail2(deleteDetailVO);
+    			gamFcltsMngFeeMngService.deleteFcltsMngFeeMngDetail(deleteDetailVO);
     		}
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
