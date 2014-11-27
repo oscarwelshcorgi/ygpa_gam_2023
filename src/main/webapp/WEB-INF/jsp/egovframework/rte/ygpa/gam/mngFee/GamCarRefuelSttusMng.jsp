@@ -71,7 +71,12 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 					{display:'12월', 			name:'m12',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'}
 					],
 		showTableToggleBtn: false,
-		height: 'auto'
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val(data.totalCount);
+			module.makeDivValues('#listSumForm', data);
+			return data;
+		}
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -165,6 +170,9 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnDelete':
 			this.deleteData();
 			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
 	}
 
 };
@@ -192,13 +200,37 @@ GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
 GamCarRefuelSttusMngModule.prototype.loadData = function() {
 
 	this.$("#mainTab").tabs("option", {active: 0});
+	if (this.$('#sFuelKndCheck1').is(":checked")) {
+		this.$("#sFuelKnd1").val(this.$('#sFuelKndCheck1').val());
+	} else {
+		this.$("#sFuelKnd1").val('');
+	}
+	if (this.$('#sFuelKndCheck2').is(":checked")) {
+		this.$("#sFuelKnd2").val(this.$('#sFuelKndCheck2').val());
+	} else {
+		this.$("#sFuelKnd2").val('');
+	}
+	if (this.$('#sFuelKndCheck3').is(":checked")) {
+		this.$("#sFuelKnd3").val(this.$('#sFuelKndCheck3').val());
+	} else {
+		this.$("#sFuelKnd3").val('');
+	}
+	if (this.$('#sFuelKndCheck4').is(":checked")) {
+		this.$("#sFuelKnd4").val(this.$('#sFuelKndCheck4').val());
+	} else {
+		this.$("#sFuelKnd4").val('');
+	}
+	if (this.$('#sFuelKndCheck5').is(":checked")) {
+		this.$("#sFuelKnd5").val(this.$('#sFuelKndCheck5').val());
+	} else {
+		this.$("#sFuelKnd5").val('');
+	}
+	if (this.$('#sFuelKndCheck6').is(":checked")) {
+		this.$("#sFuelKnd6").val(this.$('#sFuelKndCheck6').val());
+	} else {
+		this.$("#sFuelKnd6").val('');
+	}
 	var searchOpt=this.makeFormArgs('#searchForm');
-	this.$('input[name="check"]:checked').each(function() {
-		searchOpt[searchOpt.length] = {
-			name : 'check',
-			value : this.value
-		};
-	});
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
 };
@@ -255,7 +287,8 @@ GamCarRefuelSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
 	if (this.$('#carRegistNo').val() == "") {
-		alert('자료가 부정확합니다.');
+		alert('차량 등록 번호가 부정확합니다.');
+		this.$("#carRegistNo").focus();
 		return;
 	}
 	this.doAction('/mngFee/gamInsertCarRefuelSttusMng.do', inputVO, function(module, result) {
@@ -283,7 +316,8 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (this.$('#carRegistNo').val() == "") {
-		alert('자료가 부정확합니다.');
+		alert('차량 등록 번호가 부정확합니다.');
+		this.$("#carRegistNo").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -294,6 +328,24 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelCarRefuelSttusMng.do');
 
 };
 
@@ -364,12 +416,18 @@ var module_instance = new GamCarRefuelSttusMngModule();
 							</td>
 							<th>주유 구분</th>
 							<td>
-								휘발류<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="휘발류" checked="checked" class="chk">
-								경유<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="경유"	checked="checked"	class="chk">
-								LPG<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="LPG"	checked="checked"	class="chk">
-								전기<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="전기"	checked="checked"	class="chk">
-								하이브리드<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="HYBRID"	checked="checked"	class="chk">
-								기타<input type="checkbox" size="10" name="check" style="vertical-align: middle;" value="기타"	checked="checked"	class="chk">
+								<input id="sFuelKnd1" type="hidden" />
+								<input id="sFuelKnd2" type="hidden" />
+								<input id="sFuelKnd3" type="hidden" />
+								<input id="sFuelKnd4" type="hidden" />
+								<input id="sFuelKnd5" type="hidden" />
+								<input id="sFuelKnd6" type="hidden" />
+								휘발류<input type="checkbox" size="10" name="check" id="sFuelKndCheck1" style="vertical-align: middle;" value="휘발류" checked="checked" class="chk">
+								경유<input type="checkbox" size="10" name="check" id="sFuelKndCheck2" style="vertical-align: middle;" value="경유"	checked="checked"	class="chk">
+								LPG<input type="checkbox" size="10" name="check" id="sFuelKndCheck3" style="vertical-align: middle;" value="LPG"	checked="checked"	class="chk">
+								전기<input type="checkbox" size="10" name="check" id="sFuelKndCheck4" style="vertical-align: middle;" value="전기"	checked="checked"	class="chk">
+								하이브리드<input type="checkbox" size="10" name="check" id="sFuelKndCheck5" style="vertical-align: middle;" value="HYBRID"	checked="checked"	class="chk">
+								기타<input type="checkbox" size="10" name="check" id="sFuelKndCheck6" style="vertical-align: middle;" value="기타"	checked="checked"	class="chk">
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -396,9 +454,12 @@ var module_instance = new GamCarRefuelSttusMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
+								<th width="20%" height="20">조회 자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>

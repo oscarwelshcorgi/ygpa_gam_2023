@@ -62,9 +62,13 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 	private String sCarRegistNo;	//검색 차량 등록번호
 	private String sCarNm;	//검색 차량 명
 	private String sCarBodyNo;	//검색 차대 번호
-	private String sRefuelMt;	//검색 냔
-
-	private	String	oldCarRegistNo;	// 예전 차량 등록 번호(update 용)
+	private String sRefuelMt;	//검색 주유 월
+	private	String sFuelKnd1;	// 검색 연료 종류 1
+	private	String sFuelKnd2;	// 검색 연료 종류 2
+	private	String sFuelKnd3;	// 검색 연료 종류 3
+	private	String sFuelKnd4;	// 검색 연료 종류 4
+	private	String sFuelKnd5;	// 검색 연료 종류 5
+	private	String sFuelKnd6;	// 검색 연료 종류 6
 
 	private String refuelMt;		//주유 년/월
 	private String refuelQy;		//주유 량
@@ -280,16 +284,76 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 		this.refuelQy = refuelQy;
 	}
 	/**
-	 * @return the oldCarRegistNo
+	 * @return the sFuelKnd1
 	 */
-	public String getOldCarRegistNo() {
-		return oldCarRegistNo;
+	public String getsFuelKnd1() {
+		return sFuelKnd1;
 	}
 	/**
-	 * @param oldCarRegistNo the oldCarRegistNo to set
+	 * @param sFuelKnd1 the sFuelKnd1 to set
 	 */
-	public void setOldCarRegistNo(String oldCarRegistNo) {
-		this.oldCarRegistNo = oldCarRegistNo;
+	public void setsFuelKnd1(String sFuelKnd1) {
+		this.sFuelKnd1 = sFuelKnd1;
+	}
+	/**
+	 * @return the sFuelKnd2
+	 */
+	public String getsFuelKnd2() {
+		return sFuelKnd2;
+	}
+	/**
+	 * @param sFuelKnd2 the sFuelKnd2 to set
+	 */
+	public void setsFuelKnd2(String sFuelKnd2) {
+		this.sFuelKnd2 = sFuelKnd2;
+	}
+	/**
+	 * @return the sFuelKnd3
+	 */
+	public String getsFuelKnd3() {
+		return sFuelKnd3;
+	}
+	/**
+	 * @param sFuelKnd3 the sFuelKnd3 to set
+	 */
+	public void setsFuelKnd3(String sFuelKnd3) {
+		this.sFuelKnd3 = sFuelKnd3;
+	}
+	/**
+	 * @return the sFuelKnd4
+	 */
+	public String getsFuelKnd4() {
+		return sFuelKnd4;
+	}
+	/**
+	 * @param sFuelKnd4 the sFuelKnd4 to set
+	 */
+	public void setsFuelKnd4(String sFuelKnd4) {
+		this.sFuelKnd4 = sFuelKnd4;
+	}
+	/**
+	 * @return the sFuelKnd5
+	 */
+	public String getsFuelKnd5() {
+		return sFuelKnd5;
+	}
+	/**
+	 * @param sFuelKnd5 the sFuelKnd5 to set
+	 */
+	public void setsFuelKnd5(String sFuelKnd5) {
+		this.sFuelKnd5 = sFuelKnd5;
+	}
+	/**
+	 * @return the sFuelKnd6
+	 */
+	public String getsFuelKnd6() {
+		return sFuelKnd6;
+	}
+	/**
+	 * @param sFuelKnd6 the sFuelKnd6 to set
+	 */
+	public void setsFuelKnd6(String sFuelKnd6) {
+		this.sFuelKnd6 = sFuelKnd6;
 	}
 	/**
 	 * @return the sCarRegistNo

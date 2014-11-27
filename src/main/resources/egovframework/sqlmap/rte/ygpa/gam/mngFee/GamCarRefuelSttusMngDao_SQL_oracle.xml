@@ -2,119 +2,122 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.mngFee">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamCarRefuelSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamCarRefuelSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo"/>
 
-    <select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList_D" parameterClass="gamCarRefuelSttusMngVo" resultClass="egovMap">
-     SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                            SELECT T2.FUEL_KND,
-									T2.CAR_REGIST_NO,
-									T2.CAR_NM,
-									SUM(NVL(MIN(T1.MTOTAL),0)) OVER (PARTITION BY T2.FUEL_KND) AS TOTAL,
-									NVL(MIN(T1.MTOTAL),0) AS MTOTAL,
-									MIN(T1.M1) AS M1,
-									MIN(T1.M2) AS M2,
-									MIN(T1.M3) AS M3,
-									MIN(T1.M4) AS M4,
-									MIN(T1.M5) AS M5,
-									MIN(T1.M6) AS M6,
-									MIN(T1.M7) AS M7,
-									MIN(T1.M8) AS M8,
-									MIN(T1.M9) AS M9,
-									MIN(T1.M10) AS M10,
-									MIN(T1.M11) AS M11,
-									MIN(T1.M12) AS M12
-									FROM CAR_INFO_F T2
-									LEFT OUTER JOIN (
-										SELECT
-										T.CAR_REGIST_NO,
-										SUM(T.REFUEL_QY) AS MTOTAL,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='01' THEN T.REFUEL_QY END) AS M1,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='02' THEN T.REFUEL_QY END) AS M2,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='03' THEN T.REFUEL_QY END) AS M3,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='04' THEN T.REFUEL_QY END) AS M4,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='05' THEN T.REFUEL_QY END) AS M5,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='06' THEN T.REFUEL_QY END) AS M6,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='07' THEN T.REFUEL_QY END) AS M7,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='08' THEN T.REFUEL_QY END) AS M8,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='09' THEN T.REFUEL_QY END) AS M9,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='10' THEN T.REFUEL_QY END) AS M10,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='11' THEN T.REFUEL_QY END) AS M11,
-										SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='12' THEN T.REFUEL_QY END) AS M12
-										FROM CAR_REFUEL_STTUS_F T
-										<![CDATA[ WHERE T.REFUEL_MT>= #sRefuelMt# || '01' ]]>
-										<![CDATA[ AND T.REFUEL_MT<= #sRefuelMt# || '12' ]]>
-										<isNotEmpty property="sCarRegistNo">
-									             AND T.CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-								        </isNotEmpty>
-										GROUP BY T.CAR_REGIST_NO
-									) T1
-									 ON (T2.CAR_REGIST_NO=T1.CAR_REGIST_NO)
-						<iterate property="check" open=" T2.FUEL_KND in (" conjunction=", " close=")" prepend="WHERE">
-							#check[]#
-						</iterate>
-									GROUP BY T2.FUEL_KND,T2.CAR_REGIST_NO,T2.CAR_NM
-									ORDER BY T2.FUEL_KND DESC,T2.CAR_REGIST_NO
+	<select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList_D" parameterClass="gamCarRefuelSttusMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T2.FUEL_KND
+								,T2.CAR_REGIST_NO
+								,T2.CAR_NM
+								,SUM(NVL(MIN(T1.MTOTAL),0)) OVER (PARTITION BY T2.FUEL_KND) AS TOTAL
+								,NVL(MIN(T1.MTOTAL),0) AS MTOTAL
+								,MIN(T1.M1) AS M1
+								,MIN(T1.M2) AS M2
+								,MIN(T1.M3) AS M3
+								,MIN(T1.M4) AS M4
+								,MIN(T1.M5) AS M5
+								,MIN(T1.M6) AS M6
+								,MIN(T1.M7) AS M7
+								,MIN(T1.M8) AS M8
+								,MIN(T1.M9) AS M9
+								,MIN(T1.M10) AS M10
+								,MIN(T1.M11) AS M11
+								,MIN(T1.M12) AS M12
+							FROM CAR_INFO_F T2
+							LEFT OUTER JOIN (
+								SELECT
+										 T.CAR_REGIST_NO
+										,SUM(T.REFUEL_QY) AS MTOTAL
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='01' THEN T.REFUEL_QY END) AS M1
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='02' THEN T.REFUEL_QY END) AS M2
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='03' THEN T.REFUEL_QY END) AS M3
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='04' THEN T.REFUEL_QY END) AS M4
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='05' THEN T.REFUEL_QY END) AS M5
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='06' THEN T.REFUEL_QY END) AS M6
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='07' THEN T.REFUEL_QY END) AS M7
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='08' THEN T.REFUEL_QY END) AS M8
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='09' THEN T.REFUEL_QY END) AS M9
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='10' THEN T.REFUEL_QY END) AS M10
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='11' THEN T.REFUEL_QY END) AS M11
+										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='12' THEN T.REFUEL_QY END) AS M12
+									FROM CAR_REFUEL_STTUS_F T
+								<![CDATA[
+								WHERE T.REFUEL_MT>= #sRefuelMt# || '01'
+								AND T.REFUEL_MT<= #sRefuelMt# || '12'
+								]]>
 
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+								<isNotEmpty property="sCarRegistNo">
+								AND T.CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+								</isNotEmpty>
 
-    <select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt_S" parameterClass="gamCarRefuelSttusMngVo" resultClass="int">
-         SELECT
-                    count(*) totcnt
+								GROUP BY T.CAR_REGIST_NO
+							) T1 ON (T2.CAR_REGIST_NO=T1.CAR_REGIST_NO)
+						WHERE T2.FUEL_KND IN (#sFuelKnd1#, #sFuelKnd2#, #sFuelKnd3#, #sFuelKnd4#, #sFuelKnd5#, #sFuelKnd6#)
+						GROUP BY T2.FUEL_KND,T2.CAR_REGIST_NO,T2.CAR_NM
+						ORDER BY T2.FUEL_KND DESC,T2.CAR_REGIST_NO
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt_S" parameterClass="gamCarRefuelSttusMngVo" resultClass="int">
+		SELECT COUNT(*) totcnt
 			FROM CAR_INFO_F T
-			WHERE EXISTS (SELECT 'Y' FROM CAR_REFUEL_STTUS_F
-			<![CDATA[ WHERE REFUEL_MT>= #sRefuelMt# || '01'  ]]>
-			<![CDATA[ AND REFUEL_MT<= #sRefuelMt# || '12'    ]]>
+		WHERE EXISTS (
+			SELECT 'Y'
+				FROM CAR_REFUEL_STTUS_F
+			<![CDATA[
+			WHERE REFUEL_MT>= #sRefuelMt# || '01'
+			AND REFUEL_MT<= #sRefuelMt# || '12'
+			]]>
 
-	         <isNotEmpty property="sCarRegistNo">
-	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-	         </isNotEmpty>
+			<isNotEmpty property="sCarRegistNo">
+			AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
+			</isNotEmpty>
 			)
-			<iterate property="check" open=" T.FUEL_KND in (" conjunction=", " close=")" prepend="AND">
-				#check[]#
-			</iterate>
-    </select>
+			AND T.FUEL_KND IN (#sFuelKnd1#, #sFuelKnd2#, #sFuelKnd3#, #sFuelKnd4#, #sFuelKnd5#, #sFuelKnd6#)
+	</select>
 
 	<insert id="gamCarRefuelSttusMngDao.insertCarRefuelSttusMngList_S">
 		<![CDATA[
-		    INSERT
-		      INTO CAR_REFUEL_STTUS_F
-		         (
-					 CAR_REGIST_NO
-					,REFUEL_MT
-					,REFUEL_QY
-					,REG_USR
-					,REGIST_DT
-					,UPD_USR
-					,UPDT_DT
-		         )
-			SELECT
-					#carRegistNo# AS CAR_REGIST_NO,
-					#refuelMt# || LTRIM(TO_CHAR(LEVEL,'00')) AS REFUEL_MT,
-					(CASE WHEN LEVEL=1  THEN NVL(TO_NUMBER(REPLACE(#m1#,',','')),0)
-					      WHEN LEVEL=2  THEN NVL(TO_NUMBER(REPLACE(#m2#,',','')),0)
-					      WHEN LEVEL=3  THEN NVL(TO_NUMBER(REPLACE(#m3#,',','')),0)
-					      WHEN LEVEL=4  THEN NVL(TO_NUMBER(REPLACE(#m4#,',','')),0)
-					      WHEN LEVEL=5  THEN NVL(TO_NUMBER(REPLACE(#m5#,',','')),0)
-					      WHEN LEVEL=6  THEN NVL(TO_NUMBER(REPLACE(#m6#,',','')),0)
-					      WHEN LEVEL=7  THEN NVL(TO_NUMBER(REPLACE(#m7#,',','')),0)
-					      WHEN LEVEL=8  THEN NVL(TO_NUMBER(REPLACE(#m8#,',','')),0)
-					      WHEN LEVEL=9  THEN NVL(TO_NUMBER(REPLACE(#m9#,',','')),0)
-					      WHEN LEVEL=10 THEN NVL(TO_NUMBER(REPLACE(#m10#,',','')),0)
-					      WHEN LEVEL=11 THEN NVL(TO_NUMBER(REPLACE(#m11#,',','')),0)
-					      WHEN LEVEL=12 THEN NVL(TO_NUMBER(REPLACE(#m12#,',','')),0)
-					 END) AS REFUEL_QY,
-					#regUsr# AS REG_USR,
-					SYSDATE AS REGIST_DT,
-					#updUsr# AS UPD_USR,
-					SYSDATE AS UPDT_DT
+		INSERT INTO CAR_REFUEL_STTUS_F
+		(
+			 CAR_REGIST_NO
+			,REFUEL_MT
+			,REFUEL_QY
+			,REG_USR
+			,REGIST_DT
+			,UPD_USR
+			,UPDT_DT
+		)
+		SELECT
+				 #carRegistNo# AS CAR_REGIST_NO
+				,#refuelMt# || LTRIM(TO_CHAR(LEVEL,'00')) AS REFUEL_MT
+				,(CASE WHEN LEVEL=1  THEN NVL(TO_NUMBER(REPLACE(#m1#,',','')),0)
+					   WHEN LEVEL=2  THEN NVL(TO_NUMBER(REPLACE(#m2#,',','')),0)
+					   WHEN LEVEL=3  THEN NVL(TO_NUMBER(REPLACE(#m3#,',','')),0)
+					   WHEN LEVEL=4  THEN NVL(TO_NUMBER(REPLACE(#m4#,',','')),0)
+					   WHEN LEVEL=5  THEN NVL(TO_NUMBER(REPLACE(#m5#,',','')),0)
+					   WHEN LEVEL=6  THEN NVL(TO_NUMBER(REPLACE(#m6#,',','')),0)
+					   WHEN LEVEL=7  THEN NVL(TO_NUMBER(REPLACE(#m7#,',','')),0)
+					   WHEN LEVEL=8  THEN NVL(TO_NUMBER(REPLACE(#m8#,',','')),0)
+					   WHEN LEVEL=9  THEN NVL(TO_NUMBER(REPLACE(#m9#,',','')),0)
+					   WHEN LEVEL=10 THEN NVL(TO_NUMBER(REPLACE(#m10#,',','')),0)
+					   WHEN LEVEL=11 THEN NVL(TO_NUMBER(REPLACE(#m11#,',','')),0)
+					   WHEN LEVEL=12 THEN NVL(TO_NUMBER(REPLACE(#m12#,',','')),0)
+				  END) AS REFUEL_QY
+				,#regUsr# AS REG_USR
+				,SYSDATE AS REGIST_DT
+				,#updUsr# AS UPD_USR
+				,SYSDATE AS UPDT_DT
 			FROM DUAL
 			CONNECT BY LEVEL <= 12
 		]]>
@@ -122,33 +125,33 @@
 
 	<update id="gamCarRefuelSttusMngDao.updateCarRefuelSttusMngList_S">
 		<![CDATA[
-            UPDATE CAR_REFUEL_STTUS_F SET
-						REFUEL_QY	=	(CASE WHEN REFUEL_MT=#refuelMt# || '01' THEN NVL(TO_NUMBER(REPLACE(#m1#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '02' THEN NVL(TO_NUMBER(REPLACE(#m2#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '03' THEN NVL(TO_NUMBER(REPLACE(#m3#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '04' THEN NVL(TO_NUMBER(REPLACE(#m4#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '05' THEN NVL(TO_NUMBER(REPLACE(#m5#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '06' THEN NVL(TO_NUMBER(REPLACE(#m6#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '07' THEN NVL(TO_NUMBER(REPLACE(#m7#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '08' THEN NVL(TO_NUMBER(REPLACE(#m8#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '09' THEN NVL(TO_NUMBER(REPLACE(#m9#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '10' THEN NVL(TO_NUMBER(REPLACE(#m10#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '11' THEN NVL(TO_NUMBER(REPLACE(#m11#,',','')),0)
-										      WHEN REFUEL_MT=#refuelMt# || '12' THEN NVL(TO_NUMBER(REPLACE(#m12#,',','')),0)
-										 END)
-					,	UPD_USR		=	#updUsr#
-					,	UPDT_DT		=	sysdate
-			WHERE CAR_REGIST_NO	= #carRegistNo#
+		UPDATE CAR_REFUEL_STTUS_F SET
+			 REFUEL_QY = (CASE WHEN REFUEL_MT=#refuelMt# || '01' THEN NVL(TO_NUMBER(REPLACE(#m1#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '02' THEN NVL(TO_NUMBER(REPLACE(#m2#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '03' THEN NVL(TO_NUMBER(REPLACE(#m3#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '04' THEN NVL(TO_NUMBER(REPLACE(#m4#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '05' THEN NVL(TO_NUMBER(REPLACE(#m5#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '06' THEN NVL(TO_NUMBER(REPLACE(#m6#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '07' THEN NVL(TO_NUMBER(REPLACE(#m7#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '08' THEN NVL(TO_NUMBER(REPLACE(#m8#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '09' THEN NVL(TO_NUMBER(REPLACE(#m9#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '10' THEN NVL(TO_NUMBER(REPLACE(#m10#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '11' THEN NVL(TO_NUMBER(REPLACE(#m11#,',','')),0)
+							   WHEN REFUEL_MT=#refuelMt# || '12' THEN NVL(TO_NUMBER(REPLACE(#m12#,',','')),0)
+						  END)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CAR_REGIST_NO = #carRegistNo#
 		]]>
 	</update>
 
 	<delete id="gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList_S">
 		<![CDATA[
-            DELETE  CAR_REFUEL_STTUS_F
-            WHERE REFUEL_MT>= #refuelMt# || '01'
-			AND REFUEL_MT<= #refuelMt# || '12'
-			AND CAR_REGIST_NO = #carRegistNo#
+		DELETE FROM CAR_REFUEL_STTUS_F
+		WHERE REFUEL_MT>= #refuelMt# || '01'
+		AND REFUEL_MT<= #refuelMt# || '12'
+		AND CAR_REGIST_NO = #carRegistNo#
 		]]>
 	</delete>
 
-   </sqlMap>
+</sqlMap>
