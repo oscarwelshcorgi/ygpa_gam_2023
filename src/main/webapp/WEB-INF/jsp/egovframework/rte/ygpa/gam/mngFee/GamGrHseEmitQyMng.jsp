@@ -54,8 +54,8 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'연료 코드',			name:'fuelCd',			width:70, 		sortable:false,		align:'center'},
 					{display:'연료 명',				name:'fuelNm',			width:110, 		sortable:false,		align:'left'},
-					{display:'온실가스 계수',		name:'grHseCoef',		width:110, 		sortable:false,		align:'right'},
-					{display:'관리 월',				name:'mngMt',			width:110, 		sortable:false,		align:'center'},
+					{display:'온실가스 계수',		name:'grHseCoef',		width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
+					{display:'관리 월',				name:'mngYrMt',			width:110, 		sortable:false,		align:'center'},
 					{display:'사용 량',				name:'usageQy',			width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
 					{display:'에너지 사용 량',		name:'energyUsageQy',	width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
 					{display:'온실가스 배출 량',	name:'grHseEmitQy',		width:110, 		sortable:false,		align:'right',	displayFormat:'number'}
@@ -79,10 +79,10 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 	});
 
 	var mon = new Date().getMonth()+1;
-	if(mon.length==1) mon="0"+mon;
+	if (mon.length==1) {
+		mon="0"+mon;
+	}
 	this.$('#sMngMt').val(mon);
-
-	this._loadCheck=false;
 
 };
 
@@ -153,6 +153,30 @@ GamGrHseEmitQyMngModule.prototype.drawChart = function() {
 
 <%
 /**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.onClosePopup = function(popupId, msg, value) {
+
+	switch (popupId) {
+		case 'popupFuelCd':
+			if (msg == 'ok') {
+				this.$('#mngYear').val(value.mngYear);
+				this.$('#fuelCd').val(value.fuelCd);
+				this.$('#fuelNm').val(value.fuelNm);
+			}
+			break;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
@@ -173,6 +197,12 @@ GamGrHseEmitQyMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnCopy':
 			this.copyData();
+			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
+		case 'popupFuelCd':
+			this.doExecuteDialog('popupFuelCd', '연료 선택', '/popup/showFuelCode.do', null);
 			break;
 	}
 
@@ -203,7 +233,6 @@ GamGrHseEmitQyMngModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
-	this._loadCheck=true;
 
 };
 
@@ -218,14 +247,14 @@ GamGrHseEmitQyMngModule.prototype.loadDetail = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
 
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	this.$('#mngYear').attr('readonly', 'readonly');
-	this.$('#fuelCd').attr('readonly', 'readonly');
-	this.$('#mngMt').attr('readonly', 'readonly');
+	this.$('#mngMtYear').disable();
+	this.$('#mngMtMon').disable();
+	this.$('#popupFuelCd').disable({disableClass:"ui-state-disabled"});
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
 
@@ -240,8 +269,18 @@ GamGrHseEmitQyMngModule.prototype.loadDetail = function() {
 %>
 GamGrHseEmitQyMngModule.prototype.addData = function() {
 
+	var mngMtYear = new Date().getFullYear();
+	var mngMtMon = new Date().getMonth()+1;
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
+	this.$('#mngMtYear').val(mngMtYear);
+	if(mngMtMon.length==1) {
+		mngMtMon="0"+mngMtMon;
+	}
+	this.$('#mngMtMon').val(mngMtMon);
+	this.$('#usageQy').val('0');
+	this.$('#energyUsageQy').val('0');
+	this.$('#grHseEmitQy').val('0');
 
 };
 
@@ -255,8 +294,28 @@ GamGrHseEmitQyMngModule.prototype.addData = function() {
 GamGrHseEmitQyMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngYear').val() == "" || this.$('#fuelCd').val() == "" || this.$('#mngMt').val() == "") {
-		alert('자료가 부정확합니다.');
+	var mngMtYear = this.$('#mngMtYear').val();
+	var mngMtMon = this.$('#mngMtMon').val();
+	var mngYear = this.$('#mngYear').val();
+	var fuelCd = this.$('#fuelCd').val();
+	if (mngMtYear > "9999"  || mngMtYear < "2000" || mngMtYear == "") {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#mngMtYear").focus();
+		return;
+	}
+	if (mngMtMon > "12"  || mngMtMon < "01" || mngMtMon == "") {
+		alert('관리 월이 부정확합니다.');
+		this.$("#mngMtMon").focus();
+		return;
+	}
+	if (mngYear > "9999"  || mngYear < "2000" || mngYear == "") {
+		alert('연료 코드 관리 년도가 부정확합니다.');
+		//this.$("#fuelCd").focus();
+		return;
+	}
+	if (fuelCd == "" || fuelCd.length != 4) {
+		alert('연료 코드가 부정확합니다.');
+		//this.$("#fuelCd").focus();
 		return;
 	}
 	if (this._mode == "insert") {
@@ -292,8 +351,24 @@ GamGrHseEmitQyMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#mngYear').val() == "" || this.$('#fuelCd').val() == "" || this.$('#mngMt').val() == "") {
-		alert('자료가 부정확합니다.');
+	if (this.$('#mngMtYear').val() == "") {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#mngMtYear").focus();
+		return;
+	}
+	if (this.$('#mngMtMon').val() == "") {
+		alert('관리 월이 부정확합니다.');
+		this.$("#mngMtMon").focus();
+		return;
+	}
+	if (this.$('#mngYear').val() == "") {
+		alert('연료 코드 관리 년도가 부정확합니다.');
+		//this.$("#fuelCd").focus();
+		return;
+	}
+	if (this.$('#fuelCd').val() == "") {
+		alert('연료 코드가 부정확합니다.');
+		//this.$("#fuelCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -320,7 +395,6 @@ GamGrHseEmitQyMngModule.prototype.copyData = function() {
 	var sQueryMngYear = this.$('#sMngYear').val();
 	var sQueryMngMt = this.$('#sMngMt').val();
 	var mtCnt=0;
-
 	if (confirm("이전월의 자료를 [" + sQueryMngYear + "-" + sQueryMngMt + "월] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}
@@ -346,6 +420,24 @@ GamGrHseEmitQyMngModule.prototype.copyData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelGrHseEmitQyMng.do');
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -359,14 +451,15 @@ GamGrHseEmitQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if(this._mode=="modify") {
+			if (this._mode=="modify") {
 				this.loadDetail();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngYear').removeAttr('readonly');
-				this.$('#fuelCd').removeAttr('readonly');
-				this.$('#mngMt').removeAttr('readonly');
+				this.$('#mngMtYear').enable();
+				this.$('#mngMtMon').enable();
+				this.$('#popupFuelCd').enable();
+				this.$('#popupFuelCd').removeClass('ui-state-disabled');
 			}
 			this.drawChart();
 			break;
@@ -456,6 +549,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
 									<button data-cmd="btnCopy">이전월 자료 복사</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -469,14 +563,39 @@ var module_instance = new GamGrHseEmitQyMngModule();
 						<table class="detailPanel" style="width:100%">
 							<tr>
 								<th width="15%" height="29">관리 월</th>
-								<td ><input type="text" size="20" id="mngMt" /></td>
+								<td >
+									<select id="mngMtYear" class='selt'>
+										<option value="">선택</option>
+										<c:forEach items="${yearsList}" var="yearListItem">
+											<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+										</c:forEach>
+									</select>
+									<select id="mngMtMon" class='selt'>
+										<option value="">선택</option>
+										<option value="01">01월</option>
+										<option value="02">02월</option>
+										<option value="03">03월</option>
+										<option value="04">04월</option>
+										<option value="05">05월</option>
+										<option value="06">06월</option>
+										<option value="07">07월</option>
+										<option value="08">08월</option>
+										<option value="09">09월</option>
+										<option value="10">10월</option>
+										<option value="11">11월</option>
+										<option value="12">12월</option>
+									</select>
+								</td>
 								<td rowspan="15" style="padding-left:4px;">
 									<div id="grHseEmitChart" style="width:515px;height:415px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">연료 코드</th>
-								<td ><input type="text" size="20" id="fuelCd" /></td>
+								<td >
+									<input type="text" size="8" id="fuelCd" disabled/>
+									<button id="popupFuelCd" class="popupButton">선택</button>
+								</td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">연료 명</th>
@@ -488,11 +607,11 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 총 발열량</th>
-								<td ><span data-column-id="energyTotalCalVal" class="ygpaNumber"></span></td>
+								<td ><span data-column-id="energyTotalCalVal"></span></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 순 발열량</th>
-								<td ><span data-column-id="energyNetCalVal" class="ygpaNumber"></span></td>
+								<td ><span data-column-id="energyNetCalVal"></span></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 단위</th>
@@ -500,19 +619,19 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 계수</th>
-								<td ><span data-column-id="grHseCoef" class="ygpaNumber" data-decimal-point="4" ></span></td>
+								<td ><span data-column-id="grHseCoef"></span></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">사용 량</th>
-								<td ><input type="text" size="20" id="usageQy" class="ygpaNumber"/></td>
+								<td ><input type="text" size="20" id="usageQy" /></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 사용 량</th>
-								<td ><input type="text" size="20" id="energyUsageQy" class="ygpaNumber"/></td>
+								<td ><input type="text" size="20" id="energyUsageQy"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 배출 량</th>
-								<td ><input type="text" size="20" id="grHseEmitQy" class="ygpaNumber"/></td>
+								<td ><input type="text" size="20" id="grHseEmitQy"/></td>
 							</tr>
 						</table>
 					</form>

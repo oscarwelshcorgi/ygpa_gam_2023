@@ -216,7 +216,7 @@ GamEnergyUsageMngModule.prototype.loadDetail = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
 
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
@@ -414,7 +414,7 @@ GamEnergyUsageMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if(this._mode=="modify") {
+			if (this._mode=="modify") {
 				this.loadDetail();
 			} else {
 				this.makeFormValues('#detailForm', {});

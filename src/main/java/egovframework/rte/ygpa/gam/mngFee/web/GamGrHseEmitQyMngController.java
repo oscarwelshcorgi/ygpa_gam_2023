@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -172,6 +175,40 @@ public class GamGrHseEmitQyMngController {
     	map.put("resultList", resultList);
 
     	return map;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/mngFee/gamExcelGrHseEmitQyMng.do" , method=RequestMethod.POST)
+    @ResponseBody ModelAndView excelGrHseEmitQyMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+    	Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamGrHseEmitQyMngVo searchVO= new GamGrHseEmitQyMngVo();
+		searchVO = mapper.convertValue(excelParam, GamGrHseEmitQyMngVo.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+    	List resultList = gamGrHseEmitQyMngService.selectGrHseEmitQyMngList(searchVO);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
 
     @RequestMapping(value="/mngFee/gamInsertGrHseEmitQyMng.do")

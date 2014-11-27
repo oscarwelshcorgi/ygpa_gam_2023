@@ -316,7 +316,7 @@ GamMngFeeCodeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if(this._mode=="modify") {
+			if (this._mode=="modify") {
 				this.loadDetail();
 			} else {
 				this.makeFormValues('#detailForm', {});

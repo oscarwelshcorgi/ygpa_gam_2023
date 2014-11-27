@@ -42,6 +42,9 @@ public class GamGrHseEmitQyMngVo  extends ComDefaultVO{
 	private	String	registDt;	//등록일시
 	private	String	updtDt;	//수정일시
 	private	String	updUsr;	//수정자
+	private	String	mngMtYear;	//관리 년
+	private	String	mngMtMon;	//관리 월
+	private	String	mngYrMt;	//관리 년-월
 
 	private	String	sFuelCd;	//연료 코드
 	private	String	sMngYear;	//관리 년도
@@ -238,6 +241,42 @@ public class GamGrHseEmitQyMngVo  extends ComDefaultVO{
 	 */
 	public void setUpdUsr(String updUsr) {
 		this.updUsr = updUsr;
+	}
+	/**
+	 * @return the mngMtYear
+	 */
+	public String getMngMtYear() {
+		return mngMtYear;
+	}
+	/**
+	 * @param mngMtYear the mngMtYear to set
+	 */
+	public void setMngMtYear(String mngMtYear) {
+		this.mngMtYear = mngMtYear;
+	}
+	/**
+	 * @return the mngMtMon
+	 */
+	public String getMngMtMon() {
+		return mngMtMon;
+	}
+	/**
+	 * @param mngMtMon the mngMtMon to set
+	 */
+	public void setMngMtMon(String mngMtMon) {
+		this.mngMtMon = mngMtMon;
+	}
+	/**
+	 * @return the mngYrMt
+	 */
+	public String getMngYrMt() {
+		return mngYrMt;
+	}
+	/**
+	 * @param mngYrMt the mngYrMt to set
+	 */
+	public void setMngYrMt(String mngYrMt) {
+		this.mngYrMt = mngYrMt;
 	}
 	/**
 	 * @return the sFuelCd

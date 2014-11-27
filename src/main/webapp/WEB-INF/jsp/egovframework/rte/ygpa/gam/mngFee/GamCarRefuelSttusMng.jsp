@@ -147,7 +147,7 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 		});
 	}
 	this.barChart.parse(fuelArr, "json");
-	//this.barChart.refresh();
+	this.barChart.refresh();
 };
 
 <%
@@ -365,7 +365,7 @@ GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 			break;
 		case 'detailTab':
 			var row = this.$('#mainGrid').selectedRows();
-			if(this._mode=="modify") {
+			if (this._mode=="modify") {
 				this.loadDetail();
 				this.$('#refuelMt').val(this.$('#sRefuelMt').val());
 			} else {

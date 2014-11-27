@@ -101,8 +101,6 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 	this.$('#sUsageMt').val(mon);
 	this.$('#sApplcCoef').val('0.66');
 
-	this._loadCheck=false;
-
 };
 
 <%
@@ -219,6 +217,9 @@ GamElctyUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnCopy':
 			this.copyData();
 			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
 		case 'popupMngFeeFcltyCd':
 			this.doExecuteDialog('popupMngFeeFcltyCd', '시설 선택', '/popup/showMngCode.do', null);
 			break;
@@ -251,7 +252,6 @@ GamElctyUsageSttusMngModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
-	this._loadCheck=true;
 
 };
 
@@ -266,15 +266,13 @@ GamElctyUsageSttusMngModule.prototype.loadDetail = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
 
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
 	this.$('#usageMtYear').disable();
 	this.$('#usageMtMon').disable();
-	//this.$('#mngFeeJobSe').disable();
-	//this.$('#mngFeeFcltyCd').disable();
 	this.$('#popupMngFeeFcltyCd').disable({disableClass:"ui-state-disabled"});
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
@@ -296,7 +294,9 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
 	this.$('#usageMtYear').val(usageMtYear);
-	if(usageMtMon.length==1) usageMtMon="0"+usageMtMon;
+	if (usageMtMon.length==1) {
+		usageMtMon="0"+usageMtMon;
+	}
 	this.$('#usageMtMon').val(usageMtMon);
 	this.$('#mngJobSe').val('');
 	this.$('#mngJobSeNm').val('');
@@ -319,8 +319,27 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 GamElctyUsageSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
-		alert('자료가 부정확합니다.');
+	var usageMtYear = this.$('#usageMtYear').val();
+	var usageMtMon = this.$('#usageMtMon').val();
+	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
+	if (usageMtYear > "9999"  || usageMtYear < "2000" || usageMtYear == "") {
+		alert('사용 년도가 부정확합니다.');
+		this.$("#usageMtYear").focus();
+		return;
+	}
+	if (usageMtMon > "12"  || usageMtMon < "01" || usageMtMon == "") {
+		alert('사용 월이 부정확합니다.');
+		this.$("#usageMtMon").focus();
+		return;
+	}
+	if (this.$('#mngFeeJobSe').val() == "") {
+		alert('업무 구분이 부정확합니다.');
+		this.$("#mngFeeJobSe").focus();
+		return;
+	}
+	if (mngFeeFcltyCd == "" || mngFeeFcltyCd.length != 4) {
+		alert('시설 코드가 부정확합니다.');
+		//this.$("#mngFeeFcltyCd").focus();
 		return;
 	}
 	if (this._mode == "insert") {
@@ -356,8 +375,24 @@ GamElctyUsageSttusMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#usageMtYear').val() == "" || this.$('#usageMtMon').val() == "" || this.$('#mngFeeFcltyCd').val() == "" || this.$('#mngFeeJobSe').val() == "") {
-		alert('자료가 부정확합니다.');
+	if (this.$('#usageMtYear').val() == "") {
+		alert('사용 년도가 부정확합니다.');
+		this.$("#usageMtYear").focus();
+		return;
+	}
+	if (this.$('#usageMtMon').val() == "") {
+		alert('사용 월이 부정확합니다.');
+		this.$("#usageMtMon").focus();
+		return;
+	}
+	if (this.$('#mngFeeJobSe').val() == "") {
+		alert('업무 구분이 부정확합니다.');
+		this.$("#mngFeeJobSe").focus();
+		return;
+	}
+	if (this.$('#mngFeeFcltyCd').val() == "") {
+		alert('시설 코드가 부정확합니다.');
+		//this.$("#mngFeeFcltyCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -404,6 +439,24 @@ GamElctyUsageSttusMngModule.prototype.copyData = function() {
 			alert(result.resultMsg);
 		});
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelElctyUsageSttusMng.do');
 
 };
 
@@ -473,15 +526,13 @@ GamElctyUsageSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId)
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if(this._mode=="modify") {
+			if (this._mode=="modify") {
 				this.loadDetail();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.$('#usageMtYear').enable();
 				this.$('#usageMtMon').enable();
-				//this.$('#mngFeeJobSe').enable();
-				//this.$('#mngFeeFcltyCd').enable();
 				this.$('#popupMngFeeFcltyCd').enable();
 				this.$('#popupMngFeeFcltyCd').removeClass('ui-state-disabled');
 			}
@@ -538,7 +589,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 									<option value="12">12월</option>
 								</select>
 							</td>
-							<th>시설 업무 구분</th>
+							<th>업무 구분</th>
 							<td>
 								<select id="sMngFeeJobSe">
 									<option value="">전체</option>
@@ -581,6 +632,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
 									<button data-cmd="btnCopy">이전월 자료 복사</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -622,7 +674,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">관리비 업무구분</th>
+								<th width="15%" height="26">업무 구분</th>
 								<td >
 									<select id="mngFeeJobSe" disabled>
 										<option value="M">마린센터</option>
@@ -631,31 +683,31 @@ var module_instance = new GamElctyUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">관리비 시설 코드</th>
+								<th width="15%" height="26">시설 코드</th>
 								<td >
 									<input type="text" size="8" id="mngFeeFcltyCd" disabled/>
 									<button id="popupMngFeeFcltyCd" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">관리비 시설 명</th>
+								<th width="15%" height="26">시설 명</th>
 								<td ><input type="text" size="20" id="mngFeeFcltyNm" disabled/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">전월 사용 량</th>
-								<td ><input type="text" size="20" id="prevMtUsageQy" class="ygpaNumber" disabled/></td>
+								<td ><input type="text" size="20" id="prevMtUsageQy" disabled/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">당월 사용 량</th>
-								<td ><input type="text" size="20" id="saidMtUsageQy" class="ygpaNumber" /></td>
+								<td ><input type="text" size="20" id="saidMtUsageQy"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">적용 계수</th>
-								<td ><input type="text" size="20" id="applcCoef" class="ygpaNumber" data-decimal-point="2" /></td>
+								<td ><input type="text" size="20" id="applcCoef"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">순 사용 량</th>
-								<td ><input type="text" size="20" id="netUsageQy" class="ygpaNumber" /></td>
+								<td ><input type="text" size="20" id="netUsageQy"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">등록자</th>

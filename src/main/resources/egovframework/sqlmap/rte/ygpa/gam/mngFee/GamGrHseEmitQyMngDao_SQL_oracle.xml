@@ -15,19 +15,19 @@
 								 T1.MNG_YEAR
 								,T1.FUEL_CD
 								,T1.MNG_MT
-								,T1.USAGE_QY
-								,T1.ENERGY_USAGE_QY
-								,T1.GR_HSE_EMIT_QY
+								,NVL(LTRIM(TO_CHAR(T1.USAGE_QY,'999,999,990.99')),0) AS USAGE_QY
+								,NVL(LTRIM(TO_CHAR(T1.ENERGY_USAGE_QY,'999,999,990.99')),0) AS ENERGY_USAGE_QY
+								,NVL(LTRIM(TO_CHAR(T1.GR_HSE_EMIT_QY,'999,999,990.99')),0) AS GR_HSE_EMIT_QY
 								,T1.REG_USR
 								,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,T1.UPD_USR
 								,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 								,T2.FUEL_NM
 								,T2.ENERGY_UNIT
-								,T2.ENERGY_TOTAL_CAL_VAL
-								,T2.ENERGY_NET_CAL_VAL
+								,NVL(LTRIM(TO_CHAR(T2.ENERGY_TOTAL_CAL_VAL,'999,999,990.0')),0) AS ENERGY_TOTAL_CAL_VAL
+								,NVL(LTRIM(TO_CHAR(T2.ENERGY_NET_CAL_VAL,'999,999,990.0')),0) AS ENERGY_NET_CAL_VAL
 								,T2.GR_HSE_UNIT
-								,T2.GR_HSE_COEF
+								,NVL(LTRIM(TO_CHAR(T2.GR_HSE_COEF,'0.9999')),0) AS GR_HSE_COEF
 							FROM GR_HSE_EMIT_STTUS_F T1
 							LEFT OUTER JOIN ENERGY_USAGEQY_COEF_F T2 ON (T1.MNG_YEAR=T2.MNG_YEAR AND T1.FUEL_CD=T2.FUEL_CD)
 						WHERE 1=1
@@ -103,7 +103,7 @@
 		(
 			 #fuelCd#
 			,#mngYear#
-			,#mngMt#
+			,#mngMtYear# || #mngMtMon#
 			,TO_NUMBER(REPLACE(#usageQy#,',',''))
 			,TO_NUMBER(REPLACE(#energyUsageQy#,',',''))
 			,TO_NUMBER(REPLACE(#grHseEmitQy#,',',''))
@@ -123,7 +123,7 @@
 			,UPDT_DT = SYSDATE
 		WHERE FUEL_CD = #fuelCd#
 		AND MNG_YEAR = #mngYear#
-		AND MNG_MT = #mngMt#
+		AND MNG_MT = #mngMtYear# || #mngMtMon#
 		]]>
 	</update>
 
@@ -132,7 +132,7 @@
 		DELETE GR_HSE_EMIT_STTUS_F
 		WHERE FUEL_CD = #fuelCd#
 		AND MNG_YEAR = #mngYear#
-		AND MNG_MT = #mngMt#
+		AND MNG_MT = #mngMtYear# || #mngMtMon#
 		]]>
 	</delete>
 
