@@ -384,7 +384,6 @@ GamElctyUsageSttusMngModule.prototype.copyData = function() {
 	var sQueryUsageYear = this.$('#sUsageYear').val();
 	var sQueryUsageMt = this.$('#sUsageMt').val();
 	var mtCnt=0;
-
 	if (confirm("이전월의 자료를 [" + sQueryUsageYear + "-" + sQueryUsageMt + "월] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}

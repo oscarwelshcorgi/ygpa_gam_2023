@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
@@ -43,18 +44,18 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
-	public int selectEnergyUsageMngListYearCnt(GamEnergyUsageMngVo searchVO) throws Exception {
-		return gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt(searchVO);
-	}
-
-	@Override
 	public List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 		return gamEnergyUsageMngDao.selectEnergyUsageMngList(searchVO);
 	}
 
 	@Override
-	public List selectEnergyUsageMngChartList(GamEnergyUsageMngVo searchVO) throws Exception {
-		return gamEnergyUsageMngDao.selectEnergyUsageMngChartList(searchVO);
+	public List selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngChartList(gamEnergyUsageMngVo);
+	}
+
+	@Override
+	public List selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngYearCntList(searchVO);
 	}
 
 	@Override

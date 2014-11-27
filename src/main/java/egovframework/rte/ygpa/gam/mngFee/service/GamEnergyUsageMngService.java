@@ -34,19 +34,19 @@ public interface GamEnergyUsageMngService {
 	 * @param searchVO
 	 * @return
 	 */
-	int selectEnergyUsageMngListYearCnt(GamEnergyUsageMngVo searchVO) throws Exception;
-
-	/**
-	 * @param searchVO
-	 * @return
-	 */
 	List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception;
 
 	/**
+	 * @param gamEnergyUsageMngVo
+	 * @return
+	 */
+	List selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception;
+
+	/**
 	 * @param searchVO
 	 * @return
 	 */
-	List selectEnergyUsageMngChartList(GamEnergyUsageMngVo searchVO) throws Exception;
+	List selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) throws Exception;
 
 	/**
 	 * @param gamEnergyUsageMngVo

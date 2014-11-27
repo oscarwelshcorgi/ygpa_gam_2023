@@ -175,7 +175,7 @@ public class GamElctyUsageSttusMngController {
     }
 
     @RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngMonthCnt.do" , method=RequestMethod.POST)
-    @ResponseBody Map selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+    @ResponseBody Map selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo searchVO) throws Exception {
 
     	Map map = new HashMap();
 
@@ -186,7 +186,7 @@ public class GamElctyUsageSttusMngController {
         	return map;
     	}
 
-    	List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngMonthCntList(gamElctyUsageSttusMngVo);
+    	List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngMonthCntList(searchVO);
 
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);

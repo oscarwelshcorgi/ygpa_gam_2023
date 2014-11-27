@@ -15,11 +15,15 @@
 								 FUEL_CD
 								,FUEL_NM
 								,ENERGY_UNIT
-								,ENERGY_TOTAL_CAL_VAL
-								,ENERGY_NET_CAL_VAL
+								,NVL(LTRIM(TO_CHAR(ENERGY_TOTAL_CAL_VAL,'999,999,990.0')),0) AS ENERGY_TOTAL_CAL_VAL
+								,NVL(LTRIM(TO_CHAR(ENERGY_NET_CAL_VAL,'999,999,990.0')),0) AS ENERGY_NET_CAL_VAL
 								,GR_HSE_UNIT
-								,GR_HSE_COEF
+								,NVL(LTRIM(TO_CHAR(GR_HSE_COEF,'0.9999')),0) AS GR_HSE_COEF
 								,MNG_YEAR
+								,REG_USR
+								,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,UPD_USR
+								,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 							FROM ENERGY_USAGEQY_COEF_F
 						WHERE 1=1
 
@@ -61,8 +65,8 @@
 		</isNotEmpty>
 	</select>
 
-	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt_S" parameterClass="gamEnergyUsageMngVo" resultClass="int">
-		SELECT COUNT(*) yearcnt
+	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngYearCntList_S" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
+		SELECT COUNT(*) AS YEAR_CNT
 			FROM ENERGY_USAGEQY_COEF_F
 		WHERE MNG_YEAR = #sMngYear#
 	</select>

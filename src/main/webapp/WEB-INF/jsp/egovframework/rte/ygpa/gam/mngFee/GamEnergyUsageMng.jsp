@@ -64,7 +64,6 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val(data.totalCount);
-			module.$('#yearCount').val(data.yearCount);
 			module.makeDivValues('#listSumForm', data);
 			return data;
 		}
@@ -78,8 +77,6 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
     });
-
-	this._loadCheck=false;
 
 };
 
@@ -202,7 +199,6 @@ GamEnergyUsageMngModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
-	this._loadCheck=true;
 
 };
 
@@ -238,8 +234,13 @@ GamEnergyUsageMngModule.prototype.loadDetail = function() {
 %>
 GamEnergyUsageMngModule.prototype.addData = function() {
 
+	var mngYear = new Date().getFullYear();
 	this._mode="insert";
 	this.$("#mainTab").tabs("option", {active: 1});
+	this.$('#mngYear').val(mngYear);
+	this.$('#energyTotalCalVal').val('0');
+	this.$('#energyNetCalVal').val('0');
+	this.$('#grHseCoef').val('0');
 
 };
 
@@ -253,8 +254,39 @@ GamEnergyUsageMngModule.prototype.addData = function() {
 GamEnergyUsageMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngYear').val() == "" || this.$('#fuelCd').val() == "") {
-		alert('자료가 부정확합니다.');
+	var mngYear = this.$('#mngYear').val();
+	var fuelCd = this.$('#fuelCd').val();
+	var energyTotalCalVal = Number(this.$('#energyTotalCalVal').val().replace(/,/gi, ""));
+	var energyNetCalVal = Number(this.$('#energyNetCalVal').val().replace(/,/gi, ""));
+	var grHseCoef = Number(this.$('#grHseCoef').val().replace(/,/gi, ""));
+	if (mngYear > "9999"  || mngYear < "2000" || mngYear == "") {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#mngYear").focus();
+		return;
+	}
+	if (fuelCd == "" || fuelCd.length != 4) {
+		alert('연료 코드가 부정확합니다.');
+		this.$("#fuelCd").focus();
+		return;
+	}
+	if (this.$('#fuelNm').val() == "") {
+		alert('연료 명이 부정확합니다.');
+		this.$("#fuelNm").focus();
+		return;
+	}
+	if (energyTotalCalVal >= 999.99 || energyTotalCalVal < 0) {
+		alert('에너지 총발열량이 부정확합니다. (0 ~ 999.99)');
+		this.$("#energyTotalCalVal").focus();
+		return;
+	}
+	if (energyNetCalVal > 999.99 || energyNetCalVal < 0) {
+		alert('에너지 순발열량이 부정확합니다. (0 ~ 999.99)');
+		this.$("#energyNetCalVal").focus();
+		return;
+	}
+	if (grHseCoef > 0.9999 || grHseCoef < 0) {
+		alert('온실가스 계수가 부정확합니다. (0 ~ 0.9999)');
+		this.$("#grHseCoef").focus();
 		return;
 	}
 	if (this._mode == "insert") {
@@ -290,8 +322,14 @@ GamEnergyUsageMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#mngYear').val() == "" || this.$('#fuelCd').val() == "") {
-		alert('자료가 부정확합니다.');
+	if (this.$('#mngYear').val() == "") {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#mngYear").focus();
+		return;
+	}
+	if (this.$('#fuelCd').val() == "") {
+		alert('연료 코드가 부정확합니다.');
+		this.$("#fuelCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -314,25 +352,29 @@ GamEnergyUsageMngModule.prototype.deleteData = function() {
 %>
 GamEnergyUsageMngModule.prototype.copyData = function() {
 
+	var searchVO = this.makeFormArgs("#searchForm");
 	var sQueryMngYear = this.$('#sMngYear').val();
-	var nYearCount = this.$('#yearCount').val()*1;
-	if (this._loadCheck == false) {
-		alert('자료를 먼저 조회하십시오.');
+	var yearCnt = 0;
+	if (confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}
-	if (nYearCount > 0) {
-		alert('[' + sQueryMngYear + '년] 자료가 존재합니다.');
-		return;
-	}
-	if (confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?")) {
-		var inputVO = this.makeFormArgs("#searchForm");
-		this.doAction('/mngFee/gamCopyEnergyUsageMng.do', row[0], function(module, result) {
+	this.doAction('<c:url value="/mngFee/gamSelectEnergyUsageMngYearCnt.do" />', searchVO, function(module, result) {
+		if (result.resultCode != "0") {
+			alert('자료 확인이 실패했습니다!');
+			return;
+		}
+		yearCnt=result.resultList[0]['yearCnt']*1;
+		if (yearCnt > 0) {
+			alert('[' + sQueryMngYear + '년] 자료가 존재합니다.');
+			return;
+		}
+		module.doAction('/mngFee/gamCopyEnergyUsageMng.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
-	}
+	});
 
 };
 
@@ -359,7 +401,6 @@ GamEnergyUsageMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$('#mngYear').enable();
 				this.$('#fuelCd').enable();
 			}
-			console.log('asdf');
 			this.drawChart();
 			break;
 	}
@@ -431,8 +472,6 @@ var module_instance = new GamEnergyUsageMngModule();
 							<tr>
 								<th width="10%" height="20">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20">년도 자료수</th>
-								<td><input type="text" size="12" id="yearCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
@@ -476,11 +515,11 @@ var module_instance = new GamEnergyUsageMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="26">에너지 총발열량</th>
-								<td ><input type="text" size="20" id="energyTotalCalVal" class="ygpaNumber"/></td>
+								<td ><input type="text" size="20" id="energyTotalCalVal"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">에너지 순발열량</th>
-								<td ><input type="text" size="20" id="energyNetCalVal" class="ygpaNumber"/></td>
+								<td ><input type="text" size="20" id="energyNetCalVal"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">온실가스 단위</th>
@@ -488,7 +527,7 @@ var module_instance = new GamEnergyUsageMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="26">온실가스 계수</th>
-								<td ><input type="text" size="20" id="grHseCoef" class="ygpaNumber"/></td>
+								<td ><input type="text" size="20" id="grHseCoef"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">등록자</th>

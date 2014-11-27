@@ -52,14 +52,19 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 		url : '/mngFee/gamSelectMngFeeGubunMng.do',
 		dataType : 'json',
 		colModel : [
-					{display:'시설구분', 		name:'mngFeeFcltySe',		width:100, 		sortable:false,		align:'center'},
-                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:180, 		sortable:false,		align:'left'},
+					{display:'시설 구분', 		name:'mngFeeFcltySe',		width:100, 		sortable:false,		align:'center'},
+                    {display:'시설 구분 명', 	name:'mngFeeFcltySeNm',		width:180, 		sortable:false,		align:'left'},
 					{display:'등록자', 			name:'regUsr',				width:100, 		sortable:false,		align:'center'},
                     {display:'등록일시', 		name:'registDt',			width:150, 		sortable:false,		align:'center'}
                     ],
                 mergeRows: "mngFeeFcltySe,mngFeeFcltySeNm",
 		showTableToggleBtn : false,
-		height : 'auto'
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val(data.totalCount);
+			module.makeDivValues('#listSumForm', data);
+			return data;
+		}
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -95,6 +100,9 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnIdCheck':
 			this.checkId();
+			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
 			break;
 	}
 
@@ -138,8 +146,7 @@ GamMngFeeGubunMngModule.prototype.loadData = function() {
 GamMngFeeGubunMngModule.prototype.loadDetail = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
-
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
@@ -175,8 +182,15 @@ GamMngFeeGubunMngModule.prototype.addData = function() {
 GamMngFeeGubunMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngFeeFcltySe').val() == "") {
-		alert('자료가 부정확합니다.');
+	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
+	if (mngFeeFcltySe == "" || mngFeeFcltySe.length != 2) {
+		alert('시설 구분이 부정확합니다.');
+		this.$("#mngFeeFcltySe").focus();
+		return;
+	}
+	if (this.$('#mngFeeFcltySeNm').val() == "") {
+		alert('시설 구분 명이 부정확합니다.');
+		this.$("#mngFeeFcltySeNm").focus();
 		return;
 	}
 	if (this._mode == "insert") {
@@ -207,13 +221,14 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 GamMngFeeGubunMngModule.prototype.deleteData = function() {
 
 	var row = this.$('#mainGrid').selectedRows();
-	if(row.length==0) {
+	if (row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
 	if (this.$('#mngFeeFcltySe').val() == "") {
-		alert('자료가 부정확합니다.');
+		alert('시설 구분이 부정확합니다.');
+		this.$("#mngFeeFcltySe").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -258,6 +273,24 @@ GamMngFeeGubunMngModule.prototype.checkId = function() {
 			}
 		}
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelMngFeeGubunMng.do');
 
 };
 
@@ -346,9 +379,12 @@ var module_instance = new GamMngFeeGubunMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
+								<th width="20%" height="20">조회 자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>

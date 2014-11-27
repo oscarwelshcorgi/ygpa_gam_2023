@@ -28,6 +28,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
@@ -124,13 +125,11 @@ public class GamEnergyUsageMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		yearCnt = gamEnergyUsageMngService.selectEnergyUsageMngListYearCnt(searchVO);
 		totalCnt = gamEnergyUsageMngService.selectEnergyUsageMngListTotCnt(searchVO);
     	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngList(searchVO);
 
     	map.put("resultCode", 0);
     	map.put("totalCount", totalCnt);
-    	map.put("yearCount", yearCnt);
     	map.put("resultList", resultList);
 
     	return map;
@@ -149,6 +148,26 @@ public class GamEnergyUsageMngController {
     	}
 
     	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngChartList(gamEnergyUsageMngVo);
+
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
+
+    @RequestMapping(value="/mngFee/gamSelectEnergyUsageMngYearCnt.do" , method=RequestMethod.POST)
+    @ResponseBody Map selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngYearCntList(searchVO);
 
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);

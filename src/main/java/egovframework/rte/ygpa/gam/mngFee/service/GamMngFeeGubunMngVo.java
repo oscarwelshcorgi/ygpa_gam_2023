@@ -34,20 +34,7 @@ public class GamMngFeeGubunMngVo extends ComDefaultVO{
 	private	String	updtDt;				//수정일시
 	private	String	sMngFeeFcltySe;		// 검색 관리비 시설 구분
 	private	String	sMngFeeFcltySeNm;	// 검색 관리비 시설 구분 명
-	private String  oldMngFeeFcltySe;	//시설 구분 Old
 
-	/**
-	 * @return the oldMngFeeFcltySe
-	 */
-	public String getOldMngFeeFcltySe() {
-		return oldMngFeeFcltySe;
-	}
-	/**
-	 * @param oldMngFeeFcltySe the oldMngFeeFcltySe to set
-	 */
-	public void setOldMngFeeFcltySe(String oldMngFeeFcltySe) {
-		this.oldMngFeeFcltySe = oldMngFeeFcltySe;
-	}
 	/**
 	 * @return the mngFeeFcltySe
 	 */

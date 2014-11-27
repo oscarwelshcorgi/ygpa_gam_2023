@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
@@ -34,31 +35,31 @@ public class GamEnergyUsageMngDao extends YGPAAbstractDAO{
 	 * @param searchVO
 	 * @return
 	 */
-	public int selectEnergyUsageMngListTotCnt(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt_S", gamEnergyUsageMngVo);
+	public int selectEnergyUsageMngListTotCnt(GamEnergyUsageMngVo searchVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamEnergyUsageMngDao.selectEnergyUsageMngListTotCnt_S", searchVO);
 	}
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	public int selectEnergyUsageMngListYearCnt(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamEnergyUsageMngDao.selectEnergyUsageMngListYearCnt_S", gamEnergyUsageMngVo);
+	public List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) {
+		return list("gamEnergyUsageMngDao.selectEnergyUsageMngList_D", searchVO);	}
+
+	/**
+	 * @param gamEnergyUsageMngVo
+	 * @return
+	 */
+	public List selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
+		return list("gamEnergyUsageMngDao.selectEnergyUsageMngChartList_D", gamEnergyUsageMngVo);
 	}
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectEnergyUsageMngList(GamEnergyUsageMngVo gamEnergyUsageMngVo) {
-		return list("gamEnergyUsageMngDao.selectEnergyUsageMngList_D", gamEnergyUsageMngVo);	}
-
-	/**
-	 * @param searchVO
-	 * @return
-	 */
-	public List selectEnergyUsageMngChartList(GamEnergyUsageMngVo searchVO) {
-		return list("gamEnergyUsageMngDao.selectEnergyUsageMngChartList_D", searchVO);
+	public List selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) {
+		return list("gamEnergyUsageMngDao.selectEnergyUsageMngYearCntList_S", searchVO);
 	}
 
 	/**
