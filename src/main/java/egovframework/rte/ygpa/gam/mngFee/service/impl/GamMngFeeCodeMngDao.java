@@ -4,10 +4,12 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 /**
@@ -43,6 +45,22 @@ public class GamMngFeeCodeMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectMngFeeCodeMngList(GamMngFeeCodeMngVo searchVO) {
 		return list("gamMngFeeCodeMngDao.selectMngFeeCodeMngList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectMngFeeFcltySeMngList(Map searchVO) {
+		return list("gamMngFeeCodeMngDao.selectMngFeeFcltySeMngList_D", searchVO);
+	}
+
+	/**
+	 * @param gamMngFeeCodeMngVo
+	 * @return
+	 */
+	public String selectMngFeeCodeMngMaxFcltyCd(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamMngFeeCodeMngDao.selectMngFeeCodeMngMaxFcltyCd_S", gamMngFeeCodeMngVo);
 	}
 
 	/**

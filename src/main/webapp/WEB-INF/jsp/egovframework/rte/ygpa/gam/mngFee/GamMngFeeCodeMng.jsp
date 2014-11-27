@@ -60,7 +60,12 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 					{display:'등록일시', 	name:'registDt',			width:150, 		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
-		height : 'auto'
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val(data.totalCount);
+			module.makeDivValues('#listSumForm', data);
+			return data;
+		}
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -70,6 +75,11 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
+		var module=event.data.module;
+		module.getNewMngFeeFcltyCd();
 	});
 
 };
@@ -93,6 +103,9 @@ GamMngFeeCodeMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnDelete':
 			this.deleteData();
+			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
 			break;
 	}
 
@@ -142,7 +155,7 @@ GamMngFeeCodeMngModule.prototype.loadDetail = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	this.$('#mngFeeFcltySe').disable();
+	this.$('#mngFeeJobSe').disable();
 	this.$('#mngFeeFcltyCd').disable();
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
@@ -173,8 +186,26 @@ GamMngFeeCodeMngModule.prototype.addData = function() {
 GamMngFeeCodeMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#mngFeeFcltySe').val() == "" || this.$('#mngFeeFcltyCd').val() == "") {
-		alert('자료가 부정확합니다.');
+	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
+	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
+	if (this.$('#mngFeeJobSe').val() == "") {
+		alert('업무 구분이 부정확합니다.');
+		this.$("#mngFeeJobSe").focus();
+		return;
+	}
+	if (mngFeeFcltySe == "" || mngFeeFcltySe.length != 2) {
+		alert('시설 구분이 부정확합니다.');
+		this.$("#mngFeeFcltySe").focus();
+		return;
+	}
+	if (mngFeeFcltyCd == "" || mngFeeFcltyCd.length != 4) {
+		alert('시설 코드가 부정확합니다.');
+		this.$("#mngFeeFcltyCd").focus();
+		return;
+	}
+	if (this.$('#mngFeeFcltyNm').val() == "") {
+		alert('시설 명이 부정확합니다.');
+		this.$("#mngFeeFcltyNm").focus();
 		return;
 	}
 	if (this._mode == "insert") {
@@ -210,8 +241,14 @@ GamMngFeeCodeMngModule.prototype.deleteData = function() {
 		this.$("#mainTab").tabs("option", {active: 0});
 		return;
 	}
-	if (this.$('#mngFeeFcltySe').val() == "" || this.$('#mngFeeFcltyCd').val() == "") {
-		alert('자료가 부정확합니다.');
+	if (this.$('#mngFeeJobSe').val() == "") {
+		alert('업무 구분이 부정확합니다.');
+		this.$("#mngFeeJobSe").focus();
+		return;
+	}
+	if (this.$('#mngFeeFcltyCd').val() == "") {
+		alert('시설 코드가 부정확합니다.');
+		this.$("#mngFeeFcltyCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -222,6 +259,45 @@ GamMngFeeCodeMngModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelMngFeeCodeMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewMngFeeFcltyCd
+ * @DESCRIPTION   : 새로운 시설 코드를 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeCodeMngModule.prototype.getNewMngFeeFcltyCd = function() {
+
+	var searchVO = this.makeFormArgs("#detailForm");
+	if (this.$('#mngFeeJobSe').val() == "") {
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamMngFeeCodeMngMaxFcltyCd.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#mngFeeFcltyCd').val(result.sMaxFcltyCd);
+		}
+	});
 
 };
 
@@ -245,7 +321,7 @@ GamMngFeeCodeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngFeeFcltySe').enable();
+				this.$('#mngFeeJobSe').enable();
 				this.$('#mngFeeFcltyCd').enable();
 			}
 			break;
@@ -275,15 +351,15 @@ var module_instance = new GamMngFeeCodeMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>관리비 시설 코드</th>
+							<th>시설 코드</th>
 							<td>
 								<input type="text" size="5" id="sMngFeeFcltyCd">
 							</td>
-							<th>관리비 시설 명</th>
+							<th>시설 명</th>
 							<td>
 								<input type="text" size="15" id="sMngFeeFcltyNm">
 							</td>
-							<th>관리비 업무 구분</th>
+							<th>업무 구분</th>
 							<td>
 								<select id="sMngFeeJobSe">
 									<option value="">전체</option>
@@ -316,9 +392,12 @@ var module_instance = new GamMngFeeCodeMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
+								<th width="20%" height="20">조회 자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -337,12 +416,15 @@ var module_instance = new GamMngFeeCodeMngModule();
 										<option value="M">마린센터</option>
 										<option value="E">전기시설</option>
 									</select>
-									<span data-column-id="mngFeeJobSeNm"></span>
 								</td>
 								<th width="20%" height="25">시설 구분</th>
 								<td >
-									<input type="text" size="10" id="mngFeeFcltySe" maxlength="2" />
-									<span data-column-id="mngFeeFcltySeNm"></span>
+									<select id="mngFeeFcltySe">
+										<option value="">선택</option>
+										<c:forEach items="${mngFeeFcltySeList}" var="mngFeeFcltySeListListItem">
+											<option value="${mngFeeFcltySeListListItem.mngFeeFcltySe }">${mngFeeFcltySeListListItem.mngFeeFcltySeNm }</option>
+										</c:forEach>
+									</select>
 								</td>
 							</tr>
 							<tr>

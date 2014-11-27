@@ -75,6 +75,23 @@
 		</isNotEmpty>
 	</select>
 
+	<select id="gamMngFeeCodeMngDao.selectMngFeeFcltySeMngList_D" parameterClass="hashMap"  resultClass="egovMap">
+		SELECT
+				 MNG_FEE_FCLTY_SE
+				,MNG_FEE_FCLTY_SE_NM
+		FROM MNG_FEE_FCLTY_SE_F
+		ORDER BY MNG_FEE_FCLTY_SE
+    </select>
+
+	<select id="gamMngFeeCodeMngDao.selectMngFeeCodeMngMaxFcltyCd_S" parameterClass="hashMap" resultClass="java.lang.String">
+		SELECT #mngFeeJobSe# || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(MNG_FEE_FCLTY_CD,2,3))),0)+1,'000'))
+			FROM MNG_FEE_FCLTY_CD_F
+		WHERE MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND SUBSTRB(MNG_FEE_FCLTY_CD,2,3) <![CDATA[ >= ]]> '000'
+		AND SUBSTRB(MNG_FEE_FCLTY_CD,2,3) <![CDATA[ <= ]]> '998'
+		GROUP BY MNG_FEE_JOB_SE
+	</select>
+
 	<insert id="gamMngFeeCodeMngDao.insertMngFeeCodeMng_S">
 		<![CDATA[
 		INSERT INTO MNG_FEE_FCLTY_CD_F
@@ -102,11 +119,11 @@
 		<![CDATA[
 		UPDATE MNG_FEE_FCLTY_CD_F SET
 			 MNG_FEE_FCLTY_NM = #mngFeeFcltyNm#
-			,MNG_FEE_JOB_SE = #mngFeeJobSe#
+			,MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
-		AND MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
 	</update>
 
@@ -114,7 +131,7 @@
 		<![CDATA[
 		DELETE FROM MNG_FEE_FCLTY_CD_F
 		WHERE MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
-		AND MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		]]>
 	</delete>
 

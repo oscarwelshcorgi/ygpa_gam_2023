@@ -4,12 +4,14 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngService;
@@ -46,6 +48,16 @@ public class GamMngFeeCodeMngServiceImpl extends AbstractServiceImpl implements 
 	@Override
 	public List selectMngFeeCodeMngList(GamMngFeeCodeMngVo searchVO) throws Exception {
 		return gamMngFeeCodeMngDao.selectMngFeeCodeMngList(searchVO);
+	}
+
+	@Override
+	public List selectMngFeeFcltySeMngList(Map searchVO) throws Exception {
+		return gamMngFeeCodeMngDao.selectMngFeeFcltySeMngList(searchVO);
+	}
+
+	@Override
+	public String selectMngFeeCodeMngMaxFcltyCd(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
+		return gamMngFeeCodeMngDao.selectMngFeeCodeMngMaxFcltyCd(gamMngFeeCodeMngVo);
 	}
 
 	@Override

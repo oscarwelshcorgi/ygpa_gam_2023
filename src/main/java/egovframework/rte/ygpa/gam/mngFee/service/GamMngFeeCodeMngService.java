@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -35,6 +36,17 @@ public interface GamMngFeeCodeMngService {
 	 * @return
 	 */
 	List selectMngFeeCodeMngList(GamMngFeeCodeMngVo searchVO) throws Exception;
+
+	/**
+	 * @return
+	 */
+	List selectMngFeeFcltySeMngList(Map searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	String selectMngFeeCodeMngMaxFcltyCd(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;
 
 	/**
 	 * @param gamMngFeeCodeMngVo
