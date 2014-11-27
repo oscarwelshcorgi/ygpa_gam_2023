@@ -24,6 +24,11 @@ import java.util.List;
 
 public interface GamCarMngService {
 
+	/**
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
 	List selectCarMngList(GamCarMngVo searchVO) throws Exception;
 
 	/**

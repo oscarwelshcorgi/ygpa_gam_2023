@@ -170,6 +170,9 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnCopy':
 			this.copyData();
 			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
 	}
 
 };
@@ -380,6 +383,24 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelEnergyUsageMng.do');
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -476,6 +497,7 @@ var module_instance = new GamEnergyUsageMngModule();
 									<button data-cmd="btnAdd">추가</button>
 									<button data-cmd="btnDelete">삭제</button>
 									<button data-cmd="btnCopy">이전년도 자료 복사</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>

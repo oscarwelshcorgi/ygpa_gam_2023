@@ -54,6 +54,7 @@ public class GamCarMngVo extends ComDefaultVO{
 	private	String	examValidBeginDt;	//검사 유효 시작일
 	private	String	examValidEndDt;	//검사 유효 종료일
 	private	String	acqPrce;		//취득 가격
+	private	String	rm;				//비고
 	private	String	regUsr;			//등록자
 	private	String	updUsr;			//수정자
 	private	String	updtDt;			//수정일시
@@ -64,21 +65,6 @@ public class GamCarMngVo extends ComDefaultVO{
 	private String sCarBodyNo;	//검색 차대 번호
 	private String sFuelKnd;	//검색 차량 종류
 
-	private	String	oldCarRegistNo;	// 예전 차량 등록 번호(update 용)
-
-
-	/**
-	 * @return the oldCarRegistNo
-	 */
-	public String getOldCarRegistNo() {
-		return oldCarRegistNo;
-	}
-	/**
-	 * @param oldCarRegistNo the oldCarRegistNo to set
-	 */
-	public void setOldCarRegistNo(String oldCarRegistNo) {
-		this.oldCarRegistNo = oldCarRegistNo;
-	}
 	/**
 	 * @return the sCarRegistNo
 	 */
@@ -464,6 +450,18 @@ public class GamCarMngVo extends ComDefaultVO{
 		this.acqPrce = acqPrce;
 	}
 	/**
+	 * @return the rm
+	 */
+	public String getRm() {
+		return rm;
+	}
+	/**
+	 * @param rm the rm to set
+	 */
+	public void setRm(String rm) {
+		this.rm = rm;
+	}
+	/**
 	 * @return the regUsr
 	 */
 	public String getRegUsr() {
@@ -513,4 +511,3 @@ public class GamCarMngVo extends ComDefaultVO{
 	}
 
 }
-
