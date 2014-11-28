@@ -493,4 +493,29 @@ public class GamFcltyQcwWrtMngController {
       	return map;		
 	}
 	
+	
+	/**
+	 * 점검관리대상물목록 수정 팝업
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/popup/showQcMngObjFcltsPopup.do")
+    String showQcMngObjFcltsPopup(@RequestParam Map qcMngObjFcltsList, ModelMap model) throws Exception {
+		model.addAttribute("qcMngObjFcltsList", qcMngObjFcltsList);
+    	return "/ygpa/gam/fcltyMng/GamPopupQcMngObjFclts";
+    }
+
+	/**
+	 * 점검관리대상물목록 수정 팝업
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/popup/showQcMngResultItemPopup.do")
+    String showQcMngResultItemPopup(@RequestParam Map qcMngResultItemList, ModelMap model) throws Exception {
+		model.addAttribute("qcMngResultItemList", qcMngResultItemList);
+    	return "/ygpa/gam/fcltyMng/GamPopupQcMngResultItem";
+    }
+	
 }

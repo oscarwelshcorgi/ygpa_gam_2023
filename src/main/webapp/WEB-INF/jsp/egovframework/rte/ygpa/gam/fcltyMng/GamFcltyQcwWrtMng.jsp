@@ -98,7 +98,6 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"점검항목코드",	name:"qcItemCd",		width:100,		sortable:true,		align:"center"},
 					{display:"점검항목",		name:"qcItem",			width:150,		sortable:true,		align:"center"},
-					{display:"점검상위항목",	name:"qcItemUpper",		width:150,		sortable:true,		align:"center"},
 					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"left"}
 			],
@@ -242,6 +241,12 @@ GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 	}
 };
 
+//점검관리 대상시설물 수정 팝업
+GamFcltyQcwWrtMngModule.prototype.showModifyQcMngObjFcltsList = function() {
+	var allRows = this.$('#qcMngObjFcltsList').flexGetData();
+	this.doExecuteDialog("modifiedQcMngObjFclts", "점검관리대상시설물목록", '/popup/showQcMngObjFcltsPopup.do', {}, allRows);
+};
+
 //점검관리 대상시설물 병합저장
 GamFcltyQcwWrtMngModule.prototype.saveQcMngObjFclts = function() {
 	var dataList = this.$("#qcMngObjFcltsList").flexGetData();
@@ -268,6 +273,12 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngObjFclts = function() {
         	alert(result.resultMsg);
         }
     });	
+};
+
+//점검관리 결과항목 수정 팝업
+GamFcltyQcwWrtMngModule.prototype.showModifyQcMngResultItemList = function() {
+	var allRows = this.$('#qcMngResultItemList').flexGetData();
+	this.doExecuteDialog("modifiedQcMngResultItem", "점검관리결과항목목록", '/popup/showQcMngResultItemPopup.do', {}, allRows);
 };
 
 //점검관리 결과항목 병합저장
@@ -395,6 +406,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadAtchFileItem = function() {
 	}
 };
 
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -439,14 +451,17 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			
 		//시설물관리그룹선택
 		case "searchFcltsMngGroup":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물관리그룹", '/popup/showFcltsMngGroup.do', {});
 			break;
 			
 		//점검관리대상시설물 수정
-		case "btnModifyObjFclts":
+		case "btnModifyQcMngObjFclts":
+			this.showModifyQcMngObjFcltsList();
 			break;
 			
 		//점검관리결과항목 수정			
-		case "btnModifyResultItem":
+		case "btnModifyQcMngResultItem":
+			this.showModifyQcMngResultItemList();
 			break;
 	}
 };
@@ -460,16 +475,16 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		this.loadDetailData();
 	}
 	switch(newTabId) {
-	case "tabs1":
-		break;
-	case "tabs2":
-		break;
-	case "tabs3":
-		break;
-	case "tabs4":
-		break;
-	case "tabs5":
-		break;
+		case "tabs1":
+			break;
+		case "tabs2":
+			break;
+		case "tabs3":
+			break;
+		case "tabs4":
+			break;
+		case "tabs5":
+			break;
 	}
 };
 
@@ -478,10 +493,23 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
  */
 GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		// 조회화면
-		case "selectGisCode":
+		//시설물 관리 그룹
+		case "selectFcltsMngGroup":
+			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
-			
+		//점검관리 대상시설물 수정			
+		case "modifiedQcMngObjFclts":
+			this.$("#qcMngObjFcltsList").flexEmptyData();
+			this.$("#qcMngObjFcltsList").flexAddData({resultList: value["resultList"] });
+			this._deleteObjFcltsList = value["deleteObjFcltsList"];
+			break;
+		//점검관리 결과항목 수정			
+		case "modifiedQcMngResultItem":
+			this.$("#qcMngResultItemList").flexEmptyData();
+			this.$("#qcMngResultItemList").flexAddData({resultList: value["resultList"] });
+			this._deleteResultItemList = value["deleteResultItemList"];
+			break;
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -521,7 +549,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td>
 								<select id="sQcInspSe">
 									<option value="">선택</option>
-									<option value="A">기계시설물</option>
+									<option value="E">전기시설물</option>
+									<option value="M">기계시설물</option>
 									<option value="C">토목시설물</option>
 									<option value="A">건축시설물</option>
 									<option value="I">정보통신시설물</option>
@@ -674,7 +703,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="qcMngObjFcltsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnModifyObjFclts">추가/삭제</button>
+					<button id="btnModifyQcMngObjFclts">추가/삭제</button>
 					<button id="btnSave">저장</button>
 				</div>
 				<form id="fcltsFileForm">
@@ -686,7 +715,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
 				<table id="qcMngResultItemList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnModifyResultItem">추가/삭제</button>
+					<button id="btnModifyQcMngResultItem">추가/삭제</button>
 					<button id="btnSave">저장</button>
 				</div>
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>

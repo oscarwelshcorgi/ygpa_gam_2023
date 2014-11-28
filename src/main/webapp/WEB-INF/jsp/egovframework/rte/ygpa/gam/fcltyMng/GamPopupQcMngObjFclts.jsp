@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamPopupQcObjFclts.jsp
-  * @Description : 점검관리 대상시설물 정보 팝업 (Prototype)
+  * @Class Name : GamPopupQcMngObjFclts.jsp
+  * @Description : 점검관리 대상시설물 목록 정보 팝업 (Prototype)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -28,7 +28,7 @@ function GamPopupQcMngObjFcltsModule() {}
 GamPopupQcMngObjFcltsModule.prototype = new EmdPopupModule(1000, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
-GamPopupQcMngObjFcltsModule.prototype.loadComplete = function(mntnRprObjFcltsF) {
+GamPopupQcMngObjFcltsModule.prototype.loadComplete = function(qcMngObjFcltsList) {
 
 	this._deleteObjFcltsList = [];
 	this.resizable(true);
@@ -64,7 +64,6 @@ GamPopupQcMngObjFcltsModule.prototype.loadComplete = function(mntnRprObjFcltsF) 
 GamPopupQcMngObjFcltsModule.prototype.objFcltsDataChanged = function(target) {
 	var changed=false;
 	var row={};
-
 	var selectRow = this.$('#grdInfoList').selectedRows();
 	if(selectRow.length > 0) {
 		row=selectRow[0];
@@ -101,28 +100,10 @@ GamPopupQcMngObjFcltsModule.prototype.objFcltsDataChanged = function(target) {
 	}
 };
 
-
-// 정의된 버튼 클릭시
-GamPopupQcMngObjFcltsModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-		case "btnOk":
-			this.returnMergeData();
-			break;
-		case "btnCancel":
-			this.cancelDialog();
-		case "btnAdd":
-			this.addObjFcltsItem();
-			break;
-		case "btnRemove":
-			this.removeMaintItem();
-			break;
-	}
-};
-
 //점검관리 대상 시설물 병합 리턴
 GamPopupQcMngObjFcltsModule.prototype.returnMergeData = function() {
-	var rowsData = this.$('#grdInfoList').flexGetData();
-	var mergeData = {'rowsData' : rowsData, 'deleteObjFcltsList' : this._deleteObjFcltsList};
+	var resultList = this.$('#grdInfoList').flexGetData();
+	var mergeData = {'resultList' : resultList, 'deleteObjFcltsList' : this._deleteObjFcltsList};
 	this.closeDialog("ok", mergeData);
 };
 
@@ -156,6 +137,23 @@ GamPopupQcMngObjFcltsModule.prototype.removeObjFcltsItem = function() {
     this.$("#gamPopupObjFcltsForm").find(":input").val("");
 };
 
+//정의된 버튼 클릭시
+GamPopupQcMngObjFcltsModule.prototype.onButtonClick = function(buttonId) {
+	switch(buttonId) {
+		case "btnOk":
+			this.returnMergeData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+		case "btnAdd":
+			this.addObjFcltsItem();
+			break;
+		case "btnRemove":
+			this.removeObjFcltsItem();
+			break;
+	}
+};
+
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupQcMngObjFcltsModule();
 </script>
@@ -174,22 +172,31 @@ var popup_instance = new GamPopupQcMngObjFcltsModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>관리번호</th>
+                        <th>시설물관리번호</th>
                         <td><input id="fcltsMngNo" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
                         <th>점검진단구분</th>
-                        <td><input id="qcInspSe" type="text" style="width: 150px;" maxlength="3" class="EditItem"/></td>
+                        <td>
+                       		<select id="qcInspSe" class="EditItem">
+								<option value="">선택</option>
+								<option value="E">전기시설물</option>
+								<option value="M">기계시설물</option>
+								<option value="C">토목시설물</option>
+								<option value="A">건축시설물</option>
+								<option value="I">정보통신시설물</option>
+							</select>
+                        </td>
 						<th>점검진단일자</th>
-                        <td><input id="qcInspDt" type="text" style="width: 150px;" maxlength="10" class="emdcal EditItem"/></td>
+                        <td><input id="qcInspDt" type="text" style="width: 100px;" maxlength="10" class="emdcal EditItem"/></td>
                         <th>점검자</th>
                         <td ><input id="inspector" type="text" style="width: 150px;" maxlength="60" class="EditItem"/></td>
 					</tr>
 					<tr>
 						<th>점검진단결과</th>
-						<td colspan="7"><textarea id="qcInspResult" cols="80" rows="4" class="EditItem"></textarea></td>
+						<td colspan="7"><textarea id="qcInspResult" cols="120" rows="7" class="EditItem"></textarea></td>
 					</tr>
 					<tr>
 						<th>비고</th>
-						<td colspan="7"><input id="rm" type="text" style="width: 380px;" maxlength="1000" class="EditItem"/></td>
+						<td colspan="7"><input id="rm" type="text" style="width: 500px;" maxlength="1000" class="EditItem"/></td>
 					</tr>
 				</tbody>
 			</table>

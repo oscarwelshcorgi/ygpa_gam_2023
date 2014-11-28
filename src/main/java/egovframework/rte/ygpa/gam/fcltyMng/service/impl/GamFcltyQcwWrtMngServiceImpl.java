@@ -65,6 +65,16 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	public EgovMap selectQcMngDtlsDetail(Map searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
 	}
+
+	/**
+	 * 현재 +1 점검관리순번 조회 
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */		
+	public String selectNextQcMngSeq(Map<String, Object> vo) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectNextQcMngSeq(vo);
+	}
 	
 	/**
 	 * 점검관리내역 데이터 삽입

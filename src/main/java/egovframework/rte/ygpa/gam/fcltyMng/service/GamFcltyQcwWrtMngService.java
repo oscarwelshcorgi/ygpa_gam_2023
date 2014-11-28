@@ -51,6 +51,14 @@ public interface GamFcltyQcwWrtMngService {
 	EgovMap selectQcMngDtlsDetail(Map searchVO) throws Exception;
 	
 	/**
+	 * 현재 +1 점검관리순번 조회 
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */		
+	String selectNextQcMngSeq(Map<String, Object> vo) throws Exception;
+	
+	/**
 	 * 점검관리내역 데이터 삽입
 	 * @param vo
 	 * @return 
