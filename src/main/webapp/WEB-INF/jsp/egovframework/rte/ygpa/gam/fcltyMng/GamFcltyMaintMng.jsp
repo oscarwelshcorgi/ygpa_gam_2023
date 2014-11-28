@@ -38,7 +38,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 	// 테이블 설정
 	this.$("#fcltyMngMngtList").flexigrid({
 		module: this,
-		url: '<c:url value="/fcltyMng/selectFcltyMaintMngList.do" />',
+		url: '/fcltyMng/selectFcltyMaintMngList.do',
 		dataType: "json",
 		colModel : [
 					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
@@ -56,10 +56,10 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
-		url: '<c:url value="/fcltyMng/selectMntnRprObjFcltsF.do" />',
+		url: '/fcltyMng/selectMntnRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"관리번호",			name:"fcltsMngNo",			width:60,		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
@@ -75,10 +75,10 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 
  	this.$("#fcltyMaintFileList").flexigrid({
 		module: this,
-		url: '<c:url value="/fcltyMng/selectFcltyMaintFileList.do"/>',
+		url: '/fcltyMng/selectFcltyMaintFileList.do',
 		dataType: 'json',
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
@@ -206,16 +206,30 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 
 GamFcltyMaintMngModule.prototype.loadDetail = function(){
 	
+	var row = this.$('#fcltyMngMngtList').selectedRows();
+	
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+		return;
+	}
+	
+	row = row[0];
+	
+	var searchVO = [
+	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
+	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
+	               ];
+
 	// tabs2 항목 데이타로딩
-	this.makeFormValues('#fcltyMaintMngListVO', {});
-	
+	this.makeFormValues('#fcltyMaintMngListVO', row);
 	// tabs3 그리드 리로드
-	this.$('#mntnRprObjFcltsF').flexOptions({params:searchOpt}).flexReload();
-	
+	this.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 	// tabs4 항목 데이타 로딩/ 그리드 리로드
 	this.makeFormValues('#fcltyMaintMngFileForm', {});
 	this.$("#previewImage").attr("src", "");
-	this.$('#fcltyMaintFileList').flexOptions({params:searchOpt}).flexReload();
+	this.$('#fcltyMaintFileList').flexOptions({params:searchVO}).flexReload();
 	
 };
 
@@ -230,13 +244,24 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 
 GamFcltyMaintMngModule.prototype.saveData = function() {
 	
-	if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])) return;
+	if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
+		this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
+		return;
+	}
 
  	var inputVO = this.makeFormArgs("#fcltyMaintMngListVO");
 	if(this._mode == "insert") {
 	 	this.doAction('/fcltyMng/insertFcltyMaintMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			module.loadData();
+	 			
+	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'mntnRprSeq':result.mntnRprSeq};
+
+				// 유지보수 대상시설물 데이타 적용
+				module.mergeMntnRprObjFcltsF(subVo);
+				
+				// 유지보수 첨부파일 데이타 적용
+				module.mergeFcltyMaintFile(subVo);
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -244,10 +269,68 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
 	 	this.doAction('/fcltyMng/updateFcltyMaintMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			module.loadData();
+	 			
+	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'mntnRprSeq':result.mntnRprSeq};
+
+				// 유지보수 대상시설물 데이타 적용
+				module.mergeMntnRprObjFcltsF(subVo);
+				
+				// 유지보수 첨부파일 데이타 적용
+				//module.mergeFcltyMaintFile(subVo);
 	 		}
 	 		alert(result.resultMsg);
 	 	});
 	}
+
+};
+
+
+GamFcltyMaintMngModule.prototype.mergeMntnRprObjFcltsF = function(subVo) {
+
+	var all_rows = this.$('#mntnRprObjFcltsF').flexGetData();
+	for(var i=0;i<all_rows.length;i++){
+		all_rows[i]["fcltsJobSe"] = subVo.fcltsJobSe;
+		all_rows[i]["fcltsMngGroupNo"] = subVo.fcltsMngGroupNo;
+		all_rows[i]["mntnRprSeq"] = subVo.mntnRprSeq;
+	}
+	console.log('kkk');
+	alert(JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])));
+	var inputMntnRprObjVO = [];
+	inputMntnRprObjVO[inputMntnRprObjVO.length]={name: 'updateList', value :JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	inputMntnRprObjVO[inputMntnRprObjVO.length]={name: 'insertList', value: JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	inputMntnRprObjVO[inputMntnRprObjVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataMaintList) };
+	
+	
+
+	this.doAction('/fcltyMng/mergeMntnRprObjFcltsF.do', inputMntnRprObjVO, function(mntnRprObjModule, result) {
+        if(result.resultCode == 0){
+
+        }
+    });
+
+};
+
+
+GamFcltyMaintMngModule.prototype.mergeFcltyMaintFile = function(subVo) {
+
+	var all_rows = this.$('#fcltyMaintFileList').flexGetData();
+
+	for(var i=0;i<all_rows.length;i++){
+		all_rows[i]["fcltsJobSe"] = subVo.fcltsJobSe;
+		all_rows[i]["fcltsMngGroupNo"] = subVo.fcltsMngGroupNo;
+		all_rows[i]["mntnRprSeq"] = subVo.mntnRprSeq;
+	}
+
+	var inputFileVO=[];
+	inputFileVO[inputFileVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyMaintFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	inputFileVO[inputFileVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyMaintFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	inputFileVO[inputFileVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+
+    this.doAction('/fcltyMng/mergeFcltyMaintFile.do', inputFileVO, function(fileModule, fileResult) {
+        if(fileResult.resultCode == 0){
+
+        }
+    });
 
 };
 
@@ -262,7 +345,8 @@ GamFcltyMaintMngModule.prototype.deleteData = function() {
 	}
 	
 	if(confirm("삭제하시겠습니까?")){
-		var inputVO = this.makeFormArgs("#fcltyMaintMngListVO");
+		row = row[0];
+		var inputVO = { 'fcltsJobSe': row['fcltsJobSe'],'fcltsMngGroupNo': row['fcltsMngGroupNo'],'mntnRprSeq': row['mntnRprSeq'] };
 	 	this.doAction('/fcltyMng/deleteFcltyMaintMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			module.loadData();
@@ -393,20 +477,26 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 		case "tabs2":
 			if(oldTabId == "tabs1"){
+
 				if(this._mode=="modify") {
 					this.loadDetail();
 					this.$("#searchFcltsMngGroupNo").hide();
+					this.$("#fcltsJobSe").disable();
 				} else {
 					this._mode="insert";
 					// tabs2 초기화
 					this.makeFormValues('#fcltyMaintMngListVO', {});
 					this.$("#searchFcltsMngGroupNo").show();
+					this.$("#fcltsJobSe").enable();
 					// tabs3 초기화
 					this.$("#mntnRprObjFcltsF").flexEmptyData();
 					// tabs4 초기화
 					this.makeFormValues('#fcltyMaintMngFileForm', {});
 					this.$("#previewImage").attr("src", "");
 					this.$("#fcltyMaintFileList").flexEmptyData();
+					
+					
+					this.$("#fcltsMngGroupNo").val("00000000000001");
 				}
 			}
 		break;
@@ -472,7 +562,7 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th>시설물업무구분</th>
 							<td>
-								<select id="sFcltsJobSe">
+								<select id="sFcltsJobSe" title="시설물업무구분검색조건">
 									<option value="">선택</option>
 									<option value="E">전기시설물</option>
 									<option value="M">기계시설물</option>
@@ -482,13 +572,13 @@ var module_instance = new GamFcltyMaintMngModule();
 								</select>
 							</td>
 							<th>유지보수공사명</th>
-							<td><input type="text" id="sMntnRprCnstNm" size="50" /></td>
+							<td><input type="text" id="sMntnRprCnstNm" size="50" title="유지보수공사명검색조건" /></td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>유지보수구분</th>
 							<td>
-								<select id="sMntnRprSe">
+								<select id="sMntnRprSe" title="유지보수구분검색조건">
 									<option value="">선택</option>
 									<option value="m1">유지보수1</option>
 									<option value="m2">유지보수2</option>
@@ -497,7 +587,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							</td>
 							<th>유지보수공사시작일</th>
 							<td>
-								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="15" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="15" />
+								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="15" title="유지보수공사검색시작일" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="15" title="유지보수공사검색종료일" />
 							</td>
 						</tr>
 					</tbody>
@@ -531,13 +621,13 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">시행년도</th>
 							<td>
-								<select id="enforceYear">
+								<select id="enforceYear" title="시행년도">
 									<option value="">선택</option>
 								</select>
 							</td>
 							<th width="15%" height="23" class="required_text">시설물업무구분</th>
 							<td>
-								<select id="fcltsJobSe" data-required="true">
+								<select id="fcltsJobSe" data-required="true" title="시설물업무구분">
 									<option value="">선택</option>
 									<option value="E">전기시설물</option>
 									<option value="M">기계시설물</option>
@@ -548,7 +638,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							</td>
 							<th width="15%" height="23" class="required_text">유지보수구분</th>
 							<td>
-								<select id="mntnRprSe">
+								<select id="mntnRprSe" title="유지보수구분">
 									<option value="">선택</option>
 									<option value="m1">유지보수1</option>
 									<option value="m2">유지보수2</option>
@@ -559,60 +649,60 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled" data-required="true" />
-								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />
+								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">계약번호</th>
 							<td colspan="3">
-								<input type="text" size="20" id="ctrtNo" disabled="disabled"/>-
-								<input type="text" size="40" id="ctrtNm" disabled="disabled"/>
+								<input type="text" size="20" id="ctrtNo" disabled="disabled" title="계약번호"/>-
+								<input type="text" size="40" id="ctrtNm" disabled="disabled" title="계약명"/>
 								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
 							</td>
 							<th width="15%" height="23" class="required_text">유지보수순번</th>
-							<td><input type="text" size="20" id="mntnRprSeq" disabled="disabled" /></td>
+							<td><input type="text" size="20" id="mntnRprSeq" disabled="disabled" title="유지보수순번" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">공사명</th>
-							<td colspan="5"><input id="mntnRprCnstNm" type="text" size="125" title="소재지"  /></td>
+							<td colspan="5"><input id="mntnRprCnstNm" type="text" size="125" title="공사명"  /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">유지보수부위</th>
-							<td colspan="5"><input id="mntnRprPart" type="text" size="125" title="소재지"  /></td>
+							<td colspan="5"><input id="mntnRprPart" type="text" size="125" title="유지보수부위"  /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">예산</th>
-							<td colspan="3"><input id="mntnRprBdgt" type="text" size="80" title="소재지"  /></td>
+							<td colspan="3"><input id="mntnRprBdgt" type="text" size="80" title="예산" class="ygpaNumber" /></td>
 							<th width="15%" height="23" class="required_text">공사시작일자</th>
-							<td><input id="mntnRprCnstStartDt" type="text" size="20" title="소재지"  /></td>
+							<td><input id="mntnRprCnstStartDt" type="text" size="20" title="공사시작일자" class="emdcal" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">공사금액</th>
-							<td colspan="3"><input id="mntnRprCnstAmt" type="text" size="80" title="소재지"  /></td>
+							<td colspan="3"><input id="mntnRprCnstAmt" type="text" size="80" title="공사금액" class="ygpaNumber" /></td>
 							<th width="15%" height="23" class="required_text">공사종료일자</th>
-							<td><input id="mntnRprCnstEndDt" type="text" size="20" title="소재지"  /></td>
+							<td><input id="mntnRprCnstEndDt" type="text" size="20" title="공사종료일자" class="emdcal" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설계자</th>
-							<td><input id="plannerNm" type="text" size="20" title="소재지"  /></td>
+							<td><input id="plannerNm" type="text" size="20" title="설계자"  /></td>
 							<th width="15%" height="23" class="required_text">시공자</th>
-							<td colspan="3"><input id="cnstrtr" type="text" size="80" title="소재지"  /></td>
+							<td colspan="3"><input id="cnstrtr" type="text" size="80" title="시공자"  /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">책임기술자</th>
-							<td><input id="responEngineer" type="text" size="20" title="소재지"  /></td>
+							<td><input id="responEngineer" type="text" size="20" title="책임기술자"  /></td>
 							<th width="15%" height="23" class="required_text">공사감독자</th>
-							<td colspan="3"><input id="cnstChargNm" type="text" size="80" title="소재지"  /></td>
+							<td colspan="3"><input id="cnstChargNm" type="text" size="80" title="공사감독자"  /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">유지보수내용</th>
-							<td colspan="5"><textarea id="mntnRprCn" cols="130" rows="10"></textarea></td>
+							<td colspan="5"><textarea id="mntnRprCn" cols="130" rows="10" title="유지보수내용"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="5"><input id="rm" type="text" size="125" title="소재지"  /></td>
+							<td colspan="5"><input id="rm" type="text" size="125" title="비고"  /></td>
 						</tr>
 					</table>
 				</form>
@@ -644,16 +734,16 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th width="15%" height="23" class="required_text">파일구분</th>
 							<td>
-								<select id="atchFileSe" class="fileEditItem">
+								<select id="atchFileSe" class="fileEditItem" title="파일구분">
                                     <option value="D">문서</option>
                                     <option value="P">사진</option>
                                     <option value="Z">기타</option>
                                 </select>
 							</td>
 							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="40" /></td>
+							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="40" title="파일제목"/></td>
 							<th width="15%" height="23" class="required_text">작성일자</th>
-							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal fileEditItem" maxlength="10" readonly="readonly"/></td>
+							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal fileEditItem" maxlength="10" readonly="readonly" title="작성일자" /></td>
 						</tr>
 					</table>
 				</form>

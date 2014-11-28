@@ -99,6 +99,9 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	/** 비고 */
 	private String rm;
 	
+	/** 시설물관리그룹 */
+	private String fcltsMngGroupNo;
+	
 	
 	
 
@@ -410,6 +413,20 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	 */
 	public void setRm(String rm) {
 		this.rm = rm;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return fcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		this.fcltsMngGroupNo = fcltsMngGroupNo;
 	}
 	
 	

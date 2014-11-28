@@ -273,7 +273,7 @@ GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) 
 	inputFileVO[inputFileVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
 
     this.doAction('/fclty/mergeGamConstFcltySpecFileMngt.do', inputFileVO, function(fileModule, fileResult) {
-        if(result.resultCode == 0){
+        if(fileResult.resultCode == 0){
 
         }
     });
