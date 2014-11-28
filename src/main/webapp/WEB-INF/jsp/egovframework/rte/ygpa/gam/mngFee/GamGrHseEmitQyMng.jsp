@@ -173,6 +173,12 @@ GamGrHseEmitQyMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 				this.$('#mngYear').val(value.mngYear);
 				this.$('#fuelCd').val(value.fuelCd);
 				this.$('#fuelNm').val(value.fuelNm);
+				this.$('#energyUnit').val(value.energyUnit);
+				this.$('#energyTotalCalVal').val(value.energyTotalCalVal);
+				this.$('#energyNetCalVal').val(value.energyNetCalVal);
+				this.$('#grHseUnit').val(value.grHseUnit);
+				this.$('#grHseCoef').val(value.grHseCoef);
+				this.$("#usageQy").focus();
 			}
 			break;
 	}
@@ -459,10 +465,10 @@ GamGrHseEmitQyMngModule.prototype.calcGrHseEmitQy = function() {
 		energyUsageQy = Math.round(usageQy * energyTotalCalVal * 100) / 100;
 	}
 	if (usageQy > 0 && energyNetCalVal > 0 && grHseCoef > 0) {
-		grHseEmitQy = Math.round(usageQy * energyNetCalVal * grHseCoef) / 100;
+		grHseEmitQy = Math.round(usageQy * energyNetCalVal * grHseCoef * 100) / 100;
 	}
-	this.$('#energyUsageQy').val('' + $.number(energyUsageQy));
-	this.$('#grHseEmitQy').val('' + $.number(grHseEmitQy));
+	this.$('#energyUsageQy').val('' + $.number(energyUsageQy, 2));
+	this.$('#grHseEmitQy').val('' + $.number(grHseEmitQy, 2));
 
 };
 
@@ -623,45 +629,46 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							<tr>
 								<th width="15%" height="29">연료 코드</th>
 								<td >
+									<input id="mngYear" type="hidden" />
 									<input type="text" size="8" id="fuelCd" disabled/>
 									<button id="popupFuelCd" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">연료 명</th>
-								<td ><span data-column-id="fuelNm"></span></td>
+								<td ><input type="text" size="20" id="fuelNm" disabled></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 단위</th>
-								<td ><span data-column-id="energyUnit"></span></td>
+								<td ><input type="text" size="20" id="energyUnit" disabled></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 총 발열량</th>
-								<td ><span data-column-id="energyTotalCalVal"></span></td>
+								<td ><input type="text" size="20" id="energyTotalCalVal" disabled></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 순 발열량</th>
-								<td ><span data-column-id="energyNetCalVal"></span></td>
+								<td ><input type="text" size="20" id="energyNetCalVal" disabled></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 단위</th>
-								<td ><span data-column-id="grHseUnit"></span></td>
+								<td ><input type="text" size="20" id="grHseUnit" disabled></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 계수</th>
-								<td ><span data-column-id="grHseCoef"></span></td>
+								<td ><input type="text" size="20" id="grHseCoef" disabled></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">사용 량</th>
-								<td ><input type="text" size="20" id="usageQy"/></td>
+								<td ><input type="text" size="20"  class="ygpaNumber" id="usageQy"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 사용 량</th>
-								<td ><input type="text" size="20" id="energyUsageQy"/></td>
+								<td ><input type="text" size="20" class="ygpaNumber" id="energyUsageQy" data-decimal-point="2"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">온실가스 배출 량</th>
-								<td ><input type="text" size="20" id="grHseEmitQy"/></td>
+								<td ><input type="text" size="20" class="ygpaNumber" id="grHseEmitQy" data-decimal-point="2"/></td>
 							</tr>
 						</table>
 					</form>
