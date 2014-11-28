@@ -117,8 +117,8 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngObjFclts(Map mergeList) throws Exception {
-		return merge(mergeList, "gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.updateQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.deleteQcMngObjFclts_S");
+	public List mergeQcMngObjFclts(Map mergeMap) throws Exception {
+		return merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.updateQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.deleteQcMngObjFclts_S");
 	}
 	
 	/**
@@ -157,8 +157,8 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngAtchFile(Map mergeList) throws Exception {
-		return merge(mergeList, "gamFcltyQcwWrtMngDao.insertQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.updateQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.deleteQcMngAtchFile_S");
+	public List mergeQcMngAtchFile(Map mergeMap) throws Exception {
+		return merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.updateQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.deleteQcMngAtchFile_S");
 	}
 	
 	/**
@@ -198,8 +198,8 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngResultItem(Map mergeList) throws Exception {
-		return merge(mergeList, "gamFcltyQcwWrtMngDao.insertQcMngResultItem_S", "gamFcltyQcwWrtMngDao.updateQcMngResultItem_S", "gamFcltyQcwWrtMngDao.deleteQcMngResultItem_S");
+	public List mergeQcMngResultItem(Map mergeMap) throws Exception {
+		return merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngResultItem_S", "gamFcltyQcwWrtMngDao.updateQcMngResultItem_S", "gamFcltyQcwWrtMngDao.deleteQcMngResultItem_S");
 	}
 	
 	/**

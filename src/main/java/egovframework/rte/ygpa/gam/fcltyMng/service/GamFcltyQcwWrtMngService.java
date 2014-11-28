@@ -96,7 +96,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List mergeQcMngObjFclts(Map mergeList) throws Exception;
+	List mergeQcMngObjFclts(Map mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리대상시설물 목록 삭제
@@ -128,7 +128,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List mergeQcMngAtchFile(Map mergeList) throws Exception;
+	List mergeQcMngAtchFile(Map mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리첨부파일 목록 삭제
@@ -161,7 +161,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List mergeQcMngResultItem(Map mergeList) throws Exception;
+	List mergeQcMngResultItem(Map mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리결과항목 목록 삭제

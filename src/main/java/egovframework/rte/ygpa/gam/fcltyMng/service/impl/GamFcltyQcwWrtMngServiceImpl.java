@@ -122,8 +122,8 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngObjFclts(Map mergeList) throws Exception {
-		return gamFcltyQcwWrtMngDao.mergeQcMngObjFclts(mergeList);
+	public List mergeQcMngObjFclts(Map mergeMap) throws Exception {
+		return gamFcltyQcwWrtMngDao.mergeQcMngObjFclts(mergeMap);
 	}
 	
 	/**
@@ -162,8 +162,8 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngAtchFile(Map mergeList) throws Exception {
-		return gamFcltyQcwWrtMngDao.mergeQcMngAtchFile(mergeList);
+	public List mergeQcMngAtchFile(Map mergeMap) throws Exception {
+		return gamFcltyQcwWrtMngDao.mergeQcMngAtchFile(mergeMap);
 	}
 	
 	/**
@@ -203,8 +203,8 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngResultItem(Map mergeList) throws Exception {
-		return gamFcltyQcwWrtMngDao.mergeQcMngResultItem(mergeList);
+	public List mergeQcMngResultItem(Map mergeMap) throws Exception {
+		return gamFcltyQcwWrtMngDao.mergeQcMngResultItem(mergeMap);
 	}
 	
 	/**

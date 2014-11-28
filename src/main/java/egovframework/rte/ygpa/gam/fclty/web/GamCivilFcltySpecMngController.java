@@ -261,6 +261,7 @@ public class GamCivilFcltySpecMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
+    	
     	// 내역 조회
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
