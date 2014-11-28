@@ -54,10 +54,10 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'업무 구분',	 	name:'mngFeeJobSeNm',	width:120, 		sortable:false,		align:'center'},
 					{display:'사용 월', 		name:'usageYrMt',		width:120, 		sortable:false,		align:'center'},
-					{display:'전월 사용 량', 	name:'prevMtUsageQy',	width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'적용 계수', 		name:'applcCoef',		width:120, 		sortable:false,		align:'right',		displayFormat: 'number'},
-					{display:'순 사용 량', 		name:'netUsageQy',		width:120, 		sortable:false,		align:'right',		displayFormat: 'number'}
+					{display:'전월 사용 량', 	name:'prevMtUsageQy',	width:120, 		sortable:false,		align:'right'},
+					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:120, 		sortable:false,		align:'right'},
+					{display:'적용 계수', 		name:'applcCoef',		width:120, 		sortable:false,		align:'right'},
+					{display:'순 사용 량', 		name:'netUsageQy',		width:120, 		sortable:false,		align:'right'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -312,6 +312,7 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 	var usageMtYear = this.$('#usageMtYear').val();
 	var usageMtMon = this.$('#usageMtMon').val();
 	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
+	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
 	if (usageMtYear > "9999"  || usageMtYear < "2000" || usageMtYear == "") {
 		alert('사용 년도가 부정확합니다.');
 		this.$("#usageMtYear").focus();
@@ -330,6 +331,11 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 	if (mngFeeFcltyCd == "" || mngFeeFcltyCd.length != 4) {
 		alert('시설 코드가 부정확합니다.');
 		this.$("#mngFeeFcltyCd").focus();
+		return;
+	}
+	if (applcCoef >= 1  || applcCoef < 0) {
+		alert('적용 계수가 부정확합니다.');
+		this.$("#applcCoef").focus();
 		return;
 	}
 	if (this._mode == "insert") {

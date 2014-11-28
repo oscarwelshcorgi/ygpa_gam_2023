@@ -85,7 +85,6 @@ public class GamGrHseEmitQyMngController {
     	//login정보
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
     	int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
-    	int mon = Integer.parseInt(EgovDateUtil.getToday().substring(4,6));
 		List yearList = new ArrayList();
 		Map yearMap = null;
 

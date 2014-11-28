@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupFuelCodeVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFuelCodeVO"/>
+
+	<select id="gamPopupFuelCodeDao.selectFuelCodeList_D" parameterClass="gamPopupFuelCodeVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 MNG_YEAR
+								,FUEL_CD
+								,FUEL_NM
+							FROM ENERGY_USAGEQY_COEF_F
+						WHERE MNG_YEAR = #sMngYear#
+
+						<isNotEmpty property="sFuelCd">
+						AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sFuelNm">
+						AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
+						</isNotEmpty>
+
+						ORDER BY FUEL_CD
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamPopupFuelCodeDao.selectFuelCodeListTotCnt_S" parameterClass="gamPopupFuelCodeVO" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM ENERGY_USAGEQY_COEF_F
+		WHERE MNG_YEAR = #sMngYear#
+
+		<isNotEmpty property="sFuelCd">
+		AND FUEL_CD LIKE '%' || #sFuelCd# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFuelNm">
+		AND FUEL_NM LIKE '%' || #sFuelNm# || '%'
+		</isNotEmpty>
+	</select>
+
+</sqlMap>

@@ -54,11 +54,11 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'연료 코드',			name:'fuelCd',			width:70, 		sortable:false,		align:'center'},
 					{display:'연료 명',				name:'fuelNm',			width:110, 		sortable:false,		align:'left'},
-					{display:'온실가스 계수',		name:'grHseCoef',		width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
+					{display:'온실가스 계수',		name:'grHseCoef',		width:110, 		sortable:false,		align:'right'},
 					{display:'관리 월',				name:'mngYrMt',			width:110, 		sortable:false,		align:'center'},
-					{display:'사용 량',				name:'usageQy',			width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
-					{display:'에너지 사용 량',		name:'energyUsageQy',	width:110, 		sortable:false,		align:'right',	displayFormat:'number'},
-					{display:'온실가스 배출 량',	name:'grHseEmitQy',		width:110, 		sortable:false,		align:'right',	displayFormat:'number'}
+					{display:'사용 량',				name:'usageQy',			width:110, 		sortable:false,		align:'right'},
+					{display:'에너지 사용 량',		name:'energyUsageQy',	width:110, 		sortable:false,		align:'right'},
+					{display:'온실가스 배출 량',	name:'grHseEmitQy',		width:110, 		sortable:false,		align:'right'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -76,6 +76,10 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$('#usageQy').on('keyup change',{module:this}, function(event){
+		event.data.module.calcGrHseEmitQy();
 	});
 
 	var mon = new Date().getMonth()+1;
@@ -438,6 +442,32 @@ GamGrHseEmitQyMngModule.prototype.downloadExcel = function() {
 
 <%
 /**
+ * @FUNCTION NAME : calcGrHseEmitQy
+ * @DESCRIPTION   : 온실가스 배출 량을 계산한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.calcGrHseEmitQy = function() {
+
+	var usageQy = Number(this.$('#usageQy').val().replace(/,/gi, ""));
+	var energyTotalCalVal = Number(this.$('#energyTotalCalVal').val().replace(/,/gi, ""));
+	var energyNetCalVal = Number(this.$('#energyNetCalVal').val().replace(/,/gi, ""));
+	var grHseCoef = Number(this.$('#grHseCoef').val().replace(/,/gi, ""));
+	var energyUsageQy = 0;
+	var grHseEmitQy = 0;
+	if (usageQy > 0 && energyTotalCalVal > 0) {
+		energyUsageQy = Math.round(usageQy * energyTotalCalVal * 100) / 100;
+	}
+	if (usageQy > 0 && energyNetCalVal > 0 && grHseCoef > 0) {
+		grHseEmitQy = Math.round(usageQy * energyNetCalVal * grHseCoef) / 100;
+	}
+	this.$('#energyUsageQy').val('' + $.number(energyUsageQy));
+	this.$('#grHseEmitQy').val('' + $.number(grHseEmitQy));
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -623,7 +653,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th width="15%" height="29">사용 량</th>
-								<td ><input type="text" size="20" id="usageQy" /></td>
+								<td ><input type="text" size="20" id="usageQy"/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="29">에너지 사용 량</th>

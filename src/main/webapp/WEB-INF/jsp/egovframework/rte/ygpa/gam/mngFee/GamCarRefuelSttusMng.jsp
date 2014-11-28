@@ -108,7 +108,7 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 	var fuel=0;
 
 	for (var i=0; i<12; i++) {
-		fuel=values['m'+(i+1)]*1;
+		fuel=values['m'+(i+1)].replace(",","")*1;
 		fuelArr[i]={month: (i+1), gauge: fuel};
 		if (maxFuel<fuel) {
 			maxFuel=fuel;
