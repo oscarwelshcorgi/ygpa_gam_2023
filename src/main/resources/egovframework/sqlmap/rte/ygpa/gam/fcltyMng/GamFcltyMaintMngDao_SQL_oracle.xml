@@ -160,6 +160,12 @@
 							, MNTN_RPR_SEQ
 							, ATCH_FILE_SEQ
 							, ATCH_FILE_SE
+							, (
+							  CASE  WHEN ATCH_FILE_SE = 'D' THEN '문서'
+									WHEN ATCH_FILE_SE = 'P' THEN '사진'
+							  		WHEN ATCH_FILE_SE = 'Z' THEN '기타'
+							  END
+							) AS ATCH_FILE_SE_NM
 							, ATCH_FILE_SJ
 							, ATCH_FILE_NM_LOGIC
 							, ATCH_FILE_NM_PHYSICL
@@ -259,8 +265,8 @@
 	
 	<!-- 유지보수내역수정 -->
 	<update id="gamFcltyMaintMngDao.updateFcltyMaintMng">
-		UPDATE 
-			MNTN_RPR_DTLS_F SET
+		UPDATE MNTN_RPR_DTLS_F 
+			SET
 				MNTN_RPR_CNST_NM = #mntnRprCnstNm#
 				, PLANNER_NM = #plannerNm#
 				, CNST_CHARG_NM = #cnstChargNm#
@@ -333,8 +339,8 @@
 	
 	<!-- 유지보수대상시설물수정 -->
 	<update id="gamFcltyMaintMngDao.updateMntnRprObjFcltsF">
-		UPDATE SET 
-			MNTN_RPR_OBJ_FCLTS_F 
+		UPDATE MNTN_RPR_OBJ_FCLTS_F 
+			SET 
 				MNTN_RPR_CNST_MTH = #mntnRprCnstMth#
 				, UNIT = #unit#
 				, QY = REPLACE(#qy#,',','')
@@ -369,6 +375,17 @@
 	
 	<!-- 유지보수첨부파일입력 -->
 	<insert id="gamFcltyMaintMngDao.insertFcltyMaintFile">
+		<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
+	       	SELECT 
+	       		(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
+			FROM 
+				MNTN_RPR_ATCH_FILE_F
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND MNTN_RPR_SEQ = #mntnRprSeq#
+	    </selectKey>
+	    
 		INSERT INTO 
 			MNTN_RPR_ATCH_FILE_F 
 			(
@@ -389,7 +406,7 @@
 				#fcltsJobSe#
 				, #fcltsMngGroupNo#
 				, #mntnRprSeq#
-				, #atchFileSeq#
+				, #maxAtchFileSeq#
 				, #atchFileSe#
 				, #atchFileSj#
 				, #atchFileNmLogic#

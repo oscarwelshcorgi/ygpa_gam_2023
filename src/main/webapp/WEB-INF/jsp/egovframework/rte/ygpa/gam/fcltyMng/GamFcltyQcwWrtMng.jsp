@@ -33,6 +33,9 @@ GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 �
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
+	
+	console.log('GamFcltyQcwWrtMngModule');
+	
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
 	this._params = params;	// 파라미터를 저장한다.

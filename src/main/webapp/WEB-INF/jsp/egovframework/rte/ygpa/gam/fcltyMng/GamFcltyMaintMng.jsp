@@ -34,7 +34,7 @@ GamFcltyMaintMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창
 GamFcltyMaintMngModule.prototype.loadComplete = function() {
 	
 	this._mode = "";
-	console.log("GamFcltyMaintMngModule");
+	//console.log("GamFcltyMaintMngModule");
 	// 테이블 설정
 	this.$("#fcltyMngMngtList").flexigrid({
 		module: this,
@@ -156,8 +156,10 @@ GamFcltyMaintMngModule.prototype.applyFileChanged = function(target){
 
 // 파일 그리드 선택시 하단부 데이타 수정창에 갱신
 GamFcltyMaintMngModule.prototype.applyFileDataChanged = function(){
+
 	var row = this.$('#fcltyMaintFileList').selectedRows();
 	row = row[0];
+
 	this.$("#fcltyMaintMngFileForm input").val('');
 	this.makeFormValues("#fcltyMaintMngFileForm", row);
 	this._editDataFile = this.getFormValues("#fcltyMaintMngFileForm", row);
@@ -253,30 +255,30 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
 	if(this._mode == "insert") {
 	 	this.doAction('/fcltyMng/insertFcltyMaintMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
-	 			module.loadData();
-	 			
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'mntnRprSeq':result.mntnRprSeq};
 
 				// 유지보수 대상시설물 데이타 적용
-				module.mergeMntnRprObjFcltsF(subVo);
-				
-				// 유지보수 첨부파일 데이타 적용
-				module.mergeFcltyMaintFile(subVo);
+				if(module.mergeMntnRprObjFcltsF(subVo)){
+					// 유지보수 첨부파일 데이타 적용
+					if(module.mergeFcltyMaintFile(subVo)){
+						module.loadData();
+					}
+				}
 	 		}
 	 		alert(result.resultMsg);
 	 	});
 	}else{
 	 	this.doAction('/fcltyMng/updateFcltyMaintMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
-	 			module.loadData();
-	 			
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'mntnRprSeq':result.mntnRprSeq};
 
 				// 유지보수 대상시설물 데이타 적용
-				module.mergeMntnRprObjFcltsF(subVo);
-				
-				// 유지보수 첨부파일 데이타 적용
-				//module.mergeFcltyMaintFile(subVo);
+				if(module.mergeMntnRprObjFcltsF(subVo)){
+					// 유지보수 첨부파일 데이타 적용
+					if(module.mergeFcltyMaintFile(subVo)){
+						module.loadData();
+					}
+				}
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -293,20 +295,20 @@ GamFcltyMaintMngModule.prototype.mergeMntnRprObjFcltsF = function(subVo) {
 		all_rows[i]["fcltsMngGroupNo"] = subVo.fcltsMngGroupNo;
 		all_rows[i]["mntnRprSeq"] = subVo.mntnRprSeq;
 	}
-	console.log('kkk');
-	alert(JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])));
+	
 	var inputMntnRprObjVO = [];
 	inputMntnRprObjVO[inputMntnRprObjVO.length]={name: 'updateList', value :JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	inputMntnRprObjVO[inputMntnRprObjVO.length]={name: 'insertList', value: JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	inputMntnRprObjVO[inputMntnRprObjVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataMaintList) };
 	
-	
-
+	var chk = true;
 	this.doAction('/fcltyMng/mergeMntnRprObjFcltsF.do', inputMntnRprObjVO, function(mntnRprObjModule, result) {
-        if(result.resultCode == 0){
-
+        if(result.resultCode != 0){
+			chk = false;
         }
     });
+	
+	return chk;
 
 };
 
@@ -314,7 +316,6 @@ GamFcltyMaintMngModule.prototype.mergeMntnRprObjFcltsF = function(subVo) {
 GamFcltyMaintMngModule.prototype.mergeFcltyMaintFile = function(subVo) {
 
 	var all_rows = this.$('#fcltyMaintFileList').flexGetData();
-
 	for(var i=0;i<all_rows.length;i++){
 		all_rows[i]["fcltsJobSe"] = subVo.fcltsJobSe;
 		all_rows[i]["fcltsMngGroupNo"] = subVo.fcltsMngGroupNo;
@@ -325,12 +326,15 @@ GamFcltyMaintMngModule.prototype.mergeFcltyMaintFile = function(subVo) {
 	inputFileVO[inputFileVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyMaintFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	inputFileVO[inputFileVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyMaintFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	inputFileVO[inputFileVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-
+	
+	var chk = true;
     this.doAction('/fcltyMng/mergeFcltyMaintFile.do', inputFileVO, function(fileModule, fileResult) {
-        if(fileResult.resultCode == 0){
-
+        if(fileResult.resultCode != 0){
+        	chk = false;
         }
     });
+    
+    return chk;
 
 };
 
@@ -471,33 +475,32 @@ GamFcltyMaintMngModule.prototype.removeFileData = function() {
 
 
 GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1' && this._mode == 'modify') {
+		this.loadDetail();
+	}
 	switch(newTabId) {
 		case "tabs1":
 		break;
 
 		case "tabs2":
-			if(oldTabId == "tabs1"){
-
-				if(this._mode=="modify") {
-					this.loadDetail();
-					this.$("#searchFcltsMngGroupNo").hide();
-					this.$("#fcltsJobSe").disable();
-				} else {
-					this._mode="insert";
-					// tabs2 초기화
-					this.makeFormValues('#fcltyMaintMngListVO', {});
-					this.$("#searchFcltsMngGroupNo").show();
-					this.$("#fcltsJobSe").enable();
-					// tabs3 초기화
-					this.$("#mntnRprObjFcltsF").flexEmptyData();
-					// tabs4 초기화
-					this.makeFormValues('#fcltyMaintMngFileForm', {});
-					this.$("#previewImage").attr("src", "");
-					this.$("#fcltyMaintFileList").flexEmptyData();
-					
-					
-					this.$("#fcltsMngGroupNo").val("00000000000001");
-				}
+			if(this._mode=="modify"){
+				this.$("#searchFcltsMngGroupNo").hide();
+				this.$("#fcltsJobSe").disable();
+			}else{
+				this._mode="insert";
+				// tabs2 초기화
+				this.makeFormValues('#fcltyMaintMngListVO', {});
+				this.$("#searchFcltsMngGroupNo").show();
+				this.$("#fcltsJobSe").enable();
+				// tabs3 초기화
+				this.$("#mntnRprObjFcltsF").flexEmptyData();
+				// tabs4 초기화
+				this.makeFormValues('#fcltyMaintMngFileForm', {});
+				this.$("#previewImage").attr("src", "");
+				this.$("#fcltyMaintFileList").flexEmptyData();
+				
+				
+				this.$("#fcltsMngGroupNo").val("00000000000001");
 			}
 		break;
 		
@@ -522,7 +525,9 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 		// 상세화면
 		case "mntnRprObjFcltsFPopup":
-			this.$("#mntnRprObjFcltsF").flexEmptyData();
+			if(msg == 'ok'){
+				this.$("#mntnRprObjFcltsF").flexEmptyData();
+			}
 			this.$("#mntnRprObjFcltsF").flexAddData({resultList: value["inputVo"] });
 
 			this._deleteDataMaintList = value["deleteDataMaintList"];

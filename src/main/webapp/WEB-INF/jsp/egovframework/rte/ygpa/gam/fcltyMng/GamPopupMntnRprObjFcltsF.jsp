@@ -59,6 +59,11 @@ GamPopupMntnRprObjFcltsFModule.prototype.loadComplete = function(mntnRprObjFclts
 	});
 
 	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
+		if(row["_updtId"] != "I"){
+			module.$('#fcltsMngNo').disable();
+		}else{
+			module.$('#fcltsMngNo').enable();
+		}
 		module.$("#gamPopupMaintForm input").val('');
 		module.makeFormValues("#gamPopupMaintForm", row);
 	});
@@ -133,6 +138,7 @@ GamPopupMntnRprObjFcltsFModule.prototype.onButtonClick = function(buttonId) {
 		this.cancelDialog();
 	// 추가
 	case "addBtn":
+		this.$('#fcltsMngNo').enable();
 		this.$('#gamPopupMaintForm :input').val('');
 
 		this.$("#grdInfoList").flexAddRow({'_updtId': 'I','fcltsMngNo':'','mntnRprCnstMth':'','unit':'','qy':'','price':'','mntnRprCnstAmt':'','rm':''});

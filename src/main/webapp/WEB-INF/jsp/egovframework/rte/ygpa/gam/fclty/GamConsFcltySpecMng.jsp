@@ -574,7 +574,9 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 		break;
 		// 건축물현황
 		case "fcltyinfo9Popup":
-			this.$("#fcltyinfo9").flexEmptyData();
+			if(msg == 'ok'){
+				this.$("#fcltyinfo9").flexEmptyData();
+			}
 			this.$("#fcltyinfo9").flexAddData({resultList: value["inputVo"] });
 
 			this._deleteDataFloorSpecList = value["deleteDataFloorSpecList"];
