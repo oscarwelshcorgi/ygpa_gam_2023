@@ -83,22 +83,6 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
         height: '102'
     });
 
-    // 첨부파일 테이블 설정
-    this.$("#FcltsMngFeeMngFileList").flexigrid({
-        module: this,
-        url: '/mngFee/gamSelectFcltsMngFeeMngFileList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'순번', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'사진제목', name:'photoSj', width:200, sortable:true, align:'left'},
-                    {display:'사진파일명', name:'filenmLogic', width:200, sortable:true, align:'left'},
-                    {display:'사진설명', name:'photoDesc', width:250, sortable:true, align:'left'},
-                    {display:'촬영일자', name:'shotDt', width:100, sortable:true, align:'center'}
-
-                    ],
-        showTableToggleBtn: false,
-        height: '160'
-    });
 
     this.$("#FcltsMngFeeMngList").on('onItemSelected', function(event, module, row, grid, param) {
         module.$('#cmd').val('modify');
@@ -123,12 +107,6 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 
         var searchOpt=module.makeFormArgs('#gamFcltsMngFeeMngForm');
         module.$('#FcltsMngFeeMngDetailList').flexOptions({params:searchOpt}).flexReload();
-//         module.$('#FcltsMngFeeMngFileList').flexOptions({params:searchOpt}).flexReload();
-
-//         module.calcFirstPaymentAmount();	//  고지방법에 따른 1회차 사용료 적용
-//         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
-
-        //this._deleteDataFileList=[]; //삭제파일목록 초기화
     });
 
     this.$("#FcltsMngFeeMngDetailList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -143,26 +121,6 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 
     });
 
-    this.$("#FcltsMngFeeMngFileList").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamFcltsMngFeeMngFileForm', row);
-        module._editDataFile=module.getFormValues('#gamFcltsMngFeeMngFileForm', row);
-        module._editRowFile=module.$('#FcltsMngFeeMngFileList').selectedRowIds()[0];
-
-        if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
-            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-            var filenm=row['filenmPhysicl'];
-            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-                $imgURL = module.getImageUrl(filenm);
-                module.$("#previewImage").fadeIn(400, function() {
-                    module.$("#previewImage").attr('src', $imgURL);
-                });
-            }
-            else {
-                module.$("#previewImage").attr('src', '');
-            }
-        }
-    });
 
     this.$("#FcltsMngFeeMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#FcltsMngFeeMngListTab").tabs("option", {active: 1});
@@ -293,11 +251,11 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 		}
     });
 
-    this.$('.sMngMt').on('change', {module: this}, function(event) {
-		if(!event.data.module.$('#usageMtYear').val() =='' && !event.data.module.$('#usageMtMon').val() ==''){
-			event.data.module.$('#usageMt').val(event.data.module.$('#usageMtYear').val()+event.data.module.$('#usageMtMon').val());
+    this.$('.selt').on('change', {module: this}, function(event) {
+		if(!event.data.module.$('#mtYear').val() =='' && !event.data.module.$('#mtMon').val() ==''){
+			event.data.module.$('#mngMt').val(event.data.module.$('#mtYear').val()+event.data.module.$('#mtMon').val());
 		}else{
-			event.data.module.$('#usageMt').val('');
+			event.data.module.$('#mngMt').val('');
 			return;
 		}
     });
@@ -305,10 +263,9 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 
 GamFcltsMngFeeMngModule.prototype.loadEntrpsChargerList = function() {
 	var entrpsCd=this.$('#entrpscd').val();
-	this.$('#chargerTlphonNo').text('');
-	this.$('#chargerMoblphonNo').text('');
 	if(entrpsCd!=null && entrpsCd.length>0) {
 		//var loadOpt = [{name: 'entrpscd', value: entrpsCd}];
+		/*
 		var loadOpt = {'entrpscd': entrpsCd};
 	    this.doAction('/asset/rent/selectEntrpsChargerList.do', loadOpt, function(module, result) {
 	    	console.log('charger list load completed');
@@ -349,6 +306,7 @@ GamFcltsMngFeeMngModule.prototype.loadEntrpsChargerList = function() {
 		        }
 	        }
 	    });
+		*/
 	}
 };
 
@@ -883,7 +841,6 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             this.$('#gamFcltsMngFeeMngFileForm').find(':input').val('');
 
             this.$("#FcltsMngFeeMngDetailList").flexEmptyData(); //그리드 초기화
-            this.$("#FcltsMngFeeMngFileList").flexEmptyData(); //그리드 초기화
             this.$("#cmd").val('insert');
 
             break;
@@ -909,14 +866,6 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
                 if(this._deleteDataFileList == undefined ) {
                     this._deleteDataFileList=[];
                 }
-
-                inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#FcltsMngFeeMngFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
-                inputVO[inputVO.length]={name: 'insertFileList', value: JSON.stringify(this.$('#FcltsMngFeeMngFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
-                inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
-
-                //var otherForm=this.getFormValues('#gamFcltsMngFeeMngForm', {});  // 폼만 있을 경우
 
                 this._editData2=this.getFormValues('#gamFcltsMngFeeMngForm', {_updtId:'I'});
                 inputVO[inputVO.length]={name: 'form', value: JSON.stringify(this._editData2) };    // 폼의 데이터를 컨트롤러에 보낸다.
@@ -1239,60 +1188,8 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
             break;
 
-        case 'btnUploadFile':
-            // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-            this.uploadFile('uploadPhoto', function(module, result) {
-//              var userid=EMD.util.getLoginUserVO().userNm; 임시
-                var userid='admin';
-                $.each(result, function(){
-                    //module.$('#FcltsMngFeeMngFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    //module.$('#FcltsMngFeeMngFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                    module.$('#FcltsMngFeeMngFileList').flexAddRow({_updtId:'I', prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')) , filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-                });
-            }, '첨부파일 업로드');
-
-            //this._editDataFile=this.getFormValues('#gamFcltsMngFeeMngFileForm', {_updtId:'I'});
-            //this._editRowFile=this.$('#FcltsMngFeeMngFileList').flexGetData().length;
-
-            break;
-
-        case 'btnDownloadFile':
-    		var selectRow = this.$('#FcltsMngFeeMngFileList').selectedRows();
-    		if(selectRow.length > 0) {
-    			var row=selectRow[0];
-    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
-    		}
-    		break;
-        case 'btnApplyPhotoData':
-			this.applyPhotoData();
-            break;
 
         // 파일 삭제 (Grid상에서만 삭제됨)
-        case 'btnRemoveFile':
-            var rows = this.$('#FcltsMngFeeMngFileList').selectedRows();
-
-            if(rows.length == 0) {
-                alert("파일목록에서 삭제할 행을 선택하십시오.");
-            } else {
-                if(this.$('#FcltsMngFeeMngFileList').selectedRowIds().length>0) {
-                    for(var i=this.$('#FcltsMngFeeMngFileList').selectedRowIds().length-1; i>=0; i--) {
-                        var row=this.$('#FcltsMngFeeMngFileList').flexGetRow(this.$('#FcltsMngFeeMngFileList').selectedRowIds()[i]);
-
-                        //alert( row._updtId );
-
-                        if(row._updtId==undefined || row._updtId!='I') {
-                            this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-                        }
-                        this.$('#FcltsMngFeeMngFileList').flexRemoveRow(this.$('#FcltsMngFeeMngFileList').selectedRowIds()[i]);
-                        this.$("#previewImage").attr('src', '');
-                    }
-                }
-            }
-
-            this.$('#gamFcltsMngFeeMngFileForm').find(':input').val('');
-            this._editDataFile = null;
-
-            break;
 
         case 'btnEApproval':    // 전자결재 테스트
             if(this.$('#FcltsMngFeeMngList').selectedRowCount()>0) {
@@ -1344,17 +1241,6 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
         	this.$('#FcltsMngFeeMngList').flexExcelDown('/oper/gnrl/selectHtldRentListExcel.do');
             break;
 
-        case 'btnRentFeeMngt':
-            var rows = this.$('#FcltsMngFeeMngList').selectedRows();
-            var opts = {};
-
-            if(rows.length>0) {
-            	opts = {
-            			action: 'selectRentFee',
-            			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
-            	};
-            }
-       	 	EMD.util.create_window('배후단지임대료관리', '/mngFee/gamHtldRentFeeMngt.do', null, opts);
 
     }
 };
@@ -1422,9 +1308,6 @@ GamFcltsMngFeeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
         break;
 
-    case 'tabs4':
-
-        break;
     }
 };
 
@@ -1566,7 +1449,6 @@ var module_instance = new GamFcltsMngFeeMngModule();
                 <li><a href="#tabs1" class="emdTab">시설물 관리비 관리</a></li>
                 <li><a href="#tabs2" class="emdTab">시설물 관리비 관리 내역</a></li>
                 <li><a href="#tabs3" class="emdTab">시설물 관리비 관리 상세내역</a></li>
-                <li><a href="#tabs4" class="emdTab">첨부파일</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;">
@@ -1603,8 +1485,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnHtldRentListExcelDownload">엑셀</button>
-                      	            <button id="btnRentFeeMngt">사용료관리</button>
-	                            </td>
+ 	                            </td>
 	                        </tr>
 						</table>
 					</form>
@@ -1621,19 +1502,19 @@ var module_instance = new GamFcltsMngFeeMngModule();
                             <tr>
 								<th width="10%" height="18">관리 월</th>
                                 <td>
-                                <select id="MngMtYear" class='selt'>
+                                <select id="mtYear" class='selt'>
 	                                    <option value="">선택</option>
 	                                    <c:forEach items="${yearsList}" var="yearListItem">
 	                                        <option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
 	                                    </c:forEach>
 	                                </select>
-	                                <select id="mngMtMon" class='selt'>
+	                                <select id="mtMon" class='selt'>
 	                                    <option value="">선택</option>
 	                                    <c:forEach items="${monList}" var="monListItem">
 	                                        <option value="${monListItem.code }">${monListItem.codeNm }</option>
 	                                    </c:forEach>
 	                                </select>
-	                                <input id="mngMt" type="text"  maxlength="6"/>
+	                                <input id="mngMt" type="text"  maxlength="6" readonly="readonly"/>
                         	    </td>
 								<th width="10%" height="18">담당부서</th>
                                 <td>
@@ -1755,19 +1636,19 @@ var module_instance = new GamFcltsMngFeeMngModule();
                         	</tr>
                             <tr>
 								<th width="10%" height="18">사용면적</th>
-                                <td colspan="5"><input type="text" size="20" id="usageAr" maxlength="200" class="ygpaNumber"/></td>
+                                <td colspan="5"><input type="text" size="20" id="usageAr" maxlength="5" class="ygpaNumber"/></td>
 								<th width="10%" height="18">관리비</th>
-                                <td colspan="5"><input type="text" size="20" id="mngFee" maxlength="200" class="ygpaNumber"/></td>
+                                <td colspan="5"><input type="text" size="20" id="mngFee" maxlength="13" class="ygpaNumber"/></td>
 								<th width="10%" height="18">전기요금</th>
-                                <td colspan="5"><input type="text" size="20" id="elctyFee" maxlength="200" class="ygpaNumber"/></td>
+                                <td colspan="5"><input type="text" size="20" id="elctyFee" maxlength="13" class="ygpaNumber"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">상하수도 요금</th>
-                                <td colspan="5"><input type="text" size="20" id="waterFee" maxlength="200" class="ygpaNumber"/></td>
+                                <td colspan="5"><input type="text" size="20" id="waterFee" maxlength="13" class="ygpaNumber"/></td>
 								<th width="10%" height="18">도시가스 요금</th>
-                                <td colspan="5"><input type="text" size="20" id="gasFee" maxlength="200" class="ygpaNumber"/></td>
+                                <td colspan="5"><input type="text" size="20" id="gasFee" maxlength="13" class="ygpaNumber"/></td>
 								<th width="10%" height="18">관리비 합계</th>
-                                <td colspan="5"><input type="text" size="20" id="mngTotalFee" maxlength="200" class="ygpaNumber"/></td>
+                                <td colspan="5"><input type="text" size="20" id="mngTotalFee" maxlength="13" class="ygpaNumber"/></td>
                             </tr>
 
 
@@ -1784,47 +1665,6 @@ var module_instance = new GamFcltsMngFeeMngModule();
                         </td>
                     </tr>
                  </table>
-
-            </div>
-
-            <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-
-                <table id="FcltsMngFeeMngFileList" style="display:none"></table>
-                <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
-                <form id="gamFcltsMngFeeMngFileForm">
-                    <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
-                    <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
-                    <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
-                    <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
-                    <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
-
-                    <table class="editForm">
-                        <tr>
-							<th width="10%" height="18">사진제목</th>
-                            <td>
-                                <input id="photoSj" type="text" size="70" class="photoEditItem" maxlength="40"/>
-                            </td>
-							<th width="10%" height="18">촬영일자</th>
-                            <td>
-                                <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-							<th width="10%" height="18">사진파일명</th>
-                            <td colspan="3">
-                                <input id="filenmLogic" type="text" size="135" class="photoEditItem" disabled/>
-                            </td>
-                        </tr>
-                        <tr>
-							<th width="10%" height="18">사진설명</th>
-                            <td colspan="3">
-                                <input id="photoDesc" type="text" size="135" class="photoEditItem" maxlength="90">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-                    <!-- <button id="btnApplyPhotoData">첨부파일 적용</button> -->
-                <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 
             </div>
 

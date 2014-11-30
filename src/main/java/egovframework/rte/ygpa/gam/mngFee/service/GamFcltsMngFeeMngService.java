@@ -45,7 +45,7 @@ public interface GamFcltsMngFeeMngService {
 	/**
 	 * @param gamFcltsMngFeeMngVo
 	 */
-	void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+	void deleteFcltsMngFeeMng(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
 
 	List mergeSaveFcltsMngFeeMng(Map mergeList) throws Exception;
 

@@ -57,8 +57,9 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
-	public void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception {
-		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng(gamFcltsMngFeeMngVo);
+	public void deleteFcltsMngFeeMng(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
+		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
+		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng(gamFcltsMngFeeMngDetailVo);
 	}
 
 	/* (non-Javadoc)
@@ -125,14 +126,14 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 
 	}
 
-	/* 
+	/*
 	 * 관리비 관리 마스터 테이블 delete
 	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService#deleteFcltsMngFeeMngDetail(egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo)
 	 */
 	@Override
 	public void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
 		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
-		
+
 	}
 
 }

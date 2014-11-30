@@ -57,8 +57,8 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamFcltsMngFeeMngVo
 	 */
-	public void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
-		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng",gamFcltsMngFeeMngVo);
+	public void deleteFcltsMngFeeMng(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng",gamFcltsMngFeeMngDetailVo);
 	}
 
 	public List mergeSaveFcltsMngFeeMng(Map vo) throws Exception{
@@ -97,4 +97,6 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	public void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
 		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail",gamFcltsMngFeeMngDetailVo);
 	}
+
+
 }

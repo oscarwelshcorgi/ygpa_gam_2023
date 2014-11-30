@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
@@ -85,6 +87,8 @@ public class GamFcltsMngFeeMngController {
     @Resource(name = "gamFcltsMngFeeMngService")
     private GamFcltsMngFeeMngService gamFcltsMngFeeMngService;
 
+    @Resource(name = "gamAssetsUsePermMngtService")
+    private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 
     @RequestMapping(value="/mngFee/gamFcltsMngFeeMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -245,15 +249,6 @@ public class GamFcltsMngFeeMngController {
     		form = mapper.readValue((String)dataList.get("form"),
         		    new TypeReference<HashMap<String,String>>(){});
 
-    		insertFileList = mapper.readValue((String)dataList.get("insertFileList"),
-        		    new TypeReference<List<HashMap<String,String>>>(){});
-
-    		updateFileList = mapper.readValue((String)dataList.get("updateFileList"),
-        		    new TypeReference<List<HashMap<String,String>>>(){});
-
-    		deleteFileList = mapper.readValue((String)dataList.get("deleteFileList"),
-        		    new TypeReference<List<HashMap<String,String>>>(){});
-
 
     		//항만시설사용저장
     		GamFcltsMngFeeMngVo saveVO= new GamFcltsMngFeeMngVo();
@@ -380,7 +375,7 @@ public class GamFcltsMngFeeMngController {
     }
 
     @RequestMapping(value="/mngFee/gamDeleteFcltsMngFeeMng.do")
-	@ResponseBody Map<String, Object> deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> deleteFcltsMngFeeMng(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -391,18 +386,8 @@ public class GamFcltsMngFeeMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	/*
-		CmmnDetailCode vo = gamFcltsMngFeeMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
-
-		if(vo != null){
-			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
 		try {
-			gamFcltsMngFeeMngVo.setRegUsr((String)user.getId());
-			gamFcltsMngFeeMngService.deleteFcltsMngFeeMng(gamFcltsMngFeeMngVo);
+			gamFcltsMngFeeMngService.deleteFcltsMngFeeMng(gamFcltsMngFeeMngDetailVo);
 
 	    	map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -415,5 +400,62 @@ public class GamFcltsMngFeeMngController {
 
     	return map;
     }
+
+    /**
+     * 관리지 관리 사용 승낙
+     * @param GamFcltsMngFeeMngVo
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/mngFee/gamUpdateFcltsMngFeeMngPrmisn.do")
+    public @ResponseBody Map updatePrtFcltyRentMngtPrmisn(
+     	   @ModelAttribute("gamFcltsMngFeeMngForm") GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo,
+     	   BindingResult bindingResult)
+            throws Exception {
+
+     	 Map map = new HashMap();
+     	 Map paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+/*
+         //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
+         paramMap.put("prtAtCode", gamPrtFcltyRentMngtVO.getPrtAtCode());
+         paramMap.put("mngYear", gamPrtFcltyRentMngtVO.getMngYear());
+         paramMap.put("mngNo", gamPrtFcltyRentMngtVO.getMngNo());
+         paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
+         paramMap.put("regUsr", loginVO.getId());
+         paramMap.put("deptcd", loginVO.getOrgnztId());
+         paramMap.put("chrgeKnd", gamPrtFcltyRentMngtVO.getChrgeKnd());
+         paramMap.put("taxtSe", gamPrtFcltyRentMngtVO.getTaxtSe());
+
+         //승낙 서비스 클래스 호출
+         //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
+
+         if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+             resultCode = 2;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+         }
+         else {
+        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+         }
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+*/
+ 		return map;
+     }
 
 }
